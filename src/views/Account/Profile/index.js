@@ -1,36 +1,67 @@
-import React from "react"
-import { FormattedMessage } from 'react-intl'
-import GoogleTagManager from '@/components/GoogleTagManager'
-import Header from "@/components/Header"
-import Footer from "@/components/Footer"
-import BreadCrumbs from '@/components/BreadCrumbs'
-import SideMenu from '@/components/SideMenu'
-import PersonalDataEditForm from './modules/PersonalDataEditForm'
-import AddressBookEditForm from './modules/AddressBookEditForm'
-import CommunicationDataEditForm from './modules/CommunicationDataEditForm'
-import ClinicEditForm from './modules/ClinicEditForm'
-import PasswordForm from './modules/PasswordForm'
-import { getCustomerInfo } from "@/api/user"
-import './index.css'
+import React from 'react';
+import { inject, observer } from 'mobx-react';
+import classNames from 'classnames';
+import { Link } from 'react-router-dom';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import Skeleton from 'react-skeleton-loader';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import BreadCrumbs from '@/components/BreadCrumbs';
+import SideMenu from '@/components/SideMenu';
+import PersonalDataEditForm from './modules/PersonalDataEditForm';
+import CommunicationDataEditForm from './modules/CommunicationDataEditForm';
+import ClinicEditForm from './modules/ClinicEditForm';
+import AddressList from './modules/AddressList';
+import PaymentList from './modules/PaymentList';
+import { getCustomerInfo } from '@/api/user';
+import { queryCityNameById } from '@/api';
+import { FormattedMessage } from 'react-intl';
+import { setSeoConfig } from '@/utils/utils';
+import BannerTip from '@/components/BannerTip';
+import './index.less';
+import { Helmet } from 'react-helmet';
 
-export default class AccountProfile extends React.Component {
+const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
+
+function PanleContainer(props) {
+  const loading = props.loading || false;
+  return (
+    <div
+      className={`rc-layout-container rc-one-column mb-3 ${props.customCls}`}
+    >
+      <div
+        className={classNames('rc-column', 'rc-padding-x--none--mobile', {
+          'p-0': !loading
+        })}
+      >
+        {loading ? (
+          <Skeleton color="#f5f5f5" width="100%" height="10%" count={5} />
+        ) : (
+          props.children
+        )}
+      </div>
+    </div>
+  );
+}
+
+@inject('loginStore')
+@observer
+class AccountProfile extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      personalData: {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        email: '',
-        country: "Mexico",
-        phoneNumber: '',
-        rfc: ''
-      },
+      personalData: null,
       addressBookData: {
         address1: '',
         address2: '',
-        country: "Mexico",
+        country: 'Mexico',
         city: '',
+        seoConfig: {
+          title: '',
+          metaKeywords: '',
+          metaDescription: ''
+        },
         postCode: '',
         phoneNumber: '',
         rfc: ''
@@ -42,47 +73,60 @@ export default class AccountProfile extends React.Component {
         clinicName: '',
         clinicId: ''
       },
-      originData: null
-    }
-    this.headerRef = React.createRef()
+      originData: null, // 提交接口时，保留未修改参数用
+      loading: true,
+      editOperationPaneName: ''
+    };
   }
-  componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
-    this.queryCustomerBaseInfo()
+  componentDidMount() {
+    setSeoConfig({
+      pageName: 'Account personal information'
+    }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
+    this.queryCustomerBaseInfo();
   }
-  queryCustomerBaseInfo () {
+  queryCustomerBaseInfo = () => {
+    this.setState({ loading: true });
     getCustomerInfo()
-      .then(res => {
-        let prescriberName
-        let prescriberId
-        const context = res.context
-        localStorage.setItem('rc-userinfo', JSON.stringify(context))
+      .then((res) => {
+        this.setState({ loading: false });
+        let prescriberName;
+        let prescriberId;
+        const context = res.context;
+        this.props.loginStore.setUserInfo(context);
         if (context.defaultClinics) {
-          prescriberName = context.defaultClinics.clinicsName
-          prescriberId = context.defaultClinics.clinicsId
-          sessionStorage.removeItem('rc-clinics-name-select')
-          sessionStorage.removeItem('rc-clinics-id-select')
-          sessionStorage.setItem('rc-clinics-name-default', prescriberName)
-          sessionStorage.setItem('rc-clinics-id-default', prescriberId)
+          prescriberName = context.defaultClinics.clinicsName;
+          prescriberId = context.defaultClinics.clinicsId;
         }
+
         this.setState({
           originData: context,
           personalData: {
             firstName: context.firstName,
             lastName: context.lastName,
             email: context.email,
-            birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
-            // country: context.countryId,
-            country:6, //先写死墨西哥id
+            birthdate: context.birthDay
+              ? context.birthDay.split('-').join('/')
+              : context.birthDay,
+            country: context.countryId,
+            city: context.cityId,
+
             phoneNumber: context.contactPhone,
-            rfc: context.reference
+            rfc: context.reference,
+            address1: context.address1,
+            address2: context.address2,
+            postCode: context.postalCode,
+            communicationEmail: context.communicationEmail,
+            communicationPhone: context.communicationPhone
           },
           addressBookData: {
             address1: context.house,
@@ -100,57 +144,173 @@ export default class AccountProfile extends React.Component {
             clinicName: prescriberName,
             clinicId: prescriberId
           }
-        })
+        });
+
+        queryCityNameById({
+          id: [context.cityId]
+        }).then((cityRes) => {
+          const cityVORes = cityRes.context.systemCityVO || [];
+          this.setState({
+            personalData: Object.assign(this.state.personalData, {
+              cityName: cityVORes.filter((c) => c.id === context.cityId).length
+                ? cityVORes.filter((c) => c.id === context.cityId)[0].cityName
+                : ''
+            })
+          });
+        });
       })
-  }
-  render () {
+      .catch(() => {
+        this.setState({ loading: false });
+      });
+  };
+  updateEditOperationPanelName = (name) => {
+    this.setState({ editOperationPaneName: name });
+  };
+
+  render() {
+    const {
+      loading,
+      editOperationPaneName,
+      originData,
+      personalData,
+      seoConfig
+    } = this.state;
     const event = {
       page: {
         type: 'Account',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
       }
-    }
+    };
     return (
-      <div>
+      <div className="accountProfile">
         <GoogleTagManager additionalEvents={event} />
-        <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
-        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <Helmet>
+        <link rel="canonical" href={pageLink} />
+          <title>{seoConfig ? seoConfig.title : ''}</title>
+          <meta
+            name="description"
+            content={seoConfig ? seoConfig.metaDescription : ''}
+          />
+          <meta
+            name="keywords"
+            content={seoConfig ? seoConfig.metaKeywords : ''}
+          />
+        </Helmet>
+        <Header
+          showMiniIcons={true}
+          showUserIcon={true}
+          location={this.props.location}
+          history={this.props.history}
+          match={this.props.match}
+        />
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-basicinfo">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Profile" />
+              <SideMenu type="Profile" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="card-body_">
+                {editOperationPaneName ? null : (
+                  <Link to="/account" className="rc-md-down mb-2 inlineblock">
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2">
+                      <FormattedMessage id="home" />
+                    </span>
+                  </Link>
+                )}
 
-                  <div className="rc-layout-container rc-two-column">
-                    <div className="rc-column rc-padding-x--none--mobile">
+                <div className="card-body_">
+                  <>
+                    <PanleContainer
+                      loading={loading}
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'My account'
+                      })}
+                    >
                       <PersonalDataEditForm
-                        originData={this.state.originData}
-                        data={this.state.personalData}
-                        updateData={() => this.queryCustomerBaseInfo()} />
-                    </div>
-                    <div className="rc-column rc-padding-x--none--mobile">
-                      {/* <AddressBookEditForm
-                        originData={this.state.originData}
-                        data={this.state.addressBookData}
-                        updateData={() => this.queryCustomerBaseInfo()} /> */}
+                        originData={originData}
+                        data={personalData}
+                        key={Object.keys(personalData || {})}
+                        updateData={this.queryCustomerBaseInfo}
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
+                    <PanleContainer
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'My addresses'
+                      })}
+                    >
+                      <AddressList
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
+                    {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
+                      <PanleContainer
+                        loading={loading}
+                        customCls={classNames({
+                          hidden:
+                            editOperationPaneName &&
+                            editOperationPaneName !== 'Clinic'
+                        })}
+                      >
+                        <ClinicEditForm
+                          originData={originData}
+                          data={this.state.clinicData}
+                          updateData={this.queryCustomerBaseInfo}
+                          updateEditOperationPanelName={
+                            this.updateEditOperationPanelName
+                          }
+                        />
+                      </PanleContainer>
+                    )}
+
+                    <PanleContainer
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'My payments'
+                      })}
+                    >
+                      <PaymentList
+                        history={this.props.history}
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
+                    <PanleContainer
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'Communication'
+                      })}
+                    >
                       <CommunicationDataEditForm
-                        originData={this.state.originData}
-                        data={this.state.communicationData}
-                        updateData={() => this.queryCustomerBaseInfo()} />
-                    </div>
-                  </div>
-                  <div className="rc-layout-container rc-two-column">
-                    <div className="rc-column rc-padding-x--none--mobile">
-                      <ClinicEditForm
-                        originData={this.state.originData}
-                        data={this.state.clinicData}
-                        updateData={() => this.queryCustomerBaseInfo()} />
-                    </div>
-                    {/* <div className="rc-column rc-padding-x--none--mobile">
-                      <PasswordForm />
-                    </div> */}
-                  </div>
+                        originData={originData}
+                        data={personalData}
+                        key={Object.keys(personalData || {})}
+                        updateData={this.queryCustomerBaseInfo}
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+                  </>
                 </div>
               </div>
             </div>
@@ -158,6 +318,8 @@ export default class AccountProfile extends React.Component {
         </main>
         <Footer />
       </div>
-    )
+    );
   }
 }
+
+export default AccountProfile;

@@ -1,23 +1,29 @@
-.thanks {
-  text-align: center;
-}
-.center {
-  text-align: center;
-}
 .imformation {
   width: 50%;
 }
-.backtohome,.backtohome:hover {
-  /* cursor: pointer;
-  color: black;
-  border-color: black; */
+.order-number-box {
+  width: 50%;
 }
-
 @media (max-width: 768.98px) {
   .imformation {
     width: 100%;
   }
-  .col-md-6 {
-    width: 50%;
+  .order-number-box {
+    width: 80%;
   }
+}
+.text-ellipsis{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+.order1{
+  order:1
+}
+.order2{
+  order:2
+}
+.order3{
+  order:3
 }

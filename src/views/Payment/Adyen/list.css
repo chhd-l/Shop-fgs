@@ -1,0 +1,29 @@
+.creditCompleteInfoBox .cvv {
+  display: none;
+}
+.creditCompleteInfoBox.active .cvv {
+  display: block;
+}
+.cvv img{
+    display: none;
+}
+.cvv .adyen-checkout__field--cardNumber{
+    display: none;
+}
+.cvv .adyen-checkout__field--expiryDate{
+    display: none;
+}
+.cvv .adyen-checkout__field--securityCode .adyen-checkout__label{
+  margin-bottom: 0;
+}
+.cvv .adyen-checkout__field--securityCode .adyen-checkout__label__text{
+    margin-bottom: 2px;
+}
+.cvv .adyen-checkout__field-wrapper{
+}
+.cvv .adyen-checkout__field-wrapper:last-of-type>.adyen-checkout__field {
+  margin-left: 0
+}
+.cvv{
+    margin:0 auto;
+}

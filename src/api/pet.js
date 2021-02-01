@@ -6,7 +6,9 @@ const api = {
   addPet: '/pets/addPets',
   petsById:'/pets/petsById',
   delPets:'/pets/delPets',
-  editPets:'/pets/editPets'
+  editPets:'/pets/editPets',
+  batchAddPets: '/pets/batchAddPets',
+  getRecommendProducts: '/product/finder/pets/products',
 }
 
 export default api
@@ -21,6 +23,13 @@ export function getPetList (parameter) {
 export function addPet (parameter) {
   return axios({
     url: `${api.addPet}`,
+    method: 'post',
+    data: parameter
+  })
+}
+export function batchAddPets (parameter) {
+  return axios({
+    url: `${api.batchAddPets}`,
     method: 'post',
     data: parameter
   })
@@ -48,3 +57,14 @@ export function editPets (parameter) {
   })
 }
 
+export function getRecommendProducts(parameter) {
+  let param = ''
+  for (let k in parameter) {
+    param = param + k + '=' + parameter[k] + '&'
+  }
+  return axios({
+    url: `${api.getRecommendProducts}?${param.slice(0, param.length - 1)}`,
+    method: 'get',
+    // data: JSON.stringify(parameter)
+  })
+}

@@ -1,0 +1,33 @@
+@media(min-width: 640px) {
+    #oxxoModal {
+        width: 20% !important;
+    }
+}
+#oxxoModal .print {
+    background-color: #ec001a;
+    border-color: #ec001a;
+    padding: 2px 35px;
+    color: #fff;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+#oxxoModal .printPanel {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#oxxoModal .modal-footer a{
+    color: #ec001a;
+    font-size:18px;
+}
+
+@media(max-width: 640px) {
+     #oxxoModal {
+        top: 40% !important;
+     }
+     #mainBody {
+        max-height: 60vh !important;
+        min-height: 60vh !important;
+    }
+}

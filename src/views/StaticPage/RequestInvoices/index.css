@@ -1,0 +1,12 @@
+.RequestInvoices{
+    /* background-color: red; */
+    padding-top: 7.5rem;
+    max-width: 70%;
+    margin: 0 auto;
+}
+.RequestInvoices h1{
+    text-align: center;
+}
+.RequestInvoices .textIndex{
+    text-indent: 2em;
+}

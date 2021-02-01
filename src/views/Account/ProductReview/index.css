@@ -1,0 +1,28 @@
+.padt20 {
+    padding-top: 10px!important;
+}
+.img-container {
+    width: 110px!important;
+    height: 120px;
+    display: inline-block;
+}
+.product-img {
+    width: 100%;
+    height: 120px!important;
+}
+
+.font-18 {
+    font-size: 18px;
+}
+.weight200 {
+    font-weight: 200;
+}
+.pad0 {
+    padding: 0!important;
+}
+.padt0 {
+    padding-top: 0!important;
+}
+.padb0 {
+    padding-bottom: 0!important;
+}

@@ -1,0 +1,144 @@
+.rc-card-container {
+    display: flex;
+}
+.rc-card-content {
+    width: 100%;
+    text-align: left;
+    line-height: 30px;
+    margin-left: 1.5rem;
+}
+.order-Id {
+    font-size: 1rem!important;
+}
+.font18 {
+    font-size: 18px;
+}
+.pdb30 {
+    padding-bottom: 30px;;
+}
+.pdb20 {
+    padding-bottom: 20px;;
+}
+.pdl0 {
+    padding-left: 0!important;
+}
+.mgb30 {
+    margin-bottom: 30px;
+}
+.mgb20 {
+    margin-bottom: 20px;
+}
+.mgt20 {
+    margin-top: 20px!important;
+}
+.mgt10 {
+    margin-top: 10px!important;
+}
+.flex-layout {
+    display: flex!important;
+    flex-direction: row;
+}
+/* .text-right {
+    width: 100%;
+    float: right;
+} */
+.p-container {
+    height: 100%;
+}
+.saveDiscount {
+    min-width: 230px;
+}
+.total-container {
+    width: 100%;
+}
+.v-center {
+    align-self: center;
+}
+.border {
+    border: 1px solid #ddd;
+}
+.border-b{
+    border-bottom: 1px solid #ddd;
+}
+.column-contanier {
+    border-right: 1px solid #ddd;
+}
+.bt-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #ddd;
+}
+.card-container {
+    min-height: 161px;
+}
+.red-text {
+    color: #e2001a!important;
+}
+.img-container {
+    width: 177px;
+    height: auto;
+    display: inline-block;
+}
+.product-img {
+    width: 177px!important;
+    height: 200px!important;
+}
+.product-container {
+    border: 1px solid #ddd;
+    display: flex;
+}
+.footer-container {
+    padding: 0!important;
+}
+.mgl20 {
+    margin-left: 20px;
+}
+
+.footer--title {
+    font-size: 18px;
+}
+.footer-meta {
+    font-size: 16px;
+}
+.card-wrapper {
+    width: 250px;
+    height: auto;
+    margin-left: 20px;
+}
+.card-img {
+    width: 100%;
+}
+/* .row {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+} */
+.subscription .col-md-4 {
+    padding: 0;
+}
+
+.subscription .greenCircle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #47B700;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.subscription .yellowCircle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #ED8A00;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@media(max-width: 960px) {
+    .saveDiscount {
+        min-width: 210px;
+    }
+}

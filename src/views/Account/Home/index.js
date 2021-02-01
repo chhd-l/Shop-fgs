@@ -1,195 +1,180 @@
-import React from "react"
-import GoogleTagManager from '@/components/GoogleTagManager'
-import Header from "@/components/Header"
-import Footer from "@/components/Footer"
-import BreadCrumbs from '@/components/BreadCrumbs'
-import SideMenu from '@/components/SideMenu'
-import { FormattedMessage } from 'react-intl'
+import React from 'react';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import { inject, observer } from 'mobx-react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
+import BreadCrumbs from '@/components/BreadCrumbs';
+import SideMenu from '@/components/SideMenu';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import helpImg from "@/assets/images/profile/Help.jpg";
-import myOrderImg from "@/assets/images/profile/My Order.jpg";
-import myPetImg from "@/assets/images/profile/My pet.jpg";
-import myProfileImg from "@/assets/images/profile/My profile.jpg";
-import paymentImg from "@/assets/images/profile/Payment.jpg";
-import './index.css'
+import { setSeoConfig } from '@/utils/utils';
+import './index.less';
+import { Helmet } from 'react-helmet';
 
-export default class AccountHome extends React.Component {
-  constructor(props) {
-    super(props)
+const pageLink = window.location.href
+
+const itemList = [
+  {
+    icon: (
+      <svg
+        className="svg-icon account-home-icon"
+        aria-hidden="true"
+        style={{ width: '2.6rem' }}
+      >
+        <use xlinkHref="#iconMyinformation" />
+      </svg>
+    ),
+    titleLangKey: 'account.profile',
+    textLangKey: 'account.profileTip',
+    link: '/account/information'
+  },
+  {
+    icon: (
+      <svg
+        className="svg-icon account-home-icon"
+        aria-hidden="true"
+        style={{ width: '2.6rem' }}
+      >
+        <use xlinkHref="#iconMypets" />
+      </svg>
+    ),
+    titleLangKey: 'account.petsTitle',
+    textLangKey: 'account.petsTip',
+    link: '/account/pets/'
+  },
+  {
+    icon: (
+      <svg
+        className="svg-icon account-home-icon"
+        aria-hidden="true"
+        style={{ width: '2.6rem' }}
+      >
+        <use xlinkHref="#iconMyorders1" />
+      </svg>
+    ),
+    titleLangKey: 'account.ordersTitle',
+    textLangKey: 'account.ordersTip',
+    link: '/account/orders'
+  },
+  {
+    icon: (
+      <svg
+        className="svg-icon account-home-icon"
+        aria-hidden="true"
+        style={{ width: '2.6rem' }}
+      >
+        <use xlinkHref="#iconMySubsciptions1" />
+      </svg>
+    ),
+    titleLangKey: 'account.subscriptionTitle',
+    textLangKey: 'account.subscriptionTip',
+    link: '/account/subscription'
+  },
+  {
+    icon: (
+      <svg
+        className="svg-icon account-home-icon"
+        aria-hidden="true"
+        style={{ width: '2.6rem' }}
+      >
+        <use xlinkHref="#iconFAQ" />
+      </svg>
+    ),
+    titleLangKey: 'account.faqTitle',
+    textLangKey: 'account.faqTip',
+    link: '/faq'
+  }
+];
+
+@inject('loginStore', 'configStore')
+@observer
+class AccountHome extends React.Component {
+  constructor(props){
+    super(props);
     this.state = {
-      userInfo: localStorage.getItem("rc-userinfo") ? JSON.parse(localStorage.getItem("rc-userinfo")) : null
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
     }
   }
-  componentWillUnmount () {
-    
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
-  componentDidMount () {
+  componentDidMount() {
+    setSeoConfig({
+      pageName: 'Account index'
+    }).then(res => {
+      this.setState({seoConfig: res})
+    });;
+  }
 
-  }
-  render () {
+  render() {
     const event = {
       page: {
         type: 'Account',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
-    }
+    };
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
+        <Header
+          showMiniIcons={true}
+          showUserIcon={true}
+          location={this.props.location}
+          history={this.props.history}
+          match={this.props.match}
+        />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
-          <div className="rc-padding--sm rc-max-width--xl">
+          <div className="rc-padding--sm rc-max-width--xl pt-2">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu />
-              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <h4><FormattedMessage id="welcome" /> {this.state.userInfo && this.state.userInfo.firstName}</h4>
-                <p><FormattedMessage id="account.warmNotice" /></p>
-                <div className="clearfix"></div>
+              <SideMenu type="Home" customCls="order-1 order-md-0 rc-md-up" />
+              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0 order-md-0">
+                <p className="mb-0">
+                  <FormattedMessage
+                    id="account.warmNotice"
+                    values={{ val: this.userInfo && this.userInfo.firstName }}
+                  />
+                </p>
+                <div className="clearfix" />
                 <div className="dashboard__profile-cards">
                   <div className="my__account-navigation row rc-padding-top--xs--desktop rc-padding-bottom--none">
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <Link to="/account/information">
-                          <FormattedMessage id="account.profile">
-                            {txt => (
-                              <img
-                                src={myProfileImg}
-                                alt={txt}
-                                title={txt} />
-                            )}
-                          </FormattedMessage>
-                        </Link>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="account.profile">
-                            {txt => (
-                              <Link
-                                to="/account/information"
-                                title={txt}
-                                alt={txt}>
-                                <b>{txt}</b>
-                              </Link>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.profileTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <Link to="/account/pets/petForm">
-                          <FormattedMessage id="pets">
-                            {txt => (
-                              <img
-                                src={myPetImg}
-                                alt={txt}
-                                title={txt} />
-                            )}
-                          </FormattedMessage>
-                        </Link>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="pets">
-                            {txt => (
-                              <Link
-                                to="/account/pets/petForm"
-                                title={txt}
-                                alt={txt}>
-                                <b>{txt}</b>
-                              </Link>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.petsTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <FormattedMessage id="orders">
-                          {txt => (
-                            <Link to="/account/orders" title={txt}>
-                              <img
-                                src={myOrderImg}
-                                alt={txt} />
-                            </Link>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="orders">
-                            {txt => (
-                              <Link to="/account/orders" title={txt} alt={txt}>
-                                <b>{txt}</b>
-                              </Link>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.ordersTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <FormattedMessage id="shippingAddress">
-                          {txt => (
-                            <Link
-                              to="/account/shippingAddress"
-                              title={txt}>
-                              <img
-                                src={paymentImg}
-                                alt={txt} />
-                            </Link>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="shippingAddress">
-                            {txt => (
-                              <Link
-                                to="/account/shippingAddress"
-                                title={txt}
-                                alt={txt}>
-                                <b>{txt}</b>
-                              </Link>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.shippingAddressTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <FormattedMessage id="help">
-                          {txt => (
-                            <Link to="/help" title={txt}>
-                              <img
-                                src={helpImg}
-                                alt={txt} />
-                            </Link>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="help">
-                            {txt => (
-                              <Link
-                                to="/help"
-                                title={txt}
-                                target="_blank"
-                                alt={txt}>
-                                <b>{txt}</b>
-                              </Link>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.helpTip" /></p>
-                      </div>
-                    </div>
+                    {itemList.map((item, i) => (
+                      <Link
+                        key={i}
+                        className="col-12 col-md-4 mb-3 my__account_padding05"
+                        to={item.link}
+                      >
+                        <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content">
+                          <div>{item.icon}</div>
+                          <div className="ml-3">
+                            <h3 className="rc-delta profileTextColor mb-1">
+                              <b>
+                                <FormattedMessage id={item.titleLangKey} />
+                              </b>
+                            </h3>
+                            <p>
+                              <FormattedMessage id={item.textLangKey} />
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -198,6 +183,8 @@ export default class AccountHome extends React.Component {
         </main>
         <Footer />
       </div>
-    )
+    );
   }
 }
+
+export default AccountHome;

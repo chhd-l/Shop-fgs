@@ -65,6 +65,13 @@
       padding: 0
   }
 }
+@media(max-width: 769px){
+  .hero-carousel__slide .hero-carousel__slide__content {
+    position: absolute;
+    top: 0%;
+  }
+}
+
 
 @media(max-width: 768.98px) {
   .hero-carousel__slide .hero-carousel__slide__content__btn {
@@ -129,7 +136,15 @@
   .hero-carousel__slide .hero-carousel__slide__video video {
       display:block
   }
+  .hero-carousel__slide .hero-carousel__slide__video .mobileBanner{
+    display: none;
+  }
 }
+
+.hero-carousel__slide .hero-carousel__slide__video .mobileBanner{
+  display: block;
+}
+
 
 .hero-carousel__slide .hero-carousel__slide__video img {
   display: none

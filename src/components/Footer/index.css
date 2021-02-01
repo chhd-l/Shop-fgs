@@ -1,5 +1,4 @@
 #mars-footer-panel { 
-  min-height: 90px;
 	padding-top: 2px;
 	padding-bottom: 10px;
 }
@@ -218,4 +217,19 @@
   font-family: Arial,Verdana,sans-serif !important;
   font-size: 11px !important;
   font-weight: normal !important;
+}
+/* 暂时为了解决图标hover后background-position变了的问题 */
+.qhx.rc-email--xs:hover:after{ 
+	background-position: 17.27% 42.86%!important;
+}
+
+@media screen and (max-width: 767px) {
+	#mars-footer-panel li{
+    	line-height: normal !important;
+    	border-left: 1px solid #d5effa !important;
+    	max-width: none !important;
+	}
+	#mars-footer-panel li:first-child{
+		border:none !important
+	}
 }

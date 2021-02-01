@@ -1,0 +1,485 @@
+{
+  "id": "1982813",
+  "name": "FGS RC SHOP",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "19406495",
+      "name": "箭头左",
+      "font_class": "jiantouzuo1",
+      "unicode": "e6fa",
+      "unicode_decimal": 59130
+    },
+    {
+      "icon_id": "19406490",
+      "name": "箭头右",
+      "font_class": "jiantouyou1",
+      "unicode": "e6f9",
+      "unicode_decimal": 59129
+    },
+    {
+      "icon_id": "19163058",
+      "name": " 展开",
+      "font_class": "zhankai1",
+      "unicode": "e6f8",
+      "unicode_decimal": 59128
+    },
+    {
+      "icon_id": "19162592",
+      "name": "halfStar",
+      "font_class": "halfStar",
+      "unicode": "e6f7",
+      "unicode_decimal": 59127
+    },
+    {
+      "icon_id": "19162528",
+      "name": "grayStar",
+      "font_class": "grayStar",
+      "unicode": "e6f2",
+      "unicode_decimal": 59122
+    },
+    {
+      "icon_id": "19162530",
+      "name": "redStar",
+      "font_class": "redStar",
+      "unicode": "e6f4",
+      "unicode_decimal": 59124
+    },
+    {
+      "icon_id": "19162531",
+      "name": "oraStar",
+      "font_class": "oraStar",
+      "unicode": "e6f5",
+      "unicode_decimal": 59125
+    },
+    {
+      "icon_id": "19162532",
+      "name": "oraStar_active",
+      "font_class": "oraStar_active",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "18802929",
+      "name": "提示",
+      "font_class": "tishi",
+      "unicode": "e6ea",
+      "unicode_decimal": 59114
+    },
+    {
+      "icon_id": "18467937",
+      "name": "Sorry, no picture!",
+      "font_class": "Sorrynopicture",
+      "unicode": "e6e1",
+      "unicode_decimal": 59105
+    },
+    {
+      "icon_id": "18260711",
+      "name": "female",
+      "font_class": "female",
+      "unicode": "e6c4",
+      "unicode_decimal": 59076
+    },
+    {
+      "icon_id": "18260691",
+      "name": "male",
+      "font_class": "male",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "18201678",
+      "name": "星星",
+      "font_class": "xingxing",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
+      "icon_id": "18150424",
+      "name": "copy",
+      "font_class": "copy",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "18080678",
+      "name": "data",
+      "font_class": "data",
+      "unicode": "e6b3",
+      "unicode_decimal": 59059
+    },
+    {
+      "icon_id": "18080486",
+      "name": "箭头左",
+      "font_class": "jiantouzuo",
+      "unicode": "e6ad",
+      "unicode_decimal": 59053
+    },
+    {
+      "icon_id": "18080487",
+      "name": "箭头右",
+      "font_class": "jiantouyou",
+      "unicode": "e6ae",
+      "unicode_decimal": 59054
+    },
+    {
+      "icon_id": "18080488",
+      "name": "完成",
+      "font_class": "wancheng",
+      "unicode": "e6af",
+      "unicode_decimal": 59055
+    },
+    {
+      "icon_id": "18080489",
+      "name": "展开",
+      "font_class": "zhankai",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "18080490",
+      "name": "收起",
+      "font_class": "shouqi",
+      "unicode": "e6b1",
+      "unicode_decimal": 59057
+    },
+    {
+      "icon_id": "18080491",
+      "name": "Cancel Autoship",
+      "font_class": "CancelAutoship",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "18080493",
+      "name": "Delivery date",
+      "font_class": "Deliverydate",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "18080494",
+      "name": "Logistics single number",
+      "font_class": "Logisticssinglenumber",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "18080495",
+      "name": "Pause Autoship",
+      "font_class": "PauseAutoship",
+      "unicode": "e6b6",
+      "unicode_decimal": 59062
+    },
+    {
+      "icon_id": "18080496",
+      "name": "Completed",
+      "font_class": "Completed",
+      "unicode": "e6b7",
+      "unicode_decimal": 59063
+    },
+    {
+      "icon_id": "18080497",
+      "name": "Logistics company",
+      "font_class": "Logisticscompany",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "18080498",
+      "name": "进行中",
+      "font_class": "jinhangzhong",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "18080499",
+      "name": "skip",
+      "font_class": "skip",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "18080500",
+      "name": "In transit",
+      "font_class": "Intransit",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "18080501",
+      "name": "已完成",
+      "font_class": "yiwancheng",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "18080502",
+      "name": "To be delivered",
+      "font_class": "Tobedelivered",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
+      "icon_id": "18080503",
+      "name": "Prescription Declined",
+      "font_class": "PrescriptionDeclined",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
+      "icon_id": "18080504",
+      "name": "To be paid",
+      "font_class": "Tobepaid",
+      "unicode": "e6bf",
+      "unicode_decimal": 59071
+    },
+    {
+      "icon_id": "18079909",
+      "name": "Autoship",
+      "font_class": "Autoship",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "18079717",
+      "name": "BillingAddress1",
+      "font_class": "BillingAddress1",
+      "unicode": "e6ab",
+      "unicode_decimal": 59051
+    },
+    {
+      "icon_id": "18079643",
+      "name": "Subscription",
+      "font_class": "Subscription",
+      "unicode": "e6aa",
+      "unicode_decimal": 59050
+    },
+    {
+      "icon_id": "18006132",
+      "name": "account",
+      "font_class": "account",
+      "unicode": "e6a4",
+      "unicode_decimal": 59044
+    },
+    {
+      "icon_id": "18006064",
+      "name": "addresses",
+      "font_class": "addresses",
+      "unicode": "e6a3",
+      "unicode_decimal": 59043
+    },
+    {
+      "icon_id": "18006066",
+      "name": "Search",
+      "font_class": "Search",
+      "unicode": "e6a5",
+      "unicode_decimal": 59045
+    },
+    {
+      "icon_id": "18006067",
+      "name": "Log off",
+      "font_class": "Logoff",
+      "unicode": "e6a6",
+      "unicode_decimal": 59046
+    },
+    {
+      "icon_id": "18006068",
+      "name": "clinic",
+      "font_class": "clinic",
+      "unicode": "e6a7",
+      "unicode_decimal": 59047
+    },
+    {
+      "icon_id": "18006069",
+      "name": "communication",
+      "font_class": "communication",
+      "unicode": "e6a8",
+      "unicode_decimal": 59048
+    },
+    {
+      "icon_id": "18006070",
+      "name": "payments",
+      "font_class": "payments",
+      "unicode": "e6a9",
+      "unicode_decimal": 59049
+    },
+    {
+      "icon_id": "18005514",
+      "name": "faq-1",
+      "font_class": "faq-1",
+      "unicode": "e695",
+      "unicode_decimal": 59029
+    },
+    {
+      "icon_id": "18005515",
+      "name": "faq",
+      "font_class": "faq",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "18005516",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "18005517",
+      "name": "Information-1",
+      "font_class": "Information-1",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    },
+    {
+      "icon_id": "18005518",
+      "name": "Orders",
+      "font_class": "Orders",
+      "unicode": "e699",
+      "unicode_decimal": 59033
+    },
+    {
+      "icon_id": "18005519",
+      "name": "Pets",
+      "font_class": "Pets",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "18005520",
+      "name": "home-1",
+      "font_class": "home-1",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
+      "icon_id": "18005521",
+      "name": "Information",
+      "font_class": "Information",
+      "unicode": "e69c",
+      "unicode_decimal": 59036
+    },
+    {
+      "icon_id": "18005522",
+      "name": "Orders-1",
+      "font_class": "Orders-1",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    },
+    {
+      "icon_id": "18005523",
+      "name": "Pets-1",
+      "font_class": "Pets-1",
+      "unicode": "e69e",
+      "unicode_decimal": 59038
+    },
+    {
+      "icon_id": "18005524",
+      "name": "Subscriptions-1",
+      "font_class": "Subscriptions-1",
+      "unicode": "e69f",
+      "unicode_decimal": 59039
+    },
+    {
+      "icon_id": "18005525",
+      "name": "Services-1",
+      "font_class": "Services-1",
+      "unicode": "e6a0",
+      "unicode_decimal": 59040
+    },
+    {
+      "icon_id": "18005526",
+      "name": "Services",
+      "font_class": "Services",
+      "unicode": "e6a1",
+      "unicode_decimal": 59041
+    },
+    {
+      "icon_id": "18005527",
+      "name": "Subscriptions",
+      "font_class": "Subscriptions",
+      "unicode": "e6a2",
+      "unicode_decimal": 59042
+    },
+    {
+      "icon_id": "18004906",
+      "name": "My orders",
+      "font_class": "Myorders1",
+      "unicode": "e693",
+      "unicode_decimal": 59027
+    },
+    {
+      "icon_id": "18004886",
+      "name": "My Subsciptions",
+      "font_class": "MySubsciptions1",
+      "unicode": "e691",
+      "unicode_decimal": 59025
+    },
+    {
+      "icon_id": "18004761",
+      "name": "My pets",
+      "font_class": "Mypets",
+      "unicode": "e690",
+      "unicode_decimal": 59024
+    },
+    {
+      "icon_id": "18004763",
+      "name": "FAQ",
+      "font_class": "FAQ",
+      "unicode": "e692",
+      "unicode_decimal": 59026
+    },
+    {
+      "icon_id": "18004765",
+      "name": "My Services",
+      "font_class": "MyServices",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "18004760",
+      "name": "My information",
+      "font_class": "Myinformation",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "307212",
+      "name": "成功",
+      "font_class": "chenggong",
+      "unicode": "e68c",
+      "unicode_decimal": 59020
+    },
+    {
+      "icon_id": "11963375",
+      "name": "钉子",
+      "font_class": "dingzi",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "6760140",
+      "name": "calendar",
+      "font_class": "calendar",
+      "unicode": "e74e",
+      "unicode_decimal": 59214
+    },
+    {
+      "icon_id": "11891846",
+      "name": "refresh",
+      "font_class": "refresh",
+      "unicode": "e675",
+      "unicode_decimal": 58997
+    },
+    {
+      "icon_id": "14259944",
+      "name": "形状2",
+      "font_class": "xingzhuang21",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    }
+  ]
+}

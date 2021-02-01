@@ -1,0 +1,71 @@
+.Carts .buyMethod {
+  display: flex;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 15px 20px;
+
+  .price {
+    padding-top: .5rem;
+    font-weight: 400;
+  }
+}
+
+.Carts .buyMethod {
+  display: inline-block;
+  flex: 1;
+  padding: 7px 20px;
+  .freqency {
+    background-color: #f9f9f9;
+    > span {
+      flex: 2;
+    }
+  }
+  .choices {
+    background-color: #f9f9f9;
+  }
+  .choices__inner, .my__account__information select.form-control {
+    background-color: #f9f9f9 !important;
+  }
+}
+.Carts .buyMethodInnerBox {
+  .radioBox img{
+    width: 20px;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .singlePrice {
+    line-height: 56px;
+  }
+  .price {
+    padding: 0;
+    text-align: right;
+    font-size: 20px;
+  }
+}
+.Carts {
+  .productGoodsSubtitle {
+    overflow: hidden;
+    text-align: justify;
+    position: relative;
+    word-wrap: break-word;
+  }
+}
+
+// 返回按钮
+.Carts{
+  .rc-bg-colour--brand3{
+    padding-top:1rem !important;
+  }
+  .rc-icon-btnback{
+    display: flex;
+    margin-left: -11px;
+  }
+  .rc-icon-btnback.rc-iconography{
+    &:after{
+      -webkit-transform: scale(0.7);
+      transform: scale(0.7);
+      margin-right: .3em;
+    }
+  }
+}

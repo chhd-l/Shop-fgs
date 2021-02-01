@@ -1,0 +1,45 @@
+/* 组件 */
+@media (max-width:769px){
+  .required-component .footer-checkbox-title p{
+    /* width: 300px; */
+  }
+}
+@media (min-width:769px){
+  .required-component .footer-checkbox-title p{
+    width:auto;
+  }
+}
+.required-component .footer-checkbox-title p{
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+  .required-component .footer-checkbox-title p span{
+    color:#000;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+  }
+  .required-component .footer-checkbox-title p .rc-text-colour--brand1 {
+    color: #e2001a;
+  }
+  .required-component .footer-checkbox-title p a{
+    color:#E2001A;
+  }
+  .required-component .Checkbox-detail p{
+    font-size: 12px;
+    text-align: justify;
+  }
+  .required-component .Checkbox-detail p a{
+    color:#E2001A;
+  }
+  .required-component .mt{
+    margin-top: 3px;
+  }
+  .m-auto{
+    margin: 0 auto;
+  }
+
+  .required-component .footer-checkbox-title .rc-text-colour--brand1
+   {
+    display: contents;
+  }

@@ -14,10 +14,15 @@ class GoogleMap extends React.Component {
     this.mapRef = React.createRef();
   }
   
-  componentWillReceiveProps(nextProps){
+  UNSAFE_componentWillReceiveProps(nextProps){
     this.setState({
       center: nextProps.center,
       zoom: nextProps.zoom
+    },()=>{
+      console.log(1111)
+      console.log(this.state.center)
+      console.log(this.state.zoom)
+      console.log(1111)
     })
   }
   render(h) {

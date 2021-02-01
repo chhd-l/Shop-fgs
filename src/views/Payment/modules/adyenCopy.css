@@ -1,0 +1,30 @@
+.adyen-checkout__button{
+    background-color: #EC001A!important;
+}
+.adyen-checkout__spinner.adyen-checkout__spinner--large{
+    /* border-color: #EC001A!important; */
+}
+
+.adyen-checkout__input--focus, .adyen-checkout__input--focus:hover, .adyen-checkout__input:active, .adyen-checkout__input:active:hover, .adyen-checkout__input:focus, .adyen-checkout__input:focus:hover {
+    border-color: #ec001a;
+    box-shadow: 0 0 0 0.2rem rgba(236,0,26,.25)
+}
+
+.adyen-checkout__checkbox__input:checked+.adyen-checkout__checkbox__label:after{
+    border: 1px solid #ec001a!important;
+    background-color: rgba(236,0,26,.25)!important;
+}
+
+.adyen-checkout__checkbox__input:checked:hover+.adyen-checkout__checkbox__label:after {
+    box-shadow: 0 0 0 2px rgba(236,0,26,.25);;
+    border-color: #ec001a;
+}
+.adyen-checkout__label.adyen-checkout__label--focused{
+    color:  #ec001a!important;
+}
+.adyen-checkout__label--focused .adyen-checkout__label__text{
+    color:  #000000!important;
+}
+.payment-container{
+    max-width: 1000px!important;
+}

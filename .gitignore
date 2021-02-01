@@ -1,3 +1,6 @@
 node_modules
 build
 .idea
+debug.log
+.env.development.local
+build_tmp

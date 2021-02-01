@@ -7,7 +7,9 @@ const api = {
   sitePurchase: '/site/purchase', // 加入后台购物车
   siteMiniPurchases: '/site/miniPurchases', // 查询后台购物车
   sitePurchases: '/site/purchases', // 计算价格
-  mergePurchase: '/site/mergePurchase' // 合并前后台购物车
+  mergePurchase: '/site/mergePurchase', // 合并前后台购物车
+  switchSize: '/site/updatePurchase', // 切换规格
+  goodsRelationBatch: '/goodsRelation/batch',//购物车related product
 }
 
 export default api
@@ -32,11 +34,12 @@ export function purchases (parameter) {
   parameter.goodsInfoDTOList.map(el => {
     goodsInfoIds.push(el.goodsInfoId)
     goodsMarketingDTOList.push({
-      "id": null,
-      "goodsInfoId": el.goodsInfoId,
-      "customerId": null,
-      "marketingId": 401
+      id: null,
+      goodsInfoId: el.goodsInfoId,
+      customerId: null,
+      marketingId: 401 // todo
     })
+    return el
   })
   parameter.goodsMarketingDTOList = goodsMarketingDTOList
   parameter.goodsInfoIds = goodsInfoIds
@@ -90,6 +93,23 @@ export function sitePurchases (parameter) {
 export function mergePurchase (parameter) {
   return axios({
     url: `${api.mergePurchase}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function switchSize (parameter) {
+  return axios({
+    url: `${api.switchSize}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+//购物车 查询related product
+export function getGoodsRelationBatch (parameter) {
+  return axios({
+    url: `${api.goodsRelationBatch}`,
     method: 'post',
     data: parameter
   })

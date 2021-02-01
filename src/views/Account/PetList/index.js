@@ -1,85 +1,118 @@
-import React from "react"
-import { FormattedMessage } from 'react-intl'
-import Header from "@/components/Header"
-import Footer from "@/components/Footer"
-import BreadCrumbs from '@/components/BreadCrumbs'
-import SideMenu from '@/components/SideMenu'
-import './index.css'
-import edit from "@/assets/images/edit.svg"
-import { Link } from 'react-router-dom';
+import React from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import BreadCrumbs from '@/components/BreadCrumbs';
+import SideMenu from '@/components/SideMenu';
+import BannerTip from '@/components/BannerTip';
+import './index.css';
+import edit from '@/assets/images/edit.svg';
+import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
-
+const pageLink = window.location.href
 export default class PetForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      
-    }
-
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
   }
-  
-  render () {
+  componentDidMount(){
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
+  }
+
+  render() {
     return (
       <div>
-        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
+        <Header
+          showMiniIcons={true}
+          showUserIcon={true}
+          location={this.props.location}
+          history={this.props.history}
+          match={this.props.match}
+        />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Pets" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div class="list-select-pet js-list-pet" data-toggle-group="">
-                  <ul class="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
-                    <li class="pet-element">
-                      <a href="/ru/account/" class="tab-add tab--img" role="tab">
-                        <span class="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
+                <div
+                  className="list-select-pet js-list-pet"
+                  data-toggle-group=""
+                >
+                  <ul
+                    className="scroll--x list list--inline list--align list--blank flex--middle"
+                    role="tablist"
+                  >
+                    <li className="pet-element">
+                      <a
+                        href="/ru/account/"
+                        className="tab-add tab--img"
+                        role="tab"
+                      >
+                        <span className="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
                       </a>
                     </li>
-                    <li class="rc-margin-x--xs pet-element">
+                    <li className="rc-margin-x--xs pet-element">
                       <a href="/on/demandware.store">
-                        <div class="tab__img img--round img--round--md name--select text-center active">
+                        <div className="tab__img img--round img--round--md name--select text-center active">
                           Rita
                         </div>
                       </a>
                     </li>
                   </ul>
                 </div>
-                <div class="pet-information js-pet-information rc-margin-bottom--md">
-                  <h2 class="name-pet">Rita</h2>
-                  <div class="rc-layout-container">
-                    <div class="rc-column">
-                    <ul class="pet-data">
-                      <li class="breed dog">
-                        <span class="">Unknown breed</span>
-                      </li>
-                      <li class="birth">
-                        <span class="">2020-05-05</span>
-                      </li>
-                      <li class="gender male sprite-pet">
-                        <span class="">male</span>
-                      </li>
-                      <li class="weight">
-                        <span class="">Mini</span>
-                      </li>
-                    </ul>
+                <div className="pet-information js-pet-information rc-margin-bottom--md">
+                  <h2 className="name-pet">Rita</h2>
+                  <div className="rc-layout-container">
+                    <div className="rc-column">
+                      <ul className="pet-data">
+                        <li className="breed dog">
+                          <span className="">Unknown breed</span>
+                        </li>
+                        <li className="birth">
+                          <span className="">2020-05-05</span>
+                        </li>
+                        <li className="gender male sprite-pet">
+                          <span className="">male</span>
+                        </li>
+                        <li className="weight">
+                          <span className="">Mini</span>
+                        </li>
+                      </ul>
                     </div>
-                    <div class="rc-column">
-                    <div class="pet-special-need">Special needs</div>
-                    <ul class="list-special-need">
-                      <li class="">Skin and Wool Care</li>
-                      <li class="">Increased joint sensitivity</li>
-                      <li class="">Sensitive digestive system</li>
-                    </ul>
+                    <div className="rc-column">
+                      <div className="pet-special-need">Special needs</div>
+                      <ul className="list-special-need">
+                        <li className="">Skin and Wool Care</li>
+                        <li className="">Increased joint sensitivity</li>
+                        <li className="">Sensitive digestive system</li>
+                      </ul>
                     </div>
-                    <div class="edit js-edit-pet">
-                      <a href="#" class="tab--img" data-toggle="">
-                        <img src={edit} class="img-success" alt=""/>
+                    <div className="edit js-edit-pet">
+                      <a href="#" className="tab--img" data-toggle="">
+                        <LazyLoad>
+                        <img src={edit} className="img-success" alt="" />
+                        </LazyLoad>
                       </a>
                     </div>
-                    <div class="delete">
-                      <a href="#">
-                      X
-                      </a>
+                    <div className="delete">
+                      <a href="#">X</a>
                     </div>
                   </div>
                 </div>
@@ -89,6 +122,6 @@ export default class PetForm extends React.Component {
         </main>
         <Footer />
       </div>
-    )
+    );
   }
 }

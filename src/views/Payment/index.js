@@ -1,1567 +1,2632 @@
-import React from "react";
-import { injectIntl, FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
-import { findIndex, find } from "lodash";
-import GoogleTagManager from "@/components/GoogleTagManager";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Progress from "@/components/Progress";
-import PayProductInfo from "@/components/PayProductInfo";
-import Loading from "@/components/Loading";
-import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
-import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
-import BillingAddressForm from "./modules/BillingAddressForm";
-import visaImg from "@/assets/images/credit-cards/visa.svg";
-import amexImg from "@/assets/images/credit-cards/amex.svg";
-import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
-import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import { STOREID } from "@/utils/constant";
-import { jugeLoginStatus, getDictionary } from "@/utils/utils";
+import React from 'react';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
+import { inject, observer } from 'mobx-react';
+import { toJS } from 'mobx';
+import Cookies from 'cookies-js';
+import md5 from 'js-md5';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Progress from '@/components/Progress';
+import PayProductInfo from './PayProductInfo';
+import RePayProductInfo from '@/components/PayProductInfo';
+import Faq from './Fr/faq';
+import Loading from '@/components/Loading';
+import VisitorAddress from './Address/VisitorAddress';
+import AddressList from './Address/List';
+import SubscriptionSelect from './SubscriptionSelect';
+import PetModal from './PetModal';
+import AddressPreview from './AddressPreview';
+import Confirmation from './modules/Confirmation';
+import SameAsCheckbox from './Address/SameAsCheckbox';
+import { withOktaAuth } from '@okta/okta-react';
+import {
+  searchNextConfirmPanel,
+  scrollPaymentPanelIntoView
+} from './modules/utils';
+import {
+  formatMoney,
+  validData,
+  generatePayUScript,
+  getDictionary,
+  matchNamefromDict,
+  getFormatDate,
+  setSeoConfig
+} from '@/utils/utils';
+import { EMAIL_REGEXP } from '@/utils/constant';
+import { findUserConsentList, getStoreOpenConsentList,userBindConsent } from '@/api/consent';
+import { batchAddPets } from '@/api/pet';
+import LazyLoad from 'react-lazyload';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
   confirmAndCommit,
   customerCommitAndPay,
-  rePay
-} from "@/api/payment";
-import PaymentComp from "@/components/PaymentComp"
-import Store from '@/store/store';
-import axios from 'axios'
-import "./index.css";
+  rePay,
+  customerCommitAndPayMix,
+  getWays,
+  getProductPetConfig
+} from '@/api/payment';
 
+import PayUCreditCard from './PayUCreditCard';
+import AdyenCreditCard from './Adyen';
+import OxxoConfirm from './Oxxo';
+import AdyenCommonPay from './modules/AdyenCommonPay';
+
+import OnePageEmailForm from './OnePage/EmailForm';
+import OnePageClinicForm from './OnePage/ClinicForm';
+
+import { getOrderDetails } from '@/api/order';
+import { queryCityNameById } from '@/api';
+import './modules/adyenCopy.css';
+import './index.css';
+import { Helmet } from 'react-helmet';
+import Adyen3DForm from '@/components/Adyen/3d'
+import { de } from 'date-fns/locale';
+
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href;
+
+@inject(
+  'loginStore',
+  'checkoutStore',
+  'clinicStore',
+  'frequencyStore',
+  'configStore',
+  'paymentStore'
+)
+@injectIntl
+@observer
 class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "",
-      payMethod: "creditCard",
+      adyenAction:{},
+      promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
-      isCompleteCredit: false,
-      showPayMethodError: false,
-      isReadPrivacyPolicyInit: true,
-      isEighteenInit: true,
-      isReadPrivacyPolicy: false,
-      isEighteen: false,
-      creditCardImgUrl: [visaImg, amexImg, mastercardImg],
-      creditCardImgObj: {
-        VISA: visaImg,
-        MASTERCARD: mastercardImg,
-        "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
       },
       deliveryAddress: {
-        firstName: "",
-        lastName: "",
-        address1: "",
-        address2: "",
-        rfc: "",
-        country: "Mexico",
-        city: "",
-        postCode: "",
-        phoneNumber: "",
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
+        rfc: '',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        city: '',
+        postCode: '',
+        phoneNumber: ''
       },
       billingAddress: {
-        firstName: "",
-        lastName: "",
-        address1: "",
-        address2: "",
-        rfc: "",
-        country: "Mexico",
-        city: "",
-        postCode: "",
-        phoneNumber: "",
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
+        rfc: '',
+        country: 'Mexico',
+        city: '',
+        postCode: '',
+        phoneNumber: ''
       },
       creditCardInfo: {
         // cardNumber: "",
         // cardDate: "",
         // cardCVV: "",
-        cardOwner: "",
-        email: "",
-        phoneNumber: "",
-        identifyNumber: "111",
+        cardOwner: '',
+        email: '',
+        phoneNumber: '',
+        identifyNumber: '111'
       },
-      errorShow: false,
-      errorMsg: "",
-      commentOnDelivery: "",
-      currentProduct: null,
+      subForm: {
+        buyWay: 'once',
+        frequencyName: '',
+        frequencyId: ''
+      },
+      paymentTypeVal: '',
+      errorMsg: '',
       loading: false,
-      modalShow: false,
-      payosdata: {},
-      selectedCardInfo: {},
-      isToPayNow: sessionStorage.getItem('rc-tid'),
-      isLogin: jugeLoginStatus(),
-      cityList: [],
-      countryList: []
+      payosdata: null,
+      selectedCardInfo: null,
+      adyenPayParam: null,
+      payWayNameArr: [],
+      email: '',
+      payWayObj: {}, //支付方式input radio汇总
+      savedPayWayObj: {}, //保留初始化的支付方式
+      payWayErr: '',
+      orderDetails: null,
+      tid: sessionItemRoyal.get('rc-tid'),
+      tidList: sessionItemRoyal.get('rc-tidList')
+        ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
+        : [],
+      rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId'),
+      recommend_data: [],
+      petModalVisible: false,
+      isAdd: 0,
+      listData: [],
+      requiredList: [],
+      AuditData: [],
+      needPrescriber: false,
+      unLoginBackPets: [],
+      guestEmail: '',
+      mobileCartVisibleKey: 'less', // less/more
+      countryList: [],
+      validSts: { billingAddr: true },
+      saveBillingLoading: false
     };
-    this.tid = sessionStorage.getItem('rc-tid')
     this.timer = null;
-    this.confirmCardInfo = this.confirmCardInfo.bind(this);
-    this.loginDeliveryAddressRef = React.createRef();
-    this.loginBillingAddressRef = React.createRef();
+    this.toggleMobileCart = this.toggleMobileCart.bind(this);
+    this.updateValidStatus = this.updateValidStatus.bind(this);
+    this.unLoginBillingAddrRef = React.createRef();
+    this.loginBillingAddrRef = React.createRef();
+    this.adyenCardRef = React.createRef();
+    this.payUCreditCardRef = React.createRef();
   }
-  async componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
-    
-    if (this.state.isLogin && !localStorage.getItem("rc-cart-data-login")) {
-      this.props.history.push('/cart')
-    }
-    if (!this.state.isLogin
-      && (!localStorage.getItem("rc-cart-data")
-        || !JSON.parse(localStorage.getItem("rc-cart-data")).length)) {
-      this.props.history.push('/cart')
-    }
-    getDictionary({ type: 'city' })
-      .then(res => {
-        this.setState({
-          cityList: res
-        })
-      })
-    let countryRes = await getDictionary({ type: 'country' })
 
-    let deliveryInfoStr = localStorage.getItem(`${this.state.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo'}`);
-    const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
-    this.setState({
-      type: this.props.match.params.type,
-      countryList: countryRes
-    }, () => {
-      if (deliveryInfoStr
-        && (this.state.type === "payment"
-          || (!this.state.isLogin && this.state.type === "shipping"))) {
-        let deliveryInfo = JSON.parse(deliveryInfoStr);
-        creditCardInfo.cardOwner =
-          deliveryInfo.deliveryAddress.firstName +
-          " " +
-          deliveryInfo.deliveryAddress.lastName;
-        creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
-        this.setState({
-          deliveryAddress: deliveryInfo.deliveryAddress,
-          billingAddress: deliveryInfo.billingAddress,
-          commentOnDelivery: deliveryInfo.commentOnDelivery,
-          billingChecked: deliveryInfo.billingChecked,
-          creditCardInfo: creditCardInfo
-        });
-      }
-      if (!deliveryInfoStr && this.state.type === "shipping" && !this.state.isLogin) {
-        let defaultCountryId = find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico')
-          ? find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico').id
-          : ''
-        deliveryAddress.country = defaultCountryId
-        billingAddress.country = defaultCountryId
-        this.setState({
-          deliveryAddress: deliveryAddress,
-          billingAddress: billingAddress
-        });
-      }
-    }
-    );
-  }
-  componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
-    sessionStorage.removeItem('rc-tid')
-  }
-  matchNamefromDict (dictList, id) {
-    return find(dictList, ele => ele.id == id)
-      ? find(dictList, ele => ele.id == id).name
-      : id
-  }
-  confirmCardInfo () {
-    this.setState({
-      isCompleteCredit: true,
-    });
-  }
-  async ChoosePayment () {
-    const {
-      deliveryAddress,
-      billingAddress,
-      billingChecked,
-      commentOnDelivery,
-      creditCardInfo
-    } = this.state;
-    let tmpDeliveryAddress = deliveryAddress;
-    let tmpBillingAddress = billingAddress;
-    if (this.state.isLogin) {
-      const deliveryAddressEl = this.loginDeliveryAddressRef.current
-      let tmpDeliveryAddressData = deliveryAddressEl && find(deliveryAddressEl.state.addressList, (ele) => ele.selected)
-      // 若用户未存在任何地址，则自动触发保存操作
-      if (!tmpDeliveryAddressData) {
-        let addressRes = await deliveryAddressEl.handleSave()
-        if (!addressRes) {
-          return false
-        }
-        tmpDeliveryAddressData = deliveryAddressEl && find(deliveryAddressEl.state.addressList, (ele) => ele.selected)
-      }
-      tmpDeliveryAddress = {
-        firstName: tmpDeliveryAddressData.firstName,
-        lastName: tmpDeliveryAddressData.lastName,
-        address1: tmpDeliveryAddressData.address1,
-        address2: tmpDeliveryAddressData.address2,
-        rfc: tmpDeliveryAddressData.rfc,
-        country: tmpDeliveryAddressData.countryId ? tmpDeliveryAddressData.countryId.toString() : '',
-        city: tmpDeliveryAddressData.cityId ? tmpDeliveryAddressData.cityId.toString() : '',
-        postCode: tmpDeliveryAddressData.postCode,
-        phoneNumber: tmpDeliveryAddressData.consigneeNumber,
-        addressId: tmpDeliveryAddressData.deliveryAddressId,
-      }
-
-      if (!billingChecked) {
-        const billingAddressEl = this.loginBillingAddressRef.current
-        let tmpBillingAddressData = billingAddressEl && find(billingAddressEl.state.addressList, ele => ele.selected)
-        if (!tmpBillingAddressData) {
-          let addressRes = await billingAddressEl.handleSave()
-          if (!addressRes) {
-            return false
-          }
-          tmpBillingAddressData = billingAddressEl && find(billingAddressEl.state.addressList, ele => ele.selected)
-        }
-        tmpBillingAddress = {
-          firstName: tmpBillingAddressData.firstName,
-          lastName: tmpBillingAddressData.lastName,
-          address1: tmpBillingAddressData.address1,
-          address2: tmpBillingAddressData.address2,
-          rfc: tmpBillingAddressData.rfc,
-          country: tmpBillingAddressData.countryId ? tmpBillingAddressData.countryId.toString() : '',
-          city: tmpBillingAddressData.cityId ? tmpBillingAddressData.cityId.toString() : '',
-          postCode: tmpBillingAddressData.postCode,
-          phoneNumber: tmpBillingAddressData.consigneeNumber,
-          addressId: tmpBillingAddressData.deliveryAddressId,
-        }
-      }
-    }
-    const param = {
-      billingChecked,
-      deliveryAddress: tmpDeliveryAddress,
-      commentOnDelivery
-    };
-
-    if (billingChecked) {
-      param.billingAddress = tmpDeliveryAddress;
-    } else {
-      param.billingAddress = tmpBillingAddress;
-    }
-    for (let k in param.deliveryAddress) {
-      if (param.deliveryAddress[k] === "" && k !== "address2" && k !== "rfc") {
-        this.setState({
-          errorShow: true,
-          errorMsg: this.state.isLogin
-            ? this.props.intl.messages.selectDeliveryAddress
-            : this.props.intl.messages.CompleteRequiredItems
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          })
-        }, 5000)
-        return
-      }
-      if (k === "postCode" && !/\d{5}/.test(param.deliveryAddress[k])) {
-        this.setState({
-          errorShow: true,
-          errorMsg: this.props.intl.messages.EnterCorrectPostCode
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          })
-        }, 5000)
-        return
-      }
-    }
-    for (let k in param.billingAddress) {
-      if (param.billingAddress[k] === "" && k !== "address2" && k !== "rfc") {
-        console.log("billing", k)
-        this.setState({
-          errorShow: true,
-          errorMsg: this.props.intl.messages.CompleteRequiredItems
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          })
-        }, 5000)
-        return
-      }
-      if (k === "postCode" && !/\d{5}/.test(param.billingAddress[k])) {
-        this.setState({
-          errorShow: true,
-          errorMsg: this.props.intl.messages.EnterCorrectPostCode
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          })
-        }, 5000)
-        return
-      }
-    }
-    if (this.state.isLogin) {
-      localStorage.setItem("loginDeliveryInfo", JSON.stringify(param))
-    } else {
-      localStorage.setItem("deliveryInfo", JSON.stringify(param))
-    }
-    this.setState({
-      creditCardInfo: creditCardInfo
-    });
-    const { history } = this.props
-    history.push("/payment/payment")
-  }
-  initCardLoginInfo () {
-    this.setState({
-      creditCardLoginInfo: {
-        cardNumber: "",
-        cardMmyy: "",
-        cardCvv: "",
-        cardOwner: "",
-        email: "",
-        phoneNumber: "",
-        identifyNumber: "111",
-        isDefault: false,
-      }
-    })
-  }
-  async handleClickFurther () {
-    if (this.state.isLogin) {
-      if (!this.state.selectedCardInfo.cardNumber) {
-        this.setState({
-          errorShow: true,
-          errorMsg: this.props.intl.messages.clickConfirmCardButton
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
+  async componentDidMount() {
+    try {
+      const { checkoutStore, paymentStore, clinicStore, history } = this.props;
+      const { tid } = this.state;
+      setSeoConfig().then((res) => {
+        this.setState({ seoConfig: res });
+      });
+      if (this.isLogin) {
+        // 登录情况下，无需显示email panel
+        paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
+        if (tid) {
+          paymentStore.setStsToCompleted({
+            key: 'deliveryAddr',
+            isFirstLoad: true
           });
-        }, 5000);
-        return
+          paymentStore.setStsToCompleted({
+            key: 'billingAddr',
+            isFirstLoad: true
+          });
+          this.queryOrderDetails();
+        }
+  
+        if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
+          this.setState({
+            subForm: {
+              buyWay: 'frequency',
+              frequencyName: '',
+              frequencyId: ''
+            }
+          });
+        }
+      } else {
+        if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
+          this.setState({
+            subForm: {
+              buyWay: 'frequency',
+              frequencyName: '',
+              frequencyId: ''
+            }
+          });
+        }
       }
-      let selectedCard = this.state.selectedCardInfo
-      this.setState({ loading: true });
-      let res = await axios.post(
-        "https://api.paymentsos.com/tokens",
+      this.setState(
         {
-          token_type: "credit_card",
-          card_number: selectedCard.cardNumber,
-          expiration_date: selectedCard.cardMmyy.replace(/\//, "-"),
-          holder_name: selectedCard.cardOwner,
-          credit_card_cvv: selectedCard.cardCvv,
+          needPrescriber: checkoutStore.autoAuditFlag
+            ? (this.isLogin ? this.loginCartData : this.cartData).filter(
+                (el) => el.prescriberFlag
+              ).length > 0
+            : checkoutStore.AuditData.length > 0
         },
-        {
-          headers: {
-            "public_key": process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
-            "Content-type": "application/json",
-            "app_id": "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
+        () => {
+          const nextConfirmPanel = searchNextConfirmPanel({
+            list: toJS(paymentStore.panelStatus),
+            curKey: 'clinic'
+          });
+  
+          // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
+          if (!this.checkoutWithClinic || clinicStore.clinicName) {
+            paymentStore.setStsToCompleted({ key: 'clinic' });
+            paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+          } else {
+            // 把clinic置为edit状态
+            paymentStore.setStsToEdit({ key: 'clinic' });
+            paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
           }
         }
       );
-      console.log(res, 'res')
+      if (!sessionItemRoyal.get('recommend_product')) {
+        if (this.isLogin && !this.loginCartData.length && !tid) {
+          history.push('/cart');
+          return false;
+        }
+        if (
+          !this.isLogin &&
+          (!this.cartData.length ||
+            !this.cartData.filter((ele) => ele.selected).length)
+        ) {
+          history.push('/cart');
+          return false;
+        }
+      }
+    } catch (err) {
+      console.log(111,err)
+    }
+
+    this.getConsentList();
+
+    if (sessionItemRoyal.get('recommend_product')) {
+      let recommend_data = JSON.parse(
+        sessionItemRoyal.get('recommend_product')
+      );
+      recommend_data = recommend_data.map((el) => {
+        el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
+        el.goodsInfo.buyCount = el.recommendationNumber;
+        return el.goodsInfo;
+      });
+      this.props.checkoutStore.updatePromotionFiled(recommend_data);
+      this.setState({ recommend_data });
+    }
+
+    this.initPaymentWay();
+
+    getDictionary({ type: 'country' }).then((res) => {
       this.setState({
-        payosdata: res.data,
-        creditCardInfo: Object.assign({}, selectedCard),
-        loading: false
-      }, () => {
-        this.goConfirmation()
-      })
+        countryList: res
+      });
+    });
+  }
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
+    sessionItemRoyal.remove('rc-tid');
+    sessionItemRoyal.remove('rc-tidList');
+    sessionItemRoyal.remove('recommend_product');
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
+  get cartData() {
+    return this.props.checkoutStore.cartData;
+  }
+  get loginCartData() {
+    return this.props.checkoutStore.loginCartData;
+  }
+  get tradePrice() {
+    return this.props.checkoutStore.tradePrice;
+  }
+  get checkoutWithClinic() {
+    return (
+      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+      this.state.needPrescriber
+    );
+  }
+  get paymentMethodPanelStatus() {
+    return this.props.paymentStore.paymentMethodPanelStatus;
+  }
+  get defaultCardDataFromAddr() {
+    return this.props.paymentStore.defaultCardDataFromAddr;
+  }
+  checkRequiredItem = (list) => {
+    let requiredList = list.filter((item) => item.isRequired);
+    this.setState({
+      requiredList
+    });
+  };
+  //总的调用consense接口
+  async getConsentList() {
+    //1.会员调用consense接口
+    //2.游客调用consense接口
+    const { isLogin } = this;
+    let res;
+    if (isLogin) {
+      res = await findUserConsentList({ consentPage: 'check out' });
     } else {
-      this.goConfirmation()
+      res = await getStoreOpenConsentList({});
+    }
+    // if (isLogin) {
+    //   this.isExistOptionalListFun(res);
+    // } else {
+    //   this.isExistListFun(res);
+    // }
+    this.isExistListFun(res);//现在游客会员 统一
+  }
+  //重新组装listData
+  rebindListData(listData) {
+    this.setState(
+      {
+        listData
+      },
+      () => {
+        this.checkRequiredItem(listData);
+      }
+    );
+  }
+  //游客+会员必填项和选填项全部显示，只result结果不同
+  isExistListFun(result) {
+    const optioalList = result.context.optionalList.map((item) => {
+      return {
+        id: item.id,
+        consentTitle: item.consentTitle,
+        isChecked: false,
+        isRequired: false,
+        detailList: item.detailList
+      };
+    });
+    const requiredList = result.context.requiredList.map((item) => {
+      return {
+        id: item.id,
+        consentTitle: item.consentTitle,
+        isChecked: false,
+        isRequired: true,
+        detailList: item.detailList
+      };
+    });
+    let listData = [...requiredList, ...optioalList]; //必填项+选填项
+    this.rebindListData(listData);
+  }
+  //会员 显示特定的一条必填项
+  // isExistOptionalListFun(result) {
+  //   let optionalList = [];
+  //   if (result.context.optionalList.length > 0) {
+  //     optionalList = result.context.optionalList.map((item) => {
+  //       return {
+  //         id: item.id,
+  //         consentTitle: item.consentTitle,
+  //         isChecked: false,
+  //         isRequired: false,
+  //         detailList: item.detailList
+  //       };
+  //     });
+  //   }
+  //   // 为法国添加一条写死一条consent
+  //   if (process.env.REACT_APP_LANG === 'fr') {
+  //     optionalList = [
+  //       {
+  //         consentTitle: `<p><span style="font-size:11ptpx"><span style="color:#000000">J&#x27;ai lu et j&#x27;accepte les <a href="${process.env.REACT_APP_SUCCESSFUL_URL}/general-terms-conditions" target="_blank">conditions générales de vente</a></span></span></p>`,
+  //         detailList: [],
+  //         isChecked: false,
+  //         isRequired: true
+  //       },
+  //       ...optionalList
+  //     ];
+  //   }
+  //   if (optionalList.length > 0) {
+  //     this.rebindListData(optionalList);
+  //   }
+  // }
+  initPaymentWay = async () => {
+    try {
+      //获取支付方式
+      const payWay = await getWays();
+      // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
+      const payuMethodsObj = {
+        PAYU: {
+          name: 'payu',
+          id: 'creditCard',
+          paymentTypeVal: 'payUCreditCard'
+        },
+        PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
+        adyen_credit_card: {
+          name: 'adyen_credit_card',
+          id: 'adyenCard',
+          paymentTypeVal: 'adyenCard'
+        },
+        adyen_klarna_pay_now: {
+          name: 'adyen_klarna_pay_now',
+          id: 'adyenPayNow',
+          paymentTypeVal: 'adyenKlarnaPayNow'
+        },
+        adyen_klarna_pay_lat: {
+          name: 'adyen_klarna_pay_lat',
+          id: 'adyenPayLater',
+          paymentTypeVal: 'adyenKlarnaPayLater'
+        },
+        directEbanking: {
+          name: 'directEbanking',
+          id: 'sofort',
+          paymentTypeVal: 'directEbanking'
+        }
+      };
+      let payWayNameArr = [],
+        payuNameArr = [];
+      if (payWay.context.length > 0) {
+        //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
+        if (payWay.context[0].name.indexOf('PAYU') !== -1) {
+          payuNameArr = payWay.context.map((item) => item.name);
+        } else {
+          //正常处理
+          payuNameArr = payWay.context
+            .map((item) => item.payChannelItemList)[0]
+            .map((item) => item.code);
+        }
+        //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
+        for (let item of payuNameArr) {
+          // 只是为了墨西哥环境测试adyen订阅支付start
+          if (item === 'adyen_card_subscription') {
+            payWayNameArr.push({
+              name: 'adyen_credit_card',
+              id: 'adyen',
+              paymentTypeVal: 'adyenCard'
+            });
+          }
+          if (item === 'adyen_klarna_subscription') {
+            payWayNameArr.push({
+              name: 'adyen_klarna_pay_now',
+              id: 'adyenPayNow',
+              paymentTypeVal: 'adyenKlarnaPayNow'
+            });
+            payWayNameArr.push({
+              name: 'adyen_klarna_pay_lat',
+              id: 'adyenPayLater',
+              paymentTypeVal: 'adyenKlarnaPayLater'
+            });
+          }
+          // 只是为了墨西哥环境测试adyen订阅支付end
+          if (payuMethodsObj.hasOwnProperty(item)) {
+            payWayNameArr.push(payuMethodsObj[item]);
+          }
+        }
+      }
+      //数组转对象
+      const payWayObj = payWayNameArr.map((item, index) => {
+        return {
+          name: item['name'],
+          id: item['id'],
+          paymentTypeVal: item['paymentTypeVal']
+        };
+      });
+
+      this.setState({
+        payWayObj,
+        savedPayWayObj: JSON.parse(JSON.stringify(payWayObj))
+      });
+
+      let payMethod = (payWayNameArr[0] && payWayNameArr[0].name) || 'none'; //初始化默认取第1个
+      //各种支付component初始化方法
+      var initPaymentWay = {
+        adyen_credit_card: () => {
+          this.setState({ paymentTypeVal: 'adyenCard' });
+          // this.initAdyenPay();
+        },
+        adyen_klarna_slice: () => {
+          console.log('initKlarnaSlice');
+        },
+        adyen_klarna_pay_now: () => {
+          this.setState({ paymentTypeVal: 'adyenKlarnaPayNow' });
+        },
+        adyen_klarna_pay_lat: () => {
+          this.setState({ paymentTypeVal: 'adyenKlarnaPayLater' });
+        },
+        //Sofort支付
+        directEbanking: () => {
+          this.setState({ paymentTypeVal: 'directEbanking' });
+        },
+        payu: () => {
+          this.setState({ paymentTypeVal: 'payUCreditCard' });
+        },
+        payuoxxo: () => {
+          this.setState({ paymentTypeVal: 'oxxo' });
+        },
+        none: () => {
+          console.log('no payway');
+        }
+      };
+
+      //默认第一个,如没有支付方式,就不初始化方法
+      this.setState(
+        {
+          payWayNameArr
+        },
+        () => {
+          initPaymentWay[payMethod]();
+        }
+      );
+    } catch (e) {
+      this.setState({
+        payWayErr: e.message
+      });
+    }
+  };
+  generatePayUParam = () => {
+    const jsessionid =
+      Cookies.get('jsessionid') ||
+      sessionItemRoyal.get('jsessionid') ||
+      `${this.userInfo.customerId}${new Date().getTime()}`;
+    if (jsessionid) {
+      const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
+      generatePayUScript(fingerprint);
+      this.jsessionid = jsessionid;
+      this.fingerprint = fingerprint;
+    }
+  };
+  queryOrderDetails() {
+    getOrderDetails(this.state.tidList[0]).then(async (res) => {
+      let resContext = res.context;
+      let cityRes = await queryCityNameById({
+        id: [resContext.consignee.cityId, resContext.invoice.cityId]
+      });
+      cityRes = cityRes.context.systemCityVO || [];
+      resContext.consignee.cityName = this.matchCityName(
+        cityRes,
+        resContext.consignee.cityId
+      );
+      resContext.invoice.cityName = this.matchCityName(
+        cityRes,
+        resContext.invoice.cityId
+      );
+      this.setState({
+        orderDetails: resContext
+      });
+    });
+  }
+  matchCityName(dict, cityId) {
+    return dict.filter((c) => c.id === cityId).length
+      ? dict.filter((c) => c.id === cityId)[0].cityName
+      : cityId;
+  }
+  showErrorMsg = (msg) => {
+    this.setState({
+      errorMsg: msg
+    });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      });
+    }, 5000);
+  };
+  // 支付公共初始化方法
+  initCommonPay = ({ email = '', type }) => {
+    if (this.props.checkoutStore.AuditData.length) {
+      let petFlag = true;
+      let data = this.props.checkoutStore.AuditData;
+      console.log(toJS(this.props.checkoutStore.AuditData));
+      for (let i = 0; i < data.length; i++) {
+        if (this.isLogin) {
+          if (!data[i].petsId) {
+            petFlag = false;
+            break;
+          }
+        } else {
+          if (!data[i].petForm || !data[i].petForm.petName) {
+            petFlag = false;
+            break;
+          }
+        }
+      }
+      if (!petFlag && this.props.checkoutStore.petFlag) {
+        this.showErrorMsg('Please fill in pet information');
+        this.endLoading();
+        return;
+      }
+    }
+    this.doGetAdyenPayParam(type);
+    if (email) {
+      this.setState({
+        email
+      });
+    }
+  };
+
+  /**************支付公共方法start*****************/
+
+  //组装支付共同的参数
+  async getAdyenPayParam(type) {
+    try {
+      let obj = await this.getPayCommonParam();
+      let commonParameter = obj.commonParameter;
+      let phone = obj.phone;
+      let parameters;
+      const { subForm, email } = this.state;
+      /* 组装支付需要的参数 */
+      const actions = {
+        oxxo: () => {
+          parameters = Object.assign({}, commonParameter, {
+            payChannelItem: 'payuoxxo',
+            country: 'MEX',
+            email
+          });
+        },
+        payUCreditCard: async () => {
+          const { selectedCardInfo } = this.state;
+          if (!this.isLogin) {
+            parameters = Object.assign({}, commonParameter);
+          } else {
+            try {
+              // 获取token，避免传给接口明文cvv
+              this.startLoading();
+              let cvvResult = await new Promise((resolve) => {
+                window.POS.tokenize(
+                  {
+                    token_type: 'card_cvv_code',
+                    credit_card_cvv: selectedCardInfo.cardCvv,
+                    payment_method_token: selectedCardInfo.paymentToken
+                  },
+                  function (result) {
+                    console.log('result obtained' + result);
+                    resolve(result);
+                  }
+                );
+              });
+              cvvResult = JSON.parse(cvvResult);
+              const tempPublicParams = Object.assign({}, commonParameter, {
+                paymentMethodId: selectedCardInfo.id,
+                creditDardCvv: cvvResult && cvvResult.token
+              });
+              if (subForm.buyWay === 'frequency') {
+                parameters = Object.assign({}, tempPublicParams, {
+                  payChannelItem: 'payu_subscription'
+                });
+              } else {
+                parameters = Object.assign({}, tempPublicParams, {
+                  payChannelItem: 'payu_customer'
+                });
+              }
+            } catch (err) {
+              this.endLoading();
+              throw new Error(err.message);
+            }
+          }
+        },
+        adyenCard: () => {
+          const { adyenPayParam } = this.state;
+          parameters = Object.assign(commonParameter, {
+            browserInfo:this.props.paymentStore.browserInfo,
+            encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: process.env.REACT_APP_Adyen_country,
+            payChannelItem: adyenPayParam.paymentToken
+              ? subForm.buyWay === 'frequency'
+                ? 'adyen_card_customer_subscription'
+                : 'adyen_card_customer'
+              : 'adyen_credit_card'
+          });
+          if (adyenPayParam.paymentToken) {
+            parameters = Object.assign(parameters, {
+              paymentMethodId: adyenPayParam.id
+            });
+          } else {
+            parameters = Object.assign(parameters, {
+              ...adyenPayParam
+            });
+          }
+        },
+        adyenKlarnaPayLater: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: 'klarna',
+            payChannelItem:
+              subForm.buyWay === 'frequency'
+                ? 'adyen_later_subscription'
+                : 'adyen_klarna_pay_lat',
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: process.env.REACT_APP_Adyen_country,
+            email
+          });
+        },
+        adyenKlarnaPayNow: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: 'klarna_paynow',
+            payChannelItem:
+              subForm.buyWay === 'frequency'
+                ? 'adyen_klarna_subscription'
+                : 'adyen_klarna_pay_now',
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: process.env.REACT_APP_Adyen_country,
+            email
+          });
+        },
+        directEbanking: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: 'directEbanking',
+            payChannelItem:
+              subForm.buyWay === 'frequency'
+                ? 'adyen_sofort_subscription'
+                : 'directEbanking',
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: process.env.REACT_APP_Adyen_country,
+            email
+          });
+        }
+      };
+      await actions[type]();
+
+      const successUrlFun = (type) => {
+        const defaultUrl = '',
+              Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
+              payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult'
+        return {
+          "adyenCard": Adyen3DSUrl,
+          "adyenKlarnaPayLater": payResultUrl,
+          "adyenKlarnaPayNow": payResultUrl,
+          "directEbanking": payResultUrl,
+        }[type] || defaultUrl
+      }
+      //合并支付必要的参数
+      let finalParam = Object.assign(parameters, {
+        successUrl: successUrlFun(type),
+        deliveryAddressId: this.state.deliveryAddress.addressId,
+        billAddressId: this.state.billingAddress.addressId,
+        phone
+      });
+      return finalParam;
+    } catch (err) {
+      console.log(err);
+      throw new Error(err.message);
     }
   }
-  async goConfirmation () {
-    const { history } = this.props;
+
+  //得到支付共同的参数
+  async getPayCommonParam() {
+    try {
+      await this.valideCheckoutLimitRule();
+      const commonParameter = this.packagePayParam();
+      let phone = this.state.billingAddress.phoneNumber; //获取电话号码
+      return new Promise((resolve) => {
+        resolve({ commonParameter, phone });
+      });
+    } catch (err) {
+      console.log(err);
+      throw new Error(err.message);
+    }
+  }
+
+  //获取参数
+  async doGetAdyenPayParam(type) {
+    try {
+      let parameters = await this.getAdyenPayParam(type);
+      await this.allAdyenPayment(parameters, type);
+    } catch (err) {
+      console.log(err);
+      if (err.message !== 'agreement failed') {
+        this.showErrorMsg(
+          err.message ? err.message.toString() : err.toString()
+        );
+      }
+      this.endLoading();
+    }
+  }
+
+  //根据条件-调用不同的支付接口,进行支付
+  async allAdyenPayment(parameters, type) {
+    try {
+      const { clinicStore } = this.props;
+      const { paymentTypeVal } = this.state;
+      let action;
+      const actions = () => {
+        const rePayFun = () => {
+          action = rePay;
+        }; // 存在订单号
+        const customerCommitAndPayFun = () => {
+          action = customerCommitAndPay;
+        }; //会员once
+        const customerCommitAndPayMixFun = () => {
+          action = customerCommitAndPayMix;
+        }; //  会员frequency
+        const confirmAndCommitFun = () => {
+          action = confirmAndCommit;
+        }; //游客
+        return new Map([
+          [{ isTid: /^true$/i, isLogin: /.*/, buyWay: /.*/ }, rePayFun],
+          [
+            { isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^once$/ },
+            customerCommitAndPayFun
+          ], //buyWay为once的时候均表示会员正常交易
+          [
+            { isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^frequency$/ },
+            customerCommitAndPayMixFun
+          ],
+          [
+            { isTid: /^false$/i, isLogin: /^false$/i, buyWay: /.*/ },
+            confirmAndCommitFun
+          ]
+        ]);
+      };
+      const payFun = (isTid, isLogin, buyWay) => {
+        let action = [...actions()].filter(
+          ([key, value]) =>
+            key.isTid.test(isTid) &&
+            key.isLogin.test(isLogin) &&
+            key.buyWay.test(buyWay)
+        );
+        action.forEach(([key, value]) => value.call(this));
+      };
+
+      sessionItemRoyal.set('rc-paywith-login', this.isLogin);
+      this.startLoading();
+      if (!this.isLogin) {
+        await this.visitorLoginAndAddToCart();
+        if (
+          this.props.checkoutStore.AuditData.length > 0 &&
+          this.props.checkoutStore.petFlag &&
+          !this.props.checkoutStore.autoAuditFlag
+        ) {
+          let param = this.props.checkoutStore.AuditData.map((el) => {
+            let petForm = {
+              birthday: el.petForm.birthday,
+              breed: el.petForm.breed,
+              petsName: el.petForm.petName,
+              petsType: el.petForm.petType
+            };
+            return {
+              customerPets: Object.assign(petForm, {
+                productId: el.sizeList.filter((e) => e.selected)[0].goodsInfoId
+              }),
+              storeId: process.env.REACT_APP_STOREID
+            };
+          });
+          let res = await batchAddPets({
+            batchAddItemList: param
+          });
+          parameters.tradeItems.map((el) => {
+            let filterItems = res.context.resultList.filter(
+              (item) => item.productId === el.skuId
+            );
+            if (filterItems.length > 0) {
+              el.petsName = filterItems[0].petsName;
+              el.petsId = filterItems[0].petsId;
+            }
+          });
+        }
+      }
+
+      if (paymentTypeVal === 'payUCreditCard') {
+        this.generatePayUParam();
+      }
+      if (this.jsessionid && this.fingerprint) {
+        parameters = Object.assign(parameters, {
+          userAgent: navigator.userAgent,
+          cookie: this.jsessionid,
+          fingerprint: this.fingerprint
+        });
+      }
+
+      let isRepay = this.state.tid ? true : false
+
+      payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
+
+      /* 4)调用支付 */
+      const res = await action(parameters);
+      const { tidList } = this.state;
+      let orderNumber; // 主订单号
+      let subOrderNumberList = []; // 拆单时，子订单号
+      let subNumber; // 订阅订单号
+      let oxxoPayUrl;
+      let gotoConfirmationPage = false;
+      switch (type) {
+        case 'oxxo':
+          var oxxoContent = res.context[0];
+          var oxxoArgs = oxxoContent.args;
+          oxxoPayUrl =
+            oxxoArgs &&
+            oxxoArgs.additionalDetails &&
+            oxxoArgs.additionalDetails.object &&
+            oxxoArgs.additionalDetails.object.data[0]
+              ? oxxoArgs.additionalDetails.object.data[0].href
+              : '';
+          subOrderNumberList = tidList.length
+            ? tidList
+            : oxxoContent && oxxoContent.tidList;
+          gotoConfirmationPage = true;
+          break;
+        case 'payUCreditCard':
+          subOrderNumberList = tidList.length
+            ? tidList
+            : res.context && res.context[0] && res.context[0].tidList;
+          subNumber =
+            (res.context && res.context[0] && res.context[0].subscribeId) ||
+            (res.context && res.context.subscribeId) ||
+            '';
+          gotoConfirmationPage = true;
+          break;
+        case 'adyenCard':
+          subOrderNumberList = tidList.length && tidList[0]
+            ? tidList
+            : res.context && res.context[0] && res.context[0].tidList;
+          subNumber =
+            (res.context && res.context[0] && res.context[0].subscribeId) ||
+            (res.context && res.context.subscribeId) ||
+            '';
+    
+            let contextType = Object.prototype.toString.call(res.context).slice(8, -1)
+            let adyenAction = ''
+            if(contextType==='Array'&&res.context[0].action){ //正常时候,res.context后台返回数组
+               adyenAction = JSON.parse(res.context[0].action)
+               if (subOrderNumberList.length) {
+                sessionItemRoyal.set(
+                  'subOrderNumberList',
+                  JSON.stringify(subOrderNumberList)
+                );
+              }
+              this.setState({adyenAction})
+              
+            }else if(contextType==='Object' && res.context.action){//会员repay时，res.context后台返回对象
+              adyenAction = JSON.parse(res.context.action)
+              if (subOrderNumberList.length) {
+                sessionItemRoyal.set(
+                  'subOrderNumberList',
+                  JSON.stringify(subOrderNumberList)
+                );
+              }
+              this.setState({adyenAction})
+              
+            }else{
+              //正常卡
+              gotoConfirmationPage = true;
+            }
+          break;
+        case 'adyenKlarnaPayLater':
+        case 'adyenKlarnaPayNow':
+        case 'directEbanking':
+          subOrderNumberList = [res.context.pId];
+          // 删除本地购物车
+          if (this.isLogin) {
+            this.props.checkoutStore.removeLoginCartData();
+          } else {
+            this.props.checkoutStore.setCartData(
+              this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
+            ); // 只移除selected
+            //sessionItemRoyal.remove('rc-token');
+          }
+          // 给klana支付跳转用
+          if (res.context.pId) {
+            sessionItemRoyal.set('orderNumber', res.context.pId);
+          }
+          window.location.href = res.context.url;
+          break;
+        default:
+          break;
+      }
+      // if (orderNumber) {
+      //   sessionItemRoyal.set('orderNumber', orderNumber);
+      // }
+      if (subOrderNumberList.length) {
+        sessionItemRoyal.set(
+          'subOrderNumberList',
+          JSON.stringify(subOrderNumberList)
+        );
+      }
+      if (subNumber) {
+        sessionItemRoyal.set('subNumber', subNumber);
+      }
+      if (oxxoPayUrl) {
+        sessionItemRoyal.set('oxxoPayUrl', oxxoPayUrl);
+      }
+
+      // update clinic
+      if (this.checkoutWithClinic) {
+        if (
+          clinicStore.linkClinicId &&
+          clinicStore.linkClinicId !== clinicStore.selectClinicId
+        ) {
+          clinicStore.removeLinkClinicId();
+          clinicStore.removeLinkClinicName();
+          clinicStore.removeAuditAuthority();
+        }
+        // clinicStore.setSelectClinicId(clinicStore.clinicId);
+        // clinicStore.setSelectClinicName(clinicStore.clinicName);
+        // clinicStore.setDefaultClinicId(clinicStore.clinicId);
+        // clinicStore.setDefaultClinicName(clinicStore.clinicName);
+      }
+
+      sessionItemRoyal.remove('payosdata');
+      if (gotoConfirmationPage) {
+        this.props.history.push('/confirmation');
+      }
+    } catch (err) {
+      console.log(err);
+      if (!this.isLogin) {
+        sessionItemRoyal.remove('rc-token');
+      }
+      if (err.errorData && err.errorData.tid && err.errorData.tidList) {
+        // err.errorData 支付失败，errorData返回支付信息
+        sessionItemRoyal.set('rc-tid', err.errorData.tid);
+        sessionItemRoyal.set('rc-rePaySubscribeId', err.errorData.subscribeId);
+        sessionItemRoyal.set(
+          'rc-tidList',
+          JSON.stringify(err.errorData.tidList)
+        );
+        this.setState(
+          {
+            tid: err.errorData.tid,
+            tidList: err.errorData.tidList,
+            rePaySubscribeId: err.errorData.subscribeId
+          },
+          () => {
+            this.state.tidList &&
+              this.state.tidList.length &&
+              this.queryOrderDetails();
+          }
+        );
+      }
+      throw new Error(err.message);
+    } finally {
+      this.endLoading();
+    }
+  }
+
+  /**************支付公共方法end*****************/
+
+  /**
+   * 游客注册并登录&批量添加后台购物车
+   */
+  async visitorLoginAndAddToCart() {
+    try {
+      let {
+        deliveryAddress,
+        billingAddress,
+        billingChecked,
+        creditCardInfo,
+        guestEmail
+      } = this.state;
+      const cartData = this.cartData.filter((ele) => ele.selected);
+
+      let param = Object.assign(
+        {},
+        { useDeliveryAddress: billingChecked },
+        deliveryAddress,
+        {
+          billAddress1: billingAddress.address1,
+          billAddress2: billingAddress.address2,
+          billCity: billingAddress.city,
+          billCountry: billingAddress.country,
+          billFirstName: billingAddress.firstName,
+          billLastName: billingAddress.lastName,
+          billPhoneNumber: billingAddress.phoneNumber,
+          billPostCode: billingAddress.postCode,
+          rfc: deliveryAddress.rfc,
+          billRfc: billingAddress.rfc,
+          email: creditCardInfo.email || guestEmail,
+          consigneeEmail: deliveryAddress.email
+        }
+      );
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
+        param
+      );
+      //游客绑定consent 一定要在游客注册之后 start
+      let submitParam = this.bindSubmitParam(this.state.listData);
+      let consentParams = {...submitParam,...{ oktaToken:'' }}
+      userBindConsent(consentParams);
+       //游客绑定consent 一定要在游客注册之后 end
+
+
+      sessionItemRoyal.set(
+        'rc-token',
+        postVisitorRegisterAndLoginRes.context.token
+      );
+      if (sessionItemRoyal.get('recommend_product')) {
+        await batchAdd({
+          goodsInfos: this.state.recommend_data.map((ele) => {
+            return {
+              verifyStock: false,
+              buyCount: ele.buyCount,
+              goodsInfoId: find(ele.goods.sizeList, (s) => s.selected)
+                .goodsInfoId
+            };
+          })
+        });
+      } else {
+        await batchAdd({
+          goodsInfos: cartData.map((ele) => {
+            return {
+              verifyStock: false,
+              buyCount: ele.quantity,
+              goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+            };
+          })
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      throw new Error(err.message);
+    }
+  }
+
+  /**
+   * 封装下单参数
+   */
+  packagePayParam() {
+    const loginCartData = this.loginCartData;
+    const cartData = this.cartData.filter((ele) => ele.selected);
+    const { clinicStore } = this.props;
     let {
-      isEighteen,
-      isReadPrivacyPolicy,
       deliveryAddress,
       billingAddress,
-      commentOnDelivery,
-      billingChecked,
       creditCardInfo,
-      payMethod
+      subForm,
+      payosdata,
+      needPrescriber,
+      guestEmail,
+      promotionCode
     } = this.state;
-    const cartData = localStorage.getItem("rc-cart-data")
-      ? JSON.parse(localStorage.getItem("rc-cart-data"))
-      : [];
-    if (!payMethod) {
-      this.setState({ showPayMethodError: true })
+    let param = {
+      firstName: deliveryAddress.firstName,
+      lastName: deliveryAddress.lastName,
+      zipcode: deliveryAddress.postCode,
+      city: deliveryAddress.cityName,
+      country: payosdata ? payosdata.country_code : '',
+      token: payosdata ? payosdata.token : '',
+      creditDardCvv: payosdata ? payosdata.encrypted_cvv : payosdata,
+      phone: creditCardInfo.phoneNumber,
+      email: creditCardInfo.email || deliveryAddress.email,
+      line1: deliveryAddress.address1,
+      line2: deliveryAddress.address2,
+      recommendationId: clinicStore.linkClinicId,
+      recommendationName: clinicStore.linkClinicName,
+      storeId: process.env.REACT_APP_STOREID,
+      tradeItems: [], // once order products
+      subTradeItems: [], // subscription order products
+      tradeMarketingList: [],
+      last4Digits: payosdata ? payosdata.last_4_digits : '',
+      payAccountName: creditCardInfo.cardOwner,
+      payPhoneNumber: creditCardInfo.phoneNumber,
+      petsId: '1231',
+      deliveryAddressId: deliveryAddress.addressId,
+      billAddressId: billingAddress.addressId,
+      promotionCode,
+      guestEmail
+    };
+    if (needPrescriber) {
+      param.clinicsId = clinicStore.selectClinicId;
+      param.clinicsName = clinicStore.selectClinicName;
     }
-    if (isEighteen && isReadPrivacyPolicy) {
-      let payosdata = this.state.payosdata;
-      if (!payosdata.token) {
-        this.setState({
-          errorShow: true,
-          errorMsg: this.props.intl.messages.clickConfirmCardButton
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
-      }
-      this.setState({ loading: true });
-      let param = Object.assign({}, { useDeliveryAddress: billingChecked }, deliveryAddress);
-      param.billAddress1 = billingAddress.address1;
-      param.billAddress2 = billingAddress.address2;
-      param.billCity = billingAddress.city;
-      param.billCountry = billingAddress.country;
-      param.billFirstName = billingAddress.firstName;
-      param.billLastName = billingAddress.lastName;
-      param.billPhoneNumber = billingAddress.phoneNumber;
-      param.billPostCode = billingAddress.postCode;
-      param.rfc = deliveryAddress.rfc;
-      param.billRfc = billingAddress.rfc;
-      param.email = creditCardInfo.email
-      let param2 = {
-        goodsInfos: cartData.map((ele) => {
-          return {
-            verifyStock: false,
-            buyCount: ele.quantity,
-            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
-          }
-        })
-      }
-      if (this.state.isLogin) {
-        const loginCartData = localStorage.getItem("rc-cart-data-login")
-          ? JSON.parse(localStorage.getItem("rc-cart-data-login"))
-          : []
-        param2.goodsInfos = loginCartData.map((ele) => {
-          return {
-            verifyStock: false,
-            buyCount: ele.buyCount,
-            goodsInfoId: ele.goodsInfoId
-          }
-        })
-      }
 
-      let tradeMarketingList = [
-        {
-          marketingId: "",
-          marketingLevelId: "",
+    if (sessionItemRoyal.get('recommend_product')) {
+      param.tradeItems = this.state.recommend_data.map((ele) => {
+        return {
+          //shelter和breeder产品参数 start
+          utmSource: ele.utmSource || '',
+          utmMedium: ele.utmMedium || '',
+          utmCampaign: ele.utmCampaign || '',
+          prefixFn: ele.prefixFn || '',
+          prefixBreed: ele.prefixBreed || '',
+          //shelter和breeder产品参数 end
+          num: ele.buyCount,
+          skuId: ele.goodsInfoId,
+          petsId: ele.petsId,
+          petsName: ele.petsName,
+          goodsInfoFlag: 0,
+          recommendationId: clinicStore.linkClinicId,
+          recommendationName: clinicStore.linkClinicName
+        };
+      });
+    } else if (this.isLogin) {
+      param.tradeItems = loginCartData.map((ele) => {
+        return {
+          utmSource: ele.utmSource || '',
+          utmMedium: ele.utmMedium || '',
+          utmCampaign: ele.utmCampaign || '',
+          prefixFn: ele.prefixFn || '',
+          prefixBreed: ele.prefixBreed || '',
+          num: ele.buyCount,
+          skuId: ele.goodsInfoId,
+          petsId: ele.petsId,
+          petsName: ele.petsName,
+          goodsInfoFlag: ele.goodsInfoFlag,
+          recommendationId: clinicStore.linkClinicId,
+          recommendationName: clinicStore.linkClinicName
+        };
+      });
+    } else {
+      param.tradeItems = cartData.map((ele) => {
+        return {
+          utmSource: ele.utmSource || '',
+          utmMedium: ele.utmMedium || '',
+          utmCampaign: ele.utmCampaign || '',
+          prefixFn: ele.prefixFn || '',
+          prefixBreed: ele.prefixBreed || '',
+          num: ele.quantity,
+          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+          goodsInfoFlag: ele.goodsInfoFlag,
+          recommendationId: clinicStore.linkClinicId,
+          recommendationName: clinicStore.linkClinicName
+        };
+      });
+    }
+
+    if (subForm.buyWay === 'frequency') {
+      param.tradeItems = loginCartData
+        // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
+        .filter((ele) => !ele.goodsInfoFlag)
+        .map((g) => {
+          return {
+            utmSource: g.utmSource || '',
+            utmMedium: g.utmMedium || '',
+            utmCampaign: g.utmCampaign || '',
+            prefixFn: g.prefixFn || '',
+            prefixBreed: g.prefixBreed || '',
+            num: g.buyCount,
+            skuId: g.goodsInfoId,
+            petsId: g.petsId,
+            petsName: g.petsName,
+            goodsInfoFlag: g.goodsInfoFlag,
+            periodTypeId: g.periodTypeId,
+            recommendationId: clinicStore.linkClinicId,
+            recommendationName: clinicStore.linkClinicName
+          };
+        });
+      // if(sessionItemRoyal.get('recommend_product')) {
+      //   param.subTradeItems = this.state.recommend_data
+      //   .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+      //   .map((g) => {
+      //     return {
+      //       subscribeNum: g.buyCount,
+      //       skuId: g.goodsInfoId,
+      //       petsId: g.petsId,
+      //       petsName: g.petsName
+      //     };
+      //   });
+      // }else {
+      param.subTradeItems = loginCartData
+        .filter(
+          (ele) =>
+            ele.subscriptionStatus &&
+            ele.subscriptionPrice > 0 &&
+            ele.goodsInfoFlag
+        )
+        .map((g) => {
+          return {
+            utmSource: g.utmSource || '',
+            utmMedium: g.utmMedium || '',
+            utmCampaign: g.utmCampaign || '',
+            prefixFn: g.prefixFn || '',
+            prefixBreed: g.prefixBreed || '',
+            subscribeNum: g.buyCount,
+            skuId: g.goodsInfoId,
+            petsId: g.petsId,
+            petsName: g.petsName,
+            goodsInfoFlag: g.goodsInfoFlag,
+            periodTypeId: g.periodTypeId,
+            recommendationId: clinicStore.linkClinicId,
+            recommendationName: clinicStore.linkClinicName
+          };
+        });
+      // }
+
+      param.cycleTypeId = subForm.frequencyId;
+      param.paymentMethodId = creditCardInfo.id;
+    }
+
+    // 拼接promotion参数
+    let tradeMarketingList = [];
+    let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap;
+    if (goodsMarketingMap && Object.keys(goodsMarketingMap).length) {
+      for (let k in goodsMarketingMap) {
+        let tmpParam = {
+          marketingId: '',
+          marketingLevelId: '',
           skuIds: [],
           giftSkuIds: []
-        },
-      ];
-      let goodsMarketingMapStr = sessionStorage.getItem("goodsMarketingMap")
-      let goodsMarketingMap = JSON.parse(goodsMarketingMapStr)
-      if (goodsMarketingMapStr === "{}") {
-        tradeMarketingList = []
-      } else {
-        for (let k in goodsMarketingMap) {
-          tradeMarketingList[0].skuIds.push(k);
-          if (!tradeMarketingList[0].marketingLevelId) {
-            tradeMarketingList[0].marketingLevelId =
-              goodsMarketingMap[k][0]["fullDiscountLevelList"][0][
-              "discountLevelId"
-              ];
-          }
-          if (!tradeMarketingList[0].marketingId) {
-            tradeMarketingList[0].marketingId =
-              goodsMarketingMap[k][0]["fullDiscountLevelList"][0][
-              "marketingId"
-              ];
-          }
+        };
+        tmpParam.skuIds.push(k);
+        // marketingType 0-满减fullReductionLevelList-reductionLevelId 1-满折fullDiscountLevelList-discountLevelId
+        const tmpMarketing = goodsMarketingMap[k][0];
+        let targetLevelId = '';
+        if (tmpMarketing.marketingType === 0) {
+          targetLevelId =
+            tmpMarketing.fullReductionLevelList[0].reductionLevelId;
+        } else if (tmpMarketing.marketingType === 1) {
+          targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId;
+        }
+        tmpParam.marketingLevelId = targetLevelId;
+        tmpParam.marketingId = tmpMarketing.marketingId;
+        tradeMarketingList.push(tmpParam);
+      }
+    }
+
+    // rePay (subscription can't repay)
+    if (this.state.tid) {
+      param.tid = this.state.tid;
+      param.tidList = this.state.tidList;
+      param.subscribeId = this.state.rePaySubscribeId;
+      delete param.remark;
+      delete param.tradeItems;
+      delete param.tradeMarketingList;
+    }
+    return param;
+  }
+
+  /**
+   * save address/comment
+   */
+  async saveAddressAndCommentPromise() {
+    try {
+      const { configStore, clinicStore } = this.props;
+      const { deliveryAddress, billingAddress, billingChecked } = this.state;
+      let tmpDeliveryAddress = deliveryAddress;
+      let tmpBillingAddress = billingAddress;
+      if (this.isLogin) {
+        tmpDeliveryAddress = {
+          firstName: deliveryAddress.firstName,
+          lastName: deliveryAddress.lastName,
+          address1: deliveryAddress.address1,
+          address2: deliveryAddress.address2,
+          rfc: deliveryAddress.rfc,
+          country: deliveryAddress.countryId
+            ? deliveryAddress.countryId.toString()
+            : '',
+          city: deliveryAddress.cityId ? deliveryAddress.cityId.toString() : '',
+          cityName: deliveryAddress.cityName,
+          postCode: deliveryAddress.postCode,
+          phoneNumber: deliveryAddress.consigneeNumber,
+          email: deliveryAddress.email,
+          addressId: deliveryAddress.deliveryAddressId
+        };
+        if (!billingChecked) {
+          tmpBillingAddress = {
+            firstName: billingAddress.firstName,
+            lastName: billingAddress.lastName,
+            address1: billingAddress.address1,
+            address2: billingAddress.address2,
+            rfc: billingAddress.rfc,
+            country: billingAddress.countryId
+              ? billingAddress.countryId.toString()
+              : '',
+            city: billingAddress.cityId ? billingAddress.cityId.toString() : '',
+            cityName: billingAddress.cityName,
+            postCode: billingAddress.postCode,
+            phoneNumber: billingAddress.consigneeNumber,
+            addressId: billingAddress.deliveryAddressId
+          };
         }
       }
-
-      let param3 = {
-        firstName: deliveryAddress.firstName,
-        lastName: deliveryAddress.lastName,
-        zipcode: deliveryAddress.postCode,
-        city: deliveryAddress.city,
-        country: payosdata.country_code,
-        token: payosdata.token,
-        creditDardCvv: payosdata.encrypted_cvv,
-        phone: creditCardInfo.phoneNumber,
-        email: creditCardInfo.email,
-        last4Digits: payosdata.last_4_digits,
-        line1: deliveryAddress.address1,
-        line2: deliveryAddress.address2,
-        clinicsId:
-          sessionStorage.getItem("rc-clinics-id-link")
-          || sessionStorage.getItem("rc-clinics-id-default")
-          || sessionStorage.getItem("rc-clinics-id-select"),
-        clinicsName:
-          sessionStorage.getItem("rc-clinics-name-link")
-          || sessionStorage.getItem("rc-clinics-name-default")
-          || sessionStorage.getItem("rc-clinics-name-select"),
-        remark: commentOnDelivery,
-        storeId: STOREID,
-        tradeItems: param2.goodsInfos.map((g) => {
-          return {
-            num: g.buyCount,
-            skuId: g.goodsInfoId
-          }
-        }),
-        tradeMarketingList,
-        payAccountName: creditCardInfo.cardOwner,
-        payPhoneNumber: creditCardInfo.phoneNumber
+      const param = {
+        billingChecked,
+        deliveryAddress: tmpDeliveryAddress
       };
-      try {
-        sessionStorage.setItem("rc-paywith-login", this.state.isLogin);
-        if (!this.state.isLogin) {
-          // 登录状态，不需要调用两个接口
-          let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
-          sessionStorage.setItem(
-            "rc-token",
-            postVisitorRegisterAndLoginRes.context.token
-          );
-          await batchAdd(param2);
-        } else {
-          param3.deliveryAddressId = deliveryAddress.addressId
-          param3.billAddressId = billingAddress.addressId
-        }
-        // rePay
-        if (this.tid) {
-          param3.tid = this.tid
-          delete param3.remark
-          delete param3.tradeItems
-          delete param3.tradeMarketingList
-        }
+      param.billingAddress = billingChecked
+        ? tmpDeliveryAddress
+        : tmpBillingAddress;
 
-        const tmpCommitAndPay = this.state.isLogin
-          ? this.tid
-            ? rePay
-            : customerCommitAndPay
-          : confirmAndCommit
-        let confirmAndCommitRes = await tmpCommitAndPay(param3);
-        console.log(confirmAndCommitRes);
-        localStorage.setItem(
-          "orderNumber", confirmAndCommitRes.context && confirmAndCommitRes.context[0]["tid"] || this.tid
-        );
-        this.setState({ loading: false });
-        sessionStorage.removeItem("payosdata");
-        history.push("/confirmation");
-      } catch (e) {
-        if (!this.state.isLogin) {
-          sessionStorage.removeItem('rc-token')
-        }
-        console.log(e);
-        if (e.errorData) {
-          this.tid = e.errorData
-        }
-        this.setState({
-          errorShow: true,
-          errorMsg: e.message ? e.message.toString() : e.toString()
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
-          this.setState({
-            errorShow: false
-          });
-        }, 5000);
-      } finally {
-        this.setState({ loading: false });
+      // 未开启地图，需校验clinic
+      if (
+        this.checkoutWithClinic &&
+        !configStore.prescriberMap &&
+        (!clinicStore.clinicId || !clinicStore.clinicName)
+      ) {
+        throw new Error(this.props.intl.messages.selectNoneClincTip);
       }
-    } else {
-      this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
-    }
-  }
-  goDelivery (e) {
-    e.preventDefault();
-    const { history } = this.props;
-    history.push("/payment/shipping");
-  }
-  goCart (e) {
-    e.preventDefault();
-    const { history } = this.props;
-    history.push("/cart");
-  }
-  cardInfoInputChange (e) {
-    const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-    const { creditCardInfo } = this.state;
-    // if (name === "phoneNumber") {
-    //   this.phoneNumberInput(e, creditCardInfo, name);
-    // } else {
-    creditCardInfo[name] = value;
-    // }
-    this.inputBlur(e);
-    this.setState({ creditCardInfo: creditCardInfo });
-  }
-  inputBlur (e) {
-    let validDom = Array.from(
-      e.target.parentElement.parentElement.children
-    ).filter((el) => {
-      let i = findIndex(Array.from(el.classList), (classItem) => {
-        return classItem === "invalid-feedback";
+
+      this.setState({
+        deliveryAddress: param.deliveryAddress,
+        billingAddress: param.billingAddress,
+        billingChecked: param.billingChecked
       });
-      return i > -1;
-    })[0];
-    if (validDom) {
-      validDom.style.display = e.target.value ? "none" : "block";
+    } catch (err) {
+      console.log(err);
+      throw new Error(err.message);
     }
   }
-  commentChange (e) {
-    this.setState({ commentOnDelivery: e.target.value });
-  }
-  cardConfirm () {
-    for (let k in this.state.creditCardInfo) {
-      if (this.state.creditCardInfo[k] === "") {
-        this.setState({
-          errorShow: true,
-          errorMsg: this.props.intl.messages.CompleteRequiredItems,
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
-      }
-      // if (k === 'phoneNumber' && !(/^\d{10}$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
-      //   this.setState({
-      //     errorShow: true,
-      //     errorMsg: 'Please enter the correct phone number'
-      //   })
-      //   window.scrollTo(0, 0)
-      //   setTimeout(() => {
-      //     this.setState({
-      //       errorShow: false,
-      //     });
-      //   }, 5000);
-      //   return
-      // }
-      if (k === "email" && !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(this.state.creditCardInfo[k].replace(/\s*/g, ""))) {
-        this.setState({
-          errorShow: true,
-          errorMsg: this.props.intl.messages.EnterCorrectEmail,
-        });
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
-      }
-    }
-    this.setState({
-      loading: true,
-    });
-    document.getElementById("payment-form").submit.click();
-    let timer = setInterval(() => {
-      let payosdata = JSON.parse(sessionStorage.getItem("payosdata"));
-      if (payosdata) {
-        clearInterval(timer);
-        this.setState({
-          payosdata: payosdata,
-          loading: false,
-        });
-        if (payosdata.category === "client_validation_error") {
-          this.setState({
-            errorShow: true,
-            errorMsg: payosdata.more_info,
-          });
-          sessionStorage.clear("payosdata");
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-          setTimeout(() => {
-            this.setState({
-              errorShow: false,
-            });
-          }, 5000);
-          return;
-        } else {
-          this.setState({
-            isCompleteCredit: true,
-          });
+  startLoading = () => {
+    this.setState({ loading: true });
+  };
+  endLoading = () => {
+    this.setState({ loading: false });
+  };
+  // 校验邮箱/地址信息/最低额度/超库存商品等
+  async valideCheckoutLimitRule() {
+    const { checkoutStore } = this.props;
+    const { guestEmail, tid, intl } = this.state;
+    try {
+      if (!tid) {
+        if (!this.isLogin && !guestEmail) {
+          throw new Error(
+            intl.formatMessage(
+              { id: 'enterCorrectValue' },
+              {
+                val: intl.formatMessage({ id: 'email' })
+              }
+            )
+          );
+        }
+        await this.saveAddressAndCommentPromise();
+
+        // 价格未达到底限，不能下单
+        if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+          throw new Error(
+            intl.formatMessage(
+              { id: 'cart.errorInfo3' },
+              { val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }
+            )
+          );
+        }
+
+        // 存在下架商品，不能下单
+        if (checkoutStore.offShelvesProNames.length) {
+          throw new Error(
+            intl.formatMessage(
+              { id: 'cart.errorInfo4' },
+              { val: checkoutStore.offShelvesProNames.join('/') }
+            )
+          );
+        }
+
+        // 库存不够，不能下单
+        if (checkoutStore.outOfstockProNames.length) {
+          throw new Error(
+            this.props.intl.formatMessage(
+              { id: 'cart.errorInfo2' },
+              { val: checkoutStore.outOfstockProNames.join('/') }
+            )
+          );
+        }
+        // 存在被删除商品，不能下单
+        if (checkoutStore.deletedProNames.length) {
+          throw new Error(
+            this.props.intl.formatMessage(
+              { id: 'cart.errorInfo5' },
+              { val: checkoutStore.deletedProNames.join('/') }
+            )
+          );
         }
       }
-    }, 1000);
-  }
-  insertStr (soure, start, newStr) {
-    return soure.slice(0, start) + newStr + soure.slice(start);
-  }
-  retextStr (soure, start, newStr) {
-    return soure.slice(0, start) + newStr + soure.slice(start + 1);
-  }
-  phoneNumberClick (e) {
-    let index = e.target.value.indexOf("_");
-    e.target.selectionStart = index;
-    e.target.selectionEnd = index;
-  }
-  phoneNumberInput (e, obj, k) {
-    let target = e.target;
-    let textVal = target.value;
-    let oldSelectionStart = target.selectionStart;
-    let oldSelectionEnd = target.selectionEnd;
-    if (target.value.length < 16) {
-      console.log(target.selectionStart, target.selectionEnd);
-      if (
-        [9, 13].indexOf(oldSelectionStart) !== -1 &&
-        [9, 13].indexOf(oldSelectionEnd) !== -1
-      ) {
-        target.value = this.retextStr(target.value, oldSelectionStart - 1, "");
-        console.log(target.value, target.selectionStart - 1);
-        target.value = this.insertStr(target.value, oldSelectionStart - 1, "_");
-        console.log(target.value, target.selectionStart - 1);
-        target.value = this.insertStr(target.value, oldSelectionStart, " ");
-
-        target.selectionStart = oldSelectionStart - 1;
-        target.selectionEnd = oldSelectionEnd - 1;
-      } else if (oldSelectionStart === 5 && oldSelectionEnd === 5) {
-        target.value = this.insertStr(target.value, target.selectionStart, " ");
-        target.selectionStart = oldSelectionStart + 1;
-        target.selectionEnd = oldSelectionEnd + 1;
-      } else {
-        target.value = this.insertStr(target.value, target.selectionStart, "_");
-        target.selectionStart = oldSelectionStart;
-        target.selectionEnd = oldSelectionEnd;
-      }
-      console.log(target.selectionStart, target.selectionEnd);
-    } else if (target.value.length > 16) {
-      console.log(target.selectionStart, target.selectionEnd);
-      // messageDom.style.display = 'none'
-      if (
-        [9, 13].indexOf(oldSelectionStart) !== -1 &&
-        [9, 13].indexOf(oldSelectionEnd) !== -1
-      ) {
-        target.value = this.retextStr(target.value, target.selectionStart, "");
-        target.selectionStart = oldSelectionStart + 1;
-        target.selectionEnd = oldSelectionEnd + 1;
-      } else {
-        target.value = this.retextStr(target.value, target.selectionStart, "");
-        target.selectionStart = oldSelectionStart;
-        target.selectionEnd = oldSelectionEnd;
-      }
-      console.log(target.selectionStart, target.selectionEnd);
+    } catch (err) {
+      console.log(err);
+      throw new Error(err.message);
     }
-    target.value = target.value.slice(0, 16);
-    obj[k] = target.value;
   }
-  billingCheckedChange () {
-    let { billingChecked } = this.state;
-    this.setState({ billingChecked: !billingChecked });
-  }
-  updateDeliveryAddress (data) {
+
+  savePromotionCode = (promotionCode) => {
+    this.setState({
+      promotionCode
+    });
+  };
+  handlePaymentTypeChange = (e) => {
+    this.setState({ paymentTypeVal: e.target.value, email: '' });
+  };
+
+  updateSameAsCheckBoxVal = (val) => {
+    const curPanelKey = 'billingAddr';
+    if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
+      this.props.paymentStore.setStsToEdit({
+        key: curPanelKey
+      });
+    }
+    this.setState({ billingChecked: val });
+    if (val) {
+      this.setState({
+        billingAddress: this.state.deliveryAddress
+      });
+    }
+  };
+
+  updateDeliveryAddrData = (data) => {
     this.setState({
       deliveryAddress: data
     });
-  }
-  updateBillingAddress (data) {
-    this.setState({
-      billingAddress: data,
-    });
-  }
-  handleClickEditClinic (e) {
-    e.preventDefault()
-    const tmpClinicsName = sessionStorage.getItem('rc-clinics-name-link') || sessionStorage.getItem('rc-clinics-name-default')
-    const tmpClinicsId = sessionStorage.getItem('rc-clinics-id-link') || sessionStorage.getItem('rc-clinics-id-default')
-    // 默认clini链接进来，仍然可以编辑
-    if (tmpClinicsName) {
-      sessionStorage.setItem('rc-clinics-name-select', tmpClinicsName)
-      sessionStorage.setItem('rc-clinics-id-select', tmpClinicsId)
-      sessionStorage.removeItem('rc-clinics-name-link')
-      sessionStorage.removeItem('rc-clinics-id-link')
-      sessionStorage.removeItem('rc-clinics-name-default')
-      sessionStorage.removeItem('rc-clinics-id-default')
+    if (this.state.billingChecked) {
+      this.setState({
+        billingAddress: data
+      });
     }
-    this.props.history.push("/prescription")
-  }
-  render () {
+  };
+
+  updateBillingAddrData = (data) => {
+    if (!this.state.billingChecked) {
+      this.setState({ billingAddress: data });
+    }
+  };
+
+  /**
+   * 渲染address panel
+   */
+  renderAddressPanel = () => {
+    const { paymentStore } = this.props;
+    const { deliveryAddress } = this.state;
+    return (
+      <>
+        <div
+          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
+            paymentStore.deliveryAddrPanelStatus.isEdit
+              ? 'border-333'
+              : 'border-transparent'
+          }`}
+          id="J_checkout_panel_deliveryAddr"
+        >
+          {this.isLogin ? (
+            <AddressList id="1" updateData={this.updateDeliveryAddrData} />
+          ) : (
+            <VisitorAddress
+              key={1}
+              type="delivery"
+              initData={deliveryAddress}
+              updateData={this.updateDeliveryAddrData}
+            />
+          )}
+        </div>
+      </>
+    );
+  };
+
+  /**
+   * 渲染订阅/一次购买模式选择
+   */
+  renderSubSelect = () => {
+    return this.isLogin &&
+      find(
+        this.state.recommend_data.length
+          ? this.state.recommend_data
+          : this.loginCartData,
+        (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
+      ) ? (
+      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+        <div className="bg-transparent d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">
+            <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
+            <FormattedMessage id="subscription.chooseSubscription" />
+          </h5>
+        </div>
+        <SubscriptionSelect
+          data={this.state.recommend_data}
+          updateSelectedData={(data) => {
+            this.refs.payProductInfo.setState({
+              isShowValidCode: false
+            });
+            this.props.frequencyStore.updateBuyWay(data.buyWay);
+            this.props.frequencyStore.updateFrequencyName(data.frequencyName);
+
+            // ****************订阅的时候隐藏oxxo支付方式start******************
+            let payuoxxoIndex;
+            if (
+              Object.prototype.toString
+                .call(this.state.payWayObj)
+                .slice(8, -1) === 'Array'
+            ) {
+              //判断payWayObj是数组
+              if (data.buyWay === 'frequency') {
+                console.log(this.state.payWayObj);
+
+                //adyen如果选订阅，只保留creditcard/klarnapaylater
+                const adyenMethods = this.state.payWayObj.filter(
+                  (item, index) => {
+                    return (
+                      item.name === 'adyen_credit_card' ||
+                      item.name === 'adyen_klarna_pay_lat'
+                    );
+                  }
+                );
+                if (adyenMethods.length !== 0) {
+                  this.setState({ payWayObj: adyenMethods });
+                }
+
+                //payu
+                payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
+                  return o.name === 'payuoxxo';
+                }); //找到oxxo在数组中的下标
+                if (payuoxxoIndex !== -1) {
+                  this.state.payWayObj.splice(payuoxxoIndex, 1);
+                }
+              } else {
+                //为后台提供的初始支付方式
+                this.setState({
+                  payWayObj: JSON.parse(
+                    JSON.stringify(this.state.savedPayWayObj)
+                  )
+                });
+              }
+            }
+            // ****************订阅的时候隐藏oxxo支付方式end******************
+
+            if (
+              data.buyWay === 'frequency' &&
+              this.state.paymentTypeVal === 'oxxo'
+            ) {
+              this.setState({
+                paymentTypeVal: 'payUCreditCard'
+              });
+            }
+            this.setState(
+              {
+                subForm: data
+              },
+              () => {
+                if (!sessionItemRoyal.get('recommend_product')) {
+                  this.props.checkoutStore.updateLoginCart(
+                    this.state.promotionCode,
+                    this.state.subForm.buyWay !== 'once'
+                  );
+                }
+              }
+            );
+          }}
+        />
+      </div>
+    ) : null;
+  };
+
+  renderBillingJSX = ({ type }) => {
     const {
-      deliveryAddress,
+      billingChecked,
       billingAddress,
-      creditCardInfo
+      deliveryAddress,
+      adyenPayParam,
+      tid
     } = this.state;
 
-    const CreditCardImg = (
-      <span className="logo-payment-card-list logo-credit-card">
-        {this.state.creditCardImgUrl.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} />
-        ))}
-      </span>
+    if (tid) return null;
+
+    return (
+      <>
+        <SameAsCheckbox
+          initVal={billingChecked}
+          updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+          type={type}
+        />
+        {billingChecked ? (
+          <div className="ml-custom mr-custom">
+            {this.renderAddrPreview({
+              form: billingAddress,
+              titleVisible: false,
+              boldName: true
+            })}
+          </div>
+        ) : null}
+
+        {!billingChecked && (
+          <>
+            {this.isLogin ? (
+              <AddressList
+                ref={this.loginBillingAddrRef}
+                key={2}
+                type="billing"
+                showOperateBtn={false}
+                visible={!billingChecked}
+                updateData={this.updateBillingAddrData}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'billingAddr'
+                })}
+              />
+            ) : (
+              <VisitorAddress
+                ref={this.unLoginBillingAddrRef}
+                key={2}
+                titleVisible={false}
+                showConfirmBtn={false}
+                type="billing"
+                initData={billingAddress}
+                updateData={this.updateBillingAddrData}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'billingAddr'
+                })}
+              />
+            )}
+          </>
+        )}
+      </>
     );
+  };
+
+  clickConfirmPaymentPanel = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    const { isLogin } = this;
+    const { paymentStore } = this.props;
+    const { adyenPayParam } = this.state;
+
+    // 当billing未确认时，需确认
+    const { billingChecked } = this.state;
+    this.setState({ saveBillingLoading: true });
+
+    async function handleClickSaveAdyenForm(_this) {
+      try {
+        if (
+          _this.adyenCardRef &&
+          _this.adyenCardRef.current &&
+          _this.adyenCardRef.current.cardListRef &&
+          _this.adyenCardRef.current.cardListRef.current
+        ) {
+          await _this.adyenCardRef.current.cardListRef.current.clickConfirm();
+        }
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    }
+
+    async function handleClickSavePayUForm(_this) {
+      try {
+        if (_this.payUCreditCardRef && _this.payUCreditCardRef.current) {
+          if (
+            _this.payUCreditCardRef.current.paymentCompRef &&
+            _this.payUCreditCardRef.current.paymentCompRef.current
+          ) {
+            await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
+          } else {
+            await _this.payUCreditCardRef.current.handleClickCardConfirm();
+          }
+        }
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    }
+
+    try {
+      if (isLogin) {
+        // 1 save billing addr, when billing checked status is false
+        if (
+          !billingChecked &&
+          this.loginBillingAddrRef &&
+          this.loginBillingAddrRef.current
+        ) {
+          await this.loginBillingAddrRef.current.handleSave();
+        }
+        // 2 save card form, when add a new card
+        if (!adyenPayParam) {
+          await handleClickSaveAdyenForm(this);
+        }
+        await handleClickSavePayUForm(this);
+      } else {
+        // 1 save card form
+        // 2 save billing addr, when billing checked status is false
+        await handleClickSaveAdyenForm(this);
+        await handleClickSavePayUForm(this);
+        if (
+          !billingChecked &&
+          this.unLoginBillingAddrRef &&
+          this.unLoginBillingAddrRef.current
+        ) {
+          this.unLoginBillingAddrRef.current.handleClickConfirm();
+        }
+      }
+      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+      paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+      paymentStore.setStsToEdit({ key: 'confirmation' });
+      setTimeout(() => {
+        scrollPaymentPanelIntoView();
+      });
+    } catch (e) {
+    } finally {
+      this.setState({ saveBillingLoading: false });
+    }
+  };
+
+  handleClickPaymentPanelEdit = () => {
+    this.props.paymentStore.setStsToEdit({
+      key: 'paymentMethod',
+      hideOthers: true
+    });
+    const { billingChecked } = this.state;
+    if (!billingChecked) {
+      this.props.paymentStore.setStsToEdit({
+        key: 'billingAddr'
+      });
+    }
+  };
+  updateValidStatus({ key }, status) {
+    this.setState({
+      validSts: Object.assign(this.state.validSts, { [key]: status })
+    });
+  }
+
+  /**
+   * 渲染支付方式
+   */
+  renderPayTab = ({ visible = false }) => {
+    const {
+      paymentTypeVal,
+      subForm,
+      payWayObj,
+      payWayErr,
+      billingChecked,
+      email,
+      validSts,
+      saveBillingLoading
+    } = this.state;
+
+    // 未勾选same as billing时，校验billing addr
+    const validForBilling = !billingChecked && !validSts.billingAddr;
+
+    const payConfirmBtn = ({ disabled, loading = false }) => {
+      return (
+        <div className="d-flex justify-content-end mt-3">
+          <button
+            className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
+            disabled={disabled}
+            onClick={this.clickConfirmPaymentPanel}
+          >
+            <FormattedMessage id="yes" />
+          </button>
+        </div>
+      );
+    };
+    return (
+      <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
+        {/* *******************支付tab栏start************************************ */}
+        {/* payWayObj为支付方式，如果大于1种，才显示此tab栏 */}
+        {Object.keys(payWayObj).length > 2 && (
+          <div className="ml-custom mr-custom">
+            {payWayErr ? <div>{payWayErr}</div> : null}
+            {Object.entries(payWayObj).map((item, i) => {
+              return (
+                <div
+                  className={`rc-input rc-input--inline ${
+                    subForm.buyWay == 'frequency' &&
+                    item[1].id == 'adyenPayLater'
+                      ? 'hidden'
+                      : ''
+                  }`}
+                  key={i}
+                >
+                  <input
+                    className="rc-input__radio"
+                    id={`payment-info-${item[1].id}`}
+                    value={item[1].paymentTypeVal}
+                    type="radio"
+                    name="payment-info"
+                    onChange={this.handlePaymentTypeChange}
+                    checked={paymentTypeVal === item[1].paymentTypeVal}
+                    key={item[1].id}
+                  />
+                  <label
+                    className="rc-input__label--inline"
+                    htmlFor={`payment-info-${item[1].id}`}
+                  >
+                    <FormattedMessage id={item[1].id} />
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {/* ********************支付tab栏end********************************** */}
+        <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
+          {payWayErr ? (
+            payWayErr
+          ) : (
+            <>
+              {/* ***********************支付选项卡的内容start******************************* */}
+              {/* oxxo */}
+              {paymentTypeVal === 'oxxo' && (
+                <>
+                  <OxxoConfirm
+                    type={'oxxo'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* payu creditCard */}
+              {paymentTypeVal === 'payUCreditCard' && (
+                <>
+                  <PayUCreditCard
+                    key={Object.values(this.defaultCardDataFromAddr || {}).join(
+                      '|'
+                    )}
+                    ref={this.payUCreditCardRef}
+                    type={'PayUCreditCard'}
+                    isLogin={this.isLogin}
+                    showErrorMsg={this.showErrorMsg}
+                    onVisitorPayosDataConfirm={(data) => {
+                      this.setState({ payosdata: data });
+                    }}
+                    onVisitorCardInfoChange={(data) => {
+                      this.setState({ creditCardInfo: data });
+                    }}
+                    onPaymentCompDataChange={(data) => {
+                      this.setState({ selectedCardInfo: data });
+                    }}
+                    isApplyCvv={false}
+                    needReConfirmCVV={true}
+                    updateFormValidStatus={this.updateValidStatus.bind(this, {
+                      key: 'payUCreditCard'
+                    })}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'payUCreditCard'
+                    })}
+                    defaultCardDataFromAddr={this.defaultCardDataFromAddr}
+                  />
+                  {payConfirmBtn({
+                    disabled: !validSts.payUCreditCard || validForBilling,
+                    loading: saveBillingLoading
+                  })}
+                </>
+              )}
+              {/* adyenCreditCard */}
+              {paymentTypeVal === 'adyenCard' && (
+                <>
+                  <AdyenCreditCard
+                    ref={this.adyenCardRef}
+                    subBuyWay={subForm.buyWay}
+                    showErrorMsg={this.showErrorMsg}
+                    updateAdyenPayParam={this.updateAdyenPayParam}
+                    updateFormValidStatus={this.updateValidStatus.bind(this, {
+                      key: 'adyenCard'
+                    })}
+                    billingJSX={this.renderBillingJSX({ type: 'adyenCard' })}
+                  />
+                  {/* 校验状态
+                  1 卡校验，从adyen form传入校验状态
+                  2 billing校验 */}
+                  {payConfirmBtn({
+                    disabled: !validSts.adyenCard || validForBilling,
+                    loading: saveBillingLoading
+                  })}
+                </>
+              )}
+              {/* KlarnaPayLater */}
+              {paymentTypeVal === 'adyenKlarnaPayLater' && (
+                <>
+                  <AdyenCommonPay
+                    type={'adyenKlarnaPayLater'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenKlarnaPayLater'
+                    })}
+                  />
+                  {/* // 校验状态
+            // 1 校验邮箱
+            // 2 billing校验 */}
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* KlarnaPayNow  */}
+              {paymentTypeVal === 'adyenKlarnaPayNow' && (
+                <>
+                  <AdyenCommonPay
+                    type={'adyenKlarnaPayNow'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenKlarnaPayNow'
+                    })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* Sofort */}
+              {paymentTypeVal === 'directEbanking' && (
+                <>
+                  <AdyenCommonPay
+                    type={'directEbanking'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'directEbanking'
+                    })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+
+              {/* ***********************支付选项卡的内容end******************************* */}
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
+    return form ? (
+      <>
+        {titleVisible && (
+          <>
+            <span className="medium">
+              <FormattedMessage id="billingAddress" />
+            </span>
+            <br />
+          </>
+        )}
+        <span className={`${boldName ? 'medium' : ''}`}>
+          {form.firstName + ' ' + form.lastName}
+        </span>
+        <br />
+        <span>{form.phoneNumber}</span>
+        <br />
+        <span>{form.address1}</span>
+        <br />
+        <span>{form.address2}</span>
+        {form.address2 ? <br /> : null}
+        <span>{form.postCode}, {form.cityName},{' '}
+        {matchNamefromDict(
+          this.state.countryList,
+          form.country || form.countryId
+        )}
+        </span>
+      </>
+    ) : null;
+  };
+
+  /**
+   * 渲染pay panel预览信息
+   * 不同情况预览不同规则
+   */
+  renderPayPreview = () => {
+    let {
+      paymentTypeVal,
+      email,
+      billingAddress: form,
+      adyenPayParam,
+      payosdata,
+      selectedCardInfo,
+      tid
+    } = this.state;
+    let adyenPaymentMethod;
+    let payuPaymentMethod;
+    if (adyenPayParam) {
+      adyenPaymentMethod = { ...adyenPayParam.adyenPaymentMethod };
+    }
+    if (selectedCardInfo) {
+      payuPaymentMethod = selectedCardInfo.payuPaymentMethod;
+    }
+    let lastFourDeco;
+    let brandDeco;
+    let holderNameDeco;
+    let expiryYear;
+    let expiryMonth;
+    if (adyenPaymentMethod) {
+      lastFourDeco = adyenPaymentMethod.lastFour;
+      brandDeco = adyenPaymentMethod.brand;
+      holderNameDeco = adyenPaymentMethod.holderName;
+      expiryYear = adyenPaymentMethod.expiryYear;
+      expiryMonth = adyenPaymentMethod.expiryMonth;
+    } else if (payosdata && payosdata.vendor) {
+      lastFourDeco = payosdata.last_4_digits;
+      brandDeco = payosdata.vendor;
+      holderNameDeco = payosdata.holder_name;
+    } else if (payuPaymentMethod) {
+      lastFourDeco = payuPaymentMethod.last_4_digits;
+      brandDeco = payuPaymentMethod.vendor;
+      holderNameDeco = payuPaymentMethod.holder_name;
+    }
+
+    return (
+      <div className="ml-custom mr-custom mb-3">
+        <div className="row">
+          {paymentTypeVal === 'payUCreditCard' ||
+          paymentTypeVal === 'adyenCard' ? (
+            <div className="col-12 col-md-6">
+              <span className="medium">
+                <FormattedMessage id="bankCard" />
+              </span>
+              <br />
+              <span>{holderNameDeco}</span>
+              <br />
+              <span>{brandDeco}</span>
+              <br />
+              <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
+              {expiryYear && expiryMonth ? (
+                <>
+                  <br />
+                  <span>{getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}</span>
+                </>
+              ) : null}
+            </div>
+          ) : (
+            <div className="col-12 col-md-6">{email}</div>
+          )}
+          {!tid && (
+            <div className="col-12 col-md-6 mt-2 mt-md-0">
+              {this.renderAddrPreview({
+                form,
+                titleVisible: true,
+                boldName: false
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  closePetModal = () => {
+    if (this.state.isAdd === 2) {
+      this.setState({
+        isAdd: 0
+      });
+    }
+    this.setState({
+      petModalVisible: false
+    });
+  };
+  petComfirm = (data) => {
+    if (!this.isLogin) {
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
+    } else {
+      let handledData;
+      this.props.checkoutStore.AuditData.map((el, i) => {
+        if (i === this.state.currentProIndex) {
+          if (sessionItemRoyal.get('recommend_product')) {
+            handledData = this.state.recommend_data.map((recomEl) => {
+              if (recomEl.goodsInfoId === el.goodsInfoId) {
+                recomEl.petsId = data.value;
+                recomEl.petsName = data.name;
+                el.petsId = data.value;
+                el.petName = data.name;
+              }
+              return recomEl;
+            });
+          } else {
+            handledData = this.loginCartData.map((loginEl) => {
+              if (loginEl.goodsInfoId === el.goodsInfoId) {
+                loginEl.petsId = data.value;
+                loginEl.petsName = data.name;
+                el.petsId = data.value;
+                el.petName = data.name;
+              }
+              return loginEl;
+            });
+          }
+        }
+        return el;
+      });
+      if (sessionItemRoyal.get('recommend_product')) {
+        this.setState({ recommend_data: handledData });
+      } else {
+        this.props.checkoutStore.setLoginCartData(handledData);
+      }
+    }
+    this.closePetModal();
+  };
+  openNew = () => {
+    this.setState({
+      isAdd: 1
+    });
+    this.openPetModal();
+  };
+  closeNew = () => {
+    this.setState({
+      isAdd: 2
+    });
+    this.openPetModal();
+  };
+  openPetModal = () => {
+    this.setState({
+      petModalVisible: true
+    });
+  };
+  updateGuestEmail = ({ email: guestEmail }) => {
+    this.setState({ guestEmail });
+  };
+  toggleMobileCart(name) {
+    this.setState({ mobileCartVisibleKey: name });
+  }
+  updateAdyenPayParam = (data) => {
+    this.setState({ adyenPayParam: data }, () => {
+      console.log(this.state.adyenPayParam);
+    });
+  };
+  updateEmail = (email) => {
+    this.setState({ email });
+  };
+  clickPay = () => {
+    if(this.isLogin){
+      this.userBindConsentFun()
+    }
+    const { paymentTypeVal } = this.state;
+    this.initCommonPay({
+      type: paymentTypeVal
+    });
+  };
+  userBindConsentFun(){
+    const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+    let oktaToken = 'Bearer ' + oktaTokenString;
+    let submitParam = this.bindSubmitParam(this.state.listData);
+    let param = {...submitParam,...{ oktaToken },consentPage:"check out"}
+    userBindConsent(param);
+  }
+  bindSubmitParam = (list) => {
+    let obj = { optionalList: [], requiredList: [] };
+    list
+      .filter((item) => !item.isRequired)
+      .forEach((item) => {
+        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
+      });
+    list
+      .filter((item) => item.isRequired)
+      .forEach((item) => {
+        obj.requiredList.push({ id: item.id, selectedFlag: true });
+      });
+
+    return obj;
+  };
+  render() {
+    const { paymentMethodPanelStatus } = this;
+    const { history, location, checkoutStore } = this.props;
+    const {
+      loading,
+      errorMsg,
+      tid,
+      orderDetails,
+      payWayObj,
+      listData,
+      recommend_data,
+      subForm,
+      promotionCode,
+      petModalVisible,
+      isAdd,
+      mobileCartVisibleKey
+    } = this.state;
     const event = {
       page: {
         type: 'Checkout',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
       }
-    }
+    };
+    const paymentMethodTitleForPrepare = (
+      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
+        <h5 className="mb-0">
+          <i
+            className="rc-icon rc-payment--sm rc-iconography inlineblock"
+            style={{
+              transform: 'scale(.8)',
+              transformOrigin: 'left',
+              marginRight: '-.1rem'
+            }}
+          />{' '}
+          <FormattedMessage id="payment.paymentInformation" />
+        </h5>
+      </div>
+    );
+
+    const paymentMethodTitleForEdit = (
+      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center red">
+        <h5 className="mb-0">
+          <i
+            className="rc-icon rc-payment--sm rc-brand1 inlineblock"
+            style={{
+              transform: 'scale(.8)',
+              transformOrigin: 'left',
+              marginRight: '-.1rem'
+            }}
+          />{' '}
+          <FormattedMessage id="payment.paymentInformation" />
+        </h5>
+      </div>
+    );
+
+    const paymentMethodTitleForCompeleted = (
+      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
+        <h5 className="mb-0">
+          <i
+            className="rc-icon rc-payment--sm rc-iconography inlineblock"
+            style={{
+              transform: 'scale(.8)',
+              transformOrigin: 'left',
+              marginRight: '-.1rem'
+            }}
+          />{' '}
+          <FormattedMessage id="payment.paymentInformation" />
+          <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
+        </h5>
+        <p
+          onClick={this.handleClickPaymentPanelEdit}
+          className="rc-styled-link mb-1"
+        >
+          <FormattedMessage id="edit" />
+        </p>
+      </div>
+    );
+
+    const paymentMethodTitle = paymentMethodPanelStatus.isPrepare
+      ? paymentMethodTitleForPrepare
+      : paymentMethodPanelStatus.isEdit
+      ? paymentMethodTitleForEdit
+      : paymentMethodPanelStatus.isCompleted
+      ? paymentMethodTitleForCompeleted
+      : null;
 
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header history={this.props.history} showMiniIcons={false} showUserIcon={true} />
-        {this.state.loading ? <Loading /> : null}
-        <main
-          className="rc-content--fixed-header rc-bg-colour--brand3"
-          id="payment"
-        >
-          <div
-            id="checkout-main"
-            className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
-            data-checkout-stage="payment"
-          >
-            <Progress type={this.state.type} />
-            <div className="rc-layout-container rc-three-column rc-max-width--xl">
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
+        <Header
+          showNav={false}
+          showLoginBtn={false}
+          history={this.props.history}
+          showMiniIcons={false}
+          showUserIcon={true}
+          match={this.props.match}
+        />
+        {loading ? <Loading /> : null}
+        <main className="rc-content--fixed-header rc-bg-colour--brand4">
+          <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
+            <Progress type="payment" />
+            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 mt-md-0">
               <div className="rc-column rc-double-width shipping__address">
+                {/* 错误提示 */}
                 <div
-                  className="rc-padding-bottom--xs cart-error-messaging cart-error"
-                  style={{ display: this.state.errorShow ? "block" : "none" }}
+                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
+                    errorMsg ? '' : 'hidden'
+                  }`}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
                     role="alert"
                   >
-                    <span style={{ paddingLeft: 0 }}>
-                      {this.state.errorMsg}
-                    </span>
+                    {errorMsg}
                   </aside>
                 </div>
-                <div
-                  className="shipping-form"
-                  style={{
-                    display: this.state.type === "shipping" ? "block" : "none",
-                  }}
-                >
-                  <div className="card">
-                    <div className="card-header">
-                      <h5 className="pull-left">
-                        {
-                          jugeLoginStatus()
-                            ? <FormattedMessage id="payment.clinicTitle2" />
-                            : <FormattedMessage id="payment.clinicTitle" />
-                        }
-                      </h5>
-                      <p
-                        onClick={e => this.handleClickEditClinic(e)}
+                {tid ? (
+                  <AddressPreview details={orderDetails} />
+                ) : (
+                  <>
+                    <div className="shipping-form" id="J_checkout_panel_email">
+                      <div className="bg-transparent">
+                        {this.checkoutWithClinic ? (
+                          <OnePageClinicForm history={history} />
+                        ) : null}
+                        {!this.isLogin ? (
+                          <OnePageEmailForm
+                            history={history}
+                            onChange={this.updateGuestEmail}
+                          />
+                        ) : null}
+
+                        {this.renderAddressPanel()}
+                      </div>
+                    </div>
+                    {/* {this.renderSubSelect()} */}
+                  </>
+                )}
+                {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
+                  <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
+                    <h5
+                      className="ml-custom mr-custom"
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <i
+                        className="rc-icon rc-payment--sm rc-iconography inlineblock"
                         style={{
-                          // display: sessionStorage.getItem("rc-clinics-name")
-                          //   ? "none"
-                          //   : "inline",
+                          transform: 'scale(.8)',
+                          transformOrigin: 'left',
+                          marginRight: '-.4rem'
                         }}
-                        className="rc-styled-link rc-margin-top--xs pull-right m-0"
-                      >
-                        <FormattedMessage id="edit" />
+                      />{' '}
+                      <FormattedMessage id="Pet information" />
+                      <p>
+                        We need your pet information to authorize these items.
                       </p>
-                    </div>
-                    <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                      {
-                        sessionStorage.getItem("rc-clinics-name-link")
-                        || sessionStorage.getItem("rc-clinics-name-default")
-                        || sessionStorage.getItem("rc-clinics-name-select")
-                      }
-                    </div>
-                    {this.state.isLogin
-                      ? (
-                        <LoginDeliveryAddress
-                          id="1"
-                          ref={this.loginDeliveryAddressRef} />
-                      ) : (
-                        <UnloginDeliveryAddress
-                          data={deliveryAddress}
-                          updateData={(data) => this.updateDeliveryAddress(data)} />
-                      )}
-                    <div className="card-header" style={{ zIndex: 2, width: '62%' }}>
-                      <h5>
-                        <FormattedMessage id="payment.billTitle" />
-                      </h5>
-                      <div className="billingCheckbox rc-margin-top--xs">
-                        <input
-                          className="form-check-input"
-                          id="id-checkbox-billing"
-                          value="Cat"
-                          type="checkbox"
-                          onChange={() => this.billingCheckedChange()}
-                          checked={this.state.billingChecked}
-                        />
-                        <label
-                          className="rc-input__label--inline"
-                          htmlFor="id-checkbox-billing"
-                        >
-                          <FormattedMessage id="payment.useDeliveryAddress" />
-                        </label>
-                      </div>
-                    </div>
+                      {this.isLogin
+                        ? checkoutStore.AuditData.map((el, i) => {
+                            return (
+                              <div className="petProduct">
+                                <LazyLoad>
+                                  <img
+                                    className="pull-left"
+                                    alt=""
+                                    src={el.goodsInfoImg}
+                                  />
+                                </LazyLoad>
 
-                    {this.state.isLogin ? (
-                      <LoginDeliveryAddress
-                        id="2"
-                        type="billing"
-                        ref={this.loginBillingAddressRef}
-                        visible={!this.state.billingChecked} />
-                    ) : (
-                        <BillingAddressForm
-                          data={billingAddress}
-                          billingChecked={this.state.billingChecked}
-                          updateData={(data) => this.updateBillingAddress(data)}
-                        />
-                      )}
-
-                    <fieldset className="shipping-method-block rc-fieldset">
-                      <div className="card-header">
-                        <h5>
-                          <FormattedMessage id="payment.howToDelivery" /> :
-                        </h5>
-                      </div>
-                      <div>
-                        <div className="leading-lines shipping-method-list rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                          <div className="row deliveryMethod">
-                            <div className="col-8">
-                              <span className="display-name pull-left">
-                                <FormattedMessage id="payment.normalDelivery2" />
-                              </span>
-                              <span className="text-muted arrival-time">
-                                <FormattedMessage id="payment.normalDelivery3" />
-                              </span>
-                            </div>
-                            <div className="col-4">
-                              <span
-                                className="shipping-method-pricing"
-                                style={{ whiteSpace: "nowrap" }}
-                              >
-                                <span className="shipping-cost">
-                                  <FormattedMessage id="payment.forFree" />
-                                </span>
-                                <span
-                                  className=" info-tooltip delivery-method-tooltip"
-                                  title="Top"
-                                  data-tooltip-placement="top"
-                                  data-tooltip="top-tooltip"
+                                <div
+                                  className="pull-left"
+                                  style={{
+                                    marginTop: '20px',
+                                    marginLeft: '20px'
+                                  }}
                                 >
-                                  i
-                                </span>
-                                <div id="top-tooltip" className="rc-tooltip">
-                                  <FormattedMessage id="payment.forFreeTip" />
+                                  <p>
+                                    <span>Pet:</span>
+                                    <span>
+                                      {el.petName ? el.petName : 'required'}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <span>Qty:</span>
+                                    <span>{el.buyCount}</span>
+                                  </p>
                                 </div>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </fieldset>
-                    <div className="card">
-                      <div className="card-header">
-                        <h5>
-                          <FormattedMessage id="payment.commentOnDelivery" />
-                        </h5>
-                      </div>
-                      <span
-                        className="rc-input nomaxwidth rc-border-all rc-border-colour--interface rc-input--full-width"
-                        input-setup="true"
-                      >
-                        <textarea
-                          className="rc-input__textarea noborder"
-                          maxLength="1000"
-                          name="dwfrm_shipping_shippingAddress_deliveryComment"
-                          id="delivery-comment"
-                          value={this.state.commentOnDelivery}
-                          onChange={(e) => this.commentChange(e)}
-                        ></textarea>
-                        <label
-                          className="rc-input__label"
-                          htmlFor="delivery-comment"
-                        ></label>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="place_order-btn card">
-                    <div className="next-step-button">
-                      <div className="rc-text--right">
-                        <button
-                          className="rc-btn rc-btn--one submit-payment"
-                          type="submit"
-                          name="submit"
-                          value="submit-shipping"
-                          onClick={() => this.ChoosePayment()}
-                        >
-                          <FormattedMessage id="payment.choosePayment" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  {/* <p>
-                    <button
-                      className="rc-btn rc-btn--one pull-right rc-margin-bottom--sm"
-                      onClick={() => this.ChoosePayment()}
-                    >
-                      Choose a payment
-                    </button>
-                  </p> */}
-                </div>
-                <div
-                  style={{
-                    display: this.state.type == "payment" ? "block" : "none",
-                  }}
-                >
-                  <div className="card shipping-summary">
-                    <div className="card-header rc-padding-right--none clearfix">
-                      <h5 className="pull-left"><FormattedMessage id="payment.addressTitle" /></h5>
-                      {
-                        !this.state.isToPayNow && <a
-                          href="#"
-                          onClick={(e) => this.goDelivery(e)}
-                          className=" rc-styled-link rc-margin-top--xs pull-right pt-0">
-                          <FormattedMessage id="edit" />
-                        </a>
-                      }
-                    </div>
-                    <div className="card-body rc-padding--none">
-                      <p className="shipping-addr-label multi-shipping padding-y--sm">
-                        Addresses and shipping methods are indicated under your goods.
-                      </p>
-                      <div
-                        className="single-shipping"
-                        data-shipment-summary="8b50610f77571c1ac58b609278"
-                      >
-                        <div className="rc-border-all rc-border-colour--interface checkout--padding">
-                          <div className="summary-details shipping rc-margin-bottom--xs">
-                            <div className="address-summary row">
-                              <div className="col-md-12 deliveryAddress">
-                                <h5 className="center">
-                                  <FormattedMessage id="payment.deliveryTitle" />
-                                </h5>
-                                <div className="row">
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.firstName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.firstName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.lastName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.lastName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address1" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.address1}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.address2}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.country" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.countryList, deliveryAddress.country)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.city" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.cityList, deliveryAddress.city)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.postCode" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.postCode}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.phoneNumber" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.phoneNumber}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.rfc" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.rfc}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.normalDelivery2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.forFree" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-md-12 address-summary-left">
-                                <h5 className="center">
-                                  <FormattedMessage id="payment.billTitle" />
-                                </h5>
-                                <div className="row">
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.firstName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.firstName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.lastName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.lastName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address1" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.address1}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.address2}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.country" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.countryList, billingAddress.country)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.city" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.cityList, billingAddress.city)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.postCode" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.postCode}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.phoneNumber" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.phoneNumber}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.rfc" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.rfc}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.commentOnDelivery" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.state.commentOnDelivery}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="rc-margin-bottom--xs delivery-comment"
-                            style={{ display: "none" }}
-                          >
-                            <b>Delivery comment:</b> <span>null</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card payment-form">
-                    <div className="card-body rc-padding--none">
-                      <form
-                        method="POST"
-                        data-address-mode="new"
-                        name="dwfrm_billing"
-                        id="dwfrm_billing"
-                      >
-                        <div className="card-header with-tooltip-icon rc-margin-top--sm">
-                          <h5>
-                            <FormattedMessage id="payment.paymentInformation" />
-                          </h5>
-                        </div>
-                        <div className="billing-payment">
-                          <div
-                            className="rc-list__accordion-item border-0"
-                            data-method-id="CREDIT_CARD"
-                            style={{
-                              display:
-                                this.state.payMethod === "creditCard"
-                                  ? "block"
-                                  : "none",
-                            }}
-                          >
-                            {
-                              this.state.isLogin
-                                ? <div className="rc-border-colour--interface">
-                                  <PaymentComp getSelectedValue={cardItem => {
-                                    this.setState({ selectedCardInfo: cardItem })
-                                  }} />
-                                </div>
-                                : <div className={`rc-border-all rc-border-colour--interface ${!this.state.isCompleteCredit ? 'checkout--padding' : ''}`}>
-                                  <div
-                                    className={`credit-card-content ${!this.state.isCompleteCredit ? '' : 'hidden'}`}
-                                    id="credit-card-content"
+                                <div
+                                  className="pull-right"
+                                  style={{
+                                    marginTop: '30px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <button
+                                    className="rc-btn rc-btn--sm rc-btn--one"
+                                    onClick={() => {
+                                      this.setState({
+                                        petModalVisible: true,
+                                        currentProIndex: i
+                                      });
+                                    }}
                                   >
-                                    <div className="credit-card-form ">
-                                      <div className="rc-margin-bottom--xs">
-                                        <div className="content-asset">
-                                          <p>
-                                            <FormattedMessage id="payment.acceptCards" />
-                                          </p>
-                                        </div>
-                                        <div className="row">
-                                          <div className="col-sm-12">
-                                            <div className="form-group">
-                                              <label
-                                                className="form-control-label"
-                                                htmlFor="cardNumber"
-                                              >
-                                                <FormattedMessage id="payment.cardNumber" />
-                                                *{CreditCardImg}
-                                                <form id="payment-form">
-                                                  <div id="card-secure-fields"></div>
-                                                  <button
-                                                    id="submit"
-                                                    name="submit"
-                                                    className="creadit"
-                                                    type="submit"
-                                                  >
-                                                    Pay
-                                                </button>
-                                                </form>
-                                              </label>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="row overflow_visible">
-                                          <div className="col-sm-12">
-                                            <div className="form-group required">
-                                              <label className="form-control-label">
-                                                <FormattedMessage id="payment.cardOwner" />
-                                              </label>
-                                              <span
-                                                className="rc-input rc-input--full-width"
-                                                input-setup="true"
-                                              >
-                                                <input
-                                                  type="text"
-                                                  id="cardholder-name"
-                                                  className="rc-input__control form-control cardOwner"
-                                                  name="cardOwner"
-                                                  value={creditCardInfo.cardOwner}
-                                                  onChange={(e) =>
-                                                    this.cardInfoInputChange(e)
-                                                  }
-                                                  onBlur={(e) => this.inputBlur(e)}
-                                                  maxLength="40"
-                                                />
-                                                <label
-                                                  className="rc-input__label"
-                                                  htmlFor="cardOwner"
-                                                ></label>
-                                              </span>
-                                              <div className="invalid-feedback">
-                                                <FormattedMessage id="payment.errorInfo2" />
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="row">
-                                          <div className="col-sm-6">
-                                            <div className="form-group required">
-                                              <label className="form-control-label">
-                                                <FormattedMessage id="payment.email" />
-                                              </label>
-                                              <span
-                                                className="rc-input rc-input--full-width"
-                                                input-setup="true"
-                                              >
-                                                <input
-                                                  type="email"
-                                                  className="rc-input__control email"
-                                                  id="email"
-                                                  value={creditCardInfo.email}
-                                                  onChange={(e) =>
-                                                    this.cardInfoInputChange(e)
-                                                  }
-                                                  onBlur={(e) => this.inputBlur(e)}
-                                                  name="email"
-                                                  maxLength="254"
-                                                />
-                                                <label
-                                                  className="rc-input__label"
-                                                  htmlFor="email"
-                                                ></label>
-                                              </span>
-                                              <div className="invalid-feedback">
-                                                <FormattedMessage id="payment.errorInfo2" />
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="col-sm-6">
-                                            <div className="form-group required">
-                                              <label
-                                                className="form-control-label"
-                                                htmlFor="phoneNumber"
-                                              >
-                                                <FormattedMessage id="payment.phoneNumber" />
-                                              </label>
-                                              <span
-                                                className="rc-input rc-input--full-width"
-                                                input-setup="true"
-                                                data-js-validate=""
-                                                data-js-warning-message="*Phone Number isn’t valid"
-                                              >
-                                                <input
-                                                  type="number"
-                                                  className="rc-input__control input__phoneField shippingPhoneNumber"
-                                                  min-lenght="18"
-                                                  max-length="18"
-                                                  data-phonelength="18"
-                                                  data-js-pattern="(^\d{10}$)"
-                                                  data-range-error="The phone number should contain 10 digits"
-                                                  value={creditCardInfo.phoneNumber}
-                                                  onChange={(e) =>
-                                                    this.cardInfoInputChange(e)
-                                                  }
-                                                  onBlur={(e) => this.inputBlur(e)}
-                                                  name="phoneNumber"
-                                                  maxLength="2147483647"
-                                                />
-                                                <label
-                                                  className="rc-input__label"
-                                                  htmlFor="phoneNumber"
-                                                ></label>
-                                              </span>
-                                              <div className="invalid-feedback">
-                                                <FormattedMessage id="payment.errorInfo2" />
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="row">
-                                          <div className="col-sm-12 rc-margin-y--xs rc-text--center">
-                                            <button
-                                              className="rc-btn rc-btn--two card-confirm"
-                                              id="card-confirm"
-                                              type="button"
-                                              onClick={() => this.cardConfirm()}
-                                            >
-                                              <FormattedMessage id="payment.confirmCard" />
-                                            </button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className={`creditCompleteInfoBox pb-3 ${!this.state.isCompleteCredit ? 'hidden' : ''}`}>
-                                    <p>
-                                      <span
-                                        className="pull-right ui-cursor-pointer-pure mr-2"
-                                        onClick={() => {
-                                          this.setState({
-                                            isCompleteCredit: false
-                                          });
-                                        }}
-                                        style={{ position: 'relative', top: -9 }}
-                                      >
-                                        <FormattedMessage id="edit" />
-                                      </span>
-                                    </p>
-                                    <div className="row">
-                                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
-                                        <img
-                                          src={
-                                            this.state.creditCardImgObj[
-                                              this.state.payosdata.vendor
-                                            ]
-                                              ? this.state.creditCardImgObj[
-                                              this.state.payosdata.vendor
-                                              ]
-                                              : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                                          }
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
-                                        <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                                          <div className="col-12 color-999">
-                                            <FormattedMessage id="name2" /><br />
-                                            <span className="creditCompleteInfo">{creditCardInfo.cardOwner}</span>
-                                          </div>
-                                        </div>
-                                        <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                                          <div className="col-6 color-999">
-                                            <FormattedMessage id="payment.cardNumber2" /><br />
-                                            <span className="creditCompleteInfo">xxxx xxxx xxxx{" "}{this.state.payosdata ? this.state.payosdata.last_4_digits : ""}</span>
-                                          </div>
-                                          <div className="col-6 color-999">
-                                            <FormattedMessage id="payment.cardType" /><br />
-                                            <span className="creditCompleteInfo">{this.state.payosdata.card_type}</span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
+                                    Select a pet
+                                  </button>
                                 </div>
-                            }
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+                              </div>
+                            );
+                          })
+                        : checkoutStore.AuditData.map((el, i) => {
+                            return (
+                              <div className="petProduct" key={i}>
+                                <LazyLoad>
+                                  <img
+                                    alt=""
+                                    src={
+                                      el.sizeList.filter((el) => el.selected)[0]
+                                        .goodsInfoImg
+                                    }
+                                    className="pull-left"
+                                  />
+                                </LazyLoad>
+                                <div
+                                  className="pull-left"
+                                  style={{
+                                    marginTop: '20px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <p>
+                                    <span>Pet:</span>
+                                    <span>
+                                      {el.petForm
+                                        ? el.petForm.petName
+                                        : 'required'}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <span>Qty:</span>
+                                    <span>{el.quantity}</span>
+                                  </p>
+                                </div>
+                                <div
+                                  className="pull-right"
+                                  style={{
+                                    marginTop: '30px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <button
+                                    id="selectPet"
+                                    className="rc-btn rc-btn--sm rc-btn--one"
+                                    onClick={() => {
+                                      this.setState({
+                                        petModalVisible: true,
+                                        currentProIndex: i
+                                      });
+                                    }}
+                                  >
+                                    Select a pet
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                    </h5>
                   </div>
-                  <div className="footerCheckbox rc-margin-top--sm">
-                    <input
-                      className="form-check-input"
-                      id="id-checkbox-cat-2"
-                      value=""
-                      type="checkbox"
-                      name="checkbox-2"
-                      onChange={() => {
-                        this.setState({
-                          isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
-                          isReadPrivacyPolicyInit: false,
-                        });
-                      }}
-                      checked={this.state.isReadPrivacyPolicy}
-                    />
-                    <label
-                      htmlFor="id-checkbox-cat-2"
-                      className="rc-input__label--inline"
-                    >
-                      <FormattedMessage
-                        id="payment.confirmInfo3"
-                        values={{
-                          val1: (
-                            <Link
-                              className="red"
-                              target="_blank"
-                              to="/privacypolicy"
-                            >
-                              Política de privacidad
-                            </Link>
-                          ),
-                          val2: (
-                            <Link className="red" target="_blank" to="/termuse">
-                              la transferencia transfronteriza
-                            </Link>
-                          ),
-                        }}
-                      />
-                      <div
-                        className="warning"
-                        style={{
-                          display:
-                            this.state.isReadPrivacyPolicy ||
-                              this.state.isReadPrivacyPolicyInit
-                              ? "none"
-                              : "block",
-                        }}
-                      >
-                        <FormattedMessage id="payment.confirmInfo4" />
-                      </div>
-                    </label>
-                  </div>
-                  <div className="footerCheckbox">
-                    <input
-                      className="form-check-input"
-                      id="id-checkbox-cat-1"
-                      value="Cat"
-                      type="checkbox"
-                      name="checkbox-2"
-                      onChange={() => {
-                        this.setState({
-                          isEighteen: !this.state.isEighteen,
-                          isEighteenInit: false,
-                        });
-                      }}
-                      checked={this.state.isEighteen}
-                    />
-                    <label
-                      htmlFor="id-checkbox-cat-1"
-                      className="rc-input__label--inline"
-                    >
-                      <FormattedMessage id="payment.confirmInfo1" />
-                      <div
-                        className="warning"
-                        style={{
-                          display:
-                            this.state.isEighteen || this.state.isEighteenInit
-                              ? "none"
-                              : "block",
-                        }}
-                      >
-                        <FormattedMessage id="payment.confirmInfo2" />
-                      </div>
-                    </label>
-                  </div>
-                  <div className="place_order-btn card">
-                    <div className="next-step-button">
-                      <div className="rc-text--right">
-                        <button
-                          className="rc-btn rc-btn--one submit-payment"
-                          type="submit"
-                          name="submit"
-                          value="submit-shipping"
-                          onClick={() => this.handleClickFurther()}
-                        >
-                          <FormattedMessage id="payment.further" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                )}
+                <div
+                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
+                    paymentMethodPanelStatus.isEdit
+                      ? 'border-333'
+                      : 'border-transparent'
+                  }`}
+                  id="J_checkout_panel_paymentMethod"
+                >
+                  <span>{paymentMethodTitle}</span>
+                  {this.renderPayTab({
+                    visible: paymentMethodPanelStatus.isEdit
+                  })}
+                  {paymentMethodPanelStatus.isCompleted &&
+                    this.renderPayPreview()}
                 </div>
+                <Confirmation
+                  clickPay={this.clickPay}
+                  listData={listData}
+                  checkRequiredItem={this.checkRequiredItem}
+                  checkoutStore={checkoutStore}
+                />
               </div>
-              <div className="product-summary rc-column">
-                <h5 className="product-summary__title rc-margin-bottom--xs">
-                  <FormattedMessage id="payment.yourOrder" />
-                </h5>
-                {
-                  !this.state.isToPayNow && <a
-                    href="#"
-                    onClick={(e) => this.goCart(e)}
-                    className="product-summary__cartlink rc-styled-link">
-                    <FormattedMessage id="edit" />
-                  </a>
-                }
-                <PayProductInfo />
+              <div className="rc-column pl-md-0 rc-md-up">
+                {tid ? (
+                  <>
+                    <RePayProductInfo
+                      fixToHeader={false}
+                      style={{ background: '#fff' }}
+                      details={orderDetails}
+                      navigateToProDetails={true}
+                      location={location}
+                      history={history}
+                    />
+                  </>
+                ) : (
+                  <PayProductInfo
+                    data={recommend_data}
+                    fixToHeader={false}
+                    style={{ background: '#fff' }}
+                    ref="payProductInfo"
+                    location={location}
+                    history={history}
+                    frequencyName={subForm.frequencyName}
+                    buyWay={subForm.buyWay}
+                    sendPromotionCode={this.savePromotionCode}
+                    promotionCode={promotionCode}
+                    operateBtnVisible={!tid}
+                  />
+                )}
+                {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
               </div>
             </div>
+            <Adyen3DForm action={this.state.adyenAction}/>
+          </div>
+          <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
+            <div
+              className={`order-summary-title align-items-center justify-content-between text-center ${
+                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+              }`}
+              onClick={this.toggleMobileCart.bind(this, 'more')}
+            >
+              <span
+                className="rc-icon rc-up rc-iconography"
+                style={{ transform: 'scale(.7)' }}
+              />
+              <span>
+                <FormattedMessage id="payment.yourOrder" />
+              </span>
+              <span className="grand-total-sum">
+                {formatMoney(this.tradePrice)}
+              </span>
+            </div>
+            <PayProductInfo
+              data={recommend_data}
+              fixToHeader={false}
+              style={{
+                background: '#fff',
+                maxHeight: '80vh'
+              }}
+              className={`${mobileCartVisibleKey === 'more' ? '' : 'hidden'}`}
+              ref="payProductInfo"
+              location={location}
+              history={history}
+              frequencyName={subForm.frequencyName}
+              buyWay={subForm.buyWay}
+              sendPromotionCode={this.savePromotionCode}
+              promotionCode={promotionCode}
+              operateBtnVisible={!tid}
+              onClickHeader={this.toggleMobileCart.bind(this, 'less')}
+              headerIcon={
+                <span className="rc-icon rc-down--xs rc-iconography" />
+              }
+            />
           </div>
         </main>
         <Footer />
+        <PetModal
+          visible={petModalVisible}
+          isAdd={isAdd}
+          openNew={this.openNew}
+          closeNew={this.closeNew}
+          confirm={this.petComfirm}
+          close={this.closePetModal}
+        />
       </div>
     );
   }
 }
 
-export default injectIntl(Payment);
+export default withOktaAuth(Payment);

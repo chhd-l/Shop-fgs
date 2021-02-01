@@ -12,55 +12,63 @@
 
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
-import { getToken } from '@/api/login'
-import { getCustomerInfo } from "@/api/user"
-import { FormattedMessage } from 'react-intl'
-import { inject, observer } from 'mobx-react';
-import Store from '@/store/store';
+import { doLogout } from '@/api/login';
+import { FormattedMessage } from 'react-intl';
+import stores from '@/store';
+
+const localItemRoyal = window.__.localItemRoyal;
+const loginStore = stores.loginStore;
+const checkoutStore = stores.checkoutStore;
 
 const LogoutButton = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const { authState, authService } = useOktaAuth();
+  const { authState, oktaAuth } = useOktaAuth();
 
-  const { accessToken } = authState;
-
-  // useEffect(() => {
-  //   if (!authState.isAuthenticated) {
-  //     // When user isn't authenticated, forget any user info
-  //     setUserInfo(null);
-  //   } else {
-  //     authService.getUser().then((info) => {
-  //       setUserInfo(info);
-  //       authService.getUser().then((info) => {
-  //         setUserInfo(info);
-  //         if (!localStorage.getItem('rc-token')) {
-  //           getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
-  //             let userinfo = res.context.customerDetail
-  //             let customerInfoRes = await getCustomerInfo()
-  //             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
-  //             localStorage.localStorage("rc-token", res.context.token);
-  //             localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-  //           })
-  //         }
-  //       });
-  //     });
-  //   }
-  // }, [authState, authService]); // Update if authState changes
-
-  const logout = async () => authService.logout('/');
-  const clickLogoff = () => {
-    localStorage.removeItem("rc-token");
-    sessionStorage.removeItem('rc-clinics-name-default')
-    sessionStorage.removeItem('rc-clinics-id-default')
-    localStorage.removeItem('rc-userinfo')
-    localStorage.removeItem('rc-cart-data-login')
-    logout()
-  }
+  const logout = async () => {
+    try {   
+      const idToken = authState.idToken;
+      if(idToken) {
+        const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE;
+        // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
+        window.location.href = `${process.env.REACT_APP_ISSUER}/v1/logout?id_token_hint=${idToken ? idToken.value : ''}&post_logout_redirect_uri=${redirectUri}`;
+        await oktaAuth.signOut(process.env.REACT_APP_HOMEPAGE);
+      } else {
+        loginStore.changeLoginModal(false);
+        window.location.reload();
+      }
+          
+      setTimeout(() => {
+        loginStore.changeLoginModal(false);
+      }, 1000);
+    } catch (e) {
+      loginStore.changeLoginModal(false);
+    }
+  };
+  const clickLogoff = async () => {
+    try {
+      loginStore.changeLoginModal(true);
+      await doLogout();
+      localItemRoyal.remove('rc-token');
+      localItemRoyal.remove('rc-register');
+      localItemRoyal.remove('rc-consent-list');
+      loginStore.removeUserInfo();
+      checkoutStore.removeLoginCartData();
+      await logout(process.env.REACT_APP_HOMEPAGE);
+    } catch (err) {
+      console.log(err);
+      loginStore.changeLoginModal(false);
+      // logout(process.env.REACT_APP_HOMEPAGE);
+    }
+  };
   return (
     <div className="logoff-style">
-      <a className="rc-styled-link--external" id="J-btn-logoff" onClick={clickLogoff}>
+      <span
+        className="rc-styled-link--external"
+        id="J-btn-logoff"
+        onClick={clickLogoff}
+      >
         <FormattedMessage id="logOff" />
-      </a>
+      </span>
     </div>
   );
 };

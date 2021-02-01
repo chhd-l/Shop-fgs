@@ -12,78 +12,152 @@
 
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
-import { Button, Header } from 'semantic-ui-react';
-import { getToken } from '@/api/login'
-import { getCustomerInfo } from "@/api/user"
-import { inject, observer } from 'mobx-react';
-import Store from '@/store/store';
-import { FormattedMessage } from 'react-intl'
-import { mergeUnloginCartData } from '@/utils/utils'
+import stores from '@/store';
+import { FormattedMessage } from 'react-intl';
+import { getToken } from '@/api/login';
+import { getCustomerInfo } from '@/api/user';
+import { mergeUnloginCartData } from '@/utils/utils';
+import { userBindConsent } from '@/api/consent';
 
-const LoginButton = (props, ref) => {
-  // console.log(useOktaAuth)
-  // console.log(useOktaAuth(), 'useOktaAuth')
-  // const { authService } = useOktaAuth();
-  const [userInfo, setUserInfo] = useState(null);
-  const { authState, authService } = useOktaAuth();
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+const loginStore = stores.loginStore;
+const checkoutStore = stores.checkoutStore;
 
-  const { accessToken } = authState;
+const LoginButton = (props) => {
+  const { history } = props;
+  const init = props.init;
+  const [, setUserInfo] = useState(null);
+  const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
+  const { oktaAuth } = useOktaAuth();
+  const { authState } = useOktaAuth();
 
   useEffect(() => {
+    if (isGetUserInfoDown && init) {
+      init();
+    }
+  }, [isGetUserInfoDown, init]);
+
+  useEffect(() => {
+    setIsGetUserInfoDown(false);
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
+      const parametersString = history&&history.location.search;
+      if(!parametersString) {
+        return;
+      }
     } else {
-      Store.changeLoginModal(true)
-      authService.getUser().then((info) => {
-        setUserInfo(info);
-        if (!localStorage.getItem('rc-token')) {
-          getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
-            let userinfo = res.context.customerDetail
-            Store.changeLoginModal(false)
-            Store.changeIsLogin(true)
-            localStorage.setItem("rc-token", res.context.token);
-            let customerInfoRes = await getCustomerInfo()
-            userinfo.defaultClinics = customerInfoRes.context.defaultClinics
-            localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-            if (sessionStorage.getItem('redirectUrl') === '/cart') {
-              props.history.push(sessionStorage.getItem('redirectUrl'))
-            } else {
-              const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
-              if (unloginCartData.length) {
-                await mergeUnloginCartData()
+      loginStore.changeLoginModal(true);
+      oktaAuth
+        .getUser()
+        .then((info) => {
+          setUserInfo(info);
+          const oktaTokenString = authState.accessToken ? authState.accessToken.value : '';
+          let oktaToken = 'Bearer ' + oktaTokenString;
+          const consentString = localItemRoyal.get('rc-consent-list');
+          if(consentString && loginStore.isLogin) {
+            var consents = JSON.parse(consentString);
+            let submitParam = bindSubmitParam(consents);
+            userBindConsent({
+              ...submitParam,
+              ...{ oktaToken }
+            }).then(res=>{
+              if(res.code === 'K-000000') {
+                history.push('/')
               }
-              props.updateCartCache && props.updateCartCache()
+            }).catch((e) => {
+              console.log(e);
+            });
+          } else {
+            if (!loginStore.isLogin) {
+              getToken({ oktaToken: oktaToken })
+                .then(async (res) => {
+                  // GA 登录成功埋点 start
+                  window.dataLayer&&window.dataLayer.push(
+                    {
+                      event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                      interaction:{
+                      category:'registration',
+                      action:'login',
+                      label:'',
+                      value:1
+                    },
+                    })        
+                  // GA 登陆成功埋点 end
+                  let userinfo = res.context.customerDetail;
+                  loginStore.changeLoginModal(false);
+                  loginStore.changeIsLogin(true);
+  
+                  localItemRoyal.set('rc-token', res.context.token);
+                  let customerInfoRes = await getCustomerInfo();
+                  userinfo.defaultClinics =
+                    customerInfoRes.context.defaultClinics;
+                  loginStore.setUserInfo(customerInfoRes.context);
+  
+                  const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+                  if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+                    await mergeUnloginCartData();
+                    console.log(loginStore, 'loginStore');
+                    await checkoutStore.updateLoginCart();
+                  }
+  
+                  setIsGetUserInfoDown(true);
+                })
+                .catch((e) => {
+                  console.log(e);
+                  loginStore.changeLoginModal(false);
+                });
+            } else {
+              loginStore.changeLoginModal(false);
+              setIsGetUserInfoDown(true);
             }
-            sessionStorage.removeItem('redirectUrl')
-          }).catch(e => {
-            Store.changeLoginModal(false)
-          })
-        }
-      });
+          }
+        })
+        .catch(() => {
+          loginStore.changeLoginModal(false);
+        });
     }
-  }, [authState, authService]); // Update if authState changes
+  }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    sessionStorage.removeItem('rc-token-lose')
-    sessionStorage.setItem('redirectUrl', '/')
-    if (props.beforeLoginCallback) {
-      let res = await props.beforeLoginCallback()
-      if (res === false) {
-        return false
-      }
-      sessionStorage.setItem('redirectUrl', '/cart')
+    try {
+      //debugger
+      sessionItemRoyal.remove('rc-token-lose');
+      sessionItemRoyal.set('okta-redirectUrl', props.history&&props.history.location.pathname);
+      props.beforeLoginCallback && (await props.beforeLoginCallback());
+      oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+    } catch (err) {
+      //debugger
+      console.log(err)
     }
-    authService.login('/');
+  };
+
+  const bindSubmitParam = (list) => {
+    let obj = { optionalList: [], requiredList: [] };
+    list
+      .filter((item) => !item.isRequired)
+      .forEach((item) => {
+        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
+      });
+    list
+      .filter((item) => item.isRequired)
+      .forEach((item) => {
+        obj.requiredList.push({ id: item.id, selectedFlag: true });
+      });
+
+    return obj;
   };
 
   return (
     <button
-      className={props.btnClass || "rc-btn rc-btn--one"}
+      className={props.btnClass || 'rc-btn rc-btn--one'}
       style={props.btnStyle || {}}
       onClick={login}
-      id="J-btn-login">
-      {props.children || <FormattedMessage id='login' />}
+      ref={props.buttonRef}
+      id="J-btn-login"
+    >
+      {props.children || <FormattedMessage id="loginText" />}
     </button>
   );
 };
