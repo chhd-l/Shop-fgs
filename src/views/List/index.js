@@ -39,7 +39,6 @@ import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 let isMobile = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 function getMuntiImg(item) {
   let img;
@@ -483,7 +482,8 @@ class List extends React.Component {
         title: '',
         metaKeywords: '',
         metaDescription: ''
-      }
+      },
+      pageLink: ''
     };
     this.pageSize = 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -536,6 +536,20 @@ class List extends React.Component {
           ...dictList[2]
         ]
       });
+    });
+
+    let tmpSearch = '';
+    const prefnNum = (search.match(/prefn/gi) || []).length;
+
+    for (let index = 0; index < prefnNum; index++) {
+      const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+      const fvEles = decodeURI(
+        getParaByName(search, `prefv${index + 1}`)
+      ).split('|');
+      tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
+    }
+    this.setState({
+      pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`
     });
   }
   componentWillUnmount() {
@@ -1401,6 +1415,7 @@ class List extends React.Component {
   };
   render() {
     const { breadListByDeco, lastBreadListName } = this;
+    const { pageLink } = this.state;
     const { history } = this.props;
     const { pathname } = history.location;
     const {
