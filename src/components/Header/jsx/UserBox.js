@@ -48,67 +48,55 @@ export const LoginUserBox = (props) => {
     const { self } = props
     const { intl_user } = self.props
     const {
-        //router
-        overviewRouter,
+        logoutRouter,
+        homeRouter,
         personInformationRouter,
         petsRouter,
         subscriptionsRouter,
         offersRouter,
-        paymentsRouter,
-        securityRouter,
-        reimbursementsRouter,
-        breederPortalRouter,
-        vetPortalRouter,
+        faqRouter,
+        monRoyalCaninRouter,
     } = self.props
     const {
-        overview,
-        personalInformation,
+        logOut,
+        home,
+        myPersonalInformation,
         pets,
-        subscriptions,
-        payments,
-        addresses,
-        security,
-        Offers,
-        Reimbursements,
-        royalCaninPartner,
-        breederPortal,
-        vetPortal
+        myOrders,
+        mySubscriptions,
+        faq,
+        monRoyalCanin,
     } = intl_user.loginUser
     return (
         <div className={`user-login-popover`}>
-            <div className="Media">
-                <div className="Media-figure">{userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1)}</div>
+             <div className="Media">
+                <div className="Media-figure">{userInfo&&userInfo.firstName&&userInfo.firstName.slice(0,1)}</div>
                 <div className="Media-body">
-                    <div className="fullName">{userInfo && userInfo.firstName}</div>
-                    <LogoutButton />
+                    <div className="fullName">{userInfo&&userInfo.firstName}</div>
+                    <div className="logout" onClick={()=>{self.toUrl(logoutRouter)}}>{logOut}</div>
                 </div>
             </div>
-            <div className="basicItem" onClick={() => { self.toUrl(overviewRouter) }}>
-                <a className="rc-icon rc-icon-user"></a><span>{overview}</span>
+            <div className="basicItem" onClick={()=>{self.toUrl(homeRouter)}}>
+                <a className="iconfont iconhome"></a><span>{home}</span>
             </div>
-            <div className="basicItem" onClick={() => { self.toUrl(personInformationRouter) }}>
-                <a className="rc-icon rc-icon-user"></a><span>{personalInformation}</span>
+            <div className="basicItem" onClick={()=>{self.toUrl(personInformationRouter)}}>
+                <a className="iconfont iconuser"></a><span>{myPersonalInformation}</span>
             </div>
-            <div className="basicItem" onClick={() => { self.toUrl(petsRouter) }}>
-                <a className="rc-icon rc-icon-user"></a><span>{pets}</span>
+            <div className="basicItem" onClick={()=>{self.toUrl(petsRouter)}}>
+                <a className="iconfont iconshape"></a><span>{pets}</span>
             </div>
-            <div className="basicItem" onClick={() => { self.toUrl(subscriptionsRouter) }}>
-                <a className="rc-icon rc-icon-user"></a><span>{subscriptions}</span>
+            <div className="basicItem" onClick={()=>{self.toUrl(subscriptionsRouter)}}>
+                <a className="iconfont iconbuyCart"></a><span>{myOrders}</span>
             </div>
-            <div className="basicItem" onClick={() => { self.toUrl(offersRouter) }}>
-                <a className="rc-icon rc-icon-user"></a><span>{Offers}</span>
+            <div className="basicItem" onClick={()=>{self.toUrl(offersRouter)}}>
+                <a className="iconfont icondayinji"></a><span>{mySubscriptions}</span>
             </div>
-            <div className="basicItem" onClick={() => { self.toUrl(paymentsRouter) }}>
-                <a className="rc-icon rc-icon-user"></a><span>{payments} & {addresses}</span>
+            <div className="basicItem" onClick={()=>{self.toUrl(faqRouter)}}>
+                <a className="iconfont iconmessage"></a><span>{faq}</span>
             </div>
-            <div className="basicItem" onClick={() => { self.toUrl(securityRouter) }}>
-                <a className="rc-icon rc-icon-user"></a><span>{security}</span>
+            <div className="basicItem" onClick={()=>{self.toUrl(monRoyalCaninRouter)}} style={{borderTop: '1px solid #DEDEDE',paddingTop:'5px'}}>
+                <a className="iconfont iconzhuanfa"></a><span>{monRoyalCanin}</span>
             </div>
-            <div className="Offers" onClick={() => { self.toUrl(reimbursementsRouter) }}>
-                <a className="rc-icon rc-icon-user"></a> <span>{Offers} & {Reimbursements}</span>
-            </div>
-            <div className="brandName">{royalCaninPartner}?</div>
-            <div className="breeder"><em onClick={() => { self.toUrl(breederPortalRouter) }}>{breederPortal}</em><span>or</span><em onClick={() => { self.toUrl(vetPortalRouter) }}>{vetPortal}</em></div>
         </div>
     );
 }
