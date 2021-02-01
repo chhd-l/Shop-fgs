@@ -160,6 +160,7 @@ class Carousel extends React.Component {
           display: this.state.goodsList.length === 0 ? 'none' : 'block'
         }}
       >
+      <div className="split-line rc-bg-colour--brand4" ></div>
         <div
           style={{
             textAlign: 'center',

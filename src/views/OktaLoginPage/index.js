@@ -25,8 +25,8 @@ const localItemRoyal = window.__.localItemRoyal;
   'headerSearchStore'
 )
 @injectIntl
-@observer 
-class OktaRedirectPage extends React.Component {
+@observer
+class OktaLoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,4 +70,4 @@ class OktaRedirectPage extends React.Component {
   }
 }
 
-export default withOktaAuth(OktaRedirectPage);
+export default withOktaAuth(OktaLoginPage);

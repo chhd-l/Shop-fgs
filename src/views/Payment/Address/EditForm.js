@@ -445,7 +445,7 @@ class EditForm extends React.Component {
               <div className="col-12 col-md-6">
                 {this.addressRequiredJSX()}
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-6" style={{visibility:'hidden'}}>
                 {this.addressOptionJSX()}
               </div>
               <div className="col-12 col-md-6">

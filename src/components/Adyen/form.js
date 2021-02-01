@@ -230,9 +230,9 @@ class AdyenCreditCardForm extends React.Component {
             }}
           >
             {mustSaveForFutherPayments && (
-              <>
+              <span>
                 * <FormattedMessage id="checkboxIsRequiredForSubscription" />
-              </>
+              </span>
             )}
           </div>
           {showCancelBtn || showSaveBtn ? (
@@ -246,7 +246,9 @@ class AdyenCreditCardForm extends React.Component {
                   >
                     <FormattedMessage id="cancel" />
                   </span>{' '}
-                  <FormattedMessage id="or" />{' '}
+                  <span>
+                    <FormattedMessage id="or" />{' '}
+                  </span>
                 </>
               )}
               {showSaveBtn && (

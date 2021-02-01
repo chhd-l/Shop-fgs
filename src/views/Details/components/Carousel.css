@@ -121,3 +121,6 @@
 .circles ol li.cur{
 	background-color: #E2011B;
 }
+.split-line {
+	height: 0.4rem;
+}

@@ -1110,6 +1110,25 @@ const fr_FR = {
   'order.total': 'Total',
   'order.iVAIncluido': 'TVA Inclus',
   searchForAProductOrArtical: 'Rechercher un produit ou un artical',
-  startTypingToSearch: 'Commencez à taper votre recherche'
+  startTypingToSearch: 'Commencez à taper votre recherche',
+  "detail.question":'Vous avez encore des questions à propos de ce produit ?',
+  "detail.answer":'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
+  "detail.telephone":'Par téléphone',
+  "detail.email":'Par email',
+  "detail.packagingDesc": 'Nos emballages/produits peuvent faire l’objet d’une consigne de tri',
+  "learnMore":'En savoir plus',
+
+  //PLP-Retail-Cat
+  'plp.retail.cat.title':' Vous recherchez des produits vétérinaires?',
+  'plp.retail.cat.detail':'Aliments diététiques qui aident à maintenir la santé des chats diagnostiqués avec des problèmes',
+  'plp.retail.cat.button':'Découvrez la gamme',
+  'plp.retail.cat.product.finder.title':' Besoin d\'aide pour trouver le bon produit?',
+  'plp.retail.cat.product.finder.detail':'Essayez notre recherche {val} de produits',
+  'plp.retail.cat.product.finder.button':'Trouver un produit',
+  //PLP-Vet-Cat
+  'plp.vet.cat.title':'Vous recherchez de la nourriture disponible dans des points de vente spécialisés?',
+  'plp.vet.cat.detail':'Notre gamme complète d\'aliments secs et de bouchées en sauce ou en gelée fournit la nutrition la plus précise pour les chats de tous âges, tailles et races',
+  'plp.vet.cat.button':'Découvrez la gamme',
 }
 export default fr_FR;
+
