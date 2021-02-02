@@ -57,10 +57,6 @@ class AdyenCreditCardForm extends React.Component {
   }
   initForm() {
     const _this = this;
-    const updateState = (data) =>
-      this.setState({ adyenFormData: data }, () => {
-        console.log('set adyen form info2', this.state.adyenFormData);
-      });
     loadJS({
       url:
         'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
@@ -120,16 +116,6 @@ class AdyenCreditCardForm extends React.Component {
                   });
                   _this.props.updateClickPayBtnValidStatus(tmpValidSts);
                   if (tmpValidSts) {
-                    console.log(
-                      'set adyen form info',
-                      Object.assign(adyenFormData, getAdyenParam(card.data), {
-                        storePaymentMethod:
-                          card.data && card.data.storePaymentMethod
-                      })
-                    );
-                    console.log(11111155555, _this.setState);
-                    console.log(111111666, _this);
-                    let tempParam = getAdyenParam(card.data);
                     adyenFormData = Object.assign(
                       adyenFormData,
                       getAdyenParam(card.data),
@@ -138,25 +124,6 @@ class AdyenCreditCardForm extends React.Component {
                           card.data && card.data.storePaymentMethod
                       }
                     );
-                    // _this.setState({
-                    //     adyenFormData: 111
-                    //   },
-                    //   () => {
-                    //     console.log(
-                    //       'set adyen form info2'
-                    //     );
-                    //   }
-                    // );
-                    // updateState(
-                    //   Object.assign(
-                    //     _this.state.adyenFormData,
-                    //     getAdyenParam(card.data),
-                    //     {
-                    //       storePaymentMethod:
-                    //         card.data && card.data.storePaymentMethod
-                    //     }
-                    //   )
-                    // );
                   }
                 } catch (err) {
                   console.log('set adyen form err', err);
@@ -213,7 +180,6 @@ class AdyenCreditCardForm extends React.Component {
 
       this.isLogin && this.props.updateFormVisible(false);
     } catch (err) {
-      debugger;
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
       throw new Error(err.message);
