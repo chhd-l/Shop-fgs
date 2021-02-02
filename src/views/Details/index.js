@@ -755,13 +755,13 @@ class Details extends React.Component {
 
           const { goodsDetailTab, tabs } = this.state;
           try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
+            let goods = res.context.goods;
+            let tmpGoodsDetail = goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
               console.log(tmpGoodsDetail,'tmpGoodsDetail')
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
                   if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
                     let tempObj = {};
                     let tempContent = '';
@@ -771,7 +771,7 @@ class Details extends React.Component {
                           let descContent = `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
                           if (
                             Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description' && details.saleableFlag && !details.displayFlag
+                            'EretailShort Description' && goods.saleableFlag && !goods.displayFlag
                           ) {
                             tempContent = tempContent + descContent;
                           }else {
@@ -809,8 +809,10 @@ class Details extends React.Component {
                       } else {
                         tempContent = tmpGoodsDetail[key];
                       }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
+                      if (tempContent !== '') {
+                        goodsDetailTab.tabName.push(key);
+                        goodsDetailTab.tabContent.push(tempContent);
+                      }
                     } catch (e) {
                       console.log(e);
                     }
@@ -823,6 +825,12 @@ class Details extends React.Component {
                 }
               }
             }
+
+            // if(this.state.descContent) {
+            //   const a =   goodsDetailTab.tabName.shift()
+            //   console.log(a,'aa')
+            //   }
+
             this.setState({
               goodsDetailTab,
               tabs
@@ -934,7 +942,6 @@ class Details extends React.Component {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
                   if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
                     let tempObj = {};
                     let tempContent = '';
@@ -1777,7 +1784,7 @@ class Details extends React.Component {
       goodsType,
       barcode,
     } = this.state;
-
+console.log(stock,'stock')
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet = process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag; //vet产品并且是hub的情况下
@@ -2004,7 +2011,12 @@ class Details extends React.Component {
                             </div>
                           )}
                         </div>
-                          {vet?
+                          {vet ? <>
+                            <div dangerouslySetInnerHTML={{ __html: this.state.descContent }}></div>
+                            {!this.state.loading && !isMobile && stock? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                              <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                            </div> : null}
+                          </> :
                             <>
                               <div className="align-left flex rc-margin-bottom--xs">
                                 <div className="stock__wrapper">
@@ -2608,8 +2620,8 @@ class Details extends React.Component {
                                     <span className="default-txt">
                                       <FormattedMessage
                                         id={`${form.buyWay === 1
-                                            ? 'subscribe'
-                                            : 'details.addToCart'
+                                          ? 'subscribe'
+                                          : 'details.addToCart'
                                           }`}
                                       />
                                     </span>
@@ -2617,9 +2629,9 @@ class Details extends React.Component {
                             &nbsp;&nbsp;
                             <FormattedMessage id="or" />
                             &nbsp;&nbsp;
-                            {!this.state.loading ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
-                              <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
-                            </div> : null}
+                            {!this.state.loading && stock ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                                    <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                                  </div> : null}
                                   {/* {this.isLogin ? (
                             {
                               De ? <div className="mb-2 mr-2" style={{ fontSize: "14px" }}><span className="vat-text">Preise inkl. MwSt</span></div> : null
@@ -2693,12 +2705,6 @@ class Details extends React.Component {
                                   checkOutErrMsg={checkOutErrMsg}
                                 />
                               </div>
-                            </> :
-                            <>
-                              <div dangerouslySetInnerHTML={{ __html: this.state.descContent }}></div>
-                              {!this.state.loading && !isMobile ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
-                                <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
-                              </div> : null}
                             </>
                           }
                       </div>
@@ -2862,7 +2868,7 @@ class Details extends React.Component {
                 style={{ transform: 'translateY(-80px)' }}
               >
                 <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                  {vet ? <button
+                  {!vet ? <button
                     className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${addToCartLoading ? 'ui-btn-loading' : ''
                       } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     onClick={this.hanldeAddToCart}
@@ -2876,7 +2882,7 @@ class Details extends React.Component {
                         )}
                     </span>
                   </button> : null}
-                  {!this.state.loading ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                  {!this.state.loading && stock ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
                     <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
                   </div> : null}
                   {/* {this.isLogin ? (
