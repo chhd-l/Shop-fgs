@@ -94,13 +94,14 @@ function ListItemH5ForFr(props) {
                     }}
                   />
                 </div>
-
+                <link to="/product-finder">
                 <button
                   className="rc-btn rc-btn--two margin-top-mobile-20"
                   style={{ marginTop: '19px' }}
                 >
                   <FormattedMessage id="plp.retail.cat.product.finder.button" />
                 </button>
+                </link>
                 <picture className="rc-card__image">
                   <div className="rc-padding-bottom--xs justify-content-center ">
                     <div
@@ -243,12 +244,14 @@ function ListItem(props) {
                     }}
                   />
                 </div>
+                <link to="/product-finder">
                 <button
                   className="rc-btn rc-btn--two "
                   style={{ marginTop: '19px' }}
                 >
                   <FormattedMessage id="plp.retail.cat.product.finder.button" />
                 </button>
+                </link>
               </div>
               <picture className="rc-card__image">
                 <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen">
