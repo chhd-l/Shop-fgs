@@ -28,13 +28,15 @@ export default class AddressForm extends React.Component {
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
-      });
-    });
+      })
+    })
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.deliveryAddress) {
       this.setState({
         deliveryAddress: Object.assign({}, nextProps.data)
+      },() => {
+        console.log(this.state.deliveryAddress, 'deliveryAddress')
       });
     }
   }
@@ -182,7 +184,7 @@ export default class AddressForm extends React.Component {
           data-js-warning-message="*Phone Number isn’t valid"
         >
           <input
-            type="number"
+            type="text"
             className="rc-input__control input__phoneField shippingPhoneNumber"
             id="shippingPhoneNumber"
             value={deliveryAddress.phoneNumber}

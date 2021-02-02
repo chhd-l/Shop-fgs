@@ -59,6 +59,8 @@ class SubscriptionLanding extends React.Component {
         filters: '',
       }
     };
+    const tel = 'tel:' + this.props.configStore.storeContactPhoneNumber;
+    const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
 
     return (
       <div className="recommendation">
@@ -418,10 +420,17 @@ class SubscriptionLanding extends React.Component {
                                               color: 'rgb(0, 135, 189)'
                                             }}
                                           >
-                                            {
+                                            <a
+                                              href={mailAddress}
+                                              style={{
+                                                verticalAlign: 'inherit',
+                                                color: '#0087BD'
+                                              }}
+                                            >{
                                               this.props.configStore
                                                 .storeContactEmail
                                             }
+                                            </a>
                                           </p>
                                         </div>
                                       </div>

@@ -24,7 +24,8 @@ import {
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  getParaByName
+  getParaByName,
+  loadJS
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -275,7 +276,9 @@ class Details extends React.Component {
         goodsSpecDetails: [],
         goodsSpecs: [],
         taggingForText: null,
-        taggingForImage: null
+        taggingForImage: null,
+        fromPrice: 0,
+        toPrice: 0
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -457,8 +460,32 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
       }
     );
+  }
+  setGoogleProductStructuredDataMarkup () {
+    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } = this.state
+    loadJS({
+      code: JSON.stringify({
+        '@context': 'http://schema.org/',
+        '@type': 'Product',
+        name: details.goodsName,
+        description: goodsDetailTab.tabContent[0],
+        mpn: goodsNo,
+        sku: goodsNo,
+        image: spuImages.map(s => s.artworkUrl),
+        offers: {
+          url: {},
+          '@type': 'AggregateOffer',
+          priceCurrency: process.env.REACT_APP_CURRENCY,
+          availability: instockStatus ? 'http://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          lowPrice: details.fromPrice,
+          highPrice: details.toPrice || details.fromPrice
+        }
+      }),
+      type: 'application/ld+json'
+    });
   }
   matchGoods() {
     let {
@@ -537,6 +564,7 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
       }
     );
   }
@@ -583,7 +611,9 @@ class Details extends React.Component {
                     e.taggingType === 'Image' &&
                     e.showPage &&
                     e.showPage.includes('PDP')
-                )[0]
+                )[0],
+                fromPrice: res.context.fromPrice,
+                toPrice: res.context.toPrice
               }),
               spuImages: images,
               breadCrumbs: [{ name: goods.goodsName }],
@@ -691,7 +721,9 @@ class Details extends React.Component {
                 sItem.chidren[defaultSelcetdSku].selected = true;
               }
             } else {
-              if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+              if (process.env.REACT_APP_LANG === 'de' && sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+                sItem.chidren[0].selected = true;
+              } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
                 sItem.chidren[1].selected = true;
               } else {
                 for (let i = 0; i < sItem.chidren.length; i++) {
@@ -1749,6 +1781,7 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet = process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag; //vet产品并且是hub的情况下
+    const De = process.env.REACT_APP_LANG === 'de';
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
@@ -2589,7 +2622,7 @@ class Details extends React.Component {
                             </div> : null}
                                   {/* {this.isLogin ? (
                             {
-                              process.env.REACT_APP_LANG == 'de'?<div className="mb-2 mr-2" style={{fontSize:"14px"}}>Preise inkl. MwSt</div>:null
+                              De ? <div className="mb-2 mr-2" style={{ fontSize: "14px" }}><span className="vat-text">Preise inkl. MwSt</span></div> : null
                             }
                             <button
                               style={{ padding: '2px 30px' }}
