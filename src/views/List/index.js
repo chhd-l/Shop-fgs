@@ -1516,11 +1516,12 @@ class List extends React.Component {
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
                 position: (esGoods.number + 1) * (i + 1),
-                url:
-                  `${urlPrefix}/${g.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', '')}-${g.goodsNo}` + sourceParam
+                url: g.lowGoodsName
+                  ? `${urlPrefix}/${g.lowGoodsName
+                      .split(' ')
+                      .join('-')
+                      .replace('/', '')}-${g.goodsNo}${sourceParam}`
+                  : ''
               }))
             }),
             type: 'application/ld+json'
