@@ -21,4 +21,14 @@ module.exports = function (app) {
       }
     })
   );
+  app.use(
+    proxy('/languagepicker', {
+      target: 'https://www.royalcanin.com/fr/api/languagepicker',
+      secure: false,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/languagepicker': '/'
+      }
+    })
+  );
 };
