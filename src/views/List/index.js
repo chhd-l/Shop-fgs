@@ -94,14 +94,14 @@ function ListItemH5ForFr(props) {
                     }}
                   />
                 </div>
-                <link to="/product-finder">
+                <Link to="/product-finder">
                   <button
                     className="rc-btn rc-btn--two margin-top-mobile-20"
                     style={{ marginTop: '19px' }}
                   >
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
                   </button>
-                </link>
+                </Link>
                 <picture className="rc-card__image">
                   <div className="rc-padding-bottom--xs justify-content-center ">
                     <div
@@ -234,7 +234,7 @@ function ListItem(props) {
                   </h3>
                 </div>
                 <div
-                  className="d-flex justify-content-center rc-padding-top--md"
+                  className=" text-center rc-padding-top--md"
                   style={{ fontSize: 'large' }}
                 >
                   <FormattedMessage
@@ -244,14 +244,16 @@ function ListItem(props) {
                     }}
                   />
                 </div>
-                <link to="/product-finder">
+                <div style={{margin:'0 auto'}}>
+                <Link to="/product-finder">
                   <button
                     className="rc-btn rc-btn--two "
                     style={{ marginTop: '19px' }}
                   >
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
                   </button>
-                </link>
+                </Link>
+                 </div>
               </div>
               <picture className="rc-card__image">
                 <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen">
@@ -1516,11 +1518,12 @@ class List extends React.Component {
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
                 position: (esGoods.number + 1) * (i + 1),
-                url:
-                  `${urlPrefix}/${g.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', '')}-${g.goodsNo}` + sourceParam
+                url: g.lowGoodsName
+                  ? `${urlPrefix}/${g.lowGoodsName
+                      .split(' ')
+                      .join('-')
+                      .replace('/', '')}-${g.goodsNo}${sourceParam}`
+                  : ''
               }))
             }),
             type: 'application/ld+json'
