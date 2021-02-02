@@ -1281,7 +1281,10 @@ class List extends React.Component {
               return ret;
             });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`;
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
