@@ -741,8 +741,21 @@ const tr_TR = {
   "header.User.mySubscriptions": "Aboneliklerim",
   "header.User.faq": "FAQ",
   "header.User.monRoyalCanin": "Mon Royal Canin",
-  
+
   "searchForAProductOrArtical": 'Search for a product or artical',
+
+
+  //PLP-Retail-Cat
+  'plp.retail.cat.title':'Veterinerlik ürünleri mi arıyorsunuz?',
+  'plp.retail.cat.detail':'Sorunlu kedilerin sağlığını korumaya yardımcı olan diyet gıdaları',
+  'plp.retail.cat.button':'Aralığı keşfedin',
+  'plp.retail.cat.product.finder.title':'Doğru ürünü bulmak için yardıma mı ihtiyacınız var?',
+  'plp.retail.cat.product.finder.detail':'Ürün bulucumuzu deneyin',
+  'plp.retail.cat.product.finder.button':'Bir ürün bul',
+  //PLP-Vet-Cat
+  'plp.vet.cat.title':'Özel satış noktalarında bulunan yiyecekleri mi arıyorsunuz?',
+  'plp.vet.cat.detail':'Soslu veya jöleli kuru mamalar ve ısırıklardan oluşan eksiksiz yelpazemiz, her yaştan, büyüklükten ve cinsten kedi için en doğru beslenmeyi sağlar.',
+  'plp.vet.cat.button':'Aralığı keşfedin',
 }
 
 export default tr_TR;

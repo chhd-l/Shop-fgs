@@ -744,8 +744,21 @@ const ru_RU = {
     "header.User.mySubscriptions": "Мои подписки",
     "header.User.faq": "FAQ",
     "header.User.monRoyalCanin": "Mon Royal Canin",
-    
+
     "searchForAProductOrArtical": 'Search for a product or artical',
+
+
+    //PLP-Retail-Cat
+    'plp.retail.cat.title':'Вы ищете ветеринарные продукты?',
+    'plp.retail.cat.detail':'Диетические продукты, помогающие поддерживать здоровье кошек с проблемами',
+    'plp.retail.cat.button':'Откройте для себя ассортимент',
+    'plp.retail.cat.product.finder.title':'Нужна помощь в поиске подходящего продукта?',
+    'plp.retail.cat.product.finder.detail':'Попробуйте наш поиск продукта',
+    'plp.retail.cat.product.finder.button':'Найти продукт',
+    //PLP-Vet-Cat
+    'plp.vet.cat.title':'Вы ищете продукты, доступные в специализированных торговых точках?',
+    'plp.vet.cat.detail':'Наш полный ассортимент сухих кормов и закусок в соусе или желе обеспечивает наиболее точный корм для кошек всех возрастов, размеров и пород.',
+    'plp.vet.cat.button':'Откройте для себя ассортимент',
   }
 
   export default ru_RU;
