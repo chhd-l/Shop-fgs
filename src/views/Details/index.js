@@ -2626,12 +2626,15 @@ console.log(stock,'stock')
                                       />
                                     </span>
                                   </button>
-                            &nbsp;&nbsp;
-                            <FormattedMessage id="or" />
-                            &nbsp;&nbsp;
-                            {!this.state.loading && stock ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
-                                    <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
-                                  </div> : null}
+                                  {!this.state.loading && stock ?
+                                    <>
+                                      &nbsp;&nbsp;
+                                      <FormattedMessage id="or" />
+                                      &nbsp;&nbsp;
+                                      <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                                        <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                                      </div>
+                                    </> : null}
                                   {/* {this.isLogin ? (
                             {
                               De ? <div className="mb-2 mr-2" style={{ fontSize: "14px" }}><span className="vat-text">Preise inkl. MwSt</span></div> : null
