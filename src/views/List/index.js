@@ -541,7 +541,7 @@ class List extends React.Component {
     let tmpSearch = '';
     const prefnNum = (search.match(/prefn/gi) || []).length;
 
-    for (let index = 0; index < prefnNum; index++) {
+    for (let index = 0; index < Math.min(prefnNum, 1); index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(
         getParaByName(search, `prefv${index + 1}`)
