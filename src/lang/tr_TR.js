@@ -762,6 +762,14 @@ const tr_TR = {
   'plp.vet.cat.title':'Özel satış noktalarında bulunan yiyecekleri mi arıyorsunuz?',
   'plp.vet.cat.detail':'Soslu veya jöleli kuru mamalar ve ısırıklardan oluşan eksiksiz yelpazemiz, her yaştan, büyüklükten ve cinsten kedi için en doğru beslenmeyi sağlar.',
   'plp.vet.cat.button':'Aralığı keşfedin',
+
+  //plp
+  "detail.question":'Hala bu ürünle ilgili sorularınız var?',
+  "detail.answer":'Danışmanlarımız gerçek uzmanlar ve tutkulu. Herhangi bir talebi cevaplamak için emrinizdedirler.',
+  "detail.telephone":'Telefonla',
+  "detail.email":'Eposta ile',
+  "detail.packagingDesc": 'Ambalajlarımız / ürünlerimiz bir sıralama talimatına tabi olabilir',
+  "learnMore":'Daha fazla bilgi edin',
 }
 
 export default tr_TR;
