@@ -234,7 +234,7 @@ function ListItem(props) {
                   </h3>
                 </div>
                 <div
-                  className="d-flex justify-content-center rc-padding-top--md"
+                  className=" text-center rc-padding-top--md"
                   style={{ fontSize: 'large' }}
                 >
                   <FormattedMessage
@@ -244,6 +244,7 @@ function ListItem(props) {
                     }}
                   />
                 </div>
+                <div style={{margin:'0 auto'}}>
                 <Link to="/product-finder">
                   <button
                     className="rc-btn rc-btn--two "
@@ -252,6 +253,7 @@ function ListItem(props) {
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
                   </button>
                 </Link>
+                 </div>
               </div>
               <picture className="rc-card__image">
                 <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen">
