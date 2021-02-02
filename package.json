@@ -126,7 +126,7 @@
     "push:stg_mx": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_mx && rm -rf build_tmp",
     "push:stg_de": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_de && rm -rf build_tmp",
     "push:stg_fr": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_fr && rm -rf build_tmp",
-    "push:stg_fr2": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_fr2/shop && rm -rf build_tmp",
+    "push:stg_fr2": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_fr2/fr/shop && rm -rf build_tmp",
     "push:stg_ru": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_ru && rm -rf build_tmp",
     "push:stg_tr": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_tr && rm -rf build_tmp"
   },
