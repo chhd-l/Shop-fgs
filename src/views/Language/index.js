@@ -9,8 +9,31 @@ export default class LanguagePage extends Component {
             allData:[]
         }
     }
-    selectCountry(urlCode){
-        alert(urlCode)
+    placeCurrentCountryToFirst(){
+        let newAllData = [...this.state.allData]
+        let currentCountryData = newAllData.find(element=>{
+            return element.IsCurrent == true
+        })
+        let currentCountryDataIndex = newAllData.findIndex(element=>{
+            return element.IsCurrent == true
+        })
+
+        newAllData.splice(currentCountryDataIndex,1)
+        newAllData.unshift(currentCountryData)
+        this.setState({
+            allData: newAllData
+        })
+}
+    getAllData(){
+        axios.get('/languagepicker/getcountries')
+        .then((response)=>{
+            this.setState({allData:response.data},()=>{
+                this.placeCurrentCountryToFirst()
+            })
+        });
+    }
+    selectCountry(){
+        alert(123)
     }
     render() {
         return (
@@ -34,7 +57,7 @@ export default class LanguagePage extends Component {
                                             {
                                                 this.state.allData.map((item,index)=>{
                                                     return (
-                                                        <option disabled={item.IsCurrent} selected={item.IsCurrent} value={item.UrlCode} key={`country-${index}`} onSelect={()=>this.selectCountry(item.UrlCode)}>{item.Name}</option>
+                                                        <option disabled={item.IsCurrent} selected={item.IsCurrent} value={item.UrlCode} key={`country-${index}`} onSelect={this.selectCountry}>{item.Name}</option>
                                                     )
                                                 })
                                             }
@@ -73,9 +96,6 @@ export default class LanguagePage extends Component {
         )
     }
     componentDidMount(){
-        axios.get('/languagepicker/getcountries')
-        .then((response)=>{
-            this.setState({allData:response.data})
-        });
+       this.getAllData()
     }
 }
