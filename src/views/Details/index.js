@@ -759,7 +759,6 @@ class Details extends React.Component {
             let tmpGoodsDetail = goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail,'tmpGoodsDetail')
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
@@ -796,7 +795,7 @@ class Details extends React.Component {
                         tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
                         </ul>`;
-                      } else if (key === 'Composition' || key === 'Ингредиенты') {
+                      } else if (key === 'Composition' || key === 'Ингредиенты' || key==='Karışık Beslenme') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -940,6 +939,7 @@ class Details extends React.Component {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
@@ -1040,7 +1040,6 @@ class Details extends React.Component {
               tabs
             });
           } catch (err) {
-            console.log(err, 'tmpGoodsDetail');
             getDict({
               type: 'goodsDetailTab',
               storeId: process.env.REACT_APP_STOREID
@@ -1784,7 +1783,6 @@ class Details extends React.Component {
       goodsType,
       barcode,
     } = this.state;
-console.log(stock,'stock')
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet = process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag; //vet产品并且是hub的情况下
