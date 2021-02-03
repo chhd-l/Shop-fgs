@@ -23,7 +23,7 @@ module.exports = function (app) {
   );
   app.use(
     proxy('/languagepicker', {
-      target: 'https://www.royalcanin.com/fr/api/languagepicker',
+      target: `${process.env.REACT_APP_HUB_URL}/api/languagepicker`,
       secure: false,
       changeOrigin: true,
       pathRewrite: {

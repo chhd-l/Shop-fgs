@@ -1152,7 +1152,7 @@ const fr_FR = {
   "header.User.monRoyalCanin": "Mon Royal Canin",
   //language-choose
   "lang.selectYourLocation": "Sélectionnez votre emplacement",
-  "lang.country": "pays",
+  "lang.country": "Pays",
   "lang.language": "Langue",
   "lang.submit": "Soumettre",
   "lang.close": "Fermer",
