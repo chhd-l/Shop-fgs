@@ -105,11 +105,11 @@ export default class LanguagePage extends Component {
                 <aside className="language-picker-modal rc-modal rc-modal--full">
                     <div className="rc-modal__container">
                         <header className="rc-modal__header">
-                            <Link to="/home">
+                            <a href={this.state.submitUrl}>
                                 <button className="rc-modal__close rc-btn rc-btn--icon-label rc-icon rc-close--xs rc-iconography" data-modal-trigger="country-lang-selector">
                                     <FormattedMessage id="lang.close" />
                                 </button>
-                            </Link>
+                            </a>
                         </header>
                         <section className="rc-modal__content rc-max-width--xl">
                             <div>
