@@ -30,7 +30,8 @@ import {
   getParaByName,
   getDictionary,
   setSeoConfig,
-  getDeviceType
+  getDeviceType,
+  loadJS
 } from '@/utils/utils';
 import './index.less';
 
@@ -38,7 +39,6 @@ import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 let isMobile = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 function getMuntiImg(item) {
   let img;
@@ -97,7 +97,7 @@ function ListItemH5ForFr(props) {
                   }}
                 >
                   {/*循环遍历的图片*/}
-                  <LazyLoad style={{ width: '100%', heigth: '100%' }}>
+                  <LazyLoad style={{ width: '100%', height: '100%' }}>
                     <img
                       src={
                         item.goodsImg ||
@@ -421,7 +421,7 @@ function ProductFinderAd() {
               </Link>
             </div>
             <div className="col-12 col-md-6">
-              <LazyLoad height={200}>
+              <LazyLoad style={{ width: '100%', height: '100%' }} height={200}>
                 <img src={pfRecoImg} />
               </LazyLoad>
             </div>
@@ -432,7 +432,7 @@ function ProductFinderAd() {
   );
 }
 
-@inject('loginStore', 'configStore')
+@inject('configStore')
 @injectIntl
 @observer
 class List extends React.Component {
@@ -482,7 +482,8 @@ class List extends React.Component {
         title: '',
         metaKeywords: '',
         metaDescription: ''
-      }
+      },
+      pageLink: ''
     };
     this.pageSize = 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -496,9 +497,12 @@ class List extends React.Component {
         sourceParam: search
       });
     }
-
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
+    if (keywordsSearch) {
+      //表示从搜索来的
+      dataLayer[0].page.type = 'Search Results';
+    }
     this.setState(
       {
         GAListParam:
@@ -533,6 +537,23 @@ class List extends React.Component {
         ]
       });
     });
+
+    let tmpSearch = '';
+    const prefnNum = (search.match(/prefn/gi) || []).length;
+
+    for (let index = 0; index < Math.min(prefnNum, 1); index++) {
+      const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+      const fvEles = decodeURI(
+        getParaByName(search, `prefv${index + 1}`)
+      ).split('|');
+      tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
+    }
+    this.setState({
+      pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`
+    });
+  }
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
   }
   get lastBreadListName() {
     const { breadList } = this.state;
@@ -619,12 +640,6 @@ class List extends React.Component {
         impressions: impressions
       }
     });
-  }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
   }
   toggleFilterModal(status) {
     this.setState({ filterModalVisible: status });
@@ -736,9 +751,24 @@ class List extends React.Component {
             let attributeValues = [];
             let attributeValueIdList = [];
             Array.from(fvEles, (fvItem) => {
-              const tFvItem = tItem.attributesValueList.filter(
+              const { pathname } = this.props.history.location;
+              const isDog = pathname.includes('dog');
+              const tFvItemList = tItem.attributesValueList.filter(
                 (t) => t.attributeDetailNameEn === fvItem
-              )[0];
+              );
+              const tFvItemForFirst = tFvItemList[0];
+              let tFvItem = tFvItemForFirst;
+              if (tFvItemList.length > 1) {
+                tFvItem =
+                  tItem.attributesValueList.filter(
+                    (t) =>
+                      t.attributeDetailNameEn === fvItem &&
+                      t.attributeDetailName
+                        .toLocaleLowerCase()
+                        .includes(`${isDog ? 'dog' : 'cat'}`)
+                  )[0] || tFvItemForFirst;
+              }
+
               if (tFvItem) {
                 attributeValues.push(tFvItem.attributeDetailName);
                 attributeValueIdList.push(tFvItem.id);
@@ -855,88 +885,155 @@ class List extends React.Component {
     }
 
     // 处理每个filter的router(处理url prefn/state)
+    // Array.from(tmpList, (pEle) => {
+    //   Array.from(pEle.attributesValueList, (cEle) => {
+    //     let hasRouter = true;
+    //     let filters = cloneDeep((state && state.filters) || []);
+    //     let prefnParamList = cloneDeep(prefnParamListFromSearch);
+
+    //     // 该子节点是否存在于prefn中
+    //     const targetPIdxForPrefn = prefnParamList.findIndex(
+    //       (p) => p.prefn === pEle.attributeName
+    //     );
+    //     const targetPItemForPrefn = prefnParamList[targetPIdxForPrefn];
+    //     // 该子节点是否存在于state.filters中
+    //     const targetPIdxForState = filters.findIndex(
+    //       (p) => p.attributeId === pEle.attributeId
+    //     );
+    //     const targetPItemForState = filters[targetPIdxForState];
+    //     if (cEle.selected) {
+    //       // 该子节点被选中，
+    //       // 1.1 若存在于链接中，则从链接中移除
+    //       // 1.2 若存在于state中，则从state中移除
+    //       // 2 若移除后，子节点为空了，则移除该父节点
+    //       let idx;
+    //       if (targetPItemForPrefn) {
+    //         idx = targetPItemForPrefn.prefvs.findIndex(
+    //           (p) => p === cEle.attributeDetailNameEn
+    //         );
+    //         targetPItemForPrefn.prefvs.splice(idx, 1);
+    //         if (!targetPItemForPrefn.prefvs.length) {
+    //           prefnParamList.splice(targetPIdxForPrefn, 1);
+    //         }
+    //       } else if (targetPItemForState) {
+    //         idx = targetPItemForState.attributeValueIdList.findIndex(
+    //           (p) => p === cEle.id
+    //         );
+    //         targetPItemForState.attributeValueIdList.splice(idx, 1);
+    //         targetPItemForState.attributeValues.splice(idx, 1);
+    //         if (!targetPItemForState.attributeValueIdList.length) {
+    //           filters.splice(targetPIdxForState, 1);
+    //         }
+    //       }
+    //     } else {
+    //       // 该子节点未被选中，在链接中新增prefn/新增state
+    //       // 1 该父节点存在于链接中，
+    //       // 1-1 该子节点为多选，找出并拼接上该子节点
+    //       // 2-1 该子节点为单选，原子节点值全部替换为当前子节点
+    //       // 2 该父节点不存在于链接中，直接新增
+
+    //       if (targetPItemForPrefn) {
+    //         if (pEle.choiceStatus === 'Single choice') {
+    //           targetPItemForPrefn.prefvs = [cEle.attributeDetailNameEn];
+    //         } else {
+    //           targetPItemForPrefn.prefvs.push(cEle.attributeDetailNameEn);
+    //         }
+    //       } else if (targetPItemForState) {
+    //         if (pEle.choiceStatus === 'Single choice') {
+    //           targetPItemForState.attributeValueIdList = [cEle.id];
+    //           targetPItemForState.attributeValues = [
+    //             cEle.attributeDetailNameEn
+    //           ];
+    //         } else {
+    //           targetPItemForState.attributeValueIdList.push(cEle.id);
+    //           targetPItemForState.attributeValues.push(
+    //             cEle.attributeDetailNameEn
+    //           );
+    //         }
+    //       } else {
+    //         // 少于1级，就把参数拼接到url prefn上，否则就把参数拼接到state上
+    //         if (prefnParamList.length < 1) {
+    //           prefnParamList.push({
+    //             prefn: pEle.attributeName,
+    //             prefvs: [cEle.attributeDetailNameEn]
+    //           });
+    //         } else {
+    //           // hasRouter = false;
+    //           filters.push({
+    //             attributeId: pEle.attributeId,
+    //             attributeName: pEle.attributeName,
+    //             attributeValueIdList: [cEle.id],
+    //             attributeValues: [cEle.attributeDetailNameEn],
+    //             filterType: pEle.filterType
+    //           });
+    //         }
+    //       }
+    //     }
+    //     const decoParam = prefnParamList.reduce(
+    //       (pre, cur) => {
+    //         return {
+    //           ret:
+    //             pre.ret +
+    //             `&prefn${pre.i}=${cur.prefn}&prefv${pre.i}=${cur.prefvs.join(
+    //               '|'
+    //             )}`,
+    //           i: ++pre.i
+    //         };
+    //       },
+    //       { i: 1, ret: '' }
+    //     );
+    //     cEle.router = hasRouter
+    //       ? {
+    //           pathname,
+    //           search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : '',
+    //           state: {
+    //             filters
+    //           }
+    //         }
+    //       : null;
+    //     return cEle;
+    //   });
+    //   return pEle;
+    // });
+
+    // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
       Array.from(pEle.attributesValueList, (cEle) => {
-        let hasRouter = true;
-        let filters = cloneDeep((state && state.filters) || []);
         let prefnParamList = cloneDeep(prefnParamListFromSearch);
-
-        // 该子节点是否存在于prefn中
-        const targetPIdxForPrefn = prefnParamList.findIndex(
+        const targetPIdx = prefnParamList.findIndex(
           (p) => p.prefn === pEle.attributeName
         );
-        const targetPItemForPrefn = prefnParamList[targetPIdxForPrefn];
-        // 该子节点是否存在于state.filters中
-        const targetPIdxForState = filters.findIndex(
-          (p) => p.attributeId === pEle.attributeId
-        );
-        const targetPItemForState = filters[targetPIdxForState];
+        const targetPItem = prefnParamList[targetPIdx];
         if (cEle.selected) {
-          // 该子节点被选中，
-          // 1.1 若存在于链接中，则从链接中移除
-          // 1.2 若存在于state中，则从state中移除
-          // 2 若移除后，子节点为空了，则移除该父节点
-          let idx;
-          if (targetPItemForPrefn) {
-            idx = targetPItemForPrefn.prefvs.findIndex(
+          // 该子节点被选中，从链接中移除
+          // 1 若移除后，子节点为空了，则移除该父节点
+          if (targetPItem) {
+            const idx = targetPItem.prefvs.findIndex(
               (p) => p === cEle.attributeDetailNameEn
             );
-            targetPItemForPrefn.prefvs.splice(idx, 1);
-            if (!targetPItemForPrefn.prefvs.length) {
-              prefnParamList.splice(targetPIdxForPrefn, 1);
-            }
-          } else if (targetPItemForState) {
-            idx = targetPItemForState.attributeValueIdList.findIndex(
-              (p) => p === cEle.id
-            );
-            targetPItemForState.attributeValueIdList.splice(idx, 1);
-            targetPItemForState.attributeValues.splice(idx, 1);
-            if (!targetPItemForState.attributeValueIdList.length) {
-              filters.splice(targetPIdxForState, 1);
+            targetPItem.prefvs.splice(idx, 1);
+            if (!targetPItem.prefvs.length) {
+              prefnParamList.splice(targetPIdx, 1);
             }
           }
         } else {
-          // 该子节点未被选中，在链接中新增prefn/新增state
+          // 该子节点未被选中，在链接中新增prefn/prefv
           // 1 该父节点存在于链接中，
           // 1-1 该子节点为多选，找出并拼接上该子节点
           // 2-1 该子节点为单选，原子节点值全部替换为当前子节点
           // 2 该父节点不存在于链接中，直接新增
 
-          if (targetPItemForPrefn) {
+          if (targetPItem) {
             if (pEle.choiceStatus === 'Single choice') {
-              targetPItemForPrefn.prefvs = [cEle.attributeDetailNameEn];
+              targetPItem.prefvs = [cEle.attributeDetailNameEn];
             } else {
-              targetPItemForPrefn.prefvs.push(cEle.attributeDetailNameEn);
-            }
-          } else if (targetPItemForState) {
-            if (pEle.choiceStatus === 'Single choice') {
-              targetPItemForState.attributeValueIdList = [cEle.id];
-              targetPItemForState.attributeValues = [
-                cEle.attributeDetailNameEn
-              ];
-            } else {
-              targetPItemForState.attributeValueIdList.push(cEle.id);
-              targetPItemForState.attributeValues.push(
-                cEle.attributeDetailNameEn
-              );
+              targetPItem.prefvs.push(cEle.attributeDetailNameEn);
             }
           } else {
-            // 少于1级，就把参数拼接到url prefn上，否则就把参数拼接到state上
-            if (prefnParamList.length < 1) {
-              prefnParamList.push({
-                prefn: pEle.attributeName,
-                prefvs: [cEle.attributeDetailNameEn]
-              });
-            } else {
-              // hasRouter = false;
-              filters.push({
-                attributeId: pEle.attributeId,
-                attributeName: pEle.attributeName,
-                attributeValueIdList: [cEle.id],
-                attributeValues: [cEle.attributeDetailNameEn],
-                filterType: pEle.filterType
-              });
-            }
+            prefnParamList.push({
+              prefn: pEle.attributeName,
+              prefvs: [cEle.attributeDetailNameEn]
+            });
           }
         }
         const decoParam = prefnParamList.reduce(
@@ -952,15 +1049,10 @@ class List extends React.Component {
           },
           { i: 1, ret: '' }
         );
-        cEle.router = hasRouter
-          ? {
-              pathname,
-              search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : '',
-              state: {
-                filters
-              }
-            }
-          : null;
+        cEle.router = {
+          pathname,
+          search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : ''
+        };
         return cEle;
       });
       return pEle;
@@ -1006,7 +1098,8 @@ class List extends React.Component {
       filterList,
       searchForm,
       defaultFilterSearchForm,
-      actionFromFilter
+      actionFromFilter,
+      sourceParam
     } = this.state;
 
     this.setState({ loading: true });
@@ -1188,6 +1281,26 @@ class List extends React.Component {
               return ret;
             });
           }
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
+          loadJS({
+            code: JSON.stringify({
+              '@context': 'http://schema.org/',
+              '@type': 'ItemList',
+              itemListElement: goodsContent.map((g, i) => ({
+                '@type': 'ListItem',
+                position: (esGoods.number + 1) * (i + 1),
+                url:
+                  `${urlPrefix}/${g.lowGoodsName
+                    .split(' ')
+                    .join('-')
+                    .replace('/', '')}-${g.goodsNo}` + sourceParam
+              }))
+            }),
+            type: 'application/ld+json'
+          });
           this.setState(
             {
               productList: goodsContent,
@@ -1305,6 +1418,7 @@ class List extends React.Component {
   };
   render() {
     const { breadListByDeco, lastBreadListName } = this;
+    const { pageLink } = this.state;
     const { history } = this.props;
     const { pathname } = history.location;
     const {
@@ -1413,7 +1527,7 @@ class List extends React.Component {
                   </div>
                 </div>
                 <div className="rc-column">
-                  <LazyLoad>
+                  <LazyLoad style={{ width: '100%' }}>
                     <img src={titleData.img} className="mx-auto" alt="" />
                   </LazyLoad>
                 </div>
@@ -1819,7 +1933,15 @@ class List extends React.Component {
               id="notate"
               values={{
                 val: (
-                  <Link className="rc-styled-link" to="/FAQ/catogery-1">
+                  <Link
+                    className="rc-styled-link"
+                    to={{
+                      pathname: '/faq',
+                      state: {
+                        catogery: 'catogery-1'
+                      }
+                    }}
+                  >
                     Versandkosten
                   </Link>
                 )

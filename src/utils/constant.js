@@ -90,7 +90,7 @@ export const ADYEN_CREDIT_CARD_BRANDS = {
   ru: ['mc', 'visa', 'amex', 'discover'],
   en: ['mc', 'visa', 'amex', 'discover'],
   de: ['mc', 'visa']
-} || ['mc', 'visa', 'amex'];
+}[process.env.REACT_APP_LANG] || ['mc', 'visa', 'amex'];
 
 export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 export const ADDRESS_RULE = [

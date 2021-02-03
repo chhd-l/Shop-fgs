@@ -50,7 +50,6 @@ class TermsCommon extends Component {
       },
       () => {
         // this.valid();
-        console.log(222,this.state.list)
       }
     );
   }

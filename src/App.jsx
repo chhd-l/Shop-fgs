@@ -46,6 +46,7 @@ import Details from '@/views/Details/index.js';
 import Cart from '@/views/Cart';
 import Payment from '@/views/Payment';
 import Confirmation from '@/views/Confirmation';
+import Adyen3DSFail from '@/views/Payment/modules/Adyen3DSFail';
 import PayResult from '@/views/Payment/modules/PayResult';
 import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
@@ -108,6 +109,7 @@ import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
 import Consent1TR from '@/views/StaticPage/tr/Consent/Consent1';
 import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
+import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -205,6 +207,8 @@ const App = () => (
               />
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
+              <Route exact path="/kitten-nutrition" component={KittenNutrition} />
+              <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
               <Route exact path="/prescription" component={Prescription} />
               <Route
                 exact
@@ -218,18 +222,11 @@ const App = () => (
                 path="/general-terms-conditions"
                 component={TermsConditions}
               />
-              <Route exact path="/packmixfeedingwetdry" component={Packfeed} />
+              <Route exact path="/pack-mix-feeding-wet-dry" component={Packfeed} />
               <Route
                 exact
                 path="/termsandconditions"
                 component={TermsConditions}
-              />
-              <Route
-                exact
-                path="/FAQ/:catogery"
-                render={(props) => (
-                  <FAQ key={props.match.params.catogery} {...props} />
-                )}
               />
               <Route
                 exact
@@ -257,11 +254,7 @@ const App = () => (
                 exact
                 path="/recommendation"
                 render={(props) => {
-                  return (
-                    <Recommendation_FR
-                      {...props}
-                    />
-                  );
+                  return <Recommendation_FR {...props} />;
                 }}
               />
 
@@ -421,6 +414,7 @@ const App = () => (
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values" exact component={FR_Values} />
               <Route
+                sensitive
                 path="/Tailorednutrition"
                 exact
                 component={Tailorednutrition}
@@ -458,7 +452,8 @@ const App = () => (
               />
               <Route
                 exact
-                path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
+                // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
+                path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
                 render={(props) => {
                   if (props.location.state && props.location.state.noresult) {
                     return <SearchShow {...props} />;
@@ -529,16 +524,40 @@ const App = () => (
 
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
-                    return <Details key={props.match.params.id} {...props} />;
+                    const needRedirect1 =
+                      location.pathname.split('_FR.html').length > 1;
+                    const needRedirect2 =
+                      location.pathname.split('.html').length > 1;
+                    if (needRedirect1 || needRedirect2) {
+                      return (
+                        <Redirect
+                          to={
+                            needRedirect1
+                              ? location.pathname.split('_FR.html')[0]
+                              : location.pathname.split('.html')[0]
+                          }
+                        />
+                      );
+                    } else {
+                      return <Details key={props.match.params.id} {...props} />;
+                    }
                   } else {
-                    return (
-                      <List
-                        key={
-                          props.match.params.category + props.location.search
-                        }
-                        {...props}
-                      />
-                    );
+                    const needRedirect =
+                      location.pathname.split('.html').length > 1;
+                    if (needRedirect) {
+                      return (
+                        <Redirect to={location.pathname.split('.html')[0]} />
+                      );
+                    } else {
+                      return (
+                        <List
+                          key={
+                            props.match.params.category + props.location.search
+                          }
+                          {...props}
+                        />
+                      );
+                    }
                   }
                 }}
               />

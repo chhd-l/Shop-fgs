@@ -230,8 +230,8 @@ class UnloginCart extends React.Component {
                 <div className="minicart__empty">
                   <img
                     className="cart-img"
-                    src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
-                    alt="Интернет-магазин ROYAL CANIN®"
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`}
+                    alt="ROYAL CANIN® online store"
                   />
                   <p className="rc-delta">
                     <FormattedMessage id="header.basketEmpty" />
@@ -413,7 +413,14 @@ class UnloginCart extends React.Component {
                                           // textDecoration: 'line-through'
                                         }}
                                       >
-                                        {formatMoney(item.currentAmount)}
+                                        {formatMoney(
+                                          item.sizeList.filter(
+                                            (s) => s.selected
+                                          )[0] &&
+                                            item.sizeList.filter(
+                                              (s) => s.selected
+                                            )[0].currentAmount || 0
+                                        )}
                                       </b>
                                     </div>
                                   </div>

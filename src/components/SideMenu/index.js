@@ -45,7 +45,7 @@ const menuList = [
     catogery: 'Faq',
     icon: <span className="iconfont">&#xe696;</span>,
     langKey: 'footer.FAQ',
-    url: '/FAQ/all'
+    url: '/faq'
   },
   // {
   //   catogery: 'ShippingAddress',

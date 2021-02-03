@@ -24,7 +24,8 @@ import {
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  getParaByName
+  getParaByName,
+  loadJS
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -133,7 +134,9 @@ class Details extends React.Component {
         goodsSpecDetails: [],
         goodsSpecs: [],
         taggingForText: null,
-        taggingForImage: null
+        taggingForImage: null,
+        fromPrice: 0,
+        toPrice: 0
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -170,7 +173,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: 1, //0 - once/ 1 - frequency
+        buyWay: process.env.REACT_APP_PDP_BUYWAY === undefined?1: parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -201,7 +204,7 @@ class Details extends React.Component {
   }
   async componentDidMount() {
     this.getUrlParam();
-
+    console.log(this.state.form.buyWay, 'buyWay')
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -314,8 +317,32 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
       }
     );
+  }
+  setGoogleProductStructuredDataMarkup () {
+    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } = this.state
+    loadJS({
+      code: JSON.stringify({
+        '@context': 'http://schema.org/',
+        '@type': 'Product',
+        name: details.goodsName,
+        description: goodsDetailTab.tabContent[0],
+        mpn: goodsNo,
+        sku: goodsNo,
+        image: spuImages.map(s => s.artworkUrl),
+        offers: {
+          url: {},
+          '@type': 'AggregateOffer',
+          priceCurrency: process.env.REACT_APP_CURRENCY,
+          availability: instockStatus ? 'http://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          lowPrice: details.fromPrice,
+          highPrice: details.toPrice || details.fromPrice
+        }
+      }),
+      type: 'application/ld+json'
+    });
   }
   matchGoods() {
     let {
@@ -401,6 +428,7 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
       }
     );
   }
@@ -427,6 +455,7 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
+          
           this.setState(
             {
               productRate: res.context.goods.avgEvaluate,
@@ -446,7 +475,9 @@ class Details extends React.Component {
                     e.taggingType === 'Image' &&
                     e.showPage &&
                     e.showPage.includes('PDP')
-                )[0]
+                )[0],
+                fromPrice: res.context.fromPrice,
+                toPrice: res.context.toPrice
               }),
               spuImages: res.context.images,
               breadCrumbs: [{ name: res.context.goods.goodsName }],
@@ -554,7 +585,9 @@ class Details extends React.Component {
                 sItem.chidren[defaultSelcetdSku].selected = true;
               }
             } else {
-              if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+              if (process.env.REACT_APP_LANG === 'de' && sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+                sItem.chidren[0].selected = true;
+              } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
                 sItem.chidren[1].selected = true;
               } else {
                 for (let i = 0; i < sItem.chidren.length; i++) {
@@ -583,7 +616,6 @@ class Details extends React.Component {
           console.log(sizeList, 'sizeList');
 
           // const selectedSize = find(sizeList, s => s.selected)
-
           const { goodsDetailTab, tabs } = this.state;
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
@@ -593,11 +625,11 @@ class Details extends React.Component {
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (process.env.REACT_APP_LANG === 'fr') {
+                  if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description') {
+                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -610,7 +642,7 @@ class Details extends React.Component {
                               }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices') {
+                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -626,7 +658,7 @@ class Details extends React.Component {
                         tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
                         </ul>`;
-                      } else if (key === 'Composition') {
+                      } else if (key === 'Composition' || key === 'Ингредиенты') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -768,11 +800,11 @@ class Details extends React.Component {
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (process.env.REACT_APP_LANG === 'fr') {
+                  if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description') {
+                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -783,9 +815,21 @@ class Details extends React.Component {
                               `<p style="white-space: pre-line">${
                                 Object.values(JSON.parse(el))[0]
                               }</p>`;
+                          }else if(Object.keys(JSON.parse(el))[0] === 'Prescriber Blod Description') {
+                            tempContent =
+                              tempContent +
+                              `<p style="white-space: pre-line; font-weight: 400">${
+                                Object.values(JSON.parse(el))[0]
+                              }</p>`;
+                          }else if(Object.keys(JSON.parse(el))[0] === 'Prescriber Description') {
+                            tempContent =
+                              tempContent +
+                              `<p style="white-space: pre-line; font-weight: 400;">${
+                                Object.values(JSON.parse(el))[0]
+                              }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices') {
+                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -1597,8 +1641,7 @@ class Details extends React.Component {
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    console.log(selectedSpecItem, 'selectedSpecItem');
-
+    const De = process.env.REACT_APP_LANG === 'de';
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
@@ -1729,7 +1772,7 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  {process.env.REACT_APP_LANG === 'fr' ? (
+                                  {process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr' ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
                                       video={details.goodsVideo}
@@ -2009,7 +2052,7 @@ class Details extends React.Component {
                                 </div>
                               </div>
                               <div className="price font-weight-normal text-right">
-                                <div>{formatMoney(currentUnitPrice)}</div>
+                                <div className={De ? "current-unit-price" : ""}>{formatMoney(currentUnitPrice)}</div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
                                   <div
@@ -2047,7 +2090,7 @@ class Details extends React.Component {
                           </div>
                         ) : (
                           <div
-                            className="buyMethod rc-margin-bottom--xs 2"
+                            className="buyMethod rc-margin-bottom--xs d-flex align-items-center 2"
                             style={{
                               borderColor: !parseInt(form.buyWay)
                                 ? '#e2001a'
@@ -2100,7 +2143,7 @@ class Details extends React.Component {
                               </span>
                             </div>
                             <div className="price font-weight-normal text-right">
-                              <div>{formatMoney(currentUnitPrice)}</div>
+                              <div className={De ? "current-unit-price" : ""}>{formatMoney(currentUnitPrice)}</div>
                               {process.env.REACT_APP_LANG === 'de' &&
                               selectedSpecItem ? (
                                 <div
@@ -2201,7 +2244,7 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                                 <div className="price font-weight-normal text-right">
-                                  <div>
+                                  <div className={De ? "current-unit-price" : ""}>
                                     {formatMoney(currentSubscriptionPrice || 0)}
                                   </div>
                                   {process.env.REACT_APP_LANG === 'de' &&
@@ -2369,7 +2412,7 @@ class Details extends React.Component {
                                 />
                               </div>
                               <div className="price font-weight-normal text-right">
-                                <div>
+                                <div className={De ? "current-unit-price" : ""}>
                                   {formatMoney(currentSubscriptionPrice || 0)}
                                 </div>
                                 {process.env.REACT_APP_LANG === 'de' &&
@@ -2414,6 +2457,9 @@ class Details extends React.Component {
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
+                            {
+                              De ? <div className="mb-2 mr-2" style={{ fontSize: "14px" }}><span className="vat-text">Preise inkl. MwSt</span></div> : null
+                            }
                             <button
                               style={{ padding: '2px 30px' }}
                               className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
@@ -2582,7 +2628,7 @@ class Details extends React.Component {
                         >
                           <div className="block">
                             <p
-                              className="content rc-scroll--x"
+                              className="content rc-scroll--x detail-content-tabinfo"
                               style={{ marginBottom: '4rem' }}
                               dangerouslySetInnerHTML={createMarkup(ele)}
                             />

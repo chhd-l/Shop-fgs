@@ -95,11 +95,6 @@ const breadcrumbNameMap = {
       name: 'Nos combinaisons de croquettes et de bouchées'
     }
   ],
-  '/FAQ/all': [
-    {
-      name: 'FAQ'
-    }
-  ],
   '/faq': [
     {
       name: 'FAQ'
@@ -140,7 +135,8 @@ const breadcrumbNameMap = {
     },
     { name: 'productFinder.resultPage' }
   ],
-  '/cat-nutrition': [{ name: 'catNutrition' }]
+  '/cat-nutrition': [{ name: 'catNutrition' }],
+  '/kitten-nutrition': [{name: 'Nutrition chatons'}]
 };
 
 export default breadcrumbNameMap;

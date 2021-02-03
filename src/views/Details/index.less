@@ -1,3 +1,10 @@
+.custom-star {
+    content:'*';
+    color:red;
+    position: absolute;
+    font-size: 1.2rem;
+}
+
 .desAndStars {
   display: flex;
 
@@ -13,6 +20,9 @@
 #Details .outOfStock > span:hover {
   border: 1px solid #ccc;
   cursor: not-allowed !important;
+}
+.detail-content-tabinfo p{
+  margin-bottom: 0.5rem;
 }
 .rc-tabs__content__single .block table, .rc-list__content table{
   width: 100%;
@@ -315,6 +325,21 @@ ul.ui-star-list li:before {
   //   margin-bottom: 0;
   //   padding: 0 20px;
   // }
+  .current-unit-price {
+    position:relative;
+    &::after {
+      .custom-star;
+      top: -0.5rem;
+    }
+  }
+  .vat-text {
+    position:relative;
+    &::before {
+      .custom-star;
+      top: -0.2rem;
+      left: -0.6rem;
+    }
+  }
 }
 
 #Details {

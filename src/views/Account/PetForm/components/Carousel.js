@@ -1,30 +1,32 @@
 import React from 'react';
-import "./Carousel.less"
-import { animate } from "@/assets/js/animate"
+import './Carousel.less';
+import { animate } from '@/assets/js/animate';
 // import { getGoodsRelation } from '@/api/details';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
-import { getRecommendProducts } from '@/api/pet'
+import { getRecommendProducts } from '@/api/pet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 //信号量
 var idx = 0;
 var options = {
-  "interval": 2000,	//间隔时间
-  "animatetime": 500,
-  "tween": "QuadEaseOut",
-  "width": 1200
-}
+  interval: 2000, //间隔时间
+  animatetime: 500,
+  tween: 'QuadEaseOut',
+  width: 1200
+};
 
 class Carousel extends React.Component {
+  static defaultProps = {
+    customCls: ''
+  };
   constructor(props) {
     super(props);
     this.state = {
       goodsList: [],
-      windowWidth: 0,
-
+      windowWidth: 0
     };
   }
   componentDidMount() {
@@ -46,14 +48,14 @@ class Carousel extends React.Component {
     // }
     // console.log(this.props,'props')
   }
-  
+
   changeCircles = () => {
     //得到元素
-    var circles = document.getElementById("circles");
-    var m_unit = document.getElementById("m_unit");
-    var imageUL = m_unit.getElementsByTagName("ul")[0];
-    var imageLis = imageUL.getElementsByTagName("li");
-    var circlesLis = circles.getElementsByTagName("li");
+    var circles = document.getElementById('circles');
+    var m_unit = document.getElementById('m_unit');
+    var imageUL = m_unit.getElementsByTagName('ul')[0];
+    var imageLis = imageUL.getElementsByTagName('li');
+    var circlesLis = circles.getElementsByTagName('li');
 
     var length = imageLis.length;
 
@@ -61,20 +63,20 @@ class Carousel extends React.Component {
     var n = idx > length - 1 ? 0 : idx;
     //排他
     for (var i = 0; i < circlesLis.length; i++) {
-      circlesLis[i].className = "";
+      circlesLis[i].className = '';
     }
-    circlesLis[n].className = "cur";
-  }
+    circlesLis[n].className = 'cur';
+  };
   leftBtnClick = () => {
     //得到元素
-    var m_unit = document.getElementById("m_unit");
-    var imageUL = m_unit.getElementsByTagName("ul")[0];
-    var imageLis = imageUL.getElementsByTagName("li");
+    var m_unit = document.getElementById('m_unit');
+    var imageUL = m_unit.getElementsByTagName('ul')[0];
+    var imageLis = imageUL.getElementsByTagName('li');
 
     var length = imageLis.length;
 
     //阻止第一个跳转
-    if(idx===0) return
+    if (idx === 0) return;
 
     //函数截流
     if (m_unit.isanimated) return;
@@ -83,27 +85,30 @@ class Carousel extends React.Component {
     idx--;
     if (idx < 0) {
       idx = length - 1;
-      m_unit.style.left = -options.width * length + "px";
+      m_unit.style.left = -options.width * length + 'px';
     }
 
     //改变小圆点
     this.changeCircles();
 
-    animate(m_unit, { "left": -options.width * idx }, options.animatetime, options.tween);
-  }
+    animate(
+      m_unit,
+      { left: -options.width * idx },
+      options.animatetime,
+      options.tween
+    );
+  };
   rightBtnClick = () => {
     //得到元素
-    var circles = document.getElementById("circles");
-    var m_unit = document.getElementById("m_unit");
-    var imageUL = m_unit.getElementsByTagName("ul")[0];
-    var imageLis = imageUL.getElementsByTagName("li");
-
-
+    var circles = document.getElementById('circles');
+    var m_unit = document.getElementById('m_unit');
+    var imageUL = m_unit.getElementsByTagName('ul')[0];
+    var imageLis = imageUL.getElementsByTagName('li');
 
     var length = imageLis.length;
 
-     //阻止最后一个跳转
-     if(idx===length - 1) return
+    //阻止最后一个跳转
+    if (idx === length - 1) return;
 
     //函数截流
     if (m_unit.isanimated) return;
@@ -111,28 +116,37 @@ class Carousel extends React.Component {
     //信号量的变化
     idx++;
 
-    
-
     //改变小圆点
     this.changeCircles();
 
     //运动机构的移动
-    animate(m_unit, { "left": -options.width * idx }, options.animatetime, options.tween, function () {
-      if (idx > length - 1) {
-        idx = 0;
-        m_unit.style.left = "0px";
-        return
+    animate(
+      m_unit,
+      { left: -options.width * idx },
+      options.animatetime,
+      options.tween,
+      function () {
+        if (idx > length - 1) {
+          idx = 0;
+          m_unit.style.left = '0px';
+          return;
+        }
       }
-    });
-  }
+    );
+  };
   clickCircle = (index) => {
     //信号量就是自己的序号
     idx = index;
     //拉动
-    animate(m_unit, { "left": -options.width * idx }, options.animatetime, options.tween);
+    animate(
+      m_unit,
+      { left: -options.width * idx },
+      options.animatetime,
+      options.tween
+    );
     //改变小圆点
     this.changeCircles();
-  }
+  };
 
   hanldeClick = (item) => {
     const { history, location } = this.props;
@@ -142,11 +156,16 @@ class Carousel extends React.Component {
     //   `/${item.spuName.split(' ').join('-')}-${item.goodsNo}`
     // );
     history.push('/details/' + item.goodsInfos[0].goodsInfoId);
-  }
+  };
   render() {
-    console.log(this.props.recommendData, 'recommendData')
+    console.log(this.props.recommendData, 'recommendData');
     return (
-      <div style={{display:this.props.recommendData.length===0?'none':'block'}}>
+      <div
+        style={{
+          display: this.props.recommendData.length === 0 ? 'none' : 'block'
+        }}
+        className={`${this.props.customCls}`}
+      >
         <div
           style={{
             textAlign: 'center',
@@ -157,27 +176,46 @@ class Carousel extends React.Component {
           }}
         >
           <FormattedMessage id="recommandedForyou" />
-      </div>
-        <div className='carousel-wrap'>
-          <a className="leftBtn Btn rc-icon rc-left rc-iconography ui-cursor-pointer" id="leftBtn" onClick={this.leftBtnClick}></a>
-          <a className="rightBtn Btn  rc-icon  rc-right rc-iconography ui-cursor-pointer" id="rightBtn" onClick={this.rightBtnClick}></a>
+        </div>
+        <div className="carousel-wrap">
+          <a
+            className="leftBtn Btn rc-icon rc-left rc-iconography ui-cursor-pointer"
+            id="leftBtn"
+            onClick={this.leftBtnClick}
+          ></a>
+          <a
+            className="rightBtn Btn  rc-icon  rc-right rc-iconography ui-cursor-pointer"
+            id="rightBtn"
+            onClick={this.rightBtnClick}
+          ></a>
           <div className="carousel" id="carousel">
             <div className="m_unit" id="m_unit">
               <ul>
-                {
-                  this.props.recommendData.length && this.props.recommendData.map((item, index) => {
+                {this.props.recommendData.length &&
+                  this.props.recommendData.map((item, index) => {
                     return (
                       <li key={index}>
                         <div>
                           {
-                            (
-                              <p key={index} onClick={this.hanldeClick.bind(this, item)} style={{ cursor: 'pointer' }}>
-                              <div style={{ width: '150px', height: '180px', backgroundSize: '150px 180px', backgroundImage: 'url(' + item.goodsImg + ')', margin: '10px auto 0' }}></div>
-                              <div className="goodsName">{item.goodsName}</div>
-                              <div className="subtitle">{item.goodsSubtitle}</div>
+                            <p
+                              key={index}
+                              onClick={this.hanldeClick.bind(this, item)}
+                              style={{ cursor: 'pointer' }}
+                            >
                               <div
-                                className='rete'
-                              >
+                                style={{
+                                  width: '150px',
+                                  height: '180px',
+                                  backgroundSize: '150px 180px',
+                                  backgroundImage: 'url(' + item.goodsImg + ')',
+                                  margin: '10px auto 0'
+                                }}
+                              ></div>
+                              <div className="goodsName">{item.goodsName}</div>
+                              <div className="subtitle">
+                                {item.goodsSubtitle}
+                              </div>
+                              <div className="rete">
                                 <div className="display-inline">
                                   <Rate
                                     def={item.avgEvaluate}
@@ -187,7 +225,7 @@ class Carousel extends React.Component {
                                 </div>
                                 <span className="comments rc-margin-left--xs rc-text-colour--text">
                                   ({item.goodsEvaluateNum})
-                              </span>
+                                </span>
                               </div>
                               {/* <div className="marketPrice">
                               {formatMoney(item.minMarketPrice)}
@@ -196,9 +234,14 @@ class Carousel extends React.Component {
                               {/* <div className="marketPrice" style={{textAlign: "center"}}>
                                 from 12 to 24
                               </div> */}
-                              <div className="d-flex justify-content-center" style={{paddingTop: '1.5rem'}}>
+                              <div
+                                className="d-flex justify-content-center"
+                                style={{ paddingTop: '1.5rem' }}
+                              >
                                 <div className="rc-card__price text-left PriceFitScreen">
-                                  <div className={`rc-full-width PriceFitScreen`}>
+                                  <div
+                                    className={`rc-full-width PriceFitScreen`}
+                                  >
                                     <span
                                       style={{
                                         color: '#000'
@@ -206,14 +249,20 @@ class Carousel extends React.Component {
                                       className="value sales"
                                     >
                                       {item.toPrice ? (
-                                        <span className="mr-1" style={{ fontSize: '.8em' }}>
+                                        <span
+                                          className="mr-1"
+                                          style={{ fontSize: '.8em' }}
+                                        >
                                           <FormattedMessage id="startFrom" />
                                         </span>
                                       ) : null}
                                       {formatMoney(item.fromPrice)}
                                       {item.toPrice ? (
                                         <>
-                                          <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                                          <span
+                                            className="ml-1 mr-1"
+                                            style={{ fontSize: '.8em' }}
+                                          >
                                             <FormattedMessage id="startEnd" />
                                           </span>
                                           {formatMoney(item.toPrice)}
@@ -221,67 +270,61 @@ class Carousel extends React.Component {
                                       ) : null}
                                     </span>
                                   </div>
-
                                 </div>
-
                               </div>
-                              {
-                                item.minSubscriptionPrice
-                                  ?
-                                  <p className="subscriptionPrice">
-                                    <div>
-                                      {formatMoney(item.minSubscriptionPrice)}
-                                      <span
-                                        className="iconfont font-weight-bold red mr-1"
-                                        style={{
-                                          fontSize: '.65em',
-                                          marginLeft: '6px',
-                                          color:'#323232',
-                                          fontWeight:'bold'
-                                        }}
-                                      >
-                                        &#xe675;
+                              {item.minSubscriptionPrice ? (
+                                <p className="subscriptionPrice">
+                                  <div>
+                                    {formatMoney(item.minSubscriptionPrice)}
+                                    <span
+                                      className="iconfont font-weight-bold red mr-1"
+                                      style={{
+                                        fontSize: '.65em',
+                                        marginLeft: '6px',
+                                        color: '#323232',
+                                        fontWeight: 'bold'
+                                      }}
+                                    >
+                                      &#xe675;
                                     </span>
-                                      <span
-                                        className="position-relative red-text position-absolute"
-                                        style={{
-                                          fontSize: '.7em',
-                                          whiteSpace: 'nowrap',
-                                          marginTop: '4px',
-                                          marginLeft: '4px',
-                                        }}
-                                      >
-                                        <FormattedMessage id="autoshop" />
-                                      </span>
-                                    </div>
-                                  </p>
-                                  : null
-                              }
+                                    <span
+                                      className="position-relative red-text position-absolute"
+                                      style={{
+                                        fontSize: '.7em',
+                                        whiteSpace: 'nowrap',
+                                        marginTop: '4px',
+                                        marginLeft: '4px'
+                                      }}
+                                    >
+                                      <FormattedMessage id="autoshop" />
+                                    </span>
+                                  </div>
+                                </p>
+                              ) : null}
                             </p>
-                            )
                           }
                         </div>
                       </li>
-                    )
-                  })
-                }
+                    );
+                  })}
               </ul>
             </div>
           </div>
           <div className="circles" id="circles">
             <ol>
-              {
-                this.state.goodsList.map((item, index) => {
-                  return (
-                    <li className={index === 0 ? 'cur' : ''} onClick={() => this.clickCircle(index)}></li>
-                  )
-                })
-              }
+              {this.state.goodsList.map((item, index) => {
+                return (
+                  <li
+                    className={index === 0 ? 'cur' : ''}
+                    onClick={() => this.clickCircle(index)}
+                  ></li>
+                );
+              })}
             </ol>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

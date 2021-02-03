@@ -13,14 +13,14 @@ const SocialRegister = () => {
   };
 
   return (
-    <div class="rc-two-column">
-      <div class="rc-column">
-        <p class="social-auth-button fecebookBtn" onClick={loginWithFacebook}>
+    <div className="rc-two-column">
+      <div className="rc-column">
+        <p className="social-auth-button fecebookBtn" onClick={loginWithFacebook}>
           <FormattedMessage id="registerFeckbook" />
         </p>
       </div>
-      <div class="rc-column">
-        <p class="social-auth-button googleBtn" onClick={loginWithGoogle}>
+      <div className="rc-column">
+        <p className="social-auth-button googleBtn" onClick={loginWithGoogle}>
           <FormattedMessage id="registerGoogle" />
         </p>
       </div>

@@ -16179,7 +16179,7 @@ header .rc-list--inline .rc-list__item.dropdown {
 
 body.open-dropdown:after {
   content: "";
-  z-index: 9;
+  z-index: 20;
   position: fixed;
   height: 100%;
   width: 100%;
@@ -22273,4 +22273,8 @@ a.rc-styled-link,b.rc-styled-link,button.rc-styled-link,span.rc-styled-link {
 }
 .creditCompleteInfoBox.active {
   background-color: #3856A719;
+}
+
+html:not(.rc-loaded--final) .rc-list__content {
+  display: block!important;
 }

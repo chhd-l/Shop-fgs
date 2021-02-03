@@ -32,7 +32,7 @@ import './index.less';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 @inject('checkoutStore')
 @injectIntl
@@ -44,7 +44,7 @@ class AccountOrders extends React.Component {
       orderList: [],
       form: {
         orderNumber: '',
-        period: 7,
+        period: 180,
         orderCategory: '' // 订单类型
       },
       loading: true,
@@ -78,6 +78,7 @@ class AccountOrders extends React.Component {
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
     this.handleDownInvoice = this.handleDownInvoice.bind(this);
     this.handleClickPayNow = this.handleClickPayNow.bind(this);
+    this.handlePayNowTimeEnd = this.handlePayNowTimeEnd.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -326,8 +327,8 @@ class AccountOrders extends React.Component {
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
       sessionItemRoyal.set('rc-tidList', JSON.stringify(order.tidList));
       this.props.checkoutStore.setCartPrice({
-        totalPrice: order.tradePrice.totalPrice,
-        tradePrice: order.tradePrice.originPrice,
+        totalPrice: order.tradePrice.goodsPrice,
+        tradePrice: order.tradePrice.totalPrice,
         discountPrice: order.tradePrice.discountsPrice,
         deliveryPrice: order.tradePrice.deliveryPrice,
         promotionDesc: order.tradePrice.promotionDesc,
@@ -425,7 +426,7 @@ class AccountOrders extends React.Component {
             <TimeCount
               startTime={this.state.defaultLocalDateTime}
               endTime={order.orderTimeOut}
-              onTimeEnd={() => this.handlePayNowTimeEnd(order)}
+              onTimeEnd={this.handlePayNowTimeEnd.bind(this, order)}
             />
             <br />
             <button
@@ -795,6 +796,7 @@ class AccountOrders extends React.Component {
                                   {/* 订单完成tip */}
                                   {order.tradeState.flowState === 'COMPLETED' &&
                                   !order.storeEvaluateVO &&
+                                  order.tradeEventLogs[0] &&
                                   order.tradeEventLogs[0].eventType ===
                                     'COMPLETED' ? (
                                     <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">

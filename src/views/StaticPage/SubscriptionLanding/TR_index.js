@@ -368,7 +368,7 @@ class Help extends React.Component {
                               Check out our&nbsp;
                             </span>
                             <Link
-                              to="/faq/all"
+                              to="/faq"
                               rel="noopener noreferrer"
                               data-link-type="external"
                               style={{

@@ -31,7 +31,7 @@ class Consent extends Component {
         {this.renderCheckBox(requiredList)}
         {this.props.description ? (
           <div
-            class="rc-text--left"
+            className="rc-text--left"
             dangerouslySetInnerHTML={{ __html: this.props.description }}
           />
         ) : null}
@@ -49,10 +49,13 @@ class Consent extends Component {
     const url = this.props.url;
     //组件传参end
     const createMarkup = (text, isRequired) => {
-      if (isRequired && text.length > 4) {
-        text =
-          text.substring(0, text.length - 4) +
-          '<span class="rc-text-colour--brand1">*</span></p>';
+      if (isRequired && text) {
+        var textArray = text.split('</p>');
+        if (textArray.length > 0) {
+          textArray[0] =
+            textArray[0] + '<span class="rc-text-colour--brand1">*</span>';
+          text = textArray.join('</p>');
+        }
       }
       return { __html: text };
     };

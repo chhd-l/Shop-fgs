@@ -47,7 +47,9 @@ const localItemRoyal = window.__.localItemRoyal;
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
-    showUserIcon: false
+    showUserIcon: false,
+    showNav:true,
+    showLoginBtn:true
   };
   constructor(props) {
     super(props);
@@ -62,8 +64,6 @@ class Header extends React.Component {
       headerNavigationList: [],
       activeTopParentId: -1,
       isSearchSuccess: false, //是否搜索成功
-      hideNavRouter: ['/confirmation', '/checkout'],
-      hideLoginInfoRouter: ['/checkout']
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -92,29 +92,6 @@ class Header extends React.Component {
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
-  }
-  isHideNavBar() {
-    //只需要在hideNavRouter数组中去配置不要显示nav的路由
-    let str =
-      this.state.hideNavRouter.indexOf(this.props.history.location.pathname) !=
-      -1
-        ? 'none'
-        : 'flex';
-    return {
-      display: str
-    };
-  }
-  isHideLoginInfo() {
-    //只需要在hideLoginInfoRouter数组中去配置不要显示nav的路由
-    let str =
-      this.state.hideLoginInfoRouter.indexOf(
-        this.props.history.location.pathname
-      ) != -1
-        ? 'none'
-        : 'flex';
-    return {
-      display: str
-    };
   }
   async componentDidMount() {
     //进入这个页面 清除搜索埋点
@@ -386,17 +363,17 @@ class Header extends React.Component {
       result: null
     });
   }
-  handleSearch = (e) => {
+  handleSearch = () => {
     if (this.state.loading) return;
-    if (process.env.REACT_APP_LANG == 'fr') {
-      this.props.history.push({
-        pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
-        state: {
-          GAListParam: 'Search Results',
-          noresult: !this.state.isSearchSuccess
-        }
-      });
-    }
+    this.props.history.push({
+      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+      // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
+      search: `?q=${this.state.keywords}`,
+      state: {
+        GAListParam: 'Search Results',
+        noresult: !this.state.isSearchSuccess
+      }
+    });
   };
   handleSearchInputChange(e) {
     this.setState(
@@ -593,7 +570,8 @@ class Header extends React.Component {
                     className="productName rc-large-body ui-cursor-pointer"
                     // to={`/list/keywords/${keywords}`}
                     to={{
-                      pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                      // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
                       search: `?q=${keywords}`
                     }}
                   >
@@ -640,7 +618,7 @@ class Header extends React.Component {
       category: 'menu',
       action: 'menu',
       label: item.navigationLink,
-      value: item.navigationName
+      value: 1
     });
   }
   renderDropDownText = (item) => {
@@ -733,9 +711,8 @@ class Header extends React.Component {
               <Logo />
             </Link>
             <ul
-              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
+              className={["rc-list", "rc-list--blank","rc-list--align", "rc-header__right",this.props.showLoginBtn?"rc-list--inline":"rc-hidden"].join(' ')}
               role="menubar"
-              style={this.isHideLoginInfo()}
             >
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
@@ -771,7 +748,7 @@ class Header extends React.Component {
                             <button
                               className="rc-input__submit rc-input__submit--search"
                               type="submit"
-                              onClick={() => this.handleSearch(this.inputRef)}
+                              onClick={this.handleSearch}
                             >
                               <span className="rc-screen-reader-text" />
                             </button>
@@ -884,12 +861,6 @@ class Header extends React.Component {
                                 btnStyle={{ width: '11rem', margin: '2rem 0' }}
                                 history={history}
                               />
-                              {/* <button onClick={() => {
-                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
-                                  window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
-                                }}>registred</button> */}
-                              {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={() => this.clickLogin()}> <FormattedMessage id='login'/></button> */}
                               <div>
                                 <FormattedMessage id="account.notRegistred" />
                               </div>
@@ -907,10 +878,7 @@ class Header extends React.Component {
                                   if (!process.env.REACT_APP_STOREID) {
                                     return;
                                   }
-                                  if (
-                                    process.env.REACT_APP_STOREID ===
-                                    '123457909' //fr
-                                  ) {
+                                  if (process.env.REACT_APP_LANG === 'fr') {
                                     history.push('/register');
                                   } else {
                                     window.location.href =
@@ -924,35 +892,6 @@ class Header extends React.Component {
                                 <FormattedMessage id="signUp" />
                               </span>
                             </div>
-
-                            {/* <div className="link-group">
-                                <div className="link-style" >
-                                  <Link to="/account" >
-                                    <FormattedMessage id="account.myAccount" />
-                                  </Link>
-                                </div>
-                                <div className="link-style" >
-                                  <Link to="/account/information" >
-                                    <FormattedMessage id="account.basicInfomation" />
-                                  </Link>
-                                </div>
-                                <div className="link-style" >
-                                  <Link to="/account/pets" >
-                                    <FormattedMessage id="account.pets" />
-                                  </Link>
-                                </div>
-                                <div className="link-style" >
-                                  <Link to="/account/orders" >
-                                  <FormattedMessage id="account.orders" />
-                                  </Link>
-                                </div>
-                                <div className="link-style" >
-                                  <Link to="/account/orders" >
-                                    <FormattedMessage id="shippingAddress" />
-                                  </Link>
-                                </div>
-
-                              </div> */}
                           </div>
                         </div>
                       ) : (
@@ -978,15 +917,15 @@ class Header extends React.Component {
                                   className="click-hover"
                                 >
                                   <span className="iconfont">&#xe69c;</span>{' '}
-                                  <FormattedMessage id="account.basicInfomation" />
+                                  <FormattedMessage id="account.profile" />
                                 </Link>
                               </div>
                               <div className="link-style">
-                                <span className="iconfont">&#xe69a;</span>{' '}
                                 <Link
                                   to="/account/pets"
                                   className="click-hover"
                                 >
+                                  <span className="iconfont">&#xe69a;</span>{' '}
                                   <FormattedMessage id="account.pets" />
                                 </Link>
                               </div>
@@ -996,7 +935,7 @@ class Header extends React.Component {
                                   className="click-hover"
                                 >
                                   <span className="iconfont">&#xe699;</span>{' '}
-                                  <FormattedMessage id="account.orders" />
+                                  <FormattedMessage id="account.ordersTitle" />
                                 </Link>
                               </div>
                               <div className="link-style">
@@ -1009,7 +948,7 @@ class Header extends React.Component {
                                 </Link>
                               </div>
                               <div className="link-style">
-                                <Link to="/FAQ/all" className="click-hover">
+                                <Link to="/faq" className="click-hover">
                                   <span className="iconfont">&#xe696;</span>{' '}
                                   <FormattedMessage id="footer.FAQ" />
                                 </Link>
@@ -1027,12 +966,10 @@ class Header extends React.Component {
           </nav>
 
           <nav
-            className="rc-header__nav rc-header__nav--secondary rc-md-up "
-            style={this.isHideNavBar()}
+            className={["rc-header__nav","rc-header__nav--secondary", "rc-md-up",this.props.showNav?"":"rc-hidden"].join(' ')}
           >
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap"
-              style={this.isHideNavBar()}
             >
               {headerNavigationList.map((item, i) => (
                 <li
@@ -1079,7 +1016,8 @@ class Header extends React.Component {
                 <Link
                   className="productName rc-large-body ui-cursor-pointer"
                   to={{
-                    pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                    // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                    pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
                     search: `?q=${keywords}`
                   }}
                 >

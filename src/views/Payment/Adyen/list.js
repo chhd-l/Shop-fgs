@@ -37,7 +37,10 @@ function CardItemCover({
           &#xe68c;
         </span>
       )}
-      {children}
+      <span>
+        {children}
+      </span>
+      
     </div>
   );
 }
@@ -238,7 +241,11 @@ class AdyenCreditCardList extends React.Component {
       el && el.encryptedSecurityCode ? true : false
     );
   };
+  getBrowserInfo(state){
+    this.props.paymentStore.setBrowserInfo(state.data.browserInfo)
+  }
   loadCvv = (el) => {
+    const _this = this;
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
     var { updateSelectedCardInfo, paymentStore } = this.props;
@@ -273,7 +280,7 @@ class AdyenCreditCardList extends React.Component {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: 'test',
+            environment: process.env.REACT_APP_Adyen_ENV,
             originKey: process.env.REACT_APP_AdyenOriginKEY,
             locale: process.env.REACT_APP_Adyen_locale
           });
@@ -282,6 +289,7 @@ class AdyenCreditCardList extends React.Component {
               brand: brand,
               onChange: (state) => {
                 console.log(state);
+                _this.getBrowserInfo(state)
                 const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
                 let result = find(cardList, (ele) => ele.id === id);
                 result.encryptedSecurityCode = tmpCode;
@@ -356,17 +364,17 @@ class AdyenCreditCardList extends React.Component {
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">
                 <div className="col-12">
-                  {data.adyenPaymentMethod
+                  <span>{data.adyenPaymentMethod
                     ? data.adyenPaymentMethod.holderName
-                    : ''}
+                    : ''}</span>
                 </div>
               </div>
               {!showLastFour && (
                 <div className="row align-items-center">
                   <div className="col-12">
-                    {data.adyenPaymentMethod
+                    <span>{data.adyenPaymentMethod
                       ? data.adyenPaymentMethod.brand
-                      : ''}
+                      : ''}</span>
                   </div>
                 </div>
               )}
@@ -638,21 +646,25 @@ class AdyenCreditCardList extends React.Component {
           ) : !formVisible &&
             (cardList.length || memberUnsavedCardList.length) ? (
             <>
-              {this.renderList()}
-              {footerJSX}
+              <span>
+                {this.renderList()}
+                {footerJSX}
+              </span>
             </>
           ) : (
             <>
-              {this.renderEditForm()} {footerJSX}
+              <span>
+                {this.renderEditForm()} {footerJSX}
+              </span>
             </>
           )
         ) : (
           <>
             {!formVisible && this.renderList()}
             <div className={`${formVisible ? '' : 'hidden'}`}>
-              {this.renderEditForm()}
+              <span>{this.renderEditForm()}</span>
             </div>
-            {footerJSX}
+            <span>{footerJSX}</span>
           </>
         )}
       </>

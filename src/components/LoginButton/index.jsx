@@ -74,7 +74,7 @@ const LoginButton = (props) => {
               getToken({ oktaToken: oktaToken })
                 .then(async (res) => {
                   // GA 登录成功埋点 start
-                  dataLayer&&dataLayer.push(
+                  window.dataLayer&&window.dataLayer.push(
                     {
                       event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
                       interaction:{

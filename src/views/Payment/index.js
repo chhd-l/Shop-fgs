@@ -35,8 +35,12 @@ import {
   getFormatDate,
   setSeoConfig
 } from '@/utils/utils';
-import { ADDRESS_RULE, EMAIL_REGEXP } from '@/utils/constant';
-import { findUserConsentList, getStoreOpenConsentList,userBindConsent } from '@/api/consent';
+import { EMAIL_REGEXP } from '@/utils/constant';
+import {
+  findUserConsentList,
+  getStoreOpenConsentList,
+  userBindConsent
+} from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
 import LazyLoad from 'react-lazyload';
 import {
@@ -63,6 +67,8 @@ import { queryCityNameById } from '@/api';
 import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
+import Adyen3DForm from '@/components/Adyen/3d';
+import { de } from 'date-fns/locale';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -82,6 +88,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      adyenAction: {},
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
       seoConfig: {
@@ -166,84 +173,88 @@ class Payment extends React.Component {
   }
 
   async componentDidMount() {
-    const { checkoutStore, paymentStore, clinicStore, history } = this.props;
-    const { tid } = this.state;
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    if (this.isLogin) {
-      // 登录情况下，无需显示email panel
-      paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
-      if (tid) {
-        paymentStore.setStsToCompleted({
-          key: 'deliveryAddr',
-          isFirstLoad: true
-        });
-        paymentStore.setStsToCompleted({
-          key: 'billingAddr',
-          isFirstLoad: true
-        });
-        this.queryOrderDetails();
-      }
+    try {
+      const { checkoutStore, paymentStore, clinicStore, history } = this.props;
+      const { tid } = this.state;
+      setSeoConfig().then((res) => {
+        this.setState({ seoConfig: res });
+      });
+      if (this.isLogin) {
+        // 登录情况下，无需显示email panel
+        paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
+        if (tid) {
+          paymentStore.setStsToCompleted({
+            key: 'deliveryAddr',
+            isFirstLoad: true
+          });
+          paymentStore.setStsToCompleted({
+            key: 'billingAddr',
+            isFirstLoad: true
+          });
+          this.queryOrderDetails();
+        }
 
-      if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
-        this.setState({
-          subForm: {
-            buyWay: 'frequency',
-            frequencyName: '',
-            frequencyId: ''
-          }
-        });
-      }
-    } else {
-      if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
-        this.setState({
-          subForm: {
-            buyWay: 'frequency',
-            frequencyName: '',
-            frequencyId: ''
-          }
-        });
-      }
-    }
-    this.setState(
-      {
-        needPrescriber: checkoutStore.autoAuditFlag
-          ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-              (el) => el.prescriberFlag
-            ).length > 0
-          : checkoutStore.AuditData.length > 0
-      },
-      () => {
-        const nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(paymentStore.panelStatus),
-          curKey: 'clinic'
-        });
-
-        // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
-        if (!this.checkoutWithClinic || clinicStore.clinicName) {
-          paymentStore.setStsToCompleted({ key: 'clinic' });
-          paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-        } else {
-          // 把clinic置为edit状态
-          paymentStore.setStsToEdit({ key: 'clinic' });
-          paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+        if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
+          this.setState({
+            subForm: {
+              buyWay: 'frequency',
+              frequencyName: '',
+              frequencyId: ''
+            }
+          });
+        }
+      } else {
+        if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
+          this.setState({
+            subForm: {
+              buyWay: 'frequency',
+              frequencyName: '',
+              frequencyId: ''
+            }
+          });
         }
       }
-    );
-    if (!sessionItemRoyal.get('recommend_product')) {
-      if (this.isLogin && !this.loginCartData.length && !tid) {
-        history.push('/cart');
-        return false;
+      this.setState(
+        {
+          needPrescriber: checkoutStore.autoAuditFlag
+            ? (this.isLogin ? this.loginCartData : this.cartData).filter(
+                (el) => el.prescriberFlag
+              ).length > 0
+            : checkoutStore.AuditData.length > 0
+        },
+        () => {
+          const nextConfirmPanel = searchNextConfirmPanel({
+            list: toJS(paymentStore.panelStatus),
+            curKey: 'clinic'
+          });
+
+          // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
+          if (!this.checkoutWithClinic || clinicStore.clinicName) {
+            paymentStore.setStsToCompleted({ key: 'clinic' });
+            paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+          } else {
+            // 把clinic置为edit状态
+            paymentStore.setStsToEdit({ key: 'clinic' });
+            paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+          }
+        }
+      );
+      if (!sessionItemRoyal.get('recommend_product')) {
+        if (this.isLogin && !this.loginCartData.length && !tid) {
+          history.push('/cart');
+          return false;
+        }
+        if (
+          !this.isLogin &&
+          (!this.cartData.length ||
+            !this.cartData.filter((ele) => ele.selected).length)
+        ) {
+          history.push('/cart');
+          return false;
+        }
       }
-      if (
-        !this.isLogin &&
-        (!this.cartData.length ||
-          !this.cartData.filter((ele) => ele.selected).length)
-      ) {
-        history.push('/cart');
-        return false;
-      }
+    } catch (err) {
+      console.log(111, err);
     }
 
     this.getConsentList();
@@ -324,7 +335,7 @@ class Payment extends React.Component {
     // } else {
     //   this.isExistListFun(res);
     // }
-    this.isExistListFun(res);//现在游客会员 统一
+    this.isExistListFun(res); //现在游客会员 统一
   }
   //重新组装listData
   rebindListData(listData) {
@@ -671,6 +682,7 @@ class Payment extends React.Component {
         adyenCard: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
+            browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
             shopperLocale: 'en_US',
             currency: 'EUR',
@@ -732,15 +744,27 @@ class Payment extends React.Component {
         }
       };
       await actions[type]();
+
+      const successUrlFun = (type) => {
+        const defaultUrl = '',
+          Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
+          payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult';
+        return (
+          {
+            adyenCard: Adyen3DSUrl,
+            adyenKlarnaPayLater: payResultUrl,
+            adyenKlarnaPayNow: payResultUrl,
+            directEbanking: payResultUrl
+          }[type] || defaultUrl
+        );
+      };
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
-        successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
-        //successUrl: 'http://m72na6.natappfree.cc/payResult',
+        successUrl: successUrlFun(type),
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         phone
       });
-      console.log(finalParam);
       return finalParam;
     } catch (err) {
       console.log(err);
@@ -873,7 +897,9 @@ class Payment extends React.Component {
         });
       }
 
-      payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
+      let isRepay = this.state.tid ? true : false;
+
+      payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
 
       /* 4)调用支付 */
       const res = await action(parameters);
@@ -910,20 +936,48 @@ class Payment extends React.Component {
           gotoConfirmationPage = true;
           break;
         case 'adyenCard':
-          subOrderNumberList = tidList.length
-            ? tidList
-            : res.context && res.context[0] && res.context[0].tidList;
+          subOrderNumberList =
+            tidList.length && tidList[0]
+              ? tidList
+              : res.context && res.context[0] && res.context[0].tidList;
           subNumber =
             (res.context && res.context[0] && res.context[0].subscribeId) ||
             (res.context && res.context.subscribeId) ||
             '';
-          gotoConfirmationPage = true;
+
+          let contextType = Object.prototype.toString
+            .call(res.context)
+            .slice(8, -1);
+          let adyenAction = '';
+          if (contextType === 'Array' && res.context[0].action) {
+            //正常时候,res.context后台返回数组
+            adyenAction = JSON.parse(res.context[0].action);
+            if (subOrderNumberList.length) {
+              sessionItemRoyal.set(
+                'subOrderNumberList',
+                JSON.stringify(subOrderNumberList)
+              );
+            }
+            this.setState({ adyenAction });
+          } else if (contextType === 'Object' && res.context.action) {
+            //会员repay时，res.context后台返回对象
+            adyenAction = JSON.parse(res.context.action);
+            if (subOrderNumberList.length) {
+              sessionItemRoyal.set(
+                'subOrderNumberList',
+                JSON.stringify(subOrderNumberList)
+              );
+            }
+            this.setState({ adyenAction });
+          } else {
+            //正常卡
+            gotoConfirmationPage = true;
+          }
           break;
         case 'adyenKlarnaPayLater':
         case 'adyenKlarnaPayNow':
         case 'directEbanking':
           subOrderNumberList = [res.context.pId];
-          // debugger
           // 删除本地购物车
           if (this.isLogin) {
             this.props.checkoutStore.removeLoginCartData();
@@ -1050,10 +1104,9 @@ class Payment extends React.Component {
       );
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = this.bindSubmitParam(this.state.listData);
-      let consentParams = {...submitParam,...{ oktaToken:'' }}
+      let consentParams = { ...submitParam, ...{ oktaToken: '' } };
       userBindConsent(consentParams);
-       //游客绑定consent 一定要在游客注册之后 end
-
+      //游客绑定consent 一定要在游客注册之后 end
 
       sessionItemRoyal.set(
         'rc-token',
@@ -1298,8 +1351,8 @@ class Payment extends React.Component {
     try {
       const { configStore, clinicStore } = this.props;
       const { deliveryAddress, billingAddress, billingChecked } = this.state;
-      let tmpDeliveryAddress = deliveryAddress;
-      let tmpBillingAddress = billingAddress;
+      let tmpDeliveryAddress = { ...deliveryAddress };
+      let tmpBillingAddress = { ...billingAddress };
       if (this.isLogin) {
         tmpDeliveryAddress = {
           firstName: deliveryAddress.firstName,
@@ -1315,7 +1368,8 @@ class Payment extends React.Component {
           postCode: deliveryAddress.postCode,
           phoneNumber: deliveryAddress.consigneeNumber,
           email: deliveryAddress.email,
-          addressId: deliveryAddress.deliveryAddressId
+          addressId:
+            deliveryAddress.addressId || deliveryAddress.deliveryAddressId
         };
         if (!billingChecked) {
           tmpBillingAddress = {
@@ -1331,17 +1385,18 @@ class Payment extends React.Component {
             cityName: billingAddress.cityName,
             postCode: billingAddress.postCode,
             phoneNumber: billingAddress.consigneeNumber,
-            addressId: billingAddress.deliveryAddressId
+            addressId:
+              billingAddress.addressId || billingAddress.deliveryAddressId
           };
         }
       }
       const param = {
         billingChecked,
-        deliveryAddress: tmpDeliveryAddress
+        deliveryAddress: { ...tmpDeliveryAddress }
       };
       param.billingAddress = billingChecked
-        ? tmpDeliveryAddress
-        : tmpBillingAddress;
+        ? { ...tmpDeliveryAddress }
+        : { ...tmpBillingAddress };
 
       // 未开启地图，需校验clinic
       if (
@@ -1352,10 +1407,9 @@ class Payment extends React.Component {
         throw new Error(this.props.intl.messages.selectNoneClincTip);
       }
 
-      await validData(ADDRESS_RULE, param.deliveryAddress);
       this.setState({
-        deliveryAddress: param.deliveryAddress,
-        billingAddress: param.billingAddress,
+        deliveryAddress: { ...param.deliveryAddress },
+        billingAddress: { ...param.billingAddress },
         billingChecked: param.billingChecked
       });
     } catch (err) {
@@ -1984,17 +2038,19 @@ class Payment extends React.Component {
           {form.firstName + ' ' + form.lastName}
         </span>
         <br />
-        {form.phoneNumber}
+        <span>{form.phoneNumber}</span>
         <br />
-        {form.address1}
+        <span>{form.address1}</span>
         <br />
-        {form.address2}
+        <span>{form.address2}</span>
         {form.address2 ? <br /> : null}
-        {form.postCode}, {form.cityName},{' '}
-        {matchNamefromDict(
-          this.state.countryList,
-          form.country || form.countryId
-        )}
+        <span>
+          {form.postCode}, {form.cityName},{' '}
+          {matchNamefromDict(
+            this.state.countryList,
+            form.country || form.countryId
+          )}
+        </span>
       </>
     ) : null;
   };
@@ -2052,15 +2108,17 @@ class Payment extends React.Component {
                 <FormattedMessage id="bankCard" />
               </span>
               <br />
-              {holderNameDeco}
+              <span>{holderNameDeco}</span>
               <br />
-              {brandDeco}
+              <span>{brandDeco}</span>
               <br />
-              {lastFourDeco ? `************${lastFourDeco}` : null}
+              <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
               {expiryYear && expiryMonth ? (
                 <>
                   <br />
-                  {getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}
+                  <span>
+                    {getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}
+                  </span>
                 </>
               ) : null}
             </div>
@@ -2164,19 +2222,22 @@ class Payment extends React.Component {
     this.setState({ email });
   };
   clickPay = () => {
-    if(this.isLogin){
-      this.userBindConsentFun()
+    if (this.isLogin) {
+      this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
     this.initCommonPay({
       type: paymentTypeVal
     });
   };
-  userBindConsentFun(){
-    const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+  userBindConsentFun() {
+    const oktaTokenString =
+      this.props.authState && this.props.authState.accessToken
+        ? this.props.authState.accessToken.value
+        : '';
     let oktaToken = 'Bearer ' + oktaTokenString;
     let submitParam = this.bindSubmitParam(this.state.listData);
-    let param = {...submitParam,...{ oktaToken },consentPage:"check out"}
+    let param = { ...submitParam, ...{ oktaToken }, consentPage: 'check out' };
     userBindConsent(param);
   }
   bindSubmitParam = (list) => {
@@ -2297,6 +2358,8 @@ class Payment extends React.Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
+          showNav={false}
+          showLoginBtn={false}
           history={this.props.history}
           showMiniIcons={false}
           showUserIcon={true}
@@ -2480,7 +2543,7 @@ class Payment extends React.Component {
                   }`}
                   id="J_checkout_panel_paymentMethod"
                 >
-                  {paymentMethodTitle}
+                  <span>{paymentMethodTitle}</span>
                   {this.renderPayTab({
                     visible: paymentMethodPanelStatus.isEdit
                   })}
@@ -2524,6 +2587,7 @@ class Payment extends React.Component {
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
               </div>
             </div>
+            <Adyen3DForm action={this.state.adyenAction} />
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div

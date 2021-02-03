@@ -4,7 +4,7 @@ import { formatMoney } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
 import pack from '@/assets/images/home/pack@2x.png';
-import autoship from '@/assets/images/home/autoship@2x.webp';
+import autoship from '@/assets/images/home/autoship@2x.png';
 import delivery from '@/assets/images/home/delivery@2x.png';
 import question from '@/assets/images/home/question@2x.png';
 

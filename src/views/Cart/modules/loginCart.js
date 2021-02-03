@@ -49,7 +49,7 @@ class LoginCart extends React.Component {
       productList: [],
       currentProductIdx: -1,
       quantityMinLimit: 1,
-      quantityMaxLimit: 30,
+      quantityMaxLimit: 10,
       deleteLoading: false,
       checkoutLoading: false,
       petModalVisible: false,
@@ -74,6 +74,7 @@ class LoginCart extends React.Component {
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.addQuantity = this.addQuantity.bind(this);
     this.subQuantity = this.subQuantity.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
@@ -153,9 +154,10 @@ class LoginCart extends React.Component {
     pitem.periodTypeId = data.id;
     this.changeFrequencyType(pitem);
   }
-  async updateCartCache() {
+  async updateCartCache(fn) {
     this.setState({ checkoutLoading: true });
     await this.checkoutStore.updateLoginCart();
+    fn && fn();
     this.setData();
     this.setState({ checkoutLoading: false });
   }
@@ -344,7 +346,7 @@ class LoginCart extends React.Component {
         productList: this.state.productList
       });
     } else {
-      const { quantityMinLimit, quantityMaxLimit } = this.state;
+      const { quantityMinLimit } = this.state;
       let tmp = parseFloat(val);
       if (isNaN(tmp)) {
         tmp = 1;
@@ -354,8 +356,8 @@ class LoginCart extends React.Component {
         tmp = quantityMinLimit;
         this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
       }
-      if (tmp > quantityMaxLimit) {
-        tmp = quantityMaxLimit;
+      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
+        tmp = process.env.REACT_APP_LIMITED_NUM;
       }
       item.buyCount = tmp;
       clearTimeout(this.amountTimer);
@@ -440,7 +442,7 @@ class LoginCart extends React.Component {
     let { currentProductIdx, productList } = this.state;
     item.confirmTooltipVisible = false;
     this.setState({
-      productList: productList,
+      productList,
       deleteLoading: true
     });
     await this.deleteItemFromBackendCart({
@@ -486,10 +488,7 @@ class LoginCart extends React.Component {
               </LazyLoad>
             </div>
             <div className="product-info__desc w-100 relative">
-              <div
-                className="line-item-header rc-margin-top--xs rc-padding-right--sm"
-                style={{ width: '80%' }}
-              >
+              <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
                 <Link
                   className="ui-cursor-pointer"
                   to={`/${pitem.goodsName
@@ -518,7 +517,7 @@ class LoginCart extends React.Component {
                   containerStyle={{ transform: 'translate(-89%, 105%)' }}
                   arrowStyle={{ left: '89%' }}
                   display={pitem.confirmTooltipVisible}
-                  confirm={(e) => this.deleteProduct(pitem)}
+                  confirm={this.deleteProduct.bind(this, pitem)}
                   updateChildDisplay={(status) =>
                     this.updateConfirmTooltipVisible(pitem, status)
                   }
@@ -657,7 +656,7 @@ class LoginCart extends React.Component {
                 </div>
               </div>
               <div className="availability  product-availability">
-                <div className="flex justify-content-between rc-md-up">
+                <div className="flex justify-content-between rc-md-up align-items-start">
                   <div
                     className="buyMethod rc-margin-bottom--xs"
                     style={{
@@ -1366,15 +1365,16 @@ class LoginCart extends React.Component {
         ele.mockSpecDetailIds.sort().toString() ===
           selectedSpecDetailId.sort().toString()
     )[0];
-    await this.handleRemovePromotionCode();
+    // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
+    this.props.checkoutStore.removePromotionCode();
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: selectedGoodsInfo.goodsInfoId,
       periodTypeId: pitem.periodTypeId,
       goodsInfoFlag: pitem.goodsInfoFlag
     });
-    await this.updateCartCache();
+    await this.updateCartCache(this.clearPromotionCode.bind(this));
     this.setState({ changSizeLoading: false });
   }
   // 切换规格/单次订阅购买时，清空promotion code
@@ -1393,9 +1393,9 @@ class LoginCart extends React.Component {
     this.setState({
       changSizeLoading: true
     });
-    await this.handleRemovePromotionCode();
+    // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
-
+    this.props.checkoutStore.removePromotionCode();
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: pitem.goodsInfoId,
@@ -1403,7 +1403,7 @@ class LoginCart extends React.Component {
       periodTypeId: pitem.periodTypeId
     });
 
-    await this.updateCartCache();
+    await this.updateCartCache(this.clearPromotionCode.bind(this));
     this.setState({ changSizeLoading: false });
   }
   handleRemovePromotionCode = async () => {
@@ -1411,17 +1411,13 @@ class LoginCart extends React.Component {
     let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
-    await checkoutStore.removeCouponCodeFitFlag();
+    // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
     } else {
       result = await checkoutStore.updateUnloginCart();
     }
     if (result && result.backCode === 'K-000000') {
-      discount.pop();
-      this.setState({
-        discount
-      });
       this.clearPromotionCode();
     }
   };
@@ -1477,7 +1473,7 @@ class LoginCart extends React.Component {
       // promotionInputValue: ''
     });
   };
-  hanldeToggleOneOffOrSub({ goodsInfoFlag, frequencyId, pitem }) {
+  hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
     if (pitem.goodsInfoFlag === goodsInfoFlag) {

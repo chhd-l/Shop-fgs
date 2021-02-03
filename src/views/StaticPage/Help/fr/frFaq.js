@@ -70,7 +70,7 @@ class FrFaq extends Component {
                             backgroundColor: 'rgb(255,255,255)',
                             padding: '0 3px'
                           }}
-                          href={`${process.env.REACT_APP_ACCESS_PATH}FAQ/all`}
+                          href={`${process.env.REACT_APP_ACCESS_PATH}faq`}
                         >
                           FAQ
                         </a>

@@ -68,7 +68,7 @@ class Confirmation extends React.Component {
   render() {
     const { panelStatus } = this;
     const { checkoutStore } = this.props;
-    const { tradePrice } = checkoutStore;
+    const { totalPrice, tradePrice } = checkoutStore;
     const { isValid } = this.state;
     const titleJSXForPrepare = (
       <h5 className={`mb-0`}>

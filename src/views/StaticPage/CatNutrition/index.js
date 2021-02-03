@@ -65,28 +65,12 @@ class CatNutrition extends React.Component {
                       <div className="row align-items-md-center">
                         <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
-                            <source
-                              media="(max-width:640px)"
-                              data-srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=350&sh=233&sm=cut&sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=700&sh=466&sm=cut&sfrm=jpg 2x"
-                              srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=350&sh=233&sm=cut&sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=700&sh=466&sm=cut&sfrm=jpg 2x"
-                            ></source>
-                            <source
-                              media="(min-width:640px) and (max-width:769px)"
-                              data-srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=700&sh=466&sm=cut&sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=1400&sh=933&sm=cut&sfrm=jpg 2x"
-                              srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=700&sh=466&sm=cut&sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=1400&sh=933&sm=cut&sfrm=jpg 2x"
-                            ></source>
-                            <source
-                              media="(min-width:769px)"
-                              data-srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=600&sh=400&sm=cut&sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=1200&sh=800&sm=cut&sfrm=jpg 2x"
-                              srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=600&sh=400&sm=cut&sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=1200&sh=800&sm=cut&sfrm=jpg 2x"
-                            ></source>
                             <LazyLoad>
                               <img
                                 className="w-100 lazyloaded"
-                                data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=600&sh=400&sm=cut&sfrm=jpg"
                                 alt="Aliments pour chats"
                                 title="Aliments pour chats"
-                                src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6af62fc/Breed-Cats-&-Dogs/CAT-1A.jpg?sw=600&sh=400&sm=cut&sfrm=jpg"
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/CAT-1A.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -178,12 +162,9 @@ class CatNutrition extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="value-proposition__img lazyloaded"
-                                  data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png"
-                                  data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=180&sh=180&sm=cut&sfrm=png 2x"
                                   alt="Camion Royal Canin"
                                   title="Camion Royal Canin"
-                                  srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=180&sh=180&sm=cut&sfrm=png 2x"
-                                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png"
+                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4B.png`}
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -198,12 +179,9 @@ class CatNutrition extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="value-proposition__img lazyloaded"
-                                  data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png"
-                                  data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=180&sh=180&sm=cut&sfrm=png 2x"
                                   alt="Serveur de paiement sécurisé"
                                   title="Serveur de paiement sécurisé"
-                                  srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=180&sh=180&sm=cut&sfrm=png 2x"
-                                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png"
+                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4C.png`}
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -218,10 +196,7 @@ class CatNutrition extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="value-proposition__img lazyloaded"
-                                  data-src="hhttps://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png"
-                                  data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=180&sh=180&sm=cut&sfrm=png 2x"
-                                  srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=180&sh=180&sm=cut&sfrm=png 2x"
-                                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png"
+                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4D.png`}
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -236,10 +211,7 @@ class CatNutrition extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="value-proposition__img lazyloaded"
-                                  data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png"
-                                  data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=180&sh=180&sm=cut&sfrm=png 2x"
-                                  srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=180&sh=180&sm=cut&sfrm=png 2x"
-                                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png"
+                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4E.png`}
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -264,26 +236,10 @@ class CatNutrition extends React.Component {
                       <div className="row align-items-md-center">
                         <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
-                            <source
-                              media="(max-width:640px)"
-                              data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=350&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=700&sfrm=png 2x"
-                              srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=350&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=700&sfrm=png 2x"
-                            ></source>
-                            <source
-                              media="(min-width:640px) and (max-width:769px)"
-                              data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=706&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=1412&sfrm=png 2x"
-                              srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=706&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=1412&sfrm=png 2x"
-                            ></source>
-                            <source
-                              media="(min-width:769px)"
-                              data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=622&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=1244&sfrm=png 2x"
-                              srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=622&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=1244&sfrm=png 2x"
-                            ></source>
                             <LazyLoad>
                               <img
                                 className="w-100 lazyloaded"
-                                data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=622&sfrm=png"
-                                src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=622&sfrm=png"
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/CAT 6A.jpg`}
                               />
                             </LazyLoad>
                           </picture>
