@@ -407,7 +407,7 @@ class AccountOrders extends React.Component {
     let orderInvoiceIds = [];
     orderInvoiceIds.push(order.id);
     let params = {
-      orderInvoiceIds
+      orderNo:order.id
     };
     const token =
       sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
