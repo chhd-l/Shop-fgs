@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
@@ -9,13 +9,19 @@ import FAQ from './modules/FAQ';
 import Details from './modules/Details';
 import StaticPage from './modules/StaticPage';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
+import { getFoodDispenserList, getFoodDispenserDes } from '@/api/dispenser';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.less';
 import Swiper from 'swiper';
 import Selection from '@/components/Selection';
 import 'swiper/swiper-bundle.min.css';
-import { getDeviceType, getParaByName,distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
+import {
+  getDeviceType,
+  getParaByName,
+  distributeLinktoPrecriberOrPaymentPage,
+  getFrequencyDict
+} from '@/utils/utils';
 import goodsDetailTab from './modules/goodsDetailTab.json';
 import { sitePurchase } from '@/api/cart';
 import foodPic from './img/food_pic.png';
@@ -28,22 +34,15 @@ const productObj = {
   detail: 'Dry Dog Food'
 };
 const isMobile = getDeviceType() !== 'PC';
-const productList = Array(6)
-  .fill(productObj)
-  .map((item, i) => {
-    return { ...item, id: i };
-  });
 const Step1Pc = (props) => {
   return (
     <div className="margin12">
-      <div
-        className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column"
-        style={{ margin: '0 10rem 2rem' }}
-      >
+      <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
         {(props.productList || []).map((item) => (
           <div
             className="rc-grid"
-            style={{cursor:'pointer'}}
+            key={item.goodsInfoId}
+            style={{ cursor: 'pointer' }}
             onClick={() => {
               props.clickItem(item);
             }}
@@ -52,15 +51,20 @@ const Step1Pc = (props) => {
               className={`rc-card rc-card--a ${item.choosed ? 'active' : ''}`}
             >
               <picture className="rc-card__image">
-                <img src={item.img} alt="A Dachshund jumping" />
+                <img src={item.goodsInfoImg} alt={item.goodsInfoName} />
               </picture>
               <div className="rc-card__body">
                 <header>
-                  <h1 className="rc-card__title rc-text--center">
-                    {item.title}
+                  <h1
+                    className="rc-card__title rc-text--center"
+                    style={{ height: '2em' }}
+                  >
+                    {item.goodsInfoName}
                   </h1>
                 </header>
-                <p className="rc-text--center">{item.detail}</p>
+                <p className="rc-text--center" style={{ height: '2em' }}>
+                  {item.goodsCateName}
+                </p>
               </div>
             </article>
           </div>
@@ -106,11 +110,11 @@ class Step1H5 extends Component {
         <div className="swiper-container">
           <div className="swiper-wrapper">
             {this.props.productList.map((item) => (
-              <div className="swiper-slide">
+              <div className="swiper-slide" key={item.goodsInfoId}>
                 <div>
-                  <img src={item.img} />
-                  <div className="title">{item.title}</div>
-                  <div className="des">{item.detail}</div>
+                  <img src={item.goodsInfoImg} />
+                  <div className="title">{item.goodsInfoName}</div>
+                  <div className="des">{item.goodsCateName}</div>
                 </div>
               </div>
             ))}
@@ -192,7 +196,7 @@ const Step2 = (props) => {
           </div>
         </div>
       </div>
-      <Details goodsDetailTab={props.goodsDetailTab} />
+      <Details goodsDetailTabs={props.goodsDetailTab} details={props.details} />
       <div className="rc-text--center rc-md-up">
         <button
           className="rc-btn rc-btn--sm rc-btn--two button192"
@@ -239,14 +243,80 @@ const Step2 = (props) => {
   );
 };
 const Step3 = (props) => {
-  const computedList = [
-    { name: 'test', value: 1 },
-    { name: 'test1', value: 11 },
-    { name: 'test11', value: 111 }
-  ];
-  const handleSelectedItemChange = ()=> {
-    console.info('test')
-  }
+  const defaultInfo = { planGifts: [{}], planProds: [{}] };
+  const [detailInfo, setDetailInfo] = useState(defaultInfo);
+  const [frequencyList, setFrequencyList] = useState([]);
+  const [selectedFrequency, setSelectedFrequency] = useState(6912);
+  const handleSelectedItemChange = (data) => {
+    setSelectedFrequency(data.id);
+    console.info('test', data);
+  };
+  const getDes = async () => {
+    // let {goodsInfoId,packageId} = props.details
+    // let res = await getFoodDispenserDes({
+    //   planId: 'SP2102012016432',
+    //   packageId: 'PK2102012019837',
+    //   // packageId,
+    //   // goodsInfoId,
+    //   storeId: 123456858,
+    //   goodsInfoId: 'ff8080817314066f0173145be5c00001'
+    // });
+    let res = {
+      planId: 'SP2102012016432',
+      packageId: 'PK2102012019837',
+      // "frequencies": ["5738", "5737"],
+      frequencies: ['6912'],
+      planProds: [
+        {
+          packageId: 'PK2102012019837',
+          goodsInfoId: 'ff8080817314066f0173145be5c00001',
+          goodsInfoName: '12121',
+          goodsNo: 'P774340554',
+          goodsInfoNo: '8774421968',
+          goodsInfoImg:
+            'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
+          specName: '10kg',
+          goodsCateName: 'VET',
+          storeCateName: 'Default category',
+          brandName: 'Royal Canin',
+          marketPrice: 100.0,
+          stock: 887,
+          quantity: 2,
+          settingPrice: 21.0
+        }
+      ],
+      planGifts: [
+        {
+          goodsInfoId: 'ff80808175dfcc3b0175e01152a00001',
+          goodsInfoName: '12',
+          goodsNo: 'P735003263',
+          goodsInfoNo: '8735031297',
+          specName: '1',
+          goodsCateName: '空气净化器',
+          storeCateName: 'Default category',
+           "goodsInfoImg": "https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png",
+          stock: 10
+        }
+      ]
+    };
+    setDetailInfo(res);
+    await getFrequencyDict().then((ress) => {
+      let list = ress.filter((item) =>
+        res.frequencies.includes(item.id.toString())
+      );
+      console.info('list', list[0] && list[0].id);
+      setFrequencyList(list);
+      // 初始赋值失败
+      setTimeout(() => {
+        let defaultVal = list[0] && list[0].id;
+        setSelectedFrequency(defaultVal);
+      }, 1000);
+    });
+    console.info('getFoodDispenserDes', res);
+  };
+  useEffect(() => {
+    getDes();
+  }, []);
   return (
     <div className="confirm_product">
       <div className="title text-center">
@@ -265,8 +335,8 @@ const Step3 = (props) => {
       <div className="rc-layout-container rc-three-column wrap_container margin_for_1rem">
         <div className="rc-column wrap_item free_sampling">
           <div className="pad_3rem_pc">
-            <img src={foodDispenserPic} />
-            <h6>PETKIT FRESH ELEMENT Mini</h6>
+            <img src={detailInfo.planGifts[0].goodsInfoImg} title={detailInfo.planGifts[0].goodsInfoName} />
+            <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
             <p>x1 Delivered at the first shipment</p>
           </div>
           <span className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn side_icon"></span>
@@ -276,7 +346,7 @@ const Step3 = (props) => {
             <div className="for_h5_img">
               <img src={foodPic2} />
               <h6 className="rc-hero__section--text product_name">
-                Jack Russel Terrier
+                {detailInfo.planProds[0].goodsInfoName}
               </h6>
             </div>
             <div style={{ overflow: 'hidden' }}>
@@ -347,12 +417,10 @@ const Step3 = (props) => {
             <div>
               <Selection
                 customContainerStyle={{}}
-                selectedItemChange={(data) =>
-                  handleSelectedItemChange(pitem, data)
-                }
-                optionList={computedList}
+                selectedItemChange={(data) => handleSelectedItemChange(data)}
+                optionList={frequencyList}
                 selectedItemData={{
-                  value: 1
+                  value: selectedFrequency
                 }}
                 customStyleType="select-one"
               />
@@ -364,16 +432,18 @@ const Step3 = (props) => {
           <h5 className="text-center h5_left_text">summary</h5>
           <div className="d-flex">
             <div style={{ width: '70%' }}>
-              <h6>Jack Russel Terrier</h6>
+              <h6>{detailInfo.planProds[0].goodsInfoName}</h6>
               <div className="font_size12 rc-margin-bottom--xs">
                 Smart feeder subscription
               </div>
             </div>
-            <div className="font_size20">26,50€</div>
+            <div className="font_size20">
+              {detailInfo.planProds[0].settingPrice}
+            </div>
           </div>
           <div className="d-flex">
             <div style={{ width: '70%' }}>
-              <h6>PETKIT Dispenser</h6>
+              <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
               <div className="font_size12 rc-margin-bottom--xs">
                 x1 Delivered at the first shipment
               </div>
@@ -386,7 +456,7 @@ const Step3 = (props) => {
           </div>
           <div className="d-flex total">
             <div style={{ width: '70%' }}>TOTAL</div>
-            <div>26,50€</div>
+            <div>{detailInfo.planProds[0].settingPrice}</div>
           </div>
           <div>
             <div className="rc-layout-container rc-two-column  rc-text--center">
@@ -451,7 +521,7 @@ class SmartFeederSubscription extends Component {
       addToCartLoading: false,
       isDisabled: true,
       checkOutErrMsg: '',
-      productList: [...productList],
+      productList: [],
       requestJson: {
         prefixBreed: '',
         prefixFn: '',
@@ -475,7 +545,7 @@ class SmartFeederSubscription extends Component {
         goodsSpecs: [],
         taggingForText: null,
         taggingForImage: null
-      },// 选中的商品
+      }, // 选中的商品
       activeTabIdx: 0,
       goodsDetailTab: {
         tabName: [],
@@ -520,7 +590,7 @@ class SmartFeederSubscription extends Component {
       tabs: [],
       reviewShow: false,
       goodsNo: '', // SPU
-      breadCrumbs: [],
+      breadCrumbs: []
     };
   }
 
@@ -551,9 +621,8 @@ class SmartFeederSubscription extends Component {
     this.setState({
       productList: productLists,
       isDisabled,
-      // details
+      details: item
     });
-
     // this.details = item;
   };
   get btnStatus() {
@@ -579,7 +648,7 @@ class SmartFeederSubscription extends Component {
     this.setState({
       requestJson
     });
-  }
+  };
   hanldeAddToCart = ({ redirect = false, needLogin = false } = {}) => {
     try {
       const { loading } = this.state;
@@ -816,9 +885,40 @@ class SmartFeederSubscription extends Component {
       }, 4000);
     }
   }
+  getStep1List = async () => {
+    // let res = await getFoodDispenserList();
+    let res = {
+      code: 'K-000000',
+      message: '操作成功',
+      errorData: null,
+      context: [
+        {
+          packageId: 'PK2102012019837',
+          goodsInfoId: 'ff8080817314066f0173145be5c00001',
+          goodsInfoName: '12121',
+          goodsNo: 'P774340554',
+          goodsInfoNo: '8774421968',
+          goodsInfoImg:
+            'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
+          specName: '10kg',
+          goodsCateName: 'VET',
+          storeCateName: 'Default category',
+          brandName: 'Royal Canin',
+          marketPrice: 100,
+          stock: 887,
+          quantity: 2,
+          settingPrice: 21
+        }
+      ],
+      defaultLocalDateTime: '2021-02-02 11:51:34.983'
+    };
+    const productList = res.context;
+    this.setState({ productList });
+    console.info('...getFoodDispenserList', res);
+  };
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.queryDetails()
+    this.getStep1List();
     this.getUrlParam();
   }
 
@@ -856,496 +956,6 @@ class SmartFeederSubscription extends Component {
       }
     });
   };
-  async queryDetails() {
-    // const { id, goodsNo } = this.state;
-    // let requestName;
-    // let param;
-    // if (goodsNo) {
-    //   requestName = getDetailsBySpuNo;
-    //   param = goodsNo;
-    // } else {
-    //   requestName = this.isLogin ? getLoginDetails : getDetails;
-    //   param = id;
-    // }
-    let requestName = getDetailsBySpuNo;
-    let param = 1293;
-    Promise.all([requestName(param)])
-      .then((resList) => {
-        const res = resList[0];
-        if (res && res.context) {
-          this.setState({
-            productRate: res.context.avgEvaluate
-          });
-        }
-        if (res && res.context && res.context.goods) {
-          let pageLink = window.location.href.split('-');
-          pageLink.splice(pageLink.length - 1, 1);
-          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
-          this.setState(
-            {
-              productRate: res.context.goods.avgEvaluate,
-              replyNum: res.context.goods.goodsEvaluateNum,
-              goodsId: res.context.goods.goodsId,
-              minMarketPrice: res.context.goods.minMarketPrice,
-              minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
-              details: Object.assign(this.state.details, {
-                taggingForText: (res.context.taggingList || []).filter(
-                  (e) =>
-                    e.taggingType === 'Text' &&
-                    e.showPage &&
-                    e.showPage.includes('PDP')
-                )[0],
-                taggingForImage: (res.context.taggingList || []).filter(
-                  (e) =>
-                    e.taggingType === 'Image' &&
-                    e.showPage &&
-                    e.showPage.includes('PDP')
-                )[0]
-              }),
-              spuImages: res.context.images,
-              // breadCrumbs: [{ name: res.context.goods.goodsName }],
-              pageLink
-            },
-            () => {
-              console.info('...')
-            }
-          );
-          // setSeoConfig({
-          //   goodsId: res.context.goods.goodsId,
-          //   categoryId: '',
-          //   pageName: 'Product Detail Page'
-          // }).then((res) => {
-          //   this.setState({ seoConfig: res });
-          // });
-          // setSeoConfig({
-          //   goodsId: res.context.goods.goodsId,
-          //   categoryId: '',
-          //   pageName: 'Product Detail Page'
-          // });
-        } else {
-          this.setState({
-            errMsg: <FormattedMessage id="details.errMsg" />
-          });
-        }
-        let sizeList = [];
-        let goodsInfos = res.context.goodsInfos || [];
-        let isSkuNoQuery = res.context.isSkuNoQuery;
-        let choosedSpecsArr = [];
-        if (isSkuNoQuery) {
-          // 通过sku查询
-          let specsItem = goodsInfos.filter(
-            (item) => item.goodsInfoNo == this.state.goodsNo
-          );
-          choosedSpecsArr =
-            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-        }
-        if (res && res.context && res.context.goodsSpecDetails) {
-          let specList = res.context.goodsSpecs;
-          let specDetailList = res.context.goodsSpecDetails;
-          specList.map((sItem, index) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              if (index === 0) {
-                // console.log(goodsInfos.filter(goodEl => goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)), 'aaaa')
-                let filterproducts = goodsInfos.filter((goodEl) =>
-                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                );
-                sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
-                sdItem.isEmpty = filterproducts.every(
-                  (item) => item.stock === 0
-                );
-                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-              }
-              return sdItem.specId === sItem.specId;
-            });
-            let defaultSelcetdSku = -1;
-            if (choosedSpecsArr.length) {
-              for (let i = 0; i < choosedSpecsArr.length; i++) {
-                let specDetailIndex = sItem.specDetailIds.indexOf(
-                  choosedSpecsArr[i]
-                );
-                if (specDetailIndex > -1) {
-                  defaultSelcetdSku = specDetailIndex;
-                }
-              }
-            }
-            console.info('defaultSelcetdSku', defaultSelcetdSku);
-            if (defaultSelcetdSku > -1) {
-              // 默认选择该sku
-              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
-                // 如果是sku进来的，需要默认当前sku被选择
-                sItem.chidren[defaultSelcetdSku].selected = true;
-              }
-            } else {
-              if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
-                sItem.chidren[1].selected = true;
-              } else {
-                for (let i = 0; i < sItem.chidren.length; i++) {
-                  if (sItem.chidren[i].isEmpty) {
-                  } else {
-                    sItem.chidren[i].selected = true;
-                    break;
-                  }
-                }
-              }
-            }
-            return sItem;
-          });
-          console.log(specList, 'specList');
-          // this.setState({ specList });
-          sizeList = goodsInfos.map((g, i) => {
-            // g = Object.assign({}, g, { selected: false });
-            g = Object.assign({}, g, { selected: i === 0 });
-            if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
-              form.buyWay = 0;
-              this.setState({ form });
-            }
-            return g;
-          });
-          console.log(sizeList, 'sizeList');
-
-          // const selectedSize = find(sizeList, s => s.selected)
-
-          const { goodsDetailTab, tabs } = this.state;
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (process.env.REACT_APP_LANG === 'fr') {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (key === 'Description') {
-                        tmpGoodsDetail[key].map((el) => {
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          }
-                        });
-                      } else if (key === 'Bénéfices') {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="list_title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                              Object.values(JSON.parse(el))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                          ${tempContent}
-                        </ul>`;
-                      } else if (key === 'Composition') {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>
-                            
-                            <div class="content">${
-                              Object.values(JSON.parse(el))[0]
-                            }</div> 
-                          </p>`;
-                        });
-                      } else {
-                        tempContent = tmpGoodsDetail[key];
-                      }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                    goodsDetailTab.tabName.push(key);
-                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  }
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            console.log(err, 'err');
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab
-              });
-            });
-          }
-          let images = [];
-          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-          //   if (res.context.images.length) {
-          //     images = res.context.images;
-          //   }
-          // } else {
-          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          // }
-          // let filterImages = res.context.goodsInfos.filter((el) => el.goodsInfoImg)
-          // if(filterImages.length) {
-          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)
-          // }else {
-          //   ima
-          // }
-          images = res.context.goodsInfos;
-          this.setState(
-            {
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
-                }
-              ),
-              images,
-              // images: res.context.images.concat(res.context.goodsInfos),
-              // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
-              specList
-            },
-            () => {
-              //Product Detail Page view 埋点start
-              // this.GAProductDetailPageView(this.state.details);
-              //Product Detail Page view 埋点end
-              this.matchGoods();
-            }
-          );
-        } else {
-          let sizeList = [];
-          let goodsInfos = res.context.goodsInfos || [];
-          sizeList = goodsInfos.map((g, i) => {
-            g = Object.assign({}, g, { selected: i === 0 });
-            if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
-              form.buyWay = 0;
-              this.setState({ form });
-            }
-            return g;
-          });
-
-          // const selectedSize = find(sizeList, s => s.selected)
-
-          const { goodsDetailTab, tabs } = this.state;
-          // try {
-          //   let tmpGoodsDetail = res.context.goods.goodsDetail;
-          //   if (tmpGoodsDetail) {
-          //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-          //     for (let key in tmpGoodsDetail) {
-          //       if (tmpGoodsDetail[key]) {
-          //         goodsDetailTab.tabName.push(key);
-          //         goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-          //         tabs.push({ show: false });
-          //         // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-          //       }
-          //     }
-          //   }
-          //   this.setState({
-          //     goodsDetailTab: goodsDetailTab,
-          //     tabs
-          //   });
-          // } catch (err) {
-          //   getDict({
-          //     type: 'goodsDetailTab',
-          //     storeId: process.env.REACT_APP_STOREID
-          //   }).then((res) => {
-          //     goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-          //       (ele) => ele.name
-          //     );
-          //     this.setState({
-          //       goodsDetailTab: goodsDetailTab
-          //     });
-          //   });
-          // }
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (process.env.REACT_APP_LANG === 'fr') {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (key === 'Description') {
-                        tmpGoodsDetail[key].map((el) => {
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          }
-                        });
-                      } else if (key === 'Bénéfices') {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="list_title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                              Object.values(JSON.parse(el))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                          ${tempContent}
-                        </ul>`;
-                      } else if (key === 'Composition') {
-                        if (res.context.goods.goodsType !== 2) {
-                          tmpGoodsDetail[key].map((el) => {
-                            tempContent =
-                              tempContent +
-                              `<p>
-                              
-                              <div class="content">${
-                                Object.values(JSON.parse(el))[0]
-                              }</div> 
-                            </p>`;
-                          });
-                        } else {
-                          tmpGoodsDetail[key].map((el) => {
-                            let contentObj = JSON.parse(el);
-                            let contentValue = '';
-                            Object.values(Object.values(contentObj)[0]).map(
-                              (el) => {
-                                contentValue += `<p>${el}</p>`;
-                              }
-                            );
-                            console.log(tempContent, 'heiheihaha');
-                            tempContent =
-                              tempContent +
-                              `
-                              <div class="title">
-                                ${Object.keys(contentObj)[0]}
-                              </div>
-                              <div class="content">${contentValue}</div> 
-                            `;
-                          });
-                        }
-                      } else {
-                        tempContent = tmpGoodsDetail[key];
-                      }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                    goodsDetailTab.tabName.push(key);
-                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  }
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            console.log(err, 'tmpGoodsDetail');
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab
-              });
-            });
-          }
-          let images = [];
-          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-          //   if (res.context.images.length) {
-          //     images = res.context.images;
-          //   }
-          // } else {
-          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          // }
-          images = res.context.goodsInfos;
-          this.setState(
-            {
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
-                }
-              ),
-              images
-            },
-            () => {
-              console.info('// 选中的商品', details)
-              //Product Detail Page view 埋点start
-              // this.GAProductDetailPageView(this.state.details);
-              //Product Detail Page view 埋点end
-              this.bundleMatchGoods();
-            }
-          );
-          // 没有规格的情况
-          // this.setState({
-          //   errMsg: <FormattedMessage id="details.errMsg" />
-          // });
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        this.setState({
-          errMsg: e.message ? (
-            e.message.toString()
-          ) : (
-            <FormattedMessage id="details.errMsg2" />
-          )
-        });
-      })
-      .finally(() => {
-        this.setState({
-          loading: false,
-          initing: false
-        });
-      });
-  }
   bundleMatchGoods = () => {
     let {
       details,
@@ -1372,7 +982,7 @@ class SmartFeederSubscription extends Component {
         this.updateInstockStatus();
       }
     );
-  }
+  };
   matchGoods = () => {
     let {
       specList,
@@ -1459,12 +1069,12 @@ class SmartFeederSubscription extends Component {
         this.updateInstockStatus();
       }
     );
-  }
+  };
   updateInstockStatus = () => {
     this.setState({
       instockStatus: this.state.quantity <= this.state.stock
     });
-  }
+  };
   hanldeLoginAddToCart = async () => {
     try {
       const {
@@ -1475,7 +1085,7 @@ class SmartFeederSubscription extends Component {
         headerCartStore
       } = this.props;
       const { quantity, form, details } = this.state;
-      console.info('details', details)
+      console.info('details', details);
       this.GAAddToCar(quantity, details);
 
       const { sizeList } = details;
@@ -1486,7 +1096,7 @@ class SmartFeederSubscription extends Component {
       } else {
         currentSelectedSize = sizeList[0];
       }
-      console.info('currentSelectedSize', currentSelectedSize)
+      console.info('currentSelectedSize', currentSelectedSize);
 
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
@@ -1593,10 +1203,10 @@ class SmartFeederSubscription extends Component {
       this.setState({ addToCartLoading: false });
     }
   };
+  getGoodsNo = () => find(this.state.productList, (el) => el.choosed == true);
   handleScroll = () => {
     let scrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;
-    console.info('scrollTop', scrollTop);
     if (scrollTop > 120 && this.state.stepName == 'step1') {
       this.setState({ headerHide: true });
     } else {
@@ -1655,14 +1265,17 @@ class SmartFeederSubscription extends Component {
                 case 'step2':
                   stepCom = (
                     <Step2
-                      goodsDetailTab={goodsDetailTab.data}
+                      goodsDetailTab={goodsDetailTab}
                       toOtherStep={this.toOtherStep}
+                      details={this.state.details}
+                      // goodsNo = {this.getGoodsNo()}
                     />
                   );
                   break;
                 case 'step3':
                   stepCom = (
                     <Step3
+                      details={this.state.details}
                       toOtherStep={this.toOtherStep}
                       hanldeAddToCart={this.hanldeAddToCart}
                     />
