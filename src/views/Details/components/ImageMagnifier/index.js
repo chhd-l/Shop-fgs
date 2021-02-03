@@ -181,6 +181,7 @@ class ImageMagnifier extends Component {
   }
   // props 变化时更新
   UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log(nextProps, 'nextProps');
     let { currentImg } = this.state;
     let { images } = this.props;
     if (!currentImg && images && images.length > 0) {
@@ -377,6 +378,12 @@ class ImageMagnifier extends Component {
       taggingForImage,
       spuImages
     } = this.props;
+    if(process.env.REACT_APP_LANG !== 'fr') {
+      let masterIndex = spuImages.findIndex((el) => el.imageType === 'master')
+      let temImage = spuImages[masterIndex]
+      spuImages.splice(masterIndex, 1)
+      spuImages.unshift(temImage)
+    }
     // images = this.filterImage(images)
     let imgCount = spuImages.length;
     if (video) {
