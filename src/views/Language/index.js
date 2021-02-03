@@ -53,7 +53,7 @@ export default class LanguagePage extends Component {
                                 <div className="rc-alpha rc-modal__title rc-text--center" id="title">
                                     Seleccioná tu ubicación
                                 </div>
-                                <div className="modal-select">
+                                <div className="modal-select" id="country">
                                     <span className="rc-select rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop rc-select-processed">
                                         <label className="rc-select__label" htmlFor="id-country-select">Country</label>
                                         <select data-js-select="" id="id-country-select">
@@ -68,7 +68,7 @@ export default class LanguagePage extends Component {
                                     </span>
                                 </div>
 
-                                <div className="modal-select">
+                                <div className="modal-select" id="language">
                                     <span className="rc-select rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop rc-select-processed">
                                         <label className="rc-select__label" htmlFor="id-language-select">Language</label>
                                         <select data-js-select="" id="id-language-select">
@@ -103,15 +103,16 @@ export default class LanguagePage extends Component {
 
         window.onload = ()=> {
             this.setState({loading:false})
-            const choiceDomArr = document.querySelectorAll('.choices__item')
+            const choiceDomArr = document.querySelectorAll('#country .choices__item')   
+            // console.log(choiceDomArr)
+            // choiceDomArr[2].addEventListener('click',function(){
+            //     alert(123)
+            // })
             for (let i=0;i<choiceDomArr.length;i++){
                 console.log(choiceDomArr[i])
-                choiceDomArr[i].onclick = function(e){
-                    e.stopPropagation()
-                    e.preventDefault()
-                    alert(i)
-                    console.log(123)
-                }
+                choiceDomArr[i].addEventListener('click',function(){
+                    alert(123)
+                })
             }
         }
 
