@@ -17,24 +17,24 @@ export default class AddressPreview extends React.Component {
   render() {
     const { form, boldName } = this.props;
     return form ? (
-      <div>
-        <span className={`${boldName ? 'medium' : ''}`}>
+      <div className="children-nomargin">
+        <p className={`${boldName ? 'medium' : ''}`}>
           {form.firstName + ' ' + form.lastName}
-        </span>
-        <br />
-        <span>{form.phoneNumber || form.consigneeNumber}</span>
-        <br />
-        <span>{form.address1}</span>
-        <br />
-        <span>{form.address2}</span>
-        <span>{form.address2 ? <br /> : null}</span>
-        <span>
-          {form.postCode}, {form.cityName},{' '}
-          {matchNamefromDict(
-            this.state.countryList,
-            form.country || form.countryId
-          )}
-        </span>
+        </p>
+        <p>{form.phoneNumber || form.consigneeNumber}</p>
+        <p>{form.address1}</p>
+        {form.address2 ? <p>{form.address2}</p> : null}
+        <p>
+          <span>
+            {form.postCode}, {form.cityName},{' '}
+          </span>
+          <span>
+            {matchNamefromDict(
+              this.state.countryList,
+              form.country || form.countryId
+            )}
+          </span>
+        </p>
       </div>
     ) : null;
   }
