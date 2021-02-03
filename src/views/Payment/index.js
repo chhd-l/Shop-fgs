@@ -14,11 +14,14 @@ import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Fr/faq';
 import Loading from '@/components/Loading';
+
 import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
+import AddressPreview from './Address/Preview';
+
 import SubscriptionSelect from './SubscriptionSelect';
 import PetModal from './PetModal';
-import AddressPreview from './AddressPreview';
+import RepayAddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
@@ -28,10 +31,7 @@ import {
 } from './modules/utils';
 import {
   formatMoney,
-  validData,
   generatePayUScript,
-  getDictionary,
-  matchNamefromDict,
   getFormatDate,
   setSeoConfig
 } from '@/utils/utils';
@@ -159,7 +159,6 @@ class Payment extends React.Component {
       unLoginBackPets: [],
       guestEmail: '',
       mobileCartVisibleKey: 'less', // less/more
-      countryList: [],
       validSts: { billingAddr: true },
       saveBillingLoading: false
     };
@@ -273,12 +272,6 @@ class Payment extends React.Component {
     }
 
     this.initPaymentWay();
-
-    getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryList: res
-      });
-    });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -1188,7 +1181,7 @@ class Payment extends React.Component {
       param.clinicsId = clinicStore.selectClinicId;
       param.clinicsName = clinicStore.selectClinicName;
     }
-
+    debugger
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
@@ -1688,6 +1681,7 @@ class Payment extends React.Component {
               <AddressList
                 ref={this.loginBillingAddrRef}
                 key={2}
+                titleVisible={false}
                 type="billing"
                 showOperateBtn={false}
                 visible={!billingChecked}
@@ -2034,23 +2028,7 @@ class Payment extends React.Component {
             <br />
           </>
         )}
-        <span className={`${boldName ? 'medium' : ''}`}>
-          {form.firstName + ' ' + form.lastName}
-        </span>
-        <br />
-        <span>{form.phoneNumber}</span>
-        <br />
-        <span>{form.address1}</span>
-        <br />
-        <span>{form.address2}</span>
-        {form.address2 ? <br /> : null}
-        <span>
-          {form.postCode}, {form.cityName},{' '}
-          {matchNamefromDict(
-            this.state.countryList,
-            form.country || form.countryId
-          )}
-        </span>
+        <AddressPreview boldName={boldName} form={form} />
       </>
     ) : null;
   };
@@ -2367,7 +2345,7 @@ class Payment extends React.Component {
         />
         {loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
-          <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
+          <div className="rc-bottom-spacing data-checkout-stage1 rc-max-width--lg">
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 mt-md-0">
               <div className="rc-column rc-double-width shipping__address">
@@ -2385,7 +2363,7 @@ class Payment extends React.Component {
                   </aside>
                 </div>
                 {tid ? (
-                  <AddressPreview details={orderDetails} />
+                  <RepayAddressPreview details={orderDetails} />
                 ) : (
                   <>
                     <div className="shipping-form" id="J_checkout_panel_email">
