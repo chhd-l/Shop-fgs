@@ -12,6 +12,21 @@ export default class Selection extends React.Component {
     selectedItemData: null,
     customCls: ''
   };
+  // hub-footer-language新增  如有问题 删除 start
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (nextProps.selectedItemData && nextProps.selectedItemData !== this.state.selectedItemData) {
+      this.setState(
+        {
+          selectedItem: {
+            name: '',
+            value:nextProps.selectedItemData.value,
+            id: -1
+          },
+        }
+      );
+    }
+  }
+  // hub-footer-language新增  如有问题 删除 end
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +89,9 @@ export default class Selection extends React.Component {
   };
   render() {
     const { optionList, customStyleType } = this.props;
+    
     const { selectedItem, hoveredIdx, optionsVisible } = this.state;
+    console.log({optionList,selectedItem})
     return (
       <div
         onBlur={this.onBlurHandler}
