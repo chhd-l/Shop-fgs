@@ -378,7 +378,12 @@ class ImageMagnifier extends Component {
       taggingForImage,
       spuImages
     } = this.props;
-    console.log(images, 'images');
+    if(process.env.REACT_APP_LANG !== 'fr') {
+      let masterIndex = spuImages.findIndex((el) => el.imageType === 'master')
+      let temImage = spuImages[masterIndex]
+      spuImages.splice(masterIndex, 1)
+      spuImages.unshift(temImage)
+    }
     // images = this.filterImage(images)
     let imgCount = spuImages.length;
     if (video) {
