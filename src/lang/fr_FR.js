@@ -1149,7 +1149,13 @@ const fr_FR = {
   "header.User.myOrders": "Mes commandes",
   "header.User.mySubscriptions": "Mes abonnements",
   "header.User.faq": "FAQ",
-  "header.User.monRoyalCanin": "Mon Royal Canin"
+  "header.User.monRoyalCanin": "Mon Royal Canin",
+  //language-choose
+  "lang.selectYourLocation": "Sélectionnez votre emplacement",
+  "lang.country": "pays",
+  "lang.language": "Langue",
+  "lang.submit": "Soumettre",
+  "lang.close": "Fermer",
 }
 export default fr_FR;
 

@@ -770,6 +770,13 @@ const tr_TR = {
   "detail.email":'Eposta ile',
   "detail.packagingDesc": 'Ambalajlarımız / ürünlerimiz bir sıralama talimatına tabi olabilir',
   "learnMore":'Daha fazla bilgi edin',
+
+  //language-choose
+  "selectYourLocation": "Konumunuzu seçin",
+  "lang.country": "ülke",
+  "lang.language": "dil",
+  "lang.Submit": "Sunmak",
+  "lang.close": "Kapatmak",
 }
 
 export default tr_TR;

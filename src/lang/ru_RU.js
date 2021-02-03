@@ -773,6 +773,13 @@ const ru_RU = {
     "detail.email":'По электронной почте',
     "detail.packagingDesc": 'На нашу упаковку / продукцию могут распространяться инструкции по сортировке',
     "learnMore":'Узнать больше',
+
+    //language-choose
+    "lang.selectYourLocation": "Выберите ваше местоположение",
+    "lang.country": "страна",
+    "lang.language": "Разместить",
+    "lang.Submit": "Sunmak",
+    "lang.close": "Закрывать",
   }
 
   export default ru_RU;
