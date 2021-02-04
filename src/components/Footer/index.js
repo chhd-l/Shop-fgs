@@ -8,6 +8,7 @@ import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import './index.css';
 import LoginButton from '@/components/LoginButton';
+import FooterHub from './footer_hub'
 import { withRouter } from 'react-router-dom'
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -19,7 +20,8 @@ class Footer extends React.Component {
     super(props);
     this.state = {
       cur_menubar: menubar[process.env.REACT_APP_LANG] || [],
-      cur_contactInfo: contactInfo[process.env.REACT_APP_LANG] || null
+      cur_contactInfo: contactInfo[process.env.REACT_APP_LANG] || null,
+      a:1
     };
   }
   async componentDidMount() {
@@ -32,7 +34,7 @@ class Footer extends React.Component {
     const widget = document.querySelector('#page-top');
     widget && widget.scrollIntoView();
   };
-  render() {
+  footerInfo=()=>{
     return (
       <footer className="rc-bg-colour--interface-dark" id="footer">
         <div className="rc-max-width--xl rc-scroll--y">
@@ -203,6 +205,13 @@ class Footer extends React.Component {
         {cookieSettingsBtn[process.env.REACT_APP_LANG]}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
+    );
+  }
+  render() {
+    return (
+      <div>
+        {process.env.REACT_APP_HUB == 1 ? <FooterHub/> :this.footerInfo()}
+      </div>
     );
   }
 }

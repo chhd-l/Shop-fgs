@@ -223,6 +223,11 @@
 	background-position: 17.27% 42.86%!important;
 }
 
+.qhx.rc-language--xs:hover:after{
+	background-image: url("https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--brand1--xs.svg?v=8-9-1")!important;
+	background-position: 63% 57%!important;
+}
+
 @media screen and (max-width: 767px) {
 	#mars-footer-panel li{
     	line-height: normal !important;
