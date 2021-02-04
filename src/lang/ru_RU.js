@@ -778,7 +778,7 @@ const ru_RU = {
     "lang.selectYourLocation": "Выберите ваше местоположение",
     "lang.country": "страна",
     "lang.language": "Разместить",
-    "lang.Submit": "Sunmak",
+    "lang.submit": "Sunmak",
     "lang.close": "Закрывать",
   }
 

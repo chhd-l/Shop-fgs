@@ -31,4 +31,14 @@ module.exports = function (app) {
       }
     })
   );
+  app.use(
+    proxy('/footer', {
+      target: `${process.env.REACT_APP_HUB_FOOTER_URL}/api/footer`,
+      secure: false,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/footer': '/'
+      }
+    })
+  );
 };

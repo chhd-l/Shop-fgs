@@ -77,3 +77,5 @@ REACT_APP_ROOT_CLS = 'ui-custom-hub'
 REACT_APP_HUB = 1
 
 REACT_APP_HUB_URL = https://www.royalcanin.com/ru
+
+REACT_APP_HUB_FOOTER_URL = https://59ab1f42-09ad-4a54-bc25-475844fd5238.mock.pstmn.io/ru

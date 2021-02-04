@@ -772,10 +772,10 @@ const tr_TR = {
   "learnMore":'Daha fazla bilgi edin',
 
   //language-choose
-  "selectYourLocation": "Konumunuzu seçin",
+  "lang.selectYourLocation": "Konumunuzu seçin",
   "lang.country": "ülke",
   "lang.language": "dil",
-  "lang.Submit": "Sunmak",
+  "lang.submit": "Sunmak",
   "lang.close": "Kapatmak",
 }
 
