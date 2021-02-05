@@ -9,7 +9,8 @@ import { contactInfo } from './contactInfo';
 import './index.css';
 import LoginButton from '@/components/LoginButton';
 import { withRouter } from 'react-router-dom';
-import axios from "axios"
+import axios from "axios";
+import footerHubResult from "./mock"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -26,9 +27,11 @@ class FooterHub extends React.Component {
     };
     componentDidMount() {
         this.props.configStore.queryConfig();
-        axios.get('/footer/getmodel').then((res) => {
-            this.setState({ footerInfo: res.data })
-        })
+        // axios.get('/footer/getmodel').then((res) => {
+        //     this.setState({ footerInfo: res.data })
+        // })
+        this.setState({ footerInfo: footerHubResult.data })
+        
     }
     get isLogin() {
         return this.props.loginStore.isLogin;
