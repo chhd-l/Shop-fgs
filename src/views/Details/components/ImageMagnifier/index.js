@@ -378,8 +378,9 @@ class ImageMagnifier extends Component {
       taggingForImage,
       spuImages
     } = this.props;
-    if(process.env.REACT_APP_LANG !== 'fr') {
-      let masterIndex = spuImages.findIndex((el) => el.imageType === 'master')
+    if (process.env.REACT_APP_LANG !== 'fr' && spuImages.length) {
+      let idx = spuImages.findIndex((el) => el.imageType === 'master');
+      let masterIndex = idx < 0 ? 0 : idx;
       let temImage = spuImages[masterIndex]
       spuImages.splice(masterIndex, 1)
       spuImages.unshift(temImage)
