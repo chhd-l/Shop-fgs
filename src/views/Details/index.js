@@ -1756,7 +1756,6 @@ class Details extends React.Component {
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
-                {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
@@ -1770,19 +1769,18 @@ class Details extends React.Component {
                         />
                         <div
                           className="desAndStars"
-                          style={{
+                        >
+                          <div className="des">
+                            <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
+                              {details.goodsSubtitle}
+                            </h2>
+                          </div>
+                          <div className="stars" style={{
                             display:
                               process.env.REACT_APP_LANG == 'fr'
                                 ? 'none'
                                 : 'block'
-                          }}
-                        >
-                          <div className="des">
-                            <h3 className="text-break mb-1 mt-2">
-                              {/* {details.goodsSubtitle} */}
-                            </h3>
-                          </div>
-                          <div className="stars">
+                          }}>
                             <div className="rc-card__price flex-inline">
                               <div
                                 className="display-inline"
@@ -1879,9 +1877,9 @@ class Details extends React.Component {
                               />
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
-                                  <h3 className="text-break mb-1 mt-2">
-                                    {/* {details.goodsSubtitle} */}
-                                  </h3>
+                                  <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
+                                    {details.goodsSubtitle}
+                                  </h2>
                                 </div>
                                 <div
                                   className="stars"
