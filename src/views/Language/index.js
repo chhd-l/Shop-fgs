@@ -4,6 +4,7 @@ import Loading from '@/components/Loading';
 import Selection from '@/components/Selection';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import langResult from "./mock";
 import "./css/index.less"
 
 export default class LanguagePage extends Component {
@@ -68,12 +69,15 @@ export default class LanguagePage extends Component {
         })
     }
     getAllData() {
-        axios.get('/languagepicker/getcountries')
-            .then((response) => {
-                this.setState({ allData: response.data }, () => {
-                    this.placeCurrentCountryToFirst()
-                })
-            });
+        // axios.get('/languagepicker/getcountries')
+        //     .then((response) => {
+        //         this.setState({ allData: response.data }, () => {
+        //             this.placeCurrentCountryToFirst()
+        //         })
+        //     });
+        this.setState({ allData: langResult.data }, () => {
+            this.placeCurrentCountryToFirst()
+        })
     }
     handleSelectedCountryChange = (data) => {
         let tempData = [...this.state.allData]

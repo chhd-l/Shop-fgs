@@ -1130,6 +1130,8 @@ const fr_FR = {
   'plp.vet.cat.detail':'Notre gamme complète d\'aliments secs et de bouchées en sauce ou en gelée fournit la nutrition la plus précise pour les chats de tous âges, tailles et races',
   'plp.vet.cat.button':'Découvrez la gamme',
   //salesCategory
+  "salesCategory.title": "Découvrez nos {val1} gammes d’aliments",
+  "salesCategory.content": "Chaque formule a été créée pour fournir une nutrition adaptée ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.",
   "salesCategory.cat": "Pour chat",
   "salesCategory.dog": "Pour chien",
   //header.User  unLogin

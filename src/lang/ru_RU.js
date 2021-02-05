@@ -730,6 +730,8 @@ const ru_RU = {
     'confirmation.account':'Go to my account',
     'confirmation.oneShoot':'Go to my account',
     //salesCategory
+    "salesCategory.title": "Découvrez nos {val1} gammes d’aliments",
+    "salesCategory.content": "Chaque formule a été créée pour fournir une nutrition adaptée ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.",
     "salesCategory.cat": "Для кошки",
     "salesCategory.dog": "Для собаки",
     //header.User  unLogin

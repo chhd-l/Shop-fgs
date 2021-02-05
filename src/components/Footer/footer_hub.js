@@ -9,7 +9,8 @@ import { contactInfo } from './contactInfo';
 import './index.css';
 import LoginButton from '@/components/LoginButton';
 import { withRouter } from 'react-router-dom';
-import axios from "axios"
+import axios from "axios";
+import footerHubResult from "./mock"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -26,9 +27,11 @@ class FooterHub extends React.Component {
     };
     componentDidMount() {
         this.props.configStore.queryConfig();
-        axios.get('/footer/getmodel').then((res) => {
-            this.setState({ footerInfo: res.data })
-        })
+        // axios.get('/footer/getmodel').then((res) => {
+        //     this.setState({ footerInfo: res.data })
+        // })
+        this.setState({ footerInfo: footerHubResult.data })
+        
     }
     get isLogin() {
         return this.props.loginStore.isLogin;
@@ -43,7 +46,8 @@ class FooterHub extends React.Component {
         return (
             <footer className="rc-bg-colour--interface-dark" id="footer">
                 <div className="rc-max-width--xl rc-scroll--y">
-                    <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
+                    {/* MenuItems PC     */}
+                    <div className="rc-md-up rc-layout-container rc-two-column rc-padding-x--xs--desktop">
                         <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
                             <a
                                 className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3"
@@ -70,8 +74,8 @@ class FooterHub extends React.Component {
                                 {process.env.REACT_APP_LANG}
                             </Link>
                             <a style={{
-                                position:'absolute',
-                                right:0
+                                position: 'absolute',
+                                right: 0
                             }}>
                                 <span
                                     className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
@@ -84,6 +88,7 @@ class FooterHub extends React.Component {
                         </div>
                     </div>
                     <div className="rc-divider rc-md-up"></div>
+                    {/* MenuGroups */}
                     <div className="rc-layout-container rc-one-column rc-padding-x--xs">
                         <div className="rc-column rc-padding-x--xs">
                             <nav
@@ -139,23 +144,73 @@ class FooterHub extends React.Component {
                         </div>
                     </div>
                     <div className="rc-divider rc-md-up"></div>
-                    {/*tips */}
+                    {/* MenuItems Mobile */}
+                    <div className="rc-md-down rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
+                        <div className="rc-column rc-padding-bottom--none">
+                            <div>
+                                <a
+                                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3"
+                                    role="menuitem"
+                                    style={{marginLeft:'-.8rem'}}
+                                    href={`${menuItems[0].link.url}`}
+                                >
+                                    {
+                                        menuItems[0].link.text
+                                    }
+                                </a>
+                            </div>
+                            <div>
+                                <a
+                                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-cart--xs rc-brand3"
+                                    role="menuitem"
+                                    href={menuItems[1].link.url}
+                                    style={{ marginLeft:'-.8rem' }}
+                                >
+                                    {menuItems[1].link.text}
+                                </a>
+                            </div>
+                            <div>
+                                <Link
+                                    className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3"
+                                    to="/language"
+                                    style={{ marginLeft:'-.8rem' }}
+                                >
+                                    {process.env.REACT_APP_LANG}
+                                </Link>
+                            </div>
+
+                            <div>
+                                <a>
+                                    <span
+                                        className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
+                                        onClick={this.scrollToTop}
+                                        role="back to top"
+                                        style={{marginLeft:'-.8rem'}}
+                                    >
+                                        <FormattedMessage id="footer.toTheTop" />
+                                    </span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    {/*MenuInfoItems */}
                     <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
                         <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
                             <p className="rc-espilon rc-text--inverse">
-                                {Array.isArray(menuInfoItems) ? menuInfoItems[0].title : ""}
+                                {menuInfoItems[0].title}
                             </p>
                             <div className="rc-text--inverse">
                                 <p>
-                                    {Array.isArray(menuInfoItems) ? menuInfoItems[0].content : ""}
+                                    {menuInfoItems[0].content}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    {/* mail and phone */}
+                    {/* LocalMarketSettings */}
                     <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
                         {this.state.cur_contactInfo && (
-                            <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
+                            <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile">
                                 <a
                                     className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
                                     role="menuitem"

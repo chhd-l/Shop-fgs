@@ -63,6 +63,24 @@ export default class HubSalesCategory extends Component {
         return (
           <div className="hub-category rc-bg-colour--brand3 rc-margin-bottom--xs">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
+              <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                <FormattedMessage id="salesCategory.title" values={{
+                  val1: (
+                    <br/>
+                  )
+                }}/>
+              </h4>
+              <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
+                <p>
+                  <span style={{color:'black'}}>
+                    <FormattedMessage id="salesCategory.content" values={{
+                      val1:(
+                        <br/>
+                      )
+                    }}/>
+                  </span>
+                </p>
+              </div>
               <div className="rc-layout-container rc-two-column">
                 <div className="rc-column">
                   <div className="header-title">
