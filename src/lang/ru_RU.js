@@ -730,6 +730,8 @@ const ru_RU = {
     'confirmation.account':'Go to my account',
     'confirmation.oneShoot':'Go to my account',
     //salesCategory
+    "salesCategory.title": "Pourquoi choisir Royal Canin ?",
+    "salesCategory.content": "Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.",
     "salesCategory.cat": "Для кошки",
     "salesCategory.dog": "Для собаки",
     //header.User  unLogin
