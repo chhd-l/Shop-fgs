@@ -11,7 +11,6 @@ import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
 import Loading from '@/components/Loading';
-import AddressPreview from './Preview';
 import './list.less';
 
 /**
@@ -25,7 +24,6 @@ class AddressList extends React.Component {
     visible: true,
     type: 'delivery',
     showOperateBtn: true,
-    titleVisible: true,
     updateFormValidStatus: () => {},
     updateData: () => {}
   };
@@ -68,22 +66,20 @@ class AddressList extends React.Component {
     });
     this.queryAddressList({ init: true });
   }
-  get isDeliverAddress() {
-    return this.props.type === 'delivery';
-  }
   get panelStatus() {
-    const tmpKey = this.isDeliverAddress
-      ? 'deliveryAddrPanelStatus'
-      : 'billingAddrPanelStatus';
+    const tmpKey =
+      this.props.type === 'delivery'
+        ? 'deliveryAddrPanelStatus'
+        : 'billingAddrPanelStatus';
     return this.props.paymentStore[tmpKey];
   }
   get curPanelKey() {
-    return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
+    return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   async queryAddressList({ init = false } = {}) {
+    const { selectedId } = this.state;
+    this.setState({ loading: true });
     try {
-      const { selectedId } = this.state;
-      this.setState({ loading: true });
       let res = await getAddressList();
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
@@ -124,8 +120,8 @@ class AddressList extends React.Component {
           selectedId: tmpId
         },
         () => {
-          // this.updateSelectedData();
-          // this.confirmToNextPanel({ init });
+          this.updateSelectedData();
+          this.confirmToNextPanel({ init });
         }
       );
     } catch (err) {
@@ -141,7 +137,7 @@ class AddressList extends React.Component {
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     this.props.updateData(tmpObj);
-    this.isDeliverAddress &&
+    this.props.type === 'delivery' &&
       this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
   }
   confirmToNextPanel({ init = false } = {}) {
@@ -209,7 +205,6 @@ class AddressList extends React.Component {
       rfc: '',
       country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
       city: '',
-      cityName: '',
       postCode: '',
       phoneNumber: '',
       isDefalt: false
@@ -243,13 +238,13 @@ class AddressList extends React.Component {
         });
         this.props.paymentStore.setStsToEdit({
           key: this.curPanelKey,
-          hideOthers: this.isDeliverAddress ? true : false
+          hideOthers: type === 'delivery' ? true : false
         });
 
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );
-    if (this.isDeliverAddress) {
+    if (type === 'delivery') {
       this.scrollToTitle();
     }
   }
@@ -296,6 +291,7 @@ class AddressList extends React.Component {
     return el.offsetTop;
   }
   handleClickCancel = () => {
+    this.confirmToNextPanel();
     this.setState({ addOrEdit: false, saveErrorMsg: '' });
     this.scrollToTitle();
   };
@@ -333,7 +329,6 @@ class AddressList extends React.Component {
           selectedId: res.context.deliveryAddressId
         });
       }
-      this.isDeliverAddress && this.scrollToTitle();
       await this.queryAddressList();
       this.showSuccessMsg();
       this.setState({
@@ -348,10 +343,6 @@ class AddressList extends React.Component {
       throw new Error(err.message);
     }
   }
-  /**
-   * 1 新增/编辑地址
-   * 2 确认地址信息，并返回到封面
-   */
   handleSave = async () => {
     const { isValid, addOrEdit } = this.state;
     if (!isValid || !addOrEdit) {
@@ -359,7 +350,6 @@ class AddressList extends React.Component {
     }
     try {
       await this.handleSavePromise();
-      this.clickConfirmAddressPanel();
     } catch (err) {
       this.showErrMsg(err.message);
       this.setState({ saveLoading: false });
@@ -392,82 +382,7 @@ class AddressList extends React.Component {
   toggleFoldBtn = () => {
     this.setState((curState) => ({ foledMore: !curState.foledMore }));
   };
-  titleJSXForPrepare() {
-    const { titleVisible } = this.props;
-    return (
-      <h5 className={`mb-0 text-nowrap`}>
-        {titleVisible ? (
-          <>
-            <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-            <FormattedMessage id="payment.deliveryTitle" />
-          </>
-        ) : null}
-      </h5>
-    );
-  }
-  titleJSXForEdit() {
-    const { titleVisible } = this.props;
-    const { addOrEdit } = this.state;
-    return (
-      <>
-        <h5 className={`mb-0 text-nowrap red`}>
-          {titleVisible ? (
-            <>
-              <i className="rc-icon rc-indoors--xs rc-brand1" />{' '}
-              <FormattedMessage id="payment.deliveryTitle" />
-            </>
-          ) : null}
-        </h5>
-        <p
-          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${
-            addOrEdit ? 'hidden' : ''
-          }`}
-          onClick={this.addOrEditAddress.bind(this, -1)}
-        >
-          <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
-          <span>
-            <FormattedMessage id="newAddress" />
-          </span>
-        </p>
-      </>
-    );
-  }
-  titleJSXForCompeleted() {
-    const { titleVisible } = this.props;
-    return (
-      <>
-        <h5 className={`mb-0 text-nowrap`}>
-          {titleVisible ? (
-            <>
-              <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-              <FormattedMessage id="payment.deliveryTitle" />
-              <span className="iconfont font-weight-bold green ml-2">
-                &#xe68c;
-              </span>
-            </>
-          ) : null}
-        </h5>{' '}
-        <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
-          <FormattedMessage id="edit" />
-        </p>
-      </>
-    );
-  }
-  handleClickEdit = () => {
-    this.props.paymentStore.setStsToEdit({
-      key: this.curPanelKey,
-      hideOthers: true
-    });
-  };
-  /**
-   * 确认地址列表信息，并展示封面
-   */
-  clickConfirmAddressPanel = () => {
-    this.updateSelectedData();
-    this.confirmToNextPanel();
-  };
   render() {
-    const { panelStatus } = this;
     const { showOperateBtn } = this.props;
     const {
       deliveryAddress,
@@ -476,8 +391,7 @@ class AddressList extends React.Component {
       foledMore,
       addressList,
       saveErrorMsg,
-      successTipVisible,
-      selectedId
+      successTipVisible
     } = this.state;
 
     const _list = addressList.map((item, i) => (
@@ -513,24 +427,19 @@ class AddressList extends React.Component {
             )}
             {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
           </div>
-          <div
-            className="col-10 col-md-9 pl-1 pr-1"
-            style={{ wordBreak: 'keep-all' }}
-          >
-            <span>{[item.consigneeName, item.consigneeNumber].join(', ')}</span>
+          <div className="col-10 col-md-9 pl-1 pr-1" style={{ wordBreak: 'keep-all' }}>
+            {[item.consigneeName, item.consigneeNumber].join(', ')}
             {item.isDefaltAddress === 1 ? (
               <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
                 <FormattedMessage id="default" />
               </span>
             ) : null}
             <br />
-            <span>
-              {[
-                matchNamefromDict(this.state.countryList, item.countryId),
-                item.cityName,
-                item.address1
-              ].join(', ')}
-            </span>
+            {[
+              matchNamefromDict(this.state.countryList, item.countryId),
+              item.cityName,
+              item.address1
+            ].join(', ')}
           </div>
           <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
             <span
@@ -584,19 +493,29 @@ class AddressList extends React.Component {
         </label>
       </div>
     );
-
     const _title = (
       <div
         id={`J-address-title-${this.props.id}`}
         className="bg-transparent d-flex justify-content-between align-items-center flex-wrap"
       >
-        {panelStatus.isPrepare
-          ? this.titleJSXForPrepare()
-          : panelStatus.isEdit
-          ? this.titleJSXForEdit()
-          : panelStatus.isCompleted
-          ? this.titleJSXForCompeleted()
-          : null}
+        <h5
+          className="mb-0 text-nowrap"
+          style={{ opacity: this.props.type === 'billing' ? 0 : 1 }}
+        >
+          <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
+          <FormattedMessage id="payment.deliveryTitle" />
+        </h5>
+        <p
+          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${
+            addOrEdit ? 'hidden' : ''
+          }`}
+          onClick={this.addOrEditAddress}
+        >
+          <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
+          <span>
+            <FormattedMessage id="newAddress" />
+          </span>
+        </p>
       </div>
     );
     const _form = (
@@ -618,56 +537,75 @@ class AddressList extends React.Component {
         ) : null}
         <div className="rc-layout-container ml-1 mr-1">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center pl-0 pr-0">
-            <div>{this.isDeliverAddress ? _defaultCheckBox : null}</div>
+            <div>
+              {this.props.type === 'delivery' ? _defaultCheckBox : null}
+            </div>
             {showOperateBtn ? (
-              <>
-                <div className="rc-md-up">
-                  {addressList.length > 0 && (
-                    <>
-                      <span
-                        className="rc-styled-link"
-                        onClick={this.handleClickCancel}
-                      >
-                        <FormattedMessage id="cancel" />
-                      </span>{' '}
-                      <FormattedMessage id="or" />{' '}
-                    </>
-                  )}
-
-                  <button
-                    className="rc-btn rc-btn--one submitBtn"
-                    name="contactPreference"
-                    type="submit"
-                    onClick={this.handleSave}
-                    disabled={!this.state.isValid}
-                  >
-                    <FormattedMessage id="save" />
-                  </button>
-                </div>
-                <div className="rc-md-down rc-full-width text-right">
-                  {addressList.length > 0 && (
-                    <>
-                      <span
-                        className="rc-styled-link"
-                        onClick={this.handleClickCancel}
-                      >
-                        <FormattedMessage id="cancel" />
-                      </span>{' '}
-                      <FormattedMessage id="or" />{' '}
-                    </>
-                  )}
-
-                  <button
-                    className="rc-btn rc-btn--one submitBtn"
-                    name="contactPreference"
-                    type="submit"
-                    onClick={this.handleSave}
-                    disabled={!this.state.isValid}
-                  >
-                    <FormattedMessage id="save" />
-                  </button>
-                </div>
-              </>
+              addressList.length ? (
+                <>
+                  <div className="rc-md-up">
+                    <span
+                      className="rc-styled-link"
+                      onClick={this.handleClickCancel}
+                    >
+                      <FormattedMessage id="cancel" />
+                    </span>{' '}
+                    <FormattedMessage id="or" />{' '}
+                    <button
+                      className="rc-btn rc-btn--one submitBtn"
+                      name="contactPreference"
+                      type="submit"
+                      onClick={this.handleSave}
+                      disabled={!this.state.isValid}
+                    >
+                      <FormattedMessage id="save" />
+                    </button>
+                  </div>
+                  <div className="rc-md-down rc-full-width text-right">
+                    <span
+                      className="rc-styled-link"
+                      onClick={this.handleClickCancel}
+                    >
+                      <FormattedMessage id="cancel" />
+                    </span>{' '}
+                    <FormattedMessage id="or" />{' '}
+                    <button
+                      className="rc-btn rc-btn--one submitBtn"
+                      name="contactPreference"
+                      type="submit"
+                      onClick={this.handleSave}
+                      disabled={!this.state.isValid}
+                    >
+                      <FormattedMessage id="save" />
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="rc-md-up">
+                    <button
+                      className="rc-btn rc-btn--one submitBtn"
+                      name="contactPreference"
+                      type="submit"
+                      onClick={this.handleSave}
+                      disabled={!this.state.isValid}
+                    >
+                      <FormattedMessage id="clinic.confirm" />
+                    </button>
+                  </div>
+                  <div className="rc-md-down rc-full-width text-right">
+                    <button
+                      className="rc-btn rc-btn--one submitBtn"
+                      name="contactPreference"
+                      type="submit"
+                      onClick={this.handleSave}
+                      disabled={!this.state.isValid}
+                    >
+                      <FormattedMessage id="clinic.confirm" />
+                    </button>
+                  </div>
+                </>
+              )
             ) : null}
           </div>
         </div>
@@ -728,40 +666,18 @@ class AddressList extends React.Component {
               <span className="pt-2 pb-2">{this.state.errMsg}</span>
             ) : (
               <>
-                {panelStatus.isEdit ? (
-                  <>
-                    {!addOrEdit ? (
-                      addressList.length ? (
-                        <>
-                          {_list}
-                          {addressList.length > 1 && _foldBtn}
-                          {/* 该按钮，只用来确认地址列表 */}
-                          {this.isDeliverAddress && (
-                            <div className="d-flex justify-content-end mt-3">
-                              <button
-                                className={`rc-btn rc-btn--one`}
-                                onClick={this.clickConfirmAddressPanel}
-                              >
-                                <FormattedMessage id="yes" />
-                              </button>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <FormattedMessage id="order.noDataTip" />
-                      )
-                    ) : null}
-                    {_form}
-                  </>
-                ) : panelStatus.isCompleted ? (
-                  <AddressPreview
-                    form={
-                      addressList.filter(
-                        (a) => a.deliveryAddressId === selectedId
-                      )[0] || null
-                    }
-                  />
+                {!addOrEdit ? (
+                  addressList.length ? (
+                    <>
+                      {_list}
+                      {addressList.length > 1 && _foldBtn}
+                    </>
+                  ) : (
+                    <FormattedMessage id="order.noDataTip" />
+                  )
                 ) : null}
+                {/* add or edit address form */}
+                {this.panelStatus.isEdit ? <>{_form}</> : null}
               </>
             )}
           </div>

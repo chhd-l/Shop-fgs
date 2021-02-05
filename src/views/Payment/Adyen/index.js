@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { dynamicLoadCss } from '@/utils/utils';
 import CardList from './list';
-import { scrollPaymentPanelIntoView } from '../modules/utils';
 
 @inject('paymentStore')
 @observer
@@ -31,7 +30,6 @@ class AdyenCreditCard extends React.Component {
     this.props.updateAdyenPayParam(data);
   };
   showErrorMsg = (msg) => {
-    scrollPaymentPanelIntoView();
     this.setState({
       errorMsg: msg
     });
