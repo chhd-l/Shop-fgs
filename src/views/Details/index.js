@@ -1725,7 +1725,7 @@ class Details extends React.Component {
                         >
                           <div className="des">
                             <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
-                              {details.goodsSubtitle}
+                              {details.goodsNewSubtitle}
                             </h2>
                           </div>
                           <div className="stars" style={{
@@ -1833,7 +1833,7 @@ class Details extends React.Component {
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
                                   <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
-                                    {details.goodsSubtitle}
+                                    {details.goodsNewSubtitle}
                                   </h2>
                                 </div>
                                 <div
