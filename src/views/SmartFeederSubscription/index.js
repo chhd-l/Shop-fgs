@@ -13,9 +13,9 @@ import { getFoodDispenserList, getFoodDispenserDes } from '@/api/dispenser';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.less';
-import Swiper from 'swiper';
+// import Swiper from 'swiper';
 import Selection from '@/components/Selection';
-import 'swiper/swiper-bundle.min.css';
+// import 'swiper/swiper-bundle.min.css';
 import {
   getDeviceType,
   getParaByName,

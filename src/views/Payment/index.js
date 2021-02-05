@@ -1669,12 +1669,7 @@ class Payment extends React.Component {
     const {
       paymentTypeVal,
       subForm,
-      payWayObj,
       payWayErr,
-      billingChecked,
-      email,
-      validSts,
-      saveBillingLoading,
       billingChecked,
       email,
       validSts,
