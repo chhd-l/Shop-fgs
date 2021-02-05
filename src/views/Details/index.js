@@ -767,13 +767,11 @@ class Details extends React.Component {
                     try {
                       if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
                         tmpGoodsDetail[key].map((el) => {
-                          let descContent = `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description' && goods.saleableFlag && !goods.displayFlag
-                          ) {
+                          let short = Object.keys(JSON.parse(el))[0] === 'EretailShort Description';
+                          let  descContent = `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
+                          if (short && goods.saleableFlag && !goods.displayFlag) {
                             tempContent = tempContent + descContent;
-                          }else {
+                          }else if(short) {
                             this.setState({
                               descContent,
                             })
@@ -939,7 +937,6 @@ class Details extends React.Component {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {

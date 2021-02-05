@@ -1071,7 +1071,6 @@ class List extends React.Component {
     }
   }
   handleFilterResData(res,customFilter) {
-    console.log(res,customFilter, 'res===')
     const { state, pathname, search } = this.props.history.location;
     let tmpList = res
       .filter((ele) => +ele.filterStatus)
@@ -1081,7 +1080,6 @@ class List extends React.Component {
         a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
       );
     let allFilterList = tmpList.concat(customFilter);
-    console.log(allFilterList,'ff=====')
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -1444,7 +1442,6 @@ class List extends React.Component {
 
     getList(params)
       .then((res) => {
-        console.log(res, 'getlist====')
         const esGoodsStoreGoodsFilterVOList = res.context?.esGoodsStoreGoodsFilterVOList || [];
         const esGoodsCustomFilterVOList = res.context?.esGoodsCustomFilterVOList || [];
         this.handleFilterResData(esGoodsStoreGoodsFilterVOList,esGoodsCustomFilterVOList);
