@@ -2,15 +2,18 @@
 import axios from '@/utils/request'
 
 const api = {
-  getList: '/sub/findPage',
-  getSubDetail: '/sub/getSubscriptionDetail/',
-  updateDetail: '/sub/updateSubscription',
+  getList: `/${process.env.REACT_APP_STOREID}/subs`,
+  getSubDetail: '/sub/',
+  updateDetail: `/${process.env.REACT_APP_STOREID}/sub/`,
   getAddressDetail: '/customer/address/',
-  skipNextSub: '/sub/cancelNextSubscription',
-  cancelAllSub: '/sub/cancelSubscription',
-  orderNowSub: '/sub/createOrderNow',
+  skipNextSub: `/${process.env.REACT_APP_STOREID}/sub/cancel-next`,
+  cancelAllSub: '/sub/cancel',
+  orderNowSub: '/sub/order-now',
+  // orderNowSub: '/sub/createOrderNow',
+  // getPromotionPrice: `/${process.env.REACT_APP_STOREID}/sub/prom-price`,
   getPromotionPrice: '/sub/getPromotionPrice',
-  updateNextDeliveryTime: '/sub/updateNextDeliveryTime',
+  // updateNextDeliveryTime: '/sub/updateNextDeliveryTime',
+  updateNextDeliveryTime: `/${process.env.REACT_APP_STOREID}/sub/next-deliver/`,
 }
 
 export default api
@@ -18,15 +21,15 @@ export default api
 export function getSubList (parameter) {
   return axios({
     url: `${api.getList}`,
-    method: 'post',
-    data: parameter
+    method: 'get',
+    params: parameter
   })
 }
 
 export function updateDetail (parameter) {
   return axios({
-    url: `${api.updateDetail}`,
-    method: 'post',
+    url: `${api.updateDetail}${parameter.subscribeId}`,
+    method: 'put',
     data: parameter
   })
 }
@@ -40,7 +43,7 @@ export function getAddressDetail (parameter) {
 export function getSubDetail (parameter) {
   return axios({
     url: `${api.getSubDetail}` + parameter,
-    method: 'post'
+    method: 'get'
   })
 }
 
@@ -71,6 +74,8 @@ export function orderNowSub (parameter) {
 export function getPromotionPrice (parameter) {
   return axios({
     url: `${api.getPromotionPrice}`,
+    // method: 'get',
+    // params: parameter
     method: 'post',
     data: parameter
   })
@@ -78,8 +83,8 @@ export function getPromotionPrice (parameter) {
 
 export function updateNextDeliveryTime(parameter) {
   return axios({
-    url: `${api.updateNextDeliveryTime}`,
-    method: 'post',
+    url: `${api.updateNextDeliveryTime}${parameter.subscribeId}`,
+    method: 'put',
     data: parameter
   })
 }

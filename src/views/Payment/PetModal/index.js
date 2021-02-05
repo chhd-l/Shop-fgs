@@ -5,7 +5,6 @@ import NewPetModal from './components/NewPetModal';
 import SelectPetModal from './components/SelectPetModal';
 import './index.css';
 import { getPetList } from '@/api/pet';
-import { getCustomerInfo } from '@/api/user';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -29,39 +28,20 @@ class PetModal extends Component {
       this.getPetList();
     }
   }
-
-  getUserInfo() {
-    let userinfo = {};
-    if (localItemRoyal.get('rc-userinfo')) {
-      userinfo = localItemRoyal.get('rc-userinfo');
-    }
-    return userinfo;
+  get getUserInfo() {
+    return this.props.loginStore.userInfo;
   }
 
-  getAccount = () => {
-    let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
-    } else {
-      getCustomerInfo().then((res) => {
-        const context = res.context;
-        localItemRoyal.set('rc-userinfo', context);
-        consumerAccount = context.consumerAccount;
-      });
-    }
-
-    return consumerAccount;
-  };
-
   async getPetList() {
-    if (!this.getAccount()) {
+    if (!this.getUserInfo||!this.getUserInfo.customerAccount) {
       this.setState({
         loading: false
       });
       return false;
     }
     let params = {
-      consumerAccount: this.getAccount()
+      customerId: this.getUserInfo.customerId,
+      consumerAccount: this.getUserInfo.customerAccount
     };
     let res = await getPetList(params);
     if (res) {

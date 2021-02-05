@@ -12,7 +12,6 @@ import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
-import { getCustomerInfo } from '@/api/user';
 import { setSeoConfig, getDeviceType } from '@/utils/utils';
 import Female from '@/assets/images/female.png';
 import Male from '@/assets/images/male.png';
@@ -52,29 +51,15 @@ class Pet extends React.Component {
     const { history } = this.props;
     // history.push('/account/pets/petForm');
   }
-  getUserInfo() {
+
+  get userInfo() {
     return this.props.loginStore.userInfo;
   }
 
-  getAccount = () => {
-    let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
-    } else {
-      getCustomerInfo().then((res) => {
-        const context = res.context;
-        this.props.loginStore.setUserInfo(context);
-
-        consumerAccount = context.consumerAccount;
-      });
-    }
-
-    return consumerAccount;
-  };
-
   getPetList = async () => {
-    this.setState({ loading: true });
-    if (!this.getAccount()) {
+    let customerId = this.userInfo && this.userInfo.customerId
+    let consumerAccount = this.userInfo && this.userInfo.consumerAccount
+    if (!customerId) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
         loading: false
@@ -82,32 +67,16 @@ class Pet extends React.Component {
       return false;
     }
     let params = {
-      consumerAccount: this.getAccount()
+      customerId,
+      consumerAccount
     };
     await getPetList(params)
       .then((res) => {
-        if (res.code === 'K-000000') {
           let petList = res.context.context;
           this.setState({
             loading: false,
             petList: petList
           });
-          // if (petList.length > 0) {
-          //   this.setState({
-          //     loading: false
-          //   });
-          //   this.isHavePet();
-          // } else {
-          //   this.setState({
-          //     loading: false,
-          //     petList: petList
-          //   });
-          // }
-        } else {
-          this.setState({
-            loading: false
-          });
-        }
       })
       .catch((err) => {
         this.setState({

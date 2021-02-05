@@ -885,5 +885,6 @@ const en_US = {
   'order.total': 'Total',
   'order.iVAIncluido': '',
   'validPromotionCode': 'Unable to add the discount voucher to your cart',
+  bankCard: 'Bank card'
 }
 export default en_US;

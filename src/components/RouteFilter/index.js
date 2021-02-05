@@ -259,6 +259,10 @@ class RouteFilter extends Component {
       window.location.href = window.location.href.split('/#/').join('/');
       return null
     }
+    if (window.location.href.indexOf('.html') !== -1) {
+      window.location.href = window.location.href.split('.html')[0];
+    }
+
     if (pathname !== '/login') {
       loadJS({
         url: process.env.REACT_APP_ONTRUST_SRC,
@@ -286,6 +290,9 @@ class RouteFilter extends Component {
     }
   }
 
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   //总的调用consense接口
   getConsentList() {
     if (this.isLogin) {
@@ -294,7 +301,11 @@ class RouteFilter extends Component {
   }
   //1.会员调用consense接口
   doFindUserConsentList() {
-    findUserConsentList({}).then((result) => {
+    let customerId = this.userInfo && this.userInfo.customerId;
+    if (!customerId) {
+      return;
+    }
+    findUserConsentList({ customerId }).then((result) => {
       this.isExistRequiredListFun(result);
     });
   }

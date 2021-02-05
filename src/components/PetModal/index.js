@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import NewPetModal from './components/NewPetModal';
 import SelectPetModal from './components/SelectPetModal';
+import { inject, observer } from 'mobx-react';
 import './index.css';
 import { getPetList } from '@/api/pet';
-import { getCustomerInfo } from '@/api/user';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 @injectIntl
+@inject('loginStore')
+@observer
 class PetModal extends Component {
   // 新建Pet
   constructor() {
@@ -21,39 +23,21 @@ class PetModal extends Component {
     this.getPetList();
   }
 
-  getUserInfo() {
-    let userinfo = {};
-    console.log(localItemRoyal.get('rc-userinfo'), 'hahaha');
-    if (localItemRoyal.get('rc-userinfo')) {
-      userinfo = localItemRoyal.get('rc-userinfo');
-    }
-    return userinfo;
+  get getUserInfo() {
+    return this.props.loginStore.userInfo;
   }
 
-  getAccount = () => {
-    let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
-    } else {
-      getCustomerInfo().then((res) => {
-        const context = res.context;
-        localItemRoyal.set('rc-userinfo', context);
-        consumerAccount = context.consumerAccount;
-      });
-    }
-
-    return consumerAccount;
-  };
-
   async getPetList() {
-    if (!this.getAccount()) {
+    if (!this.getUserInfo || !this.getUserInfo.customerAccount) {
+      // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
       });
       return false;
     }
     let params = {
-      consumerAccount: this.getAccount()
+      customerId: this.getUserInfo.customerId,
+      consumerAccount: this.getUserInfo.customerAccount
     };
     let res = await getPetList(params);
     if (res) {

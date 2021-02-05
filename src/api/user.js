@@ -4,14 +4,16 @@ import axios from '@/utils/request'
 const api = {
   customerBase: '/customer/customerBase',
   register: 'okta/register',
-  isNewAccount: '/trade/countTradeByCustomerIdAndStoreId'
+  isNewAccount: '/trade/countTradeByCustomerIdAndStoreId',
+  customerBaseNew: '/customer'
 }
 
 export default api
 
 export function getCustomerInfo (parameter) {
   return axios({
-    url: `${api.customerBase}`,
+    // url: `${api.customerBase}`,
+    url: `${api.customerBaseNew}/${parameter.customerId}`,
     method: 'get'
   })
 }

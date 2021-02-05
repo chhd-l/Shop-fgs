@@ -3,12 +3,12 @@ import axios from '@/utils/request';
 const api = {
   storeCate: '/storeCate',
   uploadResource: '/common/uploadResource',
-  queryCityNameById: '/system-city/query-system-city-by-id',
-  queryCityByName: '/system-city/query-system-city-by-name',
-  buryPoint: '/wm.gif',
-  getConfig: '/initConfig/getConfig',
+  queryCityNameById: '/system-city/query-system-city-by-id', //http://localhost:3000/account/information
+  queryCityByName: `${process.env.REACT_APP_STOREID}/system/city`,
+  buryPoint: '/fgs.gif',
+  getConfig: `/config/store/${process.env.REACT_APP_STOREID}`,
   navigations: '/navigations', //  查询二级菜单
-  seo:'seo/setting'
+  seo: 'seo/setting'
 };
 
 export default api;
@@ -34,7 +34,10 @@ export function uploadResource(params) {
 
 export function queryCityNameById(parameter) {
   return axios({
-    url: api.queryCityNameById,
+    // url: `${api.queryCityNameById}${parameter.id}`,
+    // method: 'get',
+    // params: parameter
+    url: `${api.queryCityNameById}`,
     method: 'post',
     data: parameter
   });
@@ -42,9 +45,9 @@ export function queryCityNameById(parameter) {
 
 export function queryCityByName(parameter) {
   return axios({
-    url: api.queryCityByName,
-    method: 'post',
-    data: parameter
+    url: `${api.queryCityByName}`,
+    method: 'get',
+    params: parameter
   });
 }
 
@@ -59,8 +62,8 @@ export function setBuryPoint(parameter) {
 export function getConfig() {
   return axios({
     url: `${api.getConfig}`,
-    method: 'post',
-    data: { storeId: process.env.REACT_APP_STOREID }
+    method: 'get',
+    params: { storeId: process.env.REACT_APP_STOREID }
   });
 }
 export function queryHeaderNavigations() {

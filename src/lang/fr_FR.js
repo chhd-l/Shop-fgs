@@ -1108,6 +1108,7 @@ const fr_FR = {
   isPurebred: 'Chien de race',
   catNutrition: 'Nutrition chats',
   'order.total': 'Total',
-  'order.iVAIncluido': 'TVA Inclus'
+  'order.iVAIncluido': 'TVA Inclus',
+  bankCard: 'Carte Bancaire'
 }
 export default fr_FR;

@@ -28,6 +28,9 @@ class RegisterRequired extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -95,10 +98,12 @@ class RegisterRequired extends Component {
       if (isRequiredChecked) {
         //组装submit参数
         let submitParam = this.bindSubmitParam(this.state.list);
-
+        debugger
+        let customerId = this.userInfo && this.userInfo.customerId
         const result = await userBindConsent({
           ...submitParam,
-          ...{ oktaToken }
+          ...{ oktaToken },
+          customerId
         });
         if (result.code === 'K-000000') {
           this.props.history.push(lastPath);
@@ -134,7 +139,11 @@ class RegisterRequired extends Component {
       isLoading: true
     });
     try {
-      const result = await findUserConsentList({});
+      let customerId = this.userInfo && this.userInfo.customerId
+      if(!customerId){
+        return
+      }
+      const result = await findUserConsentList({customerId});
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');

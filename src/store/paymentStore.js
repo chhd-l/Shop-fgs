@@ -13,6 +13,10 @@ class PaymentStore {
   @observable browserInfo = {}
   @observable md = '';//3ds参数
 
+  @observable selectedCardId = null;
+  @observable defaultCardDataFromAddr = null;
+  @observable paymentStep = new Array(4);
+
   @observable panelStatus = [
     {
       key: 'clinic',
@@ -259,6 +263,17 @@ class PaymentStore {
       this.defaultCardDataFromAddr,
       tmpData
     );
+  }
+
+  //更新填写邮件状态
+  @action.bound
+  updateStepForEmail(param) {
+    this.paymentStep[0] = param;
+  }
+  //更新填写地址状态
+  @action.bound
+  updateStepForAddress(param) {
+    this.paymentStep[1] = param;
   }
   @action.bound
   setBrowserInfo(data) {

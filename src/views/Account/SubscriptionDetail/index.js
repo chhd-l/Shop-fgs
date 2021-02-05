@@ -55,6 +55,8 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+const isMobile = getDeviceType() !== 'PC';
+
 @inject('checkoutStore', 'loginStore')
 @injectIntl
 class SubscriptionDetail extends React.Component {
@@ -177,7 +179,6 @@ class SubscriptionDetail extends React.Component {
         this.props.intl.messages.completed
       ],
       activeTabIdx: 0,
-      isMobile: false,
       noStartYearOption: [],
       completedYearOption: [],
       noStartYear: {
@@ -195,7 +196,6 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -379,39 +379,11 @@ class SubscriptionDetail extends React.Component {
         cityRes,
         subDetail.invoice.cityId
       );
-      let tempCardInfo;
-      if (subDetail.paymentInfo) {
-        const adyenPaymentMethod = subDetail.paymentInfo.adyenPaymentMethod;
-        const payuPaymentMethod = subDetail.paymentInfo.payuPaymentMethod;
-        if (adyenPaymentMethod) {
-          tempCardInfo = {
-            paymentMethod: {
-              vendor: adyenPaymentMethod.name,
-              last_4_digits: adyenPaymentMethod.lastFour,
-              holder_name: adyenPaymentMethod.holderName
-            },
-            phoneNumber: adyenPaymentMethod.phoneNumber
-          };
-        } else if (payuPaymentMethod) {
-          tempCardInfo = {
-            paymentMethod: {
-              vendor: payuPaymentMethod.vendor,
-              last_4_digits: payuPaymentMethod.last_4_digits,
-              holder_name: payuPaymentMethod.holder_name
-            },
-            phoneNumber: subDetail.paymentInfo.phoneNumber
-          };
-        }
-        if (subDetail.paymentInfo.paymentType === 'ADYEN') {
-          dynamicLoadCss(
-            'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
-          );
-        }
-      }
+      debugger;
       this.setState(
         {
           subDetail: subDetail,
-          currentCardInfo: tempCardInfo,
+          currentCardInfo: subDetail.paymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
           orderOptions: orderOptions,
@@ -589,7 +561,6 @@ class SubscriptionDetail extends React.Component {
       subDetail,
       currentModalObj,
       todaydate,
-      isMobile,
       noStartYearOption,
       completedYearOption,
       noStartYear,
@@ -1817,58 +1788,50 @@ class SubscriptionDetail extends React.Component {
                                   </a>
                                 )}
                               </div>
-                              <div className="ml-1">
-                                {currentCardInfo &&
-                                currentCardInfo.paymentMethod &&
-                                currentCardInfo.paymentMethod.last_4_digits ? (
-                                  <>
-                                    <span
-                                      className="medium"
-                                      style={{
-                                        fontSize: '18px',
-                                        fontWeight: '400',
-                                        color: '#333',
-                                        margin: '25px 0 10px',
-                                        verticalAlign: 'middle'
-                                      }}
-                                    >
-                                      **** **** ****
-                                      {
-                                        currentCardInfo.paymentMethod
-                                          .last_4_digits
-                                      }
-                                    </span>
-                                    <br />
-                                    <LazyLoad
-                                      style={{
-                                        width: '20%',
-                                        marginRight: '.2rem'
-                                      }}
-                                    >
-                                      <img
-                                        alt=""
-                                        className="d-inline-block"
-                                        src={
-                                          CREDIT_CARD_IMG_ENUM[
-                                            currentCardInfo.paymentMethod
-                                              ? currentCardInfo.paymentMethod
-                                                  .vendor
-                                              : currentCardInfo.vendor
-                                          ]
-                                        }
-                                      />
-                                    </LazyLoad>
-                                  </>
-                                ) : null}
+                              {currentCardInfo && (
+                                <div className="ml-1">
+                                  {currentCardInfo.lastFourDigits ? (
+                                    <>
+                                      <span
+                                        className="medium"
+                                        style={{
+                                          fontSize: '18px',
+                                          fontWeight: '400',
+                                          color: '#333',
+                                          margin: '25px 0 10px',
+                                          verticalAlign: 'middle'
+                                        }}
+                                      >
+                                        **** **** ****
+                                        {currentCardInfo.lastFourDigits}
+                                      </span>
+                                      <br />
+                                      <LazyLoad
+                                        style={{
+                                          width: '20%',
+                                          marginRight: '.2rem'
+                                        }}
+                                      >
+                                        <img
+                                          alt=""
+                                          className="d-inline-block"
+                                          src={
+                                            CREDIT_CARD_IMG_ENUM[
+                                              currentCardInfo.paymentVendor.toUpperCase()
+                                            ] ||
+                                            'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                          }
+                                        />
+                                      </LazyLoad>
+                                    </>
+                                  ) : null}
 
-                                {currentCardInfo &&
-                                currentCardInfo.paymentMethod
-                                  ? currentCardInfo.paymentMethod.holder_name
-                                  : ''}
-                                <br />
-                                {currentCardInfo && currentCardInfo.phoneNumber}
-                                <br />
-                              </div>
+                                  {currentCardInfo.holderName}
+                                  <br />
+                                  {currentCardInfo.phone}
+                                  <br />
+                                </div>
+                              )}
                             </div>
                           </div>
                         }

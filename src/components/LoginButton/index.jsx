@@ -56,19 +56,25 @@ const LoginButton = (props) => {
           const oktaTokenString = authState.accessToken ? authState.accessToken.value : '';
           let oktaToken = 'Bearer ' + oktaTokenString;
           const consentString = localItemRoyal.get('rc-consent-list');
-          if(consentString && loginStore.isLogin) {
+          if (consentString && loginStore.isLogin) {
             var consents = JSON.parse(consentString);
             let submitParam = bindSubmitParam(consents);
+            // 不知道能不能拿到customerId
+            let customerId =
+              loginStore.userinfo && loginStore.userinfo.customerId;
             userBindConsent({
               ...submitParam,
-              ...{ oktaToken }
-            }).then(res=>{
-              if(res.code === 'K-000000') {
-                history.push('/')
-              }
-            }).catch((e) => {
-              console.log(e);
-            });
+              ...{ oktaToken },
+              customerId
+            })
+              .then((res) => {
+                if (res.code === 'K-000000') {
+                  history.push('/');
+                }
+              })
+              .catch((e) => {
+                console.log(e);
+              });
           } else {
             if (!loginStore.isLogin) {
               getToken({ oktaToken: oktaToken })
@@ -88,20 +94,23 @@ const LoginButton = (props) => {
                   let userinfo = res.context.customerDetail;
                   loginStore.changeLoginModal(false);
                   loginStore.changeIsLogin(true);
-  
+
                   localItemRoyal.set('rc-token', res.context.token);
-                  let customerInfoRes = await getCustomerInfo();
+                  debugger;
+                  let customerInfoRes = await getCustomerInfo({
+                    customerId: res.context.customerId
+                  });
                   userinfo.defaultClinics =
                     customerInfoRes.context.defaultClinics;
                   loginStore.setUserInfo(customerInfoRes.context);
-  
+
                   const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
                   if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
                     await mergeUnloginCartData();
                     console.log(loginStore, 'loginStore');
                     await checkoutStore.updateLoginCart();
                   }
-  
+
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
@@ -129,7 +138,7 @@ const LoginButton = (props) => {
       oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       //debugger
-      console.log(err)
+      console.log(err);
     }
   };
 

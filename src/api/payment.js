@@ -1,22 +1,25 @@
 import axios from '@/utils/request';
 
 const api = {
-  visitorRegisterAndLogin: '/visitorRegisterAndLogin',
-  batchAdd: '/site/batchAdd',
-  confirmAndCommit: '/tradeCustom/confirmCommitAndPay',
-  addOrUpdatePaymentMethod: '/payment-method/updata',
-  getPaymentMethod: '/payment-method/query-by-customer-id',
-  deleteCard: '/payment-method/delete-by-id',
-  setDefaltCard: '/payment-method/default',
+  visitorRegisterAndLogin: `/${process.env.REACT_APP_STOREID}/guest/register`,
+  batchAdd: `/site/${process.env.REACT_APP_STOREID}/batch-add`,
+  confirmAndCommit: `/${process.env.REACT_APP_STOREID}/guest/checkout`,
+  addOrUpdatePaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
+  getPaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
+  deleteCard: '/pay-payment-info', // delete a card
+  setDefaltCard: '/pay-payment-info/default',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
-  customerCommitAndPay: '/tradeCustom/customerCommitAndPay',
-  rePay: '/tradeCustom/rePay',
-  customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix',
-  getMarketingDiscount: '/marketing/getMarketingDiscount',
-  getWays: '/PayGateway/gateways',
-  adyenPaymentsDetails: '/adyenPay/payments/details',
+  customerCommitAndPay: '/trade-custom/checkout',
+  rePay: '/trade-custom/repay',
+  customerCommitAndPayMix: '/trade-custom/mix/checkout',
+  getMarketingDiscount: '/marketing/discount',
+  // getMarketingDiscount: '/marketing/getMarketingDiscount',
+  getWays: `/${process.env.REACT_APP_STOREID}/pay/getPayPspList`,
+  adyenPaymentsDetails: `/${process.env.REACT_APP_STOREID}/adyen/payment`,
+  // adyenPaymentsDetails: '/adyenPay/payments/details',
   getProductPetConfig: '/order/config/findPet',
+  // getProductPetConfig: '/order/config/findPet'
   adyen3DSResult: `/${process.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
   Adyen3DSResult: '/Adyen3DSResult'
 };
@@ -58,15 +61,15 @@ export function addOrUpdatePaymentMethod(parameter) {
 export function getPaymentMethod(parameter) {
   return axios({
     url: api.getPaymentMethod,
-    method: 'post',
-    data: parameter
+    method: 'get',
+    params: parameter
   });
 }
 
 export function deleteCard(para) {
   return axios({
-    url: api.deleteCard,
-    method: 'post',
+    url: `${api.deleteCard}/${para.id}`,
+    method: 'delete',
     data: para
   });
 }
@@ -107,15 +110,15 @@ export function getWays(parameter) {
   return axios({
     url: api.getWays,
     method: 'get',
-    data: parameter
+    params: parameter
   });
 }
 
 export function adyenPaymentsDetails(parameter) {
   return axios({
     url: api.adyenPaymentsDetails,
-    method: 'post',
-    data: parameter
+    method: 'get',
+    params: parameter
   });
 }
 

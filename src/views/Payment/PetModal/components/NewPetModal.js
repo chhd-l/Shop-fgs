@@ -4,7 +4,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import findIndex from 'lodash/findIndex';
 import '../index.css';
 import { addPet } from '@/api/pet';
-import { getCustomerInfo } from '@/api/user';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getDict } from '@/api/dict';
@@ -88,6 +87,9 @@ class NewPetModal extends Component {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
   }
+  get getUserInfo() {
+    return this.props.loginStore.userInfo;
+  }
   handleInputChange(e) {
     const target = e.target;
     const { petForm } = this.state;
@@ -98,28 +100,6 @@ class NewPetModal extends Component {
     this.setState({ petForm: petForm });
     this.inputBlur(e);
   }
-  getUserInfo() {
-    let userinfo = {};
-    if (localItemRoyal.get('rc-userinfo')) {
-      userinfo = localItemRoyal.get('rc-userinfo');
-    }
-    return userinfo;
-  }
-
-  getAccount = () => {
-    let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
-    } else {
-      getCustomerInfo().then((res) => {
-        const context = res.context;
-        localItemRoyal.set('rc-userinfo', context);
-        consumerAccount = context.consumerAccount;
-      });
-    }
-
-    return consumerAccount;
-  };
 
   async addPet() {
     let isFillAll = true;
@@ -152,7 +132,7 @@ class NewPetModal extends Component {
     };
     const parmas = {
       customerPets: pets,
-      userId: this.getAccount()
+      userId:  this.getUserInfo.customerAccount
     };
     let res = await addPet(parmas);
     if (res.code === 'K-000000') {
