@@ -1778,9 +1778,9 @@ class Details extends React.Component {
                           }}
                         >
                           <div className="des">
-                            <h3 className="text-break mb-1 mt-2">
+                            <h2 className="text-break mb-1 mt-2">
                               {/* {details.goodsSubtitle} */}
-                            </h3>
+                            </h2>
                           </div>
                           <div className="stars">
                             <div className="rc-card__price flex-inline">
@@ -1879,9 +1879,9 @@ class Details extends React.Component {
                               />
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
-                                  <h3 className="text-break mb-1 mt-2">
+                                  <h2 className="text-break mb-1 mt-2">
                                     {/* {details.goodsSubtitle} */}
-                                  </h3>
+                                  </h2>
                                 </div>
                                 <div
                                   className="stars"
