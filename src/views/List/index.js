@@ -240,11 +240,11 @@ function ListItemBodyH5ForFr({ item }) {
 }
 function ListItemBody({ item, headingTag }) {
   let goodHeading =  
-  `<${headingTag ? headingTag : 'h3'} 
+  `<${headingTag ? headingTag : 'h2'} 
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
       ${item.goodsName}
-  </${headingTag ? headingTag : 'h3'}>`
+  </${headingTag ? headingTag : 'h2'}>`
   const defaultJSX = (
     <>
       <div className="height-product-tile-plpOnly">
@@ -478,7 +478,7 @@ class List extends React.Component {
         title: '',
         metaKeywords: '',
         metaDescription: '',
-        headingTag: 'h3'
+        headingTag: 'h2'
       }
     };
     this.pageSize = 12;
