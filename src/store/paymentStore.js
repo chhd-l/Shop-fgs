@@ -265,16 +265,6 @@ class PaymentStore {
     );
   }
 
-  //更新填写邮件状态
-  @action.bound
-  updateStepForEmail(param) {
-    this.paymentStep[0] = param;
-  }
-  //更新填写地址状态
-  @action.bound
-  updateStepForAddress(param) {
-    this.paymentStep[1] = param;
-  }
   @action.bound
   setBrowserInfo(data) {
     this.browserInfo = data
