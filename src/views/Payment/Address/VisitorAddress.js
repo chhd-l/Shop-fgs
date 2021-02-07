@@ -176,28 +176,25 @@ class VisitorAddress extends React.Component {
             {_title}
           </div>
         )}
-
         {!panelStatus.isPrepare ? (
-          <>
-            {panelStatus.isEdit ? (
-              <fieldset className="shipping-address-block rc-fieldset">
-                {_editForm}
-                {showConfirmBtn && (
-                  <div className="d-flex justify-content-end mb-2">
-                    <button
-                      className="rc-btn rc-btn--one rc-btn--sm"
-                      onClick={this.handleClickConfirm}
-                      disabled={!isValid}
-                    >
-                      <FormattedMessage id="clinic.confirm" />
-                    </button>
-                  </div>
-                )}
-              </fieldset>
-            ) : form ? (
-              <AddressPreview form={form} />
-            ) : null}
-          </>
+          panelStatus.isEdit ? (
+            <fieldset className="shipping-address-block rc-fieldset">
+              {_editForm}
+              {showConfirmBtn && (
+                <div className="d-flex justify-content-end mb-2">
+                  <button
+                    className="rc-btn rc-btn--one rc-btn--sm"
+                    onClick={this.handleClickConfirm}
+                    disabled={!isValid}
+                  >
+                    <FormattedMessage id="clinic.confirm" />
+                  </button>
+                </div>
+              )}
+            </fieldset>
+          ) : panelStatus.isCompleted ? (
+            <AddressPreview form={form} />
+          ) : null
         ) : null}
       </>
     );
