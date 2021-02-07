@@ -21,7 +21,7 @@ import {
   getFormatDate
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList, getOrderDetails, exportInvoicePDF } from '@/api/order';
+import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
@@ -79,6 +79,7 @@ class AccountOrders extends React.Component {
     this.handleDownInvoice = this.handleDownInvoice.bind(this);
     this.handleClickPayNow = this.handleClickPayNow.bind(this);
     this.handlePayNowTimeEnd = this.handlePayNowTimeEnd.bind(this);
+    this.rePurchase = this.rePurchase.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -348,31 +349,25 @@ class AccountOrders extends React.Component {
     this.hanldeLoginAddToCart(order);
   }
   async hanldeLoginAddToCart(order) {
-    const cartProduct = this.props.checkoutStore.loginCartData;
-    const productList = order.tradeItems ? order.tradeItems : [];
-    const tradeItems = productList.map((ele) => {
-      return {
-        goodsInfoImg: ele.pic,
-        goodsName: ele.spuName,
-        specText: ele.specDetails,
-        buyCount: 1, //ele.num
-        salePrice: ele.price,
-        goodsInfoId: ele.skuId
-      };
-    });
-    const list = [...tradeItems, ...cartProduct];
-    const paramList = [];
-    productList.forEach((item) => {
-      let obj = {
-        verifyStock: false,
-        buyCount: 1,
-        goodsInfoId: item.skuId
-      };
-      paramList.push(obj);
-    });
-    await batchAdd({ goodsInfos: paramList });
-    await this.props.checkoutStore.updateLoginCart();
-    this.props.history.push('/cart');
+    try {
+      const { orderList } = this.state;
+      order.addToCartLoading = true;
+      this.setState({ orderList: orderList });
+      const paramList = (order.tradeItems || []).map((item) => {
+        return {
+          goodsInfoFlag: item.goodsInfoFlag,
+          verifyStock: false,
+          buyCount: 1,
+          goodsInfoId: item.skuId
+        };
+      });
+      await batchAdd({ goodsInfos: paramList });
+      await this.props.checkoutStore.updateLoginCart();
+      this.props.history.push('/cart');
+    } catch (err) {
+    } finally {
+      order.addToCartLoading = false;
+    }
   }
   changeTab(i) {
     this.setState(
@@ -457,8 +452,10 @@ class AccountOrders extends React.Component {
         ) : null}
         {order.canRePurchase ? (
           <button
-            className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn"
-            onClick={() => this.rePurchase(order)}
+            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${
+              order.addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''
+            }`}
+            onClick={this.rePurchase.bind(this, order)}
           >
             <FormattedMessage id="rePurchase" />
           </button>

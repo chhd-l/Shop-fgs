@@ -4,11 +4,12 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
+import { validData } from '@/utils/utils';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
 } from '../modules/utils';
+import AddressPreview from './Preview';
 import './VisitorAddress.css';
 
 /**
@@ -30,16 +31,10 @@ class VisitorAddress extends React.Component {
     this.state = {
       isValid: false,
       form: this.props.initData,
-      countryList: [],
       billingChecked: true
     };
   }
   componentDidMount() {
-    getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryList: res
-      });
-    });
     this.validData({ data: this.state.form });
   }
   get panelStatus() {
@@ -157,7 +152,6 @@ class VisitorAddress extends React.Component {
 
     const { showConfirmBtn } = this.props;
     const { form, isValid } = this.state;
-    const { updateStepForAddress, paymentStep } = this.props.paymentStore;
 
     const _editForm = (
       <EditForm
@@ -201,22 +195,7 @@ class VisitorAddress extends React.Component {
                 )}
               </fieldset>
             ) : form ? (
-              <div>
-                <span className="medium">
-                  {form.firstName + ' ' + form.lastName}
-                </span>
-                <br />
-                <span>{form.phoneNumber}</span>
-                <br />
-                <span>{form.address1}</span>
-                <br />
-                <span>{form.address2}</span>
-                <span>{form.address2 ? <br /> : null}</span>
-                <span>
-                  {form.postCode}, {form.cityName},{' '}
-                  {matchNamefromDict(this.state.countryList, form.country)}
-                </span>
-              </div>
+              <AddressPreview form={form} />
             ) : null}
           </>
         ) : null}

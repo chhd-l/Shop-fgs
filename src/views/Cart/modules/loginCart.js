@@ -671,7 +671,7 @@ class LoginCart extends React.Component {
                       pitem
                     })}
                   >
-                    <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
+                    <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break">
                       <div className="radioBox mr-2">
                         <span
                           style={{
