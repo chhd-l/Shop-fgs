@@ -2008,7 +2008,7 @@ class Details extends React.Component {
                         </div>
                           {vet ? <>
                             <div dangerouslySetInnerHTML={{ __html: this.state.descContent }}></div>
-                            {!this.state.loading && !isMobile && stock? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                            {!this.state.loading && !isMobile? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
                               <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
                             </div> : null}
                           </> :
@@ -2621,7 +2621,7 @@ class Details extends React.Component {
                                       />
                                     </span>
                                   </button>
-                                  {!this.state.loading && stock ?
+                                  {!this.state.loading ?
                                     <>
                                       &nbsp;&nbsp;
                                       <FormattedMessage id="or" />
