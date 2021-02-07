@@ -1,14 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
-import Help from './Help';
-import NavItem from './NavItem';
+import Help from './HelpForHub';
+import NavItem from './NavItemForHub';
+import PromotionPanel from './PromotionPanel';
 import LazyLoad from 'react-lazyload';
 
 /**
  * 渲染二级菜单
  */
-export default class DropDownMenu extends React.Component {
+export default class DropDownMenuForHub extends React.Component {
   static defaultProps = {
     headerNavigationList: [],
     activeTopParentId: -1,
@@ -91,6 +90,13 @@ export default class DropDownMenu extends React.Component {
       });
     }
 
+    const menuItemList = item.menuItems.filter(
+      (ele) => ele.type === 'MenuItem'
+    );
+    const otherItemList = item.menuItems.filter(
+      (ele) => ele.type !== 'MenuItem'
+    );
+
     return (
       <div
         className={`${
@@ -103,183 +109,69 @@ export default class DropDownMenu extends React.Component {
         onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
-        <div className="flex-grow-1111 rc-padding-y--xs rc-padding-left--sm--desktop bg-white">
-          <ul
-            className="d-flex justify-content-center rc-padding--none rc-margin--none fullHeight"
-            role="menu"
-          >
-            {(item.children || [])
-              .sort((a, b) => a.sort - b.sort)
-              .map((mitem, mIndx) => (
-                <li
-                  className="dropdown-nav__item rc-padding-top--xs relative"
-                  role="menuitem"
-                  key={mIndx}
-                  onMouseOver={this.handleNavChildrenMouseOver.bind(
-                    this,
-                    item,
-                    mitem
-                  )}
-                  onMouseOut={this.handleNavChildrenMouseOut}
+        <div className="d-flex align-items-start justify-content-between bg-white pt-4 pb-4 border-top">
+          {menuItemList.length > 0 && (
+            <div className="pl-4 pr-4">
+              {menuItemList.map((cItem) => (
+                <a
+                  href={cItem.link.url}
+                  className="medium mb-2 ui-cursor-pointer"
+                  key={cItem.id}
+                  style={{ display: 'block' }}
                 >
-                  <div className="dropdown-nav__title rc-margin-bottom--xs">
-                    <span className="dropdown-nav__item font-weight-normal">
-                      <NavItem
-                        item={mitem}
-                        onClick={this.handleClickNavItem.bind(this, mitem)}
-                      >
-                        {mitem.navigationName}
-                      </NavItem>
-                    </span>
-                  </div>
-                  <ul
-                    className="rc-padding--none"
-                    role="menu"
-                    aria-hidden="true"
-                  >
-                    {(mitem.children || [])
-                      .sort((a, b) => a.sort - b.sort)
-                      .map((citem, cIndex) => (
-                        <li
-                          className="dropdown-nav__item"
-                          role="menuitem"
-                          key={cIndex}
-                          onMouseOver={this.handleNavChildrenMouseOver.bind(
-                            this,
-                            item,
-                            citem
-                          )}
-                          onMouseOut={this.handleNavChildrenMouseOut}
-                        >
-                          <NavItem
-                            className="dropdown-nav__link"
-                            item={citem}
-                            onClick={this.handleClickNavItem.bind(this, citem)}
-                            item={citem}
-                          >
-                            {citem.navigationName}
-                          </NavItem>
-                        </li>
-                      ))}
-                  </ul>
-                  {mIndx === 0 && (
-                    <div className="dropdown-nav__cat-link rc-padding-bottom--xs">
-                      <NavItem
-                        item={item}
-                        onClick={this.handleClickNavItem.bind(this, item)}
-                        className="rc-styled-link"
-                      >
-                        <FormattedMessage id="viewAll" />
-                      </NavItem>
-                    </div>
-                  )}
-                </li>
+                  {cItem.link.text}
+                </a>
               ))}
-          </ul>
-        </div>
-        {descObj ? (
-          <div className={`content-asset bg-white`}>
-            <div className="dropdown-nav__banner rc-bg-colour--brand4 flex-column flex-sm-row">
-              <div className="align-self-center rc-padding-left--md rc-padding-right--xs rc-padding-y--lg--mobile">
-                <div className="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
-                  <p>{descObj.text}</p>
-                </div>
-                <Link to="/product-finder">
-                  <button
-                    className="rc-btn rc-btn--one"
-                    onClick={() =>
-                      this.GAClickMenu({
-                        category: 'banner',
-                        action: 'banner',
-                        label: '/product-finder',
-                        value: 'product-finder'
-                      })
-                    }
-                  >
-                    <FormattedMessage id="findTheRightDiet" />
-                  </button>
-                </Link>
-              </div>
-              <div className="mt-auto">
-                <LazyLoad>
-                  <FormattedMessage id="findTheRightDiet">
-                    {(txt) => (
+            </div>
+          )}
+
+          {otherItemList.map((cItem, cIdx) => (
+            <React.Fragment key={cItem.id}>
+              {cItem.type === 'DetailedMenuItem' && (
+                <div
+                  className={`d-flex align-items-center dropdown-nav__catogery__card pr-4 pl-4 ${
+                    cIdx === item.menuItems.length ? '' : 'border-right'
+                  }`}
+                >
+                  <div className="mr-4 text-center">
+                    <LazyLoad>
                       <img
-                        className="pull-right rc-lg-up ls-is-cached lazyloaded"
-                        src={descObj.imageLink}
-                        alt={txt}
+                        src={cItem.image.url}
+                        alt={cItem.image.altText}
+                        srcSet={cItem.image.srcset}
+                        style={{ width: '4rem', margin: '0 auto' }}
                       />
-                    )}
-                  </FormattedMessage>
-                </LazyLoad>
-              </div>
-            </div>
-          </div>
-        ) : null}
-        {/* <div
-          className="d-flex bg-white pt-4 pb-4 border-top"
-          style={{ width: '80%' }}
-        >
-          <div className="border-right d-flex align-items-center pr-4 pl-4">
-            <div className="mr-4 text-center">
-              <img
-                src="https://www.royalcanin.com/fr/-/media/german_shepherd_adult.png?sw=60&hash=A6C7D257823CAD6AF7B7453B1D32B2CAAB376F9A%20320w"
-                style={{ width: '4rem', margin: '0 auto' }}
-              />
-              <p className="red text-nowrap">Dog products</p>
-            </div>
-            <div class="">
-              <p class="medium mb-0">Retail products</p>
-              <p class="mb-3">
-                Precise nutrition for cats of all ages, sizes and breeds.
-              </p>
-              <p class="medium mb-0">Retail products</p>
-              <p class="mb-3">
-                Precise nutrition for cats of all ages, sizes and breeds.
-              </p>
-              <p class="medium mb-0">Discover our product ranges</p>
-            </div>
-          </div>
-          <div className="d-flex align-items-center pr-4 pl-4">
-            <div className="mr-4 text-center">
-              <img
-                src="https://www.royalcanin.com/fr/-/media/german_shepherd_adult.png?sw=60&hash=A6C7D257823CAD6AF7B7453B1D32B2CAAB376F9A%20320w"
-                style={{ width: '4rem', margin: '0 auto' }}
-              />
-              <p className="red text-nowrap">Dog products</p>
-            </div>
-            <div class="">
-              <p class="medium mb-0">Retail products</p>
-              <p class="mb-3">
-                Precise nutrition for cats of all ages, sizes and breeds.
-              </p>
-              <p class="medium mb-0">Retail products</p>
-              <p class="mb-3">
-                Precise nutrition for cats of all ages, sizes and breeds.
-              </p>
-              <p class="medium mb-0">Discover our product ranges</p>
-            </div>
-          </div>
-          <div className="pl-4 pr-4">
-            <div className="border d-flex align-items-center p-4">
-              <div>
-                <p className="red">Need help finding the right product?</p>
-                <p>Try our product finder</p>
-                <button className="rc-btn rc-btn--two">Finde a product</button>
-              </div>
-              <img
-                src="https://www.royalcanin.com/fr/-/media/german_shepherd_adult.png?sw=60&hash=A6C7D257823CAD6AF7B7453B1D32B2CAAB376F9A%20320w"
-                style={{ width: '2rem' }}
-              />
-            </div>
-          </div>
+                    </LazyLoad>
+                    <p className="red text-nowrap">{cItem.title}</p>
+                  </div>
+                  <div>
+                    {cItem.subItems.map((sItem, sIdx) => (
+                      <React.Fragment key={sIdx}>
+                        <a
+                          href={sItem.link.url}
+                          className="medium mb-0 ui-cursor-pointer"
+                        >
+                          {sItem.title}
+                        </a>
+                        {sItem.subtitle ? (
+                          <p className="mb-3">{sItem.subtitle}</p>
+                        ) : null}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {cItem.type === 'PromotionalMenuItem' && (
+                <PromotionPanel key={cItem.id} item={cItem} />
+              )}
+            </React.Fragment>
+          ))}
         </div>
-       */}
       </div>
     );
   };
   renderHelpMenu = (item, i) => {
-    const { configStore, activeTopParentId } = this.props;
+    const { activeTopParentId } = this.props;
     return (
       <div
         className={`dropdown-nav bg-transparent d-flex full-width-asset justify-content-center ${
@@ -291,23 +183,28 @@ export default class DropDownMenu extends React.Component {
         key={i}
       >
         <div className="content-asset bg-white border-top">
-          <Help configStore={configStore} />
+          <Help data={item} />
         </div>
       </div>
     );
   };
   render() {
-    const { headerNavigationList, activeTopParentId } = this.props;
+    const {
+      headerNavigationList,
+      activeTopParentId,
+      showNav,
+      showLoginBtn
+    } = this.props;
     return (
       <>
         <nav
           className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
-            this.props.showNav ? '' : 'rc-hidden'
+            showNav ? '' : 'rc-hidden'
           }`}
         >
           <ul
             className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
-              this.props.showLoginBtn ? '' : 'rc-hidden'
+              showLoginBtn ? '' : 'rc-hidden'
             }`}
           >
             {headerNavigationList.map((item, i) => (
@@ -332,7 +229,7 @@ export default class DropDownMenu extends React.Component {
                       >
                         {item.expanded ? (
                           <span className={`rc-header-with-icon header-icon`}>
-                            {item.navigationName}
+                            {item.link && item.link.text}
                             {item.id === activeTopParentId ? (
                               <span className="iconfont icon-dropdown-arrow ml-1">
                                 &#xe6f9;
@@ -344,7 +241,7 @@ export default class DropDownMenu extends React.Component {
                             )}
                           </span>
                         ) : (
-                          item.navigationName
+                          item.link && item.link.text
                         )}
                       </NavItem>
                     </span>
@@ -356,13 +253,9 @@ export default class DropDownMenu extends React.Component {
         </nav>
         <div className="rc-md-up">
           {headerNavigationList
-            .filter(
-              (ele) =>
-                (ele.expanded && ele.children && ele.children.length) ||
-                (ele.navigationLink && ele.navigationLink.includes('/help'))
-            )
+            .filter((ele) => ele.expanded)
             .map((item, i) =>
-              item.navigationLink && item.navigationLink.includes('/help')
+              item.type === 'ContactUsMenuGroup'
                 ? this.renderHelpMenu(item, i)
                 : this.renderNormalMenu(item, i)
             )}

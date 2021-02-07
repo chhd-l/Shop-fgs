@@ -33,6 +33,9 @@ REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/fr'
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
 REACT_APP_ONTRUST_DOMAIN_SCRIPT = 'a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test'
 
+#mars global footer
+REACT_APP_MARS_FOOTER = https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru
+
 #language
 REACT_APP_LANG = 'ru'
 REACT_APP_NAVIGATOR_LANG = 'ru'
