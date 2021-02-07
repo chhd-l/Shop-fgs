@@ -441,7 +441,7 @@ function ListItemBody({ item }) {
               className="value sales"
             >
               {/* 最低marketPrice */}
-              {formatMoney(item.miMarketPrice)} {/* 划线价 */}
+              {item.miMarketPrice ? formatMoney(item.miMarketPrice) : null} {/* 划线价 */}
               {item.miLinePrice && item.miLinePrice > 0 ? (
                 <span
                   className="text-line-through rc-text-colour--text font-weight-lighter"
@@ -514,11 +514,14 @@ function ListItemBody({ item }) {
                   className="value sales"
                 >
                   {item.toPrice ? (
+                    <>
                     <span className="mr-1" style={{ fontSize: '.8em' }}>
                       <FormattedMessage id="startFrom" />
                     </span>
+                    {formatMoney(item.fromPrice)}
+                    </>
                   ) : null}
-                  {formatMoney(item.fromPrice)}
+                  
                   {item.toPrice ? (
                     <>
                       <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
