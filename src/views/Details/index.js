@@ -315,7 +315,10 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: process.env.REACT_APP_PDP_BUYWAY === undefined?1: parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
+        buyWay:
+          process.env.REACT_APP_PDP_BUYWAY === undefined
+            ? 1
+            : parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -328,7 +331,8 @@ class Details extends React.Component {
       seoConfig: {
         title: '',
         metaKeywords: '',
-        metaDescription: ''
+        metaDescription: '',
+        headingTag: 'h1'
       },
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
@@ -460,12 +464,18 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
       }
     );
   }
-  setGoogleProductStructuredDataMarkup () {
-    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } = this.state
+  setGoogleProductStructuredDataMarkup() {
+    const {
+      instockStatus,
+      details,
+      spuImages,
+      goodsDetailTab,
+      goodsNo
+    } = this.state;
     loadJS({
       code: JSON.stringify({
         '@context': 'http://schema.org/',
@@ -474,12 +484,14 @@ class Details extends React.Component {
         description: goodsDetailTab.tabContent[0],
         mpn: goodsNo,
         sku: goodsNo,
-        image: spuImages.map(s => s.artworkUrl),
+        image: spuImages.map((s) => s.artworkUrl),
         offers: {
           url: {},
           '@type': 'AggregateOffer',
           priceCurrency: process.env.REACT_APP_CURRENCY,
-          availability: instockStatus ? 'http://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          availability: instockStatus
+            ? 'http://schema.org/InStock'
+            : 'https://schema.org/OutOfStock',
           lowPrice: details.fromPrice,
           highPrice: details.toPrice || details.fromPrice
         }
@@ -564,7 +576,7 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
       }
     );
   }
@@ -591,7 +603,8 @@ class Details extends React.Component {
           const { goods, taggingList, images } = res.context;
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
-          pageLink = pageLink.concat(goods.goodsNo).join('-');
+          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
+
           this.setState(
             {
               productRate: goods.avgEvaluate,
@@ -721,9 +734,16 @@ class Details extends React.Component {
                 sItem.chidren[defaultSelcetdSku].selected = true;
               }
             } else {
-              if (process.env.REACT_APP_LANG === 'de' && sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+              if (
+                process.env.REACT_APP_LANG === 'de' &&
+                sItem.chidren.length > 1 &&
+                !sItem.chidren[1].isEmpty
+              ) {
                 sItem.chidren[0].selected = true;
-              } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+              } else if (
+                sItem.chidren.length > 1 &&
+                !sItem.chidren[1].isEmpty
+              ) {
                 sItem.chidren[1].selected = true;
               } else {
                 for (let i = 0; i < sItem.chidren.length; i++) {
@@ -765,7 +785,11 @@ class Details extends React.Component {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
+                      if (
+                        key === 'Description' ||
+                        key === 'Описание' ||
+                        key === 'İçindekiler'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           let short = Object.keys(JSON.parse(el))[0] === 'EretailShort Description';
                           let  descContent = `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
@@ -777,7 +801,11 @@ class Details extends React.Component {
                             })
                           }
                         });
-                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
+                      } else if (
+                        key === 'Bénéfices' ||
+                        key === 'Полезные свойства' ||
+                        key === 'Yararları'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -943,7 +971,11 @@ class Details extends React.Component {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
+                      if (
+                        key === 'Description' ||
+                        key === 'Описание' ||
+                        key === 'İçindekiler'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -954,13 +986,19 @@ class Details extends React.Component {
                               `<p style="white-space: pre-line">${
                                 Object.values(JSON.parse(el))[0]
                               }</p>`;
-                          }else if(Object.keys(JSON.parse(el))[0] === 'Prescriber Blod Description') {
+                          } else if (
+                            Object.keys(JSON.parse(el))[0] ===
+                            'Prescriber Blod Description'
+                          ) {
                             tempContent =
                               tempContent +
                               `<p style="white-space: pre-line; font-weight: 400">${
                                 Object.values(JSON.parse(el))[0]
                               }</p>`;
-                          }else if(Object.keys(JSON.parse(el))[0] === 'Prescriber Description') {
+                          } else if (
+                            Object.keys(JSON.parse(el))[0] ===
+                            'Prescriber Description'
+                          ) {
                             tempContent =
                               tempContent +
                               `<p style="white-space: pre-line; font-weight: 400;">${
@@ -968,7 +1006,11 @@ class Details extends React.Component {
                               }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
+                      } else if (
+                        key === 'Bénéfices' ||
+                        key === 'Полезные свойства' ||
+                        key === 'Yararları'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -1784,6 +1826,16 @@ class Details extends React.Component {
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet = process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag; //vet产品并且是hub的情况下
     const De = process.env.REACT_APP_LANG === 'de';
+
+    let goodHeading = `<${
+      this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
+    } 
+        class="rc-gamma ui-text-overflow-line2 text-break"
+        title="${details.goodsName}">
+        ${details.goodsName}
+      </${
+        this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
+      }>`;
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
@@ -1836,7 +1888,6 @@ class Details extends React.Component {
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
-                {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
@@ -1845,28 +1896,23 @@ class Details extends React.Component {
                         <ErrMsgForCheckoutPanel
                           checkOutErrMsg={checkOutErrMsg}
                         />
-                        <h1
-                          className="rc-gamma ui-text-overflow-line2 text-break"
-                          title={details.goodsName}
-                        >
-                          {details.goodsName}
-                        </h1>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: goodHeading }}
+                        />
                         <div
                           className="desAndStars"
                         >
                           <div className="des">
-                            <h3 className="text-break mb-1 mt-2">
-                              {details.goodsSubtitle}
-                            </h3>
+                            <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
+                              {details.goodsNewSubtitle}
+                            </h2>
                           </div>
-                          <div className="stars"
-                            style={{
-                              display:
-                                process.env.REACT_APP_LANG == 'fr'
-                                  ? 'none'
-                                  : 'block'
-                            }}
-                          >
+                          <div className="stars" style={{
+                            display:
+                              process.env.REACT_APP_LANG == 'fr'
+                                ? 'none'
+                                : 'block'
+                          }}>
                             <div className="rc-card__price flex-inline">
                               <div
                                 className="display-inline"
@@ -1915,7 +1961,9 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  {process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr' ? (
+                                  {process.env.REACT_APP_LANG === 'fr' ||
+                                  process.env.REACT_APP_LANG === 'ru' ||
+                                  process.env.REACT_APP_LANG === 'tr' ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
                                       video={details.goodsVideo}
@@ -1954,17 +2002,16 @@ class Details extends React.Component {
                         <div className="wrap-short-des">
                           {!isMobile && (
                             <div className="detailHeader">
-                              <h1
-                                className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
-                                title={details.goodsName}
-                              >
-                                {details.goodsName}
-                              </h1>
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: goodHeading
+                                }}
+                              />
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
-                                  <h3 className="text-break mb-1 mt-2">
-                                    {details.goodsSubtitle}
-                                  </h3>
+                                  <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
+                                    {details.goodsNewSubtitle}
+                                  </h2>
                                 </div>
                                 <div
                                   className="stars"

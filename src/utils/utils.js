@@ -358,6 +358,12 @@ export async function setSeoConfig(
       cateSeo.metaDescription ||
       pageSeo.metaDescription ||
       siteSeo.metaDescription ||
+      '',
+    headingTag:
+      goodsSeo.headingTag ||
+      cateSeo.headingTag ||
+      pageSeo.headingTag ||
+      siteSeo.headingTag ||
       ''
   };
   return seoInfo;

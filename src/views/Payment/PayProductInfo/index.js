@@ -305,11 +305,13 @@ class PayProductInfo extends React.Component {
                     <br />
                     {el.goodsInfoFlag ? (
                       <>
+                      <span>
                         <FormattedMessage id="subscription.frequency" /> :{' '}
                         {matchNamefromDict(
                           this.state.frequencyList,
                           el.periodTypeId
                         )}{' '}
+                      </span>
                       </>
                     ) : null}
                   </div>
@@ -451,47 +453,53 @@ class PayProductInfo extends React.Component {
                     }`}
                   style={{ marginTop: '10px', float: 'right' }}
                   onClick={async () => {
-                    let result = {};
-                    if (!this.state.promotionInputValue) return;
-                    this.setState({
-                      isClickApply: true,
-                      isShowValidCode: false,
-                      lastPromotionInputValue: this.state.promotionInputValue
-                    });
-                    if (!this.isLogin) {
-                      //游客
-                      result = await checkoutStore.updateUnloginCart(
-                        '',
-                        this.state.promotionInputValue
-                      );
-                    } else {
-                      //会员
-                      result = await checkoutStore.updateLoginCart(
-                        this.state.promotionInputValue,
-                        this.props.buyWay === 'frequency'
-                      );
-                    }
-                    if (
-                      result.backCode === 'K-000000' &&
-                      (!result.context.promotionFlag ||
-                        result.context.couponCodeFlag)
-                    ) {
-                      //表示输入apply promotionCode成功
-                      discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                      this.setState({ discount });
-                      this.props.sendPromotionCode(
-                        this.state.promotionInputValue
-                      );
-                    } else {
+                    try {
+                      let result = {};
+                      if (!this.state.promotionInputValue) return;
                       this.setState({
-                        isShowValidCode: true
+                        isClickApply: true,
+                        isShowValidCode: false,
+                        lastPromotionInputValue: this.state.promotionInputValue
                       });
-                      this.props.sendPromotionCode('');
+                      if (!this.isLogin) {
+                        //游客
+                        result = await checkoutStore.updateUnloginCart(
+                          '',
+                          this.state.promotionInputValue
+                        );
+                      } else {
+                        //会员
+                        result = await checkoutStore.updateLoginCart(
+                          this.state.promotionInputValue,
+                          this.props.buyWay === 'frequency'
+                        );
+                      }
+                      if (
+                        result.backCode === 'K-000000' &&
+                        (!result.context.promotionFlag ||
+                          result.context.couponCodeFlag)
+                      ) {
+                        //表示输入apply promotionCode成功
+                        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                        this.setState({ discount });
+                        this.props.sendPromotionCode(
+                          this.state.promotionInputValue
+                        );
+                      } else {
+                        this.setState({
+                          isShowValidCode: true
+                        });
+                        this.props.sendPromotionCode('');
+                      }
+                      this.setState({
+                        isClickApply: false,
+                        promotionInputValue: ''
+                      });
+                    } catch (err) {
+                      this.setState({
+                        isClickApply: false
+                      });
                     }
-                    this.setState({
-                      isClickApply: false,
-                      promotionInputValue: ''
-                    });
                   }}
                 >
                   <FormattedMessage id="apply" />
@@ -543,7 +551,6 @@ class PayProductInfo extends React.Component {
                             onClick={async () => {
                               let result = {};
                               await checkoutStore.removePromotionCode()
-                              await checkoutStore.removeCouponCodeFitFlag()
                               if (!this.props.loginStore.isLogin) {
                                 //游客
                                 result = await checkoutStore.updateUnloginCart();
@@ -554,11 +561,14 @@ class PayProductInfo extends React.Component {
                                   this.props.buyWay === 'frequency'
                                 );
                               }
-                              if (result.backCode === 'K-000000') {
+                              if (result && result.backCode === 'K-000000') {
                                 discount.pop();
+                                this.props.sendPromotionCode('');
                                 this.setState({
-                                  discount: discount,
-                                  isShowValidCode: false
+                                  discount: [],
+                                  isShowValidCode: false,
+                                  lastPromotionInputValue: '',
+                                  promotionInputValue: ''
                                 });
                               }
                             }}
