@@ -783,7 +783,6 @@ class Details extends React.Component {
             let tmpGoodsDetail = goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail,'tmpGoodsDetail===')
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   if (
@@ -800,7 +799,6 @@ class Details extends React.Component {
                         key === 'İçindekiler'
                       ) {
                         tmpGoodsDetail[key].map((el) => {
-                          console.log(el,'el=====')
                           let short =
                             Object.keys(JSON.parse(el))[0] ===
                             'EretailShort Description';
@@ -812,7 +810,6 @@ class Details extends React.Component {
                           let sprescriberDesc = prescriber && `<p style="white-space: pre-line">${
                             Object.values(JSON.parse(el))[0]
                           }</p>`;
-                          console.log(shortDesc,sprescriberDesc,'descContent=====')
                           if (
                             !goods.saleableFlag &&
                             goods.displayFlag
