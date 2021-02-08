@@ -1693,7 +1693,6 @@ class Details extends React.Component {
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    const De = process.env.REACT_APP_LANG === 'de';
 
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
@@ -2109,9 +2108,9 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                               </div>
-                              <div className="price font-weight-normal text-right">
-                                <div className={De ? 'current-unit-price' : ''}>
-                                  {formatMoney(currentUnitPrice)}
+                              <div className="price font-weight-normal text-right position-relative">
+                                <div>
+                                  {formatMoney(currentUnitPrice)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
                                 </div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
@@ -2202,9 +2201,9 @@ class Details extends React.Component {
                                 {/* Delivery 1 time only */}
                               </span>
                             </div>
-                            <div className="price font-weight-normal text-right">
-                              <div className={De ? 'current-unit-price' : ''}>
-                                {formatMoney(currentUnitPrice)}
+                            <div className="price font-weight-normal text-right position-relative">
+                              <div>
+                                {formatMoney(currentUnitPrice)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
                               </div>
                               {process.env.REACT_APP_LANG === 'de' &&
                               selectedSpecItem ? (
@@ -2305,11 +2304,10 @@ class Details extends React.Component {
                                     </label>
                                   </div>
                                 </div>
-                                <div className="price font-weight-normal text-right">
+                                <div className="price font-weight-normal text-right position-relative">
                                   <div
-                                    className={De ? 'current-unit-price' : ''}
                                   >
-                                    {formatMoney(currentSubscriptionPrice || 0)}
+                                    {formatMoney(currentSubscriptionPrice || 0)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
                                   </div>
                                   {process.env.REACT_APP_LANG === 'de' &&
                                   selectedSpecItem ? (
@@ -2475,9 +2473,9 @@ class Details extends React.Component {
                                   key={form.frequencyId}
                                 />
                               </div>
-                              <div className="price font-weight-normal text-right">
-                                <div className={De ? 'current-unit-price' : ''}>
-                                  {formatMoney(currentSubscriptionPrice || 0)}
+                              <div className="price font-weight-normal text-right position-relative">
+                                <div>
+                                  {formatMoney(currentSubscriptionPrice || 0)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
                                 </div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
@@ -2521,16 +2519,12 @@ class Details extends React.Component {
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
-                            {De ? (
-                              <div
+                            <div
                                 className="mb-2 mr-2"
                                 style={{ fontSize: '14px' }}
                               >
-                                <span className="vat-text">
-                                  Preise inkl. MwSt
-                                </span>
+                                  <FormattedMessage id="pricesIncludeVAT" values={{val: <span className="red">*</span>}} defaultMessage=" " />
                               </div>
-                            ) : null}
                             <button
                               style={{ padding: '2px 30px' }}
                               className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${

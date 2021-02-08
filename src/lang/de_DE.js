@@ -942,5 +942,7 @@ const de_DE = {
   'order.total': 'Gesamt',
   'order.iVAIncluido': '',
   'validPromotionCode': 'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
+  starUnit: '*',
+  pricesIncludeVAT: '{val} Preise inkl. MwSt'
 }
 export default de_DE;
