@@ -55,7 +55,7 @@ export default async function queryNavigation() {
               title: 'Need help finding the right product?',
               subtitle: 'Try our product finder',
               link: {
-                url: 'https://www.royalcanin.com/fr/product-finder',
+                url: 'https://uatwedding.royalcanin.com/fr/shop/product-finder',
                 text: 'Find a product'
               },
               image: {
@@ -120,7 +120,7 @@ export default async function queryNavigation() {
               title: 'Need help finding the right product?',
               subtitle: 'Try our product finder',
               link: {
-                url: 'https://www.royalcanin.com/fr/product-finder',
+                url: 'https://uatwedding.royalcanin.com/fr/shop/product-finder',
                 text: 'Find a product'
               },
               image: {
@@ -232,7 +232,7 @@ export default async function queryNavigation() {
                     'Precise nutrition for dogs of all ages, sizes and breeds.',
                   link: {
                     url:
-                      'https://uatwedding.royalcanin.com/fr/shop/cats/retail_products',
+                      'https://uatwedding.royalcanin.com/fr/shop/dogs/retail_products',
                     text: ''
                   }
                 },
@@ -241,7 +241,7 @@ export default async function queryNavigation() {
                   subtitle:
                     'Help to maintain the health of dogs of diagnosed health problems',
                   link: {
-                    url: 'https://uatwedding.royalcanin.com/fr/shop/cats/vet_products',
+                    url: 'https://uatwedding.royalcanin.com/fr/shop/dogs/vet_products',
                     text: ''
                   }
                 },
@@ -249,7 +249,7 @@ export default async function queryNavigation() {
                   title: 'Discover our product ranges',
                   subtitle: '',
                   link: {
-                    url: 'https://www.royalcanin.com/fr/shop/dogs',
+                    url: 'https://uatwedding.royalcanin.com/fr/shop/dogs',
                     text: ''
                   }
                 }
@@ -291,7 +291,7 @@ export default async function queryNavigation() {
                   title: 'Discover our product ranges',
                   subtitle: '',
                   link: {
-                    url: 'https://www.royalcanin.com/fr/shop/cats',
+                    url: 'https://uatwedding.royalcanin.com/fr/shop/cats/',
                     text: ''
                   }
                 }
@@ -302,7 +302,7 @@ export default async function queryNavigation() {
               title: 'Need help finding the right product?',
               subtitle: 'Try our product finder',
               link: {
-                url: '/uk/product-finder',
+                url: 'https://uatwedding.royalcanin.com/fr/shop/product-finder',
                 text: 'Find a product'
               },
               image: {

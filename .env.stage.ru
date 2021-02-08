@@ -82,3 +82,7 @@ REACT_APP_HUB = 1
 REACT_APP_HUB_URL = https://www.royalcanin.com/ru
 
 REACT_APP_HUB_FOOTER_URL = https://59ab1f42-09ad-4a54-bc25-475844fd5238.mock.pstmn.io/ru
+
+REACT_APP_HUB_BREEDER_PORTAL = https://www.royal-canin.ru/breeders/?_ga=2.244801221.1134902572.1608548748-267828147.1607589014
+REACT_APP_HUB_VET_PORTAL = https://vetacademia.royalcanin.ru/for-vets?_ga=2.244801221.1134902572.1608548748-267828147.1607589014
+

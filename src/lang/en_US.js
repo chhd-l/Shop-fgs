@@ -904,5 +904,6 @@ const en_US = {
   'plp.vet.cat.title':'Are you looking for food available in specialised outlets?',
   'plp.vet.cat.detail':'Our complete range of dry foods and bites in sauce or jelly provides the most accurate nutrition for cats of all ages,sizes and breeds',
   'plp.vet.cat.button':'Discover range',
+  'signInAndRegisterNow': 'Sign in / Register now'
 }
 export default en_US;

@@ -90,14 +90,18 @@ export default class DropDownMenuForHub extends React.Component {
       });
     }
 
-    const menuItemList = item.menuItems.filter(
-      (ele) => ele.type === 'MenuItem'
-    );
-    const otherItemList = item.menuItems.filter(
-      (ele) => ele.type !== 'MenuItem'
-    );
-
-    console.log(1111, item.menuItems)
+    let menuItemListGroupedByStep = [];
+    let menuItemList = [];
+    let otherItemList = [];
+    // 全部为MenuItem时，四个为一列
+    if (item.menuItems.every((ele) => ele.type === 'MenuItem')) {
+      for (let i = 0; i < item.menuItems.length; i += 4) {
+        menuItemListGroupedByStep.push(item.menuItems.slice(i, i + 4));
+      }
+    } else {
+      menuItemList = item.menuItems.filter((ele) => ele.type === 'MenuItem');
+      otherItemList = item.menuItems.filter((ele) => ele.type !== 'MenuItem');
+    }
 
     return (
       <div
@@ -112,7 +116,22 @@ export default class DropDownMenuForHub extends React.Component {
         key={i}
       >
         <div className="d-flex align-items-start justify-content-between bg-white pt-4 pb-4 border-top">
-          {/* 全部为MenuItem时，四个为一列 */}
+          {menuItemListGroupedByStep.length > 0 &&
+            menuItemListGroupedByStep.map((gItem, gIdx) => (
+              <div className="pl-4 pr-4" key={gIdx}>
+                {gItem.map((cItem) => (
+                  <a
+                    href={cItem.link.url}
+                    className="medium mb-2 ui-cursor-pointer"
+                    key={cItem.id}
+                    style={{ display: 'block' }}
+                  >
+                    {cItem.link.text}
+                  </a>
+                ))}
+              </div>
+            ))}
+
           {menuItemList.length > 0 && (
             <div className="pl-4 pr-4">
               {menuItemList.map((cItem) => (

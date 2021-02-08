@@ -8,8 +8,8 @@ import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import './index.css';
 import LoginButton from '@/components/LoginButton';
-import FooterHub from './footer_hub'
-import { withRouter } from 'react-router-dom'
+import FooterHub from './footer_hub';
+import { withRouter } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -21,7 +21,7 @@ class Footer extends React.Component {
     this.state = {
       cur_menubar: menubar[process.env.REACT_APP_LANG] || [],
       cur_contactInfo: contactInfo[process.env.REACT_APP_LANG] || null,
-      a:1
+      a: 1
     };
   }
   async componentDidMount() {
@@ -34,7 +34,7 @@ class Footer extends React.Component {
     const widget = document.querySelector('#page-top');
     widget && widget.scrollIntoView();
   };
-  footerInfo=()=>{
+  footerInfo = () => {
     return (
       <footer className="rc-bg-colour--interface-dark" id="footer">
         <div className="rc-max-width--xl rc-scroll--y">
@@ -84,25 +84,34 @@ class Footer extends React.Component {
                           {item[0].list.map((listItem, i) => {
                             return (
                               <li className="rc-list__item" key={i}>
-                                {!!listItem.link ? (listItem.needLogin && !this.isLogin?(
-                                  <LoginButton
-                                    beforeLoginCallback={ async () => {
-                                      sessionItemRoyal.set('okta-redirectUrl', listItem.link);  
-                                    }}
-                                    btnClass="rc-list__link text-decoration-none color-f6f6f6"
-                                    history={this.props.history}
-                                  >
-                                    <FormattedMessage id={listItem.messageId} />
-                                  </LoginButton>
-                                ): (
-                                  <Link
-                                    className="rc-list__link text-decoration-none color-f6f6f6"
-                                    to={listItem.link}
-                                    role="menuitem"
-                                  >
-                                    <FormattedMessage id={listItem.messageId} />
-                                  </Link>
-                                )) : (
+                                {!!listItem.link ? (
+                                  listItem.needLogin && !this.isLogin ? (
+                                    <LoginButton
+                                      beforeLoginCallback={async () => {
+                                        sessionItemRoyal.set(
+                                          'okta-redirectUrl',
+                                          listItem.link
+                                        );
+                                      }}
+                                      btnClass="rc-list__link text-decoration-none color-f6f6f6"
+                                      history={this.props.history}
+                                    >
+                                      <FormattedMessage
+                                        id={listItem.messageId}
+                                      />
+                                    </LoginButton>
+                                  ) : (
+                                    <Link
+                                      className="rc-list__link text-decoration-none color-f6f6f6"
+                                      to={listItem.link}
+                                      role="menuitem"
+                                    >
+                                      <FormattedMessage
+                                        id={listItem.messageId}
+                                      />
+                                    </Link>
+                                  )
+                                ) : (
                                   <a
                                     className="rc-list__link text-decoration-none color-f6f6f6"
                                     href={
@@ -206,11 +215,15 @@ class Footer extends React.Component {
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     );
-  }
+  };
   render() {
     return (
       <div>
-        {process.env.REACT_APP_HUB == 1 ? <FooterHub/> :this.footerInfo()}
+        {+process.env.REACT_APP_HUB ? (
+          <FooterHub isLogin={this.isLogin} history={this.props.history} />
+        ) : (
+          this.footerInfo()
+        )}
       </div>
     );
   }

@@ -43,8 +43,8 @@ const LoginButton = (props) => {
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
-      const parametersString = history&&history.location.search;
-      if(!parametersString) {
+      const parametersString = history && history.location.search;
+      if (!parametersString) {
         return;
       }
     } else {
@@ -53,55 +53,59 @@ const LoginButton = (props) => {
         .getUser()
         .then((info) => {
           setUserInfo(info);
-          const oktaTokenString = authState.accessToken ? authState.accessToken.value : '';
+          const oktaTokenString = authState.accessToken
+            ? authState.accessToken.value
+            : '';
           let oktaToken = 'Bearer ' + oktaTokenString;
           const consentString = localItemRoyal.get('rc-consent-list');
-          if(consentString && loginStore.isLogin) {
+          if (consentString && loginStore.isLogin) {
             var consents = JSON.parse(consentString);
             let submitParam = bindSubmitParam(consents);
             userBindConsent({
               ...submitParam,
               ...{ oktaToken }
-            }).then(res=>{
-              if(res.code === 'K-000000') {
-                history.push('/')
-              }
-            }).catch((e) => {
-              console.log(e);
-            });
+            })
+              .then((res) => {
+                if (res.code === 'K-000000') {
+                  history.push('/');
+                }
+              })
+              .catch((e) => {
+                console.log(e);
+              });
           } else {
             if (!loginStore.isLogin) {
               getToken({ oktaToken: oktaToken })
                 .then(async (res) => {
                   // GA 登录成功埋点 start
-                  window.dataLayer&&window.dataLayer.push(
-                    {
-                      event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
-                      interaction:{
-                      category:'registration',
-                      action:'login',
-                      label:'',
-                      value:1
-                    },
-                    })        
+                  window.dataLayer &&
+                    window.dataLayer.push({
+                      event: `${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                      interaction: {
+                        category: 'registration',
+                        action: 'login',
+                        label: '',
+                        value: 1
+                      }
+                    });
                   // GA 登陆成功埋点 end
                   let userinfo = res.context.customerDetail;
                   loginStore.changeLoginModal(false);
                   loginStore.changeIsLogin(true);
-  
+
                   localItemRoyal.set('rc-token', res.context.token);
                   let customerInfoRes = await getCustomerInfo();
                   userinfo.defaultClinics =
                     customerInfoRes.context.defaultClinics;
                   loginStore.setUserInfo(customerInfoRes.context);
-  
+
                   const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
                   if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
                     await mergeUnloginCartData();
                     console.log(loginStore, 'loginStore');
                     await checkoutStore.updateLoginCart();
                   }
-  
+
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
@@ -124,12 +128,15 @@ const LoginButton = (props) => {
     try {
       //debugger
       sessionItemRoyal.remove('rc-token-lose');
-      sessionItemRoyal.set('okta-redirectUrl', props.history&&props.history.location.pathname);
+      sessionItemRoyal.set(
+        'okta-redirectUrl',
+        props.history && props.history.location.pathname
+      );
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       //debugger
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -151,7 +158,7 @@ const LoginButton = (props) => {
 
   return (
     <button
-      className={props.btnClass || 'rc-btn rc-btn--one'}
+      className={props.btnClass || props.className || 'rc-btn rc-btn--one'}
       style={props.btnStyle || {}}
       onClick={login}
       ref={props.buttonRef}

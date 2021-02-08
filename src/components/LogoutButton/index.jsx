@@ -82,14 +82,17 @@ const LogoutButton = (props) => {
   };
   const hubLogoutBtnJSX = () => {
     return (
-      <div className="logoff-style" style={{ background: '#fff' }}>
+      <div className={props.btnClass || 'logoff-style'}>
         <span
           id="J-btn-logoff"
           onClick={clickLogoff}
-          style={Object.assign((props && props.btnStyle) || {}, {
-            marginLeft: '-50px'
-          })}
-          // style={{marginLeft:'-50px'}}
+          style={Object.assign(
+            {
+              marginLeft: '-50px',
+              background: '#fff'
+            },
+            (props && props.btnStyle) || {}
+          )}
           ref={props && props.buttonRef}
         >
           <FormattedMessage id="logOff" />

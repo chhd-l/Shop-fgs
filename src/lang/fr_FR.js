@@ -1158,6 +1158,8 @@ const fr_FR = {
   "lang.language": "Langue",
   "lang.submit": "Soumettre",
   "lang.close": "Fermer",
+  'signInAndRegisterNow': 'Connectez-vous / Inscrivez-vous maintenant',
+  language: 'France/Français'
 }
 export default fr_FR;
 

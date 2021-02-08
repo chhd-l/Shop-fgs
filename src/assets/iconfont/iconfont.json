@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11903005",
+      "name": "language",
+      "font_class": "language",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "19728152",
+      "name": "zhuanfa",
+      "font_class": "zhuanfa",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
       "icon_id": "1397992",
       "name": "Down",
       "font_class": "Down",

@@ -50,15 +50,12 @@ class Header extends React.Component {
     showNav: true,
     showLoginBtn: true,
     //User组件跳转用
-    registerRouter: '/register',
     reimbursementsRouter: '/reimbursements',
-    breederPortalRouter: '/breederPortal',
-    vetPortalRouter: '/vetPortal',
     logoutRouter: '/logout',
     overviewRouter: '/overview',
-    personInformationRouter: '/personInformation',
-    petsRouter: '/pets',
-    subscriptionsRouter: '/subscriptions',
+    personInformationRouter: '/account/information',
+    petsRouter: '/account/pets',
+    subscriptionsRouter: '/account/subscription',
     offersRouter: '/offers',
     paymentsRouter: '/payments',
     securityRouter: '/security',
@@ -472,6 +469,9 @@ class Header extends React.Component {
                       handleClickNavItem={this.handleClickNavItem}
                       configStore={configStore}
                       key={headerNavigationListForHub.length}
+                      {...this.props}
+                      isLogin={this.isLogin}
+                      userInfo={this.userInfo}
                     />
                   ) : (
                     <MegaMenuMobile

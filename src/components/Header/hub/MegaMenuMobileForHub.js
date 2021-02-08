@@ -4,6 +4,9 @@ import Help from './HelpForHub';
 import NavItem from './NavItemForHub';
 import PromotionPanel from '../modules/PromotionPanel';
 import LazyLoad from 'react-lazyload';
+import LoginButton from '@/components/LoginButton';
+import LogoutButton from '@/components/LogoutButton';
+import { Link } from 'react-router-dom';
 
 function SecondItemContainer(props) {
   const { item } = props;
@@ -45,11 +48,50 @@ class MegaMenuMobileForHub extends React.Component {
     super(props);
     this.state = {
       showMegaMenu: false,
-      menuData: this.props.menuData
+      menuData: this.props.menuData,
+      portalAndShareData: []
     };
     this.toggleMenu = this.toggleMenu.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.handleClickToggleChilds = this.handleClickToggleChilds.bind(this);
+  }
+  componentDidMount() {
+    let portalAndShareData = [
+      {
+        link: '',
+        text: (
+          <>
+            <span className="iconfont iconzhuanfa" />{' '}
+            <FormattedMessage id="header.User.monRoyalCanin" />
+          </>
+        )
+      }
+    ];
+    if (process.env.REACT_APP_HUB_BREEDER_PORTAL) {
+      portalAndShareData.push({
+        link: process.env.REACT_APP_HUB_BREEDER_PORTAL,
+        text: (
+          <>
+            <span className="iconfont iconzhuanfa" />{' '}
+            <FormattedMessage id="header.User.breederPortal" />
+          </>
+        )
+      });
+    }
+    if (process.env.REACT_APP_HUB_VET_PORTAL) {
+      portalAndShareData.push({
+        link: process.env.REACT_APP_HUB_VET_PORTAL,
+        text: (
+          <>
+            <span className="iconfont iconzhuanfa" />{' '}
+            <FormattedMessage id="header.User.vetPortal" />
+          </>
+        )
+      });
+    }
+    this.setState({
+      portalAndShareData
+    });
   }
   toggleMenu() {
     this.setState((curState) => ({ showMegaMenu: !curState.showMegaMenu }));
@@ -231,7 +273,8 @@ class MegaMenuMobileForHub extends React.Component {
     );
   };
   render() {
-    const { showMegaMenu, menuData } = this.state;
+    const { history, isLogin, userInfo } = this.props;
+    const { showMegaMenu, menuData, portalAndShareData } = this.state;
     return (
       <>
         <button
@@ -267,6 +310,65 @@ class MegaMenuMobileForHub extends React.Component {
                         {this._renderLinkItem(item)}
                       </li>
                     ))}
+                    <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
+                      {isLogin ? (
+                        <>
+                          <Link
+                            className="rc-list__header bg-transparent border-0 pt-3 pb-0 d-flex"
+                            to="/account"
+                          >
+                            <span className="brefName mb-2">
+                              {userInfo &&
+                                userInfo.firstName &&
+                                userInfo.firstName.slice(0, 1)}
+                            </span>
+                            <span className="border-bottom flex-fill font-weight-light pb-3">
+                              {userInfo && userInfo.firstName}
+                            </span>
+                            <span className="iconfont medium">&#xe6f9;</span>
+                          </Link>
+                          <LogoutButton
+                            btnClass="rc-list__header bg-transparent border-bottom pt-3 pb-3 ml-3"
+                            btnStyle={{
+                              marginLeft: 0,
+                              background: 'transparent'
+                            }}
+                          >
+                            <FormattedMessage id="header.User.logOut" />
+                          </LogoutButton>
+                        </>
+                      ) : (
+                        <LoginButton
+                          btnClass="rc-list__header bg-transparent border-0 pb-0"
+                          history={history}
+                        >
+                          <span className="iconfont">&#xe69c;</span>{' '}
+                          <FormattedMessage id="signInAndRegisterNow" />
+                        </LoginButton>
+                      )}
+                      {portalAndShareData.map((data, i) => (
+                        <a
+                          href={data.link}
+                          className={`rc-list__header bg-transparent border-0 ${
+                            i !== portalAndShareData.length - 1 ? 'pb-0' : ''
+                          }`}
+                          key={i}
+                        >
+                          {data.text}
+                        </a>
+                      ))}
+
+                      
+                    </li>
+                    <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
+                      <a
+                        href=""
+                        className="rc-list__header bg-transparent border-0"
+                      >
+                        <span className="iconfont">&#xe60c;</span>{' '}
+                        <FormattedMessage id="language" />
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </div>
