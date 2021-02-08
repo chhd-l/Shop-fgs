@@ -783,6 +783,7 @@ class Details extends React.Component {
             let tmpGoodsDetail = goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              console.log(tmpGoodsDetail,'tmpGoodsDetail===')
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   if (
@@ -799,22 +800,28 @@ class Details extends React.Component {
                         key === 'İçindekiler'
                       ) {
                         tmpGoodsDetail[key].map((el) => {
+                          console.log(el,'el=====')
                           let short =
                             Object.keys(JSON.parse(el))[0] ===
                             'EretailShort Description';
-                          let descContent = `<p style="white-space: pre-line">${
+                          let prescriber  = Object.keys(JSON.parse(el))[0] ===
+                          'Prescriber Description';
+                          let shortDesc = short && `<p style="white-space: pre-line">${
                             Object.values(JSON.parse(el))[0]
                           }</p>`;
+                          let sprescriberDesc = prescriber && `<p style="white-space: pre-line">${
+                            Object.values(JSON.parse(el))[0]
+                          }</p>`;
+                          console.log(shortDesc,sprescriberDesc,'descContent=====')
                           if (
-                            short &&
-                            goods.saleableFlag &&
-                            !goods.displayFlag
+                            !goods.saleableFlag &&
+                            goods.displayFlag
                           ) {
-                            tempContent = tempContent + descContent;
-                          } else if (short) {
                             this.setState({
-                              descContent
+                              descContent: sprescriberDesc
                             });
+                          } else if (short) {
+                            tempContent = tempContent + shortDesc;
                           }
                         });
                       } else if (
