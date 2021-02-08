@@ -792,6 +792,8 @@ class Details extends React.Component {
                   ) {
                     let tempObj = {};
                     let tempContent = '';
+                    let shortDesc = '';
+                    let sprescriberDesc = '';
                     try {
                       if (
                         key === 'Description' ||
@@ -804,12 +806,16 @@ class Details extends React.Component {
                             'EretailShort Description';
                           let prescriber  = Object.keys(JSON.parse(el))[0] ===
                           'Prescriber Description';
-                          let shortDesc = short && `<p style="white-space: pre-line">${
-                            Object.values(JSON.parse(el))[0]
-                          }</p>`;
-                          let sprescriberDesc = prescriber && `<p style="white-space: pre-line">${
-                            Object.values(JSON.parse(el))[0]
-                          }</p>`;
+                          if(short) {
+                            shortDesc =`<p style="white-space: pre-line">${
+                              Object.values(JSON.parse(el))[0]
+                            }</p>`;
+                          }
+                          if(prescriber) {
+                            sprescriberDesc = `<p style="white-space: pre-line">${
+                              Object.values(JSON.parse(el))[0]
+                            }</p>`;
+                          }
                           if (
                             !goods.saleableFlag &&
                             goods.displayFlag
