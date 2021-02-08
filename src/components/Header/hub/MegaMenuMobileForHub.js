@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Help from '../modules/HelpForHub';
-import NavItem from '../modules/NavItemForHub';
-import PromotionPanel from './PromotionPanel';
+import Help from './HelpForHub';
+import NavItem from './NavItemForHub';
+import PromotionPanel from '../modules/PromotionPanel';
 import LazyLoad from 'react-lazyload';
 
 function SecondItemContainer(props) {

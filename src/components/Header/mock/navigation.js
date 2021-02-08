@@ -232,7 +232,7 @@ export default async function queryNavigation() {
                     'Precise nutrition for dogs of all ages, sizes and breeds.',
                   link: {
                     url:
-                      'https://www.royalcanin.com/fr/shop/cats/retail_products',
+                      'https://uatwedding.royalcanin.com/fr/shop/cats/retail_products',
                     text: ''
                   }
                 },
@@ -241,7 +241,7 @@ export default async function queryNavigation() {
                   subtitle:
                     'Help to maintain the health of dogs of diagnosed health problems',
                   link: {
-                    url: 'https://www.royalcanin.com/fr/shop/cats/vet_products',
+                    url: 'https://uatwedding.royalcanin.com/fr/shop/cats/vet_products',
                     text: ''
                   }
                 },
@@ -274,7 +274,7 @@ export default async function queryNavigation() {
                     'Precise nutrition for cats of all ages, sizes and breeds.',
                   link: {
                     url:
-                      'https://www.royalcanin.com/fr/shop/cats/retail_products',
+                      'https://uatwedding.royalcanin.com/fr/shop/cats/retail_products',
                     text: ''
                   }
                 },
@@ -283,7 +283,7 @@ export default async function queryNavigation() {
                   subtitle:
                     'Help to maintain the health of cats of diagnosed health problems',
                   link: {
-                    url: 'https://www.royalcanin.com/fr/shop/cats/vet_products',
+                    url: 'https://uatwedding.royalcanin.com/fr/shop/cats/vet_products',
                     text: ''
                   }
                 },
@@ -326,7 +326,7 @@ export default async function queryNavigation() {
               title: 'Buy with Royal Canin Club',
               subtitle: 'Lorem ipsum dolor',
               link: {
-                url: 'https://www.royalcanin.com/fr/shop',
+                url: 'https://uatwedding.royalcanin.com/fr/shop/',
                 text: 'Discover'
               },
               image: {

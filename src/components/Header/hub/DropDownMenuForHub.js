@@ -1,7 +1,7 @@
 import React from 'react';
 import Help from './HelpForHub';
 import NavItem from './NavItemForHub';
-import PromotionPanel from './PromotionPanel';
+import PromotionPanel from '../modules/PromotionPanel';
 import LazyLoad from 'react-lazyload';
 
 /**
@@ -97,6 +97,8 @@ export default class DropDownMenuForHub extends React.Component {
       (ele) => ele.type !== 'MenuItem'
     );
 
+    console.log(1111, item.menuItems)
+
     return (
       <div
         className={`${
@@ -110,6 +112,7 @@ export default class DropDownMenuForHub extends React.Component {
         key={i}
       >
         <div className="d-flex align-items-start justify-content-between bg-white pt-4 pb-4 border-top">
+          {/* 全部为MenuItem时，四个为一列 */}
           {menuItemList.length > 0 && (
             <div className="pl-4 pr-4">
               {menuItemList.map((cItem) => (
