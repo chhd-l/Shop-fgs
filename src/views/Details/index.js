@@ -2741,6 +2741,18 @@ class Details extends React.Component {
                               )
                             ) : null}
                             <div className="rc-md-up">
+                              <div
+                                className="mb-2 mr-2 text-right"
+                                style={{ fontSize: '14px' }}
+                              >
+                                <FormattedMessage
+                                  id="pricesIncludeVAT"
+                                  values={{
+                                    val: <span className="red">*</span>
+                                  }}
+                                  defaultMessage=" "
+                                />
+                              </div>
                               <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
                                 {/* {!this.isLogin &&
                                 (form.buyWay ? (
@@ -2762,18 +2774,7 @@ class Details extends React.Component {
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
-                                <div
-                                  className="mb-2 mr-2"
-                                  style={{ fontSize: '14px' }}
-                                >
-                                  <FormattedMessage
-                                    id="pricesIncludeVAT"
-                                    values={{
-                                      val: <span className="red">*</span>
-                                    }}
-                                    defaultMessage=" "
-                                  />
-                                </div>
+
                                 <button
                                   style={{ padding: '2px 30px' }}
                                   className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
