@@ -708,7 +708,7 @@ class Details extends React.Component {
                 let filterproducts = goodsInfos.filter((goodEl) =>
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
                 );
-                sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
+                sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
                 sdItem.isEmpty = filterproducts.every(
                   (item) => item.stock === 0
                 );
