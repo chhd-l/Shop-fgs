@@ -1884,6 +1884,7 @@ class Details extends React.Component {
       </${
         this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
       }>`;
+    let bundle = goodsType && goodsType === 2 ;
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
@@ -2115,7 +2116,7 @@ class Details extends React.Component {
                                 __html: this.state.descContent
                               }}
                             ></div>
-                            {!this.state.loading && !isMobile ? (
+                            {!this.state.loading && !isMobile && !bundle ? (
                               <div
                                 className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                                 data-ccid="wtb-target"
@@ -2810,7 +2811,7 @@ class Details extends React.Component {
                                     />
                                   </span>
                                 </button>
-                                {!this.state.loading ? (
+                                {!this.state.loading && !bundle? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -3082,7 +3083,7 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && stock ? (
+                {!this.state.loading && !bundle? (
                   <div
                     className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                     data-ccid="wtb-target"
