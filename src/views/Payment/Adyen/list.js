@@ -37,10 +37,7 @@ function CardItemCover({
           &#xe68c;
         </span>
       )}
-      <span>
-        {children}
-      </span>
-      
+      <span>{children}</span>
     </div>
   );
 }
@@ -225,7 +222,6 @@ class AdyenCreditCardList extends React.Component {
         (ele) => ele.id === selectedId
       ) || null;
     this.props.updateSelectedCardInfo(el);
-    debugger;
     // 被选中的卡，才加载cvv
     el && this.loadCvv(el);
     this.updateFormValidStatus(el);
@@ -235,8 +231,8 @@ class AdyenCreditCardList extends React.Component {
       el && el.encryptedSecurityCode ? true : false
     );
   };
-  getBrowserInfo(state){
-    this.props.paymentStore.setBrowserInfo(state.data.browserInfo)
+  getBrowserInfo(state) {
+    this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
   loadCvv = (el) => {
     const _this = this;
@@ -280,7 +276,7 @@ class AdyenCreditCardList extends React.Component {
               brand: brand,
               onChange: (state) => {
                 console.log(state);
-                _this.getBrowserInfo(state)
+                _this.getBrowserInfo(state);
                 const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
                 let result = find(cardList, (ele) => ele.id === id);
                 result.encryptedSecurityCode = tmpCode;
@@ -509,6 +505,13 @@ class AdyenCreditCardList extends React.Component {
   };
   updateAdyenPayParam = (data) => {
     let { cardList, memberUnsavedCardList } = this.state;
+    if (data && !data.holderName) {
+      data = Object.assign(data, {
+        holderName: data.hasHolderName,
+        paymentVendor: data.adyenBrands,
+        cardType: data.brand
+      });
+    }
     // 会员，选择不保存卡情况下，卡信息存储data字段中
     if (!data.storePaymentMethod) {
       this.setState({
@@ -536,7 +539,7 @@ class AdyenCreditCardList extends React.Component {
     this.setState({ saveLoading: true });
     try {
       if (this.editFormRef) {
-        await this.editFormRef.current.handleSave();
+        await this.editFormRef.current.handleSavePromise();
         // this.setState({ formVisible: false });
       }
     } catch (err) {
