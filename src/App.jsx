@@ -156,7 +156,7 @@ const LoginCallback = (props) => {
         : (homePage = process.env.REACT_APP_HOMEPAGE);
 
       sessionItemRoyal.set('fromLoginPage', true);
-      window.location.href = homePage + '/required';
+      props && props.history.push('/required');
     }
   }, [oktaAuth, authStateReady]);
 
@@ -184,8 +184,16 @@ const App = () => (
           <Security oktaAuth={config}>
             <Switch>
               <Route exact path={'/'} component={Home} />
-              <Route exact path={'/okta-login-page'} component={OktaLoginPage} />
-              <Route exact path={'/okta-logout-page'} component={OktaLogoutPage} />
+              <Route
+                exact
+                path={'/okta-login-page'}
+                component={OktaLoginPage}
+              />
+              <Route
+                exact
+                path={'/okta-logout-page'}
+                component={OktaLogoutPage}
+              />
               <Route exact path={'/home/'} component={Home} />
               <Route
                 exact
@@ -211,7 +219,11 @@ const App = () => (
               />
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
-              <Route exact path="/kitten-nutrition" component={KittenNutrition} />
+              <Route
+                exact
+                path="/kitten-nutrition"
+                component={KittenNutrition}
+              />
               <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
               <Route exact path="/prescription" component={Prescription} />
               <Route
@@ -226,7 +238,11 @@ const App = () => (
                 path="/general-terms-conditions"
                 component={TermsConditions}
               />
-              <Route exact path="/pack-mix-feeding-wet-dry" component={Packfeed} />
+              <Route
+                exact
+                path="/pack-mix-feeding-wet-dry"
+                component={Packfeed}
+              />
               <Route
                 exact
                 path="/termsandconditions"

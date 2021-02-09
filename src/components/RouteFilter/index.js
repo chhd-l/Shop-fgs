@@ -274,7 +274,7 @@ class RouteFilter extends Component {
         id: 'global-script'
       });
     }
-    if (process.env.REACT_APP_MARS_FOOTER) {
+    if (process.env.REACT_APP_MARS_FOOTER && pathname !== '/required') {
       loadJS({
         url: process.env.REACT_APP_MARS_FOOTER
       });

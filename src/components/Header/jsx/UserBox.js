@@ -152,7 +152,6 @@ export const LoginUserBox = (props) => {
           key={i}
           className="basicItem w-100"
           to={item.link}
-          style={{ display: 'block' }}
         >
           {item.text}
         </Link>
