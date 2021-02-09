@@ -781,8 +781,10 @@ class Details extends React.Component {
           try {
             let goods = res.context.goods;
             let tmpGoodsDetail = goods.goodsDetail;
+            let vet = goods.goodsType=== 3; //vet
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              console.log(tmpGoodsDetail,goods.saleableFlag, goods.displayFlag,'=====')
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   if (
@@ -817,13 +819,16 @@ class Details extends React.Component {
                             }</p>`;
                           }
                           if (
-                            !goods.saleableFlag &&
+                             !goods.saleableFlag &&
                             goods.displayFlag
                           ) {
+                            let content = vet? sprescriberDesc: shortDesc;
                             this.setState({
-                              descContent: sprescriberDesc
+                              descContent: content
                             });
-                          } else if (short) {
+                          } else if (vet) {
+                            tempContent = tempContent + sprescriberDesc;
+                          }else {
                             tempContent = tempContent + shortDesc;
                           }
                         });
