@@ -6,10 +6,15 @@ import { getList } from '@/api/list';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
+import querySearch from '../mock/search';
 import axios from 'axios';
 
 const isHub = process.env.REACT_APP_HUB === '1';
 export default class Search extends React.Component {
+  static defaultProps = {
+    onClose: () => {},
+    focusedOnDidMount: false
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -39,6 +44,11 @@ export default class Search extends React.Component {
       }
     );
   }
+  componentDidMount() {
+    this.props.focusedOnDidMount &&
+      this.inputRef.current &&
+      this.inputRef.current.focus();
+  }
   async getSearchData() {
     const { keywords } = this.state;
     this.setState({ loading: true });
@@ -55,7 +65,12 @@ export default class Search extends React.Component {
     };
     Promise.all([
       getList(params),
-      isHub && axios.get(`/royalcanin/predictive?keyword=${keywords}`)
+      // isHub && axios.get(`https://www.royalcanin.com/fr/api/royalcanin/predictive?keyword=${keywords}`)
+      // isHub &&
+      //   axios.get(
+      //     `https://uatwedding.royalcanin.com/fr/shop/predictive?keyword=${keywords}`
+      //   )
+      isHub && querySearch()
     ])
       .then((res) => {
         let goodsContent = [];
@@ -127,6 +142,7 @@ export default class Search extends React.Component {
       keywords: '',
       result: null
     });
+    this.props.onClose();
   }
   hanldeSearchClick() {
     this.setState(
@@ -290,9 +306,9 @@ export default class Search extends React.Component {
   render() {
     const { showSearchInput, result, keywords, loading } = this.state;
     return (
-      <div className="inlineblock">
+      <div className="inlineblock w-100">
         {loading ? <Loading /> : null}
-        {process.env.REACT_APP_HUB === '1' ? (
+        {+process.env.REACT_APP_HUB ? (
           <>
             <div className="search-contaner">
               <span className="iconfont icon-search">&#xe6a5;</span>

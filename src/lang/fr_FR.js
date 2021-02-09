@@ -1138,7 +1138,6 @@ const fr_FR = {
   "header.User.alreadyRegistered": "Déjà enregistré?",
   "header.User.newUser": "Nouvel utilisateur?",
   "header.User.registerNow": "S'inscrire maintenant",
-  "header.User.offersAndreimbursements": "Des offres & Reimbursements",
   "header.User.royalCaninPartner": "Royal Canin partner?",
   "header.User.breederPortal": "Breeder portal",
   "header.User.or": "or",
@@ -1158,6 +1157,8 @@ const fr_FR = {
   "lang.language": "Langue",
   "lang.submit": "Soumettre",
   "lang.close": "Fermer",
+  'signInAndRegisterNow': 'Connectez-vous / Inscrivez-vous maintenant',
+  language: 'France/Français'
 }
 export default fr_FR;
 

@@ -18,18 +18,22 @@ import { setBuryPoint } from '@/api';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
-import DropDownMenuForHub from './modules/DropDownMenuForHub';
+import DropDownMenuForHub from './hub/DropDownMenuForHub';
 import MegaMenuMobile from './modules/MegaMenuMobile';
+import MegaMenuMobileForHub from './hub/MegaMenuMobileForHub';
 import Search from './modules/Search';
-import UserJSX from "./jsx/user"
+import UserJSX from './jsx/user';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import { fetchHeaderNavigations } from '@/utils/utils';
-import {intl_user} from "./lang/user"
+import { intl_user } from './lang/user';
+import queryNavigation from './mock/navigation';
+import axios from 'axios';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const isMobile = getDeviceType() === 'H5';
 
 @inject(
   'loginStore',
@@ -47,20 +51,11 @@ class Header extends React.Component {
     showNav: true,
     showLoginBtn: true,
     //User组件跳转用
-    registerRouter: "/register",
-    reimbursementsRouter: "/reimbursements",
-    breederPortalRouter: "/breederPortal",
-    vetPortalRouter: "/vetPortal",
-    logoutRouter: "/logout",
-    overviewRouter: "/overview",
-    personInformationRouter: "/personInformation",
-    petsRouter: "/pets",
-    subscriptionsRouter: "/subscriptions",
-    offersRouter: "/offers",
-    paymentsRouter: "/payments",
-    securityRouter: "/security",
+    personInformationRouter: '/account/information',
+    petsRouter: '/account/pets',
+    subscriptionsRouter: '/account/subscription',
     //User组件多语言
-    intl_user,
+    intl_user
   };
   constructor(props) {
     super(props);
@@ -70,7 +65,9 @@ class Header extends React.Component {
       showSearchInput: false,
       isScrollToTop: true,
       headerNavigationList: [],
-      activeTopParentId: -1
+      headerNavigationListForHub: [],
+      activeTopParentId: -1,
+      searchBarVisible: false
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -179,26 +176,13 @@ class Header extends React.Component {
             }[this.props.match && this.props.match.path] || ''
     });
 
-    // process.env.REACT_APP_LANG === 'fr'
-    (false ? this.initNavigationsForHub : this.initNavigations)();
+    (+process.env.REACT_APP_HUB
+      ? this.initNavigationsForHub
+      : this.initNavigations)();
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
     // window.removeEventListener('scroll', this.handleScroll)
-    window.addEventListener(
-      'scroll',
-      (function () {
-        var timer; //使用闭包，缓存变量
-        var startTime = new Date();
-        return function () {
-          var curTime = new Date();
-          if (curTime - startTime >= 200) {
-            timer = setTimeout(this.handleScroll, 200);
-            startTime = curTime;
-          }
-        };
-      })()
-    );
   }
   initNavigations = async () => {
     let res = await fetchHeaderNavigations();
@@ -249,17 +233,34 @@ class Header extends React.Component {
       });
     }
   };
-  initNavigationsForHub = () => {
-    // await axios.get(`/${countryCode}/api/navigation/getmodel`)
-    let res = JSON.parse(
-      '{"contactPhone":"08453005011","menuGroups":[{"link":{"url":"/uk/dogs","text":"Dogs"},"menuItems":[{"icon":"Cart","link":{"url":"/uk/dogs","text":"Dogs"}},{"image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"},"imageDescription":"Dog products","primaryLink":{"url":"/uk/dogs","text":"Dogs"},"primaryContent":"Precise nutrition for dogs of all ages, sizes and breeds.","secondaryLink":{"url":"/uk/dogs","text":"Dogs"},"secondaryContent":"Help to maintain the health of dogs with diagnosed health problems."},{"title":"Need help finding the right product?","subtitle":"Try our product finder","link":{"url":"/uk/dogs","text":"Dogs"},"image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"}},{"title":"Need help finding the right product?","content":"Try our product finder","image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"}}]}]}'
-    );
-    // if (res && res.menuGroups &&)
-    // todo
+  initNavigationsForHub = async () => {
+    try {
+      // todo
+      // const res = await axios.get(`/navigation/getmodel`);
+      const res = await queryNavigation();
+      let headerNavigationListForHub = (
+        (res && res.data && res.data.menuGroups) ||
+        []
+      ).map((ele, i) => {
+        ele.menuItems = (ele.menuItems || []).map((cEle, j) => {
+          return { ...cEle, id: `${i + 1}-${j}` };
+        });
+        return {
+          ...ele,
+          expanded: !!(ele.menuItems && ele.menuItems.length),
+          id: i + 1
+        };
+      });
+      this.setState({
+        headerNavigationListForHub
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
-  toUrl=(path)=>{
-    this.props.history.push(path)
-  }
+  toUrl = (path) => {
+    this.props.history.push(path);
+  };
   /**
    * token过期时，主动登出
    */
@@ -271,7 +272,7 @@ class Header extends React.Component {
       localItemRoyal.remove('rc-token');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
-      const res = await oktaAuth.signOut({
+      await oktaAuth.signOut({
         postLogoutRedirectUri:
           window.location.origin + process.env.REACT_APP_HOMEPAGE
       });
@@ -429,8 +430,12 @@ class Header extends React.Component {
       this.toggleShowBodyMask({ visible: activeTopParentId !== -1 });
     });
   };
+  toggleSearchIcon = () => {
+    this.setState((curState) => ({
+      searchBarVisible: !curState.searchBarVisible
+    }));
+  };
   render() {
-    const self = this
     const {
       showMiniIcons,
       showUserIcon,
@@ -438,14 +443,24 @@ class Header extends React.Component {
       configStore,
       history
     } = this.props;
-    const { headerNavigationList, showSearchInput, showCenter,showCart } = this.state;
+    const {
+      headerNavigationList,
+      headerNavigationListForHub,
+      showSearchInput,
+      showCenter,
+      showCart,
+      searchBarVisible
+    } = this.state;
     return (
       <>
         <div id="page-top" name="page-top" />
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
-        <header className={`rc-header`} data-js-header-scroll>
+        <header
+          className={`rc-header ${searchBarVisible ? 'searchbar' : ''}`}
+          data-js-header-scroll
+        >
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align"
@@ -453,12 +468,24 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  <MegaMenuMobile
-                    menuData={headerNavigationList}
-                    handleClickNavItem={this.handleClickNavItem}
-                    configStore={configStore}
-                    key={headerNavigationList.length}
-                  />
+                  {+process.env.REACT_APP_HUB ? (
+                    <MegaMenuMobileForHub
+                      menuData={headerNavigationListForHub}
+                      handleClickNavItem={this.handleClickNavItem}
+                      configStore={configStore}
+                      key={headerNavigationListForHub.length}
+                      {...this.props}
+                      isLogin={this.isLogin}
+                      userInfo={this.userInfo}
+                    />
+                  ) : (
+                    <MegaMenuMobile
+                      menuData={headerNavigationList}
+                      handleClickNavItem={this.handleClickNavItem}
+                      configStore={configStore}
+                      key={headerNavigationList.length}
+                    />
+                  )}
                 </li>
               ) : null}
             </ul>
@@ -476,7 +503,21 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                    <Search history={history} />
+                    {+process.env.REACT_APP_HUB ? (
+                      isMobile ? (
+                        searchBarVisible ? null : (
+                          <span
+                            className="iconfont icon-search mr-2"
+                            onClick={this.toggleSearchIcon}
+                          >
+                            &#xe6a5;
+                          </span>
+                        )
+                      ) : (
+                        <Search history={history} />
+                      )
+                    ) : null}
+
                     {this.isLogin ? (
                       <LoginCart
                         showSearchInput={showSearchInput}
@@ -493,19 +534,30 @@ class Header extends React.Component {
                   </>
                 ) : null}
                 <UserJSX
-                showCart={showCart}
-                showCenter={showCenter}
-                {...this.props}
-                self={this} />
+                  showCart={showCart}
+                  showCenter={showCenter}
+                  {...this.props}
+                  self={this}
+                />
               </li>
             </ul>
           </nav>
+          {/* 点击放大镜时，才会出现搜索条 */}
+          {searchBarVisible ? (
+            <nav className="bg-white nav-search pl-3 pr-3 pb-2">
+              <Search
+                history={history}
+                onClose={this.toggleSearchIcon}
+                focusedOnDidMount={true}
+              />
+            </nav>
+          ) : null}
 
-          {process.env.REACT_APP_HUB === '1' ? (
+          {+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}
-              headerNavigationList={headerNavigationList}
+              headerNavigationList={headerNavigationListForHub}
               configStore={configStore}
               toggleShowBodyMask={this.toggleShowBodyMask}
               showNav={this.props.showNav}
@@ -522,7 +574,6 @@ class Header extends React.Component {
               showLoginBtn={this.props.showLoginBtn}
             />
           )}
-
         </header>
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}

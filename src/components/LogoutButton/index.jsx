@@ -67,7 +67,10 @@ const LogoutButton = (props) => {
   };
   const defaultLogoutBtnJSX = () => {
     return (
-      <div className="logoff-style">
+      <div
+        className="logoff-style"
+        style={(props && props.containerStyle) || {}}
+      >
         <span
           className="rc-styled-link--external"
           id="J-btn-logoff"
@@ -82,14 +85,20 @@ const LogoutButton = (props) => {
   };
   const hubLogoutBtnJSX = () => {
     return (
-      <div className="logoff-style" style={{ background: '#fff' }}>
+      <div
+        className={props.btnClass || 'logoff-style'}
+        style={(props && props.containerStyle) || {}}
+      >
         <span
           id="J-btn-logoff"
           onClick={clickLogoff}
-          style={Object.assign((props && props.btnStyle) || {}, {
-            marginLeft: '-50px'
-          })}
-          // style={{marginLeft:'-50px'}}
+          style={Object.assign(
+            {
+              marginLeft: '-50px',
+              background: '#fff'
+            },
+            (props && props.btnStyle) || {}
+          )}
           ref={props && props.buttonRef}
         >
           <FormattedMessage id="logOff" />
@@ -98,6 +107,6 @@ const LogoutButton = (props) => {
     );
   };
 
-  return process.env.REACT_APP_HUB ? hubLogoutBtnJSX() : defaultLogoutBtnJSX();
+  return +process.env.REACT_APP_HUB ? hubLogoutBtnJSX() : defaultLogoutBtnJSX();
 };
 export default LogoutButton;

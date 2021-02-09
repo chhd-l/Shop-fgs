@@ -1,8 +1,8 @@
 .custom-star {
-    content:'*';
-    color:red;
-    position: absolute;
-    font-size: 1.2rem;
+  content: '*';
+  color: red;
+  position: absolute;
+  font-size: 1.2rem;
 }
 
 .desAndStars {
@@ -21,10 +21,11 @@
   border: 1px solid #ccc;
   cursor: not-allowed !important;
 }
-.detail-content-tabinfo p{
+.detail-content-tabinfo p {
   margin-bottom: 0.5rem;
 }
-.rc-tabs__content__single .block table, .rc-list__content table{
+.rc-tabs__content__single .block table,
+.rc-list__content table {
   width: 100%;
   border-spacing: 0;
   border: 1px solid #d7d7d7;
@@ -133,8 +134,8 @@ ul.ui-star-list li:before {
 }
 #Details .commentTitle {
   max-width: 400px;
-  margin-top: .1rem;
-  margin-bottom: .7rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.7rem;
   font-size: 20px;
   font-weight: 400;
   color: #333;
@@ -146,7 +147,8 @@ ul.ui-star-list li:before {
   word-break: break-all;
 }
 
-@media (min-width: 769px) {}
+@media (min-width: 769px) {
+}
 
 @media (max-width: 769px) {
   #Details .commentTitle {
@@ -181,7 +183,6 @@ ul.ui-star-list li:before {
       overflow: hidden;
       word-break: break-all;
     }
-
   }
   #Details .buyMethod .radioBox {
     flex: 3;
@@ -196,7 +197,7 @@ ul.ui-star-list li:before {
   .rc-content--fixed-header {
     padding-top: 5rem;
   }
-  #Details .choices[data-type*=select-one]:after {
+  #Details .choices[data-type*='select-one']:after {
     //margin-top: -11.5px;
     top: 1.1rem;
   }
@@ -224,7 +225,7 @@ ul.ui-star-list li:before {
       }
     }
     .freqency2 {
-      height: 2.2rem!important;
+      height: 2.2rem !important;
     }
     .freqency3 {
       display: flex;
@@ -263,34 +264,34 @@ ul.ui-star-list li:before {
         justify-content: center;
       }
       .quantity {
-        justify-content: flex-end!important;
+        justify-content: flex-end !important;
       }
     }
     .rc-quantity {
       margin: 0;
     }
   }
-  .rc-down, .rc-up {
+  .rc-down,
+  .rc-up {
     display: inline-block;
-    transform: scale(.7);
+    transform: scale(0.7);
   }
   .rc-list__header {
-    padding: .5rem;
+    padding: 0.5rem;
     align-items: center;
-
   }
   .choices__list--dropdown {
-    margin-top: .5rem!important;
+    margin-top: 0.5rem !important;
   }
   #Details {
-    .breadcrumb-navigation{
+    .breadcrumb-navigation {
       display: block !important;
-      .rc-progress--breadcrumbs-stepped{
+      .rc-progress--breadcrumbs-stepped {
         padding-left: 1.2rem;
         padding-right: 1.2rem;
         padding-top: 1rem;
-        .bc-nav-ul{
-          font-size:14px;
+        .bc-nav-ul {
+          font-size: 14px;
         }
       }
     }
@@ -298,48 +299,33 @@ ul.ui-star-list li:before {
 }
 
 #Details {
-  .showItem>div:last-child {
+  .showItem > div:last-child {
     max-height: 2000px;
-    transition: max-height .5s ease-in-out;
+    transition: max-height 0.5s ease-in-out;
   }
 
-  .showItem>div:first-child {
+  .showItem > div:first-child {
     color: red;
     font-size: 18px;
     font-weight: 500;
   }
 
-  .hiddenItem>div:first-child {
+  .hiddenItem > div:first-child {
     color: #666;
     font-size: 18px;
     font-weight: 500;
   }
 
-  .hiddenItem>div:last-child {
+  .hiddenItem > div:last-child {
     max-height: 0;
     overflow: hidden;
-    transition: max-height .5s ease-in-out;
+    transition: max-height 0.5s ease-in-out;
   }
 
   // dl { // 此处影响到多处地方，暂时注释了
   //   margin-bottom: 0;
   //   padding: 0 20px;
   // }
-  .current-unit-price {
-    position:relative;
-    &::after {
-      .custom-star;
-      top: -0.5rem;
-    }
-  }
-  .vat-text {
-    position:relative;
-    &::before {
-      .custom-star;
-      top: -0.2rem;
-      left: -0.6rem;
-    }
-  }
 }
 
 #Details {
@@ -350,7 +336,7 @@ ul.ui-star-list li:before {
     padding: 0 10px;
     text-align: center;
     display: inline-block;
-    font-size: .625rem;
+    font-size: 0.625rem;
     height: 26px;
     line-height: 26px;
     border-radius: 3px;
@@ -366,7 +352,7 @@ ul.ui-star-list li:before {
     padding: 0 10px;
     text-align: center;
     display: inline-block;
-    font-size: .625rem;
+    font-size: 0.625rem;
     height: 26px;
     line-height: 26px;
     border-radius: 3px;
@@ -380,7 +366,6 @@ ul.ui-star-list li:before {
   }
   dl[data-toggle-effect]:first-child > .rc-list__accordion-item:first-child {
     border-width: 2px;
-
   }
   .rc-list__accordion-item {
     border-top: none;
@@ -510,3 +495,7 @@ ul.ui-star-list li:before {
 }
 
 
+.unit-star {
+  position: absolute;
+  top: -0.8rem;
+}

@@ -41,4 +41,15 @@ module.exports = function (app) {
       }
     })
   );
+  app.use(
+    proxy('/navigation', {
+      target:
+        'https://59ab1f42-09ad-4a54-bc25-475844fd5238.mock.pstmn.io/uk/api/navigation',
+      secure: false,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/navigation': '/'
+      }
+    })
+  );
 };

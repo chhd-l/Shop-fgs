@@ -366,7 +366,13 @@ class MarsFooterMap extends React.Component {
         </div>
       )
     };
-    return <div>{marsFooterMap[process.env.REACT_APP_LANG]}</div>;
+    return (
+      <div>
+        {+process.env.REACT_APP_HUB
+          ? null
+          : marsFooterMap[process.env.REACT_APP_LANG]}
+      </div>
+    );
   }
 }
 export default MarsFooterMap;

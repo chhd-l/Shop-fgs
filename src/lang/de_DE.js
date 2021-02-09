@@ -942,9 +942,6 @@ const de_DE = {
   'order.total': 'Gesamt',
   'order.iVAIncluido': '',
   'validPromotionCode': 'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
-
-
-
   //PLP-Retail-Cat
   'plp.retail.cat.title':'Suchen Sie tierärztliche Produkte?',
   'plp.retail.cat.detail':'Diätfutter, das zur Erhaltung der Gesundheit von Katzen beiträgt, bei denen Probleme diagnostiziert wurden',
@@ -956,5 +953,7 @@ const de_DE = {
   'plp.vet.cat.title':'Suchen Sie nach Lebensmitteln, die in spezialisierten Verkaufsstellen erhältlich sind??',
   'plp.vet.cat.detail':'Unser komplettes Sortiment an Trockenfutter und Bissen in Sauce oder Gelee bietet die genaueste Ernährung für Katzen jeden Alters, jeder Größe und jeder Rasse',
   'plp.vet.cat.button':'Reichweite entdecken',
+  starUnit: '*',
+  pricesIncludeVAT: '{val} Preise inkl. MwSt'
 }
 export default de_DE;

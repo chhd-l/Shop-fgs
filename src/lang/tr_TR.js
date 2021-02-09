@@ -727,15 +727,14 @@ const tr_TR = {
   'confirmation.account':'Go to my account',
   'confirmation.oneShoot':'Go to my account',
   //salesCategory
-  "salesCategory.title": "Découvrez nos {val1} gammes d’aliments",
-  "salesCategory.content": "Chaque formule a été créée pour fournir une nutrition adaptée ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.",
+  "salesCategory.title": "{Val1} yiyecek çeşitlerimizi keşfedin",
+  "salesCategory.content": "Her formül, boyutları, ırkı, yaşı veya yaşam tarzı ne olursa olsun {val1} sağlık ihtiyaçlarına uygun beslenmeyi sağlamak için oluşturulmuştur.",
   "salesCategory.cat": "Kedi için",
   "salesCategory.dog": "Köpek için",
   //header.User  unLogin
   "header.User.alreadyRegistered": "Zaten kayıtlı?",
   "header.User.newUser": "Yeni kullanıcı?",
   "header.User.registerNow": "Şimdi üye Ol",
-  "header.User.offersAndreimbursements": "Teklifler ve Masraf Karşılama",
   "header.User.royalCaninPartner": "Royal Canin partner?",
   "header.User.breederPortal": "Breeder portal",
   "header.User.or": "or",
