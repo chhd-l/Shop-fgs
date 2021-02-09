@@ -33,6 +33,7 @@ import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const isMobile = getDeviceType() === 'H5';
 
 @inject(
   'loginStore',
@@ -65,7 +66,8 @@ class Header extends React.Component {
       isScrollToTop: true,
       headerNavigationList: [],
       headerNavigationListForHub: [],
-      activeTopParentId: -1
+      activeTopParentId: -1,
+      searchBarVisible: false
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -428,6 +430,11 @@ class Header extends React.Component {
       this.toggleShowBodyMask({ visible: activeTopParentId !== -1 });
     });
   };
+  toggleSearchIcon = () => {
+    this.setState((curState) => ({
+      searchBarVisible: !curState.searchBarVisible
+    }));
+  };
   render() {
     const {
       showMiniIcons,
@@ -441,7 +448,8 @@ class Header extends React.Component {
       headerNavigationListForHub,
       showSearchInput,
       showCenter,
-      showCart
+      showCart,
+      searchBarVisible
     } = this.state;
     return (
       <>
@@ -449,7 +457,10 @@ class Header extends React.Component {
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
-        <header className={`rc-header`} data-js-header-scroll>
+        <header
+          className={`rc-header ${searchBarVisible ? 'searchbar' : ''}`}
+          data-js-header-scroll
+        >
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align"
@@ -492,7 +503,21 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                    <Search history={history} />
+                    {+process.env.REACT_APP_HUB ? (
+                      isMobile ? (
+                        searchBarVisible ? null : (
+                          <span
+                            className="iconfont icon-search mr-2"
+                            onClick={this.toggleSearchIcon}
+                          >
+                            &#xe6a5;
+                          </span>
+                        )
+                      ) : (
+                        <Search history={history} />
+                      )
+                    ) : null}
+
                     {this.isLogin ? (
                       <LoginCart
                         showSearchInput={showSearchInput}
@@ -517,6 +542,16 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
+          {/* 点击放大镜时，才会出现搜索条 */}
+          {searchBarVisible ? (
+            <nav className="bg-white nav-search pl-3 pr-3 pb-2">
+              <Search
+                history={history}
+                onClose={this.toggleSearchIcon}
+                focusedOnDidMount={true}
+              />
+            </nav>
+          ) : null}
 
           {+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub

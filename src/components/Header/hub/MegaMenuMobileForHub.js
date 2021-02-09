@@ -58,17 +58,18 @@ class MegaMenuMobileForHub extends React.Component {
     this.handleClickToggleChilds = this.handleClickToggleChilds.bind(this);
   }
   componentDidMount() {
-    let portalAndShareData = [
-      {
-        link: '',
+    let portalAndShareData = [];
+    if (process.env.REACT_APP_HUB_MONROYALCANIN) {
+      portalAndShareData.push({
+        link: process.env.REACT_APP_HUB_MONROYALCANIN,
         text: (
           <>
             <span className="iconfont iconzhuanfa" />{' '}
             <FormattedMessage id="header.User.monRoyalCanin" />
           </>
         )
-      }
-    ];
+      });
+    }
     if (process.env.REACT_APP_HUB_BREEDER_PORTAL) {
       portalAndShareData.push({
         link: process.env.REACT_APP_HUB_BREEDER_PORTAL,

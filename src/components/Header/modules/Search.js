@@ -11,6 +11,10 @@ import axios from 'axios';
 
 const isHub = process.env.REACT_APP_HUB === '1';
 export default class Search extends React.Component {
+  static defaultProps = {
+    onClose: () => {},
+    focusedOnDidMount: false
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -39,6 +43,11 @@ export default class Search extends React.Component {
         }, 500);
       }
     );
+  }
+  componentDidMount() {
+    this.props.focusedOnDidMount &&
+      this.inputRef.current &&
+      this.inputRef.current.focus();
   }
   async getSearchData() {
     const { keywords } = this.state;
@@ -133,6 +142,7 @@ export default class Search extends React.Component {
       keywords: '',
       result: null
     });
+    this.props.onClose();
   }
   hanldeSearchClick() {
     this.setState(
@@ -296,9 +306,9 @@ export default class Search extends React.Component {
   render() {
     const { showSearchInput, result, keywords, loading } = this.state;
     return (
-      <div className="inlineblock">
+      <div className="inlineblock w-100">
         {loading ? <Loading /> : null}
-        {process.env.REACT_APP_HUB === '1' ? (
+        {+process.env.REACT_APP_HUB ? (
           <>
             <div className="search-contaner">
               <span className="iconfont icon-search">&#xe6a5;</span>
