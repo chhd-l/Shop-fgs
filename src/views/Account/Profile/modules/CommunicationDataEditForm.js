@@ -56,14 +56,15 @@ class CommunicationDataEditForm extends React.Component {
         this.setState({ list: tempArr });
       }
     });
-    this.init();
+    let customerId = this.props.data && this.props.data.customerId
+    this.init(customerId);
   }
-  init = async () => {
+  init = async (customerId) => {
     this.setState({
       isLoading: true
     });
     try {
-      let result = await findUserSelectedList({});
+      let result = await findUserSelectedList({customerId});
 
       const optioalList = result.context.optionalList.map((item) => {
         return {
@@ -115,10 +116,10 @@ class CommunicationDataEditForm extends React.Component {
           oktaToken: oktaToken
         })
       ),
-      userBindConsent({ ...submitParam, ...{ oktaToken } })
+      userBindConsent({ ...submitParam, ...{ oktaToken }, customerId })
     ])
       .then(async (res) => {
-        await this.init();
+        await this.init(customerId);
         this.props.updateData();
         this.handleCancel();
         this.setState({

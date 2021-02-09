@@ -92,13 +92,6 @@ class AdyenCreditCardForm extends React.Component {
                   brand: state.brand,
                   brandImageUrl: state.brandImageUrl
                 });
-                // _this.setState({
-                //   adyenFormData: Object.assign(_this.state.adyenFormData, {
-                //     adyenBrands: state.brand,
-                //     brand: state.brand,
-                //     brandImageUrl: state.brandImageUrl
-                //   })
-                // });
               },
               onChange: (state) => {
                 try {
@@ -120,16 +113,6 @@ class AdyenCreditCardForm extends React.Component {
                   });
                   _this.props.updateClickPayBtnValidStatus(tmpValidSts);
                   if (tmpValidSts) {
-                    console.log(
-                      'set adyen form info',
-                      Object.assign(adyenFormData, getAdyenParam(card.data), {
-                        storePaymentMethod:
-                          card.data && card.data.storePaymentMethod
-                      })
-                    );
-                    console.log(11111155555, _this.setState);
-                    console.log(111111666, _this);
-                    let tempParam = getAdyenParam(card.data);
                     adyenFormData = Object.assign(
                       adyenFormData,
                       getAdyenParam(card.data),
@@ -138,25 +121,6 @@ class AdyenCreditCardForm extends React.Component {
                           card.data && card.data.storePaymentMethod
                       }
                     );
-                    // _this.setState({
-                    //     adyenFormData: 111
-                    //   },
-                    //   () => {
-                    //     console.log(
-                    //       'set adyen form info2'
-                    //     );
-                    //   }
-                    // );
-                    // updateState(
-                    //   Object.assign(
-                    //     _this.state.adyenFormData,
-                    //     getAdyenParam(card.data),
-                    //     {
-                    //       storePaymentMethod:
-                    //         card.data && card.data.storePaymentMethod
-                    //     }
-                    //   )
-                    // );
                   }
                 } catch (err) {
                   console.log('set adyen form err', err);
@@ -169,7 +133,7 @@ class AdyenCreditCardForm extends React.Component {
       }
     });
   }
-  handleSave = async () => {
+  handleSavePromise = async () => {
     try {
       // 如果勾选了保存信息按钮，则保存到后台，否则不需要保存信息到后台
       // const { adyenFormData } = this.state;
@@ -180,15 +144,14 @@ class AdyenCreditCardForm extends React.Component {
       if (adyenFormData.storePaymentMethod) {
         this.setState({ saveLoading: true });
         const res = await addOrUpdatePaymentMethod({
-          customerId: this.userInfo ? this.userInfo.customerId : '',
           storeId: process.env.REACT_APP_STOREID,
+          customerId: this.userInfo ? this.userInfo.customerId : '',
           encryptedCardNumber: adyenFormData.encryptedCardNumber,
           encryptedExpiryMonth: adyenFormData.encryptedExpiryMonth,
           encryptedExpiryYear: adyenFormData.encryptedExpiryYear,
           encryptedSecurityCode: adyenFormData.encryptedSecurityCode,
-          paymentType: 'ADYEN',
           holderName: adyenFormData.hasHolderName,
-          accountName: this.userInfo ? this.userInfo.customerAccount : ''
+          pspName: 'ADYEN'
         });
         tmpSelectedId = res.context.id;
         this.props.updateSelectedId(tmpSelectedId);
@@ -206,17 +169,20 @@ class AdyenCreditCardForm extends React.Component {
           id: tmpSelectedId
         });
         this.props.updateAdyenPayParam(decoAdyenFormData);
-        // setTimeout(() => this.props.updateAdyenPayParam(decoAdyenFormData), 500);
         setTimeout(() => this.props.updateSelectedId(tmpSelectedId), 200);
-        // this.props.updateSelectedId(tmpSelectedId);
       }
 
       this.isLogin && this.props.updateFormVisible(false);
     } catch (err) {
-      debugger;
+      throw new Error(err.message);
+    }
+  };
+  handleSave = async () => {
+    try {
+      await this.handleSavePromise();
+    } catch (err) {
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
-      throw new Error(err.message);
     }
   };
   handleClickCancel = () => {

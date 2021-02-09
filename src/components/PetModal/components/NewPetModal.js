@@ -68,28 +68,10 @@ export default class NewPetModal extends Component {
     this.setState({ petForm: petForm });
     this.inputBlur(e);
   }
-  getUserInfo() {
-    let userinfo = {};
-    if (localItemRoyal.get('rc-userinfo')) {
-      userinfo = localItemRoyal.get('rc-userinfo');
-    }
-    return userinfo;
+
+  get getUserInfo() {
+    return this.props.loginStore.userInfo;
   }
-
-  getAccount = () => {
-    let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
-    } else {
-      getCustomerInfo().then((res) => {
-        const context = res.context;
-        localItemRoyal.set('rc-userinfo', context);
-        consumerAccount = context.consumerAccount;
-      });
-    }
-
-    return consumerAccount;
-  };
 
   async addPet() {
     const pets = {
@@ -99,7 +81,7 @@ export default class NewPetModal extends Component {
     };
     const parmas = {
       customerPets: pets,
-      userId: this.getAccount()
+      userId: this.getUserInfo.customerAccount
     };
     let res = await addPet(parmas);
     if (res.code === 'K-000000') {

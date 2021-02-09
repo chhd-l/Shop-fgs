@@ -2,11 +2,12 @@ import axios from '@/utils/request'
 
 const api = {
   queryPrescription: '/prescriber/listPagePrescriberMap',  //搜索Clinic
-  prescriptionById: '/prescriber/getPrescriberById', //Clinic详情
-  allClinics: '/prescriber/listAll', //所有Clinic
-  getPrescriberByKeyWord: '/prescriber/getPrescriberByKeyWord', //根据clinic name/id查询
-  getPrescriberByCode: '/prescriber/getPrescriberByCode', //根据recommendation code查询(明文)
-  getPrescriberByEncryptCode: '/prescriber/getPrescriberByEncryptCode',//根据recommendation code查询(密文)
+  prescriptionById: '/prescriber/', //Clinic详情
+  allClinics: `/${process.env.REACT_APP_STOREID}/prescribers/all`, //所有Clinic
+  getPrescriberByKeyWord: `/${process.env.REACT_APP_STOREID}/prescribers/key-word=`, //根据clinic name/id查询
+  getPrescriberByCode: `/${process.env.REACT_APP_STOREID}/prescribers/code=`, //根据recommendation code查询(明文)
+  getPrescriberByEncryptCode: `/${process.env.REACT_APP_STOREID}/prescribers/ecode=`,//根据recommendation code查询(密文)
+  // getPrescriberByEncryptCode: '/prescriber/getPrescriberByEncryptCode',//根据recommendation code查询(密文)
   getPrescriberByPrescriberIdAndStoreId: '/prescriber/getPrescriberByPrescriberIdAndStoreId',
 }
 
@@ -22,40 +23,42 @@ export function getPrescription (parameter) {
 export function getAllPrescription (parameter) {
   return axios({
     url: `${api.allClinics}`,
-    method: 'post',
-    data: parameter
+    method: 'get',
+    params: parameter
+    // method: 'post',
+    // data: parameter
   })
 }
 
 export function getPrescriptionById (parameter) {
   return axios({
-    url: `${api.prescriptionById}`,
-    method: 'post',
-    data: parameter
+    url: `${api.prescriptionById}${parameter.id}`,
+    method: 'get',
+    params: parameter
   })
 }
 
 export function getPrescriberByKeyWord (parameter) {
   return axios({
-    url: `${api.getPrescriberByKeyWord}`,
-    method: 'post',
-    data: parameter
+    url: `${api.getPrescriberByKeyWord}${parameter.keyWord}`,
+    method: 'get',
+    params: parameter
   })
 }
 
 export function getPrescriberByCode (parameter) {
   return axios({
-    url: `${api.getPrescriberByCode}`,
-    method: 'post',
-    data: parameter
+    url: `${api.getPrescriberByCode}${parameter.code}`,
+    method: 'get',
+    params: parameter
   })
 }
 
 export function getPrescriberByEncryptCode (parameter) {
   return axios({
-    url: `${api.getPrescriberByEncryptCode}`,
-    method: 'post',
-    data: parameter
+    url: `${api.getPrescriberByEncryptCode}${parameter.encryptCode}`,
+    method: 'get',
+    params: parameter
   })
 }
 

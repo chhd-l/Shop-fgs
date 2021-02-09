@@ -157,7 +157,6 @@ class VisitorAddress extends React.Component {
 
     const { showConfirmBtn } = this.props;
     const { form, isValid } = this.state;
-    const { updateStepForAddress, paymentStep } = this.props.paymentStore;
 
     const _editForm = (
       <EditForm

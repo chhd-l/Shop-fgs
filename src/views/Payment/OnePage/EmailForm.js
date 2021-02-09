@@ -15,22 +15,14 @@ class EmailForm extends React.Component {
       form: {
         email: ''
       },
-      isEdit: true,
       isValid: false
     };
   }
-  componentDidMount() {
-    // 根据上一个panel的状态决定是否本panel状态
-    this.setState({
-      isEdit: !this.props.paymentStore.emailPanelStatus.isPrepare
-    });
-  }
   handleClickEdit = () => {
-    this.props.paymentStore.setStsToEdit({ key: 'email', hideOthers: true }); // todo
+    this.props.paymentStore.setStsToEdit({ key: 'email', hideOthers: true });
   };
   handleClickConfirm = () => {
     const { form } = this.state;
-    this.setState({ isEdit: false });
     this.props.onChange(form);
     this.props.paymentStore.setDefaultCardDataFromAddr(form);
     this.confirmToNextPanel();
@@ -63,7 +55,7 @@ class EmailForm extends React.Component {
     this.setState({ isValid: tmpStatus });
   };
   render() {
-    const { isEdit, form, isValid } = this.state;
+    const { form, isValid } = this.state;
     const { intl, paymentStore } = this.props;
     const { emailPanelStatus } = paymentStore;
 

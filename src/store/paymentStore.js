@@ -13,6 +13,10 @@ class PaymentStore {
   @observable browserInfo = {}
   @observable md = '';//3ds参数
 
+  @observable selectedCardId = null;
+  @observable defaultCardDataFromAddr = null;
+  @observable paymentStep = new Array(4);
+
   @observable panelStatus = [
     {
       key: 'clinic',
@@ -260,6 +264,7 @@ class PaymentStore {
       tmpData
     );
   }
+
   @action.bound
   setBrowserInfo(data) {
     this.browserInfo = data

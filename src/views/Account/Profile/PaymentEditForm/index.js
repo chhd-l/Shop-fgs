@@ -167,23 +167,16 @@ class PaymentEditForm extends React.Component {
         throw new Error(messages.supportCardTypeMismatch);
       }
 
-      let params = {
-        customerId: this.userInfo ? this.userInfo.customerId : '',
-        id: creditCardInfoForm.id ? creditCardInfoForm.id : '',
-        email: creditCardInfoForm.email,
-        phoneNumber: creditCardInfoForm.phoneNumber,
-        isDefault: creditCardInfoForm.isDefault ? '1' : '0',
-
-        accountName: this.userInfo ? this.userInfo.customerAccount : '',
+      await addOrUpdatePaymentMethod({
         storeId: process.env.REACT_APP_STOREID,
-        paymentToken: res ? res.data.token : creditCardInfoForm.paymentToken,
-        paymentCustomerId: creditCardInfoForm.paymentCustomerId,
-        paymentTransactionId: creditCardInfoForm.paymentTransactionId,
-        paymentCvv: res ? res.data.encrypted_cvv : '',
-        paymentType: 'PAYU'
-      };
-
-      await addOrUpdatePaymentMethod(params);
+        customerId: this.userInfo ? this.userInfo.customerId : '',
+        email: creditCardInfoForm.email,
+        phone: creditCardInfoForm.phoneNumber,
+        isDefault: creditCardInfoForm.isDefault ? '1' : '0',
+        paymentToken: res ? res.data.token : '',
+        paymentVendor: res ? res.data.vendor : '',
+        pspName: 'PAYU'
+      });
       this.handleCancel();
       this.props.refreshList();
     } catch (e) {
@@ -250,7 +243,7 @@ class PaymentEditForm extends React.Component {
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <LazyLoad>
-          <img key={idx} className="logo-payment-card" src={el} alt="" />
+            <img key={idx} className="logo-payment-card" src={el} alt="" />
           </LazyLoad>
         ))}
       </span>
@@ -356,16 +349,16 @@ class PaymentEditForm extends React.Component {
                         <div className="cardFormBox">
                           <span className="cardImage">
                             <LazyLoad>
-                            <img
-                              alt="Card"
-                              src={
-                                CREDIT_CARD_IMG_ENUM[
-                                  currentVendor && currentVendor.toUpperCase()
-                                ] ||
-                                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                              }
-                              className="img"
-                            />
+                              <img
+                                alt="Card"
+                                src={
+                                  CREDIT_CARD_IMG_ENUM[
+                                    currentVendor && currentVendor.toUpperCase()
+                                  ] ||
+                                  'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                }
+                                className="img"
+                              />
                             </LazyLoad>
                           </span>
                           <span className="cardForm">

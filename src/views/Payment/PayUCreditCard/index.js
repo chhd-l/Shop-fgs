@@ -112,7 +112,8 @@ class PayOs extends React.Component {
   static defaultProps = {
     isLogin: false,
     billingJSX: null,
-    updateFormValidStatus: () => {}
+    updateFormValidStatus: () => {},
+    onVisitorPayosDataConfirm: () => {}
   };
   constructor(props) {
     super(props);
@@ -246,6 +247,7 @@ class PayOs extends React.Component {
       this.props.updateFormValidStatus(this.state.isValid);
     }
   }
+
   handleClickCardConfirm = async () => {
     try {
       const { creditCardInfoForm, isValid } = this.state;
@@ -293,7 +295,12 @@ class PayOs extends React.Component {
   };
   render() {
     const { isLogin, billingJSX, defaultCardDataFromAddr } = this.props;
-    const { creditCardInfoForm } = this.state;
+    const {
+      creditCardInfoForm,
+      isValid,
+      isCompleteCredit,
+      saveLoading
+    } = this.state;
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">

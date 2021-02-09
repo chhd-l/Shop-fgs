@@ -324,7 +324,6 @@ class Question extends React.Component {
           });
           return;
         }
-        console.info('this.state.isEdit', this.state.isEdit);
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [currentStepName]: tmpFormParam
         });
@@ -351,8 +350,6 @@ class Question extends React.Component {
       }
       const res = await (this.state.isEdit ? edit : query)(params);
       const resContext = res.context;
-      console.info('resContext', resContext);
-      console.info('!resContext.isEndOfTree', !resContext.isEndOfTree);
       if (!resContext.isEndOfTree) {
         const tmpStep = resContext.step;
         const qRes = this.handleQuestionConfigLogic({

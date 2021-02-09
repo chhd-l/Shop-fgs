@@ -6,7 +6,6 @@ import './index.less';
 import SocialRegister from './components/socialRegister';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { oktaRegister } from '@/api/user';
-import { getCustomerInfo } from '@/api/user';
 import stores from '@/store';
 import { mergeUnloginCartData } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';

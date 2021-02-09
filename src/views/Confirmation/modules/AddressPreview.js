@@ -1,7 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
+import {
+  getDictionary,
+  matchNamefromDict,
+  getDeviceType,
+  getFormatDate
+} from '@/utils/utils';
 
 class InfosPreview extends React.Component {
   static defaultProps = {
@@ -36,7 +40,7 @@ class InfosPreview extends React.Component {
     const { payRecord, details } = this.props;
     return (
       <div style={{ padding: '0 15px' }}>
-        <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break 1111111111111">
+        <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
           {details ? (
             <div
               className={[
@@ -46,9 +50,7 @@ class InfosPreview extends React.Component {
                 this.state.orderArr[0]
               ].join(' ')}
             >
-              <div
-                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
-              >
+              <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
                 <FormattedMessage id="deliveryAddress" />
               </div>
               <div>
@@ -72,8 +74,7 @@ class InfosPreview extends React.Component {
               {details.buyerRemark}
             </div>
           ) : null}
-          {payRecord && payRecord.last4Digits ? (
-            // && payRecord.paymentMethod !== 'ADYEN'
+          {payRecord && payRecord.lastFourDigits ? (
             <div
               className={[
                 'col-12',
@@ -82,20 +83,18 @@ class InfosPreview extends React.Component {
                 this.state.orderArr[1]
               ].join(' ')}
             >
-              <div
-                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
-              >
+              <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
                 <FormattedMessage id="payment.paymentInformation" />
               </div>
               <div>
                 <span>{details.consignee.name}</span>
               </div>
-              <div>{payRecord.vendor}</div>
+              <div>{payRecord.paymentVendor}</div>
               <div>
-                {payRecord.last4Digits ? (
+                {payRecord.lastFourDigits ? (
                   <>
                     <span className="medium">
-                      ********{payRecord.last4Digits}
+                      ********{payRecord.lastFourDigits}
                     </span>
                     <br />
                   </>
@@ -104,7 +103,9 @@ class InfosPreview extends React.Component {
               <div>
                 {payRecord.expirationDate ? (
                   <>
-                    <span className="medium">{payRecord.expirationDate}</span>
+                    <span className="medium">
+                      {getFormatDate(payRecord.expirationDate.substr(0, 7))}
+                    </span>
                     <br />
                   </>
                 ) : null}
@@ -134,9 +135,7 @@ class InfosPreview extends React.Component {
                 this.state.orderArr[2]
               ].join(' ')}
             >
-              <div
-                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
-              >
+              <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
                 <FormattedMessage id="billingAddress" />
               </div>
               <div>

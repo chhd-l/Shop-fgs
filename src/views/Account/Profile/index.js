@@ -94,9 +94,14 @@ class AccountProfile extends React.Component {
     // }
     this.queryCustomerBaseInfo();
   }
+  get getUserInfo() {
+    return this.props.loginStore.userInfo;
+  }
   queryCustomerBaseInfo = () => {
     this.setState({ loading: true });
-    getCustomerInfo()
+    let customerId = this.getUserInfo.customerId
+
+    getCustomerInfo({customerId})
       .then((res) => {
         this.setState({ loading: false });
         let prescriberName;
@@ -111,6 +116,7 @@ class AccountProfile extends React.Component {
         this.setState({
           originData: context,
           personalData: {
+            customerId,
             firstName: context.firstName,
             lastName: context.lastName,
             email: context.email,

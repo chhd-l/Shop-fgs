@@ -1,6 +1,3 @@
-import { FormattedMessage } from 'react-intl';
-import React from 'react';
-
 const de_DE = {
 
   aboutUs: 'ÜBER UNS',

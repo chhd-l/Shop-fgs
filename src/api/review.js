@@ -2,7 +2,8 @@ import axios from '@/utils/request'
 
 const api = {
     getGoodsList: '/trade/goods',
-    addGoodsEvaluate: '/goodsEvaluate/add'
+    addGoodsEvaluate: '/goods/evaluates'
+    // addGoodsEvaluate: '/goodsEvaluate/add'
 }
 
 export default api

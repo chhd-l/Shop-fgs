@@ -37,10 +37,7 @@ function CardItemCover({
           &#xe68c;
         </span>
       )}
-      <span>
-        {children}
-      </span>
-      
+      <span>{children}</span>
     </div>
   );
 }
@@ -82,19 +79,13 @@ class AdyenCreditCardList extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  get userInfo() {
-    return this.props.loginStore.userInfo;
-  }
   queryList = async ({
     currentCardEncryptedSecurityCode,
     showListLoading = true
   } = {}) => {
     showListLoading && this.setState({ listLoading: true });
     try {
-      let res = await getPaymentMethod({
-        customerId: this.userInfo ? this.userInfo.customerId : '',
-        storeId: process.env.REACT_APP_STOREID
-      });
+      let res = await getPaymentMethod();
       let cardList = res.context;
 
       // 初始化时，重置保存卡列表的isLoadCvv状态
@@ -168,8 +159,7 @@ class AdyenCreditCardList extends React.Component {
         }
       );
       deleteCard({
-        id: currentId,
-        storeId: process.env.REACT_APP_STOREID
+        id: currentId
       })
         .then(() => {
           this.queryList();
@@ -233,7 +223,7 @@ class AdyenCreditCardList extends React.Component {
       ) || null;
     this.props.updateSelectedCardInfo(el);
     // 被选中的卡，才加载cvv
-    el && el.adyenPaymentMethod && this.loadCvv(el);
+    el && this.loadCvv(el);
     this.updateFormValidStatus(el);
   };
   updateFormValidStatus = (el) => {
@@ -241,18 +231,15 @@ class AdyenCreditCardList extends React.Component {
       el && el.encryptedSecurityCode ? true : false
     );
   };
-  getBrowserInfo(state){
-    this.props.paymentStore.setBrowserInfo(state.data.browserInfo)
+  getBrowserInfo(state) {
+    this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
   loadCvv = (el) => {
     const _this = this;
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
     var { updateSelectedCardInfo, paymentStore } = this.props;
-    const {
-      id,
-      adyenPaymentMethod: { brand }
-    } = el;
+    const { id, cardType: brand } = el;
     //第一次绑定这张卡,不需要填写CVV start
     if (paymentStore.firstSavedCardCvv == id) {
       el.isLoadCvv = false;
@@ -289,7 +276,7 @@ class AdyenCreditCardList extends React.Component {
               brand: brand,
               onChange: (state) => {
                 console.log(state);
-                _this.getBrowserInfo(state)
+                _this.getBrowserInfo(state);
                 const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
                 let result = find(cardList, (ele) => ele.id === id);
                 result.encryptedSecurityCode = tmpCode;
@@ -344,16 +331,9 @@ class AdyenCreditCardList extends React.Component {
               className="PayCardImgFitScreen"
               src={
                 CREDIT_CARD_IMG_ENUM[
-                  data.adyenPaymentMethod && data.adyenPaymentMethod.name
-                    ? data.adyenPaymentMethod.name.toUpperCase()
-                    : ''
-                ]
-                  ? CREDIT_CARD_IMG_ENUM[
-                      data.adyenPaymentMethod && data.adyenPaymentMethod.name
-                        ? data.adyenPaymentMethod.name.toUpperCase()
-                        : ''
-                    ]
-                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                  data.paymentVendor && data.paymentVendor.toUpperCase()
+                ] ||
+                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
               }
               style={{ width: '89%' }}
             />
@@ -363,19 +343,11 @@ class AdyenCreditCardList extends React.Component {
           <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">
-                <div className="col-12">
-                  <span>{data.adyenPaymentMethod
-                    ? data.adyenPaymentMethod.holderName
-                    : ''}</span>
-                </div>
+                <div className="col-12">{data.holderName}</div>
               </div>
               {!showLastFour && (
                 <div className="row align-items-center">
-                  <div className="col-12">
-                    <span>{data.adyenPaymentMethod
-                      ? data.adyenPaymentMethod.brand
-                      : ''}</span>
-                  </div>
+                  <div className="col-12">{data.cardType}</div>
                 </div>
               )}
             </div>
@@ -391,10 +363,7 @@ class AdyenCreditCardList extends React.Component {
                   className="creditCompleteInfo fontFitSCreen"
                   style={{ fontSize: '14px' }}
                 >
-                  xxxx xxxx xxxx{' '}
-                  {(data.adyenPaymentMethod &&
-                    data.adyenPaymentMethod.lastFour) ||
-                    ''}
+                  xxxx xxxx xxxx {data.lastFourDigits}
                 </span>
               </div>
               <div className={`col-6 border-left`}>
@@ -403,7 +372,7 @@ class AdyenCreditCardList extends React.Component {
                 </span>
                 <br />
                 <span className="creditCompleteInfo fontFitSCreen">
-                  {data.adyenPaymentMethod ? data.adyenPaymentMethod.brand : ''}
+                  {data.cardType}
                 </span>
               </div>
             </div>
@@ -453,11 +422,6 @@ class AdyenCreditCardList extends React.Component {
       </CardItemCover>
     ));
     const cardListJSX = cardList.map((el, idx) => {
-      if (el.adyenPaymentMethod !== null) {
-        //判断是否是adyen支付
-        // this.loadCvv(el);
-      }
-
       return (
         <CardItemCover
           key={el.id}
@@ -541,13 +505,12 @@ class AdyenCreditCardList extends React.Component {
   };
   updateAdyenPayParam = (data) => {
     let { cardList, memberUnsavedCardList } = this.state;
-    if (data && !data.adyenPaymentMethod) {
-      data.adyenPaymentMethod = {
-        name: data.brand,
+    if (data && !data.holderName) {
+      data = Object.assign(data, {
         holderName: data.hasHolderName,
-        lastFour: '',
-        brand: data.brand
-      };
+        paymentVendor: data.adyenBrands,
+        cardType: data.brand
+      });
     }
     // 会员，选择不保存卡情况下，卡信息存储data字段中
     if (!data.storePaymentMethod) {
@@ -576,7 +539,7 @@ class AdyenCreditCardList extends React.Component {
     this.setState({ saveLoading: true });
     try {
       if (this.editFormRef) {
-        await this.editFormRef.current.handleSave();
+        await this.editFormRef.current.handleSavePromise();
         // this.setState({ formVisible: false });
       }
     } catch (err) {

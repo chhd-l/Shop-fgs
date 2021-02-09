@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Modal from '@/components/Modal';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { getPetList } from '@/api/pet';
-import { getCustomerInfo } from '@/api/user';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import findIndex from 'lodash/findIndex';
@@ -50,31 +49,13 @@ class SelectPetModal extends Component {
     let currentPet = pets.filter((el) => el.value === selectedPet)[0];
     this.props.confirm(currentPet);
   }
-  getUserInfo() {
-    let userinfo = {};
-    if (localItemRoyal.get('rc-userinfo')) {
-      userinfo = localItemRoyal.get('rc-userinfo');
-    }
-    return userinfo;
+
+  get getUserInfo() {
+    return this.props.loginStore.userInfo;
   }
 
-  getAccount = () => {
-    let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
-    } else {
-      getCustomerInfo().then((res) => {
-        const context = res.context;
-        localItemRoyal.set('rc-userinfo', context);
-        consumerAccount = context.consumerAccount;
-      });
-    }
-
-    return consumerAccount;
-  };
-
   async getPetList() {
-    if (!this.getAccount()) {
+    if (!this.getUserInfo||!this.getUserInfo.customerAccount) {
       // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
@@ -82,7 +63,8 @@ class SelectPetModal extends Component {
       return false;
     }
     let params = {
-      consumerAccount: this.getAccount()
+      customerId: this.getUserInfo.customerId,
+      consumerAccount: this.getUserInfo.customerAccount
     };
     let res = await getPetList(params);
     if (res) {

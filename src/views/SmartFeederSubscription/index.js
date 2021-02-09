@@ -13,7 +13,7 @@ import { getFoodDispenserList, getFoodDispenserDes } from '@/api/dispenser';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.less';
-import Swiper from 'swiper';
+// import Swiper from 'swiper';
 import Selection from '@/components/Selection';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import 'swiper/swiper-bundle.min.css';

@@ -1,10 +1,11 @@
 import axios from '@/utils/request';
 
 const api = {
-  getAddressList: '/customer/addressList',
+  getAddressList: '/customer/addrs',
   addressInfo: '/customer/addressInfo',
-  setDefaltAddress: '/customer/defaultAddress',
-  saveAddress: '/customer/address'
+  // addressInfoNew: '/customer/addr/default',
+  setDefaltAddress: '/customer/addr/default',
+  saveAddress: '/customer/addr'
 };
 
 export default api;

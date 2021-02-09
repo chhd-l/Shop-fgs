@@ -42,9 +42,6 @@
 
 .creditCompleteInfoBox .pull-right {
   margin-left: 10px;
-}
-.creditCompleteInfoBox.active {
-  background-color: #fff3f3;
 } */
 /* @media (min-width: 480px) { */
   .input:not(.rc-input--full-width), .rc-input:not(.rc-input--full-width), .rc-select:not(.rc-input--full-width), .select:not(.rc-input--full-width) {

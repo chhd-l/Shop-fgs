@@ -174,23 +174,8 @@ class PetForm extends React.Component {
   getUserInfo() {
     return this.props.loginStore.userInfo;
   }
-
-  getAccount = () => {
-    let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
-    } else {
-      getCustomerInfo().then((res) => {
-        const context = res.context;
-        this.props.loginStore.setUserInfo(context);
-        consumerAccount = context.consumerAccount;
-      });
-    }
-    return consumerAccount;
-  };
-
   getPetList = async () => {
-    if (!this.getAccount()) {
+    if (!this.getUserInfo().customerAccount) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
         loading: false
@@ -198,7 +183,8 @@ class PetForm extends React.Component {
       return false;
     }
     let params = {
-      consumerAccount: this.getAccount()
+      customerId: this.getUserInfo.customerId,
+      consumerAccount: this.getUserInfo().customerAccount
     };
     await getPetList(params)
       .then((res) => {

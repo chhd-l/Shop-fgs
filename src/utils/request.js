@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -14,7 +15,7 @@ if (env === 'development') {
 // 创建 axios 实例
 const service = axios.create({
   baseURL: base_url,
-  timeout: 60000 // 请求超时时间
+  timeout: 600000 // 请求超时时间
 });
 
 // request interceptor
@@ -24,6 +25,13 @@ service.interceptors.request.use((config) => {
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;
   }
+  if(config.method&&config.method.toLocaleLowerCase() === 'get'){
+      Object.assign(config,{
+        paramsSerializer: function (params) {
+          return qs.stringify(params, { arrayFormat: "indices" });
+        }
+      })
+    }
   config.headers['Accept-Language'] = {
     en: 'en-US',
     es: 'es-MX',

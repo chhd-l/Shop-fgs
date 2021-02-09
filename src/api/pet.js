@@ -2,11 +2,12 @@
 import axios from '@/utils/request'
 
 const api = {
-  getPetList: '/pets/petsByConsumer',
-  addPet: '/pets/addPets',
-  petsById:'/pets/petsById',
-  delPets:'/pets/delPets',
-  editPets:'/pets/editPets',
+  getPetList: '/pets/consumer=',
+  addPet: '/pets',
+  petsById:'/pets/',
+  delPets:'/pets/',
+  // delPets:'/pets/delPets',
+  editPets:'/pets',
   batchAddPets: '/pets/batchAddPets',
   getRecommendProducts: '/product/finder/pets/products',
 }
@@ -15,9 +16,9 @@ export default api
 
 export function getPetList (parameter) {
   return axios({
-    url: `${api.getPetList}`,
-    method: 'post',
-    data: parameter
+    url: `${api.getPetList}${parameter.customerId}`,
+    method: 'get',
+    params: parameter
   })
 }
 export function addPet (parameter) {
@@ -38,6 +39,7 @@ export function batchAddPets (parameter) {
 export function petsById (parameter) {
   return axios({
     url: `${api.petsById}`,
+    url: `${api.petsById}${parameter.petsId}`,
     method: 'post',
     data: parameter
   })
@@ -45,14 +47,14 @@ export function petsById (parameter) {
 export function delPets (parameter) {
   return axios({
     url: `${api.delPets}`,
-    method: 'post',
+    method: 'delete',
     data: parameter
   })
 }
 export function editPets (parameter) {
   return axios({
     url: `${api.editPets}`,
-    method: 'post',
+    method: 'put',
     data: parameter
   })
 }
