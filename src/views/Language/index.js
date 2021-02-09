@@ -4,10 +4,13 @@ import Loading from '@/components/Loading';
 import Selection from '@/components/Selection';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import langResult from './mock';
+import queryCountries from './mock';
 import './css/index.less';
 
 export default class LanguagePage extends Component {
+  static defaultProps = {
+    onClose: () => {}
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -15,6 +18,9 @@ export default class LanguagePage extends Component {
       loading: true,
       submitUrl: ''
     };
+  }
+  componentDidMount() {
+    this.getAllData();
   }
   get countryComputedList() {
     return this.state.allData.map((ele) => {
@@ -48,6 +54,9 @@ export default class LanguagePage extends Component {
       return item.IsCurrent;
     })[0].Languages[0].Name;
   }
+  handleClickClose = () => {
+    this.props.onClose();
+  };
   placeCurrentCountryToFirst() {
     let newAllData = [...this.state.allData];
 
@@ -68,16 +77,17 @@ export default class LanguagePage extends Component {
       allData: newAllData
     });
   }
-  getAllData() {
-    // axios.get('/languagepicker/getcountries')
-    //     .then((response) => {
-    //         this.setState({ allData: response.data }, () => {
-    //             this.placeCurrentCountryToFirst()
-    //         })
-    //     });
-    this.setState({ allData: langResult.data }, () => {
-      this.placeCurrentCountryToFirst();
-    });
+  async getAllData() {
+    try {
+      // const langResult = await axios.get('/languagepicker/getcountries');
+      const langResult = await queryCountries();
+      this.setState({ allData: langResult.data }, () => {
+        this.placeCurrentCountryToFirst();
+      });
+    } catch (err) {
+    } finally {
+      this.setState({ loading: false });
+    }
   }
   handleSelectedCountryChange = (data) => {
     let tempData = [...this.state.allData];
@@ -109,14 +119,13 @@ export default class LanguagePage extends Component {
         <aside className="language-picker-modal rc-modal rc-modal--full">
           <div className="rc-modal__container">
             <header className="rc-modal__header">
-              <a href={this.state.submitUrl}>
-                <button
-                  className="rc-modal__close rc-btn rc-btn--icon-label rc-icon rc-close--xs rc-iconography"
-                  data-modal-trigger="country-lang-selector"
-                >
-                  <FormattedMessage id="lang.close" />
-                </button>
-              </a>
+              <button
+                className="rc-modal__close rc-btn rc-btn--icon-label rc-icon rc-close--xs rc-iconography"
+                data-modal-trigger="country-lang-selector"
+                onClick={this.handleClickClose}
+              >
+                <FormattedMessage id="lang.close" />
+              </button>
             </header>
             <section className="rc-modal__content rc-max-width--xl">
               <div>
@@ -177,12 +186,5 @@ export default class LanguagePage extends Component {
         </aside>
       </div>
     );
-  }
-  componentDidMount() {
-    this.getAllData();
-
-    window.onload = () => {
-      this.setState({ loading: false });
-    };
   }
 }

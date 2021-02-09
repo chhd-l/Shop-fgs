@@ -113,7 +113,6 @@ import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
-import LanguagePage from '@/views/Language'
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
@@ -484,7 +483,6 @@ const App = () => (
                 )}
               />
               <Route exact sensitive path="/FAQ" component={Exception} />
-              <Route exact path="/language" component={LanguagePage}/>
               <Route
                 path="/"
                 render={(props) => {
