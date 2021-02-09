@@ -186,7 +186,7 @@ const UserJSX = (props) => {
             {/* 登录 */}
             {isLogin && (
               <a className="brefName">
-                {firstNameLetter}{' '}
+                <Link to="/account" className="text-white">{firstNameLetter}</Link>{' '}
                 {showCart ? <LoginUserBox self={self} {...props} /> : null}
               </a>
             )}
