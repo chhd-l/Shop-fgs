@@ -1,9 +1,8 @@
 import { getDeviceType } from '@/utils/utils';
 import React, { useState, useEffect } from 'react';
 import LazyLoad from 'react-lazyload';
-import { getDetailsBySpuNo } from '@/api/details';
 
-const Details = ({ goodsDetailTabs, details }) => {
+const Details = ({ goodsDetailTab, details }) => {
   const isMobile = getDeviceType() !== 'PC';
   const [activeTabIdx, setActiveTabIdx] = useState(0);
   const tabsArr = [
@@ -12,135 +11,136 @@ const Details = ({ goodsDetailTabs, details }) => {
     { show: false },
     { show: false }
   ];
+  console.info('goodsDetailTab', goodsDetailTab)
   const [tabs, setTabs] = useState(tabsArr);
-  const [goodsDetailTab, setGoodsDetailTab] = useState([]);
-  const getDetail = async () => {
-    if(!details||!details.goodsNo){
-      return
-    }
-    try {
-      // let res = goodsDetailTabs;
-      let res = await getDetailsBySpuNo(details.goodsNo);
-      try {
-        let tmpGoodsDetail = res.context.goods.goodsDetail;
-        console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
-        if (tmpGoodsDetail) {
-          tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-          console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-          for (let key in tmpGoodsDetail) {
-            if (tmpGoodsDetail[key]) {
-              console.log(tmpGoodsDetail[key], 'ghaha');
-              if (process.env.REACT_APP_LANG === 'fr') {
-                let tempObj = {};
-                let tempContent = '';
-                try {
-                  if (key === 'Description') {
-                    tmpGoodsDetail[key].map((el) => {
-                      if (
-                        Object.keys(JSON.parse(el))[0] ===
-                        'EretailShort Description'
-                      ) {
-                        tempContent =
-                          tempContent +
-                          `<p style="white-space: pre-line">${
-                            Object.values(JSON.parse(el))[0]
-                          }</p>`;
-                      }
-                    });
-                  } else if (key === 'Bénéfices') {
-                    tmpGoodsDetail[key].map((el) => {
-                      tempContent =
-                        tempContent +
-                        `<li>
-                        <div class="list_title">${
-                          Object.keys(JSON.parse(el))[0]
-                        }</div>
-                        <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                          Object.values(JSON.parse(el))[0]['Description']
-                        }</div>
-                      </li>`;
-                    });
-                    tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                      ${tempContent}
-                    </ul>`;
-                  } else if (key === 'Composition') {
-                    if (res.context.goods.goodsType !== 2) {
-                      tmpGoodsDetail[key].map((el) => {
-                        tempContent =
-                          tempContent +
-                          `<p>
+  // const [goodsDetailTab, setGoodsDetailTab] = useState([]);
+  // const getDetail = async () => {
+  //   if(!details||!details.goodsNo){
+  //     return
+  //   }
+  //   try {
+  //     // let res = goodsDetailTabs;
+  //     let res = await getDetailsBySpuNo(details.goodsNo);
+  //     try {
+  //       let tmpGoodsDetail = res.context.goods.goodsDetail;
+  //       console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
+  //       if (tmpGoodsDetail) {
+  //         tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+  //         console.log(tmpGoodsDetail, 'tmpGoodsDetail');
+  //         for (let key in tmpGoodsDetail) {
+  //           if (tmpGoodsDetail[key]) {
+  //             console.log(tmpGoodsDetail[key], 'ghaha');
+  //             if (process.env.REACT_APP_LANG === 'fr') {
+  //               let tempObj = {};
+  //               let tempContent = '';
+  //               try {
+  //                 if (key === 'Description') {
+  //                   tmpGoodsDetail[key].map((el) => {
+  //                     if (
+  //                       Object.keys(JSON.parse(el))[0] ===
+  //                       'EretailShort Description'
+  //                     ) {
+  //                       tempContent =
+  //                         tempContent +
+  //                         `<p style="white-space: pre-line">${
+  //                           Object.values(JSON.parse(el))[0]
+  //                         }</p>`;
+  //                     }
+  //                   });
+  //                 } else if (key === 'Bénéfices') {
+  //                   tmpGoodsDetail[key].map((el) => {
+  //                     tempContent =
+  //                       tempContent +
+  //                       `<li>
+  //                       <div class="list_title">${
+  //                         Object.keys(JSON.parse(el))[0]
+  //                       }</div>
+  //                       <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+  //                         Object.values(JSON.parse(el))[0]['Description']
+  //                       }</div>
+  //                     </li>`;
+  //                   });
+  //                   tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+  //                     ${tempContent}
+  //                   </ul>`;
+  //                 } else if (key === 'Composition') {
+  //                   if (res.context.goods.goodsType !== 2) {
+  //                     tmpGoodsDetail[key].map((el) => {
+  //                       tempContent =
+  //                         tempContent +
+  //                         `<p>
                           
-                          <div class="content">${
-                            Object.values(JSON.parse(el))[0]
-                          }</div> 
-                        </p>`;
-                      });
-                    } else {
-                      tmpGoodsDetail[key].map((el) => {
-                        let contentObj = JSON.parse(el);
-                        let contentValue = '';
-                        Object.values(Object.values(contentObj)[0]).map(
-                          (el) => {
-                            contentValue += `<p>${el}</p>`;
-                          }
-                        );
-                        console.log(tempContent, 'heiheihaha');
-                        tempContent =
-                          tempContent +
-                          `
-                          <div class="title">
-                            ${Object.keys(contentObj)[0]}
-                          </div>
-                          <div class="content">${contentValue}</div> 
-                        `;
-                      });
-                    }
-                  } else {
-                    tempContent = tmpGoodsDetail[key];
-                  }
-                  goodsDetailTab.tabName.push(key);
-                  goodsDetailTab.tabContent.push(tempContent);
-                } catch (e) {
-                  console.log(e);
-                }
-              } else {
-                goodsDetailTab.tabName.push(key);
-                goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-              }
-              console.log(tmpGoodsDetail[key], 'ghaha');
-              tabs.push({ show: false });
-              // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-            }
-          }
-        }
-        setGoodsDetailTab(goodsDetailTab);
-        setTabs(tabs);
-        // this.setState({
-        //   goodsDetailTab,
-        //   tabs
-        // });
-      } catch (err) {
-        console.log(err, 'tmpGoodsDetail');
-        getDict({
-          type: 'goodsDetailTab',
-          storeId: process.env.REACT_APP_STOREID
-        }).then((res) => {
-          goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-            (ele) => ele.name
-          );
-          setGoodsDetailTab(goodsDetailTab);
+  //                         <div class="content">${
+  //                           Object.values(JSON.parse(el))[0]
+  //                         }</div> 
+  //                       </p>`;
+  //                     });
+  //                   } else {
+  //                     tmpGoodsDetail[key].map((el) => {
+  //                       let contentObj = JSON.parse(el);
+  //                       let contentValue = '';
+  //                       Object.values(Object.values(contentObj)[0]).map(
+  //                         (el) => {
+  //                           contentValue += `<p>${el}</p>`;
+  //                         }
+  //                       );
+  //                       console.log(tempContent, 'heiheihaha');
+  //                       tempContent =
+  //                         tempContent +
+  //                         `
+  //                         <div class="title">
+  //                           ${Object.keys(contentObj)[0]}
+  //                         </div>
+  //                         <div class="content">${contentValue}</div> 
+  //                       `;
+  //                     });
+  //                   }
+  //                 } else {
+  //                   tempContent = tmpGoodsDetail[key];
+  //                 }
+  //                 goodsDetailTab.tabName.push(key);
+  //                 goodsDetailTab.tabContent.push(tempContent);
+  //               } catch (e) {
+  //                 console.log(e);
+  //               }
+  //             } else {
+  //               goodsDetailTab.tabName.push(key);
+  //               goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+  //             }
+  //             console.log(tmpGoodsDetail[key], 'ghaha');
+  //             tabs.push({ show: false });
+  //             // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+  //           }
+  //         }
+  //       }
+  //       setGoodsDetailTab(goodsDetailTab);
+  //       setTabs(tabs);
+  //       // this.setState({
+  //       //   goodsDetailTab,
+  //       //   tabs
+  //       // });
+  //     } catch (err) {
+  //       console.log(err, 'tmpGoodsDetail');
+  //       getDict({
+  //         type: 'goodsDetailTab',
+  //         storeId: process.env.REACT_APP_STOREID
+  //       }).then((res) => {
+  //         goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+  //           (ele) => ele.name
+  //         );
+  //         setGoodsDetailTab(goodsDetailTab);
 
-          // this.setState({
-          //   goodsDetailTab
-          // });
-        });
-      }
-    } catch {}
-  };
-  useEffect(() => {
-    getDetail();
-    console.info('...123', details.goodsNo);
-  }, []);
+  //         // this.setState({
+  //         //   goodsDetailTab
+  //         // });
+  //       });
+  //     }
+  //   } catch {}
+  // };
+  // useEffect(() => {
+  //   getDetail();
+  //   console.info('...123', details.goodsNo);
+  // }, []);
 
   const createMarkup = (text) => ({ __html: text });
   return (

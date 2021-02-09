@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7596174",
+      "name": "Pause",
+      "font_class": "Pause",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "7605089",
+      "name": "cancel",
+      "font_class": "cancel",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "11903005",
+      "name": "language",
+      "font_class": "language",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "19728152",
+      "name": "zhuanfa",
+      "font_class": "zhuanfa",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "1397992",
+      "name": "Down",
+      "font_class": "Down",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "19572210",
+      "name": "减",
+      "font_class": "jian",
+      "unicode": "e6fd",
+      "unicode_decimal": 59133
+    },
+    {
+      "icon_id": "19572125",
+      "name": "关",
+      "font_class": "guan",
+      "unicode": "e6fb",
+      "unicode_decimal": 59131
+    },
+    {
+      "icon_id": "19572126",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e6fc",
+      "unicode_decimal": 59132
+    },
+    {
+      "icon_id": "6235951",
+      "name": "上箭头",
+      "font_class": "tubiaozhizuo-",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
       "icon_id": "19406495",
       "name": "箭头左",
       "font_class": "jiantouzuo1",

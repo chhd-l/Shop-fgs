@@ -732,6 +732,7 @@ const fr_FR = {
   submit: 'Soumettre',
   subscribeDiscount: "Enregistrer la réduction d'abonnement",
   subscription: 'Abonnements',
+  isGiftSubscription: 'Smart Feeder Subscription',
   'subscription.BillingAddress': 'Adresse de facturation',
   'subscription.cancelAll': 'Annuler l\'abonnement',
   'subscription.change': 'Changer',

@@ -15,14 +15,16 @@ import Footer from '@/components/Footer';
 import './index.less';
 import Swiper from 'swiper';
 import Selection from '@/components/Selection';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import 'swiper/swiper-bundle.min.css';
+import Slider from 'react-slick';
 import {
   getDeviceType,
   getParaByName,
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
-import goodsDetailTab from './modules/goodsDetailTab.json';
+import goodsDetailTabs from './modules/goodsDetailTab.json';
 import { sitePurchase } from '@/api/cart';
 import foodPic from './img/food_pic.png';
 import foodDispenserPic from './img/food_dispenser_pic.png';
@@ -50,8 +52,15 @@ const Step1Pc = (props) => {
             <article
               className={`rc-card rc-card--a ${item.choosed ? 'active' : ''}`}
             >
-              <picture className="rc-card__image">
-                <img src={item.goodsInfoImg} alt={item.goodsInfoName} />
+              <picture
+                className="rc-card__image"
+                style={{ paddingTop: '.5rem' }}
+              >
+                <img
+                  src={item.goodsInfoImg}
+                  alt={item.goodsInfoName}
+                  style={{ maxHeight: '10rem' }}
+                />
               </picture>
               <div className="rc-card__body">
                 <header>
@@ -105,26 +114,49 @@ class Step1H5 extends Component {
     });
   }
   render() {
+    const settings = {
+      className: 'slider variable-width',
+      // dots: true,
+      // infinite: true,
+      // centerMode: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      infinite: false,
+      variableWidth: true
+    };
     return (
       <>
         <div className="swiper-container">
-          <div className="swiper-wrapper">
+          {/* <div className="swiper-wrapper"> */}
+          <Slider {...settings}>
             {this.props.productList.map((item) => (
-              <div className="swiper-slide" key={item.goodsInfoId}>
+              <div
+                style={{ width: '15rem' }}
+                className={`swiper-slide  ${item.choosed ? 'active' : ''}`}
+                onClick={() => {
+                  this.props.clickItem(item);
+                }}
+                key={item.goodsInfoId}
+              >
                 <div>
-                  <img src={item.goodsInfoImg} />
+                  <img
+                    src={item.goodsInfoImg}
+                    className="m-auto"
+                    style={{ maxHeight: '12rem' }}
+                  />
                   <div className="title">{item.goodsInfoName}</div>
                   <div className="des">{item.goodsCateName}</div>
                 </div>
               </div>
             ))}
-          </div>
+          </Slider>
+          {/* </div> */}
           <div className="swiper-pagination"></div>
         </div>
         <div className="rc-layout-container rc-two-column  rc-text--center rc-margin-top--md">
           <div className="rc-column">
             <button
-              disabled={props.isDisabled}
+              disabled={this.props.isDisabled}
               className="rc-btn rc-btn--two button192"
               onClick={() => {
                 this.props.toOtherStep('step2');
@@ -135,7 +167,7 @@ class Step1H5 extends Component {
           </div>
           <div className="rc-column">
             <button
-              disabled={props.isDisabled}
+              disabled={this.props.isDisabled}
               className="rc-btn rc-btn--one button192"
               onClick={() => {
                 this.props.toOtherStep('step3');
@@ -196,7 +228,7 @@ const Step2 = (props) => {
           </div>
         </div>
       </div>
-      <Details goodsDetailTabs={props.goodsDetailTab} details={props.details} />
+      <Details goodsDetailTab={props.goodsDetailTab} details={props.details} />
       <div className="rc-text--center rc-md-up">
         <button
           className="rc-btn rc-btn--sm rc-btn--two button192"
@@ -246,73 +278,80 @@ const Step3 = (props) => {
   const defaultInfo = { planGifts: [{}], planProds: [{}] };
   const [detailInfo, setDetailInfo] = useState(defaultInfo);
   const [frequencyList, setFrequencyList] = useState([]);
-  const [selectedFrequency, setSelectedFrequency] = useState(6912);
+  const [selectedFrequency, setSelectedFrequency] = useState();
   const handleSelectedItemChange = (data) => {
-    setSelectedFrequency(data.id);
+    setSelectedFrequency(data.value);
+    let step3Data = Object.assign({}, detailInfo, { frequencyId: data.id });
+    props.getStep3Choosed(step3Data);
     console.info('test', data);
   };
   const getDes = async () => {
-    // let {goodsInfoId,packageId} = props.details
-    // let res = await getFoodDispenserDes({
+    let { goodsInfoId, packageId, planId } = props.details;
+    let res = await getFoodDispenserDes({
+      planId,
+      // packageId: 'PK2102012019837',
+      packageId,
+      goodsInfoId,
+      storeId: 123456858
+      // goodsInfoId: 'ff8080817314066f0173145be5c00001'
+    });
+    // let res = {
     //   planId: 'SP2102012016432',
     //   packageId: 'PK2102012019837',
-    //   // packageId,
-    //   // goodsInfoId,
-    //   storeId: 123456858,
-    //   goodsInfoId: 'ff8080817314066f0173145be5c00001'
-    // });
-    let res = {
-      planId: 'SP2102012016432',
-      packageId: 'PK2102012019837',
-      // "frequencies": ["5738", "5737"],
-      frequencies: ['6912'],
-      planProds: [
-        {
-          packageId: 'PK2102012019837',
-          goodsInfoId: 'ff8080817314066f0173145be5c00001',
-          goodsInfoName: '12121',
-          goodsNo: 'P774340554',
-          goodsInfoNo: '8774421968',
-          goodsInfoImg:
-            'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
-          specName: '10kg',
-          goodsCateName: 'VET',
-          storeCateName: 'Default category',
-          brandName: 'Royal Canin',
-          marketPrice: 100.0,
-          stock: 887,
-          quantity: 2,
-          settingPrice: 21.0
-        }
-      ],
-      planGifts: [
-        {
-          goodsInfoId: 'ff80808175dfcc3b0175e01152a00001',
-          goodsInfoName: '12',
-          goodsNo: 'P735003263',
-          goodsInfoNo: '8735031297',
-          specName: '1',
-          goodsCateName: '空气净化器',
-          storeCateName: 'Default category',
-           "goodsInfoImg": "https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png",
-          stock: 10
-        }
-      ]
-    };
+    //   // "frequencies": ["5738", "5737"],
+    //   frequencies: ['6912'],
+    //   planProds: [
+    //     {
+    //       packageId: 'PK2102012019837',
+    //       goodsInfoId: 'ff8080817314066f0173145be5c00001',
+    //       goodsInfoName: '12121',
+    //       goodsNo: 'P774340554',
+    //       goodsInfoNo: '8774421968',
+    //       goodsInfoImg:
+    //         'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
+    //       specName: '10kg',
+    //       goodsCateName: 'VET',
+    //       storeCateName: 'Default category',
+    //       brandName: 'Royal Canin',
+    //       marketPrice: 100.0,
+    //       stock: 887,
+    //       quantity: 2,
+    //       settingPrice: 21.0
+    //     }
+    //   ],
+    //   planGifts: [
+    //     {
+    //       goodsInfoId: 'ff80808175dfcc3b0175e01152a00001',
+    //       goodsInfoName: '12',
+    //       goodsNo: 'P735003263',
+    //       goodsInfoNo: '8735031297',
+    //       specName: '1',
+    //       goodsCateName: '空气净化器',
+    //       storeCateName: 'Default category',
+    //       goodsInfoImg:
+    //         'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
+    //       stock: 10
+    //    }
+    //   ]
+    // };
+    res = res.context;
     setDetailInfo(res);
     await getFrequencyDict().then((ress) => {
-      let list = ress.filter((item) =>
-        res.frequencies.includes(item.id.toString())
-      );
+      let list = ress
+        .filter((item) => res.frequencies.includes(item.id.toString()))
+        .map((item) => ({ ...item, value: item.id }));
+      console.info('list', list);
       console.info('list', list[0] && list[0].id);
       setFrequencyList(list);
+      const frequencyId = list[0] && list[0].id;
+      let step3Data = Object.assign({}, res, { frequencyId });
+      props.getStep3Choosed(step3Data);
       // 初始赋值失败
       setTimeout(() => {
         let defaultVal = list[0] && list[0].id;
-        setSelectedFrequency(defaultVal);
+        setSelectedFrequency(list[0].value);
       }, 1000);
     });
-    console.info('getFoodDispenserDes', res);
   };
   useEffect(() => {
     getDes();
@@ -335,7 +374,10 @@ const Step3 = (props) => {
       <div className="rc-layout-container rc-three-column wrap_container margin_for_1rem">
         <div className="rc-column wrap_item free_sampling">
           <div className="pad_3rem_pc">
-            <img src={detailInfo.planGifts[0].goodsInfoImg} title={detailInfo.planGifts[0].goodsInfoName} />
+            <img
+              src={detailInfo.planGifts[0].goodsInfoImg || foodDispenserPic}
+              title={detailInfo.planGifts[0].goodsInfoName}
+            />
             <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
             <p>x1 Delivered at the first shipment</p>
           </div>
@@ -350,36 +392,43 @@ const Step3 = (props) => {
               </h6>
             </div>
             <div style={{ overflow: 'hidden' }}>
-              <div
-                className="cart-and-ipay"
-                style={{ float: 'left', width: '36%' }}
-              >
-                <div className="rc-swatch __select-size">
-                  {/* <div className="rc-swatch__item selected">
+              {props.specList.map((item) => (
+                <div
+                  className="cart-and-ipay"
+                  style={{ float: 'left', width: '36%' }}
+                >
+                  <div className="rc-swatch __select-size">
+                    {/* <div className="rc-swatch__item selected">
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
                               <i></i>
                             </span>
                           </div> */}
-                  <div className="overflow-hidden">
-                    <div className="text-left ml-1 font_size12 pad_b_5">
-                      size:
-                    </div>
-                    <div
-                      className={`rc-swatch__item`}
-                      // key={i2}
-                      // onClick={() =>
-                      //   this.handleChooseSize(sdItem, pitem, index)
-                      // }
-                    >
-                      <span>
-                        3kg
-                        <i></i>
-                      </span>
+                    <div className="overflow-hidden">
+                      <div className="text-left ml-1 font_size12 pad_b_5">
+                        {item.specName}:
+                      </div>
+                      {item.chidren.map((sdItem) => (
+                        <div
+                          style={{
+                            display: `${sdItem.selected ? 'initial' : 'none'}`
+                          }}
+                          className={`rc-swatch__item`}
+                          // key={i2}
+                          // onClick={() =>
+                          //   this.handleChooseSize(sdItem, pitem, index)
+                          // }
+                        >
+                          <span>
+                            {sdItem.detailName}
+                            <i></i>
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
               <div
                 className="product-card-footer product-card-price d-flex"
                 style={{ width: '62%' }}
@@ -415,15 +464,15 @@ const Step3 = (props) => {
             </div>
             <p className="frequency">select your frequency</p>
             <div>
-              <Selection
+           {selectedFrequency && <Selection
                 customContainerStyle={{}}
                 selectedItemChange={(data) => handleSelectedItemChange(data)}
                 optionList={frequencyList}
                 selectedItemData={{
-                  value: selectedFrequency
+                  value: selectedFrequency,
                 }}
                 customStyleType="select-one"
-              />
+              />}
             </div>
           </div>
           <span className="rc-icon rc-arrow--xs rc-iconography rc-quantity__btn side_icon"></span>
@@ -437,7 +486,7 @@ const Step3 = (props) => {
                 Smart feeder subscription
               </div>
             </div>
-            <div className="font_size20">
+            <div className="font_size20 flex-fill text-right">
               {detailInfo.planProds[0].settingPrice}
             </div>
           </div>
@@ -452,11 +501,13 @@ const Step3 = (props) => {
           </div>
           <div className="d-flex font_size20 shipping">
             <div style={{ width: '70%' }}>Shipping</div>
-            <div>free</div>
+            <div className="flex-fill text-right">free</div>
           </div>
           <div className="d-flex total">
             <div style={{ width: '70%' }}>TOTAL</div>
-            <div>{detailInfo.planProds[0].settingPrice}</div>
+            <div className="flex-fill text-right">
+              {detailInfo.planProds[0].settingPrice}
+            </div>
           </div>
           <div>
             <div className="rc-layout-container rc-two-column  rc-text--center">
@@ -514,6 +565,8 @@ class SmartFeederSubscription extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      planId: '',
+      step3Choosed: {},
       quantity: 1,
       loading: false,
       headerHide: false,
@@ -564,7 +617,6 @@ class SmartFeederSubscription extends Component {
         show: false
         // config: {},
       },
-      loading: true,
       errMsg: '',
       checkOutErrMsg: '',
       addToCartLoading: false,
@@ -601,17 +653,31 @@ class SmartFeederSubscription extends Component {
       anchorElement.scrollIntoView();
     }
   };
-  toOtherStep = (stepName = 'step1') => {
-    this.setState({
-      stepName
-    });
-    this.toScroll(stepName);
+  toOtherStep = async (stepName = 'step1') => {
+    if (stepName == 'step2' || stepName == 'step3') {
+      this.getStep2Data().then(() => {
+        this.setState({
+          stepName
+        });
+        this.toScroll(stepName);
+      });
+    } else {
+      this.setState({
+        stepName
+      });
+      this.toScroll(stepName);
+    }
   };
   clickItem = (item) => {
+    let { planId } = this.state;
     let productLists = [...this.state.productList];
     let isDisabled = true;
     productLists.forEach((product) => {
-      if (item.id == product.id) {
+      console.info(
+        'item.goodsInfoId == product.goodsInfoId',
+        item.goodsInfoId == product.goodsInfoId
+      );
+      if (item.goodsInfoId == product.goodsInfoId) {
         product.choosed = true;
         isDisabled = false;
       } else {
@@ -621,9 +687,459 @@ class SmartFeederSubscription extends Component {
     this.setState({
       productList: productLists,
       isDisabled,
-      details: item
+      details: { ...item, planId }
     });
     // this.details = item;
+  };
+  getStep2Data = () => {
+    let { goodsInfoNo } = this.state.details;
+    return new Promise((resovle, reject) => {
+      getDetailsBySpuNo(goodsInfoNo)
+        .then((resList) => {
+          // .then(() => {
+          let res = resList;
+          console.info('..................', res);
+          // const res = resList[0];
+          if (res && res.context) {
+            this.setState({
+              productRate: res.context.avgEvaluate
+            });
+          }
+          if (res && res.context && res.context.goods) {
+            let pageLink = window.location.href.split('-');
+            pageLink.splice(pageLink.length - 1, 1);
+            pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
+
+            this.setState({
+              productRate: res.context.goods.avgEvaluate,
+              replyNum: res.context.goods.goodsEvaluateNum,
+              goodsId: res.context.goods.goodsId,
+              minMarketPrice: res.context.goods.minMarketPrice,
+              minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
+              details: Object.assign(this.state.details, {
+                taggingForText: (res.context.taggingList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Text' &&
+                    e.showPage &&
+                    e.showPage.includes('PDP')
+                )[0],
+                taggingForImage: (res.context.taggingList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Image' &&
+                    e.showPage &&
+                    e.showPage.includes('PDP')
+                )[0],
+                fromPrice: res.context.fromPrice,
+                toPrice: res.context.toPrice
+              }),
+              spuImages: res.context.images,
+              breadCrumbs: [{ name: res.context.goods.goodsName }],
+              pageLink
+            });
+          } else {
+            this.setState({
+              errMsg: <FormattedMessage id="details.errMsg" />
+            });
+          }
+          let sizeList = [];
+          let goodsInfos = res.context.goodsInfos || [];
+          let isSkuNoQuery = res.context.isSkuNoQuery;
+          let choosedSpecsArr = [];
+          if (isSkuNoQuery) {
+            // 通过sku查询
+            let specsItem = goodsInfos.filter(
+              (item) => item.goodsInfoNo == goodsInfoNo
+            );
+            choosedSpecsArr =
+              specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
+          }
+          if (res && res.context && res.context.goodsSpecDetails) {
+            let specList = res.context.goodsSpecs;
+            let specDetailList = res.context.goodsSpecDetails;
+            specList.map((sItem, index) => {
+              sItem.chidren = specDetailList.filter((sdItem, i) => {
+                if (index === 0) {
+                  let filterproducts = goodsInfos.filter((goodEl) =>
+                    goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+                  );
+                  sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
+                  sdItem.isEmpty = filterproducts.every(
+                    (item) => item.stock === 0
+                  );
+                }
+                return sdItem.specId === sItem.specId;
+              });
+              let defaultSelcetdSku = -1;
+              if (choosedSpecsArr.length) {
+                for (let i = 0; i < choosedSpecsArr.length; i++) {
+                  let specDetailIndex = sItem.specDetailIds.indexOf(
+                    choosedSpecsArr[i]
+                  );
+                  if (specDetailIndex > -1) {
+                    defaultSelcetdSku = specDetailIndex;
+                  }
+                }
+              }
+              console.info('defaultSelcetdSku', defaultSelcetdSku);
+              if (defaultSelcetdSku > -1) {
+                // 默认选择该sku
+                if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
+                  // 如果是sku进来的，需要默认当前sku被选择
+                  sItem.chidren[defaultSelcetdSku].selected = true;
+                }
+              } else {
+                if (
+                  process.env.REACT_APP_LANG === 'de' &&
+                  sItem.chidren.length > 1 &&
+                  !sItem.chidren[1].isEmpty
+                ) {
+                  sItem.chidren[0].selected = true;
+                } else if (
+                  sItem.chidren.length > 1 &&
+                  !sItem.chidren[1].isEmpty
+                ) {
+                  sItem.chidren[1].selected = true;
+                } else {
+                  for (let i = 0; i < sItem.chidren.length; i++) {
+                    if (sItem.chidren[i].isEmpty) {
+                    } else {
+                      sItem.chidren[i].selected = true;
+                      break;
+                    }
+                  }
+                }
+              }
+              return sItem;
+            });
+            console.log(specList, 'specList');
+            // this.setState({ specList });
+            sizeList = goodsInfos.map((g, i) => {
+              // g = Object.assign({}, g, { selected: false });
+              g = Object.assign({}, g, { selected: i === 0 });
+              if (g.selected && !g.subscriptionStatus) {
+                let { form } = this.state;
+                form.buyWay = 0;
+                this.setState({ form });
+              }
+              return g;
+            });
+            console.log(sizeList, 'sizeList');
+
+            // const selectedSize = find(sizeList, s => s.selected)
+            const { goodsDetailTab, tabs } = this.state;
+            try {
+              let tmpGoodsDetail = res.context.goods.goodsDetail;
+              if (tmpGoodsDetail) {
+                tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+                console.log(tmpGoodsDetail, 'tmpGoodsDetail');
+                for (let key in tmpGoodsDetail) {
+                  if (tmpGoodsDetail[key]) {
+                    console.log(tmpGoodsDetail[key], 'ghaha');
+                    if (
+                      process.env.REACT_APP_LANG === 'fr' ||
+                      process.env.REACT_APP_LANG === 'ru' ||
+                      process.env.REACT_APP_LANG === 'tr'
+                    ) {
+                      let tempObj = {};
+                      let tempContent = '';
+                      try {
+                        if (
+                          key === 'Description' ||
+                          key === 'Описание' ||
+                          key === 'İçindekiler'
+                        ) {
+                          tmpGoodsDetail[key].map((el) => {
+                            if (
+                              Object.keys(JSON.parse(el))[0] ===
+                              'EretailShort Description'
+                            ) {
+                              tempContent =
+                                tempContent +
+                                `<p style="white-space: pre-line">${
+                                  Object.values(JSON.parse(el))[0]
+                                }</p>`;
+                            }
+                          });
+                        } else if (
+                          key === 'Bénéfices' ||
+                          key === 'Полезные свойства' ||
+                          key === 'Yararları'
+                        ) {
+                          tmpGoodsDetail[key].map((el) => {
+                            tempContent =
+                              tempContent +
+                              `<li>
+                            <div class="list_title">${
+                              Object.keys(JSON.parse(el))[0]
+                            }</div>
+                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                              Object.values(JSON.parse(el))[0]['Description']
+                            }</div>
+                          </li>`;
+                          });
+                          tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          ${tempContent}
+                        </ul>`;
+                        } else if (
+                          key === 'Composition' ||
+                          key === 'Ингредиенты'
+                        ) {
+                          tmpGoodsDetail[key].map((el) => {
+                            tempContent =
+                              tempContent +
+                              `<p>
+                            
+                            <div class="content">${
+                              Object.values(JSON.parse(el))[0]
+                            }</div> 
+                          </p>`;
+                          });
+                        } else {
+                          tempContent = tmpGoodsDetail[key];
+                        }
+                        goodsDetailTab.tabName.push(key);
+                        goodsDetailTab.tabContent.push(tempContent);
+                      } catch (e) {
+                        console.log(e);
+                      }
+                    } else {
+                      goodsDetailTab.tabName.push(key);
+                      goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                    }
+                    console.log(tmpGoodsDetail[key], 'ghaha');
+                    tabs.push({ show: false });
+                    // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                  }
+                }
+              }
+              console.info('goodsDetailTabgoodsDetailTabgoodsDetailTab', goodsDetailTab)
+              this.setState({
+                goodsDetailTab,
+                tabs
+              });
+            } catch (err) {
+              console.log(err, 'err');
+              getDict({
+                type: 'goodsDetailTab',
+                storeId: process.env.REACT_APP_STOREID
+              }).then((res) => {
+                goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+                  (ele) => ele.name
+                );
+                this.setState({
+                  goodsDetailTab
+                });
+              });
+            }
+            let images = [];
+            images = res.context.goodsInfos;
+            this.setState({
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs
+                }
+              ),
+              images,
+              specList
+            });
+          } else {
+            let sizeList = [];
+            let goodsInfos = res.context.goodsInfos || [];
+            sizeList = goodsInfos.map((g, i) => {
+              g = Object.assign({}, g, { selected: i === 0 });
+              if (g.selected && !g.subscriptionStatus) {
+                let { form } = this.state;
+                form.buyWay = 0;
+                this.setState({ form });
+              }
+              return g;
+            });
+            const { goodsDetailTab, tabs } = this.state;
+            try {
+              let tmpGoodsDetail = res.context.goods.goodsDetail;
+              console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
+              if (tmpGoodsDetail) {
+                tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+                console.log(tmpGoodsDetail, 'tmpGoodsDetail');
+                for (let key in tmpGoodsDetail) {
+                  if (tmpGoodsDetail[key]) {
+                    console.log(tmpGoodsDetail[key], 'ghaha');
+                    if (
+                      process.env.REACT_APP_LANG === 'fr' ||
+                      process.env.REACT_APP_LANG === 'ru' ||
+                      process.env.REACT_APP_LANG === 'tr'
+                    ) {
+                      let tempObj = {};
+                      let tempContent = '';
+                      try {
+                        if (
+                          key === 'Description' ||
+                          key === 'Описание' ||
+                          key === 'İçindekiler'
+                        ) {
+                          tmpGoodsDetail[key].map((el) => {
+                            if (
+                              Object.keys(JSON.parse(el))[0] ===
+                              'EretailShort Description'
+                            ) {
+                              tempContent =
+                                tempContent +
+                                `<p style="white-space: pre-line">${
+                                  Object.values(JSON.parse(el))[0]
+                                }</p>`;
+                            } else if (
+                              Object.keys(JSON.parse(el))[0] ===
+                              'Prescriber Blod Description'
+                            ) {
+                              tempContent =
+                                tempContent +
+                                `<p style="white-space: pre-line; font-weight: 400">${
+                                  Object.values(JSON.parse(el))[0]
+                                }</p>`;
+                            } else if (
+                              Object.keys(JSON.parse(el))[0] ===
+                              'Prescriber Description'
+                            ) {
+                              tempContent =
+                                tempContent +
+                                `<p style="white-space: pre-line; font-weight: 400;">${
+                                  Object.values(JSON.parse(el))[0]
+                                }</p>`;
+                            }
+                          });
+                        } else if (
+                          key === 'Bénéfices' ||
+                          key === 'Полезные свойства' ||
+                          key === 'Yararları'
+                        ) {
+                          tmpGoodsDetail[key].map((el) => {
+                            tempContent =
+                              tempContent +
+                              `<li>
+                            <div class="list_title">${
+                              Object.keys(JSON.parse(el))[0]
+                            }</div>
+                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                              Object.values(JSON.parse(el))[0]['Description']
+                            }</div>
+                          </li>`;
+                          });
+                          tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          ${tempContent}
+                        </ul>`;
+                        } else if (key === 'Composition') {
+                          if (res.context.goods.goodsType !== 2) {
+                            tmpGoodsDetail[key].map((el) => {
+                              tempContent =
+                                tempContent +
+                                `<p>
+                              
+                              <div class="content">${
+                                Object.values(JSON.parse(el))[0]
+                              }</div> 
+                            </p>`;
+                            });
+                          } else {
+                            tmpGoodsDetail[key].map((el) => {
+                              let contentObj = JSON.parse(el);
+                              let contentValue = '';
+                              Object.values(Object.values(contentObj)[0]).map(
+                                (el) => {
+                                  contentValue += `<p>${el}</p>`;
+                                }
+                              );
+                              console.log(tempContent, 'heiheihaha');
+                              tempContent =
+                                tempContent +
+                                `
+                              <div class="title">
+                                ${Object.keys(contentObj)[0]}
+                              </div>
+                              <div class="content">${contentValue}</div> 
+                            `;
+                            });
+                          }
+                        } else {
+                          tempContent = tmpGoodsDetail[key];
+                        }
+                        goodsDetailTab.tabName.push(key);
+                        goodsDetailTab.tabContent.push(tempContent);
+                      } catch (e) {
+                        console.log(e);
+                      }
+                    } else {
+                      goodsDetailTab.tabName.push(key);
+                      goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                    }
+                    console.log(tmpGoodsDetail[key], 'ghaha');
+                    tabs.push({ show: false });
+                  }
+                }
+              }
+              this.setState({
+                goodsDetailTab,
+                tabs
+              });
+            } catch (err) {
+              console.log(err, 'tmpGoodsDetail');
+              getDict({
+                type: 'goodsDetailTab',
+                storeId: process.env.REACT_APP_STOREID
+              }).then((res) => {
+                goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+                  (ele) => ele.name
+                );
+                this.setState({
+                  goodsDetailTab
+                });
+              });
+            }
+            let images = [];
+            images = res.context.goodsInfos;
+            this.setState({
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs
+                }
+              ),
+              images
+            });
+          }
+          console.info('....');
+          resovle();
+        })
+        .catch((e) => {
+          console.log(e);
+          this.setState({
+            errMsg: e.message ? (
+              e.message.toString()
+            ) : (
+              <FormattedMessage id="details.errMsg2" />
+            )
+          });
+          console.info('???????');
+          reject();
+        })
+        .finally(() => {
+          this.setState({
+            loading: false,
+            initing: false
+          });
+        });
+      console.info('???-------------------------????');
+    });
   };
   get btnStatus() {
     return true;
@@ -638,6 +1154,10 @@ class SmartFeederSubscription extends Component {
     const utmCampaign = getParaByName(search, 'utm_campaign');
     const prefixFn = getParaByName(search, 'prefn1');
     const prefixBreed = getParaByName(search, 'prefv1');
+    const planId = getParaByName(search, 'planId');
+    this.setState({ planId }, () => {
+      this.getStep1List();
+    });
     const requestJson = {
       utmSource,
       utmMedium,
@@ -675,9 +1195,11 @@ class SmartFeederSubscription extends Component {
       instockStatus,
       form,
       details,
-      loading
+      loading,
+      step3Choosed
     } = this.state;
     const { goodsId, sizeList } = details;
+
     // 加入购物车 埋点start
     this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
@@ -685,28 +1207,40 @@ class SmartFeederSubscription extends Component {
     if (!this.btnStatus || loading) {
       throw new Error();
     }
-    const currentSelectedSize = find(sizeList, (s) => s.selected);
+    const currentSelectedSize = Object.assign(
+      step3Choosed,
+      find(sizeList, (s) => s.selected)
+    );
     let quantityNew = quantity;
-    let tmpData = Object.assign({}, details, {
-      quantity: quantityNew
-    });
-    let cartDataCopy = cloneDeep(
+    let tmpData = Object.assign(
+      {},
+      details,
+      {
+        quantity: quantityNew
+      },
+    );
+    const cartDataCopy = cloneDeep(
       toJS(checkoutStore.cartData).filter((el) => el)
     );
-
+    console.info('cartDataCopy', cartDataCopy)
     if (!instockStatus || !quantityNew) {
       throw new Error();
     }
     this.setState({ addToCartLoading: true });
     let flag = true;
     if (cartDataCopy && cartDataCopy.length) {
+      // 同一个sku，有不同planid的时候，不能合并购物车
       const historyItem = find(
         cartDataCopy,
         (c) =>
           c.goodsId === goodsId &&
+          currentSelectedSize.planId == c.planId &&
           currentSelectedSize.goodsInfoId ===
             c.sizeList.filter((s) => s.selected)[0].goodsInfoId
       );
+      //  (((currentSelectedSize.planId || c.planId) &&
+      // currentSelectedSize.planId != c.planId) ||
+      // (!currentSelectedSize.planId && !c.planId)) &&
       if (historyItem) {
         flag = false;
         quantityNew += historyItem.quantity;
@@ -759,6 +1293,7 @@ class SmartFeederSubscription extends Component {
       cartDataCopy,
       (c) =>
         c.goodsId === goodsId &&
+        currentSelectedSize.planId == c.planId &&
         currentSelectedSize.goodsInfoId ===
           find(c.sizeList, (s) => s.selected).goodsInfoId
     );
@@ -767,6 +1302,7 @@ class SmartFeederSubscription extends Component {
       selected: true,
       goodsInfoFlag: parseInt(form.buyWay)
     });
+    debugger
     if (parseInt(form.buyWay)) {
       tmpData.periodTypeId = form.frequencyId;
     }
@@ -786,6 +1322,7 @@ class SmartFeederSubscription extends Component {
         //requestJson是shelter和breeder产品的参数，有就加上
         tmpData = { ...tmpData, ...this.state.requestJson };
       }
+      console.info('tmpData', tmpData)
       cartDataCopy.push(tmpData);
     }
 
@@ -886,39 +1423,14 @@ class SmartFeederSubscription extends Component {
     }
   }
   getStep1List = async () => {
-    // let res = await getFoodDispenserList();
-    let res = {
-      code: 'K-000000',
-      message: '操作成功',
-      errorData: null,
-      context: [
-        {
-          packageId: 'PK2102012019837',
-          goodsInfoId: 'ff8080817314066f0173145be5c00001',
-          goodsInfoName: '12121',
-          goodsNo: 'P774340554',
-          goodsInfoNo: '8774421968',
-          goodsInfoImg:
-            'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
-          specName: '10kg',
-          goodsCateName: 'VET',
-          storeCateName: 'Default category',
-          brandName: 'Royal Canin',
-          marketPrice: 100,
-          stock: 887,
-          quantity: 2,
-          settingPrice: 21
-        }
-      ],
-      defaultLocalDateTime: '2021-02-02 11:51:34.983'
-    };
-    const productList = res.context;
+    const { planId } = this.state;
+    let res = await getFoodDispenserList(planId);
+    const productList = res.context?.goodInfos;
     this.setState({ productList });
     console.info('...getFoodDispenserList', res);
   };
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.getStep1List();
     this.getUrlParam();
   }
 
@@ -1084,7 +1596,7 @@ class SmartFeederSubscription extends Component {
         clinicStore,
         headerCartStore
       } = this.props;
-      const { quantity, form, details } = this.state;
+      const { quantity, form, details, planId } = this.state;
       console.info('details', details);
       this.GAAddToCar(quantity, details);
 
@@ -1096,19 +1608,22 @@ class SmartFeederSubscription extends Component {
       } else {
         currentSelectedSize = sizeList[0];
       }
-      console.info('currentSelectedSize', currentSelectedSize);
-
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
         goodsInfoFlag: parseInt(form.buyWay)
       };
-      if (parseInt(form.buyWay)) {
-        param.periodTypeId = form.frequencyId;
-      }
-
+      param.periodTypeId = this.state.step3Choosed.frequencyId;
+      param.settingPrice = this.state.step3Choosed.planProds[0].settingPrice;
       if (Object.keys(this.state.requestJson).length > 0) {
-        param = { ...param, ...this.state.requestJson };
+        let { packageId } = this.state.details;
+        param = {
+          ...param,
+          ...this.state.requestJson,
+          subscriptionPlanId: planId,
+          subscriptionPlanPromotionFlag: 0,
+          packageId: packageId
+        };
       }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
@@ -1203,6 +1718,22 @@ class SmartFeederSubscription extends Component {
       this.setState({ addToCartLoading: false });
     }
   };
+  getStep3Choosed = (data) => {
+    let {details} =  this.state
+    details.sizeList = details.sizeList.map(item=>{
+      if(item.goodsInfoId==data.planProds[0].goodsInfoId){
+        item=Object.assign({},item,data)
+        console.info(item,'000000000000000')
+      }
+      return item
+    })
+    this.setState({
+      step3Choosed: data,
+      details
+    },()=>{
+      console.info('.....details', details)
+    });
+  };
   getGoodsNo = () => find(this.state.productList, (el) => el.choosed == true);
   handleScroll = () => {
     let scrollTop =
@@ -1215,7 +1746,7 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const { headerHide, stepName } = this.state;
+    const { headerHide, stepName, goodsDetailTab } = this.state;
     let stepCom = null;
     return (
       <div>
@@ -1275,6 +1806,8 @@ class SmartFeederSubscription extends Component {
                 case 'step3':
                   stepCom = (
                     <Step3
+                      specList={this.state.specList}
+                      getStep3Choosed={this.getStep3Choosed}
                       details={this.state.details}
                       toOtherStep={this.toOtherStep}
                       hanldeAddToCart={this.hanldeAddToCart}

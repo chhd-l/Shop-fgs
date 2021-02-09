@@ -12,6 +12,11 @@
     padding: 1.25em;
   }
 }
+@media (max-width: 769px){
+  .product-summary__products__item .gift-top-border-mobile{
+    border-top: 1px solid #EAEAEA;
+  }
+}
 
 .grand-total-price {
   float: right;
@@ -43,6 +48,10 @@
   display: block;
   border-bottom: 0.063em dashed #ccc;
   margin: 0.625em -0.625em;
+}
+.multi-shipping + .product-line-item:before,
+.product-line-item + .product-line-item.no-border:before {
+  border-bottom: 0!important;
 }
 
 @media (min-width: 992px) {
@@ -1086,7 +1095,14 @@ span.ship-to-phone {
   background: #f6f6f6;
   margin-bottom: 40px;
 }
-
+.product-summary__products__item, .product-line-item{
+padding: 1rem 0;
+}
+@media(min-width:769px){
+  .product-summary__products__item, .product-line-item{
+    padding: 0.5rem 0;
+  }
+}
 .order-product-summary .bonus-product-line-item,
 .order-product-summary .product-line-item {
   background: #f6f6f6;

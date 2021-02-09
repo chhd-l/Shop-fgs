@@ -1284,6 +1284,10 @@ class Payment extends React.Component {
         )
         .map((g) => {
           return {
+            settingPrice: g.settingPrice,
+            packageId: g.packageId,
+            subscriptionPlanPromotionFlag: g.subscriptionPlanPromotionFlag,
+            subscriptionPlanId: g.subscriptionPlanId,
             utmSource: g.utmSource || '',
             utmMedium: g.utmMedium || '',
             utmCampaign: g.utmCampaign || '',

@@ -9,9 +9,11 @@ import {
   getFrequencyDict,
   getDeviceType
 } from '@/utils/utils';
+import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { getProductPetConfig } from '@/api/payment';
 import './index.css';
+import foodDispenserPic from '../../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -285,8 +287,12 @@ class LoginCart extends React.Component {
                       <Skeleton color="#f5f5f5" width="100%" count={2} />
                     </div>
                   ) : (
-                    cartData.map((item) => (
-                      <div className="minicart__product" key={item.goodsInfoId}>
+                    cartData.map((item, index) => (
+                      <div
+                        className="minicart__product"
+                        key={index}
+                        // key={item.goodsInfoId}
+                      >
                         <div>
                           <div
                             className="product-summary__products__item"
@@ -353,7 +359,12 @@ class LoginCart extends React.Component {
                                               : '#666',
                                             textDecoration: item.goodsInfoFlag
                                               ? 'line-through'
-                                              : 'inhert'
+                                              : 'inhert',
+                                            display:
+                                              item.goodsInfoFlag &&
+                                              item.subscriptionPlanGiftList
+                                                ? 'none'
+                                                : 'initial'
                                           }}
                                         >
                                           {formatMoney(
@@ -404,8 +415,12 @@ class LoginCart extends React.Component {
                                               style={{ fontSize: '14px' }}
                                             >
                                               {formatMoney(
-                                                item.subscriptionPrice *
-                                                  item.buyCount
+                                                item.goodsInfoFlag &&
+                                                  item.subscriptionPlanGiftList
+                                                  ? item.settingPrice *
+                                                      item.buyCount
+                                                  : item.subscriptionPrice *
+                                                      item.buyCount
                                               )}
                                             </span>
                                           </b>
@@ -418,138 +433,53 @@ class LoginCart extends React.Component {
                               <div className="item-options"></div>
                               <div className="line-item-promo item-07984de212e393df75a36856b6"></div>
                             </div>
-                            <div className="product-line-item-details d-flex flex-row gift-box">
-                              <div className="item-image">
-                                {/* <LazyLoad> */}
-                                <img
-                                  className="product-image"
-                                  src={item.goodsInfoImg}
-                                  alt={item.goodsName}
-                                  title={item.goodsName}
-                                />
-                                {/* </LazyLoad> */}
-                              </div>
-                              <div className="wrap-item-title">
-                                <div className="item-title">
-                                  <div
-                                    style={{ color: '#333' }}
-                                    className="line-item-name ui-text-overflow-line2 text-break"
-                                    title={item.goodsName}
-                                  >
-                                    <span className="light">
-                                      {item.goodsName}
-                                    </span>
-                                  </div>
-                                </div>
-                                {/* <div
-                                    style={{
-                                      width: '100%',
-                                      overflow: 'hidden'
-                                    }}
-                                  >
-                                    <div className="line-item-total-price justify-content-start pull-left">
-                                      <div className="item-attributes">
-                                        {process.env.REACT_APP_LANG !== 'de' ? (
-                                          <p className="line-item-attributes">
-                                            {item.specText} -{' '}
-                                            {item.buyCount > 1
-                                              ? `${item.buyCount} `
-                                              : `${item.buyCount} `}
-                                            <FormattedMessage id="quantityText" />
-                                            (s)
-                                          </p>
-                                        ) : (
-                                          <p className="line-item-attributes">
-                                            {item.specText} -{' '}
-                                            {`Anzahl: ${item.buyCount}`}
-                                          </p>
-                                        )}
+                            {console.info(
+                              'item.subscriptionPlanGiftList',
+                              toJS(item.subscriptionPlanGiftList)
+                            )}
+                            {toJS(item.planId)
+                              ? toJS(item.subscriptionPlanGiftList).map(
+                                  (gift) => (
+                                    <div className="product-line-item-details d-flex flex-row gift-box">
+                                      <div className="item-image">
+                                        {/* <LazyLoad> */}
+                                        <img
+                                          className="product-image"
+                                          src={
+                                            gift.goodsInfoImg ||
+                                            foodDispenserPic
+                                          }
+                                          alt={gift.goodsInfoName}
+                                          title={gift.goodsInfoName}
+                                        />
+                                        {/* </LazyLoad> */}
                                       </div>
-                                    </div>
-                                    <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                      <div className="item-total-07984de212e393df75a36856b6 price relative">
-                                        <div className="strike-through non-adjusted-price">
-                                          null
+                                      <div className="wrap-item-title">
+                                        <div className="item-title">
+                                          <div
+                                            style={{ color: '#333' }}
+                                            className="line-item-name ui-text-overflow-line2 text-break"
+                                            title={gift.goodsInfoName}
+                                          >
+                                            <span className="light">
+                                              {gift.goodsInfoName}
+                                            </span>
+                                          </div>
                                         </div>
-                                        <b
-                                          className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light"
+                                        <div
                                           style={{
-                                            color: item.goodsInfoFlag
-                                              ? '#888'
-                                              : '#666',
-                                            textDecoration: item.goodsInfoFlag
-                                              ? 'line-through'
-                                              : 'inhert'
+                                            width: '100%',
+                                            overflow: 'hidden',
+                                            fontSize: '12px'
                                           }}
                                         >
-                                          {formatMoney(
-                                            item.salePrice * item.buyCount
-                                          )}
-                                        </b>
-                                      </div>
-                                    </div>
-                                  </div> */}
-                                <div
-                                  style={{
-                                    width: '100%',
-                                    overflow: 'hidden',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  x1 Delivered at the first shipment
-                                </div>
-                                {/* {item.goodsInfoFlag ? (
-                                    <div
-                                      style={{
-                                        width: '100%',
-                                        overflow: 'hidden'
-                                      }}
-                                    >
-                                      <div className="line-item-total-price justify-content-start pull-left">
-                                        <div className="item-attributes">
-                                          <p className="line-item-attributes">
-                                            <FormattedMessage id="subscription.frequency" />
-                                            :{' '}
-                                            {(frequencyList || []).filter(
-                                              (el) =>
-                                                el.id === item.periodTypeId
-                                            )[0] &&
-                                              (frequencyList || []).filter(
-                                                (el) =>
-                                                  el.id === item.periodTypeId
-                                              )[0].name}
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                        <div className="item-total-07984de212e393df75a36856b6 price relative">
-                                          <div className="strike-through non-adjusted-price">
-                                            null
-                                          </div>
-                                          <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
-                                            <span
-                                              className="iconfont font-weight-bold green"
-                                              style={{ fontSize: '.8em' }}
-                                            >
-                                              &#xe675;
-                                            </span>
-                                            &nbsp;
-                                            <span
-                                              className="red"
-                                              style={{ fontSize: '14px' }}
-                                            >
-                                              {formatMoney(
-                                                item.subscriptionPrice *
-                                                  item.buyCount
-                                              )}
-                                            </span>
-                                          </b>
+                                          x1 Delivered at the first shipment
                                         </div>
                                       </div>
                                     </div>
-                                  ) : null} */}
-                              </div>
-                            </div>
+                                  )
+                                )
+                              : null}
                           </div>
                         </div>
                       </div>

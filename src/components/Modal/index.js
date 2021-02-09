@@ -6,10 +6,12 @@ export default class Modal extends React.Component {
     modalTitle: <FormattedMessage id="information" />,
     modalText: '',
     visible: false,
+    headerVisible: true,
     confirmLoading: false,
     confirmBtnText: <FormattedMessage id="yes" />,
     cancelBtnVisible: true,
-    footerVisible: true
+    footerVisible: true,
+    cancelBtnIsLink:false
   };
   close() {
     this.props.close();
@@ -42,20 +44,23 @@ export default class Modal extends React.Component {
             style={{ top: '50%', transform: 'translateY(-50%)' }}
           >
             <div className="modal-content mt-0">
-              <div className="modal-header delete-confirmation-header">
-                <h4 className="modal-title" id="removeProductLineItemModal">
-                  {this.props.modalTitle}
-                </h4>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => this.close()}
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
+              {this.props.headerVisible && (
+                <div className="modal-header delete-confirmation-header">
+                  <h4 className="modal-title" id="removeProductLineItemModal">
+                    {this.props.modalTitle}
+                  </h4>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={() => this.close()}
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+              )}
+
               <div
                 className="modal-body delete-confirmation-body"
                 style={{
@@ -68,7 +73,7 @@ export default class Modal extends React.Component {
               </div>
               {this.props.footerVisible && (
                 <div className="modal-footer">
-                  {this.props.cancelBtnVisible ? (
+                  {this.props.cancelBtnVisible && !this.props.cancelBtnIsLink? (
                     <button
                       id="modalFooterCancel"
                       type="button"
@@ -78,6 +83,17 @@ export default class Modal extends React.Component {
                     >
                       <FormattedMessage id="cancel" />
                     </button>
+                  ) : null}
+                   {this.props.cancelBtnVisible && this.props.cancelBtnIsLink? (
+                    <a
+                      id="modalFooterCancel"
+                      type="button"
+                      className="rc-styled-link"
+                      data-dismiss="modal"
+                      onClick={() => this.close()}
+                    >
+                      <FormattedMessage id="cancel" />
+                    </a>
                   ) : null}
                   <button
                     id="modalFooterConfirm"

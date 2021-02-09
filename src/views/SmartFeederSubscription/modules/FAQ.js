@@ -166,18 +166,20 @@ class FAQ extends React.Component {
                             onClick={this.handleSelect.bind(this, item.id)}
                             style={{
                               display: 'flex',
-                              padding: '1rem 2.5rem 1rem 0.5rem',
+                              padding: '1rem 0.5rem',
                               justifyContent: 'space-between'
                             }}
                           >
                             <div
+                            style={{flex:1}}
                               dangerouslySetInnerHTML={{
                                 __html: item.question
                               }}
                             ></div>
 
                             <span
-                              className={`scalemin rc-vertical-align icon-change ${
+                            style={{width: '32px'}}
+                              className={`scalemin icon-change ${
                                 this.state.showCur === item.id
                                   ? 'rc-icon rc-up rc-brand1'
                                   : 'rc-icon rc-down rc-iconography'

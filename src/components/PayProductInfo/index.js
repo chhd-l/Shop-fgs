@@ -8,6 +8,7 @@ import {
 } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
+import foodDispenserPic from '../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -52,8 +53,15 @@ class PayProductInfo extends React.Component {
     const { details } = this.props;
     console.log(plist, details, 'hahaha');
     const List = plist.map((item, i) => {
+      let isGift =
+        item.subscriptionPlanGiftList && item.subscriptionPlanGiftList.length;
+      let giftArr = item.subscriptionPlanGiftList;
       return (
-        <div className="product-summary__products__item" key={i}>
+        <div
+          className="product-summary__products__item"
+          key={i}
+          style={{ paddingBottom: 0 }}
+        >
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
@@ -117,16 +125,9 @@ class PayProductInfo extends React.Component {
                     ) : null}
                   </div>
                   <div className="line-item-total-price text-nowrap">
-                    {details.subscriptionResponseVO &&
-                    item.subscriptionStatus ? (
-                      <>
-                        <span className="text-line-through">
-                          {formatMoney(item.splitPrice)}
-                        </span>
-                        <br />
-                        <span className="red">{formatMoney(item.price)}</span>
-                      </>
-                    ) : item.price < item.splitPrice ? (
+                    {(details.subscriptionResponseVO &&
+                      item.subscriptionStatus) ||
+                    item.price < item.splitPrice ? (
                       <>
                         <span className="text-line-through">
                           {formatMoney(item.splitPrice)}
@@ -166,6 +167,123 @@ class PayProductInfo extends React.Component {
               </div>
             </div>
           </div>
+          {isGift &&
+            giftArr.map((gift) => (
+              <div className="product-line-item no-border gift-top-border-mobile">
+                <div className="product-line-item-details d-flex flex-row">
+                  <div className="item-image">
+                    <LazyLoad>
+                      <img
+                        className="product-image"
+                        src={gift.goodsInfoImg || foodDispenserPic}
+                        alt={gift.goodsInfoName}
+                        title={gift.goodsInfoName}
+                      />
+                    </LazyLoad>
+                  </div>
+                  <div className="wrap-item-title">
+                    <div className="item-title">
+                      <div
+                        className="line-item-name ui-text-overflow-line2 text-break"
+                        title={gift.goodsInfoName}
+                        // onClick={this.handleClickProName.bind(this, item)}
+                      >
+                        <span className="light">{gift.goodsInfoName}</span>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div
+                        className="line-item-total-price"
+                        style={{ width: '77%' }}
+                      >
+                        x1 Delivered at the first shipment
+                        {/* {[
+                      item.specDetails,
+                      item.num > 1
+                        ? this.props.intl.formatMessage(
+                            { id: 'items' },
+                            {
+                              val: item.num
+                            }
+                          )
+                        : this.props.intl.formatMessage(
+                            { id: 'item' },
+                            {
+                              val: item.num
+                            }
+                          )
+                    ]
+                      .filter((e) => e)
+                      .join(' - ')} */}
+                        <br />
+                        {/* {details.subscriptionResponseVO && item.goodsInfoFlag ? (
+                      <>
+                        <FormattedMessage id="subscription.frequency" /> :{' '}
+                        {matchNamefromDict(
+                          this.state.frequencyList,
+                          item.periodTypeId
+                        )}{' '}
+                        <span
+                          className="iconfont font-weight-bold green"
+                          style={{ fontSize: '.8em' }}
+                        >
+                          &#xe675;
+                        </span>
+                      </>
+                    ) : null} */}
+                      </div>
+                      {/* <div className="line-item-total-price text-nowrap" style={{display:'none'}}>
+                    {details.subscriptionResponseVO &&
+                    item.subscriptionStatus ? (
+                      <>
+                        <span className="text-line-through">
+                          {formatMoney(item.splitPrice)}
+                        </span>
+                        <br />
+                        <span className="red">{formatMoney(item.price)}</span>
+                      </>
+                    ) : item.price < item.splitPrice ? (
+                      <>
+                        <span className="text-line-through">
+                          {formatMoney(item.splitPrice)}
+                        </span>
+                        <br />
+                        <span className="red">{formatMoney(item.price)}</span>
+                      </>
+                    ) : (
+                      <span>{formatMoney(item.price)}</span>
+                    )}
+                  </div> */}
+                    </div>
+                    {/* subscriptionDiscountPrice */}
+                    {/* <div className="item-title">
+                  {item.subscriptionDiscountPrice ? (
+                    <div>
+                      <span
+                        className="iconfont font-weight-bold green"
+                        style={{ fontSize: '.8em' }}
+                      >
+                        &#xe675;
+                      </span>
+                      &nbsp;
+                      <FormattedMessage
+                        id="confirmation.subscriptionDiscountPriceDes"
+                        values={{
+                          val1: (
+                            <span className="green">
+                              {formatMoney(item.subscriptionDiscountPrice)}
+                            </span>
+                          )
+                        }}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+               */}
+                  </div>
+                </div>
+              </div>
+            ))}
         </div>
       );
     });
@@ -197,7 +315,10 @@ class PayProductInfo extends React.Component {
                 </span>
               </div>
               <div className="product-summary__recap__content">
-                <div className="checkout--padding">
+                <div
+                  className="checkout--padding"
+                  style={{ padding: '0 1.25rem 1.25rem' }}
+                >
                   {List}
                   <div className="product-summary__fees order-total-summary">
                     <div className="row leading-lines subtotal-item">
