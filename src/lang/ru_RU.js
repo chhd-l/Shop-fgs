@@ -738,7 +738,6 @@ const ru_RU = {
     "header.User.alreadyRegistered": "Уже зарегистрирован ?",
     "header.User.newUser": "Новый пользователь?",
     "header.User.registerNow": "регистр",
-    "header.User.offersAndreimbursements": "Предложения и компенсации ",
     "header.User.royalCaninPartner": "Royal Canin partner?",
     "header.User.breederPortal": "Breeder portal",
     "header.User.or": "or",

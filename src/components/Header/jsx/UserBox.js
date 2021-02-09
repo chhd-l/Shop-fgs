@@ -10,7 +10,6 @@ const userInfo = localItemRoyal.get('rc-userinfo') || null;
 
 export const UnLoginUserBox = (props) => {
   const { self, history } = props;
-  const { reimbursementsRouter } = self.props;
   return (
     <div className={`user-unLogin-popover`}>
       <div className="already">
@@ -26,17 +25,16 @@ export const UnLoginUserBox = (props) => {
           <FormattedMessage id="header.User.registerNow" />
         </Link>
       </div>
-      <div
-        className="Offers pt-2 pb-2"
-        onClick={() => {
-          self.toUrl(reimbursementsRouter);
-        }}
-      >
-        <span className="iconfont">&#xe60b;</span>{' '}
-        <span>
-          <FormattedMessage id="header.User.offersAndreimbursements" />
-        </span>
-      </div>
+      {process.env.REACT_APP_HUB_MONROYALCANIN ? (
+        <a
+          className="Offers pt-2 pb-2 text-left"
+          href={process.env.REACT_APP_HUB_MONROYALCANIN}
+          style={{ display: 'block' }}
+        >
+          <span className="iconfont iconzhuanfa mr-3" />
+          <FormattedMessage id="header.User.monRoyalCanin" />
+        </a>
+      ) : null}
 
       {process.env.REACT_APP_HUB_VET_PORTAL &&
       process.env.REACT_APP_HUB_BREEDER_PORTAL ? (
@@ -64,13 +62,9 @@ export const UnLoginUserBox = (props) => {
 export const LoginUserBox = (props) => {
   const { self } = props;
   const {
-    homeRouter,
     personInformationRouter,
     petsRouter,
-    subscriptionsRouter,
-    offersRouter,
-    faqRouter,
-    monRoyalCaninRouter
+    subscriptionsRouter
   } = self.props;
   const menuList = [
     {
@@ -163,18 +157,18 @@ export const LoginUserBox = (props) => {
           {item.text}
         </Link>
       ))}
-      <div
-        className="basicItem"
-        onClick={() => {
-          self.toUrl(monRoyalCaninRouter);
-        }}
-        style={{ borderTop: '1px solid #DEDEDE', paddingTop: '5px' }}
-      >
-        <span className="iconfont iconzhuanfa" />
-        <span>
-          <FormattedMessage id="header.User.monRoyalCanin" />
-        </span>
-      </div>
+      {process.env.REACT_APP_HUB_MONROYALCANIN ? (
+        <a
+          className="basicItem"
+          href={process.env.REACT_APP_HUB_MONROYALCANIN}
+          style={{ borderTop: '1px solid #DEDEDE', paddingTop: '5px' }}
+        >
+          <span className="iconfont iconzhuanfa" />
+          <span>
+            <FormattedMessage id="header.User.monRoyalCanin" />
+          </span>
+        </a>
+      ) : null}
     </div>
   );
 };

@@ -50,15 +50,9 @@ class Header extends React.Component {
     showNav: true,
     showLoginBtn: true,
     //User组件跳转用
-    reimbursementsRouter: '/reimbursements',
-    logoutRouter: '/logout',
-    overviewRouter: '/overview',
     personInformationRouter: '/account/information',
     petsRouter: '/account/pets',
     subscriptionsRouter: '/account/subscription',
-    offersRouter: '/offers',
-    paymentsRouter: '/payments',
-    securityRouter: '/security',
     //User组件多语言
     intl_user
   };

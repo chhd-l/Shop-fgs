@@ -1138,7 +1138,6 @@ const fr_FR = {
   "header.User.alreadyRegistered": "Déjà enregistré?",
   "header.User.newUser": "Nouvel utilisateur?",
   "header.User.registerNow": "S'inscrire maintenant",
-  "header.User.offersAndreimbursements": "Des offres & Reimbursements",
   "header.User.royalCaninPartner": "Royal Canin partner?",
   "header.User.breederPortal": "Breeder portal",
   "header.User.or": "or",

@@ -735,7 +735,6 @@ const tr_TR = {
   "header.User.alreadyRegistered": "Zaten kayıtlı?",
   "header.User.newUser": "Yeni kullanıcı?",
   "header.User.registerNow": "Şimdi üye Ol",
-  "header.User.offersAndreimbursements": "Teklifler ve Masraf Karşılama",
   "header.User.royalCaninPartner": "Royal Canin partner?",
   "header.User.breederPortal": "Breeder portal",
   "header.User.or": "or",
