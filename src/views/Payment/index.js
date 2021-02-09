@@ -841,7 +841,7 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
-      debugger;
+      // debugger;
       switch (type) {
         case 'oxxo':
           var oxxoContent = res.context;
@@ -869,19 +869,16 @@ class Payment extends React.Component {
           subOrderNumberList =
             tidList.length && tidList[0]
               ? tidList
-              : res.context && res.context[0] && res.context[0].tidList;
-          subNumber =
-            (res.context && res.context[0] && res.context[0].subscribeId) ||
-            (res.context && res.context.subscribeId) ||
-            '';
+              : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
 
           let contextType = Object.prototype.toString
             .call(res.context)
             .slice(8, -1);
           let adyenAction = '';
-          if (contextType === 'Array' && res.context[0].action) {
+          if (contextType === 'Array' && res.context.action) {
             //正常时候,res.context后台返回数组
-            adyenAction = JSON.parse(res.context[0].action);
+            adyenAction = JSON.parse(res.context.action);
             if (subOrderNumberList.length) {
               sessionItemRoyal.set(
                 'subOrderNumberList',
@@ -1089,7 +1086,6 @@ class Payment extends React.Component {
       guestEmail,
       promotionCode
     } = this.state;
-    debugger;
     let param = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
