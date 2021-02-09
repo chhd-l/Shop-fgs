@@ -1,5 +1,6 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
+import NavItem from './NavItemForHub';
 
 function DescJSX({ item }) {
   return (
@@ -15,7 +16,10 @@ function DescJSX({ item }) {
 
 function IconPanel({ item }) {
   return (
-    <div className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
+    <NavItem
+      item={item}
+      className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center"
+    >
       <div className="rc-margin-right--xs flex-grow-1">
         <span className="medium">{item.subtitle}</span>
         <div>
@@ -31,25 +35,20 @@ function IconPanel({ item }) {
           <p>{item.description}</p>
         </div>
       </div>
-      <div className="rc-padding-left--xs rc-lg-up">
-        <LazyLoad>
-          <img
-            className="ls-is-cached lazyloaded"
-            alt="Par téléphone icon"
-            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
-          />
-        </LazyLoad>
+      <div className="rc-padding-left--xs">
+        <span
+          className="iconfont red"
+          style={{ fontSize: '2rem' }}
+          dangerouslySetInnerHTML={{
+            __html: {
+              Contact: '&#xe61f;',
+              Email: '&#xe603;',
+              Advice: '&#xe64c;'
+            }[item.icon]
+          }}
+        />
       </div>
-      <div className="rc-padding-left--xs rc-md-down">
-        <LazyLoad>
-          <img
-            className="lazyload"
-            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
-            alt="Par téléphone icon"
-          />
-        </LazyLoad>
-      </div>
-    </div>
+    </NavItem>
   );
 }
 
