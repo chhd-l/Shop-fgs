@@ -326,7 +326,7 @@ class Payment extends React.Component {
       action = findUserConsentList;
       params = { customerId: this.userInfo && this.userInfo.customerId };
     }
-    const res = await action(params);
+    let res = await action(params);
     if (isLogin) {
       res = await findUserConsentList({ consentPage: 'check out' });
     } else {
