@@ -16,7 +16,7 @@ import './index.less';
 // import Swiper from 'swiper';
 import Selection from '@/components/Selection';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import 'swiper/swiper-bundle.min.css';
+// import 'swiper/swiper-bundle.min.css';
 import Slider from 'react-slick';
 import {
   getDeviceType,
