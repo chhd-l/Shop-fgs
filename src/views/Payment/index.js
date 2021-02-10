@@ -1752,9 +1752,10 @@ class Payment extends React.Component {
               {paymentTypeVal === 'payUCreditCard' && (
                 <>
                   <PayUCreditCard
-                    key={Object.values(this.defaultCardDataFromAddr || {}).join(
-                      '|'
-                    )}
+                    // todo
+                    // key={Object.values(this.defaultCardDataFromAddr || {}).join(
+                    //   '|'
+                    // )}
                     ref={this.payUCreditCardRef}
                     type={'PayUCreditCard'}
                     isLogin={this.isLogin}
