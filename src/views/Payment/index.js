@@ -901,7 +901,7 @@ class Payment extends React.Component {
         case 'adyenKlarnaPayLater':
         case 'adyenKlarnaPayNow':
         case 'directEbanking':
-          subOrderNumberList = [res.context.pId];
+          subOrderNumberList = res.context.tidList;
           // 删除本地购物车
           if (this.isLogin) {
             this.props.checkoutStore.removeLoginCartData();
@@ -915,8 +915,8 @@ class Payment extends React.Component {
           if (res.context.tid) {
             sessionItemRoyal.set('orderNumber', res.context.tid);
           }
-          if (res.context.url) {
-            window.location.href = res.context.url;
+          if (res.context.redirectUrl) {
+            window.location.href = res.context.redirectUrl;
           }
           break;
         default:
@@ -1121,7 +1121,7 @@ class Payment extends React.Component {
       param.clinicsId = clinicStore.selectClinicId;
       param.clinicsName = clinicStore.selectClinicName;
     }
-    debugger
+    debugger;
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
