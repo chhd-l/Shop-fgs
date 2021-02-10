@@ -625,7 +625,7 @@ class UnLoginCart extends React.Component {
       return (
         <div>
           <div
-            className="rc-border-all rc-border-colour--interface p-3"
+            className="rc-border-all rc-border-colour--interface product-info p-3"
             key={index}
           >
             <div
@@ -788,7 +788,7 @@ class UnLoginCart extends React.Component {
                         pitem
                       })}
                     >
-                      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
+                      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break">
                         <div className="radioBox mr-2">
                           <span
                             style={{

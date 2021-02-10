@@ -173,7 +173,10 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: process.env.REACT_APP_PDP_BUYWAY === undefined?1: parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
+        buyWay:
+          process.env.REACT_APP_PDP_BUYWAY === undefined
+            ? 1
+            : parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -186,7 +189,8 @@ class Details extends React.Component {
       seoConfig: {
         title: '',
         metaKeywords: '',
-        metaDescription: ''
+        metaDescription: '',
+        headingTag: 'h1'
       },
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
@@ -204,7 +208,7 @@ class Details extends React.Component {
   }
   async componentDidMount() {
     this.getUrlParam();
-    console.log(this.state.form.buyWay, 'buyWay')
+    console.log(this.state.form.buyWay, 'buyWay');
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -317,12 +321,18 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
       }
     );
   }
-  setGoogleProductStructuredDataMarkup () {
-    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } = this.state
+  setGoogleProductStructuredDataMarkup() {
+    const {
+      instockStatus,
+      details,
+      spuImages,
+      goodsDetailTab,
+      goodsNo
+    } = this.state;
     loadJS({
       code: JSON.stringify({
         '@context': 'http://schema.org/',
@@ -331,12 +341,14 @@ class Details extends React.Component {
         description: goodsDetailTab.tabContent[0],
         mpn: goodsNo,
         sku: goodsNo,
-        image: spuImages.map(s => s.artworkUrl),
+        image: spuImages.map((s) => s.artworkUrl),
         offers: {
           url: {},
           '@type': 'AggregateOffer',
           priceCurrency: process.env.REACT_APP_CURRENCY,
-          availability: instockStatus ? 'http://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          availability: instockStatus
+            ? 'http://schema.org/InStock'
+            : 'https://schema.org/OutOfStock',
           lowPrice: details.fromPrice,
           highPrice: details.toPrice || details.fromPrice
         }
@@ -428,7 +440,7 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
       }
     );
   }
@@ -455,7 +467,7 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
-          
+
           this.setState(
             {
               productRate: res.context.goods.avgEvaluate,
@@ -585,9 +597,16 @@ class Details extends React.Component {
                 sItem.chidren[defaultSelcetdSku].selected = true;
               }
             } else {
-              if (process.env.REACT_APP_LANG === 'de' && sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+              if (
+                process.env.REACT_APP_LANG === 'de' &&
+                sItem.chidren.length > 1 &&
+                !sItem.chidren[1].isEmpty
+              ) {
                 sItem.chidren[0].selected = true;
-              } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+              } else if (
+                sItem.chidren.length > 1 &&
+                !sItem.chidren[1].isEmpty
+              ) {
                 sItem.chidren[1].selected = true;
               } else {
                 for (let i = 0; i < sItem.chidren.length; i++) {
@@ -625,11 +644,19 @@ class Details extends React.Component {
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
+                  if (
+                    process.env.REACT_APP_LANG === 'fr' ||
+                    process.env.REACT_APP_LANG === 'ru' ||
+                    process.env.REACT_APP_LANG === 'tr'
+                  ) {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
+                      if (
+                        key === 'Description' ||
+                        key === 'Описание' ||
+                        key === 'İçindekiler'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -642,7 +669,11 @@ class Details extends React.Component {
                               }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
+                      } else if (
+                        key === 'Bénéfices' ||
+                        key === 'Полезные свойства' ||
+                        key === 'Yararları'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -658,7 +689,10 @@ class Details extends React.Component {
                         tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
                         </ul>`;
-                      } else if (key === 'Composition' || key === 'Ингредиенты') {
+                      } else if (
+                        key === 'Composition' ||
+                        key === 'Ингредиенты'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -800,11 +834,19 @@ class Details extends React.Component {
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
+                  if (
+                    process.env.REACT_APP_LANG === 'fr' ||
+                    process.env.REACT_APP_LANG === 'ru' ||
+                    process.env.REACT_APP_LANG === 'tr'
+                  ) {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
+                      if (
+                        key === 'Description' ||
+                        key === 'Описание' ||
+                        key === 'İçindekiler'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -815,13 +857,19 @@ class Details extends React.Component {
                               `<p style="white-space: pre-line">${
                                 Object.values(JSON.parse(el))[0]
                               }</p>`;
-                          }else if(Object.keys(JSON.parse(el))[0] === 'Prescriber Blod Description') {
+                          } else if (
+                            Object.keys(JSON.parse(el))[0] ===
+                            'Prescriber Blod Description'
+                          ) {
                             tempContent =
                               tempContent +
                               `<p style="white-space: pre-line; font-weight: 400">${
                                 Object.values(JSON.parse(el))[0]
                               }</p>`;
-                          }else if(Object.keys(JSON.parse(el))[0] === 'Prescriber Description') {
+                          } else if (
+                            Object.keys(JSON.parse(el))[0] ===
+                            'Prescriber Description'
+                          ) {
                             tempContent =
                               tempContent +
                               `<p style="white-space: pre-line; font-weight: 400;">${
@@ -829,7 +877,11 @@ class Details extends React.Component {
                               }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
+                      } else if (
+                        key === 'Bénéfices' ||
+                        key === 'Полезные свойства' ||
+                        key === 'Yararları'
+                      ) {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -1641,7 +1693,16 @@ class Details extends React.Component {
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    const De = process.env.REACT_APP_LANG === 'de';
+
+    let goodHeading = `<${
+      this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
+    } 
+        class="rc-gamma ui-text-overflow-line2 text-break"
+        title="${details.goodsName}">
+        ${details.goodsName}
+      </${
+        this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
+      }>`;
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
@@ -1694,7 +1755,6 @@ class Details extends React.Component {
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
-                {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
@@ -1703,27 +1763,23 @@ class Details extends React.Component {
                         <ErrMsgForCheckoutPanel
                           checkOutErrMsg={checkOutErrMsg}
                         />
-                        <h1
-                          className="rc-gamma ui-text-overflow-line2 text-break"
-                          title={details.goodsName}
-                        >
-                          {details.goodsName}
-                        </h1>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: goodHeading }}
+                        />
                         <div
                           className="desAndStars"
-                          style={{
+                        >
+                          <div className="des">
+                            <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
+                              {details.goodsNewSubtitle}
+                            </h2>
+                          </div>
+                          <div className="stars" style={{
                             display:
                               process.env.REACT_APP_LANG == 'fr'
                                 ? 'none'
                                 : 'block'
-                          }}
-                        >
-                          <div className="des">
-                            <h3 className="text-break mb-1 mt-2">
-                              {/* {details.goodsSubtitle} */}
-                            </h3>
-                          </div>
-                          <div className="stars">
+                          }}>
                             <div className="rc-card__price flex-inline">
                               <div
                                 className="display-inline"
@@ -1772,7 +1828,9 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  {process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr' ? (
+                                  {process.env.REACT_APP_LANG === 'fr' ||
+                                  process.env.REACT_APP_LANG === 'ru' ||
+                                  process.env.REACT_APP_LANG === 'tr' ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
                                       video={details.goodsVideo}
@@ -1811,17 +1869,16 @@ class Details extends React.Component {
                         <div className="wrap-short-des">
                           {!isMobile && (
                             <div className="detailHeader">
-                              <h1
-                                className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
-                                title={details.goodsName}
-                              >
-                                {details.goodsName}
-                              </h1>
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: goodHeading
+                                }}
+                              />
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
-                                  <h3 className="text-break mb-1 mt-2">
-                                    {/* {details.goodsSubtitle} */}
-                                  </h3>
+                                  <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
+                                    {details.goodsNewSubtitle}
+                                  </h2>
                                 </div>
                                 <div
                                   className="stars"
@@ -2051,8 +2108,10 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                               </div>
-                              <div className="price font-weight-normal text-right">
-                                <div className={De ? "current-unit-price" : ""}>{formatMoney(currentUnitPrice)}</div>
+                              <div className="price font-weight-normal text-right position-relative">
+                                <div>
+                                  {formatMoney(currentUnitPrice)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
+                                </div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
                                   <div
@@ -2142,8 +2201,10 @@ class Details extends React.Component {
                                 {/* Delivery 1 time only */}
                               </span>
                             </div>
-                            <div className="price font-weight-normal text-right">
-                              <div className={De ? "current-unit-price" : ""}>{formatMoney(currentUnitPrice)}</div>
+                            <div className="price font-weight-normal text-right position-relative">
+                              <div>
+                                {formatMoney(currentUnitPrice)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
+                              </div>
                               {process.env.REACT_APP_LANG === 'de' &&
                               selectedSpecItem ? (
                                 <div
@@ -2243,9 +2304,10 @@ class Details extends React.Component {
                                     </label>
                                   </div>
                                 </div>
-                                <div className="price font-weight-normal text-right">
-                                  <div className={De ? "current-unit-price" : ""}>
-                                    {formatMoney(currentSubscriptionPrice || 0)}
+                                <div className="price font-weight-normal text-right position-relative">
+                                  <div
+                                  >
+                                    {formatMoney(currentSubscriptionPrice || 0)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
                                   </div>
                                   {process.env.REACT_APP_LANG === 'de' &&
                                   selectedSpecItem ? (
@@ -2411,9 +2473,9 @@ class Details extends React.Component {
                                   key={form.frequencyId}
                                 />
                               </div>
-                              <div className="price font-weight-normal text-right">
-                                <div className={De ? "current-unit-price" : ""}>
-                                  {formatMoney(currentSubscriptionPrice || 0)}
+                              <div className="price font-weight-normal text-right position-relative">
+                                <div>
+                                  {formatMoney(currentSubscriptionPrice || 0)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
                                 </div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
@@ -2457,9 +2519,12 @@ class Details extends React.Component {
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
-                            {
-                              De ? <div className="mb-2 mr-2" style={{ fontSize: "14px" }}><span className="vat-text">Preise inkl. MwSt</span></div> : null
-                            }
+                            <div
+                                className="mb-2 mr-2"
+                                style={{ fontSize: '14px' }}
+                              >
+                                  <FormattedMessage id="pricesIncludeVAT" values={{val: <span className="red">*</span>}} defaultMessage=" " />
+                              </div>
                             <button
                               style={{ padding: '2px 30px' }}
                               className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${

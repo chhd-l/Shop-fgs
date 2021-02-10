@@ -57,10 +57,6 @@ class AdyenCreditCardForm extends React.Component {
   }
   initForm() {
     const _this = this;
-    const updateState = (data) =>
-      this.setState({ adyenFormData: data }, () => {
-        console.log('set adyen form info2', this.state.adyenFormData);
-      });
     loadJS({
       url:
         'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',

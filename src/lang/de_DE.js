@@ -1,5 +1,4 @@
 const de_DE = {
-
   aboutUs: 'ÜBER UNS',
   'aboutUs.description': 'Tiergesundheit ist der Schlüssel zu Schönheit und Wohlbefinden. Wir untersuchen sorgfältig die kleinsten physiologischen Merkmale von Hunden und Katzen, um ihre Bedürfnisse zu verstehen und ihnen eine einzigartige individuelle Ernährung anzubieten.',
   'aboutUs.FoodQualityandSafety': 'Qualität und Sicherheit von Lebensmitteln',
@@ -939,5 +938,7 @@ const de_DE = {
   'order.total': 'Gesamt',
   'order.iVAIncluido': '',
   'validPromotionCode': 'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
+  starUnit: '*',
+  pricesIncludeVAT: '{val} Preise inkl. MwSt'
 }
 export default de_DE;
