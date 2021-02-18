@@ -521,7 +521,8 @@ class Details extends React.Component {
     });
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     idArr = selectedArr.map((el) => el.specDetailId);
-    currentUnitPrice = details.marketPrice;
+    //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
+    currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
 
     details.sizeList.map((item, i) => {
       item.basePrice = 0;
@@ -557,7 +558,7 @@ class Details extends React.Component {
         currentUnitPrice = item.salePrice;
         currentLinePrice = item.linePrice;
         currentSubscriptionPrice = item.subscriptionPrice;
-        currentSubscriptionStatus = item.subscriptionStatus;
+        currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
         stock = item.stock;
       } else {
         item.selected = false;
