@@ -363,11 +363,13 @@ function ListItemBodyH5ForFr({ item }) {
       </div>
       <div className="product-price">
         {item.toPrice ? (
-          <span className="mr-1" style={{ fontSize: '.8em' }}>
-            <FormattedMessage id="startFrom" />
-          </span>
+          <>
+            <span className="mr-1" style={{ fontSize: '.8em' }}>
+              <FormattedMessage id="startFrom" />
+            </span>
+            {formatMoney(item.fromPrice)}
+          </>
         ) : null}
-        {formatMoney(item.fromPrice)}
         {item.toPrice ? (
           <>
             <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
