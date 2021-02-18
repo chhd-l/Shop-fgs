@@ -30,16 +30,8 @@ class ContactUs extends Component {
     deliveryInputChange = (e) => {
         const { address } = this.state;
         const target = e.target;
-        let value = target.type === 'checkbox' ? target.checked : target.value;
+        let value = target.value;
         const name = target.name;
-        
-        
-        // if (name === 'postCode' || name === 'phoneNumber') {
-        //     value = value.replace(/\s+/g, '');
-        // }
-        // if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
-        //     value = value.replace(/^[0]/, '+(33)');
-        // }
         address[name] = value;
         this.setState({ address });
         this.inputBlur(e);
@@ -48,7 +40,7 @@ class ContactUs extends Component {
         const { errMsgObj } = this.state;
         const target = e.target;
         const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const value = target.value;
         try {
             await validData(targetRule, { [target.name]: value });
             this.setState({
@@ -151,9 +143,6 @@ class ContactUs extends Component {
           </div>
         );
     };
-    // onKeyupEvent = (e) => {
-    //     console.log('onKeyupEvent',e)
-    // }
     phonePanelJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -177,7 +166,7 @@ class ContactUs extends Component {
             id="shippingPhoneNumber"
             value={address.phoneNumber}
             onChange={this.deliveryInputChange}
-            onBlur={this.inputBlur}
+            // onBlur={this.inputBlur}
             name="phoneNumber"
             maxLength="12"
             onKeyUp={backSpacerUP.bind(this)}

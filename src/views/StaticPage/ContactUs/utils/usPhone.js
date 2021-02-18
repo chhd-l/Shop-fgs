@@ -1,5 +1,5 @@
-var zChar = new Array(' ', '(', ')', '-', '.');
-var maxphonelength = 13;
+var zChar = new Array(' ', '(', ')', '-', '.','+');
+var maxphonelength = 12;
 var phonevalue1;
 var phonevalue2;
 var cursorposition;
@@ -12,7 +12,6 @@ function ParseForNumber2(object) {
 }
 
 function backSpacerUP(e) {
-    console.log('backSpacerUP',e.target)
     if (e) {
         e = e
     } else {
@@ -26,13 +25,14 @@ function backSpacerUP(e) {
 
     ParseForNumber1(e.target)
 
+
+    console.log(keycode)
     if (keycode >= 48) {
         ValidatePhone(e.target)
     }
 }
 
 function backSpacerDOWN(e) {
-    console.log('backSpacerDOWN',e)
     if (e) {
         e = e
     } else {
@@ -83,79 +83,40 @@ function ValidatePhone(object) {
         object.value = p
     } else if (p.length == 3) {
         pp = p;
-        d4 = p.indexOf('(')
-        d5 = p.indexOf(')')
+        d4 = p.indexOf('-')
         if (d4 == -1) {
-            pp = "(" + pp;
-        }
-        if (d5 == -1) {
-            pp = pp + ")";
+            pp = pp + "-";
         }
         object.value = pp;
-    } else if (p.length > 3 && p.length < 7) {
-        p = "(" + p;
+    } else if (p.length > 3 && p.length < 6) {
         l30 = p.length;
-        p30 = p.substring(0, 4);
-        p30 = p30 + ")"
+        p30 = p.substring(0, 3);
+        p30 = p30 + "-"
 
-        p31 = p.substring(4, l30);
+        p31 = p.substring(3, l30);
         pp = p30 + p31;
 
         object.value = pp;
 
-    } else if (p.length >= 7) {
-        p = "(" + p;
+    } else if (p.length >= 6) {
         l30 = p.length;
-        p30 = p.substring(0, 4);
-        p30 = p30 + ")"
+        p30 = p.substring(0, 3);
+        p30 = p30 + "-"
 
-        p31 = p.substring(4, l30);
+        p31 = p.substring(3, l30);
         pp = p30 + p31;
 
-        l40 = pp.length;
-        p40 = pp.substring(0, 8);
+        l40 = pp.length<=12?pp.length:10;
+        p40 = pp.substring(0, 7);
         p40 = p40 + "-"
 
-        p41 = pp.substring(8, l40);
+        p41 = pp.substring(7, l40);
         ppp = p40 + p41;
 
         object.value = ppp.substring(0, maxphonelength);
     }
 
     GetCursorPosition()
-
-    if (cursorposition >= 0) {
-        if (cursorposition == 0) {
-            cursorposition = 2
-        } else if (cursorposition <= 2) {
-            cursorposition = cursorposition + 1
-        } else if (cursorposition <= 5) {
-            cursorposition = cursorposition + 2
-        } else if (cursorposition == 6) {
-            cursorposition = cursorposition + 2
-        } else if (cursorposition == 7) {
-            cursorposition = cursorposition + 4
-            e1 = object.value.indexOf(')')
-            e2 = object.value.indexOf('-')
-            if (e1 > -1 && e2 > -1) {
-                if (e2 - e1 == 4) {
-                    cursorposition = cursorposition - 1
-                }
-            }
-        } else if (cursorposition < 11) {
-            cursorposition = cursorposition + 3
-        } else if (cursorposition == 11) {
-            cursorposition = cursorposition + 1
-        } else if (cursorposition >= 12) {
-            cursorposition = cursorposition
-        }
-
-        // var txtRange = object.createTextRange();
-        // txtRange.moveStart("character", cursorposition);
-        // txtRange.moveEnd("character", cursorposition - object.value.length);
-        // txtRange.select();
-    }
-
 }
 
 function ParseChar(sStr, sChar) {
