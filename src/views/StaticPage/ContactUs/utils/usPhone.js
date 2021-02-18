@@ -46,21 +46,6 @@ function backSpacerDOWN(e) {
     ParseForNumber2(e.target)
 }
 
-function GetCursorPosition() {
-
-    var t1 = phonevalue1;
-    var t2 = phonevalue2;
-    var bool = false
-    for (let i = 0; i < t1.length; i++) {
-        if (t1.substring(i, 1) != t2.substring(i, 1)) {
-            if (!bool) {
-                cursorposition = i
-                bool = true
-            }
-        }
-    }
-}
-
 function ValidatePhone(object) {
 
     var p = phonevalue1,
@@ -106,7 +91,7 @@ function ValidatePhone(object) {
         p31 = p.substring(3, l30);
         pp = p30 + p31;
 
-        l40 = pp.length<=12?pp.length:10;
+        l40 = pp.length<=12?pp.length:11;
         p40 = pp.substring(0, 7);
         p40 = p40 + "-"
 
@@ -114,9 +99,11 @@ function ValidatePhone(object) {
         ppp = p40 + p41;
 
         object.value = ppp.substring(0, maxphonelength);
+
     }
 
-    GetCursorPosition()
+    console.log('object.value',object.value)
+
 }
 
 function ParseChar(sStr, sChar) {

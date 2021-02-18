@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Selection from '@/components/Selection';
 import { ADDRESS_RULE } from './utils/constant';
-import {backSpacerUP,backSpacerDOWN} from "./utils/usPhone"
-import { validData } from '@/utils/utils';
+import { backSpacerUP, backSpacerDOWN } from "./utils/usPhone"
+import { getDictionary, validData } from '@/utils/utils';
 import "./index.less"
 
 class ContactUs extends Component {
@@ -14,8 +15,11 @@ class ContactUs extends Component {
             address: {
                 firstName: '',
                 lastName: '',
-                email:'',
+                email: '',
                 phoneNumber: '',
+                orderNumber: '',
+                request:'',
+
                 address1: '',
                 address2: '',
                 rfc: '',
@@ -24,9 +28,12 @@ class ContactUs extends Component {
                 cityName: '',
                 postCode: '',
             },
+            countryList: [],
             errMsgObj: {}
         }
     }
+
+
     deliveryInputChange = (e) => {
         const { address } = this.state;
         const target = e.target;
@@ -56,6 +63,23 @@ class ContactUs extends Component {
             });
         }
     };
+    handleSelectedItemChange(key, data) {
+        const { address } = this.state;
+        address[key] = data.value;
+        this.setState({ address });
+    }
+    computedList(key) {
+        let tmp = this.state[`${key}List`].map((c) => {
+            return {
+                value: c.id.toString(),
+                name: c.name
+            };
+        });
+        tmp.unshift({ value: '', name: '' });
+        return tmp;
+    }
+
+
     firstNameJSX = () => {
         const { address, errMsgObj } = this.state
         return (
@@ -88,98 +112,170 @@ class ContactUs extends Component {
     lastNameJSX = () => {
         const { address, errMsgObj } = this.state;
         return (
-          <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
-            <label className="form-control-label" htmlFor="shippingLastName">
-              <FormattedMessage id="payment.lastName" />
-            </label>
-            <span
-              className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-              input-setup="true"
-            >
-              <input
-                className="rc-input__control shippingLastName"
-                id="shippingLastName"
-                type="text"
-                value={address.lastName}
-                onChange={this.deliveryInputChange}
-                onBlur={this.inputBlur}
-                name="lastName"
-                maxLength="50"
-              />
-              <label className="rc-input__label" htmlFor="id-text1" />
-            </span>
-            {errMsgObj.lastName && (
-              <div className="text-danger-2">{errMsgObj.lastName}</div>
-            )}
-          </div>
+            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+                <label className="form-control-label" htmlFor="shippingLastName">
+                    <FormattedMessage id="payment.lastName" />
+                </label>
+                <span
+                    className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                    input-setup="true"
+                >
+                    <input
+                        className="rc-input__control shippingLastName"
+                        id="shippingLastName"
+                        type="text"
+                        value={address.lastName}
+                        onChange={this.deliveryInputChange}
+                        onBlur={this.inputBlur}
+                        name="lastName"
+                        maxLength="50"
+                    />
+                    <label className="rc-input__label" htmlFor="id-text1" />
+                </span>
+                {errMsgObj.lastName && (
+                    <div className="text-danger-2">{errMsgObj.lastName}</div>
+                )}
+            </div>
         )
     }
     emailPanelJSX = () => {
         const { address, errMsgObj } = this.state;
         return (
-          <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
-            <label className="form-control-label" htmlFor="shippingEmail">
-              <FormattedMessage id="email" />
-            </label>
-            <span
-              className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-              input-setup="true"
-            >
-              <input
-                type="email"
-                className="rc-input__control input__phoneField shippingPhoneNumber"
-                id="shippingEmail"
-                value={address.email}
-                onChange={this.deliveryInputChange}
-                onBlur={this.inputBlur}
-                name="email"
-                maxLength="254"
-              />
-              <label className="rc-input__label" htmlFor="shippingEmail" />
-            </span>
-            {errMsgObj.email && (
-              <div className="text-danger-2">{errMsgObj.email}</div>
-            )}
-          </div>
+            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+                <label className="form-control-label" htmlFor="shippingEmail">
+                    <FormattedMessage id="email" />
+                </label>
+                <span
+                    className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+                    input-setup="true"
+                >
+                    <input
+                        type="email"
+                        className="rc-input__control input__phoneField shippingPhoneNumber"
+                        id="shippingEmail"
+                        value={address.email}
+                        onChange={this.deliveryInputChange}
+                        onBlur={this.inputBlur}
+                        name="email"
+                        maxLength="254"
+                    />
+                    <label className="rc-input__label" htmlFor="shippingEmail" />
+                </span>
+                {errMsgObj.email && (
+                    <div className="text-danger-2">{errMsgObj.email}</div>
+                )}
+            </div>
         );
     };
     phonePanelJSX = () => {
-    const { address, errMsgObj } = this.state;
-    return (
-        <div
-        className={[
-            'form-group',
-            'dwfrm_shipping_shippingAddress_addressFields_phone',
-        ].join(' ')}
-        >
-        {' '}
-        <label className="form-control-label" htmlFor="shippingPhoneNumber">
-            <FormattedMessage id="payment.phoneNumber" />
-        </label>
-        <span
-            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-            input-setup="true"
-        >
-            <input
-            type="tel"
-            className="rc-input__control input__phoneField shippingPhoneNumber"
-            id="shippingPhoneNumber"
-            value={address.phoneNumber}
-            onChange={this.deliveryInputChange}
-            // onBlur={this.inputBlur}
-            name="phoneNumber"
-            maxLength="12"
-            onKeyUp={backSpacerUP.bind(this)}
-            onKeyDown={backSpacerDOWN.bind(this)}
-            />
-            <label className="rc-input__label" htmlFor="shippingPhoneNumber" />
-        </span>
-        {errMsgObj.phoneNumber && (
-            <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
-        )}
-        </div>
-    );
+        const { errMsgObj } = this.state;
+        return (
+            <div
+                className={[
+                    'form-group',
+                    'dwfrm_shipping_shippingAddress_addressFields_phone',
+                ].join(' ')}
+            >
+                {' '}
+                <label className="form-control-label" htmlFor="shippingPhoneNumber">
+                    <FormattedMessage id="payment.phoneNumber" />
+                </label>
+                <span
+                    className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+                    input-setup="true"
+                >
+                    <input
+                        type="tel"
+                        className="rc-input__control input__phoneField shippingPhoneNumber"
+                        id="shippingPhoneNumber"
+                        onChange={this.deliveryInputChange}
+                        onBlur={this.inputBlur}
+                        name="phoneNumber"
+                        maxLength="12"
+                        onKeyUp={backSpacerUP.bind(this)}
+                        onKeyDown={backSpacerDOWN.bind(this)}
+                    />
+                    <label className="rc-input__label" htmlFor="shippingPhoneNumber" />
+                </span>
+                {errMsgObj.phoneNumber && (
+                    <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
+                )}
+            </div>
+        );
     };
+    orderNumberJSX = () => {
+        const { address } = this.state;
+        return (
+            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_phone">
+                <label className="form-control-label" htmlFor="contactUsOrderNumber">
+                    <FormattedMessage id="contactUs.orderNumber" />
+                </label>
+                <span
+                    className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+                    input-setup="true"
+                >
+                    <input
+                        type="text"
+                        className="rc-input__control input__phoneField shippingPhoneNumber"
+                        id="contactUsOrderNumber"
+                        value={address.request}
+                        onChange={this.deliveryInputChange}
+                        onBlur={this.inputBlur}
+                        name="request"
+                        maxLength="254"
+                    />
+                    <label className="rc-input__label" htmlFor="contactUsOrderNumber" />
+                </span>
+            </div>
+        );
+    };
+    myQuestionJSX = () => {
+        const { address, errMsgObj } = this.state;
+        return (
+            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
+                <label className="form-control-label">
+                    <FormattedMessage id="contactUs.myQuestion" />
+                </label>
+                <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
+                    <Selection
+                        selectedItemChange={(data) =>
+                            this.handleSelectedItemChange('country', data)
+                        }
+                        optionList={this.computedList('country')}
+                        selectedItemData={{
+                            value: address.country
+                        }}
+                        key={address.country}
+                    />
+                </span>
+            </div>
+        )
+    }
+    requestJSX = () => {
+        const { address, errMsgObj } = this.state;
+        return (
+            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+                <label className="form-control-label" htmlFor="contactUsOrderNumber">
+                    <FormattedMessage id="contactUs.request" />
+                </label>
+                <span class="rc-input">
+                    <textarea 
+                    class="rc-input__textarea" 
+                    id="id-textarea"
+                    value={address.orderNumber}
+                    onChange={this.deliveryInputChange}
+                    onBlur={this.inputBlur}
+                    name="orderNumber"
+                    maxLength="254"
+                    ></textarea>
+                </span>
+                {errMsgObj.lastName && (
+                    <div className="text-danger-2">{errMsgObj.lastName}</div>
+                )}
+            </div>
+        )
+    }
+
     render() {
         return (
             <div className="contactUs">
@@ -221,6 +317,9 @@ class ContactUs extends Component {
                                     {this.lastNameJSX()}
                                     {this.emailPanelJSX()}
                                     {this.phonePanelJSX()}
+                                    {this.orderNumberJSX()}
+                                    {this.myQuestionJSX()}
+                                    {this.requestJSX()}
                                 </form>
                             </div>
                         </div>
@@ -229,6 +328,13 @@ class ContactUs extends Component {
                 <Footer />
             </div>
         )
+    }
+    componentDidMount() {
+        getDictionary({ type: 'country' }).then((res) => {
+            this.setState({
+                countryList: res
+            });
+        });
     }
 }
 export default ContactUs
