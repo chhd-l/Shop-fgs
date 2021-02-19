@@ -18,7 +18,7 @@ class ContactUs extends Component {
                 email: '',
                 phoneNumber: '',
                 orderNumber: '',
-                request:'',
+                request: '',
 
                 address1: '',
                 address2: '',
@@ -88,11 +88,11 @@ class ContactUs extends Component {
                     <FormattedMessage id="payment.firstName" />
                 </label>
                 <span
-                    className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width",errMsgObj.firstName?"rc-input--error":""].join(" ")}
                     input-setup="true"
                 >
                     <input
-                        className="rc-input__control shippingFirstName"
+                        className="rc-input__control"
                         id="shippingFirstName"
                         type="text"
                         value={address.firstName}
@@ -117,11 +117,11 @@ class ContactUs extends Component {
                     <FormattedMessage id="payment.lastName" />
                 </label>
                 <span
-                    className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width",errMsgObj.lastName?"rc-input--error":""].join(" ")}
                     input-setup="true"
                 >
                     <input
-                        className="rc-input__control shippingLastName"
+                        className="rc-input__control"
                         id="shippingLastName"
                         type="text"
                         value={address.lastName}
@@ -146,12 +146,12 @@ class ContactUs extends Component {
                     <FormattedMessage id="email" />
                 </label>
                 <span
-                    className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width",errMsgObj.email?"rc-input--error":""].join(" ")}
                     input-setup="true"
                 >
                     <input
                         type="email"
-                        className="rc-input__control input__phoneField shippingPhoneNumber"
+                        className="rc-input__control"
                         id="shippingEmail"
                         value={address.email}
                         onChange={this.deliveryInputChange}
@@ -186,7 +186,7 @@ class ContactUs extends Component {
                 >
                     <input
                         type="tel"
-                        className="rc-input__control input__phoneField shippingPhoneNumber"
+                        className="rc-input__control"
                         id="shippingPhoneNumber"
                         onChange={this.deliveryInputChange}
                         onBlur={this.inputBlur}
@@ -258,20 +258,17 @@ class ContactUs extends Component {
                 <label className="form-control-label" htmlFor="contactUsOrderNumber">
                     <FormattedMessage id="contactUs.request" />
                 </label>
-                <span class="rc-input">
-                    <textarea 
-                    class="rc-input__textarea" 
-                    id="id-textarea"
-                    value={address.orderNumber}
-                    onChange={this.deliveryInputChange}
-                    onBlur={this.inputBlur}
-                    name="orderNumber"
-                    maxLength="254"
+                <span class="rc-input" style={{maxWidth:"480px"}}>
+                    <textarea
+                        class="rc-input__textarea"
+                        id="id-textarea"
+                        value={address.orderNumber}
+                        onChange={this.deliveryInputChange}
+                        onBlur={this.inputBlur}
+                        name="orderNumber"
+                        maxLength="254"
                     ></textarea>
                 </span>
-                {errMsgObj.lastName && (
-                    <div className="text-danger-2">{errMsgObj.lastName}</div>
-                )}
             </div>
         )
     }
@@ -286,7 +283,7 @@ class ContactUs extends Component {
                     history={this.props.history}
                     match={this.props.match}
                 />
-                <div className="rc-content--fixed-header rc-bg-colour--brand3">
+                <div className="rc-content--fixed-header rc-bg-colour--brand3" style={{ background: '#f6f6f6' }}>
                     <div className="contact-us-form talk-to-us">
                         <p>
                             <i>
@@ -309,19 +306,17 @@ class ContactUs extends Component {
                         </div>
                     </div>
                     <div className="FAQ__section rc-padding--md">
-                        <div className="FAQ__section rc-padding--md">
-                            <div className="contact__form">
-                                <h1>Contact Us</h1>
-                                <form>
-                                    {this.firstNameJSX()}
-                                    {this.lastNameJSX()}
-                                    {this.emailPanelJSX()}
-                                    {this.phonePanelJSX()}
-                                    {this.orderNumberJSX()}
-                                    {this.myQuestionJSX()}
-                                    {this.requestJSX()}
-                                </form>
-                            </div>
+                        <div className="contact__form">
+                            <h1>Contact Us</h1>
+                            <form>
+                                {this.firstNameJSX()}
+                                {this.lastNameJSX()}
+                                {this.emailPanelJSX()}
+                                {this.phonePanelJSX()}
+                                {this.orderNumberJSX()}
+                                {this.myQuestionJSX()}
+                                {this.requestJSX()}
+                            </form>
                         </div>
                     </div>
                 </div>
