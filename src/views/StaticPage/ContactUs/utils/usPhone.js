@@ -26,7 +26,6 @@ function backSpacerUP(e) {
     ParseForNumber1(e.target)
 
 
-    console.log(keycode)
     if (keycode >= 48) {
         ValidatePhone(e.target)
     }
@@ -101,8 +100,6 @@ function ValidatePhone(object) {
         object.value = ppp.substring(0, maxphonelength);
 
     }
-
-    console.log('object.value',object.value)
 
 }
 

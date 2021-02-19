@@ -19,39 +19,8 @@ export const ADDRESS_RULE = [
     errMsg: CURRENT_LANGFILE['contactUs.requiredField']
   },
   {
-    key: 'phoneNumber',
-    //regExp: process.env.REACT_APP_LANG === 'fr' ? /[+(33)|0]\d{9}$/ : '',
-    require: false,
-    errMsg: ""
+    key: 'request',
+    require: true,
+    errMsg: CURRENT_LANGFILE['contactUs.requiredField']
   },
-//   {
-//     key: 'address1',
-//     require: true,
-//     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
-//       /{.+}/,
-//       CURRENT_LANGFILE['payment.address1']
-//     )
-//   },
-//   {
-//     key: 'country',
-//     require: true,
-//     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
-//       /{.+}/,
-//       CURRENT_LANGFILE['payment.country']
-//     )
-//   },
-//   {
-//     key: 'city',
-//     require: true,
-//     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
-//       /{.+}/,
-//       CURRENT_LANGFILE['payment.city']
-//     )
-//   },
-//   {
-//     key: 'postCode',
-//     regExp: /^\d{5}$/,
-//     require: true,
-//     errMsg: CURRENT_LANGFILE['enterCorrectPostCode']
-//   }
 ];

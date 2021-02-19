@@ -5,12 +5,15 @@ import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
 import { ADDRESS_RULE } from './utils/constant';
 import { backSpacerUP, backSpacerDOWN } from "./utils/usPhone"
-import { getDictionary, validData } from '@/utils/utils';
+import { validData } from '@/utils/utils';
 import "./index.less"
 
 class ContactUs extends Component {
     constructor(props) {
         super(props)
+        // 创建一个ref去储存textInput DOM元素
+        this.textInput = React.createRef();
+
         this.state = {
             address: {
                 firstName: '',
@@ -18,16 +21,15 @@ class ContactUs extends Component {
                 email: '',
                 phoneNumber: '',
                 orderNumber: '',
+                question:'1001',
                 request: '',
-
-                address1: '',
-                address2: '',
-                rfc: '',
-                country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
-                city: '',
-                cityName: '',
-                postCode: '',
             },
+            questionList:[
+                {value:'1001',name:'General Information'},
+                {value:'1002',name:'Order Status'},
+                {value:'1003',name:'My Account'},
+                {value:'1004',name:'Other'},
+            ],
             countryList: [],
             errMsgObj: {}
         }
@@ -68,27 +70,27 @@ class ContactUs extends Component {
         address[key] = data.value;
         this.setState({ address });
     }
-    computedList(key) {
-        let tmp = this.state[`${key}List`].map((c) => {
-            return {
-                value: c.id.toString(),
-                name: c.name
-            };
-        });
-        tmp.unshift({ value: '', name: '' });
-        return tmp;
+    allRequiredChecked=()=>{
+        const {firstName,lastName,email,request} = this.state.address
+        if(firstName&&lastName&&email&&request) return true
     }
-
+    submitEvent(){
+        const { address } = this.state;
+        address.phoneNumber = this.textInput.current.value
+        this.setState({
+            address
+        })
+    }
 
     firstNameJSX = () => {
         const { address, errMsgObj } = this.state
         return (
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
+            <div className="form-group required">
                 <label className="form-control-label" htmlFor="shippingFirstName">
                     <FormattedMessage id="payment.firstName" />
                 </label>
                 <span
-                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width",errMsgObj.firstName?"rc-input--error":""].join(" ")}
+                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width", errMsgObj.firstName ? "rc-input--error" : ""].join(" ")}
                     input-setup="true"
                 >
                     <input
@@ -112,12 +114,12 @@ class ContactUs extends Component {
     lastNameJSX = () => {
         const { address, errMsgObj } = this.state;
         return (
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+            <div className="form-group required">
                 <label className="form-control-label" htmlFor="shippingLastName">
                     <FormattedMessage id="payment.lastName" />
                 </label>
                 <span
-                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width",errMsgObj.lastName?"rc-input--error":""].join(" ")}
+                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width", errMsgObj.lastName ? "rc-input--error" : ""].join(" ")}
                     input-setup="true"
                 >
                     <input
@@ -141,12 +143,12 @@ class ContactUs extends Component {
     emailPanelJSX = () => {
         const { address, errMsgObj } = this.state;
         return (
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+            <div className="form-group required">
                 <label className="form-control-label" htmlFor="shippingEmail">
                     <FormattedMessage id="email" />
                 </label>
                 <span
-                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width",errMsgObj.email?"rc-input--error":""].join(" ")}
+                    className={["rc-input", "rc-input--inline", "rc-full-width", "rc-input--full-width", errMsgObj.email ? "rc-input--error" : ""].join(" ")}
                     input-setup="true"
                 >
                     <input
@@ -168,14 +170,9 @@ class ContactUs extends Component {
         );
     };
     phonePanelJSX = () => {
-        const { errMsgObj } = this.state;
+        const {address, errMsgObj } = this.state;
         return (
-            <div
-                className={[
-                    'form-group',
-                    'dwfrm_shipping_shippingAddress_addressFields_phone',
-                ].join(' ')}
-            >
+            <div className="form-group">
                 {' '}
                 <label className="form-control-label" htmlFor="shippingPhoneNumber">
                     <FormattedMessage id="payment.phoneNumber" />
@@ -185,9 +182,11 @@ class ContactUs extends Component {
                     input-setup="true"
                 >
                     <input
+                        ref={this.textInput}
                         type="tel"
                         className="rc-input__control"
                         id="shippingPhoneNumber"
+                        //value={address.phoneNumber}
                         onChange={this.deliveryInputChange}
                         onBlur={this.inputBlur}
                         name="phoneNumber"
@@ -206,7 +205,7 @@ class ContactUs extends Component {
     orderNumberJSX = () => {
         const { address } = this.state;
         return (
-            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_phone">
+            <div className="form-group">
                 <label className="form-control-label" htmlFor="contactUsOrderNumber">
                     <FormattedMessage id="contactUs.orderNumber" />
                 </label>
@@ -216,12 +215,12 @@ class ContactUs extends Component {
                 >
                     <input
                         type="text"
-                        className="rc-input__control input__phoneField shippingPhoneNumber"
+                        className="rc-input__control"
                         id="contactUsOrderNumber"
-                        value={address.request}
+                        value={address.orderNumber}
                         onChange={this.deliveryInputChange}
                         onBlur={this.inputBlur}
-                        name="request"
+                        name="orderNumber"
                         maxLength="254"
                     />
                     <label className="rc-input__label" htmlFor="contactUsOrderNumber" />
@@ -232,20 +231,20 @@ class ContactUs extends Component {
     myQuestionJSX = () => {
         const { address, errMsgObj } = this.state;
         return (
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
+            <div className="form-group required">
                 <label className="form-control-label">
                     <FormattedMessage id="contactUs.myQuestion" />
                 </label>
                 <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
                     <Selection
                         selectedItemChange={(data) =>
-                            this.handleSelectedItemChange('country', data)
+                            this.handleSelectedItemChange('question', data)
                         }
-                        optionList={this.computedList('country')}
+                        optionList={this.state.questionList}
                         selectedItemData={{
-                            value: address.country
+                            value: address.question
                         }}
-                        key={address.country}
+                        key={address.question}
                     />
                 </span>
             </div>
@@ -254,24 +253,29 @@ class ContactUs extends Component {
     requestJSX = () => {
         const { address, errMsgObj } = this.state;
         return (
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+            <div className="form-group required">
                 <label className="form-control-label" htmlFor="contactUsOrderNumber">
                     <FormattedMessage id="contactUs.request" />
                 </label>
-                <span class="rc-input" style={{maxWidth:"480px"}}>
+                <span class={["rc-input",errMsgObj.request?"rc-input--error":""].join(" ")} style={{ maxWidth: "480px" }}>
                     <textarea
                         class="rc-input__textarea"
                         id="id-textarea"
-                        value={address.orderNumber}
+                        value={address.request}
                         onChange={this.deliveryInputChange}
                         onBlur={this.inputBlur}
-                        name="orderNumber"
+                        name="request"
                         maxLength="254"
                     ></textarea>
                 </span>
+                {errMsgObj.request && (
+                    <div className="text-danger-2">{errMsgObj.request}</div>
+                )}
             </div>
         )
     }
+
+    
 
     render() {
         return (
@@ -308,28 +312,30 @@ class ContactUs extends Component {
                     <div className="FAQ__section rc-padding--md">
                         <div className="contact__form">
                             <h1>Contact Us</h1>
-                            <form>
-                                {this.firstNameJSX()}
-                                {this.lastNameJSX()}
-                                {this.emailPanelJSX()}
-                                {this.phonePanelJSX()}
-                                {this.orderNumberJSX()}
-                                {this.myQuestionJSX()}
-                                {this.requestJSX()}
-                            </form>
+                            {this.firstNameJSX()}
+                            {this.lastNameJSX()}
+                            {this.emailPanelJSX()}
+                            {this.phonePanelJSX()}
+                            {this.orderNumberJSX()}
+                            {this.myQuestionJSX()}
+                            {this.requestJSX()}
+                            <div className="form-group">
+                                <div className="content-asset">
+                                    <p>
+                                        <em>The personal data submitted via this form will be retained only for the purpose of responding to your question or concern, and will not be used for marketing purposes.<br /></em>
+                                        <em>You must be 13 years old or older to submit a form.</em>
+                                    </p>
+                                </div>
+                            </div>
+                            <button disabled={!this.allRequiredChecked()} onClick={this.submitEvent.bind(this)} className="btn btn-block btn-primary" name="send" style={{ width: '200px',cursor:this.allRequiredChecked()?"pointer":"not-allowed" }}>
+                                Submit
+                            </button>
                         </div>
                     </div>
                 </div>
                 <Footer />
             </div>
         )
-    }
-    componentDidMount() {
-        getDictionary({ type: 'country' }).then((res) => {
-            this.setState({
-                countryList: res
-            });
-        });
     }
 }
 export default ContactUs
