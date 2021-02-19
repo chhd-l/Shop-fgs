@@ -57,7 +57,7 @@ class SubscriptionLanding extends React.Component {
         filters: '',
       }
     };
-
+    
     return (
       <div className="recommendation">
         <Helmet>

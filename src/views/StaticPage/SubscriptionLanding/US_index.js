@@ -52,7 +52,7 @@ class Help extends React.Component {
         theme: ''
       }
     };
-
+console.log('+++++++++++++++++++++++++');
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
