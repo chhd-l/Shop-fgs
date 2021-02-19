@@ -300,7 +300,7 @@ class MarsFooterMap extends React.Component {
             <div className="mars-footer-legal">
               {' '}
               <p className="text-center">
-                Copyright © Mars 2020®, Trademark of Mars Incorporated and its
+                Copyright © Mars 2021®, Trademark of Mars Incorporated and its
                 affiliates
               </p>{' '}
             </div>{' '}

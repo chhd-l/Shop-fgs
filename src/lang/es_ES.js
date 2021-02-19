@@ -268,7 +268,7 @@ const es_ES = {
   'footer.contactUs': 'Contacto',
   'footer.cookieCollectionPolicy': 'Política de recopilación de cookies',
   'footer.cookies': 'Galleta',
-  'footer.copyrightInfo': 'Copyright © Mars 2020®, Marca registrada de Mars Incorporated y sus afiliados',
+  'footer.copyrightInfo': 'Copyright © Mars 2021®, Marca registrada de Mars Incorporated y sus afiliados',
   'footer.FAQ': 'Preguntas frecuentes',
   'footer.healthAndNutrition': 'Nutrición específica',
   'footer.help': 'AYUDA',

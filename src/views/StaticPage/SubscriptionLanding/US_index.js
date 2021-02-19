@@ -42,7 +42,7 @@ class Help extends React.Component {
       categoryId: '',
       pageName: 'Subscription Page'
     }).then(res => {
-      this.setState({seoConfig: res})
+      this.setState({ seoConfig: res })
     });
   }
   render(h) {
@@ -52,15 +52,15 @@ class Help extends React.Component {
         theme: ''
       }
     };
-console.log('+++++++++++++++++++++++++');
+
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta name="description" content={this.state.seoConfig.metaDescription} />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -94,19 +94,9 @@ console.log('+++++++++++++++++++++++++');
             </div>
           </section>
 
-          <div
-            className="rc-layout-container rc-two-column"
-            style={{ padding: '20px 80px' }}
-          >
-            <div
-              className="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <div style={{ width: '550px' }}>
+          <div className="rc-layout-container rc-two-column" style={{ padding: '20px 80px' }}>
+            <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
+              <div className="rc-column" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div>
                   <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
                   <strong>The Royal Canin Pet Advisor Live App</strong> - chat
@@ -126,151 +116,147 @@ console.log('+++++++++++++++++++++++++');
                   <strong>Personalized Recommendations</strong> - get breeder
                   recommendations for pet food and products as your pet grows.
                 </div>
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ width: '100%', marginTop: '20px' }}>
                   <Link className="rc-btn rc-btn--one" to="/cats">
                     <FormattedMessage id="subscriptionLanding.catButton" />
                   </Link>
-                </div>
-                <div style={{ marginTop: '20px' }}>
+
                   <Link className="rc-btn rc-btn--one" to="/dogs">
                     <FormattedMessage id="subscriptionLanding.dogButton" />
                   </Link>
                 </div>
               </div>
-            </div>
-            <div className="rc-column">
-              <LazyLoad>
-                <img src={autoship} style={{ width: '100%' }} alt="" />
-              </LazyLoad>
+              <div className="rc-column">
+                <LazyLoad>
+                  <img src={autoship} style={{ width: '100%' }} alt="" />
+                </LazyLoad>
+              </div>
             </div>
           </div>
-          <section
-            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
-          >
+          <div className="experience-component experience-assets-divider">
+            <div className="rc-border-bottom rc-border-colour--brand4" style={{ borderBottomWidth: '4px' }}></div>
+          </div>
+          <section style={{ textAlign: 'center', width: '50%', margin: '4rem auto 0' }}>
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               How to Join Royal Canin Club
             </h2>
           </section>
-          <div
-            className="rc-layout-container rc-four-column"
-            style={{ padding: '20px 80px' }}
-          >
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={icon1}
-                  style={{
-                    width: '100px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-              <p>
-                Find your <strong>handpicked nutrition products</strong> in your
+          <div className="rc-layout-container rc-four-column" style={{ padding: '20px 80px' }}>
+            <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
+              <div className="rc-column" style={{ textAlign: 'center' }}>
+                <LazyLoad style={{ margin: '0 auto' }}>
+                  <img
+                    alt=""
+                    src={icon1}
+                    style={{
+                      width: '100px',
+                      display: 'inline-block',
+                      marginBottom: '20px'
+                    }}
+                  />
+                </LazyLoad>
+                <p>
+                  Find your <strong>handpicked nutrition products</strong> in your
                 cart.
               </p>
-            </div>
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={icon2}
-                  style={{
-                    width: '100px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-              <p>
-                Select <strong>automatic shipping</strong> and input your
+              </div>
+              <div className="rc-column" style={{ textAlign: 'center' }}>
+                <LazyLoad style={{ margin: '0 auto' }}>
+                  <img
+                    alt=""
+                    src={icon2}
+                    style={{
+                      width: '100px',
+                      display: 'inline-block',
+                      marginBottom: '20px'
+                    }}
+                  />
+                </LazyLoad>
+                <p>
+                  Select <strong>automatic shipping</strong> and input your
                 payment method.
               </p>
-            </div>
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={icon3}
-                  style={{
-                    width: '100px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-              <p>
-                <strong>Receive your product automatically</strong> based on
+              </div>
+              <div className="rc-column" style={{ textAlign: 'center' }}>
+                <LazyLoad style={{ margin: '0 auto' }}>
+                  <img
+                    alt=""
+                    src={icon3}
+                    style={{
+                      width: '100px',
+                      display: 'inline-block',
+                      marginBottom: '20px'
+                    }}
+                  />
+                </LazyLoad>
+                <p>
+                  <strong>Receive your product automatically</strong> based on
                 your schedule. Change or cancel <strong>at any time</strong>.
               </p>
-            </div>
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={icon4}
-                  style={{
-                    width: '100px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-              <p>
-                Get your exclusive<strong> Royal Canin Club perks</strong>,
+              </div>
+              <div className="rc-column" style={{ textAlign: 'center' }}>
+                <LazyLoad style={{ margin: '0 auto' }}>
+                  <img
+                    alt=""
+                    src={icon4}
+                    style={{
+                      width: '100px',
+                      display: 'inline-block',
+                      marginBottom: '20px'
+                    }}
+                  />
+                </LazyLoad>
+                <p>
+                  Get your exclusive<strong> Royal Canin Club perks</strong>,
                 including the Royal Canin Pet Advisor Live app.
               </p>
-            </div>
-          </div>
-          <div
-            className="rc-layout-container rc-three-column"
-            style={{ padding: '20px', background: '#eee' }}
-          >
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={cat}
-                  style={{
-                    width: '100%',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
-            </div>
-            <div
-              className="rc-column"
-              style={{ textAlign: 'center', paddingTop: '80px' }}
-            >
-              <h2 style={{ color: '#E2001A' }}>Get Started</h2>
-              <p>
-                Find your pet’s precise formula, and be sure to choose automatic
-                shipping at checkout.
-              </p>
-              <div>
-                <Link className="rc-btn rc-btn--sm rc-btn--two" to="/cats">
-                  Cat
-                </Link>{' '}
-                <Link className="rc-btn rc-btn--sm rc-btn--two" to="/dogs">
-                  Dog
-                </Link>
               </div>
             </div>
-            <div className="rc-column" style={{ textAlign: 'center' }}>
-              <LazyLoad>
-                <img
-                  alt=""
-                  src={dog}
-                  style={{
-                    width: '100%',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                />
-              </LazyLoad>
+          </div>
+          <div className="rc-layout-container rc-three-column" style={{ padding: '20px', background: '#eee' }}>
+            <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
+              <div className="rc-column" style={{ textAlign: 'center' }}>
+                <LazyLoad>
+                  <img
+                    alt=""
+                    src={cat}
+                    style={{
+                      width: '100%',
+                      display: 'inline-block',
+                      marginBottom: '20px'
+                    }}
+                  />
+                </LazyLoad>
+              </div>
+              <div
+                className="rc-column"
+                style={{ textAlign: 'center', paddingTop: '80px' }}
+              >
+                <h2 style={{ color: '#E2001A', width: '100%' }}>Get Started</h2>
+                <div>Find your pet’s precise formula, and be sure to choose automaticshipping at checkout.</div>
+                <div style={{ width: '100%', overflow: 'hidden', display: 'flex', flexGrow: 'initial' }}>
+                  <Link className="rc-btn rc-btn--sm rc-btn--two" to="/cats" style={{ flexGrow: '1', margin: '0 .5rem' }}>
+                    Cat
+                  </Link>
+                  {' '}
+                  <Link className="rc-btn rc-btn--sm rc-btn--two" to="/dogs" style={{ flexGrow: '1', margin: '0 .5rem' }}>
+                    Dog
+                  </Link>
+                </div>
+              </div>
+              <div className="rc-column" style={{ textAlign: 'center' }}>
+                <LazyLoad>
+                  <img
+                    alt=""
+                    src={dog}
+                    style={{
+                      width: '100%',
+                      display: 'inline-block',
+                      marginBottom: '20px'
+                    }}
+                  />
+                </LazyLoad>
+              </div>
             </div>
           </div>
           <div className="help-page" style={{ marginBottom: '1rem' }}>
