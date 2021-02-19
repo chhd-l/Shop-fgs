@@ -98,21 +98,22 @@ class Help extends React.Component {
             <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
               <div className="rc-column" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  {/* <i className="rc-icon rc-rate-fill--xs rc-brand1"></i> */}
+                  <i className="wof rc-margin-right--xs"></i>
                   <strong>The Royal Canin Pet Advisor Live App</strong> - chat
                   with experts around the clock about your pet’s health,
                   nutrition and behavior; track your pet’s growth; view
                   checklists to ensure your home is puppy-proof; and more.
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <i className="wof rc-margin-right--xs"></i>
                   <strong>Specialty Welcome Box + FREE Shipping</strong> -
                   receive an assortment of gifts with your first autoshipment,
                   plus save 30% on your first order and another 5% on every
                   autoship order.
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <i className="wof rc-margin-right--xs"></i>
                   <strong>Personalized Recommendations</strong> - get breeder
                   recommendations for pet food and products as your pet grows.
                 </div>
