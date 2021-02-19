@@ -1,8 +1,7 @@
 import axios from '@/utils/request'
 
 const api = {
-    dispenser:'/food/dispenser',
-    detail: 'food/dispenser/123456858/prodInfo'
+    dispenser:'/food/dispenser'
 }
 
 export default api

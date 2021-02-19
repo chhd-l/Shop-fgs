@@ -13,6 +13,7 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
+import PayProductInfo from '../../Payment/PayProductInfo';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
@@ -37,6 +38,8 @@ class UnLoginCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      promotionCode: '',
+      mobileCartVisibleKey: 'less',
       errorShow: false,
       errorMsg: '',
       productList: [],
@@ -235,6 +238,14 @@ class UnLoginCart extends React.Component {
         value: 1
       }
     });
+  }
+  savePromotionCode = (promotionCode) => {
+    this.setState({
+      promotionCode
+    });
+  };
+  toggleMobileCart(name) {
+    this.setState({ mobileCartVisibleKey: name });
   }
   async handleCheckout({ needLogin = false } = {}) {
     this.GAAccessToGuestCheck();
@@ -532,18 +543,19 @@ class UnLoginCart extends React.Component {
     return (
       <div
         className="rc-md-up"
-        style={{
-          display: `${isGift ? 'initial' : 'none'}`,
-          position: 'relative',
-          top: '1.2rem',
-          margin: '0 2rem'
-        }}
+        // style={{
+        //   display: `${isGift ? 'initial' : 'none'}`,
+        //   position: 'relative',
+        //   top: '1.2rem',
+        //   margin: '0 2rem'
+        // }}
       >
         <div className="product-card-footer product-card-price d-flex">
           <div
             className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto"
-            style={{ margin: `${isGift ? '0 auto' : 'auto'}` }}
+            // style={{ margin: `${isGift ? '0 auto' : 'auto'}` }}
           >
+            <div>Quantité: </div>
             <div className="rc-quantity d-flex">
               <span
                 className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
@@ -568,10 +580,13 @@ class UnLoginCart extends React.Component {
     );
   };
   getSizeBox = (pitem, index) => {
+    let isGift = !!pitem.subscriptionPlanGiftList;
     return (
       <div
-        className="product-quickview product-null product-wrapper product-detail"
-        style={{ display: `${isGift ? 'initial' : 'none'}` }}
+        className={`product-quickview product-null product-wrapper product-detail  ${
+          isGift ? 'gift-size-mobile-fr' : ''
+        }`}
+        // style={{ display: `${isGift ? 'initial' : 'none'}` }}
       >
         <div className="detail-panel">
           <section className="attributes">
@@ -622,10 +637,15 @@ class UnLoginCart extends React.Component {
   getProducts(plist) {
     const { form, isMobile } = this.state;
     const Lists = plist.map((pitem, index) => {
+      {
+        var isGift = !!pitem.subscriptionPlanGiftList;
+      }
       return (
         <div>
           <div
-            className="rc-border-all rc-border-colour--interface product-info p-3"
+            className={`rc-border-all rc-border-colour--interface product-info p-3 ${
+              isGift ? 'no-margin-bottom' : 'has-margin-bottom'
+            }`}
             key={index}
           >
             <div
@@ -764,12 +784,8 @@ class UnLoginCart extends React.Component {
                       </div>
                     </div>
                   </div>
-                  {/* {
-                  this.getSizeBox(pitem, index)
-               }
-              {
-                this.getQuantityBox(pitem, index)
-              } */}
+                  {!isGift && this.getSizeBox(pitem, index)}
+                  {!isGift && this.getQuantityBox(pitem, index)}
                 </div>
                 <div className="availability  product-availability">
                   <div className="flex justify-content-between rc-md-up align-items-start">
@@ -819,8 +835,8 @@ class UnLoginCart extends React.Component {
                         </div>
                       </div>
                     </div>
-                    {this.getSizeBox(pitem, index)}
-                    {this.getQuantityBox(pitem, index)}
+                    {isGift && this.getSizeBox(pitem, index)}
+                    {isGift && this.getQuantityBox(pitem, index)}
                     {pitem.sizeList.filter((el) => el.selected)[0]
                       .subscriptionStatus ? (
                       <div
@@ -1170,19 +1186,26 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          <div className="d-flex product-info food-dispensor-box rc-border-all rc-md-up rc-border-colour--interface">
-            <div className="name-info rc-main-content__wrapper d-flex">
-              <img className="img" src={foodDispenserPic} />
-              <div>
-                <div>PetKit Dispenser</div>
-                <div>x1 Delivered at the first shipment</div>
+          {isGift &&
+            pitem.subscriptionPlanGiftList.map((gift) => (
+              <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info">
+                <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
+                  <img
+                    className="img"
+                    src={gift.goodsInfoImg || foodDispenserPic}
+                  />
+                  <div className="mobile-text-center">
+                    <div>{gift.goodsInfoName}</div>
+                    <div>x1 Delivered at the first shipment</div>
+                  </div>
+                </div>
+                <div className="tips-info mobile-text-center">
+                  You can cancel your subscription anytime, but you will have to
+                  pay the remaining balance of the dispenser market price of 120
+                  euros.*
+                </div>
               </div>
-            </div>
-            <div className="tips-info">
-              You can cancel your subscription anytime, but you will have to pay
-              the remaining balance of the dispenser market price of 120 euros.*
-            </div>
-          </div>
+            ))}
         </div>
       );
     });
@@ -1259,8 +1282,62 @@ class UnLoginCart extends React.Component {
       promotionInputValue: e.target.value
     });
   };
+  getCheckotBtn = () => {
+    const { checkoutLoading } = this.state;
+    return (
+      <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
+        <div className="rc-padding-y--xs rc-column">
+          {this.totalNum > 0 ? (
+            <LoginButton
+              beforeLoginCallback={async () =>
+                this.handleCheckout({ needLogin: true })
+              }
+              btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+              history={this.props.history}
+            >
+              <FormattedMessage id="loginText" />
+            </LoginButton>
+          ) : (
+            <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
+              <FormattedMessage id="checkout" />
+            </div>
+          )}
+        </div>
+        <div className="rc-padding-y--xs rc-column">
+          {this.totalNum > 0 ? (
+            this.props.checkoutStore.cartData.filter((el) => el.goodsInfoFlag)
+              .length > 0 ? (
+              <div className="text-center" style={{ fontSize: '15px' }}>
+                <FormattedMessage id="unLoginSubscriptionTips" />
+              </div>
+            ) : (
+              <div
+                className="text-center"
+                onClick={() => this.handleCheckout()}
+              >
+                <div className="rc-styled-link color-999" aria-pressed="true">
+                  <FormattedMessage id="guestCheckout" />{  mobileCartVisibleKey === 'less'?formatMoney(this.tradePrice):null}
+                </div>
+              </div>
+            )
+          ) : (
+            <div className="text-center">
+              <div className="rc-styled-link color-999 rc-btn-disabled">
+                <FormattedMessage id="guestCheckout" />{  mobileCartVisibleKey === 'less'?formatMoney(this.tradePrice):null}
+              </div>
+            </div>
+          )}
+        </div>
+      </a>
+    );
+  };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount } = this.state;
+    const {
+      checkoutLoading,
+      discount,
+      mobileCartVisibleKey,
+      promotionCode
+    } = this.state;
     const { checkoutStore } = this.props;
     return (
       <div className={`${className}`} style={{ ...style }} id={id}>
@@ -1480,60 +1557,54 @@ class UnLoginCart extends React.Component {
                 </p>
               </div>
             </div>
-            <div className="row checkout-proccess">
+            <div className="row checkout-proccess rc-md-up">
               <div className="col-lg-12 checkout-continue">
-                <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
-                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                    {this.totalNum > 0 ? (
-                      <LoginButton
-                        beforeLoginCallback={async () =>
-                          this.handleCheckout({ needLogin: true })
-                        }
-                        btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
-                        history={this.props.history}
-                      >
-                        <FormattedMessage id="loginText" />
-                      </LoginButton>
-                    ) : (
-                      <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
-                        <FormattedMessage id="checkout" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                    {this.totalNum > 0 ? (
-                      this.props.checkoutStore.cartData.filter(
-                        (el) => el.goodsInfoFlag
-                      ).length > 0 ? (
-                        <div
-                          className="text-center"
-                          style={{ fontSize: '15px' }}
-                        >
-                          <FormattedMessage id="unLoginSubscriptionTips" />
-                        </div>
-                      ) : (
-                        <div
-                          className="text-center"
-                          onClick={() => this.handleCheckout()}
-                        >
-                          <div
-                            className="rc-styled-link color-999"
-                            aria-pressed="true"
-                          >
-                            <FormattedMessage id="guestCheckout" />
-                          </div>
-                        </div>
-                      )
-                    ) : (
-                      <div className="text-center">
-                        <div className="rc-styled-link color-999 rc-btn-disabled">
-                          <FormattedMessage id="guestCheckout" />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </a>
+                {this.getCheckotBtn()}
               </div>
+            </div>
+            <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
+              <div
+                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
+                  mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                }`}
+                onClick={this.toggleMobileCart.bind(this, 'more')}
+              >
+                <span
+                  className="rc-icon rc-up rc-iconography"
+                  style={{ transform: 'scale(.7)' }}
+                />
+                <span>
+                  Order summary
+                  {/* <FormattedMessage id="payment.yourOrder" /> */}
+                </span>
+                {/* <span className="grand-total-sum">
+                {formatMoney(this.tradePrice)}
+              </span> */}
+              </div>
+              <PayProductInfo
+                data={[]}
+                needHideProductList={true}
+                fixToHeader={false}
+                style={{
+                  background: '#fff',
+                  maxHeight: '80vh'
+                }}
+                className={`${mobileCartVisibleKey === 'more' ? '' : 'hidden'}`}
+                ref="payProductInfo"
+                location={this.props.location}
+                history={history}
+                buttonForCart={true}
+                // frequencyName={subForm.frequencyName}
+                // buyWay={subForm.buyWay}
+                sendPromotionCode={this.savePromotionCode}
+                promotionCode={promotionCode}
+                operateBtnVisible={false}
+                onClickHeader={this.toggleMobileCart.bind(this, 'less')}
+                headerIcon={
+                  <span className="rc-icon rc-down--xs rc-iconography" />
+                }
+              />
+              {this.getCheckotBtn()}
             </div>
           </div>
         </div>

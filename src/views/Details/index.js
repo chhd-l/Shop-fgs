@@ -1766,20 +1766,24 @@ class Details extends React.Component {
                         <div
                           dangerouslySetInnerHTML={{ __html: goodHeading }}
                         />
-                        <div
-                          className="desAndStars"
-                        >
+                        <div className="desAndStars">
                           <div className="des">
-                            <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
+                            <h2
+                              className="text-break mb-1 mt-2"
+                              style={{ fontSize: '1.17rem' }}
+                            >
                               {details.goodsNewSubtitle}
                             </h2>
                           </div>
-                          <div className="stars" style={{
-                            display:
-                              process.env.REACT_APP_LANG == 'fr'
-                                ? 'none'
-                                : 'block'
-                          }}>
+                          <div
+                            className="stars"
+                            style={{
+                              display:
+                                process.env.REACT_APP_LANG == 'fr'
+                                  ? 'none'
+                                  : 'block'
+                            }}
+                          >
                             <div className="rc-card__price flex-inline">
                               <div
                                 className="display-inline"
@@ -1876,7 +1880,10 @@ class Details extends React.Component {
                               />
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
-                                  <h2 className="text-break mb-1 mt-2" style={{fontSize: '1.17rem'}}>
+                                  <h2
+                                    className="text-break mb-1 mt-2"
+                                    style={{ fontSize: '1.17rem' }}
+                                  >
                                     {details.goodsNewSubtitle}
                                   </h2>
                                 </div>
@@ -2110,7 +2117,13 @@ class Details extends React.Component {
                               </div>
                               <div className="price font-weight-normal text-right position-relative">
                                 <div>
-                                  {formatMoney(currentUnitPrice)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
+                                  {formatMoney(currentUnitPrice)}
+                                  <span className="red unit-star">
+                                    <FormattedMessage
+                                      id="starUnit"
+                                      defaultMessage=" "
+                                    />
+                                  </span>
                                 </div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
@@ -2203,7 +2216,13 @@ class Details extends React.Component {
                             </div>
                             <div className="price font-weight-normal text-right position-relative">
                               <div>
-                                {formatMoney(currentUnitPrice)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
+                                {formatMoney(currentUnitPrice)}
+                                <span className="red unit-star">
+                                  <FormattedMessage
+                                    id="starUnit"
+                                    defaultMessage=" "
+                                  />
+                                </span>
                               </div>
                               {process.env.REACT_APP_LANG === 'de' &&
                               selectedSpecItem ? (
@@ -2305,9 +2324,14 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                                 <div className="price font-weight-normal text-right position-relative">
-                                  <div
-                                  >
-                                    {formatMoney(currentSubscriptionPrice || 0)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
+                                  <div>
+                                    {formatMoney(currentSubscriptionPrice || 0)}
+                                    <span className="red unit-star">
+                                      <FormattedMessage
+                                        id="starUnit"
+                                        defaultMessage=" "
+                                      />
+                                    </span>
                                   </div>
                                   {process.env.REACT_APP_LANG === 'de' &&
                                   selectedSpecItem ? (
@@ -2475,7 +2499,13 @@ class Details extends React.Component {
                               </div>
                               <div className="price font-weight-normal text-right position-relative">
                                 <div>
-                                  {formatMoney(currentSubscriptionPrice || 0)}<span className="red unit-star"><FormattedMessage id="starUnit" defaultMessage=" " /></span>
+                                  {formatMoney(currentSubscriptionPrice || 0)}
+                                  <span className="red unit-star">
+                                    <FormattedMessage
+                                      id="starUnit"
+                                      defaultMessage=" "
+                                    />
+                                  </span>
                                 </div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
@@ -2520,11 +2550,15 @@ class Details extends React.Component {
                                 ))}
                               &nbsp;&nbsp; */}
                             <div
-                                className="mb-2 mr-2"
-                                style={{ fontSize: '14px' }}
-                              >
-                                  <FormattedMessage id="pricesIncludeVAT" values={{val: <span className="red">*</span>}} defaultMessage=" " />
-                              </div>
+                              className="mb-2 mr-2"
+                              style={{ fontSize: '14px' }}
+                            >
+                              <FormattedMessage
+                                id="pricesIncludeVAT"
+                                values={{ val: <span className="red">*</span> }}
+                                defaultMessage=" "
+                              />
+                            </div>
                             <button
                               style={{ padding: '2px 30px' }}
                               className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${

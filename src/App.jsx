@@ -434,7 +434,7 @@ const App = () => (
               <Route path="/consent2-tr" component={Consent2TR} />
               <Route path="/register" component={register} />
               <Route
-                path="/smartFeederSubscription"
+                path="/smart-feeder-subscription"
                 component={smartFeederSubscription}
               />
               {/* 特殊处理匹配PLP/PDP页面 */}

@@ -13,6 +13,7 @@ import { getFoodDispenserList, getFoodDispenserDes } from '@/api/dispenser';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.less';
+import AddCartSuccessMobile from '../Details/components/AddCartSuccessMobile';
 // import Swiper from 'swiper';
 import Selection from '@/components/Selection';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -79,6 +80,7 @@ const Step1Pc = (props) => {
           </div>
         ))}
       </div>
+      <Test />
       <div className="rc-text--center">
         <button
           disabled={props.isDisabled}
@@ -102,16 +104,28 @@ const Step1Pc = (props) => {
     </div>
   );
 };
+// 不引入样式有问题
+const Test = () => {
+  return (
+    <div className="margin12" style={{ display: 'none' }}>
+      <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
+        <div class="rc-grid">
+          <article class="rc-card rc-card--a">test</article>
+        </div>
+      </div>
+    </div>
+  );
+};
 class Step1H5 extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   componentDidMount() {
-    new Swiper('.swiper-container', {
-      slidesPerView: 'auto',
-      spaceBetween: 0
-    });
+    // new Swiper('.swiper-container', {
+    //   slidesPerView: 'auto',
+    //   spaceBetween: 0
+    // });
   }
   render() {
     const settings = {
@@ -289,51 +303,10 @@ const Step3 = (props) => {
     let { goodsInfoId, packageId, planId } = props.details;
     let res = await getFoodDispenserDes({
       planId,
-      // packageId: 'PK2102012019837',
       packageId,
       goodsInfoId,
       storeId: 123456858
-      // goodsInfoId: 'ff8080817314066f0173145be5c00001'
     });
-    // let res = {
-    //   planId: 'SP2102012016432',
-    //   packageId: 'PK2102012019837',
-    //   // "frequencies": ["5738", "5737"],
-    //   frequencies: ['6912'],
-    //   planProds: [
-    //     {
-    //       packageId: 'PK2102012019837',
-    //       goodsInfoId: 'ff8080817314066f0173145be5c00001',
-    //       goodsInfoName: '12121',
-    //       goodsNo: 'P774340554',
-    //       goodsInfoNo: '8774421968',
-    //       goodsInfoImg:
-    //         'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
-    //       specName: '10kg',
-    //       goodsCateName: 'VET',
-    //       storeCateName: 'Default category',
-    //       brandName: 'Royal Canin',
-    //       marketPrice: 100.0,
-    //       stock: 887,
-    //       quantity: 2,
-    //       settingPrice: 21.0
-    //     }
-    //   ],
-    //   planGifts: [
-    //     {
-    //       goodsInfoId: 'ff80808175dfcc3b0175e01152a00001',
-    //       goodsInfoName: '12',
-    //       goodsNo: 'P735003263',
-    //       goodsInfoNo: '8735031297',
-    //       specName: '1',
-    //       goodsCateName: '空气净化器',
-    //       storeCateName: 'Default category',
-    //       goodsInfoImg:
-    //         'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
-    //       stock: 10
-    //    }
-    //   ]
-    // };
     res = res.context;
     setDetailInfo(res);
     await getFrequencyDict().then((ress) => {
@@ -373,13 +346,19 @@ const Step3 = (props) => {
       </div>
       <div className="rc-layout-container rc-three-column wrap_container margin_for_1rem">
         <div className="rc-column wrap_item free_sampling">
-          <div className="pad_3rem_pc">
+          <div className="pad_3rem_pc d-flex column">
             <img
+              className="height-for-mobile"
               src={detailInfo.planGifts[0].goodsInfoImg || foodDispenserPic}
               title={detailInfo.planGifts[0].goodsInfoName}
             />
-            <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
-            <p>x1 Delivered at the first shipment</p>
+            <div
+              className="d-flex"
+              style={{ flexDirection: 'column', justifyContent: 'center' }}
+            >
+              <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
+              <p>x1 Delivered at the first shipment</p>
+            </div>
           </div>
           <span className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn side_icon"></span>
         </div>
@@ -464,15 +443,17 @@ const Step3 = (props) => {
             </div>
             <p className="frequency">select your frequency</p>
             <div>
-           {selectedFrequency && <Selection
-                customContainerStyle={{}}
-                selectedItemChange={(data) => handleSelectedItemChange(data)}
-                optionList={frequencyList}
-                selectedItemData={{
-                  value: selectedFrequency,
-                }}
-                customStyleType="select-one"
-              />}
+              {selectedFrequency && (
+                <Selection
+                  customContainerStyle={{}}
+                  selectedItemChange={(data) => handleSelectedItemChange(data)}
+                  optionList={frequencyList}
+                  selectedItemData={{
+                    value: selectedFrequency
+                  }}
+                  customStyleType="select-one"
+                />
+              )}
             </div>
           </div>
           <span className="rc-icon rc-arrow--xs rc-iconography rc-quantity__btn side_icon"></span>
@@ -520,7 +501,12 @@ const Step3 = (props) => {
                 </button>
               </div>
               <div className="rc-column">
-                <button className="rc-btn rc-btn--one wid100">
+                <button
+                  onClick={() =>
+                    props.hanldeAddToCart({ redirect: true, needLogin: true })
+                  }
+                  className="rc-btn rc-btn--one wid100"
+                >
                   Go to Checkout
                 </button>
               </div>
@@ -553,6 +539,19 @@ const Step3 = (props) => {
   );
 };
 
+const ErrMsgForCheckoutPanel = ({ checkOutErrMsg }) => {
+  return (
+    <div className={`text-break mt-2 mb-2 ${checkOutErrMsg ? '' : 'hidden'}`}>
+      <aside
+        className="rc-alert rc-alert--error rc-alert--with-close"
+        role="alert"
+      >
+        <span className="pl-0">{checkOutErrMsg}</span>
+      </aside>
+    </div>
+  );
+};
+
 @inject(
   'checkoutStore',
   'loginStore',
@@ -566,6 +565,7 @@ class SmartFeederSubscription extends Component {
     super(props);
     this.state = {
       planId: '',
+      enableFlag: true,
       step3Choosed: {},
       quantity: 1,
       loading: false,
@@ -573,7 +573,6 @@ class SmartFeederSubscription extends Component {
       stepName: 'step1',
       addToCartLoading: false,
       isDisabled: true,
-      checkOutErrMsg: '',
       productList: [],
       requestJson: {
         prefixBreed: '',
@@ -912,7 +911,10 @@ class SmartFeederSubscription extends Component {
                   }
                 }
               }
-              console.info('goodsDetailTabgoodsDetailTabgoodsDetailTab', goodsDetailTab)
+              console.info(
+                'goodsDetailTabgoodsDetailTabgoodsDetailTab',
+                goodsDetailTab
+              );
               this.setState({
                 goodsDetailTab,
                 tabs
@@ -1171,6 +1173,7 @@ class SmartFeederSubscription extends Component {
   };
   hanldeAddToCart = ({ redirect = false, needLogin = false } = {}) => {
     try {
+      console.info('redirect', redirect);
       const { loading } = this.state;
       if (!this.btnStatus || loading) return false;
       this.setState({ checkOutErrMsg: '' });
@@ -1199,7 +1202,7 @@ class SmartFeederSubscription extends Component {
       step3Choosed
     } = this.state;
     const { goodsId, sizeList } = details;
-
+    console.info('redirectredirect', redirect);
     // 加入购物车 埋点start
     this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
@@ -1212,17 +1215,13 @@ class SmartFeederSubscription extends Component {
       find(sizeList, (s) => s.selected)
     );
     let quantityNew = quantity;
-    let tmpData = Object.assign(
-      {},
-      details,
-      {
-        quantity: quantityNew
-      },
-    );
+    let tmpData = Object.assign({}, details, {
+      quantity: quantityNew
+    });
     const cartDataCopy = cloneDeep(
       toJS(checkoutStore.cartData).filter((el) => el)
     );
-    console.info('cartDataCopy', cartDataCopy)
+    console.info('cartDataCopy', cartDataCopy);
     if (!instockStatus || !quantityNew) {
       throw new Error();
     }
@@ -1297,12 +1296,15 @@ class SmartFeederSubscription extends Component {
         currentSelectedSize.goodsInfoId ===
           find(c.sizeList, (s) => s.selected).goodsInfoId
     );
+    let { planId, planGifts, joinPromoFlag } = this.state.step3Choosed;
     tmpData = Object.assign(tmpData, {
       currentAmount: currentUnitPrice * quantityNew,
       selected: true,
+      subscriptionPlanId: planId,
+      subscriptionPlanPromotionFlag: joinPromoFlag,
+      subscriptionPlanGiftList: planGifts,
       goodsInfoFlag: parseInt(form.buyWay)
     });
-    debugger
     if (parseInt(form.buyWay)) {
       tmpData.periodTypeId = form.frequencyId;
     }
@@ -1322,7 +1324,7 @@ class SmartFeederSubscription extends Component {
         //requestJson是shelter和breeder产品的参数，有就加上
         tmpData = { ...tmpData, ...this.state.requestJson };
       }
-      console.info('tmpData', tmpData)
+      console.info('tmpData', tmpData);
       cartDataCopy.push(tmpData);
     }
 
@@ -1424,9 +1426,28 @@ class SmartFeederSubscription extends Component {
   }
   getStep1List = async () => {
     const { planId } = this.state;
+    // "joinPromoFlag": true, --是否可以加入其它promo的标识 true 是，false   否
+    // "quantityStage": 100 --当前订阅计划的库存量
+    // @ApiEnumProperty("0")
+    // SUCCESS,
+    // @ApiEnumProperty("1")
+    // NOTEXIST,
+    // @ApiEnumProperty("2")
+    // PARAMETERERROR,
+    // @ApiEnumProperty("3")
+    // DISABLE,
+    // @ApiEnumProperty("4")
+    // DATAERROR,
+    // @ApiEnumProperty("5")
+    // SOLDUP,
+    // @ApiEnumProperty("6")
+    // NOTRELEASE,
+    // @ApiEnumProperty("7")
+    // EXPIRE;
     let res = await getFoodDispenserList(planId);
     const productList = res.context?.goodInfos;
-    this.setState({ productList });
+    const enableFlag = res.context?.enableFlag;
+    this.setState({ productList, enableFlag });
     console.info('...getFoodDispenserList', res);
   };
   componentDidMount() {
@@ -1582,6 +1603,17 @@ class SmartFeederSubscription extends Component {
       }
     );
   };
+  showCheckoutErrMsg = (msg) => {
+    this.setState({
+      checkOutErrMsg: msg
+    });
+    if (isMobile) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  };
   updateInstockStatus = () => {
     this.setState({
       instockStatus: this.state.quantity <= this.state.stock
@@ -1621,7 +1653,7 @@ class SmartFeederSubscription extends Component {
           ...param,
           ...this.state.requestJson,
           subscriptionPlanId: planId,
-          subscriptionPlanPromotionFlag: 0,
+          subscriptionPlanPromotionFlag: this.state.step3Choosed.joinPromoFlag,
           packageId: packageId
         };
       }
@@ -1719,20 +1751,23 @@ class SmartFeederSubscription extends Component {
     }
   };
   getStep3Choosed = (data) => {
-    let {details} =  this.state
-    details.sizeList = details.sizeList.map(item=>{
-      if(item.goodsInfoId==data.planProds[0].goodsInfoId){
-        item=Object.assign({},item,data)
-        console.info(item,'000000000000000')
+    let { details } = this.state;
+    details.sizeList = details.sizeList.map((item) => {
+      if (item.goodsInfoId == data.planProds[0].goodsInfoId) {
+        item = Object.assign({}, item, data);
+        console.info(item, '000000000000000');
       }
-      return item
-    })
-    this.setState({
-      step3Choosed: data,
-      details
-    },()=>{
-      console.info('.....details', details)
+      return item;
     });
+    this.setState(
+      {
+        step3Choosed: data,
+        details
+      },
+      () => {
+        console.info('.....details', details);
+      }
+    );
   };
   getGoodsNo = () => find(this.state.productList, (el) => el.choosed == true);
   handleScroll = () => {
@@ -1746,7 +1781,7 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const { headerHide, stepName, goodsDetailTab } = this.state;
+    const { headerHide, stepName,checkOutErrMsg, goodsDetailTab, enableFlag } = this.state;
     let stepCom = null;
     return (
       <div>
@@ -1759,7 +1794,10 @@ class SmartFeederSubscription extends Component {
             match={match}
           />
         ) : (
-          <div className="rc-text--center rc-header">
+          <div
+            className="rc-text--center rc-header rc-padding-y--sm border-bottom-shadow"
+            style={{ background: '#fff' }}
+          >
             <button
               onClick={() => {
                 this.toScroll('step1');
@@ -1770,56 +1808,92 @@ class SmartFeederSubscription extends Component {
             </button>
           </div>
         )}
+        <button
+          ref="showModalButton"
+          class="rc-btn rc-btn--one"
+          data-modal-trigger="modal-example"
+          style={{ position: 'absolute', visibility: 'hidden' }}
+        >
+          Open standard modal
+        </button>
         <main className="rc-content--fixed-header smartfeedersubscription">
-          <StaticPage />
-          <div id="step1"></div>
-          <div id="step2"></div>
-          <div id="step3"></div>
-          <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil h5_no_pad">
-            <h2 className="smartfeedersubscription-title">
-              {stepName == 'step3'
-                ? 'Finalise your order'
-                : 'Select your product'}
-            </h2>
-            {(() => {
-              switch (stepName) {
-                case 'step1':
-                  stepCom = (
-                    <Step1
-                      isDisabled={this.state.isDisabled}
-                      productList={this.state.productList}
-                      clickItem={this.clickItem}
-                      toOtherStep={this.toOtherStep}
-                    />
-                  );
-                  break;
-                case 'step2':
-                  stepCom = (
-                    <Step2
-                      goodsDetailTab={goodsDetailTab}
-                      toOtherStep={this.toOtherStep}
-                      details={this.state.details}
-                      // goodsNo = {this.getGoodsNo()}
-                    />
-                  );
-                  break;
-                case 'step3':
-                  stepCom = (
-                    <Step3
-                      specList={this.state.specList}
-                      getStep3Choosed={this.getStep3Choosed}
-                      details={this.state.details}
-                      toOtherStep={this.toOtherStep}
-                      hanldeAddToCart={this.hanldeAddToCart}
-                    />
-                  );
-                  break;
-              }
-              return stepCom;
-            })()}
-          </section>
-          <FAQ />
+          {enableFlag ? (
+            <React.Fragment>
+              {isMobile && (
+                <div className="detailHeader mt-3">
+                  <ErrMsgForCheckoutPanel
+                    checkOutErrMsg={checkOutErrMsg}
+                  />
+                </div>
+              )}
+              <StaticPage />
+
+              <div id="step1"></div>
+              <div id="step2"></div>
+              <div id="step3"></div>
+              <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil h5_no_pad">
+                <h2 className="smartfeedersubscription-title">
+                  {stepName == 'step3'
+                    ? 'Finalise your order'
+                    : 'Select your product'}
+                </h2>
+                {(() => {
+                  switch (stepName) {
+                    case 'step1':
+                      stepCom = (
+                        <Step1
+                          isDisabled={this.state.isDisabled}
+                          productList={this.state.productList}
+                          clickItem={this.clickItem}
+                          toOtherStep={this.toOtherStep}
+                        />
+                      );
+                      break;
+                    case 'step2':
+                      stepCom = (
+                        <Step2
+                          goodsDetailTab={goodsDetailTab}
+                          toOtherStep={this.toOtherStep}
+                          details={this.state.details}
+                          // goodsNo = {this.getGoodsNo()}
+                        />
+                      );
+                      break;
+                    case 'step3':
+                      stepCom = (
+                        <Step3
+                          specList={this.state.specList}
+                          getStep3Choosed={this.getStep3Choosed}
+                          details={this.state.details}
+                          toOtherStep={this.toOtherStep}
+                          hanldeAddToCart={this.hanldeAddToCart}
+                        />
+                      );
+                      break;
+                  }
+                  return stepCom;
+                })()}
+                <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
+              </section>
+              <FAQ />
+            </React.Fragment>
+          ) : (
+            <div className="text-center rc-padding-x--sm rc-padding-x--md--mobile">
+              <div
+                className="red rc-margin-y--lg"
+                style={{ fontSize: '2.5rem' }}
+              >
+                Nous sommes désolé mais cette offre n'est actuellement plus
+                disponible
+              </div>
+              <p>
+                Vous pouvez contacter nos experts pour trouver la meilleure
+                nourriture pour votre animal
+              </p>
+            </div>
+          )}
           <Help />
+          <AddCartSuccessMobile />
         </main>
         <Footer />
       </div>

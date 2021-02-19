@@ -31,6 +31,7 @@ class PayProductInfo extends React.Component {
     super(props);
     this.state = {
       productList: [],
+      needHideProductList: props.needHideProductList,
       discount: [], //促销码的折扣信息汇总
       promotionInputValue: this.props.checkoutStore.promotionCode || '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
@@ -404,7 +405,7 @@ class PayProductInfo extends React.Component {
     );
   }
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { productList, discount } = this.state;
+    const { productList, discount, needHideProductList } = this.state;
     const { checkoutStore } = this.props;
     const List =
       this.isLogin || this.props.data.length
@@ -420,7 +421,7 @@ class PayProductInfo extends React.Component {
           {this.getTotalItems()}
           <div className="product-summary__recap__content">
             <div className="checkout--padding">
-              {List}
+              {!needHideProductList && List}
               {/* 支付新增promotionCode(选填) */}
               <div className="mb-3 d-flex justify-content-between">
                 <span

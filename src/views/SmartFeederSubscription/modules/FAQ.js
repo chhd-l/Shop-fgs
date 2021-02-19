@@ -84,7 +84,7 @@ class FAQ extends React.Component {
     };
     return (
       <div>
-        <main className="rc-content--fixed-header rc-bg-colour--brand3">
+        <main className="rc-bg-colour--brand3">
           <div>
             {/* <div className="rc-bg-colour--brand3">
               <div>

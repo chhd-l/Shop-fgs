@@ -30,6 +30,7 @@ import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
 import LazyLoad from 'react-lazyload';
 import './index.less';
 import '../index.css';
+import PayProductInfo from '../../Payment/PayProductInfo';
 import BannerTip from '@/components/BannerTip';
 import { v4 as uuidv4 } from 'uuid';
 const guid = uuidv4();
@@ -45,6 +46,8 @@ class LoginCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      promotionCode: '',
+      mobileCartVisibleKey: 'less',
       errorMsg: '',
       productList: [],
       currentProductIdx: -1,
@@ -551,7 +554,9 @@ class LoginCart extends React.Component {
       return (
         <div className="product-info ">
           <div
-            className="rc-border-all rc-border-colour--interface product-info p-3"
+            className={`rc-border-all rc-border-colour--interface product-info p-3 ${
+              isGift ? 'no-margin-bottom' : 'has-margin-bottom'
+            }`}
             key={index}
           >
             <div
@@ -1133,12 +1138,12 @@ class LoginCart extends React.Component {
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
                   />
-                  <div>
+                  <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
                     <div>x1 Delivered at the first shipment</div>
                   </div>
                 </div>
-                <div className="tips-info">
+                <div className="tips-info mobile-text-center">
                   You can cancel your subscription anytime, but you will have to
                   pay the remaining balance of the dispenser market price of 120
                   euros.*
@@ -1149,6 +1154,14 @@ class LoginCart extends React.Component {
       );
     });
     return Lists;
+  }
+  savePromotionCode = (promotionCode) => {
+    this.setState({
+      promotionCode
+    });
+  };
+  toggleMobileCart(name) {
+    this.setState({ mobileCartVisibleKey: name });
   }
   updateConfirmTooltipVisible(item, status) {
     console.log({ item });
@@ -1167,7 +1180,7 @@ class LoginCart extends React.Component {
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { checkoutStore } = this.props;
-    const { checkoutLoading, isShowValidCode } = this.state;
+    const { checkoutLoading,promotionCode, isShowValidCode, mobileCartVisibleKey } = this.state;
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
@@ -1390,7 +1403,8 @@ class LoginCart extends React.Component {
               </p>
             </div>
           </div>
-          <div className="row checkout-proccess">
+
+          <div className="row checkout-proccess rc-md-up">
             <div className="col-lg-12 checkout-continue">
               <a onClick={this.handleCheckout}>
                 <div className="rc-padding-y--xs rc-column">
@@ -1405,6 +1419,67 @@ class LoginCart extends React.Component {
                   </div>
                 </div>
               </a>
+            </div>
+          </div>
+          <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
+            <div
+              className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
+                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+              }`}
+              onClick={this.toggleMobileCart.bind(this, 'more')}
+            >
+              <span
+                className="rc-icon rc-up rc-iconography"
+                style={{ transform: 'scale(.7)' }}
+              />
+              <span>
+              Order summary
+                {/* <FormattedMessage id="payment.yourOrder" /> */}
+              </span>
+              {/* <span className="grand-total-sum">
+                {formatMoney(this.tradePrice)}
+              </span> */}
+            </div>
+            <PayProductInfo
+              data={[]}
+              needHideProductList = {true}
+              fixToHeader={false}
+              style={{
+                background: '#fff',
+                maxHeight: '80vh'
+              }}
+              className={`${mobileCartVisibleKey === 'more' ? '' : 'hidden'}`}
+              ref="payProductInfo"
+              location={this.props.location}
+              history={history}
+              buttonForCart = {true}
+              // frequencyName={subForm.frequencyName}
+              // buyWay={subForm.buyWay}
+              sendPromotionCode={this.savePromotionCode}
+              promotionCode={promotionCode}
+              operateBtnVisible={false}
+              onClickHeader={this.toggleMobileCart.bind(this, 'less')}
+              headerIcon={
+                <span className="rc-icon rc-down--xs rc-iconography" />
+              }
+            />
+            <div className="col-lg-12">
+              <a onClick={this.handleCheckout}>
+                <div className="rc-padding-y--xs rc-column">
+                  <div
+                    data-oauthlogintargetendpoint="2"
+                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
+                      checkoutLoading ? 'ui-btn-loading' : ''
+                    }`}
+                    aria-pressed="true"
+                  >
+                    <FormattedMessage id="checkout" /> {  mobileCartVisibleKey === 'less'?formatMoney(this.tradePrice):null}
+                  </div>
+                </div>
+              </a>
+              {/* <div>
+              Engaging Subscription program is possible only after registration
+              </div> */}
             </div>
           </div>
         </div>
@@ -1574,13 +1649,17 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const { productList, initLoading, errorMsg } = this.state;
+    const {
+      productList,
+      initLoading,
+      errorMsg
+    } = this.state;
     const List = this.getProducts(productList);
     const event = {
       page: {
         type: 'Cart',
         theme: '',
-        path: location.pathname,
+        path: location.href.pathname,
         error: '',
         hitTimestamp: new Date(),
         filters: ''

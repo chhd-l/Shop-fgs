@@ -30,20 +30,17 @@ class Help extends React.Component {
             <div className="rc-full-width">
               <div className="experience-component experience-assets-contactUsBlock">
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                  <div className="rc-layout-container rc-two-column rc-margin-y--sm text-md-left rc-margin-top--lg--mobile">
-                    <div className="rc-column rc-padding-bottom--none--mobile">
-                      <h1 className="rc-beta">
-                        <FormattedMessage id="help.title" />
-                      </h1>
-                    </div>
-                    <div className="rc-column">
-                      <div className="rc-large-body inherit-fontsize children-nomargin">
-                        <p>
-                          {process.env.REACT_APP_LANG == 'de' ? null : (
-                            <FormattedMessage id="help.tip1" />
-                          )}
-                        </p>
-                      </div>
+                  <div className={`text-center ${true?'':'rc-margin-y--sm rc-margin-top--lg--mobile'}`}>
+                    <h1 className="rc-beta">
+                      Our pet experts are here to help you  
+                    </h1>
+                    <div className="rc-large-body inherit-fontsize children-nomargin">
+                      <p>
+                        We’re ready to help you with any further questions you
+                        might have
+                        <br />
+                        about the Smart Feeder Subscription.
+                      </p>
                     </div>
                   </div>
                   <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-md-left food_dispenser-help">
@@ -56,7 +53,9 @@ class Help extends React.Component {
                                 <b style={{ color: '#00BCA3' }}>
                                   <FormattedMessage id="help.byTelephone" />
                                 </b>
-                                <p>{this.props.configStore.contactTimePeriod}</p>
+                                <p>
+                                  {this.props.configStore.contactTimePeriod}
+                                </p>
                                 <div className="rc-margin-top--xs">
                                   <p
                                     style={{ color: '#00BCA3' }}
@@ -193,6 +192,6 @@ class Help extends React.Component {
         </div>
       </div>
     );
-};
+  }
 }
 export default Help;
