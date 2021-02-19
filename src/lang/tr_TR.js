@@ -206,6 +206,7 @@ const tr_TR = {
   'details.theSize': 'Boyut',
   'details.unitPrice': 'Birim fiyat',
   'details.youCanSave': 'Kurtarabilirsin',
+  'details.shippedTime': '2 iş günü içerisinde kargoya verilir',
   dogs: 'KÖPEK',
   dogs2: 'Köpek',
   dogs3: 'Köpek',

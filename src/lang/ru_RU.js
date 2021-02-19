@@ -206,6 +206,7 @@ const ru_RU = {
     "details.theSize": "Размер",
     "details.unitPrice": "Цена за единицу",
     "details.youCanSave": "Можно сэкономить",
+    'details.shippedTime': 'адпраўлена на працягу 2 рабочых дзён',
     'dogs': "СОБАКИ",
     'dogs2': "Собаки",
     'dogs3': "Собаки",

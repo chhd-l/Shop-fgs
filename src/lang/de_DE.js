@@ -245,6 +245,7 @@ const de_DE = {
   'details.theSize': 'Die Größe',
   'details.unitPrice': 'Stückpreis',
   'details.youCanSave': 'Du kannst speichern',
+  'details.shippedTime': 'Versand innerhalb von 2 Werktagen',
   dogs: 'HUNDE',
   dogs2: 'Hunde',
   dogs3: 'Hund',

@@ -246,6 +246,7 @@ const fr_FR = {
   'details.theSize': 'La taille',
   'details.unitPrice': 'Prix ​​unitaire',
   'details.youCanSave': 'Vous pouvez économiser',
+  'details.shippedTime': 'envoyé sous 2 jours ouvrés',
   dogs: 'CHIENS',
   dogs2: 'chiens',
   dogs3: 'Chien',

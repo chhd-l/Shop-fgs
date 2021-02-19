@@ -237,6 +237,7 @@ const en_US = {
   'details.theSize': 'The size',
   'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
+  'details.shippedTime': 'shipped within 2 working days',
   dogs: 'DOGS',
   dogs2: 'Dogs',
   dogs3: 'Dog',
