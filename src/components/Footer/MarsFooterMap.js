@@ -235,6 +235,17 @@ class MarsFooterMap extends React.Component {
                   </span>
                 </a>
               </li>
+              <li>
+                <a
+                  target="_blank"
+                  href="/mentionslegales"
+                  rel="nofollow"
+                >
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.statutoryDeclaration" />
+                  </span>
+                </a>
+              </li>
             </ul>
             <div
               className="mars-footer-legal text-center"

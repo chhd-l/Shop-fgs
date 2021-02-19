@@ -43,7 +43,7 @@ class Help extends React.Component {
     setSeoConfig({
       pageName: 'Contact Us Page'
     }).then(res => {
-      this.setState({seoConfig: res})
+      this.setState({ seoConfig: res })
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -79,10 +79,10 @@ class Help extends React.Component {
         ) : null}
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta name="description" content={this.state.seoConfig.metaDescription} />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -103,12 +103,12 @@ class Help extends React.Component {
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                           <div className="text-md-left rc-margin-top--lg--mobile text-center rc-margin-y--sm">
                             <div className="rc-padding-bottom--none--mobile text-center rc-padding-top--lg">
-                              <h1 className="rc-beta"><FormattedMessage id="help.title"/></h1>
+                              <h1 className="rc-beta"><FormattedMessage id="help.title" /></h1>
                             </div>
                             <div className=" text-center">
                               <div className="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
-                                  {process.env.REACT_APP_LANG=='de'?null:<FormattedMessage id="help.tip1"/>}
+                                  {process.env.REACT_APP_LANG == 'de' ? null : <FormattedMessage id="help.tip1" />}
                                 </p>
                               </div>
                             </div>

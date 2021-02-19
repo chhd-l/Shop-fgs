@@ -82,6 +82,7 @@ import PrivacyPolicy from '@/views/StaticPage/PrivacyPolicy';
 import Exception from '@/views/StaticPage/Exception';
 import Page403 from '@/views/StaticPage/403';
 import Page500 from '@/views/StaticPage/500';
+import Mentionslegales from '@/views/StaticPage/Mentionslegales';
 import Help from '@/views/StaticPage/Help';
 import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
 import TermsConditions from '@/views/StaticPage/TermsAndConditions';
@@ -429,6 +430,8 @@ const App = () => (
               <Route path="/404" component={Exception} />
               <Route path="/403" component={Page403} />
               <Route path="/500" component={Page500} />
+
+              <Route path="/mentionslegales" component={Mentionslegales} />
 
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />
