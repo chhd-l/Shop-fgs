@@ -113,6 +113,8 @@ import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
+import LanguagePage from "@/views/Language"
+
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
@@ -184,6 +186,11 @@ const App = () => (
           <Security oktaAuth={config}>
             <Switch>
               <Route exact path={'/'} component={Home} />
+              <Route
+                exact
+                path={'/language'}
+                component={LanguagePage}
+              />
               <Route
                 exact
                 path={'/okta-login-page'}

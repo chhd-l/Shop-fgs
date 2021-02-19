@@ -21,7 +21,8 @@ export default class Selection extends React.Component {
   //         selectedItem: {
   //           name: '',
   //           value:nextProps.selectedItemData.value,
-  //           id: -1
+  //           id: -1,
+  //           ...nextProps.selectedItemData
   //         },
   //       }
   //     );
@@ -92,6 +93,8 @@ export default class Selection extends React.Component {
     const { optionList, customStyleType } = this.props;
     
     const { selectedItem, hoveredIdx, optionsVisible } = this.state;
+    console.log({selectedItem});
+
     return (
       <div
         onBlur={this.onBlurHandler}

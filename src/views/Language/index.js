@@ -151,12 +151,13 @@ export default class LanguagePage extends Component {
                     />
                   </span>
                 </div>
-
+                
                 <div className="modal-select" id="language">
                   <span className="rc-select rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop rc-select-processed">
                     <label className="rc-select__label">
                       <FormattedMessage id="lang.language" />
                     </label>
+                   
                     <Selection
                       customCls="flex-grow-1"
                       selectedItemChange={this.handleSelectedLangChange}
