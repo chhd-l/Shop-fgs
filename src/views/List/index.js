@@ -65,7 +65,7 @@ function getMuntiImg(item) {
 }
 
 function ListItemH5ForFr(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam } = props;
+  const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
   return item && item.productFinder ? (
     <div
       className="rc-column rc-column-pad fr-mobile-product"
@@ -114,12 +114,12 @@ function ListItemH5ForFr(props) {
                       }}
                     >
                       <img
-                        src={pfRecoImgRetailFinder}
+                        src={isDogPage ? retailDog : pfRecoImgRetailFinder}
                         className="ImgFitScreen pt-3"
                         style={{
                           maxWidth: '50%',
                           maxHeight: '100%',
-                          width: '150px',
+                          width: isDogPage ? '175px' : '150px',
                           height: 'auto',
                           margin: 'auto'
                         }}
@@ -2044,6 +2044,7 @@ class List extends React.Component {
                                 isMobile ? (
                                   <ListItemH5ForFr
                                     sourceParam={this.state.sourceParam}
+                                    isDogPage={isDogPage}
                                     key={item.id}
                                     leftPromotionJSX={
                                       item.taggingForText ? (
