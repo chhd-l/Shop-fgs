@@ -13,19 +13,20 @@ export default class Selection extends React.Component {
     customCls: ''
   };
   // hub-footer-language新增  如有问题 删除 start
-  componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.selectedItemData && nextProps.selectedItemData !== this.state.selectedItemData) {
-      this.setState(
-        {
-          selectedItem: {
-            name: '',
-            value:nextProps.selectedItemData.value,
-            id: -1
-          },
-        }
-      );
-    }
-  }
+  // 由于componentWillReceiveProps下方代码会影响正常下拉选择功能，暂时注释了
+  // componentWillReceiveProps(nextProps, nextContext) {
+  //   if (nextProps.selectedItemData && nextProps.selectedItemData !== this.state.selectedItemData) {
+  //     this.setState(
+  //       {
+  //         selectedItem: {
+  //           name: '',
+  //           value:nextProps.selectedItemData.value,
+  //           id: -1
+  //         },
+  //       }
+  //     );
+  //   }
+  // }
   // hub-footer-language新增  如有问题 删除 end
   constructor(props) {
     super(props);

@@ -44,6 +44,7 @@ const isHub = process.env.REACT_APP_HUB == '1';
 const isMobile = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const retailDog = 'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
 
 function getMuntiImg(item) {
   let img;
@@ -214,7 +215,8 @@ function ListItemH5ForFr(props) {
 }
 
 function ListItem(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam } = props;
+  const { item, GAListParam, breadListByDeco, sourceParam,isDogPage } = props;
+  console.log(isDogPage,'isDogPage===isDogPage==')
   return item && item.productFinder ? (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -265,14 +267,13 @@ function ListItem(props) {
                     }}
                   >
                     <img
-                      src={pfRecoImgRetailFinder}
+                      src={isDogPage ? retailDog : pfRecoImgRetailFinder}
                       alt="Mini Adult en Sauce"
                       title="Mini Adult en Sauce"
                       className="ImgFitScreen pt-3"
                       style={{
-                        maxWidth: '50%',
                         maxHeight: '100%',
-                        width: '150px',
+                        width: isDogPage ? '175px' : '150px',
                         height: 'auto',
                         margin: 'auto'
                       }}
@@ -1671,7 +1672,8 @@ class List extends React.Component {
       keywords,
       breadList,
       eEvents,
-      GAListParam
+      GAListParam,
+      isDogPage
     } = this.state;
     let event;
     if (pathname) {
@@ -2090,6 +2092,7 @@ class List extends React.Component {
                                   <ListItem
                                     sourceParam={this.state.sourceParam}
                                     key={item.id}
+                                    isDogPage={isDogPage}
                                     leftPromotionJSX={
                                       item.taggingForText ? (
                                         <div
