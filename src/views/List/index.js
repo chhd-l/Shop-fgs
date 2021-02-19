@@ -216,7 +216,6 @@ function ListItemH5ForFr(props) {
 
 function ListItem(props) {
   const { item, GAListParam, breadListByDeco, sourceParam,isDogPage } = props;
-  console.log(isDogPage,'isDogPage===isDogPage==')
   return item && item.productFinder ? (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -1326,6 +1325,7 @@ class List extends React.Component {
       actionFromFilter,
       sourceParam
     } = this.state;
+    console.log(initingList,defaultFilterSearchForm,'defaultFilterSearchForm===')
 
     this.setState({ loading: true });
 
@@ -1354,7 +1354,9 @@ class List extends React.Component {
         pItem.storeGoodsFilterValueVOList ||
         []
       ).filter((cItem) => cItem.selected);
+      console.log(seletedList,'seletedList===')
       if (seletedList.length) {
+        // filterType: 0是属性， 1 是自定义；
         if (pItem.filterType === '0') {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
@@ -1364,6 +1366,7 @@ class List extends React.Component {
             filterType: pItem.filterType
           });
         } else {
+          // todo:why pItem.filterType ==='1'需要这么处理？目前单选项saleable的filterType是1，因此下方的.concat(goodsFilterRelList).map找不到attributeName，attributeValues；
           goodsFilterRelList.push({
             filterId: pItem.id,
             filterValueIdList: seletedList.map((s) => s.id)
@@ -1372,7 +1375,6 @@ class List extends React.Component {
       }
       return pItem;
     });
-
     let urlPreVal = '';
     let pathname = '';
     goodsAttributesValueRelVOList
@@ -1395,6 +1397,8 @@ class List extends React.Component {
       //   }
       // });
     }
+    console.log( goodsAttributesValueRelVOList
+      .concat(goodsFilterRelList),'goodsAttributesValueRelVOList===')
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
