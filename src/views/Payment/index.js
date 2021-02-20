@@ -172,6 +172,7 @@ class Payment extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(222,this.loginCartData)
     try {
       const { checkoutStore, paymentStore, clinicStore, history } = this.props;
       const { tid } = this.state;

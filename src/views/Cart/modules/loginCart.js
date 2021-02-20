@@ -77,6 +77,7 @@ class LoginCart extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
+    console.log(1111,this.loginCartData)
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -102,6 +103,9 @@ class LoginCart extends React.Component {
       await this.checkoutStore.updateLoginCart();
     }
     this.setData();
+  }
+  get loginCartData() {
+    return this.props.checkoutStore.loginCartData;
   }
   get checkoutStore() {
     return this.props.checkoutStore;
