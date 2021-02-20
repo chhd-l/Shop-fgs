@@ -13,7 +13,6 @@ export default class Selection extends React.Component {
     customCls: ''
   };
   // hub-footer-language新增  如有问题 删除 start
-  // 由于componentWillReceiveProps下方代码会影响正常下拉选择功能，暂时注释了
   componentWillReceiveProps(nextProps, nextContext) {
     if (nextProps.selectedItemData && nextProps.selectedItemData !== this.state.selectedItemData) {
       this.setState(
@@ -55,6 +54,8 @@ export default class Selection extends React.Component {
         selectedItem: { value, ...item }
       },
       () => {
+        // console.log(this.state.selectedItem);
+        // debugger
         this.props.selectedItemChange(this.state.selectedItem);
       }
     );

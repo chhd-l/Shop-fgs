@@ -16,7 +16,8 @@ export default class LanguagePage extends Component {
     this.state = {
       allData: [],
       loading: true,
-      submitUrl: ''
+      submitUrl: '',
+      selectedLang: '',
     };
   }
   componentDidMount() {
@@ -103,12 +104,14 @@ export default class LanguagePage extends Component {
     });
     this.setState({ allData: tempData });
     this.setState({
-      submitUrl: data.Languages[0].Url
+      submitUrl: data.Languages[0].Url,
+      selectedLang: ''//点击选择国家，清空选择的语言
     });
   };
   handleSelectedLangChange = (data) => {
     this.setState({
-      submitUrl: data.Url
+      submitUrl: data.Url,
+      selectedLang: data.name //赋值选择的语言
     });
   };
   render() {
@@ -151,7 +154,6 @@ export default class LanguagePage extends Component {
                     />
                   </span>
                 </div>
-                
                 <div className="modal-select" id="language">
                   <span className="rc-select rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop rc-select-processed">
                     <label className="rc-select__label">
@@ -163,7 +165,7 @@ export default class LanguagePage extends Component {
                       selectedItemChange={this.handleSelectedLangChange}
                       optionList={this.languageComputedList}
                       selectedItemData={{
-                        value: this.currentCountryFirstLanguage
+                        value: this.state.selectedLang || this.currentCountryFirstLanguage //  选择的语言||默认为当前国家的第一语言
                       }}
                       key={'lang'}
                     />
