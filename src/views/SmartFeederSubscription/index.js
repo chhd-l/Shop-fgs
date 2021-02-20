@@ -89,7 +89,7 @@ const Step1Pc = (props) => {
             props.toOtherStep('step2');
           }}
         >
-          view product details
+          <FormattedMessage id="smartFeederSubscription.viewProductDetails" />
         </button>
         <button
           disabled={props.isDisabled}
@@ -98,7 +98,7 @@ const Step1Pc = (props) => {
             props.toOtherStep('step3');
           }}
         >
-          choose product
+          <FormattedMessage id="smartFeederSubscription.chooseProduct" />
         </button>
       </div>
     </div>
@@ -176,7 +176,7 @@ class Step1H5 extends Component {
                 this.props.toOtherStep('step2');
               }}
             >
-              view product details
+              <FormattedMessage id="smartFeederSubscription.viewProductDetails" />
             </button>
           </div>
           <div className="rc-column">
@@ -187,7 +187,7 @@ class Step1H5 extends Component {
                 this.props.toOtherStep('step3');
               }}
             >
-              choose product
+              <FormattedMessage id="smartFeederSubscription.chooseProduct" />
             </button>
           </div>
         </div>
@@ -217,6 +217,7 @@ const Step1 = (props) => {
   );
 };
 const Step2 = (props) => {
+  console.info('detailsdetailsdetails', props.details);
   return (
     <div className="margin12 product_detail">
       <div>
@@ -227,17 +228,24 @@ const Step2 = (props) => {
             </LazyLoad>
           </div>
           <div className="rc-column rc-double-width">
-            <div className="title">Jack Russel Terrier</div>
+            <div className="title">{props.details.goodsInfoName}</div>
             <div className="sub_title">Dry Dog Food</div>
             <div>
-              Royal Canin Jack Russell Terrier Adult dry dog food is designed to
+              <div className="block">
+                <p
+                  className="content rc-scroll--x"
+                  style={{ marginBottom: '4rem' }}
+                  dangerouslySetInnerHTML={createMarkup(props.goodsDetailTab?.tabContent[0])}
+                />
+              </div>
+              {/* Royal Canin Jack Russell Terrier Adult dry dog food is designed to
               meet the nutritional needs of purebred Jack Russell Terriers 10
               months and older Royal Canin knows what makes your Jack Russell
               Terrier magnificent is in the details. Small but mighty, the Jack
               Russell is an energetic dog that requires a ton of activity. They
               can benefit from the right diet to help maintain muscle mass,
               protect their skin and coat, and help with dental care, especially
-              as your good-looking little pal becomes older.
+              as your good-looking little pal becomes older. */}
             </div>
           </div>
         </div>
@@ -250,7 +258,7 @@ const Step2 = (props) => {
             props.toOtherStep('step1');
           }}
         >
-          select another product
+          <FormattedMessage id="smartFeederSubscription.selectAnotherProduct" />
         </button>
         <button
           className="rc-btn rc-btn--sm rc-btn--one button192"
@@ -258,7 +266,7 @@ const Step2 = (props) => {
             props.toOtherStep('step3');
           }}
         >
-          Conﬁrm this product
+          <FormattedMessage id="smartFeederSubscription.conﬁrmThisProduct" />
         </button>
       </div>
       <div className="rc-layout-container rc-two-column  rc-text--center rc-margin-top--md rc-md-down">
@@ -270,7 +278,7 @@ const Step2 = (props) => {
               this.props.toOtherStep('step1');
             }}
           >
-            select another product
+            <FormattedMessage id="smartFeederSubscription.selectAnotherProduct" />
           </button>
         </div>
         <div className="rc-column">
@@ -281,7 +289,7 @@ const Step2 = (props) => {
               this.props.toOtherStep('step3');
             }}
           >
-            Conﬁrm this product
+            <FormattedMessage id="smartFeederSubscription.conﬁrmThisProduct" />
           </button>
         </div>
       </div>
@@ -331,18 +339,21 @@ const Step3 = (props) => {
   }, []);
   return (
     <div className="confirm_product">
-      <div className="title text-center">
-        <span
-          className="back_button rc_md_up rc-styled-link"
-          onClick={() => {
-            props.toOtherStep('step1');
-          }}
-        >
+      <div className="title text-center d-flex">
+        <span className="back_button rc_md_up">
           <span className="rc-icon rc-plus--xs rc-iconography icon_back"></span>
-          go back to product
+          <span
+            className="rc-styled-link"
+            onClick={() => {
+              props.toOtherStep('step1');
+            }}
+          >
+            <FormattedMessage id="smartFeederSubscription.backToProduct" />
+          </span>
         </span>
-        Get your kibble refills delivered automatically, just select your
-        desired delivery frequency and add to cart
+        <span style={{ flex: 1 }}>
+          <FormattedMessage id="smartFeederSubscription.backToProductTitle" />
+        </span>
       </div>
       <div className="rc-layout-container rc-three-column wrap_container margin_for_1rem">
         <div className="rc-column wrap_item free_sampling">
@@ -357,7 +368,10 @@ const Step3 = (props) => {
               style={{ flexDirection: 'column', justifyContent: 'center' }}
             >
               <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
-              <p>x1 Delivered at the first shipment</p>
+              <p>
+                x1{' '}
+                <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
+              </p>
             </div>
           </div>
           <span className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn side_icon"></span>
@@ -385,7 +399,7 @@ const Step3 = (props) => {
                           </div> */}
                     <div className="overflow-hidden">
                       <div className="text-left ml-1 font_size12 pad_b_5">
-                        {item.specName}:
+                        <FormattedMessage id={item.specName} />:
                       </div>
                       {item.chidren.map((sdItem) => (
                         <div
@@ -414,7 +428,7 @@ const Step3 = (props) => {
               >
                 <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
                   <div className="text-left ml-1 font_size12 pad_b_5">
-                    Quantity:
+                    <FormattedMessage id="quantityText" />:
                   </div>
                   <div className="rc-quantity d-flex">
                     <span
@@ -441,7 +455,9 @@ const Step3 = (props) => {
                 </div>
               </div>
             </div>
-            <p className="frequency">select your frequency</p>
+            <p className="frequency">
+              <FormattedMessage id="smartFeederSubscription.selectYourFrequency" />
+            </p>
             <div>
               {selectedFrequency && (
                 <Selection
@@ -464,7 +480,7 @@ const Step3 = (props) => {
             <div style={{ width: '70%' }}>
               <h6>{detailInfo.planProds[0].goodsInfoName}</h6>
               <div className="font_size12 rc-margin-bottom--xs">
-                Smart feeder subscription
+                <FormattedMessage id="smartFeederSubscription.smartFeederSubscription" />
               </div>
             </div>
             <div className="font_size20 flex-fill text-right">
@@ -475,17 +491,24 @@ const Step3 = (props) => {
             <div style={{ width: '70%' }}>
               <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
               <div className="font_size12 rc-margin-bottom--xs">
-                x1 Delivered at the first shipment
+                x1{' '}
+                <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
               </div>
             </div>
             <div></div>
           </div>
           <div className="d-flex font_size20 shipping">
-            <div style={{ width: '70%' }}>Shipping</div>
-            <div className="flex-fill text-right">free</div>
+            <div style={{ width: '70%' }}>
+              <FormattedMessage id="shipping" />
+            </div>
+            <div className="flex-fill text-right">
+              <FormattedMessage id="freeShipping" />
+            </div>
           </div>
           <div className="d-flex total">
-            <div style={{ width: '70%' }}>TOTAL</div>
+            <div style={{ width: '70%' }}>
+              <FormattedMessage id="total" />
+            </div>
             <div className="flex-fill text-right">
               {detailInfo.planProds[0].settingPrice}
             </div>
@@ -497,7 +520,7 @@ const Step3 = (props) => {
                   onClick={props.hanldeAddToCart}
                   className="rc-btn rc-btn--two wid100 11111"
                 >
-                  Add to cart
+                  <FormattedMessage id="details.addToCart" />
                 </button>
               </div>
               <div className="rc-column">
@@ -507,27 +530,33 @@ const Step3 = (props) => {
                   }
                   className="rc-btn rc-btn--one wid100"
                 >
-                  Go to Checkout
+                  <FormattedMessage id="checkout" />
                 </button>
               </div>
             </div>
           </div>
-          {/* <button class="rc-btn rc-btn--one">Add to cart</button>
-            <button class="rc-btn rc-btn--two">Go to Checkout</button>*/}
+          {/* <button class="rc-btn rc-btn--one">
+              <FormattedMessage id="details.addToCart" />
+          </button>
+            <button class="rc-btn rc-btn--two">
+                  <FormattedMessage id="checkout" />
+            </button>*/}
         </div>
       </div>
       <div
         className="rc_md_down text-center"
         style={{ background: '#f7f7f7', padding: '0 1rem' }}
       >
-        <span
-          className="rc-styled-link"
-          onClick={() => {
-            props.toOtherStep('step1');
-          }}
-        >
+        <span>
           <span className="rc-icon rc-plus--xs icon_back rc-iconography"></span>
-          go back to product
+          <span
+            className="rc-styled-link"
+            onClick={() => {
+              props.toOtherStep('step1');
+            }}
+          >
+            <FormattedMessage id="smartFeederSubscription.backToProduct" />
+          </span>
         </span>
       </div>
 
@@ -1425,7 +1454,7 @@ class SmartFeederSubscription extends Component {
     }
   }
   getStep1List = async () => {
-    const { planId } = this.state;
+    const planId = this.state.planId || '000000';
     // "joinPromoFlag": true, --是否可以加入其它promo的标识 true 是，false   否
     // "quantityStage": 100 --当前订阅计划的库存量
     // @ApiEnumProperty("0")
@@ -1781,7 +1810,13 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const { headerHide, stepName,checkOutErrMsg, goodsDetailTab, enableFlag } = this.state;
+    const {
+      headerHide,
+      stepName,
+      checkOutErrMsg,
+      goodsDetailTab,
+      enableFlag
+    } = this.state;
     let stepCom = null;
     return (
       <div>
@@ -1821,9 +1856,7 @@ class SmartFeederSubscription extends Component {
             <React.Fragment>
               {isMobile && (
                 <div className="detailHeader mt-3">
-                  <ErrMsgForCheckoutPanel
-                    checkOutErrMsg={checkOutErrMsg}
-                  />
+                  <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
                 </div>
               )}
               <StaticPage />
@@ -1833,9 +1866,11 @@ class SmartFeederSubscription extends Component {
               <div id="step3"></div>
               <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil h5_no_pad">
                 <h2 className="smartfeedersubscription-title">
-                  {stepName == 'step3'
-                    ? 'Finalise your order'
-                    : 'Select your product'}
+                  {stepName == 'step3' ? (
+                    <FormattedMessage id="smartFeederSubscription.finaliseYourOrder" />
+                  ) : (
+                    <FormattedMessage id="smartFeederSubscription.selectYourProduct" />
+                  )}
                 </h2>
                 {(() => {
                   switch (stepName) {

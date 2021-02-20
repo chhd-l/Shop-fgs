@@ -1140,7 +1140,7 @@ class LoginCart extends React.Component {
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
-                    <div>x1 Delivered at the first shipment</div>
+                    <div>x1 <FormattedMessage id="smartFeederSubscription.shopmentTimes" /></div>
                   </div>
                 </div>
                 <div className="tips-info mobile-text-center">

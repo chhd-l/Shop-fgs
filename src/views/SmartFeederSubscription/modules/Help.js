@@ -30,16 +30,23 @@ class Help extends React.Component {
             <div className="rc-full-width">
               <div className="experience-component experience-assets-contactUsBlock">
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                  <div className={`text-center ${true?'':'rc-margin-y--sm rc-margin-top--lg--mobile'}`}>
+                  <div
+                    className={`text-center ${
+                      true ? '' : 'rc-margin-y--sm rc-margin-top--lg--mobile'
+                    }`}
+                  >
                     <h1 className="rc-beta">
-                      Our pet experts are here to help you  
+                      <FormattedMessage id="recommendation.thirdTitle" />
+                      {/* Our pet experts are here to help you   */}
                     </h1>
                     <div className="rc-large-body inherit-fontsize children-nomargin">
                       <p>
-                        We’re ready to help you with any further questions you
+                        <FormattedMessage id="smartFeederSubscription.helpSubTitle" />
+
+                        {/* We’re ready to help you with any further questions you
                         might have
                         <br />
-                        about the Smart Feeder Subscription.
+                        about the Smart Feeder Subscription. */}
                       </p>
                     </div>
                   </div>

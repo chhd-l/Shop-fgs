@@ -1,15 +1,20 @@
 const de_DE = {
   aboutUs: 'ÜBER UNS',
-  'aboutUs.description': 'Tiergesundheit ist der Schlüssel zu Schönheit und Wohlbefinden. Wir untersuchen sorgfältig die kleinsten physiologischen Merkmale von Hunden und Katzen, um ihre Bedürfnisse zu verstehen und ihnen eine einzigartige individuelle Ernährung anzubieten.',
+  'aboutUs.description':
+    'Tiergesundheit ist der Schlüssel zu Schönheit und Wohlbefinden. Wir untersuchen sorgfältig die kleinsten physiologischen Merkmale von Hunden und Katzen, um ihre Bedürfnisse zu verstehen und ihnen eine einzigartige individuelle Ernährung anzubieten.',
   'aboutUs.FoodQualityandSafety': 'Qualität und Sicherheit von Lebensmitteln',
-  'aboutUs.FoodQualityandSafetyDetail': 'Unser Engagement für Ernährungsqualität und Produktsicherheit steht im Mittelpunkt unserer weltweiten Aktivitäten.',
+  'aboutUs.FoodQualityandSafetyDetail':
+    'Unser Engagement für Ernährungsqualität und Produktsicherheit steht im Mittelpunkt unserer weltweiten Aktivitäten.',
   'aboutUs.history': 'Unsere Geschichte',
-  'aboutUs.historyDetail': 'Royal Canin wurde 1968 vom Tierarzt Jean Cathary gegründet. Dr. Catharys Vision war ein wissenschaftlich fundiertes Tiernahrungsunternehmen, das Ernährung als erste Medizin für Katzen und Hunde anbietet und präzise Formeln erstellt, um den individuellen Bedürfnissen jedes Haustieres gerecht zu werden.',
+  'aboutUs.historyDetail':
+    'Royal Canin wurde 1968 vom Tierarzt Jean Cathary gegründet. Dr. Catharys Vision war ein wissenschaftlich fundiertes Tiernahrungsunternehmen, das Ernährung als erste Medizin für Katzen und Hunde anbietet und präzise Formeln erstellt, um den individuellen Bedürfnissen jedes Haustieres gerecht zu werden.',
   'aboutUs.IncredibleDetail': 'In jedem Detail unglaublich',
   'aboutUs.learnMore': 'Weitere Informationen',
   'aboutUs.ourValues': 'Unsere Werte',
-  'aboutUs.ourValuesDetail': 'Erfahren Sie mehr über die Ideen und Werte, die die Rolle von Royal Canin in der Welt prägen.',
-  'aboutUs.SeeHowWeDo': 'Sehen Sie, wie alles, was wir tun, von unserer Leidenschaft für die Gesundheit von Haustieren angetrieben wird.',
+  'aboutUs.ourValuesDetail':
+    'Erfahren Sie mehr über die Ideen und Werte, die die Rolle von Royal Canin in der Welt prägen.',
+  'aboutUs.SeeHowWeDo':
+    'Sehen Sie, wie alles, was wir tun, von unserer Leidenschaft für die Gesundheit von Haustieren angetrieben wird.',
   'aboutUs.shopCat': 'Shop Katzenformeln',
   'aboutUs.shopDog': 'Shop Hundeformeln',
   'aboutUs.shopTile': 'Maßgeschneiderte Ernährung für Ihr Haustier',
@@ -26,47 +31,57 @@ const de_DE = {
   'account.dog': 'Hund',
   'account.Email': 'E-Mail Adresse',
   'account.enterBirthDare': 'Geben Sie das Geburtsdatum Ihres Tieres an.',
-  'account.faqTip': 'Wenn Sie Fragen haben, sind wir immer bereit, Ihnen und Ihrem Haustier zu helfen',
+  'account.faqTip':
+    'Wenn Sie Fragen haben, sind wir immer bereit, Ihnen und Ihrem Haustier zu helfen',
   'account.faqTitle': 'FAQ',
-  'account.features': 'Zu welchem Krankheitsbild hat Ihre Tierarztpraxis eine Nahrung empfohlen?',
+  'account.features':
+    'Zu welchem Krankheitsbild hat Ihre Tierarztpraxis eine Nahrung empfohlen?',
   'account.feedSubscription': 'Nahrungsabo',
   'account.feedSubscriptionTip': 'Verwalten Sie Ihre Abo-Einstellungen.',
   'account.female': 'Weiblich',
   'account.fine': 'Ihr Tier wurde erstellt!',
   'account.gender': 'Welches Geschlecht hat Ihr Tier?',
-  'account.helpTip': 'Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.',
+  'account.helpTip':
+    'Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.',
   'account.male': 'Männlich',
   'account.mixBreed': 'Mischrasse',
   'account.myAccount': 'Mein Konto',
   'account.myAddresses': 'Meine Adressen',
-  'account.myCommunicationPreferencesContent1': 'Bevorzugte Kommunikationsmethode',
+  'account.myCommunicationPreferencesContent1':
+    'Bevorzugte Kommunikationsmethode',
   'account.myCommunicationPreferencesContent2': 'ROYAL CANIN® Newsletter',
-  'account.myCommunicationPreferencesDesc': 'Passen Sie hier an, ob und wie Sie von uns kontaktiert werden möchten.\n',
+  'account.myCommunicationPreferencesDesc':
+    'Passen Sie hier an, ob und wie Sie von uns kontaktiert werden möchten.\n',
   'account.myCommunicationPreferencesTitle': 'Meine Kommunikationspräferenzen',
   'account.myPayments': 'Meine Zahlungen',
   'account.nickname': 'Wie lautet der Name Ihres Tieres?',
-  'account.noPet': 'Erstellen Sie in wenigen Schritten ein Profil für Ihr(e) Haustier(e)!',
+  'account.noPet':
+    'Erstellen Sie in wenigen Schritten ein Profil für Ihr(e) Haustier(e)!',
   'account.notRegistred': 'Sie sind noch nicht registriert?',
   'account.of': 'von',
   'account.orders': 'Aufträge',
   'account.orders.btns': 'Jetzt einkaufen!',
-  'account.orders.tips': 'Bis jetzt haben Sie noch keine Bestellungen aufgegeben',
+  'account.orders.tips':
+    'Bis jetzt haben Sie noch keine Bestellungen aufgegeben',
 
   'account.ordersTip': 'Verfolgen Sie den Status Ihrer aktuellen Bestellungen.',
   'account.ordersTitle': 'Meine Bestellungen',
   'account.paymentMethod': 'Zahlungsmethode',
-  'account.paymentMethodTip': 'Zahlungsinformationen anzeigen oder aktualisieren.',
+  'account.paymentMethodTip':
+    'Zahlungsinformationen anzeigen oder aktualisieren.',
   'account.personalArea': 'Profil',
   'account.personalData': 'Persönliche Daten',
   'account.pets': 'Meine Tiere',
   'account.petsTip': 'Erstellen und verwalten Sie Ihre Haustierprofile.',
   'account.petsTitle': 'Meine Haustiere',
   'account.preferredContactMethod': 'Bevorzugte Art der Kontaktierung',
-  'account.preferredMethodOfCommunication': 'Ich möchte kontaktiert warden über:',
+  'account.preferredMethodOfCommunication':
+    'Ich möchte kontaktiert warden über:',
   'account.profile': 'Meine Informationen',
   'account.profileTip': 'Aktualisieren Sie Ihre persönlichen Daten.',
   'account.requiredFields': 'Benötigte Felder',
-  'account.shippingAddressTip': 'Erstellen oder bearbeiten Sie Ihre Lieferadresse.',
+  'account.shippingAddressTip':
+    'Erstellen oder bearbeiten Sie Ihre Lieferadresse.',
   'account.specialNeeds': 'Empfohlene Nahrung der Tierarztpraxis',
   'account.step': 'Schritt',
   'account.sterilized': 'Ist Ihr Tier kastriert oder sterilisiert?',
@@ -75,11 +90,12 @@ const de_DE = {
   'account.subscriptionTitle': 'Regelmäßige Lieferung',
   'account.subscription': 'Regelmäßige Lieferung',
   autoship: 'Regelmäßige Lieferung',
-  'autoship_nos': 'Regelmäßige Lieferung',
+  autoship_nos: 'Regelmäßige Lieferung',
   'account.TheAddressBook': 'Das Adressbuch',
   'account.toComeIn': 'Betreten',
   'account.unknownBreed': 'kein Rassetier',
-  'account.warmNotice': 'Willkommen! Dieser Bereich dient zur Verwaltung Ihres Kontos. Passen Sie hier einfach Ihre Profilinformationen und die Daten Ihres Tieres an oder überprüfen Sie den Status Ihrer Bestellung.',
+  'account.warmNotice':
+    'Willkommen! Dieser Bereich dient zur Verwaltung Ihres Kontos. Passen Sie hier einfach Ihre Profilinformationen und die Daten Ihres Tieres an oder überprüfen Sie den Status Ihrer Bestellung.',
   'account.weight': 'Welche Größe hat {val}?',
   'account.welcome': 'Willkommen bei ROYAL CANIN®!',
   active: 'Aktiv',
@@ -108,7 +124,7 @@ const de_DE = {
   aQuestion: 'Haben Sie eine Frage?',
   area: 'Bereich',
   autoship: 'Regelmäßige Lieferung',
-  'autoship_nos': 'Regelmäßige Lieferung',
+  autoship_nos: 'Regelmäßige Lieferung',
   autoShipOrderDetails: 'Details Ihrer Abo-Bestellung',
   autoshop: 'im Abo',
   backToAuthorization: 'Zurück zur Autorisierung',
@@ -127,17 +143,23 @@ const de_DE = {
   cardNumberIsInvalid: 'Ihre Kartennummer ist ungültig',
   'cart.catDiet': 'Nahrungen für Katzen',
   'cart.deletInfo': 'Produkt löschen?',
-  'cart.deletInfo2': 'Möchten Sie diesen Artikel wirklich aus Ihrem Warenkorb entfernen?',
+  'cart.deletInfo2':
+    'Möchten Sie diesen Artikel wirklich aus Ihrem Warenkorb entfernen?',
   'cart.dogDiet': 'Nahrungen für Hunde',
   'cart.errorInfo': 'Die Zahl darf nicht kleiner als 1 sein',
-  'cart.errorInfo2': 'Sie können Ihre Bestellung nicht aufgeben, nicht vorrätiges Produk',
-  'cart.errorInfo3': '* Ihr Bestellbetrag hat noch nicht den Mindestbetrag für kostenlosen Versand erreicht ({val})',
-  'cart.errorInfo4': 'Folgendes Produkt kann leider aktuell nicht bestellt warde',
-  'cart.errorInfo5': 'Sie können Ihre Bestellung nicht aufgeben, gelöschtes Produkt: {val}',
+  'cart.errorInfo2':
+    'Sie können Ihre Bestellung nicht aufgeben, nicht vorrätiges Produk',
+  'cart.errorInfo3':
+    '* Ihr Bestellbetrag hat noch nicht den Mindestbetrag für kostenlosen Versand erreicht ({val})',
+  'cart.errorInfo4':
+    'Folgendes Produkt kann leider aktuell nicht bestellt warde',
+  'cart.errorInfo5':
+    'Sie können Ihre Bestellung nicht aufgeben, gelöschtes Produkt: {val}',
   'cart.errorMaxCate': 'Der Warenkorb darf 30 Artikel nicht überschreiten',
   'cart.errorMaxInfo': 'Die Anzahl darf 30 nicht überschreiten',
   'cart.fullPrice': 'Suchen Sie die passende Nahrung für Ihr Tier',
-  'cart.miniCartTitle': 'Schließen Sie eine Abo-Bestellung ab und sparen Sie zusätzliche 10% auf Ihre Bestellung!',
+  'cart.miniCartTitle':
+    'Schließen Sie eine Abo-Bestellung ab und sparen Sie zusätzliche 10% auf Ihre Bestellung!',
   'cart.totalProduct': 'Artikel im Warenkorb',
   'cart.totalProduct_nounit': 'Artikel im Warenkorb',
   'cart.yourShoppingCart': 'Ihr Warenkorb',
@@ -149,17 +171,21 @@ const de_DE = {
   changePassword: 'Ändere das Passwort',
   checkout: 'Weiter',
   loginText: 'Weiter',
-  checkoutTip: 'Geben Sie Ihre Lieferadresse ein und wählen Sie Ihre gewünschte Zahlungsmethode aus.{val1}Bitte beachten Sie, dass eine Lieferung ausschließlich innerhalb Deutschlands angeboten wird.',
+  checkoutTip:
+    'Geben Sie Ihre Lieferadresse ein und wählen Sie Ihre gewünschte Zahlungsmethode aus.{val1}Bitte beachten Sie, dass eine Lieferung ausschließlich innerhalb Deutschlands angeboten wird.',
   choosePayment: 'Zahlung wählen',
   choosePrescriber: 'Bitte wählen Sie den richtigen Verschreiber',
   chooseTheProduct: 'Produkt auswählen',
-  clickConfirmCardButton: 'Bitte klicken Sie auf die Schaltfläche Karte bestätigen',
-  clickConfirmCvvButton: 'Wenn Sie diese Kreditkarte verwenden möchten, geben Sie CVV ein und klicken Sie auf die Schaltfläche Übernehmen',
+  clickConfirmCardButton:
+    'Bitte klicken Sie auf die Schaltfläche Karte bestätigen',
+  clickConfirmCvvButton:
+    'Wenn Sie diese Kreditkarte verwenden möchten, geben Sie CVV ein und klicken Sie auf die Schaltfläche Übernehmen',
   clickHere: 'klicken Sie hier',
   clickHere2: 'Hier',
   'clinic.cancel': 'Stornieren',
   'clinic.clinic': 'Klinik',
-  'clinic.clinicTip': 'Finden Sie eine ROYAL CANIN Partnerklinik in Ihrer Nähe.',
+  'clinic.clinicTip':
+    'Finden Sie eine ROYAL CANIN Partnerklinik in Ihrer Nähe.',
   'clinic.confirm': 'Bestätigen',
   'clinic.navigate': 'Navigieren',
   'clinic.selectVetClinics': 'Wählen Sie Tierkliniken',
@@ -167,16 +193,20 @@ const de_DE = {
   close: 'Schließen',
   club: 'Club',
   comment: 'Kommentieren',
-  'comment.commentsTooLong': 'Produktkommentare können nicht mehr als 500 Zeichen',
+  'comment.commentsTooLong':
+    'Produktkommentare können nicht mehr als 500 Zeichen',
   'comment.noLogisticsRatingTip': 'Bitte kommentieren Sie den Logistikservice',
   'comment.noProductRatingTip': 'Bitte kommentieren Sie die Produkte',
-  'comment.noShoppingExperienceTip': 'Bitte kommentieren Sie das Einkaufserlebnis',
+  'comment.noShoppingExperienceTip':
+    'Bitte kommentieren Sie das Einkaufserlebnis',
   CompleteRequiredItems: 'Bitte füllen Sie die erforderlichen Elemente aus',
   confirmation: 'Bestätigung',
   'confirmation.customerInformation': 'Ihre Informationen',
   'confirmation.info1': 'Vielen Dank für Ihren Auftrag.',
-  'confirmation.info2': 'Sie erhalten in Kürze eine Bestellbestätigung per E-Mail.',
-  'confirmation.info3': 'Adressen und Versandarten sind unter Ihrer Ware angegeben.',
+  'confirmation.info2':
+    'Sie erhalten in Kürze eine Bestellbestätigung per E-Mail.',
+  'confirmation.info3':
+    'Adressen und Versandarten sind unter Ihrer Ware angegeben.',
   'confirmation.orderNumber': 'Bestellnummer',
   'confirmation.rateTip': 'Wie würden Sie Ihr Einkaufserlebnis bewerten?',
   'confirmation.rateTip2': 'Was können wir tun, um uns zu verbessern?',
@@ -201,10 +231,25 @@ const de_DE = {
   customerReviews: 'Kundenbewertungen',
   cvvWarning: 'CVV ist falsch',
   dataProtection: 'Datenschutzerklärung',
-  'datePicker.months': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+  'datePicker.months': [
+    'Januar',
+    'Februar',
+    'März',
+    'April',
+    'Mai',
+    'Juni',
+    'Juli',
+    'August',
+    'September',
+    'Oktober',
+    'November',
+    'Dezember'
+  ],
   'datePicker.nextMonth': 'nächsten Monat',
   'datePicker.previousMonth': 'vorheriger Monat',
-  'datePicker.weekdays': ['Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag'],
+  'datePicker.weekdays': [
+    'Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag'
+  ],
   'datePicker.weekdaysShort': ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
   de_cats: 'Für Katzen',
   de_dogs: 'Für Hunde',
@@ -213,8 +258,10 @@ const de_DE = {
   delete: 'Löschen',
   deleteAddressFailed: 'Adresse löschen fehlgeschlagen',
   deleteAddressSuccess: 'Adresse erfolgreich löschen',
-  deleteAddressTip: 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
-  deleteCardTip: 'Diese Kreditkarte wurde bereits abonniert und kann daher nicht gelöscht werden.',
+  deleteAddressTip:
+    'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
+  deleteCardTip:
+    'Diese Kreditkarte wurde bereits abonniert und kann daher nicht gelöscht werden.',
   delivery: 'Lieferkosten',
   delivery2: 'Lieferung',
   deliveryAddress: 'Lieferadresse',
@@ -229,8 +276,10 @@ const de_DE = {
   'details.beneficialFeatures': 'Nützliche Merkmale',
   'details.bySubscription': 'im Abonnement',
   'details.description': 'Beschreibung',
-  'details.errMsg': 'Das Produkt hat keine technischen Daten, bitte versuchen Sie es später noch einmal.',
-  'details.errMsg2': 'Keine Details gefunden, bitte versuchen Sie es später noch einmal.',
+  'details.errMsg':
+    'Das Produkt hat keine technischen Daten, bitte versuchen Sie es später noch einmal.',
+  'details.errMsg2':
+    'Keine Details gefunden, bitte versuchen Sie es später noch einmal.',
   'details.feedingRecommendations': 'Fütterungsempfehlungen',
   'details.ingredients': 'Zutaten',
   'details.inStock': 'sofort versandfertig, Lieferzeit: 1-3 Tage.',
@@ -244,13 +293,13 @@ const de_DE = {
   dogs: 'HUNDE',
   dogs2: 'Hunde',
   dogs3: 'Hund',
-  'New Pet':'Neues Tier hinzufügen',
-  'Choose your pet type':'Bitte wählen Sie:',
-  'Your Pet is a…':'Mein Tier ist ein(e)…',
-  'Vous avez économisé':'Sie sparen ',
-  'avecLabonnement':'bei diesem Abonnement',
-  'Dog':'Hund',
-  'Cat':'Katze',
+  'New Pet': 'Neues Tier hinzufügen',
+  'Choose your pet type': 'Bitte wählen Sie:',
+  'Your Pet is a…': 'Mein Tier ist ein(e)…',
+  'Vous avez économisé': 'Sie sparen ',
+  avecLabonnement: 'bei diesem Abonnement',
+  Dog: 'Hund',
+  Cat: 'Katze',
   dontHesitateToContactUs: 'Zögern Sie nicht uns zu kontaktieren',
   download: 'Herunterladen',
   edit: 'Bearbeiten',
@@ -273,14 +322,17 @@ const de_DE = {
   examplePostCode: '50674',
   expirationDateIsInvalid: 'Das Ablaufdatum Ihrer Karte ist ungültig',
   'faq.frequentQuestions': 'Häufig gestellte Fragen',
-  'faq.title': 'Hier finden Sie die Antworten auf häufig gestellte Fragen. Falls Sie weitere Fragen haben, wenden Sie sich gerne an unser {val1}.',
+  'faq.title':
+    'Hier finden Sie die Antworten auf häufig gestellte Fragen. Falls Sie weitere Fragen haben, wenden Sie sich gerne an unser {val1}.',
   'faq.title2': 'Allgemeines',
-  FAQdesc: 'Wenn Sie eine Frage haben. Schauen Sie unten, um zu sehen, ob es eine Antwort gibt. Wenn Sie nicht finden können, wonach Sie suchen. {val} um uns zu kontaktieren.',
+  FAQdesc:
+    'Wenn Sie eine Frage haben. Schauen Sie unten, um zu sehen, ob es eine Antwort gibt. Wenn Sie nicht finden können, wonach Sie suchen. {val} um uns zu kontaktieren.',
   filters: 'Filter',
   findLocation: 'Ort suchen',
   findTheRightDiet: 'Finde das richtige Essen',
   firstName: 'Vorname *',
-  'firstNameLastName50characters!': 'Vorname oder Nachname dürfen 50 Zeichen nicht überschreiten!',
+  'firstNameLastName50characters!':
+    'Vorname oder Nachname dürfen 50 Zeichen nicht überschreiten!',
   'footer.aboutRoyalCanin': 'ÜBER ROYAL CANIN®',
   'footer.acceptance': 'Akzeptanzgarantie',
   'footer.action': 'Aktionen',
@@ -294,8 +346,10 @@ const de_DE = {
   'footer.cookieCollectionPolicy': 'Noch nicht übersetzt',
   'footer.cookies': 'Kekse',
   'footer.cookies2': 'Cookies',
-  'footer.copyrightInfo': 'Copyright © Mars 2020®, Warenzeichen von Mars Incorporated und seinen verbundenen Unternehmen',
-  'footer.copyrightInfo2': '©2020 Mars, Incorporated and Tochtergesellschaften.Alle Rechte vorbehalten',
+  'footer.copyrightInfo':
+    'Copyright © Mars 2020®, Warenzeichen von Mars Incorporated und seinen verbundenen Unternehmen',
+  'footer.copyrightInfo2':
+    '©2020 Mars, Incorporated and Tochtergesellschaften.Alle Rechte vorbehalten',
   'footer.copyrightInfo2_1': 'Ein Tochterunternehmen von Mars, Incorporated',
   'footer.email': 'E-Mail',
   'footer.FAQ': 'FAQ',
@@ -326,37 +380,44 @@ const de_DE = {
   forgetPassword: 'Passwort vergessen?',
   'forgetPassword.back': 'Zurück zur Anmeldung',
   'forgetPassword.createNewPassword': 'Neues Passwort erstellen',
-  'forgetPassword.forgetPasswordTip': 'Sie erhalten einen Brief mit Anweisungen zum Ändern des Passworts.',
+  'forgetPassword.forgetPasswordTip':
+    'Sie erhalten einen Brief mit Anweisungen zum Ändern des Passworts.',
   freeShipping: 'Kostenloser Versand',
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
   gender: 'Geschlecht',
-  isPurebred:'Ist Ihr Tier reinrassig',
-  changepic:'Bild hochladen',
-  petFemale:'männlich',
-  petMale:'weiblich',
-  'account.yes':'Ja',
-  'account.no':'Nein',
-  'Special Need':'Nahrungsempfehlung für',
-  'Size':'Größe',
-  "weight_s":'weight',
-  "quantityText": 'Anzahl',
+  isPurebred: 'Ist Ihr Tier reinrassig',
+  changepic: 'Bild hochladen',
+  petFemale: 'männlich',
+  petMale: 'weiblich',
+  'account.yes': 'Ja',
+  'account.no': 'Nein',
+  'Special Need': 'Nahrungsempfehlung für',
+  Size: 'Größe',
+  weight_s: 'weight',
+  quantityText: 'Anzahl',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
   getPetFailed: 'Get Pet Failed',
-  giveConsentPersonalData: 'und meine Zustimmung zur Verarbeitung personenbezogener Daten einschließlich der grenzüberschreitenden Übermittlung geben',
+  giveConsentPersonalData:
+    'und meine Zustimmung zur Verarbeitung personenbezogener Daten einschließlich der grenzüberschreitenden Übermittlung geben',
   goods: 'Produkte',
   guestCheckout: 'Als Gast bestellen',
   'header.basketEmpty': 'Ihr Warenkorb ist leer',
-  'header.carouselInfo1': 'Unterstützen Sie die Gesundheit Ihres Haustieres mit der richtigen Nahrungslösung.',
-  'header.carouselInfo2': 'Wählen Sie das passende Produkt aus dem ROYAL CANIN® Vet Portfolio',
+  'header.carouselInfo1':
+    'Unterstützen Sie die Gesundheit Ihres Haustieres mit der richtigen Nahrungslösung.',
+  'header.carouselInfo2':
+    'Wählen Sie das passende Produkt aus dem ROYAL CANIN® Vet Portfolio',
   'header.carouselInfo3': 'Tierernährung',
   'header.carouselInfo4': 'Persönlicher Berater',
   'header.carouselInfo5': 'KOSTENLOSE tierärztliche Untersuchungen',
   'header.carouselInfo6': 'Markenzubehör und VIP-Service',
-  'header.carouselInfo7': 'Das Gesundheits- und Wohlfühlprogramm Ihres Haustieres',
-  'header.carouselInfo8': 'Unsere Experten werden alles tun, um Ihnen zu helfen!',
-  'header.carouselInfo9': 'Ihr persönlicher Berater ist täglich von 9.00 bis 21.00 Uhr in Kontakt',
+  'header.carouselInfo7':
+    'Das Gesundheits- und Wohlfühlprogramm Ihres Haustieres',
+  'header.carouselInfo8':
+    'Unsere Experten werden alles tun, um Ihnen zu helfen!',
+  'header.carouselInfo9':
+    'Ihr persönlicher Berater ist täglich von 9.00 bis 21.00 Uhr in Kontakt',
   'header.carouselInfo10': 'Persönlicher Berater ROYAL CANIN® CLUB',
   'header.carouselInfo11': 'ROYAL CANIN® CLUB für Kätzchen',
   'header.startTypingToSearch': 'Suchbegriff eingeben...',
@@ -373,10 +434,13 @@ const de_DE = {
   'help.needHelp': 'Haben Sie Fragen?',
   'help.tel': 'Tel.:',
   'help.tip1': 'Unser Expertenteam hilft Ihnen gerne weiter Haben Sie Fragen?',
-  'help.tip2': 'Kostenloser Anruf (vom Festnetz) Montag bis Freitag von 8 bis 20 Uhr.',
-  'help.tip3': 'Wenden Sie sich gerne auch via E-Mail an uns. Wir werden Ihnen schnellstmöglich weiterhelfen.',
+  'help.tip2':
+    'Kostenloser Anruf (vom Festnetz) Montag bis Freitag von 8 bis 20 Uhr.',
+  'help.tip3':
+    'Wenden Sie sich gerne auch via E-Mail an uns. Wir werden Ihnen schnellstmöglich weiterhelfen.',
   'help.tip4': '',
-  'help.title':"Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.",
+  'help.title':
+    'Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.',
   here: 'Expertenteam',
   home: 'Übersicht',
   'home.catogery1': 'Urin',
@@ -387,15 +451,19 @@ const de_DE = {
   'home.catogery6': 'Hunde',
   'home.catogery7': 'Magen-Darmtrakt',
   'home.catogery8': 'Gesundheitsmanagement',
-  'home.convenientTip1': 'Finden Sie die passende Nahrung für Ihr Tier aus dem VET Portfolio von ROYAL CANIN®',
-  'home.convenientTip2': 'Schließen Sie eine regelmäßige Lieferung ab, um immer genug Nahrung für Ihr Tier vorrätig zu haben',
+  'home.convenientTip1':
+    'Finden Sie die passende Nahrung für Ihr Tier aus dem VET Portfolio von ROYAL CANIN®',
+  'home.convenientTip2':
+    'Schließen Sie eine regelmäßige Lieferung ab, um immer genug Nahrung für Ihr Tier vorrätig zu haben',
   'home.convenientTip3': 'Schneller und kostenloser Versand',
   'home.convenientTip4': 'Direkte Kontaktmöglichkeit zu unserem Expertenteam',
-  'home.convenientTitle': 'Ihre Vorteile des ROYAL CANIN® Shops auf einen Blick:',
+  'home.convenientTitle':
+    'Ihre Vorteile des ROYAL CANIN® Shops auf einen Blick:',
   'home.note1': ' ',
   'home.note2': ' ',
   'home.pageNotFound': 'Seite nicht gefunden…',
-  'home.pageNotFoundInfo': 'Entschuldigung, die gesuchte Seite existiert nicht.',
+  'home.pageNotFoundInfo':
+    'Entschuldigung, die gesuchte Seite existiert nicht.',
   'home.point1': 'Sichere Zahlung',
   'home.point2': 'Akzeptanzgarantie',
   'home.point3': 'Premium-Service',
@@ -403,12 +471,14 @@ const de_DE = {
   'home.point5': 'FÜR DIE GESUNDHEIT VON HUNDEN UND KATZEN SEIT 1968',
   'home.point6': 'MIT DIR ZUSAMMEN',
   'home.productsCategory': 'Unsere Produkte',
-  'home.promotionTip': '10% Rabatt auf den ersten Einkauf + 5% Rabatt auf jede Autoship?',
+  'home.promotionTip':
+    '10% Rabatt auf den ersten Einkauf + 5% Rabatt auf jede Autoship?',
   'home.specialAnimalNutrition': 'Spezielle Tierernährung',
   'home.specialInfo1': 'Die Pracht jeder Rasse ist',
   'home.specialInfo2': 'in seiner Einzigartigkeit.',
   'home.specialInfo3': 'Finden Sie heraus, was sie einzigartig macht!',
-  'home.specialInfo4': "Seit mehr als 50 Jahren folgen wir dem Prinzip 'Wohlbefinden vor allem für Hunde und Katzen '. Wir stellen angepasste Futtermittel für Tiere her, die ihren besonderen Bedürfnissen entsprechen. ",
+  'home.specialInfo4':
+    "Seit mehr als 50 Jahren folgen wir dem Prinzip 'Wohlbefinden vor allem für Hunde und Katzen '. Wir stellen angepasste Futtermittel für Tiere her, die ihren besonderen Bedürfnissen entsprechen. ",
   'home.viewProducts': 'Produkte anzeigen',
   homePage: 'Startseite',
   ihaveADefaultClinic: 'Ich habe eine Standardpraxis',
@@ -416,7 +486,8 @@ const de_DE = {
   inactive: 'Inaktiv',
   information: 'Information',
   inputSearchText: 'Suchtext eingeben',
-  inputYourEmailReceivePayment: 'Geben Sie Ihre E-Mail-Adresse ein, um Zahlungsbeleg- und Bestellstatusbenachrichtigungen zu erhalten.',
+  inputYourEmailReceivePayment:
+    'Geben Sie Ihre E-Mail-Adresse ein, um Zahlungsbeleg- und Bestellstatusbenachrichtigungen zu erhalten.',
   inTheBasket: 'im Warenkorb',
   inTransit: 'wird geliefert',
   isContinue: 'Ob fortzufahren?',
@@ -430,21 +501,28 @@ const de_DE = {
   lastName: 'Nachname *',
   lessDetail: '[weniger anzeigen]',
   learnMore: 'Mehr erfahren',
-  'list.errMsg': 'Keine Produkte gefunden, bitte ändern Sie die Suchkriterien und versuchen Sie es erneut.',
-  'list.errMsg2': 'Keine Produkte gefunden, bitte ändern Sie die Schlüsselwörter und versuchen Sie es erneut.',
-  'list.errMsg3': 'Keine Filter gefunden, bitte versuchen Sie es später noch einmal.',
-  'list.errMsg4': 'Keine Produkte gefunden. Bitte ändern Sie Ihren Suchbegriff und versuchen Sie es erneut.',
+  'list.errMsg':
+    'Keine Produkte gefunden, bitte ändern Sie die Suchkriterien und versuchen Sie es erneut.',
+  'list.errMsg2':
+    'Keine Produkte gefunden, bitte ändern Sie die Schlüsselwörter und versuchen Sie es erneut.',
+  'list.errMsg3':
+    'Keine Filter gefunden, bitte versuchen Sie es später noch einmal.',
+  'list.errMsg4':
+    'Keine Produkte gefunden. Bitte ändern Sie Ihren Suchbegriff und versuchen Sie es erneut.',
   'list.youSearchedFor': 'Sie suchten nach',
   listPrice: 'UVP',
   login: 'Anmeldung',
   'login.firstCheck': '',
   'login.forgetPassword': 'Passwort vergessen?',
   'login.guestContinue': 'Weiter mit einem Gast',
-  'login.loginTip': 'Um eine Verbindung zum ROYAL CANIN®-Dienst herzustellen, ist eine Autorisierung erforderlich. Wenn Sie kein persönliches Konto haben, können Sie sich jetzt registrieren.',
-  'login.passwordTip': '8-20 Zeichen und enthalten in Kleinbuchstaben einen Großbuchstaben, eine Zahl',
+  'login.loginTip':
+    'Um eine Verbindung zum ROYAL CANIN®-Dienst herzustellen, ist eine Autorisierung erforderlich. Wenn Sie kein persönliches Konto haben, können Sie sich jetzt registrieren.',
+  'login.passwordTip':
+    '8-20 Zeichen und enthalten in Kleinbuchstaben einen Großbuchstaben, eine Zahl',
   'login.register': 'Erstellen Sie ein persönliches Konto',
   'login.secondCheck': 'Ich bestätige, dass ich 18 Jahre alt bin',
-  'login.thirdCheck': 'Ich bin damit einverstanden, den Marketing-Newsletter zu erhalten',
+  'login.thirdCheck':
+    'Ich bin damit einverstanden, den Marketing-Newsletter zu erhalten',
   'loginCart.totalProduct': 'Anzahl',
   loginFailed: 'Login fehlgeschlagen',
   logisticsCompany: 'Logistics company',
@@ -456,11 +534,14 @@ const de_DE = {
   menu: 'Menü',
   miniBasket: 'Minikorb',
   MMYY: 'MM / JJ',
-  modalCancelAllContent: 'Sind Sie sicher, dass Sie alle folgenden Lieferungen stornieren möchten?',
+  modalCancelAllContent:
+    'Sind Sie sicher, dass Sie alle folgenden Lieferungen stornieren möchten?',
   modalCancelAllTitle: 'ALLE BESTELLUNGEN STORNIEREN?',
-  modalOrderNowContent: 'Sind Sie sicher, dass Sie diese Bestellung aufgeben möchten?',
+  modalOrderNowContent:
+    'Sind Sie sicher, dass Sie diese Bestellung aufgeben möchten?',
   modalOrderNowTitle: 'Jetzt Bestellen?',
-  modalSkipContent: 'Sind Sie sicher, dass Sie die nächste Lieferung stornieren möchten?',
+  modalSkipContent:
+    'Sind Sie sicher, dass Sie die nächste Lieferung stornieren möchten?',
   modalSkipTitle: 'NÄCHSTE LIEFERUNG ÜBERSPRINGEN?',
   month: 'Monat',
   moreAddress: 'Mehr Adresse',
@@ -471,7 +552,8 @@ const de_DE = {
   newPassword: 'Neues Kennwort',
   newsletterFalse: 'Überprüfen Sie den NEWSLETTER',
   next: 'Weiter',
-  noClinicTip: 'Bitte geben Sie hier Ihren Empfehlungs-Code ein, den Sie von Ihrer Tierarztpraxis erhalten haben. Ohne diesen ist eine Bestellung leider nicht möglich.',
+  noClinicTip:
+    'Bitte geben Sie hier Ihren Empfehlungs-Code ein, den Sie von Ihrer Tierarztpraxis erhalten haben. Ohne diesen ist eine Bestellung leider nicht möglich.',
   noDefaultClinic: 'Keine Standardpraxis',
   NoPromotionDesc: 'Abo-Rabatt',
   noSpecialNeeds: 'Keine besonderen Bedürfnisse',
@@ -484,7 +566,8 @@ const de_DE = {
   order: 'Bestellung',
   'order.cancelOrder': 'Bestellung stornieren',
   'order.completeTip': 'Ihr Paket wurde an die angegebene Adresse geliefert.',
-  'order.confirmCancelOrderInfo': 'Möchten Sie die Bestellung wirklich stornieren?',
+  'order.confirmCancelOrderInfo':
+    'Möchten Sie die Bestellung wirklich stornieren?',
   'order.dealDatePeriod': 'Deal Date Period',
   'order.deliveryComment': 'Lieferkommentar',
   'order.exchange': 'Austausch',
@@ -514,7 +597,8 @@ const de_DE = {
   'order.progress6': 'Ausstehende Bewertung',
   'order.progress7': 'abgebrochen',
   'order.rateModalTitle': 'Ihre Meinung ist wichtig',
-  'order.refundErrorInfo': 'Diese Bestellung ist mit einer Rückerstattung bei der Bearbeitung verbunden und kann nicht erneut angewendet werden.',
+  'order.refundErrorInfo':
+    'Diese Bestellung ist mit einer Rückerstattung bei der Bearbeitung verbunden und kann nicht erneut angewendet werden.',
   'order.return': 'Rückkehr',
   'order.returnDate': 'Rückflugdatum',
   'order.returnDetails': 'Rückgabedetails',
@@ -523,11 +607,14 @@ const de_DE = {
   'order.returnOrderDetails': 'Details zur Rücksendung',
   'order.returnStatus': 'Rückgabestatus',
   'order.shippingStatus': 'Versandstatus',
-  'order.toBeDeliveredTip': 'Ihre Bestellung wurde erfolgreich bezahlt und wir bereiten den Versand vor.',
-  'order.toBePaidTip': 'Ihre Bestellung wurde nicht bezahlt, bitte zahlen Sie so schnell wie möglich. {val}',
+  'order.toBeDeliveredTip':
+    'Ihre Bestellung wurde erfolgreich bezahlt und wir bereiten den Versand vor.',
+  'order.toBePaidTip':
+    'Ihre Bestellung wurde nicht bezahlt, bitte zahlen Sie so schnell wie möglich. {val}',
   'order.viewOrder': 'Bestellung anzeigen',
   'order.viewLogisticDetail': 'Logistische Details anzeigen',
-  'order.inTranistTip': 'Ihre Bestellung wurde versendet und Sie erhalten das Produkt bald. {val}',
+  'order.inTranistTip':
+    'Ihre Bestellung wurde versendet und Sie erhalten das Produkt bald. {val}',
   orders: 'Aufträge',
   'orderStatus.AUDIT': 'wird geliefert',
   'orderStatus.COMPLETED': 'abgeschlossen',
@@ -539,8 +626,10 @@ const de_DE = {
   'orderStatus.REMEDY': 'wird geliefert',
   'orderStatus.VOID': 'abgebrochen',
   orderSummary: 'Bestellübersicht',
-  outOfStockContent_cart: 'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkt',
-  outOfStockContent_pay: 'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkt',
+  outOfStockContent_cart:
+    'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkt',
+  outOfStockContent_pay:
+    'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkt',
   oxxo: 'OXXO',
   oxxoTransactionFee: '(Does not include the OXXO transaction fee)',
   packageX: 'Package {val}',
@@ -565,9 +654,12 @@ const de_DE = {
   'payment.commentOnDelivery': 'Kommentar zur Lieferung',
   'payment.confirmCard': 'Karte BESTATIGEN',
   'payment.confirmInfo1': 'Ich bestätige, dass ich über 18 Jahre alt bin',
-  'payment.confirmInfo2': 'Sie müssen mindestens 18 Jahre alt sein, um sich auf der Website registrieren zu können.',
-  'payment.confirmInfo3': 'Er leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}',
-  'payment.confirmInfo4': 'Sie müssen sich mit der Benutzervereinbarung und den Datenschutzbestimmungen vertraut machen und Ihre Zustimmung zur Verarbeitung personenbezogener Daten, einschließlich der grenzüberschreitenden Übermittlung, geben.',
+  'payment.confirmInfo2':
+    'Sie müssen mindestens 18 Jahre alt sein, um sich auf der Website registrieren zu können.',
+  'payment.confirmInfo3':
+    'Er leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}',
+  'payment.confirmInfo4':
+    'Sie müssen sich mit der Benutzervereinbarung und den Datenschutzbestimmungen vertraut machen und Ihre Zustimmung zur Verarbeitung personenbezogener Daten, einschließlich der grenzüberschreitenden Übermittlung, geben.',
   'payment.country': 'Land',
   'payment.DEBIT': 'LASTSCHRIFT',
   'payment.deliveryFrequency': 'Lieferung alle:',
@@ -578,9 +670,12 @@ const de_DE = {
   'payment.errTip': 'Bitte geben Sie cvv ein oder wählen Sie eine Karte aus',
   'payment.firstName': 'Vorname',
   'payment.forFree': 'Kostenlos',
-  'payment.forFreeTip': 'Bei der Standardlieferung entstehen keine Versandkosten für Sie.',
-  'payment.frequencyTip1': 'Ja, ich möchte eine Abonnement-Bestellung abschließen.',
-  'payment.frequencyTip2': 'Nein, ich möchte keine Abonnement-Bestellung abschließen.',
+  'payment.forFreeTip':
+    'Bei der Standardlieferung entstehen keine Versandkosten für Sie.',
+  'payment.frequencyTip1':
+    'Ja, ich möchte eine Abonnement-Bestellung abschließen.',
+  'payment.frequencyTip2':
+    'Nein, ich möchte keine Abonnement-Bestellung abschließen.',
   'payment.frequencyTip3': 'Ihre Artikel werden nur einmal versendet.',
   'payment.further': 'Zahlen',
   'payment.howToDelivery': 'Wie zu liefern',
@@ -596,18 +691,24 @@ const de_DE = {
   'payment.postCode2': 'Postleitzahl',
   'payment.rfc': 'Adressreferenz',
   'payment.socialId': 'Soziale ID',
-  'payment.subTip1': 'Sie sparen durch ein Abo zusätzliche {val} auf Ihre Bestellung.',
-  'payment.subTip2': 'Speichern Sie Ihre erste {icon} Abonnementbestellung und speichern Sie {val} ({val2}) noch heute!',
-  'payment.terms1': 'Ich erkläre mich mit den {val1} einverstanden und habe die {val2} gelesen.',
-  'payment.terms2': 'Um vom Postdienstleister (DPD Deutschland GmbH, Wailandtstraße 1, 63741 Aschaffenburg) über den Sendungsstatus informiert zu werden, willige ich in die Weitergabe meiner E-Mail-Adresse an diesen Postdienstleister ein. Nach Übermittlung ist der Postdienstleister für die weitere Datenverarbeitung verantwortlich. Die Einwilligung kann ich jederzeit durch eine Mail an {val1} widerrufen. Bis zum Widerruf ist die Datenverarbeitung aufgrund dieser Einwilligung rechtmäßig. ',
+  'payment.subTip1':
+    'Sie sparen durch ein Abo zusätzliche {val} auf Ihre Bestellung.',
+  'payment.subTip2':
+    'Speichern Sie Ihre erste {icon} Abonnementbestellung und speichern Sie {val} ({val2}) noch heute!',
+  'payment.terms1':
+    'Ich erkläre mich mit den {val1} einverstanden und habe die {val2} gelesen.',
+  'payment.terms2':
+    'Um vom Postdienstleister (DPD Deutschland GmbH, Wailandtstraße 1, 63741 Aschaffenburg) über den Sendungsstatus informiert zu werden, willige ich in die Weitergabe meiner E-Mail-Adresse an diesen Postdienstleister ein. Nach Übermittlung ist der Postdienstleister für die weitere Datenverarbeitung verantwortlich. Die Einwilligung kann ich jederzeit durch eine Mail an {val1} widerrufen. Bis zum Widerruf ist die Datenverarbeitung aufgrund dieser Einwilligung rechtmäßig. ',
   'payment.terms2.header': 'Einwilligung für Sendungsverfolgung',
-  'payment.terms3': 'Ich willige darin ein, dass ROYAL CANIN meine E-Mail-Adresse zum Zwecke der Versendung von Newslettern verwenden darf. Der Newsletter beinhaltet u.a. News über ROYAL CANIN, über seine Produkte und Gutscheine. Die Einwilligung kann ich jederzeit und kostenlos gegenüber ROYAL CANIN durch Anklicken des Abmeldelinks am Ende jeder Newsletter-E-Mail, per E-Mail an {val1} oder schriftlich an ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Köln widerrufen. Bis zum Widerruf der Einwilligung ist die Datenverarbeitung rechtmäßig. Weitere Informationen, z.B. zu eingesetzten Dienstleistern, Auswertung der Newsletterperformance und Speicherdauer finden Sie in unserer {val2}. ',
+  'payment.terms3':
+    'Ich willige darin ein, dass ROYAL CANIN meine E-Mail-Adresse zum Zwecke der Versendung von Newslettern verwenden darf. Der Newsletter beinhaltet u.a. News über ROYAL CANIN, über seine Produkte und Gutscheine. Die Einwilligung kann ich jederzeit und kostenlos gegenüber ROYAL CANIN durch Anklicken des Abmeldelinks am Ende jeder Newsletter-E-Mail, per E-Mail an {val1} oder schriftlich an ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Köln widerrufen. Bis zum Widerruf der Einwilligung ist die Datenverarbeitung rechtmäßig. Weitere Informationen, z.B. zu eingesetzten Dienstleistern, Auswertung der Newsletterperformance und Speicherdauer finden Sie in unserer {val2}. ',
   'payment.terms3.header': 'ROYAL CANIN Newsletter',
   'payment.totalProduct': '{val} Artikel im Warenkorb',
   'payment.yourOrder': 'Deine Bestellung',
   paymentMethod: 'Zahlungsmethode',
   'paymethods.btn': 'Zahlungsmethode hinzufügen',
-  'paymethods.info': 'Sie haben keine gespeicherte Zahlungsmethode. Fügen Sie eine Zahlungsmethode hinzu, um den Bestellprozess zu beschleunigen.',
+  'paymethods.info':
+    'Sie haben keine gespeicherte Zahlungsmethode. Fügen Sie eine Zahlungsmethode hinzu, um den Bestellprozess zu beschleunigen.',
   'payStatus.NOT_PAID': 'noch nicht bezahlt',
   'payStatus.PAID': 'bezahlt',
   'payStatus.PAID_IN': 'in Bearbeitung',
@@ -618,66 +719,91 @@ const de_DE = {
   pets: 'Meine Tiere',
   petType: 'Haustiertyp',
   phone: 'Telefon',
-  product:'Anzahl',
+  product: 'Anzahl',
   pleasecompleteTheRequiredItem: 'Bitte füllen Sie die Pflichtfelder aus.',
   pleaseEnterTheCorrectEmail: 'Bitte geben Sie die richtige E-Mail-Adresse ein',
   PleaseFillInstructions: 'Bitte füllen Sie die Rücksendeanweisungen aus',
-  plsFillEmailTip: 'Ihre E-Mail-Adresse wird nicht in die Adressleiste eingetragen',
-  policyFalse: 'Bitte klicken Sie dieses Kästchen an, wenn Sie fortfahren möchten.',
+  plsFillEmailTip:
+    'Ihre E-Mail-Adresse wird nicht in die Adressleiste eingetragen',
+  policyFalse:
+    'Bitte klicken Sie dieses Kästchen an, wenn Sie fortfahren möchten.',
   prescription: 'Rezept',
   prescriptionDeclined: 'Rezept abgelehnt',
   price: 'Preis',
   printEbanx: 'Print Ebanx',
   privacyPolicy: 'Datenschutz-Bestimmungen',
   'productFinder.createMyPetProfile': 'Erstellen Sie mein Haustierprofil',
-  'productFinder.createMyPetProfileTip': 'Erstellen Sie Ihr Haustierprofil in RoyalCanin und erhalten Sie den Newsletter / die spezifischen Angebote, die auf Ihre Haustiere zugeschnitten sind.',
-  'productFinder.healthTip1': 'Wenn Ihre Katze gesundheitliche Probleme hat, empfehlen wir Ihnen, Ihren Tierarzt aufzusuchen, um die optimale Ernährungslösung für die individuellen Bedürfnisse Ihres Haustieres zu gewährleisten.',
-  'productFinder.healthTip2': 'Und Sie können mehr über unsere Produktreihen für Veterinärdiäten erfahren.',
+  'productFinder.createMyPetProfileTip':
+    'Erstellen Sie Ihr Haustierprofil in RoyalCanin und erhalten Sie den Newsletter / die spezifischen Angebote, die auf Ihre Haustiere zugeschnitten sind.',
+  'productFinder.healthTip1':
+    'Wenn Ihre Katze gesundheitliche Probleme hat, empfehlen wir Ihnen, Ihren Tierarzt aufzusuchen, um die optimale Ernährungslösung für die individuellen Bedürfnisse Ihres Haustieres zu gewährleisten.',
+  'productFinder.healthTip2':
+    'Und Sie können mehr über unsere Produktreihen für Veterinärdiäten erfahren.',
   'productFinder.healthTitle': 'Veterinärernährung',
   'productFinder.helpTip1': 'Haben Sie irgendwelche Fragen?',
-  'productFinder.helpTip2': 'Unsere Pet-Experten sind immer für Sie da, um Ihnen zu helfen, die genaueste Ernährung für Ihr Haustier zu finden',
-  'productFinder.helpTip3': 'Holen Sie sich Hilfe von unserem Tierberater 123-456-789',
+  'productFinder.helpTip2':
+    'Unsere Pet-Experten sind immer für Sie da, um Ihnen zu helfen, die genaueste Ernährung für Ihr Haustier zu finden',
+  'productFinder.helpTip3':
+    'Holen Sie sich Hilfe von unserem Tierberater 123-456-789',
   'productFinder.index': 'Produktfinder',
   'productFinder.otherProductsToConsider': 'Andere Produkte zu berücksichtigen',
-  'productFinder.recoDesc': 'Je mehr wir über Ihr Haustier wissen, desto besser können wir die genaueste Ernährung anbieten, die auf seine besonderen Bedürfnisse zugeschnitten ist.',
+  'productFinder.recoDesc':
+    'Je mehr wir über Ihr Haustier wissen, desto besser können wir die genaueste Ernährung anbieten, die auf seine besonderen Bedürfnisse zugeschnitten ist.',
   'productFinder.recoTitle': 'Finde das richtige Essen.',
   'productFinder.resultPage': 'Ergebnisseite des Produktfinders',
-  'productFinder.rigisterMyPetProfile': 'Registrieren Sie Ihr Haustierprofil in RoyalCanin und erhalten Sie eine Benachrichtigung, wenn das beste Produkt verfügbar ist.',
+  'productFinder.rigisterMyPetProfile':
+    'Registrieren Sie Ihr Haustierprofil in RoyalCanin und erhalten Sie eine Benachrichtigung, wenn das beste Produkt verfügbar ist.',
   'productFinder.searchCompleted': 'Suche abgeschlossen!',
-  'productFinder.searchResultTip1ForCat': "Im Folgenden finden Sie die Produkte, die den Anforderungen Ihrer Katze am besten entsprechen.",
-  'productFinder.searchResultTip1ForDog': "Nachfolgend finden Sie die Produkte, die den Bedürfnissen Ihres Hundes am besten entsprechen.",
-  'productFinder.searchResultTip2': 'Klicken Sie auf die Empfehlungen für weitere Informationen.',
+  'productFinder.searchResultTip1ForCat':
+    'Im Folgenden finden Sie die Produkte, die den Anforderungen Ihrer Katze am besten entsprechen.',
+  'productFinder.searchResultTip1ForDog':
+    'Nachfolgend finden Sie die Produkte, die den Bedürfnissen Ihres Hundes am besten entsprechen.',
+  'productFinder.searchResultTip2':
+    'Klicken Sie auf die Empfehlungen für weitere Informationen.',
   'productFinder.searchResultTip3': 'Wir entschuldigen uns!',
-  'productFinder.searchResultTip4': 'Die genaueste Ernährung für Ihr Haustier ist derzeit nicht verfügbar.',
-  'productFinder.searchResultWarningTip1': 'Die hier gezeigten Empfehlungen dienen nur zur Anschauungszwecken und dienen nicht als individuelle Empfehlung für Ihr Tier.',
+  'productFinder.searchResultTip4':
+    'Die genaueste Ernährung für Ihr Haustier ist derzeit nicht verfügbar.',
+  'productFinder.searchResultWarningTip1':
+    'Die hier gezeigten Empfehlungen dienen nur zur Anschauungszwecken und dienen nicht als individuelle Empfehlung für Ihr Tier.',
   'productFinder.startAgin': 'Nochmal beginnen',
   'productFinder.summary': 'Zusammenfassung',
   'productFinder.tip1': 'Finden Sie das richtige Futter für Ihr Haustier',
-  'productFinder.tip2': 'Dieser Fragebogen hilft Ihnen bei der Auswahl des empfohlenen Futters für Ihr Haustier.',
+  'productFinder.tip2':
+    'Dieser Fragebogen hilft Ihnen bei der Auswahl des empfohlenen Futters für Ihr Haustier.',
   'productFinder.tip3': 'Ihr Haustier ist ein ...',
   'productFinder.whyAreWeAskingThis': 'Warum fragen wir das?',
-  'productFinder.ageErrorShow': 'Die Altersauswahl muss größer als 0 Monate sein',
+  'productFinder.ageErrorShow':
+    'Die Altersauswahl muss größer als 0 Monate sein',
   productRating: 'Produktbewertung',
   produtctNumber: 'Anzahl der Produkte',
-  'profile.emailChoose': 'Ich willige darin ein, dass ROYAL CANIN meine E-Mail-Adresse zum Zwecke der Versendung von Newslettern verwenden darf. Der Newsletter beinhaltet u.a. News über ROYAL CANIN, über seine Produkte und Gutscheine. Die Einwilligung kann ich jederzeit und kostenlos gegenüber ROYAL CANIN durch Anklicken des Abmeldelinks am Ende jeder Newsletter-E-Mail, per E-Mail an {val1} oder schriftlich an ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Köln widerrufen. Bis zum Widerruf der Einwilligung ist die Datenverarbeitung rechtmäßig. Weitere Informationen, z.B. zu eingesetzten Dienstleistern, Auswertung der Newsletterperformance und Speicherdauer finden Sie in unserer Datenschutzerklärung.',
+  'profile.emailChoose':
+    'Ich willige darin ein, dass ROYAL CANIN meine E-Mail-Adresse zum Zwecke der Versendung von Newslettern verwenden darf. Der Newsletter beinhaltet u.a. News über ROYAL CANIN, über seine Produkte und Gutscheine. Die Einwilligung kann ich jederzeit und kostenlos gegenüber ROYAL CANIN durch Anklicken des Abmeldelinks am Ende jeder Newsletter-E-Mail, per E-Mail an {val1} oder schriftlich an ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Köln widerrufen. Bis zum Widerruf der Einwilligung ist die Datenverarbeitung rechtmäßig. Weitere Informationen, z.B. zu eingesetzten Dienstleistern, Auswertung der Newsletterperformance und Speicherdauer finden Sie in unserer Datenschutzerklärung.',
   promotion: 'Abo-Rabatt',
   promotionalCode: 'Gutscheincode',
   promotionCode: 'Gutscheincode',
   puppy: 'Welpe (0-1 Jahre alt)',
   purchaseRating: 'Kauferfahrungsbewertung',
   qualitySafety: 'Qualitätssicherheit',
-  'qualitySafety.consistentDetail': 'Alle 1.800 Lebensmittelproduzenten weltweit befolgen denselben strengen Prozess, um Konsistenz und Qualität sicherzustellen. In jeder Produktionsphase werden systematische Qualitätsprüfungen durchgeführt, und alle Produktchargen werden vor dem Versand einem abschließenden Test unterzogen. Tatsächlich führen wir jedes Jahr weltweit eine halbe Million Analysen durch. Alle unsere Distributoren weltweit unterliegen Lager- und Transportaudits, um sicherzustellen, dass sie unseren Sicherheits- und Logistikstandards entsprechen. Diese Verfahren garantieren die optimale Qualität, Sicherheit und den optimalen Nährwert unserer Produkte.',
+  'qualitySafety.consistentDetail':
+    'Alle 1.800 Lebensmittelproduzenten weltweit befolgen denselben strengen Prozess, um Konsistenz und Qualität sicherzustellen. In jeder Produktionsphase werden systematische Qualitätsprüfungen durchgeführt, und alle Produktchargen werden vor dem Versand einem abschließenden Test unterzogen. Tatsächlich führen wir jedes Jahr weltweit eine halbe Million Analysen durch. Alle unsere Distributoren weltweit unterliegen Lager- und Transportaudits, um sicherzustellen, dass sie unseren Sicherheits- und Logistikstandards entsprechen. Diese Verfahren garantieren die optimale Qualität, Sicherheit und den optimalen Nährwert unserer Produkte.',
   'qualitySafety.consistentTitle': 'Konsistente Qualität',
-  'qualitySafety.description': 'In den letzten fünf Jahrzehnten hat Royal Canin die Ernährungsqualität und Produktsicherheit in den Mittelpunkt unserer weltweiten Aktivitäten gestellt. Diese Aufmerksamkeit für die kleinsten Details hilft uns, die präziseste und effektivste gesunde Ernährung für Haustiere zu liefern. ',
-  'qualitySafety.foodDetail': 'Unsere Goldstandard-Produktionsprozesse stellen sicher, dass Royal Canin weltweit sichere und qualitativ hochwertige Produkte liefert. Unsere Spezialisten verwenden weltweit dieselben Auswahl- und Einkaufsprozesse für Rohstoffe, um sicherzustellen, dass alle unsere Produkte den gleichen hohen Ernährungsstandards entsprechen. Eingehende Audits lokaler Lieferanten stellen sicher, dass die genauen Spezifikationen für alle in unseren Werken weltweit verwendeten Rohstoffe eingehalten werden. Jede Sendung wird vor dem Betreten unserer Produktionszentren überprüft, und jede Einrichtung verfügt über Testlabors zur Analyse von Lebensmittelsicherheitsindikatoren und der Ernährungsqualität.',
+  'qualitySafety.description':
+    'In den letzten fünf Jahrzehnten hat Royal Canin die Ernährungsqualität und Produktsicherheit in den Mittelpunkt unserer weltweiten Aktivitäten gestellt. Diese Aufmerksamkeit für die kleinsten Details hilft uns, die präziseste und effektivste gesunde Ernährung für Haustiere zu liefern. ',
+  'qualitySafety.foodDetail':
+    'Unsere Goldstandard-Produktionsprozesse stellen sicher, dass Royal Canin weltweit sichere und qualitativ hochwertige Produkte liefert. Unsere Spezialisten verwenden weltweit dieselben Auswahl- und Einkaufsprozesse für Rohstoffe, um sicherzustellen, dass alle unsere Produkte den gleichen hohen Ernährungsstandards entsprechen. Eingehende Audits lokaler Lieferanten stellen sicher, dass die genauen Spezifikationen für alle in unseren Werken weltweit verwendeten Rohstoffe eingehalten werden. Jede Sendung wird vor dem Betreten unserer Produktionszentren überprüft, und jede Einrichtung verfügt über Testlabors zur Analyse von Lebensmittelsicherheitsindikatoren und der Ernährungsqualität.',
   'qualitySafety.FoodQualityandSafety': 'Lebensmittelqualität und -sicherheit',
-  'qualitySafety.foodQualityDetail': 'Bei Royal Canin haben wir stets die Qualität von Lebensmitteln und die Produktsicherheit in den Vordergrund unserer Geschäftstätigkeit gestellt. Unsere Liebe zum Detail ermöglicht es uns, die präzisesten und effektivsten Lösungen anzubieten, die jedem Haustier helfen, ein möglichst gesundes Leben zu führen. ',
-  'qualitySafety.foodTitle': 'Royal Canin Lebensmittel- und Sicherheitsprozesse',
-  'qualitySafety.ingredientsDetail': '100% der eingehenden Rohstoffe werden analysiert und jeweils eine Probe zwei Jahre lang aufbewahrt. Dies stellt sicher, dass wir jeden Rohstoff über die gesamte Dauer von bis zu seinem Ursprung zurückverfolgen können die Haltbarkeit des Produkts ',
+  'qualitySafety.foodQualityDetail':
+    'Bei Royal Canin haben wir stets die Qualität von Lebensmitteln und die Produktsicherheit in den Vordergrund unserer Geschäftstätigkeit gestellt. Unsere Liebe zum Detail ermöglicht es uns, die präzisesten und effektivsten Lösungen anzubieten, die jedem Haustier helfen, ein möglichst gesundes Leben zu führen. ',
+  'qualitySafety.foodTitle':
+    'Royal Canin Lebensmittel- und Sicherheitsprozesse',
+  'qualitySafety.ingredientsDetail':
+    '100% der eingehenden Rohstoffe werden analysiert und jeweils eine Probe zwei Jahre lang aufbewahrt. Dies stellt sicher, dass wir jeden Rohstoff über die gesamte Dauer von bis zu seinem Ursprung zurückverfolgen können die Haltbarkeit des Produkts ',
   'qualitySafety.ingredientsTitle': 'Vollständig rückverfolgbare Inhaltsstoffe',
-  'qualitySafety.materialsDetail': 'Wir wählen Zutaten aufgrund ihres hohen Nährstoffgehalts und der gesundheitlichen Vorteile, die sie Haustieren bieten. Es werden alle Anstrengungen unternommen, um unsere Rohstoffe von akkreditierten Lieferanten in der Nähe unserer Produktionszentren zu beziehen. Dies unterstützt die lokale Wirtschaft, sorgt für Frische und reduziert unseren CO2-Fußabdruck. ',
+  'qualitySafety.materialsDetail':
+    'Wir wählen Zutaten aufgrund ihres hohen Nährstoffgehalts und der gesundheitlichen Vorteile, die sie Haustieren bieten. Es werden alle Anstrengungen unternommen, um unsere Rohstoffe von akkreditierten Lieferanten in der Nähe unserer Produktionszentren zu beziehen. Dies unterstützt die lokale Wirtschaft, sorgt für Frische und reduziert unseren CO2-Fußabdruck. ',
   'qualitySafety.materialsTitle': 'Qualitätsrohstoffe',
-  'qualitySafety.rigorousDetail': 'Wir verwenden strenge Auswahlkriterien, um Lieferanten zu identifizieren, die uns dabei helfen können, unsere erstklassigen Qualitäts- und Sicherheitsstandards aufrechtzuerhalten. Im Rahmen dessen werden wir eingehenden Audits unterzogen, um den Nährwert, die Produktionsqualität, die Rückverfolgbarkeit und die Nachhaltigkeit zu ermitteln. ',
+  'qualitySafety.rigorousDetail':
+    'Wir verwenden strenge Auswahlkriterien, um Lieferanten zu identifizieren, die uns dabei helfen können, unsere erstklassigen Qualitäts- und Sicherheitsstandards aufrechtzuerhalten. Im Rahmen dessen werden wir eingehenden Audits unterzogen, um den Nährwert, die Produktionsqualität, die Rückverfolgbarkeit und die Nachhaltigkeit zu ermitteln. ',
   'qualitySafety.rigorousTitle': 'Rigorose Lieferantenauswahl',
   'qualitySafety.shopCat': 'Shop Katzenformeln',
   'qualitySafety.shopDog': 'Shop Hundeformeln',
@@ -691,34 +817,46 @@ const de_DE = {
   receiver: 'Empfänger',
   recommandedForyou: 'für dich empfohlen',
   'recommendation.buyNow': 'Kaufe jetzt',
-  'recommendation.firstContent': 'Klicken Sie hier, um jetzt für Ihren Einkauf zu beginnen, oder lesen Sie weiter, um mehr über die Vorteile der tierärztlichen Gesundheit Ernährung zu erfahren.',
-  'recommendation.firstTitle': 'Entdecken Sie Ihre persönlich ausgewählte Ernährungsempfehlung unten.',
-  'recommendation.fiveContent': 'Mientras que ninguno de ornare risus. Ahora que a veces los Estados Unidos, de los chicos de secundaria. La tierra no tiene miedo de que la temperatura de maquillaje a cero bebe empleado. Desafortunadamente, el precio de la olla de conveniencia. Arco de resultados de fútbol, ​​ue o luto para invertir en el frigorífico. Desarrolladores clínicos dui dui ultricies flechas, está esterilizado. Financiamiento relé térmico cálido. Incluso antes de los grandes, como es el mayor eleifend gravida vel, aliquam sed justo. Desafortunadamente, desarrolladores de fútbol. Los vagones de mercancías no temen la fabricación, el más grande y feo chocolate. Sed tempor lectus justo. Sin embargo, es solo ese el momento clínico principal. Mañana el diámetro a la que haremos un fin de semana. Proteína de capa de falda viva de Mauris.',
-  'recommendation.fourContent': 'Ihr Haustier bedeutet Ihnen die Welt, und ihre Gesundheit und ihr Glück bedeutet uns die Welt!',
+  'recommendation.firstContent':
+    'Klicken Sie hier, um jetzt für Ihren Einkauf zu beginnen, oder lesen Sie weiter, um mehr über die Vorteile der tierärztlichen Gesundheit Ernährung zu erfahren.',
+  'recommendation.firstTitle':
+    'Entdecken Sie Ihre persönlich ausgewählte Ernährungsempfehlung unten.',
+  'recommendation.fiveContent':
+    'Mientras que ninguno de ornare risus. Ahora que a veces los Estados Unidos, de los chicos de secundaria. La tierra no tiene miedo de que la temperatura de maquillaje a cero bebe empleado. Desafortunadamente, el precio de la olla de conveniencia. Arco de resultados de fútbol, ​​ue o luto para invertir en el frigorífico. Desarrolladores clínicos dui dui ultricies flechas, está esterilizado. Financiamiento relé térmico cálido. Incluso antes de los grandes, como es el mayor eleifend gravida vel, aliquam sed justo. Desafortunadamente, desarrolladores de fútbol. Los vagones de mercancías no temen la fabricación, el más grande y feo chocolate. Sed tempor lectus justo. Sin embargo, es solo ese el momento clínico principal. Mañana el diámetro a la que haremos un fin de semana. Proteína de capa de falda viva de Mauris.',
+  'recommendation.fourContent':
+    'Ihr Haustier bedeutet Ihnen die Welt, und ihre Gesundheit und ihr Glück bedeutet uns die Welt!',
   'recommendation.fourTitle': 'Warum Royal Canin?',
-  'recommendation.productDescription': 'Die Fütterungsempfehlungen der jeweiligen Produkte sind ebenfalls auf der Produktverpackung zu finden.',
+  'recommendation.productDescription':
+    'Die Fütterungsempfehlungen der jeweiligen Produkte sind ebenfalls auf der Produktverpackung zu finden.',
   'recommendation.recommendationPackage': 'Empfehlungspaket',
-  'recommendation.secContent': 'Bei Royal Canin glauben wir, dass die Ernährung eine Schlüsselrolle bei der Förderung der Gesundheit und des Wohlbefindens von Katzen und Hunden spielt.Aus diesem Grund haben wir ROYAL CANIN COPP174entwickelt; Veterinärdiäten rund um bewährte Ernährungswissenschaft, um spezifische Haustier-Bedingungen anzugehen.Folgen Sie Ihrem Tierarzt Nr.821616;Ernährungsempfehlung hier unten.',
+  'recommendation.secContent':
+    'Bei Royal Canin glauben wir, dass die Ernährung eine Schlüsselrolle bei der Förderung der Gesundheit und des Wohlbefindens von Katzen und Hunden spielt.Aus diesem Grund haben wir ROYAL CANIN COPP174entwickelt; Veterinärdiäten rund um bewährte Ernährungswissenschaft, um spezifische Haustier-Bedingungen anzugehen.Folgen Sie Ihrem Tierarzt Nr.821616;Ernährungsempfehlung hier unten.',
   'recommendation.secTitle': 'Tiermedizinische Ernährung',
-  'recommendation.thirdContent': 'Wir im Bereich der Tier- und Katzenlehre sind im Bereich der Tier- und Katzenlehre tätig und wir sind bereit, Ihnen bei Fragen zu helfen.',
-  'recommendation.thirdTitle': 'Unsere Tierspezialisten sind hier, um Ihnen zu helfen',
+  'recommendation.thirdContent':
+    'Wir im Bereich der Tier- und Katzenlehre sind im Bereich der Tier- und Katzenlehre tätig und wir sind bereit, Ihnen bei Fragen zu helfen.',
+  'recommendation.thirdTitle':
+    'Unsere Tierspezialisten sind hier, um Ihnen zu helfen',
   'recommendation.viewDetail': 'Im Detail sehen',
   'recommendation.viewInCart': 'Im Warenkorb anzeigen',
   registerFailed: 'Registrierung fehlgeschlagen',
-  remember48Hours: 'Denken Sie daran, dass die Bestellung vor {val} zwei Tage später vor {val} pm oder nach {val} pm drei Tage später vor {val} pm abläuft.',
+  remember48Hours:
+    'Denken Sie daran, dass die Bestellung vor {val} zwei Tage später vor {val} pm oder nach {val} pm drei Tage später vor {val} pm abläuft.',
   rememberMe: 'Behalte mich in Erinnerung',
   removeAllFilters: 'Alle Filter entfernen',
   replyComments: 'Kommentare beantworten',
   rePurchase: 'nochmal kaufen',
   'requestInvoices.title': 'Rechnungen beantragen',
-  'required.complete': 'Bitte bestätigen Sie die Pflichtfelder, um Ihren Bestellprozess zu beschleunigen.',
+  'required.complete':
+    'Bitte bestätigen Sie die Pflichtfelder, um Ihren Bestellprozess zu beschleunigen.',
   'required.continue': 'Weiter',
   'required.fields': 'Pflichtfelder',
   'required.logoTitle': 'Willkommen im VET Online Shop von ROYAL CANIN®',
   'required.checkRequired': 'Überprüfen Sie die erforderlichen Elemente',
-  requiredConsentCheckedTip: 'Bitte bestätigen Sie die Pflichtfelder, in dem Sie ein Häkchen in der Box setzen.',
+  requiredConsentCheckedTip:
+    'Bitte bestätigen Sie die Pflichtfelder, in dem Sie ein Häkchen in der Box setzen.',
   requiredFields: '* Benötigte Felder',
-  resetPasswordEmail: 'Passwort zurücksetzen E-Mail wurde an Ihre Mailbox gesendet, bitte beachten Sie, dass überprüfen!',
+  resetPasswordEmail:
+    'Passwort zurücksetzen E-Mail wurde an Ihre Mailbox gesendet, bitte beachten Sie, dass überprüfen!',
   results: '{val} Ergebnisse',
   reviewisRequired: 'Überprüfung erforderlich.',
   reviews: 'Bewertungen',
@@ -745,7 +883,8 @@ const de_DE = {
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Als Standardadresse festlegen',
   setDefaultPaymentMethod: 'Als Standardzahlungsmethode festlegen',
-  shipmentTrackingFalse: 'Bitte klicken Sie dieses Kästchen an, wenn Sie fortfahren möchten.',
+  shipmentTrackingFalse:
+    'Bitte klicken Sie dieses Kästchen an, wenn Sie fortfahren möchten.',
   shipping: 'Versand',
   shippingAddress: 'Adressverwaltung',
   signUp: 'Registrieren',
@@ -777,9 +916,12 @@ const de_DE = {
   'subscription.paymentMethod': 'Bezahlverfahren',
   'subscription.previousOrders': 'Vorherige Bestellungen',
   'subscription.product': 'Produkt',
-  'subscription.promotionTip': 'Speichern Sie {val} bei Ihrem ersten Abonnement',
-  'subscription.promotionTip2': 'Schließen Sie im Bezahlprozess ein Abonnement ab, um dieses Produkt regelmäßig neu zu erhalten.',
-  'subscription.promotionTip3': 'Schließen Sie im Bezahlprozess ein Abonnement ab, um dieses Produkt regelmäßig neu zu erhalten.',
+  'subscription.promotionTip':
+    'Speichern Sie {val} bei Ihrem ersten Abonnement',
+  'subscription.promotionTip2':
+    'Schließen Sie im Bezahlprozess ein Abonnement ab, um dieses Produkt regelmäßig neu zu erhalten.',
+  'subscription.promotionTip3':
+    'Schließen Sie im Bezahlprozess ein Abonnement ab, um dieses Produkt regelmäßig neu zu erhalten.',
   'subscription.receiveDate': 'Nächstes Empfangsdatum',
   'subscription.saveDiscount': 'Abonnement sparen Rabatt',
   'subscription.shipping': 'Versand',
@@ -792,30 +934,44 @@ const de_DE = {
   'subscription.total': 'Gesamt',
   'subscription.totalInclu': 'Gesamt (inkl. MwSt.)',
   'subscriptionLanding.catButton': 'Kaufen Sie Katzennahrung',
-  'subscriptionLanding.content1':'Tiere brigen viel Glück in unser Leben - eröffnen jedoch auch eine menge Fragen. Wenn Sie sich für eine Abo-Bestellung entscheiden, werden Sie ohne zusätzliche Kosten Mitglied des ROYAL CANIN Clubs. Hier erhalten Sie das ganze Jahr über auf Ihr Tier zugeschnittene Nahrungen, Spielzeuge, exklusive Angebote und vieles mehr.',
-  'subscriptionLanding.description1': 'Willkommensbox - Bei Ihrer ersten Bestellung erhalten Sie eine Auswahl an kleinen Aufmerksamkeiten für Ihr Tier, mit denen wir es bei ROYAL CANIN willkommen heißen möchten.',
-  'subscriptionLanding.description2': 'Kostenloser Versand - entscheiden Sie sich für Ihren bevorzugten Zeitintervall und legen Sie sich zurück.',
-  'subscriptionLanding.description3': 'Personalized Recommendations - your breeder can send you the products they recommend for your pet as they grow.',
-  'subscriptionLanding.description4': '5% Rabatt auf Abo-Bestellungen und 10% Neukundenrabatt!',
+  'subscriptionLanding.content1':
+    'Tiere brigen viel Glück in unser Leben - eröffnen jedoch auch eine menge Fragen. Wenn Sie sich für eine Abo-Bestellung entscheiden, werden Sie ohne zusätzliche Kosten Mitglied des ROYAL CANIN Clubs. Hier erhalten Sie das ganze Jahr über auf Ihr Tier zugeschnittene Nahrungen, Spielzeuge, exklusive Angebote und vieles mehr.',
+  'subscriptionLanding.description1':
+    'Willkommensbox - Bei Ihrer ersten Bestellung erhalten Sie eine Auswahl an kleinen Aufmerksamkeiten für Ihr Tier, mit denen wir es bei ROYAL CANIN willkommen heißen möchten.',
+  'subscriptionLanding.description2':
+    'Kostenloser Versand - entscheiden Sie sich für Ihren bevorzugten Zeitintervall und legen Sie sich zurück.',
+  'subscriptionLanding.description3':
+    'Personalized Recommendations - your breeder can send you the products they recommend for your pet as they grow.',
+  'subscriptionLanding.description4':
+    '5% Rabatt auf Abo-Bestellungen und 10% Neukundenrabatt!',
   'subscriptionLanding.dogButton': 'Kaufen Sie Hundenahrung',
-  'subscriptionLanding.title1': 'Your Pet Needs You. You Need Total Pet Support.',
-  supportCardTypeMismatch: 'Entschuldigung,die aktuell unterstützten Kreditkartentypen：Visa，Mastercard',
+  'subscriptionLanding.title1':
+    'Your Pet Needs You. You Need Total Pet Support.',
+  supportCardTypeMismatch:
+    'Entschuldigung,die aktuell unterstützten Kreditkartentypen：Visa，Mastercard',
   systemError: 'Systemfehler',
   tailorednutrition: 'Gesundheit und Ernährung',
-  'tailorednutrition.description': 'Unsere Aufmerksamkeit für die besonderen Bedürfnisse von Katzen und Hunden hat uns gelehrt, dass der kleinste Ernährungsunterschied einen großen Unterschied für die Gesundheit eines Haustieres bedeuten kann. Diese Besessenheit von der Gesundheit von Haustieren treibt uns dazu an, eine präzise und effektive Ernährung zu liefern und ihnen zu helfen, ihr großartiges Bestes zu geben. ',
-  'tailorednutrition.formulasDetail': 'Nehmen wir zum Beispiel Deutsche Schäferhund',
+  'tailorednutrition.description':
+    'Unsere Aufmerksamkeit für die besonderen Bedürfnisse von Katzen und Hunden hat uns gelehrt, dass der kleinste Ernährungsunterschied einen großen Unterschied für die Gesundheit eines Haustieres bedeuten kann. Diese Besessenheit von der Gesundheit von Haustieren treibt uns dazu an, eine präzise und effektive Ernährung zu liefern und ihnen zu helfen, ihr großartiges Bestes zu geben. ',
+  'tailorednutrition.formulasDetail':
+    'Nehmen wir zum Beispiel Deutsche Schäferhund',
   'tailorednutrition.formulasTitle': 'Crafted Formulas',
-  'tailorednutrition.natureDetail': 'Ein Jack Russell in perfekter Gesundheit kann bis zum Sechsfachen seiner eigenen Größe springen. Hauskatzen und Außenkatzen haben sehr unterschiedliche Energiebedürfnisse. Die Förderung ihres unglaublichen natürlichen Potenzials mit speziell ausgewählten Proteinen und Antioxidantien spricht ihre besonderen Bedürfnisse an. ',
+  'tailorednutrition.natureDetail':
+    'Ein Jack Russell in perfekter Gesundheit kann bis zum Sechsfachen seiner eigenen Größe springen. Hauskatzen und Außenkatzen haben sehr unterschiedliche Energiebedürfnisse. Die Förderung ihres unglaublichen natürlichen Potenzials mit speziell ausgewählten Proteinen und Antioxidantien spricht ihre besonderen Bedürfnisse an. ',
   'tailorednutrition.natureTitle': 'Ihre Natur nähren',
-  'tailorednutrition.nutritionDetail': 'Hunde und Katzen haben einzigartige Bedürfnisse, und wir konzentrieren uns darauf, für jeden dieser Bedürfnisse die bestmögliche gesunde Ernährung zu liefern. Jedes Rezept ist so formuliert, dass es genau die Nährstoffe liefert, die für die individuellen Gesundheitsbedürfnisse Ihres Haustieres wichtig sind. ',
+  'tailorednutrition.nutritionDetail':
+    'Hunde und Katzen haben einzigartige Bedürfnisse, und wir konzentrieren uns darauf, für jeden dieser Bedürfnisse die bestmögliche gesunde Ernährung zu liefern. Jedes Rezept ist so formuliert, dass es genau die Nährstoffe liefert, die für die individuellen Gesundheitsbedürfnisse Ihres Haustieres wichtig sind. ',
   'tailorednutrition.nutritionTitle': 'Was ist Tailored Nutrition?',
   'tailorednutrition.result': 'Das Ergebnis',
-  'tailorednutrition.resultDetail': 'Das Ergebnis ist eine Ernährung, die darauf ausgelegt ist, spezifische Gesundheitsbedürfnisse punktgenau zu befriedigen. Ihr Haustier erhält die gesamte und ausgewogene Auswahl an Nährstoffen und Aminosäuren, die es benötigt, um starke Muskeln aufzubauen, einen gesunden Körper zu erhalten und ein starkes Immunsystem zu unterstützen. Ihm die Energie geben, die er braucht, um zu gedeihen und bei bester Gesundheit zu leben. ',
+  'tailorednutrition.resultDetail':
+    'Das Ergebnis ist eine Ernährung, die darauf ausgelegt ist, spezifische Gesundheitsbedürfnisse punktgenau zu befriedigen. Ihr Haustier erhält die gesamte und ausgewogene Auswahl an Nährstoffen und Aminosäuren, die es benötigt, um starke Muskeln aufzubauen, einen gesunden Körper zu erhalten und ein starkes Immunsystem zu unterstützen. Ihm die Energie geben, die er braucht, um zu gedeihen und bei bester Gesundheit zu leben. ',
   'tailorednutrition.shopCat': 'Shop Katzenformeln',
   'tailorednutrition.shopDog': 'Shop Hundeformeln',
   'tailorednutrition.shopTile': 'Maßgeschneiderte Ernährung für Ihr Haustier',
-  'tailorednutrition.uniqueDetail': 'Viele Haustiere haben einzigartig geformte Kiefer und Verhaltensweisen, die ihre Ernährung vor Herausforderungen stellen. Deshalb passen wir nicht nur unsere Rezepte auf ernährungsphysiologischer Ebene an, sondern gestalten auch die Form und Struktur jedes Knabbers, um den physischen Fütterungsbedürfnissen jedes Haustieres besser gerecht zu werden.',
-  'tailorednutrition.uniqueTitle': 'Einzigartige Formeln für einzigartige Bedürfnisse',
+  'tailorednutrition.uniqueDetail':
+    'Viele Haustiere haben einzigartig geformte Kiefer und Verhaltensweisen, die ihre Ernährung vor Herausforderungen stellen. Deshalb passen wir nicht nur unsere Rezepte auf ernährungsphysiologischer Ebene an, sondern gestalten auch die Form und Struktur jedes Knabbers, um den physischen Fütterungsbedürfnissen jedes Haustieres besser gerecht zu werden.',
+  'tailorednutrition.uniqueTitle':
+    'Einzigartige Formeln für einzigartige Bedürfnisse',
   taxLogo: 'Preise inkl. MwSt. und zzgl. {val}.',
   title: 'Titel',
   to: 'Zu',
@@ -825,12 +981,14 @@ const de_DE = {
   totalIncluMessage: 'Alle Preise inkl.MwSt',
   trackDelivery: 'Bestellung verfolgen',
   transactionInfomation: 'Zahlungsinformationen',
-  twoPasswordsYouTypedDoNotMatch: 'Die beiden eingegebenen Passwörter stimmen nicht überein!',
+  twoPasswordsYouTypedDoNotMatch:
+    'Die beiden eingegebenen Passwörter stimmen nicht überein!',
   type: 'ART',
   uNeedHelp: 'Sie benötigen Hilfe?',
   unfoldAddress: 'Adresse entfalten',
   unkown: 'Unbekannt',
-  unLoginSubscriptionTips: 'Eine Abo-Bestellung ist erst nach Anmeldung möglich',
+  unLoginSubscriptionTips:
+    'Eine Abo-Bestellung ist erst nach Anmeldung möglich',
   userAgreement: 'Nutzungsbedingungen',
   viewAll: 'Alle Produkte ansehen',
   viewAllResults: 'Alle Ergebnisse anzeigen',
@@ -849,96 +1007,165 @@ const de_DE = {
   yes: 'Weiter',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
-  'singlePurchase': 'Einzelbestellung',
-  'deliveryOneTimeOnly': 'Das Produkt wird einmalig an Sie geliefert',
-  'saveExtra': 'Sparen Sie {val} bei einer regelmäßigen Lieferung',
-  'saveExtraMoney': 'Sparen Sie {val} bei einer regelmäßigen Lieferung',
-  'freeShipping': 'Kostenloser Versand',
-  'addedtoCart': 'In den Warenkorb',
-  'continueMyPurchases': 'Setzen Sie meine Einkäufe fort',
-  'goToCart': 'Zum Warenkorb gehen',
-  'subscribe': 'In den Warenkorb legen',
+  singlePurchase: 'Einzelbestellung',
+  deliveryOneTimeOnly: 'Das Produkt wird einmalig an Sie geliefert',
+  saveExtra: 'Sparen Sie {val} bei einer regelmäßigen Lieferung',
+  saveExtraMoney: 'Sparen Sie {val} bei einer regelmäßigen Lieferung',
+  freeShipping: 'Kostenloser Versand',
+  addedtoCart: 'In den Warenkorb',
+  continueMyPurchases: 'Setzen Sie meine Einkäufe fort',
+  goToCart: 'Zum Warenkorb gehen',
+  subscribe: 'In den Warenkorb legen',
 
-  'registerDescription': '<p> Ihre persönlichen Daten werden gemäß der Datenschutzerklärung von Royal Canin gesammelt und verarbeitet. <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> hier </a> </p> ',
-  'registerCloud': 'Commerce Cloud Storefront-Referenzarchitektur',
-  'registerErrorMessage': 'Beim Erstellen Ihres Kontos ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal oder verwenden Sie eine andere E-Mail-Adresse. ',
-  'registerWelcome': 'Willkommen bei',
-  'registerCompleteForm': 'Um Ihr Konto zu erstellen, füllen Sie bitte das folgende Formular aus.',
-  'registerHaveAccount': 'Haben Sie bereits ein Konto?',
-  'registerLoginIn': 'Anmelden',
-  'registerContinuing': 'Indem Sie fortfahren, stimmen Sie unserer MARS-Datenschutzrichtlinie zu. sammelt und verwendet Ihren Vor- und Nachnamen sowie Ihre E-Mail-Adresse, um Ihnen eine personalisierte Erfahrung zu bieten. ',
-  'registerOr': 'OR',
-  'registerFillIn': 'Bitte füllen Sie dieses Feld aus',
-  'registerName': 'Name',
-  'registerEmail': 'E-Mail-Adresse',
-  'registerPassword': 'Passwort',
-  'registerTogglePassword': 'Passwortsichtbarkeit umschalten',
-  'registerRules': 'Passwort muss mindestens enthalten',
-  'registerLength': '8 Zeichen',
-  'registerLowercase': 'Ein Kleinbuchstabe',
-  'registerUppercase': 'Ein Großbuchstabe',
-  'registerAname': 'Eine Nummer',
-  'registerSpecial': 'Ein Sonderzeichen',
-  'registerMandatory': 'Pflichtfeld',
-  'registerCreateYourAccout': 'Erstellen Sie Ihr Royal Canin-Konto',
-  'registerFooter1': 'Sie müssen mindestens 16 Jahre alt sein, um ein Formular einzureichen. Sie können uns kontaktieren, indem Sie an Royal Canin France, Verbraucherservice - BP4 - 650 Avenue de la Petite Camargue - 30470 AIMARGUES oder per E-Mail an',
-  'registerFeckbook': 'Mit Facebook verbinden',
-  'registerGoogle': 'Mit Google verbinden',
-  'registerPasswordFormat': "Das Passwort ist ungültig.",
-  'registerEmailFormate': "Die E-Mail-Adresse stimmt nicht mit dem angegebenen Format überein.",
+  registerDescription:
+    '<p> Ihre persönlichen Daten werden gemäß der Datenschutzerklärung von Royal Canin gesammelt und verarbeitet. <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> hier </a> </p> ',
+  registerCloud: 'Commerce Cloud Storefront-Referenzarchitektur',
+  registerErrorMessage:
+    'Beim Erstellen Ihres Kontos ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal oder verwenden Sie eine andere E-Mail-Adresse. ',
+  registerWelcome: 'Willkommen bei',
+  registerCompleteForm:
+    'Um Ihr Konto zu erstellen, füllen Sie bitte das folgende Formular aus.',
+  registerHaveAccount: 'Haben Sie bereits ein Konto?',
+  registerLoginIn: 'Anmelden',
+  registerContinuing:
+    'Indem Sie fortfahren, stimmen Sie unserer MARS-Datenschutzrichtlinie zu. sammelt und verwendet Ihren Vor- und Nachnamen sowie Ihre E-Mail-Adresse, um Ihnen eine personalisierte Erfahrung zu bieten. ',
+  registerOr: 'OR',
+  registerFillIn: 'Bitte füllen Sie dieses Feld aus',
+  registerName: 'Name',
+  registerEmail: 'E-Mail-Adresse',
+  registerPassword: 'Passwort',
+  registerTogglePassword: 'Passwortsichtbarkeit umschalten',
+  registerRules: 'Passwort muss mindestens enthalten',
+  registerLength: '8 Zeichen',
+  registerLowercase: 'Ein Kleinbuchstabe',
+  registerUppercase: 'Ein Großbuchstabe',
+  registerAname: 'Eine Nummer',
+  registerSpecial: 'Ein Sonderzeichen',
+  registerMandatory: 'Pflichtfeld',
+  registerCreateYourAccout: 'Erstellen Sie Ihr Royal Canin-Konto',
+  registerFooter1:
+    'Sie müssen mindestens 16 Jahre alt sein, um ein Formular einzureichen. Sie können uns kontaktieren, indem Sie an Royal Canin France, Verbraucherservice - BP4 - 650 Avenue de la Petite Camargue - 30470 AIMARGUES oder per E-Mail an',
+  registerFeckbook: 'Mit Facebook verbinden',
+  registerGoogle: 'Mit Google verbinden',
+  registerPasswordFormat: 'Das Passwort ist ungültig.',
+  registerEmailFormate:
+    'Die E-Mail-Adresse stimmt nicht mit dem angegebenen Format überein.',
   invoice: 'Rechnung',
-  'manage': 'Verwalten',
-  'autoShipStarted': 'gestartet am',
-  'nextShipment': 'Nächster Versand',
-  'saveChange': 'Änderungen speichern',
-  'transactionInfo': 'Transaktionsinformationen',
-  'myAutoshipOrder': 'Meine regelmäßigen Lieferungen',
-  'noStart': 'Ausstehend',
-  'completed': 'Bereits versandt',
-  'skip': 'Lieferung aussetzen',
-  'shipmentOn': 'Versand am',
-  'VAT_included': 'inkl. MwSt',
-  'skiped': 'Übersprungen',
-  'orderDetail': 'Bestelldetails',
-  'modalChangeDateTitle': 'Ändern Sie das Versanddatum',
-  'modalChangeDateContent': 'Möchten Sie das nächste Versanddatum wirklich ändern?',
-  'confirmation.account':'zu meinem Profil',
-  'confirmation.oneShoot':'zu meinem Profil',
-  'confirmation.subscriptionDiscountPriceDes':'Sie sparen {val1} bei diesem Abonnement',
+  manage: 'Verwalten',
+  autoShipStarted: 'gestartet am',
+  nextShipment: 'Nächster Versand',
+  saveChange: 'Änderungen speichern',
+  transactionInfo: 'Transaktionsinformationen',
+  myAutoshipOrder: 'Meine regelmäßigen Lieferungen',
+  noStart: 'Ausstehend',
+  completed: 'Bereits versandt',
+  skip: 'Lieferung aussetzen',
+  shipmentOn: 'Versand am',
+  VAT_included: 'inkl. MwSt',
+  skiped: 'Übersprungen',
+  orderDetail: 'Bestelldetails',
+  modalChangeDateTitle: 'Ändern Sie das Versanddatum',
+  modalChangeDateContent:
+    'Möchten Sie das nächste Versanddatum wirklich ändern?',
+  'confirmation.account': 'zu meinem Profil',
+  'confirmation.oneShoot': 'zu meinem Profil',
+  'confirmation.subscriptionDiscountPriceDes':
+    'Sie sparen {val1} bei diesem Abonnement',
   deliveredTip: 'Voraussichtlich in ca. 3 Tagen eintreffen',
-  checkboxIsRequiredForSubscription: 'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
+  checkboxIsRequiredForSubscription:
+    'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
   'pet.petListTitle': 'Erstellen und verwalten Sie das Profil Ihres Tieres.',
   'pet.addNewPet': 'Fügen Sie ein neues Tier hinzu',
   'pet.deletePet': 'Haustierprofil löschen',
   'mixed Breed': 'gemischte Rasse',
   // SubscriptionLanding START
-  "subscription.title":"Nie mehr Nahrung vergessen!",
-  "subscription.subTitle":"Manche Dinge sollten nie ausgehen. Die Nahrung Ihres Tieres ist eins davon. Mit der regelmäßigen Lieferung erhalten Sie die passende Nahrung Ihres Tieres in einem individuell festgelegten Zeitraum automatisch von uns zugesendet. Legen Sie einfach Zeitraum und Lieferadresse bei Ihrer Bestellung fest und sparen Sie 10% beim Kauf unserer Produkte. Eine Mindestlaufzeit oder Kündigungsfrist der regelmäßigen Lieferung gibt es nicht.",
-  "subscription.list1":'10% Rabatt auf alle regelmäßigen Lieferungen',
-  "subscription.list2":'Keine Mindestlaufzeit oder Kündigungsfrist',
-  "subscription.list3":'Kostenlose Lieferung',
-  "subscription.list4":'Fachliche Beratung unseres Kundenservices',
-  "subscription.list.btn1":'Nahrung für Katzen',
-  "subscription.list.btn2":'Nahrung für Hunde',
-  "subscription.ad.title":'Wie funktioniert die regelmäßige Lieferung?',
-  "subscription.ad.list1":'Fügen Sie die passende Nahrung für Ihr Tier zu Ihrem Warenkorb hinzu.',
-  "subscription.ad.list2":'Wählen Sie regelmäßige Lieferung und legen Sie Ihre Zahlungsmethode fest.',
-  "subscription.ad.list3":'Erhalten Sie Ihr(e) Produkt(e) automatisch in Ihren festgelegten Zeitraum.',
-  "subscription.ad.list4":'Ändern Sie Ihren Lieferzeitraum oder stornieren Sie Ihre regelmäßige Lieferung jederzeit.',
-  "subscription.banner.title":'Schließen Sie jetzt Ihre regelmäßige Lieferung ab!',
-  "subscription.banner.subTitle":'Suchen Sie die passende Nahrung für Ihr Tier heraus.',
-  "subscription.banner.btn":'Auswählen',
-  "subscription.help.title":'Haben Sie Fragen?',
-  "subscription.help.subTitle":'Unser Expertenteam hilft Ihnen gerne weiter.',
+  'subscription.title': 'Nie mehr Nahrung vergessen!',
+  'subscription.subTitle':
+    'Manche Dinge sollten nie ausgehen. Die Nahrung Ihres Tieres ist eins davon. Mit der regelmäßigen Lieferung erhalten Sie die passende Nahrung Ihres Tieres in einem individuell festgelegten Zeitraum automatisch von uns zugesendet. Legen Sie einfach Zeitraum und Lieferadresse bei Ihrer Bestellung fest und sparen Sie 10% beim Kauf unserer Produkte. Eine Mindestlaufzeit oder Kündigungsfrist der regelmäßigen Lieferung gibt es nicht.',
+  'subscription.list1': '10% Rabatt auf alle regelmäßigen Lieferungen',
+  'subscription.list2': 'Keine Mindestlaufzeit oder Kündigungsfrist',
+  'subscription.list3': 'Kostenlose Lieferung',
+  'subscription.list4': 'Fachliche Beratung unseres Kundenservices',
+  'subscription.list.btn1': 'Nahrung für Katzen',
+  'subscription.list.btn2': 'Nahrung für Hunde',
+  'subscription.ad.title': 'Wie funktioniert die regelmäßige Lieferung?',
+  'subscription.ad.list1':
+    'Fügen Sie die passende Nahrung für Ihr Tier zu Ihrem Warenkorb hinzu.',
+  'subscription.ad.list2':
+    'Wählen Sie regelmäßige Lieferung und legen Sie Ihre Zahlungsmethode fest.',
+  'subscription.ad.list3':
+    'Erhalten Sie Ihr(e) Produkt(e) automatisch in Ihren festgelegten Zeitraum.',
+  'subscription.ad.list4':
+    'Ändern Sie Ihren Lieferzeitraum oder stornieren Sie Ihre regelmäßige Lieferung jederzeit.',
+  'subscription.banner.title':
+    'Schließen Sie jetzt Ihre regelmäßige Lieferung ab!',
+  'subscription.banner.subTitle':
+    'Suchen Sie die passende Nahrung für Ihr Tier heraus.',
+  'subscription.banner.btn': 'Auswählen',
+  'subscription.help.title': 'Haben Sie Fragen?',
+  'subscription.help.subTitle': 'Unser Expertenteam hilft Ihnen gerne weiter.',
   // SubscriptionLanding END
-  'account.noSubscriptionTitle': "Entdecken Sie unser Angebot der regelmäßigen Lieferung",
-  'account.noSubscription':"{val1} Mit der regelmäßigen Lieferung erhalten Sie die passende Nahrung Ihres Tieres in einem individuell festgelegten Zeitraum automatisch von uns zugesendet. Legen Sie einfach Zeitraum und Lieferadresse bei Ihrer Bestellung fest und sparen Sie 10% beim Kauf unserer Produkte. Eine Mindestlaufzeit oder Kündigungsfrist der regelmäßigen Lieferung gibt es nicht.",
+  'account.noSubscriptionTitle':
+    'Entdecken Sie unser Angebot der regelmäßigen Lieferung',
+  'account.noSubscription':
+    '{val1} Mit der regelmäßigen Lieferung erhalten Sie die passende Nahrung Ihres Tieres in einem individuell festgelegten Zeitraum automatisch von uns zugesendet. Legen Sie einfach Zeitraum und Lieferadresse bei Ihrer Bestellung fest und sparen Sie 10% beim Kauf unserer Produkte. Eine Mindestlaufzeit oder Kündigungsfrist der regelmäßigen Lieferung gibt es nicht.',
   'account.startAutoShipping': 'mehr erfahren',
   bankCard: 'Bankkarte',
   'order.total': 'Gesamt',
   'order.iVAIncluido': '',
-  'validPromotionCode': 'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
+  validPromotionCode:
+    'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
   starUnit: '*',
-  pricesIncludeVAT: '{val} Preise inkl. MwSt'
-}
+  pricesIncludeVAT: '{val} Preise inkl. MwSt',
+  'smartFeederSubscription.tabDes1':
+    'Avec expédition automatique à votre porte', //With automatic shipment to your door
+  'smartFeederSubscription.tabDes2': 'pour 26,50 € la recharge *', //for 26,50 € per refill*
+  'smartFeederSubscription.tabDes3': '* Engagement de 12 envois', // *12 shipments engagement
+  'smartFeederSubscription.learnMore': 'Apprendre encore plus', //Learn more
+  'smartFeederSubscription.chooseYourProduct': 'Choisissez votre produit', //Choose your product
+  'smartFeederSubscription.titleWhy':
+    "Pourquoi choisir l'abonnement Smart Feeder?", //Why choose the Smart Feeder Subscription?
+  'smartFeederSubscription.stepTitl1': 'Nourrissez votre chien avec précision', //Feed your dog with precision
+  'smartFeederSubscription.stepDes1':
+    'Grâce au distributeur PetKit, votre animal recevra toujours la bonne quantité de nourriture au bon moment', //Thanks to the PetKit Dispenser your pet will always get the right amount of food at the right time
+  'smartFeederSubscription.stepTitl2': 'Livraison automatique gratuite', //Free automatic delivery
+  'smartFeederSubscription.stepDes2':
+    'Simplifiez-vous la vie avec la livraison automatique gratuite à votre porte', //Make your life easier with free automatic delivery to your door
+  'smartFeederSubscription.stepTitl3':
+    'Distributeur PetKit pour 1,50 € de plus / recharge', //PetKit Dispenser for 1.50 € more/refill
+  'smartFeederSubscription.stepDes3':
+    'Recevez le distributeur PetKit pour seulement 1,50 € de plus / recharge par rapport à notre prix standard de livraison automatique', //Receive the PetKit Dispenser for just 1.50 € more/refill compared to our standard Autoship price
+  'smartFeederSubscription.feederDes':
+    "{val}est un distributeur automatique conçu pour que votre animal reçoive la bonne quantité de nourriture au bon moment, même lorsque vous n'êtes pas à la maison.", //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
+  'smartFeederSubscription.petDispenser': 'Le distributeur PetKit', // The PetKit Dispenser
+  'smartFeederSubscription.dispenser1Title': 'Un double système «Fresh Lock»', //A Double “Fresh Lock” System
+  'smartFeederSubscription.dispenser2Title': 'Mécanisme de distribution', //Dispensing Mechanism
+  'smartFeederSubscription.dispenser3Title': 'Entretien facile', //Easy Maintenance
+  'smartFeederSubscription.dispenser1Des':
+    "Un anneau d'étanchéité en silicone souple de qualité alimentaire et une boîte déshydratante garantissent que la nourriture de votre animal reste fraîche.", //A food-grade Soft Silicone Sealing Ring and a desiccant box ensures your pet’s food stays fresh.
+  'smartFeederSubscription.dispenser2Des':
+    'Votre mangeoire ne restera jamais coincé en distribuant des aliments grâce à un système auto-adaptatif.', //Your feeder will never get stuck dispensing food thanks to a self-adapting system.
+  'smartFeederSubscription.dispenser3Des':
+    'Détachez et fixez facilement la machine pour la nettoyer avec un chiffon humide.', //Easily detach and attach the machine to clean it with a damp cloth.
+  'smartFeederSubscription.titleHow':
+    "comment fonctionne l'abonnement Smart Feeder?", //how the Smart Feeder Subscription works?
+  'smartFeederSubscription.dispenserWithPhoneTitle':
+    'Contrôlez le distributeur Petkit à distance depuis votre téléphone', //Control the Petkit Dispenser Remotely from your Phone
+  'smartFeederSubscription.dispenserWithPhoneDes':
+    "Avec la technologie de contrôle des applications, vous pouvez définir des heures d'alimentation pour nourrir automatiquement votre animal ou choisir de le nourrir manuellement. Téléchargez simplement l'application, ajoutez votre appareil et le tour est joué!", // With app control technology, you can set feeding times to automatically feed your pet or choose to feed them manually. Simply download the app, add your device and you’re set!
+  'smartFeederSubscription.selectYourProduct': 'Sélectionnez votre produit', //Select your product
+  'smartFeederSubscription.finaliseYourOrder': 'Finalisez votre commande', //Finalise your order
+  'smartFeederSubscription.chooseProduct': 'choisir le produit', //choose product
+  'smartFeederSubscription.helpSubTitle':
+    "Nous sommes prêts à vous aider pour toute autre question que vous pourriez avoir à propos de l'abonnement Smart Feeder.", //We’re ready to help you with any further questions you might have about the Smart Feeder Subscription.
+  'smartFeederSubscription.viewProductDetails': 'voir les détails du produit', //view product details
+  'smartFeederSubscription.backToProduct': 'retourner au produit', //go back to product
+  'smartFeederSubscription.backToProductTitle':
+    'Faites livrer vos recharges de croquettes automatiquement, sélectionnez simplement la fréquence de livraison souhaitée et ajoutez-les au panier', //Get your kibble refills delivered automatically, just select your desired delivery frequency and add to cart
+  'smartFeederSubscription.shopmentTimes': 'Livré lors du premier envoi', //Delivered at the first shipment
+  'smartFeederSubscription.selectYourFrequency': 'sélectionnez votre fréquence', //select your frequency
+  'smartFeederSubscription.smartFeederSubscription': 'Abonnement Smart Feeder', //Smart feeder subscription
+  'smartFeederSubscription.selectAnotherProduct':"sélectionnez un autre produit",//select another product
+  'smartFeederSubscription.conﬁrmThisProduct':"Con ﬁ rmez ce produit",// Conﬁrm this product
+};
 export default de_DE;

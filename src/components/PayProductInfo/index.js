@@ -196,7 +196,7 @@ class PayProductInfo extends React.Component {
                         className="line-item-total-price"
                         style={{ width: '77%' }}
                       >
-                        x1 Delivered at the first shipment
+                        x1 <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
                         {/* {[
                       item.specDetails,
                       item.num > 1

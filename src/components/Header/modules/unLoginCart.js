@@ -525,7 +525,7 @@ class UnloginCart extends React.Component {
                                           fontSize: '12px'
                                         }}
                                       >
-                                        x1 Delivered at the first shipment
+                                        x1 <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
                                       </div>
                                     </div>
                                   </div>
