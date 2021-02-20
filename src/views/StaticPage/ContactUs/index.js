@@ -3,9 +3,11 @@ import { FormattedMessage } from 'react-intl';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
+import Loading from '@/components/Loading';
 import { ADDRESS_RULE } from './utils/constant';
 import { backSpacerUP, backSpacerDOWN } from "./utils/usPhone"
 import { validData } from '@/utils/utils';
+import successImg from '@/assets/images/credit-cards/success.png';
 import "./index.less"
 
 class ContactUs extends Component {
@@ -21,17 +23,20 @@ class ContactUs extends Component {
                 email: '',
                 phoneNumber: '',
                 orderNumber: '',
-                question:'1001',
+                question: '1001',
                 request: '',
             },
-            questionList:[
-                {value:'1001',name:'General Information'},
-                {value:'1002',name:'Order Status'},
-                {value:'1003',name:'My Account'},
-                {value:'1004',name:'Other'},
+            questionList: [
+                { value: '1001', name: 'General Information' },
+                { value: '1002', name: 'Order Status' },
+                { value: '1003', name: 'My Account' },
+                { value: '1004', name: 'Other' },
             ],
             countryList: [],
-            errMsgObj: {}
+            errMsgObj: {},
+            mail:"qhx717@qq.com",
+            isLoading: false,
+            isFinished: false
         }
     }
 
@@ -70,15 +75,24 @@ class ContactUs extends Component {
         address[key] = data.value;
         this.setState({ address });
     }
-    allRequiredChecked=()=>{
-        const {firstName,lastName,email,request} = this.state.address
-        if(firstName&&lastName&&email&&request) return true
+    allRequiredChecked = () => {
+        const { firstName, lastName, email, request } = this.state.address
+        if (firstName && lastName && email && request) return true
     }
-    submitEvent(){
+    submitEvent() {
+        this.setState({isLoading:true})
         const { address } = this.state;
         address.phoneNumber = this.textInput.current.value
         this.setState({
             address
+        },()=>{
+            setTimeout(()=>{
+                this.setState({isLoading:false,isFinished:true})
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                  });
+            },2000)
         })
     }
 
@@ -170,7 +184,7 @@ class ContactUs extends Component {
         );
     };
     phonePanelJSX = () => {
-        const {address, errMsgObj } = this.state;
+        const { address, errMsgObj } = this.state;
         return (
             <div className="form-group">
                 {' '}
@@ -257,7 +271,7 @@ class ContactUs extends Component {
                 <label className="form-control-label" htmlFor="contactUsOrderNumber">
                     <FormattedMessage id="contactUs.request" />
                 </label>
-                <span class={["rc-input",errMsgObj.request?"rc-input--error":""].join(" ")} style={{ maxWidth: "480px" }}>
+                <span class={["rc-input", errMsgObj.request ? "rc-input--error" : ""].join(" ")} style={{ maxWidth: "480px" }}>
                     <textarea
                         class="rc-input__textarea"
                         id="id-textarea"
@@ -274,12 +288,54 @@ class ContactUs extends Component {
             </div>
         )
     }
+    allFormJSX = () => {
+        return (
+            <div className="FAQ__section rc-padding--md">
+                <div className="contact__form">
+                    <h1>Contact Us</h1>
+                    {this.firstNameJSX()}
+                    {this.lastNameJSX()}
+                    {this.emailPanelJSX()}
+                    {this.phonePanelJSX()}
+                    {this.orderNumberJSX()}
+                    {this.myQuestionJSX()}
+                    {this.requestJSX()}
+                    <div className="form-group">
+                        <div className="content-asset">
+                            <p>
+                                <em>The personal data submitted via this form will be retained only for the purpose of responding to your question or concern, and will not be used for marketing purposes.<br /></em>
+                                <em>You must be 13 years old or older to submit a form.</em>
+                            </p>
+                        </div>
+                    </div>
+                    <button disabled={!this.allRequiredChecked()} onClick={this.submitEvent.bind(this)} className="btn btn-block btn-primary" name="send" style={{ width: '200px', cursor: this.allRequiredChecked() ? "pointer" : "not-allowed" }}>
+                        Submit
+                            </button>
+                </div>
+            </div>
+        )
+    }
+    successContent = () => {
+        return (
+            <div className="FAQ__section rc-padding--md">
+                <div className="FAQ-header">
+                    <div className="confirmation-message">
+                        <img src={successImg}></img>
+                        <h2>Thank You For Contacting Us!</h2>
+                        <p className="order-thank-you-email-msg">A copy of your message has also been sent to {this.state.mail}.</p>
+                        <p className="order-thank-you-email-msg">One of our pet experts will be in touch with you soon.</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
-    
+
 
     render() {
         return (
             <div className="contactUs">
+                {this.state.isLoading ? <Loading bgColor={'#fff'} /> : null}
                 <Header
                     showMiniIcons={true}
                     showUserIcon={true}
@@ -309,29 +365,7 @@ class ContactUs extends Component {
                             <a href="tel:+(844) 673-3772" className="rc-styled-link--cta rc-gamma">(844) 673-3772</a>
                         </div>
                     </div>
-                    <div className="FAQ__section rc-padding--md">
-                        <div className="contact__form">
-                            <h1>Contact Us</h1>
-                            {this.firstNameJSX()}
-                            {this.lastNameJSX()}
-                            {this.emailPanelJSX()}
-                            {this.phonePanelJSX()}
-                            {this.orderNumberJSX()}
-                            {this.myQuestionJSX()}
-                            {this.requestJSX()}
-                            <div className="form-group">
-                                <div className="content-asset">
-                                    <p>
-                                        <em>The personal data submitted via this form will be retained only for the purpose of responding to your question or concern, and will not be used for marketing purposes.<br /></em>
-                                        <em>You must be 13 years old or older to submit a form.</em>
-                                    </p>
-                                </div>
-                            </div>
-                            <button disabled={!this.allRequiredChecked()} onClick={this.submitEvent.bind(this)} className="btn btn-block btn-primary" name="send" style={{ width: '200px',cursor:this.allRequiredChecked()?"pointer":"not-allowed" }}>
-                                Submit
-                            </button>
-                        </div>
-                    </div>
+                    {this.state.isFinished ? this.successContent():this.allFormJSX()}
                 </div>
                 <Footer />
             </div>
