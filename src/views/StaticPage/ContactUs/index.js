@@ -83,17 +83,13 @@ class ContactUs extends Component {
         this.setState({isLoading:true})
         const { address } = this.state;
         address.phoneNumber = this.textInput.current.value
-        this.setState({
-            address
-        },()=>{
-            setTimeout(()=>{
-                this.setState({isLoading:false,isFinished:true})
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                  });
-            },2000)
-        })
+        setTimeout(()=>{
+            this.setState({isLoading:false,isFinished:true})
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+        },2000)
     }
 
     firstNameJSX = () => {
