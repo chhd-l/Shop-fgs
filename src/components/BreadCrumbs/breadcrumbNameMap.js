@@ -67,7 +67,7 @@ const breadcrumbNameMap = {
   ],
   '/Quality-safety': [
     {
-      name: 'Qualité et sécurité alimentaire'
+      name: 'footer.qualityAndSafety'
     }
   ],
   '/aboutUs': [
