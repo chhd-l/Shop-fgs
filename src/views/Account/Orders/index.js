@@ -33,7 +33,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 const pageLink = window.location.href;
-
+const isGift = true;
 @inject('checkoutStore')
 @injectIntl
 @observer
@@ -402,7 +402,7 @@ class AccountOrders extends React.Component {
     let orderInvoiceIds = [];
     orderInvoiceIds.push(order.id);
     let params = {
-      orderNo:order.id
+      orderNo: order.id
     };
     const token =
       sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
@@ -453,7 +453,9 @@ class AccountOrders extends React.Component {
         {order.canRePurchase ? (
           <button
             className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${
-              order.addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''
+              order.addToCartLoading
+                ? 'ui-btn-loading ui-btn-loading-border-red'
+                : ''
             }`}
             onClick={this.rePurchase.bind(this, order)}
           >
@@ -844,19 +846,41 @@ class AccountOrders extends React.Component {
                                             .filter((e) => e)
                                             .join(' - ')}
                                         </div>
-                                        <div className="col-2 col-md-2 rc-md-up">
-                                          {formatMoney(item.price)}
-                                        </div>
+                                        {isGift ? (
+                                          <div>
+                                            <i style={{ float: 'left' }}>
+                                              gift
+                                            </i>
+                                            <div style={{ float: 'right' }}>
+                                              <span className="medium color-444 ui-text-overflow-line2">
+                                                Cadeaux
+                                              </span>
+                                              <span>
+                                                Abonnement Smart Feeder
+                                              </span>
+                                            </div>
+                                          </div>
+                                        ) : (
+                                          <div className="col-2 col-md-2 rc-md-up">
+                                            {formatMoney(item.price)}
+                                          </div>
+                                        )}
                                       </div>
                                     ))}
                                   </div>
-                                  <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
-                                    <div className="rc-md-up">
-                                      {this.renderOperationBtns(order)}
+                                  {isGift && !getDeviceType() === 'H5' ? (
+                                    <div className="col-2 col-md-3 text-right pl-md-0">
+                                      {formatMoney(123)}
                                     </div>
-                                    <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
-                                  </div>
-                                  {order.subscribeId ? (
+                                  ) : (
+                                    <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
+                                      <div className="rc-md-up">
+                                        {this.renderOperationBtns(order)}
+                                      </div>
+                                      <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
+                                    </div>
+                                  )}
+                                  {order.subscribeId && !isGift ? (
                                     <div className="col-12 text-right rc-md-up">
                                       <Link
                                         to={`/account/subscription/order/detail/${order.subscribeId}`}
