@@ -120,6 +120,7 @@ class Step1H5 extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.slideWidth = document.body.clientWidth/1.5
   }
   componentDidMount() {
     // new Swiper('.swiper-container', {
@@ -145,7 +146,7 @@ class Step1H5 extends Component {
           <Slider {...settings}>
             {this.props.productList.map((item) => (
               <div
-                style={{ width: '15rem' }}
+                style={{ width: this.slideWidth }}
                 className={`swiper-slide  ${item.choosed ? 'active' : ''}`}
                 onClick={() => {
                   this.props.clickItem(item);
