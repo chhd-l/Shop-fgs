@@ -221,7 +221,7 @@ class ClinicForm extends React.Component {
                                 rel="nofollow"
                                 className="rc-styled-link font-italic"
                               >
-                                <FormattedMessage id="clickHere2" />
+                                <FormattedMessage id="clickHere3" />
                               </Link>
                             )
                           }}

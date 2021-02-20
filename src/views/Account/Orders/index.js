@@ -850,7 +850,8 @@ class AccountOrders extends React.Component {
                                       </div>
                                     ))}
                                   </div>
-                                  <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
+                                  {/* 法国暂时隐藏这个按钮 */}
+                                  <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0" style={{display:process.env.REACT_APP_LANG == 'fr'?'none':'block'}}>  
                                     <div className="rc-md-up">
                                       {this.renderOperationBtns(order)}
                                     </div>
