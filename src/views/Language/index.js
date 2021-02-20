@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Loading from '@/components/Loading';
-import Selection from '@/components/Selection';
+import Selection from './Selection';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import queryCountries from './mock';
