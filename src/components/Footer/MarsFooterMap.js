@@ -236,11 +236,8 @@ class MarsFooterMap extends React.Component {
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href="/mentionslegales"
-                  rel="nofollow"
-                >
+                {/* <a target="_blank" rel="nofollow" href="/mentionslegales"> */}
+                <a target="_blank" rel="nofollow" href="https://www.royalcanin.com/fr/mentions-legales/royal-canin">
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.statutoryDeclaration" />
                   </span>
