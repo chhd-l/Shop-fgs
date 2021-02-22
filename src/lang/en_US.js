@@ -888,6 +888,10 @@ const en_US = {
   'order.total': 'Total',
   'order.iVAIncluido': '',
   'validPromotionCode': 'Unable to add the discount voucher to your cart',
-  bankCard: 'Bank card'
+  bankCard: 'Bank card',
+  "contactUs.requiredField": "The field is required",
+  "contactUs.orderNumber": "Order Number",
+  "contactUs.myQuestion": "My Question",
+  "contactUs.request": 'request'
 }
 export default en_US;

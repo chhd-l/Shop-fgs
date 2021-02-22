@@ -83,6 +83,7 @@ import Exception from '@/views/StaticPage/Exception';
 import Page403 from '@/views/StaticPage/403';
 import Page500 from '@/views/StaticPage/500';
 import Help from '@/views/StaticPage/Help';
+import ContactUs from '@/views/StaticPage/ContactUs'
 import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
 import TermsConditions from '@/views/StaticPage/TermsAndConditions';
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
@@ -114,6 +115,8 @@ import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
+
+
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
@@ -218,7 +221,7 @@ const App = () => (
                 path="/prescriptionNavigate"
                 component={PrescriptionNavigate}
               />
-
+              <Route exact path="/help/contact" component={ContactUs} />
               <Route exact path="/help" component={Help} />
               <Route
                 exact
@@ -466,6 +469,7 @@ const App = () => (
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />
               <Route path="/register" component={register} />
+              
               <Route
                 path="/smart-feeder-subscription"
                 component={smartFeederSubscription}

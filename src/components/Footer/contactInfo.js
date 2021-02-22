@@ -1,7 +1,7 @@
 export const contactInfo = {
   en: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
-    email: { link: '/help', messageId: 'footer.contactUs' }
+    email: { link: '/help/contact', messageId: 'footer.contactUs' }
   },
   es: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },

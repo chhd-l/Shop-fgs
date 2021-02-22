@@ -183,7 +183,7 @@ class Footer extends React.Component {
                   <Link
                     className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
                     role="menuitem"
-                    to="/help"
+                    to={this.state.cur_contactInfo.email.link}
                   >
                     <FormattedMessage id="footer.contactUs" />
                   </Link>
