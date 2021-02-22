@@ -241,7 +241,7 @@ const ru_RU = {
     "footer.contactUs": "Связаться с нами",
     "footer.cookieCollectionPolicy": "Политика сбора файлов cookie",
     "footer.cookies": "Печенье",
-    "footer.copyrightInfo": "Авторские права © Mars 2020®, торговая марка Mars Incorporated и ее дочерних компаний",
+    "footer.copyrightInfo": "Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний",
     'footer.email': 'Свяжитесь с нами',
     "footer.FAQ": "ВОПРОСЫ-ОТВЕТЫ",
     "footer.healthAndNutrition": "Здоровье и питание",

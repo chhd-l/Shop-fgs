@@ -11,6 +11,12 @@ import { Helmet } from 'react-helmet';
 
 import './index.css';
 
+import image3 from './images/image3.jpg';
+import image4 from './images/image4.jpg';
+import image5 from './images/image5.jpg';
+import cat from './images/cat.jpg';
+import dog from './images/dog.jpg';
+
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
 class QualitySafety extends React.Component {
@@ -70,6 +76,7 @@ class QualitySafety extends React.Component {
           <BreadCrumbs />
 
           <div className="experience-region experience-main">
+
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
@@ -87,6 +94,7 @@ class QualitySafety extends React.Component {
                 </div>
               </div>
             </div>
+
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
@@ -117,6 +125,7 @@ class QualitySafety extends React.Component {
                 </div>
               </div>
             </div>
+
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
@@ -146,6 +155,7 @@ class QualitySafety extends React.Component {
                 </div>
               </div>
             </div>
+
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
@@ -156,13 +166,8 @@ class QualitySafety extends React.Component {
                       <div className="row align-items-md-center">
                         <div className=" col-12 col-lg-6">
                           <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                            <h2 className="rc-beta markup-text">Des matières premières de qualité</h2>
-                            <p>Nous choisissons les ingrédients en fonction de leur valeur nutritionnelle élevée et de
-                            leurs bénéfices pour la santé des animaux. Par exemple, nous n’utilisons que de la viande
-                            et du poisson issus de la chaîne alimentaire humaine. Royal Canin met tout en œuvre pour
-                            s’approvisionner en matières premières auprès de fournisseurs agréés proches des centres
-                            de production, ce qui soutient l’économie locale, garantit la fraîcheur des produits et
-                              réduit l’empreinte carbone.</p>
+                            <h2 className="rc-beta markup-text"><FormattedMessage id="qualitySafety.materialsTitle" /></h2>
+                            <p><FormattedMessage id="qualitySafety.materialsDetail" /></p>
                           </div>
                         </div>
                         <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
@@ -170,7 +175,7 @@ class QualitySafety extends React.Component {
                             <LazyLoad>
                               <img className="w-100 ls-is-cached lazyloaded"
                                 alt="Des matières premières de qualité" title="Des matières premières de qualité"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/2015-Pet-Center-pictures-Campus-Royal-Canin-000004.jpg`} />
+                                src={image3} />
                             </LazyLoad>
                           </picture>
                         </div>
@@ -180,45 +185,132 @@ class QualitySafety extends React.Component {
                 </div>
               </div>
             </div>
+
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-contentBlock">
+                    <div
+                      className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                      <a id="undefined" name="undefined" className="page-section-anchor" aria-hidden="true"></a>
+                      <div className="row align-items-md-center">
+                        <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                          <picture data-rc-feature-objectfillpolyfill-setup="true">
+                            <LazyLoad>
+                              <img src={image4} />
+                            </LazyLoad>
+                          </picture>
+                        </div>
+                        <div className=" col-12 col-lg-6">
+                          <div
+                            className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                            <h2 className="rc-beta markup-text"><FormattedMessage id="qualitySafety.rigorousTitle" /></h2>
+                            <p><FormattedMessage id="qualitySafety.rigorousDetail" /></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-contentBlock">
+                    <div
+                      className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                      <a id="undefined" name="undefined" className="page-section-anchor" aria-hidden="true"></a>
+                      <div className="row align-items-md-center">
+                        <div className=" col-12 col-lg-6">
+                          <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                            <h2 className="rc-beta markup-text"><FormattedMessage id="qualitySafety.ingredientsTitle" /></h2>
+                            <p><FormattedMessage id="qualitySafety.ingredientsDetail" /></p>
+                          </div>
+                        </div>
+                        <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                          <picture data-rc-feature-objectfillpolyfill-setup="true">
+                            <LazyLoad>
+                              <img className="w-100 ls-is-cached lazyloaded"
+                                alt="Des matières premières de qualité" title="Des matières premières de qualité"
+                                src={image5} />
+                            </LazyLoad>
+                          </picture>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-twoCategories"><div className="rc-max-width--lg rc-padding-x--lg--mobile rc-margin-y--md">
+                    <div className="rc-margin--md rc-padding--sm rc-border-all rc-border-colour--brand1 two-categories-border rc-margin-top--lg" style={{ borderWidth: '3px', borderRadius: '5px' }}>
+                      <div className="text-center">
+                        <h2 className="rc-alpha inherit-fontsize"><FormattedMessage id="qualitySafety.shopTile" /></h2>
+                        <p className="rc-large-intro rc-margin-bottom--sm"></p>
+                      </div>
+                      <div className="rc-card-grid rc-match-heights rc-four-column">
+                        <div className="rc-grid">
+                          <article className="rc-card rc-card--a">
+                            <a href="/dogs/">
+                              <picture className="" data-rc-feature-objectfillpolyfill-setup="true">
+                                <img className="card__image lazyloaded" data-src={dog} alt="Shop Dog Formulas" title="Shop Dog Formulas" src={dog} />
+                              </picture>
+                            </a>
+                            <div className="rc-card__body">
+                              <header>
+                                <a href="/dogs/">
+                                  <h4 className="rc-card__title"><FormattedMessage id="qualitySafety.shopDog" /></h4></a>
+                                <p className="rc-margin--none"></p>
+                              </header>
+                            </div>
+                          </article>
+                        </div>
+                        <div className="rc-grid">
+                          <article className="rc-card rc-card--a">
+                            <a href="/cats/">
+                              <picture className="" data-rc-feature-objectfillpolyfill-setup="true">
+
+                                <img className="card__image lazyloaded" data-src={cat} alt="Shop Cat Formulas" title="Shop Cat Formulas" src={cat} />
+                              </picture>
+                            </a>
+                            <div className="rc-card__body">
+                              <header>
+                                <a href="/cats/">
+                                  <h4 className="rc-card__title"><FormattedMessage id="qualitySafety.shopCat" /></h4></a>
+                                <p className="rc-margin--none"></p>
+                              </header>
+                            </div>
+                          </article>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
                   <div className="experience-component experience-assets-textContent">
                     <div
                       className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
-                      <h2>Une sélection rigoureuse des fournisseurs</h2><p>Nous appliquons des critères de sélection
-                      rigoureux pour choisir les fournisseurs en mesure de nous aider à maintenir les normes de qualité
-                      et de sécurité les plus élevées du secteur. Dans ce cadre, nous conduisons des audits approfondis
-                      pour déterminer la valeur nutritionnelle, la qualité de la production, la traçabilité et les
-                      normes de développement durable.</p>
+                      <h2><FormattedMessage id="qualitySafety.FoodQualityandSafety" /></h2>
+                      <p><FormattedMessage id="qualitySafety.foodQualityDetail" /></p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="experience-component experience-layouts-1column">
-              <div className="row rc-margin-x--none">
-                <div className="rc-full-width">
-                  <div className="experience-component experience-assets-textContent">
-                    <div
-                      className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
-                      <h2>Ingrédients entièrement traçables</h2><p>100 % des matières premières utilisées sont analysées
-                      et un échantillon de chacune d'entre elles est conservé pendant deux ans. Nous sommes ainsi en
-                      mesure de tracer d'un bout à l'autre de la chaîne chaque matière première pendant toute la durée
-                      de commercialisation du produit.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="experience-component experience-layouts-1column">
-              <div className="row rc-margin-x--none">
-                <div className="rc-full-width"></div>
-              </div>
-            </div>
+
           </div>
-
-
 
         </main>
         <Footer />

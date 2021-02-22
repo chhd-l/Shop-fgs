@@ -92,8 +92,10 @@ import RU_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/RU_in
 import TR_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/TR_index.js';
 import TR_GeneralConditions from '@/views/StaticPage/GeneralConditions/TR_index.js';
 import generalConditions from '@/views/StaticPage/GeneralConditions';
-import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
-import QualitySafety from '@/views/StaticPage/QualitySafety';
+import Tailorednutrition from '@/views/StaticPage/Tailorednutrition/index';
+import US_Tailorednutrition from '@/views/StaticPage/Tailorednutrition/US_index';
+import QualitySafety from '@/views/StaticPage/QualitySafety/index';
+import US_QualitySafety from '@/views/StaticPage/QualitySafety/US_index';
 import SearchShow from '@/views/StaticPage/SearchShow';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
 import AboutUsDe from '@/views/StaticPage/AboutUs/de-index';
@@ -102,6 +104,7 @@ import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js';
 import PromotionRefuge from '@/views/StaticPage/PromotionRefuge/index.js';
 import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 import RU_Values from '@/views/StaticPage/Values/RU_index.js';
+import US_Values from '@/views/StaticPage/Values/US_index.js';
 import FR_Values from '@/views/StaticPage/Values/FR_index.js';
 import ShipmentConditions from '@/views/StaticPage/ShipmentConditions';
 import RequestInvoices from '@/views/StaticPage/RequestInvoices';
@@ -285,7 +288,7 @@ const App = () => (
                 render={(props) => (
                   <AccountPetForm key={props.match.params.id} {...props} />
                 )}
-                // component={AccountPetForm}
+              // component={AccountPetForm}
               />
               <Route
                 path="/account/pets/petForm/"
@@ -358,31 +361,38 @@ const App = () => (
                 path="/product-finder-noresult"
                 component={ProductFinderNoResult}
               />
+
+              {/* <Route path="/subscription-landing-de" exact component={DE_SubscriptionLanding}/>
+              <Route path="/subscription-landing" exact component={SubscriptionLanding} />
+              <Route path="/subscription-landing-us" exact component={US_SubscriptionLanding} />
+              <Route path="/subscription-landing-ru" exact component={RU_SubscriptionLanding} />
+              <Route path="/subscription-landing-tr" exact component={TR_SubscriptionLanding} /> */}
+              
               <Route
-                path="/subscription-landing-de"
                 exact
-                component={DE_SubscriptionLanding}
-              />
-              <Route
                 path="/subscription-landing"
-                exact
-                component={SubscriptionLanding}
+                component={(() => {
+                  let sublanding= '';
+                  switch (process.env.REACT_APP_LANG) {
+                    case 'de':
+                      sublanding= DE_SubscriptionLanding
+                      break;
+                    case 'en':
+                      sublanding= US_SubscriptionLanding
+                      break;
+                    case 'ru':
+                      sublanding= RU_SubscriptionLanding
+                      break;
+                    case 'tr':
+                      sublanding= TR_SubscriptionLanding
+                      break;
+                    default:
+                      sublanding= SubscriptionLanding
+                  }
+                  return sublanding;
+                })()}
               />
-              <Route
-                path="/subscription-landing-us"
-                exact
-                component={US_SubscriptionLanding}
-              />
-              <Route
-                path="/subscription-landing-ru"
-                exact
-                component={RU_SubscriptionLanding}
-              />
-              <Route
-                path="/subscription-landing-tr"
-                exact
-                component={TR_SubscriptionLanding}
-              />
+
               <Route
                 path="/general-conditions"
                 exact
@@ -411,15 +421,38 @@ const App = () => (
                 path="/promotion-refuge"
                 component={PromotionRefuge}
               />
-              <Route path="/values-ru" exact component={RU_Values} />
-              <Route path="/values" exact component={FR_Values} />
+
+              {/* <Route path="/Values-ru" exact component={RU_Values} />
+              <Route path="/Values-us" exact component={US_Values} />
+              <Route path="/Values" exact component={FR_Values} /> */}
               <Route
-                sensitive
-                path="/Tailorednutrition"
                 exact
-                component={Tailorednutrition}
+                path="/Values"
+                component={(() => {
+                  let valuesstr= '';
+                  switch (process.env.REACT_APP_LANG) {
+                    case 'fr':
+                      valuesstr= FR_Values
+                      break;
+                    case 'en':
+                      valuesstr= US_Values
+                      break;
+                    case 'ru':
+                      valuesstr= RU_Values
+                      break;
+                    default:
+                      valuesstr= Values
+                  }
+                  return valuesstr;
+                })()}
               />
-              <Route path="/Quality-safety" exact component={QualitySafety} />
+
+              <Route sensitive path="/Tailorednutrition" exact component={
+                process.env.REACT_APP_LANG == 'en' ? US_Tailorednutrition : Tailorednutrition
+              } />
+              <Route path="/Quality-safety" exact component={
+                process.env.REACT_APP_LANG == 'en' ? US_QualitySafety : QualitySafety
+              } />
               <Route
                 path="/shipmentConditions"
                 exact

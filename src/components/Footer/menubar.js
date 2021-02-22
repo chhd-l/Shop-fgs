@@ -5,20 +5,10 @@ export const menubar = {
       {
         titleId: 'footer.aboutRoyalCanin',
         list: [
-          { prop: 'contactUsUrl', messageId: 'aboutUs2' },
-          {
-            prop: 'ourValues',
-            url: 'https://shop.royalcanin.com/Values.html',
-            messageId: 'Values'
-          },
-          {
-            link: '/Quality-safety',
-            messageId: 'qualitySafety'
-          },
-          {
-            link: '/Tailorednutrition',
-            messageId: 'tailorednutrition'
-          }
+          { prop: 'contactUsUrl',url: '/About-Us', messageId: 'aboutUs2' },
+          { prop: 'ourValues', url: '/Values', messageId: 'Values' },
+          { link: '/Quality-safety', messageId: 'qualitySafety' },
+          { link: '/Tailorednutrition', messageId: 'tailorednutrition' }
         ]
       }
     ],

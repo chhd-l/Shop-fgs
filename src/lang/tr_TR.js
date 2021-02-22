@@ -241,7 +241,7 @@ const tr_TR = {
   'footer.contactUs': 'Bize Ulaşın',
   'footer.cookieCollectionPolicy': 'Çerez Toplama Politikası',
   'footer.cookies': 'Kurabiye',
-  'footer.copyrightInfo': "Telif hakkı © Mars 2020®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
+  'footer.copyrightInfo': "Telif hakkı © Mars 2021®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
   'footer.FAQ': 'S.S.S',
   'footer.healthAndNutrition': 'Sağlık ve Beslenme',
   'footer.help': 'YARDIM',

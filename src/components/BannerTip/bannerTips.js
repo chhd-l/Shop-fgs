@@ -24,7 +24,12 @@ export const bannerTips = () => {
                     className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                     style={{ minWidth: '110px' }}
                   >
-                    <FormattedMessage id="aboutUs.learnMore" />
+                    {process.env.REACT_APP_LANG == 'en' ? (
+                      <FormattedMessage id="joinTheClub" />
+                    ) : (
+                        <FormattedMessage id="aboutUs.learnMore" />
+                      )}
+
                   </Link>
                 </div>
               </div>
