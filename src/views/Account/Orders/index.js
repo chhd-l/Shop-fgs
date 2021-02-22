@@ -462,7 +462,7 @@ class AccountOrders extends React.Component {
         ) : null}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
-            <FormattedMessage id="trackDelivery">
+            <FormattedMessage id="trackDelivery" style={{display:process.env.REACT_APP_LANG == 'fr'?'none':'block'}}>
               {(txt) => (
                 <>
                   {order.tradeDelivers[0] &&
@@ -851,7 +851,7 @@ class AccountOrders extends React.Component {
                                     ))}
                                   </div>
                                   {/* 法国暂时隐藏这个按钮 */}
-                                  <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0" style={{display:process.env.REACT_APP_LANG == 'fr'?'none':'block'}}>  
+                                  <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">  
                                     <div className="rc-md-up">
                                       {this.renderOperationBtns(order)}
                                     </div>

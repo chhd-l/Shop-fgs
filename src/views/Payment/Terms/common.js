@@ -86,14 +86,14 @@ class TermsCommon extends Component {
             <a
               style={{ color: '#7F6666', cursor: 'default' }}
             >
-              Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich. Weitere Informationen zum Vertragsschluss erhalten Sie in unseren allgemeinen.{' '}
+              Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich. Weitere Informationen zum Vertragsschluss erhalten Sie in unseren allgemeinen{' '}
               <Link
                 target="_blank"
                 rel="nofollow"
                 to="/Terms-And-Conditions "
                 className="rc-styled-link"
               >
-                Geschäftsbedingungen
+                Geschäftsbedingungen.
               </Link>
             </a>
             <div style={{ paddingLeft: '0px', marginTop: '20px' }}>
