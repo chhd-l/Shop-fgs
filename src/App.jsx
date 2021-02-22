@@ -361,31 +361,38 @@ const App = () => (
                 path="/product-finder-noresult"
                 component={ProductFinderNoResult}
               />
+
+              {/* <Route path="/subscription-landing-de" exact component={DE_SubscriptionLanding}/>
+              <Route path="/subscription-landing" exact component={SubscriptionLanding} />
+              <Route path="/subscription-landing-us" exact component={US_SubscriptionLanding} />
+              <Route path="/subscription-landing-ru" exact component={RU_SubscriptionLanding} />
+              <Route path="/subscription-landing-tr" exact component={TR_SubscriptionLanding} /> */}
+              
               <Route
-                path="/subscription-landing-de"
                 exact
-                component={DE_SubscriptionLanding}
-              />
-              <Route
                 path="/subscription-landing"
-                exact
-                component={SubscriptionLanding}
+                component={(() => {
+                  let sublanding= '';
+                  switch (process.env.REACT_APP_LANG) {
+                    case 'de':
+                      sublanding= DE_SubscriptionLanding
+                      break;
+                    case 'en':
+                      sublanding= US_SubscriptionLanding
+                      break;
+                    case 'ru':
+                      sublanding= RU_SubscriptionLanding
+                      break;
+                    case 'tr':
+                      sublanding= TR_SubscriptionLanding
+                      break;
+                    default:
+                      sublanding= SubscriptionLanding
+                  }
+                  return sublanding;
+                })()}
               />
-              <Route
-                path="/subscription-landing-us"
-                exact
-                component={US_SubscriptionLanding}
-              />
-              <Route
-                path="/subscription-landing-ru"
-                exact
-                component={RU_SubscriptionLanding}
-              />
-              <Route
-                path="/subscription-landing-tr"
-                exact
-                component={TR_SubscriptionLanding}
-              />
+
               <Route
                 path="/general-conditions"
                 exact
