@@ -33,7 +33,8 @@ class AboutUs extends React.Component {
         title: '',
         metaKeywords: '',
         metaDescription: ''
-      }
+      },
+      intl: this.props.intl.messages
     };
   }
 
@@ -42,9 +43,9 @@ class AboutUs extends React.Component {
   }
   componentDidMount() {
     setSeoConfig(
-      {pageName:"About Us Page"}
+      { pageName: "About Us Page" }
     ).then(res => {
-      this.setState({seoConfig: res})
+      this.setState({ seoConfig: res })
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -68,10 +69,10 @@ class AboutUs extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta name="description" content={this.state.seoConfig.metaDescription} />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -81,9 +82,9 @@ class AboutUs extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip/>
+          <BannerTip />
           {/* {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />} */}
-          <br/>
+          <br />
           <BreadCrumbs />
           <div className="storefront-page">
             <nav
@@ -92,50 +93,44 @@ class AboutUs extends React.Component {
 
             </nav>
             <div className="experience-region experience-main">
+
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--md text-center rc-margin-y--md">
                         <div className="rc-alpha inherit-fontsize">
-                          <h1>À propos de Royal Canin</h1>
+                          <h1><FormattedMessage id="aboutUs.title" /></h1>
                         </div>
                         <div
                           className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                          <h2>Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez
-                            Royal Canin, nous étudions méticuleusement le moindre détail pour comprendre les besoins
-                            spécifiques des chats et des chiens, et élaborer des aliments qui apportent une solution
-                            efficace à leurs problèmes de santé.</h2>
+                          <h2><FormattedMessage id="aboutUs.description" /></h2>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
                       <div
                         className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                        <a id="undefined" name="undefined" className="page-section-anchor" aria-hidden="true"></a>
+                        <a id={this.state.intl['aboutUs.history']} name={this.state.intl['aboutUs.history']} className="page-section-anchor" aria-hidden="true"></a>
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6">
                             <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                              <h2 className="rc-beta markup-text">Notre histoire</h2>
-                              <p>Le vétérinaire Jean Cathary a fondé Royal Canin en France en 1968. Le Dr Cathary rêvait
-                                d’une entreprise qui produirait des aliments pour animaux en se basant sur la science,
-                                mais aussi sur des principes : mieux connaître les animaux, les respecter en toutes
-                                circonstances, et créer des aliments de qualité pour chiens et chats conçus en fonction
-                                de leurs besoins et non en fonction des désirs de leurs propriétaires.</p>
+                              <h2 className="rc-beta markup-text"><FormattedMessage id="aboutUs.history" /></h2>
+                              <p><FormattedMessage id="aboutUs.historyDetail" /></p>
                             </div>
                           </div>
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
-
-                                    <img className="w-100 ls-is-cached lazyloaded"
-                                         alt="Notre histoire" title="Notre histoire"
-                                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg`}/>
+                              <img className="w-100 ls-is-cached lazyloaded"
+                                alt={this.state.intl['aboutUs.history']} title={this.state.intl['aboutUs.history']}
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg`} />
                             </picture>
                           </div>
                         </div>
@@ -144,28 +139,29 @@ class AboutUs extends React.Component {
                   </div>
                 </div>
               </div>
+
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
                       <div
                         className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                        <a id="Nos valeurs" name="Nos valeurs" className="page-section-anchor" aria-hidden="true"></a>
+                        <a id={this.state.intl['aboutUs.ourValues']} name={this.state.intl['aboutUs.ourValues']} className="page-section-anchor" aria-hidden="true"></a>
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
-                                         <img className="w-100 ls-is-cached lazyloaded"
-                                         alt="Les valeurs de Royal Canin" title="Les valeurs de Royal Canin"
-                                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}/>
+                              <img className="w-100 ls-is-cached lazyloaded"
+                                alt={this.state.intl['aboutUs.ourValues']} title={this.state.intl['aboutUs.ourValues']}
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`} />
                             </picture>
                           </div>
                           <div className=" col-12 col-lg-6">
                             <div
                               className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                              <h2 className="rc-beta markup-text">Nos valeurs</h2>
-                              <p>Découvrez comment nous incarnons ces valeurs tous les jours depuis 50 ans.</p>
+                              <h2 className="rc-beta markup-text"><FormattedMessage id="aboutUs.ourValues" /></h2>
+                              <p><FormattedMessage id="aboutUs.ourValuesDetail" /></p>
                               <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                 to="/Values" title="En savoir plus">En savoir plus</Link>
+                                to="/Values" title="En savoir plus"><FormattedMessage id="aboutUs.learnMore" /></Link>
                             </div>
                           </div>
                         </div>
@@ -174,31 +170,30 @@ class AboutUs extends React.Component {
                   </div>
                 </div>
               </div>
+
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
                       <div
                         className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                        <a id="Engagement en faveur de la qualité" name="Engagement en faveur de la qualité"
-                           className="page-section-anchor" aria-hidden="true"></a>
+                        <a id={this.state.intl['aboutUs.FoodQualityandSafety']} name={this.state.intl['aboutUs.FoodQualityandSafety']}
+                          className="page-section-anchor" aria-hidden="true"></a>
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6">
                             <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                              <h2 className="rc-beta markup-text">Engagement en faveur de la qualité</h2>
-                              <p>La qualité nutritionnelle et la sécurité des aliments sont au cœur de tout ce que nous
-                                faisons dans le monde.</p>
+                              <h2 className="rc-beta markup-text"><FormattedMessage id="aboutUs.FoodQualityandSafety" /></h2>
+                              <p><FormattedMessage id="aboutUs.FoodQualityandSafetyDetail" /></p>
                               <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                 to="/Quality-safety" title="En savoir plus">En savoir
-                                plus</Link>
+                                to="/Quality-safety" title="En savoir plus"><FormattedMessage id="aboutUs.learnMore" /></Link>
                             </div>
                           </div>
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
-                                    <img className="w-100 ls-is-cached lazyloaded"
-                                         alt="Engagement en faveur de la qualité"
-                                         title="Engagement en faveur de la qualité"
-                                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg`}/>
+                              <img className="w-100 ls-is-cached lazyloaded"
+                                alt={this.state.intl['aboutUs.FoodQualityandSafety']}
+                                title={this.state.intl['aboutUs.FoodQualityandSafety']}
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg`} />
                             </picture>
                           </div>
                         </div>
@@ -207,19 +202,21 @@ class AboutUs extends React.Component {
                   </div>
                 </div>
               </div>
+
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-textContent">
                       <div
                         className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
-                        <h2>Incroyable jusque dans le moindre détail</h2><p>Découvrez en quoi notre passion pour la
-                        santé des animaux est à la base de tout ce que nous entreprenons.</p>
+                        <h2><FormattedMessage id="aboutUs.IncredibleDetail" /></h2>
+                        <p><FormattedMessage id="aboutUs.SeeHowWeDo" /></p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
@@ -235,16 +232,76 @@ class AboutUs extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="experience-component experience-layouts-1column">
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width"></div>
+
+              {process.env.REACT_APP_LANG == 'en' ? (
+                <div className="experience-component experience-layouts-1column">
+                  <div className="row rc-margin-x--none">
+                    <div className="rc-full-width">
+
+                      <div className="experience-component experience-assets-twoCategories">
+                        <div className="rc-max-width--lg rc-padding-x--lg--mobile rc-margin-y--md">
+                          <div className=" rc-margin-top--lg">
+
+                            <div>
+                              <h2 className="rc-alpha inherit-fontsize"><FormattedMessage id="aboutUs.shopTile" /></h2>
+                              <p className="rc-large-intro rc-margin-bottom--sm"></p>
+                            </div>
+
+                            <div className="rc-card-grid rc-match-heights rc-four-column">
+
+                              <div className="rc-grid">
+                                <article className="rc-card rc-card--a">
+                                  <a href="/dogs/">
+                                    <LazyLoad>
+                                      <img src={dog} style={{ width: '100%' }} alt="" />
+                                    </LazyLoad>
+                                  </a>
+                                  <div className="rc-card__body">
+                                    <header>
+                                      <a href="/dogs/">
+                                        <h4 className="rc-card__title"><FormattedMessage id="aboutUs.shopDog" /></h4></a>
+                                      <p className="rc-margin--none"></p>
+                                    </header>
+                                  </div>
+                                </article>
+                              </div>
+
+                              <div className="rc-grid">
+                                <article className="rc-card rc-card--a">
+                                  <a href="/cats/">
+                                    <LazyLoad>
+                                      <img src={cat} style={{ width: '100%' }} alt="" />
+                                    </LazyLoad>
+                                  </a>
+                                  <div className="rc-card__body">
+                                    <header>
+                                      <a href="/cats/">
+                                        <h4 className="rc-card__title"><FormattedMessage id="aboutUs.shopCat" /></h4></a>
+                                      <p className="rc-margin--none"></p>
+                                    </header>
+                                  </div>
+                                </article>
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <></>
+              )}
+
+
             </div>
           </div>
         </main>
         <Footer />
-      </div>
+      </div >
     );
   }
 }

@@ -82,41 +82,41 @@ class Footer extends React.Component {
                           {item[0].list.map((listItem, i) => {
                             return (
                               <li className="rc-list__item" key={i}>
-                                {!!listItem.link ? (listItem.needLogin && !this.isLogin?(
+                                {!!listItem.link ? (listItem.needLogin && !this.isLogin ? (
                                   <LoginButton
-                                    beforeLoginCallback={ async () => {
-                                      sessionItemRoyal.set('okta-redirectUrl', listItem.link);  
+                                    beforeLoginCallback={async () => {
+                                      sessionItemRoyal.set('okta-redirectUrl', listItem.link);
                                     }}
                                     btnClass="rc-list__link text-decoration-none color-f6f6f6"
                                     history={this.props.history}
                                   >
                                     <FormattedMessage id={listItem.messageId} />
                                   </LoginButton>
-                                ): (
-                                  <Link
-                                    className="rc-list__link text-decoration-none color-f6f6f6"
-                                    to={listItem.link}
-                                    role="menuitem"
-                                  >
-                                    <FormattedMessage id={listItem.messageId} />
-                                  </Link>
-                                )) : (
-                                  <a
-                                    className="rc-list__link text-decoration-none color-f6f6f6"
-                                    href={
-                                      (!!listItem.prop &&
-                                        this.props.configStore[
+                                ) : (
+                                    <Link
+                                      className="rc-list__link text-decoration-none color-f6f6f6"
+                                      to={listItem.link}
+                                      role="menuitem"
+                                    >
+                                      <FormattedMessage id={listItem.messageId} />
+                                    </Link>
+                                  )) : (
+                                    <a
+                                      className="rc-list__link text-decoration-none color-f6f6f6"
+                                      href={
+                                        (!!listItem.prop &&
+                                          this.props.configStore[
                                           listItem.prop
-                                        ]) ||
-                                      listItem.url
-                                    }
-                                    target="_blank"
-                                    role="menuitem"
-                                    rel="nofollow"
-                                  >
-                                    <FormattedMessage id={listItem.messageId} />
-                                  </a>
-                                )}
+                                          ]) ||
+                                        listItem.url
+                                      }
+                                      target="_blank"
+                                      role="menuitem"
+                                      rel="nofollow"
+                                    >
+                                      <FormattedMessage id={listItem.messageId} />
+                                    </a>
+                                  )}
                               </li>
                             );
                           })}
@@ -141,12 +141,17 @@ class Footer extends React.Component {
                     ? 'Nos spécialistes sont disponibles de 8h30 à 12h30 et de 14h à 17h du lundi au vendredi.'
                     : this.props.configStore.contactTimePeriod}
                 </p>
-                <p>
-                  <FormattedMessage
-                    id="contactUsViaPhone"
-                    defaultMessage={' '}
-                  />
-                </p>
+                {process.env.REACT_APP_LANG == 'fr' ? (
+                  <p>
+                    <FormattedMessage
+                      id="contactUsViaPhone"
+                      defaultMessage={' '}
+                    />
+                  </p>
+                ) : (
+                  <></>
+                )}
+
               </div>
             </div>
           </div>
@@ -163,15 +168,14 @@ class Footer extends React.Component {
                   }}
                   className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
                   role="menuitem"
-                  href={`tel:${
-                    this.props.configStore[
-                      this.state.cur_contactInfo.phoneNumber.prop
-                    ]
-                  }`}
+                  href={`tel:${this.props.configStore[
+                    this.state.cur_contactInfo.phoneNumber.prop
+                  ]
+                    }`}
                 >
                   {
                     this.props.configStore[
-                      this.state.cur_contactInfo.phoneNumber.prop
+                    this.state.cur_contactInfo.phoneNumber.prop
                     ]
                   }
                 </a>
@@ -179,20 +183,20 @@ class Footer extends React.Component {
                   <Link
                     className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
                     role="menuitem"
-                    to="/help"
+                    to={this.state.cur_contactInfo.email.link}
                   >
                     <FormattedMessage id="footer.contactUs" />
                   </Link>
                 ) : (
-                  <a
-                    className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
-                    role="menuitem"
-                    href={this.state.cur_contactInfo.email.url}
-                    style={{ color: '#fff' }}
-                  >
-                    <FormattedMessage id="footer.email" />
-                  </a>
-                )}
+                    <a
+                      className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
+                      role="menuitem"
+                      href={this.state.cur_contactInfo.email.url}
+                      style={{ color: '#fff' }}
+                    >
+                      <FormattedMessage id="footer.email" />
+                    </a>
+                  )}
               </div>
             )}
           </div>
