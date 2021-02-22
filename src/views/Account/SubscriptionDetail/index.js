@@ -45,6 +45,7 @@ import {
   getPromotionPrice,
   updateNextDeliveryTime
 } from '@/api/subscription';
+import { getRemainings } from '@/api/dispenser';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -52,7 +53,6 @@ import { format } from 'date-fns';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
-const isGift = true;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
@@ -74,6 +74,9 @@ class SubscriptionDetail extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       },
+      isGift: false,
+      remainingsList: [],
+      remainingsVisible: false,
       subTradeTotal: 0,
       //订阅购物车参数
       discount: [], //促销码的折扣信息汇总
@@ -365,7 +368,7 @@ class SubscriptionDetail extends React.Component {
           ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState;
         return { value: el.id, name: el.id + ' ' + orderStatus };
       });
-
+      let isGift = subDetail.goodsInfo[0]?.subscriptionPlanId;
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
       let cityRes = await queryCityNameById({
@@ -380,9 +383,9 @@ class SubscriptionDetail extends React.Component {
         cityRes,
         subDetail.invoice.cityId
       );
-      debugger;
       this.setState(
         {
+          isGift: isGift,
           subDetail: subDetail,
           currentCardInfo: subDetail.paymentInfo,
           currentDeliveryAddress: subDetail.consignee,
@@ -532,7 +535,23 @@ class SubscriptionDetail extends React.Component {
       }, 3000);
     }
   }
+  handleSkipNext = (e, el) => {
+    e.preventDefault();
+    this.setState({
+      modalType: 'skipNext',
+      modalShow: true,
+      currentModalObj: this.state.modalList.filter(
+        (el) => el.type === 'skipNext'
+      )[0],
+      skipNextGoods: el.tradeItems.map((el) => {
+        return {
+          skuId: el.skuId
+        };
+      })
+    });
+  };
   getModalBox = () => {
+    let { remainingsList } = this.state;
     return (
       <div>
         <p className="red">
@@ -540,19 +559,44 @@ class SubscriptionDetail extends React.Component {
           balance of the dispensers market price of 120 euros.
         </p>
         <p>
-          If you unsubscribe now, the balance you will pay is 
-          &lt;X euros calculated automatically depending on the refill &gt;.
+          If you unsubscribe now, the balance you will pay is &lt;X euros
+          calculated automatically depending on the refill &gt;.
         </p>
         <div>Remaining Tab</div>
         <ul className="subdes-modal-ul-wrap">
-          <li className="d-flex" style={{background:'#F6F6F6',lineHeight:'2rem',borderBottom:'1px solid #E4E4E4',padding:'0 1rem'}}>
+          <li
+            className="d-flex"
+            style={{
+              background: '#F6F6F6',
+              lineHeight: '2rem',
+              borderBottom: '1px solid #E4E4E4',
+              padding: '0 1rem'
+            }}
+          >
             <span className="width50">Unsubcribe before</span>
-            <span className="width50" style={{paddingLeft:'0.5rem'}}>Remaining price</span>
+            <span className="width50" style={{ paddingLeft: '0.5rem' }}>
+              Remaining price
+            </span>
           </li>
-          <li  className="d-flex" style={{lineHeight:'2rem',borderBottom:'1px solid #E4E4E4',padding:'0 1rem'}}>
-            <span className="width50">2nd refill</span>
-            <span className="width50" style={{paddingLeft:'0.5rem'}}>110€</span>
-          </li>
+          {remainingsList.map((item) => (
+            <li
+              key={item.id}
+              className="d-flex"
+              style={{
+                lineHeight: '2rem',
+                borderBottom: '1px solid #E4E4E4',
+                padding: '0 1rem'
+              }}
+            >
+              <span className="width50">
+                {item.deliveryTimes}
+                <FormattedMessage id="times" />
+              </span>
+              <span className="width50" style={{ paddingLeft: '0.5rem' }}>
+                {formatMoney(item.remainingPrice)}
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     );
@@ -574,7 +618,8 @@ class SubscriptionDetail extends React.Component {
       completedYearOption,
       noStartYear,
       completedYear,
-      isActive
+      isActive,
+      isGift
     } = this.state;
     return (
       <div
@@ -660,7 +705,11 @@ class SubscriptionDetail extends React.Component {
                                     fontWeight: '400'
                                   }}
                                 >
-                                  February 23
+                                  {getFormatDate(
+                                    el.tradeItems[0].nextDeliveryTime.split(
+                                      ' '
+                                    )[0]
+                                  )}
                                 </span>
                               </p>
                             </div>
@@ -744,7 +793,62 @@ class SubscriptionDetail extends React.Component {
                                     padding: isMobile ? '0 0 0 10px' : '0'
                                   }}
                                 >
-                                  {isActive ? (
+                                   <div
+                                className="rc-layout-container rc-five-column"
+                                style={{
+                                  paddingRight: isMobile ? '0' : '60px',
+                                  paddingTop: '0'
+                                }}
+                              >
+                                <div
+                                  className="rc-column flex-layout"
+                                  style={{
+                                    width: '80%',
+                                    padding: 0
+                                  }}
+                                >
+                                  <LazyLoad>
+                                    <img
+                                      style={{
+                                        width: '70px',
+                                        margin: '0 10px'
+                                      }}
+                                      src={tradeItem.subscriptionPlanGiftList[0]?.goodsInfoImg}
+                                      alt={tradeItem.subscriptionPlanGiftList[0]?.goodsInfoName}
+                                    />
+                                  </LazyLoad>
+                                  <div
+                                    style={{
+                                      width: '200px',
+                                      paddingTop: '30px'
+                                    }}
+                                  >
+                                    <h5
+                                      className="text-nowrap"
+                                      style={{
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        overflowWrap: 'normal',
+                                        fontSize: '14px',
+                                        width: isMobile ? '95px' : 'auto'
+                                      }}
+                                    >
+                                      {tradeItem.subscriptionPlanGiftList[0]?.goodsInfoName}
+                                    </h5>
+                                    <p
+                                      style={{
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        marginBottom: '8px',
+                                        fontSize: '14px'
+                                      }}
+                                    >
+                                      x 1
+                                   </p>
+                                  </div>
+                                </div>
+                              </div>
+                                  {/* {isActive ? (
                                     <>
                                       <LazyLoad>
                                         <img
@@ -759,28 +863,14 @@ class SubscriptionDetail extends React.Component {
                                       <a
                                         className="rc-styled-link"
                                         href="#/"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          this.setState({
-                                            modalType: 'skipNext',
-                                            modalShow: true,
-                                            currentModalObj: this.state.modalList.filter(
-                                              (el) => el.type === 'skipNext'
-                                            )[0],
-                                            skipNextGoods: el.tradeItems.map(
-                                              (el) => {
-                                                return {
-                                                  skuId: el.skuId
-                                                };
-                                              }
-                                            )
-                                          });
-                                        }}
+                                        onClick={(e) =>
+                                          this.handleSkipNext(e, el)
+                                        }
                                       >
                                         <FormattedMessage id="skip" />
                                       </a>
                                     </>
-                                  ) : null}
+                                  ) : null} */}
                                 </div>
                                 {/* <span className="red">
                                   {formatMoney(tradeItem.subscriptionPrice)}
@@ -1069,10 +1159,13 @@ class SubscriptionDetail extends React.Component {
                 paddingLeft: '0.5rem'
               }}
               className="rc-styled-link"
-              href="#/"
-              onClick={() => this.handleCancel}
+              onClick={() => this.handleSaveChange(subDetail)}
             >
-              <FormattedMessage id="subscription.cancelAll" />
+              {subDetail.subscribeStatus === '0' ? (
+                <FormattedMessage id="subscription.pause" />
+              ) : (
+                <FormattedMessage id="subscription.restart" />
+              )}
             </a>
           </div>
           <div>
@@ -1100,8 +1193,7 @@ class SubscriptionDetail extends React.Component {
             <a
               style={{ position: 'relative', top: '-0.3rem' }}
               className="rc-styled-link"
-              href="#/"
-              onClick={() => this.handleCancel}
+              onClick={(e) => this.handleGiftSubCancel(e)}
             >
               <FormattedMessage id="subscription.cancelAll" />
             </a>
@@ -1168,6 +1260,29 @@ class SubscriptionDetail extends React.Component {
       </div>
     );
   };
+  handleGiftSubCancel = async (e) => {
+    e.preventDefault();
+    let params = {
+      packageId: 'PK2102041541387',
+      planId: 'SP2102012016424',
+      goodsInfoId: 'ff80808173a2adef0173b3dd5900005f',
+      storeId: process.env.REACT_APP_STOREID
+    };
+    let res = await getRemainings(params);
+    let remainingsList = res.context;
+    this.setState({
+      remainingsList,
+      modalType: 'cancelAll',
+      remainingsVisible: true
+    });
+    // this.setState({
+    //   modalType: 'cancelAll',
+    //   modalShow: true,
+    //   currentModalObj: this.state.modalList.filter(
+    //     (el) => el.type === 'cancelAll'
+    //   )[0]
+    // });
+  };
   handleCancel(e) {
     e.preventDefault();
     this.setState({
@@ -1185,20 +1300,33 @@ class SubscriptionDetail extends React.Component {
     try {
       // subDetail.goodsInfo = this.state.currentGoodsInfo;
       let param = {
-        subscribeId: subDetail.subscribeId,
-        goodsItems: subDetail.goodsInfo.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId,
-            periodTypeId: el.periodTypeId
-          };
-        })
+        subscribeId: subDetail.subscribeId
       };
-      Object.assign(param, {
-        changeField: this.props.intl.messages['produtctNumber']
-      });
+      if (!this.state.isGift) {
+        param = {
+          goodsItems: subDetail.goodsInfo.map((el) => {
+            return {
+              skuId: el.skuId,
+              subscribeNum: el.subscribeNum,
+              subscribeGoodsId: el.subscribeGoodsId,
+              periodTypeId: el.periodTypeId
+            };
+          })
+        };
+        Object.assign(param, {
+          changeField: this.props.intl.messages['produtctNumber']
+        });
+      } else {
+        //subscribeStatus 暂停传1 重启0
+        param.subscribeStatus =
+          this.state.subDetail.subscribeStatus === '0' ? '1' : '0';
+      }
+
       await this.doUpdateDetail(param);
+      if(this.state.isGift){
+        this.props.history.push('/account/subscription')
+        return 
+      }
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
@@ -1239,7 +1367,8 @@ class SubscriptionDetail extends React.Component {
       completedYearOption,
       noStartYear,
       completedYear,
-      isActive
+      isActive,
+      isGift
     } = this.state;
     console.log(noStartYear, currentCardInfo, 'hahaha');
     return (
@@ -1824,7 +1953,9 @@ class SubscriptionDetail extends React.Component {
                                   </h1>
                                 </div>
                               </div>
-                              {isGift && this.getButtonBoxGift(subDetail)}
+                              {isGift && subDetail.subscribeStatus != 2
+                                ? this.getButtonBoxGift(subDetail)
+                                : null}
                             </div>
                           ))}
                       </div>
@@ -2191,7 +2322,9 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              {isGift && this.getButtonBoxGift(subDetail)}
+                              {isGift && subDetail.subscribeStatus != 2
+                                ? this.getButtonBoxGift(subDetail)
+                                : null}
                             </div>
                           ))}
                       </div>
@@ -2442,7 +2575,7 @@ class SubscriptionDetail extends React.Component {
                       </h4>
                       <div className="rc-max-width--xl">
                         <div
-                          // style={{ display: `${isGift ? 'none' : 'initial'}` }}
+                          style={{ display: `${isGift ? 'none' : 'initial'}` }}
                           className="rc-match-heights rc-content-h-middle rc-reverse-layout"
                         >
                           <div>
@@ -3510,19 +3643,23 @@ class SubscriptionDetail extends React.Component {
               </div>
             </div>
             <div className="rc-md-up">
-            <Modal
-              headerVisible={false}
-              // footerVisible={false}
-              visible={false}
-              cancelBtnIsLink = {true}
-              modalTitle={''}
-              modalText={this.getModalBox()}
-            ></Modal>
+              <Modal
+                headerVisible={false}
+                // footerVisible={false}
+                visible={this.state.remainingsVisible}
+                cancelBtnIsLink={true}
+                modalTitle={''}
+                close={() => {
+                  this.setState({ remainingsVisible: false });
+                }}
+                hanldeClickConfirm={() => this.hanldeClickSubmit()}
+                modalText={this.getModalBox()}
+              ></Modal>
             </div>
             <div className="sub-des-mobile-modal rc-md-down">
               {this.getModalBox()}
               <a className="rc-styled-link">cancel</a>
-              <span style={{padding:'0 1rem'}}>or</span>
+              <span style={{ padding: '0 1rem' }}>or</span>
               <button className="rc-btn rc-btn--one">confoirm</button>
             </div>
           </main>

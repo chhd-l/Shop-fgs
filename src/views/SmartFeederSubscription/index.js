@@ -1331,7 +1331,7 @@ class SmartFeederSubscription extends Component {
       currentAmount: currentUnitPrice * quantityNew,
       selected: true,
       subscriptionPlanId: planId,
-      subscriptionPlanPromotionFlag: joinPromoFlag,
+      subscriptionPlanPromotionFlag: joinPromoFlag?1:0,
       subscriptionPlanGiftList: planGifts,
       goodsInfoFlag: parseInt(form.buyWay)
     });
@@ -1455,7 +1455,7 @@ class SmartFeederSubscription extends Component {
     }
   }
   getStep1List = async () => {
-    const planId = this.state.planId || '000000';
+    const planId = this.state.planId || '0';
     // "joinPromoFlag": true, --是否可以加入其它promo的标识 true 是，false   否
     // "quantityStage": 100 --当前订阅计划的库存量
     // @ApiEnumProperty("0")
@@ -1683,7 +1683,7 @@ class SmartFeederSubscription extends Component {
           ...param,
           ...this.state.requestJson,
           subscriptionPlanId: planId,
-          subscriptionPlanPromotionFlag: this.state.step3Choosed.joinPromoFlag,
+          subscriptionPlanPromotionFlag: this.state.step3Choosed.joinPromoFlag?1:0,
           packageId: packageId
         };
       }
@@ -1861,10 +1861,11 @@ class SmartFeederSubscription extends Component {
                 </div>
               )}
               <StaticPage />
-
+              <div style={{position:'relative',top:'-120px'}}>
               <div id="step1"></div>
               <div id="step2"></div>
               <div id="step3"></div>
+              </div>
               <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil h5_no_pad">
                 <h2 className="smartfeedersubscription-title">
                   {stepName == 'step3' ? (
