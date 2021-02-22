@@ -421,9 +421,32 @@ const App = () => (
                 path="/promotion-refuge"
                 component={PromotionRefuge}
               />
-              <Route path="/Values-ru" exact component={RU_Values} />
+
+              {/* <Route path="/Values-ru" exact component={RU_Values} />
               <Route path="/Values-us" exact component={US_Values} />
-              <Route path="/Values" exact component={FR_Values} />
+              <Route path="/Values" exact component={FR_Values} /> */}
+              <Route
+                exact
+                path="/Values"
+                component={(() => {
+                  let valuesstr= '';
+                  switch (process.env.REACT_APP_LANG) {
+                    case 'fr':
+                      valuesstr= FR_Values
+                      break;
+                    case 'en':
+                      valuesstr= US_Values
+                      break;
+                    case 'ru':
+                      valuesstr= RU_Values
+                      break;
+                    default:
+                      valuesstr= Values
+                  }
+                  return valuesstr;
+                })()}
+              />
+
               <Route sensitive path="/Tailorednutrition" exact component={
                 process.env.REACT_APP_LANG == 'en' ? US_Tailorednutrition : Tailorednutrition
               } />
