@@ -82,7 +82,7 @@ class Mentionslegales extends React.Component {
                           <p className="rc-margin-y--sm">Monsieur Fabrice Ribourg agissant en qualité de Président de Royal Canin France. </p>
 
                           <p className="rc-margin-y--sm"><b>La Plateforme est hébergée par :</b></p>
-                          <p className="rc-margin-y--sm">[Mars, Incorporated] ; située au [800 High Street, Hackettstown, NJ 07840, États-Unis] ; numéro de téléphone [916.445.1254]. </p>
+                          <p className="rc-margin-y--sm">Mars, Incorporated ; située au 800 High Street, Hackettstown, NJ 07840, États-Unis ; numéro de téléphone 916.445.1254. </p>
                         </div>
                       </div>
                     </div>
