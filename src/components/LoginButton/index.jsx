@@ -96,7 +96,7 @@ const LoginButton = (props) => {
                   loginStore.changeIsLogin(true);
 
                   localItemRoyal.set('rc-token', res.context.token);
-                  debugger;
+                  //debugger;
                   let customerInfoRes = await getCustomerInfo({
                     customerId: res.context.customerId
                   });

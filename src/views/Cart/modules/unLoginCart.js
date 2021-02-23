@@ -140,25 +140,23 @@ class UnLoginCart extends React.Component {
   getComputedWeeks(frequencyList) {
     let calculatedWeeks = {}
 
-    frequencyList.forEach(item=>{
-      switch(item.type)
-      {
-          case 'Frequency_day':
-              calculatedWeeks[item.id] = 0
-              break;
-          case 'Frequency_week':
-              calculatedWeeks[item.id] = item.valueEn*1
-              break;
-          case 'Frequency_month':
-              calculatedWeeks[item.id] = item.valueEn*4
-              break;
+    frequencyList.forEach(item => {
+      switch (item.type) {
+        case 'Frequency_day':
+          calculatedWeeks[item.id] = 0
+          break;
+        case 'Frequency_week':
+          calculatedWeeks[item.id] = item.valueEn * 1
+          break;
+        case 'Frequency_month':
+          calculatedWeeks[item.id] = item.valueEn * 4
+          break;
       }
     })
 
     this.setState({
       calculatedWeeks
     })
-
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
@@ -178,9 +176,9 @@ class UnLoginCart extends React.Component {
         })
       });
     });
-    this.GACartScreenLoad()
-    this.getComputedWeeks(this.state.frequencyList)
-    this.GAInitialProductArray(this.props.checkoutStore.cartData)
+    isHubGA && this.GACartScreenLoad()
+    isHubGA && this.getComputedWeeks(this.state.frequencyList)
+    isHubGA && this.GAInitialProductArray(this.props.checkoutStore.cartData)
     this.setCartData();
   }
   GACartScreenLoad() {
@@ -189,7 +187,7 @@ class UnLoginCart extends React.Component {
     });
   }
   GAInitialProductArray(productList) {
-    console.log({ productList: JSON.stringify(toJS(productList))});
+    console.log({ productList: JSON.stringify(toJS(productList)) });
     let arr = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
@@ -197,7 +195,8 @@ class UnLoginCart extends React.Component {
       });
       let variant = cur_selected_size[0].specText;
       let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
-      let price = item.goodsInfoFlag ? cur_selected_size[0].subscriptionPrice: cur_selected_size[0].marketPrice
+      let price = item.goodsInfoFlag ? cur_selected_size[0].subscriptionPrice : cur_selected_size[0].marketPrice
+      let subscriptionFrequency = item.form ? this.state.calculatedWeeks[item.form.frequencyId] : ''
 
       arr.push({
         'price': price, //Product Price, including discount if promo code activated for this product
@@ -211,14 +210,14 @@ class UnLoginCart extends React.Component {
         'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
         'size': variant, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
         'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
-        'subscriptionFrequency': item.goodsInfoFlag == 1 ? this.state.calculatedWeeks[item.form.frequencyId] : '', //Frequency in weeks, to populate only if 'subscription' 
+        'subscriptionFrequency': subscriptionFrequency, //Frequency in weeks, to populate only if 'subscription' 
 
         'recommendationID': '123456', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
         'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
 
         'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-        'promoCodeAmount' : 8 //Promo code amount, only if promo activated
+        'promoCodeAmount': 8 //Promo code amount, only if promo activated
       })
     }
     dataLayer.push({
@@ -226,7 +225,6 @@ class UnLoginCart extends React.Component {
     })
   }
   GACheckUnLogin(productList) {
-    if (isHubGA) return
     let product = [],
       basketAmount = this.tradePrice,
       basketID = guid,
@@ -267,7 +265,7 @@ class UnLoginCart extends React.Component {
     }
   }
   setCartData() {
-    this.GACheckUnLogin(this.props.checkoutStore.cartData);
+    (!isHubGA) && this.GACheckUnLogin(this.props.checkoutStore.cartData);
     let productList = this.props.checkoutStore.cartData.map((el) => {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
@@ -305,7 +303,7 @@ class UnLoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   GAAccessToGuestCheck() {
-    if(isHubGA) return
+    if (isHubGA) return
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
       interaction: {
@@ -533,7 +531,7 @@ class UnLoginCart extends React.Component {
   }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product) {
-    console.log(product);
+    if (isHubGA) return
     const cur_selected_size = product.sizeList.filter((item) => {
       return item.selected == true;
     });
@@ -578,6 +576,9 @@ class UnLoginCart extends React.Component {
       () => {
         this.updateStock();
         this.GARemoveFromCart(product);
+        dataLayer.push({
+          'event': 'removeFromCart'
+        });
       }
     );
   }
@@ -592,7 +593,7 @@ class UnLoginCart extends React.Component {
     fn && fn();
     this.setState({ checkoutLoading: false });
     //增加数量 重新埋点 start
-    this.GACheckUnLogin(this.props.checkoutStore.cartData);
+    (!isHubGA) && this.GACheckUnLogin(this.props.checkoutStore.cartData);
     //增加数量 重新埋点 end
   }
   gotoDetails(pitem) {
@@ -1453,8 +1454,8 @@ class UnLoginCart extends React.Component {
                 <button
                   id="promotionApply"
                   className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${this.state.isClickApply
-                      ? 'ui-btn-loading ui-btn-loading-border-red'
-                      : ''
+                    ? 'ui-btn-loading ui-btn-loading-border-red'
+                    : ''
                     }`}
                   style={{
                     marginTop: '10px',
