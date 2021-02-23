@@ -12,6 +12,7 @@ import { validData, dynamicLoadCss } from '@/utils/utils';
 import axios from 'axios';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
+import PaymentForm from '@/components/PaymentForm';
 
 @inject('loginStore')
 @injectIntl
@@ -38,7 +39,27 @@ class PaymentEditForm extends React.Component {
         paymentCustomerId: ''
       },
       currentVendor: '1',
-      isValid: false
+      isValid: false,
+
+      // 組件
+      paymentForm:{
+        cardNumber: '12000000000',
+        month: 1,
+        year: null,
+        cardholderName: 'yanguuuuu',
+        codeSecure: '1111',
+        isChecked: true
+      },
+      monthList: [
+        {name: '01', value: 1},
+        {name: '02', value: 2}
+      ],
+      yearList: [
+        {name: '2015', value: 2015},
+        {name: '2016', value: 2016},
+        {name: '2017', value: 2017},
+        {name: '2018', value: 2018}
+      ]
     };
   }
   componentDidMount() {
@@ -230,6 +251,37 @@ class PaymentEditForm extends React.Component {
   handleCancel = () => {
     this.props.hideMyself({ closeListPage: this.props.backPage === 'cover' });
   };
+
+  handleInputChange = (e) => {
+    const target = e.target;
+    const { paymentForm } = this.state;
+    const name = target.name;
+    let value = ''
+    value = target.value;
+    paymentForm[name] = value;
+    this.setState({ paymentForm },() => {
+      console.log(paymentForm, '--------paymentForm');
+    });
+    this.inputBlur(e);
+  }
+
+  handleSelectedItemChange = (name, item) => {debugger
+    const { paymentForm } = this.state;
+    paymentForm[name] = item.value;
+    this.setState({ paymentForm },() => {
+      console.log(paymentForm, '--------paymentForm');
+    });
+  }
+  handelCheckboxChange = () => {debugger
+    const { paymentForm } = this.state
+    paymentForm['isChecked'] = !paymentForm['isChecked']
+    this.setState({
+      paymentForm
+    },()=>{
+      console.log(paymentForm, '--------paymentForm');
+    })
+  }
+
   render() {
     const {
       creditCardInfoForm,
@@ -250,6 +302,14 @@ class PaymentEditForm extends React.Component {
     );
     return (
       <div className="credit-card-content">
+        {/*<PaymentForm form={this.state.paymentForm}*/}
+        {/*             monthList={this.state.monthList}*/}
+        {/*             yearList={this.state.yearList}*/}
+        {/*             handelCheckboxChange={this.handelCheckboxChange}*/}
+        {/*             handleInputChange={this.handleInputChange}*/}
+        {/*             handleSelectedItemChange={this.handleSelectedItemChange}*/}
+        {/*             inputBlur={this.inputBlur}/>*/}
+
         {paymentType === 'ADYEN' ? (
           <>
             <div className="content-asset">
