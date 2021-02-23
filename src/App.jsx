@@ -107,6 +107,7 @@ import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 import RU_Values from '@/views/StaticPage/Values/RU_index.js';
 import US_Values from '@/views/StaticPage/Values/US_index.js';
 import FR_Values from '@/views/StaticPage/Values/FR_index.js';
+import Values from '@/views/StaticPage/Values/index.js';
 import ShipmentConditions from '@/views/StaticPage/ShipmentConditions';
 import RequestInvoices from '@/views/StaticPage/RequestInvoices';
 import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
@@ -365,32 +366,34 @@ const App = () => (
                 component={ProductFinderNoResult}
               />
 
-              {/* <Route path="/subscription-landing-de" exact component={DE_SubscriptionLanding}/>
-              <Route path="/subscription-landing" exact component={SubscriptionLanding} />
+              <Route path="/subscription-landing-de" exact component={DE_SubscriptionLanding} />
+
               <Route path="/subscription-landing-us" exact component={US_SubscriptionLanding} />
+
               <Route path="/subscription-landing-ru" exact component={RU_SubscriptionLanding} />
-              <Route path="/subscription-landing-tr" exact component={TR_SubscriptionLanding} /> */}
-              
+
+              <Route path="/subscription-landing-tr" exact component={TR_SubscriptionLanding} />
+
               <Route
                 exact
                 path="/subscription-landing"
                 component={(() => {
-                  let sublanding= '';
+                  let sublanding = '';
                   switch (process.env.REACT_APP_LANG) {
                     case 'de':
-                      sublanding= DE_SubscriptionLanding
+                      sublanding = DE_SubscriptionLanding
                       break;
                     case 'en':
-                      sublanding= US_SubscriptionLanding
+                      sublanding = US_SubscriptionLanding
                       break;
                     case 'ru':
-                      sublanding= RU_SubscriptionLanding
+                      sublanding = RU_SubscriptionLanding
                       break;
                     case 'tr':
-                      sublanding= TR_SubscriptionLanding
+                      sublanding = TR_SubscriptionLanding
                       break;
                     default:
-                      sublanding= SubscriptionLanding
+                      sublanding = SubscriptionLanding
                   }
                   return sublanding;
                 })()}
@@ -425,28 +428,28 @@ const App = () => (
                 component={PromotionRefuge}
               />
 
-              {/* <Route path="/Values-ru" exact component={RU_Values} />
+              <Route path="/Values-ru" exact component={RU_Values} />
               <Route path="/Values-us" exact component={US_Values} />
-              <Route path="/Values" exact component={FR_Values} /> */}
+              <Route path="/Values-fr" exact component={FR_Values} />
               <Route
                 exact
                 path="/Values"
                 component={(() => {
-                  let valuesstr= '';
+                  let valuesStr = '';
                   switch (process.env.REACT_APP_LANG) {
                     case 'fr':
-                      valuesstr= FR_Values
+                      valuesStr = FR_Values
                       break;
                     case 'en':
-                      valuesstr= US_Values
+                      valuesStr = US_Values
                       break;
                     case 'ru':
-                      valuesstr= RU_Values
+                      valuesStr = RU_Values
                       break;
                     default:
-                      valuesstr= Values
+                      valuesStr = Values
                   }
-                  return valuesstr;
+                  return valuesStr;
                 })()}
               />
 
@@ -469,7 +472,7 @@ const App = () => (
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />
               <Route path="/register" component={register} />
-              
+
               <Route
                 path="/smart-feeder-subscription"
                 component={smartFeederSubscription}
