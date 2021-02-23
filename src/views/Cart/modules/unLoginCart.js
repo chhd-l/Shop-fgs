@@ -69,7 +69,8 @@ class UnLoginCart extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       subscriptionDiscount: 0,
-      activeToolTipIndex: 0
+      activeToolTipIndex: 0,
+      calculatedWeeks: {}
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -135,8 +136,31 @@ class UnLoginCart extends React.Component {
       };
     });
   }
+  //天-0周  周-value*1 月-value*4
+  getComputedWeeks(frequencyList) {
+    let calculatedWeeks = {}
+
+    frequencyList.forEach(item=>{
+      switch(item.type)
+      {
+          case 'Frequency_day':
+              calculatedWeeks[item.id] = 0
+              break;
+          case 'Frequency_week':
+              calculatedWeeks[item.id] = item.valueEn*1
+              break;
+          case 'Frequency_month':
+              calculatedWeeks[item.id] = item.valueEn*4
+              break;
+      }
+    })
+
+    this.setState({
+      calculatedWeeks
+    })
+
+  }
   async componentDidMount() {
-    this.GACartScreenLoad()
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -154,6 +178,9 @@ class UnLoginCart extends React.Component {
         })
       });
     });
+    this.GACartScreenLoad()
+    this.getComputedWeeks(this.state.frequencyList)
+    this.GAInitialProductArray(this.props.checkoutStore.cartData)
     this.setCartData();
   }
   GACartScreenLoad() {
@@ -165,26 +192,33 @@ class UnLoginCart extends React.Component {
     console.log({ productList: JSON.stringify(toJS(productList))});
     let arr = []
     for (let item of productList) {
+      let cur_selected_size = item.sizeList.filter((item2) => {
+        return item2.selected == true;
+      });
+      let variant = cur_selected_size[0].specText;
+      let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
+      let price = item.goodsInfoFlag ? cur_selected_size[0].subscriptionPrice: cur_selected_size[0].marketPrice
+
       arr.push({
-        'price': item.goodsInfoFlag == 1
-          ? item.minSubscriptionPrice
-          : item.minMarketPrice, //Product Price, including discount if promo code activated for this product
+        'price': price, //Product Price, including discount if promo code activated for this product
         'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
         'range': item.goodsCateName?.split("/")[1], //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
         'name': item.goodsName, //WeShare product name, always in English
         'mainItemCode': item.goodsNo, //Main item code
-        'SKU': item.goodsInfos[0].goodsInfoNo, //product SKU
+        'SKU': goodsInfoNo, //product SKU
         'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
         'technology': item.goodsCateName?.split("/")[2], //'Dry', 'Wet', 'Pack'
         'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-        'size': item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-        
-        'subscriptionFrequency': item.goodsInfoFlag == 1 ? 3 : '', //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+        'size': variant, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+        'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
+        'subscriptionFrequency': item.goodsInfoFlag == 1 ? this.state.calculatedWeeks[item.form.frequencyId] : '', //Frequency in weeks, to populate only if 'subscription' 
+
         'recommendationID': '123456', //recommendation ID
+        //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
         'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
-        'quantity': 2, //Number of products, only if already added to cart
-        'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP      
+
         'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
+        'promoCodeAmount' : 8 //Promo code amount, only if promo activated
       })
     }
     dataLayer.push({
@@ -233,7 +267,6 @@ class UnLoginCart extends React.Component {
     }
   }
   setCartData() {
-    this.GAInitialProductArray(this.props.checkoutStore.cartData)
     this.GACheckUnLogin(this.props.checkoutStore.cartData);
     let productList = this.props.checkoutStore.cartData.map((el) => {
       let filterData =
@@ -242,7 +275,9 @@ class UnLoginCart extends React.Component {
       el.form = {
         frequencyVal: filterData.valueEn,
         frequencyName: filterData.name,
-        frequencyId: filterData.id
+        frequencyId: filterData.id,
+        //GA 计算周数
+        frequencyType: filterData.type
       };
       return el;
     });
@@ -270,6 +305,7 @@ class UnLoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   GAAccessToGuestCheck() {
+    if(isHubGA) return
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
       interaction: {
