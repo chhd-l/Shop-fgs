@@ -302,13 +302,13 @@ class PaymentEditForm extends React.Component {
     );
     return (
       <div className="credit-card-content">
-        <PaymentForm form={this.state.paymentForm}
-                     monthList={this.state.monthList}
-                     yearList={this.state.yearList}
-                     handelCheckboxChange={this.handelCheckboxChange}
-                     handleInputChange={this.handleInputChange}
-                     handleSelectedItemChange={this.handleSelectedItemChange}
-                     inputBlur={this.inputBlur}/>
+        {/*<PaymentForm form={this.state.paymentForm}*/}
+        {/*             monthList={this.state.monthList}*/}
+        {/*             yearList={this.state.yearList}*/}
+        {/*             handelCheckboxChange={this.handelCheckboxChange}*/}
+        {/*             handleInputChange={this.handleInputChange}*/}
+        {/*             handleSelectedItemChange={this.handleSelectedItemChange}*/}
+        {/*             inputBlur={this.inputBlur}/>*/}
 
         {paymentType === 'ADYEN' ? (
           <>
