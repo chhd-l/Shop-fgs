@@ -4,7 +4,8 @@ import faqJson from './faq.json';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
-
+import { getRemainings } from '@/api/dispenser';
+import { formatMoney } from '@/utils/utils';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
@@ -13,16 +14,34 @@ class FAQ extends React.Component {
     super(props);
     this.state = {
       dataFAQ: faqJson.data,
+      remainingsList: [],
       // 当前展开的FAQ
       showCur: -1,
       // loading: true
       loading: false
     };
-    this.handleSelect = this.handleSelect.bind(this)
+    this.handleSelect = this.handleSelect.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
+  componentWillReceiveProps({ planId }) {
+    if (planId) {
+      this.getRemainings(planId);
+    }
+  }
+  getRemainings = async (planId) => {
+    let params = {
+      planId,
+      storeId: process.env.REACT_APP_STOREID
+    };
+    let res = await getRemainings(params);
+    let remainingsList = res.context;
+    this.setState({
+      remainingsList
+    });
+  };
+
   componentDidMount() {
     // getFaq({
     //   language: process.env.REACT_APP_LANG,
@@ -171,14 +190,14 @@ class FAQ extends React.Component {
                             }}
                           >
                             <div
-                            style={{flex:1}}
+                              style={{ flex: 1 }}
                               dangerouslySetInnerHTML={{
                                 __html: item.question
                               }}
                             ></div>
 
                             <span
-                            style={{width: '32px'}}
+                              style={{ width: '32px' }}
                               className={`scalemin icon-change ${
                                 this.state.showCur === item.id
                                   ? 'rc-icon rc-up rc-brand1'
@@ -191,6 +210,53 @@ class FAQ extends React.Component {
                             <p
                               dangerouslySetInnerHTML={{ __html: item.answer }}
                             ></p>
+                            {item.showRemainings && (
+                              <p>
+                                <ul className="subdes-modal-ul-wrap">
+                                  <li
+                                    className="d-flex"
+                                    style={{
+                                      background: '#F6F6F6',
+                                      lineHeight: '2rem',
+                                      borderBottom: '1px solid #E4E4E4',
+                                      padding: '0 1rem'
+                                    }}
+                                  >
+                                    <span className="width50">
+                                      Unsubcribe before
+                                    </span>
+                                    <span
+                                      className="width50"
+                                      style={{ paddingLeft: '0.5rem' }}
+                                    >
+                                      Remaining price
+                                    </span>
+                                  </li>
+                                  {this.state.remainingsList.map((item) => (
+                                    <li
+                                      key={item.id}
+                                      className="d-flex"
+                                      style={{
+                                        lineHeight: '2rem',
+                                        borderBottom: '1px solid #E4E4E4',
+                                        padding: '0 1rem'
+                                      }}
+                                    >
+                                      <span className="width50">
+                                        {item.deliveryTimes}
+                                        <FormattedMessage id="times" />
+                                      </span>
+                                      <span
+                                        className="width50"
+                                        style={{ paddingLeft: '0.5rem' }}
+                                      >
+                                        {formatMoney(item.remainingPrice)}
+                                      </span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </p>
+                            )}
                             <LazyLoad>
                               <img src={item.imgUl} alt="" />
                             </LazyLoad>

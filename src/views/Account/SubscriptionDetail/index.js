@@ -368,7 +368,9 @@ class SubscriptionDetail extends React.Component {
           ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState;
         return { value: el.id, name: el.id + ' ' + orderStatus };
       });
-      let isGift = subDetail.goodsInfo[0]?.subscriptionPlanId;
+      let isGift =
+        subDetail.goodsInfo[0]?.subscriptionPlanId &&
+        subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
       let cityRes = await queryCityNameById({
@@ -793,61 +795,73 @@ class SubscriptionDetail extends React.Component {
                                     padding: isMobile ? '0 0 0 10px' : '0'
                                   }}
                                 >
-                                   <div
-                                className="rc-layout-container rc-five-column"
-                                style={{
-                                  paddingRight: isMobile ? '0' : '60px',
-                                  paddingTop: '0'
-                                }}
-                              >
-                                <div
-                                  className="rc-column flex-layout"
-                                  style={{
-                                    width: '80%',
-                                    padding: 0
-                                  }}
-                                >
-                                  <LazyLoad>
-                                    <img
-                                      style={{
-                                        width: '70px',
-                                        margin: '0 10px'
-                                      }}
-                                      src={tradeItem.subscriptionPlanGiftList[0]?.goodsInfoImg}
-                                      alt={tradeItem.subscriptionPlanGiftList[0]?.goodsInfoName}
-                                    />
-                                  </LazyLoad>
                                   <div
+                                    className="rc-layout-container rc-five-column"
                                     style={{
-                                      width: '200px',
-                                      paddingTop: '30px'
+                                      paddingRight: isMobile ? '0' : '60px',
+                                      paddingTop: '0'
                                     }}
                                   >
-                                    <h5
-                                      className="text-nowrap"
+                                    <div
+                                      className="rc-column flex-layout"
                                       style={{
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        overflowWrap: 'normal',
-                                        fontSize: '14px',
-                                        width: isMobile ? '95px' : 'auto'
+                                        width: '80%',
+                                        padding: 0
                                       }}
                                     >
-                                      {tradeItem.subscriptionPlanGiftList[0]?.goodsInfoName}
-                                    </h5>
-                                    <p
-                                      style={{
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        marginBottom: '8px',
-                                        fontSize: '14px'
-                                      }}
-                                    >
-                                      x 1
-                                   </p>
+                                      <LazyLoad>
+                                        <img
+                                          style={{
+                                            width: '70px',
+                                            margin: '0 10px'
+                                          }}
+                                          src={
+                                            tradeItem
+                                              .subscriptionPlanGiftList[0]
+                                              ?.goodsInfoImg
+                                          }
+                                          alt={
+                                            tradeItem
+                                              .subscriptionPlanGiftList[0]
+                                              ?.goodsInfoName
+                                          }
+                                        />
+                                      </LazyLoad>
+                                      <div
+                                        style={{
+                                          width: '200px',
+                                          paddingTop: '30px'
+                                        }}
+                                      >
+                                        <h5
+                                          className="text-nowrap"
+                                          style={{
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            overflowWrap: 'normal',
+                                            fontSize: '14px',
+                                            width: isMobile ? '95px' : 'auto'
+                                          }}
+                                        >
+                                          {
+                                            tradeItem
+                                              .subscriptionPlanGiftList[0]
+                                              ?.goodsInfoName
+                                          }
+                                        </h5>
+                                        <p
+                                          style={{
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            marginBottom: '8px',
+                                            fontSize: '14px'
+                                          }}
+                                        >
+                                          x 1
+                                        </p>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
                                   {/* {isActive ? (
                                     <>
                                       <LazyLoad>
@@ -1193,7 +1207,7 @@ class SubscriptionDetail extends React.Component {
             <a
               style={{ position: 'relative', top: '-0.3rem' }}
               className="rc-styled-link"
-              onClick={(e) => this.handleGiftSubCancel(e)}
+              onClick={(e) => this.handleGiftSubCancel(e, subDetail)}
             >
               <FormattedMessage id="subscription.cancelAll" />
             </a>
@@ -1260,14 +1274,19 @@ class SubscriptionDetail extends React.Component {
       </div>
     );
   };
-  handleGiftSubCancel = async (e) => {
+  handleGiftSubCancel = async (e, subDetail) => {
     e.preventDefault();
+    let {packageId, subscriptionPlanId:planId, goodsInfoId} = subDetail.noStartTradeList[0]?.tradeItems[0]
     let params = {
-      packageId: 'PK2102041541387',
-      planId: 'SP2102012016424',
-      goodsInfoId: 'ff80808173a2adef0173b3dd5900005f',
+      planId,
       storeId: process.env.REACT_APP_STOREID
     };
+    // let params = {
+    //   packageId: 'PK2102041541387',
+    //   planId: 'SP2102012016424',
+    //   goodsInfoId: 'ff80808173a2adef0173b3dd5900005f',
+    //   storeId: process.env.REACT_APP_STOREID
+    // };
     let res = await getRemainings(params);
     let remainingsList = res.context;
     this.setState({
@@ -1323,9 +1342,9 @@ class SubscriptionDetail extends React.Component {
       }
 
       await this.doUpdateDetail(param);
-      if(this.state.isGift){
-        this.props.history.push('/account/subscription')
-        return 
+      if (this.state.isGift) {
+        this.props.history.push('/account/subscription');
+        return;
       }
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');

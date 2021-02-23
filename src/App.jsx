@@ -428,7 +428,7 @@ const App = () => (
               {/* <Route path="/Values-ru" exact component={RU_Values} />
               <Route path="/Values-us" exact component={US_Values} />
               <Route path="/Values" exact component={FR_Values} /> */}
-              <Route
+              {/* <Route
                 exact
                 path="/Values"
                 component={(() => {
@@ -448,7 +448,7 @@ const App = () => (
                   }
                   return valuesstr;
                 })()}
-              />
+              /> */}
 
               <Route sensitive path="/Tailorednutrition" exact component={
                 process.env.REACT_APP_LANG == 'en' ? US_Tailorednutrition : Tailorednutrition

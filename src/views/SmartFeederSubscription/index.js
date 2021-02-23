@@ -22,6 +22,7 @@ import Slider from 'react-slick';
 import {
   getDeviceType,
   getParaByName,
+  formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
@@ -120,7 +121,7 @@ class Step1H5 extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.slideWidth = document.body.clientWidth/1.5
+    this.slideWidth = document.body.clientWidth / 1.5;
   }
   componentDidMount() {
     // new Swiper('.swiper-container', {
@@ -236,7 +237,9 @@ const Step2 = (props) => {
                 <p
                   className="content rc-scroll--x"
                   style={{ marginBottom: '4rem' }}
-                  dangerouslySetInnerHTML={createMarkup(props.goodsDetailTab?.tabContent[0])}
+                  dangerouslySetInnerHTML={createMarkup(
+                    props.goodsDetailTab?.tabContent[0]
+                  )}
                 />
               </div>
               {/* Royal Canin Jack Russell Terrier Adult dry dog food is designed to
@@ -1331,7 +1334,7 @@ class SmartFeederSubscription extends Component {
       currentAmount: currentUnitPrice * quantityNew,
       selected: true,
       subscriptionPlanId: planId,
-      subscriptionPlanPromotionFlag: joinPromoFlag?1:0,
+      subscriptionPlanPromotionFlag: joinPromoFlag ? 1 : 0,
       subscriptionPlanGiftList: planGifts,
       goodsInfoFlag: parseInt(form.buyWay)
     });
@@ -1683,7 +1686,9 @@ class SmartFeederSubscription extends Component {
           ...param,
           ...this.state.requestJson,
           subscriptionPlanId: planId,
-          subscriptionPlanPromotionFlag: this.state.step3Choosed.joinPromoFlag?1:0,
+          subscriptionPlanPromotionFlag: this.state.step3Choosed.joinPromoFlag
+            ? 1
+            : 0,
           packageId: packageId
         };
       }
@@ -1861,10 +1866,10 @@ class SmartFeederSubscription extends Component {
                 </div>
               )}
               <StaticPage />
-              <div style={{position:'relative',top:'-120px'}}>
-              <div id="step1"></div>
-              <div id="step2"></div>
-              <div id="step3"></div>
+              <div style={{ position: 'relative', top: '-120px' }}>
+                <div id="step1"></div>
+                <div id="step2"></div>
+                <div id="step3"></div>
               </div>
               <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil h5_no_pad">
                 <h2 className="smartfeedersubscription-title">
@@ -1912,7 +1917,7 @@ class SmartFeederSubscription extends Component {
                 })()}
                 <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
               </section>
-              <FAQ />
+              <FAQ planId={this.state.planId} />
             </React.Fragment>
           ) : (
             <div className="text-center rc-padding-x--sm rc-padding-x--md--mobile">
