@@ -249,7 +249,7 @@ export default async function queryNavigation() {
                   title: 'Discover our product ranges',
                   subtitle: '',
                   link: {
-                    url: 'https://uatwedding.royalcanin.com/fr/shop/dogs',
+                    url: '/dogs',//暂时跳转到我们本地的页面
                     text: ''
                   }
                 }
@@ -291,7 +291,7 @@ export default async function queryNavigation() {
                   title: 'Discover our product ranges',
                   subtitle: '',
                   link: {
-                    url: 'https://uatwedding.royalcanin.com/fr/shop/cats/',
+                    url: '/cats',//暂时跳转到我们本地的页面
                     text: ''
                   }
                 }
