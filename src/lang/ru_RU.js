@@ -188,6 +188,7 @@ const ru_RU = {
     'deliveryStatus.PART_SHIPPED': "Частично отправлено",
     'deliveryStatus.SHIPPED': 'Все отгружено',
     'deliveryStatus.VOID': 'Быть доставленным',
+    estimatedTax:'Ожидаемая сумма налога',
     "details.addToCart": "Добавить в корзину",
     "details.availability": "Доступность",
     "details.beneficialFeatures": "Полезные функции",

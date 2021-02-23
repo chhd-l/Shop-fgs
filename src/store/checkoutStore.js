@@ -12,8 +12,7 @@ class CheckoutStore {
   @observable petFlag = localItemRoyal.get('rc-petFlag') || false;
   @observable loginCartData = localItemRoyal.get('rc-cart-data-login') || []; // 商品列表
   @observable cartPrice = localItemRoyal.get('rc-totalInfo') || null; // 价格数据
-  @observable goodsMarketingMap =
-    localItemRoyal.get('goodsMarketingMap') || null; // promotion
+  @observable goodsMarketingMap = localItemRoyal.get('goodsMarketingMap') || null; // promotion
   @observable loadingCartData = false;
   @observable outOfstockProNames = []; // 超出库存的商品
   @observable offShelvesProNames = []; // 下架的商品
@@ -204,6 +203,7 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     });
+    
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
     this.setPromotionCode(promotionCode);
