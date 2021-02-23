@@ -2157,8 +2157,9 @@ class Details extends React.Component {
                                         <div>
                                           <FormattedMessage id="details.inStock" />
                                         </div>
-                                      </span>&nbsp;&nbsp;
-                                      <FormattedMessage id="details.shippedTime" />
+                                      </span>
+                                      {/* &nbsp;&nbsp;
+                                      <FormattedMessage id="details.shippedTime" /> */}
                                     </>
                                   ) : (
                                     <>
