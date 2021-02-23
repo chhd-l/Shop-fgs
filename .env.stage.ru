@@ -70,3 +70,6 @@ REACT_APP_CHECKOUT_WITH_CLINIC = true
 
 REACT_APP_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/ru/
 REACT_APP_RC_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/
+
+#HUB_GA
+REACT_APP_HUB_GA = 1
