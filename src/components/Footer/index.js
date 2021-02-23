@@ -181,7 +181,7 @@ class Footer extends React.Component {
                 </a>
                 {!!this.state.cur_contactInfo.email.link ? (
                   <Link
-                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
+                    className="ctnus rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
                     role="menuitem"
                     to={this.state.cur_contactInfo.email.link}
                   >

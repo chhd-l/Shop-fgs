@@ -222,6 +222,9 @@
 .qhx.rc-email--xs:hover:after{ 
 	background-position: 17.27% 42.86%!important;
 }
+.ctnus.rc-email--xs:hover:after{ 
+	background-position: 18% 42.86%!important;
+}
 
 @media screen and (max-width: 767px) {
 	#mars-footer-panel li{
@@ -233,3 +236,4 @@
 		border:none !important
 	}
 }
+
