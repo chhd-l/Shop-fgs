@@ -649,6 +649,7 @@ class List extends React.Component {
     const isVetProducts = isHub && location.pathname.includes('vet_products');
     const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail_products`;
     const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet_products`;
+    const showSmartFeeder = isDog && isHub;
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -700,7 +701,8 @@ class List extends React.Component {
       isVetProducts,
       retailProductLink,
       vetProductLink,
-      pageLink: ''
+      pageLink: '',
+      showSmartFeeder,
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -1969,6 +1971,18 @@ class List extends React.Component {
                           }
                         />
                       )}
+                      {this.state.showSmartFeeder ? <div className="smart-feeder-container">
+                        <p>Smart Feeder Subscription</p>
+                        <p>A bundle offer of your dog food paired with a dispenser</p>
+                        <a
+                          href="https://www.consignesdetri.fr/"
+                          className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          style={{ minWidth: '110px' }}
+                        >
+                          {/* <FormattedMessage id="learnMore" /> */}
+                          See the offer
+                        </a>
+                      </div> : null}
                     </aside>
                   </div>
                   <div
