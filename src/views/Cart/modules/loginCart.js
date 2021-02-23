@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { toJS } from "mobx"
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -131,7 +132,7 @@ class LoginCart extends React.Component {
 
     isHubGA && this.GACartScreenLoad()
     isHubGA && this.getComputedWeeks(this.state.frequencyList)
-    isHubGA && this.GAInitialProductArray(unloginCartData)
+    isHubGA && this.GAInitialProductArray(this.checkoutStore.loginCartData)
     this.setData();
   }
   get checkoutStore() {
@@ -198,6 +199,8 @@ class LoginCart extends React.Component {
     });
   }
   GAInitialProductArray(productList) {
+    console.log({ productList: JSON.stringify(toJS(productList)) });
+    debugger
     let arr = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
