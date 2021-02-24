@@ -224,6 +224,7 @@ class UnLoginCart extends React.Component {
     })
 
     console.log({dataLayer})
+    
     debugger
   }
   GACheckUnLogin(productList) {
