@@ -490,8 +490,18 @@ class Details extends React.Component {
       .then((resList) => {
         const res = resList[0];
         if (res && res.context) {
+          const tmpGoodsDescriptionDetailList = res.context.goodsDescriptionDetailList || [];
           this.setState({
-            productRate: res.context.avgEvaluate
+            productRate: res.context.avgEvaluate,
+            goodsDetailTab: {
+              tabName: tmpGoodsDescriptionDetailList.map(
+                (g) => g.descriptionName
+              ),
+              tabContent: tmpGoodsDescriptionDetailList.map(
+                (g) => g.content
+              )
+            },
+            tabs: Array(tmpGoodsDescriptionDetailList.length).fill({ show: false })     
           });
         }
         if (res && res.context && res.context.goods) {
@@ -663,110 +673,7 @@ class Details extends React.Component {
             }
             return g;
           });
-          console.log(sizeList, 'sizeList');
-
-          // const selectedSize = find(sizeList, s => s.selected)
-          const { goodsDetailTab, tabs } = this.state;
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  if (
-                    process.env.REACT_APP_LANG === 'fr' ||
-                    process.env.REACT_APP_LANG === 'ru' ||
-                    process.env.REACT_APP_LANG === 'tr'
-                  ) {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (
-                        key === 'Description' ||
-                        key === 'Описание' ||
-                        key === 'İçindekiler'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          }
-                        });
-                      } else if (
-                        key === 'Bénéfices' ||
-                        key === 'Полезные свойства' ||
-                        key === 'Yararları'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="list_title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                              Object.values(JSON.parse(el))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                          ${tempContent}
-                        </ul>`;
-                      } else if (
-                        key === 'Composition' ||
-                        key === 'Ингредиенты'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>
-                            
-                            <div class="content">${
-                              Object.values(JSON.parse(el))[0]
-                            }</div> 
-                          </p>`;
-                        });
-                      } else {
-                        tempContent = tmpGoodsDetail[key];
-                      }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                    goodsDetailTab.tabName.push(key);
-                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  }
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            console.log(err, 'err');
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab
-              });
-            });
-          }
+          
           let images = [];
           // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
           //   if (res.context.images.length) {
@@ -820,174 +727,6 @@ class Details extends React.Component {
             return g;
           });
 
-          // const selectedSize = find(sizeList, s => s.selected)
-
-          const { goodsDetailTab, tabs } = this.state;
-          // try {
-          //   let tmpGoodsDetail = res.context.goods.goodsDetail;
-          //   if (tmpGoodsDetail) {
-          //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-          //     for (let key in tmpGoodsDetail) {
-          //       if (tmpGoodsDetail[key]) {
-          //         goodsDetailTab.tabName.push(key);
-          //         goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-          //         tabs.push({ show: false });
-          //         // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-          //       }
-          //     }
-          //   }
-          //   this.setState({
-          //     goodsDetailTab: goodsDetailTab,
-          //     tabs
-          //   });
-          // } catch (err) {
-          //   getDict({
-          //     type: 'goodsDetailTab',
-          //     storeId: process.env.REACT_APP_STOREID
-          //   }).then((res) => {
-          //     goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-          //       (ele) => ele.name
-          //     );
-          //     this.setState({
-          //       goodsDetailTab: goodsDetailTab
-          //     });
-          //   });
-          // }
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  if (
-                    process.env.REACT_APP_LANG === 'fr' ||
-                    process.env.REACT_APP_LANG === 'ru' ||
-                    process.env.REACT_APP_LANG === 'tr'
-                  ) {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (
-                        key === 'Description' ||
-                        key === 'Описание' ||
-                        key === 'İçindekiler'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          } else if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'Prescriber Blod Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line; font-weight: 400">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          } else if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'Prescriber Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line; font-weight: 400;">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          }
-                        });
-                      } else if (
-                        key === 'Bénéfices' ||
-                        key === 'Полезные свойства' ||
-                        key === 'Yararları'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="list_title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                              Object.values(JSON.parse(el))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                          ${tempContent}
-                        </ul>`;
-                      } else if (key === 'Composition') {
-                        if (res.context.goods.goodsType !== 2) {
-                          tmpGoodsDetail[key].map((el) => {
-                            tempContent =
-                              tempContent +
-                              `<p>
-                              
-                              <div class="content">${
-                                Object.values(JSON.parse(el))[0]
-                              }</div> 
-                            </p>`;
-                          });
-                        } else {
-                          tmpGoodsDetail[key].map((el) => {
-                            let contentObj = JSON.parse(el);
-                            let contentValue = '';
-                            Object.values(Object.values(contentObj)[0]).map(
-                              (el) => {
-                                contentValue += `<p>${el}</p>`;
-                              }
-                            );
-                            tempContent =
-                              tempContent +
-                              `
-                              <div class="title">
-                                ${Object.keys(contentObj)[0]}
-                              </div>
-                              <div class="content">${contentValue}</div> 
-                            `;
-                          });
-                        }
-                      } else {
-                        tempContent = tmpGoodsDetail[key];
-                      }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                    goodsDetailTab.tabName.push(key);
-                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  }
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            console.log(err, 'tmpGoodsDetail');
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab
-              });
-            });
-          }
           let images = [];
           // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
           //   if (res.context.images.length) {
@@ -2754,7 +2493,7 @@ class Details extends React.Component {
             <Advantage />
             {isMobile &&
               goodsDetailTab.tabName.map((ele, index) => (
-                <>
+                <React.Fragment key={index}>
                   <dl>
                     <div
                       className={`rc-list__accordion-item test-color 
@@ -2763,8 +2502,9 @@ class Details extends React.Component {
                       <div
                         className="rc-list__header d-flex justify-content-between"
                         onClick={() => {
-                          tabs[index].show = !this.state.tabs[index].show;
-                          this.setState({ tabs: this.state.tabs });
+                          let { tabs } = this.state;
+                          tabs[index].show = !tabs[index].show;
+                          this.setState({ tabs });
                         }}
                       >
                         <div dangerouslySetInnerHTML={{ __html: ele }} />
@@ -2801,7 +2541,7 @@ class Details extends React.Component {
                       </div>
                     </div>
                   </dl>
-                </>
+                </React.Fragment>
               ))}
             {!isMobile && goodsDetailTab.tabName.length ? (
               <div className="rc-max-width--xl rc-padding-x--sm">
