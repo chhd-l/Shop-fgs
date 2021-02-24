@@ -4,6 +4,17 @@ import findIndex from 'lodash/findIndex';
 import { isNewAccount } from "@/api/user"
 
 const localItemRoyal = window.__.localItemRoyal;
+const isHubGA = process.env.REACT_APP_HUB_GA
+
+const checkoutDataLayerPushEvent = ({name,options}) => {
+  dataLayer.push({
+    'event' : 'checkoutStep',
+    'checkoutStep' : {
+    	name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
+    	options, //'Guest checkout', 'New account', 'Existing account'
+    }
+});
+}
 
 class PaymentStore {
   @observable isLogin = !!localItemRoyal.get("rc-token")
@@ -86,105 +97,154 @@ class PaymentStore {
     }
   }
 
+
   @action.bound
   setStsToCompleted({ key, isFirstLoad }) {//isFirstLoad表示进入checkout页面直接执行,此时不需要push-event
-    switch (key) {
-      //填完邮件
-      case 'email':
-        dataLayer[0].checkout.step = 2
-        dataLayer[0].checkout.option = 'guest checkout'
-        let option = 'guest checkout'
-        //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
-        if (this.isLogin) {
-          isNewAccount().then((res) => {
-            if (res.code == 'K-000000' && res.context == 0) {
-              dataLayer[0].checkout.option = 'new account'
-              option = 'new account'
-            } else {
-              dataLayer[0].checkout.option = 'account already created'
-              option = 'account already created'
-            }
-          })
-        }
-        if (isFirstLoad) {
-          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-          result.checkout = {
-            step: 2,
-            option
+    if (isHubGA) {
+      switch (key) {
+        //填完邮件
+        case 'email':
+          if (this.isLogin) {
+            isNewAccount().then((res) => {
+              if (res.code == 'K-000000' && res.context == 0) {
+                checkoutDataLayerPushEvent({name:'Email',options:'New account'})
+              } else {
+                checkoutDataLayerPushEvent({name:'Email',options:'Existing account'})
+              }
+            })
+          } else {
+            checkoutDataLayerPushEvent({name:'Email',options:'Guest checkout'})
           }
-          result.page = {
-            type: 'Checkout',
-            virtualPageURL: '/checkout/shipping'
+          break;
+        //填完地址
+        case 'deliveryAddr':
+          if (this.isLogin) {
+            isNewAccount().then((res) => {
+              if (res.code == 'K-000000' && res.context == 0) {
+                checkoutDataLayerPushEvent({name:'Delivery',options:'New account'})
+              } else {
+                checkoutDataLayerPushEvent({name:'Delivery',options:'Existing account'})
+              }
+            })
+          } else {
+            checkoutDataLayerPushEvent({name:'Delivery',options:'Guest checkout'})
           }
-        } else {
-          dataLayer.push({
-            checkout: {
+          break;
+        //填完支付信息
+        case 'paymentMethod':
+          if (this.isLogin) {
+            isNewAccount().then((res) => {
+              if (res.code == 'K-000000' && res.context == 0) {
+                checkoutDataLayerPushEvent({name:'Payment',options:'New account'})
+              } else {
+                checkoutDataLayerPushEvent({name:'Payment',options:'Existing account'})
+              }
+            })
+          } else {
+            checkoutDataLayerPushEvent({name:'Payment',options:'Guest checkout'})
+          }
+          break;
+      }
+    } else {
+      switch (key) {
+        //填完邮件
+        case 'email':
+          dataLayer[0].checkout.step = 2
+          dataLayer[0].checkout.option = 'guest checkout'
+          let option = 'guest checkout'
+          //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
+          if (this.isLogin) {
+            isNewAccount().then((res) => {
+              if (res.code == 'K-000000' && res.context == 0) {
+                dataLayer[0].checkout.option = 'new account'
+                option = 'new account'
+              } else {
+                dataLayer[0].checkout.option = 'account already created'
+                option = 'account already created'
+              }
+            })
+          }
+          if (isFirstLoad) {
+            const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+            result.checkout = {
               step: 2,
               option
-            },
-            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
-            page: {
+            }
+            result.page = {
               type: 'Checkout',
               virtualPageURL: '/checkout/shipping'
             }
-          })
-        }
-        
-        break;
-      //填完地址
-      case 'deliveryAddr':
-        dataLayer[0].checkout.step = 3;
-        dataLayer[0].checkout.option = ''
-        if (isFirstLoad) {
-          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-          result.checkout = {
-            step: 3,
-            option: 'shippingMethod'
+          } else {
+            dataLayer.push({
+              checkout: {
+                step: 2,
+                option
+              },
+              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+              page: {
+                type: 'Checkout',
+                virtualPageURL: '/checkout/shipping'
+              }
+            })
           }
-          result.page = {
-            type: 'Checkout',
-            virtualPageURL: '/checkout/billing'
-          }
-        } else {
-          dataLayer.push({
-            checkout: {
+
+          break;
+        //填完地址
+        case 'deliveryAddr':
+          dataLayer[0].checkout.step = 3;
+          dataLayer[0].checkout.option = ''
+          if (isFirstLoad) {
+            const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+            result.checkout = {
               step: 3,
               option: 'shippingMethod'
-            },
-            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
-            page: {
+            }
+            result.page = {
               type: 'Checkout',
               virtualPageURL: '/checkout/billing'
             }
-          })
-        }
-        break;
-      //填完支付信息
-      case 'paymentMethod':
-        dataLayer[0].checkout.step = 4;
-        dataLayer[0].checkout.option = ''
-        if (isFirstLoad) {
-          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-          result.checkout = { step: 4, option: 'paymentMethod' }
-          result.page = {
-            type: 'Checkout',
-            virtualPageURL: '/checkout/placeOrder'
+          } else {
+            dataLayer.push({
+              checkout: {
+                step: 3,
+                option: 'shippingMethod'
+              },
+              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+              page: {
+                type: 'Checkout',
+                virtualPageURL: '/checkout/billing'
+              }
+            })
           }
-        } else {
-          dataLayer.push({
-            checkout: {
-              step: 4,
-              option: 'paymentMethod'
-            },
-            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
-            page: {
+          break;
+        //填完支付信息
+        case 'paymentMethod':
+          dataLayer[0].checkout.step = 4;
+          dataLayer[0].checkout.option = ''
+          if (isFirstLoad) {
+            const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+            result.checkout = { step: 4, option: 'paymentMethod' }
+            result.page = {
               type: 'Checkout',
               virtualPageURL: '/checkout/placeOrder'
             }
-          })
-        }
-        break;
+          } else {
+            dataLayer.push({
+              checkout: {
+                step: 4,
+                option: 'paymentMethod'
+              },
+              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+              page: {
+                type: 'Checkout',
+                virtualPageURL: '/checkout/placeOrder'
+              }
+            })
+          }
+          break;
+      }
     }
+
     this.updatePanelStatus(key, {
       isPrepare: false,
       isEdit: false,

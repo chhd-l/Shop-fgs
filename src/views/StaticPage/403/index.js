@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet';
 const pageLink = window.location.href
 const event = {
   page: {
-    type: 'other',
+    type: 'error',
     theme: '',
     path: location.pathname,
     error: '',
