@@ -490,7 +490,7 @@ class Details extends React.Component {
       .then((resList) => {
         const res = resList[0];
         if (res && res.context) {
-          const tmpGoodsDescriptionDetailList = res.context.goodsDescriptionDetailList || [];
+          const tmpGoodsDescriptionDetailList = (res.context.goodsDescriptionDetailList || []).sort((a, b) => a.sort - b.sort);
           this.setState({
             productRate: res.context.avgEvaluate,
             goodsDetailTab: {
@@ -501,7 +501,7 @@ class Details extends React.Component {
                 (g) => g.content
               )
             },
-            tabs: Array(tmpGoodsDescriptionDetailList.length).fill({ show: false })     
+            tabs: tmpGoodsDescriptionDetailList.map(t => ({ show: false }))    
           });
         }
         if (res && res.context && res.context.goods) {
