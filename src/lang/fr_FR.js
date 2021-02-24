@@ -1,5 +1,3 @@
-import React from 'react';
-
 const fr_FR = {
   aboutUs: 'À propos de nous',
   IVAIncluido: 'TVA incluse',
@@ -292,8 +290,8 @@ const fr_FR = {
   'footer.cookieCollectionPolicy': 'Pas encore traduit',
   'footer.cookies': 'Des biscuits',
   'footer.cookies2': 'Cookie Notice',
-  'footer.copyrightInfo': 'Copyright © Mars 2020®, marques de commerce de Mars Incorporated et de ses filiales',
-  'footer.copyrightInfo2': 'Copyright © Mars 2020',
+  'footer.copyrightInfo': 'Copyright © Mars 2021®, marques de commerce de Mars Incorporated et de ses filiales',
+  'footer.copyrightInfo2': 'Copyright © Mars 2021',
   'footer.copyrightInfo2_1': 'An Affiliate of Mars, Incorporated',
   'footer.email': 'Contactez-nous',
   'footer.FAQ': 'FAQ',
