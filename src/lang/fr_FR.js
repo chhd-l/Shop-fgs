@@ -317,10 +317,13 @@ const fr_FR = {
   'footer.products': 'ALIMENTS',
   'footer.qualityAndSafety': 'Qualité et sécurité alimentaire',
   'footer.termsOfService': "Conditions d'utilisation",
-  'footer.termsOfUse': 'Mentions légales',
   'footer.toTheTop': 'Retour au menu',
   'footer.websiteTermsOfUse': "Conditions d'utilisation du site Web",
   'footer.withdrawal': 'Droit de rétractation',
+
+  'footer.termsOfUse': 'Conditions d’Utilisation',
+  'footer.statutoryDeclaration': 'Mention Légales',
+
   forgetPassword: 'Mot de passe oublié?',
   'forgetPassword.back': 'Retour connexion',
   'forgetPassword.createNewPassword': 'Créer un nouveau mot de passe',

@@ -108,6 +108,7 @@ class LoginCart extends React.Component {
     })
   }
   async componentDidMount() {
+    console.log(1111,this.loginCartData)
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -137,6 +138,9 @@ class LoginCart extends React.Component {
     isHubGA && this.getComputedWeeks(this.state.frequencyList)
     isHubGA && this.GAInitialProductArray(this.checkoutStore.loginCartData)
     this.setData();
+  }
+  get loginCartData() {
+    return this.props.checkoutStore.loginCartData;
   }
   get checkoutStore() {
     return this.props.checkoutStore;
