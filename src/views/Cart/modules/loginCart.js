@@ -233,8 +233,8 @@ class LoginCart extends React.Component {
     dataLayer.push({
       'products': arr
     })
-    console.log({ dataLayer })
-    debugger
+    // console.log({ dataLayer })
+    // debugger
   }
   GACheckout(productList) {
     console.log(productList);
