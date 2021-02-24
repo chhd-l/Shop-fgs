@@ -963,8 +963,8 @@ class Payment extends React.Component {
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
       }
-      if (err.errorData && err.errorData.tid && err.errorData.tidList) {
-        // err.errorData 支付失败，errorData返回支付信息
+      if (err.errorData && err.errorData.tid && err.errorData.tidList && this.isLogin) {
+        // err.errorData 支付失败，errorData返回支付信息，只有会员才有repay
         sessionItemRoyal.set('rc-tid', err.errorData.tid);
         sessionItemRoyal.set('rc-rePaySubscribeId', err.errorData.subscribeId);
         sessionItemRoyal.set(

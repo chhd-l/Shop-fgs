@@ -1283,7 +1283,7 @@ class UnLoginCart extends React.Component {
     });
   };
   getCheckotBtn = () => {
-    const { checkoutLoading } = this.state;
+    const { checkoutLoading, mobileCartVisibleKey } = this.state;
     return (
       <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
         <div className="rc-padding-y--xs rc-column">
