@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { toJS } from "mobx"
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -37,6 +38,7 @@ const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5';
+const isHubGA = process.env.REACT_APP_HUB_GA
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -67,7 +69,8 @@ class LoginCart extends React.Component {
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
-      activeToolTipIndex: 0
+      activeToolTipIndex: 0,
+      calculatedWeeks: {}
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -75,6 +78,28 @@ class LoginCart extends React.Component {
     this.addQuantity = this.addQuantity.bind(this);
     this.subQuantity = this.subQuantity.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
+  }
+  //天-0周  周-value*1 月-value*4
+  getComputedWeeks(frequencyList) {
+    let calculatedWeeks = {}
+
+    frequencyList.forEach(item => {
+      switch (item.type) {
+        case 'Frequency_day':
+          calculatedWeeks[item.id] = 0
+          break;
+        case 'Frequency_week':
+          calculatedWeeks[item.id] = item.valueEn * 1
+          break;
+        case 'Frequency_month':
+          calculatedWeeks[item.id] = item.valueEn * 4
+          break;
+      }
+    })
+
+    this.setState({
+      calculatedWeeks
+    })
   }
   async componentDidMount() {
     console.log(1111,this.loginCartData)
@@ -102,6 +127,9 @@ class LoginCart extends React.Component {
       await mergeUnloginCartData();
       await this.checkoutStore.updateLoginCart();
     }
+    isHubGA && this.GACartScreenLoad()
+    isHubGA && this.getComputedWeeks(this.state.frequencyList)
+    isHubGA && this.GAInitialProductArray(this.checkoutStore.loginCartData)
     this.setData();
   }
   get loginCartData() {
@@ -164,6 +192,47 @@ class LoginCart extends React.Component {
     fn && fn();
     this.setData();
     this.setState({ checkoutLoading: false });
+  }
+  GACartScreenLoad() {
+    dataLayer.push({
+      'event': 'cartScreenLoad'
+    });
+  }
+  GAInitialProductArray(productList) {
+    console.log({ productList: JSON.stringify(toJS(productList)) });
+    let arr = []
+    for (let item of productList) {
+      let subscriptionFrequency = item.frequencyId ? this.state.calculatedWeeks[item.frequencyId] : ''
+      let range = item.goods.goodsCateName?.split("/")[1];
+      let technology = item.goods.goodsCateName?.split("/")[2]
+
+      arr.push({
+        'price': item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
+        'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
+        'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+        'name': item.goodsName, //WeShare product name, always in English
+        'mainItemCode': item.goods.goodsNo, //Main item code
+        'SKU':  item.goodsInfos[0].goodsInfoNo, //product SKU
+        'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
+        'technology': technology, //'Dry', 'Wet', 'Pack'
+        'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+        'size': item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+        'quantity': item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
+        'subscriptionFrequency': item.goodsInfoFlag == 1 ?subscriptionFrequency:'', //Frequency in weeks, to populate only if 'subscription' 
+
+        'recommendationID': '123456', //recommendation ID
+        //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
+        'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+
+        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
+        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+      })
+    }
+    dataLayer.push({
+      'products': arr
+    })
+    console.log({dataLayer})
+    debugger
   }
   GACheckout(productList) {
     console.log(productList);
