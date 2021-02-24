@@ -338,7 +338,8 @@ class Details extends React.Component {
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
       pageLink: '',
       barcode: '',
-      descContent: ''
+      descContent: '',
+      contactUs: '',
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -394,6 +395,19 @@ class Details extends React.Component {
       },
       () => this.queryDetails()
     );
+
+    const Fr = process.env.REACT_APP_LANG === 'fr';
+    const Ru = process.env.REACT_APP_LANG === 'ru';
+    let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
+    if(Fr) {
+      contactUs = 'https://www.royalcanin.com/fr/contact-us';
+    }else if(Ru) {
+      contactUs = 'https://www.royalcanin.com/ru/contact-us';
+    }
+
+    this.setState({
+      contactUs,
+    })
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -1875,7 +1889,6 @@ class Details extends React.Component {
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
     const De = process.env.REACT_APP_LANG === 'de';
-
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
     } 
@@ -2144,8 +2157,9 @@ class Details extends React.Component {
                                         <div>
                                           <FormattedMessage id="details.inStock" />
                                         </div>
-                                      </span>&nbsp;&nbsp;
-                                      <FormattedMessage id="details.shippedTime" />
+                                      </span>
+                                      {/* &nbsp;&nbsp;
+                                      <FormattedMessage id="details.shippedTime" /> */}
                                     </>
                                   ) : (
                                     <>
@@ -3047,7 +3061,7 @@ class Details extends React.Component {
                     <span className="rc-icon rc-contact rc-iconography rc-brand1" />
                   </div>
                   <div className="good-contact-email d-flex">
-                    <a href={`mailto:${configStore.storeContactEmail}`}>
+                    <a href={this.state.contactUs}>
                       <FormattedMessage id="detail.email" />
                     </a>
                     <span className="rc-icon rc-email rc-iconography rc-brand1"></span>

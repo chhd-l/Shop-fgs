@@ -485,7 +485,7 @@ const App = () => (
               />
               <Route
                 exact
-                path="/:id"
+                path="/details/:id"
                 render={(props) => (
                   <Details key={props.match.params.id} {...props} />
                 )}

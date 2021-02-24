@@ -363,13 +363,11 @@ function ListItemBodyH5ForFr({ item }) {
       </div>
       <div className="product-price">
         {item.toPrice ? (
-          <>
-            <span className="mr-1" style={{ fontSize: '.8em' }}>
-              <FormattedMessage id="startFrom" />
-            </span>
-            {formatMoney(item.fromPrice)}
-          </>
+          <span className="mr-1" style={{ fontSize: '.8em' }}>
+            <FormattedMessage id="startFrom" />
+          </span>
         ) : null}
+        {item.fromPrice ? formatMoney(item.fromPrice) : null}
         {item.toPrice ? (
           <>
             <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
@@ -512,14 +510,11 @@ function ListItemBody({ item, headingTag }) {
                   className="value sales"
                 >
                   {item.toPrice ? (
-                    <>
-                      <span className="mr-1" style={{ fontSize: '.8em' }}>
-                        <FormattedMessage id="startFrom" />
-                      </span>
-                      {formatMoney(item.fromPrice)}
-                    </>
+                    <span className="mr-1" style={{ fontSize: '.8em' }}>
+                      <FormattedMessage id="startFrom" />
+                    </span>
                   ) : null}
-
+                  {item.fromPrice ? formatMoney(item.fromPrice) : null}
                   {item.toPrice ? (
                     <>
                       <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
@@ -654,6 +649,7 @@ class List extends React.Component {
     const isVetProducts = isHub && location.pathname.includes('vet_products');
     const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail_products`;
     const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet_products`;
+    const showSmartFeeder = isDog && isHub;
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -705,7 +701,8 @@ class List extends React.Component {
       isVetProducts,
       retailProductLink,
       vetProductLink,
-      pageLink: ''
+      pageLink: '',
+      showSmartFeeder,
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -1974,6 +1971,18 @@ class List extends React.Component {
                           }
                         />
                       )}
+                      {this.state.showSmartFeeder ? <div className="smart-feeder-container">
+                        <p>Smart Feeder Subscription</p>
+                        <p>A bundle offer of your dog food paired with a dispenser</p>
+                        <a
+                          href="https://www.consignesdetri.fr/"
+                          className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          style={{ minWidth: '110px' }}
+                        >
+                          {/* <FormattedMessage id="learnMore" /> */}
+                          See the offer
+                        </a>
+                      </div> : null}
                     </aside>
                   </div>
                   <div
