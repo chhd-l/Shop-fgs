@@ -187,7 +187,6 @@ class UnLoginCart extends React.Component {
     });
   }
   GAInitialProductArray(productList) {
-    console.log({ productList: JSON.stringify(toJS(productList)) });
     let arr = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
@@ -223,6 +222,9 @@ class UnLoginCart extends React.Component {
     dataLayer.push({
       'products': arr
     })
+
+    console.log({dataLayer})
+    debugger
   }
   GACheckUnLogin(productList) {
     let product = [],
