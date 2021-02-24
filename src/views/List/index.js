@@ -708,6 +708,7 @@ class List extends React.Component {
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
@@ -863,6 +864,48 @@ class List extends React.Component {
       }
     });
   }
+
+  // hub商品列表 埋点
+  hubGAProductImpression(productList, totalElements, keywords) {
+
+    const products = productList.map((item, index) => {
+      const {minMarketPrice,goodsCate,goodsNo, goodsInfos,goodsBrand,goodsName } = item;
+      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      const recommendationID = this.props.clinicStore?.linkClinicId || '';
+      return {
+        price: minMarketPrice,
+        specie,
+        range:'',//需要后端加
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        recommendationID, //todo:接口添加返回
+        technology: '',//需要后端加
+        brand: 'Royal Canin',
+        size:'',//需要后端加
+        breed: '',//todo:接口添加返回
+        promoCodeName: '', //todo:接口添加返回
+        // promoCodeAmount: '', //促销金额 拿不到
+      };
+    });
+
+    if (dataLayer[0] && dataLayer[0].search) {
+      dataLayer[0].search.query = keywords;
+      dataLayer[0].search.results = totalElements;
+      dataLayer[0].search.type = 'with results';
+    }
+
+    dataLayer.push({
+      event: 'plpScreenLoad',
+      plpScreenLoad: {
+        nbResults: totalElements,
+        userRequest: keywords || ''
+      },
+      products
+    });
+  }
+
   toggleFilterModal(status) {
     this.setState({ filterModalVisible: status });
   }
@@ -1543,7 +1586,11 @@ class List extends React.Component {
               totalPage: esGoods.totalPages
             },
             () => {
-              this.GAProductImpression(
+              this.hubGA ? this.hubGAProductImpression(
+                this.state.productList,
+                totalElements,
+                keywords
+              ) : this.GAProductImpression(
                 this.state.productList,
                 totalElements,
                 keywords
