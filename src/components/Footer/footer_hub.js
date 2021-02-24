@@ -49,11 +49,12 @@ class FooterHub extends React.Component {
     const { isLogin, history } = this.props;
     const { languagePopVisible } = this.state;
     const {
-      localMarketSettings: { contactUsUrl, contactPhone },
-      menuGroups,
-      menuInfoItems,
-      menuItems
+      LocalMarketSettings: { ContactUsUrl, ContactPhone },
+      MenuGroups,
+      MenuInfoItems,
+      MenuItems
     } = this.state.footerInfo;
+  
     return (
       <>
         <footer className="rc-bg-colour--interface-dark" id="footer">
@@ -63,28 +64,28 @@ class FooterHub extends React.Component {
               <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
                 {isLogin ? (
                   <a
-                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3"
+                    className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${MenuItems[0].ICON}--xs rc-brand3`}
                     role="menuitem"
-                    href={`${menuItems[0].link.url}`}
+                    href={`${MenuItems[0].Link.Url}`}
                   >
-                    {menuItems[0].link.text}
+                    {MenuItems[0].Link.Text}
                   </a>
                 ) : (
                   <LoginButton
-                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3"
+                    className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${MenuItems[0].ICON}--xs rc-brand3`}
                     history={history}
                   >
-                    {menuItems[0].link.text}
+                    {MenuItems[0].Link.Text}
                   </LoginButton>
                 )}
 
                 <a
-                  className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-cart--xs rc-brand3"
+                  className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3`}
                   role="menuitem"
-                  href={menuItems[1].link.url}
+                  href={MenuItems[1].Link.Url}
                   style={{ color: '#fff' }}
                 >
-                  {menuItems[1].link.text}
+                  {MenuItems[1].Link.Text}
                 </a>
                 <span
                   className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3"
@@ -122,7 +123,7 @@ class FooterHub extends React.Component {
                     className="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
                     role="menubar"
                   >
-                    {menuGroups.map((item, index) => {
+                    {MenuGroups.map((item, index) => {
                       return (
                         <li
                           className="rc-list__item rc-list__item--group"
@@ -134,8 +135,8 @@ class FooterHub extends React.Component {
                             data-toggle={`nav-footer-list-${index}`}
                             id={`nav-footer-${index}`}
                           >
-                            <a href={item.link.url} className="color-f6f6f6">
-                              {item.link.text}
+                            <a href={item.Link.Url} className="color-f6f6f6">
+                              {item.Link.Text}
                             </a>
                           </h3>
                           <ul
@@ -144,18 +145,18 @@ class FooterHub extends React.Component {
                             id={`nav-footer-list-${index}`}
                             aria-labelledby={`nav-footer-${index}`}
                           >
-                            {item.menuItems
-                              ? item.menuItems.map((listItem, i) => {
+                            {item.MenuItems
+                              ? item.MenuItems.map((listItem, i) => {
                                   return (
                                     <li className="rc-list__item" key={i}>
                                       <a
                                         className="rc-list__link text-decoration-none color-f6f6f6"
-                                        href={listItem.link.url}
+                                        href={listItem.Link.Url}
                                         target="_blank"
                                         role="menuitem"
                                         rel="nofollow"
                                       >
-                                        {listItem.link.text}
+                                        {listItem.Link.Text}
                                       </a>
                                     </li>
                                   );
@@ -178,19 +179,19 @@ class FooterHub extends React.Component {
                     className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3"
                     role="menuitem"
                     style={{ marginLeft: '-.8rem' }}
-                    href={`${menuItems[0].link.url}`}
+                    href={`${MenuItems[0].Link.Url}`}
                   >
-                    {menuItems[0].link.text}
+                    {MenuItems[0].Link.Text}
                   </a>
                 </div>
                 <div>
                   <a
                     className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-cart--xs rc-brand3"
                     role="menuitem"
-                    href={menuItems[1].link.url}
+                    href={MenuItems[1].Link.Url}
                     style={{ marginLeft: '-.8rem' }}
                   >
-                    {menuItems[1].link.text}
+                    {MenuItems[1].Link.Text}
                   </a>
                 </div>
                 <div>
@@ -221,10 +222,10 @@ class FooterHub extends React.Component {
             <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
               <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
                 <p className="rc-espilon rc-text--inverse">
-                  {menuInfoItems[0].title}
+                  {MenuInfoItems[0].Title}
                 </p>
                 <div className="rc-text--inverse">
-                  <p>{menuInfoItems[0].content}</p>
+                  <p>{MenuInfoItems[0].Content}</p>
                 </div>
               </div>
             </div>
@@ -235,17 +236,17 @@ class FooterHub extends React.Component {
                   <a
                     className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
                     role="menuitem"
-                    href={`tel:${contactPhone}`}
+                    href={`tel:${ContactPhone}`}
                   >
-                    {contactPhone}
+                    {ContactPhone}
                   </a>
                   <a
                     className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
                     role="menuitem"
-                    href={contactUsUrl.url}
+                    href={ContactUsUrl.Url}
                     style={{ color: '#fff' }}
                   >
-                    {contactUsUrl.text}
+                    {ContactUsUrl.Text}
                   </a>
                 </div>
               )}

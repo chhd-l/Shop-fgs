@@ -1,204 +1,242 @@
 export default {
   data: {
-    menuItems: [
+    "MenuItems": [
       {
-        icon: 'User',
-        link: {
-          url: 'https://uatwedding.royalcanin.com/fr/shop/account',
-          text: 'My information'
-        }
+        "Icon": "bag",
+        "Link": {
+          "Url": "https://stage-sitecorerc-cd.mars.com/fr/where-to-buy",
+          "Text": "Où acheter"
+        },
+        "Type": "MenuItem"
       },
       {
-        icon: 'Cart',
-        link: {
-          url: 'https://uatwedding.royalcanin.com/fr/shop/cart',
-          text: 'My Cart'
-        }
+        "Icon": "user",
+        "Link": {
+          "Url": "https://mon.royalcanin.fr/connexion/",
+          "Text": "Mon Royal Canin"
+        },
+        "Type": "MenuItem"
       }
     ],
-    menuInfoItems: [
+    "MenuInfoItems": [
       {
-        title: 'Nous contacter',
-        content:
-          'Du lundi au vendredi de 8 h 30 à 19 h et le samedi de 9 h à 13 h. Les appels sont gratuits depuis un poste fixe.',
-        image: {
-          url: '',
-          srcset: '',
-          altText: ''
-        }
+        "Title": "Nous contacter",
+        "Content": "Du lundi auuuu vendredi de 8 h 30 à 19 h et le samedi de 9 h à 13 h. Les appels sont gratuits depuis un poste fixe.",
+        "Image": {
+          "Url": "",
+          "AltText": ""
+        },
+        "Type": "MenuInfoItem"
       }
     ],
-    menuGroups: [
+    "MenuGroups": [
       {
-        type: 'MenuGroup',
-        link: {
-          url: 'https://www.royalcanin.com/fr/cats',
-          text: 'Chats'
+        "Link": {
+          "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats",
+          "Text": "chats"
         },
-        menuItems: [
+        "MenuItems": [
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/cats/breeds',
-              text: 'Races'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/products",
+              "Text": "Aliments"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url:
-                'https://www.royalcanin.com/fr/cats/thinking-of-getting-a-cat',
-              text: "Vous envisagez d'adopter un chat"
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/breeds",
+              "Text": "Races"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/cats/kitten',
-              text: 'Chaton'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/thinking-of-getting-a-cat",
+              "Text": "Vous envisagez d'adopter un chat"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/cats/health-and-wellbeing',
-              text: 'Santé et bien-être'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/kitten",
+              "Text": "Kitten"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/cats/products',
-              text: 'Aliments'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/cats/health-and-wellbeing",
+              "Text": "Santé et bien-être"
+            },
+            "Type": "MenuItem"
+          },
+          {
+            "Icon": "",
+            "Link": {
+              "Url": "",
+              "Text": "Promotions Chat"
+            },
+            "Type": "MenuItem"
           }
-        ]
+        ],
+        "Type": "MenuGroup"
       },
       {
-        type: 'MenuGroup',
-        link: {
-          url: 'https://www.royalcanin.com/fr/dogs',
-          text: 'Chiens'
+        "Link": {
+          "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs",
+          "Text": "Chiens"
         },
-        menuItems: [
+        "MenuItems": [
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/dogs/breeds',
-              text: 'Races'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/products",
+              "Text": "Aliments"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url:
-                'https://www.royalcanin.com/fr/dogs/thinking-of-getting-a-dog',
-              text: "Vous envisagez d'adopter un chien"
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/breeds",
+              "Text": "Races"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/dogs/puppy',
-              text: 'Chaton'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/thinking-of-getting-a-dog",
+              "Text": "Vous envisagez d'adopter un chien"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/dogs/health-and-wellbeing',
-              text: 'Santé et bien-être'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/puppy",
+              "Text": "Chiot"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/dogs/products',
-              text: 'Aliments'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/dogs/health-and-wellbeing",
+              "Text": "Santé et bien-être"
+            },
+            "Type": "MenuItem"
+          },
+          {
+            "Icon": "bag",
+            "Link": {
+              "Url": "",
+              "Text": "Promotions Chien"
+            },
+            "Type": "MenuItem"
           }
-        ]
+        ],
+        "Type": "MenuGroup"
       },
       {
-        type: 'MenuGroup',
-        link: {
-          url: 'https://www.royalcanin.com/fr/tailored-nutrition',
-          text: 'Alimentation sur mesure'
+        "Link": {
+          "Url": "https://stage-sitecorerc-cd.mars.com/fr/tailored-nutrition",
+          "Text": "Alimentation sur mesure"
         },
-        menuItems: null
+        "MenuItems": [],
+        "Type": "MenuGroup"
       },
       {
-        type: 'MenuGroup',
-        link: {
-          url: 'https://www.royalcanin.com/fr/about-us',
-          text: 'À propos de nous'
+        "Link": {
+          "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us",
+          "Text": "À propos de nous"
         },
-        menuItems: [
+        "MenuItems": [
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/about-us/our-history',
-              text: 'Notre histoire'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/our-history",
+              "Text": "Notre histoire"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/about-us/our-values',
-              text: 'Nos valeurs'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/our-values",
+              "Text": "Nos valeurs"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/about-us/sustainability',
-              text: 'Développement durable'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/sustainability",
+              "Text": "Développement durable"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url:
-                'https://www.royalcanin.com/fr/about-us/quality-and-food-safety',
-              text: 'Qualité et sécurité alimentaire'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/quality-and-food-safety",
+              "Text": "Qualité et sécurité alimentaire"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/about-us/news',
-              text: 'Actualités'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/informations-consommateurs",
+              "Text": "Informations consommateurs"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/about-us/espace-partenaire',
-              text: 'Espace Partenaire'
-            }
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/news",
+              "Text": "Actualités"
+            },
+            "Type": "MenuItem"
           },
           {
-            icon: '',
-            link: {
-              url: 'https://www.royalcanin.com/fr/about-us/faqs',
-              text: 'FAQ'
-            }
+            "Icon": "bag",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/espace-partenaire",
+              "Text": "Espace Partenaire"
+            },
+            "Type": "MenuItem"
+          },
+          {
+            "Icon": "",
+            "Link": {
+              "Url": "https://stage-sitecorerc-cd.mars.com/fr/about-us/faqs",
+              "Text": "FAQ"
+            },
+            "Type": "MenuItem"
           }
-        ]
+        ],
+        "Type": "MenuGroup"
       }
     ],
-    localMarketSettings: {
-      contactUsUrl: {
-        url: 'https://www.royalcanin.com/fr/contact-us',
-        text: 'Nous contacter'
+    "LocalMarketSettings": {
+      "ContactUsUrl": {
+        "Url": "https://stage-sitecorerc-cd.mars.com/fr/contact-us",
+        "Text": "Nous contacter"
       },
-      enableWeChat: false,
-      weChatQrCode: {
-        url: '',
-        srcset: '',
-        altText: ''
+      "EnableWeChat": false,
+      "WeChatQrCode": {
+        "Url": null,
+        "AltText": ""
       },
-      contactPhone: 'Numéro vert: 0 800 41 51 61'
+      "ContactPhone": "+33 4 66 73 03 00"
     }
   }
 };
