@@ -83,6 +83,30 @@ class GoogleTagManager extends React.Component {
   }
 
   componentDidMount() {
+    // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
+
+    let hubEvent = {
+      site: {
+        country: process.env.REACT_APP_GA_COUNTRY,
+        environment: process.env.REACT_APP_GA_ENV,
+        id: process.env.REACT_APP_GTM_SITE_ID,
+      },
+      page: {
+        type: '',
+        theme: '',
+        globalURI: ''
+      },
+      search: {
+        query: '',
+        results: '',
+        type: ''
+      },
+      pet: {
+        specieID:'',
+        breedName: ''
+      },
+    };
+
     let event = {
       page: {},
       site: {
@@ -119,6 +143,13 @@ class GoogleTagManager extends React.Component {
         frequency: 'returning client',
         accountType: 'internal'
       };
+
+      hubEvent.user = {
+        segment: 'Authenticated',
+        country: process.env.REACT_APP_GA_COUNTRY,
+        id: userInfo.customerId,
+      }
+
     } else {
       event.user = {
         authentificationStatus: 'not authenticated',
@@ -126,6 +157,12 @@ class GoogleTagManager extends React.Component {
         id: '',
         locale: '',
         frequency: 'prospect'
+      };
+
+      hubEvent.user = {
+        segment: 'Not Authenticated',
+        country: process.env.REACT_APP_GA_COUNTRY,
+        id: '',
       };
     }
     (event.user.country = process.env.REACT_APP_GA_COUNTRY)
@@ -135,6 +172,15 @@ class GoogleTagManager extends React.Component {
       event,
       this.props.additionalEvents
     );
+
+    let  hubAdditionalEvents = Object.assign(
+      {},
+      hubEvent,
+      this.props.hubAdditionalEvents
+    );
+
+    let hubGa = process.env.REACT_APP_HUB_GA  == '1'
+    
 
     loadJS({
       code: `window.dataLayer = window.dataLayer || [];
