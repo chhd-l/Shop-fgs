@@ -228,6 +228,7 @@ const fr_FR = {
   'deliveryStatus.PART_SHIPPED': 'partiellement expédié',
   'deliveryStatus.SHIPPED': 'expédié',
   'deliveryStatus.VOID': 'En cours de livraison',
+  estimatedTax:`Montant estimatif de l'impôt`,
   detail: '[Montre plus]',
   'details.addToCart': 'Ajouter au panier',
   'details.availability': 'Statut',

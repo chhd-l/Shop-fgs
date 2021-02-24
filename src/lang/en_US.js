@@ -220,6 +220,7 @@ const en_US = {
   'deliveryStatus.PART_SHIPPED': 'Partially shipped',
   'deliveryStatus.SHIPPED': 'All shipped',
   'deliveryStatus.VOID': 'To be delivered',
+  estimatedTax:'Estimated Tax',
   detail: '[Show more]',
   'details.addToCart': 'Add to Cart',
   'details.availability': 'Availability',

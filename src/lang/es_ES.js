@@ -212,6 +212,7 @@ const es_ES = {
   'deliveryStatus.PART_SHIPPED': 'Parcialmente Enviado',
   'deliveryStatus.SHIPPED': 'Todo enviado',
   'deliveryStatus.VOID': 'Para ser entregado',
+  estimatedTax:'Importe estimado del impuesto',
   'details.addToCart': 'Añadir al carrito',
   'details.availability': 'Disponibilidad',
   'details.beneficialFeatures': 'Características beneficiosas',

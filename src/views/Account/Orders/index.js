@@ -196,14 +196,14 @@ class AccountOrders extends React.Component {
               tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
               tradeState.payState === 'NOT_PAID' &&
               new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
+              new Date(res.defaultLocalDateTime).getTime() &&
               (!ele.payWay || ele.payWay.toUpperCase() !== 'OXXO'),
             showOXXOExpireTime:
               tradeState.flowState === 'AUDIT' &&
               tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
               tradeState.payState === 'NOT_PAID' &&
               new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
+              new Date(res.defaultLocalDateTime).getTime() &&
               ele.payWay &&
               ele.payWay.toUpperCase() === 'OXXO',
             payNowLoading: false,
@@ -407,9 +407,8 @@ class AccountOrders extends React.Component {
     const token =
       sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
     let result = JSON.stringify({ ...params, token: 'Bearer ' + token });
-    const exportHref = `${
-      process.env.REACT_APP_BASEURL
-    }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
+    const exportHref = `${process.env.REACT_APP_BASEURL
+      }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
 
     window.open(exportHref);
   }
@@ -425,9 +424,8 @@ class AccountOrders extends React.Component {
             />
             <br />
             <button
-              className={`rc-btn rc-btn--one ord-list-operation-btn ${
-                order.payNowLoading ? 'ui-btn-loading' : ''
-              }`}
+              className={`rc-btn rc-btn--one ord-list-operation-btn ${order.payNowLoading ? 'ui-btn-loading' : ''
+                }`}
               onClick={this.handleClickPayNow.bind(this, order)}
             >
               <FormattedMessage id="order.payNow" />
@@ -452,11 +450,10 @@ class AccountOrders extends React.Component {
         ) : null}
         {order.canRePurchase ? (
           <button
-            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${
-              order.addToCartLoading
+            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${order.addToCartLoading
                 ? 'ui-btn-loading ui-btn-loading-border-red'
                 : ''
-            }`}
+              }`}
             onClick={this.rePurchase.bind(this, order)}
           >
             <FormattedMessage id="rePurchase" />
@@ -468,27 +465,27 @@ class AccountOrders extends React.Component {
               {(txt) => (
                 <>
                   {order.tradeDelivers[0] &&
-                  order.tradeDelivers[0].trackingUrl ? (
-                    <a
-                      className="text-white"
-                      href={order.tradeDelivers[0].trackingUrl}
-                      target="_blank"
-                      rel="nofollow"
-                      title={txt}
-                      alt={txt}
-                    >
-                      {txt}
-                    </a>
-                  ) : (
-                    <Link
-                      className="text-white"
-                      to={`/account/orders/detail/${order.id}`}
-                      title={txt}
-                      alt={txt}
-                    >
-                      {txt}
-                    </Link>
-                  )}
+                    order.tradeDelivers[0].trackingUrl ? (
+                      <a
+                        className="text-white"
+                        href={order.tradeDelivers[0].trackingUrl}
+                        target="_blank"
+                        rel="nofollow"
+                        title={txt}
+                        alt={txt}
+                      >
+                        {txt}
+                      </a>
+                    ) : (
+                      <Link
+                        className="text-white"
+                        to={`/account/orders/detail/${order.id}`}
+                        title={txt}
+                        alt={txt}
+                      >
+                        {txt}
+                      </Link>
+                    )}
                 </>
               )}
             </FormattedMessage>
@@ -544,9 +541,8 @@ class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 pr-md-3 pl-md-3 ${
-                  showOneOrderDetail ? 'hidden' : ''
-                }`}
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 pr-md-3 pl-md-3 ${showOneOrderDetail ? 'hidden' : ''
+                  }`}
               >
                 {this.state.initLoading ? (
                   <div className="mt-4">
@@ -586,346 +582,347 @@ class AccountOrders extends React.Component {
                     </div>
                   </>
                 ) : (
-                  <>
-                    <div className="row mb-3 ml-2 m-md-0">
-                      <div className="col-12 rc-md-down">
-                        <Link to="/account">
-                          <span className="red">&lt;</span>
-                          <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                            <FormattedMessage id="home" />
-                          </span>
-                        </Link>
-                      </div>
-                      <div className="col-12 order-1 order-md-0 col-md-8 rc-fade--x">
-                        <ul
-                          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-border-bottom rc-border-colour--interface"
-                          role="tablist"
-                        >
-                          {this.state.tabNames.map((ele, index) => (
-                            <li key={index}>
-                              <button
-                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0 font-weight-normal"
-                                data-toggle={`tab__panel-${index}`}
-                                aria-selected={
-                                  activeTabIdx === index ? 'true' : 'false'
-                                }
-                                role="tab"
-                                onClick={this.changeTab.bind(this, index)}
+                        <>
+                          <div className="row mb-3 ml-2 m-md-0">
+                            <div className="col-12 rc-md-down">
+                              <Link to="/account">
+                                <span className="red">&lt;</span>
+                                <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                                  <FormattedMessage id="home" />
+                                </span>
+                              </Link>
+                            </div>
+                            
+                            <div className="col-12 order-1 order-md-0 col-md-8 rc-fade--x">
+                              <ul
+                                className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-border-bottom rc-border-colour--interface"
+                                role="tablist"
                               >
-                                {ele}
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="col-10 order-0 order-md-1 col-md-4">
-                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
-                          <Selection
-                            optionList={duringTimeOptions}
-                            selectedItemChange={this.handleDuringTimeChange}
-                            selectedItemData={{
-                              value: this.state.form.period
-                            }}
-                            key={this.state.form.period}
-                            // customStyleType="select-one"
-                            customInnerStyle={{
-                              paddingTop: '.7em',
-                              paddingBottom: '.7em'
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                                {this.state.tabNames.map((ele, index) => (
+                                  <li key={index}>
+                                    <button
+                                      className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0 font-weight-normal"
+                                      data-toggle={`tab__panel-${index}`}
+                                      aria-selected={
+                                        activeTabIdx === index ? 'true' : 'false'
+                                      }
+                                      role="tab"
+                                      onClick={this.changeTab.bind(this, index)}
+                                    >
+                                      {ele}
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
 
-                    <div className="order__listing">
-                      <div className="order-list-container">
-                        {this.state.loading ? (
-                          <div className="mt-4">
-                            <Skeleton
-                              color="#f5f5f5"
-                              width="100%"
-                              height="50%"
-                              count={4}
-                            />
+                            <div className="col-10 order-0 order-md-1 col-md-4">
+                              <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
+                                <Selection
+                                  optionList={duringTimeOptions}
+                                  selectedItemChange={this.handleDuringTimeChange}
+                                  selectedItemData={{
+                                    value: this.state.form.period
+                                  }}
+                                  key={this.state.form.period}
+                                  // customStyleType="select-one"
+                                  customInnerStyle={{
+                                    paddingTop: '.7em',
+                                    paddingBottom: '.7em'
+                                  }}
+                                />
+                              </div>
+                            </div>
                           </div>
-                        ) : this.state.tabErrMsg ? (
-                          <div className="text-center mt-5">
-                            <span className="rc-icon rc-incompatible--xs rc-iconography" />
-                            {this.state.tabErrMsg}
-                          </div>
-                        ) : orderList.length ? (
-                          <>
-                            {orderList.map((order) => (
-                              <div
-                                className="card-container"
-                                style={{
-                                  paddingBottom:
-                                    this.deviceType === 'H5' ? '20px' : '0'
-                                }}
-                                key={order.id}
-                                onClick={this.handleClickCardItem.bind(
-                                  this,
-                                  order
-                                )}
-                              >
-                                <div className="card rc-margin-y--none ml-0">
-                                  <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up">
-                                    <div className="col-12 col-md-3">
-                                      <p>
-                                        <FormattedMessage id="order.orderPlacedOn" />
-                                        <br className="d-none d-md-block" />
-                                        <span className="medium orderHeaderTextColor">
-                                          {getFormatDate(
-                                            order.tradeState.createTime.substr(
-                                              0,
-                                              10
-                                            )
-                                          )}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-12 col-md-3 mb-2 mb-md-0">
-                                      <p className="text-nowrap">
-                                        <FormattedMessage id="order.orderNumber" />
-                                        <br className="d-none d-md-block" />
-                                        <span className="medium orderHeaderTextColor">
-                                          {order.id}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-12 col-md-2">
-                                      <p>
-                                        <FormattedMessage id="total" />
-                                        <br className="d-none d-md-block" />
-                                        <span className="medium orderHeaderTextColor">
-                                          {formatMoney(
-                                            order.tradePrice.totalPrice
-                                          )}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-12 col-md-2">
-                                      {order.tradeState.deliverStatus ===
-                                        'SHIPPED' && (
+
+                          <div className="order__listing">
+                            <div className="order-list-container">
+                              {this.state.loading ? (
+                                <div className="mt-4">
+                                  <Skeleton
+                                    color="#f5f5f5"
+                                    width="100%"
+                                    height="50%"
+                                    count={4}
+                                  />
+                                </div>
+                              ) : this.state.tabErrMsg ? (
+                                <div className="text-center mt-5">
+                                  <span className="rc-icon rc-incompatible--xs rc-iconography" />
+                                  {this.state.tabErrMsg}
+                                </div>
+                              ) : orderList.length ? (
+                                <>
+                                  {orderList.map((order) => (
+                                    <div
+                                      className="card-container"
+                                      style={{
+                                        paddingBottom:
+                                          this.deviceType === 'H5' ? '20px' : '0'
+                                      }}
+                                      key={order.id}
+                                      onClick={this.handleClickCardItem.bind(
+                                        this,
+                                        order
+                                      )}
+                                    >
+                                      <div className="card rc-margin-y--none ml-0">
+                                        <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up">
+                                          <div className="col-12 col-md-3">
+                                            <p>
+                                              <FormattedMessage id="order.orderPlacedOn" />
+                                              <br className="d-none d-md-block" />
+                                              <span className="medium orderHeaderTextColor">
+                                                {getFormatDate(
+                                                  order.tradeState.createTime.substr(
+                                                    0,
+                                                    10
+                                                  )
+                                                )}
+                                              </span>
+                                            </p>
+                                          </div>
+                                          <div className="col-12 col-md-3 mb-2 mb-md-0">
+                                            <p className="text-nowrap">
+                                              <FormattedMessage id="order.orderNumber" />
+                                              <br className="d-none d-md-block" />
+                                              <span className="medium orderHeaderTextColor">
+                                                {order.id}
+                                              </span>
+                                            </p>
+                                          </div>
+                                          <div className="col-12 col-md-2">
+                                            <p>
+                                              <FormattedMessage id="total" />
+                                              <br className="d-none d-md-block" />
+                                              <span className="medium orderHeaderTextColor">
+                                                {formatMoney(
+                                                  order.tradePrice.totalPrice
+                                                )}
+                                              </span>
+                                            </p>
+                                          </div>
+                                          <div className="col-12 col-md-2">
+                                            {order.tradeState.deliverStatus ===
+                                              'SHIPPED' && (
+                                                <div
+                                                  onClick={this.handleDownInvoice.bind(
+                                                    this,
+                                                    order
+                                                  )}
+                                                  className="text-nowrap"
+                                                >
+                                                  <span className="rc-icon rc-pdf--xs rc-iconography" />
+                                                  <FormattedMessage id="invoice">
+                                                    {(txt) => (
+                                                      <span
+                                                        className="medium pull-right--desktop rc-styled-link text-wrap"
+                                                        title={txt}
+                                                      >
+                                                        {txt}
+                                                      </span>
+                                                    )}
+                                                  </FormattedMessage>
+                                                </div>
+                                              )}
+                                          </div>
+                                          <div className="col-12 col-md-2 text-nowrap">
+                                            <FormattedMessage id="order.orderDetails">
+                                              {(txt) => (
+                                                <Link
+                                                  className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap"
+                                                  to={`/account/orders/detail/${order.id}`}
+                                                >
+                                                  <span
+                                                    className="medium pull-right--desktop rc-styled-link"
+                                                    title={txt}
+                                                  >
+                                                    {txt}
+                                                  </span>
+                                                </Link>
+                                              )}
+                                            </FormattedMessage>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        className="row mb-3 mt-3 align-items-center m-0"
+                                        style={{ position: 'relative' }}
+                                      >
                                         <div
-                                          onClick={this.handleDownInvoice.bind(
-                                            this,
-                                            order
-                                          )}
-                                          className="text-nowrap"
+                                          className="rc-md-down"
+                                          style={{
+                                            position: 'absolute',
+                                            right: '15px',
+                                            bottom: '-20px'
+                                          }}
                                         >
-                                          <span className="rc-icon rc-pdf--xs rc-iconography" />
-                                          <FormattedMessage id="invoice">
-                                            {(txt) => (
+                                          {order.tradeState.deliverStatus ===
+                                            'SHIPPED' && (
                                               <span
-                                                className="medium pull-right--desktop rc-styled-link text-wrap"
-                                                title={txt}
+                                                className="rc-styled-link"
+                                                onClick={this.handleDownInvoice.bind(
+                                                  this,
+                                                  order
+                                                )}
                                               >
-                                                {txt}
+                                                <FormattedMessage id="invoice" />
                                               </span>
                                             )}
-                                          </FormattedMessage>
                                         </div>
-                                      )}
-                                    </div>
-                                    <div className="col-12 col-md-2 text-nowrap">
-                                      <FormattedMessage id="order.orderDetails">
-                                        {(txt) => (
-                                          <Link
-                                            className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap"
-                                            to={`/account/orders/detail/${order.id}`}
-                                          >
-                                            <span
-                                              className="medium pull-right--desktop rc-styled-link"
-                                              title={txt}
-                                            >
-                                              {txt}
-                                            </span>
-                                          </Link>
-                                        )}
-                                      </FormattedMessage>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div
-                                  className="row mb-3 mt-3 align-items-center m-0"
-                                  style={{ position: 'relative' }}
-                                >
-                                  <div
-                                    className="rc-md-down"
-                                    style={{
-                                      position: 'absolute',
-                                      right: '15px',
-                                      bottom: '-20px'
-                                    }}
-                                  >
-                                    {order.tradeState.deliverStatus ===
-                                      'SHIPPED' && (
-                                      <span
-                                        className="rc-styled-link"
-                                        onClick={this.handleDownInvoice.bind(
-                                          this,
-                                          order
-                                        )}
-                                      >
-                                        <FormattedMessage id="invoice" />
-                                      </span>
-                                    )}
-                                  </div>
-                                  {/* 订单发货tip */}
-                                  {((order.tradeState.payState === 'PAID' &&
-                                    order.tradeState.auditState === 'CHECKED' &&
-                                    order.tradeState.deliverStatus ===
-                                      'SHIPPED' &&
-                                    order.tradeState.flowState ===
-                                      'DELIVERED') ||
-                                    (order.tradeState.deliverStatus ===
-                                      'PART_SHIPPED' &&
-                                      order.tradeState.flowState ===
-                                        'DELIVERED_PART')) && (
-                                    <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
-                                      <p className="medium mb-0 color-444">
-                                        <FormattedMessage id="deliveredTip" />
-                                      </p>
-                                      <p className="green">
-                                        <FormattedMessage id="inTransit" />
-                                      </p>
-                                    </div>
-                                  )}
-                                  {/* 订单完成tip */}
-                                  {order.tradeState.flowState === 'COMPLETED' &&
-                                  !order.storeEvaluateVO &&
-                                  order.tradeEventLogs[0] &&
-                                  order.tradeEventLogs[0].eventType ===
-                                    'COMPLETED' ? (
-                                    <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
-                                      <p className="medium mb-0 color-444">
-                                        <FormattedMessage id="orderStatus.COMPLETED" />
-                                        :{' '}
-                                        {order.tradeEventLogs[0].eventTime.substr(
-                                          0,
-                                          10
-                                        )}
-                                      </p>
-                                      <p>
-                                        <FormattedMessage id="order.completeTip" />
-                                      </p>
-                                    </div>
-                                  ) : null}
-                                  <div className="col-10 col-md-9">
-                                    {order.tradeItems.map((item, idx) => (
-                                      <div
-                                        className={`row rc-margin-x--none align-items-center ${
-                                          idx ? 'mt-2' : ''
-                                        }`}
-                                        key={item.oid}
-                                      >
-                                        <div className="col-4 col-md-2 d-flex justify-content-md-center">
-                                          <LazyLoad>
-                                            <img
-                                              className="ord-list-img-fluid"
-                                              src={item.pic || IMG_DEFAULT}
-                                              alt={item.spuName}
-                                              title={item.spuName}
-                                            />
-                                          </LazyLoad>
-                                        </div>
-                                        <div className="col-8 col-md-4">
-                                          <span className="medium color-444 ui-text-overflow-line2">
-                                            {item.spuName}
-                                          </span>
-                                          {[
-                                            item.specDetails,
-                                            this.props.intl.formatMessage(
-                                              { id: 'xProduct' },
-                                              {
-                                                val: item.num
-                                              }
-                                            )
-                                          ]
-                                            .filter((e) => e)
-                                            .join(' - ')}
-                                        </div>
-                                        {isGift ? (
-                                          <div>
-                                            <i style={{ float: 'left' }}>
-                                              gift
-                                            </i>
-                                            <div style={{ float: 'right' }}>
-                                              <span className="medium color-444 ui-text-overflow-line2">
-                                                Cadeaux
-                                              </span>
-                                              <span>
-                                                Abonnement Smart Feeder
-                                              </span>
+                                        {/* 订单发货tip */}
+                                        {((order.tradeState.payState === 'PAID' &&
+                                          order.tradeState.auditState === 'CHECKED' &&
+                                          order.tradeState.deliverStatus ===
+                                          'SHIPPED' &&
+                                          order.tradeState.flowState ===
+                                          'DELIVERED') ||
+                                          (order.tradeState.deliverStatus ===
+                                            'PART_SHIPPED' &&
+                                            order.tradeState.flowState ===
+                                            'DELIVERED_PART')) && (
+                                            <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                              <p className="medium mb-0 color-444">
+                                                <FormattedMessage id="deliveredTip" />
+                                              </p>
+                                              <p className="green">
+                                                <FormattedMessage id="inTransit" />
+                                              </p>
                                             </div>
+                                          )}
+                                        {/* 订单完成tip */}
+                                        {order.tradeState.flowState === 'COMPLETED' &&
+                                          !order.storeEvaluateVO &&
+                                          order.tradeEventLogs[0] &&
+                                          order.tradeEventLogs[0].eventType ===
+                                          'COMPLETED' ? (
+                                            <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                              <p className="medium mb-0 color-444">
+                                                <FormattedMessage id="orderStatus.COMPLETED" />
+                                        :{' '}
+                                                {order.tradeEventLogs[0].eventTime.substr(
+                                                  0,
+                                                  10
+                                                )}
+                                              </p>
+                                              <p>
+                                                <FormattedMessage id="order.completeTip" />
+                                              </p>
+                                            </div>
+                                          ) : null}
+                                        <div className="col-10 col-md-9">
+                                          {order.tradeItems.map((item, idx) => (
+                                            <div
+                                              className={`row rc-margin-x--none align-items-center ${idx ? 'mt-2' : ''
+                                                }`}
+                                              key={item.oid}
+                                            >
+                                              <div className="col-4 col-md-2 d-flex justify-content-md-center">
+                                                <LazyLoad>
+                                                  <img
+                                                    className="ord-list-img-fluid"
+                                                    src={item.pic || IMG_DEFAULT}
+                                                    alt={item.spuName}
+                                                    title={item.spuName}
+                                                  />
+                                                </LazyLoad>
+                                              </div>
+                                              <div className="col-8 col-md-4">
+                                                <span className="medium color-444 ui-text-overflow-line2">
+                                                  {item.spuName}
+                                                </span>
+                                                {[
+                                                  item.specDetails,
+                                                  this.props.intl.formatMessage(
+                                                    { id: 'xProduct' },
+                                                    {
+                                                      val: item.num
+                                                    }
+                                                  )
+                                                ]
+                                                  .filter((e) => e)
+                                                  .join(' - ')}
+                                              </div>
+                                              {isGift ? (
+                                                <div>
+                                                  <i style={{ float: 'left' }}>
+                                                    gift
+                                            </i>
+                                                  <div style={{ float: 'right' }}>
+                                                    <span className="medium color-444 ui-text-overflow-line2">
+                                                      Cadeaux
+                                              </span>
+                                                    <span>
+                                                      Abonnement Smart Feeder
+                                              </span>
+                                                  </div>
+                                                </div>
+                                              ) : (
+                                                  <div className="col-2 col-md-2 rc-md-up">
+                                                    {formatMoney(item.price)}
+                                                  </div>
+                                                )}
+                                            </div>
+                                          ))}
+                                        </div>
+                                        {isGift && !getDeviceType() === 'H5' ? (
+                                          <div className="col-2 col-md-3 text-right pl-md-0">
+                                            {formatMoney(123)}
                                           </div>
                                         ) : (
-                                          <div className="col-2 col-md-2 rc-md-up">
-                                            {formatMoney(item.price)}
+                                            <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
+                                              <div className="rc-md-up">
+                                                {this.renderOperationBtns(order)}
+                                              </div>
+                                              <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
+                                            </div>
+                                          )}
+                                        {order.subscribeId && !isGift ? (
+                                          <div className="col-12 text-right rc-md-up">
+                                            <Link
+                                              to={`/account/subscription/order/detail/${order.subscribeId}`}
+                                            >
+                                              <span
+                                                className="iconfont font-weight-bold red mr-1"
+                                                style={{ fontSize: '.8em' }}
+                                              >
+                                                &#xe675;
+                                        </span>
+                                              <span className="rc-styled-link">
+                                                <FormattedMessage id="autoShipOrderDetails" />
+                                              </span>
+                                            </Link>
                                           </div>
-                                        )}
+                                        ) : null}
                                       </div>
-                                    ))}
-                                  </div>
-                                  {isGift && !getDeviceType() === 'H5' ? (
-                                    <div className="col-2 col-md-3 text-right pl-md-0">
-                                      {formatMoney(123)}
                                     </div>
-                                  ) : (
-                                    <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
-                                      <div className="rc-md-up">
-                                        {this.renderOperationBtns(order)}
-                                      </div>
-                                      <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
-                                    </div>
-                                  )}
-                                  {order.subscribeId && !isGift ? (
-                                    <div className="col-12 text-right rc-md-up">
-                                      <Link
-                                        to={`/account/subscription/order/detail/${order.subscribeId}`}
+                                  ))}
+                                </>
+                              ) : (
+                                      <div
+                                        style={{
+                                          margin: '50px auto'
+                                        }}
+                                        className="text-center"
                                       >
-                                        <span
-                                          className="iconfont font-weight-bold red mr-1"
-                                          style={{ fontSize: '.8em' }}
-                                        >
-                                          &#xe675;
-                                        </span>
-                                        <span className="rc-styled-link">
-                                          <FormattedMessage id="autoShipOrderDetails" />
-                                        </span>
-                                      </Link>
-                                    </div>
-                                  ) : null}
+                                        <FormattedMessage id="order.noDataTip" />
+                                      </div>
+                                    )}
+                              {tabErrMsg || !orderList.length ? null : (
+                                <div className="grid-footer rc-full-width mt-4 mt-md-2">
+                                  <Pagination
+                                    loading={this.state.loading}
+                                    totalPage={this.state.totalPage}
+                                    defaultCurrentPage={this.state.currentPage}
+                                    key={this.state.currentPage}
+                                    onPageNumChange={this.hanldePageNumChange}
+                                  />
                                 </div>
-                              </div>
-                            ))}
-                          </>
-                        ) : (
-                          <div
-                            style={{
-                              margin: '50px auto'
-                            }}
-                            className="text-center"
-                          >
-                            <FormattedMessage id="order.noDataTip" />
+                              )}
+                            </div>
                           </div>
-                        )}
-                        {tabErrMsg || !orderList.length ? null : (
-                          <div className="grid-footer rc-full-width mt-4 mt-md-2">
-                            <Pagination
-                              loading={this.state.loading}
-                              totalPage={this.state.totalPage}
-                              defaultCurrentPage={this.state.currentPage}
-                              key={this.state.currentPage}
-                              onPageNumChange={this.hanldePageNumChange}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </>
-                )}
+                        </>
+                      )}
               </div>
 
               {/* one order details for mobile */}

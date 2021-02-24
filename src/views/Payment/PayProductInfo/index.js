@@ -127,14 +127,14 @@ class PayProductInfo extends React.Component {
       dataLayer[0].checkout.option = this.isLogin ? 'account already created' : 'new account';
       dataLayer[0].checkout.step = 2;
       dataLayer[0].checkout.product = product;
-      
+
 
       dataLayer.push({
         checkout: {
           step: '',
           option: ''
         },
-        event: process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
+        event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
         page: {
           type: 'Checkout',
           virtualPageURL: '/checkout/emailAddress'
@@ -187,6 +187,9 @@ class PayProductInfo extends React.Component {
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
   }
+  get taxFeePrice() {
+    return this.props.checkoutStore.taxFeePrice;
+  }
   get subscriptionPrice() {
     return this.props.checkoutStore.subscriptionPrice;
   }
@@ -238,7 +241,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
                 <div className="line-item-total-price justify-content-end pull-right">
-                  <div>{formatMoney(el.sizeList.filter(el => el.selected)[0]['marketPrice'] * el.quantity )}</div>
+                  <div>{formatMoney(el.sizeList.filter(el => el.selected)[0]['marketPrice'] * el.quantity)}</div>
                 </div>
               </div>
             </div>
@@ -306,13 +309,13 @@ class PayProductInfo extends React.Component {
                     <br />
                     {el.goodsInfoFlag ? (
                       <>
-                      <span>
-                        <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {matchNamefromDict(
-                          this.state.frequencyList,
-                          el.periodTypeId
-                        )}{' '}
-                      </span>
+                        <span>
+                          <FormattedMessage id="subscription.frequency" /> :{' '}
+                          {matchNamefromDict(
+                            this.state.frequencyList,
+                            el.periodTypeId
+                          )}{' '}
+                        </span>
                       </>
                     ) : null}
                   </div>
@@ -449,8 +452,8 @@ class PayProductInfo extends React.Component {
                   ref="applyButtton"
                   id="promotionApply"
                   className={`rc-btn rc-btn--sm rc-btn--two ${this.state.isClickApply
-                      ? 'ui-btn-loading ui-btn-loading-border-red'
-                      : ''
+                    ? 'ui-btn-loading ui-btn-loading-border-red'
+                    : ''
                     }`}
                   style={{ marginTop: '10px', float: 'right' }}
                   onClick={async () => {
@@ -626,8 +629,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div> */}
                 {/* 显示 默认折扣 */}
-                <div
-                  className={`row leading-lines shipping-item green ${parseFloat(this.subscriptionDiscountPrice) > 0 ? 'd-flex': 'hidden'}`}
+                <div className={`row leading-lines shipping-item green ${parseFloat(this.subscriptionDiscountPrice) > 0 ? 'd-flex' : 'hidden'}`}
                 >
                   <div className="col-7 start-lines">
                     <p
@@ -650,9 +652,9 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 显示 promotionCode */}
-                {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 
-                // &&
-                //   this.props.checkoutStore.promotionCode 
+                {!this.state.isShowValidCode && this.promotionDiscountPrice > 0
+                  // &&
+                  //   this.props.checkoutStore.promotionCode 
                   ? (
                     <div className="row leading-lines shipping-item flex-layout green">
                       <label
@@ -693,6 +695,28 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
+
+                {/* 税额 */}
+                {process.env.REACT_APP_LANG == 'en' && this.taxFeePrice ? (
+                  <div className="row leading-lines shipping-item">
+                    <div className="col-7 start-lines">
+                      <p className="order-receipt-label order-shipping-cost">
+                        <span>
+                          <FormattedMessage id="estimatedTax" />
+                        </span>
+                      </p>
+                    </div>
+                    <div className="col-5 end-lines">
+                      <p className="text-right">
+                        <span className="shipping-total-cost">
+                          {formatMoney(this.taxFeePrice)}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                ) : (<></>)}
+
+
               </div>
             </div>
           </div>

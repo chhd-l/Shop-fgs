@@ -270,6 +270,7 @@ const de_DE = {
   'deliveryStatus.PART_SHIPPED': 'teilweise versendet',
   'deliveryStatus.SHIPPED': 'versendet',
   'deliveryStatus.VOID': 'wird geliefert',
+  estimatedTax:'Geschätzte Steuer',
   detail: '[mehr anzeigen]',
   'details.addToCart': 'In den Warenkorb legen',
   'details.availability': 'Verfügbarkeit',

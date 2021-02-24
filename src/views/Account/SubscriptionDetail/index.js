@@ -380,7 +380,7 @@ class SubscriptionDetail extends React.Component {
         cityRes,
         subDetail.invoice.cityId
       );
-      debugger;
+      // debugger;
       this.setState(
         {
           subDetail: subDetail,
@@ -540,18 +540,18 @@ class SubscriptionDetail extends React.Component {
           balance of the dispensers market price of 120 euros.
         </p>
         <p>
-          If you unsubscribe now, the balance you will pay is 
+          If you unsubscribe now, the balance you will pay is
           &lt;X euros calculated automatically depending on the refill &gt;.
         </p>
         <div>Remaining Tab</div>
         <ul className="subdes-modal-ul-wrap">
-          <li className="d-flex" style={{background:'#F6F6F6',lineHeight:'2rem',borderBottom:'1px solid #E4E4E4',padding:'0 1rem'}}>
+          <li className="d-flex" style={{ background: '#F6F6F6', lineHeight: '2rem', borderBottom: '1px solid #E4E4E4', padding: '0 1rem' }}>
             <span className="width50">Unsubcribe before</span>
-            <span className="width50" style={{paddingLeft:'0.5rem'}}>Remaining price</span>
+            <span className="width50" style={{ paddingLeft: '0.5rem' }}>Remaining price</span>
           </li>
-          <li  className="d-flex" style={{lineHeight:'2rem',borderBottom:'1px solid #E4E4E4',padding:'0 1rem'}}>
+          <li className="d-flex" style={{ lineHeight: '2rem', borderBottom: '1px solid #E4E4E4', padding: '0 1rem' }}>
             <span className="width50">2nd refill</span>
-            <span className="width50" style={{paddingLeft:'0.5rem'}}>110€</span>
+            <span className="width50" style={{ paddingLeft: '0.5rem' }}>110€</span>
           </li>
         </ul>
       </div>
@@ -579,7 +579,7 @@ class SubscriptionDetail extends React.Component {
     return (
       <div
         className="rc-match-heights rc-content-h-middle rc-reverse-layout"
-        // style={{display:`${isGift?'none':'block'}`}}
+      // style={{display:`${isGift?'none':'block'}`}}
       >
         <div>
           <div
@@ -617,7 +617,7 @@ class SubscriptionDetail extends React.Component {
                   (el) =>
                     noStartYear &&
                     el.tradeItems[0].nextDeliveryTime.split('-')[0] ===
-                      noStartYear.value
+                    noStartYear.value
                 )
                 .map((el) => (
                   <>
@@ -665,9 +665,8 @@ class SubscriptionDetail extends React.Component {
                               </p>
                             </div>
                             <div
-                              className={`${
-                                isMobile ? 'col-6' : 'col-5'
-                              } col-md-5`}
+                              className={`${isMobile ? 'col-6' : 'col-5'
+                                } col-md-5`}
                             >
                               <div
                                 className="rc-layout-container rc-five-column"
@@ -727,9 +726,8 @@ class SubscriptionDetail extends React.Component {
                               </div>
                             </div>
                             <div
-                              className={`${
-                                isMobile ? 'col-6' : 'col-4'
-                              } col-md-4`}
+                              className={`${isMobile ? 'col-6' : 'col-4'
+                                } col-md-4`}
                             >
                               <p
                                 style={{
@@ -1035,9 +1033,8 @@ class SubscriptionDetail extends React.Component {
           style={{ textAlign: 'right' }}
         >
           <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }`}
+            className={`rc-btn rc-btn--one ${this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
+              }`}
             style={{
               marginTop: isMobile ? '10px' : '0',
               marginRight: '1rem'
@@ -1112,9 +1109,8 @@ class SubscriptionDetail extends React.Component {
           style={{ textAlign: 'right' }}
         >
           <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }`}
+            className={`rc-btn rc-btn--one ${this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
+              }`}
             style={{
               marginTop: isMobile ? '10px' : '0',
               marginRight: '1rem'
@@ -1156,9 +1152,8 @@ class SubscriptionDetail extends React.Component {
           {/* </div> */}
           &nbsp;&nbsp;&nbsp;&nbsp;
           <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }`}
+            className={`rc-btn rc-btn--one ${this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
+              }`}
             style={{ marginTop: isMobile ? '10px' : '0' }}
             onClick={() => this.handleSaveChange(subDetail)}
           >
@@ -1293,8 +1288,8 @@ class SubscriptionDetail extends React.Component {
                     </Link>
                   </div>
                 ) : (
-                  <SideMenu type="Subscription" />
-                )}
+                    <SideMenu type="Subscription" />
+                  )}
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
@@ -1375,7 +1370,7 @@ class SubscriptionDetail extends React.Component {
                             title +
                             ',' +
                             this.props.intl.messages[
-                              'subscription.BillingAddress'
+                            'subscription.BillingAddress'
                             ];
                         }
                         //增加返回changeField字段
@@ -1477,18 +1472,18 @@ class SubscriptionDetail extends React.Component {
                             <FormattedMessage id="active" />
                           </span>
                         ) : (
-                          <span
-                            style={{
-                              background: '#FCEBD4',
-                              color: '#ED8A00',
-                              fontSize: '14px',
-                              padding: '0 5px',
-                              marginLeft: '10px'
-                            }}
-                          >
-                            <FormattedMessage id="inactive" />
-                          </span>
-                        )
+                            <span
+                              style={{
+                                background: '#FCEBD4',
+                                color: '#ED8A00',
+                                fontSize: '14px',
+                                padding: '0 5px',
+                                marginLeft: '10px'
+                              }}
+                            >
+                              <FormattedMessage id="inactive" />
+                            </span>
+                          )
                       ) : null}
                     </h4>
                   </div>
@@ -1901,9 +1896,8 @@ class SubscriptionDetail extends React.Component {
                                         <div>
                                           <div>
                                             <span
-                                              className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                                isActive ? '' : 'disabled'
-                                              }`}
+                                              className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${isActive ? '' : 'disabled'
+                                                }`}
                                               style={{ marginLeft: '-8px' }}
                                               onClick={() => {
                                                 if (el.subscribeNum > 1) {
@@ -1990,9 +1984,8 @@ class SubscriptionDetail extends React.Component {
                                               value={el.subscribeNum}
                                             />
                                             <span
-                                              className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                                isActive ? '' : 'disabled'
-                                              }`}
+                                              className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${isActive ? '' : 'disabled'
+                                                }`}
                                               onClick={() => {
                                                 if (
                                                   el.subscribeNum <
@@ -2043,7 +2036,7 @@ class SubscriptionDetail extends React.Component {
                                             >
                                               {formatMoney(
                                                 el.subscribePrice *
-                                                  el.subscribeNum
+                                                el.subscribeNum
                                               )}
                                             </span>
                                             <span
@@ -2062,7 +2055,7 @@ class SubscriptionDetail extends React.Component {
                                             >
                                               {formatMoney(
                                                 el.originalPrice *
-                                                  el.subscribeNum
+                                                el.subscribeNum
                                               )}
                                             </span>
                                           </div>
@@ -2259,14 +2252,14 @@ class SubscriptionDetail extends React.Component {
                               {currentDeliveryAddress.consigneeNumber}
                               <br />
                               {this.state.countryList.length &&
-                              this.state.countryList.filter(
-                                (el) =>
-                                  el.id === currentDeliveryAddress.countryId
-                              ).length
+                                this.state.countryList.filter(
+                                  (el) =>
+                                    el.id === currentDeliveryAddress.countryId
+                                ).length
                                 ? this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentDeliveryAddress.countryId
-                                  )[0].valueEn
+                                  (el) =>
+                                    el.id === currentDeliveryAddress.countryId
+                                )[0].valueEn
                                 : currentDeliveryAddress.countryId}
                               , {currentDeliveryAddress.cityName}
                               <br />
@@ -2333,14 +2326,14 @@ class SubscriptionDetail extends React.Component {
                               {currentBillingAddress.consigneeNumber}
                               <br />
                               {this.state.countryList.length &&
-                              this.state.countryList.filter(
-                                (el) =>
-                                  el.id === currentBillingAddress.countryId
-                              ).length
+                                this.state.countryList.filter(
+                                  (el) =>
+                                    el.id === currentBillingAddress.countryId
+                                ).length
                                 ? this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentBillingAddress.countryId
-                                  )[0].valueEn
+                                  (el) =>
+                                    el.id === currentBillingAddress.countryId
+                                )[0].valueEn
                                 : currentBillingAddress.countryId}
                               , {currentBillingAddress.cityName}
                               <br />
@@ -2418,7 +2411,7 @@ class SubscriptionDetail extends React.Component {
                                           className="d-inline-block"
                                           src={
                                             CREDIT_CARD_IMG_ENUM[
-                                              currentCardInfo.paymentVendor.toUpperCase()
+                                            currentCardInfo.paymentVendor.toUpperCase()
                                             ] ||
                                             'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                                           }
@@ -2494,42 +2487,42 @@ class SubscriptionDetail extends React.Component {
                                 }}
                               >
                                 {this.state.activeTabIdx === 0 &&
-                                noStartYearOption.length &&
-                                completedYearOption.length ? (
-                                  <Selection
-                                    optionList={noStartYearOption}
-                                    selectedItemData={noStartYear}
-                                    selectedItemChange={(el) => {
-                                      console.log(el, 'hahaha');
-                                      if (this.state.activeTabIdx === 0) {
-                                        this.setState({ noStartYear: el });
-                                      } else {
-                                        this.setState({ completedYear: el });
+                                  noStartYearOption.length &&
+                                  completedYearOption.length ? (
+                                    <Selection
+                                      optionList={noStartYearOption}
+                                      selectedItemData={noStartYear}
+                                      selectedItemChange={(el) => {
+                                        console.log(el, 'hahaha');
+                                        if (this.state.activeTabIdx === 0) {
+                                          this.setState({ noStartYear: el });
+                                        } else {
+                                          this.setState({ completedYear: el });
+                                        }
+                                      }}
+                                      type="freqency"
+                                      key={
+                                        (noStartYear && noStartYear.value) || ''
                                       }
-                                    }}
-                                    type="freqency"
-                                    key={
-                                      (noStartYear && noStartYear.value) || ''
-                                    }
-                                  />
-                                ) : (
-                                  <Selection
-                                    optionList={completedYearOption}
-                                    selectedItemData={completedYear}
-                                    selectedItemChange={(el) => {
-                                      if (this.state.activeTabIdx === 0) {
-                                        this.setState({ noStartYear: el });
-                                      } else {
-                                        this.setState({ completedYear: el });
+                                    />
+                                  ) : (
+                                    <Selection
+                                      optionList={completedYearOption}
+                                      selectedItemData={completedYear}
+                                      selectedItemChange={(el) => {
+                                        if (this.state.activeTabIdx === 0) {
+                                          this.setState({ noStartYear: el });
+                                        } else {
+                                          this.setState({ completedYear: el });
+                                        }
+                                      }}
+                                      type="freqency"
+                                      key={
+                                        (completedYear && completedYear.value) ||
+                                        ''
                                       }
-                                    }}
-                                    type="freqency"
-                                    key={
-                                      (completedYear && completedYear.value) ||
-                                      ''
-                                    }
-                                  />
-                                )}
+                                    />
+                                  )}
                               </span>
                             </div>
                             <div
@@ -2559,9 +2552,8 @@ class SubscriptionDetail extends React.Component {
                                             }}
                                           >
                                             <div
-                                              className={`${
-                                                isMobile ? 'col-4' : 'col-md-3'
-                                              }`}
+                                              className={`${isMobile ? 'col-4' : 'col-md-3'
+                                                }`}
                                               style={{
                                                 padding: isMobile
                                                   ? '0 0 0 10px'
@@ -2589,16 +2581,14 @@ class SubscriptionDetail extends React.Component {
                                               </span>
                                             </div>
                                             <div
-                                              className={`${
-                                                isMobile ? 'col-0' : 'col-md-5'
-                                              }`}
+                                              className={`${isMobile ? 'col-0' : 'col-md-5'
+                                                }`}
                                             ></div>
                                             <div
-                                              className={`changeDate ${
-                                                isMobile
-                                                  ? 'col-5'
-                                                  : 'col-md-3 pl-4'
-                                              }`}
+                                              className={`changeDate ${isMobile
+                                                ? 'col-5'
+                                                : 'col-md-3 pl-4'
+                                                }`}
                                               style={{
                                                 textAlign: 'right',
                                                 padding: isMobile
@@ -2646,8 +2636,8 @@ class SubscriptionDetail extends React.Component {
                                                       selected={
                                                         el.tradeItems
                                                           ? new Date(
-                                                              el.tradeItems[0].nextDeliveryTime
-                                                            )
+                                                            el.tradeItems[0].nextDeliveryTime
+                                                          )
                                                           : new Date()
                                                       }
                                                       onChange={(date) => {
@@ -2676,9 +2666,8 @@ class SubscriptionDetail extends React.Component {
                                               ) : null}
                                             </div>
                                             <div
-                                              className={`${
-                                                isMobile ? 'col-3' : 'col-md-1'
-                                              }`}
+                                              className={`${isMobile ? 'col-3' : 'col-md-1'
+                                                }`}
                                               style={{
                                                 padding: isMobile
                                                   ? '0 0 0 10px'
@@ -2740,9 +2729,8 @@ class SubscriptionDetail extends React.Component {
                                                 key={index}
                                               >
                                                 <div
-                                                  className={`${
-                                                    isMobile ? 'col-6' : 'col-4'
-                                                  } col-md-4`}
+                                                  className={`${isMobile ? 'col-6' : 'col-4'
+                                                    } col-md-4`}
                                                 >
                                                   <div
                                                     className="rc-layout-container rc-five-column"
@@ -2813,9 +2801,8 @@ class SubscriptionDetail extends React.Component {
                                                   </div>
                                                 </div>
                                                 <div
-                                                  className={`${
-                                                    isMobile ? 'none' : 'col-4'
-                                                  } col-md-4`}
+                                                  className={`${isMobile ? 'none' : 'col-4'
+                                                    } col-md-4`}
                                                 >
                                                   <p
                                                     style={{
@@ -2828,9 +2815,8 @@ class SubscriptionDetail extends React.Component {
                                                   </p>
                                                 </div>
                                                 <div
-                                                  className={`${
-                                                    isMobile ? 'col-6' : 'col-4'
-                                                  } col-md-4`}
+                                                  className={`${isMobile ? 'col-6' : 'col-4'
+                                                    } col-md-4`}
                                                 >
                                                   <p
                                                     style={{
@@ -2920,7 +2906,7 @@ class SubscriptionDetail extends React.Component {
                                                   'rc-btn--sm',
                                                   'rc-btn--two',
                                                   this.state.isClickApply &&
-                                                    'ui-btn-loading ui-btn-loading-border-red'
+                                                  'ui-btn-loading ui-btn-loading-border-red'
                                                 ].join(' ')}
                                                 style={{ marginTop: '10px' }}
                                                 onClick={async () => {
@@ -2943,7 +2929,7 @@ class SubscriptionDetail extends React.Component {
                                                   );
                                                   if (
                                                     result.code ===
-                                                      'K-000000' &&
+                                                    'K-000000' &&
                                                     !result.context
                                                       .promotionFlag
                                                   ) {
@@ -2988,42 +2974,42 @@ class SubscriptionDetail extends React.Component {
                                               </div>
                                               {el.tradePrice
                                                 .subscriptionDiscountPrice ? (
-                                                <div className="row">
-                                                  <div class="col-1 col-md-3" />
-                                                  <label className="green col-5 text-left">
-                                                    <FormattedMessage id="promotion" />
+                                                  <div className="row">
+                                                    <div class="col-1 col-md-3" />
+                                                    <label className="green col-5 text-left">
+                                                      <FormattedMessage id="promotion" />
                                                     :
                                                   </label>
-                                                  <div className="col-5 col-md-3 text-right green">
-                                                    <b>
-                                                      -
+                                                    <div className="col-5 col-md-3 text-right green">
+                                                      <b>
+                                                        -
                                                       {formatMoney(
                                                         el.tradePrice
                                                           .subscriptionDiscountPrice
                                                       )}
-                                                    </b>
+                                                      </b>
+                                                    </div>
                                                   </div>
-                                                </div>
-                                              ) : null}
+                                                ) : null}
                                               {el.tradePrice
                                                 .promotionDiscountPrice ? (
-                                                <div className="row">
-                                                  <div class="col-1 col-md-3" />
-                                                  <label className="green col-5 text-left">
-                                                    <FormattedMessage id="promotion" />
+                                                  <div className="row">
+                                                    <div class="col-1 col-md-3" />
+                                                    <label className="green col-5 text-left">
+                                                      <FormattedMessage id="promotion" />
                                                     :
                                                   </label>
-                                                  <div className="col-5 col-md-3 text-right green">
-                                                    <b>
-                                                      -
+                                                    <div className="col-5 col-md-3 text-right green">
+                                                      <b>
+                                                        -
                                                       {formatMoney(
                                                         el.tradePrice
                                                           .promotionDiscountPrice
                                                       )}
-                                                    </b>
+                                                      </b>
+                                                    </div>
                                                   </div>
-                                                </div>
-                                              ) : null}
+                                                ) : null}
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el, i) => (
                                                   <div className="row" key={i}>
@@ -3050,9 +3036,9 @@ class SubscriptionDetail extends React.Component {
                                                       <b>
                                                         -
                                                         {formatMoney(
-                                                          this.state
-                                                            .promotionDiscount
-                                                        )}
+                                                        this.state
+                                                          .promotionDiscount
+                                                      )}
                                                       </b>
                                                       <span
                                                         style={{
@@ -3074,6 +3060,7 @@ class SubscriptionDetail extends React.Component {
                                                     </div>
                                                   </div>
                                                 ))}
+
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
@@ -3088,6 +3075,22 @@ class SubscriptionDetail extends React.Component {
                                                   </b>
                                                 </div>
                                               </div>
+
+                                              {/* 税额 */}
+                                              {process.env.REACT_APP_LANG == 'en' && el.tradePrice.taxFeePrice ? (
+                                                <div className="row">
+                                                  <div className="col-1 col-md-3" />
+                                                  <label className="col-5 text-left">
+                                                    <FormattedMessage id="estimatedTax" />
+                                                  </label>
+                                                  <div className="text-right red-text col-5 col-md-3">
+                                                    <b>
+                                                      {formatMoney(el.tradePrice.taxFeePrice)}
+                                                    </b>
+                                                  </div>
+                                                </div>
+                                              ) : (<></>)}
+
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
@@ -3126,7 +3129,7 @@ class SubscriptionDetail extends React.Component {
                                     (el) =>
                                       completedYear &&
                                       el.tradeState.createTime.split('-')[0] ===
-                                        completedYear.value
+                                      completedYear.value
                                   )
                                   .map((el) => (
                                     <div className="card-container">
@@ -3139,9 +3142,8 @@ class SubscriptionDetail extends React.Component {
                                           }}
                                         >
                                           <div
-                                            className={`${
-                                              isMobile ? 'col-5' : 'col-md-3'
-                                            }`}
+                                            className={`${isMobile ? 'col-5' : 'col-md-3'
+                                              }`}
                                             style={{ paddingLeft: '20px' }}
                                           >
                                             <FormattedMessage id="shipmentOn" />
@@ -3176,8 +3178,8 @@ class SubscriptionDetail extends React.Component {
                                               >
                                                 -
                                                 {formatMoney(
-                                                  el.tradePrice.discountsPrice
-                                                )}
+                                                el.tradePrice.discountsPrice
+                                              )}
                                               </span>
                                             </div>
                                           )}
@@ -3217,17 +3219,17 @@ class SubscriptionDetail extends React.Component {
                                                       ></span>
                                                     </>
                                                   ) : (
-                                                    <>
-                                                      <i className="yellowCircle"></i>
-                                                      <span
-                                                        style={{
-                                                          paddingRight: '30px'
-                                                        }}
-                                                      >
-                                                        <FormattedMessage id="skiped" />
-                                                      </span>
-                                                    </>
-                                                  )}
+                                                      <>
+                                                        <i className="yellowCircle"></i>
+                                                        <span
+                                                          style={{
+                                                            paddingRight: '30px'
+                                                          }}
+                                                        >
+                                                          <FormattedMessage id="skiped" />
+                                                        </span>
+                                                      </>
+                                                    )}
                                                 </div>
                                               </>
                                             ) : el.id ? (
@@ -3341,109 +3343,109 @@ class SubscriptionDetail extends React.Component {
                                               )}
                                           </div>
                                         ) : (
-                                          <div className="col-4 col-md-7">
-                                            <div
-                                              className="rc-layout-container rc-five-column"
-                                              style={{
-                                                paddingRight: '60px',
-                                                paddingTop: '0'
-                                              }}
-                                            >
+                                            <div className="col-4 col-md-7">
                                               <div
-                                                className="rc-column flex-layout"
+                                                className="rc-layout-container rc-five-column"
                                                 style={{
-                                                  width: '100%',
-                                                  padding: 0
+                                                  paddingRight: '60px',
+                                                  paddingTop: '0'
                                                 }}
                                               >
-                                                {el.tradeItems &&
-                                                  el.tradeItems.map(
-                                                    (tradeItem, index) => {
-                                                      if (index < 2) {
-                                                        return (
-                                                          <>
-                                                            <LazyLoad>
-                                                              <img
+                                                <div
+                                                  className="rc-column flex-layout"
+                                                  style={{
+                                                    width: '100%',
+                                                    padding: 0
+                                                  }}
+                                                >
+                                                  {el.tradeItems &&
+                                                    el.tradeItems.map(
+                                                      (tradeItem, index) => {
+                                                        if (index < 2) {
+                                                          return (
+                                                            <>
+                                                              <LazyLoad>
+                                                                <img
+                                                                  style={{
+                                                                    width: '70px',
+                                                                    margin:
+                                                                      '0 10px'
+                                                                  }}
+                                                                  src={
+                                                                    tradeItem.pic
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                              </LazyLoad>
+                                                              <div
                                                                 style={{
-                                                                  width: '70px',
-                                                                  margin:
-                                                                    '0 10px'
-                                                                }}
-                                                                src={
-                                                                  tradeItem.pic
-                                                                }
-                                                                alt=""
-                                                              />
-                                                            </LazyLoad>
-                                                            <div
-                                                              style={{
-                                                                width: isMobile
-                                                                  ? '120px'
-                                                                  : 'auto',
-                                                                paddingTop:
-                                                                  '30px'
-                                                              }}
-                                                            >
-                                                              <h5
-                                                                style={{
-                                                                  overflow:
-                                                                    'hidden',
-                                                                  textOverflow:
-                                                                    'ellipsis',
-                                                                  overflowWrap:
-                                                                    'normal',
-                                                                  fontSize:
-                                                                    '14px',
-                                                                  whiteSpace:
-                                                                    'nowrap'
+                                                                  width: isMobile
+                                                                    ? '120px'
+                                                                    : 'auto',
+                                                                  paddingTop:
+                                                                    '30px'
                                                                 }}
                                                               >
-                                                                {
-                                                                  tradeItem.skuName
-                                                                }
-                                                              </h5>
-                                                              <p
-                                                                style={{
-                                                                  overflow:
-                                                                    'hidden',
-                                                                  textOverflow:
-                                                                    'ellipsis',
-                                                                  marginBottom:
-                                                                    '8px',
-                                                                  fontSize:
-                                                                    '14px'
-                                                                }}
-                                                              >
-                                                                {
-                                                                  tradeItem.specDetails
-                                                                }{' '}
+                                                                <h5
+                                                                  style={{
+                                                                    overflow:
+                                                                      'hidden',
+                                                                    textOverflow:
+                                                                      'ellipsis',
+                                                                    overflowWrap:
+                                                                      'normal',
+                                                                    fontSize:
+                                                                      '14px',
+                                                                    whiteSpace:
+                                                                      'nowrap'
+                                                                  }}
+                                                                >
+                                                                  {
+                                                                    tradeItem.skuName
+                                                                  }
+                                                                </h5>
+                                                                <p
+                                                                  style={{
+                                                                    overflow:
+                                                                      'hidden',
+                                                                    textOverflow:
+                                                                      'ellipsis',
+                                                                    marginBottom:
+                                                                      '8px',
+                                                                    fontSize:
+                                                                      '14px'
+                                                                  }}
+                                                                >
+                                                                  {
+                                                                    tradeItem.specDetails
+                                                                  }{' '}
                                                                 x{' '}
-                                                                {tradeItem.num}
-                                                              </p>
-                                                            </div>
-                                                          </>
-                                                        );
+                                                                  {tradeItem.num}
+                                                                </p>
+                                                              </div>
+                                                            </>
+                                                          );
+                                                        }
                                                       }
-                                                    }
-                                                  )}
-                                                {el.tradeItems &&
-                                                  el.tradeItems.length > 2 && (
-                                                    <div
-                                                      style={{
-                                                        width: '120px',
-                                                        paddingTop: '30px',
-                                                        marginLeft: '40px',
-                                                        fontSize: '25px',
-                                                        fontWeight: 400
-                                                      }}
-                                                    >
-                                                      ...
-                                                    </div>
-                                                  )}
+                                                    )}
+                                                  {el.tradeItems &&
+                                                    el.tradeItems.length > 2 && (
+                                                      <div
+                                                        style={{
+                                                          width: '120px',
+                                                          paddingTop: '30px',
+                                                          marginLeft: '40px',
+                                                          fontSize: '25px',
+                                                          fontWeight: 400
+                                                        }}
+                                                      >
+                                                        ...
+                                                      </div>
+                                                    )}
+                                                </div>
                                               </div>
                                             </div>
-                                          </div>
-                                        )}
+                                          )}
                                         {isMobile ? null : (
                                           <div className="col-4 col-md-3">
                                             <div
@@ -3460,13 +3462,13 @@ class SubscriptionDetail extends React.Component {
                                                   </span>
                                                 </>
                                               ) : (
-                                                <>
-                                                  <i className="yellowCircle"></i>
-                                                  <span>
-                                                    <FormattedMessage id="skiped" />
-                                                  </span>
-                                                </>
-                                              )}
+                                                  <>
+                                                    <i className="yellowCircle"></i>
+                                                    <span>
+                                                      <FormattedMessage id="skiped" />
+                                                    </span>
+                                                  </>
+                                                )}
                                             </div>
                                           </div>
                                         )}
@@ -3510,25 +3512,25 @@ class SubscriptionDetail extends React.Component {
               </div>
             </div>
             <div className="rc-md-up">
-            <Modal
-              headerVisible={false}
-              // footerVisible={false}
-              visible={false}
-              cancelBtnIsLink = {true}
-              modalTitle={''}
-              modalText={this.getModalBox()}
-            ></Modal>
+              <Modal
+                headerVisible={false}
+                // footerVisible={false}
+                visible={false}
+                cancelBtnIsLink={true}
+                modalTitle={''}
+                modalText={this.getModalBox()}
+              ></Modal>
             </div>
             <div className="sub-des-mobile-modal rc-md-down">
               {this.getModalBox()}
               <a className="rc-styled-link">cancel</a>
-              <span style={{padding:'0 1rem'}}>or</span>
+              <span style={{ padding: '0 1rem' }}>or</span>
               <button className="rc-btn rc-btn--one">confoirm</button>
             </div>
           </main>
           <Footer />
         </div>
-      </div>
+      </div >
     );
   }
 }

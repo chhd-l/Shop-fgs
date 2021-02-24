@@ -1121,7 +1121,7 @@ class Payment extends React.Component {
       param.clinicsId = clinicStore.selectClinicId;
       param.clinicsName = clinicStore.selectClinicName;
     }
-    debugger;
+    // debugger;
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {

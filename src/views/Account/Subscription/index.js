@@ -57,10 +57,10 @@ class Subscription extends React.Component {
         subscribeStatus: '0'
       },
       subGiftList: [],
-      isGiftLoading:true,
-      isGiftErrMsg:'',
-      isGiftCurrentPage:1,
-      isGiftTotalPage:1,
+      isGiftLoading: true,
+      isGiftErrMsg: '',
+      isGiftCurrentPage: 1,
+      isGiftTotalPage: 1,
       loading: true,
       currentPage: 1,
       totalPage: 1,
@@ -136,7 +136,7 @@ class Subscription extends React.Component {
       () => this.getSubList()
     );
   }
-  getGiftSubList(){
+  getGiftSubList() {
     const { form, isGiftIniting, isGiftCurrentPage } = this.state;
     if (!isGiftIniting) {
       setTimeout(() => {
@@ -357,10 +357,7 @@ class Subscription extends React.Component {
                     </div> */}
                       </div>
                     </div>
-                    <div
-                      className="row rc-margin-x--none row align-items-center 1111"
-                      style={{ padding: '1rem 0' }}
-                    >
+                    <div className="row rc-margin-x--none row align-items-center 1111" style={{ padding: '1rem 0' }}>
                       <div className="col-4 col-md-4 d-flex flex-wrap">
                         {subItem.goodsInfo &&
                           subItem.goodsInfo.map((item) => (
@@ -407,8 +404,8 @@ class Subscription extends React.Component {
                                     (el) => el.id === item.periodTypeId
                                   )[0]
                                     ? frequencyList.filter(
-                                        (el) => el.id === item.periodTypeId
-                                      )[0].value
+                                      (el) => el.id === item.periodTypeId
+                                    )[0].value
                                     : ''}
                                 </p>
                               </span>
@@ -459,11 +456,11 @@ class Subscription extends React.Component {
                             <FormattedMessage id="active" />
                           </div>
                         ) : (
-                          <div>
-                            <i className="yellowCircle"></i>
-                            <FormattedMessage id="inactive" />
-                          </div>
-                        )}
+                            <div>
+                              <i className="yellowCircle"></i>
+                              <FormattedMessage id="inactive" />
+                            </div>
+                          )}
                       </div>
                       <div className="col-4 col-md-2">
                         <button
@@ -484,52 +481,52 @@ class Subscription extends React.Component {
                 ))}
               </>
             ) : (
-              // <div className="text-center mt-5">
-              //   <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-              //   <FormattedMessage id="subscription.noDataTip" />
-              // </div>
-              <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
-                <div className="rc-column">
-                  <LazyLoad>
-                    <img
-                      src={noSubscription}
-                      alt="No Subscription"
-                      style={{ width: '100%' }}
-                    />
-                  </LazyLoad>
-                </div>
-                <div className="rc-column">
-                  <div className="rc-padding-right-lg rc-padding-y--sm ">
-                    <h4
-                      className="red"
-                      style={{ fontSize: '20px', marginBottom: '20px' }}
-                    >
-                      <FormattedMessage id="account.noSubscriptionTitle"></FormattedMessage>
-                    </h4>
-                    <div className="children-nomargin">
-                      <p style={{ wordBreak: 'keep-all', width: '90%' }}>
-                        <FormattedMessage
-                          id="account.noSubscription"
-                          values={{
-                            val1: <br />
-                          }}
-                        ></FormattedMessage>
-                      </p>
+                    // <div className="text-center mt-5">
+                    //   <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+                    //   <FormattedMessage id="subscription.noDataTip" />
+                    // </div>
+                    <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                      <div className="rc-column">
+                        <LazyLoad>
+                          <img
+                            src={noSubscription}
+                            alt="No Subscription"
+                            style={{ width: '100%' }}
+                          />
+                        </LazyLoad>
+                      </div>
+                      <div className="rc-column">
+                        <div className="rc-padding-right-lg rc-padding-y--sm ">
+                          <h4
+                            className="red"
+                            style={{ fontSize: '20px', marginBottom: '20px' }}
+                          >
+                            <FormattedMessage id="account.noSubscriptionTitle"></FormattedMessage>
+                          </h4>
+                          <div className="children-nomargin">
+                            <p style={{ wordBreak: 'keep-all', width: '90%' }}>
+                              <FormattedMessage
+                                id="account.noSubscription"
+                                values={{
+                                  val1: <br />
+                                }}
+                              ></FormattedMessage>
+                            </p>
+                          </div>
+                          <div className="rc-margin-top--sm">
+                            <Link
+                              className="rc-btn rc-btn--one"
+                              to={subscriptionLandingRouter(
+                                process.env.REACT_APP_LANG
+                              )}
+                            >
+                              <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="rc-margin-top--sm">
-                      <Link
-                        className="rc-btn rc-btn--one"
-                        to={subscriptionLandingRouter(
-                          process.env.REACT_APP_LANG
-                        )}
-                      >
-                        <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+                  )}
             {!errMsg && dataList.length ? (
               <div className="grid-footer rc-full-width mt-2">
                 <Pagination
@@ -593,13 +590,13 @@ class Subscription extends React.Component {
                   </Link>
                 </div>
               ) : (
-                <SideMenu type="Subscription" />
-              )}
-              {}
-            <div className="rc-column  rc-quad-width">
-            {this.getPageBox()}
-            {this.getPageBox(true)}
-            </div>
+                  <SideMenu type="Subscription" />
+                )}
+              { }
+              <div className="rc-column  rc-quad-width">
+                {this.getPageBox()}
+                {this.getPageBox(true)}
+              </div>
             </div>
           </div>
         </main>

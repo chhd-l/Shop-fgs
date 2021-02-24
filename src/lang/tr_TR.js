@@ -188,6 +188,7 @@ const tr_TR = {
   'deliveryStatus.PART_SHIPPED': 'Kısmen gönderildi',
   'deliveryStatus.SHIPPED': 'Hepsi gönderildi',
   'deliveryStatus.VOID': 'Teslim edilecek',
+  estimatedTax:'Tahmin edilen vergi',
   'details.addToCart': 'Sepete ekle',
   'details.availability': 'Kullanılabilirlik',
   'details.beneficialFeatures': 'Faydalı özellikler',
