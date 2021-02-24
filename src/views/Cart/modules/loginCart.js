@@ -185,7 +185,7 @@ class LoginCart extends React.Component {
         recommendation: 'self-selected',
         type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',
         variant: item.specText ? parseInt(item.specText) : '',
-        sku: item.goodsInfos[0].goodsInfoNo
+        sku: item.goodsInfos&&item.goodsInfos[0]?.goodsInfoNo
       });
     }
     try {
