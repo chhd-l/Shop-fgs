@@ -102,6 +102,9 @@ class LoginCart extends React.Component {
 
     this.setState({
       calculatedWeeks
+    },()=>{
+      // console.log(this.state.calculatedWeeks)
+      // debugger
     })
   }
   async componentDidMount() {
@@ -203,30 +206,25 @@ class LoginCart extends React.Component {
   }
   GAInitialProductArray(productList) {
     console.log({ productList: JSON.stringify(toJS(productList)) });
-    debugger
     let arr = []
     for (let item of productList) {
-      let cur_selected_size = item.sizeList.filter((item2) => {
-        return item2.selected == true;
-      });
-      let variant = cur_selected_size[0].specText;
-      let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
-      let price = item.goodsInfoFlag ? cur_selected_size[0].subscriptionPrice : cur_selected_size[0].marketPrice
-      let subscriptionFrequency = item.form ? this.state.calculatedWeeks[item.form.frequencyId] : ''
+      let subscriptionFrequency = item.frequencyId ? this.state.calculatedWeeks[item.frequencyId] : ''
+      let range = item.goods.goodsCateName?.split("/")[1];
+      let technology = item.goods.goodsCateName?.split("/")[2]
 
       arr.push({
-        'price': price, //Product Price, including discount if promo code activated for this product
+        'price': item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
         'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
-        'range': item.goodsCateName?.split("/")[1], //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+        'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
         'name': item.goodsName, //WeShare product name, always in English
-        'mainItemCode': item.goodsNo, //Main item code
-        'SKU': goodsInfoNo, //product SKU
+        'mainItemCode': item.goods.goodsNo, //Main item code
+        'SKU':  item.goodsInfos[0].goodsInfoNo, //product SKU
         'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
-        'technology': item.goodsCateName?.split("/")[2], //'Dry', 'Wet', 'Pack'
+        'technology': technology, //'Dry', 'Wet', 'Pack'
         'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-        'size': variant, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-        'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
-        'subscriptionFrequency': subscriptionFrequency, //Frequency in weeks, to populate only if 'subscription' 
+        'size': item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+        'quantity': item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
+        'subscriptionFrequency': item.goodsInfoFlag == 1 ?subscriptionFrequency:'', //Frequency in weeks, to populate only if 'subscription' 
 
         'recommendationID': '123456', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP

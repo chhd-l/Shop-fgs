@@ -179,18 +179,20 @@ class GoogleTagManager extends React.Component {
       this.props.hubAdditionalEvents
     );
 
-    let hubGa = process.env.REACT_APP_HUB_GA  == '1'
-    
+    const { hubEcommerceEvents = {}, ecommerceEvents = {} } = this.props;
+    let hubGa = process.env.REACT_APP_HUB_GA == '1';
+    let addEvents = hubGa ? hubAdditionalEvents : additionalEvents;
+    let ecEvents = hubGa ? hubEcommerceEvents : ecommerceEvents;
 
     loadJS({
       code: `window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(${JSON.stringify(additionalEvents)});`
+    window.dataLayer.push(${JSON.stringify(addEvents)});`
     });
 
-    if (this.props.ecommerceEvents) {
+    if (hubEcommerceEvents || ecommerceEvents) {
       loadJS({
         code: `window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(${JSON.stringify(this.props.ecommerceEvents)});`
+      window.dataLayer.push(${JSON.stringify(ecEvents)});`
       });
     }
 

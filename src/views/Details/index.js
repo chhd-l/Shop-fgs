@@ -123,6 +123,8 @@ class Details extends React.Component {
     this.state = {
       event: {},
       eEvents: {},
+      hubEcEvents: {},
+      hubEvent: {},
       GAListParam: '',
       initing: true,
       details: {
@@ -202,13 +204,13 @@ class Details extends React.Component {
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
     this.changeTab = this.changeTab.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
     this.getUrlParam();
-    console.log(this.state.form.buyWay, 'buyWay');
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -228,6 +230,8 @@ class Details extends React.Component {
             frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
             frequencyId: parseInt(process.env.REACT_APP_FREQUENCY_ID)
           })
+        },()=>{
+          this.hubGA && this.getComputedWeeks(this.state.frequencyList)
         });
       } else {
         this.setState({
@@ -237,6 +241,8 @@ class Details extends React.Component {
             frequencyName: res[0] ? res[0].name : '',
             frequencyId: res[0] ? res[0].id : ''
           })
+        },()=>{
+          this.hubGA && this.getComputedWeeks(this.state.frequencyList)
         });
       }
     });
@@ -279,6 +285,31 @@ class Details extends React.Component {
       (details.saleableFlag || !details.displayFlag)
     );
   }
+
+  //天-0周  周-value*1 月-value*4
+  getComputedWeeks(frequencyList) {
+    let calculatedWeeks = {}
+
+    frequencyList.forEach(item => {
+      switch (item.type) {
+        case 'Frequency_day':
+          calculatedWeeks[item.id] = 0
+          break;
+        case 'Frequency_week':
+          calculatedWeeks[item.id] = item.valueEn * 1
+          break;
+        case 'Frequency_month':
+          calculatedWeeks[item.id] = item.valueEn * 4
+          break;
+      }
+    })
+    this.setState({
+      calculatedWeeks
+    },()=>{
+      console.log(calculatedWeeks,'calculatedWeeks===calculatedWeeks')
+    })
+  }
+
   getUrlParam() {
     const { search } = this.props.history.location;
     const utmSource = getParaByName(search, 'utm_source');
@@ -640,10 +671,8 @@ class Details extends React.Component {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
                   if (
                     process.env.REACT_APP_LANG === 'fr' ||
                     process.env.REACT_APP_LANG === 'ru' ||
@@ -715,7 +744,6 @@ class Details extends React.Component {
                     goodsDetailTab.tabName.push(key);
                     goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
                   }
-                  console.log(tmpGoodsDetail[key], 'ghaha');
                   tabs.push({ show: false });
                   // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
                 }
@@ -774,7 +802,7 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details);
+              this.hubGA ? this.hubGAProductDetailPageView(this.state.details) : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.matchGoods();
             }
@@ -827,13 +855,10 @@ class Details extends React.Component {
           // }
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
-            console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
                   if (
                     process.env.REACT_APP_LANG === 'fr' ||
                     process.env.REACT_APP_LANG === 'ru' ||
@@ -918,7 +943,6 @@ class Details extends React.Component {
                                 contentValue += `<p>${el}</p>`;
                               }
                             );
-                            console.log(tempContent, 'heiheihaha');
                             tempContent =
                               tempContent +
                               `
@@ -941,7 +965,6 @@ class Details extends React.Component {
                     goodsDetailTab.tabName.push(key);
                     goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
                   }
-                  console.log(tmpGoodsDetail[key], 'ghaha');
                   tabs.push({ show: false });
                   // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
                 }
@@ -991,7 +1014,7 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details);
+              this.hubGA ? this.hubGAProductDetailPageView(this.state.details) : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.bundleMatchGoods();
             }
@@ -1071,6 +1094,7 @@ class Details extends React.Component {
     }
   }
   handleSelectedItemChange = (data) => {
+    console.log(data,'data===data')
     const { form } = this.state;
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
@@ -1143,7 +1167,7 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details } = this.state;
 
-      this.GAAddToCar(quantity, details);
+      this.hubGA ? this.hubGAAToCar(quantity, details) : this.GAAddToCar(quantity, details);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -1277,7 +1301,7 @@ class Details extends React.Component {
     } = this.state;
     const { goodsId, sizeList } = details;
     // 加入购物车 埋点start
-    this.GAAddToCar(quantity, details);
+    this.hubGA ? this.hubGAAToCar(quantity, details) : this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
@@ -1616,6 +1640,48 @@ class Details extends React.Component {
       }
     });
   }
+
+   //hub加入购物车，埋点
+   hubGAAToCar(num, item) {
+     console.log(item,'item==item')
+    const {cateId, goodsCateName, goodsName, goodsInfos, brandName, goodsNo} = item;
+    const cateName = goodsCateName?.split('/') || '';
+    const SKU = goodsInfos?.[0]?.goodsInfoNo;
+    const size = goodsInfos?.[0]?.packSize;
+    let cur_selected_size = item.sizeList.filter((item2) => {
+      return item2.selected == true;
+    });
+    let { form } = this.state;
+    const price = form.buyWay === 0
+      ? cur_selected_size[0].marketPrice
+      : cur_selected_size[0].subscriptionPrice;
+    const specie = cateId === '1134' ? 'Cat' : 'Dog';
+
+    dataLayer.push({
+      event: 'pdpAddToCart',
+      products: [
+        {
+          price,
+          specie,
+          range: cateName?.[1],
+          name: goodsName,
+          mainItemCode: goodsNo,
+          SKU,
+          recommendationID: '',//todo:银章接口添加返回
+          subscription: '',
+          subscriptionFrequency: '',
+          technology: cateName?.[2],
+          brand: brandName || 'ROYAL CANIN',
+          size,
+          breed: '',//todo
+          quantity: '',//todo
+          promoCodeName: '',//todo
+          promoCodeAmount: '',
+        }
+      ],
+    });
+  }
+
   //商品详情页 埋点
   GAProductDetailPageView(item) {
     const event = {
@@ -1659,6 +1725,54 @@ class Details extends React.Component {
     };
     this.setState({ event, eEvents });
   }
+
+  //hub商品详情页 埋点
+  hubGAProductDetailPageView(item) {
+    const pathName = this.props.location.pathname;
+    const { cateId, minMarketPrice, goodsCateName, goodsName, goodsInfos, goodsNo } = item;
+    const specie = cateId === '1134' ? 'Cat' : 'Dog';
+    const cateName = goodsCateName?.split('/') || '';
+    const specieID = cateId == '1134' ? '2' : '1';
+    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    const size = goodsInfos?.[0]?.packSize || '';
+    const GAProductsInfo = [{
+      price: minMarketPrice,
+      specie,
+      range: cateName?.[1],
+      name: goodsName,
+      mainItemCode: goodsNo,
+      SKU,
+      recommendationID: '', //todo:昕宇确认
+      subscription: '', //todo subscriptionStatus有几种情况
+      subscriptionFrequency: '',//todo
+      technology: cateName?.[2],
+      brand: 'Royal Canin',
+      size,
+      breed: '',//todo:银章接口添加返回
+      promoCodeName: '', //促销 todo:接口加
+      promoCodeAmount: '', //促销 todo:接口加
+    }];
+    const hubEvent = {
+      page: {
+        type: 'product',
+        theme: specie,
+        globalURI: pathName,
+      },
+      pet: {
+        specieID,
+        breedName: ''//todo:银章接口添加返回
+      }
+    };
+    const hubEcEvents = {
+      event: 'pdpScreenLoad',
+      products: GAProductsInfo,
+    };
+    this.setState({
+      hubEvent,
+      hubEcEvents,
+    });
+  }
+
   render() {
     const createMarkup = (text) => ({ __html: text });
     const { history, location, match } = this.props;
@@ -1688,12 +1802,13 @@ class Details extends React.Component {
       event,
       eEvents,
       spuImages,
-      pageLink
+      pageLink,
+      hubEvent,
+      hubEcEvents,
     } = this.state;
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
     } 
@@ -1705,8 +1820,10 @@ class Details extends React.Component {
       }>`;
     return (
       <div id="Details">
-        {Object.keys(event).length > 0 ? (
+        {Object.keys(hubEvent).length ||Object.keys(event).length ? (
           <GoogleTagManager
+            hubAdditionalEvents={hubEvent}
+            hubEcommerceEvents={hubEcEvents}
             additionalEvents={event}
             ecommerceEvents={eEvents}
           />
