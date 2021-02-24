@@ -75,14 +75,14 @@ class Mentionslegales extends React.Component {
 
                           <p className="rc-margin-y--sm">Numéro de TVA : <span style={{ color: '#333333' }}>FR43380824888</span></p>
                           <p className="rc-margin-y--sm"><b>Contacts : </b></p>
-                          <p className="rc-margin-y--sm">Téléphone <a href="tel:0800005360" style={{ color: 'rgb(0, 188, 163)' }}>0 800 005 360</a></p>
+                          <p className="rc-margin-y--sm">Téléphone : <a href="tel:0800005360" style={{ color: 'rgb(0, 188, 163)' }}>0 800 005 360</a></p>
                           <p className="rc-margin-y--sm">Email : <a href="mailto:suivi.dtc.france@royalcanin.com" style={{ color: 'rgb(0, 135, 189)' }}>suivi.dtc.france@royalcanin.com</a></p>
 
                           <p className="rc-margin-y--sm"><b>Le directeur de publication est :</b></p>
                           <p className="rc-margin-y--sm">Monsieur Fabrice Ribourg agissant en qualité de Président de Royal Canin France. </p>
 
                           <p className="rc-margin-y--sm"><b>La Plateforme est hébergée par :</b></p>
-                          <p className="rc-margin-y--sm">Mars, Incorporated ; située au 800 High Street, Hackettstown, NJ 07840, États-Unis ; numéro de téléphone 916.445.1254. </p>
+                          <p className="rc-margin-y--sm">Mars, Incorporated ; située au 800 High Street, Hackettstown, NJ 07840, États-Unis ; numéro de téléphone : 916.445.1254. </p>
                         </div>
                       </div>
                     </div>
