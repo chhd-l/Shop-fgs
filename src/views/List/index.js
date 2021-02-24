@@ -57,7 +57,7 @@ function getMuntiImg(item) {
     return `${img}`;
   }
 }
-function ListItemH5ForFr(props) {
+function ListItemH5ForGlobalStyle(props) {
   const { item, GAListParam, breadListByDeco, sourceParam } = props;
   // console.log('★★★★★★★★★ item: ',item);
   return (
@@ -172,7 +172,10 @@ function ListItem(props) {
                     style={{ height: '15.7rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }} classNamePrefix="pt-3 w-100 h-100 d-flex align-items-center">
+                    <LazyLoad
+                      style={{ width: '100%', height: '100%' }}
+                      classNamePrefix="pt-3 w-100 h-100 d-flex align-items-center"
+                    >
                       <img
                         src={
                           item.goodsImg ||
@@ -205,7 +208,7 @@ function ListItem(props) {
     </div>
   );
 }
-function ListItemBodyH5ForFr({ item }) {
+function ListItemBodyH5ForGlobalStyle({ item }) {
   return (
     // <div
     //   className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
@@ -239,12 +242,11 @@ function ListItemBodyH5ForFr({ item }) {
   );
 }
 function ListItemBody({ item, headingTag }) {
-  let goodHeading =  
-  `<${headingTag ? headingTag : 'h2'} 
+  let goodHeading = `<${headingTag ? headingTag : 'h2'} 
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
       ${item.goodsName}
-  </${headingTag ? headingTag : 'h2'}>`
+  </${headingTag ? headingTag : 'h2'}>`;
   const defaultJSX = (
     <>
       <div className="height-product-tile-plpOnly">
@@ -351,10 +353,10 @@ function ListItemBody({ item, headingTag }) {
   );
   return (
     <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
-      {process.env.REACT_APP_LANG === 'fr' ? (
+      {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly">
-            <div  dangerouslySetInnerHTML={{ __html: goodHeading }}></div>
+            <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
           </div>
           <br />
           {/*商品价格*/}
@@ -1798,9 +1800,9 @@ class List extends React.Component {
                           {loading
                             ? _loadingJXS
                             : productList.map((item, i) =>
-                                process.env.REACT_APP_LANG === 'fr' &&
-                                isMobile ? (
-                                  <ListItemH5ForFr
+                                process.env.REACT_APP_PLP_STYLE ===
+                                  'layout-global' && isMobile ? (
+                                  <ListItemH5ForGlobalStyle
                                     sourceParam={this.state.sourceParam}
                                     key={item.id}
                                     leftPromotionJSX={
@@ -1844,13 +1846,8 @@ class List extends React.Component {
                                     GAListParam={GAListParam}
                                     breadListByDeco={breadListByDeco}
                                   >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBodyH5ForFr item={item} />
-                                    ) : (
-                                      <ListItemBody item={item} headingTag={ this.state.seoConfig.headingTag }/>
-                                    )}
-                                  </ListItemH5ForFr>
+                                    <ListItemBodyH5ForGlobalStyle item={item} />
+                                  </ListItemH5ForGlobalStyle>
                                 ) : (
                                   <ListItem
                                     sourceParam={this.state.sourceParam}
@@ -1892,12 +1889,12 @@ class List extends React.Component {
                                     GAListParam={GAListParam}
                                     breadListByDeco={breadListByDeco}
                                   >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBodyH5ForFr item={item} />
-                                    ) : (
-                                      <ListItemBody item={item} headingTag={ this.state.seoConfig.headingTag }/>
-                                    )}
+                                    <ListItemBody
+                                      item={item}
+                                      headingTag={
+                                        this.state.seoConfig.headingTag
+                                      }
+                                    />
                                   </ListItem>
                                 )
                               )}
