@@ -172,7 +172,7 @@ function ListItem(props) {
                     style={{ height: '15.7rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }}>
+                    <LazyLoad style={{ width: '100%', height: '100%' }} classNamePrefix="pt-3 w-100 h-100 d-flex align-items-center">
                       <img
                         src={
                           item.goodsImg ||
@@ -184,7 +184,7 @@ function ListItem(props) {
                         // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
                         alt={item.goodsName}
                         title={item.goodsName}
-                        className="ImgFitScreen pt-3"
+                        className="ImgFitScreen "
                         style={{
                           maxWidth: '50%',
                           maxHeight: '100%',
