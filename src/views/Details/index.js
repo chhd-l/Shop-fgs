@@ -1690,7 +1690,8 @@ class Details extends React.Component {
                                 <div className="details-img-container">
                                   {process.env.REACT_APP_LANG === 'fr' ||
                                   process.env.REACT_APP_LANG === 'ru' ||
-                                  process.env.REACT_APP_LANG === 'tr' ? (
+                                  process.env.REACT_APP_LANG === 'tr' ||
+                                  process.env.REACT_APP_LANG === 'en' ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
                                       video={details.goodsVideo}
