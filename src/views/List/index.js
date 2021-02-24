@@ -39,6 +39,7 @@ import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 import pfRecoImgRetail from '@/assets/images/product-finder-recomend-retail-cat.PNG';
 import pfRecoImgVet from '@/assets/images/product-finder-recomend-vet-cat.PNG';
 import pfRecoImgRetailFinder from '@/assets/images/product-finder-recomend-retail-cat-find.png';
+import smartFeeder from '@/assets/images/smart_feeder.png';
 
 const isHub = process.env.REACT_APP_HUB == '1';
 const isMobile = getDeviceType() === 'H5';
@@ -1974,8 +1975,9 @@ class List extends React.Component {
                       {this.state.showSmartFeeder ? <div className="smart-feeder-container">
                         <p>Smart Feeder Subscription</p>
                         <p>A bundle offer of your dog food paired with a dispenser</p>
+                        <img src={smartFeeder}/>
                         <a
-                          href="https://www.consignesdetri.fr/"
+                          href="/"
                           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                           style={{ minWidth: '110px' }}
                         >
