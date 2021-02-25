@@ -20987,6 +20987,10 @@ body {
   max-width: 286px
 }
 
+.value-proposition__text {
+  flex: 1;
+}
+
 @media(min-width: 769px) {
   .value-proposition__content {
       max-width:395px
@@ -22277,4 +22281,15 @@ a.rc-styled-link,b.rc-styled-link,button.rc-styled-link,span.rc-styled-link {
 
 html:not(.rc-loaded--final) .rc-list__content {
   display: block!important;
+}
+
+/* 解决rc图标错位问题 */
+.rc-carousel__direction::after {
+  transition: none!important;
+}
+.rc-carousel__direction.rc-right:hover::after {
+  background-position: 70% 89%!important;
+}
+.rc-interactive.rc-iconography.rc-icon.left:hover:after, .rc-interactive.rc-iconography.rc-icon.rc-left:hover:after {
+  background-position: 50% 67%!important 
 }
