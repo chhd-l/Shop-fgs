@@ -23,6 +23,7 @@ class Filter extends React.Component {
     this.toggleContent = this.toggleContent.bind(this);
     this.hanldeClickRemoveAll = this.hanldeClickRemoveAll.bind(this);
     this.handleClickValueItem = this.handleClickValueItem.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   get hasSelecedItems() {
     let ret = false;
@@ -109,6 +110,14 @@ class Filter extends React.Component {
       },
       () => this.props.updateParentData(this.state.filterList)
     );
+
+    //hub filter点击埋点
+    const attributeName = parentItem?.attributeName || '';
+    const attributeDetailName = item?.attributeDetailName || '';
+    this.hubGA && dataLayer.push({
+      event: 'plpFilterClick',
+      plpFilterClickName: `${attributeName}|${attributeDetailName}`,
+    });
   }
   renderMultiChoiceJSX = (parentItem, childItem) => {
     const { inputLabelKey } = this.props;

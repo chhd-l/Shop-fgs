@@ -415,6 +415,42 @@ class Details extends React.Component {
     this.setState({
       contactUs,
     })
+
+    // 观察'推荐块'元素是否出现在可见视口中
+    if (this.hubGA) {
+      let initObserver = new IntersectionObserver((entries) => {
+        if (entries[0].intersectionRatio <= 0) return; // intersectionRatio 是否可见，不可见则返回
+        dataLayer.push({
+          event: 'pdpAssociatedProductsDisplay',
+          pdpAssociatedProductsDisplay: [{
+            'price': 40, //Product Price, including discount if promo code activated for this product
+            'specie': 'Cat', //'Cat' or 'Dog',
+            'range': 'Size Health Nutrition', //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+            'name': 'Medium Puppy', //WeShare product name, always in English
+            'mainItemCode': '3003', //Main item code
+            'SKU': '123456789', //product SKU
+            'recommendationID': '123456', //recommendation ID
+            'subscription': 'One Shot', //'One Shot', 'Subscription', 'Club'
+            'subscriptionFrequency': 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+            'technology': 'Dry', //'Dry', 'Wet', 'Pack'
+            'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+            'size': '12x85g', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+            'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+            'quantity': 2, //Number of products, only if already added to cart
+            'sizeCategory': 'Small', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
+            'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
+            'promoCodeAmount': 8 //Promo code amount, only if promo activated
+          }] //待后端添加
+        });
+      });
+      let recommendationGoodsDom = document.querySelector('#goods-recommendation-box');
+      this.setState({
+        initObserver,
+        recommendationGoodsDom,
+      }, () => {
+        this.state.initObserver.observe(this.state.recommendationGoodsDom);
+      })
+    }
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -3206,7 +3242,7 @@ class Details extends React.Component {
                 </div>
               </div>
             </div>
-            <div>
+            <div id="goods-recommendation-box">
               <Carousel
                 location={location}
                 history={history}
