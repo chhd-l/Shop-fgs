@@ -73,7 +73,6 @@ class Pet extends React.Component {
 
     return consumerAccount;
   };
-
   getPetList = async () => {
     this.setState({ loading: true });
     if (!this.getAccount()) {
@@ -337,8 +336,10 @@ class Pet extends React.Component {
                           display: 'block'
                         }}
                       >
-                        <span style={{ fontSize: '25px' }} />{' '}
-                        <FormattedMessage id="pet.addNewPet" />
+                        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1" style={{ fontSize: '42px' }} />{' '}
+                        <span>
+                          <FormattedMessage id="pet.addNewPet" />
+                        </span>
                         {/* Add a new PET */}
                       </Link>
                     </div>

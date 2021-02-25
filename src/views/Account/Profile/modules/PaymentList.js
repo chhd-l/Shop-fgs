@@ -16,7 +16,7 @@ import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import PaymentEditForm from '../PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import find from 'lodash/find';
-import { myAccountPushEvent } from '@/utils/GA';
+import { myAccountPushEvent, myAccountActionPushEvent} from '@/utils/GA';
 
 function CardItem(props) {
   const { data } = props;
@@ -155,6 +155,7 @@ class AddressList extends React.Component {
     await deleteCard({ id: el.id, storeId: process.env.REACT_APP_STOREID })
       .then(() => {
         this.getPaymentMethodList();
+        myAccountActionPushEvent('Delete Address')
       })
       .catch((err) => {
         this.setState({

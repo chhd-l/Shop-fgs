@@ -11,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import classNames from 'classnames';
 import { withOktaAuth } from '@okta/okta-react';
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 @injectIntl
 class PersonalDataEditForm extends React.Component {
@@ -133,6 +134,7 @@ class PersonalDataEditForm extends React.Component {
     this.props.updateEditOperationPanelName(status ? 'My account' : '');
   };
   handleSave = async () => {
+    myAccountActionPushEvent('Edit contact info')
     try {
       const { form } = this.state;
       this.setState({ loading: true });
@@ -203,6 +205,7 @@ class PersonalDataEditForm extends React.Component {
     });
   }
   handleClickEditBtn = () => {
+    myAccountActionPushEvent('Edit profile info')
     window.scrollTo({
       top: 0,
       behavior: 'smooth'

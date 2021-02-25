@@ -1076,7 +1076,7 @@ const fr_FR = {
   checkboxIsRequiredForSubscription: 'cette case est obligatoire pour l\'abonnement',
   'avecLabonnement':'avec l\'abonnement',
   'pet.petListTitle': 'Créez et gérez le profil de votre animal pour maintenir sa meilleure santé possible',
-  'pet.addNewPet': 'Ajouter un nouveau PET',
+  'pet.addNewPet': 'ajouter un nouvel animal',
   'pet.deletePet': 'Supprimer le profil de l\'animal',
   'validPromotionCode': 'Impossible d\'ajouter le bon de réduction à votre panier',
   'mixed Breed': 'race Mixte',
