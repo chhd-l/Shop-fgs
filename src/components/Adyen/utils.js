@@ -1,7 +1,7 @@
 export const paymentMethodsConfig = {
   shopperReference: 'Checkout Components sample code test',
   reference: 'Checkout Components sample code test',
-  countryCode: 'NL',
+  countryCode: process.env.REACT_APP_Adyen_country || 'NL',
   amount: {
     value: 1000,
     currency: 'EUR'
@@ -11,7 +11,7 @@ export const paymentMethodsConfig = {
 export const paymentsDefaultConfig = {
   shopperReference: 'Checkout Components sample code test',
   reference: 'Checkout Components sample code test',
-  countryCode: 'NL',
+  countryCode:  process.env.REACT_APP_Adyen_country || 'NL',
   channel: 'Web',
   returnUrl: 'https://your-company.com/',
   amount: {
