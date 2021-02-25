@@ -20,6 +20,7 @@ import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { myAccountPushEvent } from '@/utils/GA';
 
 const pageLink = window.location.href;
 
@@ -42,6 +43,7 @@ class Pet extends React.Component {
     };
   }
   componentDidMount() {
+    myAccountPushEvent('Pets')
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });

@@ -16,6 +16,7 @@ import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import PaymentEditForm from '../PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import find from 'lodash/find';
+import { myAccountPushEvent } from '@/utils/GA';
 
 function CardItem(props) {
   const { data } = props;
@@ -188,6 +189,7 @@ class AddressList extends React.Component {
     this.changeListVisible(!closeListPage);
   };
   handleClickAddBtn(fromPage) {
+    myAccountPushEvent('Payment & Addresses')
     this.changeEditFormVisible(true);
     this.setState({ fromPage });
     window.scroll({ top: 0, behavior: 'smooth' });

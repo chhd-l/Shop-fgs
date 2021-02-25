@@ -17,12 +17,14 @@ import { getCustomerInfo } from '@/api/user';
 import { queryCityNameById } from '@/api';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
+import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
+
 
 function PanleContainer(props) {
   const loading = props.loading || false;
@@ -82,6 +84,8 @@ class AccountProfile extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    myAccountPushEvent('Personal information')
+
     setSeoConfig({
       pageName: 'Account personal information'
     }).then((res) => {
