@@ -22,6 +22,10 @@ import { Helmet } from 'react-helmet';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
+
+const isHubGA = process.env.REACT_APP_HUB_GA
+
+
 @inject('checkoutStore', 'frequencyStore')
 @observer
 class Confirmation extends React.Component {
@@ -112,7 +116,8 @@ class Confirmation extends React.Component {
           totalTid: resContext.totalTid,
           detailList: res.map((ele) => ele.context)
         }, () => {
-          this.getGAEComTransaction()
+          (!isHubGA) && this.getGAEComTransaction()
+          isHubGA && this.hubGAOrderConfirmation()
         });
         const payRecordRes = await getPayRecord(resContext.totalTid);
         this.setState({
@@ -303,6 +308,21 @@ class Confirmation extends React.Component {
 
   }
   //GA 埋点 end
+
+  hubGAOrderConfirmation() {
+    const { details } = this.state;
+    dataLayer.push({
+      'event': 'orderConfirmation',
+      'orderConfirmation': {
+        'id': details.transactionId, //Transaction ID, same as backend system
+        'currency': process.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
+        'amount': details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
+        'taxes': details.tradePrice.taxFreePrice || '', //Taxes amount, US number format, local currency
+        'shipping': details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
+        'paymentMethod': 'Credit Card' //'Credit Card' currently only payment method in use
+      }
+    });
+  }
   render() {
     const { loading, details, subOrderNumberList } = this.state;
     const event = {
@@ -327,7 +347,7 @@ class Confirmation extends React.Component {
           <meta name="description" content={this.state.seoConfig.metaDescription} />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header history={this.props.history} match={this.props.match}  showNav={false}/>
+        <Header history={this.props.history} match={this.props.match} showNav={false} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
           {/* <BannerTip /> */}
           <div className="rc-max-width--xl pb-4">
@@ -373,7 +393,7 @@ class Confirmation extends React.Component {
                       </Link>
                     </>
                   ) : (
-                    this.AdyenBtnJSX(this.computedGotoAccountBtn(this.state.isAllOneShootGoods))
+                      this.AdyenBtnJSX(this.computedGotoAccountBtn(this.state.isAllOneShootGoods))
                     )}
                 </div>
               </div>
