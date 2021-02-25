@@ -2079,15 +2079,15 @@ class List extends React.Component {
                         />
                       )}
                       {this.state.showSmartFeeder  ? <div className="smart-feeder-container">
-                        <p>Smart Feeder Subscription</p>
-                        <p>A bundle offer of your dog food paired with a dispenser</p>
+                        {/* 目前只有法国，语言暂时写死 */}
+                        <p>Abonnement au distributeur connecté</p>
+                        <p>Un abonnement à l'alimentation de votre animal de compagnie couplé à un distributeur intelligent</p>
                         <a
                           href="https://www.royalcanin.com/fr/shop/smart-feeder-subscription"
                           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                           style={{ minWidth: '110px' }}
                         >
-                          {/* <FormattedMessage id="learnMore" /> */}
-                          See the offer
+                          Voir l'offre
                         </a>
                         <img src={smartFeeder}/>
                       </div> : null}
