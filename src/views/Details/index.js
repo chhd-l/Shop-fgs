@@ -140,7 +140,7 @@ class Details extends React.Component {
         fromPrice: 0,
         toPrice: 0
       },
-      activeTabIdx: 0,
+      activeTabIdxList: isMobile ? [] : [0],
       goodsDetailTab: {
         tabName: [],
         tabContent: []
@@ -165,7 +165,6 @@ class Details extends React.Component {
       tradePrice: '',
       specList: [],
       tabsValue: [],
-      petModalVisible: false,
       isAdd: 0,
       productRate: 0,
       replyNum: 0,
@@ -181,7 +180,6 @@ class Details extends React.Component {
         frequencyId: -1
       },
       frequencyList: [],
-      tabs: [],
       reviewShow: false,
       goodsNo: '', // SPU
       breadCrumbs: [],
@@ -511,15 +509,23 @@ class Details extends React.Component {
           const tmpGoodsDescriptionDetailList = (
             res.context.goodsDescriptionDetailList || []
           ).sort((a, b) => a.sort - b.sort);
+          let tmpTabName = tmpGoodsDescriptionDetailList.map(
+            (g) => g.descriptionName
+          );
+          let tmpTabContent = tmpGoodsDescriptionDetailList.map(
+            (g) => g.content
+          );
+          // 美国需临时加入一个tab
+          if (process.env.REACT_APP_LANG === 'en') {
+            tmpTabName.push('Royal Canin Club');
+            tmpTabContent.push('<div class=\"row rc-margin-x--none flex-column-reverse flex-md-row\"><div class=\"col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile\"><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwae14b5b3/AB Testing/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=85&amp;ch=73&amp;sfrm=png\" alt=\"CLUB BENEFITS PET ADVISOR\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div></div><div class=\"rc-hidden align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwed46b971/AB Testing/CLUB-BENEFITS_WELCOME-BOX.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=7&amp;cw=85&amp;ch=73&amp;sfrm=png\" alt=\"CLUB BENEFITS DISCOUNT\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div></div><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwbc91a43e/AB Testing/CLUB-BENEFITS_DISCOUNT.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=86&amp;ch=74&amp;sfrm=png\" alt=\"CLUB BENEFITS DISCOUNT\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Special Savings + FREE Shipping </strong>- save 30% on your first order and another 5% on every autoship order.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Special Savings + FREE Shipping&nbsp;</strong>-&nbsp;save 30% on your first order and another 5% on every autoship order.</p></div></div><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwed90b2cc/AB Testing/CLUB-BENEFITS_PRODUCT-RECOS.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=87&amp;ch=74&amp;sfrm=png\" alt=\"CLUB BENEFITS PRODUCT RECOS\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div></div></div><div class=\"col-12 col-md-6\"><div class=\"rc-video-wrapper\"><iframe src=\"https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com\" allowfullscreen=\"\" frameborder=\"0\"></iframe></div></div></div><div class=\"arrow-img-columns rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile rc-padding-x--md--mobile\"><div class=\"rc-margin-bottom--md\"><h2 class=\"rc-beta\">How to Join Royal Canin Club</h2></div><div class=\"rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle\"><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>GRAB YOUR PRODUCTS</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN SHOP\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwf2bad73c/AB Testing/HOW-TO-JOIN-SHOP.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=167&amp;ch=106&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Find your handpicked nutrition products in your cart.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>CHOOSE AUTOMATIC SHIPPING</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN AUTOSHIP\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw96b40031/AB Testing/HOW-TO-JOIN-AUTOSHIP.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Set your automatic shipping schedule and input your payment method.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN SCHEDULE\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw4d808803/AB Testing/HOW-TO-JOIN-SCHEDULE.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Receive your product automatically based on your schedule. Change or cancel at any time.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>ENJOY YOUR PERKS</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN ENJOY\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw3702062b/AB Testing/HOW-TO-JOIN-ENJOY.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>');
+          }
           this.setState({
             productRate: res.context.avgEvaluate,
             goodsDetailTab: {
-              tabName: tmpGoodsDescriptionDetailList.map(
-                (g) => g.descriptionName
-              ),
-              tabContent: tmpGoodsDescriptionDetailList.map((g) => g.content)
-            },
-            tabs: tmpGoodsDescriptionDetailList.map((t) => ({ show: false }))
+              tabName: tmpTabName,
+              tabContent: tmpTabContent
+            }
           });
         }
 
@@ -1012,7 +1018,6 @@ class Details extends React.Component {
           );
           return false;
         }
-        // this.openPetModal()
         let autoAuditFlag = false;
         let res = await getProductPetConfig({
           goodsInfos: checkoutStore.loginCartData
@@ -1293,35 +1298,21 @@ class Details extends React.Component {
       });
     }
   }
-  changeTab(i) {
-    this.setState({ activeTabIdx: i });
-  }
-  openPetModal() {
-    this.setState({
-      petModalVisible: true
-    });
-  }
-  closePetModal() {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
-      });
+  changeTab({ idx, type }) {
+    let { activeTabIdxList } = this.state;
+    if (type === 'switch') {
+      // 切换其他，先删除所有，再添加本身
+      activeTabIdxList = [idx];
+    } else if (type === 'toggle') {
+      // 如果有本身，则删除，否则添加
+      const i = activeTabIdxList.indexOf(idx);
+      if (i > -1) {
+        activeTabIdxList.splice(i, 1);
+      } else {
+        activeTabIdxList.push(idx);
+      }
     }
-    this.setState({
-      petModalVisible: false
-    });
-  }
-  openNew() {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  }
-  closeNew() {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
+    this.setState({ activeTabIdxList });
   }
   handleAClick() {
     // dataLayer.push({
@@ -1574,9 +1565,7 @@ class Details extends React.Component {
       productRate,
       instockStatus,
       goodsDetailTab,
-      tabs,
-      reviewShow,
-      activeTabIdx,
+      activeTabIdxList,
       checkOutErrMsg,
       breadCrumbs,
       event,
@@ -2528,34 +2517,28 @@ class Details extends React.Component {
                   <dl>
                     <div
                       className={`rc-list__accordion-item test-color 
-                  ${tabs[index].show ? 'showItem' : 'hiddenItem'}`}
+                  ${
+                    activeTabIdxList.includes(index) ? 'showItem' : 'hiddenItem'
+                  }`}
                     >
                       <div
                         className="rc-list__header d-flex justify-content-between"
-                        onClick={() => {
-                          let { tabs } = this.state;
-                          tabs[index].show = !tabs[index].show;
-                          this.setState({ tabs });
-                        }}
+                        onClick={this.changeTab.bind(this, {
+                          idx: index,
+                          type: 'toggle'
+                        })}
                       >
                         <div dangerouslySetInnerHTML={{ __html: ele }} />
                         <span
                           className="iconfont font-weight-bold"
                           style={{
-                            transform: tabs[index].show
+                            transform: activeTabIdxList.includes(index)
                               ? 'rotate(90deg)'
                               : 'rotate(-90deg)'
                           }}
                         >
                           &#xe6fa;
                         </span>
-                        {/* <span
-                          className={`icon-change ${
-                            tabs[index].show
-                              ? 'rc-icon rc-up rc-brand1'
-                              : 'rc-icon rc-down rc-iconography'
-                          }`}
-                        ></span> */}
                       </div>
                       <div className={`rc-list__content`}>
                         <p
@@ -2590,10 +2573,15 @@ class Details extends React.Component {
                                 className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                                 data-toggle={`tab__panel-${index}`}
                                 aria-selected={
-                                  activeTabIdx === index ? 'true' : 'false'
+                                  activeTabIdxList.includes(index)
+                                    ? 'true'
+                                    : 'false'
                                 }
                                 role="tab"
-                                onClick={this.changeTab.bind(this, index)}
+                                onClick={this.changeTab.bind(this, {
+                                  idx: index,
+                                  type: 'switch'
+                                })}
                               >
                                 {ele}
                               </button>
@@ -2611,7 +2599,9 @@ class Details extends React.Component {
                           id={`tab__panel-${i}`}
                           key={i}
                           className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                          aria-expanded={activeTabIdx === i ? 'true' : 'false'}
+                          aria-expanded={
+                            activeTabIdxList.includes(i) ? 'true' : 'false'
+                          }
                         >
                           <div className="block">
                             <p

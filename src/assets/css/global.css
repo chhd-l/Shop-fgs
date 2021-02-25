@@ -20781,13 +20781,13 @@ body {
 }
 
 .arrow-img-columns .rc-grid:not(:last-child):after {
-  content: "\E907";
+  content: "\e618";
   color: #eaeaea;
   position: absolute;
   right: -32px;
   top: 35%;
   font-size: 42px;
-  font-family: icomoon!important;
+  font-family: iconfont!important;
   speak: none;
   font-style: normal;
   font-weight: 400;
