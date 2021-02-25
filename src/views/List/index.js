@@ -889,27 +889,41 @@ class List extends React.Component {
 
   // hub商品列表 埋点
   hubGAProductImpression(productList, totalElements, keywords) {
-
+    console.log(productList,'productList===productList====')
     const products = productList.map((item, index) => {
-      const {minMarketPrice,goodsCate,goodsNo, goodsInfos,goodsBrand,goodsName } = item;
+      const { minMarketPrice, goodsCate, goodsNo, goodsInfos, goodsBrand, goodsName, goodsAttributesValueRelVOList = [] } = item;
+      const breed = goodsAttributesValueRelVOList.filter(attr =>attr.goodsAttributeName == "breeds").map(item => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
-      const recommendationID = this.props.clinicStore?.linkClinicId || '';
+      // const recommendationID = this.props.clinicStore?.linkClinicId || '';
       return {
         price: minMarketPrice,
         specie,
-        range:'',//需要后端加
+        range: '',//待确认 是否是字符串还是[]
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        recommendationID,
-        technology: '',//需要后端加
+        // recommendationID,
+        technology: '',//待确认 是否是字符串还是[]
         brand: 'Royal Canin',
-        size:'',//需要后端加
-        breed: '',//todo:接口添加返回
-        promoCodeName: '', //todo:接口添加返回
-        // promoCodeAmount: '', //促销金额 拿不到
+        // size: '',
+        // sizeCategory: '',
+        breed,
+        // promoCodeName: '',
+        // promoCodeAmount: '',
       };
+    });
+
+    dataLayer.push({
+      products
+    });
+
+    dataLayer.push({
+      event: 'plpScreenLoad',
+      plpScreenLoad: {
+        nbResults: totalElements,
+        userRequest: keywords || ''
+      }
     });
 
     if (dataLayer[0] && dataLayer[0].search) {
@@ -917,15 +931,6 @@ class List extends React.Component {
       dataLayer[0].search.results = totalElements;
       dataLayer[0].search.type = 'with results';
     }
-
-    dataLayer.push({
-      event: 'plpScreenLoad',
-      plpScreenLoad: {
-        nbResults: totalElements,
-        userRequest: keywords || ''
-      },
-      products
-    });
   }
 
   // hubGa点击页码切换埋点
@@ -934,7 +939,7 @@ class List extends React.Component {
       const { minMarketPrice, goodsCate, goodsNo, goodsInfos, goodsBrand, goodsName } = item;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
-      const recommendationID = this.props.clinicStore?.linkClinicId || '';
+      // const recommendationID = this.props.clinicStore?.linkClinicId || '';
       return {
         price: minMarketPrice,
         specie,
@@ -942,13 +947,13 @@ class List extends React.Component {
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        recommendationID,
+        // recommendationID,
         technology: '',//需要后端加
         brand: 'Royal Canin',
-        size: '',//需要后端加
+        // size: '',//需要后端加
         breed: '',//todo:接口添加返回
-        promoCodeName: '', //todo:接口添加返回
-        // promoCodeAmount: '', //促销金额 拿不到
+        // promoCodeName: '',
+        // promoCodeAmount: '', 
       };
     });
     dataLayer.push({
