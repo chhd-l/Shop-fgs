@@ -75,6 +75,8 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+const isHubGA = process.env.REACT_APP_HUB_GA
+
 const checkoutDataLayerPushEvent = ({name,options}) => {
   dataLayer.push({
     'event' : 'checkoutStep',
@@ -1035,17 +1037,21 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
-        if (this.isLogin) {
-          isNewAccount().then((res) => {
-            if (res.code == 'K-000000' && res.context == 0) {
-              checkoutDataLayerPushEvent({name:'Confirmation',options:'New account'})
-            } else {
-              checkoutDataLayerPushEvent({name:'Confirmation',options:'Existing account'})
-            }
-          })
-        } else {
-          checkoutDataLayerPushEvent({name:'Confirmation',options:'Guest checkout'})
+        if(isHubGA){
+          if (this.isLogin) {
+            isNewAccount().then((res) => {
+              if (res.code == 'K-000000' && res.context == 0) {
+                checkoutDataLayerPushEvent({name:'Confirmation',options:'New account'})
+              } else {
+                checkoutDataLayerPushEvent({name:'Confirmation',options:'Existing account'})
+              }
+            })
+          } else {
+            checkoutDataLayerPushEvent({name:'Confirmation',options:'Guest checkout'})
+          }
         }
+        // console.log({dataLayer})
+        // debugger
         this.props.history.push('/confirmation');
       }
     } catch (err) {

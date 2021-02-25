@@ -1,12 +1,34 @@
 import React, { Component, Fragment } from 'react'
 import './faq.css'
 
+const isHubGA = process.env.REACT_APP_HUB_GA
+
+const faqClickDataLayerPushEvent = ({item,clickType}) => {
+    dataLayer.push({
+        'event':'faqClick',
+        'faqClick' : {
+            item, //Generic name in English for each item
+            clickType //'Expand' or 'Collapse'
+        }
+    });
+  }
+
 class Faq extends Component {
     constructor(props) {
         super(props)
         this.state = {
 
         }
+    }
+    faqItemClick=(e)=>{
+        // e.preventDefault()
+        // console.log(e.target)
+        // console.log(e.target.innerHTML)
+    }
+    btnClick=(e)=>{
+        e.preventDefault()
+        console.log(e.target)
+        console.log(e.target.innerHTML)
     }
     render() {
         return (
@@ -19,15 +41,15 @@ class Faq extends Component {
                 </div>
                 <div className="faq-title rc-delta">FAQ</div>
                 <dl data-toggle-group="" data-toggle-effect="rc-expand--vertical" className="">
-                    <div className="rc-list__accordion-item">
+                    <div className="rc-list__accordion-item" onClick={this.faqItemClick}>
                         <dt>
-                            <button className="rc-list__header" id="heading-73" data-toggle="content-73" style={{background:'#f6f6f6'}}><p style={{width:'280px'}}>Comment puis-je joindre le service client ?</p></button>
+                            <button onClick={this.btnClick} className="rc-list__header" id="heading-73" data-toggle="content-73" style={{background:'#f6f6f6'}}><p style={{width:'280px'}}>Comment puis-je joindre le service client ?</p></button>
                         </dt>
                         <dd className="rc-list__content" id="content-73" aria-labelledby="heading-73">
                             <p>Vous pouvez joindre un de nos représentants du service clientèle au numéro gratuit 0 800 005 360. Nous sommes à votre disposition du lundi au vendredi, de 8h30 à 12h30 et de 14h à 17h.</p>
                         </dd>
                     </div>
-                    <div className="rc-list__accordion-item">
+                    <div className="rc-list__accordion-item" onClick={this.faqItemClick}>
                         <dt>
                             <button className="rc-list__header" id="heading-250" data-toggle="content-250" style={{background:'#f6f6f6'}}><p style={{width:'280px'}}>Proposez-vous la livraison gratuite ?</p></button>
                         </dt>
@@ -35,7 +57,7 @@ class Faq extends Component {
                            <p>Royal Canin offre la livraison gratuite pour toutes les commandes. Votre colis arrivera dans les 3 jours ouvrables.</p>
                         </dd>
                     </div>
-                    <div className="rc-list__accordion-item">
+                    <div className="rc-list__accordion-item" onClick={this.faqItemClick}>
                         <dt>
                             <button className="rc-list__header" id="heading-529" data-toggle="content-529" style={{background:'#f6f6f6'}}><p style={{width:'280px'}}>Dans quelle mesure mes informations de paiement sont-elles sécurisées ?</p></button>
                         </dt>
@@ -44,7 +66,7 @@ class Faq extends Component {
                             <p>Nous acceptons les cartes Visa et Mastercard comme moyens de paiement. </p>
                         </dd>
                     </div>
-                    <div className="rc-list__accordion-item">
+                    <div className="rc-list__accordion-item" onClick={this.faqItemClick}>
                         <dt>
                             <button className="rc-list__header" id="heading-530" data-toggle="content-530" style={{background:'#f6f6f6'}}><p style={{width:'280px'}}>Proposez-vous des retours gratuits ?</p></button>
                         </dt>
