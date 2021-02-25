@@ -1158,7 +1158,11 @@ const fr_FR = {
   "lang.submit": "Soumettre",
   "lang.close": "Fermer",
   'signInAndRegisterNow': 'Connectez-vous / Inscrivez-vous maintenant',
-  language: 'France/Français'
+  language: 'France/Français',
+  "checkout.faq.contactCustomer": "Comment puis-je joindre le service client",
+  "checkout.faq.freeDelivery": "Proposez-vous la livraison gratuite",
+  "checkout.faq.paymentInformation": "Dans quelle mesure mes informations de paiement sont-elles sécurisées",
+  "checkout.faq.FreeReturn": "Proposez-vous des retours gratuits"
 }
 export default fr_FR;
 
