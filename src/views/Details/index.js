@@ -25,7 +25,8 @@ import {
   getFrequencyDict,
   queryStoreCateList,
   getParaByName,
-  loadJS
+  loadJS,
+  getDictionary
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -33,7 +34,6 @@ import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
-import { getDict } from '@/api/dict';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
 import { Helmet } from 'react-helmet';
@@ -175,10 +175,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay:
-          process.env.REACT_APP_PDP_BUYWAY === undefined
-            ? 1
-            : parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
+        buyWay: 1, //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -196,7 +193,8 @@ class Details extends React.Component {
       },
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
-      pageLink: ''
+      pageLink: '',
+      purchaseTypeDict: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -210,42 +208,14 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    this.getUrlParam();
     const { pathname, state } = this.props.location;
+    this.getUrlParam();
     if (state) {
       if (!!state.GAListParam) {
         this.setState({ GAListParam: state.GAListParam });
       }
     }
-    await getFrequencyDict().then((res) => {
-      if (
-        process.env.REACT_APP_FREQUENCY_ID &&
-        process.env.REACT_APP_FREQUENCY_VAL &&
-        process.env.REACT_APP_FREQUENCY_NAME
-      ) {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: process.env.REACT_APP_FREQUENCY_VAL,
-            frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
-            frequencyId: parseInt(process.env.REACT_APP_FREQUENCY_ID)
-          })
-        },()=>{
-          this.hubGA && this.getComputedWeeks(this.state.frequencyList)
-        });
-      } else {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: res[0] ? res[0].valueEn : '',
-            frequencyName: res[0] ? res[0].name : '',
-            frequencyId: res[0] ? res[0].id : ''
-          })
-        },()=>{
-          this.hubGA && this.getComputedWeeks(this.state.frequencyList)
-        });
-      }
-    });
+
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
@@ -286,28 +256,45 @@ class Details extends React.Component {
     );
   }
 
+  setDefaultPurchaseType({ id }) {
+    const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
+      (ele) => ele.id === id
+    )[0];
+    if (targetDefaultPurchaseTypeItem) {
+      this.setState({
+        form: Object.assign(this.state.form, {
+          buyWay:
+            targetDefaultPurchaseTypeItem.valueEn === 'Subscription' ? 1 : 0
+        })
+      });
+    }
+  }
+
   //天-0周  周-value*1 月-value*4
   getComputedWeeks(frequencyList) {
-    let calculatedWeeks = {}
+    let calculatedWeeks = {};
 
-    frequencyList.forEach(item => {
+    frequencyList.forEach((item) => {
       switch (item.type) {
         case 'Frequency_day':
-          calculatedWeeks[item.id] = 0
+          calculatedWeeks[item.id] = 0;
           break;
         case 'Frequency_week':
-          calculatedWeeks[item.id] = item.valueEn * 1
+          calculatedWeeks[item.id] = item.valueEn * 1;
           break;
         case 'Frequency_month':
-          calculatedWeeks[item.id] = item.valueEn * 4
+          calculatedWeeks[item.id] = item.valueEn * 4;
           break;
       }
-    })
-    this.setState({
-      calculatedWeeks
-    },()=>{
-      console.log(calculatedWeeks,'calculatedWeeks===calculatedWeeks')
-    })
+    });
+    this.setState(
+      {
+        calculatedWeeks
+      },
+      () => {
+        console.log(calculatedWeeks, 'calculatedWeeks===calculatedWeeks');
+      }
+    );
   }
 
   getUrlParam() {
@@ -476,6 +463,7 @@ class Details extends React.Component {
     );
   }
   async queryDetails() {
+    const { configStore } = this.props;
     const { id, goodsNo } = this.state;
     let requestName;
     let param;
@@ -486,36 +474,67 @@ class Details extends React.Component {
       requestName = this.isLogin ? getLoginDetails : getDetails;
       param = id;
     }
-    Promise.all([requestName(param)])
+    Promise.all([
+      requestName(param),
+      getFrequencyDict(),
+      getDictionary({
+        type: 'purchase_type'
+      })
+    ])
       .then((resList) => {
         const res = resList[0];
+        const frequencyDictRes = resList[1];
+        const purchaseTypeDictRes = resList[2];
+        const goodsRes = res && res.context && res.context.goods;
+        this.setState(
+          {
+            purchaseTypeDict: purchaseTypeDictRes,
+            frequencyList: frequencyDictRes,
+            form: Object.assign(this.state.form, {
+              frequencyId:
+                goodsRes.defaultFrequencyId ||
+                configStore.defaultSubscriptionFrequencyId ||
+                (frequencyDictRes[0] && frequencyDictRes[0].id) ||
+                ''
+            })
+          },
+          () => {
+            this.setDefaultPurchaseType({
+              id:
+                goodsRes.defaultPurchaseType ||
+                configStore.defaultSubscriptionFrequencyId
+            });
+            this.hubGA && this.getComputedWeeks(this.state.frequencyList);
+          }
+        );
         if (res && res.context) {
-          const tmpGoodsDescriptionDetailList = (res.context.goodsDescriptionDetailList || []).sort((a, b) => a.sort - b.sort);
+          const tmpGoodsDescriptionDetailList = (
+            res.context.goodsDescriptionDetailList || []
+          ).sort((a, b) => a.sort - b.sort);
           this.setState({
             productRate: res.context.avgEvaluate,
             goodsDetailTab: {
               tabName: tmpGoodsDescriptionDetailList.map(
                 (g) => g.descriptionName
               ),
-              tabContent: tmpGoodsDescriptionDetailList.map(
-                (g) => g.content
-              )
+              tabContent: tmpGoodsDescriptionDetailList.map((g) => g.content)
             },
-            tabs: tmpGoodsDescriptionDetailList.map(t => ({ show: false }))    
+            tabs: tmpGoodsDescriptionDetailList.map((t) => ({ show: false }))
           });
         }
-        if (res && res.context && res.context.goods) {
+
+        if (goodsRes) {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
-          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
+          pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
 
           this.setState(
             {
-              productRate: res.context.goods.avgEvaluate,
-              replyNum: res.context.goods.goodsEvaluateNum,
-              goodsId: res.context.goods.goodsId,
-              minMarketPrice: res.context.goods.minMarketPrice,
-              minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
+              productRate: goodsRes.avgEvaluate,
+              replyNum: goodsRes.goodsEvaluateNum,
+              goodsId: goodsRes.goodsId,
+              minMarketPrice: goodsRes.minMarketPrice,
+              minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 taggingForText: (res.context.taggingList || []).filter(
                   (e) =>
@@ -533,7 +552,7 @@ class Details extends React.Component {
                 toPrice: res.context.toPrice
               }),
               spuImages: res.context.images,
-              breadCrumbs: [{ name: res.context.goods.goodsName }],
+              breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink
             },
             () => {
@@ -572,22 +591,23 @@ class Details extends React.Component {
               }
             }
           );
+          if (goodsRes.defaultFrequencyId) {
+            this.setState({
+              form: Object.assign(this.state.form, {
+                frequencyId: goodsRes.defaultFrequencyId
+              })
+            });
+          }
+
           setSeoConfig({
-            goodsId: res.context.goods.goodsId,
+            goodsId: goodsRes.goodsId,
             categoryId: '',
             pageName: 'Product Detail Page'
           }).then((res) => {
             this.setState({ seoConfig: res });
           });
-          // setSeoConfig({
-          //   goodsId: res.context.goods.goodsId,
-          //   categoryId: '',
-          //   pageName: 'Product Detail Page'
-          // });
         } else {
-          this.setState({
-            errMsg: <FormattedMessage id="details.errMsg" />
-          });
+          throw new Error();
         }
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
@@ -673,7 +693,7 @@ class Details extends React.Component {
             }
             return g;
           });
-          
+
           let images = [];
           // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
           //   if (res.context.images.length) {
@@ -709,7 +729,9 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.hubGA ? this.hubGAProductDetailPageView(this.state.details) : this.GAProductDetailPageView(this.state.details);
+              this.hubGA
+                ? this.hubGAProductDetailPageView(this.state.details)
+                : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.matchGoods();
             }
@@ -753,7 +775,9 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.hubGA ? this.hubGAProductDetailPageView(this.state.details) : this.GAProductDetailPageView(this.state.details);
+              this.hubGA
+                ? this.hubGAProductDetailPageView(this.state.details)
+                : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.bundleMatchGoods();
             }
@@ -767,11 +791,7 @@ class Details extends React.Component {
       .catch((e) => {
         console.log(e);
         this.setState({
-          errMsg: e.message ? (
-            e.message.toString()
-          ) : (
-            <FormattedMessage id="details.errMsg2" />
-          )
+          errMsg: e.message || <FormattedMessage id="details.errMsg2" />
         });
       })
       .finally(() => {
@@ -833,7 +853,7 @@ class Details extends React.Component {
     }
   }
   handleSelectedItemChange = (data) => {
-    console.log(data,'data===data')
+    console.log(data, 'data===data');
     const { form } = this.state;
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
@@ -906,7 +926,9 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details } = this.state;
 
-      this.hubGA ? this.hubGAAToCar(quantity, details) : this.GAAddToCar(quantity, details);
+      this.hubGA
+        ? this.hubGAAToCar(quantity, details)
+        : this.GAAddToCar(quantity, details);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -1040,7 +1062,9 @@ class Details extends React.Component {
     } = this.state;
     const { goodsId, sizeList } = details;
     // 加入购物车 埋点start
-    this.hubGA ? this.hubGAAToCar(quantity, details) : this.GAAddToCar(quantity, details);
+    this.hubGA
+      ? this.hubGAAToCar(quantity, details)
+      : this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
@@ -1380,10 +1404,17 @@ class Details extends React.Component {
     });
   }
 
-   //hub加入购物车，埋点
-   hubGAAToCar(num, item) {
-     console.log(item,'item==item')
-    const {cateId, goodsCateName, goodsName, goodsInfos, brandName, goodsNo} = item;
+  //hub加入购物车，埋点
+  hubGAAToCar(num, item) {
+    console.log(item, 'item==item');
+    const {
+      cateId,
+      goodsCateName,
+      goodsName,
+      goodsInfos,
+      brandName,
+      goodsNo
+    } = item;
     const cateName = goodsCateName?.split('/') || '';
     const SKU = goodsInfos?.[0]?.goodsInfoNo;
     const size = goodsInfos?.[0]?.packSize;
@@ -1391,9 +1422,10 @@ class Details extends React.Component {
       return item2.selected == true;
     });
     let { form } = this.state;
-    const price = form.buyWay === 0
-      ? cur_selected_size[0].marketPrice
-      : cur_selected_size[0].subscriptionPrice;
+    const price =
+      form.buyWay === 0
+        ? cur_selected_size[0].marketPrice
+        : cur_selected_size[0].subscriptionPrice;
     const specie = cateId === '1134' ? 'Cat' : 'Dog';
 
     dataLayer.push({
@@ -1406,18 +1438,18 @@ class Details extends React.Component {
           name: goodsName,
           mainItemCode: goodsNo,
           SKU,
-          recommendationID: '',//todo:银章接口添加返回
+          recommendationID: '', //todo:银章接口添加返回
           subscription: '',
           subscriptionFrequency: '',
           technology: cateName?.[2],
           brand: brandName || 'ROYAL CANIN',
           size,
-          breed: '',//todo
-          quantity: '',//todo
-          promoCodeName: '',//todo
-          promoCodeAmount: '',
+          breed: '', //todo
+          quantity: '', //todo
+          promoCodeName: '', //todo
+          promoCodeAmount: ''
         }
-      ],
+      ]
     });
   }
 
@@ -1468,47 +1500,56 @@ class Details extends React.Component {
   //hub商品详情页 埋点
   hubGAProductDetailPageView(item) {
     const pathName = this.props.location.pathname;
-    const { cateId, minMarketPrice, goodsCateName, goodsName, goodsInfos, goodsNo } = item;
+    const {
+      cateId,
+      minMarketPrice,
+      goodsCateName,
+      goodsName,
+      goodsInfos,
+      goodsNo
+    } = item;
     const specie = cateId === '1134' ? 'Cat' : 'Dog';
     const cateName = goodsCateName?.split('/') || '';
     const specieID = cateId == '1134' ? '2' : '1';
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     const size = goodsInfos?.[0]?.packSize || '';
-    const GAProductsInfo = [{
-      price: minMarketPrice,
-      specie,
-      range: cateName?.[1],
-      name: goodsName,
-      mainItemCode: goodsNo,
-      SKU,
-      recommendationID: '', //todo:昕宇确认
-      subscription: '', //todo subscriptionStatus有几种情况
-      subscriptionFrequency: '',//todo
-      technology: cateName?.[2],
-      brand: 'Royal Canin',
-      size,
-      breed: '',//todo:银章接口添加返回
-      promoCodeName: '', //促销 todo:接口加
-      promoCodeAmount: '', //促销 todo:接口加
-    }];
+    const GAProductsInfo = [
+      {
+        price: minMarketPrice,
+        specie,
+        range: cateName?.[1],
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        recommendationID: '', //todo:昕宇确认
+        subscription: '', //todo subscriptionStatus有几种情况
+        subscriptionFrequency: '', //todo
+        technology: cateName?.[2],
+        brand: 'Royal Canin',
+        size,
+        breed: '', //todo:银章接口添加返回
+        promoCodeName: '', //促销 todo:接口加
+        promoCodeAmount: '' //促销 todo:接口加
+      }
+    ];
     const hubEvent = {
       page: {
         type: 'product',
         theme: specie,
-        globalURI: pathName,
+        globalURI: pathName
       },
       pet: {
         specieID,
-        breedName: ''//todo:银章接口添加返回
+        breedName: '' //todo:银章接口添加返回
       }
     };
     const hubEcEvents = {
       event: 'pdpScreenLoad',
-      products: GAProductsInfo,
+      products: GAProductsInfo
     };
     this.setState({
       hubEvent,
-      hubEcEvents,
+      hubEcEvents
     });
   }
 
@@ -1543,7 +1584,7 @@ class Details extends React.Component {
       spuImages,
       pageLink,
       hubEvent,
-      hubEcEvents,
+      hubEcEvents
     } = this.state;
 
     const btnStatus = this.btnStatus;
@@ -1559,7 +1600,7 @@ class Details extends React.Component {
       }>`;
     return (
       <div id="Details">
-        {Object.keys(hubEvent).length ||Object.keys(event).length ? (
+        {Object.keys(hubEvent).length || Object.keys(event).length ? (
           <GoogleTagManager
             hubAdditionalEvents={hubEvent}
             hubEcommerceEvents={hubEcEvents}
@@ -1631,35 +1672,29 @@ class Details extends React.Component {
                               {details.goodsNewSubtitle}
                             </h2>
                           </div>
-                          <div
-                            className="stars"
-                            style={{
-                              display:
-                                process.env.REACT_APP_LANG == 'fr'
-                                  ? 'none'
-                                  : 'block'
-                            }}
-                          >
-                            <div className="rc-card__price flex-inline">
-                              <div
-                                className="display-inline"
-                                style={{ verticalAlign: 'middle' }}
-                              >
-                                <Rate
-                                  def={productRate}
-                                  disabled={true}
-                                  marginSize="sRate"
-                                />
+                          {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                            <div className="stars">
+                              <div className="rc-card__price flex-inline">
+                                <div
+                                  className="display-inline"
+                                  style={{ verticalAlign: 'middle' }}
+                                >
+                                  <Rate
+                                    def={productRate}
+                                    disabled={true}
+                                    marginSize="sRate"
+                                  />
+                                </div>
+                                <span
+                                  className="comments rc-margin-left--xs rc-text-colour--text"
+                                  onClick={this.handleAClick.bind(this)}
+                                >
+                                  ({this.state.replyNum})
+                                  {/* <FormattedMessage id="reviews" /> */}
+                                </span>
                               </div>
-                              <span
-                                className="comments rc-margin-left--xs rc-text-colour--text"
-                                onClick={this.handleAClick.bind(this)}
-                              >
-                                ({this.state.replyNum})
-                                {/* <FormattedMessage id="reviews" /> */}
-                              </span>
                             </div>
-                          </div>
+                          )}
                         </div>
                         <div
                           className="description"
@@ -1744,36 +1779,31 @@ class Details extends React.Component {
                                     {details.goodsNewSubtitle}
                                   </h2>
                                 </div>
-                                <div
-                                  className="stars"
-                                  style={{
-                                    display:
-                                      process.env.REACT_APP_LANG == 'fr'
-                                        ? 'none'
-                                        : 'block'
-                                  }}
-                                >
-                                  <div className="rc-card__price flex-inline">
-                                    <div
-                                      className="display-inline"
-                                      style={{ verticalAlign: 'middle' }}
-                                    >
-                                      <Rate
-                                        def={productRate}
-                                        key={productRate}
-                                        disabled={true}
-                                        marginSize="sRate"
-                                      />
+                                {!!+process.env
+                                  .REACT_APP_PDP_RATING_VISIBLE && (
+                                  <div className="stars">
+                                    <div className="rc-card__price flex-inline">
+                                      <div
+                                        className="display-inline"
+                                        style={{ verticalAlign: 'middle' }}
+                                      >
+                                        <Rate
+                                          def={productRate}
+                                          key={productRate}
+                                          disabled={true}
+                                          marginSize="sRate"
+                                        />
+                                      </div>
+                                      <a
+                                        className="comments rc-margin-left--xs rc-text-colour--text"
+                                        onClick={this.handleAClick.bind(this)}
+                                      >
+                                        ({this.state.replyNum})
+                                        {/* <FormattedMessage id="reviews" /> */}
+                                      </a>
                                     </div>
-                                    <a
-                                      className="comments rc-margin-left--xs rc-text-colour--text"
-                                      onClick={this.handleAClick.bind(this)}
-                                    >
-                                      ({this.state.replyNum})
-                                      {/* <FormattedMessage id="reviews" /> */}
-                                    </a>
                                   </div>
-                                </div>
+                                )}
                               </div>
                               <div
                                 className="description"
