@@ -22,7 +22,7 @@ class TermsCommon extends Component {
     document
       .getElementById(`${this.props.id}`)
       .addEventListener('click', (e) => {
-        if (e.target.localName === 'span') {
+        if (e.target.localName === 'font') {
           let keyWords = e.target.innerText;
           let index = Number(
             e.target.parentNode.parentNode.parentNode.parentNode.parentNode

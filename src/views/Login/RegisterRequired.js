@@ -235,7 +235,7 @@ class RegisterRequired extends Component {
       });
     }
     document.getElementById('wrap').addEventListener('click', (e) => {
-      if (e.target.localName === 'span') {
+      if (e.target.localName === 'font') {
         let keyWords = e.target.innerText;
         let index = Number(
           e.target.parentNode.parentNode.parentNode.parentNode.parentNode

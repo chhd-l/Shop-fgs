@@ -17,8 +17,6 @@ class Consent extends Component {
   render() {
     //组件传参start
     const list = this.props.list;
-    const requiredList = list.filter((x) => x.isRequired);
-    const optionalList = list.filter((x) => !x.isRequired);
     const width = this.props.width;
     const auto = this.props.auto || false;
     let autoClass = '';
@@ -28,14 +26,7 @@ class Consent extends Component {
         className={`required-component ${autoClass}`}
         style={{ width: `${width}` }}
       >
-        {this.renderCheckBox(requiredList)}
-        {this.props.description ? (
-          <div
-            className="rc-text--left"
-            dangerouslySetInnerHTML={{ __html: this.props.description }}
-          />
-        ) : null}
-        {this.renderCheckBox(optionalList)}
+        {this.renderCheckBox(list)}
       </div>
     );
   }
