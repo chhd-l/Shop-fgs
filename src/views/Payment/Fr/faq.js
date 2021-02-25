@@ -21,13 +21,8 @@ class Faq extends Component {
         }
     }
     faqItemClick=(e)=>{
-        // e.preventDefault()
-        // console.log(e.target)
-        // console.log(e.target.innerHTML)
-    }
-    btnClick=(e)=>{
         e.preventDefault()
-        console.log(e.target)
+        // console.log(e.target)
         console.log(e.target.innerHTML)
     }
     render() {
@@ -43,7 +38,7 @@ class Faq extends Component {
                 <dl data-toggle-group="" data-toggle-effect="rc-expand--vertical" className="">
                     <div className="rc-list__accordion-item" onClick={this.faqItemClick}>
                         <dt>
-                            <button onClick={this.btnClick} className="rc-list__header" id="heading-73" data-toggle="content-73" style={{background:'#f6f6f6'}}><p style={{width:'280px'}}>Comment puis-je joindre le service client ?</p></button>
+                            <button className="rc-list__header" id="heading-73" data-toggle="content-73" style={{background:'#f6f6f6'}}><p style={{width:'280px'}}>Comment puis-je joindre le service client ?</p></button>
                         </dt>
                         <dd className="rc-list__content" id="content-73" aria-labelledby="heading-73">
                             <p>Vous pouvez joindre un de nos représentants du service clientèle au numéro gratuit 0 800 005 360. Nous sommes à votre disposition du lundi au vendredi, de 8h30 à 12h30 et de 14h à 17h.</p>
