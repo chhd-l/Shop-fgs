@@ -500,7 +500,7 @@ class Details extends React.Component {
             this.setDefaultPurchaseType({
               id:
                 goodsRes.defaultPurchaseType ||
-                configStore.defaultSubscriptionFrequencyId
+                configStore.defaultPurchaseType
             });
             this.hubGA && this.getComputedWeeks(this.state.frequencyList);
           }
