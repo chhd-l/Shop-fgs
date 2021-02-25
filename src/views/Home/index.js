@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import HeroCarousel from '@/components/HeroCarousel';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
+import { TopAds } from './ad';
 import { Advantage } from './advantage';
 import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
 import './index.css';
@@ -20,6 +21,7 @@ import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
 import shippmentHome from '@/assets/images/home/shippment@2x.png';
+import question from '@/assets/images/home/question@2x.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -46,112 +48,114 @@ function HealthNutrition() {
             <div className="row d-flex align-items-center">
               <div className="col-12 col-lg-4">
                 <div className="experience-component experience-layouts-minicarousel">
-                  <div
-                    data-js-carousel=""
-                    className="rc-carousel js-mini-carousel"
-                  >
-                    <div className="rc-hero rc-hero__layout--3">
-                      <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
-                        <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
+                  <div className="rc-margin-bottom--sm--mobile mini-carousel">
+                    <div
+                      data-js-carousel=""
+                      className="rc-carousel js-mini-carousel"
+                    >
+                      <div className="rc-hero rc-hero__layout--3">
+                        <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
+                          <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
+                            <Link to="/dogs" title="SHOP DOG">
+                              <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
+                                <p>Canine Breed-Specific Nutrition</p>
+                              </div>
+                              <p className="rc-body">
+                                Find your dog's unique formula
+                              </p>
+                            </Link>
+                            <Link
+                              to="/dogs"
+                              className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
+                              data-gtm='{"title":"Royal Canin specific dog food for every breed","img":"[object Object]"}'
+                              title="SHOP DOG"
+                            >
+                              SHOP DOG
+                            </Link>
+                          </div>
                           <Link to="/dogs" title="SHOP DOG">
-                            <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
-                              <p>Canine Breed-Specific Nutrition</p>
+                            <div className="rc-hero__section rc-hero__section--img">
+                              <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                <source
+                                  media="(max-width: 640px)"
+                                  data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
+                                  srcSet="Shttps://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
+                                />
+                                <source
+                                  media="(min-width: 640px) and (max-width: 1439px)"
+                                  data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
+                                  srcSet="Shttps://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
+                                />
+                                <source
+                                  media="(min-width: 1439px)"
+                                  data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
+                                  srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
+                                />
+                                <LazyLoad height={200}>
+                                  <img
+                                    className="w-100 ls-is-cached lazyloaded"
+                                    data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
+                                    alt="Royal Canin specific dog food for every breed"
+                                    title="Royal Canin specific dog food for every breed"
+                                    src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
+                                  />
+                                </LazyLoad>
+                              </picture>
                             </div>
-                            <p className="rc-body">
-                              Find your dog's unique formula
-                            </p>
-                          </Link>
-                          <Link
-                            to="/dogs"
-                            className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
-                            data-gtm='{"title":"Royal Canin specific dog food for every breed","img":"[object Object]"}'
-                            title="SHOP DOG"
-                          >
-                            SHOP DOG
                           </Link>
                         </div>
-                        <Link to="/dogs" title="SHOP DOG">
-                          <div className="rc-hero__section rc-hero__section--img">
-                            <picture data-rc-feature-objectfillpolyfill-setup="true">
-                              <source
-                                media="(max-width: 640px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
-                                srcSet="Shttps://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
-                              />
-                              <source
-                                media="(min-width: 640px) and (max-width: 1439px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
-                                srcSet="Shttps://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
-                              />
-                              <source
-                                media="(min-width: 1439px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
-                              />
-                              <LazyLoad height={200}>
-                                <img
-                                  className="w-100 ls-is-cached lazyloaded"
-                                  data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
-                                  alt="Royal Canin specific dog food for every breed"
-                                  title="Royal Canin specific dog food for every breed"
-                                  src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
-                                />
-                              </LazyLoad>
-                            </picture>
-                          </div>
-                        </Link>
                       </div>
-                    </div>
-                    <div className="rc-hero rc-hero__layout--3">
-                      <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
-                        <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
+                      <div className="rc-hero rc-hero__layout--3">
+                        <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
+                          <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
+                            <Link to="/cats" title="SHOP CAT">
+                              <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
+                                <p>Feline Breed-Specific Nutrition</p>
+                              </div>
+                              <p className="rc-body">
+                                Find your cat's unique formula
+                              </p>
+                            </Link>
+                            <Link
+                              to="/cats"
+                              className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
+                              data-gtm='{"title":"Royal Canin specific cat food for every breed","img":"[object Object]"}'
+                              title="SHOP CAT"
+                            >
+                              SHOP CAT
+                            </Link>
+                          </div>
                           <Link to="/cats" title="SHOP CAT">
-                            <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
-                              <p>Feline Breed-Specific Nutrition</p>
+                            <div className="rc-hero__section rc-hero__section--img">
+                              <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                <source
+                                  media="(max-width: 640px)"
+                                  data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
+                                  srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
+                                />
+                                <source
+                                  media="(min-width: 640px) and (max-width: 1439px)"
+                                  data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
+                                  srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
+                                />
+                                <source
+                                  media="(min-width: 1439px)"
+                                  data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
+                                  srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
+                                />
+                                <LazyLoad height={200}>
+                                  <img
+                                    className="w-100 ls-is-cached lazyloaded"
+                                    data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
+                                    alt="Royal Canin specific cat food for every breed"
+                                    title="Royal Canin specific cat food for every breed"
+                                    src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
+                                  />
+                                </LazyLoad>
+                              </picture>
                             </div>
-                            <p className="rc-body">
-                              Find your cat's unique formula
-                            </p>
-                          </Link>
-                          <Link
-                            to="/cats"
-                            className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
-                            data-gtm='{"title":"Royal Canin specific cat food for every breed","img":"[object Object]"}'
-                            title="SHOP CAT"
-                          >
-                            SHOP CAT
                           </Link>
                         </div>
-                        <Link to="/cats" title="SHOP CAT">
-                          <div className="rc-hero__section rc-hero__section--img">
-                            <picture data-rc-feature-objectfillpolyfill-setup="true">
-                              <source
-                                media="(max-width: 640px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
-                              />
-                              <source
-                                media="(min-width: 640px) and (max-width: 1439px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
-                              />
-                              <source
-                                media="(min-width: 1439px)"
-                                data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
-                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
-                              />
-                              <LazyLoad height={200}>
-                                <img
-                                  className="w-100 ls-is-cached lazyloaded"
-                                  data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
-                                  alt="Royal Canin specific cat food for every breed"
-                                  title="Royal Canin specific cat food for every breed"
-                                  src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
-                                />
-                              </LazyLoad>
-                            </picture>
-                          </div>
-                        </Link>
                       </div>
                     </div>
                   </div>
@@ -352,133 +356,78 @@ function Share() {
   );
 }
 
-function AdvantageTips({ secondIconvisible = true }) {
+function AdvantageTips() {
+  const defaultIconList = [
+    { img: PaymentSecureHome, langKey: 'home.point1' },
+    { img: reimbursedHome, langKey: 'home.point2' },
+    { img: premiumHome, langKey: 'home.point3' },
+    { img: shippmentHome, langKey: 'home.point4' }
+  ];
+  const iconList =
+    {
+      en: [
+        { img: PaymentSecureHome, langKey: 'home.point1' },
+        {
+          img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
+          langKey: 'home.point2'
+        },
+        { img: premiumHome, langKey: 'home.point3' },
+        {
+          img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
+          langKey: 'home.point4'
+        }
+      ]
+    }[process.env.REACT_APP_LANG] || defaultIconList;
   return (
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
           <div className="rc-sm-down">
             <div className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center">
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={PaymentSecureHome}
-                    srcSet={PaymentSecureHome}
-                    className="mx-auto"
-                    alt="Secure payments"
-                    title="Secure payments"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point1" />
-                </p>
-              </div>
-              {secondIconvisible && (
-                <div className="col-6 centered-icon-list__icon">
-                  <LazyLoad height={200}>
-                    <img
-                      src={reimbursedHome}
-                      srcSet={reimbursedHome}
-                      className="mx-auto"
-                      alt="Quality assurance"
-                      title="Quality assurance"
-                    />
-                  </LazyLoad>
-                  <p className="rc-meta text-center markup-text">
-                    <FormattedMessage id="home.point2" />
-                  </p>
+              {iconList.map((ele, i) => (
+                <div className="col-6 centered-icon-list__icon" key={i}>
+                  <FormattedMessage id={ele.langKey}>
+                    {(txt) => (
+                      <>
+                        <LazyLoad height={200}>
+                          <img
+                            src={ele.img}
+                            srcSet={ele.img}
+                            className="mx-auto"
+                            alt={txt}
+                            title={txt}
+                          />
+                        </LazyLoad>
+                        <p className="rc-meta text-center markup-text">{txt}</p>
+                      </>
+                    )}
+                  </FormattedMessage>
                 </div>
-              )}
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={premiumHome}
-                    srcSet={premiumHome}
-                    className="mx-auto"
-                    alt="Premium service"
-                    title="Premium service"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point3" />
-                </p>
-              </div>
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={shippmentHome}
-                    srcSet={shippmentHome}
-                    className="mx-auto"
-                    alt="Fast shipping"
-                    title="Fast shipping"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point4" />
-                </p>
-              </div>
+              ))}
             </div>
           </div>
           <div className="rc-sm-up">
             <div className="d-flex justify-content-center bottom-content__icon-list text-center">
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={PaymentSecureHome}
-                    srcSet={PaymentSecureHome}
-                    className="mx-auto"
-                    alt="Secure payments"
-                    title="Secure payments"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point1" />
-                </p>
-              </div>
-              {secondIconvisible && (
-                <div className="centered-icon-list__icon">
-                  <LazyLoad height={200}>
-                    <img
-                      src={reimbursedHome}
-                      srcSet={reimbursedHome}
-                      className="mx-auto"
-                      alt="Quality assurance"
-                      title="Quality assurance"
-                    />
-                  </LazyLoad>
-                  <p className="rc-meta text-center markup-text">
-                    <FormattedMessage id="home.point2" />
-                  </p>
+              {iconList.map((ele, i) => (
+                <div className="centered-icon-list__icon" key={i}>
+                  <FormattedMessage id={ele.langKey}>
+                    {(txt) => (
+                      <>
+                        <LazyLoad height={200}>
+                          <img
+                            src={ele.img}
+                            srcSet={ele.ele}
+                            className="mx-auto"
+                            alt={txt}
+                            title={txt}
+                          />
+                        </LazyLoad>
+                        <p className="rc-meta text-center markup-text">{txt}</p>
+                      </>
+                    )}
+                  </FormattedMessage>
                 </div>
-              )}
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={premiumHome}
-                    srcSet={premiumHome}
-                    className="mx-auto"
-                    alt="Premium service"
-                    title="Premium service"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point3" />
-                </p>
-              </div>
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={shippmentHome}
-                    srcSet={shippmentHome}
-                    className="mx-auto"
-                    alt="Fast shipping"
-                    title="Fast shipping"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point4" />
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -657,6 +606,7 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
+          <TopAds />
           <Divider />
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
@@ -675,7 +625,7 @@ class Home extends React.Component {
             </div>
           </section>
 
-          {<Ads />}
+          <Ads />
           <Divider />
 
           <HealthNutrition />
@@ -684,7 +634,7 @@ class Home extends React.Component {
           <Divider />
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
-              <AdvantageTips/>
+              <AdvantageTips />
             </div>
           </div>
           <div className="experience-component experience-layouts-1column">

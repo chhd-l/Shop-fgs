@@ -126,8 +126,7 @@ export function Advantage() {
               </LazyLoad>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Receive a Specialty Welcome Box to Help Welcome Your New Pet
-                  Home{' '}
+                  Get Expert Advice & Support with Royal Canin Pet Advisor Live
                 </p>
               </div>
             </div>
