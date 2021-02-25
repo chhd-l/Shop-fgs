@@ -265,8 +265,6 @@ class Details extends React.Component {
     this.state = {
       event: {},
       eEvents: {},
-      hubEcEvents: {},
-      hubEvent: {},
       GAListParam: '',
       initing: true,
       details: {
@@ -1878,21 +1876,21 @@ class Details extends React.Component {
 
   //hub加入购物车，埋点
   hubGAAToCar(num, item) {
-    const { cateId, goodsCateName, goodsName, goodsInfos, brandName, goodsNo } = item;
-    const cateName = goodsCateName?.split('/') || '';
-    const SKU = goodsInfos?.[0]?.goodsInfoNo;
-    const size = goodsInfos?.[0]?.packSize;
-    let cur_selected_size = item.sizeList.filter((item2) => {
-      return item2.selected == true;
-    });
-    let { form, calculatedWeeks, quantity } = this.state;
-    const price = form.buyWay === 0
-      ? cur_selected_size[0].marketPrice
-      : cur_selected_size[0].subscriptionPrice;
-    const specie = cateId === '1134' ? 'Cat' : 'Dog';
-    const subscription = form.buyWay === 1 ? 'Subscription' : '';
-    const subscriptionFrequency = form.buyWay === 1 ? calculatedWeeks[form.frequencyVal] : '';
-    const recommendationID = this.props.clinicStore?.linkClinicId || '';
+    // const { cateId, goodsCateName, goodsName, goodsInfos, brandName, goodsNo } = item;
+    // const cateName = goodsCateName?.split('/') || '';
+    // const SKU = goodsInfos?.[0]?.goodsInfoNo;
+    // const size = goodsInfos?.[0]?.packSize;
+    // let cur_selected_size = item.sizeList.filter((item2) => {
+    //   return item2.selected == true;
+    // });
+    // let { form, calculatedWeeks, quantity } = this.state;
+    // const price = form.buyWay === 0
+    //   ? cur_selected_size[0].marketPrice
+    //   : cur_selected_size[0].subscriptionPrice;
+    // const specie = cateId === '1134' ? 'Cat' : 'Dog';
+    // const subscription = form.buyWay === 1 ? 'Subscription' : '';
+    // const subscriptionFrequency = form.buyWay === 1 ? calculatedWeeks[form.frequencyVal] : '';
+    // const recommendationID = this.props.clinicStore?.linkClinicId || '';
     dataLayer.push({
       event: 'pdpAddToCart',
       // products: [
@@ -1975,7 +1973,6 @@ class Details extends React.Component {
     const { cateId, minMarketPrice, goodsCateName, goodsName, goodsInfos, goodsNo } = item;
     const specie = cateId === '1134' ? 'Cat' : 'Dog';
     const cateName = goodsCateName?.split('/') || '';
-    const specieID = cateId == '1134' ? '2' : '1';
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     const size = goodsInfos?.[0]?.packSize || '';
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
@@ -1994,25 +1991,14 @@ class Details extends React.Component {
       promoCodeName: '', //促销 todo:接口加
       promoCodeAmount: '', //促销 todo:接口加
     }];
-    const hubEvent = {
-      page: {
-        type: 'product',
-        theme: specie,
-        globalURI: pathName,
-      },
-      pet: {
-        specieID,
-        breedName: ''//todo:银章接口添加返回
-      }
-    };
-    const hubEcEvents = {
-      event: 'pdpScreenLoad',
+
+    dataLayer.push({
       products: GAProductsInfo,
-    };
-    this.setState({
-      hubEvent,
-      hubEcEvents,
-    });
+    })
+
+    dataLayer.push({
+      event: 'pdpScreenLoad',
+    })
   }
 
 
@@ -2048,8 +2034,6 @@ class Details extends React.Component {
       pageLink,
       goodsType,
       barcode,
-      hubEvent,
-      hubEcEvents
     } = this.state;
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
@@ -2070,10 +2054,8 @@ class Details extends React.Component {
     let bundle = goodsType && goodsType === 2 ;
     return (
       <div id="Details">
-        {Object.keys(hubEvent).length || Object.keys(event).length ? (
+        {Object.keys(event).length ? (
           <GoogleTagManager
-            hubAdditionalEvents={hubEvent}
-            hubEcommerceEvents={hubEcEvents}
             additionalEvents={event}
             ecommerceEvents={eEvents}
           />

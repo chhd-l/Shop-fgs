@@ -123,7 +123,7 @@ class GoogleTagManager extends React.Component {
         globalURI: page?.path || '',
       },
       pet: {
-        specieID: '',
+        specieID: page?.specieId || '',
         breedName: ''
       },
     };
