@@ -137,7 +137,7 @@ function ListItemH5ForGlobalStyle(props) {
     </div>
   );
 }
-function ListItem(props) {
+function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
@@ -1478,11 +1478,11 @@ class List extends React.Component {
     const _loadingJXS = Array(6)
       .fill(null)
       .map((item, i) => (
-        <ListItem key={i}>
+        <ListItemForDefault key={i}>
           <span className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
           </span>
-        </ListItem>
+        </ListItemForDefault>
       ));
     return (
       <div>
@@ -1849,7 +1849,7 @@ class List extends React.Component {
                                     <ListItemBodyH5ForGlobalStyle item={item} />
                                   </ListItemH5ForGlobalStyle>
                                 ) : (
-                                  <ListItem
+                                  <ListItemForDefault
                                     sourceParam={this.state.sourceParam}
                                     key={item.id}
                                     leftPromotionJSX={
@@ -1895,7 +1895,7 @@ class List extends React.Component {
                                         this.state.seoConfig.headingTag
                                       }
                                     />
-                                  </ListItem>
+                                  </ListItemForDefault>
                                 )
                               )}
                         </article>
