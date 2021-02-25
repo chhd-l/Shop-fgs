@@ -72,6 +72,7 @@ import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
 import Recommendation from '@/views/Recommendation';
 import Recommendation_FR from '@/views/Recommendation_FR';
+import Recommendation_US from '@/views/Recommendation_US';
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
@@ -117,6 +118,7 @@ import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
+import ShelterPrescription from '@/views/StaticPage/ShelterPrescription'
 
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -226,6 +228,10 @@ const App = () => (
               <Route exact path="/help/contact" component={ContactUs} />
               <Route exact path="/help" component={Help} />
               <Route
+                path="/ShelterPrescription"
+                component={ShelterPrescription}
+              />
+              <Route
                 exact
                 path="/general-terms-conditions"
                 component={TermsConditions}
@@ -262,8 +268,21 @@ const App = () => (
                 exact
                 path="/recommendation"
                 render={(props) => {
-                  return <Recommendation_FR {...props} />;
+                  let sublanding = '';
+                  switch (process.env.REACT_APP_LANG) {
+                    case 'fr':
+                      sublanding = <Recommendation_FR {...props} /> 
+                      break;
+                    default:
+                      sublanding = <Recommendation_US {...props} /> 
+                  }
+                  return sublanding;
                 }}
+              />
+              <Route
+                exact
+                path="/recommendation"
+                render={(props) => <Recommendation_FR {...props} /> }
               />
 
               <Route exact path="/termuse" component={TermUse} />
