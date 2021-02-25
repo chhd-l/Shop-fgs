@@ -16,6 +16,7 @@ import Filters from './Filters';
 import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
+import flatMap from 'lodash/flatMap';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
 import { getList } from '@/api/list';
@@ -346,7 +347,7 @@ function ListItem(props) {
               ) : null}
               {props.children}
             </article>
-          </Link>
+            </Link>
         </div>
       </article>
     </div>
@@ -650,7 +651,7 @@ class List extends React.Component {
     const isVetProducts = isHub && location.pathname.includes('vet_products');
     const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail_products`;
     const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet_products`;
-    const showSmartFeeder = isDog && isHub;
+    const showSmartFeeder = isDog && process.env.REACT_APP_LANG == 'fr';
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -704,6 +705,7 @@ class List extends React.Component {
       vetProductLink,
       pageLink: '',
       showSmartFeeder,
+      listLazyLoadSection: 1,
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -814,7 +816,7 @@ class List extends React.Component {
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
         click: {
-          actionField: { list: this.state.GAListParam }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+          actionField: { list: this.state.GAListParam },
           products: [
             {
               name: item.goodsName,
@@ -828,6 +830,26 @@ class List extends React.Component {
             }
           ]
         }
+      }
+    });
+  }
+
+  //点击商品 hubGa埋点
+  hubGAProductClick(item, index) {
+    const { goodsInfos } = item;
+    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    const { defaultFilterSearchForm } = this.state;
+    let Filters = defaultFilterSearchForm?.attrList?.length ? defaultFilterSearchForm.attrList.map(item => {
+      let { attributeName = '', attributeValues = [] } = item;
+      let filter = attributeValues.map(val => `${attributeName}|${val}`);
+      return filter
+    }):[];
+    let activeFilters = flatMap(Filters);
+    dataLayer.push({
+      event: 'plpProductClick',
+      plpProductClickItem: {
+        SKU,
+        activeFilters,
       }
     });
   }
@@ -880,7 +902,7 @@ class List extends React.Component {
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        recommendationID, //todo:接口添加返回
+        recommendationID,
         technology: '',//需要后端加
         brand: 'Royal Canin',
         size:'',//需要后端加
@@ -903,6 +925,36 @@ class List extends React.Component {
         userRequest: keywords || ''
       },
       products
+    });
+  }
+
+  // hubGa点击页码切换埋点
+  hubGAPageChange(productList) {
+    const products = productList.map((item, index) => {
+      const { minMarketPrice, goodsCate, goodsNo, goodsInfos, goodsBrand, goodsName } = item;
+      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      const recommendationID = this.props.clinicStore?.linkClinicId || '';
+      return {
+        price: minMarketPrice,
+        specie,
+        range: '',//需要后端加
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        recommendationID,
+        technology: '',//需要后端加
+        brand: 'Royal Canin',
+        size: '',//需要后端加
+        breed: '',//todo:接口添加返回
+        promoCodeName: '', //todo:接口添加返回
+        // promoCodeAmount: '', //促销金额 拿不到
+      };
+    });
+    dataLayer.push({
+      event: 'plpListLazyLoad',
+      plpListLazyLoadSection: this.state.listLazyLoadSection,
+      plpListLazyLoadProducts: products
     });
   }
 
@@ -1351,7 +1403,7 @@ class List extends React.Component {
       return pItem;
     });
   }
-  async getProductList() {
+  async getProductList(type) {
     const { history } = this.props;
     let {
       cateType,
@@ -1367,7 +1419,6 @@ class List extends React.Component {
       sourceParam
     } = this.state;
     console.log(initingList,defaultFilterSearchForm,'defaultFilterSearchForm===')
-
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -1395,7 +1446,6 @@ class List extends React.Component {
         pItem.storeGoodsFilterValueVOList ||
         []
       ).filter((cItem) => cItem.selected);
-      console.log(seletedList,'seletedList===')
       if (seletedList.length) {
         // filterType: 0是属性， 1 是自定义；
         if (pItem.filterType === '0') {
@@ -1499,11 +1549,11 @@ class List extends React.Component {
           esGoodsStoreGoodsFilterVOList,
           esGoodsCustomFilterVOList
         );
-        const esGoods = res.context.esGoods;
-        const totalElements = esGoods.totalElements;
+        const esGoodsPage = res.context.esGoodsPage;
+        const totalElements = esGoodsPage.totalElements;
         const keywords = this.state.keywords;
-        if (esGoods && esGoods.content.length) {
-          let goodsContent = esGoods.content;
+        if (esGoodsPage && esGoodsPage.content.length) {
+          let goodsContent = esGoodsPage.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
               let ret = Object.assign({}, ele, {
@@ -1567,7 +1617,7 @@ class List extends React.Component {
               '@type': 'ItemList',
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
-                position: (esGoods.number + 1) * (i + 1),
+                position: (esGoodsPage.number + 1) * (i + 1),
                 url: g.lowGoodsName
                   ? `${urlPrefix}/${g.lowGoodsName
                       .split(' ')
@@ -1581,11 +1631,12 @@ class List extends React.Component {
           this.setState(
             {
               productList: goodsContent,
-              results: esGoods.totalElements,
-              currentPage: esGoods.number + 1,
-              totalPage: esGoods.totalPages
+              results: esGoodsPage.totalElements,
+              currentPage: esGoodsPage.number + 1,
+              totalPage: esGoodsPage.totalPages
             },
             () => {
+              // plp页面初始化埋点
               this.hubGA ? this.hubGAProductImpression(
                 this.state.productList,
                 totalElements,
@@ -1595,6 +1646,10 @@ class List extends React.Component {
                 totalElements,
                 keywords
               );
+
+              // hubGa点击页码切换埋点
+              this.hubGA && type === 'pageChange' && this.hubGAPageChange(this.state.productList);
+
             }
           );
         } else {
@@ -1618,16 +1673,20 @@ class List extends React.Component {
         });
       });
   }
+
   hanldePageNumChange = ({ currentPage }) => {
+    let lazyLoadSection = this.state.listLazyLoadSection + 1;
     this.setState(
       {
-        currentPage
+        currentPage,
+        listLazyLoadSection: lazyLoadSection
       },
-      () => this.getProductList()
+      () => this.getProductList('pageChange')
     );
   };
+
   hanldeItemClick(item, index) {
-    this.GAProductClick(item, index);
+    this.hubGA ? this.hubGAProductClick(item, index) : this.GAProductClick(item, index);
   }
   getElementToPageTop(el) {
     if (el.parentElement) {
@@ -2019,18 +2078,18 @@ class List extends React.Component {
                           }
                         />
                       )}
-                      {this.state.showSmartFeeder ? <div className="smart-feeder-container">
-                        <p>Smart Feeder Subscription</p>
-                        <p>A bundle offer of your dog food paired with a dispenser</p>
-                        <img src={smartFeeder}/>
+                      {this.state.showSmartFeeder  ? <div className="smart-feeder-container">
+                        {/* 目前只有法国，语言暂时写死 */}
+                        <p>Abonnement au distributeur connecté</p>
+                        <p>Un abonnement à l'alimentation de votre animal de compagnie couplé à un distributeur intelligent</p>
                         <a
-                          href="/"
+                          href="https://www.royalcanin.com/fr/shop/smart-feeder-subscription"
                           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                           style={{ minWidth: '110px' }}
                         >
-                          {/* <FormattedMessage id="learnMore" /> */}
-                          See the offer
+                          Voir l'offre
                         </a>
+                        <img src={smartFeeder}/>
                       </div> : null}
                     </aside>
                   </div>
