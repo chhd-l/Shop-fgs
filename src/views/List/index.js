@@ -1549,11 +1549,11 @@ class List extends React.Component {
           esGoodsStoreGoodsFilterVOList,
           esGoodsCustomFilterVOList
         );
-        const esGoods = res.context.esGoods;
-        const totalElements = esGoods.totalElements;
+        const esGoodsPage = res.context.esGoodsPage;
+        const totalElements = esGoodsPage.totalElements;
         const keywords = this.state.keywords;
-        if (esGoods && esGoods.content.length) {
-          let goodsContent = esGoods.content;
+        if (esGoodsPage && esGoodsPage.content.length) {
+          let goodsContent = esGoodsPage.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
               let ret = Object.assign({}, ele, {
@@ -1617,7 +1617,7 @@ class List extends React.Component {
               '@type': 'ItemList',
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
-                position: (esGoods.number + 1) * (i + 1),
+                position: (esGoodsPage.number + 1) * (i + 1),
                 url: g.lowGoodsName
                   ? `${urlPrefix}/${g.lowGoodsName
                       .split(' ')
@@ -1631,9 +1631,9 @@ class List extends React.Component {
           this.setState(
             {
               productList: goodsContent,
-              results: esGoods.totalElements,
-              currentPage: esGoods.number + 1,
-              totalPage: esGoods.totalPages
+              results: esGoodsPage.totalElements,
+              currentPage: esGoodsPage.number + 1,
+              totalPage: esGoodsPage.totalPages
             },
             () => {
               // plp页面初始化埋点
