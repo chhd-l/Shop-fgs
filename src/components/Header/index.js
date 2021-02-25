@@ -48,8 +48,8 @@ class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
     showUserIcon: false,
-    showNav:true,
-    showLoginBtn:true
+    showNav: true,
+    showLoginBtn: true
   };
   constructor(props) {
     super(props);
@@ -63,7 +63,7 @@ class Header extends React.Component {
       isScrollToTop: true,
       headerNavigationList: [],
       activeTopParentId: -1,
-      isSearchSuccess: false, //是否搜索成功
+      isSearchSuccess: false //是否搜索成功
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -667,6 +667,18 @@ class Header extends React.Component {
       this.toggleShowBodyMask({ visible: activeTopParentId !== -1 });
     });
   };
+  hanldeClickSignUp = () => {
+    if (
+      process.env.REACT_APP_LANG === 'fr' ||
+      process.env.REACT_APP_LANG === 'en'
+    ) {
+      this.props.history.push('/register');
+    } else {
+      window.location.href =
+        process.env.REACT_APP_RegisterPrefix +
+        window.encodeURIComponent(process.env.REACT_APP_RegisterCallback);
+    }
+  };
   render() {
     const {
       showMiniIcons,
@@ -711,7 +723,13 @@ class Header extends React.Component {
               <Logo />
             </Link>
             <ul
-              className={["rc-list", "rc-list--blank","rc-list--align", "rc-header__right",this.props.showLoginBtn?"rc-list--inline":"rc-hidden"].join(' ')}
+              className={[
+                'rc-list',
+                'rc-list--blank',
+                'rc-list--align',
+                'rc-header__right',
+                this.props.showLoginBtn ? 'rc-list--inline' : 'rc-hidden'
+              ].join(' ')}
               role="menubar"
             >
               <li className="rc-list__item d-flex align-items-center">
@@ -866,28 +884,7 @@ class Header extends React.Component {
                               </div>
                               <span
                                 className="rc-styled-link"
-                                onClick={() => {
-                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
-                                  // window.location.href =
-                                  //   process.env.REACT_APP_RegisterPrefix +
-                                  //   window.encodeURIComponent(
-                                  //     process.env.REACT_APP_RegisterCallback
-                                  //   );
-                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
-                                  // this.signUp()
-                                  if (!process.env.REACT_APP_STOREID) {
-                                    return;
-                                  }
-                                  if (process.env.REACT_APP_LANG === 'fr') {
-                                    history.push('/register');
-                                  } else {
-                                    window.location.href =
-                                      process.env.REACT_APP_RegisterPrefix +
-                                      window.encodeURIComponent(
-                                        process.env.REACT_APP_RegisterCallback
-                                      );
-                                  }
-                                }}
+                                onClick={this.hanldeClickSignUp}
                               >
                                 <FormattedMessage id="signUp" />
                               </span>
@@ -966,11 +963,14 @@ class Header extends React.Component {
           </nav>
 
           <nav
-            className={["rc-header__nav","rc-header__nav--secondary", "rc-md-up",this.props.showNav?"":"rc-hidden"].join(' ')}
+            className={[
+              'rc-header__nav',
+              'rc-header__nav--secondary',
+              'rc-md-up',
+              this.props.showNav ? '' : 'rc-hidden'
+            ].join(' ')}
           >
-            <ul
-              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap"
-            >
+            <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap">
               {headerNavigationList.map((item, i) => (
                 <li
                   className={`rc-list__item ${
