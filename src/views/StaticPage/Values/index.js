@@ -11,6 +11,7 @@ import image4 from './images/image4.jpg';
 import LazyLoad from 'react-lazyload';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 
 import './index.css';
 
@@ -230,7 +231,7 @@ class Values extends React.Component {
                         <div className="rc-border-all rc-border-colour--interface rc-padding--sm rc-padding--lg--mobile text-center col-lg-4">
                           <h5 className="rc-beta markup-text">Tailored Nutrition</h5>
                           <p>Our work is based on a vast and growing scientific understanding of pet health and nutrition.</p>
-                          <a className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club" href="/Tailorednutrition" title="Learn more">Learn more</a>
+                          <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club" to="/Tailorednutrition" title="Learn more">Learn more</Link>
                         </div>
                       </div>
                     </div>

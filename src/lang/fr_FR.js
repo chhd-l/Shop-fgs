@@ -1163,5 +1163,6 @@ const fr_FR = {
 'smartFeederSubscription.shopmentTimes': 'Livré lors du premier envoi', //Delivered at the first shipment
 'smartFeederSubscription.selectAnotherProduct':"sélectionnez un autre produit",//select another product
 'smartFeederSubscription.conﬁrmThisProduct':"Con ﬁ rmez ce produit",// Conﬁrm this product
+values: 'Nos valeurs'
 }
 export default fr_FR;

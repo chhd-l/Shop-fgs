@@ -18,10 +18,9 @@ import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
 import './index.css';
-import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
-import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+
 const pageLink = window.location.href
 @inject('configStore')
 @observer
@@ -189,10 +188,10 @@ class SubscriptionLanding extends React.Component {
                       <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
                         <div className="col-12 col-md-4 order-1 order-md-0">
                           <div className="rc-column rc-padding--none">
-                            <img src={imagecat} alt="Cat image" />
+                            <img src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/cat.webp`} alt="Cat image" />
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                            <a className="rc-btn rc-btn--sm rc-btn--two w-50" href="/cats/">Cat</a>
+                            <Link className="rc-btn rc-btn--sm rc-btn--two w-50" to="/cats/">Cat</Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
@@ -201,16 +200,16 @@ class SubscriptionLanding extends React.Component {
                             <p>Find your pet’s precise formula, and be sure to choose automatic shipping at checkout.</p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <a className="rc-btn rc-btn--sm rc-btn--two" href="/cats/">Cat</a>
-                            <a className="rc-btn rc-btn--sm rc-btn--two" href="/dogs/">Dog</a>
+                            <Link className="rc-btn rc-btn--sm rc-btn--two" to="/cats/">Cat</Link>
+                            <Link className="rc-btn rc-btn--sm rc-btn--two" to="/dogs/">Dog</Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
                           <div className="rc-column rc-padding--none">
-                            <img src={imagedog} alt="Dog image" />
+                            <img src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/dog.webp`} alt="Dog image" />
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                            <a className="rc-btn rc-btn--sm rc-btn--two w-50" href="/dogs/">Dog</a>
+                            <Link className="rc-btn rc-btn--sm rc-btn--two w-50" to="/dogs/">Dog</Link>
                           </div>
                         </div>
                       </div>

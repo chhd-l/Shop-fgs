@@ -5,9 +5,6 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import image1 from './images/image1.jpg';
-import image2 from './images/image2.jpg';
-import image3 from './images/image3.jpg';
 import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
 import { inject, observer } from 'mobx-react';
@@ -15,7 +12,6 @@ import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import Faq from '../../Payment/Fr/faq';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -161,7 +157,7 @@ class AboutUs extends React.Component {
                               <h2 className="rc-beta markup-text"><FormattedMessage id="aboutUs.ourValues" /></h2>
                               <p><FormattedMessage id="aboutUs.ourValuesDetail" /></p>
                               <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                to="/Values" title="En savoir plus"><FormattedMessage id="aboutUs.learnMore" /></Link>
+                                to="/Tailorednutrition" title="En savoir plus"><FormattedMessage id="aboutUs.learnMore" /></Link>
                             </div>
                           </div>
                         </div>
@@ -251,15 +247,15 @@ class AboutUs extends React.Component {
 
                               <div className="rc-grid">
                                 <article className="rc-card rc-card--a">
-                                  <a href="/dogs/">
+                                  <Link to="/dogs/">
                                     <LazyLoad>
                                       <img src={dog} style={{ width: '100%' }} alt="" />
                                     </LazyLoad>
-                                  </a>
+                                  </Link>
                                   <div className="rc-card__body">
                                     <header>
-                                      <a href="/dogs/">
-                                        <h4 className="rc-card__title"><FormattedMessage id="aboutUs.shopDog" /></h4></a>
+                                      <Link to="/dogs/">
+                                        <h4 className="rc-card__title"><FormattedMessage id="aboutUs.shopDog" /></h4></Link>
                                       <p className="rc-margin--none"></p>
                                     </header>
                                   </div>
@@ -268,15 +264,15 @@ class AboutUs extends React.Component {
 
                               <div className="rc-grid">
                                 <article className="rc-card rc-card--a">
-                                  <a href="/cats/">
+                                  <Link to="/cats/">
                                     <LazyLoad>
                                       <img src={cat} style={{ width: '100%' }} alt="" />
                                     </LazyLoad>
-                                  </a>
+                                  </Link>
                                   <div className="rc-card__body">
                                     <header>
-                                      <a href="/cats/">
-                                        <h4 className="rc-card__title"><FormattedMessage id="aboutUs.shopCat" /></h4></a>
+                                      <Link to="/cats/">
+                                        <h4 className="rc-card__title"><FormattedMessage id="aboutUs.shopCat" /></h4></Link>
                                       <p className="rc-margin--none"></p>
                                     </header>
                                   </div>
