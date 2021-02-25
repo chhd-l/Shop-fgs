@@ -651,7 +651,7 @@ class List extends React.Component {
     const isVetProducts = isHub && location.pathname.includes('vet_products');
     const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail_products`;
     const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet_products`;
-    const showSmartFeeder = isDog && isHub;
+    const showSmartFeeder = isDog && process.env.REACT_APP_LANG == 'fr';
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -2078,18 +2078,18 @@ class List extends React.Component {
                           }
                         />
                       )}
-                      {this.state.showSmartFeeder ? <div className="smart-feeder-container">
+                      {this.state.showSmartFeeder  ? <div className="smart-feeder-container">
                         <p>Smart Feeder Subscription</p>
                         <p>A bundle offer of your dog food paired with a dispenser</p>
-                        <img src={smartFeeder}/>
                         <a
-                          href="/"
+                          href="https://www.royalcanin.com/fr/shop/smart-feeder-subscription"
                           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                           style={{ minWidth: '110px' }}
                         >
                           {/* <FormattedMessage id="learnMore" /> */}
                           See the offer
                         </a>
+                        <img src={smartFeeder}/>
                       </div> : null}
                     </aside>
                   </div>
