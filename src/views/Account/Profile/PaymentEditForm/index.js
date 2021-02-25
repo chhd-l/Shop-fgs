@@ -42,7 +42,7 @@ class PaymentEditForm extends React.Component {
       isValid: false,
 
       // 組件
-      paymentForm:{
+      paymentForm: {
         cardNumber: '12000000000',
         month: 1,
         year: null,
@@ -51,14 +51,14 @@ class PaymentEditForm extends React.Component {
         isChecked: true
       },
       monthList: [
-        {name: '01', value: 1},
-        {name: '02', value: 2}
+        { name: '01', value: 1 },
+        { name: '02', value: 2 }
       ],
       yearList: [
-        {name: '2015', value: 2015},
-        {name: '2016', value: 2016},
-        {name: '2017', value: 2017},
-        {name: '2018', value: 2018}
+        { name: '2015', value: 2015 },
+        { name: '2016', value: 2016 },
+        { name: '2017', value: 2017 },
+        { name: '2018', value: 2018 }
       ]
     };
   }
@@ -259,25 +259,27 @@ class PaymentEditForm extends React.Component {
     let value = ''
     value = target.value;
     paymentForm[name] = value;
-    this.setState({ paymentForm },() => {
+    this.setState({ paymentForm }, () => {
       console.log(paymentForm, '--------paymentForm');
     });
     this.inputBlur(e);
   }
 
-  handleSelectedItemChange = (name, item) => {debugger
+  handleSelectedItemChange = (name, item) => {
+    debugger
     const { paymentForm } = this.state;
     paymentForm[name] = item.value;
-    this.setState({ paymentForm },() => {
+    this.setState({ paymentForm }, () => {
       console.log(paymentForm, '--------paymentForm');
     });
   }
-  handelCheckboxChange = () => {debugger
+  handelCheckboxChange = () => {
+    debugger
     const { paymentForm } = this.state
     paymentForm['isChecked'] = !paymentForm['isChecked']
     this.setState({
       paymentForm
-    },()=>{
+    }, () => {
       console.log(paymentForm, '--------paymentForm');
     })
   }
@@ -302,13 +304,13 @@ class PaymentEditForm extends React.Component {
     );
     return (
       <div className="credit-card-content">
-        {/*<PaymentForm form={this.state.paymentForm}*/}
-        {/*             monthList={this.state.monthList}*/}
-        {/*             yearList={this.state.yearList}*/}
-        {/*             handelCheckboxChange={this.handelCheckboxChange}*/}
-        {/*             handleInputChange={this.handleInputChange}*/}
-        {/*             handleSelectedItemChange={this.handleSelectedItemChange}*/}
-        {/*             inputBlur={this.inputBlur}/>*/}
+        {/* <PaymentForm form={this.state.paymentForm}
+          monthList={this.state.monthList}
+          yearList={this.state.yearList}
+          handelCheckboxChange={this.handelCheckboxChange}
+          handleInputChange={this.handleInputChange}
+          handleSelectedItemChange={this.handleSelectedItemChange}
+          inputBlur={this.inputBlur} /> */}
 
         {paymentType === 'ADYEN' ? (
           <>
