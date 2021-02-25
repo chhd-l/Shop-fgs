@@ -9,6 +9,7 @@ import SideMenu from '@/components/SideMenu';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
+import { myAccountPushEvent } from '@/utils/GA';
 import './index.less';
 import { Helmet } from 'react-helmet';
 
@@ -104,6 +105,8 @@ class AccountHome extends React.Component {
     return this.props.loginStore.userInfo;
   }
   componentDidMount() {
+    myAccountPushEvent('Overview')
+
     setSeoConfig({
       pageName: 'Account index'
     }).then(res => {
