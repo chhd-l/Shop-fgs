@@ -91,6 +91,18 @@ class ConfigStore {
     );
   }
 
+  @computed get defaultPurchaseType() {
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.defaultPurchaseType
+      : '';
+  }
+
+  @computed get defaultSubscriptionFrequencyId() {
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.defaultSubscriptionFrequencyId
+      : '';
+  }
+
   @action.bound
   async queryConfig() {
     let res = this.info;
