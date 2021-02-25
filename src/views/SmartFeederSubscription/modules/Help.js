@@ -9,6 +9,20 @@ import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 @inject('configStore')
 @observer
 class Help extends React.Component {
+  static defaultProps = {
+    needReverse: true,
+    contentText: {
+      title: '',
+      des: '',
+      emailTitle: '',
+      emailDes: '',
+      emailLink: '',
+      email: '',
+      phoneTitle: '',
+      phoneDes: '',
+      phone: ''
+    }
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +37,17 @@ class Help extends React.Component {
     };
   }
   render(h) {
+    const {
+      title,
+      des,
+      email,
+      phone,
+      emailTitle,
+      emailLink,
+      emailDes,
+      phoneTitle,
+      phoneDes
+    } = this.props.contentText;
     return (
       <div className="experience-region experience-main">
         <div className="experience-component experience-layouts-1column">
@@ -36,12 +61,21 @@ class Help extends React.Component {
                     }`}
                   >
                     <h1 className="rc-beta">
-                      <FormattedMessage id="recommendation.thirdTitle" />
+                      {title ? (
+                        title
+                      ) : (
+                        <FormattedMessage id="recommendation.thirdTitle" />
+                      )}
+
                       {/* Our pet experts are here to help you   */}
                     </h1>
                     <div className="rc-large-body inherit-fontsize children-nomargin">
-                      <p>
-                        <FormattedMessage id="smartFeederSubscription.helpSubTitle" />
+                      <p style={{ maxWidth: '680px' }}>
+                        {des ? (
+                          des
+                        ) : (
+                          <FormattedMessage id="smartFeederSubscription.helpSubTitle" />
+                        )}
 
                         {/* We’re ready to help you with any further questions you
                         might have
@@ -50,7 +84,11 @@ class Help extends React.Component {
                       </p>
                     </div>
                   </div>
-                  <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-md-left food_dispenser-help">
+                  <div
+                    className={`rc-layout-container rc-five-column rc-match-heights ${
+                      this.props.needReverse ? 'rc-reverse-layout-mobile' : ''
+                    } text-md-left food_dispenser-help`}
+                  >
                     <div className="rc-column rc-double-width rc-padding--none">
                       <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                         <div className="rc-border-all rc-border-colour--interface fullHeight">
@@ -58,10 +96,16 @@ class Help extends React.Component {
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
                                 <b style={{ color: '#00BCA3' }}>
-                                  <FormattedMessage id="help.byTelephone" />
+                                  {phoneTitle ? (
+                                    phoneTitle
+                                  ) : (
+                                    <FormattedMessage id="help.byTelephone" />
+                                  )}
                                 </b>
                                 <p>
-                                  {this.props.configStore.contactTimePeriod}
+                                  {phoneDes
+                                    ? phoneDes
+                                    : this.props.configStore.contactTimePeriod}
                                 </p>
                                 <div className="rc-margin-top--xs">
                                   <p
@@ -69,14 +113,19 @@ class Help extends React.Component {
                                     className="rc-numeric rc-md-up"
                                   >
                                     <a
-                                      href={this.state.tel}
+                                      href={
+                                        phone
+                                          ? phone
+                                          : this.props.configStore
+                                              .storeContactPhoneNumber
+                                      }
                                       style={{ color: '#00BCA3' }}
                                     >
                                       {/* <FormattedMessage id="help.tel" /> */}
-                                      {
-                                        this.props.configStore
-                                          .storeContactPhoneNumber
-                                      }
+                                      {phone
+                                        ? phone
+                                        : this.props.configStore
+                                            .storeContactPhoneNumber}
                                     </a>
                                   </p>
                                 </div>
@@ -115,13 +164,21 @@ class Help extends React.Component {
                                 <b>
                                   <font style={{ verticalAlign: 'inherit' }}>
                                     <a
-                                      href={this.state.mailAddress}
+                                      href={
+                                        emailLink
+                                          ? emailLink
+                                          : this.state.mailAddress
+                                      }
                                       style={{
                                         verticalAlign: 'inherit',
                                         color: '#0087BD'
                                       }}
                                     >
-                                      <FormattedMessage id="help.byEmail" />
+                                      {emailTitle ? (
+                                        emailTitle
+                                      ) : (
+                                        <FormattedMessage id="help.byEmail" />
+                                      )}
                                     </a>
                                   </font>
                                 </b>
@@ -137,7 +194,11 @@ class Help extends React.Component {
                                           verticalAlign: 'inherit'
                                         }}
                                       >
-                                        <FormattedMessage id="help.tip3" />
+                                        {emailDes ? (
+                                          emailDes
+                                        ) : (
+                                          <FormattedMessage id="help.tip3" />
+                                        )}
                                       </font>
                                     </font>
                                   </span>
@@ -157,7 +218,11 @@ class Help extends React.Component {
                                       }}
                                       className="rc-styled-link"
                                     >
-                                      <FormattedMessage id="help.email" />
+                                      {email ? (
+                                        email
+                                      ) : (
+                                        <FormattedMessage id="help.email" />
+                                      )}
                                     </a>
                                   </p>
                                 </div>
