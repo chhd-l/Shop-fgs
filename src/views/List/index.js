@@ -1034,7 +1034,7 @@ class List extends React.Component {
             }
           } catch (err) {}
         } else {
-          this.props.history.push('/404');
+          // this.props.history.push('/404');
         }
         // 生成面包屑
         const targetId =
