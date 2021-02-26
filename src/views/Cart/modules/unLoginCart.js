@@ -179,9 +179,6 @@ class UnLoginCart extends React.Component {
     isHubGA && this.getComputedWeeks(this.state.frequencyList);
     isHubGA && this.GAInitialProductArray(this.props.checkoutStore.cartData);
     this.setCartData();
-    isHubGA && this.GACartScreenLoad();
-    isHubGA && this.getComputedWeeks(this.state.frequencyList);
-    isHubGA && this.GAInitialProductArray(this.props.checkoutStore.cartData);
   }
   //天-0周  周-value*1 月-value*4
   getComputedWeeks(frequencyList) {

@@ -212,7 +212,8 @@ class LoginCart extends React.Component {
     });
   }
   GAInitialProductArray(productList) {
-    console.log({ productList: JSON.stringify(toJS(productList)[4]) });
+    // console.log({ productList: JSON.stringify(toJS(productList)) });
+    // debugger
     let arr = [];
     for (let item of productList) {
       let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
