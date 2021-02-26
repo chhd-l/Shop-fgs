@@ -337,7 +337,7 @@ class Details extends React.Component {
       purchaseTypeDict: [],
       barcode: '',
       descContent: '',
-      contactUs: '',
+      contactUs: ''
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -373,15 +373,15 @@ class Details extends React.Component {
     const Fr = process.env.REACT_APP_LANG === 'fr';
     const Ru = process.env.REACT_APP_LANG === 'ru';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
-    if(Fr) {
+    if (Fr) {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
-    }else if(Ru) {
+    } else if (Ru) {
       contactUs = 'https://www.royalcanin.com/ru/contact-us';
     }
 
     this.setState({
-      contactUs,
-    })
+      contactUs
+    });
 
     // 观察'推荐块'元素是否出现在可见视口中
     if (this.hubGA) {
@@ -389,34 +389,41 @@ class Details extends React.Component {
         if (entries[0].intersectionRatio <= 0) return; // intersectionRatio 是否可见，不可见则返回
         dataLayer.push({
           event: 'pdpAssociatedProductsDisplay',
-          pdpAssociatedProductsDisplay: [{
-            'price': 40, //Product Price, including discount if promo code activated for this product
-            'specie': 'Cat', //'Cat' or 'Dog',
-            'range': 'Size Health Nutrition', //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
-            'name': 'Medium Puppy', //WeShare product name, always in English
-            'mainItemCode': '3003', //Main item code
-            'SKU': '123456789', //product SKU
-            'recommendationID': '123456', //recommendation ID
-            'subscription': 'One Shot', //'One Shot', 'Subscription', 'Club'
-            'subscriptionFrequency': 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
-            'technology': 'Dry', //'Dry', 'Wet', 'Pack'
-            'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-            'size': '12x85g', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-            'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
-            'quantity': 2, //Number of products, only if already added to cart
-            'sizeCategory': 'Small', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
-            'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-            'promoCodeAmount': 8 //Promo code amount, only if promo activated
-          }] //待后端添加
+          pdpAssociatedProductsDisplay: [
+            {
+              price: 40, //Product Price, including discount if promo code activated for this product
+              specie: 'Cat', //'Cat' or 'Dog',
+              range: 'Size Health Nutrition', //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+              name: 'Medium Puppy', //WeShare product name, always in English
+              mainItemCode: '3003', //Main item code
+              SKU: '123456789', //product SKU
+              recommendationID: '123456', //recommendation ID
+              subscription: 'One Shot', //'One Shot', 'Subscription', 'Club'
+              subscriptionFrequency: 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+              technology: 'Dry', //'Dry', 'Wet', 'Pack'
+              brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+              size: '12x85g', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+              breed: ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+              quantity: 2, //Number of products, only if already added to cart
+              sizeCategory: 'Small', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
+              promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
+              promoCodeAmount: 8 //Promo code amount, only if promo activated
+            }
+          ] //待后端添加
         });
       });
-      let recommendationGoodsDom = document.querySelector('#goods-recommendation-box');
-      this.setState({
-        initObserver,
-        recommendationGoodsDom,
-      }, () => {
-        this.state.initObserver.observe(this.state.recommendationGoodsDom);
-      })
+      let recommendationGoodsDom = document.querySelector(
+        '#goods-recommendation-box'
+      );
+      this.setState(
+        {
+          initObserver,
+          recommendationGoodsDom
+        },
+        () => {
+          this.state.initObserver.observe(this.state.recommendationGoodsDom);
+        }
+      );
     }
   }
   get isLogin() {
@@ -686,8 +693,7 @@ class Details extends React.Component {
           () => {
             this.setDefaultPurchaseType({
               id:
-                goodsRes.defaultPurchaseType ||
-                configStore.defaultPurchaseType
+                goodsRes.defaultPurchaseType || configStore.defaultPurchaseType
             });
             this.hubGA && this.getComputedWeeks(this.state.frequencyList);
           }
@@ -705,7 +711,9 @@ class Details extends React.Component {
           // 美国需临时加入一个tab
           if (process.env.REACT_APP_LANG === 'en') {
             tmpTabName.push('Royal Canin Club');
-            tmpTabContent.push('<div class=\"row rc-margin-x--none flex-column-reverse flex-md-row\"><div class=\"col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile\"><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwae14b5b3/AB Testing/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=85&amp;ch=73&amp;sfrm=png\" alt=\"CLUB BENEFITS PET ADVISOR\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div></div><div class=\"rc-hidden align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwed46b971/AB Testing/CLUB-BENEFITS_WELCOME-BOX.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=7&amp;cw=85&amp;ch=73&amp;sfrm=png\" alt=\"CLUB BENEFITS DISCOUNT\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div></div><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwbc91a43e/AB Testing/CLUB-BENEFITS_DISCOUNT.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=86&amp;ch=74&amp;sfrm=png\" alt=\"CLUB BENEFITS DISCOUNT\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Special Savings + FREE Shipping </strong>- save 30% on your first order and another 5% on every autoship order.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Special Savings + FREE Shipping&nbsp;</strong>-&nbsp;save 30% on your first order and another 5% on every autoship order.</p></div></div><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwed90b2cc/AB Testing/CLUB-BENEFITS_PRODUCT-RECOS.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=87&amp;ch=74&amp;sfrm=png\" alt=\"CLUB BENEFITS PRODUCT RECOS\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div></div></div><div class=\"col-12 col-md-6\"><div class=\"rc-video-wrapper\"><iframe src=\"https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com\" allowfullscreen=\"\" frameborder=\"0\"></iframe></div></div></div><div class=\"arrow-img-columns rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile rc-padding-x--md--mobile\"><div class=\"rc-margin-bottom--md\"><h2 class=\"rc-beta\">How to Join Royal Canin Club</h2></div><div class=\"rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle\"><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>GRAB YOUR PRODUCTS</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN SHOP\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwf2bad73c/AB Testing/HOW-TO-JOIN-SHOP.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=167&amp;ch=106&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Find your handpicked nutrition products in your cart.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>CHOOSE AUTOMATIC SHIPPING</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN AUTOSHIP\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw96b40031/AB Testing/HOW-TO-JOIN-AUTOSHIP.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Set your automatic shipping schedule and input your payment method.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN SCHEDULE\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw4d808803/AB Testing/HOW-TO-JOIN-SCHEDULE.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Receive your product automatically based on your schedule. Change or cancel at any time.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>ENJOY YOUR PERKS</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN ENJOY\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw3702062b/AB Testing/HOW-TO-JOIN-ENJOY.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>');
+            tmpTabContent.push(
+              '<div class="row rc-margin-x--none flex-column-reverse flex-md-row"><div class="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile"><div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none"><img src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwae14b5b3/AB Testing/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=85&amp;ch=73&amp;sfrm=png" alt="CLUB BENEFITS PET ADVISOR" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div></div><div class="rc-hidden align-items-center col-6 col-md-12 rc-padding-left--none"><img src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwed46b971/AB Testing/CLUB-BENEFITS_WELCOME-BOX.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=7&amp;cw=85&amp;ch=73&amp;sfrm=png" alt="CLUB BENEFITS DISCOUNT" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div></div><div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none"><img src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwbc91a43e/AB Testing/CLUB-BENEFITS_DISCOUNT.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=86&amp;ch=74&amp;sfrm=png" alt="CLUB BENEFITS DISCOUNT" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Special Savings + FREE Shipping </strong>- save 30% on your first order and another 5% on every autoship order.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Special Savings + FREE Shipping&nbsp;</strong>-&nbsp;save 30% on your first order and another 5% on every autoship order.</p></div></div><div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none"><img src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwed90b2cc/AB Testing/CLUB-BENEFITS_PRODUCT-RECOS.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=87&amp;ch=74&amp;sfrm=png" alt="CLUB BENEFITS PRODUCT RECOS" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div></div></div><div class="col-12 col-md-6"><div class="rc-video-wrapper"><iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com" allowfullscreen="" frameborder="0"></iframe></div></div></div><div class="arrow-img-columns rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile rc-padding-x--md--mobile"><div class="rc-margin-bottom--md"><h2 class="rc-beta">How to Join Royal Canin Club</h2></div><div class="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle"><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>GRAB YOUR PRODUCTS</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN SHOP" src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwf2bad73c/AB Testing/HOW-TO-JOIN-SHOP.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=167&amp;ch=106&amp;sfrm=png"><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Find your handpicked nutrition products in your cart.</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>CHOOSE AUTOMATIC SHIPPING</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN AUTOSHIP" src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw96b40031/AB Testing/HOW-TO-JOIN-AUTOSHIP.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png"><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Set your automatic shipping schedule and input your payment method.</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN SCHEDULE" src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw4d808803/AB Testing/HOW-TO-JOIN-SCHEDULE.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png"><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Receive your product automatically based on your schedule. Change or cancel at any time.</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>ENJOY YOUR PERKS</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN ENJOY" src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw3702062b/AB Testing/HOW-TO-JOIN-ENJOY.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png"><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>'
+            );
           }
           this.setState({
             productRate: res.context.avgEvaluate,
@@ -886,14 +894,14 @@ class Details extends React.Component {
             }
             return g;
           });
-          
+
           const goodSize = specList.map((item) =>
-          item.chidren.find((good) => good.selected)
-        )?.[0]?.detailName;
-        const goodsInfoBarcode = goodsInfos.find(
-          (item) => item.packSize === goodSize
-        )?.goodsInfoBarcode;
-        const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+            item.chidren.find((good) => good.selected)
+          )?.[0]?.detailName;
+          const goodsInfoBarcode = goodsInfos.find(
+            (item) => item.packSize === goodSize
+          )?.goodsInfoBarcode;
+          const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
 
           let images = [];
           // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
@@ -931,7 +939,9 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.hubGA ? this.hubGAProductDetailPageView(this.state.details) : this.GAProductDetailPageView(this.state.details);
+              this.hubGA
+                ? this.hubGAProductDetailPageView(this.state.details)
+                : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.matchGoods();
             }
@@ -975,7 +985,9 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.hubGA ? this.hubGAProductDetailPageView(this.state.details) : this.GAProductDetailPageView(this.state.details);
+              this.hubGA
+                ? this.hubGAProductDetailPageView(this.state.details)
+                : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.bundleMatchGoods();
             }
@@ -1134,7 +1146,9 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details } = this.state;
 
-      this.hubGA ? this.hubGAAToCar(quantity, details) : this.GAAddToCar(quantity, details);
+      this.hubGA
+        ? this.hubGAAToCar(quantity, details)
+        : this.GAAddToCar(quantity, details);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -1267,7 +1281,9 @@ class Details extends React.Component {
     } = this.state;
     const { goodsId, sizeList } = details;
     // 加入购物车 埋点start
-    this.hubGA ? this.hubGAAToCar(quantity, details) : this.GAAddToCar(quantity, details);
+    this.hubGA
+      ? this.hubGAAToCar(quantity, details)
+      : this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
@@ -1610,7 +1626,7 @@ class Details extends React.Component {
     // const subscriptionFrequency = form.buyWay === 1 ? calculatedWeeks[form.frequencyVal] : '';
     // const recommendationID = this.props.clinicStore?.linkClinicId || '';
     dataLayer.push({
-      event: 'pdpAddToCart',
+      event: 'pdpAddToCart'
       // products: [
       //   {
       //     price,
@@ -1634,12 +1650,13 @@ class Details extends React.Component {
     });
   }
 
-   //零售商购物 埋点
+  //零售商购物 埋点
   handleBuyFromRetailer = () => {
-    this.hubGA && dataLayer.push({
-      event: 'pdpBuyFromRetailer'
-    })
-  }
+    this.hubGA &&
+      dataLayer.push({
+        event: 'pdpBuyFromRetailer'
+      });
+  };
 
   //商品详情页 埋点
   GAProductDetailPageView(item) {
@@ -1688,37 +1705,45 @@ class Details extends React.Component {
   //hub商品详情页 埋点
   hubGAProductDetailPageView(item) {
     const pathName = this.props.location.pathname;
-    const { cateId, minMarketPrice, goodsCateName, goodsName, goodsInfos, goodsNo } = item;
+    const {
+      cateId,
+      minMarketPrice,
+      goodsCateName,
+      goodsName,
+      goodsInfos,
+      goodsNo
+    } = item;
     const specie = cateId === '1134' ? 'Cat' : 'Dog';
     const cateName = goodsCateName?.split('/') || '';
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     const size = goodsInfos?.[0]?.packSize || '';
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
-    const GAProductsInfo = [{
-      price: minMarketPrice,
-      specie,
-      range: cateName?.[1],
-      name: goodsName,
-      mainItemCode: goodsNo,
-      SKU,
-      recommendationID,
-      technology: cateName?.[2],
-      brand: 'Royal Canin',
-      size,
-      breed: '',//todo:接口添加返回
-      promoCodeName: '', //促销 todo:接口加
-      promoCodeAmount: '', //促销 todo:接口加
-    }];
+    const GAProductsInfo = [
+      {
+        price: minMarketPrice,
+        specie,
+        range: cateName?.[1],
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        recommendationID,
+        technology: cateName?.[2],
+        brand: 'Royal Canin',
+        size,
+        breed: '', //todo:接口添加返回
+        promoCodeName: '', //促销 todo:接口加
+        promoCodeAmount: '' //促销 todo:接口加
+      }
+    ];
 
     dataLayer.push({
-      products: GAProductsInfo,
-    })
+      products: GAProductsInfo
+    });
 
     dataLayer.push({
-      event: 'pdpScreenLoad',
-    })
+      event: 'pdpScreenLoad'
+    });
   }
-
 
   render() {
     const createMarkup = (text) => ({ __html: text });
@@ -1751,7 +1776,7 @@ class Details extends React.Component {
       hubEvent,
       hubEcEvents,
       goodsType,
-      barcode,
+      barcode
     } = this.state;
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
@@ -1769,7 +1794,7 @@ class Details extends React.Component {
       </${
         this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
       }>`;
-    let bundle = goodsType && goodsType === 2 ;
+    let bundle = goodsType && goodsType === 2;
     return (
       <div id="Details">
         {Object.keys(event).length ? (
@@ -2691,7 +2716,7 @@ class Details extends React.Component {
                                     />
                                   </span>
                                 </button>
-                                {!this.state.loading && !bundle? (
+                                {!this.state.loading && !bundle ? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -2966,7 +2991,7 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle? (
+                {!this.state.loading && !bundle ? (
                   <div
                     className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                     data-ccid="wtb-target"
