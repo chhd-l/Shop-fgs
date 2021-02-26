@@ -32,11 +32,7 @@ import foodPic from './img/food_pic.png';
 import foodDispenserPic from './img/food_dispenser_pic.png';
 import foodPic2 from './img/step2_food.png';
 import LazyLoad from 'react-lazyload';
-const productObj = {
-  img: foodPic,
-  title: 'Sterilised Mini',
-  detail: 'Dry Dog Food'
-};
+
 const isMobile = getDeviceType() !== 'PC';
 const Step1Pc = (props) => {
   return (
@@ -232,7 +228,7 @@ const Step2 = (props) => {
           </div>
           <div className="rc-column rc-double-width">
             <div className="title">{props.details.goodsInfoName}</div>
-            <div className="sub_title">Dry Dog Food</div>
+            <div className="sub_title">{props.details.foodFllType}</div>
             <div>
               <div className="block">
                 <p
@@ -738,6 +734,18 @@ class SmartFeederSubscription extends Component {
               productRate: res.context.avgEvaluate
             });
           }
+          let petType = 'Cat'
+          let foodType =  'Dry'
+          if(res&&res.context?.goodsAttributesValueRelList){
+            res.context.goodsAttributesValueRelList.forEach((item,idx)=>{
+              if(item.goodsAttributeName=='Lifestages'){
+                petType = item.goodsAttributeValue.split('_')&&item.goodsAttributeValue.split('_')[1]
+              }
+              if(item.goodsAttributeName=='Technology'){
+                foodType = item.goodsAttributeValue
+              }
+            })
+          }
           if (res && res.context && res.context.goods) {
             let pageLink = window.location.href.split('-');
             pageLink.splice(pageLink.length - 1, 1);
@@ -1136,11 +1144,13 @@ class SmartFeederSubscription extends Component {
                 });
               });
             }
+            let foodFllType = `${foodType} ${petType} Food`
             let images = [];
             images = res.context.goodsInfos;
             this.setState({
               details: Object.assign(
                 {},
+                foodFllType,
                 this.state.details,
                 res.context.goods,
                 {
