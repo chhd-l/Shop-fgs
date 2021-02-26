@@ -40,6 +40,7 @@ export default class HubSalesCategory extends Component {
               cateName: item2.cateName,
               altName: item2.altName,
               cateRouter: item2.cateRouter,
+              goodsCateId: item2.goodsCateId,
             };
           });
   
@@ -55,6 +56,7 @@ export default class HubSalesCategory extends Component {
               cateName: item2.cateName,
               altName: item2.altName,
               cateRouter: item2.cateRouter,
+              goodsCateId:item2.goodsCateId,
             };
           });
       this.setState({ cateGoryList_dog, cateGoryList_cat });
@@ -103,7 +105,7 @@ export default class HubSalesCategory extends Component {
                           <div className="rc-column category-goods" key={index}>
                             <Link
                               className="rc-moblie-flex"
-                              to={`${item.cateRouter}`}
+                              to={`${item.cateRouter}?cateId=${item.goodsCateId}`}
                             >
                               <picture>
                                 <source srcSet={item.imgSrc} />
@@ -146,7 +148,7 @@ export default class HubSalesCategory extends Component {
                           <div className="rc-column category-goods" key={index}>
                             <Link
                               className="rc-moblie-flex"
-                              to={`${item.cateRouter}`}
+                              to={`${item.cateRouter}?cateId=${item.goodsCateId}`}
                             >
                               <picture>
                                 <source srcSet={item.imgSrc} />

@@ -714,6 +714,7 @@ class List extends React.Component {
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
+    const cateId = getParaByName(search, 'cateId');
     const utm_source = getParaByName(search, 'utm_source'); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
       this.setState({
@@ -735,9 +736,10 @@ class List extends React.Component {
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
             : keywordsSearch
-            ? keywordsSearch
-            : '',
-        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || ''
+              ? keywordsSearch
+              : '',
+        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
+        cateId,
       },
       () => {
         this.initData();
