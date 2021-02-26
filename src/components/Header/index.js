@@ -239,16 +239,17 @@ class Header extends React.Component {
       // todo
       // const res = await axios.get(`/navigation/getmodel`);
       const res = await queryNavigation();
+      // debugger;
       let headerNavigationListForHub = (
-        (res && res.data && res.data.menuGroups) ||
+        (res && res.data && res.data.MenuGroups) ||
         []
       ).map((ele, i) => {
-        ele.menuItems = (ele.menuItems || []).map((cEle, j) => {
+        ele.MenuItems = (ele.MenuItems || []).map((cEle, j) => {
           return { ...cEle, id: `${i + 1}-${j}` };
         });
         return {
           ...ele,
-          expanded: !!(ele.menuItems && ele.menuItems.length),
+          expanded: !!(ele.MenuItems && ele.MenuItems.length),
           id: i + 1
         };
       });
