@@ -228,7 +228,7 @@ const App = () => (
               <Route exact path="/help/contact" component={ContactUs} />
               <Route exact path="/help" component={Help} />
               <Route
-                path="/ShelterPrescription"
+                path="/shelter-landing-page"
                 component={ShelterPrescription}
               />
               <Route
