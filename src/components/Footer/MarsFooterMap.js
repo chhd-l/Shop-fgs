@@ -315,9 +315,73 @@ class MarsFooterMap extends React.Component {
             </div>{' '}
           </div>{' '}
         </div>
+      ),
+      tr: (
+        <div
+          id="mars-footer-panel"
+          className="mars-footer-mars mars-footer-icon-size-medium"
+          data-cookie-warning-enabled="no"
+          data-lang="ru"
+        >
+          <div className="mars-footer-container">
+            {' '}
+            <ul className="mars-footer-list-right">
+              {' '}
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/privacy-policy-russia"
+                  rel="nofollow"
+                >
+                  <span className="mars-footer-icon">
+                     <strong></strong>
+                  </span>{' '}
+                  <span className="mars-footer-label">Конфиденциальность</span>
+                </a>
+              </li>{' '}
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/cookies-russia"
+                  rel="nofollow"
+                >
+                  <span className="mars-footer-icon">
+                     <strong></strong>
+                  </span>{' '}
+                  <span className="mars-footer-label">Файлы Cookies</span>
+                </a>
+              </li>{' '}
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/legal-russia"
+                  rel="nofollow"
+                >
+                  <span className="mars-footer-icon">
+                     <strong></strong>
+                  </span>{' '}
+                  <span className="mars-footer-label">Юридические условия</span>
+                </a>
+              </li>{' '}
+            </ul>{' '}
+            <div className="mars-footer-legal">
+              {' '}
+              <p className="text-center">
+                Copyright © Mars 2020®, Trademark of Mars Incorporated and its
+                affiliates
+              </p>{' '}
+            </div>{' '}
+          </div>{' '}
+        </div>
       )
     };
-    return <div>{marsFooterMap[process.env.REACT_APP_LANG]}</div>;
+    return (
+      <div>
+        {+process.env.REACT_APP_HUB
+          ? null
+          : marsFooterMap[process.env.REACT_APP_LANG]}
+      </div>
+    );
   }
 }
 export default MarsFooterMap;

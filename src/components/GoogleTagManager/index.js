@@ -83,36 +83,17 @@ class GoogleTagManager extends React.Component {
   }
 
   componentDidMount() {
-    // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
-
-    let hubEvent = {
-      site: {
-        country: process.env.REACT_APP_GA_COUNTRY,
-        environment: process.env.REACT_APP_GA_ENV,
-        id: process.env.REACT_APP_GTM_SITE_ID,
-      },
-      page: {
-        type: '',
-        theme: '',
-        globalURI: ''
-      },
-      search: {
-        query: '',
-        results: '',
-        type: ''
-      },
-      pet: {
-        specieID:'',
-        breedName: ''
-      },
+     // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
+    const {page ={}} = this.props.additionalEvents;
+    const commonSite =  {
+      country: process.env.REACT_APP_GA_COUNTRY,
+      environment: process.env.REACT_APP_GA_ENV,
+      id: process.env.REACT_APP_GTM_SITE_ID,
     };
-
     let event = {
       page: {},
       site: {
-        id: process.env.REACT_APP_GTM_SITE_ID,
-        environment: process.env.REACT_APP_GA_ENV,
-        country: process.env.REACT_APP_GA_COUNTRY,
+        ...commonSite,
         currency: process.env.REACT_APP_GA_CURRENCY_CODE
       },
       search: {
@@ -131,6 +112,22 @@ class GoogleTagManager extends React.Component {
         product: ''
       }
     };
+
+    let hubEvent = {
+      site: {
+        ...commonSite,
+      },
+      page: {
+        type: page?.type || '',
+        theme: page?.theme || '',
+        globalURI: page?.path || '',
+      },
+      pet: {
+        specieID: page?.specieId || '',
+        breedName: ''
+      },
+    };
+
     let userInfo = this.props.loginStore.userInfo;
     console.log({userInfo})
 
@@ -160,7 +157,7 @@ class GoogleTagManager extends React.Component {
       };
 
       hubEvent.user = {
-        segment: 'Not Authenticated',
+        segment: 'Not Authenticated',
         country: process.env.REACT_APP_GA_COUNTRY,
         id: '',
       };
@@ -173,23 +170,23 @@ class GoogleTagManager extends React.Component {
       this.props.additionalEvents
     );
 
-    let  hubAdditionalEvents = Object.assign(
+    let hubAdditionalEvents = Object.assign(
       {},
       hubEvent,
       this.props.hubAdditionalEvents
     );
 
-    const { hubEcommerceEvents = {}, ecommerceEvents = {} } = this.props;
-    let hubGa = process.env.REACT_APP_HUB_GA == '1';
-    let addEvents = hubGa ? hubAdditionalEvents : additionalEvents;
-    let ecEvents = hubGa ? hubEcommerceEvents : ecommerceEvents;
+    let hubGA = process.env.REACT_APP_HUB_GA == '1';
+    let addEvents = hubGA ? hubAdditionalEvents : additionalEvents;
+    let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
+    let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
 
     loadJS({
       code: `window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(${JSON.stringify(addEvents)});`
     });
 
-    if (hubEcommerceEvents || ecommerceEvents) {
+    if (ecommerceEvents || hubEcommerceEvents) {
       loadJS({
         code: `window.dataLayer = window.dataLayer || [];
       window.dataLayer.push(${JSON.stringify(ecEvents)});`

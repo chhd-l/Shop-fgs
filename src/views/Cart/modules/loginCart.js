@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { toJS } from "mobx"
+import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -39,7 +39,7 @@ import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_p
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5';
-const isHubGA = process.env.REACT_APP_HUB_GA
+const isHubGA = process.env.REACT_APP_HUB_GA;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -84,31 +84,34 @@ class LoginCart extends React.Component {
   }
   //天-0周  周-value*1 月-value*4
   getComputedWeeks(frequencyList) {
-    let calculatedWeeks = {}
+    let calculatedWeeks = {};
 
-    frequencyList.forEach(item => {
+    frequencyList.forEach((item) => {
       switch (item.type) {
         case 'Frequency_day':
-          calculatedWeeks[item.id] = 0
+          calculatedWeeks[item.id] = 0;
           break;
         case 'Frequency_week':
-          calculatedWeeks[item.id] = item.valueEn * 1
+          calculatedWeeks[item.id] = item.valueEn * 1;
           break;
         case 'Frequency_month':
-          calculatedWeeks[item.id] = item.valueEn * 4
+          calculatedWeeks[item.id] = item.valueEn * 4;
           break;
       }
-    })
+    });
 
-    this.setState({
-      calculatedWeeks
-    },()=>{
-      // console.log(this.state.calculatedWeeks)
-      // debugger
-    })
+    this.setState(
+      {
+        calculatedWeeks
+      },
+      () => {
+        // console.log(this.state.calculatedWeeks)
+        // debugger
+      }
+    );
   }
   async componentDidMount() {
-    console.log(1111,this.loginCartData)
+    console.log(1111, this.loginCartData);
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -120,7 +123,7 @@ class LoginCart extends React.Component {
           frequencyId:
             (process.env.REACT_APP_FREQUENCY_ID &&
               parseInt(process.env.REACT_APP_FREQUENCY_ID)) ||
-              res[0]
+            res[0]
               ? res[0].id
               : ''
         })
@@ -134,9 +137,9 @@ class LoginCart extends React.Component {
       await this.checkoutStore.updateLoginCart();
     }
 
-    isHubGA && this.GACartScreenLoad()
-    isHubGA && this.getComputedWeeks(this.state.frequencyList)
-    isHubGA && this.GAInitialProductArray(this.checkoutStore.loginCartData)
+    isHubGA && this.GACartScreenLoad();
+    isHubGA && this.getComputedWeeks(this.state.frequencyList);
+    isHubGA && this.GAInitialProductArray(this.checkoutStore.loginCartData);
     this.setData();
   }
   get loginCartData() {
@@ -205,45 +208,45 @@ class LoginCart extends React.Component {
   }
   GACartScreenLoad() {
     dataLayer.push({
-      'event': 'cartScreenLoad'
+      event: 'cartScreenLoad'
     });
   }
   GAInitialProductArray(productList) {
-    console.log({ productList: JSON.stringify(toJS(productList)) });
-    let arr = []
+    console.log({ productList: JSON.stringify(toJS(productList)[4]) });
+    let arr = [];
     for (let item of productList) {
-      let subscriptionFrequency = item.frequencyId ? this.state.calculatedWeeks[item.frequencyId] : ''
-      let range = item.goods.goodsCateName?.split("/")[1];
-      let technology = item.goods.goodsCateName?.split("/")[2]
+      let subscriptionFrequency = item.periodTypeId
+        ? this.state.calculatedWeeks[item.periodTypeId]
+        : '';
+      let range = item.goods.goodsCateName?.split('/')[1];
+      let technology = item.goods.goodsCateName?.split('/')[2];
 
       arr.push({
-        'price': item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
-        'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
-        'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
-        'name': item.goodsName, //WeShare product name, always in English
-        'mainItemCode': item.goods.goodsNo, //Main item code
-        'SKU':  item.goodsInfos[0].goodsInfoNo, //product SKU
-        'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
-        'technology': technology, //'Dry', 'Wet', 'Pack'
-        'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-        'size': item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-        'quantity': item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
-        'subscriptionFrequency': item.goodsInfoFlag == 1 ?subscriptionFrequency:'', //Frequency in weeks, to populate only if 'subscription' 
+        price:
+          item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
+        specie: item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
+        range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+        name: item.goodsName, //WeShare product name, always in English
+        mainItemCode: item.goods.goodsNo, //Main item code
+        SKU: item.goodsInfos[0].goodsInfoNo, //product SKU
+        subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
+        technology: technology, //'Dry', 'Wet', 'Pack'
+        brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+        size: item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+        quantity: item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
+        subscriptionFrequency:
+          item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
+        recommendationID: this.props.clinicStore.linkClinicId || '', //recommendation ID
 
-        'recommendationID': '123456', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-        'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
-
-        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-        'promoCodeAmount': 8 //Promo code amount, only if promo activated
-      })
+        breed: ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+        promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
+        promoCodeAmount: 8 //Promo code amount, only if promo activated
+      });
     }
     dataLayer.push({
-      'products': arr
-    })
-    console.log({dataLayer})
-    // debugger
-
+      products: arr
+    });
   }
   GACheckout(productList) {
     let product = [],
@@ -280,7 +283,7 @@ class LoginCart extends React.Component {
   }
   setData() {
     //每次数据变化调用
-    (!isHubGA) && this.GACheckout(this.checkoutStore.loginCartData);
+    !isHubGA && this.GACheckout(this.checkoutStore.loginCartData);
     let productList = this.checkoutStore.loginCartData.map((el) => {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
@@ -533,7 +536,11 @@ class LoginCart extends React.Component {
     });
     this.setState({ deleteLoading: false });
 
-    this.GARemoveFromCart(productList[currentProductIdx]);
+    !isHubGA && this.GARemoveFromCart(productList[currentProductIdx]);
+    isHubGA &&
+      dataLayer.push({
+        event: 'removeFromCart'
+      });
   }
   goBack(e) {
     e.preventDefault();
@@ -572,8 +579,9 @@ class LoginCart extends React.Component {
     let isGift = !!pitem.subscriptionPlanGiftList;
     return (
       <div
-        className={`product-quickview product-null product-wrapper product-detail ${isGift ? 'gift-size-mobile-fr' : ''
-          }`}
+        className={`product-quickview product-null product-wrapper product-detail ${
+          isGift ? 'gift-size-mobile-fr' : ''
+        }`}
       >
         <div className="detail-panel">
           <section className="attributes">
@@ -593,11 +601,13 @@ class LoginCart extends React.Component {
                         {sItem.chidren.map((sdItem, i2) => (
                           <div
                             style={{
-                              display: `${!sdItem.selected && isGift ? 'none' : 'initial'
-                                }`
+                              display: `${
+                                !sdItem.selected && isGift ? 'none' : 'initial'
+                              }`
                             }}
-                            className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''
-                              }`}
+                            className={`rc-swatch__item ${
+                              sdItem.selected ? 'selected' : ''
+                            }`}
                             key={i2}
                             onClick={this.handleChooseSize.bind(
                               this,
@@ -631,8 +641,9 @@ class LoginCart extends React.Component {
       return (
         <div className="product-info ">
           <div
-            className={`rc-border-all rc-border-colour--interface product-info p-3 ${isGift ? 'no-margin-bottom' : 'has-margin-bottom'
-              }`}
+            className={`rc-border-all rc-border-colour--interface product-info p-3 ${
+              isGift ? 'no-margin-bottom' : 'has-margin-bottom'
+            }`}
             key={index}
           >
             <div
@@ -748,13 +759,13 @@ class LoginCart extends React.Component {
                             ].join(' ')}
                           >
                             {pitem.addedFlag &&
-                              pitem.buyCount <= pitem.stock ? (
-                                <FormattedMessage id="details.inStock" />
-                              ) : pitem.addedFlag ? (
-                                <FormattedMessage id="details.outStock" />
-                              ) : (
-                                  <FormattedMessage id="details.OffShelves" />
-                                )}
+                            pitem.buyCount <= pitem.stock ? (
+                              <FormattedMessage id="details.inStock" />
+                            ) : pitem.addedFlag ? (
+                              <FormattedMessage id="details.outStock" />
+                            ) : (
+                              <FormattedMessage id="details.OffShelves" />
+                            )}
                           </div>
                         </span>
                       </div>
@@ -891,8 +902,8 @@ class LoginCart extends React.Component {
                                     <b className="product-pricing__card__head__price red  rc-padding-y--none">
                                       {formatMoney(
                                         pitem.buyCount * pitem.salePrice -
-                                        pitem.buyCount *
-                                        pitem.subscriptionPrice
+                                          pitem.buyCount *
+                                            pitem.subscriptionPrice
                                       )}
                                     </b>
                                   )
@@ -952,8 +963,9 @@ class LoginCart extends React.Component {
             <div className="rc-margin-bottom--sm rc-md-down">
               {isGift && this.getSizeBox(pitem, index)}
               <div
-                className={`product-card-footer product-card-price d-flex rc-margin-bottom--sm ${isGift ? 'gift-quantity-mobile-box' : ''
-                  }`}
+                className={`product-card-footer product-card-price d-flex rc-margin-bottom--sm ${
+                  isGift ? 'gift-quantity-mobile-box' : ''
+                }`}
               >
                 <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
                   <div style={{ marginTop: '12px' }}>Quantité: </div>
@@ -1122,7 +1134,7 @@ class LoginCart extends React.Component {
                             <b className="11111 product-pricing__card__head__price red  rc-padding-y--none">
                               {formatMoney(
                                 pitem.buyCount * pitem.salePrice -
-                                pitem.buyCount * pitem.subscriptionPrice
+                                  pitem.buyCount * pitem.subscriptionPrice
                               )}
                             </b>
                           )
@@ -1215,7 +1227,10 @@ class LoginCart extends React.Component {
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
-                    <div>x1 <FormattedMessage id="smartFeederSubscription.shopmentTimes" /></div>
+                    <div>
+                      x1{' '}
+                      <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
+                    </div>
                   </div>
                 </div>
                 <div className="tips-info mobile-text-center">
@@ -1255,7 +1270,12 @@ class LoginCart extends React.Component {
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { checkoutStore } = this.props;
-    const { checkoutLoading, promotionCode, isShowValidCode, mobileCartVisibleKey } = this.state;
+    const {
+      checkoutLoading,
+      promotionCode,
+      isShowValidCode,
+      mobileCartVisibleKey
+    } = this.state;
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
@@ -1297,10 +1317,11 @@ class LoginCart extends React.Component {
             <p className="text-right sub-total">
               <button
                 id="promotionApply"
-                className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${this.state.isClickApply
-                  ? 'ui-btn-loading ui-btn-loading-border-red'
-                  : ''
-                  }`}
+                className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
+                  this.state.isClickApply
+                    ? 'ui-btn-loading ui-btn-loading-border-red'
+                    : ''
+                }`}
                 style={{
                   marginTop: '10px',
                   float: 'right',
@@ -1332,8 +1353,9 @@ class LoginCart extends React.Component {
               key={i}
             >
               <div
-                className={`${!checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
-                  }`}
+                className={`${
+                  !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
+                }`}
               >
                 <p
                   style={{
@@ -1348,8 +1370,9 @@ class LoginCart extends React.Component {
                 </p>
               </div>
               <div
-                className={`${!checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                  } red`}
+                className={`${
+                  !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
+                } red`}
                 style={{ padding: 0 }}
               >
                 <p>
@@ -1477,7 +1500,9 @@ class LoginCart extends React.Component {
               </p>
             </div>
           </div>
-        ) : (<></>)}
+        ) : (
+          <></>
+        )}
 
         <div className="group-total">
           <div className="row">
@@ -1499,8 +1524,9 @@ class LoginCart extends React.Component {
                 <div className="rc-padding-y--xs rc-column">
                   <div
                     data-oauthlogintargetendpoint="2"
-                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${checkoutLoading ? 'ui-btn-loading' : ''
-                      }`}
+                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
+                      checkoutLoading ? 'ui-btn-loading' : ''
+                    }`}
                     aria-pressed="true"
                   >
                     <FormattedMessage id="checkout" />
@@ -1511,8 +1537,9 @@ class LoginCart extends React.Component {
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
-              className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-                }`}
+              className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
+                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+              }`}
               onClick={this.toggleMobileCart.bind(this, 'more')}
             >
               <span
@@ -1555,11 +1582,15 @@ class LoginCart extends React.Component {
                 <div className="rc-padding-y--xs rc-column">
                   <div
                     data-oauthlogintargetendpoint="2"
-                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${checkoutLoading ? 'ui-btn-loading' : ''
-                      }`}
+                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
+                      checkoutLoading ? 'ui-btn-loading' : ''
+                    }`}
                     aria-pressed="true"
                   >
-                    <FormattedMessage id="checkout" /> {mobileCartVisibleKey === 'less' ? formatMoney(this.tradePrice) : null}
+                    <FormattedMessage id="checkout" />{' '}
+                    {mobileCartVisibleKey === 'less'
+                      ? formatMoney(this.tradePrice)
+                      : null}
                   </div>
                 </div>
               </a>
@@ -1588,8 +1619,8 @@ class LoginCart extends React.Component {
         {this.sideCart()}
       </div>
     ) : (
-        this.sideCart()
-      );
+      this.sideCart()
+    );
   }
   async handleChooseSize(sdItem, pitem) {
     if (this.state.changSizeLoading) {
@@ -1611,9 +1642,9 @@ class LoginCart extends React.Component {
     const selectedGoodsInfo = pitem.goodsInfos.filter(
       (ele) =>
         ele.mockSpecIds.sort().toString() ===
-        selectedSpecIds.sort().toString() &&
+          selectedSpecIds.sort().toString() &&
         ele.mockSpecDetailIds.sort().toString() ===
-        selectedSpecDetailId.sort().toString()
+          selectedSpecDetailId.sort().toString()
     )[0];
     // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
@@ -1726,6 +1757,25 @@ class LoginCart extends React.Component {
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
+
+    if (goodsInfoFlag) {
+      isHubGA &&
+        dataLayer.push({
+          event: 'cartChangeSubscription',
+          cartChangeSubscription: {
+            button: 'Autoship' //Values : 'Single purchase', 'Autoship'
+          }
+        });
+    } else {
+      isHubGA &&
+        dataLayer.push({
+          event: 'cartChangeSubscription',
+          cartChangeSubscription: {
+            button: 'Single purchase' //Values : 'Single purchase', 'Autoship'
+          }
+        });
+    }
+
     if (pitem.goodsInfoFlag === goodsInfoFlag) {
       return false;
     }
@@ -1735,11 +1785,7 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const {
-      productList,
-      initLoading,
-      errorMsg
-    } = this.state;
+    const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
     const event = {
       page: {
@@ -1764,8 +1810,9 @@ class LoginCart extends React.Component {
           match={this.props.match}
         />
         <main
-          className={`rc-content--fixed-header ${productList.length ? '' : 'cart-empty'
-            }`}
+          className={`rc-content--fixed-header ${
+            productList.length ? '' : 'cart-empty'
+          }`}
         >
           <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
@@ -1774,128 +1821,128 @@ class LoginCart extends React.Component {
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
               </div>
             ) : (
-                <>
-                  {productList.length > 0 && (
-                    <>
-                      <div className="rc-layout-container rc-one-column pt-1">
-                        <div className="rc-column">
-                          <FormattedMessage id="continueShopping">
-                            {(txt) => (
-                              <a
-                                tabIndex="1"
-                                className="ui-cursor-pointer-pure"
-                                onClick={(e) => this.goBack(e)}
-                                title={txt}
-                              >
-                                <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                                  <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
-                                  {txt}
-                                </span>
-                              </a>
-                            )}
-                          </FormattedMessage>
-                        </div>
+              <>
+                {productList.length > 0 && (
+                  <>
+                    <div className="rc-layout-container rc-one-column pt-1">
+                      <div className="rc-column">
+                        <FormattedMessage id="continueShopping">
+                          {(txt) => (
+                            <a
+                              tabIndex="1"
+                              className="ui-cursor-pointer-pure"
+                              onClick={(e) => this.goBack(e)}
+                              title={txt}
+                            >
+                              <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
+                                {txt}
+                              </span>
+                            </a>
+                          )}
+                        </FormattedMessage>
                       </div>
-                      <div className="rc-layout-container rc-three-column cart cart-page pt-0">
-                        <div className="rc-column rc-double-width pt-0">
-                          {errorMsg ? (
-                            <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
-                              <aside
-                                className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                                role="alert"
-                              >
-                                <span className="pl-0">{errorMsg}</span>
-                              </aside>
+                    </div>
+                    <div className="rc-layout-container rc-three-column cart cart-page pt-0">
+                      <div className="rc-column rc-double-width pt-0">
+                        {errorMsg ? (
+                          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
+                            <aside
+                              className="rc-alert rc-alert--error rc-alert--with-close text-break"
+                              role="alert"
+                            >
+                              <span className="pl-0">{errorMsg}</span>
+                            </aside>
+                          </div>
+                        ) : null}
+                        <div className="rc-padding-bottom--xs">
+                          <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
+                            <FormattedMessage id="cart.yourShoppingCart" />
+                          </h5>
+                        </div>
+                        <div id="product-cards-container">{List}</div>
+                      </div>
+                      <div className="rc-column totals cart__total pt-0">
+                        <div className="rc-padding-bottom--xs">
+                          <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
+                            <FormattedMessage id="orderSummary" />
+                          </h5>
+                        </div>
+                        {this.renderSideCart({
+                          // fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                          fixToHeader: false
+                        })}
+                      </div>
+                    </div>
+                  </>
+                )}
+                {productList.length === 0 && !initLoading && (
+                  <>
+                    <div className="rc-text-center">
+                      <div className="rc-beta mb-1 mt-3">
+                        <FormattedMessage id="cart.yourShoppingCart" />
+                      </div>
+                      <div className="rc-gamma title-empty mb-0">
+                        <FormattedMessage id="header.basketEmpty" />
+                      </div>
+                    </div>
+                    <div className="content-asset">
+                      <div className="rc-bg-colour--brand3 rc-padding--sm pt-0 pb-0">
+                        <div className="rc-max-width--lg rc-padding-x--lg--mobile">
+                          <div>
+                            <div className="rc-alpha inherit-fontsize">
+                              <p className="text-center">
+                                <FormattedMessage id="cart.fullPrice" />
+                              </p>
                             </div>
-                          ) : null}
-                          <div className="rc-padding-bottom--xs">
-                            <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                              <FormattedMessage id="cart.yourShoppingCart" />
-                            </h5>
-                          </div>
-                          <div id="product-cards-container">{List}</div>
-                        </div>
-                        <div className="rc-column totals cart__total pt-0">
-                          <div className="rc-padding-bottom--xs">
-                            <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                              <FormattedMessage id="orderSummary" />
-                            </h5>
-                          </div>
-                          {this.renderSideCart({
-                            // fixToHeader: process.env.REACT_APP_LANG !== 'fr'
-                            fixToHeader: false
-                          })}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {productList.length === 0 && !initLoading && (
-                    <>
-                      <div className="rc-text-center">
-                        <div className="rc-beta mb-1 mt-3">
-                          <FormattedMessage id="cart.yourShoppingCart" />
-                        </div>
-                        <div className="rc-gamma title-empty mb-0">
-                          <FormattedMessage id="header.basketEmpty" />
-                        </div>
-                      </div>
-                      <div className="content-asset">
-                        <div className="rc-bg-colour--brand3 rc-padding--sm pt-0 pb-0">
-                          <div className="rc-max-width--lg rc-padding-x--lg--mobile">
-                            <div>
-                              <div className="rc-alpha inherit-fontsize">
-                                <p className="text-center">
-                                  <FormattedMessage id="cart.fullPrice" />
-                                </p>
+                            <div
+                              className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
+                              // style={{ margin: '0 10%' }}
+                              style={
+                                process.env.REACT_APP_LANG === 'fr'
+                                  ? {}
+                                  : { margin: '0 10%' }
+                              }
+                            >
+                              <div className="ui-item border radius-3">
+                                <Link to="/dogs">
+                                  <LazyLoad>
+                                    <img
+                                      className="w-100"
+                                      src={dogsPic}
+                                      alt="Dog"
+                                    />
+                                  </LazyLoad>
+                                  <br />
+                                  <h4 className="card__title red">
+                                    <FormattedMessage id="cart.dogDiet" />
+                                  </h4>
+                                </Link>
                               </div>
-                              <div
-                                className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
-                                // style={{ margin: '0 10%' }}
-                                style={
-                                  process.env.REACT_APP_LANG === 'fr'
-                                    ? {}
-                                    : { margin: '0 10%' }
-                                }
-                              >
-                                <div className="ui-item border radius-3">
-                                  <Link to="/dogs">
-                                    <LazyLoad>
-                                      <img
-                                        className="w-100"
-                                        src={dogsPic}
-                                        alt="Dog"
-                                      />
-                                    </LazyLoad>
-                                    <br />
-                                    <h4 className="card__title red">
-                                      <FormattedMessage id="cart.dogDiet" />
-                                    </h4>
-                                  </Link>
-                                </div>
-                                <div className="ui-item border radius-3">
-                                  <Link to="/cats">
-                                    <LazyLoad>
-                                      <img
-                                        className="w-100"
-                                        src={catsPic}
-                                        alt="Cat"
-                                      />
-                                    </LazyLoad>
-                                    <br />
-                                    <h4 className="card__title red">
-                                      <FormattedMessage id="cart.catDiet" />
-                                    </h4>
-                                  </Link>
-                                </div>
+                              <div className="ui-item border radius-3">
+                                <Link to="/cats">
+                                  <LazyLoad>
+                                    <img
+                                      className="w-100"
+                                      src={catsPic}
+                                      alt="Cat"
+                                    />
+                                  </LazyLoad>
+                                  <br />
+                                  <h4 className="card__title red">
+                                    <FormattedMessage id="cart.catDiet" />
+                                  </h4>
+                                </Link>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </>
-                  )}
-                </>
-              )}
+                    </div>
+                  </>
+                )}
+              </>
+            )}
           </div>
         </main>
         <Footer />

@@ -14,6 +14,7 @@ import {
 import { queryCityNameById } from '@/api';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { myAccountPushEvent } from '@/utils/GA';
 
 function CardItem(props) {
   const { data } = props;
@@ -155,6 +156,7 @@ class AddressList extends React.Component {
     this.changeListVisible(!closeListPage); // 是否关闭list页面，如果是从封面过来
   };
   handleClickAddBtn(fromPage) {
+    myAccountPushEvent('Payment & Addresses')
     this.changeEditFormVisible(true);
     this.setState({ fromPage });
   }

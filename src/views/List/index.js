@@ -16,6 +16,7 @@ import Filters from './Filters';
 import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
+import flatMap from 'lodash/flatMap';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
 import { getList } from '@/api/list';
@@ -36,9 +37,17 @@ import {
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
-let isMobile = getDeviceType() === 'H5';
+import pfRecoImgRetail from '@/assets/images/product-finder-recomend-retail-cat.PNG';
+import pfRecoImgVet from '@/assets/images/product-finder-recomend-vet-cat.PNG';
+import pfRecoImgRetailFinder from '@/assets/images/product-finder-recomend-retail-cat-find.png';
+import smartFeeder from '@/assets/images/smart_feeder.png';
+
+const isHub = process.env.REACT_APP_HUB == '1';
+const isMobile = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const retailDog =
+  'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
 
 function getMuntiImg(item) {
   let img;
@@ -57,10 +66,77 @@ function getMuntiImg(item) {
     return `${img}`;
   }
 }
+
 function ListItemH5ForGlobalStyle(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam } = props;
-  // console.log('★★★★★★★★★ item: ',item);
-  return (
+  const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
+  return item && item.productFinder ? (
+    <div
+      className="rc-column rc-column-pad fr-mobile-product"
+      style={{ height: '300px' }}
+    >
+      <article
+        className="rc-card--product overflow-hidden"
+        style={{ minHeight: '120px' }}
+      >
+        <div className="fullHeight">
+          <span className="ui-cursor-pointer">
+            <article className="rc-card--a  margin-top--5">
+              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
+                <div className="height-product-tile-plpOnly margin-top-mobile-20">
+                  <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break ">
+                    <FormattedMessage id="plp.retail.cat.product.finder.title" />
+                  </h3>
+                </div>
+                <div
+                  className="d-flex rc-padding-top--md margin-top-mobile-20"
+                  style={{ fontSize: 'large' }}
+                >
+                  <FormattedMessage
+                    id="plp.retail.cat.product.finder.detail"
+                    values={{
+                      val: <br />
+                    }}
+                  />
+                </div>
+                <Link to="/product-finder">
+                  <button
+                    className="rc-btn rc-btn--two margin-top-mobile-20"
+                    style={{ marginTop: '19px' }}
+                  >
+                    <FormattedMessage id="plp.retail.cat.product.finder.button" />
+                  </button>
+                </Link>
+                <picture className="rc-card__image">
+                  <div className="rc-padding-bottom--xs justify-content-center ">
+                    <div
+                      className="lazyload-wrapper"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        transform: 'translate(31%,-65%)'
+                      }}
+                    >
+                      <img
+                        src={isDogPage ? retailDog : pfRecoImgRetailFinder}
+                        className="ImgFitScreen pt-3"
+                        style={{
+                          maxWidth: '50%',
+                          maxHeight: '100%',
+                          width: isDogPage ? '175px' : '150px',
+                          height: 'auto',
+                          margin: 'auto'
+                        }}
+                      />
+                    </div>
+                  </div>
+                </picture>
+              </div>
+            </article>
+          </span>
+        </div>
+      </article>
+    </div>
+  ) : (
     <div className="rc-column rc-column-pad fr-mobile-product">
       <article
         className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden"
@@ -73,10 +149,11 @@ function ListItemH5ForGlobalStyle(props) {
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${item.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', '')}-${item.goodsNo}` + sourceParam
+                ? `/${
+                    item.lowGoodsName
+                      ? item.lowGoodsName.split(' ').join('-').replace('/', '')
+                      : ''
+                  }-${item.goodsNo}` + sourceParam
                 : '',
               state: { GAListParam, historyBreads: breadListByDeco }
             }}
@@ -100,11 +177,13 @@ function ListItemH5ForGlobalStyle(props) {
                   <LazyLoad style={{ width: '100%', height: '100%' }}>
                     <img
                       src={
-                        item.goodsImg ||
-                        item.goodsInfos.sort(
-                          (a, b) => a.marketPrice - b.marketPrice
-                        )[0].goodsInfoImg ||
-                        IMG_DEFAULT
+                        item.goodsImg || item.goodsInfos
+                          ? item.goodsImg ||
+                            item.goodsInfos.sort(
+                              (a, b) => a.marketPrice - b.marketPrice
+                            )[0].goodsInfoImg ||
+                            IMG_DEFAULT
+                          : ''
                       }
                       alt={item.goodsName}
                       title={item.goodsName}
@@ -137,9 +216,79 @@ function ListItemH5ForGlobalStyle(props) {
     </div>
   );
 }
+
 function ListItemForDefault(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam } = props;
-  return (
+  const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
+  return item && item.productFinder ? (
+    <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
+      <article
+        className="rc-card--product overflow-hidden"
+        style={{ minHeight: '120px' }}
+      >
+        <div className="fullHeight">
+          <span className="ui-cursor-pointer">
+            <article className="rc-card--a rc-text--center text-center">
+              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
+                <div className="height-product-tile-plpOnly">
+                  <h3
+                    className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break text-center"
+                    title="Mini Adult en Sauce"
+                  >
+                    <FormattedMessage id="plp.retail.cat.product.finder.title" />
+                  </h3>
+                </div>
+                <div
+                  className=" text-center rc-padding-top--md"
+                  style={{ fontSize: 'large' }}
+                >
+                  <FormattedMessage
+                    id="plp.retail.cat.product.finder.detail"
+                    values={{
+                      val: <br />
+                    }}
+                  />
+                </div>
+                <div style={{ margin: '0 auto' }}>
+                  <Link to="/product-finder">
+                    <button
+                      className="rc-btn rc-btn--two "
+                      style={{ marginTop: '19px' }}
+                    >
+                      <FormattedMessage id="plp.retail.cat.product.finder.button" />
+                    </button>
+                  </Link>
+                </div>
+              </div>
+              <picture className="rc-card__image">
+                <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen">
+                  <div
+                    className="lazyload-wrapper"
+                    style={{
+                      width: '100%',
+                      height: '100%'
+                    }}
+                  >
+                    <img
+                      src={isDogPage ? retailDog : pfRecoImgRetailFinder}
+                      alt="Mini Adult en Sauce"
+                      title="Mini Adult en Sauce"
+                      className="ImgFitScreen pt-3"
+                      style={{
+                        maxHeight: '100%',
+                        width: isDogPage ? '175px' : '150px',
+                        height: 'auto',
+                        margin: 'auto'
+                      }}
+                    />
+                  </div>
+                </div>
+              </picture>
+            </article>
+          </span>
+        </div>
+      </article>
+    </div>
+  ) : (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
         className="rc-card rc-card--product overflow-hidden"
@@ -210,16 +359,11 @@ function ListItemForDefault(props) {
 }
 function ListItemBodyH5ForGlobalStyle({ item }) {
   return (
-    // <div
-    //   className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
-    //   style={{ paddingRight: '3rem' }}
-    // >
     <div
       className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
       style={{ paddingRight: '0' }}
     >
       <div className="product-name" title={item.goodsName}>
-        {' '}
         {item.goodsName}
       </div>
       <div className="product-price">
@@ -228,7 +372,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
             <FormattedMessage id="startFrom" />
           </span>
         ) : null}
-        {formatMoney(item.fromPrice)}
+        {item.fromPrice ? formatMoney(item.fromPrice) : null}
         {item.toPrice ? (
           <>
             <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
@@ -282,7 +426,7 @@ function ListItemBody({ item, headingTag }) {
         className="text-center NameFitScreen"
         style={{
           color: '#4a4a4a',
-          opacity: item.goodsInfos.length > 1 ? 1 : 0
+          opacity: item.goodsInfos ? item.goodsInfos.length : '' > 1 ? 1 : 0
         }}
       >
         <FormattedMessage id="startFrom" />
@@ -302,7 +446,8 @@ function ListItemBody({ item, headingTag }) {
               className="value sales"
             >
               {/* 最低marketPrice */}
-              {formatMoney(item.miMarketPrice)} {/* 划线价 */}
+              {item.miMarketPrice ? formatMoney(item.miMarketPrice) : null}{' '}
+              {/* 划线价 */}
               {item.miLinePrice && item.miLinePrice > 0 ? (
                 <span
                   className="text-line-through rc-text-colour--text font-weight-lighter"
@@ -374,7 +519,7 @@ function ListItemBody({ item, headingTag }) {
                       <FormattedMessage id="startFrom" />
                     </span>
                   ) : null}
-                  {formatMoney(item.fromPrice)}
+                  {item.fromPrice ? formatMoney(item.fromPrice) : null}
                   {item.toPrice ? (
                     <>
                       <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
@@ -401,29 +546,96 @@ function ListItemBody({ item, headingTag }) {
   );
 }
 
-function ProductFinderAd() {
+function ProductFinderAd({
+  isRetailProducts,
+  isVetProducts,
+  retailProductLink,
+  vetProductLink
+}) {
   return (
     {
       fr: (
         <div className="ml-4 mr-4 pl-4 pr-4">
-          <div className="row d-flex align-items-center">
-            <div className="col-12 col-md-6">
-              <p className="rc-gamma rc-padding--none">
-                <FormattedMessage id="productFinder.recoTitle" />
-              </p>
-              <p>
-                <FormattedMessage id="productFinder.recoDesc" />
-              </p>
-              <Link to="/product-finder" className="rc-btn rc-btn--one">
-                <FormattedMessage id="productFinder.index" />
-              </Link>
+          {isRetailProducts || isVetProducts ? null : (
+            <div className="row align-items-center">
+              <div className="col-12 col-md-6">
+                <LazyLoad
+                  style={{ width: '100%', height: '100%' }}
+                  height={200}
+                >
+                  <img src={pfRecoImg} />
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p className="rc-gamma rc-padding--none">
+                  <FormattedMessage id="productFinder.recoTitle" />
+                </p>
+                <p>
+                  <FormattedMessage id="productFinder.recoDesc" />
+                </p>
+                <Link to="/product-finder" className="rc-btn rc-btn--two">
+                  <FormattedMessage id="productFinder.index" />
+                </Link>
+              </div>
             </div>
-            <div className="col-12 col-md-6">
-              <LazyLoad style={{ width: '100%', height: '100%' }} height={200}>
-                <img src={pfRecoImg} />
-              </LazyLoad>
+          )}
+
+          {isRetailProducts ? (
+            <div className="row align-items-center">
+              <div className="col-12 col-md-6">
+                <LazyLoad
+                  style={{ width: '100%', height: '100%' }}
+                  height={200}
+                >
+                  <img src={pfRecoImgRetail} />
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p
+                  className="rc-gamma rc-padding--none"
+                  style={{ fontSize: '2em', fontWight: 'border' }}
+                >
+                  <FormattedMessage id="plp.retail.cat.title" />
+                </p>
+                <p>
+                  <FormattedMessage id="plp.retail.cat.detail" />
+                </p>
+                <Link to={`${vetProductLink}`} className="rc-btn rc-btn--two">
+                  <FormattedMessage id="plp.retail.cat.button" />
+                </Link>
+              </div>
             </div>
-          </div>
+          ) : null}
+
+          {isVetProducts ? (
+            <div className="row align-items-center">
+              <div className="col-12 col-md-6">
+                <LazyLoad
+                  style={{ width: '100%', height: '100%' }}
+                  height={200}
+                >
+                  <img src={pfRecoImgVet} />
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p
+                  className="rc-gamma rc-padding--none"
+                  style={{ fontSize: '2em', fontWight: 'border' }}
+                >
+                  <FormattedMessage id="plp.vet.cat.title" />
+                </p>
+                <p>
+                  <FormattedMessage id="plp.vet.cat.detail" />
+                </p>
+                <Link
+                  to={`${retailProductLink}`}
+                  className="rc-btn rc-btn--two"
+                >
+                  <FormattedMessage id="plp.vet.cat.button" />
+                </Link>
+              </div>
+            </div>
+          ) : null}
         </div>
       )
     }[process.env.REACT_APP_LANG] || null
@@ -436,6 +648,13 @@ function ProductFinderAd() {
 class List extends React.Component {
   constructor(props) {
     super(props);
+    const isDog = location.pathname.includes('dog');
+    const isRetailProducts =
+      isHub && location.pathname.includes('retail_products');
+    const isVetProducts = isHub && location.pathname.includes('vet_products');
+    const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail_products`;
+    const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet_products`;
+    const showSmartFeeder = isDog && process.env.REACT_APP_LANG == 'fr';
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -482,11 +701,19 @@ class List extends React.Component {
         metaDescription: '',
         headingTag: 'h2'
       },
-      pageLink: ''
+      isDogPage: isDog,
+      isRetailProducts,
+      isVetProducts,
+      retailProductLink,
+      vetProductLink,
+      pageLink: '',
+      showSmartFeeder,
+      listLazyLoadSection: 1
     };
-    this.pageSize = 12;
+    this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
@@ -592,7 +819,7 @@ class List extends React.Component {
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
         click: {
-          actionField: { list: this.state.GAListParam }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+          actionField: { list: this.state.GAListParam },
           products: [
             {
               name: item.goodsName,
@@ -610,19 +837,43 @@ class List extends React.Component {
     });
   }
 
+  //点击商品 hubGa埋点
+  hubGAProductClick(item, index) {
+    const { goodsInfos } = item;
+    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    const { defaultFilterSearchForm } = this.state;
+    let Filters = defaultFilterSearchForm?.attrList?.length
+      ? defaultFilterSearchForm.attrList.map((item) => {
+          let { attributeName = '', attributeValues = [] } = item;
+          let filter = attributeValues.map((val) => `${attributeName}|${val}`);
+          return filter;
+        })
+      : [];
+    let activeFilters = flatMap(Filters);
+    dataLayer.push({
+      event: 'plpProductClick',
+      plpProductClickItem: {
+        SKU,
+        activeFilters
+      }
+    });
+  }
+
   // 商品列表 埋点
   GAProductImpression(productList, totalElements, keywords) {
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName,
         id: item.goodsNo,
-        brand: item.goodsBrand.brandName,
+        brand: item.goodsBrand ? item.goodsBrand.brandName : '',
         price: item.minMarketPrice,
         club: 'no',
         category: item.goodsCateName,
         list: this.state.GAListParam,
         position: index,
-        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
+        sku: item.goodsInfos
+          ? item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
+          : '',
         flag: ''
       };
     });
@@ -640,10 +891,105 @@ class List extends React.Component {
       }
     });
   }
+
+  // hub商品列表 埋点
+  hubGAProductImpression(productList, totalElements, keywords) {
+    console.log(productList, 'productList===productList====');
+    const products = productList.map((item, index) => {
+      const {
+        minMarketPrice,
+        goodsCate,
+        goodsNo,
+        goodsInfos,
+        goodsBrand,
+        goodsName,
+        goodsAttributesValueRelVOList = []
+      } = item;
+      const breed = goodsAttributesValueRelVOList
+        .filter((attr) => attr.goodsAttributeName == 'breeds')
+        .map((item) => item.goodsAttributeValue);
+      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      // const recommendationID = this.props.clinicStore?.linkClinicId || '';
+      return {
+        price: minMarketPrice,
+        specie,
+        range: '', //待确认 是否是字符串还是[]
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        // recommendationID,
+        technology: '', //待确认 是否是字符串还是[]
+        brand: 'Royal Canin',
+        // size: '',
+        // sizeCategory: '',
+        breed
+        // promoCodeName: '',
+        // promoCodeAmount: '',
+      };
+    });
+
+    dataLayer.push({
+      products
+    });
+
+    dataLayer.push({
+      event: 'plpScreenLoad',
+      plpScreenLoad: {
+        nbResults: totalElements,
+        userRequest: keywords || ''
+      }
+    });
+
+    if (dataLayer[0] && dataLayer[0].search) {
+      dataLayer[0].search.query = keywords;
+      dataLayer[0].search.results = totalElements;
+      dataLayer[0].search.type = 'with results';
+    }
+  }
+
+  // hubGa点击页码切换埋点
+  hubGAPageChange(productList) {
+    const products = productList.map((item, index) => {
+      const {
+        minMarketPrice,
+        goodsCate,
+        goodsNo,
+        goodsInfos,
+        goodsBrand,
+        goodsName
+      } = item;
+      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      // const recommendationID = this.props.clinicStore?.linkClinicId || '';
+      return {
+        price: minMarketPrice,
+        specie,
+        range: '', //需要后端加
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        // recommendationID,
+        technology: '', //需要后端加
+        brand: 'Royal Canin',
+        // size: '',//需要后端加
+        breed: '' //todo:接口添加返回
+        // promoCodeName: '',
+        // promoCodeAmount: '',
+      };
+    });
+    dataLayer.push({
+      event: 'plpListLazyLoad',
+      plpListLazyLoadSection: this.state.listLazyLoadSection,
+      plpListLazyLoadProducts: products
+    });
+  }
+
   toggleFilterModal(status) {
     this.setState({ filterModalVisible: status });
   }
   async initData() {
+    const { isDogPage } = this.state;
     const { pathname, search, state } = this.props.history.location;
     Promise.all([
       queryStoreCateList(),
@@ -710,7 +1056,7 @@ class List extends React.Component {
             }
           } catch (err) {}
         } else {
-          this.prop.history.push('/404');
+          this.props.history.push('/404');
         }
         // 生成面包屑
         const targetId =
@@ -750,8 +1096,6 @@ class List extends React.Component {
             let attributeValues = [];
             let attributeValueIdList = [];
             Array.from(fvEles, (fvItem) => {
-              const { pathname } = this.props.history.location;
-              const isDog = pathname.includes('dog');
               const tFvItemList = tItem.attributesValueList.filter(
                 (t) => t.attributeDetailNameEn === fvItem
               );
@@ -764,7 +1108,7 @@ class List extends React.Component {
                       t.attributeDetailNameEn === fvItem &&
                       t.attributeDetailName
                         .toLocaleLowerCase()
-                        .includes(`${isDog ? 'dog' : 'cat'}`)
+                        .includes(`${isDogPage ? 'dog' : 'cat'}`)
                   )[0] || tFvItemForFirst;
               }
 
@@ -848,7 +1192,7 @@ class List extends React.Component {
       });
     }
   }
-  handleFilterResData(res) {
+  handleFilterResData(res, customFilter) {
     const { state, pathname, search } = this.props.history.location;
     let tmpList = res
       .filter((ele) => +ele.filterStatus)
@@ -857,6 +1201,7 @@ class List extends React.Component {
       .sort((a) =>
         a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
       );
+    let allFilterList = tmpList.concat(customFilter);
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -1056,7 +1401,7 @@ class List extends React.Component {
       });
       return pEle;
     });
-    this.setState({ filterList: tmpList, initingFilter: false });
+    this.setState({ filterList: allFilterList, initingFilter: false });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1085,7 +1430,7 @@ class List extends React.Component {
       return pItem;
     });
   }
-  async getProductList() {
+  async getProductList(type) {
     const { history } = this.props;
     let {
       cateType,
@@ -1100,7 +1445,11 @@ class List extends React.Component {
       actionFromFilter,
       sourceParam
     } = this.state;
-
+    console.log(
+      initingList,
+      defaultFilterSearchForm,
+      'defaultFilterSearchForm==='
+    );
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -1129,6 +1478,7 @@ class List extends React.Component {
         []
       ).filter((cItem) => cItem.selected);
       if (seletedList.length) {
+        // filterType: 0是属性， 1 是自定义；
         if (pItem.filterType === '0') {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
@@ -1138,18 +1488,15 @@ class List extends React.Component {
             filterType: pItem.filterType
           });
         } else {
+          // todo:why pItem.filterType ==='1'需要这么处理？目前单选项saleable的filterType是1，因此下方的.concat(goodsFilterRelList).map找不到attributeName，attributeValues；
           goodsFilterRelList.push({
-            attributeId: pItem.id,
-            attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailNameEn),
-            attributeName: pItem.attributeName,
-            filterType: pItem.filterType
+            filterId: pItem.id,
+            filterValueIdList: seletedList.map((s) => s.id)
           });
         }
       }
       return pItem;
     });
-
     let urlPreVal = '';
     let pathname = '';
     goodsAttributesValueRelVOList
@@ -1172,6 +1519,10 @@ class List extends React.Component {
       //   }
       // });
     }
+    console.log(
+      goodsAttributesValueRelVOList.concat(goodsFilterRelList),
+      'goodsAttributesValueRelVOList==='
+    );
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -1223,14 +1574,19 @@ class List extends React.Component {
 
     getList(params)
       .then((res) => {
+        const esGoodsStoreGoodsFilterVOList =
+          res.context?.esGoodsStoreGoodsFilterVOList || [];
+        const esGoodsCustomFilterVOList =
+          res.context?.esGoodsCustomFilterVOList || [];
         this.handleFilterResData(
-          (res.context && res.context.esGoodsStoreGoodsFilterVOList) || []
+          esGoodsStoreGoodsFilterVOList,
+          esGoodsCustomFilterVOList
         );
-        const esGoods = res.context.esGoods;
-        const totalElements = esGoods.totalElements;
+        const esGoodsPage = res.context.esGoodsPage;
+        const totalElements = esGoodsPage.totalElements;
         const keywords = this.state.keywords;
-        if (esGoods && esGoods.content.length) {
-          let goodsContent = esGoods.content;
+        if (esGoodsPage && esGoodsPage.content.length) {
+          let goodsContent = esGoodsPage.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
               let ret = Object.assign({}, ele, {
@@ -1280,6 +1636,10 @@ class List extends React.Component {
               return ret;
             });
           }
+
+          if (this.state.isRetailProducts) {
+            goodsContent.splice(4, 0, { productFinder: true });
+          }
           const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
             /\/$/,
             ''
@@ -1290,12 +1650,13 @@ class List extends React.Component {
               '@type': 'ItemList',
               itemListElement: goodsContent.map((g, i) => ({
                 '@type': 'ListItem',
-                position: (esGoods.number + 1) * (i + 1),
-                url:
-                  `${urlPrefix}/${g.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', '')}-${g.goodsNo}` + sourceParam
+                position: (esGoodsPage.number + 1) * (i + 1),
+                url: g.lowGoodsName
+                  ? `${urlPrefix}/${g.lowGoodsName
+                      .split(' ')
+                      .join('-')
+                      .replace('/', '')}-${g.goodsNo}${sourceParam}`
+                  : ''
               }))
             }),
             type: 'application/ld+json'
@@ -1303,16 +1664,28 @@ class List extends React.Component {
           this.setState(
             {
               productList: goodsContent,
-              results: esGoods.totalElements,
-              currentPage: esGoods.number + 1,
-              totalPage: esGoods.totalPages
+              results: esGoodsPage.totalElements,
+              currentPage: esGoodsPage.number + 1,
+              totalPage: esGoodsPage.totalPages
             },
             () => {
-              this.GAProductImpression(
-                this.state.productList,
-                totalElements,
-                keywords
-              );
+              // plp页面初始化埋点
+              this.hubGA
+                ? this.hubGAProductImpression(
+                    this.state.productList,
+                    totalElements,
+                    keywords
+                  )
+                : this.GAProductImpression(
+                    this.state.productList,
+                    totalElements,
+                    keywords
+                  );
+
+              // hubGa点击页码切换埋点
+              this.hubGA &&
+                type === 'pageChange' &&
+                this.hubGAPageChange(this.state.productList);
             }
           );
         } else {
@@ -1336,16 +1709,22 @@ class List extends React.Component {
         });
       });
   }
+
   hanldePageNumChange = ({ currentPage }) => {
+    let lazyLoadSection = this.state.listLazyLoadSection + 1;
     this.setState(
       {
-        currentPage
+        currentPage,
+        listLazyLoadSection: lazyLoadSection
       },
-      () => this.getProductList()
+      () => this.getProductList('pageChange')
     );
   };
+
   hanldeItemClick(item, index) {
-    this.GAProductClick(item, index);
+    this.hubGA
+      ? this.hubGAProductClick(item, index)
+      : this.GAProductClick(item, index);
   }
   getElementToPageTop(el) {
     if (el.parentElement) {
@@ -1364,7 +1743,9 @@ class List extends React.Component {
           this.setState({
             isTop: true
           });
-          document.querySelector('.rc-header').style.display = 'none';
+          if (document.querySelector('.rc-header')) {
+            document.querySelector('.rc-header').style.display = 'none';
+          }
         } else {
           document.querySelector('.rc-header').style.display = 'block';
           this.setState({
@@ -1437,7 +1818,8 @@ class List extends React.Component {
       keywords,
       breadList,
       eEvents,
-      GAListParam
+      GAListParam,
+      isDogPage
     } = this.state;
     let event;
     if (pathname) {
@@ -1475,6 +1857,9 @@ class List extends React.Component {
       };
     }
 
+    const a = [9, 9, 9, 9, 9, 9, 9];
+    a.splice(3, 0, 3);
+
     const _loadingJXS = Array(6)
       .fill(null)
       .map((item, i) => (
@@ -1484,6 +1869,7 @@ class List extends React.Component {
           </span>
         </ListItemForDefault>
       ));
+
     return (
       <div>
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
@@ -1730,6 +2116,24 @@ class List extends React.Component {
                           }
                         />
                       )}
+                      {this.state.showSmartFeeder ? (
+                        <div className="smart-feeder-container">
+                          {/* 目前只有法国，语言暂时写死 */}
+                          <p>Abonnement au distributeur connecté</p>
+                          <p>
+                            Un abonnement à l'alimentation de votre animal de
+                            compagnie couplé à un distributeur intelligent
+                          </p>
+                          <a
+                            href="https://www.royalcanin.com/fr/shop/smart-feeder-subscription"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                            style={{ minWidth: '110px' }}
+                          >
+                            Voir l'offre
+                          </a>
+                          <img src={smartFeeder} />
+                        </div>
+                      ) : null}
                     </aside>
                   </div>
                   <div
@@ -1804,6 +2208,7 @@ class List extends React.Component {
                                   'layout-global' && isMobile ? (
                                   <ListItemH5ForGlobalStyle
                                     sourceParam={this.state.sourceParam}
+                                    isDogPage={isDogPage}
                                     key={item.id}
                                     leftPromotionJSX={
                                       item.taggingForText ? (
@@ -1852,6 +2257,7 @@ class List extends React.Component {
                                   <ListItemForDefault
                                     sourceParam={this.state.sourceParam}
                                     key={item.id}
+                                    isDogPage={isDogPage}
                                     leftPromotionJSX={
                                       item.taggingForText ? (
                                         <div
@@ -1917,7 +2323,7 @@ class List extends React.Component {
                 </div>
               </div>
             </section>
-            <ProductFinderAd />
+            <ProductFinderAd {...this.state} />
           </div>
         </main>
         {process.env.REACT_APP_LANG == 'de' ? (

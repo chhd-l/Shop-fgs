@@ -1,0 +1,233 @@
+.rc-menu--xs.btn-close::after {
+  background-image: url(%PUBLIC_URL%/royal/royal-assets1/royal-canin.sprite--iconography--xs.svg) !important;
+  background-position: 38% 0 !important;
+}
+.minicart__product:last-child .product-summary__products__item {
+  border-bottom: none;
+}
+.login-style {
+  background-color: #f6f6f6;
+  height: 11rem;
+  text-align: center;
+}
+.link-group {
+  margin: 1rem 0;
+}
+.link-style {
+  height: 2rem;
+  line-height: 2rem;
+  margin-left: 1rem;
+}
+.logoff-style {
+  background-color: #f6f6f6;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+}
+.click-hover:hover {
+  color: #e2001a;
+}
+
+@media (max-width: 639.98px) {
+  .minicart .minicart-quantity {
+    right: 4px;
+  }
+  .less-width-xs {
+    min-width: 2.54rem !important;
+  }
+}
+
+.rc-header-with-icon.header-icon .rc-icon:after {
+  height: 31px;
+  transform: scale(0.438);
+}
+
+.icon-dropdown-arrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  transform: rotate(-90deg);
+  &.active {
+    transform: rotate(90deg);
+  }
+}
+
+.search-contaner {
+  position: relative;
+  margin-right: 0.3rem;
+  .icon-search,
+  .icon-close {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #787879;
+    cursor: pointer;
+    &:hover {
+      color: #ec001a;
+    }
+  }
+  .icon-search {
+    left: 0.6rem;
+  }
+  .icon-close {
+    right: 0.6rem;
+    font-weight: bold;
+  }
+  .search-field {
+    padding: 0.25rem 0 0.25rem 2rem;
+    border: 1px solid #d9d9d9;
+    border-radius: 2rem;
+    width: 100%;
+    outline: none;
+    text-overflow: ellipsis;
+    &::-webkit-input-placeholder {
+      color: #6a6a6a;
+      font-size: 0.9em;
+    }
+  }
+}
+.search-contaner__shadow {
+  position: fixed;
+  z-index: 61;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 70%;
+  margin: 0 auto;
+  border-top-left-radius: 2rem;
+
+  border-top-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  &.result {
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+    .search-field {
+      box-shadow: 0px 3px 3px #eaeaea;
+    }
+  }
+
+  .search-contaner {
+    width: 100%;
+    margin: 0;
+  }
+  .search-field {
+    padding: 1.5rem 3rem;
+    border-radius: 2rem;
+    border: none;
+  }
+  .icon-search {
+    left: 2%;
+  }
+  .icon-close {
+    right: 2%;
+  }
+}
+
+.suggestions-wrapper {
+  ul {
+    padding: 1rem 2.5rem;
+    li {
+      margin-bottom: 0.5rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      a {
+        color: #676767;
+        text-decoration: none;
+        font-weight: 100;
+        &:hover {
+          color: #ec001a;
+        }
+      }
+    }
+  }
+}
+
+.suggestions-wrapper {
+  top: 45px;
+  right: 0;
+  width: 408px;
+  position: absolute;
+}
+
+.ui-custom-hub {
+  .rc-header__nav--secondary {
+    box-shadow: none;
+    height: calc(2.5rem + 2px);
+    min-height: calc(2.5rem + 2px);
+  }
+  .suggestions-wrapper {
+    top: 8px;
+    width: 650px;
+  }
+}
+
+@media (max-width: 639.98px) {
+  .ui-custom-hub {
+    .suggestions-wrapper {
+      top: auto;
+      width: 100%;
+    }
+    .suggestions {
+      box-shadow: 0 6px 9px rgba(0, 0, 0, 0.24);
+      border-left: 0;
+      border-right: 0;
+      height: auto;
+      overflow-y: auto;
+    }
+    .rc-header.searchbar + .rc-content--fixed-header {
+      padding-top: calc(4.167rem + 2.6rem);
+    }
+  }
+  .suggestions-wrapper {
+    position: fixed;
+    top: 81px;
+    left: 0;
+    max-width: 100%;
+    height: 100vh;
+    width: 100%;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .suggestions-wrapper {
+    width: 500px;
+  }
+}
+
+.dropdown-nav__catogery__card,
+.dropdown-nav__ad__card {
+  width: 100%;
+}
+.dropdown-nav__ad__card {
+  .container-text {
+    max-width: 12rem;
+    .title-text {
+      font-size: 1.2rem;
+    }
+  }
+  .ad-img {
+    margin: 0 auto;
+  }
+}
+.dropdown-nav__catogery__card {
+  .img-catogery {
+    display: inline-block;
+    width: 3rem;
+    margin-right: 0.5rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .dropdown-nav__catogery__card,
+  .dropdown-nav__ad__card {
+    width: 26rem;
+  }
+}
+.nav-search {
+  height: 2.6rem;
+}

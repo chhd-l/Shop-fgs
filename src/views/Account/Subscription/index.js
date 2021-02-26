@@ -25,6 +25,7 @@ import autoshipIcon from './images/autoship.png';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { myAccountPushEvent } from '@/utils/GA';
 
 import './index.css';
 
@@ -88,6 +89,7 @@ class Subscription extends React.Component {
   }
 
   async componentDidMount() {
+    myAccountPushEvent('Orders & Subscriptions')
     setSeoConfig({
       pageName: 'Account subscriptions'
     }).then((res) => {

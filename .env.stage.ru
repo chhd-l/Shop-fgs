@@ -33,6 +33,9 @@ REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/fr'
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
 REACT_APP_ONTRUST_DOMAIN_SCRIPT = 'a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test'
 
+#mars global footer
+REACT_APP_MARS_FOOTER = https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru
+
 #language
 REACT_APP_LANG = 'ru'
 REACT_APP_NAVIGATOR_LANG = 'ru'
@@ -70,6 +73,18 @@ REACT_APP_CHECKOUT_WITH_CLINIC = true
 
 REACT_APP_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/ru/
 REACT_APP_RC_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/
+
+#根节点自定义样式名
+REACT_APP_ROOT_CLS = 'ui-custom-hub'
+
+REACT_APP_HUB = 1
+
+REACT_APP_HUB_URL = https://www.royalcanin.com/ru
+
+REACT_APP_HUB_FOOTER_URL = https://59ab1f42-09ad-4a54-bc25-475844fd5238.mock.pstmn.io/ru
+
+REACT_APP_HUB_BREEDER_PORTAL = https://www.royal-canin.ru/breeders/?_ga=2.244801221.1134902572.1608548748-267828147.1607589014
+REACT_APP_HUB_VET_PORTAL = https://vetacademia.royalcanin.ru/for-vets?_ga=2.244801221.1134902572.1608548748-267828147.1607589014
 
 #HUB_GA
 REACT_APP_HUB_GA = 1

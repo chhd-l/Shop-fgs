@@ -368,7 +368,130 @@
     border-top: none;
     margin: 0 15px;
   }
+  
+  .buy-btn-box {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .split-line {
+    height: 0.4rem;
+  }
+  .good-contact {
+    padding: 4rem 0;
+    &-img {
+      height: 280px;
+      width: 210px;
+    }
+    &-dec {
+      width: 35%;
+    }
+    &-link {
+      margin-top: 1.6rem;
+    }
+    &-tel {
+      min-width: 50%;
+      // height: 7rem;
+      padding: 1rem 1.2rem;
+      border: 2px solid #f6f6f6;
+      align-items: center;
+      justify-content: space-between;
+      margin-right: 0.9rem;
+      p {
+        &:nth-of-type(1) {
+          font-weight: 400;
+          margin-bottom: 0.4rem;
+        }
+        &:nth-of-type(2) {
+          font-size: 0.8rem;
+          margin-bottom: 0;
+        }
+      }
+      a {
+        color: #e2001a;
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+    }
+    &-email {
+      // height: 7rem;
+      padding: 1rem 1.2rem;
+      border: 2px solid #f6f6f6;
+      min-width: 36%;
+      align-items: center;
+      justify-content: space-between;
+      a {
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+    }
+  }
+  .more-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    .vert {
+      margin: 0.5rem 0 0.8rem 0;
+    }
+    p {
+      width: 22%;
+      text-align: center;
+    }
+  }
+  .other-buy-btn {
+    .cc-InlineButton-module-button_3QLGy {
+      border: none;
+      padding: 0;
+      height: auto;
+    }
+    &.rc-btn--sm {
+      padding: 0px 1.5rem;
+    }
+    padding:2px 0 0 23px;
+  }
+  .advantage-tips {
+    .centered-icon-list__icon {
+      margin: 0 4rem;
+      img {
+        width: 65px;
+      }
+    }
+  }
 }
+
+@media (max-width: 991.98px) {
+  #Details {
+    .advantage-tips .centered-icon-list__icon {
+      margin: 0;
+    }
+    .other-buy-btn {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    .more-link p {
+      width: 94%;
+    }
+    .good-contact-dec {
+      text-align: left;
+      width: 90%;
+    }
+    .good-contact{
+      padding: 1rem 0;
+      &-link {
+        flex-direction: column;
+      }
+      &-tel, &-email {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        padding: 1.4rem 2.1rem 1.4rem 1.4rem;
+      }
+    }
+  }
+}
+
+
 .unit-star {
   position: absolute;
   top: -0.8rem;

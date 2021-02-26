@@ -36,7 +36,7 @@ function SecondItemContainer(props) {
   );
 }
 
-class MegaMenu extends React.Component {
+class MegaMenuMobile extends React.Component {
   static defaultProps = {
     menuData: [],
     handleClickNavItem: () => {}
@@ -252,4 +252,4 @@ class MegaMenu extends React.Component {
   }
 }
 
-export default MegaMenu;
+export default MegaMenuMobile;

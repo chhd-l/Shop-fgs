@@ -239,6 +239,7 @@ const en_US = {
   'details.theSize': 'The size',
   'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
+  'details.shippedTime': 'shipped within 2 working days',
   dogs: 'DOGS',
   dogs2: 'Dogs',
   dogs3: 'Dog',
@@ -890,7 +891,6 @@ const en_US = {
   'mixed Breed': 'mixed Breed',
   'confirmation.account': 'Go to my account',
   'confirmation.oneShoot': 'Go to my account',
-  bankCard: 'Bank card',
   catNutrition: 'Cat nutrition',
   'order.total': 'Total',
   'order.iVAIncluido': '',
@@ -902,6 +902,26 @@ const en_US = {
   "contactUs.request": 'request',
   'account.yes':'Yes',
   'account.no':'No',
-  values: 'values'
+  values: 'values',
+  searchForAProductOrArtical: 'Search for a product or artical',
+  startTypingToSearch: 'Start typing to search',
+  "detail.question":'Still have questions about this product?',
+  "detail.answer":'Our advisers are real experts and passionate. They are at your disposal to answer any request.',
+  "detail.telephone":'By telephone',
+  "detail.email":'By email',
+  "detail.packagingDesc": 'Our packaging / products may be subject to a sorting instruction',
+  "learnMore":'learn more',
+  //PLP-Retail-Cat
+  'plp.retail.cat.title':'Are you looking for veterinary products?',
+  'plp.retail.cat.detail':'Dietary foods that help maintain the health of cats diagnosed with problems',
+  'plp.retail.cat.button':'Discover range',
+  'plp.retail.cat.product.finder.title':'Need help finding the right product?',
+  'plp.retail.cat.product.finder.detail':'Try our product finder',
+  'plp.retail.cat.product.finder.button':'Find a product',
+  //PLP-Vet-Cat
+  'plp.vet.cat.title':'Are you looking for food available in specialised outlets?',
+  'plp.vet.cat.detail':'Our complete range of dry foods and bites in sauce or jelly provides the most accurate nutrition for cats of all ages,sizes and breeds',
+  'plp.vet.cat.button':'Discover range',
+  'signInAndRegisterNow': 'Sign in / Register now'
 }
 export default en_US;

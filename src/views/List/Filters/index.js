@@ -23,6 +23,7 @@ class Filter extends React.Component {
     this.toggleContent = this.toggleContent.bind(this);
     this.hanldeClickRemoveAll = this.hanldeClickRemoveAll.bind(this);
     this.handleClickValueItem = this.handleClickValueItem.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   get hasSelecedItems() {
     let ret = false;
@@ -41,7 +42,7 @@ class Filter extends React.Component {
     }
     return ret;
   }
-  toggleContent(idx) {
+  toggleContent(idx, attributeName) {
     let { filterList } = this.state;
     filterList.map((f, i) => {
       if (i === idx) {
@@ -54,7 +55,13 @@ class Filter extends React.Component {
     this.setState({
       filterList
     });
+
+    // this.hubGA && dataLayer.push({
+    //   event: 'plpFilterClick',
+    //   plpFilterClickName: attributeName,
+    // });
   }
+
   hanldeClickRemoveAll() {
     let { filterList } = this.state;
     Array.from(filterList, (parentEle) => {
@@ -109,6 +116,14 @@ class Filter extends React.Component {
       },
       () => this.props.updateParentData(this.state.filterList)
     );
+
+    //hub filter点击埋点
+    const attributeName = parentItem?.attributeName || '';
+    const attributeDetailName = item?.attributeDetailName || '';
+    this.hubGA && dataLayer.push({
+      event: 'plpFilterClick',
+      plpFilterClickName: `${attributeName}|${attributeDetailName}`,
+    });
   }
   renderMultiChoiceJSX = (parentItem, childItem) => {
     const { inputLabelKey } = this.props;
@@ -305,7 +320,7 @@ class Filter extends React.Component {
                         <div
                           className="rc-list__header text-break"
                           id={`accordion-header-${pIndex}`}
-                          onClick={this.toggleContent.bind(this, pIndex)}
+                          onClick={this.toggleContent.bind(this, pIndex, parentItem.attributeName)}
                         >
                           {/* when name=markPrice/subscription, get dictionary to multi lang  */}
                           {(parentItem.attributeName === 'markPrice' ||

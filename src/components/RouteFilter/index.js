@@ -257,7 +257,7 @@ class RouteFilter extends Component {
 
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/');
-      return null
+      return null;
     }
     if (window.location.href.indexOf('.html') !== -1) {
       window.location.href = window.location.href.split('.html')[0];
@@ -276,6 +276,11 @@ class RouteFilter extends Component {
       loadJS({
         url: process.env.REACT_APP_CONSENT_SCRIPT,
         id: 'global-script'
+      });
+    }
+    if (process.env.REACT_APP_MARS_FOOTER && pathname !== '/required') {
+      loadJS({
+        url: process.env.REACT_APP_MARS_FOOTER
       });
     }
   }

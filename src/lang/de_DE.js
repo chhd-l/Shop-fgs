@@ -291,6 +291,7 @@ const de_DE = {
   'details.theSize': 'Die Größe',
   'details.unitPrice': 'Stückpreis',
   'details.youCanSave': 'Du kannst speichern',
+  'details.shippedTime': 'Versand innerhalb von 2 Werktagen',
   dogs: 'HUNDE',
   dogs2: 'Hunde',
   dogs3: 'Hund',
@@ -1110,8 +1111,18 @@ const de_DE = {
   bankCard: 'Bankkarte',
   'order.total': 'Gesamt',
   'order.iVAIncluido': '',
-  validPromotionCode:
-    'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
+  'validPromotionCode': 'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
+  //PLP-Retail-Cat
+  'plp.retail.cat.title':'Suchen Sie tierärztliche Produkte?',
+  'plp.retail.cat.detail':'Diätfutter, das zur Erhaltung der Gesundheit von Katzen beiträgt, bei denen Probleme diagnostiziert wurden',
+  'plp.retail.cat.button':'Reichweite entdecken',
+  'plp.retail.cat.product.finder.title':'Benötigen Sie Hilfe bei der Suche nach dem richtigen Produkt??',
+  'plp.retail.cat.product.finder.detail':'Probieren Sie unseren Produktfinder',
+  'plp.retail.cat.product.finder.button':'Finden Sie ein Produkt',
+  //PLP-Vet-Cat
+  'plp.vet.cat.title':'Suchen Sie nach Lebensmitteln, die in spezialisierten Verkaufsstellen erhältlich sind??',
+  'plp.vet.cat.detail':'Unser komplettes Sortiment an Trockenfutter und Bissen in Sauce oder Gelee bietet die genaueste Ernährung für Katzen jeden Alters, jeder Größe und jeder Rasse',
+  'plp.vet.cat.button':'Reichweite entdecken',
   starUnit: '*',
   pricesIncludeVAT: '{val} Preise inkl. MwSt',
   'smartFeederSubscription.tabDes1':

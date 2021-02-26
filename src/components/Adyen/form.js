@@ -10,6 +10,7 @@ import { inject, observer } from 'mobx-react';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import translations from './translations';
 import LazyLoad from 'react-lazyload';
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 let adyenFormData = {};
 
@@ -167,7 +168,7 @@ class AdyenCreditCardForm extends React.Component {
         this.props.updateAdyenPayParam(decoAdyenFormData);
         setTimeout(() => this.props.updateSelectedId(tmpSelectedId), 200);
       }
-
+      myAccountActionPushEvent('Add payment Method')
       this.isLogin && this.props.updateFormVisible(false);
     } catch (err) {
       throw new Error(err.message);

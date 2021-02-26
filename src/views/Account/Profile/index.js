@@ -17,12 +17,13 @@ import { getCustomerInfo } from '@/api/user';
 import { queryCityNameById } from '@/api';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
+import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 function PanleContainer(props) {
   const loading = props.loading || false;
@@ -82,6 +83,8 @@ class AccountProfile extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    myAccountPushEvent('Personal information');
+
     setSeoConfig({
       pageName: 'Account personal information'
     }).then((res) => {
@@ -94,14 +97,9 @@ class AccountProfile extends React.Component {
     // }
     this.queryCustomerBaseInfo();
   }
-  get getUserInfo() {
-    return this.props.loginStore.userInfo;
-  }
   queryCustomerBaseInfo = () => {
     this.setState({ loading: true });
-    let customerId = this.getUserInfo.customerId
-
-    getCustomerInfo({customerId})
+    getCustomerInfo()
       .then((res) => {
         this.setState({ loading: false });
         let prescriberName;
@@ -116,7 +114,6 @@ class AccountProfile extends React.Component {
         this.setState({
           originData: context,
           personalData: {
-            customerId,
             firstName: context.firstName,
             lastName: context.lastName,
             email: context.email,
@@ -195,7 +192,7 @@ class AccountProfile extends React.Component {
       <div className="accountProfile">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{seoConfig ? seoConfig.title : ''}</title>
           <meta
             name="description"

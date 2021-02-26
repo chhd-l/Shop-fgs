@@ -22,6 +22,8 @@ import './index.css';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
 
+import { myAccountActionPushEvent } from '@/utils/GA';
+
 function CardItem(props) {
   const { data } = props;
   return (
@@ -519,6 +521,8 @@ class PaymentComp extends React.Component {
           loading: false
         });
       });
+
+    myAccountActionPushEvent('Delete Address');
   }
   updateConfirmTooltipVisible(el, status) {
     let { creditCardList } = this.state;

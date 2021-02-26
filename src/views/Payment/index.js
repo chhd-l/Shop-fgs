@@ -41,6 +41,7 @@ import {
   userBindConsent
 } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
+import { isNewAccount } from "@/api/user"
 import LazyLoad from 'react-lazyload';
 import {
   postVisitorRegisterAndLogin,
@@ -72,6 +73,18 @@ import { de } from 'date-fns/locale';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
+
+const isHubGA = process.env.REACT_APP_HUB_GA
+
+const checkoutDataLayerPushEvent = ({name,options}) => {
+  dataLayer.push({
+    'event' : 'checkoutStep',
+    'checkoutStep' : {
+    	name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
+    	options, //'Guest checkout', 'New account', 'Existing account'
+    }
+});
+}
 
 @inject(
   'loginStore',
@@ -957,6 +970,21 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
+        if(isHubGA){
+          if (this.isLogin) {
+            isNewAccount().then((res) => {
+              if (res.code == 'K-000000' && res.context == 0) {
+                checkoutDataLayerPushEvent({name:'Confirmation',options:'New account'})
+              } else {
+                checkoutDataLayerPushEvent({name:'Confirmation',options:'Existing account'})
+              }
+            })
+          } else {
+            checkoutDataLayerPushEvent({name:'Confirmation',options:'Guest checkout'})
+          }
+        }
+        // console.log({dataLayer})
+        // debugger
         this.props.history.push('/confirmation');
       }
     } catch (err) {
@@ -1122,7 +1150,6 @@ class Payment extends React.Component {
       param.clinicsId = clinicStore.selectClinicId;
       param.clinicsName = clinicStore.selectClinicName;
     }
-    // debugger;
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
