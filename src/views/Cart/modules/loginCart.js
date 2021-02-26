@@ -215,11 +215,9 @@ class LoginCart extends React.Component {
     console.log({ productList: JSON.stringify(toJS(productList)[4]) });
     let arr = [];
     for (let item of productList) {
-      let subscriptionFrequency = item.periodTypeId
-        ? this.state.calculatedWeeks[item.periodTypeId]
-        : '';
-      let range = item.goods.goodsCateName?.split('/')[1];
-      let technology = item.goods.goodsCateName?.split('/')[2];
+      let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
+      let range = item.goods.goodsCateName?.split("/")[1] || "";
+      let technology = item.goods.goodsCateName?.split("/")[2] || ""
 
       arr.push({
         price:

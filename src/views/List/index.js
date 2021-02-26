@@ -717,6 +717,7 @@ class List extends React.Component {
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
+    const cateId = getParaByName(search, 'cateId');
     const utm_source = getParaByName(search, 'utm_source'); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
       this.setState({
@@ -738,9 +739,10 @@ class List extends React.Component {
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
             : keywordsSearch
-            ? keywordsSearch
-            : '',
-        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || ''
+              ? keywordsSearch
+              : '',
+        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
+        cateId,
       },
       () => {
         this.initData();
@@ -1056,7 +1058,7 @@ class List extends React.Component {
             }
           } catch (err) {}
         } else {
-          this.props.history.push('/404');
+          // this.props.history.push('/404');
         }
         // 生成面包屑
         const targetId =
@@ -1201,7 +1203,11 @@ class List extends React.Component {
       .sort((a) =>
         a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
       );
-    let allFilterList = tmpList.concat(customFilter);
+    let filterList = tmpList.concat(customFilter);
+
+    // isVetProducts 过滤掉'breeds' 'Sterilized'
+    let vetFilterList = filterList.filter(item => item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized');
+    let allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({

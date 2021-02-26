@@ -121,7 +121,7 @@ import register from '@/views/Register';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription'
-
+import Felin from '@/views/Felin';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -519,6 +519,7 @@ const App = () => (
                 path="/smart-feeder-subscription"
                 component={smartFeederSubscription}
               />
+              <Route path="/laterlier/felin" component={Felin} />
               {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
                 exact

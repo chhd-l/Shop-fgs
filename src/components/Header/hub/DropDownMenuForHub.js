@@ -17,7 +17,6 @@ export default class DropDownMenuForHub extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { currentDesc: null };
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
     this.handleNavChildrenMouseOver = this.handleNavChildrenMouseOver.bind(
       this
@@ -28,19 +27,8 @@ export default class DropDownMenuForHub extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    this.setState({
-      currentDesc: {
-        text: childrenItem.navigationDesc,
-        imageLink: childrenItem.imageLink
-      }
-    });
     this.props.updateActiveTopParentId(item.id);
   }
-  handleNavChildrenMouseOut = () => {
-    this.setState({
-      currentDesc: null
-    });
-  };
   hanldeListItemMouseOver(item) {
     // 若存在子项，才展开
     this.props.updateActiveTopParentId(item.expanded ? item.id : -1);
@@ -75,32 +63,18 @@ export default class DropDownMenuForHub extends React.Component {
   };
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
-    const { currentDesc } = this.state;
-    let descObj = null;
-    if (item.navigationDesc && item.imageLink) {
-      descObj = {
-        text: item.navigationDesc,
-        imageLink: item.imageLink
-      };
-    }
-    if (currentDesc && (currentDesc.text || currentDesc.imageLink)) {
-      descObj = Object.assign(descObj, {
-        text: currentDesc.text || '',
-        imageLink: currentDesc.imageLink || ''
-      });
-    }
 
     let menuItemListGroupedByStep = [];
     let menuItemList = [];
     let otherItemList = [];
     // 全部为MenuItem时，四个为一列
-    if (item.menuItems.every((ele) => ele.type === 'MenuItem')) {
-      for (let i = 0; i < item.menuItems.length; i += 4) {
-        menuItemListGroupedByStep.push(item.menuItems.slice(i, i + 4));
+    if (item.MenuItems.every((ele) => ele.Type === 'MenuItem')) {
+      for (let i = 0; i < item.MenuItems.length; i += 4) {
+        menuItemListGroupedByStep.push(item.MenuItems.slice(i, i + 4));
       }
     } else {
-      menuItemList = item.menuItems.filter((ele) => ele.type === 'MenuItem');
-      otherItemList = item.menuItems.filter((ele) => ele.type !== 'MenuItem');
+      menuItemList = item.MenuItems.filter((ele) => ele.Type === 'MenuItem');
+      otherItemList = item.MenuItems.filter((ele) => ele.Type !== 'MenuItem');
     }
 
     return (
@@ -121,12 +95,12 @@ export default class DropDownMenuForHub extends React.Component {
               <div className="pl-4 pr-4" key={gIdx}>
                 {gItem.map((cItem) => (
                   <a
-                    href={cItem.link.url}
+                    href={cItem.Link.Url}
                     className="medium mb-2 ui-cursor-pointer"
                     key={cItem.id}
                     style={{ display: 'block' }}
                   >
-                    {cItem.link.text}
+                    {cItem.Link.Text}
                   </a>
                 ))}
               </div>
@@ -136,12 +110,12 @@ export default class DropDownMenuForHub extends React.Component {
             <div className="pl-4 pr-4">
               {menuItemList.map((cItem) => (
                 <a
-                  href={cItem.link.url}
+                  href={cItem.Link.Url}
                   className="medium mb-2 ui-cursor-pointer"
                   key={cItem.id}
                   style={{ display: 'block' }}
                 >
-                  {cItem.link.text}
+                  {cItem.Link.Text}
                 </a>
               ))}
             </div>
@@ -149,41 +123,41 @@ export default class DropDownMenuForHub extends React.Component {
 
           {otherItemList.map((cItem, cIdx) => (
             <React.Fragment key={cItem.id}>
-              {cItem.type === 'DetailedMenuItem' && (
+              {cItem.Type === 'DetailedMenuItem' && (
                 <div
                   className={`d-flex align-items-center dropdown-nav__catogery__card pr-4 pl-4 ${
-                    cIdx === item.menuItems.length ? '' : 'border-right'
+                    cIdx === item.MenuItems.length ? '' : 'border-right'
                   }`}
                 >
                   <div className="mr-4 text-center">
                     <LazyLoad>
                       <img
-                        src={cItem.image.url}
-                        alt={cItem.image.altText}
-                        srcSet={cItem.image.srcset}
+                        src={cItem.Image.Url}
+                        alt={cItem.Image.AltText}
+                        srcSet={cItem.Image.Srcset}
                         style={{ width: '4rem', margin: '0 auto' }}
                       />
                     </LazyLoad>
-                    <p className="red text-nowrap">{cItem.title}</p>
+                    <p className="red text-nowrap">{cItem.ImageDescription}</p>
                   </div>
                   <div>
-                    {cItem.subItems.map((sItem, sIdx) => (
+                    {cItem.SubItems.map((sItem, sIdx) => (
                       <React.Fragment key={sIdx}>
                         <a
-                          href={sItem.link.url}
+                          href={sItem.Link.Url}
                           className="medium mb-0 ui-cursor-pointer"
                         >
-                          {sItem.title}
+                          {sItem.Title}
                         </a>
-                        {sItem.subtitle ? (
-                          <p className="mb-3">{sItem.subtitle}</p>
+                        {sItem.Subtitle ? (
+                          <p className="mb-3">{sItem.Subtitle}</p>
                         ) : null}
                       </React.Fragment>
                     ))}
                   </div>
                 </div>
               )}
-              {cItem.type === 'PromotionalMenuItem' && (
+              {cItem.Type === 'PromotionalMenuItem' && (
                 <PromotionPanel key={cItem.id} item={cItem} />
               )}
             </React.Fragment>
@@ -251,7 +225,7 @@ export default class DropDownMenuForHub extends React.Component {
                       >
                         {item.expanded ? (
                           <span className={`rc-header-with-icon header-icon`}>
-                            {item.link && item.link.text}
+                            {item.Link && item.Link.Text}
                             {item.id === activeTopParentId ? (
                               <span className="iconfont icon-dropdown-arrow ml-1">
                                 &#xe6f9;
@@ -263,7 +237,7 @@ export default class DropDownMenuForHub extends React.Component {
                             )}
                           </span>
                         ) : (
-                          item.link && item.link.text
+                          item.Link && item.Link.Text
                         )}
                       </NavItem>
                     </span>
@@ -277,7 +251,7 @@ export default class DropDownMenuForHub extends React.Component {
           {headerNavigationList
             .filter((ele) => ele.expanded)
             .map((item, i) =>
-              item.type === 'ContactUsMenuGroup'
+              item.Type === 'ContactUsMenuGroup'
                 ? this.renderHelpMenu(item, i)
                 : this.renderNormalMenu(item, i)
             )}
