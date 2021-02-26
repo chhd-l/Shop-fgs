@@ -42,7 +42,7 @@ class Filter extends React.Component {
     }
     return ret;
   }
-  toggleContent(idx) {
+  toggleContent(idx,attributeName) {
     let { filterList } = this.state;
     filterList.map((f, i) => {
       if (i === idx) {
@@ -55,7 +55,13 @@ class Filter extends React.Component {
     this.setState({
       filterList
     });
+
+    // this.hubGA && dataLayer.push({
+    //   event: 'plpFilterClick',
+    //   plpFilterClickName: attributeName,
+    // });
   }
+
   hanldeClickRemoveAll() {
     let { filterList } = this.state;
     Array.from(filterList, (parentEle) => {
@@ -342,7 +348,7 @@ class Filter extends React.Component {
                         <div
                           className="rc-list__header text-break"
                           id={`accordion-header-${pIndex}`}
-                          onClick={this.toggleContent.bind(this, pIndex)}
+                          onClick={this.toggleContent.bind(this, pIndex, parentItem.attributeName)}
                         >
                           {/* when name=markPrice/subscription, get dictionary to multi lang  */}
                           {(parentItem.attributeName === 'markPrice' ||

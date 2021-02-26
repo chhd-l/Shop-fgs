@@ -5,10 +5,10 @@ import NavItem from './NavItemForHub';
 function DescJSX({ item }) {
   return (
     <div className="dropdown-nav__help__text align-self-center">
-      <h4 className="title rc-delta">{item.content}</h4>
+      <h4 className="title rc-delta">{item.Content}</h4>
       <div
         className="desc children-nomargin text-left rc-text-colour--text"
-        dangerouslySetInnerHTML={{ __html: item.title }}
+        dangerouslySetInnerHTML={{ __html: item.Title }}
       />
     </div>
   );
@@ -21,18 +21,18 @@ function IconPanel({ item }) {
       className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center"
     >
       <div className="rc-margin-right--xs flex-grow-1">
-        <span className="medium">{item.subtitle}</span>
+        <span className="medium">{item.Subtitle}</span>
         <div>
-          {item.link ? (
-            <a href={item.link} className="rc-large-body tel red">
-              {item.title}
+          {item.Link && item.Link.Url ? (
+            <a href={item.Link.Url} className="rc-large-body tel red">
+              {item.Title}
             </a>
           ) : (
-            <span className="rc-large-body tel red">{item.title}</span>
+            <span className="rc-large-body tel red">{item.Title}</span>
           )}
         </div>
         <div className="children-nomargin">
-          <p>{item.description}</p>
+          <p>{item.Description}</p>
         </div>
       </div>
       <div className="rc-padding-left--xs">
@@ -41,10 +41,10 @@ function IconPanel({ item }) {
           style={{ fontSize: '2rem' }}
           dangerouslySetInnerHTML={{
             __html: {
-              Contact: '&#xe61f;',
-              Email: '&#xe603;',
-              Advice: '&#xe64c;'
-            }[item.icon]
+              contact: '&#xe61f;',
+              email: '&#xe603;',
+              advice: '&#xe64c;'
+            }[item.Icon]
           }}
         />
       </div>
@@ -55,10 +55,10 @@ function IconPanel({ item }) {
 export default function Help({ data }) {
   return (
     <div className="dropdown-nav__help d-md-flex">
-      {data.menuItems.map((item) => {
+      {data.MenuItems.map((item) => {
         return (
           <React.Fragment key={item.id}>
-            {item.icon ? <IconPanel item={item} /> : <DescJSX item={item} />}
+            {item.Icon ? <IconPanel item={item} /> : <DescJSX item={item} />}
           </React.Fragment>
         );
       })}
