@@ -114,6 +114,7 @@ import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
+import Felin from '@/views/Felin';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -461,6 +462,7 @@ const App = () => (
                 path="/smartFeederSubscription"
                 component={smartFeederSubscription}
               />
+              <Route path="/laterlier/felin" component={Felin} />
               {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
                 exact
