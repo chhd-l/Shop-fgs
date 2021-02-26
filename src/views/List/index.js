@@ -317,13 +317,13 @@ function ListItemForDefault(props) {
               {item ? (
                 <picture className="rc-card__image">
                   <div
-                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                    style={{ height: '15.7rem' }}
+                    className="d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                    style={{ height: '14rem' }}
                   >
                     {/*循环遍历的图片*/}
                     <LazyLoad
                       style={{ width: '100%', height: '100%' }}
-                      classNamePrefix="pt-3 w-100 h-100 d-flex align-items-center"
+                      classNamePrefix="w-100 h-100 d-flex align-items-center"
                     >
                       <img
                         src={
@@ -386,6 +386,8 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
   );
 }
 function ListItemBody({ item, headingTag }) {
+  const {goodsAttributesValueRelVOAllList = []} = item;
+  let technology = goodsAttributesValueRelVOAllList.filter(item => item.goodsAttributeName == "Technology").map(item => item.goodsAttributeValueEn).join('/');
   let goodHeading = `<${headingTag ? headingTag : 'h2'} 
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
@@ -501,11 +503,12 @@ function ListItemBody({ item, headingTag }) {
       {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly">
+            <div className="text-center" style={{color:"#666"}}>{technology}</div>
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
           </div>
           <br />
           {/*商品价格*/}
-          <div className="d-flex justify-content-center">
+          {item.fromPrice ? <div className="d-flex justify-content-center">
             <div className="rc-card__price text-left PriceFitScreen">
               <div className={`rc-full-width PriceFitScreen`}>
                 <span
@@ -531,7 +534,7 @@ function ListItemBody({ item, headingTag }) {
                 </span>
               </div>
             </div>
-          </div>
+          </div> : null}
           <div
             class="rc-card__meta text-center ui-text-overflow-line2 col-12"
             style={{ padding: '0', marginBottom: '10px' }}

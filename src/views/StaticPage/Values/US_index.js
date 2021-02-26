@@ -50,7 +50,7 @@ class Values extends React.Component {
       }
     };
     return (
-      <div className="recommendation">
+      <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -122,6 +122,9 @@ class Values extends React.Component {
                                 services, while shaping the way we behave as a
                                 business.
                               </p>
+                              <p>
+                                <br />
+                              </p>
                               <h2>Pets First</h2>
                               <p>
                                 We always put the needs of pets first.&nbsp;That
@@ -139,7 +142,7 @@ class Values extends React.Component {
                                   className="w-100 lazyloaded"
                                   alt="Les animaux de compagnie en premier"
                                   title="Les animaux de compagnie en premier"
-                                  src={image1}
+                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/POMERANIAN_ADULT___BRAND_EMBLEMATIC_Med._Res.___Basic.jpg`}
                                 />
                               </picture>
                             </LazyLoad>
