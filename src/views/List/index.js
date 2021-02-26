@@ -387,7 +387,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
 }
 function ListItemBody({ item, headingTag }) {
   const {goodsAttributesValueRelVOAllList = []} = item;
-  let technology = goodsAttributesValueRelVOAllList.filter(item => item.goodsAttributeName == "Technology").map(item => item.goodsAttributeValueEn).join('/');
+  let technology = goodsAttributesValueRelVOAllList.filter(item => item.goodsAttributeName == "Technology" || item.goodsAttributeName == 'breeds').map(item => item.goodsAttributeValueEn).join(',');
   let goodHeading = `<${headingTag ? headingTag : 'h2'} 
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
