@@ -1181,7 +1181,11 @@ class List extends React.Component {
       .sort((a) =>
         a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
       );
-    let allFilterList = tmpList.concat(customFilter);
+    let filterList = tmpList.concat(customFilter);
+
+    // isVetProducts 过滤掉'breeds' 'Sterilized'
+    let vetFilterList = filterList.filter(item => item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized');
+    let allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
