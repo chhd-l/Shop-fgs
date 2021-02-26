@@ -1,26 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl';
+import {faqClickDataLayerPushEvent} from "@/utils/GA"
 import './faq.css'
 
 const isHubGA = process.env.REACT_APP_HUB_GA
 const FaqItem = [
-    {item:'Comment puis-je joindre le service client',isExpand:false,clickType:'Collapse'},
-    {item:'Proposez-vous la livraison gratuite',isExpand:false,clickType:'Collapse'},
-    {item:'Dans quelle mesure mes informations de paiement sont-elles sécurisées',isExpand:false,clickType:'Collapse'},
-    {item:'Proposez-vous des retours gratuits',isExpand:false,clickType:'Collapse'},
+    {item:'How to contact customer service',isExpand:false,clickType:'Collapse'},
+    {item:'Would you like free delivery',isExpand:false,clickType:'Collapse'},
+    {item:'How secure is my payment information',isExpand:false,clickType:'Collapse'},
+    {item:'Free return',isExpand:false,clickType:'Collapse'},
 ]
-
-const faqClickDataLayerPushEvent = ({ item, clickType }) => {
-    dataLayer.push({
-        'event': 'faqClick',
-        'faqClick': {
-            item, //Generic name in English for each item
-            clickType //'Expand' or 'Collapse'
-        }
-    });
-    // console.log({dataLayer})
-    // debugger
-}
 
 class Faq extends Component {
     constructor(props) {

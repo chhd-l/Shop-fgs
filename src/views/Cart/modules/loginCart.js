@@ -212,13 +212,15 @@ class LoginCart extends React.Component {
     });
   }
   GAInitialProductArray(productList) {
-    // console.log({ productList: JSON.stringify(toJS(productList)) });
+    console.log({ productList: JSON.stringify(toJS(productList)) });
     // debugger
     let arr = [];
     for (let item of productList) {
       let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
       let range = item.goods.goodsCateName?.split("/")[1] || "";
       let technology = item.goods.goodsCateName?.split("/")[2] || ""
+      let breed = []
+    
 
       arr.push({
         price:
