@@ -692,7 +692,6 @@ const ru_RU = {
     'account.noSubscription': 'Вы еще не узнали о наших услугах Autoship? AutoShip - это удобный способ регулярной доставки ваших заказов. Таким образом, вы экономите время, а у вашего питомца никогда не кончится еда.',
     'account.noSubscriptionTitle': 'Давайте начнем!',
 
-    'registerDescription': '<p> Ваши личные данные собираются и обрабатываются в соответствии с заявлением о конфиденциальности Royal Canin, доступным <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> здесь </a> </p> ',
     'registerCloud': 'Эталонная архитектура Commerce Cloud Storefront',
     'registerErrorMessage': 'Ошибка при создании вашей учетной записи. Повторите попытку позже или используйте другой адрес электронной почты. ',
     'registerWelcome': 'Добро пожаловать',

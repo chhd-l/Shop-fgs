@@ -1016,8 +1016,6 @@ const de_DE = {
   goToCart: 'Zum Warenkorb gehen',
   subscribe: 'In den Warenkorb legen',
 
-  registerDescription:
-    '<p> Ihre persönlichen Daten werden gemäß der Datenschutzerklärung von Royal Canin gesammelt und verarbeitet. <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> hier </a> </p> ',
   registerCloud: 'Commerce Cloud Storefront-Referenzarchitektur',
   registerErrorMessage:
     'Beim Erstellen Ihres Kontos ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal oder verwenden Sie eine andere E-Mail-Adresse. ',

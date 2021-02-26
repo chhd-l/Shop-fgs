@@ -827,7 +827,7 @@ const en_US = {
   yourPasswordNotVerified: 'Your password has not been verified',
   mailAddress: 'Mail address',
   'account.startAutoShipping': 'Learn more',
-  'account.noSubscription': 'The Subscription allows you to receive your pet\'s favorite foods regularly and easily. Just tell us where and when to ship it, and we\'ll make sure everything it needs arrives right at your doorstep.',
+  'account.noSubscription': 'You do not yet know the Subscription? {val1} The Subscription allows you to receive your pet\'s favorite foods regularly and easily. Just tell us where and when to ship it, and we\'ll make sure everything it needs arrives right at your doorstep.',
   'account.noSubscriptionTitle': 'Discover the Subscription',
   'singlePurchase': 'Single purchase',
   'deliveryOneTimeOnly': 'Delivery 1 time only',
@@ -839,7 +839,6 @@ const en_US = {
   'goToCart': 'Go to shopping cart',
   'subscribe': 'Subscribe',
 
-  'registerDescription': '<p> Your personal data is collected and processed in accordance with the Royal Canin privacy statement, available <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> here </a> </p> ',
   'registerCloud': 'Commerce Cloud Storefront reference architecture',
   'registerErrorMessage': 'An error occurred while creating your account. Please try again later or use a different email address. ',
   'registerWelcome': 'Welcome to',

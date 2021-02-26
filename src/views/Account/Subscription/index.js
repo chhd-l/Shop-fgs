@@ -510,7 +510,7 @@ class Subscription extends React.Component {
                                 values={{
                                   val1: <br />
                                 }}
-                              ></FormattedMessage>
+                              />
                             </p>
                           </div>
                           <div className="rc-margin-top--sm">

@@ -1031,7 +1031,6 @@ const fr_FR = {
   'subscribe': 'S‘abonner',
 
 
-  'registerDescription': '<p>Vos données personnelles sont collectées et traitées conformément à la déclaration de confidentialité de Royal Canin, disponible <a class="rc-styled-link  rc-text-colour--hyperlink" target="_blank" href="https://www.mars.com/privacy-policy-france">ici</a></p>',
   'registerCloud': 'Architecture de référence Commerce Cloud Storefront',
   'registerErrorMessage': ' Une erreur est survenue lors de la création de votre compte. Veuillez réessayer plus tard ou utiliser une adresse e-mail différente.',
   'registerWelcome': 'Bienvenue chez',
