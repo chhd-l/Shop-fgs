@@ -211,14 +211,17 @@ class LoginCart extends React.Component {
     });
   }
   GAInitialProductArray(productList) {
-    console.log({ productList: JSON.stringify(toJS(productList)[4]) });
+    console.log({ productList: JSON.stringify(toJS(productList)) });
     let arr = [];
     for (let item of productList) {
-      let subscriptionFrequency = item.periodTypeId
-        ? this.state.calculatedWeeks[item.periodTypeId]
-        : '';
-      let range = item.goods.goodsCateName?.split('/')[1];
-      let technology = item.goods.goodsCateName?.split('/')[2];
+      let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
+      let range = item.goods.goodsCateName?.split("/")[1] || "";
+      let technology = item.goods.goodsCateName?.split("/")[2] || ""
+      let breed = []
+      item.goodsAttributesValueRelVOList.filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+        breed.push(item2.goodsAttributeValue)
+      })
+    
 
       arr.push({
         price:
@@ -238,7 +241,7 @@ class LoginCart extends React.Component {
         recommendationID: this.props.clinicStore.linkClinicId || '', //recommendation ID
 
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-        breed: ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+        breed, //All animal breeds associated with the product in an array
         promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
         promoCodeAmount: 8 //Promo code amount, only if promo activated
       });
@@ -267,7 +270,7 @@ class LoginCart extends React.Component {
         recommendation: 'self-selected',
         type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',
         variant: item.specText ? parseInt(item.specText) : '',
-        sku: item.goodsInfos[0].goodsInfoNo
+        sku: item.goodsInfos&&item.goodsInfos[0]?.goodsInfoNo
       });
     }
     try {

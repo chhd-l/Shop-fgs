@@ -112,8 +112,8 @@ class MegaMenuMobileForHub extends React.Component {
     this.setState({ menuData });
   }
   renderSecondChildItem = (item, parentItem) => {
-    const promotionalMenuItem = parentItem.menuItems.filter(
-      (ele) => ele.type === 'PromotionalMenuItem'
+    const promotionalMenuItem = parentItem.MenuItems.filter(
+      (ele) => ele.Type === 'PromotionalMenuItem'
     )[0];
     return (
       <SecondItemContainer
@@ -123,24 +123,24 @@ class MegaMenuMobileForHub extends React.Component {
           <ul>
             <li className="pl-4 pr-4 red mt-2 mb-2">
               <img
-                alt={item.image.altText}
-                src={item.image.url}
+                alt={item.Image.AltText}
+                src={item.Image.Url}
                 className="img-catogery"
               />
-              {item.title}
+              {item.ImageDescription}
             </li>
-            {item.type === 'DetailedMenuItem' && (
+            {item.Type === 'DetailedMenuItem' && (
               <li className="pl-4 pr-4">
-                {item.subItems.map((sItem, sIdx) => (
+                {item.SubItems.map((sItem, sIdx) => (
                   <React.Fragment key={sIdx}>
                     <a
-                      href={sItem.link.url}
+                      href={sItem.Link.Url}
                       className="medium mb-0 ui-cursor-pointer"
                     >
-                      {sItem.title}
+                      {sItem.Title}
                     </a>
-                    {sItem.subtitle ? (
-                      <p className="mb-3">{sItem.subtitle}</p>
+                    {sItem.Subtitle ? (
+                      <p className="mb-3">{sItem.Subtitle}</p>
                     ) : null}
                   </React.Fragment>
                 ))}
@@ -160,11 +160,11 @@ class MegaMenuMobileForHub extends React.Component {
     // 顶级父类，有子项的添加haspopup=true(向左滑动打开子集合),其他直接跳转的使用a标签
     // 此种情况下，不渲染promotionItem，promotionItem需要拿到里层进行渲染
     const filterItemChildList =
-      item.type === 'DetailedMenuGroup'
-        ? (item.menuItems || []).filter(
-            (ele) => ele.type === 'DetailedMenuItem'
+      item.Type === 'DetailedMenuGroup'
+        ? (item.MenuItems || []).filter(
+            (ele) => ele.Type === 'DetailedMenuItem'
           )
-        : (item.menuItems || []).filter((ele) => ele);
+        : (item.MenuItems || []).filter((ele) => ele);
     return (
       <>
         {item.expanded ? (
@@ -185,7 +185,7 @@ class MegaMenuMobileForHub extends React.Component {
                         data-tab-init="true"
                         onClick={this.handleClickToggleChilds.bind(this, item)}
                       >
-                        <span>{item.link.text}</span>
+                        <span>{item.Link.Text}</span>
                         <span
                           className={`iconfont inlineblock ${
                             item.expand ? 'red' : ''
@@ -207,7 +207,7 @@ class MegaMenuMobileForHub extends React.Component {
                         }`}
                       >
                         <ul className="rc-list rc-list--blank subcategories dropdown-nav__catogery__card">
-                          {item.type === 'ContactUsMenuGroup' ? (
+                          {item.Type === 'ContactUsMenuGroup' ? (
                             <li className="bg-white">
                               <Help data={item} />
                             </li>
@@ -217,7 +217,7 @@ class MegaMenuMobileForHub extends React.Component {
                                 className="rc-list__item w-100 bg-white"
                                 key={cItem.id}
                               >
-                                {cItem.type === 'DetailedMenuItem' && (
+                                {cItem.Type === 'DetailedMenuItem' && (
                                   <>
                                     <span
                                       className="rc-list__header bg-transparent border-0"
@@ -228,16 +228,16 @@ class MegaMenuMobileForHub extends React.Component {
                                       )}
                                     >
                                       <img
-                                        alt={cItem.image.altText}
-                                        src={cItem.image.url}
+                                        alt={cItem.Image.AltText}
+                                        src={cItem.Image.Url}
                                         className="img-catogery"
                                       />
-                                      <span>{cItem.title}</span>
+                                      <span>{cItem.ImageDescription}</span>
                                     </span>
                                     {this.renderSecondChildItem(cItem, item)}
                                   </>
                                 )}
-                                {cItem.type === 'MenuItem' && (
+                                {cItem.Type === 'MenuItem' && (
                                   <NavItem
                                     item={cItem}
                                     className="rc-list__link submenu-padding-mobile bg-white border-0"
@@ -246,10 +246,10 @@ class MegaMenuMobileForHub extends React.Component {
                                       cItem
                                     )}
                                   >
-                                    {cItem.link && cItem.link.text}
+                                    {cItem.Link && cItem.Link.Text}
                                   </NavItem>
                                 )}
-                                {cItem.type === 'PromotionalMenuItem' && (
+                                {cItem.Type === 'PromotionalMenuItem' && (
                                   <PromotionPanel item={cItem} />
                                 )}
                               </li>
@@ -269,7 +269,7 @@ class MegaMenuMobileForHub extends React.Component {
             item={item}
             className="rc-list__header bg-transparent border-0"
           >
-            {item.link.text}
+            {item.Link.Text}
           </NavItem>
         )}
       </>

@@ -40,6 +40,7 @@ export default class HubSalesCategory extends Component {
               cateName: item2.cateName,
               altName: item2.altName,
               cateRouter: item2.cateRouter,
+              goodsCateId: item2.goodsCateId,
             };
           });
   
@@ -55,6 +56,7 @@ export default class HubSalesCategory extends Component {
               cateName: item2.cateName,
               altName: item2.altName,
               cateRouter: item2.cateRouter,
+              goodsCateId:item2.goodsCateId,
             };
           });
       this.setState({ cateGoryList_dog, cateGoryList_cat });

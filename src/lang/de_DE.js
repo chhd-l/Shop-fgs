@@ -1175,5 +1175,8 @@ const de_DE = {
   'smartFeederSubscription.smartFeederSubscription': 'Abonnement Smart Feeder', //Smart feeder subscription
   'smartFeederSubscription.selectAnotherProduct':"sélectionnez un autre produit",//select another product
   'smartFeederSubscription.conﬁrmThisProduct':"Con ﬁ rmez ce produit",// Conﬁrm this product
+  'smartFeederSubscription.times': 'fois',//times
+  'smartFeederSubscription.pause': 'pause',//pause
+  'smartFeederSubscription.restart': 'redémarrage',//restart
 };
 export default de_DE;

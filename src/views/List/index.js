@@ -317,13 +317,13 @@ function ListItemForDefault(props) {
               {item ? (
                 <picture className="rc-card__image">
                   <div
-                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                    style={{ height: '15.7rem' }}
+                    className="d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                    style={{ height: '14rem' }}
                   >
                     {/*循环遍历的图片*/}
                     <LazyLoad
                       style={{ width: '100%', height: '100%' }}
-                      classNamePrefix="pt-3 w-100 h-100 d-flex align-items-center"
+                      classNamePrefix="w-100 h-100 d-flex align-items-center"
                     >
                       <img
                         src={
@@ -386,6 +386,8 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
   );
 }
 function ListItemBody({ item, headingTag }) {
+  const {goodsAttributesValueRelVOAllList = []} = item;
+  let technology = goodsAttributesValueRelVOAllList.filter(item => item.goodsAttributeName == "Technology" || item.goodsAttributeName == 'breeds').map(item => item.goodsAttributeValueEn).join(',');
   let goodHeading = `<${headingTag ? headingTag : 'h2'} 
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
@@ -501,11 +503,12 @@ function ListItemBody({ item, headingTag }) {
       {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly">
+            <div className="text-center" style={{color:"#666"}}>{technology}</div>
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
           </div>
           <br />
           {/*商品价格*/}
-          <div className="d-flex justify-content-center">
+          {item.fromPrice ? <div className="d-flex justify-content-center">
             <div className="rc-card__price text-left PriceFitScreen">
               <div className={`rc-full-width PriceFitScreen`}>
                 <span
@@ -531,7 +534,7 @@ function ListItemBody({ item, headingTag }) {
                 </span>
               </div>
             </div>
-          </div>
+          </div> : null}
           <div
             class="rc-card__meta text-center ui-text-overflow-line2 col-12"
             style={{ padding: '0', marginBottom: '10px' }}
@@ -717,6 +720,7 @@ class List extends React.Component {
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
+    const cateId = getParaByName(search, 'cateId');
     const utm_source = getParaByName(search, 'utm_source'); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
       this.setState({
@@ -738,9 +742,10 @@ class List extends React.Component {
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
             : keywordsSearch
-            ? keywordsSearch
-            : '',
-        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || ''
+              ? keywordsSearch
+              : '',
+        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
+        cateId,
       },
       () => {
         this.initData();
@@ -903,9 +908,9 @@ class List extends React.Component {
         goodsInfos,
         goodsBrand,
         goodsName,
-        goodsAttributesValueRelVOList = []
+        goodsAttributesValueRelVOAllList = []
       } = item;
-      const breed = goodsAttributesValueRelVOList
+      const breed = goodsAttributesValueRelVOAllList
         .filter((attr) => attr.goodsAttributeName == 'breeds')
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
@@ -1056,7 +1061,7 @@ class List extends React.Component {
             }
           } catch (err) {}
         } else {
-          this.props.history.push('/404');
+          // this.props.history.push('/404');
         }
         // 生成面包屑
         const targetId =
@@ -1201,7 +1206,11 @@ class List extends React.Component {
       .sort((a) =>
         a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
       );
-    let allFilterList = tmpList.concat(customFilter);
+    let filterList = tmpList.concat(customFilter);
+
+    // isVetProducts 过滤掉'breeds' 'Sterilized'
+    let vetFilterList = filterList.filter(item => item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized');
+    let allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({

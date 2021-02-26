@@ -87,7 +87,7 @@ import Page403 from '@/views/StaticPage/403';
 import Page500 from '@/views/StaticPage/500';
 import Mentionslegales from '@/views/StaticPage/Mentionslegales';
 import Help from '@/views/StaticPage/Help';
-import ContactUs from '@/views/StaticPage/ContactUs'
+import ContactUs from '@/views/StaticPage/ContactUs';
 import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
 import TermsConditions from '@/views/StaticPage/TermsAndConditions';
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
@@ -120,8 +120,8 @@ import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
-import ShelterPrescription from '@/views/StaticPage/ShelterPrescription'
-
+import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
+import Felin from '@/views/Felin';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -291,10 +291,10 @@ const App = () => (
                   let sublanding = '';
                   switch (process.env.REACT_APP_LANG) {
                     case 'fr':
-                      sublanding = <Recommendation_FR {...props} /> 
+                      sublanding = <Recommendation_FR {...props} />;
                       break;
                     default:
-                      sublanding = <Recommendation_US {...props} /> 
+                      sublanding = <Recommendation_US {...props} />;
                   }
                   return sublanding;
                 }}
@@ -302,7 +302,7 @@ const App = () => (
               <Route
                 exact
                 path="/recommendation"
-                render={(props) => <Recommendation_FR {...props} /> }
+                render={(props) => <Recommendation_FR {...props} />}
               />
 
               <Route exact path="/termuse" component={TermUse} />
@@ -332,7 +332,7 @@ const App = () => (
                 render={(props) => (
                   <AccountPetForm key={props.match.params.id} {...props} />
                 )}
-              // component={AccountPetForm}
+                // component={AccountPetForm}
               />
               <Route
                 path="/account/pets/petForm/"
@@ -406,13 +406,29 @@ const App = () => (
                 component={ProductFinderNoResult}
               />
 
-              <Route path="/subscription-landing-de" exact component={DE_SubscriptionLanding} />
+              <Route
+                path="/subscription-landing-de"
+                exact
+                component={DE_SubscriptionLanding}
+              />
 
-              <Route path="/subscription-landing-us" exact component={US_SubscriptionLanding} />
+              <Route
+                path="/subscription-landing-us"
+                exact
+                component={US_SubscriptionLanding}
+              />
 
-              <Route path="/subscription-landing-ru" exact component={RU_SubscriptionLanding} />
+              <Route
+                path="/subscription-landing-ru"
+                exact
+                component={RU_SubscriptionLanding}
+              />
 
-              <Route path="/subscription-landing-tr" exact component={TR_SubscriptionLanding} />
+              <Route
+                path="/subscription-landing-tr"
+                exact
+                component={TR_SubscriptionLanding}
+              />
 
               <Route
                 exact
@@ -421,19 +437,19 @@ const App = () => (
                   let sublanding = '';
                   switch (process.env.REACT_APP_LANG) {
                     case 'de':
-                      sublanding = DE_SubscriptionLanding
+                      sublanding = DE_SubscriptionLanding;
                       break;
                     case 'en':
-                      sublanding = US_SubscriptionLanding
+                      sublanding = US_SubscriptionLanding;
                       break;
                     case 'ru':
-                      sublanding = RU_SubscriptionLanding
+                      sublanding = RU_SubscriptionLanding;
                       break;
                     case 'tr':
-                      sublanding = TR_SubscriptionLanding
+                      sublanding = TR_SubscriptionLanding;
                       break;
                     default:
-                      sublanding = SubscriptionLanding
+                      sublanding = SubscriptionLanding;
                   }
                   return sublanding;
                 })()}
@@ -468,37 +484,38 @@ const App = () => (
                 component={PromotionRefuge}
               />
 
-              <Route path="/Values-ru" exact component={RU_Values} />
+              {/* <Route path="/Values-ru" exact component={RU_Values} />
               <Route path="/Values-us" exact component={US_Values} />
-              <Route path="/Values-fr" exact component={FR_Values} />
+              <Route path="/Values" exact component={FR_Values} /> */}
               <Route
                 exact
                 path="/Values"
-                component={(() => {
-                  let valuesStr = '';
-                  switch (process.env.REACT_APP_LANG) {
-                    case 'fr':
-                      valuesStr = FR_Values
-                      break;
-                    case 'en':
-                      valuesStr = US_Values
-                      break;
-                    case 'ru':
-                      valuesStr = RU_Values
-                      break;
-                    default:
-                      valuesStr = Values
-                  }
-                  return valuesStr;
-                })()}
+                component={
+                  { fr: FR_Values, en: US_Values, ru: RU_Values }[
+                    process.env.REACT_APP_LANG
+                  ] || Values
+                }
               />
 
-              <Route sensitive path="/Tailorednutrition" exact component={
-                process.env.REACT_APP_LANG == 'en' ? US_Tailorednutrition : Tailorednutrition
-              } />
-              <Route path="/Quality-safety" exact component={
-                process.env.REACT_APP_LANG == 'en' ? US_QualitySafety : QualitySafety
-              } />
+              <Route
+                sensitive
+                path="/Tailorednutrition"
+                exact
+                component={
+                  process.env.REACT_APP_LANG == 'en'
+                    ? US_Tailorednutrition
+                    : Tailorednutrition
+                }
+              />
+              <Route
+                path="/Quality-safety"
+                exact
+                component={
+                  process.env.REACT_APP_LANG == 'en'
+                    ? US_QualitySafety
+                    : QualitySafety
+                }
+              />
               <Route
                 path="/shipmentConditions"
                 exact
@@ -519,6 +536,7 @@ const App = () => (
                 path="/smart-feeder-subscription"
                 component={smartFeederSubscription}
               />
+              <Route path="/laterlier/felin" component={Felin} />
               {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
                 exact
