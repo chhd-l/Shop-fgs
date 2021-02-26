@@ -93,6 +93,7 @@ export const ADYEN_CREDIT_CARD_BRANDS = {
 }[process.env.REACT_APP_LANG] || ['mc', 'visa', 'amex'];
 
 export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
+
 export const ADDRESS_RULE = [
   {
     key: 'firstName',
@@ -132,6 +133,14 @@ export const ADDRESS_RULE = [
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.city']
+    )
+  },
+  {
+    key: 'province',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.province']
     )
   },
   {

@@ -22,22 +22,27 @@ class SearchSelection extends React.Component {
       searchForNoResult: true
     };
     this.timer = null;
+    this.otherValue = '';
   }
   handleInputChange = (e) => {
     e.nativeEvent.stopImmediatePropagation();
     const target = e.target;
     const { form } = this.state;
-    form.value = target.value;
-    this.setState({ form: form, searchForNoResult: true });
-    if (!target.value) {
-      return false;
+    try {
+      form.value = target.value;
+      this.setState({ form: form, searchForNoResult: true });
+      if (!target.value) {
+        return false;
+      }
+      form.pageNum = 0;
+      this.setState({ form: form, optionList: [] });
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.queryList();
+      }, 1000);
+    } catch (error) {
+      console.log(error);
     }
-    form.pageNum = 0;
-    this.setState({ form: form, optionList: [] });
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.queryList();
-    }, 1000);
   };
   handleInputFocus = (e) => {
     const tmpVal = this.state.form.value;
@@ -50,15 +55,58 @@ class SearchSelection extends React.Component {
     }
   };
   handleInputBlur = (e) => {
-    setTimeout(() => {
-      // 没有选择有效item时，回填之前的值
-      this.setState({
-        form: Object.assign(this.state.form, {
-          value: this.state.currentItem || ''
-        }),
-        searchForNoResult: true
-      });
-    }, 500);
+    if (process.env.REACT_APP_LANG == 'en') {
+      // 美国可以输入，也可以选择
+      const target = e.target;
+      const { form } = this.state;
+      try {
+        setTimeout(() => {
+          if (this.otherValue && this.otherValue != '') {
+            form.value = this.otherValue;
+            this.otherValue = '';
+          } else {
+            form.value = target.value;
+          }
+
+          let citem = {
+            cityName: form.value,
+            cityNo: null,
+            countryName: null,
+            createTime: null,
+            delFlag: 0,
+            delTime: null,
+            id: form.value,
+            name: form.value,
+            osmId: null,
+            postCode: null,
+            sip: null,
+            stateId: null,
+            stateName: null,
+            storeId: process.env.REACT_APP_STOREID,
+            systemCityPostCodes: null,
+            updateTime: null
+          }
+
+          this.setState({
+            form: form.value,
+            optionPanelVisible: false,
+          });
+          this.props.selectedItemChange(citem);
+        }, 500);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setTimeout(() => {
+        // 没有选择有效item时，回填之前的值
+        this.setState({
+          form: Object.assign(this.state.form, {
+            value: this.state.currentItem || ''
+          }),
+          searchForNoResult: true
+        });
+      }, 500);
+    }
   };
   async queryList() {
     const { form, optionList } = this.state;
@@ -88,8 +136,10 @@ class SearchSelection extends React.Component {
       form: form,
       optionList: [],
       optionPanelVisible: false,
-      currentItem: item.name
+      currentItem: item.name,
+      otherValue: item.name
     });
+    this.otherValue = item.name;
     this.props.selectedItemChange(item);
   };
   hanldeScroll = (e) => {
@@ -116,11 +166,10 @@ class SearchSelection extends React.Component {
     return (
       <>
         <div
-          className={`${this.props.customCls} ${
-            this.props.customStyle
-              ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
-              : 'rc-input rc-input--full-width rc-margin-y--xs'
-          } searchSelection`}
+          className={`${this.props.customCls} ${this.props.customStyle
+            ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
+            : 'rc-input rc-input--full-width rc-margin-y--xs'
+            } searchSelection`}
           onBlur={() => {
             setTimeout(() => {
               this.setState({ optionList: [], optionPanelVisible: false });
@@ -131,11 +180,10 @@ class SearchSelection extends React.Component {
           <input
             type="text"
             placeholder={this.state.placeholder}
-            className={`${
-              this.props.customStyle ? 'rc-input__control' : 'form-control'
-            }`}
+            className={`${this.props.customStyle ? 'rc-input__control' : 'form-control'
+              }`}
             value={form.value}
-            onChange={this.handleInputChange}
+            onChange={(e) => this.handleInputChange(e)}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
           />
@@ -148,9 +196,8 @@ class SearchSelection extends React.Component {
               >
                 {optionList.map((item, idx) => (
                   <li
-                    className={`clinic-item pl-2 pr-2 ${
-                      idx !== optionList.length - 1 ? 'border-bottom' : ''
-                    }`}
+                    className={`clinic-item pl-2 pr-2 ${idx !== optionList.length - 1 ? 'border-bottom' : ''
+                      }`}
                     key={idx}
                     onClick={(e) => this.handleClickClinicItem(e, item)}
                   >

@@ -469,15 +469,18 @@ class PayProductInfo extends React.Component {
                         //游客
                         result = await checkoutStore.updateUnloginCart(
                           '',
-                          this.state.promotionInputValue
+                          this.state.promotionInputValue,
+                          false
                         );
                       } else {
                         //会员
                         result = await checkoutStore.updateLoginCart(
                           this.state.promotionInputValue,
-                          this.props.buyWay === 'frequency'
+                          this.props.buyWay === 'frequency',
+                          false
                         );
                       }
+                      
                       if (
                         result.backCode === 'K-000000' &&
                         (!result.context.promotionFlag ||
@@ -697,7 +700,7 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 税额 */}
-                {process.env.REACT_APP_LANG == 'en' && this.taxFeePrice ? (
+                {this.taxFeePrice ? (
                   <div className="row leading-lines shipping-item">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">

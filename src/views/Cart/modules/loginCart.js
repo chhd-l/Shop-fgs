@@ -203,7 +203,7 @@ class LoginCart extends React.Component {
   }
   GAInitialProductArray(productList) {
     console.log({ productList: JSON.stringify(toJS(productList)) });
-    debugger
+    // debugger
     let arr = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
@@ -240,7 +240,7 @@ class LoginCart extends React.Component {
       'products': arr
     })
     console.log({dataLayer})
-    debugger
+    // debugger
 
   }
   GACheckout(productList) {
@@ -1462,7 +1462,7 @@ class LoginCart extends React.Component {
         </div>
 
         {/* 税额 */}
-        {process.env.REACT_APP_LANG == 'en' && this.taxFeePrice ? (
+        {this.taxFeePrice ? (
           <div className="row">
             <div className="col-8">
               <p>

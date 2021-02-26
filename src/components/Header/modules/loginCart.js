@@ -156,7 +156,7 @@ class LoginCart extends React.Component {
   render() {
     const { totalNum, cartData, loading } = this;
     const { frequencyList } = this.state;
-    console.log(cartData, 'cartData', frequencyList);
+    // console.log(cartData, 'cartData', frequencyList);
     const { headerCartStore } = this.props;
     return (
       <span

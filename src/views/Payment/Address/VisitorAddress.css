@@ -1,3 +1,13 @@
-.qhx.rc-icon.health--xs:after, .qhx.rc-icon.rc-health--xs:after{
+.qhx.rc-icon.health--xs:after, .qhx.rc-icon.rc-health--xs:after {
     background-position: 65% 0%;
+}
+
+.styled-link {
+    text-decoration: none !important;
+    border: none !important;
+}
+
+.suggestedAddress, .originalAddress {
+    border: 1px solid #FFF;
+    border-radius: 3px;
 }

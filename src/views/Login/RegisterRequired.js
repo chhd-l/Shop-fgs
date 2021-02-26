@@ -98,7 +98,7 @@ class RegisterRequired extends Component {
       if (isRequiredChecked) {
         //组装submit参数
         let submitParam = this.bindSubmitParam(this.state.list);
-        debugger
+        // debugger
         let customerId = this.userInfo && this.userInfo.customerId
         const result = await userBindConsent({
           ...submitParam,

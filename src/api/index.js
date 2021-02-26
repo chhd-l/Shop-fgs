@@ -5,6 +5,8 @@ const api = {
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id', //http://localhost:3000/account/information
   queryCityByName: `${process.env.REACT_APP_STOREID}/system/city`,
+  getProvincesList: `/systemState/queryByStoreId`,
+  addressValidation: `/addressValidation/validation`,
   buryPoint: '/fgs.gif',
   getConfig: `/config/store/${process.env.REACT_APP_STOREID}`,
   navigations: '/navigations', //  查询二级菜单
@@ -48,6 +50,22 @@ export function queryCityByName(parameter) {
     url: `${api.queryCityByName}`,
     method: 'get',
     params: parameter
+  });
+}
+
+export function getProvincesList(parameter) {
+  return axios({
+    url: `${api.getProvincesList}`,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function addressValidation(parameter) {
+  return axios({
+    url: `${api.addressValidation}`,
+    method: 'post',
+    data: parameter
   });
 }
 

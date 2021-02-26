@@ -4,6 +4,14 @@ import find from 'lodash/find';
 import { toJS } from 'mobx';
 
 const localItemRoyal = window.__.localItemRoyal;
+const nullTaxFeeData = {
+  country: '',
+  region: '',
+  city: '',
+  street: '',
+  postalCode: '',
+  customerAccount: ''
+};
 
 class CheckoutStore {
   @observable cartData = localItemRoyal.get('rc-cart-data') || [];
@@ -19,7 +27,7 @@ class CheckoutStore {
   @observable deletedProNames = []; // 被删除的商品
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
   @observable couponCodeFitFlag = localItemRoyal.get('rc-couponCodeFitFlag') || false;
-  
+
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
 
   @computed get tradePrice() {
@@ -36,7 +44,7 @@ class CheckoutStore {
     return this.cartPrice && this.cartPrice.discountPrice
       ? this.cartPrice.discountPrice
       : 0;
-  } 
+  }
   @computed get subscriptionDiscountPrice() {
     return this.cartPrice && this.cartPrice.subscriptionDiscountPrice
       ? this.cartPrice.subscriptionDiscountPrice
@@ -181,8 +189,9 @@ class CheckoutStore {
       subscriptionPrice: purchasesRes.subscriptionPrice
     });
   }
+  // 游客
   @action.bound
-  async updateUnloginCart(data, promotionCode = this.promotionCode) {
+  async updateUnloginCart(data, promotionCode = this.promotionCode, purchaseFlag, taxFeeData) {
     if (!data) {
       data = this.cartData;
     }
@@ -197,13 +206,24 @@ class CheckoutStore {
         };
       });
 
+    if (!taxFeeData) {
+      taxFeeData = nullTaxFeeData;
+    }
+    // 获取总价
     let purchasesRes = await purchases({
       goodsInfoDTOList: param,
       goodsInfoIds: [],
       goodsMarketingDTOList: [],
-      promotionCode
+      promotionCode,
+      purchaseFlag: purchaseFlag,
+      country: taxFeeData.country,
+      region: taxFeeData.region,
+      city: taxFeeData.city,
+      street: taxFeeData.street,
+      postalCode: taxFeeData.postalCode,
+      customerAccount: taxFeeData.customerAccount,
     });
-    
+
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
     this.setPromotionCode(promotionCode);
@@ -217,9 +237,9 @@ class CheckoutStore {
       subscriptionPrice: purchasesRes.subscriptionPrice
     };
     if (!promotionCode || !purchasesRes.promotionFlag || purchasesRes.couponCodeFlag) {
-      if(purchasesRes.couponCodeFlag && !purchasesRes.couponCodeDiscount) {
+      if (purchasesRes.couponCodeFlag && !purchasesRes.couponCodeDiscount) {
         this.setCouponCodeFitFlag(false)
-      }else {
+      } else {
         this.setCouponCodeFitFlag(true)
       }
       params.discountPrice = purchasesRes.discountPrice;
@@ -277,24 +297,28 @@ class CheckoutStore {
     });
   }
 
+  // 会员
   @action
-  async updateLoginCart(
-    promotionCode = this.promotionCode,
-    subscriptionFlag = false
-  ) {
+  async updateLoginCart(promotionCode = this.promotionCode, subscriptionFlag = false, purchaseFlag) {
     try {
       this.changeLoadingCartData(true);
+
       // 获取购物车列表
       let siteMiniPurchasesRes = await siteMiniPurchases();
       siteMiniPurchasesRes = siteMiniPurchasesRes.context;
+
       // 获取总价
       let sitePurchasesRes = await sitePurchases({
         goodsInfoIds: siteMiniPurchasesRes.goodsList.map(
           (ele) => ele.goodsInfoId
         ),
         promotionCode,
-        subscriptionFlag
+        subscriptionFlag,
+        purchaseFlag
       });
+
+      console.log('★★★ -- 会员 sitePurchasesRes: ', sitePurchasesRes);
+
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
       this.setPromotionCode(promotionCode);
@@ -341,9 +365,9 @@ class CheckoutStore {
         };
 
         if (!promotionCode || !sitePurchasesRes.promotionFlag || sitePurchasesRes.couponCodeFlag) {
-          if(sitePurchasesRes.couponCodeFlag && !sitePurchasesRes.couponCodeDiscount) {
+          if (sitePurchasesRes.couponCodeFlag && !sitePurchasesRes.couponCodeDiscount) {
             this.setCouponCodeFitFlag(false)
-          }else {
+          } else {
             this.setCouponCodeFitFlag(true)
           }
           params.discountPrice = sitePurchasesRes.discountPrice;

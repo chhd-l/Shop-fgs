@@ -223,9 +223,9 @@ class UnLoginCart extends React.Component {
       'products': arr
     })
 
-    console.log({dataLayer})
-    
-    debugger
+    console.log({ dataLayer })
+
+    // debugger
   }
   GACheckUnLogin(productList) {
     let product = [],
@@ -1618,6 +1618,23 @@ class UnLoginCart extends React.Component {
               </p>
             </div>
           </div>
+
+          {/* 税额 */}
+          {this.taxFeePrice ? (
+            <div className="row">
+              <div className="col-8">
+                <p>
+                  <FormattedMessage id="estimatedTax" />
+                </p>
+              </div>
+              <div className="col-4">
+                <p className="text-right shipping-cost">
+                  {formatMoney(this.taxFeePrice)}
+                </p>
+              </div>
+            </div>
+          ) : (<></>)}
+
           <div className="group-total">
             <div className="row">
               <div className="col-7 medium">

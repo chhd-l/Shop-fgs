@@ -25,7 +25,7 @@ export default class Selection extends React.Component {
       },
       hoveredIdx: -1
     };
-    console.info('selectedItemDataselectedItemDataselectedItemData', this.props.selectedItemData)
+    // console.info('selectedItemDataselectedItemDataselectedItemData', this.props.selectedItemData)
     this.timeOutId = null;
   }
   hideOptions = () => {
@@ -103,7 +103,7 @@ export default class Selection extends React.Component {
                 className="choices__item choices__item--selectable"
                 aria-selected="true"
               >
-                {
+                {/* {
                   console.info('optionList.filter', optionList.filter(
                     (ele) => ele.value + '' === selectedItem.value + ''
                   ))
@@ -113,7 +113,7 @@ export default class Selection extends React.Component {
                 }
                 {
                   console.info('selectedItem', selectedItem)
-                }
+                } */}
                 {optionList.filter(
                   (ele) => ele.value + '' === selectedItem.value + ''
                 ).length

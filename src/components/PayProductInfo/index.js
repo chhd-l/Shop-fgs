@@ -357,7 +357,7 @@ class PayProductInfo extends React.Component {
                     </div>
 
                     {/* 税额 */}
-                    {process.env.REACT_APP_LANG == 'en' && details.tradePrice.taxFeePrice ? (
+                    {details.tradePrice.taxFeePrice ? (
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">

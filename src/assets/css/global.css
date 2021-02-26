@@ -6240,6 +6240,12 @@ a.close.disabled {
   }
 }
 
+.modal.show{
+  display:block !important;
+}
+.modal.validation_modal{
+  background: rgb(0 0 0 / 50%) !important;
+}
 .modal.show .modal-dialog {
   -webkit-transform: none;
   transform: none

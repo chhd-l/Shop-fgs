@@ -5,8 +5,9 @@ import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
+import { getProvincesList } from '@/api/index';
 
-const localItemRoyal = window.__.localItemRoyal;
+// const localItemRoyal = window.__.localItemRoyal;
 
 /**
  * add/edit address form - member/visitor
@@ -30,13 +31,17 @@ class EditForm extends React.Component {
         address2: '',
         rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryName: '',
         city: '',
         cityName: '',
+        provinceName: '',
+        province: '',
         postCode: '',
         phoneNumber: '',
         // email: ''
       },
-      countryList: [],
+      countryList: [], // 国家列表
+      provinceList: [], // 省份列表
       errMsgObj: {}
     };
   }
@@ -48,19 +53,38 @@ class EditForm extends React.Component {
     });
 
     getDictionary({ type: 'country' }).then((res) => {
+      const { address } = this.state;
       this.setState({
         countryList: res
+      });
+      address.countryName= res[0].name;
+    });
+
+    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
+      this.setState({
+        provinceList: res.context.systemStates
       });
     });
   }
   computedList(key) {
-    let tmp = this.state[`${key}List`].map((c) => {
-      return {
-        value: c.id.toString(),
-        name: c.name
-      };
-    });
-    tmp.unshift({ value: '', name: '' });
+    let tmp= '';
+    if(process.env.REACT_APP_LANG === 'en' && key=='province'){
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.id.toString(),
+          name: c.stateName
+        };
+      });
+      tmp.unshift({ value: 'state', name: 'state' });
+    }else{
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.id.toString(),
+          name: c.name
+        };
+      });
+      tmp.unshift({ value: '', name: '' });
+    }
     return tmp;
   }
   deliveryInputChange = (e) => {
@@ -102,12 +126,19 @@ class EditForm extends React.Component {
   };
   handleSelectedItemChange(key, data) {
     const { address } = this.state;
+    if(process.env.REACT_APP_LANG === 'en' && key=='province'){
+      address.provinceName= data.name;
+    }
+    if(key=='country'){
+      address.countryName= data.name
+    }
     address[key] = data.value;
     this.setState({ address }, () => {
       this.props.updateData(this.state.address);
     });
   }
   handleCityInputChange = (data) => {
+    // console.log('-----------------> city select: ', data);
     const { address } = this.state;
     address.city = data.id;
     address.cityName = data.cityName;
@@ -238,7 +269,7 @@ class EditForm extends React.Component {
         <label className="form-control-label" htmlFor="shippingCountry">
           <FormattedMessage id="payment.country" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
           <Selection
             selectedItemChange={(data) =>
               this.handleSelectedItemChange('country', data)
@@ -266,11 +297,31 @@ class EditForm extends React.Component {
         >
           <FormattedMessage id="payment.city" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
           <CitySearchSelection
             defaultValue={address.cityName}
             key={address.cityName}
             onChange={this.handleCityInputChange}
+          />
+        </span>
+      </div>
+    )
+  }
+  provinceJSX = () => {
+    const { address, errMsgObj } = this.state;
+    return (
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
+        <label className="form-control-label" htmlFor="shippingProvince">State</label>
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
+          <Selection
+            selectedItemChange={(data) =>
+              this.handleSelectedItemChange('province', data)
+            }
+            optionList={this.computedList('province')}
+            selectedItemData={{
+              value: address.province
+            }}
+            key={address.province}
           />
         </span>
       </div>
@@ -421,6 +472,13 @@ class EditForm extends React.Component {
           <div className="col-12 col-md-6">
             {this.cityJSX()}
           </div>
+
+          {process.env.REACT_APP_LANG === 'en' ? (
+            <div className="col-12 col-md-6">
+              {this.provinceJSX()}
+            </div>
+          ) : (<></>)}
+
           <div className="col-12 col-md-6">
             {this.postCodeJSX()}
           </div>
@@ -428,6 +486,7 @@ class EditForm extends React.Component {
             {this.phonePanelJSX()}
           </div>
         </div>
+
       </>
     )
     return (
@@ -445,7 +504,7 @@ class EditForm extends React.Component {
               <div className="col-12 col-md-6">
                 {this.addressRequiredJSX()}
               </div>
-              <div className="col-12 col-md-6" style={{visibility:'hidden'}}>
+              <div className="col-12 col-md-6" style={{ visibility: 'hidden' }}>
                 {this.addressOptionJSX()}
               </div>
               <div className="col-12 col-md-6">
