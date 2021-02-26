@@ -28,6 +28,7 @@ class LoginCart extends React.Component {
       frequencyList: []
     };
     this.handleCheckout = this.handleCheckout.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
     if (window.location.pathname !== '/checkout') {
@@ -152,7 +153,24 @@ class LoginCart extends React.Component {
     } finally {
       this.setState({ checkoutLoading: false });
     }
+
+    this.hubGA && dataLayer.push({
+      'event': 'cartHeaderClicks',
+      'cartHeaderClicks': {
+        'button': 'Buy now',
+      }
+    })
   }
+
+  EditToCart = () => {
+    this.hubGA && dataLayer.push({
+      'event': 'cartHeaderClicks',
+      'cartHeaderClicks': {
+        'button': 'Edit',
+      }
+    })
+  }
+
   render() {
     const { totalNum, cartData, loading } = this;
     const { frequencyList } = this.state;
@@ -168,7 +186,11 @@ class LoginCart extends React.Component {
           headerCartStore.hide();
         }}
       >
-        <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
+        <Link to="/cart"
+          className="minicart-link"
+          data-loc="miniCartOrderBtn"
+          onClick={this.EditToCart}
+        >
           <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
           {totalNum > 0 ? (
             <span className="minicart-quantity">{totalNum}</span>
