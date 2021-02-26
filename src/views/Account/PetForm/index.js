@@ -14,6 +14,7 @@ import './index.less';
 import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
 import { Helmet } from 'react-helmet';
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 import {
   getPetList,
@@ -282,6 +283,8 @@ class PetForm extends React.Component {
     });
     await delPets(params);
 
+    myAccountActionPushEvent('Remove pet')
+
     this.props.history.push('/account/pets/');
   };
   savePet = async () => {
@@ -391,6 +394,7 @@ class PetForm extends React.Component {
       await addPet(param)
         .then((res) => {
           if (res.code === 'K-000000') {
+            myAccountActionPushEvent('Add pet')
             let currentStep = 'success';
             this.setState({
               currentStep: currentStep

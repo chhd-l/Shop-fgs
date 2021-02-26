@@ -26,6 +26,7 @@ import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import base64 from 'base-64';
+import { myAccountPushEvent } from '@/utils/GA';
 
 import './index.less';
 
@@ -85,6 +86,7 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    myAccountPushEvent('Orders & Subscriptions')
     setSeoConfig({
       pageName: 'Account orders'
     }).then((res) => {

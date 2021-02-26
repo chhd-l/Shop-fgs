@@ -347,6 +347,7 @@ class Details extends React.Component {
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
     this.changeTab = this.changeTab.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -372,6 +373,8 @@ class Details extends React.Component {
             frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
             frequencyId: parseInt(process.env.REACT_APP_FREQUENCY_ID)
           })
+        },()=>{
+          this.hubGA && this.getComputedWeeks(this.state.frequencyList)
         });
       } else {
         this.setState({
@@ -381,6 +384,8 @@ class Details extends React.Component {
             frequencyName: res[0] ? res[0].name : '',
             frequencyId: res[0] ? res[0].id : ''
           })
+        },()=>{
+          this.hubGA && this.getComputedWeeks(this.state.frequencyList)
         });
       }
     });
@@ -408,6 +413,42 @@ class Details extends React.Component {
     this.setState({
       contactUs,
     })
+
+    // 观察'推荐块'元素是否出现在可见视口中
+    if (this.hubGA) {
+      let initObserver = new IntersectionObserver((entries) => {
+        if (entries[0].intersectionRatio <= 0) return; // intersectionRatio 是否可见，不可见则返回
+        dataLayer.push({
+          event: 'pdpAssociatedProductsDisplay',
+          pdpAssociatedProductsDisplay: [{
+            'price': 40, //Product Price, including discount if promo code activated for this product
+            'specie': 'Cat', //'Cat' or 'Dog',
+            'range': 'Size Health Nutrition', //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+            'name': 'Medium Puppy', //WeShare product name, always in English
+            'mainItemCode': '3003', //Main item code
+            'SKU': '123456789', //product SKU
+            'recommendationID': '123456', //recommendation ID
+            'subscription': 'One Shot', //'One Shot', 'Subscription', 'Club'
+            'subscriptionFrequency': 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+            'technology': 'Dry', //'Dry', 'Wet', 'Pack'
+            'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+            'size': '12x85g', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+            'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+            'quantity': 2, //Number of products, only if already added to cart
+            'sizeCategory': 'Small', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
+            'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
+            'promoCodeAmount': 8 //Promo code amount, only if promo activated
+          }] //待后端添加
+        });
+      });
+      let recommendationGoodsDom = document.querySelector('#goods-recommendation-box');
+      this.setState({
+        initObserver,
+        recommendationGoodsDom,
+      }, () => {
+        this.state.initObserver.observe(this.state.recommendationGoodsDom);
+      })
+    }
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -436,6 +477,29 @@ class Details extends React.Component {
       (details.saleableFlag || !details.displayFlag)
     );
   }
+
+  //天-0周  周-value*1 月-value*4
+  getComputedWeeks(frequencyList) {
+    let calculatedWeeks = {}
+
+    frequencyList.forEach(item => {
+      switch (item.type) {
+        case 'Frequency_day':
+          calculatedWeeks[item.id] = 0
+          break;
+        case 'Frequency_week':
+          calculatedWeeks[item.id] = item.valueEn * 1
+          break;
+        case 'Frequency_month':
+          calculatedWeeks[item.id] = item.valueEn * 4
+          break;
+      }
+    })
+    this.setState({
+      calculatedWeeks
+    })
+  }
+
   getUrlParam() {
     const { search } = this.props.history.location;
     const utmSource = getParaByName(search, 'utm_source');
@@ -960,7 +1024,7 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details);
+              this.hubGA ? this.hubGAProductDetailPageView(this.state.details) : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.matchGoods();
             }
@@ -1171,7 +1235,7 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details);
+              this.hubGA ? this.hubGAProductDetailPageView(this.state.details) : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.bundleMatchGoods();
             }
@@ -1333,7 +1397,7 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details } = this.state;
 
-      this.GAAddToCar(quantity, details);
+      this.hubGA ? this.hubGAAToCar(quantity, details) : this.GAAddToCar(quantity, details);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -1467,7 +1531,7 @@ class Details extends React.Component {
     } = this.state;
     const { goodsId, sizeList } = details;
     // 加入购物车 埋点start
-    this.GAAddToCar(quantity, details);
+    this.hubGA ? this.hubGAAToCar(quantity, details) : this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
@@ -1697,6 +1761,10 @@ class Details extends React.Component {
   }
   changeTab(i) {
     this.setState({ activeTabIdx: i });
+    this.hubGA && dataLayer.push({
+      event: 'pdpTabsClick',
+      pdpTabsClickTabName: ele
+    });
   }
   openPetModal() {
     this.setState({
@@ -1805,6 +1873,56 @@ class Details extends React.Component {
       }
     });
   }
+
+  //hub加入购物车，埋点
+  hubGAAToCar(num, item) {
+    // const { cateId, goodsCateName, goodsName, goodsInfos, brandName, goodsNo } = item;
+    // const cateName = goodsCateName?.split('/') || '';
+    // const SKU = goodsInfos?.[0]?.goodsInfoNo;
+    // const size = goodsInfos?.[0]?.packSize;
+    // let cur_selected_size = item.sizeList.filter((item2) => {
+    //   return item2.selected == true;
+    // });
+    // let { form, calculatedWeeks, quantity } = this.state;
+    // const price = form.buyWay === 0
+    //   ? cur_selected_size[0].marketPrice
+    //   : cur_selected_size[0].subscriptionPrice;
+    // const specie = cateId === '1134' ? 'Cat' : 'Dog';
+    // const subscription = form.buyWay === 1 ? 'Subscription' : '';
+    // const subscriptionFrequency = form.buyWay === 1 ? calculatedWeeks[form.frequencyVal] : '';
+    // const recommendationID = this.props.clinicStore?.linkClinicId || '';
+    dataLayer.push({
+      event: 'pdpAddToCart',
+      // products: [
+      //   {
+      //     price,
+      //     specie,
+      //     range: cateName?.[1],
+      //     name: goodsName,
+      //     mainItemCode: goodsNo,
+      //     SKU,
+      //     recommendationID,
+      //     subscription,
+      //     subscriptionFrequency,
+      //     technology: cateName?.[2],
+      //     brand: 'Royal Canin',
+      //     size,
+      //     breed: [],//todo 后端加
+      //     quantity,
+      //     promoCodeName: '',//todo 后端加
+      //     promoCodeAmount: '', // todo 后端加
+      //   }
+      // ],
+    });
+  }
+
+   //零售商购物 埋点
+  handleBuyFromRetailer = () => {
+    this.hubGA && dataLayer.push({
+      event: 'pdpBuyFromRetailer'
+    })
+  }
+
   //商品详情页 埋点
   GAProductDetailPageView(item) {
     const event = {
@@ -1849,6 +1967,41 @@ class Details extends React.Component {
     this.setState({ event, eEvents });
   }
 
+  //hub商品详情页 埋点
+  hubGAProductDetailPageView(item) {
+    const pathName = this.props.location.pathname;
+    const { cateId, minMarketPrice, goodsCateName, goodsName, goodsInfos, goodsNo } = item;
+    const specie = cateId === '1134' ? 'Cat' : 'Dog';
+    const cateName = goodsCateName?.split('/') || '';
+    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    const size = goodsInfos?.[0]?.packSize || '';
+    const recommendationID = this.props.clinicStore?.linkClinicId || '';
+    const GAProductsInfo = [{
+      price: minMarketPrice,
+      specie,
+      range: cateName?.[1],
+      name: goodsName,
+      mainItemCode: goodsNo,
+      SKU,
+      recommendationID,
+      technology: cateName?.[2],
+      brand: 'Royal Canin',
+      size,
+      breed: '',//todo:接口添加返回
+      promoCodeName: '', //促销 todo:接口加
+      promoCodeAmount: '', //促销 todo:接口加
+    }];
+
+    dataLayer.push({
+      products: GAProductsInfo,
+    })
+
+    dataLayer.push({
+      event: 'pdpScreenLoad',
+    })
+  }
+
+
   render() {
     const createMarkup = (text) => ({ __html: text });
     const { history, location, match, configStore } = this.props;
@@ -1880,7 +2033,7 @@ class Details extends React.Component {
       spuImages,
       pageLink,
       goodsType,
-      barcode
+      barcode,
     } = this.state;
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
@@ -1901,7 +2054,7 @@ class Details extends React.Component {
     let bundle = goodsType && goodsType === 2 ;
     return (
       <div id="Details">
-        {Object.keys(event).length > 0 ? (
+        {Object.keys(event).length ? (
           <GoogleTagManager
             additionalEvents={event}
             ecommerceEvents={eEvents}
@@ -2135,6 +2288,7 @@ class Details extends React.Component {
                                 className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                                 data-ccid="wtb-target"
                                 data-ean={barcode}
+                                onClick={this.handleBuyFromRetailer}
                               >
                                 <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
                               </div>
@@ -2836,6 +2990,7 @@ class Details extends React.Component {
                                       className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                                       data-ccid="wtb-target"
                                       data-ean={barcode}
+                                      onClick={this.handleBuyFromRetailer}
                                     >
                                       <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
                                     </div>
@@ -3069,7 +3224,7 @@ class Details extends React.Component {
                 </div>
               </div>
             </div>
-            <div>
+            <div id="goods-recommendation-box">
               <Carousel
                 location={location}
                 history={history}
@@ -3104,6 +3259,7 @@ class Details extends React.Component {
                     className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                     data-ccid="wtb-target"
                     data-ean={barcode}
+                    onClick={this.handleBuyFromRetailer}
                   >
                     <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
                   </div>

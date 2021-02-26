@@ -20,6 +20,7 @@ import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { myAccountPushEvent } from '@/utils/GA';
 
 const pageLink = window.location.href;
 
@@ -42,6 +43,7 @@ class Pet extends React.Component {
     };
   }
   componentDidMount() {
+    myAccountPushEvent('Pets')
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
@@ -71,7 +73,6 @@ class Pet extends React.Component {
 
     return consumerAccount;
   };
-
   getPetList = async () => {
     this.setState({ loading: true });
     if (!this.getAccount()) {
@@ -335,8 +336,10 @@ class Pet extends React.Component {
                           display: 'block'
                         }}
                       >
-                        <span style={{ fontSize: '25px' }} />{' '}
-                        <FormattedMessage id="pet.addNewPet" />
+                        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1" style={{ fontSize: '42px' }} />{' '}
+                        <span>
+                          <FormattedMessage id="pet.addNewPet" />
+                        </span>
                         {/* Add a new PET */}
                       </Link>
                     </div>

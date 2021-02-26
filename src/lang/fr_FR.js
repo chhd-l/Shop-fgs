@@ -1076,7 +1076,7 @@ const fr_FR = {
   checkboxIsRequiredForSubscription: 'cette case est obligatoire pour l\'abonnement',
   'avecLabonnement':'avec l\'abonnement',
   'pet.petListTitle': 'Créez et gérez le profil de votre animal pour maintenir sa meilleure santé possible',
-  'pet.addNewPet': 'Ajouter un nouveau PET',
+  'pet.addNewPet': 'ajouter un nouvel animal',
   'pet.deletePet': 'Supprimer le profil de l\'animal',
   'validPromotionCode': 'Impossible d\'ajouter le bon de réduction à votre panier',
   'mixed Breed': 'race Mixte',
@@ -1158,7 +1158,11 @@ const fr_FR = {
   "lang.submit": "Soumettre",
   "lang.close": "Fermer",
   'signInAndRegisterNow': 'Connectez-vous / Inscrivez-vous maintenant',
-  language: 'France/Français'
+  language: 'France/Français',
+  "checkout.faq.contactCustomer": "Comment puis-je joindre le service client",
+  "checkout.faq.freeDelivery": "Proposez-vous la livraison gratuite",
+  "checkout.faq.paymentInformation": "Dans quelle mesure mes informations de paiement sont-elles sécurisées",
+  "checkout.faq.FreeReturn": "Proposez-vous des retours gratuits"
 }
 export default fr_FR;
 

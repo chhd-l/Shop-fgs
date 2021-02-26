@@ -14,9 +14,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 const guid = uuidv4();
 let isGACheckoutLock = false
+const isHubGA = process.env.REACT_APP_HUB_GA
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-@inject('checkoutStore', 'loginStore', 'paymentStore')
+@inject('checkoutStore', 'loginStore', 'paymentStore','clinicStore')
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -37,6 +38,7 @@ class PayProductInfo extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
+      calculatedWeeks:{}
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -69,6 +71,29 @@ class PayProductInfo extends React.Component {
         })
       );
     }
+  }
+  getComputedWeeks(frequencyList) {
+    let calculatedWeeks = {}
+    frequencyList.forEach(item => {
+      switch (item.type) {
+        case 'Frequency_day':
+          calculatedWeeks[item.id] = 0
+          break;
+        case 'Frequency_week':
+          calculatedWeeks[item.id] = item.valueEn * 1
+          break;
+        case 'Frequency_month':
+          calculatedWeeks[item.id] = item.valueEn * 4
+          break;
+      }
+    })
+
+    this.setState({
+      calculatedWeeks
+    },()=>{
+      // console.log(this.state.calculatedWeeks)
+      // debugger
+    })
   }
   //会员 GA需要的product信息
   GAGetProductLogin(productList) {
@@ -115,6 +140,93 @@ class PayProductInfo extends React.Component {
     }
     return product
   }
+
+  //会员 HubGA需要的product信息
+  HubGAGetProductLogin(productList){
+    let arr = []
+    for (let item of productList) {
+      let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
+      let range = item.goods.goodsCateName?.split("/")[1];
+      let technology = item.goods.goodsCateName?.split("/")[2]
+
+      arr.push({
+        'price': item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
+        'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
+        'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+        'name': item.goodsName, //WeShare product name, always in English
+        'mainItemCode': item.goods.goodsNo, //Main item code
+        'SKU': item.goodsInfos[0].goodsInfoNo, //product SKU
+        'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
+        'technology': technology, //'Dry', 'Wet', 'Pack'
+        'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+        'size': item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+        'quantity': item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
+        'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
+        'recommendationID': this.props.clinicStore.linkClinicId || '', //recommendation ID
+
+        //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
+        'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
+        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+      })
+    }
+    dataLayer.push({
+      'products': arr
+    })
+    // console.log({ dataLayer })
+    // debugger
+  }
+
+  //游客 HubGA需要的product信息
+  HubGAGetProductUnlogin(productList){
+    let arr = []
+    for (let item of productList) {
+      let cur_selected_size = item.sizeList.filter((item2) => {
+        return item2.selected == true;
+      });
+      let variant = cur_selected_size[0].specText;
+      let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
+      let price = item.goodsInfoFlag ? cur_selected_size[0].subscriptionPrice : cur_selected_size[0].marketPrice
+      let subscriptionFrequency = item.form ? this.state.calculatedWeeks[item.form.frequencyId] : ''
+
+      arr.push({
+        'price': price, //Product Price, including discount if promo code activated for this product
+        'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
+        'range': item.goodsCateName?.split("/")[1], //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+        'name': item.goodsName, //WeShare product name, always in English
+        'mainItemCode': item.goodsNo, //Main item code
+        'SKU': goodsInfoNo, //product SKU
+        'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
+        'technology': item.goodsCateName?.split("/")[2], //'Dry', 'Wet', 'Pack'
+        'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+        'size': variant, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+        'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
+        'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
+
+        'recommendationID': this.props.clinicStore.linkClinicId || '', //recommendation ID
+        //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
+        'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+
+        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
+        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+      })
+    }
+    dataLayer.push({
+      'products': arr
+    })
+
+    // console.log({ dataLayer })
+    // debugger
+  }
+
+  GAInitialProductArray(productList){
+    if(!isGACheckoutLock){//防止重复调用
+      isGACheckoutLock = true
+      this.getComputedWeeks(this.state.frequencyList)
+      this.isLogin ? this.HubGAGetProductLogin(productList) : this.HubGAGetProductUnlogin(productList)
+    }
+  }
+
   // GA Checkout
   GACheck(productList) {
     if (!isGACheckoutLock) { //防止重复调用
@@ -160,13 +272,14 @@ class PayProductInfo extends React.Component {
         productList: productList || []
       })
     );
-    getFrequencyDict().then((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
     });
 
-    this.GACheck(productList)
+    (!isHubGA)&&this.GACheck(productList)
+    isHubGA && this.GAInitialProductArray(productList)
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
