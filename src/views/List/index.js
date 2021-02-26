@@ -503,7 +503,7 @@ function ListItemBody({ item, headingTag }) {
       {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly">
-            <div className="text-center" style={{color:"#666"}}>{technology}</div>
+            <div className="text-center" style={{color:"#666",fontSize: '0.85rem'}}>{technology}</div>
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
           </div>
           <br />

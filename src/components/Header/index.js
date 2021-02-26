@@ -345,6 +345,15 @@ class Header extends React.Component {
     }, 500);
   }
 
+  loginIcon = () => {
+    this.hubGA && dataLayer.push({
+      'event': 'topPictosClick',
+      'topPictosClick': {
+        'itemName': 'Login',
+      }
+    })
+  }
+
   handleCenterMouseOver() {
     this.setState({
       showCenter: true
