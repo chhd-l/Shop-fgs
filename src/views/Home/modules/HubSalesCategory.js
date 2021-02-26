@@ -105,7 +105,7 @@ export default class HubSalesCategory extends Component {
                           <div className="rc-column category-goods" key={index}>
                             <Link
                               className="rc-moblie-flex"
-                              to={`${item.cateRouter}?cateId=${item.goodsCateId}`}
+                              to={`${item.cateRouter}`}
                             >
                               <picture>
                                 <source srcSet={item.imgSrc} />
@@ -148,7 +148,7 @@ export default class HubSalesCategory extends Component {
                           <div className="rc-column category-goods" key={index}>
                             <Link
                               className="rc-moblie-flex"
-                              to={`${item.cateRouter}?cateId=${item.goodsCateId}`}
+                              to={`${item.cateRouter}`}
                             >
                               <picture>
                                 <source srcSet={item.imgSrc} />
