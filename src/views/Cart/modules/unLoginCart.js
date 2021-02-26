@@ -254,6 +254,8 @@ class UnLoginCart extends React.Component {
     });
   }
   GAInitialProductArray(productList) {
+    console.log({ productList: JSON.stringify(toJS(productList)) });
+    debugger
     let arr = [];
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {

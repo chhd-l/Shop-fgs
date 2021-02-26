@@ -905,9 +905,9 @@ class List extends React.Component {
         goodsInfos,
         goodsBrand,
         goodsName,
-        goodsAttributesValueRelVOList = []
+        goodsAttributesValueRelVOAllList = []
       } = item;
-      const breed = goodsAttributesValueRelVOList
+      const breed = goodsAttributesValueRelVOAllList
         .filter((attr) => attr.goodsAttributeName == 'breeds')
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
