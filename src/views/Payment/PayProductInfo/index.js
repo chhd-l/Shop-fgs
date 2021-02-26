@@ -149,6 +149,10 @@ class PayProductInfo extends React.Component {
       let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
       let range = item.goods.goodsCateName?.split("/")[1] || "";
       let technology = item.goods.goodsCateName?.split("/")[2] || ""
+      let breed = []
+      item.goodsAttributesValueRelVOList.filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+        breed.push(item2.goodsAttributeValue)
+      })
 
       arr.push({
         'price': item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
@@ -166,7 +170,7 @@ class PayProductInfo extends React.Component {
         'recommendationID': this.props.clinicStore.linkClinicId || '', //recommendation ID
 
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-        'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+         breed, //All animal breeds associated with the product in an array
         'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
         'promoCodeAmount': 8 //Promo code amount, only if promo activated
       })
@@ -208,7 +212,7 @@ class PayProductInfo extends React.Component {
 
         'recommendationID': this.props.clinicStore.linkClinicId || '', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-        'breed': ['Beagle', 'Boxer', 'Carlin'], //All animal breeds associated with the product in an array
+        'breed': ['HubGAGetProductUnlogin'], //All animal breeds associated with the product in an array
 
         'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
         'promoCodeAmount': 8 //Promo code amount, only if promo activated
@@ -223,6 +227,7 @@ class PayProductInfo extends React.Component {
   }
 
   GAInitialProductArray(productList){
+    if(this.props.location.pathname != '/checkout') return //只有checkout页面才执行
     if(!isGACheckoutLock){//防止重复调用
       isGACheckoutLock = true
       this.getComputedWeeks(this.state.frequencyList)

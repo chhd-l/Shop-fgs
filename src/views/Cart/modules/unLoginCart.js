@@ -235,7 +235,7 @@ class UnLoginCart extends React.Component {
 
         recommendationID: this.props.clinicStore.linkClinicId || '', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-        breed: [], //All animal breeds associated with the product in an array
+        breed: ['unLoginCart'], //All animal breeds associated with the product in an array
 
         promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
         promoCodeAmount: 8 //Promo code amount, only if promo activated
