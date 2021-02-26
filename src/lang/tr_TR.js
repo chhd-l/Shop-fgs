@@ -720,6 +720,7 @@ const tr_TR = {
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   'confirmation.account':'Go to my account',
   'confirmation.oneShoot':'Go to my account',
+  mustChooseACommunicationMethodTip: 'Üzgünüz, iletişim onayını kontrol ettiniz, bu yüzden bir iletişim yöntemi seçmelisiniz'
 }
 
 export default tr_TR;

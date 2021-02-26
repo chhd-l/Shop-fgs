@@ -1111,6 +1111,7 @@ const fr_FR = {
   isPurebred: 'Chien de race',
   catNutrition: 'Nutrition chats',
   'order.total': 'Total',
-  'order.iVAIncluido': 'TVA Inclus'
+  'order.iVAIncluido': 'TVA Inclus',
+  mustChooseACommunicationMethodTip: 'Désolé, vous avez vérifié le consentement à la communication, vous devez donc choisir une méthode de communication'
 }
 export default fr_FR;

@@ -945,6 +945,7 @@ const de_DE = {
   'order.iVAIncluido': '',
   'validPromotionCode': 'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
   starUnit: '*',
-  pricesIncludeVAT: '{val} Preise inkl. MwSt'
+  pricesIncludeVAT: '{val} Preise inkl. MwSt',
+  mustChooseACommunicationMethodTip: 'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen'
 }
 export default de_DE;

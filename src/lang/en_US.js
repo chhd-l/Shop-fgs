@@ -885,5 +885,6 @@ const en_US = {
   'order.total': 'Total',
   'order.iVAIncluido': '',
   'validPromotionCode': 'Unable to add the discount voucher to your cart',
+  mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method'
 }
 export default en_US;

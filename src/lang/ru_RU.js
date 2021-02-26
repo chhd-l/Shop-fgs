@@ -723,6 +723,7 @@ const ru_RU = {
     checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
     'confirmation.account':'Go to my account',
     'confirmation.oneShoot':'Go to my account',
+    mustChooseACommunicationMethodTip: 'К сожалению, вы проверили согласие на общение, поэтому вам необходимо выбрать способ связи.'
   }
 
   export default ru_RU;
