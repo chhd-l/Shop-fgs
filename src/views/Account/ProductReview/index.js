@@ -16,6 +16,7 @@ import Skeleton from 'react-skeleton-loader';
 //import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import {myAccountActionPushEvent} from "@/utils/GA"
 
 const pageLink = window.location.href
 
@@ -268,6 +269,7 @@ class ProductReview extends React.Component {
     });
   }
   handleImgChange(imgRef, product) {
+    myAccountActionPushEvent('Add picture')
     const list = this.state.reviewList;
     if (list.length > 0) {
       let imgsParam = [];
