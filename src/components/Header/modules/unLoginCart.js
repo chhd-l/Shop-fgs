@@ -29,6 +29,7 @@ class UnloginCart extends React.Component {
       isAdd: 0,
       frequencyList: []
     };
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
     if (window.location.pathname !== '/checkout') {
@@ -161,6 +162,16 @@ class UnloginCart extends React.Component {
       this.setState({ checkoutLoading: false });
     }
   }
+
+  EditToCart = () => {
+    this.hubGA && dataLayer.push({
+      'event': 'cartHeaderClicks',
+      'cartHeaderClicks': {
+        'button': 'Edit',
+      }
+    })
+  }
+
   render() {
     const { headerCartStore } = this.props;
     let { frequencyList } = this.state;
@@ -240,11 +251,13 @@ class UnloginCart extends React.Component {
                       {formatMoney(this.tradePrice)}
                     </span>
                   </span>
+
                   <Link
                     to="/cart"
                     className="rc-styled-link pull-right"
                     role="button"
                     aria-pressed="true"
+                    onClick={this.EditToCart}
                   >
                     <FormattedMessage id="chang" />
                   </Link>

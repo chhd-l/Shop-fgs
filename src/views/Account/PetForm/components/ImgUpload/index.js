@@ -3,6 +3,7 @@ import { uploadResource } from '@/api';
 import './index.less';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage } from 'react-intl';
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 export default class ImgUpload extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ export default class ImgUpload extends React.Component {
         .then((res) => {
           this.props.handleChange(res.context[0]);
           this.props.hiddenLoading()
+          myAccountActionPushEvent('Add picture')
         })
         .catch((err) => {
           console.log(err);
