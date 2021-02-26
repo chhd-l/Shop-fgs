@@ -510,7 +510,7 @@ class Subscription extends React.Component {
                                 values={{
                                   val1: <br />
                                 }}
-                              ></FormattedMessage>
+                              />
                             </p>
                           </div>
                           <div className="rc-margin-top--sm">
@@ -595,7 +595,7 @@ class Subscription extends React.Component {
               { }
               <div className="rc-column  rc-quad-width">
                 {this.getPageBox()}
-                {this.getPageBox(true)}
+                {/* {this.getPageBox(true)} */}
               </div>
             </div>
           </div>

@@ -308,7 +308,7 @@ class UnloginCart extends React.Component {
                     }`}
                     history={this.props.history}
                   >
-                    <FormattedMessage id="loginText" />
+                    <FormattedMessage id="checkout" />
                   </LoginButton>
                 </div>
                 {!this.selectedCartData.filter((el) => el.goodsInfoFlag)

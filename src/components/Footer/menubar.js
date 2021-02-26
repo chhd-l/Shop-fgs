@@ -5,8 +5,8 @@ export const menubar = {
       {
         titleId: 'footer.aboutRoyalCanin',
         list: [
-          { prop: 'contactUsUrl',url: '/About-Us', messageId: 'aboutUs2' },
-          { prop: 'ourValues', url: '/Values', messageId: 'Values' },
+          { url: '/About-Us', messageId: 'aboutUs2' },
+          { url: '/Values', messageId: 'Values' },
           { link: '/Quality-safety', messageId: 'qualitySafety' },
           { link: '/Tailorednutrition', messageId: 'tailorednutrition' }
         ]

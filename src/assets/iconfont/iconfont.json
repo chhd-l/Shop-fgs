@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8406619",
+      "name": "方向",
+      "font_class": "icon-",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "17900538",
+      "name": "bubble",
+      "font_class": "bubble",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "10258917",
+      "name": "email",
+      "font_class": "email1",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "10279469",
+      "name": "phone",
+      "font_class": "phone",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
       "icon_id": "7596174",
       "name": "Pause",
       "font_class": "Pause",

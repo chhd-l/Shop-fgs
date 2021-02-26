@@ -4,13 +4,47 @@
 .Recommendation_FR .benefit {
   text-align: left;
 }
+.Recommendation_FR  .hide{
+  display: none;
+}
+.Recommendation_FR  .type-icon{
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  left: 50%;
+  top: -32px;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
 .Recommendation_FR .benefit ul {
   padding-left: 40px;
+}
+.Recommendation_FR .recommendation_feeding_box{
+  background: #F6F6F6;
+  border-radius: 3px;
+  color: #666;
+  padding: 52px 32px 30px;
+}
+.Recommendation_FR .product_info{
+  width: 100%;
+  padding: 0px 40px;
+}
+@media (max-width:679px){
+  .Recommendation_FR .product_info{
+    width: 100%;
+    padding: 0px 20px;
+  }
+}
+.Recommendation_FR .recommendation_feeding_box .reason{
+  padding-bottom: 24px;
 }
 .Recommendation_FR .benefit ul > li {
   height: auto;
   text-align: left;
   list-style: disc;
+}
+.Recommendation_FR  .help-container p{
+  text-align: left;
 }
 .Recommendation_FR h2 {
   margin-bottom: 10px;

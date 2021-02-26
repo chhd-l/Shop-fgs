@@ -317,10 +317,13 @@ const fr_FR = {
   'footer.products': 'ALIMENTS',
   'footer.qualityAndSafety': 'Qualité et sécurité alimentaire',
   'footer.termsOfService': "Conditions d'utilisation",
-  'footer.termsOfUse': 'Mentions légales',
   'footer.toTheTop': 'Retour au menu',
   'footer.websiteTermsOfUse': "Conditions d'utilisation du site Web",
   'footer.withdrawal': 'Droit de rétractation',
+
+  'footer.termsOfUse': 'Conditions d’Utilisation',
+  'footer.statutoryDeclaration': 'Mention Légales',
+
   forgetPassword: 'Mot de passe oublié?',
   'forgetPassword.back': 'Retour connexion',
   'forgetPassword.createNewPassword': 'Créer un nouveau mot de passe',
@@ -1028,7 +1031,6 @@ const fr_FR = {
   'subscribe': 'S‘abonner',
 
 
-  'registerDescription': '<p>Vos données personnelles sont collectées et traitées conformément à la déclaration de confidentialité de Royal Canin, disponible <a class="rc-styled-link  rc-text-colour--hyperlink" target="_blank" href="https://www.mars.com/privacy-policy-france">ici</a></p>',
   'registerCloud': 'Architecture de référence Commerce Cloud Storefront',
   'registerErrorMessage': ' Une erreur est survenue lors de la création de votre compte. Veuillez réessayer plus tard ou utiliser une adresse e-mail différente.',
   'registerWelcome': 'Bienvenue chez',
@@ -1160,5 +1162,6 @@ const fr_FR = {
 'smartFeederSubscription.shopmentTimes': 'Livré lors du premier envoi', //Delivered at the first shipment
 'smartFeederSubscription.selectAnotherProduct':"sélectionnez un autre produit",//select another product
 'smartFeederSubscription.conﬁrmThisProduct':"Con ﬁ rmez ce produit",// Conﬁrm this product
+values: 'Nos valeurs'
 }
 export default fr_FR;

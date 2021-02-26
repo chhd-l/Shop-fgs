@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 
 @inject('configStore')
 @observer
@@ -234,6 +235,14 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.termsOfUse" />
                   </span>
                 </a>
+              </li>
+              <li>
+                {/* <a target="_blank" rel="nofollow" href="https://www.royalcanin.com/fr/mentions-legales/royal-canin"> */}
+                <Link to="/mentionslegales" target="_blank">
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.statutoryDeclaration" />
+                  </span>
+                </Link>
               </li>
             </ul>
             <div

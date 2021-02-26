@@ -209,7 +209,7 @@ class UnLoginCart extends React.Component {
         'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
         'size': variant, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
         'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
-        'subscriptionFrequency': subscriptionFrequency, //Frequency in weeks, to populate only if 'subscription' 
+        'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency: '', //Frequency in weeks, to populate only if 'subscription' 
 
         'recommendationID': '123456', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP

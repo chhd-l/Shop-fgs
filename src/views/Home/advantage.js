@@ -82,8 +82,7 @@ export function Advantage() {
                   className="value-proposition__img lazyloaded"
                   alt="ideal formula"
                   title="ideal formula"
-                  srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
-                  src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
                 />
               </LazyLoad>
 
@@ -101,8 +100,7 @@ export function Advantage() {
                   className="value-proposition__img lazyloaded"
                   alt="club benefits"
                   title="club benefits"
-                  srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
-                  src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`}
                 />
               </LazyLoad>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -120,14 +118,12 @@ export function Advantage() {
                   className="value-proposition__img lazyloaded"
                   alt="Welcome Box"
                   title="Welcome Box"
-                  srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
-                  src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`}
                 />
               </LazyLoad>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Receive a Specialty Welcome Box to Help Welcome Your New Pet
-                  Home{' '}
+                  Get Expert Advice & Support with Royal Canin Pet Advisor Live
                 </p>
               </div>
             </div>
@@ -139,8 +135,7 @@ export function Advantage() {
                   className="value-proposition__img lazyloaded"
                   alt="Free Automatic Shipping"
                   title="Free Automatic Shipping"
-                  srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
-                  src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`}
                 />
               </LazyLoad>
               <div className="pl-3 d-flex align-items-center value-proposition__text">

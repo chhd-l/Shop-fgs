@@ -715,7 +715,8 @@ label.color~a:hover {
   }
 }
 .rc-tabs .arrow-img-columns {
-  max-width: none
+  max-width: none;
+  overflow-x: hidden;
 }
 
 .rc-carousel__gallery-thumbnails:not(.tns-slider) {

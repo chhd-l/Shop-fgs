@@ -689,7 +689,6 @@ const tr_TR = {
   'account.noSubscription': 'Autoship hizmetlerimizi henüz keşfetmediniz mi? AutoShip, siparişlerinizi düzenli bir programa göre teslim etmenin uygun bir yoludur. Böylece zamandan tasarruf edersiniz ve evcil hayvanınızın yiyeceği asla bitmez.',
   'account.noSubscriptionTitle': 'Başlayalım!',
 
-  'registerDescription': '<p> Kişisel verileriniz, <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" bulunan Royal Canin gizlilik bildirimine uygun olarak toplanır ve işlenir href = "https://www.mars.com/privacy-policy-france"> burada </a> </p> ',
   'registerCloud': 'Commerce Cloud Storefront referans mimarisi',
   'registerErrorMessage': 'Hesabınızı oluştururken bir hata meydana geldi. Lütfen daha sonra tekrar deneyin veya farklı bir e-posta adresi kullanın. ',
   'registerWelcome': 'Hoş Geldiniz',

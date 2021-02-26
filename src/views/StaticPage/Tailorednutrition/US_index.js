@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
@@ -240,16 +241,16 @@ class Tailorednutrition extends React.Component {
                         <div className="rc-card-grid rc-match-heights rc-four-column">
                           <div className="rc-grid">
                             <article className="rc-card rc-card--a">
-                              <a href="/dogs/">
+                              <Link to="/dogs/">
                                 <picture className="" data-rc-feature-objectfillpolyfill-setup="true">
 
                                   <img className="card__image lazyloaded" data-src={dog} alt="Shop Dog Formulas" title="Shop Dog Formulas" src={dog} />
                                 </picture>
-                              </a>
+                              </Link>
                               <div className="rc-card__body">
                                 <header>
-                                  <a href="/dogs/">
-                                    <h4 className="rc-card__title">Shop Dog Formulas</h4></a>
+                                  <Link to="/dogs/">
+                                    <h4 className="rc-card__title">Shop Dog Formulas</h4></Link>
                                   <p className="rc-margin--none"></p>
                                 </header>
                               </div>
@@ -257,16 +258,16 @@ class Tailorednutrition extends React.Component {
                           </div>
                           <div className="rc-grid">
                             <article className="rc-card rc-card--a">
-                              <a href="/cats/">
+                              <Link to="/cats/">
                                 <picture className="" data-rc-feature-objectfillpolyfill-setup="true">
 
                                   <img className="card__image lazyloaded" data-src={cat} alt="Shop Cat Formulas" title="Shop Cat Formulas" src={cat} />
                                 </picture>
-                              </a>
+                              </Link>
                               <div className="rc-card__body">
                                 <header>
-                                  <a href="/cats/">
-                                    <h4 className="rc-card__title">Shop Cat Formulas</h4></a>
+                                  <Link to="/cats/">
+                                    <h4 className="rc-card__title">Shop Cat Formulas</h4></Link>
                                   <p className="rc-margin--none"></p>
                                 </header>
                               </div>

@@ -87,7 +87,7 @@ const breadcrumbNameMap = {
   ],
   '/Values': [
     {
-      name: 'Nos valeurs'
+      name: 'values'
     }
   ],
   '/pack-mix-feeding-wet-dry': [

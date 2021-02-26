@@ -1,0 +1,106 @@
+.shelter-prescription {
+  .colom-direction {
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  .banner-benefits {
+    max-width: 552px;
+  }
+  .product-list{
+    .rc-card__link{
+      cursor: pointer;
+      &:hover{
+        .rc-card--b{
+          border-color: #F70000;
+        }
+      }
+
+    }
+  }
+  .banner-benefits-box {
+    .banner-benefits-li {
+      line-height: 1.5rem;
+      &:before {
+        content: '.';
+        font-size: 2rem;
+        color: #e2001a;
+      }
+    }
+  }
+  .price-item {
+    color: #444444;
+    font-size: 21px;
+  }
+  .rc-interactive.rc-iconography:hover:after {
+    background-image: url('https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--brand1.svg?v=8-9-1');
+  }
+  .select-position {
+    position: relative;
+  }
+  @media (min-width: 769px) {
+    .select-position {
+      top: -80px;
+    }
+    .gray-for-pc {
+      background-color: #f7f7f7;
+    }
+    .max-width475 {
+      max-width: 475px;
+    }
+    .section-why {
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      h4 {
+        padding-top: 50px;
+      }
+      p {
+        font-size: 18px;
+        padding-bottom: 70px;
+      }
+      .show-video {
+        width: 439px;
+        margin: 0 auto;
+      }
+    }
+  }
+  @media (max-width: 769px) {
+    .select-position {
+      top: -66.66px;
+    }
+    .section-why {
+      margin: 0 18px;
+      h4 {
+        padding-top: 40px;
+      }
+      p {
+        font-size: 18px;
+        padding-bottom: 47px;
+      }
+      img {
+        padding: 0 12px;
+      }
+    }
+    h6,
+    h4 {
+      font-size: 18px;
+    }
+    .banner-benefits {
+      max-width: 100%;
+    }
+    .banner-benefits-box {
+      position: relative;
+      .banner-benefits-li {
+        padding-left: 1.5rem;
+        &:before {
+          content: '';
+          position: absolute;
+          width: 2rem;
+          height: 2rem;
+          background-image: url('./images/foot-icon.png');
+          left: -0.5rem;
+        }
+      }
+    }
+  }
+}

@@ -169,10 +169,10 @@ const de_DE = {
   chang: 'Ändern',
   changeAnotherCard: 'Bitte versuchen Sie es mit einer anderen Karte erneut',
   changePassword: 'Ändere das Passwort',
-  checkout: 'Weiter',
-  loginText: 'Weiter',
-  checkoutTip:
-    'Geben Sie Ihre Lieferadresse ein und wählen Sie Ihre gewünschte Zahlungsmethode aus.{val1}Bitte beachten Sie, dass eine Lieferung ausschließlich innerhalb Deutschlands angeboten wird.',
+  checkout: 'Anmelden',
+  loginText: 'Anmelden',
+  cartLoginText: 'Anmelden',
+  checkoutTip: 'Geben Sie Ihre Lieferadresse ein und wählen Sie Ihre gewünschte Zahlungsmethode aus.{val1}Bitte beachten Sie, dass eine Lieferung ausschließlich innerhalb Deutschlands angeboten wird.',
   choosePayment: 'Zahlung wählen',
   choosePrescriber: 'Bitte wählen Sie den richtigen Verschreiber',
   chooseTheProduct: 'Produkt auswählen',
@@ -551,8 +551,8 @@ const de_DE = {
   newPassword: 'Neues Kennwort',
   newsletterFalse: 'Überprüfen Sie den NEWSLETTER',
   next: 'Weiter',
-  noClinicTip:
-    'Bitte geben Sie hier Ihren Empfehlungs-Code ein, den Sie von Ihrer Tierarztpraxis erhalten haben. Ohne diesen ist eine Bestellung leider nicht möglich.',
+  noClinicTip: 'Sie benötigen für die Bestellung unserer Produkte einen Empfehlungscode einer teilnehmenden Tierarztpraxis. Sie haben noch keinen Code? Finden Sie hier die teilnehmenden Praxen: {val}',
+  clickHere3: 'Praxisfinder',
   noDefaultClinic: 'Keine Standardpraxis',
   NoPromotionDesc: 'Abo-Rabatt',
   noSpecialNeeds: 'Keine besonderen Bedürfnisse',
@@ -676,7 +676,7 @@ const de_DE = {
   'payment.frequencyTip2':
     'Nein, ich möchte keine Abonnement-Bestellung abschließen.',
   'payment.frequencyTip3': 'Ihre Artikel werden nur einmal versendet.',
-  'payment.further': 'Zahlen',
+  'payment.further': 'Kaufen',
   'payment.howToDelivery': 'Wie zu liefern',
   'payment.itemTotalProduct': 'Artikel Gesamtprodukt',
   'payment.lastName': 'Nachname',
@@ -1016,8 +1016,6 @@ const de_DE = {
   goToCart: 'Zum Warenkorb gehen',
   subscribe: 'In den Warenkorb legen',
 
-  registerDescription:
-    '<p> Ihre persönlichen Daten werden gemäß der Datenschutzerklärung von Royal Canin gesammelt und verarbeitet. <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> hier </a> </p> ',
   registerCloud: 'Commerce Cloud Storefront-Referenzarchitektur',
   registerErrorMessage:
     'Beim Erstellen Ihres Kontos ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal oder verwenden Sie eine andere E-Mail-Adresse. ',

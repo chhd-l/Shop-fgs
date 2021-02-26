@@ -10,7 +10,7 @@ import Consent from '@/components/Consent';
 
 class TermsCommon extends Component {
   static defaultProps = {
-    updateValidStatus: () => {}
+    updateValidStatus: () => { }
   };
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ class TermsCommon extends Component {
     document
       .getElementById(`${this.props.id}`)
       .addEventListener('click', (e) => {
-        if (e.target.localName === 'span') {
+        if (e.target.localName === 'font') {
           let keyWords = e.target.innerText;
           let index = Number(
             e.target.parentNode.parentNode.parentNode.parentNode.parentNode
@@ -36,8 +36,8 @@ class TermsCommon extends Component {
           tempArr[index].innerHtml = tempArr[index].innerHtml
             ? ''
             : arr[0]
-            ? arr[0].contentBody
-            : '';
+              ? arr[0].contentBody
+              : '';
 
           this.setState({ list: tempArr });
         }
@@ -80,22 +80,39 @@ class TermsCommon extends Component {
           key="payment"
           id={this.props.id}
         />
+
         {process.env.REACT_APP_LANG === 'de' ? (
-          <div style={{ paddingLeft: '20px', marginTop: '20px' }}>
+          <>
             <a
               style={{ color: '#7F6666', cursor: 'default' }}
             >
-              Informationen zu Ihrem Widerrufsrecht finden Sie{' '}
+              Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich. Weitere Informationen zum Vertragsschluss erhalten Sie in unseren allgemeinen{' '}
               <Link
                 target="_blank"
                 rel="nofollow"
-                to="/Widerrufsbelehrung"
+                to="/Terms-And-Conditions "
                 className="rc-styled-link"
               >
-                hier
+                Geschäftsbedingungen.
               </Link>
             </a>
-          </div>
+            <div style={{ paddingLeft: '0px', marginTop: '20px' }}>
+              <a
+                style={{ color: '#7F6666', cursor: 'default' }}
+              >
+                Informationen zu Ihrem Widerrufsrecht finden Sie{' '}
+                <Link
+                  target="_blank"
+                  rel="nofollow"
+                  to="/Widerrufsbelehrung"
+                  className="rc-styled-link"
+                >
+                  hier
+              </Link>
+              </a>
+            </div>
+          </>
+
         ) : null}
       </div>
     );

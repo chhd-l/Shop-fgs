@@ -25,7 +25,8 @@ import {
   getFrequencyDict,
   queryStoreCateList,
   getParaByName,
-  loadJS
+  loadJS,
+  getDictionary
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -33,7 +34,6 @@ import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
-import { getDict } from '@/api/dict';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
 import { Helmet } from 'react-helmet';
@@ -123,6 +123,8 @@ class Details extends React.Component {
     this.state = {
       event: {},
       eEvents: {},
+      hubEcEvents: {},
+      hubEvent: {},
       GAListParam: '',
       initing: true,
       details: {
@@ -138,7 +140,7 @@ class Details extends React.Component {
         fromPrice: 0,
         toPrice: 0
       },
-      activeTabIdx: 0,
+      activeTabIdxList: isMobile ? [] : [0],
       goodsDetailTab: {
         tabName: [],
         tabContent: []
@@ -163,7 +165,6 @@ class Details extends React.Component {
       tradePrice: '',
       specList: [],
       tabsValue: [],
-      petModalVisible: false,
       isAdd: 0,
       productRate: 0,
       replyNum: 0,
@@ -173,16 +174,12 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay:
-          process.env.REACT_APP_PDP_BUYWAY === undefined
-            ? 1
-            : parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
+        buyWay: 1, //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
       },
       frequencyList: [],
-      tabs: [],
       reviewShow: false,
       goodsNo: '', // SPU
       breadCrumbs: [],
@@ -194,7 +191,8 @@ class Details extends React.Component {
       },
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
-      pageLink: ''
+      pageLink: '',
+      purchaseTypeDict: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -202,44 +200,20 @@ class Details extends React.Component {
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
     this.changeTab = this.changeTab.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    this.getUrlParam();
-    console.log(this.state.form.buyWay, 'buyWay');
     const { pathname, state } = this.props.location;
+    this.getUrlParam();
     if (state) {
       if (!!state.GAListParam) {
         this.setState({ GAListParam: state.GAListParam });
       }
     }
-    await getFrequencyDict().then((res) => {
-      if (
-        process.env.REACT_APP_FREQUENCY_ID &&
-        process.env.REACT_APP_FREQUENCY_VAL &&
-        process.env.REACT_APP_FREQUENCY_NAME
-      ) {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: process.env.REACT_APP_FREQUENCY_VAL,
-            frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
-            frequencyId: parseInt(process.env.REACT_APP_FREQUENCY_ID)
-          })
-        });
-      } else {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: res[0] ? res[0].valueEn : '',
-            frequencyName: res[0] ? res[0].name : '',
-            frequencyId: res[0] ? res[0].id : ''
-          })
-        });
-      }
-    });
+
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
@@ -279,6 +253,48 @@ class Details extends React.Component {
       (details.saleableFlag || !details.displayFlag)
     );
   }
+
+  setDefaultPurchaseType({ id }) {
+    const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
+      (ele) => ele.id === id
+    )[0];
+    if (targetDefaultPurchaseTypeItem) {
+      this.setState({
+        form: Object.assign(this.state.form, {
+          buyWay:
+            targetDefaultPurchaseTypeItem.valueEn === 'Subscription' ? 1 : 0
+        })
+      });
+    }
+  }
+
+  //天-0周  周-value*1 月-value*4
+  getComputedWeeks(frequencyList) {
+    let calculatedWeeks = {};
+
+    frequencyList.forEach((item) => {
+      switch (item.type) {
+        case 'Frequency_day':
+          calculatedWeeks[item.id] = 0;
+          break;
+        case 'Frequency_week':
+          calculatedWeeks[item.id] = item.valueEn * 1;
+          break;
+        case 'Frequency_month':
+          calculatedWeeks[item.id] = item.valueEn * 4;
+          break;
+      }
+    });
+    this.setState(
+      {
+        calculatedWeeks
+      },
+      () => {
+        console.log(calculatedWeeks, 'calculatedWeeks===calculatedWeeks');
+      }
+    );
+  }
+
   getUrlParam() {
     const { search } = this.props.history.location;
     const utmSource = getParaByName(search, 'utm_source');
@@ -445,6 +461,7 @@ class Details extends React.Component {
     );
   }
   async queryDetails() {
+    const { configStore } = this.props;
     const { id, goodsNo } = this.state;
     let requestName;
     let param;
@@ -455,26 +472,75 @@ class Details extends React.Component {
       requestName = this.isLogin ? getLoginDetails : getDetails;
       param = id;
     }
-    Promise.all([requestName(param)])
+    Promise.all([
+      requestName(param),
+      getFrequencyDict(),
+      getDictionary({
+        type: 'purchase_type'
+      })
+    ])
       .then((resList) => {
         const res = resList[0];
+        const frequencyDictRes = resList[1];
+        const purchaseTypeDictRes = resList[2];
+        const goodsRes = res && res.context && res.context.goods;
+        this.setState(
+          {
+            purchaseTypeDict: purchaseTypeDictRes,
+            frequencyList: frequencyDictRes,
+            form: Object.assign(this.state.form, {
+              frequencyId:
+                goodsRes.defaultFrequencyId ||
+                configStore.defaultSubscriptionFrequencyId ||
+                (frequencyDictRes[0] && frequencyDictRes[0].id) ||
+                ''
+            })
+          },
+          () => {
+            this.setDefaultPurchaseType({
+              id:
+                goodsRes.defaultPurchaseType ||
+                configStore.defaultPurchaseType
+            });
+            this.hubGA && this.getComputedWeeks(this.state.frequencyList);
+          }
+        );
         if (res && res.context) {
+          const tmpGoodsDescriptionDetailList = (
+            res.context.goodsDescriptionDetailList || []
+          ).sort((a, b) => a.sort - b.sort);
+          let tmpTabName = tmpGoodsDescriptionDetailList.map(
+            (g) => g.descriptionName
+          );
+          let tmpTabContent = tmpGoodsDescriptionDetailList.map(
+            (g) => g.content
+          );
+          // 美国需临时加入一个tab
+          if (process.env.REACT_APP_LANG === 'en') {
+            tmpTabName.push('Royal Canin Club');
+            tmpTabContent.push('<div class=\"row rc-margin-x--none flex-column-reverse flex-md-row\"><div class=\"col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile\"><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwae14b5b3/AB Testing/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=85&amp;ch=73&amp;sfrm=png\" alt=\"CLUB BENEFITS PET ADVISOR\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div></div><div class=\"rc-hidden align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwed46b971/AB Testing/CLUB-BENEFITS_WELCOME-BOX.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=7&amp;cw=85&amp;ch=73&amp;sfrm=png\" alt=\"CLUB BENEFITS DISCOUNT\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div></div><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwbc91a43e/AB Testing/CLUB-BENEFITS_DISCOUNT.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=86&amp;ch=74&amp;sfrm=png\" alt=\"CLUB BENEFITS DISCOUNT\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Special Savings + FREE Shipping </strong>- save 30% on your first order and another 5% on every autoship order.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Special Savings + FREE Shipping&nbsp;</strong>-&nbsp;save 30% on your first order and another 5% on every autoship order.</p></div></div><div class=\"d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none\"><img src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwed90b2cc/AB Testing/CLUB-BENEFITS_PRODUCT-RECOS.png?sw=70&amp;sh=60&amp;sm=fit&amp;cx=0&amp;cy=4&amp;cw=87&amp;ch=74&amp;sfrm=png\" alt=\"CLUB BENEFITS PRODUCT RECOS\" class=\"m-auto rc-margin--none--desktop\"><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none\"><p style=\"text-align: left;\"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div><div class=\"rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none\"><p style=\"text-align: left;\"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div></div></div><div class=\"col-12 col-md-6\"><div class=\"rc-video-wrapper\"><iframe src=\"https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com\" allowfullscreen=\"\" frameborder=\"0\"></iframe></div></div></div><div class=\"arrow-img-columns rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile rc-padding-x--md--mobile\"><div class=\"rc-margin-bottom--md\"><h2 class=\"rc-beta\">How to Join Royal Canin Club</h2></div><div class=\"rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle\"><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>GRAB YOUR PRODUCTS</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN SHOP\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dwf2bad73c/AB Testing/HOW-TO-JOIN-SHOP.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=167&amp;ch=106&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Find your handpicked nutrition products in your cart.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>CHOOSE AUTOMATIC SHIPPING</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN AUTOSHIP\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw96b40031/AB Testing/HOW-TO-JOIN-AUTOSHIP.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Set your automatic shipping schedule and input your payment method.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN SCHEDULE\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw4d808803/AB Testing/HOW-TO-JOIN-SCHEDULE.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Receive your product automatically based on your schedule. Change or cancel at any time.</p></div></div></div><div class=\"rc-grid\"><div><h3 class=\"rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs\"><strong>ENJOY YOUR PERKS</strong></h3><img class=\"mx-auto rc-margin-bottom--xs\" alt=\"HOW TO JOIN ENJOY\" src=\"https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/default/dw3702062b/AB Testing/HOW-TO-JOIN-ENJOY.png?sw=220&amp;sh=140&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=168&amp;ch=107&amp;sfrm=png\"><div class=\"inherit-fontsize rc-body rc-padding-top--xs children-nomargin\"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>');
+          }
           this.setState({
-            productRate: res.context.avgEvaluate
+            productRate: res.context.avgEvaluate,
+            goodsDetailTab: {
+              tabName: tmpTabName,
+              tabContent: tmpTabContent
+            }
           });
         }
-        if (res && res.context && res.context.goods) {
+
+        if (goodsRes) {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
-          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
+          pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
 
           this.setState(
             {
-              productRate: res.context.goods.avgEvaluate,
-              replyNum: res.context.goods.goodsEvaluateNum,
-              goodsId: res.context.goods.goodsId,
-              minMarketPrice: res.context.goods.minMarketPrice,
-              minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
+              productRate: goodsRes.avgEvaluate,
+              replyNum: goodsRes.goodsEvaluateNum,
+              goodsId: goodsRes.goodsId,
+              minMarketPrice: goodsRes.minMarketPrice,
+              minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 taggingForText: (res.context.taggingList || []).filter(
                   (e) =>
@@ -492,7 +558,7 @@ class Details extends React.Component {
                 toPrice: res.context.toPrice
               }),
               spuImages: res.context.images,
-              breadCrumbs: [{ name: res.context.goods.goodsName }],
+              breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink
             },
             () => {
@@ -531,22 +597,23 @@ class Details extends React.Component {
               }
             }
           );
+          if (goodsRes.defaultFrequencyId) {
+            this.setState({
+              form: Object.assign(this.state.form, {
+                frequencyId: goodsRes.defaultFrequencyId
+              })
+            });
+          }
+
           setSeoConfig({
-            goodsId: res.context.goods.goodsId,
+            goodsId: goodsRes.goodsId,
             categoryId: '',
             pageName: 'Product Detail Page'
           }).then((res) => {
             this.setState({ seoConfig: res });
           });
-          // setSeoConfig({
-          //   goodsId: res.context.goods.goodsId,
-          //   categoryId: '',
-          //   pageName: 'Product Detail Page'
-          // });
         } else {
-          this.setState({
-            errMsg: <FormattedMessage id="details.errMsg" />
-          });
+          throw new Error();
         }
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
@@ -632,113 +699,7 @@ class Details extends React.Component {
             }
             return g;
           });
-          console.log(sizeList, 'sizeList');
 
-          // const selectedSize = find(sizeList, s => s.selected)
-          const { goodsDetailTab, tabs } = this.state;
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (
-                    process.env.REACT_APP_LANG === 'fr' ||
-                    process.env.REACT_APP_LANG === 'ru' ||
-                    process.env.REACT_APP_LANG === 'tr'
-                  ) {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (
-                        key === 'Description' ||
-                        key === 'Описание' ||
-                        key === 'İçindekiler'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          }
-                        });
-                      } else if (
-                        key === 'Bénéfices' ||
-                        key === 'Полезные свойства' ||
-                        key === 'Yararları'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="list_title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                              Object.values(JSON.parse(el))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                          ${tempContent}
-                        </ul>`;
-                      } else if (
-                        key === 'Composition' ||
-                        key === 'Ингредиенты'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>
-                            
-                            <div class="content">${
-                              Object.values(JSON.parse(el))[0]
-                            }</div> 
-                          </p>`;
-                        });
-                      } else {
-                        tempContent = tmpGoodsDetail[key];
-                      }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                    goodsDetailTab.tabName.push(key);
-                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  }
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            console.log(err, 'err');
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab
-              });
-            });
-          }
           let images = [];
           // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
           //   if (res.context.images.length) {
@@ -774,7 +735,9 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details);
+              this.hubGA
+                ? this.hubGAProductDetailPageView(this.state.details)
+                : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.matchGoods();
             }
@@ -792,179 +755,6 @@ class Details extends React.Component {
             return g;
           });
 
-          // const selectedSize = find(sizeList, s => s.selected)
-
-          const { goodsDetailTab, tabs } = this.state;
-          // try {
-          //   let tmpGoodsDetail = res.context.goods.goodsDetail;
-          //   if (tmpGoodsDetail) {
-          //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-          //     for (let key in tmpGoodsDetail) {
-          //       if (tmpGoodsDetail[key]) {
-          //         goodsDetailTab.tabName.push(key);
-          //         goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-          //         tabs.push({ show: false });
-          //         // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-          //       }
-          //     }
-          //   }
-          //   this.setState({
-          //     goodsDetailTab: goodsDetailTab,
-          //     tabs
-          //   });
-          // } catch (err) {
-          //   getDict({
-          //     type: 'goodsDetailTab',
-          //     storeId: process.env.REACT_APP_STOREID
-          //   }).then((res) => {
-          //     goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-          //       (ele) => ele.name
-          //     );
-          //     this.setState({
-          //       goodsDetailTab: goodsDetailTab
-          //     });
-          //   });
-          // }
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (
-                    process.env.REACT_APP_LANG === 'fr' ||
-                    process.env.REACT_APP_LANG === 'ru' ||
-                    process.env.REACT_APP_LANG === 'tr'
-                  ) {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (
-                        key === 'Description' ||
-                        key === 'Описание' ||
-                        key === 'İçindekiler'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          } else if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'Prescriber Blod Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line; font-weight: 400">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          } else if (
-                            Object.keys(JSON.parse(el))[0] ===
-                            'Prescriber Description'
-                          ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line; font-weight: 400;">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
-                          }
-                        });
-                      } else if (
-                        key === 'Bénéfices' ||
-                        key === 'Полезные свойства' ||
-                        key === 'Yararları'
-                      ) {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="list_title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                              Object.values(JSON.parse(el))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                          ${tempContent}
-                        </ul>`;
-                      } else if (key === 'Composition') {
-                        if (res.context.goods.goodsType !== 2) {
-                          tmpGoodsDetail[key].map((el) => {
-                            tempContent =
-                              tempContent +
-                              `<p>
-                              
-                              <div class="content">${
-                                Object.values(JSON.parse(el))[0]
-                              }</div> 
-                            </p>`;
-                          });
-                        } else {
-                          tmpGoodsDetail[key].map((el) => {
-                            let contentObj = JSON.parse(el);
-                            let contentValue = '';
-                            Object.values(Object.values(contentObj)[0]).map(
-                              (el) => {
-                                contentValue += `<p>${el}</p>`;
-                              }
-                            );
-                            console.log(tempContent, 'heiheihaha');
-                            tempContent =
-                              tempContent +
-                              `
-                              <div class="title">
-                                ${Object.keys(contentObj)[0]}
-                              </div>
-                              <div class="content">${contentValue}</div> 
-                            `;
-                          });
-                        }
-                      } else {
-                        tempContent = tmpGoodsDetail[key];
-                      }
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tempContent);
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                    goodsDetailTab.tabName.push(key);
-                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  }
-                  console.log(tmpGoodsDetail[key], 'ghaha');
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            console.log(err, 'tmpGoodsDetail');
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab
-              });
-            });
-          }
           let images = [];
           // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
           //   if (res.context.images.length) {
@@ -991,7 +781,9 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details);
+              this.hubGA
+                ? this.hubGAProductDetailPageView(this.state.details)
+                : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.bundleMatchGoods();
             }
@@ -1005,11 +797,7 @@ class Details extends React.Component {
       .catch((e) => {
         console.log(e);
         this.setState({
-          errMsg: e.message ? (
-            e.message.toString()
-          ) : (
-            <FormattedMessage id="details.errMsg2" />
-          )
+          errMsg: e.message || <FormattedMessage id="details.errMsg2" />
         });
       })
       .finally(() => {
@@ -1071,6 +859,7 @@ class Details extends React.Component {
     }
   }
   handleSelectedItemChange = (data) => {
+    console.log(data, 'data===data');
     const { form } = this.state;
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
@@ -1143,7 +932,9 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details } = this.state;
 
-      this.GAAddToCar(quantity, details);
+      this.hubGA
+        ? this.hubGAAToCar(quantity, details)
+        : this.GAAddToCar(quantity, details);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -1227,7 +1018,6 @@ class Details extends React.Component {
           );
           return false;
         }
-        // this.openPetModal()
         let autoAuditFlag = false;
         let res = await getProductPetConfig({
           goodsInfos: checkoutStore.loginCartData
@@ -1277,7 +1067,9 @@ class Details extends React.Component {
     } = this.state;
     const { goodsId, sizeList } = details;
     // 加入购物车 埋点start
-    this.GAAddToCar(quantity, details);
+    this.hubGA
+      ? this.hubGAAToCar(quantity, details)
+      : this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
@@ -1506,35 +1298,21 @@ class Details extends React.Component {
       });
     }
   }
-  changeTab(i) {
-    this.setState({ activeTabIdx: i });
-  }
-  openPetModal() {
-    this.setState({
-      petModalVisible: true
-    });
-  }
-  closePetModal() {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
-      });
+  changeTab({ idx, type }) {
+    let { activeTabIdxList } = this.state;
+    if (type === 'switch') {
+      // 切换其他，先删除所有，再添加本身
+      activeTabIdxList = [idx];
+    } else if (type === 'toggle') {
+      // 如果有本身，则删除，否则添加
+      const i = activeTabIdxList.indexOf(idx);
+      if (i > -1) {
+        activeTabIdxList.splice(i, 1);
+      } else {
+        activeTabIdxList.push(idx);
+      }
     }
-    this.setState({
-      petModalVisible: false
-    });
-  }
-  openNew() {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  }
-  closeNew() {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
+    this.setState({ activeTabIdxList });
   }
   handleAClick() {
     // dataLayer.push({
@@ -1616,6 +1394,56 @@ class Details extends React.Component {
       }
     });
   }
+
+  //hub加入购物车，埋点
+  hubGAAToCar(num, item) {
+    console.log(item, 'item==item');
+    const {
+      cateId,
+      goodsCateName,
+      goodsName,
+      goodsInfos,
+      brandName,
+      goodsNo
+    } = item;
+    const cateName = goodsCateName?.split('/') || '';
+    const SKU = goodsInfos?.[0]?.goodsInfoNo;
+    const size = goodsInfos?.[0]?.packSize;
+    let cur_selected_size = item.sizeList.filter((item2) => {
+      return item2.selected == true;
+    });
+    let { form } = this.state;
+    const price =
+      form.buyWay === 0
+        ? cur_selected_size[0].marketPrice
+        : cur_selected_size[0].subscriptionPrice;
+    const specie = cateId === '1134' ? 'Cat' : 'Dog';
+
+    dataLayer.push({
+      event: 'pdpAddToCart',
+      products: [
+        {
+          price,
+          specie,
+          range: cateName?.[1],
+          name: goodsName,
+          mainItemCode: goodsNo,
+          SKU,
+          recommendationID: '', //todo:银章接口添加返回
+          subscription: '',
+          subscriptionFrequency: '',
+          technology: cateName?.[2],
+          brand: brandName || 'ROYAL CANIN',
+          size,
+          breed: '', //todo
+          quantity: '', //todo
+          promoCodeName: '', //todo
+          promoCodeAmount: ''
+        }
+      ]
+    });
+  }
+
   //商品详情页 埋点
   GAProductDetailPageView(item) {
     const event = {
@@ -1659,6 +1487,63 @@ class Details extends React.Component {
     };
     this.setState({ event, eEvents });
   }
+
+  //hub商品详情页 埋点
+  hubGAProductDetailPageView(item) {
+    const pathName = this.props.location.pathname;
+    const {
+      cateId,
+      minMarketPrice,
+      goodsCateName,
+      goodsName,
+      goodsInfos,
+      goodsNo
+    } = item;
+    const specie = cateId === '1134' ? 'Cat' : 'Dog';
+    const cateName = goodsCateName?.split('/') || '';
+    const specieID = cateId == '1134' ? '2' : '1';
+    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    const size = goodsInfos?.[0]?.packSize || '';
+    const GAProductsInfo = [
+      {
+        price: minMarketPrice,
+        specie,
+        range: cateName?.[1],
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        recommendationID: '', //todo:昕宇确认
+        subscription: '', //todo subscriptionStatus有几种情况
+        subscriptionFrequency: '', //todo
+        technology: cateName?.[2],
+        brand: 'Royal Canin',
+        size,
+        breed: '', //todo:银章接口添加返回
+        promoCodeName: '', //促销 todo:接口加
+        promoCodeAmount: '' //促销 todo:接口加
+      }
+    ];
+    const hubEvent = {
+      page: {
+        type: 'product',
+        theme: specie,
+        globalURI: pathName
+      },
+      pet: {
+        specieID,
+        breedName: '' //todo:银章接口添加返回
+      }
+    };
+    const hubEcEvents = {
+      event: 'pdpScreenLoad',
+      products: GAProductsInfo
+    };
+    this.setState({
+      hubEvent,
+      hubEcEvents
+    });
+  }
+
   render() {
     const createMarkup = (text) => ({ __html: text });
     const { history, location, match } = this.props;
@@ -1680,20 +1565,19 @@ class Details extends React.Component {
       productRate,
       instockStatus,
       goodsDetailTab,
-      tabs,
-      reviewShow,
-      activeTabIdx,
+      activeTabIdxList,
       checkOutErrMsg,
       breadCrumbs,
       event,
       eEvents,
       spuImages,
-      pageLink
+      pageLink,
+      hubEvent,
+      hubEcEvents
     } = this.state;
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
     } 
@@ -1705,8 +1589,10 @@ class Details extends React.Component {
       }>`;
     return (
       <div id="Details">
-        {Object.keys(event).length > 0 ? (
+        {Object.keys(hubEvent).length || Object.keys(event).length ? (
           <GoogleTagManager
+            hubAdditionalEvents={hubEvent}
+            hubEcommerceEvents={hubEcEvents}
             additionalEvents={event}
             ecommerceEvents={eEvents}
           />
@@ -1775,35 +1661,29 @@ class Details extends React.Component {
                               {details.goodsNewSubtitle}
                             </h2>
                           </div>
-                          <div
-                            className="stars"
-                            style={{
-                              display:
-                                process.env.REACT_APP_LANG == 'fr'
-                                  ? 'none'
-                                  : 'block'
-                            }}
-                          >
-                            <div className="rc-card__price flex-inline">
-                              <div
-                                className="display-inline"
-                                style={{ verticalAlign: 'middle' }}
-                              >
-                                <Rate
-                                  def={productRate}
-                                  disabled={true}
-                                  marginSize="sRate"
-                                />
+                          {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                            <div className="stars">
+                              <div className="rc-card__price flex-inline">
+                                <div
+                                  className="display-inline"
+                                  style={{ verticalAlign: 'middle' }}
+                                >
+                                  <Rate
+                                    def={productRate}
+                                    disabled={true}
+                                    marginSize="sRate"
+                                  />
+                                </div>
+                                <span
+                                  className="comments rc-margin-left--xs rc-text-colour--text"
+                                  onClick={this.handleAClick.bind(this)}
+                                >
+                                  ({this.state.replyNum})
+                                  {/* <FormattedMessage id="reviews" /> */}
+                                </span>
                               </div>
-                              <span
-                                className="comments rc-margin-left--xs rc-text-colour--text"
-                                onClick={this.handleAClick.bind(this)}
-                              >
-                                ({this.state.replyNum})
-                                {/* <FormattedMessage id="reviews" /> */}
-                              </span>
                             </div>
-                          </div>
+                          )}
                         </div>
                         <div
                           className="description"
@@ -1834,7 +1714,8 @@ class Details extends React.Component {
                                 <div className="details-img-container">
                                   {process.env.REACT_APP_LANG === 'fr' ||
                                   process.env.REACT_APP_LANG === 'ru' ||
-                                  process.env.REACT_APP_LANG === 'tr' ? (
+                                  process.env.REACT_APP_LANG === 'tr' ||
+                                  process.env.REACT_APP_LANG === 'en' ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
                                       video={details.goodsVideo}
@@ -1887,36 +1768,31 @@ class Details extends React.Component {
                                     {details.goodsNewSubtitle}
                                   </h2>
                                 </div>
-                                <div
-                                  className="stars"
-                                  style={{
-                                    display:
-                                      process.env.REACT_APP_LANG == 'fr'
-                                        ? 'none'
-                                        : 'block'
-                                  }}
-                                >
-                                  <div className="rc-card__price flex-inline">
-                                    <div
-                                      className="display-inline"
-                                      style={{ verticalAlign: 'middle' }}
-                                    >
-                                      <Rate
-                                        def={productRate}
-                                        key={productRate}
-                                        disabled={true}
-                                        marginSize="sRate"
-                                      />
+                                {!!+process.env
+                                  .REACT_APP_PDP_RATING_VISIBLE && (
+                                  <div className="stars">
+                                    <div className="rc-card__price flex-inline">
+                                      <div
+                                        className="display-inline"
+                                        style={{ verticalAlign: 'middle' }}
+                                      >
+                                        <Rate
+                                          def={productRate}
+                                          key={productRate}
+                                          disabled={true}
+                                          marginSize="sRate"
+                                        />
+                                      </div>
+                                      <a
+                                        className="comments rc-margin-left--xs rc-text-colour--text"
+                                        onClick={this.handleAClick.bind(this)}
+                                      >
+                                        ({this.state.replyNum})
+                                        {/* <FormattedMessage id="reviews" /> */}
+                                      </a>
                                     </div>
-                                    <a
-                                      className="comments rc-margin-left--xs rc-text-colour--text"
-                                      onClick={this.handleAClick.bind(this)}
-                                    >
-                                      ({this.state.replyNum})
-                                      {/* <FormattedMessage id="reviews" /> */}
-                                    </a>
                                   </div>
-                                </div>
+                                )}
                               </div>
                               <div
                                 className="description"
@@ -2637,37 +2513,32 @@ class Details extends React.Component {
             <Advantage />
             {isMobile &&
               goodsDetailTab.tabName.map((ele, index) => (
-                <>
+                <React.Fragment key={index}>
                   <dl>
                     <div
                       className={`rc-list__accordion-item test-color 
-                  ${tabs[index].show ? 'showItem' : 'hiddenItem'}`}
+                  ${
+                    activeTabIdxList.includes(index) ? 'showItem' : 'hiddenItem'
+                  }`}
                     >
                       <div
                         className="rc-list__header d-flex justify-content-between"
-                        onClick={() => {
-                          tabs[index].show = !this.state.tabs[index].show;
-                          this.setState({ tabs: this.state.tabs });
-                        }}
+                        onClick={this.changeTab.bind(this, {
+                          idx: index,
+                          type: 'toggle'
+                        })}
                       >
                         <div dangerouslySetInnerHTML={{ __html: ele }} />
                         <span
                           className="iconfont font-weight-bold"
                           style={{
-                            transform: tabs[index].show
+                            transform: activeTabIdxList.includes(index)
                               ? 'rotate(90deg)'
                               : 'rotate(-90deg)'
                           }}
                         >
                           &#xe6fa;
                         </span>
-                        {/* <span
-                          className={`icon-change ${
-                            tabs[index].show
-                              ? 'rc-icon rc-up rc-brand1'
-                              : 'rc-icon rc-down rc-iconography'
-                          }`}
-                        ></span> */}
                       </div>
                       <div className={`rc-list__content`}>
                         <p
@@ -2684,7 +2555,7 @@ class Details extends React.Component {
                       </div>
                     </div>
                   </dl>
-                </>
+                </React.Fragment>
               ))}
             {!isMobile && goodsDetailTab.tabName.length ? (
               <div className="rc-max-width--xl rc-padding-x--sm">
@@ -2702,10 +2573,15 @@ class Details extends React.Component {
                                 className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                                 data-toggle={`tab__panel-${index}`}
                                 aria-selected={
-                                  activeTabIdx === index ? 'true' : 'false'
+                                  activeTabIdxList.includes(index)
+                                    ? 'true'
+                                    : 'false'
                                 }
                                 role="tab"
-                                onClick={this.changeTab.bind(this, index)}
+                                onClick={this.changeTab.bind(this, {
+                                  idx: index,
+                                  type: 'switch'
+                                })}
                               >
                                 {ele}
                               </button>
@@ -2723,7 +2599,9 @@ class Details extends React.Component {
                           id={`tab__panel-${i}`}
                           key={i}
                           className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                          aria-expanded={activeTabIdx === i ? 'true' : 'false'}
+                          aria-expanded={
+                            activeTabIdxList.includes(i) ? 'true' : 'false'
+                          }
                         >
                           <div className="block">
                             <p
