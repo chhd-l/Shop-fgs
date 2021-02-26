@@ -1157,6 +1157,8 @@ const fr_FR = {
 'smartFeederSubscription.backToProductTitle':
   'Faites livrer vos recharges de croquettes automatiquement, sélectionnez simplement la fréquence de livraison souhaitée et ajoutez-les au panier', //Get your kibble refills delivered automatically, just select your desired delivery frequency and add to cart
 'smartFeederSubscription.shopmentTimes': 'Livré lors du premier envoi', //Delivered at the first shipment
+'smartFeederSubscription.selectYourFrequency': 'sélectionnez votre fréquence', //select your frequency
+'smartFeederSubscription.smartFeederSubscription': 'Abonnement Smart Feeder', //Smart feeder subscription
 'smartFeederSubscription.selectAnotherProduct':"sélectionnez un autre produit",//select another product
 'smartFeederSubscription.conﬁrmThisProduct':"Con ﬁ rmez ce produit",// Conﬁrm this product
 'smartFeederSubscription.times': 'fois',//times

@@ -219,6 +219,7 @@ const Step1 = (props) => {
   );
 };
 const Step2 = (props) => {
+  const createMarkup = (text) => ({ __html: text });
   console.info('detailsdetailsdetails', props.details);
   return (
     <div className="margin12 product_detail">
@@ -317,13 +318,13 @@ const Step3 = (props) => {
       planId,
       packageId,
       goodsInfoId,
-      storeId: 123456858
+      storeId: process.env.REACT_APP_STOREID
     });
     res = res.context;
     setDetailInfo(res);
     await getFrequencyDict().then((ress) => {
       let list = ress
-        .filter((item) => res.frequencies.includes(item.id.toString()))
+        .filter((item) => res.frequencies?.includes(item.id.toString()))
         .map((item) => ({ ...item, value: item.id }));
       console.info('list', list);
       console.info('list', list[0] && list[0].id);
@@ -364,14 +365,14 @@ const Step3 = (props) => {
           <div className="pad_3rem_pc d-flex column">
             <img
               className="height-for-mobile"
-              src={detailInfo.planGifts[0].goodsInfoImg || foodDispenserPic}
-              title={detailInfo.planGifts[0].goodsInfoName}
+              src={detailInfo.planGifts?.[0].goodsInfoImg || foodDispenserPic}
+              title={detailInfo.planGifts?.[0].goodsInfoName}
             />
             <div
               className="d-flex"
               style={{ flexDirection: 'column', justifyContent: 'center' }}
             >
-              <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
+              <h6>{detailInfo.planGifts?.[0].goodsInfoName}</h6>
               <p>
                 x1{' '}
                 <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
@@ -385,7 +386,7 @@ const Step3 = (props) => {
             <div className="for_h5_img">
               <img src={foodPic2} />
               <h6 className="rc-hero__section--text product_name">
-                {detailInfo.planProds[0].goodsInfoName}
+                {detailInfo.planProds?.[0].goodsInfoName}
               </h6>
             </div>
             <div style={{ overflow: 'hidden' }}>
@@ -482,18 +483,18 @@ const Step3 = (props) => {
           <h5 className="text-center h5_left_text">summary</h5>
           <div className="d-flex">
             <div style={{ width: '70%' }}>
-              <h6>{detailInfo.planProds[0].goodsInfoName}</h6>
+              <h6>{detailInfo.planProds?.[0].goodsInfoName}</h6>
               <div className="font_size12 rc-margin-bottom--xs">
                 <FormattedMessage id="smartFeederSubscription.smartFeederSubscription" />
               </div>
             </div>
             <div className="font_size20 flex-fill text-right">
-              {detailInfo.planProds[0].settingPrice}
+              {detailInfo.planProds?.[0].settingPrice}
             </div>
           </div>
           <div className="d-flex">
             <div style={{ width: '70%' }}>
-              <h6>{detailInfo.planGifts[0].goodsInfoName}</h6>
+              <h6>{detailInfo.planGifts?.[0].goodsInfoName}</h6>
               <div className="font_size12 rc-margin-bottom--xs">
                 x1{' '}
                 <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
@@ -514,7 +515,7 @@ const Step3 = (props) => {
               <FormattedMessage id="total" />
             </div>
             <div className="flex-fill text-right">
-              {detailInfo.planProds[0].settingPrice}
+              {detailInfo.planProds?.[0].settingPrice}
             </div>
           </div>
           <div>
@@ -1458,7 +1459,6 @@ class SmartFeederSubscription extends Component {
     }
   }
   getStep1List = async () => {
-    const planId = this.state.planId || '0';
     // "joinPromoFlag": true, --是否可以加入其它promo的标识 true 是，false   否
     // "quantityStage": 100 --当前订阅计划的库存量
     // @ApiEnumProperty("0")
@@ -1477,15 +1477,17 @@ class SmartFeederSubscription extends Component {
     // NOTRELEASE,
     // @ApiEnumProperty("7")
     // EXPIRE;
-    let res = await getFoodDispenserList(planId);
+    let res = await getFoodDispenserList('0');
     const productList = res.context?.goodInfos;
     const enableFlag = res.context?.enableFlag;
-    this.setState({ productList, enableFlag });
+    const planId = res.context?.planId;
+    this.setState({ productList, enableFlag, planId });
     console.info('...getFoodDispenserList', res);
   };
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.getUrlParam();
+    // this.getUrlParam();
+      this.getStep1List();
   }
 
   //加入购物车，埋点
@@ -1788,7 +1790,7 @@ class SmartFeederSubscription extends Component {
   getStep3Choosed = (data) => {
     let { details } = this.state;
     details.sizeList = details.sizeList.map((item) => {
-      if (item.goodsInfoId == data.planProds[0].goodsInfoId) {
+      if (item.goodsInfoId == data.planProds&&data.planProds[0].goodsInfoId) {
         item = Object.assign({}, item, data);
         console.info(item, '000000000000000');
       }

@@ -592,7 +592,7 @@ class SubscriptionDetail extends React.Component {
             >
               <span className="width50">
                 {item.deliveryTimes}
-                <FormattedMessage id="times" />
+                <FormattedMessage id="smartFeederSubscription.times" />
               </span>
               <span className="width50" style={{ paddingLeft: '0.5rem' }}>
                 {formatMoney(item.remainingPrice)}

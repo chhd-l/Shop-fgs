@@ -26,7 +26,7 @@ class FAQ extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentWillReceiveProps({ planId }) {
-    if (planId) {
+    if (planId && this.props.planId != planId) {
       this.getRemainings(planId);
     }
   }
@@ -244,7 +244,7 @@ class FAQ extends React.Component {
                                     >
                                       <span className="width50">
                                         {item.deliveryTimes}
-                                        <FormattedMessage id="times" />
+                                        <FormattedMessage id="smartFeederSubscription.times" />
                                       </span>
                                       <span
                                         className="width50"
