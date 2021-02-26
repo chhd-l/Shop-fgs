@@ -97,61 +97,64 @@ class ShelterPrescription extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile rc-layout-container rc-three-column">
-            <div class="rc-column">
+            <div class="col-12 col-lg-5 rc-padding-x--sm--desktop">
               <img src={CATSPng} />
             </div>
-            <div class="rc-column  rc-double-width d-flex colom-direction rc-content-v-middle">
-              <h4 className="red">
-                SHOP ROYAL CANIN®. GIVE BACK TO YOUR SHELTER.
-              </h4>
-              <div style={{ paddingBottom: '0.5rem' }}>
-                Your local shelter staff works tirelessly to keep pets like
-                yours happy and healthy while they are waiting for their forever
-                home – this dedication includes feeding these pets quality,
-                precise nutrition. Now, when you buy Royal Canin® pet food
-                through this link, your pet gets the support of tailored
-                nutrition and 10% of your purchase amount is credited back to
-                your shelter to feed the pets in their care.
-              </div>
-              <div className="banner-benefits">
-                <h6 className="red">
-                  Sign up for autoship to become a member of the Royal Canin
-                  Club and you’ll receive these benefits:
-                </h6>
-                <div className="rc-layout-container rc-two-column banner-benefits-box">
-                  <div class="rc-column no-padding-bottom">
-                    <div className="banner-benefits-li">
+            <div class="col-12 col-lg-7">
+              <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                <h1 className="red rc-beta markup-text">
+                  Shop Royal Canin®. Give Back To Your Shelter.
+                </h1>
+                <p>
+                  Your local shelter staff works tirelessly to keep pets like
+                  yours happy and healthy while they are waiting for their
+                  forever home – this dedication includes feeding these pets
+                  quality, precise nutrition. Now, when you buy Royal Canin® pet
+                  food through this link, your pet gets the support of tailored
+                  nutrition and{' '}
+                  <strong>
+                    10% of your purchase amount is credited back to your shelter
+                    to feed the pets in their care.
+                  </strong>
+                </p>
+                <div className="banner-benefits">
+                  <h6 className="rc-delta markup-text red">
+                    Sign up for autoship to become a member of the Royal Canin
+                    Club and you’ll receive these benefits:
+                  </h6>
+                  <div className="rc-layout-container rc-two-column banner-benefits-box red-dot-list row rc-margin-bottom--sm rc-margin-bottom--md--mobile text-left">
+                    <div className="banner-benefits-li col-6">
                       30% off your first purchase
                     </div>
-                    <div className="banner-benefits-li">
+                    <div className="banner-benefits-li col-6">
                       5% off every autoship purchase
                     </div>
-                  </div>
-                  <div class="rc-column">
-                    <div className="banner-benefits-li">
+                    <div className="banner-benefits-li col-6">
                       Royal Canin Pet Advisor Live App
                     </div>
-                    <div className="banner-benefits-li">
+                    <div className="banner-benefits-li col-6">
                       Free shipping right to your home
                     </div>
                   </div>
-                </div>
-                <div className="text-center">
-                  <button
-                    onClick={() => this.toScroll('selectProduct')}
-                    className="rc-btn rc-btn--sm rc-btn--one"
-                  >
-                    Shop Recommended Formulas
-                  </button>
+                  <div className="text-center">
+                    <button
+                      onClick={() => this.toScroll('selectProduct')}
+                      className="rc-btn rc-btn--one gtm-content-block-btn "
+                    >
+                      Shop Recommended Formulas
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="gray-for-pc rc-padding-top--xl--mobile">
             <div class="rc-layout-container rc-two-column rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile">
-              <div class="rc-column no-padding-bottom  d-flex colom-direction rc-content-v-middle">
-                <div className="max-width475">
-                  <h5 className="red">JOIN THE CLUB. GET BIG PERKS.</h5>
+              <div className=" col-12 col-lg-6">
+                <div class=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                  <h2 className="red rc-beta markup-text">
+                    Join The Club. Get Big Perks.
+                  </h2>
                   <p>
                     When you choose autoship, you’re automatically part of the
                     Royal Canin® Club. With your membership, you get tailored
@@ -161,16 +164,16 @@ class ShelterPrescription extends React.Component {
                     veterinarian around the clock about your pet’s health,
                     nutrition and behavior; track your pet’s growth; and more.
                   </p>
+                  <p>
+                    <Link href="/subscription-landing">
+                      <button className="rc-btn rc-btn--two gtm-content-block-btn ">
+                      JOIN THE CLUB
+                      </button>
+                    </Link>
+                  </p>
                 </div>
-                <p>
-                  <Link href="/subscription-landing">
-                    <button className="rc-btn rc-btn--sm rc-btn--two">
-                      Join the Club
-                    </button>
-                  </Link>
-                </p>
               </div>
-              <div class="rc-column no-padding-bottom">
+              <div class=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                 <img src={catAndPhone} />
               </div>
             </div>
