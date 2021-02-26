@@ -1487,7 +1487,7 @@ class SmartFeederSubscription extends Component {
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
     // this.getUrlParam();
-      this.getStep1List();
+    this.getStep1List();
   }
 
   //加入购物车，埋点
@@ -1790,7 +1790,7 @@ class SmartFeederSubscription extends Component {
   getStep3Choosed = (data) => {
     let { details } = this.state;
     details.sizeList = details.sizeList.map((item) => {
-      if (item.goodsInfoId == data.planProds&&data.planProds[0].goodsInfoId) {
+      if (item.goodsInfoId == data.planProds && data.planProds[0].goodsInfoId) {
         item = Object.assign({}, item, data);
         console.info(item, '000000000000000');
       }
@@ -1839,7 +1839,7 @@ class SmartFeederSubscription extends Component {
         ) : (
           <div
             className="rc-text--center rc-header rc-padding-y--sm border-bottom-shadow"
-            style={{ background: '#fff' }}
+            style={{ background: '#fff', height: '120px' }}
           >
             <button
               onClick={() => {
@@ -1867,8 +1867,8 @@ class SmartFeederSubscription extends Component {
                   <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
                 </div>
               )}
-              <StaticPage />
-              <div style={{ position: 'relative', top: '-120px' }}>
+              <StaticPage toScroll={this.toScroll} />
+              <div className="scroll-position">
                 <div id="step1"></div>
                 <div id="step2"></div>
                 <div id="step3"></div>

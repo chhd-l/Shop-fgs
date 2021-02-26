@@ -122,11 +122,17 @@ const staticPage = (props) => {
             <p>
               <FormattedMessage id="smartFeederSubscription.tabDes3" />
             </p>
-            <button class="button192 rc-btn rc-btn--two">
+            <button
+              class="button192 rc-btn rc-btn--two"
+              onClick={() => props.toScroll('learnMore')}
+            >
               <FormattedMessage id="smartFeederSubscription.learnMore" />
             </button>
             <p></p>
-            <button class="button192 rc-btn rc-btn--one">
+            <button
+              class="button192 rc-btn rc-btn--one"
+              onClick={() => props.toScroll('step1')}
+            >
               <FormattedMessage id="smartFeederSubscription.chooseYourProduct" />
             </button>
           </div>
@@ -240,6 +246,7 @@ const staticPage = (props) => {
           </div>
         </div>
       </section>
+      <div id="learnMore" className="scroll-position"></div>
       <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil rc-padding-top--sm">
         <h2 className="smartfeedersubscription-title">
           <FormattedMessage id="smartFeederSubscription.titleHow" />
