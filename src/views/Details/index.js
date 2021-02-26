@@ -36,6 +36,7 @@ import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
+import Help from './components/Help'
 import { Helmet } from 'react-helmet';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
@@ -190,51 +191,43 @@ function AdvantageTips({ secondIconvisible = true }) {
 }
 
 function Advantage() {
-  return (
+  const defaultIconList = [
     {
-      en: (
-        <div className="rc-bg-colour--brand4">
-          <div className="reassurance-banner rc-max-width--xl rc-padding-x--sm rc-margin-bottom--sm">
-            <div className="rc-layout-container rc-four-column rc-text--center rc-content-h-middle">
-              <div className="rc-column rc-padding-y--xs">
-                <div className="reassurance-banner__item rc-text--left">
-                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography"></span>
-                    The Royal Canin Pet Advisor Live app to answer all your pet
-                    questions
-                  </span>
-                </div>
-              </div>
-              <div className="rc-column rc-padding-y--xs">
-                <div className="reassurance-banner__item rc-text--left">
-                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span className="rc-icon rc-delivery--sm rc-brand1 rc-iconography"></span>
-                    Free shipping and 5% off every autoship order
-                  </span>
-                </div>
-              </div>
-              <div className="rc-column rc-padding-y--xs">
-                <div className="reassurance-banner__item rc-text--left">
-                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span className="rc-icon rc-low-maintenance--sm rc-brand1 rc-iconography"></span>
-                    Welcome box with pet essentials
-                  </span>
-                </div>
-              </div>
-              <div className="rc-column rc-padding-y--xs">
-                <div className="reassurance-banner__item rc-text--left">
-                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span className="rc-icon rc-food--sm rc-brand1 rc-iconography"></span>
-                    Personalized product recommendations
-                  </span>
-                </div>
+      icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
+      text:
+        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
+    },
+    {
+      icon: (
+        <span className="rc-icon rc-delivery--sm rc-brand1 rc-iconography" />
+      ),
+      text: 'Free shipping and 5% off every autoship order'
+    },
+    {
+      icon: <span className="rc-icon rc-food--sm rc-brand1 rc-iconography" />,
+      text: 'Personalized product recommendations'
+    }
+  ];
+  const iconList =
+    { en: defaultIconList }[process.env.REACT_APP_LANG] || defaultIconList;
+  return iconList.length > 0 ? (
+    <div className="rc-bg-colour--brand4">
+      <div className="reassurance-banner rc-max-width--xl rc-padding-x--sm rc-margin-bottom--sm">
+        <div className="rc-layout-container rc-four-column rc-text--center rc-content-h-middle">
+          {iconList.map((ele, i) => (
+            <div className="rc-column rc-padding-y--xs" key={i}>
+              <div className="reassurance-banner__item rc-text--left">
+                <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                  {ele.icon}
+                  {ele.text}
+                </span>
               </div>
             </div>
-          </div>
+          ))}
         </div>
-      )
-    }[process.env.REACT_APP_LANG] || null
-  );
+      </div>
+    </div>
+  ) : null;
 }
 
 function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
@@ -3153,6 +3146,7 @@ class Details extends React.Component {
             </a>
           </div>
         </div>
+        <Help />
         <Footer />
       </div>
     );
