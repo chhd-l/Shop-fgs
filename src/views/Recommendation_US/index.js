@@ -158,7 +158,7 @@ class Recommendation extends React.Component {
         "We're pet lovers and experts in cat and dog nutrition and we're ready to to help you with any questions you might have.",
       emailTitle: 'Email us',
       emailDes: ' We will respond as soon as possible.',
-      emailLink: 'https://shop.royalcanin.com/help/contact',
+      emailLink: '/help/contact',
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
       email: 'Send us an Email',
