@@ -7,6 +7,7 @@ import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet';
 
 import './index.css';
@@ -273,16 +274,16 @@ class QualitySafety extends React.Component {
                         </div>
                         <div className="rc-grid">
                           <article className="rc-card rc-card--a">
-                            <a href="/cats/">
+                            <Link to="/cats/">
                               <picture className="" data-rc-feature-objectfillpolyfill-setup="true">
 
                                 <img className="card__image lazyloaded" data-src={cat} alt="Shop Cat Formulas" title="Shop Cat Formulas" src={cat} />
                               </picture>
-                            </a>
+                            </Link>
                             <div className="rc-card__body">
                               <header>
-                                <a href="/cats/">
-                                  <h4 className="rc-card__title"><FormattedMessage id="qualitySafety.shopCat" /></h4></a>
+                                <Link to="/cats/">
+                                  <h4 className="rc-card__title"><FormattedMessage id="qualitySafety.shopCat" /></h4></Link>
                                 <p className="rc-margin--none"></p>
                               </header>
                             </div>
