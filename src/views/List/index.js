@@ -1208,9 +1208,10 @@ class List extends React.Component {
       );
     let filterList = tmpList.concat(customFilter);
 
-    // isVetProducts 过滤掉'breeds' 'Sterilized'
-    let vetFilterList = filterList.filter(item => item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized');
-    let allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
+    // isVetProducts 过滤掉'breeds' 'Sterilized''Specific needs'
+    let vetFilterList = filterList.filter(item => item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized' && item.attributeName !== 'Specific needs');
+    let sptFilterList = filterList.filter(item => item.attributeName !== 'Size');
+    let allFilterList = this.state.isVetProducts ? vetFilterList : sptFilterList;
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
