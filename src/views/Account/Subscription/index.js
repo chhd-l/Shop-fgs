@@ -595,7 +595,7 @@ class Subscription extends React.Component {
               { }
               <div className="rc-column  rc-quad-width">
                 {this.getPageBox()}
-                {this.getPageBox(true)}
+                {/* {this.getPageBox(true)} */}
               </div>
             </div>
           </div>

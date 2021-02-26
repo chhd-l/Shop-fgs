@@ -53,6 +53,7 @@ export function Ads() {
               </div>
             </div>
           </div>
+          <Divider />
         </>
       )
     }[process.env.REACT_APP_LANG] || null

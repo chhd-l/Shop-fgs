@@ -626,7 +626,6 @@ class Home extends React.Component {
           </section>
 
           <Ads />
-          <Divider />
 
           <HealthNutrition />
           <Share />
