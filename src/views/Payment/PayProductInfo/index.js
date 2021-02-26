@@ -146,8 +146,8 @@ class PayProductInfo extends React.Component {
     let arr = []
     for (let item of productList) {
       let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
-      let range = item.goods.goodsCateName?.split("/")[1];
-      let technology = item.goods.goodsCateName?.split("/")[2]
+      let range = item.goods.goodsCateName?.split("/")[1] || "";
+      let technology = item.goods.goodsCateName?.split("/")[2] || ""
 
       arr.push({
         'price': item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
@@ -188,16 +188,18 @@ class PayProductInfo extends React.Component {
       let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
       let price = item.goodsInfoFlag ? cur_selected_size[0].subscriptionPrice : cur_selected_size[0].marketPrice
       let subscriptionFrequency = item.form ? this.state.calculatedWeeks[item.form.frequencyId] : ''
+      let range = item.goodsCateName?.split("/")[1] || ""
+      let technology = item.goodsCateName?.split("/")[2] || ""
 
       arr.push({
         'price': price, //Product Price, including discount if promo code activated for this product
         'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
-        'range': item.goodsCateName?.split("/")[1], //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+        'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
         'name': item.goodsName, //WeShare product name, always in English
         'mainItemCode': item.goodsNo, //Main item code
         'SKU': goodsInfoNo, //product SKU
         'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
-        'technology': item.goodsCateName?.split("/")[2], //'Dry', 'Wet', 'Pack'
+        'technology': technology, //'Dry', 'Wet', 'Pack'
         'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
         'size': variant, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
         'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'

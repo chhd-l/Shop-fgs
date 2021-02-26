@@ -206,8 +206,8 @@ class LoginCart extends React.Component {
     let arr = []
     for (let item of productList) {
       let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
-      let range = item.goods.goodsCateName?.split("/")[1];
-      let technology = item.goods.goodsCateName?.split("/")[2]
+      let range = item.goods.goodsCateName?.split("/")[1] || "";
+      let technology = item.goods.goodsCateName?.split("/")[2] || ""
 
       arr.push({
         'price': item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product

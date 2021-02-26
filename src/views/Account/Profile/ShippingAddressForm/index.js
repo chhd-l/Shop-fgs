@@ -15,6 +15,7 @@ import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 @injectIntl
 class ShippingAddressFrom extends React.Component {
@@ -173,6 +174,7 @@ class ShippingAddressFrom extends React.Component {
       await (this.state.isAdd ? saveAddress : editAddress)(params);
       this.handleCancel();
       this.props.refreshList();
+      myAccountActionPushEvent('Add Address')
     } catch (err) {
       this.showErrorMsg(err.message);
     } finally {

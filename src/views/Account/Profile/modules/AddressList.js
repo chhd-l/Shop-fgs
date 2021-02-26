@@ -14,7 +14,7 @@ import {
 import { queryCityNameById } from '@/api';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { myAccountPushEvent } from '@/utils/GA';
+import { myAccountPushEvent,myAccountActionPushEvent } from '@/utils/GA';
 
 function CardItem(props) {
   const { data } = props;
@@ -187,6 +187,7 @@ class AddressList extends React.Component {
     await deleteAddress({ id: el.deliveryAddressId })
       .then(() => {
         this.getAddressList();
+        myAccountActionPushEvent('Delete Address')
       })
       .catch((err) => {
         this.showErrorMsg(err.message);

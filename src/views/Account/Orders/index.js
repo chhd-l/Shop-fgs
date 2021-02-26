@@ -26,7 +26,7 @@ import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import base64 from 'base-64';
-import { myAccountPushEvent } from '@/utils/GA';
+import { myAccountPushEvent,myAccountActionPushEvent } from '@/utils/GA';
 
 import './index.less';
 
@@ -414,6 +414,7 @@ class AccountOrders extends React.Component {
     }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
 
     window.open(exportHref);
+    myAccountActionPushEvent('Download Invoice')
   }
   renderOperationBtns = (order) => {
     return (
