@@ -417,6 +417,7 @@ const tr_TR = {
   modalSkipTitle: 'SONRAKİ TESLİMATI ATLA?',
   moreAddress: 'Daha Fazla Adres',
   moreChoicesAvailable: 'Daha Fazla Seçenek Mevcut',
+  mustChooseACommunicationMethodTip: 'Üzgünüz, iletişim onayını kontrol ettiniz, bu yüzden bir iletişim yöntemi seçmelisiniz',
   name: 'İsim',
   name2: 'İSİM',
   newAddress: 'Yeni adres',
@@ -773,6 +774,5 @@ const tr_TR = {
   yes: 'Evet',
   yourEmailNotVerified: 'E-posta doğrulanmadı!',
   yourPasswordNotVerified: 'Şifreniz doğrulanmadı'
-};
-
+}
 export default tr_TR;

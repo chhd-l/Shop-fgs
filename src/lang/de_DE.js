@@ -1175,5 +1175,7 @@ const de_DE = {
   'smartFeederSubscription.smartFeederSubscription': 'Abonnement Smart Feeder', //Smart feeder subscription
   'smartFeederSubscription.selectAnotherProduct':"sélectionnez un autre produit",//select another product
   'smartFeederSubscription.conﬁrmThisProduct':"Con ﬁ rmez ce produit",// Conﬁrm this product
+  mustChooseACommunicationMethodTip: 'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen'
 };
+  
 export default de_DE;

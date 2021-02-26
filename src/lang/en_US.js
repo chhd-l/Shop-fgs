@@ -936,6 +936,7 @@ const en_US = {
   'plp.vet.cat.detail':'Our complete range of dry foods and bites in sauce or jelly provides the most accurate nutrition for cats of all ages,sizes and breeds',
   'plp.vet.cat.button':'Discover range',
   'signInAndRegisterNow': 'Sign in / Register now',
-  contactTimePeriod: 'For any questions, our pet experts are available from Monday to Friday, 8.00 a.m to 4.30 p.m CT'
+  contactTimePeriod: 'For any questions, our pet experts are available from Monday to Friday, 8.00 a.m to 4.30 p.m CT',
+  mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method'
 }
 export default en_US;

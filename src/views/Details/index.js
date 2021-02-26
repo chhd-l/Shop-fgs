@@ -36,7 +36,7 @@ import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
-import Help from './components/Help'
+import Help from './components/Help';
 import { Helmet } from 'react-helmet';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
@@ -208,8 +208,7 @@ function Advantage() {
       text: 'Personalized product recommendations'
     }
   ];
-  const iconList =
-    { en: defaultIconList }[process.env.REACT_APP_LANG] || defaultIconList;
+  const iconList = { en: defaultIconList }[process.env.REACT_APP_LANG] || [];
   return iconList.length > 0 ? (
     <div className="rc-bg-colour--brand4">
       <div className="reassurance-banner rc-max-width--xl rc-padding-x--sm rc-margin-bottom--sm">

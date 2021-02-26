@@ -506,6 +506,7 @@ const fr_FR = {
   month: 'Mois',
   moreAddress: "Plus d'adresse",
   moreChoicesAvailable: 'Plus de choix',
+  mustChooseACommunicationMethodTip: 'Désolé, vous avez vérifié le consentement à la communication, vous devez donc choisir une méthode de communication',
   myAutoshipOrder: 'Mon Abonnement',
   name: 'Prénom',
   name2: 'NOM',

@@ -419,6 +419,7 @@ const ru_RU = {
   modalSkipTitle: 'ПРОПУСТИТЬ СЛЕДУЮЩУЮ ДОСТАВКУ?',
   moreAddress: 'Подробнее Адрес',
   moreChoicesAvailable: 'Доступны другие варианты',
+  mustChooseACommunicationMethodTip: 'К сожалению, вы проверили согласие на общение, поэтому вам необходимо выбрать способ связи.',
   name: 'Имя',
   name2: 'ИМЯ',
   newAddress: 'Новый адрес',

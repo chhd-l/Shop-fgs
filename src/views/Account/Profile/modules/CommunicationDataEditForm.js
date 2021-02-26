@@ -72,7 +72,8 @@ class CommunicationDataEditForm extends React.Component {
           consentTitle: item.consentTitle,
           isChecked: item.selectedFlag,
           isRequired: false,
-          detailList: item.detailList
+          detailList: item.detailList,
+          consentDesc: item.consentDesc
         };
       });
 
@@ -101,11 +102,32 @@ class CommunicationDataEditForm extends React.Component {
   };
   //保存
   handleSave = async () => {
-    const { form } = this.state;
+    const { form, list } = this.state;
+    // 勾选了某条特殊consent情况下，phone/email不能同时取消
+    const hasCheckedTheConsent = list.filter(
+      (l) =>
+        ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'].includes(
+          l.consentDesc
+        ) && l.isChecked
+    ).length;
+    if (
+      hasCheckedTheConsent &&
+      !+form.communicationPhone &&
+      !+form.communicationEmail
+    ) {
+      this.setState({
+        errorMsg: <FormattedMessage id="mustChooseACommunicationMethodTip" />
+      });
+      return false;
+    }
+
     this.setState({
       saveLoading: true
     });
-    const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+    const oktaTokenString =
+      this.props.authState && this.props.authState.accessToken
+        ? this.props.authState.accessToken.value
+        : '';
     let oktaToken = 'Bearer ' + oktaTokenString;
     let submitParam = this.bindSubmitParam(this.state.list);
     Promise.all([
@@ -205,7 +227,7 @@ class CommunicationDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  style={{minWidth: '52px'}}
+                  style={{ minWidth: '52px' }}
                   className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
@@ -259,8 +281,7 @@ class CommunicationDataEditForm extends React.Component {
               }`}
             />
             <div className={`${editFormVisible ? '' : 'hidden'}`}>
-              <span className={`rc-meta`}>
-              </span>
+              <span className={`rc-meta`}></span>
               <div>
                 <label className="form-control-label rc-input--full-width w-100">
                   <FormattedMessage id="account.preferredMethodOfCommunication" />
