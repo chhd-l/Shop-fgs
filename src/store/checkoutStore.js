@@ -40,6 +40,11 @@ class CheckoutStore {
       ? this.cartPrice.totalPrice
       : 0;
   }
+  @computed get taxFeePrice() {
+    return this.cartPrice && this.cartPrice.taxFeePrice
+      ? this.cartPrice.taxFeePrice
+      : 0;
+  }
   @computed get discountPrice() {
     return this.cartPrice && this.cartPrice.discountPrice
       ? this.cartPrice.discountPrice
@@ -179,6 +184,7 @@ class CheckoutStore {
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
+      taxFeePrice: purchasesRes.taxFeePrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
       promotionDiscountPrice: purchasesRes.promotionDiscountPrice,
@@ -221,7 +227,7 @@ class CheckoutStore {
       city: taxFeeData.city,
       street: taxFeeData.street,
       postalCode: taxFeeData.postalCode,
-      customerAccount: taxFeeData.customerAccount,
+      customerAccount: taxFeeData.customerAccount
     });
 
     let backCode = purchasesRes.code;
@@ -230,6 +236,7 @@ class CheckoutStore {
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
     let params = {
       totalPrice: purchasesRes.totalPrice,
+      taxFeePrice: purchasesRes.taxFeePrice,
       tradePrice: purchasesRes.tradePrice,
       deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
@@ -299,9 +306,13 @@ class CheckoutStore {
 
   // 会员
   @action
-  async updateLoginCart(promotionCode = this.promotionCode, subscriptionFlag = false, purchaseFlag) {
+  async updateLoginCart(promotionCode = this.promotionCode, subscriptionFlag = false, purchaseFlag, taxFeeData) {
     try {
       this.changeLoadingCartData(true);
+
+      if (!taxFeeData) {
+        taxFeeData = nullTaxFeeData;
+      }
 
       // 获取购物车列表
       let siteMiniPurchasesRes = await siteMiniPurchases();
@@ -314,13 +325,18 @@ class CheckoutStore {
         ),
         promotionCode,
         subscriptionFlag,
-        purchaseFlag
+        purchaseFlag,
+        country: taxFeeData.country,
+        region: taxFeeData.region,
+        city: taxFeeData.city,
+        street: taxFeeData.street,
+        postalCode: taxFeeData.postalCode,
+        customerAccount: taxFeeData.customerAccount
       });
-
-      console.log('★★★ -- 会员 sitePurchasesRes: ', sitePurchasesRes);
 
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
+
       this.setPromotionCode(promotionCode);
       runInAction(() => {
         let goodsList = siteMiniPurchasesRes.goodsList;
@@ -356,6 +372,7 @@ class CheckoutStore {
         this.setLoginCartData(goodsList);
         let params = {
           totalPrice: sitePurchasesRes.totalPrice,
+          taxFeePrice: sitePurchasesRes.taxFeePrice,
           tradePrice: sitePurchasesRes.tradePrice,
           // discountPrice: sitePurchasesRes.discountPrice,
           deliveryPrice: sitePurchasesRes.deliveryPrice,

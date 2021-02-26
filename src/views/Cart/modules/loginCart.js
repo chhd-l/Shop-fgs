@@ -111,7 +111,6 @@ class LoginCart extends React.Component {
     );
   }
   async componentDidMount() {
-    console.log(1111, this.loginCartData);
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -1487,7 +1486,7 @@ class LoginCart extends React.Component {
         </div>
 
         {/* 税额 */}
-        {this.taxFeePrice ? (
+        {process.env.REACT_APP_LANG=='en' ? (
           <div className="row">
             <div className="col-8">
               <p>

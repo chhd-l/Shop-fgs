@@ -76,14 +76,14 @@ const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA
 
-const checkoutDataLayerPushEvent = ({name,options}) => {
+const checkoutDataLayerPushEvent = ({ name, options }) => {
   dataLayer.push({
-    'event' : 'checkoutStep',
-    'checkoutStep' : {
-    	name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
-    	options, //'Guest checkout', 'New account', 'Existing account'
+    'event': 'checkoutStep',
+    'checkoutStep': {
+      name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
+      options, //'Guest checkout', 'New account', 'Existing account'
     }
-});
+  });
 }
 
 @inject(
@@ -182,7 +182,6 @@ class Payment extends React.Component {
   }
 
   async componentDidMount() {
-    console.log(222,this.loginCartData)
     try {
       const { checkoutStore, paymentStore, clinicStore, history } = this.props;
       const { tid } = this.state;
@@ -970,17 +969,17 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
-        if(isHubGA){
+        if (isHubGA) {
           if (this.isLogin) {
             isNewAccount().then((res) => {
               if (res.code == 'K-000000' && res.context == 0) {
-                checkoutDataLayerPushEvent({name:'Confirmation',options:'New account'})
+                checkoutDataLayerPushEvent({ name: 'Confirmation', options: 'New account' })
               } else {
-                checkoutDataLayerPushEvent({name:'Confirmation',options:'Existing account'})
+                checkoutDataLayerPushEvent({ name: 'Confirmation', options: 'Existing account' })
               }
             })
           } else {
-            checkoutDataLayerPushEvent({name:'Confirmation',options:'Guest checkout'})
+            checkoutDataLayerPushEvent({ name: 'Confirmation', options: 'Guest checkout' })
           }
         }
         // console.log({dataLayer})
@@ -1486,18 +1485,33 @@ class Payment extends React.Component {
     }
     try {
       if (process.env.REACT_APP_LANG === 'en') {
-        console.log('★★★★★★ ------> updateDeliveryAddrData this.state.guestEmail: ',this.state.guestEmail);
+        console.log('★★★★★★ ------> updateDeliveryAddrData : ', data);
         // 获取税额
-        await this.props.checkoutStore.updateUnloginCart('', '', false, {
-          // country: data.countryName,
-          country: 'US',
-          // region: data.provinceName,
-          region: 'WA',
-          city: data.city,
-          street: data.address1,
-          postalCode: data.postCode,
-          customerAccount: this.state.guestEmail
-        });
+        if (this.isLogin) {
+          await this.props.checkoutStore.updateLoginCart('', false, false, {
+            // country: data.countryName,
+            country: 'US',
+            // region: data.provinceName,
+            region: 'WA',
+            city: data.city,
+            street: data.address1,
+            postalCode: data.postCode,
+            // postalCode: '98101',
+            customerAccount: this.state.guestEmail
+          });
+        } else {
+          await this.props.checkoutStore.updateUnloginCart('', '', false, {
+            // country: data.countryName,
+            country: 'US',
+            // region: data.provinceName,
+            region: 'WA',
+            city: data.city,
+            street: data.address1,
+            // postalCode: data.postCode,
+            postalCode: '98101',
+            customerAccount: this.state.guestEmail
+          });
+        }
       }
     } catch (err) {
       console.log(err);

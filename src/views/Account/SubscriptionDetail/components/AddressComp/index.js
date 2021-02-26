@@ -293,7 +293,7 @@ class AddressList extends React.Component {
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
         postCode: deliveryAddress.postCode,
-        provinceId: 0,
+        provinceId: deliveryAddress.province,
         rfc: deliveryAddress.rfc,
         email: deliveryAddress.email,
         type: this.props.type.toUpperCase()

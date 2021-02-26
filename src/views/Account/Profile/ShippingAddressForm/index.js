@@ -165,7 +165,7 @@ class ShippingAddressFrom extends React.Component {
         isDefaltAddress:
           data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
         postCode: data.postCode,
-        provinceId: 0,
+        provinceId: deliveryAddress.province,
         rfc: data.rfc,
         email: data.email,
         type: curType.toUpperCase()

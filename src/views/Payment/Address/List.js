@@ -5,12 +5,13 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
-import { queryCityNameById } from '@/api';
+import { queryCityNameById, addressValidation } from '@/api';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
 import Loading from '@/components/Loading';
+import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
 
@@ -55,10 +56,14 @@ class AddressList extends React.Component {
       successTipVisible: false,
       saveErrorMsg: '',
       selectedId: '',
-      isValid: false
+      isValid: false,
+      validationLoading: false,
+      modalVisible: false,
+      selectValidationOption: 'suggestedAddress'
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
+    this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
   }
   async componentDidMount() {
     getDictionary({ type: 'country' }).then((res) => {
@@ -217,6 +222,7 @@ class AddressList extends React.Component {
 
     if (idx > -1) {
       const tmp = addressList[idx];
+      console.log('★★★★★★★★-> tmp: ', tmp);
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
         lastName: tmp.lastName,
@@ -311,22 +317,19 @@ class AddressList extends React.Component {
         lastName: deliveryAddress.lastName,
         countryId: +deliveryAddress.country,
         cityId: +deliveryAddress.city,
-        consigneeName:
-          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
-        deliveryAddress:
-          deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+        deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
         postCode: deliveryAddress.postCode,
-        provinceId: 0,
+        provinceId: deliveryAddress.province,
         rfc: deliveryAddress.rfc,
         email: deliveryAddress.email,
         type: this.props.type.toUpperCase()
       };
-      const tmpPromise =
-        this.currentOperateIdx > -1 ? editAddress : saveAddress;
+      const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
       if (res.context.deliveryAddressId) {
         this.setState({
@@ -358,8 +361,16 @@ class AddressList extends React.Component {
       return false;
     }
     try {
-      await this.handleSavePromise();
-      this.clickConfirmAddressPanel();
+      if (process.env.REACT_APP_LANG == 'en') {
+        this.setState({
+          validationLoading: true
+        });
+        // 地址验证
+        this.toAddressValidation();
+      } else {
+        await this.handleSavePromise();
+        this.clickConfirmAddressPanel();
+      }
     } catch (err) {
       this.showErrMsg(err.message);
       this.setState({ saveLoading: false });
@@ -459,6 +470,56 @@ class AddressList extends React.Component {
       hideOthers: true
     });
   };
+  // 地址验证
+  toAddressValidation = async () => {
+    const { deliveryAddress } = this.state;
+    try {
+      let data = {
+        city: deliveryAddress.cityName,
+        countryId: Number(deliveryAddress.country),
+        deliveryAddress: deliveryAddress.address1,
+        postCode: deliveryAddress.postCode,
+        province: deliveryAddress.provinceName,
+        storeId: Number(process.env.REACT_APP_STOREID),
+      };
+
+      let res = await addressValidation(data);
+      if (res.context.suggestionAddress) {
+        this.setState({
+          validationAddress: res.context.suggestionAddress,
+          validationLoading: false
+        });
+      }
+      this.setState({
+        modalVisible: true
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 点击地址验证确认按钮
+  confirmValidationAddress = async () => {
+    const { deliveryAddress, selectValidationOption, validationAddress } = this.state;
+
+    if (selectValidationOption == 'suggestedAddress') {
+      deliveryAddress.address1 = validationAddress.address1;
+      deliveryAddress.address2 = validationAddress.address2;
+      deliveryAddress.city = validationAddress.city;
+      deliveryAddress.cityName = validationAddress.city;
+      deliveryAddress.provinceName = validationAddress.provinceCode;
+    }
+    this.setState({
+      modalVisible: false
+    });
+    await this.handleSavePromise();
+    this.clickConfirmAddressPanel();
+  }
   /**
    * 确认地址列表信息，并展示封面
    */
@@ -477,7 +538,8 @@ class AddressList extends React.Component {
       addressList,
       saveErrorMsg,
       successTipVisible,
-      selectedId
+      selectedId,
+      validationLoading, validationAddress, modalVisible, selectValidationOption
     } = this.state;
 
     const _list = addressList.map((item, i) => (
@@ -755,6 +817,22 @@ class AddressList extends React.Component {
                   </>
                 )}
           </div>
+          {validationLoading ?
+            <Loading positionFixed="true" /> :
+            <ValidationAddressModal
+              modalVisible={modalVisible}
+              address={deliveryAddress}
+              validationAddress={validationAddress}
+              selectValidationOption={selectValidationOption}
+              handleChooseValidationAddress={(e) => this.chooseValidationAddress(e)}
+              hanldeClickConfirm={() => this.confirmValidationAddress()}
+              close={() => {
+                this.setState({
+                  modalVisible: false
+                });
+              }}
+            />
+          }
         </div>
       </>
     );

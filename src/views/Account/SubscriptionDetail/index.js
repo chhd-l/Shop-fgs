@@ -3077,7 +3077,7 @@ class SubscriptionDetail extends React.Component {
                                               </div>
 
                                               {/* 税额 */}
-                                              {el.tradePrice.taxFeePrice ? (
+                                              {process.env.REACT_APP_LANG=='en' ? (
                                                 <div className="row">
                                                   <div className="col-1 col-md-3" />
                                                   <label className="col-5 text-left">

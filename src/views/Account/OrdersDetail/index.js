@@ -1355,7 +1355,7 @@ class AccountOrders extends React.Component {
                                   </div>
 
                                   {/* 税额 */}
-                                  {details.tradePrice.taxFeePrice ? (
+                                  {process.env.REACT_APP_LANG=='en' ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">&nbsp;</div>
                                       <div className="col-6 col-md-2 mb-2">

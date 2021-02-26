@@ -1715,7 +1715,7 @@ class UnLoginCart extends React.Component {
           </div>
 
           {/* 税额 */}
-          {this.taxFeePrice ? (
+          {process.env.REACT_APP_LANG=='en' ? (
             <div className="row">
               <div className="col-8">
                 <p>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { inject } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import {
   formatMoney,
@@ -11,7 +12,7 @@ import LazyLoad from 'react-lazyload';
 import foodDispenserPic from '../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-
+@inject('checkoutStore')
 @injectIntl
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -39,6 +40,9 @@ class PayProductInfo extends React.Component {
         frequencyList: res
       });
     });
+  }
+  get taxFeePrice() {
+    return this.props.checkoutStore.taxFeePrice;
   }
   handleClickProName(item) {
     if (this.props.navigateToProDetails) {
@@ -357,7 +361,7 @@ class PayProductInfo extends React.Component {
                     </div>
 
                     {/* 税额 */}
-                    {details.tradePrice.taxFeePrice ? (
+                    {process.env.REACT_APP_LANG=='en' ? (
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">
@@ -369,7 +373,8 @@ class PayProductInfo extends React.Component {
                         <div className="col-5 end-lines">
                           <p className="text-right">
                             <span className="shipping-total-cost">
-                              {formatMoney(details.tradePrice.taxFeePrice)}
+                              {/* {formatMoney(details.tradePrice.taxFeePrice)} */}
+                              {formatMoney(this.taxFeePrice())}
                             </span>
                           </p>
                         </div>

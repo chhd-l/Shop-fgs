@@ -80,7 +80,10 @@ class VisitorAddress extends React.Component {
   };
   // 游客确认 Delivery address
   handleClickConfirm = () => {
-    const { isValid } = this.state;
+    const { paymentStore } = this.props;
+    const { isValid, form, billingChecked } = this.state;
+    const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
+
     if (!isValid) {
       return false;
     }
@@ -88,8 +91,34 @@ class VisitorAddress extends React.Component {
       loading: true
     });
 
-    // 地址验证
-    this.toAddressValidation();
+    if (process.env.REACT_APP_LANG == 'en') {
+      // 地址验证
+      this.toAddressValidation();
+    } else {
+      this.setState({
+        modalVisible: false
+      });
+
+      this.props.updateData(form);
+
+      paymentStore.setStsToCompleted({ key: this.curPanelKey });
+      if (isDeliveryAddr) {
+        billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
+        paymentStore.setDefaultCardDataFromAddr(form);
+      }
+
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: this.curPanelKey
+      });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+      if (isDeliveryAddr) {
+        setTimeout(() => {
+          scrollPaymentPanelIntoView();
+        });
+      }
+    }
   };
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({
