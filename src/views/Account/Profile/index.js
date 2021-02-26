@@ -101,9 +101,9 @@ class AccountProfile extends React.Component {
     return this.props.loginStore.userInfo;
   }
   queryCustomerBaseInfo = () => {
-    const customerId =  this.getUserInfo &&  this.getUserInfo.customerId
+    const customerId = this.getUserInfo && this.getUserInfo.customerId;
     this.setState({ loading: true });
-    getCustomerInfo({customerId})
+    getCustomerInfo({ customerId })
       .then((res) => {
         this.setState({ loading: false });
         let prescriberName;
