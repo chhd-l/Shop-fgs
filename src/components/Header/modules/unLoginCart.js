@@ -294,7 +294,7 @@ class UnloginCart extends React.Component {
                     <span
                       id="unLoginCarCheckout"
                       onClick={() => this.handleCheckout()}
-                      className={`rc-styled-link color-999 ${
+                      className={`rc-styled-link color-999 ui-cursor-pointer ${
                         this.state.checkoutLoading
                           ? 'ui-btn-loading ui-btn-loading-border-red'
                           : ''
