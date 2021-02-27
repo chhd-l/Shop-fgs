@@ -135,12 +135,8 @@ class NewPetModal extends Component {
       userId:  this.getUserInfo.customerAccount
     };
     let res = await addPet(parmas);
-    if (res.code === 'K-000000') {
-      console.log('add pet success.', res);
-      this.props.confirm({ value: res.context.result, name: pets.petsName });
-      this.props.close();
-    } else {
-    }
+    this.props.confirm({ value: res.context.result, name: pets.petsName });
+    this.props.close();
   }
   inputBreed = (e) => {
     const { petForm } = this.state;
@@ -171,15 +167,10 @@ class NewPetModal extends Component {
     this.setState({ loading: true });
     getDict({ type, name })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          this.setState({
-            breedList: res.context.sysDictionaryVOS,
-            loading: false
-          });
-        }
-        // this.showErrorMsg(
-        //   res.message || this.props.intl.messages.getDataFailed
-        // );
+        this.setState({
+          breedList: res.context.sysDictionaryVOS,
+          loading: false
+        });
       })
       .catch((err) => {
         // this.showErrorMsg(
@@ -322,7 +313,6 @@ class NewPetModal extends Component {
                 {this.props.visible && (
                   <SearchSelection
                     queryList={async ({ inputVal, pageNum }) => {
-                      console.log({ type: form.petType, name: inputVal });
                       let res = await getDict({
                         type:
                           form.petType === 'cat'
@@ -330,13 +320,10 @@ class NewPetModal extends Component {
                             : 'dogBreed_mx',
                         name: inputVal
                       });
-                      if (res.code === 'K-000000') {
-                        console.log(res.context.sysDictionaryVOS);
-                        return (
-                          (res.context && res.context.sysDictionaryVOS) ||
-                          []
-                        ).map((ele) => Object.assign(ele, { name: ele.name }));
-                      }
+                      return (
+                        (res.context && res.context.sysDictionaryVOS) ||
+                        []
+                      ).map((ele) => Object.assign(ele, { name: ele.name }));
                     }}
                     selectedItemChange={(data) => {
                       form.breed = data.name;

@@ -355,25 +355,19 @@ class AddressList extends React.Component {
     await deleteAddress({ id: item.deliveryAddressId })
       .then((res) => {
         this.setState({ deleteLoading: false });
-        if (res.code === 'K-000000') {
+        this.setState({
+          successTipVisible: true,
+          successTip: this.props.intl.messages.deleteAddressSuccess
+        });
+        setTimeout(() => {
           this.setState({
-            successTipVisible: true,
-            successTip: this.props.intl.messages.deleteAddressSuccess
+            successTipVisible: false
           });
-          setTimeout(() => {
-            this.setState({
-              successTipVisible: false
-            });
-          }, 2000);
-          // this.showErrorMsg(
-          //   res.message || this.props.intl.messages.deleteAddressSuccess
-          // );
-          this.queryAddressList();
-        } else {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.deleteAddressFailed
-          );
-        }
+        }, 2000);
+        // this.showErrorMsg(
+        //   res.message || this.props.intl.messages.deleteAddressSuccess
+        // );
+        this.queryAddressList();
       })
       .catch((err) => {
         this.showErrorMsg(

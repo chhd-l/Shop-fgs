@@ -105,9 +105,7 @@ class RegisterRequired extends Component {
           ...{ oktaToken },
           customerId
         });
-        if (result.code === 'K-000000') {
-          this.props.history.push(lastPath);
-        }
+        this.props.history.push(lastPath);
       } else {
         this.showAlert('isShowRequired', 2000);
       }

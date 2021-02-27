@@ -259,60 +259,48 @@ class Register extends Component {
       customerName: registerForm.name
     })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          //GA 注册成功 start
-          dataLayer.push({
-            event: `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
-            interaction: {
-              category: 'account creation',
-              action: 'accounct creation',
-              label: '',
-              value: 1
-            }
-          });
-          //GA 注册成功 end
-
-          loginStore.changeLoginModal(false);
-          loginStore.changeIsLogin(true);
-
-          localItemRoyal.set('rc-token', res.context.token);
-          localItemRoyal.set('rc-register', true);
-          loginStore.setUserInfo(res.context.customerDetail);
-
-          const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-          if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
-            mergeUnloginCartData();
-            checkoutStore.updateLoginCart();
+        //GA 注册成功 start
+        dataLayer.push({
+          event: `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
+          interaction: {
+            category: 'account creation',
+            action: 'accounct creation',
+            label: '',
+            value: 1
           }
-          if (res.context.oktaSessionToken) {
-            // hard code
-            const state =
-              'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
-            const nonce =
-              '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
-            debugger
-            let homePage = process.env.REACT_APP_HOMEPAGE
-            const regiserUrl =
+        });
+        //GA 注册成功 end
+
+        loginStore.changeLoginModal(false);
+        loginStore.changeIsLogin(true);
+
+        localItemRoyal.set('rc-token', res.context.token);
+        localItemRoyal.set('rc-register', true);
+        loginStore.setUserInfo(res.context.customerDetail);
+
+        const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+        if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+          mergeUnloginCartData();
+          checkoutStore.updateLoginCart();
+        }
+        if (res.context.oktaSessionToken) {
+          // hard code
+          const state =
+            'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
+          const nonce =
+            '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
+          let homePage = process.env.REACT_APP_HOMEPAGE;
+          const regiserUrl =
             homePage.substring(homePage.length - 1, homePage.length) === '/'
-                ? 'implicit/callback'
-                : '/implicit/callback';
-            const redirectUri =
-              window.location.origin +
-              homePage +
-              regiserUrl;
-            var callOktaCallBack = `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${res.context.oktaSessionToken}`;
-            localItemRoyal.set(
-              'rc-consent-list',
-              JSON.stringify(this.state.list)
-            );
-            window.location.href = callOktaCallBack;
-          }
-        } else {
-          window.scrollTo(0, 0);
-          this.setState({
-            circleLoading: false,
-            hasError: true
-          });
+              ? 'implicit/callback'
+              : '/implicit/callback';
+          const redirectUri = window.location.origin + homePage + regiserUrl;
+          var callOktaCallBack = `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${res.context.oktaSessionToken}`;
+          localItemRoyal.set(
+            'rc-consent-list',
+            JSON.stringify(this.state.list)
+          );
+          window.location.href = callOktaCallBack;
         }
       })
       .catch((err) => {

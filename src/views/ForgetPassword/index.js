@@ -19,12 +19,9 @@ class ForgetPassword extends React.Component {
     }
     forgetPassword({ customerAccount: this.state.email })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          this.showSuccessMsg(
-            res.message || this.props.intl.messages.resetPasswordEmail
-          );
-          console.log(res);
-        }
+        this.showSuccessMsg(
+          res.message || this.props.intl.messages.resetPasswordEmail
+        );
       })
       .catch((err) => {
         this.showErrorMsg(

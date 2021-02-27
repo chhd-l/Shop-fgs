@@ -14,9 +14,7 @@ class RefugeSource extends Component {
         try{
           const shortLinkSuffix = this.props.location.pathname.split("/")[1]
           const res = await linkTransform({shortLinkSuffix})
-          if(res.code=='K-000000'){
-            window.location.href = `https://${res.context.longLink}`
-          }
+          window.location.href = `https://${res.context.longLink}`
         }catch(err){
           console.log(err)
         }finally{

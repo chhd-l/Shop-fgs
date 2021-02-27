@@ -119,31 +119,29 @@ class ShippingAddress extends React.Component {
       id: id
     };
     const res = await getAddressById(params);
-    if (res.code === 'K-000000') {
-      let data = res.context;
-      let nameArr = data.consigneeName.split(' ');
-      let addressArr = data.deliveryAddress.split(' ');
-      let addressForm = {
-        firstName: nameArr[0],
-        lastName: nameArr[1],
-        address1: addressArr[0],
-        address2: addressArr[1],
-        country: data.areaId,
-        city: data.cityId,
-        postCode: data.postCode,
-        phoneNumber: data.consigneeNumber,
-        rfc: data.rfc,
-        isDefalt: data.isDefaltAddress === 1 ? true : false,
-        deliveryAddressId: data.deliveryAddressId,
-        customerId: data.customerId
-      };
+    let data = res.context;
+    let nameArr = data.consigneeName.split(' ');
+    let addressArr = data.deliveryAddress.split(' ');
+    let addressForm = {
+      firstName: nameArr[0],
+      lastName: nameArr[1],
+      address1: addressArr[0],
+      address2: addressArr[1],
+      country: data.areaId,
+      city: data.cityId,
+      postCode: data.postCode,
+      phoneNumber: data.consigneeNumber,
+      rfc: data.rfc,
+      isDefalt: data.isDefaltAddress === 1 ? true : false,
+      deliveryAddressId: data.deliveryAddressId,
+      customerId: data.customerId
+    };
 
-      this.setState({
-        addressForm: addressForm,
-        showModal: true,
-        isAdd: false
-      });
-    }
+    this.setState({
+      addressForm: addressForm,
+      showModal: true,
+      isAdd: false
+    });
   };
 
   onFormChange = ({ field, value }) => {
@@ -196,16 +194,10 @@ class ShippingAddress extends React.Component {
     await deleteAddress({ id: item.deliveryAddressId })
       .then((res) => {
         this.setState({ loading: false });
-        if (res.code === 'K-000000') {
-          this.showSuccessMsg(
-            res.message || this.props.intl.messages.deleteAddressSuccess
-          );
-          this.getAddressList();
-        } else {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.deleteAddressFailed
-          );
-        }
+        this.showSuccessMsg(
+          res.message || this.props.intl.messages.deleteAddressSuccess
+        );
+        this.getAddressList();
       })
       .catch((err) => {
         this.showErrorMsg(

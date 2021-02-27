@@ -417,6 +417,19 @@ class Details extends React.Component {
         }
       );
     }
+    loadJS({
+      url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+      id: 'cci-widget',
+      dataSets: {
+        token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+        locale: 'fr-FR',
+        displaylanguage: 'fr',
+        widgetid: 'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+        ean: '3182550784436',
+        subid: '',
+        trackingid: ''
+      }
+    });
   }
   get isLogin() {
     return this.props.loginStore.isLogin;

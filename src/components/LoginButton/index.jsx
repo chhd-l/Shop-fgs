@@ -70,9 +70,7 @@ const LoginButton = (props) => {
               customerId
             })
               .then((res) => {
-                if (res.code === 'K-000000') {
-                  history.push('/');
-                }
+                history.push('/');
               })
               .catch((e) => {
                 console.log(e);

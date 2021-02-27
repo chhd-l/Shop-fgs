@@ -17,5 +17,4 @@ export const myAccountPushEvent = (myAccountScreenName) => {
       //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change email', 'Change password', 'Delete Account'
   })
   console.log({dataLayer})
-  debugger
   }

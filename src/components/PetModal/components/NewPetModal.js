@@ -84,12 +84,8 @@ export default class NewPetModal extends Component {
       userId: this.getUserInfo.customerAccount
     };
     let res = await addPet(parmas);
-    if (res.code === 'K-000000') {
-      console.log('add pet success.');
-      this.props.confirm();
-      this.props.close();
-    } else {
-    }
+    this.props.confirm();
+    this.props.close();
   }
 
   render() {

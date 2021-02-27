@@ -56,15 +56,17 @@ class CommunicationDataEditForm extends React.Component {
         this.setState({ list: tempArr });
       }
     });
-    let customerId = this.props.data && this.props.data.customerId
-    this.init(customerId);
+    this.init();
   }
-  init = async (customerId) => {
-    this.setState({
-      isLoading: true
-    });
+  init = async () => {
     try {
-      let result = await findUserSelectedList({customerId});
+      const { userInfo } = this.props;
+      this.setState({
+        isLoading: true
+      });
+      let result = await findUserSelectedList({
+        customerId: (userInfo && userInfo.customerId) || ''
+      });
 
       const optioalList = result.context.optionalList.map((item) => {
         return {
@@ -102,6 +104,7 @@ class CommunicationDataEditForm extends React.Component {
   };
   //保存
   handleSave = async () => {
+    const { userInfo } = this.props;
     const { form, list } = this.state;
     // 勾选了某条特殊consent情况下，phone/email不能同时取消
     const hasCheckedTheConsent = list.filter(
@@ -135,13 +138,17 @@ class CommunicationDataEditForm extends React.Component {
         Object.assign({}, this.props.originData, {
           communicationEmail: form.communicationEmail,
           communicationPhone: form.communicationPhone,
-          oktaToken: oktaToken
+          oktaToken
         })
       ),
-      userBindConsent({ ...submitParam, ...{ oktaToken }, customerId })
+      userBindConsent({
+        ...submitParam,
+        ...{ oktaToken },
+        customerId: (userInfo && userInfo.customerId) || ''
+      })
     ])
       .then(async (res) => {
-        await this.init(customerId);
+        await this.init();
         this.props.updateData();
         this.handleCancel();
         this.setState({
@@ -194,13 +201,9 @@ class CommunicationDataEditForm extends React.Component {
   }
   render() {
     const { editFormVisible, list, form, errorMsg } = this.state;
-    const createMarkup = (text) => ({ __html: text });
     const curPageAtCover = !editFormVisible;
     return (
       <div className={classNames({ border: curPageAtCover })}>
-        {/* {this.state.isLoading ? (
-          <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
-        ) : null} */}
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             {curPageAtCover ? (

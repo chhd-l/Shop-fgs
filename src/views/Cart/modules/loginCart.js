@@ -1698,9 +1698,7 @@ class LoginCart extends React.Component {
     } else {
       result = await checkoutStore.updateUnloginCart();
     }
-    if (result && result.backCode === 'K-000000') {
-      this.clearPromotionCode();
-    }
+    this.clearPromotionCode();
   };
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
@@ -1727,7 +1725,6 @@ class LoginCart extends React.Component {
     }
     if (
       result &&
-      result.backCode === 'K-000000' &&
       (!result.context.promotionFlag || result.context.couponCodeFlag)
     ) {
       //表示输入apply promotionCode成功
