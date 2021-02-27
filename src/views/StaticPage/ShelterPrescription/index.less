@@ -3,9 +3,6 @@
     -ms-flex-direction: column;
     flex-direction: column;
   }
-  .banner-benefits {
-    max-width: 552px;
-  }
   .product-list{
     .rc-card__link{
       cursor: pointer;
@@ -21,9 +18,9 @@
     .banner-benefits-li {
       line-height: 1.5rem;
       &:before {
-        content: '.';
-        font-size: 2rem;
-        color: #e2001a;
+        content: "\2022";
+        color: #ec001a;
+        margin-right: .75rem;
       }
     }
   }
@@ -84,9 +81,6 @@
     h6,
     h4 {
       font-size: 18px;
-    }
-    .banner-benefits {
-      max-width: 100%;
     }
     .banner-benefits-box {
       position: relative;

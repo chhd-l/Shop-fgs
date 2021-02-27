@@ -100,23 +100,19 @@ class ProductReview extends React.Component {
     this.setState({
       loading: false
     });
-    if ((res.code = 'K-000000')) {
-      const productList = res.context;
-      const list = [];
-      if (productList.length > 0) {
-        productList.forEach((item) => {
-          let obj = {
-            id: item.skuId
-          };
-          list.push(obj);
-        });
-        this.setState({
-          productList: productList,
-          reviewList: list
-        });
-      }
-    } else {
-      console.log(res.message);
+    const productList = res.context;
+    const list = [];
+    if (productList.length > 0) {
+      productList.forEach((item) => {
+        let obj = {
+          id: item.skuId
+        };
+        list.push(obj);
+      });
+      this.setState({
+        productList: productList,
+        reviewList: list
+      });
     }
   }
   handleSubmit = async () => {

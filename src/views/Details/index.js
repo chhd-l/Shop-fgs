@@ -36,6 +36,7 @@ import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
+import Help from './components/Help';
 import { Helmet } from 'react-helmet';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
@@ -207,8 +208,7 @@ function Advantage() {
       text: 'Personalized product recommendations'
     }
   ];
-  const iconList =
-    { en: defaultIconList }[process.env.REACT_APP_LANG] || defaultIconList;
+  const iconList = { en: defaultIconList }[process.env.REACT_APP_LANG] || [];
   return iconList.length > 0 ? (
     <div className="rc-bg-colour--brand4">
       <div className="reassurance-banner rc-max-width--xl rc-padding-x--sm rc-margin-bottom--sm">
@@ -417,6 +417,19 @@ class Details extends React.Component {
         }
       );
     }
+    loadJS({
+      url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+      id: 'cci-widget',
+      dataSets: {
+        token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+        locale: 'fr-FR',
+        displaylanguage: 'fr',
+        widgetid: 'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+        ean: '3182550784436',
+        subid: '',
+        trackingid: ''
+      }
+    });
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -3145,6 +3158,7 @@ class Details extends React.Component {
             </a>
           </div>
         </div>
+        <Help />
         <Footer />
       </div>
     );

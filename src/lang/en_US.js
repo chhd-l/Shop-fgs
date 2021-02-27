@@ -666,6 +666,7 @@ const en_US = {
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
+  
   'recommendation.buyNow': 'Buy now',
   'recommendation.firstContent': 'Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.',
   'recommendation.firstTitle': 'Discover your personally-selected nutrition recommendation below.',
@@ -680,6 +681,18 @@ const en_US = {
   'recommendation.thirdTitle': 'Our pet experts are here to help you',
   'recommendation.viewDetail': 'View Detail',
   'recommendation.viewInCart': 'View in cart',
+  'recommendation.secondBtnText':'Start now',
+  'recommendation.secondTitle':'Ready to Get Started?',
+  'recommendation.firstBtnText':'Sign up',
+  'recommendation.firstSubTitle':'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
+  'recommendation.firstTitle':'Never run out of your pet’s food!',
+  'recommendation.welcomeText':'Welcome!Congratulations on your new pets!',
+  'recommendation.welcomeSubText':'Learn more about your personally-selected nutritional recommendation below.  Click to get started now or continue reading to find out more',
+  'recommendation.welcomeBtn':'Buy now',
+  'recommendation.firstContent1': ' Save 10% on every order.',
+  'recommendation.firstContent2': 'Automatically delivered on your schedule.',
+  'recommendation.firstContent3': 'Free shipping.',
+  'recommendation.firstContent4': 'Change or cancel anytime.',
   registerFailed: 'Register failed',
   remember48Hours: 'Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later.',
   rememberMe: 'Remember Me',
@@ -922,6 +935,8 @@ const en_US = {
   'plp.vet.cat.title':'Are you looking for food available in specialised outlets?',
   'plp.vet.cat.detail':'Our complete range of dry foods and bites in sauce or jelly provides the most accurate nutrition for cats of all ages,sizes and breeds',
   'plp.vet.cat.button':'Discover range',
-  'signInAndRegisterNow': 'Sign in / Register now'
+  'signInAndRegisterNow': 'Sign in / Register now',
+  contactTimePeriod: 'For any questions, our pet experts are available from Monday to Friday, 8.00 a.m to 4.30 p.m CT',
+  mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method'
 }
 export default en_US;

@@ -68,11 +68,10 @@ class Pet extends React.Component {
       });
       return false;
     }
-    let params = {
+    await getPetList({
       customerId,
       consumerAccount
-    };
-    await getPetList(params)
+    })
       .then((res) => {
           let petList = res.context.context;
           this.setState({
@@ -191,8 +190,8 @@ class Pet extends React.Component {
                         <FormattedMessage id="pet.petListTitle" />
                       </p>
                       {isMobile
-                        ? petList.map((el) => (
-                            <div className="petItem">
+                        ? petList.map((el, i) => (
+                            <div className="petItem" key={i}>
                               <div className="photo">
                                 <LazyLoad>
                                   <img
@@ -243,8 +242,8 @@ class Pet extends React.Component {
                               </div>
                             </div>
                           ))
-                        : this.state.petList.map((el) => (
-                            <div className="petItem">
+                        : this.state.petList.map((el, i) => (
+                            <div className="petItem" key={i}>
                               <div className="photo">
                                 <LazyLoad>
                                   <img

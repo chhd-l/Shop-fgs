@@ -440,7 +440,7 @@ class SubscriptionDetail extends React.Component {
         isAutoSub: true
       });
       //拼装订阅购物车参数
-      if (res.code === 'K-000000' && !res.context.promotionFlag) {
+      if (!res.context.promotionFlag) {
         //只有promotionFlag为false的时候表示prootionCode生效
         let subTradeTotal = subTotal + Number(res.context.deliveryPrice);
         // -Number(res.context.discountsPrice);
@@ -968,7 +968,6 @@ class SubscriptionDetail extends React.Component {
                                   this.state.promotionInputValue
                                 );
                                 if (
-                                  result.code === 'K-000000' &&
                                   !result.context.promotionFlag
                                 ) {
                                   //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
@@ -3080,8 +3079,6 @@ class SubscriptionDetail extends React.Component {
                                                       .promotionInputValue
                                                   );
                                                   if (
-                                                    result.code ===
-                                                    'K-000000' &&
                                                     !result.context
                                                       .promotionFlag
                                                   ) {

@@ -76,19 +76,13 @@ class Login extends React.Component {
     });
     getQuestions()
       .then((res) => {
-        if (res.code === 'K-000000') {
-          this.setState({
-            questionList: res.context
-          });
-        } else {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.getDataFailed
-          );
-        }
+        this.setState({
+          questionList: res.context
+        });
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.getDataFailed
+          err.message || this.props.intl.messages.getDataFailed
         );
       });
   }
@@ -138,10 +132,8 @@ class Login extends React.Component {
         userinfo.customerAccount = res.context.accountName;
         getCustomerInfo({customerId})
           .then((customerInfoRes) => {
-            if (res.code === 'K-000000') {
-              userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
-              this.props.loginStore.setUserInfo(userinfo);
-            }
+            userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
+            this.props.loginStore.setUserInfo(userinfo);
 
             history.push(
               (this.props.location.state &&
@@ -221,26 +213,16 @@ class Login extends React.Component {
 
     register(params)
       .then((res) => {
-        // debugger
-        if (res.code === 'K-000000') {
-          console.log(res);
-
-          localItemRoyal.set('rc-token', res.context.token);
-          let userinfo = res.context.customerDetail;
-          userinfo.customerAccount = res.context.accountName;
-          this.props.loginStore.setUserInfo(userinfo);
-          const { history } = this.props;
-          history.push('/account');
-        } else {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.registerFailed
-          );
-        }
-        console.log(res);
+        localItemRoyal.set('rc-token', res.context.token);
+        let userinfo = res.context.customerDetail;
+        userinfo.customerAccount = res.context.accountName;
+        this.props.loginStore.setUserInfo(userinfo);
+        const { history } = this.props;
+        history.push('/account');
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.registerFailed
+          err.message || this.props.intl.messages.registerFailed
         );
       });
   };

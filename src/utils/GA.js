@@ -21,7 +21,6 @@ export const myAccountActionPushEvent = (myAccountActionName) => {
   })
   console.log(myAccountActionName)
   console.log({ dataLayer })
-  debugger
 }
 
 

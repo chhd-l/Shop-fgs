@@ -163,14 +163,12 @@ class Prescription extends React.Component {
   async getPrescription(params) {
     this.setState({ loading: true });
     const res = await getPrescription(params);
-    if (res.code === 'K-000000') {
-      let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
-      this.setState({
-        currentClinicArr: res.context.content,
-        totalPage: totalPage,
-        loading: false
-      });
-    }
+    let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
+    this.setState({
+      currentClinicArr: res.context.content,
+      totalPage: totalPage,
+      loading: false
+    });
   }
   async getAllPrescription() {
     let params = {
@@ -178,27 +176,25 @@ class Prescription extends React.Component {
       auditAuthority: true
     };
     const res = await getAllPrescription(params);
-    if (res.code === 'K-000000') {
-      let clinicArr = res.context.prescriberVo;
-      //过滤掉经纬度非数字值
-      clinicArr = clinicArr.filter((item) => {
-        return !(isNaN(item.latitude) || isNaN(item.longitude));
-      });
+    let clinicArr = res.context.prescriberVo;
+    //过滤掉经纬度非数字值
+    clinicArr = clinicArr.filter((item) => {
+      return !(isNaN(item.latitude) || isNaN(item.longitude));
+    });
 
-      //过滤掉 经度-180-180 ，纬度 -90-90
-      clinicArr = clinicArr.filter((item) => {
-        return (
-          +item.latitude >= -90 &&
-          +item.latitude <= 90 &&
-          +item.longitude >= -180 &&
-          +item.longitude <= 180
-        );
-      });
+    //过滤掉 经度-180-180 ，纬度 -90-90
+    clinicArr = clinicArr.filter((item) => {
+      return (
+        +item.latitude >= -90 &&
+        +item.latitude <= 90 &&
+        +item.longitude >= -180 &&
+        +item.longitude <= 180
+      );
+    });
 
-      this.setState({
-        clinicArr: clinicArr
-      });
-    }
+    this.setState({
+      clinicArr
+    });
   }
   handleSearch = () => {
     const { params } = this.state;

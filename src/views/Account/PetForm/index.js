@@ -172,71 +172,59 @@ class PetForm extends React.Component {
       };
     });
   }
-  getUserInfo() {
+  get userInfo() {
     return this.props.loginStore.userInfo;
   }
   getPetList = async () => {
-    if (!this.getUserInfo().customerAccount) {
+    if (!this.userInfo.customerAccount) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
         loading: false
       });
       return false;
     }
-    let params = {
-      customerId: this.getUserInfo.customerId,
-      consumerAccount: this.getUserInfo().customerAccount
-    };
-    await getPetList(params)
+    await getPetList({
+      customerId: this.userInfo.customerId,
+      consumerAccount: this.userInfo.customerAccount
+    })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          let petList = res.context.context;
-          if (petList.length > 0) {
-            let currentPet = petList.filter(
-              (el) => el.petsId === this.props.match.params.id
-            )[0];
+        let petList = res.context.context;
+        if (petList.length > 0) {
+          let currentPet = petList.filter(
+            (el) => el.petsId === this.props.match.params.id
+          )[0];
+          this.setState({
+            loading: false,
+            showList: true,
+            petList
+          });
+          if (currentPet) {
+            this.edit(currentPet);
+            this.getSpecialNeeds(currentPet.customerPetsPropRelations);
             this.setState({
-              loading: false,
-              showList: true,
-              petList: petList
+              currentPetId: currentPet.petsId,
+              currentPet: currentPet,
+              imgUrl: currentPet.petsImg.includes('http')
+                ? currentPet.petsImg
+                : ''
             });
-            if (currentPet) {
-              this.edit(currentPet);
-              this.getSpecialNeeds(currentPet.customerPetsPropRelations);
-              console.log(currentPet.petsImg, 'haha');
-              this.setState({
-                currentPetId: currentPet.petsId,
-                currentPet: currentPet,
-                imgUrl: currentPet.petsImg.includes('http')
-                  ? currentPet.petsImg
-                  : ''
-              });
-            }
-          } else {
-            this.setState({
-              loading: false,
-              showList: false,
-              petList: petList
-            });
-            this.add();
           }
         } else {
           this.setState({
             loading: false,
-            showList: false
+            showList: false,
+            petList
           });
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.getDataFailed
-          );
+          this.add();
         }
       })
       .catch((err) => {
         this.setState({
           loading: false
         });
-        console.log(err);
-
-        this.showErrorMsg(this.props.intl.messages.getDataFailed);
+        this.showErrorMsg(
+          err.message || this.props.intl.messages.getDataFailed
+        );
       });
   };
 
@@ -248,16 +236,14 @@ class PetForm extends React.Component {
       loading: true
     });
     const res = await petsById(params);
-    if (res.code === 'K-000000') {
-      let currentPet = res.context.context;
-      this.setState({
-        currentPet: currentPet,
-        showList: true,
-        loading: false,
-        currentPetId: currentPet.petsId
-      });
-      this.getSpecialNeeds(currentPet.customerPetsPropRelations);
-    }
+    let currentPet = res.context.context;
+    this.setState({
+      currentPet: currentPet,
+      showList: true,
+      loading: false,
+      currentPetId: currentPet.petsId
+    });
+    this.getSpecialNeeds(currentPet.customerPetsPropRelations);
   };
   delPets = async (currentPet) => {
     // let params = { petsIds: [currentPet.petsId] };
@@ -269,15 +255,15 @@ class PetForm extends React.Component {
     });
     await delPets(params);
 
-    myAccountActionPushEvent('Remove pet')
+    myAccountActionPushEvent('Remove pet');
 
     this.props.history.push('/account/pets/');
   };
   savePet = async () => {
     const { selectedSpecialNeeds } = this.state;
     let consumerAccount = '';
-    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
-      consumerAccount = this.getUserInfo().customerAccount;
+    if (this.userInfo && this.userInfo.customerAccount) {
+      consumerAccount = this.userInfo.customerAccount;
     } else {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       return;
@@ -348,30 +334,20 @@ class PetForm extends React.Component {
       storeId: process.env.REACT_APP_STOREID,
       userId: consumerAccount
     };
+    // todo merge 保存宠物失败
     if (pets.petsId) {
       await editPets(param)
         .then((res) => {
-          if (res.code === 'K-000000') {
-            let currentStep = 'success';
-            this.setState({
-              currentStep: currentStep
-            });
-            setTimeout(() => {
-              this.petsById(pets.petsId);
-            }, 3000);
-          } else {
-            this.showErrorMsg(
-              res.message || this.props.intl.messages.saveFailed
-            );
-
-            this.setState({
-              loading: false
-            });
-          }
+          this.setState({
+            currentStep: 'success'
+          });
+          setTimeout(() => {
+            this.petsById(pets.petsId);
+          }, 3000);
           this.props.history.push('/account/pets/');
         })
         .catch((err) => {
-          this.showErrorMsg(this.props.intl.messages.saveFailed);
+          this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
           this.setState({
             loading: false
           });
@@ -379,28 +355,18 @@ class PetForm extends React.Component {
     } else {
       await addPet(param)
         .then((res) => {
-          if (res.code === 'K-000000') {
-            myAccountActionPushEvent('Add pet')
-            let currentStep = 'success';
-            this.setState({
-              currentStep: currentStep
-            });
-            setTimeout(() => {
-              this.getPetList();
-            }, 3000);
-          } else {
-            this.showErrorMsg(
-              res.message || this.props.intl.messages.saveFailed
-            );
-
-            this.setState({
-              loading: false
-            });
-          }
+          myAccountActionPushEvent('Add pet');
+          let currentStep = 'success';
+          this.setState({
+            currentStep: currentStep
+          });
+          setTimeout(() => {
+            this.getPetList();
+          }, 3000);
           this.props.history.push('/account/pets/');
         })
         .catch((err) => {
-          this.showErrorMsg(this.props.intl.messages.saveFailed);
+          this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
           this.setState({
             loading: false
           });
