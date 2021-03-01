@@ -288,14 +288,14 @@ class RegisterRequired extends Component {
           >
             {/* Logo */}
             <div className="rc-margin-bottom--sm">
-              <a href="/home" className="logo-home d-inline-block"
+              <Link to="/home" className="logo-home d-inline-block"
                  title="Commerce Cloud Storefront Reference Architecture Accueil">
                 <span className="rc-screen-reader-text">Commerce Cloud Storefront Reference Architecture</span>
                 <div className="content-asset">
                   <img src={logoAnimatedPng}
                        width="205" height="90" alt="Royal Canin Flagship Store"/>
                 </div>
-              </a>
+              </Link>
             </div>
 
 

@@ -70,21 +70,15 @@ import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { de } from 'date-fns/locale';
 
+import {checkoutDataLayerPushEvent} from "@/utils/GA"
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
-const checkoutDataLayerPushEvent = ({ name, options }) => {
-  dataLayer.push({
-    event: 'checkoutStep',
-    checkoutStep: {
-      name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
-      options //'Guest checkout', 'New account', 'Existing account'
-    }
-  });
-};
+
 
 @inject(
   'loginStore',
@@ -1219,7 +1213,7 @@ class Payment extends React.Component {
         .filter(
           (ele) =>
             ele.subscriptionStatus &&
-            ele.subscriptionPrice > 0 &&
+            (ele.subscriptionPrice > 0||ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
             ele.goodsInfoFlag
         )
         .map((g) => {
@@ -2441,6 +2435,7 @@ class Payment extends React.Component {
                     sendPromotionCode={this.savePromotionCode}
                     promotionCode={promotionCode}
                     operateBtnVisible={!tid}
+                    currentPage="checkout"
                   />
                 )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}

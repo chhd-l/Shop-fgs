@@ -15,6 +15,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType
 } from '@/utils/utils';
+import {GAInitLoginCart} from "@/utils/GA"
 import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
@@ -73,7 +74,6 @@ class LoginCart extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       activeToolTipIndex: 0,
-      calculatedWeeks: {}
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -81,34 +81,6 @@ class LoginCart extends React.Component {
     this.addQuantity = this.addQuantity.bind(this);
     this.subQuantity = this.subQuantity.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
-  }
-  //天-0周  周-value*1 月-value*4
-  getComputedWeeks(frequencyList) {
-    let calculatedWeeks = {};
-
-    frequencyList.forEach((item) => {
-      switch (item.type) {
-        case 'Frequency_day':
-          calculatedWeeks[item.id] = 0;
-          break;
-        case 'Frequency_week':
-          calculatedWeeks[item.id] = item.valueEn * 1;
-          break;
-        case 'Frequency_month':
-          calculatedWeeks[item.id] = item.valueEn * 4;
-          break;
-      }
-    });
-
-    this.setState(
-      {
-        calculatedWeeks
-      },
-      () => {
-        // console.log(this.state.calculatedWeeks)
-        // debugger
-      }
-    );
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
@@ -136,9 +108,9 @@ class LoginCart extends React.Component {
       await this.checkoutStore.updateLoginCart();
     }
 
-    isHubGA && this.GACartScreenLoad();
-    isHubGA && this.getComputedWeeks(this.state.frequencyList);
-    isHubGA && this.GAInitialProductArray(this.checkoutStore.loginCartData);
+    if(isHubGA){
+      GAInitLoginCart({productList: this.props.checkoutStore.loginCartData,frequencyList:this.state.frequencyList,props:this.props})
+    }
     this.setData();
   }
   get loginCartData() {
@@ -204,51 +176,6 @@ class LoginCart extends React.Component {
     fn && fn();
     this.setData();
     this.setState({ checkoutLoading: false });
-  }
-  GACartScreenLoad() {
-    dataLayer.push({
-      event: 'cartScreenLoad'
-    });
-  }
-  GAInitialProductArray(productList) {
-    console.log({ productList: JSON.stringify(toJS(productList)) });
-    let arr = [];
-    for (let item of productList) {
-      let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
-      let range = item.goods.goodsCateName?.split("/")[1] || "";
-      let technology = item.goods.goodsCateName?.split("/")[2] || ""
-      let breed = []
-      item.goodsAttributesValueRelVOList.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
-        breed.push(item2.goodsAttributeValue)
-      })
-
-
-      arr.push({
-        price:
-          item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
-        specie: item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
-        range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
-        name: item.goodsName, //WeShare product name, always in English
-        mainItemCode: item.goods.goodsNo, //Main item code
-        SKU: item.goodsInfos && item.goodsInfos[0].goodsInfoNo, //product SKU
-        subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
-        technology: technology, //'Dry', 'Wet', 'Pack'
-        brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-        size: item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-        quantity: item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
-        subscriptionFrequency:
-          item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
-        recommendationID: this.props.clinicStore.linkClinicId || '', //recommendation ID
-
-        //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-        breed, //All animal breeds associated with the product in an array
-        promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
-        promoCodeAmount: 8 //Promo code amount, only if promo activated
-      });
-    }
-    dataLayer.push({
-      products: arr
-    });
   }
   GACheckout(productList) {
     let product = [],
@@ -1537,6 +1464,7 @@ class LoginCart extends React.Component {
               </a>
             </div>
           </div>
+
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
               className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
@@ -1549,11 +1477,7 @@ class LoginCart extends React.Component {
               />
               <span>
                 Order summary
-                {/* <FormattedMessage id="payment.yourOrder" /> */}
               </span>
-              {/* <span className="grand-total-sum">
-                {formatMoney(this.tradePrice)}
-              </span> */}
             </div>
             <PayProductInfo
               data={[]}
@@ -1594,9 +1518,6 @@ class LoginCart extends React.Component {
                   </div>
                 </div>
               </a>
-              {/* <div>
-              Engaging Subscription program is possible only after registration
-              </div> */}
             </div>
           </div>
         </div>

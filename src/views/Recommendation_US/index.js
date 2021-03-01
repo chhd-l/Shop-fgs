@@ -14,9 +14,14 @@ import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
 import noPic from '@/assets/images/noPic.png';
 import storeLogo from '@/assets/images/storeLogo.png';
-import ImageMagnifier from './components/ImageMagnifier';
+import COHORTADVISOR from './images/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png';
+import CLUBSHIPPING from './images/CLUB-BENEFITS_FREE-SHIPPING.png';
+import CLUBRECOS from './images/CLUB-BENEFITS_PRODUCT-RECOS.png';
+// import ImageMagnifier from './components/ImageMagnifier';
+import ImageMagnifier from '../Recommendation_FR/components/ImageMagnifier';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
+import './index.css';
 import { inject, observer } from 'mobx-react';
 import Help from '../SmartFeederSubscription/modules/Help';
 import {
@@ -49,16 +54,57 @@ import {
 import LazyLoad from 'react-lazyload';
 import transparentImg from './images/transparent.svg';
 import { Helmet } from 'react-helmet';
+import catAndDog from './images/dog-and-cat.png';
+import HOWAUTOSHIP from './images/HOW-TO-JOIN-AUTOSHIP.png';
+import HOWENJOY from './images/HOW-TO-JOIN-ENJOY.png';
+import HOWSCHEDULE from './images/HOW-TO-JOIN-SCHEDULE.png';
+import HOWSHOP from './images/HOW-TO-JOIN-SHOP.png';
 import autoshipCatPng from './images/autoship_cat.png';
+import PuppyJPG from './images/MRRC-20046_D2C-Advisor_App-Puppy.jpg';
 const petsTypeImagArr = [
   `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`,
   autoshipCatPng
 ];
+const howImageArr = [
+  {
+    img: HOWSHOP,
+    title: 'GRAB YOUR PRODUCTS',
+    des: 'Find your handpicked nutrition products in your cart.'
+  },
+  {
+    img: HOWAUTOSHIP,
+    title: 'CHOOSE AUTOMATIC SHIPPING',
+    des: 'Set your automatic shipping schedule  and input your payment method.'
+  },
+  {
+    img: HOWSCHEDULE,
+    title: 'GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT',
+    des:
+      'Receive your product automatically based on your schedule. Change or cancel at any time.'
+  },
+  {
+    img: HOWENJOY,
+    title: 'ENJOY YOUR PERKS',
+    des:
+      'Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.'
+  }
+];
+const LineModule = () => (
+  <div
+    className="rc-border-bottom rc-border-colour--brand4"
+    style={{ borderBottomWidth: '4px' }}
+  ></div>
+);
 const petsVideoArr = [];
 const petsiconArr = [dogIconPng, catIconPng];
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
+const imagesArr = [
+  { img: COHORTADVISOR, text: 'Royal Canin Pet Advisor Live' },
+  { img: CLUBRECOS, text: 'Personalized Recommendations' },
+  { img: CLUBSHIPPING, text: 'Free Shipping & 5% Off Every Autoship Order' }
+];
 const secondlistArr = [
   {
     altText: 'image one',
@@ -92,6 +138,18 @@ const secondlistArr = [
     text: 'Change your schedule<strong>anytime you want.</strong>'
   }
 ];
+// 不引入样式有问题
+const Test = () => {
+  return (
+    <div className="margin12" style={{ display: 'none' }}>
+      <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
+        <div class="rc-grid">
+          <article class="rc-card rc-card--a">test</article>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
 @inject('configStore')
@@ -162,7 +220,7 @@ class Recommendation extends React.Component {
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
       email: 'Send us an Email',
-      phoneDes: 'Monday trought Friday:8:00 AM - 4:30  PM CT'
+      phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
 
@@ -814,7 +872,7 @@ class Recommendation extends React.Component {
                   </div>
                 </div>
               ) : (
-                productList.length && (
+                productList.length>0 && (
                   <div>
                     <div className="recommendProductInner">
                       <div className="imageTabBox">
@@ -973,19 +1031,25 @@ class Recommendation extends React.Component {
                         >
                           <img
                             className="type-icon"
-                            src={petsiconArr[this.state.petType]}
+                            src={catAndDog}
+                            // src={petsiconArr[this.state.petType]}
                           />
-                          <div className="recommendation_feeding_box">
-                            <div className="reason">
+                          <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
+                            <div className="">
                               Recommended feeding amounts are located on the
                               back of the bag. Make sure you transition food
                               slowly over the course of the week to help prevent
                               stomach upset.
                             </div>
-                            <h6>Cute Puppy Breeding</h6>
-                            <div>994 Drummond Street, Newmark, New Jersey</div>
+                            {/* <h6>Cute Puppy Breeding</h6>
+                            <div>994 Drummond Street, Newmark, New Jersey</div> */}
                           </div>
+                          <p classNam="legal-disclaimer d-flex rc-padding-x--sm">
+                            Royal Canin's feeding guidelines can also be found
+                            on the product packaging.
+                          </p>
                         </div>
+
                         {productList[activeIndex].benefit ? (
                           <React.Fragment>
                             <p className="benefit product_info">
@@ -1300,7 +1364,93 @@ class Recommendation extends React.Component {
               )}
             </section>
           </div>
-          <div className="rc-max-width--lg rc-padding-y--lg">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+            <div className="rc-layout-container rc-four-column rc-content-v-middle text-center">
+              {imagesArr.map((item) => (
+                <div className="rc-column">
+                  <div className="img-hover-switch rc-margin-bottom--sm">
+                    <LazyLoad>
+                      <img className="m-center" src={item.img} />
+                    </LazyLoad>
+                  </div>
+                  <p>
+                    <strong>{item.text}</strong>
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <LineModule />
+          <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--xl">
+            <div className="row align-items-md-center">
+              <div className=" col-12 col-lg-6">
+                <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                  <h2 className="rc-beta markup-text">
+                    Everything Your Pet Needs PLUS Royal Canin Pet Advisor Live
+                  </h2>
+                  <p>
+                    No matter the need, we’ve got you covered with exclusive
+                    benefits like 24/7 access to pet experts and more through
+                    the Royal Canin Club. Joining is easy – sign up for
+                    automatic shipping on your pet’s tailored formulas to become
+                    a member today.
+                  </p>
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    } ${
+                      this.state.inStockProducts.length
+                        ? ''
+                        : 'rc-btn-solid-disabled'
+                    }`}
+                    onClick={() => {
+                      if (loginStore.isLogin) {
+                        this.hanldeLoginAddToCart();
+                      } else {
+                        this.hanldeUnloginAddToCart(productList, '/cart');
+                      }
+                    }}
+                  >
+                    Start Now
+                  </button>
+                </div>
+              </div>
+              <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                <LazyLoad>
+                  <img src={PuppyJPG} />
+                </LazyLoad>
+              </div>
+            </div>
+          </div>
+          <LineModule />
+          <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
+            <div className="rc-margin-bottom--md">
+              <h2 classNam="rc-beta">How to Join Royal Canin Club</h2>
+            </div>
+            <Test />
+            <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle">
+              {howImageArr.map((item) => (
+                <div className="rc-grid">
+                  <div>
+                    <h3 className="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs">
+                      <b>{item.title}</b>
+                    </h3>
+                    <lazyload>
+                      <img
+                        className="mx-auto rc-margin-bottom--xs"
+                        src={item.img}
+                      />
+                    </lazyload>
+                    <div className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin">
+                      {item.des}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <LineModule />
+          {/* <div className="rc-max-width--lg rc-padding-y--lg">
             <div className="rc-max-width--md text-center rc-padding-x--sm">
               <h2 className="rc-beta text-center">
                 <FormattedMessage id="recommendation.firstTitle" />
@@ -1364,8 +1514,8 @@ class Recommendation extends React.Component {
                 />
               </div>
             </div>
-          </div>
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm">
+          </div> */}
+          {/* <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm">
             <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
               <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">
                 <FormattedMessage id="recommendation.secondTitle" />
@@ -1427,6 +1577,7 @@ class Recommendation extends React.Component {
               </button>
             </p>
           </div>
+           */}
           <div className="help-container">
             <Help contentText={this.helpContentText} needReverse={false} />
           </div>
@@ -1482,6 +1633,7 @@ class Recommendation extends React.Component {
               <img src={cur_recommendation4} />
             </div>
           </div>
+       
         </main>
         <Footer />
       </div>

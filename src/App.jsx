@@ -90,6 +90,7 @@ import Help from '@/views/StaticPage/Help';
 import ContactUs from '@/views/StaticPage/ContactUs';
 import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
 import TermsConditions from '@/views/StaticPage/TermsAndConditions';
+import TermsConditionsUs from './views/StaticPage/TermsAndConditions/US_index';
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
 import DE_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/DE_index.js';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
@@ -260,7 +261,7 @@ const App = () => (
               <Route
                 exact
                 path="/termsandconditions"
-                component={TermsConditions}
+                component={process.env.REACT_APP_LANG=='fr'?TermsConditions:TermsConditionsUs }
               />
               <Route
                 exact
@@ -583,70 +584,70 @@ const App = () => (
                 path="/"
                 render={(props) => {
                   const { location } = props;
+                  const pathname = location.pathname;
                   //为了匹配/refuge108785 这种数字动态的短链接
-                  if (/^\/refuge/.test(location.pathname))
+                  if (/^\/refuge/.test(pathname))
                     return <RefugeSource key={Math.random()} {...props} />;
 
                   //为了匹配/boxer01，boxer02等
-                  if (/^\/boxer[0-9]/.test(location.pathname))
+                  if (/^\/boxer[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
                   //为了匹配/bulldog01，bulldog02等
-                  if (/^\/bulldog[0-9]/.test(location.pathname))
+                  if (/^\/bulldog[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/chihuahua[0-9]/.test(location.pathname))
+                  if (/^\/chihuahua[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/bergerallemand[0-9]/.test(location.pathname))
+                  if (/^\/bergerallemand[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/golden[0-9]/.test(location.pathname))
+                  if (/^\/golden[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/labrador[0-9]/.test(location.pathname))
+                  if (/^\/labrador[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/shihtzu[0-9]/.test(location.pathname))
+                  if (/^\/shihtzu[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/yorkshire[0-9]/.test(location.pathname))
+                  if (/^\/yorkshire[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/british[0-9]/.test(location.pathname))
+                  if (/^\/british[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/mainecoon[0-9]/.test(location.pathname))
+                  if (/^\/mainecoon[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  if (/^\/persan[0-9]/.test(location.pathname))
+                  if (/^\/persan[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
-                  if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
-                    const needRedirect1 =
-                      location.pathname.split('_FR.html').length > 1;
-                    const needRedirect2 =
-                      location.pathname.split('.html').length > 1;
-                    if (needRedirect1 || needRedirect2) {
-                      return (
-                        <Redirect
-                          to={
-                            needRedirect1
-                              ? location.pathname.split('_FR.html')[0]
-                              : location.pathname.split('.html')[0]
-                          }
-                        />
-                      );
+                  if (/^(?!.*(\/).*\1).+[-].+$/.test(pathname)) {
+                    let redirectUrl = '';
+                    const splitName = { fr: '_FR.html', en: '_US.html' }[
+                      process.env.REACT_APP_LANG
+                    ];
+                    if (pathname.split('--').length > 1) {
+                      redirectUrl = pathname.split('--').join('-');
+                    } else if (pathname.split(splitName).length > 1) {
+                      redirectUrl = pathname.split(splitName)[0];
+                    } else if (pathname.split('.html').length > 1) {
+                      redirectUrl = pathname.split('.html')[0];
+                    }
+                    if (redirectUrl) {
+                      return <Redirect to={redirectUrl} />;
                     } else {
                       return <Details key={props.match.params.id} {...props} />;
                     }
                   } else {
-                    const needRedirect =
-                      location.pathname.split('.html').length > 1;
-                    if (needRedirect) {
-                      return (
-                        <Redirect to={location.pathname.split('.html')[0]} />
-                      );
+                    let redirectUrl = '';
+                    if (pathname.split('.html').length > 1) {
+                      redirectUrl = pathname.split('.html')[0];
+                    }
+                    if (redirectUrl) {
+                      return <Redirect to={redirectUrl} />;
                     } else {
                       return (
                         <List

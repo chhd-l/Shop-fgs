@@ -10,6 +10,8 @@ import videoPng from './images/video.png';
 import expertisePng from './images/expertise.png';
 import qualityPng from './images/quality.png';
 import partnershipPng from './images/partnership.png';
+import { getList } from '@/api/list';
+import { formatMoney } from '@/utils/utils';
 import './index.less';
 import Slider from 'react-slick';
 // import Rate from '@/components/Rate';
@@ -18,7 +20,9 @@ import Help from '../../SmartFeederSubscription/modules/Help';
 class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      list: []
+    };
     this.helpContentText = {
       title: "We're Here to Help",
       des:
@@ -28,7 +32,7 @@ class ShelterPrescription extends React.Component {
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
       email: 'Send us an Email',
-      phoneDes: 'Monday trought Friday:8:00 AM - 4:30  PM CT'
+      phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
   toScroll = (anchorName) => {
@@ -38,23 +42,43 @@ class ShelterPrescription extends React.Component {
       anchorElement.scrollIntoView();
     }
   };
-  getList = () => {
+  componentDidMount() {
+    this.getDefaultList();
+  }
+  async getDefaultList() {
+    let goodsIds = [
+      '2c91808577d2c0dd0177d2ca8161016c',
+      '2c91808577d2c0dd0177d2ca61580097',
+      '2c918085768f3a4101768f3f464b0084',
+      '2c918085768f3a4101768f3f053e0071',
+      '2c91808577417a280177419f2c790000',
+      '2c918085768f3a4101768f3f73c10093'
+    ];
+    let res = await getList({ goodsIds });
+    let list = res.context?.goodsList;
+    this.setState({ list });
+    console.info('.....', res);
+  }
+  getList = (item) => {
     return (
-      <a className="rc-card__link">
-        <article className="rc-card rc-card--b">
-          <picture className="rc-card__image">
-            <img
-              style={{ maxHeight: '12rem' }}
-              alt="alt text"
-              src="https://d2cstgstorage.z13.web.core.windows.net/202101070635420744.jpg"
-            />
-          </picture>
-          <div className="rc-card__body">
-            <header>
-              <h1 className="rc-card__title" style={{ height: '2em' }}>
-                Mother & Babycat
-              </h1>
-              <div>Canned Cat Food</div>
+      <Link to="/">
+        <a className="rc-card__link rc-card--product">
+          <article className="rc-card rc-card--b">
+            <picture className="rc-card__image">
+              <img
+              className="m-auto"
+                style={{ maxHeight: '150px',maxWidth:'150px' }}
+                alt={item.goodsName}
+                src={item.goodsImg}
+              />
+            </picture>
+            <div className="rc-card__body">
+              <header>
+                <h3 className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">
+                  {item.goodsName}
+                </h3>
+              </header>
+              <div className="ui-text-overflow-line2">{item.goodsSubtitle}</div>
               {/* <div className="rc-btn-group">
                 <Rate def={2} disabled={true} marginSize="smallRate" />
                 <span
@@ -64,12 +88,14 @@ class ShelterPrescription extends React.Component {
                   (12)
                 </span>
               </div> */}
-              <div>Start from</div>
-              <div className="price-item">$21.99</div>
-            </header>
-          </div>
-        </article>
-      </a>
+              {/* <div>Start from</div> */}
+              <div className="price-item">
+                {formatMoney(item.minMarketPrice)}
+              </div>
+            </div>
+          </article>
+        </a>
+      </Link>
     );
   };
   render() {
@@ -165,7 +191,7 @@ class ShelterPrescription extends React.Component {
                     nutrition and behavior; track your pet’s growth; and more.
                   </p>
                   <p>
-                    <Link href="/subscription-landing">
+                    <Link to="/subscription-landing">
                       <button className="rc-btn rc-btn--two gtm-content-block-btn ">
                         JOIN THE CLUB
                       </button>
@@ -190,15 +216,15 @@ class ShelterPrescription extends React.Component {
                 data-rc-cards="true"
               >
                 <div className="rc-carousel__card-gal product-list">
-                  {[1, 2, 3, 4, 5, 6].map((item, idx) => (
-                    <div>{this.getList()}</div>
+                  {this.state.list.map((item, idx) => (
+                    <div>{this.getList(item)}</div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="rc-md-down rc-padding-x--lg">
               <Slider {...settings}>
-                {[1, 2, 3, 4, 5, 6].map((item, idx) => (
+                {this.state.list.map((item, idx) => (
                   <div
                     style={{
                       width: slideWidth
@@ -209,7 +235,7 @@ class ShelterPrescription extends React.Component {
                     <div
                       style={{ padding: '0 0.5rem', boxSizing: 'border-box' }}
                     >
-                      {this.getList()}
+                      {this.getList(item)}
                     </div>
                   </div>
                 ))}
@@ -219,8 +245,11 @@ class ShelterPrescription extends React.Component {
           <div className="rc-padding-top--lg text-center rc-column ">
             <Help contentText={this.helpContentText} needReverse={false} />
           </div>
-          <div className="experience-component experience-assets-divider"> 
-          <div className="rc-border-bottom rc-border-colour--brand4" style={{borderBottomWidth:'4px'}}></div>
+          <div className="experience-component experience-assets-divider">
+            <div
+              className="rc-border-bottom rc-border-colour--brand4"
+              style={{ borderBottomWidth: '4px' }}
+            ></div>
           </div>
           <div class="rc-max-width--md text-center rc-margin-y--md section-why text-center">
             <h4 className="red">Why Royal Canin?</h4>

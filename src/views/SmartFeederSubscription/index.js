@@ -228,7 +228,7 @@ const Step2 = (props) => {
           </div>
           <div className="rc-column rc-double-width">
             <div className="title">{props.details.goodsInfoName}</div>
-            <div className="sub_title">{props.details.foodFllType}</div>
+            <div className="sub_title">{props.foodFllType}</div>
             <div>
               <div className="block">
                 <p
@@ -661,6 +661,7 @@ class SmartFeederSubscription extends Component {
       minSubscriptionPrice: 0,
       toolTipVisible: false,
       relatedProduct: [],
+      foodFllType: '',
       // form: {
       //   buyWay: 1, //0 - once/ 1 - frequency
       //   frequencyVal: '',
@@ -734,17 +735,19 @@ class SmartFeederSubscription extends Component {
               productRate: res.context.avgEvaluate
             });
           }
-          let petType = 'Cat'
-          let foodType =  'Dry'
-          if(res&&res.context?.goodsAttributesValueRelList){
-            res.context.goodsAttributesValueRelList.forEach((item,idx)=>{
-              if(item.goodsAttributeName=='Lifestages'){
-                petType = item.goodsAttributeValue.split('_')&&item.goodsAttributeValue.split('_')[1]
+          let petType = 'Cat';
+          let foodType = 'Dry';
+          if (res && res.context?.goodsAttributesValueRelList) {
+            res.context.goodsAttributesValueRelList.forEach((item, idx) => {
+              if (item.goodsAttributeName == 'Lifestages') {
+                petType =
+                  item.goodsAttributeValue.split('_') &&
+                  item.goodsAttributeValue.split('_')[1];
               }
-              if(item.goodsAttributeName=='Technology'){
-                foodType = item.goodsAttributeValue
+              if (item.goodsAttributeName == 'Technology') {
+                foodType = item.goodsAttributeValue;
               }
-            })
+            });
           }
           if (res && res.context && res.context.goods) {
             let pageLink = window.location.href.split('-');
@@ -865,9 +868,11 @@ class SmartFeederSubscription extends Component {
               return g;
             });
             console.log(sizeList, 'sizeList');
-
+            let foodFllType = `${foodType} ${petType} Food`;
+            console.info('foodFllType', foodFllType);
             // const selectedSize = find(sizeList, s => s.selected)
             const { goodsDetailTab, tabs } = this.state;
+            this.setState({ foodFllType });
             try {
               let tmpGoodsDetail = res.context.goods.goodsDetail;
               if (tmpGoodsDetail) {
@@ -1144,13 +1149,14 @@ class SmartFeederSubscription extends Component {
                 });
               });
             }
-            let foodFllType = `${foodType} ${petType} Food`
+            let foodFllType = `${foodType} ${petType} Food`;
+            console.info('foodFllType', foodFllType);
             let images = [];
             images = res.context.goodsInfos;
             this.setState({
+              foodFllType,
               details: Object.assign(
                 {},
-                foodFllType,
                 this.state.details,
                 res.context.goods,
                 {
@@ -1906,6 +1912,7 @@ class SmartFeederSubscription extends Component {
                     case 'step2':
                       stepCom = (
                         <Step2
+                          foodFllType={this.state.foodFllType}
                           goodsDetailTab={goodsDetailTab}
                           toOtherStep={this.toOtherStep}
                           details={this.state.details}
