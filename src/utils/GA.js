@@ -8,7 +8,6 @@ export const myAccountPushEvent = (myAccountScreenName) => {
   })
   console.log(myAccountScreenName)
   console.log({ dataLayer })
-  debugger
 }
 
 

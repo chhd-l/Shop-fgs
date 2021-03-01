@@ -328,14 +328,13 @@ class Payment extends React.Component {
     //2.游客调用consense接口
     const { isLogin } = this;
     const customerId = this.userInfo && this.userInfo.customerId;
-    let action = getStoreOpenConsentList;
-    let params = {};
-    // todo merge 怎么调用了两次findUserConsentList接口？？
-    if (isLogin) {
-      action = findUserConsentList;
-      params = { customerId };
-    }
-    let res = await action(params);
+    // let action = getStoreOpenConsentList;
+    // let params = {};
+    // if (isLogin) {
+    //   action = findUserConsentList;
+    //   params = { customerId };
+    // }
+    // let res = await action(params);
     if (isLogin) {
       res = await findUserConsentList({ customerId, consentPage: 'check out' });
     } else {
