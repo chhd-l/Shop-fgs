@@ -258,15 +258,15 @@ class QualitySafety extends React.Component {
                       <div className="rc-card-grid rc-match-heights rc-four-column">
                         <div className="rc-grid">
                           <article className="rc-card rc-card--a">
-                            <a href="/dogs/">
+                            <Link to="/dogs/">
                               <picture className="" data-rc-feature-objectfillpolyfill-setup="true">
                                 <img className="card__image lazyloaded" data-src={dog} alt="Shop Dog Formulas" title="Shop Dog Formulas" src={dog} />
                               </picture>
-                            </a>
+                            </Link>
                             <div className="rc-card__body">
                               <header>
-                                <a href="/dogs/">
-                                  <h4 className="rc-card__title"><FormattedMessage id="qualitySafety.shopDog" /></h4></a>
+                                <Link to="/dogs/">
+                                  <h4 className="rc-card__title"><FormattedMessage id="qualitySafety.shopDog" /></h4></Link>
                                 <p className="rc-margin--none"></p>
                               </header>
                             </div>
