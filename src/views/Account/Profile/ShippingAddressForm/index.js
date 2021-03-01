@@ -3,10 +3,8 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import './index.css';
-import findIndex from 'lodash/findIndex';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
-import Loading from '@/components/Loading';
 import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
@@ -15,7 +13,6 @@ import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
-import { myAccountActionPushEvent } from '@/utils/GA';
 
 @injectIntl
 class ShippingAddressFrom extends React.Component {

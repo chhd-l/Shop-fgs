@@ -206,7 +206,7 @@ function ListItemH5ForGlobalStyle(props) {
                   class="rc-card__meta text-center col-12"
                   style={{ margin: '0' }}
                 >
-                  {item.goodsSubtitle}
+                  {item.goodsNewSubtitle}
                 </div>
               ) : null}
             </article>
@@ -401,9 +401,9 @@ function ListItemBody({ item, headingTag }) {
         <h6
           className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
           style={{ color: '#4a4a4a' }}
-          title={item.goodsSubtitle}
+          title={item.goodsNewSubtitle}
         >
-          {item.goodsSubtitle}
+          {item.goodsNewSubtitle}
         </h6>
       </div>
       {/*商品评分和评论数目*/}
@@ -539,7 +539,7 @@ function ListItemBody({ item, headingTag }) {
             class="rc-card__meta text-center ui-text-overflow-line2 col-12"
             style={{ padding: '0', marginBottom: '10px' }}
           >
-            {item.goodsSubtitle}
+            {item.goodsNewSubtitle}
           </div>
         </>
       ) : (
@@ -1624,7 +1624,7 @@ class List extends React.Component {
               if (tmpItem) {
                 const {
                   goodsCateName,
-                  goodsSubtitle,
+                  goodsNewSubtitle,
                   subscriptionStatus,
                   avgEvaluate,
                   minMarketPrice,
@@ -1635,7 +1635,7 @@ class List extends React.Component {
                 } = tmpItem;
                 ret = Object.assign(ret, {
                   goodsCateName,
-                  goodsSubtitle,
+                  goodsNewSubtitle,
                   subscriptionStatus,
                   avgEvaluate,
                   minMarketPrice,

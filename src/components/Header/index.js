@@ -346,13 +346,14 @@ class Header extends React.Component {
   }
 
   loginIcon = () => {
-    this.hubGA && dataLayer.push({
-      'event': 'topPictosClick',
-      'topPictosClick': {
-        'itemName': 'Login',
-      }
-    })
-  }
+    this.hubGA &&
+      dataLayer.push({
+        event: 'topPictosClick',
+        topPictosClick: {
+          itemName: 'Login'
+        }
+      });
+  };
 
   handleCenterMouseOver() {
     this.setState({
@@ -526,21 +527,18 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                    {+process.env.REACT_APP_HUB ? (
-                      isMobile ? (
-                        searchBarVisible ? null : (
-                          <span
-                            className="iconfont icon-search mr-2"
-                            onClick={this.toggleSearchIcon}
-                          >
-                            &#xe6a5;
-                          </span>
-                        )
-                      ) : (
-                        <Search history={history} />
+                    {+process.env.REACT_APP_HUB && isMobile ? (
+                      searchBarVisible ? null : (
+                        <span
+                          className="iconfont icon-search mr-2"
+                          onClick={this.toggleSearchIcon}
+                        >
+                          &#xe6a5;
+                        </span>
                       )
-                    ) : null}
-
+                    ) : (
+                      <Search history={history} />
+                    )}
                     {this.isLogin ? (
                       <LoginCart
                         showSearchInput={showSearchInput}

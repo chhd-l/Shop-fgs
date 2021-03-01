@@ -167,7 +167,7 @@ class ShelterPrescription extends React.Component {
                   <p>
                     <Link href="/subscription-landing">
                       <button className="rc-btn rc-btn--two gtm-content-block-btn ">
-                      JOIN THE CLUB
+                        JOIN THE CLUB
                       </button>
                     </Link>
                   </p>
@@ -179,10 +179,10 @@ class ShelterPrescription extends React.Component {
             </div>
           </div>
           <div id="selectProduct" className="select-position"></div>
-          <div className="rc-max-width--xl">
-            <h3 className="red rc-padding-y--sm text-center">
+          <div className="rc-padding-top--md rc-padding-x--xl--desktop">
+            <h2 className="rc-gamma rc-text--center rc-margin-bottom--md">
               Select your product from recommendations
-            </h3>
+            </h2>
             <div class=" rc-md-up">
               <div
                 className="rc-carousel rc-carousel--cards rc-match-heights"
@@ -216,15 +216,20 @@ class ShelterPrescription extends React.Component {
               </Slider>
             </div>
           </div>
-          <Help contentText={this.helpContentText} needReverse={false} />
-          <div class="section-why text-center">
+          <div className="rc-padding-top--lg text-center rc-column ">
+            <Help contentText={this.helpContentText} needReverse={false} />
+          </div>
+          <div className="experience-component experience-assets-divider"> 
+          <div className="rc-border-bottom rc-border-colour--brand4" style={{borderBottomWidth:'4px'}}></div>
+          </div>
+          <div class="rc-max-width--md text-center rc-margin-y--md section-why text-center">
             <h4 className="red">Why Royal Canin?</h4>
-            <p>
+            <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
               We focus our attention on the unique needs of cats and dogs. That
               obsession with detail is what makes it possible for us to deliver
               precise, effective nutrition and help pets become their
               magnificent best.
-            </p>
+            </div>
             <div class="experience-component experience-assets-youtubeVideo">
               <div class="rc-max-width--md rc-padding-x--lg">
                 <div class="rc-video-wrapper dog-video">
@@ -246,7 +251,7 @@ class ShelterPrescription extends React.Component {
               src="https://www.youtube.com/watch?v=FYwO1fiYoa8&feature=emb_logo&ab_channel=ROYALCANIN"
             ></iframe> */}
           </div>
-          <div className="rc-padding-top--xl--desktop rc-max-width--lg rc-padding-x--md  rc-padding-x--xl--mobile  rc-layout-container rc-three-column">
+          {/* <div className="rc-padding-top--xl--desktop rc-max-width--lg rc-padding-x--md  rc-padding-x--xl--mobile  rc-layout-container rc-three-column">
             <div className="rc-column">
               <img src={expertisePng} />
             </div>
@@ -256,7 +261,7 @@ class ShelterPrescription extends React.Component {
             <div className="rc-column">
               <img src={qualityPng} />
             </div>
-          </div>
+          </div> */}
         </main>
         <Footer />
       </div>

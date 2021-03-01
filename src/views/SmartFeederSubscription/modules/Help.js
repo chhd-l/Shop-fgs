@@ -71,7 +71,7 @@ class Help extends React.Component {
                       {/* Our pet experts are here to help you   */}
                     </h1>
                     <div className="rc-large-body inherit-fontsize children-nomargin">
-                      <p style={{ maxWidth: '680px' }}>
+                      <p className="m-auto">
                         {des ? (
                           des
                         ) : (
