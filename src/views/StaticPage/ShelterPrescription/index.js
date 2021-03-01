@@ -190,7 +190,7 @@ class ShelterPrescription extends React.Component {
                     nutrition and behavior; track your pet’s growth; and more.
                   </p>
                   <p>
-                    <Link href="/subscription-landing">
+                    <Link to="/subscription-landing">
                       <button className="rc-btn rc-btn--two gtm-content-block-btn ">
                         JOIN THE CLUB
                       </button>
