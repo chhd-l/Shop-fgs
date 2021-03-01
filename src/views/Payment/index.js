@@ -227,8 +227,8 @@ class Payment extends React.Component {
         {
           needPrescriber: checkoutStore.autoAuditFlag
             ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-                (el) => el.prescriberFlag
-              ).length > 0
+              (el) => el.prescriberFlag
+            ).length > 0
             : checkoutStore.AuditData.length > 0
         },
         () => {
@@ -825,9 +825,9 @@ class Payment extends React.Component {
           var oxxoArgs = oxxoContent.args;
           oxxoPayUrl =
             oxxoArgs &&
-            oxxoArgs.additionalDetails &&
-            oxxoArgs.additionalDetails.object &&
-            oxxoArgs.additionalDetails.object.data[0]
+              oxxoArgs.additionalDetails &&
+              oxxoArgs.additionalDetails.object &&
+              oxxoArgs.additionalDetails.object.data[0]
               ? oxxoArgs.additionalDetails.object.data[0].href
               : '';
           subOrderNumberList = tidList.length
@@ -1470,26 +1470,20 @@ class Payment extends React.Component {
         // 获取税额
         if (this.isLogin) {
           await this.props.checkoutStore.updateLoginCart('', false, false, {
-            // country: data.countryName,
-            country: 'US',
-            // region: data.provinceName,
-            region: 'WA',
+            country: process.env.REACT_APP_GA_COUNTRY, // 传国家简写 / data.countryName
+            region: data.provinceNo,
             city: data.city,
             street: data.address1,
             postalCode: data.postCode,
-            // postalCode: '98101',
             customerAccount: this.state.guestEmail
           });
         } else {
           await this.props.checkoutStore.updateUnloginCart('', '', false, {
-            // country: data.countryName,
-            country: 'US',
-            // region: data.provinceName,
-            region: 'WA',
+            country: process.env.REACT_APP_GA_COUNTRY, // 传国家简写 / data.countryName
+            region: data.provinceNo,
             city: data.city,
             street: data.address1,
-            // postalCode: data.postCode,
-            postalCode: '98101',
+            postalCode: data.postCode,
             customerAccount: this.state.guestEmail
           });
         }
@@ -1514,24 +1508,23 @@ class Payment extends React.Component {
     return (
       <>
         <div
-          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
-            paymentStore.deliveryAddrPanelStatus.isEdit
+          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${paymentStore.deliveryAddrPanelStatus.isEdit
               ? 'border-333'
               : 'border-transparent'
-          }`}
+            }`}
           id="J_checkout_panel_deliveryAddr"
         >
           {this.isLogin ? (
             <AddressList id="1" updateData={this.updateDeliveryAddrData} />
           ) : (
-            <VisitorAddress
-              key={1}
-              type="delivery"
-              initData={deliveryAddress}
-              guestEmail={guestEmail}
-              updateData={this.updateDeliveryAddrData}
-            />
-          )}
+              <VisitorAddress
+                key={1}
+                type="delivery"
+                initData={deliveryAddress}
+                guestEmail={guestEmail}
+                updateData={this.updateDeliveryAddrData}
+              />
+            )}
         </div>
       </>
     );
@@ -1582,20 +1575,20 @@ class Payment extends React.Component {
                 })}
               />
             ) : (
-              <VisitorAddress
-                ref={this.unLoginBillingAddrRef}
-                key={2}
-                titleVisible={false}
-                showConfirmBtn={false}
-                type="billing"
-                initData={billingAddress}
-                guestEmail={guestEmail}
-                updateData={this.updateBillingAddrData}
-                updateFormValidStatus={this.updateValidStatus.bind(this, {
-                  key: 'billingAddr'
-                })}
-              />
-            )}
+                <VisitorAddress
+                  ref={this.unLoginBillingAddrRef}
+                  key={2}
+                  titleVisible={false}
+                  showConfirmBtn={false}
+                  type="billing"
+                  initData={billingAddress}
+                  guestEmail={guestEmail}
+                  updateData={this.updateBillingAddrData}
+                  updateFormValidStatus={this.updateValidStatus.bind(this, {
+                    key: 'billingAddr'
+                  })}
+                />
+              )}
           </>
         )}
       </>
@@ -1744,11 +1737,10 @@ class Payment extends React.Component {
             {payWayNameArr.map((item, i) => {
               return (
                 <div
-                  className={`rc-input rc-input--inline ${
-                    subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
+                  className={`rc-input rc-input--inline ${subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
                       ? 'hidden'
                       : ''
-                  }`}
+                    }`}
                   key={i}
                 >
                   <input
@@ -1777,135 +1769,135 @@ class Payment extends React.Component {
           {payWayErr ? (
             payWayErr
           ) : (
-            <>
-              {/* ***********************支付选项卡的内容start******************************* */}
-              {/* oxxo */}
-              {paymentTypeVal === 'oxxo' && (
-                <>
-                  <OxxoConfirm
-                    type={'oxxo'}
-                    updateEmail={this.updateEmail}
-                    billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
-                  />
-                  {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                  })}
-                </>
-              )}
-              {/* payu creditCard */}
-              {paymentTypeVal === 'payUCreditCard' && (
-                <>
-                  <PayUCreditCard
-                    // todo
-                    // key={Object.values(this.defaultCardDataFromAddr || {}).join(
-                    //   '|'
-                    // )}
-                    ref={this.payUCreditCardRef}
-                    type={'PayUCreditCard'}
-                    isLogin={this.isLogin}
-                    showErrorMsg={this.showErrorMsg}
-                    onVisitorPayosDataConfirm={(data) => {
-                      this.setState({ payosdata: data });
-                    }}
-                    onVisitorCardInfoChange={(data) => {
-                      this.setState({ creditCardInfo: data });
-                    }}
-                    onPaymentCompDataChange={(data) => {
-                      this.setState({ selectedCardInfo: data });
-                    }}
-                    isApplyCvv={false}
-                    needReConfirmCVV={true}
-                    updateFormValidStatus={this.updateValidStatus.bind(this, {
-                      key: 'payUCreditCard'
+              <>
+                {/* ***********************支付选项卡的内容start******************************* */}
+                {/* oxxo */}
+                {paymentTypeVal === 'oxxo' && (
+                  <>
+                    <OxxoConfirm
+                      type={'oxxo'}
+                      updateEmail={this.updateEmail}
+                      billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
+                    />
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
                     })}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'payUCreditCard'
+                  </>
+                )}
+                {/* payu creditCard */}
+                {paymentTypeVal === 'payUCreditCard' && (
+                  <>
+                    <PayUCreditCard
+                      // todo
+                      // key={Object.values(this.defaultCardDataFromAddr || {}).join(
+                      //   '|'
+                      // )}
+                      ref={this.payUCreditCardRef}
+                      type={'PayUCreditCard'}
+                      isLogin={this.isLogin}
+                      showErrorMsg={this.showErrorMsg}
+                      onVisitorPayosDataConfirm={(data) => {
+                        this.setState({ payosdata: data });
+                      }}
+                      onVisitorCardInfoChange={(data) => {
+                        this.setState({ creditCardInfo: data });
+                      }}
+                      onPaymentCompDataChange={(data) => {
+                        this.setState({ selectedCardInfo: data });
+                      }}
+                      isApplyCvv={false}
+                      needReConfirmCVV={true}
+                      updateFormValidStatus={this.updateValidStatus.bind(this, {
+                        key: 'payUCreditCard'
+                      })}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'payUCreditCard'
+                      })}
+                      defaultCardDataFromAddr={this.defaultCardDataFromAddr}
+                    />
+                    {payConfirmBtn({
+                      disabled: !validSts.payUCreditCard || validForBilling,
+                      loading: saveBillingLoading
                     })}
-                    defaultCardDataFromAddr={this.defaultCardDataFromAddr}
-                  />
-                  {payConfirmBtn({
-                    disabled: !validSts.payUCreditCard || validForBilling,
-                    loading: saveBillingLoading
-                  })}
-                </>
-              )}
+                  </>
+                )}
 
-              {/* adyenCreditCard */}
-              {paymentTypeVal === 'adyenCard' && (
-                <>
-                  <AdyenCreditCard
-                    ref={this.adyenCardRef}
-                    subBuyWay={subForm.buyWay}
-                    showErrorMsg={this.showErrorMsg}
-                    updateAdyenPayParam={this.updateAdyenPayParam}
-                    updateFormValidStatus={this.updateValidStatus.bind(this, {
-                      key: 'adyenCard'
-                    })}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'adyenCard'
-                    })}
-                  />
-                  {/* 校验状态
+                {/* adyenCreditCard */}
+                {paymentTypeVal === 'adyenCard' && (
+                  <>
+                    <AdyenCreditCard
+                      ref={this.adyenCardRef}
+                      subBuyWay={subForm.buyWay}
+                      showErrorMsg={this.showErrorMsg}
+                      updateAdyenPayParam={this.updateAdyenPayParam}
+                      updateFormValidStatus={this.updateValidStatus.bind(this, {
+                        key: 'adyenCard'
+                      })}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'adyenCard'
+                      })}
+                    />
+                    {/* 校验状态
                   1 卡校验，从adyen form传入校验状态
                   2 billing校验 */}
-                  {payConfirmBtn({
-                    disabled: !validSts.adyenCard || validForBilling,
-                    loading: saveBillingLoading
-                  })}
-                </>
-              )}
-              {/* KlarnaPayLater */}
-              {paymentTypeVal === 'adyenKlarnaPayLater' && (
-                <>
-                  <AdyenCommonPay
-                    type={'adyenKlarnaPayLater'}
-                    updateEmail={this.updateEmail}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'adyenKlarnaPayLater'
+                    {payConfirmBtn({
+                      disabled: !validSts.adyenCard || validForBilling,
+                      loading: saveBillingLoading
                     })}
-                  />
-                  {/* // 校验状态
+                  </>
+                )}
+                {/* KlarnaPayLater */}
+                {paymentTypeVal === 'adyenKlarnaPayLater' && (
+                  <>
+                    <AdyenCommonPay
+                      type={'adyenKlarnaPayLater'}
+                      updateEmail={this.updateEmail}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'adyenKlarnaPayLater'
+                      })}
+                    />
+                    {/* // 校验状态
             // 1 校验邮箱
             // 2 billing校验 */}
-                  {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                  })}
-                </>
-              )}
-              {/* KlarnaPayNow  */}
-              {paymentTypeVal === 'adyenKlarnaPayNow' && (
-                <>
-                  <AdyenCommonPay
-                    type={'adyenKlarnaPayNow'}
-                    updateEmail={this.updateEmail}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'adyenKlarnaPayNow'
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
                     })}
-                  />
-                  {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                  })}
-                </>
-              )}
-              {/* Sofort */}
-              {paymentTypeVal === 'directEbanking' && (
-                <>
-                  <AdyenCommonPay
-                    type={'directEbanking'}
-                    updateEmail={this.updateEmail}
-                    billingJSX={this.renderBillingJSX({
-                      type: 'directEbanking'
+                  </>
+                )}
+                {/* KlarnaPayNow  */}
+                {paymentTypeVal === 'adyenKlarnaPayNow' && (
+                  <>
+                    <AdyenCommonPay
+                      type={'adyenKlarnaPayNow'}
+                      updateEmail={this.updateEmail}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'adyenKlarnaPayNow'
+                      })}
+                    />
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
                     })}
-                  />
-                  {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                  })}
-                </>
-              )}
+                  </>
+                )}
+                {/* Sofort */}
+                {paymentTypeVal === 'directEbanking' && (
+                  <>
+                    <AdyenCommonPay
+                      type={'directEbanking'}
+                      updateEmail={this.updateEmail}
+                      billingJSX={this.renderBillingJSX({
+                        type: 'directEbanking'
+                      })}
+                    />
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                    })}
+                  </>
+                )}
 
-              {/* ***********************支付选项卡的内容end******************************* */}
-            </>
-          )}
+                {/* ***********************支付选项卡的内容end******************************* */}
+              </>
+            )}
           {/* oxxo */}
         </div>
       </div>
@@ -1969,27 +1961,27 @@ class Payment extends React.Component {
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
           {paymentTypeVal === 'payUCreditCard' ||
-          paymentTypeVal === 'adyenCard' ? (
-            <div className="col-12 col-md-6">
-              <span className="medium">
-                <FormattedMessage id="bankCard" />
-              </span>
-              <br />
-              <span>{holderNameDeco}</span>
-              <br />
-              <span>{brandDeco}</span>
-              <br />
-              <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
-              {expirationDate ? (
-                <>
-                  <br />
-                  <span>{getFormatDate(expirationDate).substr(3)}</span>
-                </>
-              ) : null}
-            </div>
-          ) : (
-            <div className="col-12 col-md-6">{email}</div>
-          )}
+            paymentTypeVal === 'adyenCard' ? (
+              <div className="col-12 col-md-6">
+                <span className="medium">
+                  <FormattedMessage id="bankCard" />
+                </span>
+                <br />
+                <span>{holderNameDeco}</span>
+                <br />
+                <span>{brandDeco}</span>
+                <br />
+                <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
+                {expirationDate ? (
+                  <>
+                    <br />
+                    <span>{getFormatDate(expirationDate).substr(3)}</span>
+                  </>
+                ) : null}
+              </div>
+            ) : (
+              <div className="col-12 col-md-6">{email}</div>
+            )}
           {!tid && (
             <div className="col-12 col-md-6 mt-2 mt-md-0">
               {this.renderAddrPreview({
@@ -2208,10 +2200,10 @@ class Payment extends React.Component {
     const paymentMethodTitle = paymentMethodPanelStatus.isPrepare
       ? paymentMethodTitleForPrepare
       : paymentMethodPanelStatus.isEdit
-      ? paymentMethodTitleForEdit
-      : paymentMethodPanelStatus.isCompleted
-      ? paymentMethodTitleForCompeleted
-      : null;
+        ? paymentMethodTitleForEdit
+        : paymentMethodPanelStatus.isCompleted
+          ? paymentMethodTitleForCompeleted
+          : null;
 
     return (
       <div>
@@ -2241,9 +2233,8 @@ class Payment extends React.Component {
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示 */}
                 <div
-                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-                    errorMsg ? '' : 'hidden'
-                  }`}
+                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${errorMsg ? '' : 'hidden'
+                    }`}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
@@ -2255,24 +2246,24 @@ class Payment extends React.Component {
                 {tid ? (
                   <RepayAddressPreview details={orderDetails} />
                 ) : (
-                  <>
-                    <div className="shipping-form" id="J_checkout_panel_email">
-                      <div className="bg-transparent">
-                        {this.checkoutWithClinic ? (
-                          <OnePageClinicForm history={history} />
-                        ) : null}
-                        {!this.isLogin ? (
-                          <OnePageEmailForm
-                            history={history}
-                            onChange={this.updateGuestEmail}
-                          />
-                        ) : null}
+                    <>
+                      <div className="shipping-form" id="J_checkout_panel_email">
+                        <div className="bg-transparent">
+                          {this.checkoutWithClinic ? (
+                            <OnePageClinicForm history={history} />
+                          ) : null}
+                          {!this.isLogin ? (
+                            <OnePageEmailForm
+                              history={history}
+                              onChange={this.updateGuestEmail}
+                            />
+                          ) : null}
 
-                        {this.renderAddressPanel()}
+                          {this.renderAddressPanel()}
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                     <h5
@@ -2293,121 +2284,120 @@ class Payment extends React.Component {
                       </p>
                       {this.isLogin
                         ? checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct">
-                                <LazyLoad>
-                                  <img
-                                    className="pull-left"
-                                    alt=""
-                                    src={el.goodsInfoImg}
-                                  />
-                                </LazyLoad>
+                          return (
+                            <div className="petProduct">
+                              <LazyLoad>
+                                <img
+                                  className="pull-left"
+                                  alt=""
+                                  src={el.goodsInfoImg}
+                                />
+                              </LazyLoad>
 
-                                <div
-                                  className="pull-left"
-                                  style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petName ? el.petName : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.buyCount}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  className="pull-right"
-                                  style={{
-                                    marginTop: '30px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <button
-                                    className="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
-                                    }}
-                                  >
-                                    Select a pet
-                                  </button>
-                                </div>
+                              <div
+                                className="pull-left"
+                                style={{
+                                  marginTop: '20px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <p>
+                                  <span>Pet:</span>
+                                  <span>
+                                    {el.petName ? el.petName : 'required'}
+                                  </span>
+                                </p>
+                                <p>
+                                  <span>Qty:</span>
+                                  <span>{el.buyCount}</span>
+                                </p>
                               </div>
-                            );
-                          })
+                              <div
+                                className="pull-right"
+                                style={{
+                                  marginTop: '30px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <button
+                                  className="rc-btn rc-btn--sm rc-btn--one"
+                                  onClick={() => {
+                                    this.setState({
+                                      petModalVisible: true,
+                                      currentProIndex: i
+                                    });
+                                  }}
+                                >
+                                  Select a pet
+                                  </button>
+                              </div>
+                            </div>
+                          );
+                        })
                         : checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct" key={i}>
-                                <LazyLoad>
-                                  <img
-                                    alt=""
-                                    src={
-                                      el.sizeList.filter((el) => el.selected)[0]
-                                        .goodsInfoImg
-                                    }
-                                    className="pull-left"
-                                  />
-                                </LazyLoad>
-                                <div
+                          return (
+                            <div className="petProduct" key={i}>
+                              <LazyLoad>
+                                <img
+                                  alt=""
+                                  src={
+                                    el.sizeList.filter((el) => el.selected)[0]
+                                      .goodsInfoImg
+                                  }
                                   className="pull-left"
-                                  style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petForm
-                                        ? el.petForm.petName
-                                        : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.quantity}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  className="pull-right"
-                                  style={{
-                                    marginTop: '30px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <button
-                                    id="selectPet"
-                                    className="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
-                                    }}
-                                  >
-                                    Select a pet
-                                  </button>
-                                </div>
+                                />
+                              </LazyLoad>
+                              <div
+                                className="pull-left"
+                                style={{
+                                  marginTop: '20px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <p>
+                                  <span>Pet:</span>
+                                  <span>
+                                    {el.petForm
+                                      ? el.petForm.petName
+                                      : 'required'}
+                                  </span>
+                                </p>
+                                <p>
+                                  <span>Qty:</span>
+                                  <span>{el.quantity}</span>
+                                </p>
                               </div>
-                            );
-                          })}
+                              <div
+                                className="pull-right"
+                                style={{
+                                  marginTop: '30px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <button
+                                  id="selectPet"
+                                  className="rc-btn rc-btn--sm rc-btn--one"
+                                  onClick={() => {
+                                    this.setState({
+                                      petModalVisible: true,
+                                      currentProIndex: i
+                                    });
+                                  }}
+                                >
+                                  Select a pet
+                                  </button>
+                              </div>
+                            </div>
+                          );
+                        })}
                     </h5>
                   </div>
                 )}
                 <div
-                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
-                    paymentMethodPanelStatus.isEdit
+                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${paymentMethodPanelStatus.isEdit
                       ? 'border-333'
                       : 'border-transparent'
-                  }`}
+                    }`}
                   id="J_checkout_panel_paymentMethod"
                 >
                   <span>{paymentMethodTitle}</span>
@@ -2437,20 +2427,20 @@ class Payment extends React.Component {
                     />
                   </>
                 ) : (
-                  <PayProductInfo
-                    data={recommend_data}
-                    fixToHeader={false}
-                    style={{ background: '#fff' }}
-                    ref="payProductInfo"
-                    location={location}
-                    history={history}
-                    frequencyName={subForm.frequencyName}
-                    buyWay={subForm.buyWay}
-                    sendPromotionCode={this.savePromotionCode}
-                    promotionCode={promotionCode}
-                    operateBtnVisible={!tid}
-                  />
-                )}
+                    <PayProductInfo
+                      data={recommend_data}
+                      fixToHeader={false}
+                      style={{ background: '#fff' }}
+                      ref="payProductInfo"
+                      location={location}
+                      history={history}
+                      frequencyName={subForm.frequencyName}
+                      buyWay={subForm.buyWay}
+                      sendPromotionCode={this.savePromotionCode}
+                      promotionCode={promotionCode}
+                      operateBtnVisible={!tid}
+                    />
+                  )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
               </div>
             </div>
@@ -2458,9 +2448,8 @@ class Payment extends React.Component {
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
-              className={`order-summary-title align-items-center justify-content-between text-center ${
-                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-              }`}
+              className={`order-summary-title align-items-center justify-content-between text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                }`}
               onClick={this.toggleMobileCart.bind(this, 'more')}
             >
               <span

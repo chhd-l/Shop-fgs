@@ -5,7 +5,7 @@ const api = {
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id', //http://localhost:3000/account/information
   queryCityByName: `${process.env.REACT_APP_STOREID}/system/city`,
-  getProvincesList: `/systemState/queryByStoreId`,
+  getProvincesList: `/systemState/queryByStoreId`, // 查询省份列表
   addressValidation: `/addressValidation/validation`,
   buryPoint: '/fgs.gif',
   getConfig: `/config/store/${process.env.REACT_APP_STOREID}`,

@@ -42,7 +42,6 @@ export default class Selection extends React.Component {
       },
       hoveredIdx: -1
     };
-    // console.info('selectedItemDataselectedItemDataselectedItemData', this.props.selectedItemData)
     this.timeOutId = null;
   }
   hideOptions = () => {
@@ -92,10 +91,7 @@ export default class Selection extends React.Component {
   };
   render() {
     const { optionList, customStyleType } = this.props;
-    
     const { selectedItem, hoveredIdx, optionsVisible } = this.state;
-    console.log({selectedItem});
-
     return (
       <div
         onBlur={this.onBlurHandler}

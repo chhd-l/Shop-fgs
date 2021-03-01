@@ -34,6 +34,7 @@ class EditForm extends React.Component {
         countryName: '',
         city: '',
         cityName: '',
+        provinceNo: '',
         provinceName: '',
         province: '',
         postCode: '',
@@ -59,7 +60,7 @@ class EditForm extends React.Component {
       });
       address.countryName= res[0].name;
     });
-
+    // 查询省份列表（美国：州）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
       this.setState({
         provinceList: res.context.systemStates
@@ -72,7 +73,8 @@ class EditForm extends React.Component {
       tmp = this.state[`${key}List`].map((c) => {
         return {
           value: c.id.toString(),
-          name: c.stateName
+          name: c.stateName,
+          stateNo: c.stateNo
         };
       });
       tmp.unshift({ value: 'state', name: 'state' });
@@ -128,6 +130,7 @@ class EditForm extends React.Component {
     const { address } = this.state;
     if(process.env.REACT_APP_LANG === 'en' && key=='province'){
       address.provinceName= data.name;
+      address.provinceNo= data.stateNo; // 省份简写
     }
     if(key=='country'){
       address.countryName= data.name
@@ -138,7 +141,6 @@ class EditForm extends React.Component {
     });
   }
   handleCityInputChange = (data) => {
-    // console.log('-----------------> city select: ', data);
     const { address } = this.state;
     address.city = data.id;
     address.cityName = data.cityName;
