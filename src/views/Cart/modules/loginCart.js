@@ -3,7 +3,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -15,7 +14,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType
 } from '@/utils/utils';
-import {GAInitLoginCart} from "@/utils/GA"
+import {GAInitLoginCart, GACartScreenLoad,GACartChangeSubscription} from "@/utils/GA"
 import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
@@ -41,6 +40,9 @@ import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_p
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5';
 const isHubGA = process.env.REACT_APP_HUB_GA;
+
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -110,6 +112,7 @@ class LoginCart extends React.Component {
 
     if(isHubGA){
       GAInitLoginCart({productList: this.props.checkoutStore.loginCartData,frequencyList:this.state.frequencyList,props:this.props})
+      GACartScreenLoad()
     }
     this.setData();
   }
@@ -1417,7 +1420,7 @@ class LoginCart extends React.Component {
         </div>
 
         {/* 税额 */}
-        {process.env.REACT_APP_LANG == 'en' ? (
+        {customTaxSettingOpenFlag == 0 ? (
           <div className="row">
             <div className="col-8">
               <p>
@@ -1677,21 +1680,9 @@ class LoginCart extends React.Component {
     // 当前状态与需要切换的状态相同时，直接返回
 
     if (goodsInfoFlag) {
-      isHubGA &&
-        dataLayer.push({
-          event: 'cartChangeSubscription',
-          cartChangeSubscription: {
-            button: 'Autoship' //Values : 'Single purchase', 'Autoship'
-          }
-        });
+      isHubGA && GACartChangeSubscription('Autoship')
     } else {
-      isHubGA &&
-        dataLayer.push({
-          event: 'cartChangeSubscription',
-          cartChangeSubscription: {
-            button: 'Single purchase' //Values : 'Single purchase', 'Autoship'
-          }
-        });
+      isHubGA && GACartChangeSubscription('Single purchase')
     }
 
     if (pitem.goodsInfoFlag === goodsInfoFlag) {
@@ -1705,21 +1696,10 @@ class LoginCart extends React.Component {
   render() {
     const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
-    const event = {
-      page: {
-        type: 'Cart',
-        theme: '',
-        path: location.href.pathname,
-        error: '',
-        hitTimestamp: new Date(),
-        filters: ''
-      }
-    };
     const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
-        <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
           showUserIcon={true}

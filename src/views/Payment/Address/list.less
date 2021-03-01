@@ -1,29 +1,25 @@
 .payment-addressList {
-
-  .addr-container {
-    max-height: 400px;
+  .addr-container-scroll {
+    max-height: 200px;
     overflow-y: auto;
-  }
-
-  .addr-container::-webkit-scrollbar {
-    width: 10px;
-    height: 1px;
-  }
-
-  .addr-container::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #c7c7c7;
-  }
-
-  .addr-container::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: #ebebeb;
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 1px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: #c7c7c7;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background: #ebebeb;
+    }
   }
 
   .address-item {
     border: 1px solid transparent;
     cursor: pointer;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
 
   .address-item:hover,
@@ -32,7 +28,7 @@
   }
 
   .address-item.selected {
-    border-color: rgba(255, 0, 0, .5);
+    border-color: rgba(255, 0, 0, 0.5);
   }
 
   .address-item .addr-btn-edit {
@@ -43,11 +39,11 @@
   }
 
   .address-item .addr-btn-edit .rc-edit--xs {
-    opacity: .6;
+    opacity: 0.6;
   }
 
   .address-item .addr-btn-edit .rc-edit--xs:after {
-    transform: scale(.9);
+    transform: scale(0.9);
   }
 
   .address-item .address-name {
@@ -59,14 +55,14 @@
     margin: 5px 10px;
     padding: 0 10px;
     line-height: 20px;
-    font-size: .9em;
+    font-size: 0.9em;
     border-radius: 1em;
-    border: 1px solid
+    border: 1px solid;
   }
 
   .address-item .address-name:hover,
   .address-item.selected .address-name {
-    color: red
+    color: red;
   }
 
   .addr-switch {
@@ -93,7 +89,7 @@
   }
 
   .address-btn-plus:after {
-    transform: scale(.7);
+    transform: scale(0.7);
   }
 }
 
@@ -106,7 +102,7 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        opacity: .5;
+        opacity: 0.5;
       }
     }
   }

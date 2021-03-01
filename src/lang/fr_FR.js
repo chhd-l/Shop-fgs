@@ -661,7 +661,7 @@ const fr_FR = {
   'payStatus.PAID_IN': 'Payé en',
   'payStatus.REFUND': 'rembourser',
   personal: 'Mon Compte',
-  'pet.addNewPet': 'Ajouter un nouveau PET',
+  'pet.addNewPet': 'ajouter un nouvel animal',
   'pet.deletePet': "Supprimer le profil de l'animal",
   'pet.petListTitle': 'Créez et gérez le profil de votre animal pour maintenir sa meilleure santé possible',
   petFemale: 'Femelle',

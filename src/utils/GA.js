@@ -32,7 +32,6 @@ export const myAccountPushEvent = (myAccountScreenName) => {
     myAccountScreenName, //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
   })
   console.log(myAccountScreenName)
-  console.log({ dataLayer })
 }
 
 //myAccountAction
@@ -44,7 +43,6 @@ export const myAccountActionPushEvent = (myAccountActionName) => {
     //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change email', 'Change password', 'Delete Account'
   })
   console.log(myAccountActionName)
-  console.log({ dataLayer })
 }
 
 //faqClick
@@ -159,6 +157,16 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
   });
 }
 
+//cart cartChangeSubscription
+export const GACartChangeSubscription = (btnContent) => {
+  dataLayer.push({
+    event: 'cartChangeSubscription',
+    cartChangeSubscription: {
+      button: btnContent //Values : 'Single purchase', 'Autoship'
+    }
+  });
+}
+
 
 //checkout init 游客
 export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
@@ -256,3 +264,18 @@ export const checkoutDataLayerPushEvent = ({ name, options }) => {
     }
   });
 };
+
+//Order confirmation
+export const orderConfirmationPushEvent = (details)=>{
+  dataLayer.push({
+    'event': 'orderConfirmation',
+    'orderConfirmation': {
+      'id': details.transactionId || "", //Transaction ID, same as backend system
+      'currency': process.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
+      'amount': details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
+      'taxes': details.tradePrice.taxFreePrice || '', //Taxes amount, US number format, local currency
+      'shipping': details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
+      'paymentMethod': 'Credit Card' //'Credit Card' currently only payment method in use
+    }
+  });
+}

@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -13,7 +12,7 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
-import {GAInitUnLoginCart} from "@/utils/GA"
+import {GAInitUnLoginCart,GACartScreenLoad,GACartChangeSubscription} from "@/utils/GA"
 import PayProductInfo from '../../Payment/PayProductInfo';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -33,6 +32,9 @@ const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isGift = true;
 const isHubGA = process.env.REACT_APP_HUB_GA;
+
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
 
 @injectIntl
 @inject('checkoutStore', 'loginStore', 'clinicStore')
@@ -155,6 +157,7 @@ class UnLoginCart extends React.Component {
     });
     if(isHubGA){
       GAInitUnLoginCart({productList:this.props.checkoutStore.cartData,frequencyList:this.state.frequencyList,props:this.props});
+      GACartScreenLoad()
     }
     this.setCartData();
   }
@@ -1565,7 +1568,7 @@ class UnLoginCart extends React.Component {
 
 
           {/* 税额 */}
-          {process.env.REACT_APP_LANG == 'en' ? (
+          {customTaxSettingOpenFlag == 0 ? (
             <div className="row">
               <div className="col-8">
                 <p>
@@ -1617,9 +1620,8 @@ class UnLoginCart extends React.Component {
 
             <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
               <div
-                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
-                  mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-                }`}
+                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                  }`}
                 onClick={this.toggleMobileCart.bind(this, 'more')}
               >
                 <span
@@ -1766,21 +1768,9 @@ class UnLoginCart extends React.Component {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
     if (pitem.goodsInfoFlag) {
-      isHubGA &&
-        dataLayer.push({
-          event: 'cartChangeSubscription',
-          cartChangeSubscription: {
-            button: 'Autoship' //Values : 'Single purchase', 'Autoship'
-          }
-        });
+      isHubGA && GACartChangeSubscription('Autoship')
     } else {
-      isHubGA &&
-        dataLayer.push({
-          event: 'cartChangeSubscription',
-          cartChangeSubscription: {
-            button: 'Single purchase' //Values : 'Single purchase', 'Autoship'
-          }
-        });
+      isHubGA && GACartChangeSubscription('Single purchase')
     }
 
     if (pitem.goodsInfoFlag === goodsInfoFlag) {
@@ -1793,23 +1783,13 @@ class UnLoginCart extends React.Component {
   }
   render() {
     const { productList } = this.state;
-    console.log(productList, 'productList');
+   
     const List = this.getProducts(this.state.productList);
-    const event = {
-      page: {
-        type: 'Cart',
-        theme: '',
-        path: location.pathname,
-        error: '',
-        hitTimestamp: new Date(),
-        filters: ''
-      }
-    };
+    
     const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
-        <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
           showUserIcon={true}
