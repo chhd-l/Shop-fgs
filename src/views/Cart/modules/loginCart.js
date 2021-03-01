@@ -15,7 +15,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType
 } from '@/utils/utils';
-import {GAInitLoginCart} from "@/utils/GA"
+import { GAInitLoginCart } from "@/utils/GA"
 import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
@@ -41,6 +41,9 @@ import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_p
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5';
 const isHubGA = process.env.REACT_APP_HUB_GA;
+
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -108,8 +111,8 @@ class LoginCart extends React.Component {
       await this.checkoutStore.updateLoginCart();
     }
 
-    if(isHubGA){
-      GAInitLoginCart({productList: this.props.checkoutStore.loginCartData,frequencyList:this.state.frequencyList,props:this.props})
+    if (isHubGA) {
+      GAInitLoginCart({ productList: this.props.checkoutStore.loginCartData, frequencyList: this.state.frequencyList, props: this.props })
     }
     this.setData();
   }
@@ -1417,7 +1420,7 @@ class LoginCart extends React.Component {
         </div>
 
         {/* 税额 */}
-        {process.env.REACT_APP_LANG == 'en' ? (
+        {customTaxSettingOpenFlag == 0 ? (
           <div className="row">
             <div className="col-8">
               <p>

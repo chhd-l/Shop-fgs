@@ -78,6 +78,8 @@ const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
 
 
 @inject(

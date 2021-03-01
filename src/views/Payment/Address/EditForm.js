@@ -7,7 +7,7 @@ import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { getProvincesList } from '@/api/index';
 
-// const localItemRoyal = window.__.localItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 /**
  * add/edit address form - member/visitor
@@ -49,6 +49,10 @@ class EditForm extends React.Component {
   componentDidMount() {
     const { initData = {} } = this.props;
     const { address } = this.state;
+
+    console.log('★★★★★★★★-> address: ', address);
+    console.log('★★★★★★★★-> initData: ', initData);
+
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
     });
@@ -60,6 +64,7 @@ class EditForm extends React.Component {
       });
       address.countryName = res[0].name;
     });
+
     // 查询省份列表（美国：州）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
       this.setState({
@@ -143,7 +148,6 @@ class EditForm extends React.Component {
     const { address } = this.state;
     address.city = data.id;
     address.cityName = data.cityName;
-    console.log('★★★★★★★★-> EditForm: ', data);
     this.setState({ address }, () => {
       this.props.updateData(this.state.address);
     });

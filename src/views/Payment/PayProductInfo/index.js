@@ -18,6 +18,9 @@ let isGACheckoutLock = false
 const isHubGA = process.env.REACT_APP_HUB_GA
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
+
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
 class PayProductInfo extends React.Component {
@@ -719,7 +722,7 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 税额 */}
-                {process.env.REACT_APP_LANG == 'en' ? (
+                {customTaxSettingOpenFlag == 0 ? (
                   <div className="row leading-lines shipping-item">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">

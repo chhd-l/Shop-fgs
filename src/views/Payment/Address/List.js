@@ -136,6 +136,8 @@ class AddressList extends React.Component {
         () => {
           // this.updateSelectedData();
           // this.confirmToNextPanel({ init });
+          
+    console.log('★★★★★★★★-> List addressList: ', addressList);
         }
       );
     } catch (err) {
@@ -148,11 +150,9 @@ class AddressList extends React.Component {
   }
   updateSelectedData() {
     const { selectedId, addressList } = this.state;
-    const tmpObj =
-      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    const tmpObj = find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     this.props.updateData(tmpObj);
-    this.isDeliverAddress &&
-      this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+    this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
   }
   confirmToNextPanel({ init = false } = {}) {
     if (this.curPanelKey !== 'deliveryAddr') {
@@ -235,7 +235,7 @@ class AddressList extends React.Component {
         rfc: tmp.rfc,
         country: tmp.countryId ? tmp.countryId.toString() : '',
         city: tmp.cityId ? tmp.cityId.toString() : '',
-        cityName: tmp.cityName,
+        cityName: tmp.city, 
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
@@ -504,6 +504,9 @@ class AddressList extends React.Component {
       });
     } catch (err) {
       console.log(err);
+      this.setState({
+        modalVisible: false
+      });
     }
   };
   // 选择地址
@@ -593,11 +596,20 @@ class AddressList extends React.Component {
             ) : null}
             <br />
             <span>
-              {[
-                matchNamefromDict(this.state.countryList, item.countryId),
-                item.city,
-                item.address1
-              ].join(', ')}
+              {process.env.REACT_APP_LANG == 'en' ? (
+                [
+                  matchNamefromDict(this.state.countryList, item.countryId),
+                  item.province,
+                  item.city,
+                  item.address1
+                ].join(', ')
+              ) : (
+                  [
+                    matchNamefromDict(this.state.countryList, item.countryId),
+                    item.city,
+                    item.address1
+                  ].join(', ')
+                )}
             </span>
           </div>
           <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">

@@ -13,7 +13,7 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
-import {GAInitUnLoginCart} from "@/utils/GA"
+import { GAInitUnLoginCart } from "@/utils/GA"
 import PayProductInfo from '../../Payment/PayProductInfo';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -33,6 +33,9 @@ const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isGift = true;
 const isHubGA = process.env.REACT_APP_HUB_GA;
+
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
 
 @injectIntl
 @inject('checkoutStore', 'loginStore', 'clinicStore')
@@ -153,8 +156,8 @@ class UnLoginCart extends React.Component {
         })
       });
     });
-    if(isHubGA){
-      GAInitUnLoginCart({productList:this.props.checkoutStore.cartData,frequencyList:this.state.frequencyList,props:this.props});
+    if (isHubGA) {
+      GAInitUnLoginCart({ productList: this.props.checkoutStore.cartData, frequencyList: this.state.frequencyList, props: this.props });
     }
     this.setCartData();
   }
@@ -1568,7 +1571,7 @@ class UnLoginCart extends React.Component {
 
 
           {/* 税额 */}
-          {process.env.REACT_APP_LANG == 'en' ? (
+          {customTaxSettingOpenFlag == 0 ? (
             <div className="row">
               <div className="col-8">
                 <p>
@@ -1620,9 +1623,8 @@ class UnLoginCart extends React.Component {
 
             <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
               <div
-                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
-                  mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-                }`}
+                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                  }`}
                 onClick={this.toggleMobileCart.bind(this, 'more')}
               >
                 <span
