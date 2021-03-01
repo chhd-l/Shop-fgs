@@ -103,11 +103,13 @@ class Help extends React.Component {
                                     <FormattedMessage id="help.byTelephone" />
                                   )}
                                 </b>
-                                <p>
-                                  {phoneDes
-                                    ? phoneDes
-                                    : this.props.configStore.contactTimePeriod}
-                                </p>
+                                <p
+                                  dangerouslySetInnerHTML={{
+                                    __html: phoneDes
+                                      ? phoneDes
+                                      : this.props.configStore.contactTimePeriod
+                                  }}
+                                ></p>
                                 <div className="rc-margin-top--xs">
                                   <p
                                     style={{ color: '#00BCA3' }}
@@ -163,7 +165,7 @@ class Help extends React.Component {
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
                                 <b>
-                                  <FormattedMessage id="help.byEmail" />
+                                  {/* <FormattedMessage id="help.byEmail" /> */}
                                   {process.env.REACT_APP_LANG == 'us' ? (
                                     <span
                                       style={{

@@ -2,19 +2,10 @@ import { action, observable, computed, toJS } from 'mobx';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import { isNewAccount } from "@/api/user"
+import {checkoutDataLayerPushEvent} from "@/utils/GA"
 
 const localItemRoyal = window.__.localItemRoyal;
 const isHubGA = process.env.REACT_APP_HUB_GA
-
-const checkoutDataLayerPushEvent = ({name,options}) => {
-  dataLayer.push({
-    'event' : 'checkoutStep',
-    'checkoutStep' : {
-    	name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
-    	options, //'Guest checkout', 'New account', 'Existing account'
-    }
-});
-}
 
 class PaymentStore {
   @observable isLogin = !!localItemRoyal.get("rc-token")

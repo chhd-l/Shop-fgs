@@ -891,7 +891,8 @@ class Details extends React.Component {
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:res.context.goodsAttributesValueRelList
                 }
               ),
               images,
@@ -901,12 +902,12 @@ class Details extends React.Component {
               barcode
             },
             () => {
+              this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
-                ? this.hubGAProductDetailPageView(this.state.details)
+                ? this.hubGAProductDetailPageView(res.context.goodsAttributesValueRelList,this.state.details)
                 : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
-              this.matchGoods();
             }
           );
         } else {
@@ -941,18 +942,19 @@ class Details extends React.Component {
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:res.context.goodsAttributesValueRelList
                 }
               ),
               images
             },
             () => {
+              this.bundleMatchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
-                ? this.hubGAProductDetailPageView(this.state.details)
+                ? this.hubGAProductDetailPageView(res.context.goodsAttributesValueRelList,this.state.details)
                 : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
-              this.bundleMatchGoods();
             }
           );
           // 没有规格的情况
@@ -1420,6 +1422,7 @@ class Details extends React.Component {
               el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
               return el;
             });
+
             checkoutStore.setCartData(handledData);
             let AuditData = handledData.filter((el) => el.auditCatFlag);
             checkoutStore.setAuditData(AuditData);
@@ -1666,7 +1669,7 @@ class Details extends React.Component {
   }
 
   //hub商品详情页 埋点
-  hubGAProductDetailPageView(item) {
+  hubGAProductDetailPageView(goodsAttributesValueRelList, item) {
     const {
       cateId,
       minMarketPrice,
@@ -1678,7 +1681,10 @@ class Details extends React.Component {
     const specie = cateId === '1134' ? 'Cat' : 'Dog';
     const cateName = goodsCateName?.split('/') || '';
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-    const size = goodsInfos?.[0]?.packSize || '';
+    const size = item?.sizeList.length && item?.sizeList.filter(item => item.selected).map(selectItem => selectItem.specText).toString();
+    const breed = goodsAttributesValueRelList
+        .filter((attr) => attr.goodsAttributeName == 'breeds')
+        .map((item) => item.goodsAttributeValue);
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
     const GAProductsInfo = [
       {
@@ -1692,9 +1698,7 @@ class Details extends React.Component {
         technology: cateName?.[2],
         brand: 'Royal Canin',
         size,
-        breed: '', //todo:接口添加返回
-        promoCodeName: '', //促销 todo:接口加
-        promoCodeAmount: '' //促销 todo:接口加
+        breed,
       }
     ];
 

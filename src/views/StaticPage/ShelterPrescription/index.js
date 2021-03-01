@@ -32,7 +32,7 @@ class ShelterPrescription extends React.Component {
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
       email: 'Send us an Email',
-      phoneDes: 'Monday trought Friday:8:00 AM - 4:30  PM CT'
+      phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
   toScroll = (anchorName) => {
@@ -190,7 +190,7 @@ class ShelterPrescription extends React.Component {
                     nutrition and behavior; track your pet’s growth; and more.
                   </p>
                   <p>
-                    <Link href="/subscription-landing">
+                    <Link to="/subscription-landing">
                       <button className="rc-btn rc-btn--two gtm-content-block-btn ">
                         JOIN THE CLUB
                       </button>
