@@ -4,8 +4,8 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import { Helmet } from 'react-helmet';
-import {GACartScreenLoad} from "@/utils/GA"
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
@@ -27,21 +27,25 @@ class Cart extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    GACartScreenLoad()
     setSeoConfig().then(res => {
       this.setState({seoConfig: res})
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
   render() {
     const { configStore, history, match } = this.props;
+    const event = {
+      page: {
+        type: 'Cart',
+        theme: '',
+        path:history.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
+      }
+    };
     return (
       <>
         <Helmet>
@@ -50,6 +54,7 @@ class Cart extends React.Component {
             <meta name="description" content={this.state.seoConfig.metaDescription}/>
             <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
         </Helmet>
+        <GoogleTagManager additionalEvents={event} />
         {this.isLogin ? (
           <LoginCart
             history={history}
