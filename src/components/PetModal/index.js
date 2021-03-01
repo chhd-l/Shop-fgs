@@ -23,23 +23,22 @@ class PetModal extends Component {
     this.getPetList();
   }
 
-  get getUserInfo() {
+  get userInfo() {
     return this.props.loginStore.userInfo;
   }
 
   async getPetList() {
-    if (!this.getUserInfo || !this.getUserInfo.customerAccount) {
+    if (!this.userInfo || !this.userInfo.customerAccount) {
       // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
       });
       return false;
     }
-    let params = {
-      customerId: this.getUserInfo.customerId,
-      consumerAccount: this.getUserInfo.customerAccount
-    };
-    let res = await getPetList(params);
+    let res = await getPetList({
+      customerId: this.userInfo.customerId,
+      consumerAccount: this.userInfo.customerAccount
+    });
     if (res) {
       let petList = res.context.context;
       if (petList.length > 0) {

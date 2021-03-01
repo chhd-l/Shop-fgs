@@ -602,7 +602,6 @@ class PayProductInfo extends React.Component {
                       }
                       
                       if (
-                        result.backCode === 'K-000000' &&
                         (!result.context.promotionFlag ||
                           result.context.couponCodeFlag)
                       ) {
@@ -688,16 +687,14 @@ class PayProductInfo extends React.Component {
                                   this.props.buyWay === 'frequency'
                                 );
                               }
-                              if (result && result.backCode === 'K-000000') {
-                                discount.pop();
-                                this.props.sendPromotionCode('');
-                                this.setState({
-                                  discount: [],
-                                  isShowValidCode: false,
-                                  lastPromotionInputValue: '',
-                                  promotionInputValue: ''
-                                });
-                              }
+                              discount.pop();
+                              this.props.sendPromotionCode('');
+                              this.setState({
+                                discount: [],
+                                isShowValidCode: false,
+                                lastPromotionInputValue: '',
+                                promotionInputValue: ''
+                              });
                             }}
                           ></span>
                         </p>

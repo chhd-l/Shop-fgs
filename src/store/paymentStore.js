@@ -110,7 +110,7 @@ class PaymentStore {
         case 'email':
           if (this.isLogin) {
             isNewAccount().then((res) => {
-              if (res.code == 'K-000000' && res.context == 0) {
+              if (res.context == 0) {
                 checkoutDataLayerPushEvent({name:'Email',options:'New account'})
               } else {
                 checkoutDataLayerPushEvent({name:'Email',options:'Existing account'})
@@ -124,7 +124,7 @@ class PaymentStore {
         case 'deliveryAddr':
           if (this.isLogin) {
             isNewAccount().then((res) => {
-              if (res.code == 'K-000000' && res.context == 0) {
+              if (res.context == 0) {
                 checkoutDataLayerPushEvent({name:'Delivery',options:'New account'})
               } else {
                 checkoutDataLayerPushEvent({name:'Delivery',options:'Existing account'})
@@ -138,7 +138,7 @@ class PaymentStore {
         case 'paymentMethod':
           if (this.isLogin) {
             isNewAccount().then((res) => {
-              if (res.code == 'K-000000' && res.context == 0) {
+              if (res.context == 0) {
                 checkoutDataLayerPushEvent({name:'Payment',options:'New account'})
               } else {
                 checkoutDataLayerPushEvent({name:'Payment',options:'Existing account'})
@@ -159,7 +159,7 @@ class PaymentStore {
           //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
           if (this.isLogin) {
             isNewAccount().then((res) => {
-              if (res.code == 'K-000000' && res.context == 0) {
+              if (res.context == 0) {
                 dataLayer[0].checkout.option = 'new account'
                 option = 'new account'
               } else {

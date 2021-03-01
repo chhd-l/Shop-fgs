@@ -503,7 +503,7 @@ function ListItemBody({ item, headingTag }) {
       {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly">
-            <div className="text-center" style={{color:"#666"}}>{technology}</div>
+            <div className="text-center" style={{color:"#666",fontSize: '0.85rem'}}>{technology}</div>
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
           </div>
           <br />
@@ -1208,9 +1208,10 @@ class List extends React.Component {
       );
     let filterList = tmpList.concat(customFilter);
 
-    // isVetProducts 过滤掉'breeds' 'Sterilized'
-    let vetFilterList = filterList.filter(item => item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized');
-    let allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
+    // isVetProducts 过滤掉'breeds' 'Sterilized''Specific needs'
+    let vetFilterList = filterList.filter(item => item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized' && item.attributeName !== 'Specific needs');
+    let sptFilterList = filterList.filter(item => item.attributeName !== 'Size');
+    let allFilterList = this.state.isVetProducts ? vetFilterList : sptFilterList;
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({

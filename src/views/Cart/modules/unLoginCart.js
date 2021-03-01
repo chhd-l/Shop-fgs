@@ -1801,7 +1801,6 @@ class UnLoginCart extends React.Component {
     }
     if (
       result &&
-      result.backCode === 'K-000000' &&
       (!result.context.promotionFlag || result.context.couponCodeFlag)
     ) {
       //表示输入apply promotionCode成功
@@ -1840,9 +1839,7 @@ class UnLoginCart extends React.Component {
       //会员
       result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
     }
-    if (result.backCode === 'K-000000') {
-      this.clearPromotionCode();
-    }
+    this.clearPromotionCode();
   };
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买

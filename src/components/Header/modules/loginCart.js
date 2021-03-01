@@ -171,6 +171,15 @@ class LoginCart extends React.Component {
     })
   }
 
+  clickBasket = () => {
+    this.hubGA && dataLayer.push({
+      'event': 'topPictosClick',
+      'topPictosClick': {
+        'itemName': 'Basket',
+      }
+    })
+  }
+
   render() {
     const { totalNum, cartData, loading } = this;
     const { frequencyList } = this.state;
@@ -189,7 +198,7 @@ class LoginCart extends React.Component {
         <Link to="/cart"
           className="minicart-link"
           data-loc="miniCartOrderBtn"
-          onClick={this.EditToCart}
+          onClick={this.clickBasket}
         >
           <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
           {totalNum > 0 ? (
@@ -259,6 +268,7 @@ class LoginCart extends React.Component {
                     className="rc-styled-link pull-right"
                     role="button"
                     aria-pressed="true"
+                    onClick={this.EditToCart}
                   >
                     <FormattedMessage id="chang" />
                   </Link>

@@ -176,6 +176,7 @@ const UserJSX = (props) => {
           <li
             onMouseOver={self.handleMouseOver}
             onMouseOut={self.handleMouseOut}
+            onClick={self.loginIcon}
           >
             {/* 未登录 */}
             {!isLogin && (

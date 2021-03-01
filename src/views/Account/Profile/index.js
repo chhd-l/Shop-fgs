@@ -97,9 +97,13 @@ class AccountProfile extends React.Component {
     // }
     this.queryCustomerBaseInfo();
   }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   queryCustomerBaseInfo = () => {
+    const customerId = this.userInfo && this.userInfo.customerId;
     this.setState({ loading: true });
-    getCustomerInfo()
+    getCustomerInfo({ customerId })
       .then((res) => {
         this.setState({ loading: false });
         let prescriberName;
@@ -306,6 +310,7 @@ class AccountProfile extends React.Component {
                       <CommunicationDataEditForm
                         originData={originData}
                         data={personalData}
+                        userInfo={this.userInfo}
                         key={Object.keys(personalData || {})}
                         updateData={this.queryCustomerBaseInfo}
                         updateEditOperationPanelName={
