@@ -419,7 +419,7 @@ class Details extends React.Component {
 
   setDefaultPurchaseType({ id }) {
     const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
-      (ele) => ele.id === id
+      (ele) => ele.id && id && ele.id + '' === id + ''
     )[0];
     if (targetDefaultPurchaseTypeItem) {
       this.setState({
@@ -1096,7 +1096,7 @@ class Details extends React.Component {
       } else {
         await this.hanldeUnloginAddToCart({ redirect, needLogin });
       }
-    } catch (err) { }
+    } catch (err) {}
   }
   async hanldeLoginAddToCart({ redirect }) {
     try {
@@ -1272,7 +1272,7 @@ class Details extends React.Component {
         (c) =>
           c.goodsId === goodsId &&
           currentSelectedSize.goodsInfoId ===
-          c.sizeList.filter((s) => s.selected)[0].goodsInfoId
+            c.sizeList.filter((s) => s.selected)[0].goodsInfoId
       );
       if (historyItem) {
         flag = false;
@@ -1327,7 +1327,7 @@ class Details extends React.Component {
       (c) =>
         c.goodsId === goodsId &&
         currentSelectedSize.goodsInfoId ===
-        find(c.sizeList, (s) => s.selected).goodsInfoId
+          find(c.sizeList, (s) => s.selected).goodsInfoId
     );
     tmpData = Object.assign(tmpData, {
       currentAmount: currentUnitPrice * quantityNew,
@@ -1420,6 +1420,7 @@ class Details extends React.Component {
               el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
               return el;
             });
+
             checkoutStore.setCartData(handledData);
             let AuditData = handledData.filter((el) => el.auditCatFlag);
             checkoutStore.setAuditData(AuditData);
@@ -1700,14 +1701,14 @@ class Details extends React.Component {
 
     const hubProductsLoad = {
       products: GAProductsInfo
-    }
+    };
     const hubEcEvents = {
       event: 'pdpScreenLoad'
-    }
+    };
     this.setState({
       hubProductsLoad,
       hubEcEvents
-    })
+    });
   }
 
   render() {
@@ -1750,19 +1751,21 @@ class Details extends React.Component {
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
     const De = process.env.REACT_APP_LANG === 'de';
-    let goodHeading = `<${this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
-      } 
+    let goodHeading = `<${
+      this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
+    } 
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
-      </${this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
+      </${
+        this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
       }>`;
     let bundle = goodsType && goodsType === 2;
     return (
       <div id="Details">
         {Object.keys(event).length || Object.keys(hubProductsLoad).length ? (
           <GoogleTagManager
-            hubProductsLoad = {hubProductsLoad}
+            hubProductsLoad={hubProductsLoad}
             hubEcommerceEvents={hubEcEvents}
             additionalEvents={event}
             ecommerceEvents={eEvents}
@@ -1800,239 +1803,240 @@ class Details extends React.Component {
             </div>
           </main>
         ) : (
-            <main className="rc-content--fixed-header ">
-              <BannerTip />
-              <button
-                ref="showModalButton"
-                className="rc-btn rc-btn--one"
-                data-modal-trigger="modal-example"
-                style={{ position: 'absolute', visibility: 'hidden' }}
-              >
-                Open standard modal
+          <main className="rc-content--fixed-header ">
+            <BannerTip />
+            <button
+              ref="showModalButton"
+              className="rc-btn rc-btn--one"
+              data-modal-trigger="modal-example"
+              style={{ position: 'absolute', visibility: 'hidden' }}
+            >
+              Open standard modal
             </button>
-              <div className="product-detail product-wrapper rc-bg-colour--brand3">
-                <div className="rc-max-width--xl mb-4">
-                  <BreadCrumbsNavigation list={breadCrumbs} />
-                  <div className="rc-padding--sm--desktop">
-                    <div className="rc-content-h-top">
-                      {isMobile && (
-                        <div className="detailHeader mt-3">
-                          <ErrMsgForCheckoutPanel
-                            checkOutErrMsg={checkOutErrMsg}
-                          />
-                          <div
-                            dangerouslySetInnerHTML={{ __html: goodHeading }}
-                          />
-                          <div className="desAndStars">
-                            <div className="des">
-                              <h2
-                                className="text-break mb-1 mt-2"
-                                style={{ fontSize: '1.17rem' }}
-                              >
-                                {details.goodsSubtitle}
-                              </h2>
-                            </div>
-                            {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
-                              <div className="stars">
-                                <div className="rc-card__price flex-inline">
-                                  <div
-                                    className="display-inline"
-                                    style={{ verticalAlign: 'middle' }}
-                                  >
-                                    <Rate
-                                      def={productRate}
-                                      disabled={true}
-                                      marginSize="sRate"
-                                    />
-                                  </div>
-                                  <span
-                                    className="comments rc-margin-left--xs rc-text-colour--text"
-                                    onClick={this.handleAClick.bind(this)}
-                                  >
-                                    ({this.state.replyNum})
+            <div className="product-detail product-wrapper rc-bg-colour--brand3">
+              <div className="rc-max-width--xl mb-4">
+                <BreadCrumbsNavigation list={breadCrumbs} />
+                <div className="rc-padding--sm--desktop">
+                  <div className="rc-content-h-top">
+                    {isMobile && (
+                      <div className="detailHeader mt-3">
+                        <ErrMsgForCheckoutPanel
+                          checkOutErrMsg={checkOutErrMsg}
+                        />
+                        <div
+                          dangerouslySetInnerHTML={{ __html: goodHeading }}
+                        />
+                        <div className="desAndStars">
+                          <div className="des">
+                            <h2
+                              className="text-break mb-1 mt-2"
+                              style={{ fontSize: '1.17rem' }}
+                            >
+                              {details.goodsSubtitle}
+                            </h2>
+                          </div>
+                          {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                            <div className="stars">
+                              <div className="rc-card__price flex-inline">
+                                <div
+                                  className="display-inline"
+                                  style={{ verticalAlign: 'middle' }}
+                                >
+                                  <Rate
+                                    def={productRate}
+                                    disabled={true}
+                                    marginSize="sRate"
+                                  />
+                                </div>
+                                <span
+                                  className="comments rc-margin-left--xs rc-text-colour--text"
+                                  onClick={this.handleAClick.bind(this)}
+                                >
+                                  ({this.state.replyNum})
                                   {/* <FormattedMessage id="reviews" /> */}
-                                  </span>
-                                </div>
+                                </span>
                               </div>
-                            )}
-                          </div>
-                          <div
-                            className="description"
-                            dangerouslySetInnerHTML={createMarkup(
-                              details.goodsDescription
-                            )}
+                            </div>
+                          )}
+                        </div>
+                        <div
+                          className="description"
+                          dangerouslySetInnerHTML={createMarkup(
+                            details.goodsDescription
+                          )}
+                        />
+                      </div>
+                    )}
+                    <div className="rc-layout-container rc-six-column">
+                      <div className="rc-column rc-double-width carousel-column imageBox">
+                        {this.state.loading ? (
+                          <Skeleton
+                            color="#f5f5f5"
+                            width="100%"
+                            height="100%"
                           />
-                        </div>
-                      )}
-                      <div className="rc-layout-container rc-six-column">
-                        <div className="rc-column rc-double-width carousel-column imageBox">
-                          {this.state.loading ? (
-                            <Skeleton
-                              color="#f5f5f5"
-                              width="100%"
-                              height="100%"
-                            />
-                          ) : (
-                              <div
-                                className={`rc-full-width ${this.state.imageMagnifierCfg.show
-                                    ? 'show-image-magnifier'
-                                    : ''
-                                  }`}
-                              >
-                                <div className="d-flex justify-content-center ui-margin-top-1-md-down">
-                                  {
-                                    <div className="details-img-container">
-                                      {process.env.REACT_APP_LANG === 'fr' ||
-                                        process.env.REACT_APP_LANG === 'ru' ||
-                                        process.env.REACT_APP_LANG === 'tr' ||
-                                        process.env.REACT_APP_LANG === 'en' ? (
-                                          <ImageMagnifier_fr
-                                            sizeList={details.sizeList}
-                                            video={details.goodsVideo}
-                                            images={images}
-                                            minImg={details.goodsImg}
-                                            maxImg={details.goodsImg}
-                                            config={
-                                              this.state.imageMagnifierCfg.config
-                                            }
-                                            taggingForText={details.taggingForText}
-                                            taggingForImage={details.taggingForImage}
-                                            spuImages={spuImages}
-                                          />
-                                        ) : (
-                                          <ImageMagnifier
-                                            sizeList={details.sizeList}
-                                            video={details.goodsVideo}
-                                            images={images}
-                                            minImg={details.goodsImg}
-                                            maxImg={details.goodsImg}
-                                            config={
-                                              this.state.imageMagnifierCfg.config
-                                            }
-                                            taggingForText={details.taggingForText}
-                                            taggingForImage={details.taggingForImage}
-                                            spuImages={spuImages}
-                                          />
-                                        )}
-                                    </div>
-                                  }
-                                </div>
-                              </div>
-                            )}
-                        </div>
-                        <div className="rc-column product-column">
-                          <div className="wrap-short-des">
-                            {!isMobile && (
-                              <div className="detailHeader">
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: goodHeading
-                                  }}
-                                />
-                                <div className="desAndStars rc-margin-bottom--xs">
-                                  <div className="des">
-                                    <h2
-                                      className="text-break mb-1 mt-2"
-                                      style={{ fontSize: '1.17rem' }}
-                                    >
-                                      {details.goodsSubtitle}
-                                    </h2>
-                                  </div>
-                                  {!!+process.env
-                                    .REACT_APP_PDP_RATING_VISIBLE && (
-                                      <div className="stars">
-                                        <div className="rc-card__price flex-inline">
-                                          <div
-                                            className="display-inline"
-                                            style={{ verticalAlign: 'middle' }}
-                                          >
-                                            <Rate
-                                              def={productRate}
-                                              key={productRate}
-                                              disabled={true}
-                                              marginSize="sRate"
-                                            />
-                                          </div>
-                                          <a
-                                            className="comments rc-margin-left--xs rc-text-colour--text"
-                                            onClick={this.handleAClick.bind(this)}
-                                          >
-                                            ({this.state.replyNum})
-                                        {/* <FormattedMessage id="reviews" /> */}
-                                          </a>
-                                        </div>
-                                      </div>
-                                    )}
-                                </div>
-                                <div
-                                  className="description"
-                                  dangerouslySetInnerHTML={createMarkup(
-                                    details.goodsDescription
+                        ) : (
+                          <div
+                            className={`rc-full-width ${
+                              this.state.imageMagnifierCfg.show
+                                ? 'show-image-magnifier'
+                                : ''
+                            }`}
+                          >
+                            <div className="d-flex justify-content-center ui-margin-top-1-md-down">
+                              {
+                                <div className="details-img-container">
+                                  {process.env.REACT_APP_LANG === 'fr' ||
+                                  process.env.REACT_APP_LANG === 'ru' ||
+                                  process.env.REACT_APP_LANG === 'tr' ||
+                                  process.env.REACT_APP_LANG === 'en' ? (
+                                    <ImageMagnifier_fr
+                                      sizeList={details.sizeList}
+                                      video={details.goodsVideo}
+                                      images={images}
+                                      minImg={details.goodsImg}
+                                      maxImg={details.goodsImg}
+                                      config={
+                                        this.state.imageMagnifierCfg.config
+                                      }
+                                      taggingForText={details.taggingForText}
+                                      taggingForImage={details.taggingForImage}
+                                      spuImages={spuImages}
+                                    />
+                                  ) : (
+                                    <ImageMagnifier
+                                      sizeList={details.sizeList}
+                                      video={details.goodsVideo}
+                                      images={images}
+                                      minImg={details.goodsImg}
+                                      maxImg={details.goodsImg}
+                                      config={
+                                        this.state.imageMagnifierCfg.config
+                                      }
+                                      taggingForText={details.taggingForText}
+                                      taggingForImage={details.taggingForImage}
+                                      spuImages={spuImages}
+                                    />
                                   )}
-                                />
-                              </div>
-                            )}
+                                </div>
+                              }
+                            </div>
                           </div>
-                          {vet ? (
-                            <>
+                        )}
+                      </div>
+                      <div className="rc-column product-column">
+                        <div className="wrap-short-des">
+                          {!isMobile && (
+                            <div className="detailHeader">
                               <div
                                 dangerouslySetInnerHTML={{
-                                  __html: this.state.descContent
+                                  __html: goodHeading
                                 }}
-                              ></div>
-                              {!this.state.loading && !isMobile && !bundle ? (
-                                <div
-                                  className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
-                                  data-ccid="wtb-target"
-                                  data-ean={barcode}
-                                  onClick={this.handleBuyFromRetailer}
-                                >
-                                  <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                              />
+                              <div className="desAndStars rc-margin-bottom--xs">
+                                <div className="des">
+                                  <h2
+                                    className="text-break mb-1 mt-2"
+                                    style={{ fontSize: '1.17rem' }}
+                                  >
+                                    {details.goodsSubtitle}
+                                  </h2>
                                 </div>
-                              ) : null}
-                            </>
-                          ) : (
-                              <>
-                                <div className="align-left flex rc-margin-bottom--xs">
-                                  <div className="stock__wrapper">
-                                    <div className="stock">
-                                      {instockStatus ? (
-                                        <>
-                                          <label className={`availability instock`}>
-                                            <span className="title-select"></span>
-                                          </label>
-                                          <span
-                                            className="availability-msg"
-                                            data-ready-to-order="true"
-                                          >
-                                            <div>
-                                              <FormattedMessage id="details.inStock" />
-                                            </div>
-                                          </span>
-                                          {/* &nbsp;&nbsp;
-                                      <FormattedMessage id="details.shippedTime" /> */}
-                                        </>
-                                      ) : (
-                                          <>
-                                            <label
-                                              className={`availability outofstock`}
-                                            >
-                                              <span className="title-select"></span>
-                                            </label>
-                                            <span
-                                              className="availability-msg"
-                                              data-ready-to-order="true"
-                                            >
-                                              <div className={`out-stock`}>
-                                                <FormattedMessage id="details.outStock" />
-                                              </div>
-                                            </span>
-                                          </>
-                                        )}
+                                {!!+process.env
+                                  .REACT_APP_PDP_RATING_VISIBLE && (
+                                  <div className="stars">
+                                    <div className="rc-card__price flex-inline">
+                                      <div
+                                        className="display-inline"
+                                        style={{ verticalAlign: 'middle' }}
+                                      >
+                                        <Rate
+                                          def={productRate}
+                                          key={productRate}
+                                          disabled={true}
+                                          marginSize="sRate"
+                                        />
+                                      </div>
+                                      <a
+                                        className="comments rc-margin-left--xs rc-text-colour--text"
+                                        onClick={this.handleAClick.bind(this)}
+                                      >
+                                        ({this.state.replyNum})
+                                        {/* <FormattedMessage id="reviews" /> */}
+                                      </a>
                                     </div>
                                   </div>
+                                )}
+                              </div>
+                              <div
+                                className="description"
+                                dangerouslySetInnerHTML={createMarkup(
+                                  details.goodsDescription
+                                )}
+                              />
+                            </div>
+                          )}
+                        </div>
+                        {vet ? (
+                          <>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: this.state.descContent
+                              }}
+                            ></div>
+                            {!this.state.loading && !isMobile && !bundle ? (
+                              <div
+                                className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
+                                data-ccid="wtb-target"
+                                data-ean={barcode}
+                                onClick={this.handleBuyFromRetailer}
+                              >
+                                <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                              </div>
+                            ) : null}
+                          </>
+                        ) : (
+                          <>
+                            <div className="align-left flex rc-margin-bottom--xs">
+                              <div className="stock__wrapper">
+                                <div className="stock">
+                                  {instockStatus ? (
+                                    <>
+                                      <label className={`availability instock`}>
+                                        <span className="title-select"></span>
+                                      </label>
+                                      <span
+                                        className="availability-msg"
+                                        data-ready-to-order="true"
+                                      >
+                                        <div>
+                                          <FormattedMessage id="details.inStock" />
+                                        </div>
+                                      </span>
+                                      {/* &nbsp;&nbsp;
+                                      <FormattedMessage id="details.shippedTime" /> */}
+                                    </>
+                                  ) : (
+                                    <>
+                                      <label
+                                        className={`availability outofstock`}
+                                      >
+                                        <span className="title-select"></span>
+                                      </label>
+                                      <span
+                                        className="availability-msg"
+                                        data-ready-to-order="true"
+                                      >
+                                        <div className={`out-stock`}>
+                                          <FormattedMessage id="details.outStock" />
+                                        </div>
+                                      </span>
+                                    </>
+                                  )}
                                 </div>
-                                {/* <div className="align-left flex rc-margin-bottom--xs">
+                              </div>
+                            </div>
+                            {/* <div className="align-left flex rc-margin-bottom--xs">
                           <div className="stock__wrapper">
                             <div className="stock">
                               <label className="availability instock">
@@ -2050,592 +2054,594 @@ class Details extends React.Component {
                             </div>
                           </div>
                         </div> */}
-                                <div className="specAndQuantity rc-margin-bottom--xs ">
-                                  <div className="spec">
-                                    {specList.map((sItem, i) => (
-                                      <div id="choose-select" key={i}>
-                                        <div className="rc-margin-bottom--xs">
-                                          <FormattedMessage id={sItem.specName} />:
+                            <div className="specAndQuantity rc-margin-bottom--xs ">
+                              <div className="spec">
+                                {specList.map((sItem, i) => (
+                                  <div id="choose-select" key={i}>
+                                    <div className="rc-margin-bottom--xs">
+                                      <FormattedMessage id={sItem.specName} />:
                                     </div>
-                                        <div data-attr="size">
+                                    <div data-attr="size">
+                                      <div
+                                        className="rc-swatch __select-size"
+                                        id="id-single-select-size"
+                                      >
+                                        {sItem.chidren.map((sdItem, i) => (
                                           <div
-                                            className="rc-swatch __select-size"
-                                            id="id-single-select-size"
-                                          >
-                                            {sItem.chidren.map((sdItem, i) => (
-                                              <div
-                                                key={i}
-                                                className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''
-                                                  } ${sdItem.isEmpty ? 'outOfStock' : ''
-                                                  }`}
-                                                onClick={() => {
-                                                  if (sdItem.isEmpty) {
-                                                    return false;
-                                                  } else {
-                                                    this.handleChooseSize(
-                                                      sItem.specId,
-                                                      sdItem.specDetailId,
-                                                      sdItem.selected
-                                                    );
-                                                  }
-                                                }}
-                                              >
-                                                <span
-                                                  style={{
-                                                    backgroundColor: sdItem.isEmpty
-                                                      ? '#ccc'
-                                                      : '#fff',
-                                                    cursor: sdItem.isEmpty
-                                                      ? 'not-allowed'
-                                                      : 'pointer'
-                                                  }}
-                                                >
-                                                  {/* {parseFloat(sdItem.detailName)}{' '} */}
-                                                  {sdItem.detailName}
-                                                </span>
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  <div className="Quantity">
-                                    <span className="amount">
-                                      <FormattedMessage id="amount" />:
-                                </span>
-                                    <div className="quantity d-flex justify-content-between align-items-center">
-                                      <input
-                                        type="hidden"
-                                        id="invalid-quantity"
-                                        value="Пожалуйста, введите правильный номер."
-                                      />
-                                      <div className="rc-quantity text-right d-flex justify-content-end">
-                                        <span
-                                          className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                          onClick={() =>
-                                            this.hanldeAmountChange('minus')
-                                          }
-                                        ></span>
-                                        <input
-                                          className="rc-quantity__input"
-                                          id="quantity"
-                                          name="quantity"
-                                          value={quantity}
-                                          min={quantityMinLimit}
-                                          max={stock}
-                                          onChange={this.handleAmountInput}
-                                          maxLength="5"
-                                        />
-                                        <span
-                                          className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                          onClick={() =>
-                                            this.hanldeAmountChange('plus')
-                                          }
-                                        ></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                {isMobile ? (
-                                  <div
-                                    className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 1"
-                                    style={{
-                                      borderColor: !parseInt(form.buyWay)
-                                        ? '#e2001a'
-                                        : '#d7d7d7',
-                                      cursor: 'pointer'
-                                    }}
-                                    onClick={this.ChangeFormat.bind(this, 0)}
-                                  >
-                                    <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
-                                      <div className="radioBox">
-                                        <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                          <FormattedMessage id="email">
-                                            {(txt) => (
-                                              <input
-                                                className="rc-input__radio"
-                                                id="type_once"
-                                                type="radio"
-                                                alt={txt}
-                                                name="buyWay"
-                                                value="0"
-                                                key="0"
-                                                // onChange={(event) =>
-                                                //   this.handleInputChange(event)
-                                                // }
-                                                checked={form.buyWay === 0}
-                                              />
-                                            )}
-                                          </FormattedMessage>
-                                          <label
-                                            className="rc-input__label--inline"
-                                            htmlFor="type_once"
+                                            key={i}
+                                            className={`rc-swatch__item ${
+                                              sdItem.selected ? 'selected' : ''
+                                            } ${
+                                              sdItem.isEmpty ? 'outOfStock' : ''
+                                            }`}
+                                            onClick={() => {
+                                              if (sdItem.isEmpty) {
+                                                return false;
+                                              } else {
+                                                this.handleChooseSize(
+                                                  sItem.specId,
+                                                  sdItem.specDetailId,
+                                                  sdItem.selected
+                                                );
+                                              }
+                                            }}
                                           >
                                             <span
                                               style={{
-                                                fontWeight: '400',
-                                                color: '#333'
+                                                backgroundColor: sdItem.isEmpty
+                                                  ? '#ccc'
+                                                  : '#fff',
+                                                cursor: sdItem.isEmpty
+                                                  ? 'not-allowed'
+                                                  : 'pointer'
                                               }}
                                             >
-                                              <FormattedMessage id="singlePurchase" />
+                                              {/* {parseFloat(sdItem.detailName)}{' '} */}
+                                              {sdItem.detailName}
                                             </span>
-                                          </label>
-                                        </div>
-                                      </div>
-                                      <div className="price font-weight-normal text-right position-relative">
-                                        <div>
-                                          {formatMoney(currentUnitPrice)}
-                                          <span className="red unit-star">
-                                            <FormattedMessage
-                                              id="starUnit"
-                                              defaultMessage=" "
-                                            />
-                                          </span>
-                                        </div>
-                                        {process.env.REACT_APP_LANG === 'de' &&
-                                          selectedSpecItem ? (
-                                            <div
-                                              style={{
-                                                fontSize: '14px',
-                                                color: '#999'
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                (
-                                                  currentUnitPrice /
-                                                  parseFloat(
-                                                    selectedSpecItem.goodsInfoWeight
-                                                  )
-                                                ).toFixed(2)
-                                              )}
-                                        /{selectedSpecItem.goodsInfoUnit}{' '}
-                                            </div>
-                                          ) : null}
+                                          </div>
+                                        ))}
                                       </div>
                                     </div>
-                                    <div className="col-12 pl-0 pr-0">
-                                      <span className="freeshippingBox mt-0">
-                                        <FormattedMessage id="freeShipping" />
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="Quantity">
+                                <span className="amount">
+                                  <FormattedMessage id="amount" />:
+                                </span>
+                                <div className="quantity d-flex justify-content-between align-items-center">
+                                  <input
+                                    type="hidden"
+                                    id="invalid-quantity"
+                                    value="Пожалуйста, введите правильный номер."
+                                  />
+                                  <div className="rc-quantity text-right d-flex justify-content-end">
+                                    <span
+                                      className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                      onClick={() =>
+                                        this.hanldeAmountChange('minus')
+                                      }
+                                    ></span>
+                                    <input
+                                      className="rc-quantity__input"
+                                      id="quantity"
+                                      name="quantity"
+                                      value={quantity}
+                                      min={quantityMinLimit}
+                                      max={stock}
+                                      onChange={this.handleAmountInput}
+                                      maxLength="5"
+                                    />
+                                    <span
+                                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                      onClick={() =>
+                                        this.hanldeAmountChange('plus')
+                                      }
+                                    ></span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {isMobile ? (
+                              <div
+                                className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 1"
+                                style={{
+                                  borderColor: !parseInt(form.buyWay)
+                                    ? '#e2001a'
+                                    : '#d7d7d7',
+                                  cursor: 'pointer'
+                                }}
+                                onClick={this.ChangeFormat.bind(this, 0)}
+                              >
+                                <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
+                                  <div className="radioBox">
+                                    <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                      <FormattedMessage id="email">
+                                        {(txt) => (
+                                          <input
+                                            className="rc-input__radio"
+                                            id="type_once"
+                                            type="radio"
+                                            alt={txt}
+                                            name="buyWay"
+                                            value="0"
+                                            key="0"
+                                            // onChange={(event) =>
+                                            //   this.handleInputChange(event)
+                                            // }
+                                            checked={form.buyWay === 0}
+                                          />
+                                        )}
+                                      </FormattedMessage>
+                                      <label
+                                        className="rc-input__label--inline"
+                                        htmlFor="type_once"
+                                      >
+                                        <span
+                                          style={{
+                                            fontWeight: '400',
+                                            color: '#333'
+                                          }}
+                                        >
+                                          <FormattedMessage id="singlePurchase" />
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div className="price font-weight-normal text-right position-relative">
+                                    <div>
+                                      {formatMoney(currentUnitPrice)}
+                                      <span className="red unit-star">
+                                        <FormattedMessage
+                                          id="starUnit"
+                                          defaultMessage=" "
+                                        />
                                       </span>
                                     </div>
-                                    <div
-                                      className="freqency freqency2 col-12 pl-0 pr-0"
-                                      style={{ textAlign: 'center' }}
+                                    {process.env.REACT_APP_LANG === 'de' &&
+                                    selectedSpecItem ? (
+                                      <div
+                                        style={{
+                                          fontSize: '14px',
+                                          color: '#999'
+                                        }}
+                                      >
+                                        {formatMoney(
+                                          (
+                                            currentUnitPrice /
+                                            parseFloat(
+                                              selectedSpecItem.goodsInfoWeight
+                                            )
+                                          ).toFixed(2)
+                                        )}
+                                        /{selectedSpecItem.goodsInfoUnit}{' '}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                                <div className="col-12 pl-0 pr-0">
+                                  <span className="freeshippingBox mt-0">
+                                    <FormattedMessage id="freeShipping" />
+                                  </span>
+                                </div>
+                                <div
+                                  className="freqency freqency2 col-12 pl-0 pr-0"
+                                  style={{ textAlign: 'center' }}
+                                >
+                                  <span
+                                    style={{
+                                      height: '73px',
+                                      lineHeight: '55px'
+                                    }}
+                                  >
+                                    <FormattedMessage id="deliveryOneTimeOnly" />
+                                    {/* Delivery 1 time only */}
+                                  </span>
+                                </div>
+                              </div>
+                            ) : (
+                              <div
+                                className="buyMethod rc-margin-bottom--xs d-flex align-items-center 2"
+                                style={{
+                                  borderColor: !parseInt(form.buyWay)
+                                    ? '#e2001a'
+                                    : '#d7d7d7',
+                                  cursor: 'pointer'
+                                }}
+                                onClick={this.ChangeFormat.bind(this, 0)}
+                              >
+                                <div className="radioBox">
+                                  <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                    <FormattedMessage id="email">
+                                      {(txt) => (
+                                        <input
+                                          className="rc-input__radio"
+                                          id="type_once"
+                                          type="radio"
+                                          alt={txt}
+                                          name="buyWay"
+                                          value="0"
+                                          key="0"
+                                          // onChange={(event) =>
+                                          //   this.handleInputChange(event)
+                                          // }
+                                          checked={form.buyWay === 0}
+                                        />
+                                      )}
+                                    </FormattedMessage>
+                                    <label
+                                      className="rc-input__label--inline"
+                                      htmlFor="type_once"
                                     >
                                       <span
                                         style={{
-                                          height: '73px',
-                                          lineHeight: '55px'
+                                          fontWeight: '400',
+                                          color: '#333'
                                         }}
                                       >
-                                        <FormattedMessage id="deliveryOneTimeOnly" />
-                                        {/* Delivery 1 time only */}
+                                        <FormattedMessage id="singlePurchase" />
                                       </span>
+                                    </label>
+                                    <br />
+                                    <div className="freeshippingBox">
+                                      <FormattedMessage id="freeShipping" />
                                     </div>
                                   </div>
-                                ) : (
+                                </div>
+                                <div className="freqency">
+                                  <span
+                                    style={{
+                                      height: '73px',
+                                      lineHeight: '55px'
+                                    }}
+                                  >
+                                    <FormattedMessage id="deliveryOneTimeOnly" />
+                                    {/* Delivery 1 time only */}
+                                  </span>
+                                </div>
+                                <div className="price font-weight-normal text-right position-relative">
+                                  <div>
+                                    {formatMoney(currentUnitPrice)}
+                                    <span className="red unit-star">
+                                      <FormattedMessage
+                                        id="starUnit"
+                                        defaultMessage=" "
+                                      />
+                                    </span>
+                                  </div>
+                                  {process.env.REACT_APP_LANG === 'de' &&
+                                  selectedSpecItem ? (
                                     <div
-                                      className="buyMethod rc-margin-bottom--xs d-flex align-items-center 2"
                                       style={{
-                                        borderColor: !parseInt(form.buyWay)
-                                          ? '#e2001a'
-                                          : '#d7d7d7',
-                                        cursor: 'pointer'
+                                        fontSize: '14px',
+                                        color: '#999'
                                       }}
-                                      onClick={this.ChangeFormat.bind(this, 0)}
                                     >
-                                      <div className="radioBox">
-                                        <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                          <FormattedMessage id="email">
-                                            {(txt) => (
-                                              <input
-                                                className="rc-input__radio"
-                                                id="type_once"
-                                                type="radio"
-                                                alt={txt}
-                                                name="buyWay"
-                                                value="0"
-                                                key="0"
-                                                // onChange={(event) =>
-                                                //   this.handleInputChange(event)
-                                                // }
-                                                checked={form.buyWay === 0}
-                                              />
-                                            )}
-                                          </FormattedMessage>
-                                          <label
-                                            className="rc-input__label--inline"
-                                            htmlFor="type_once"
+                                      {formatMoney(
+                                        (
+                                          currentUnitPrice /
+                                          parseFloat(
+                                            selectedSpecItem.goodsInfoWeight
+                                          )
+                                        ).toFixed(2)
+                                      )}
+                                      /{selectedSpecItem.goodsInfoUnit}{' '}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                            )}
+                            {currentSubscriptionStatus ? (
+                              isMobile ? (
+                                <div
+                                  className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 3"
+                                  style={{
+                                    borderColor: parseInt(form.buyWay)
+                                      ? '#e2001a'
+                                      : '#d7d7d7',
+                                    cursor: 'pointer'
+                                  }}
+                                  onClick={this.ChangeFormat.bind(this, 1)}
+                                >
+                                  <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
+                                    <div className="radioBox">
+                                      <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                        <FormattedMessage id="email">
+                                          {(txt) => (
+                                            <input
+                                              className="rc-input__radio"
+                                              id="type_frequency"
+                                              type="radio"
+                                              alt={txt}
+                                              name="buyWay"
+                                              value="1"
+                                              key="1"
+                                              // onChange={(event) =>
+                                              //   this.handleInputChange(event)
+                                              // }
+                                              // defaultChecked
+                                              checked={form.buyWay === 1}
+                                            />
+                                          )}
+                                        </FormattedMessage>
+                                        <label
+                                          className="rc-input__label--inline"
+                                          htmlFor="type_frequency"
+                                        >
+                                          <span className="iconfont mr-2">
+                                            &#xe675;
+                                          </span>
+                                          <span
+                                            style={{
+                                              fontWeight: '400',
+                                              color: '#333'
+                                            }}
                                           >
+                                            <FormattedMessage id="autoship" />
                                             <span
-                                              style={{
-                                                fontWeight: '400',
-                                                color: '#333'
+                                              className="info-tooltip delivery-method-tooltip"
+                                              onMouseEnter={() => {
+                                                this.setState({
+                                                  toolTipVisible: true
+                                                });
+                                              }}
+                                              onMouseLeave={() => {
+                                                this.setState({
+                                                  toolTipVisible: false
+                                                });
                                               }}
                                             >
-                                              <FormattedMessage id="singlePurchase" />
+                                              i
                                             </span>
-                                          </label>
-                                          <br />
-                                          <div className="freeshippingBox">
-                                            <FormattedMessage id="freeShipping" />
-                                          </div>
-                                        </div>
+                                            <ConfirmTooltip
+                                              arrowStyle={{ left: '65%' }}
+                                              display={
+                                                this.state.toolTipVisible
+                                              }
+                                              cancelBtnVisible={false}
+                                              confirmBtnVisible={false}
+                                              updateChildDisplay={(status) =>
+                                                this.setState({
+                                                  toolTipVisible: status
+                                                })
+                                              }
+                                              content={
+                                                <FormattedMessage id="subscription.promotionTip2" />
+                                              }
+                                            />
+                                          </span>
+                                        </label>
                                       </div>
-                                      <div className="freqency">
-                                        <span
+                                    </div>
+                                    <div className="price font-weight-normal text-right position-relative">
+                                      <div>
+                                        {formatMoney(
+                                          currentSubscriptionPrice || 0
+                                        )}
+                                        <span className="red unit-star">
+                                          <FormattedMessage
+                                            id="starUnit"
+                                            defaultMessage=" "
+                                          />
+                                        </span>
+                                      </div>
+                                      {process.env.REACT_APP_LANG === 'de' &&
+                                      selectedSpecItem ? (
+                                        <div
                                           style={{
-                                            height: '73px',
-                                            lineHeight: '55px'
+                                            fontSize: '14px',
+                                            color: '#999'
                                           }}
                                         >
-                                          <FormattedMessage id="deliveryOneTimeOnly" />
-                                          {/* Delivery 1 time only */}
-                                        </span>
-                                      </div>
-                                      <div className="price font-weight-normal text-right position-relative">
-                                        <div>
-                                          {formatMoney(currentUnitPrice)}
-                                          <span className="red unit-star">
-                                            <FormattedMessage
-                                              id="starUnit"
-                                              defaultMessage=" "
-                                            />
-                                          </span>
-                                        </div>
-                                        {process.env.REACT_APP_LANG === 'de' &&
-                                          selectedSpecItem ? (
-                                            <div
-                                              style={{
-                                                fontSize: '14px',
-                                                color: '#999'
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                (
-                                                  currentUnitPrice /
-                                                  parseFloat(
-                                                    selectedSpecItem.goodsInfoWeight
-                                                  )
-                                                ).toFixed(2)
-                                              )}
-                                      /{selectedSpecItem.goodsInfoUnit}{' '}
-                                            </div>
-                                          ) : null}
-                                      </div>
-                                    </div>
-                                  )}
-                                {currentSubscriptionStatus ? (
-                                  isMobile ? (
-                                    <div
-                                      className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 3"
-                                      style={{
-                                        borderColor: parseInt(form.buyWay)
-                                          ? '#e2001a'
-                                          : '#d7d7d7',
-                                        cursor: 'pointer'
-                                      }}
-                                      onClick={this.ChangeFormat.bind(this, 1)}
-                                    >
-                                      <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
-                                        <div className="radioBox">
-                                          <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                            <FormattedMessage id="email">
-                                              {(txt) => (
-                                                <input
-                                                  className="rc-input__radio"
-                                                  id="type_frequency"
-                                                  type="radio"
-                                                  alt={txt}
-                                                  name="buyWay"
-                                                  value="1"
-                                                  key="1"
-                                                  // onChange={(event) =>
-                                                  //   this.handleInputChange(event)
-                                                  // }
-                                                  // defaultChecked
-                                                  checked={form.buyWay === 1}
-                                                />
-                                              )}
-                                            </FormattedMessage>
-                                            <label
-                                              className="rc-input__label--inline"
-                                              htmlFor="type_frequency"
-                                            >
-                                              <span className="iconfont mr-2">
-                                                &#xe675;
-                                          </span>
-                                              <span
-                                                style={{
-                                                  fontWeight: '400',
-                                                  color: '#333'
-                                                }}
-                                              >
-                                                <FormattedMessage id="autoship" />
-                                                <span
-                                                  className="info-tooltip delivery-method-tooltip"
-                                                  onMouseEnter={() => {
-                                                    this.setState({
-                                                      toolTipVisible: true
-                                                    });
-                                                  }}
-                                                  onMouseLeave={() => {
-                                                    this.setState({
-                                                      toolTipVisible: false
-                                                    });
-                                                  }}
-                                                >
-                                                  i
-                                            </span>
-                                                <ConfirmTooltip
-                                                  arrowStyle={{ left: '65%' }}
-                                                  display={
-                                                    this.state.toolTipVisible
-                                                  }
-                                                  cancelBtnVisible={false}
-                                                  confirmBtnVisible={false}
-                                                  updateChildDisplay={(status) =>
-                                                    this.setState({
-                                                      toolTipVisible: status
-                                                    })
-                                                  }
-                                                  content={
-                                                    <FormattedMessage id="subscription.promotionTip2" />
-                                                  }
-                                                />
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </div>
-                                        <div className="price font-weight-normal text-right position-relative">
-                                          <div>
-                                            {formatMoney(
-                                              currentSubscriptionPrice || 0
-                                            )}
-                                            <span className="red unit-star">
-                                              <FormattedMessage
-                                                id="starUnit"
-                                                defaultMessage=" "
-                                              />
-                                            </span>
-                                          </div>
-                                          {process.env.REACT_APP_LANG === 'de' &&
-                                            selectedSpecItem ? (
-                                              <div
-                                                style={{
-                                                  fontSize: '14px',
-                                                  color: '#999'
-                                                }}
-                                              >
-                                                {formatMoney(
-                                                  (
-                                                    currentSubscriptionPrice /
-                                                    parseFloat(
-                                                      selectedSpecItem.goodsInfoWeight
-                                                    )
-                                                  ).toFixed(2)
-                                                )}
+                                          {formatMoney(
+                                            (
+                                              currentSubscriptionPrice /
+                                              parseFloat(
+                                                selectedSpecItem.goodsInfoWeight
+                                              )
+                                            ).toFixed(2)
+                                          )}
                                           /{selectedSpecItem.goodsInfoUnit}{' '}
-                                              </div>
-                                            ) : null}
                                         </div>
-                                      </div>
-                                      <div className="col-12 pl-0 pr-0">
-                                        <span className="discountBox">
-                                          <FormattedMessage
-                                            id="saveExtra"
-                                            values={{
-                                              val:
-                                                selectedSpecItem.subscriptionPercentage
-                                            }}
-                                          />
-                                        </span>
-                                      </div>
-                                      <div className="col-12 pl-0 pr-0">
-                                        <span className="freeshippingBox">
-                                          <FormattedMessage id="freeShipping" />
-                                        </span>
-                                      </div>
-                                      <div className="freqency freqency3 col-12 pl-0 pr-0 d-flex align-items-center mt-2">
-                                        <span>
-                                          <FormattedMessage id="subscription.frequency" />
-                                      :
-                                    </span>
-                                        <Selection
-                                          customCls="flex-grow-1"
-                                          selectedItemChange={
-                                            this.handleSelectedItemChange
-                                          }
-                                          optionList={this.computedList}
-                                          selectedItemData={{
-                                            value: form.frequencyId
-                                          }}
-                                          key={form.frequencyId}
-                                        />
-                                      </div>
+                                      ) : null}
                                     </div>
-                                  ) : (
-                                      <div
-                                        className="buyMethod rc-margin-bottom--xs d-flex align-items-center 4"
-                                        style={{
-                                          borderColor: parseInt(form.buyWay)
-                                            ? '#e2001a'
-                                            : '#d7d7d7',
-                                          cursor: 'pointer'
+                                  </div>
+                                  <div className="col-12 pl-0 pr-0">
+                                    <span className="discountBox">
+                                      <FormattedMessage
+                                        id="saveExtra"
+                                        values={{
+                                          val:
+                                            selectedSpecItem.subscriptionPercentage
                                         }}
-                                        onClick={this.ChangeFormat.bind(this, 1)}
-                                      >
-                                        <div className="radioBox">
-                                          <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
-                                            <FormattedMessage id="email">
-                                              {(txt) => (
-                                                <input
-                                                  className="rc-input__radio"
-                                                  id="type_frequency"
-                                                  type="radio"
-                                                  alt={txt}
-                                                  name="buyWay"
-                                                  value="1"
-                                                  key="1"
-                                                  checked={form.buyWay === 1}
-                                                />
-                                              )}
-                                            </FormattedMessage>
-                                            <label
-                                              className="rc-input__label--inline"
-                                              htmlFor="type_frequency"
-                                            >
-                                              <span
-                                                style={{
-                                                  fontWeight: '400',
-                                                  color: '#333'
-                                                }}
-                                              >
-                                                <span className="iconfont mr-2">
-                                                  &#xe675;
-                                          </span>
-                                                <FormattedMessage id="autoship" />
-                                                <span
-                                                  className="info-tooltip delivery-method-tooltip"
-                                                  onMouseEnter={() => {
-                                                    this.setState({
-                                                      toolTipVisible: true
-                                                    });
-                                                  }}
-                                                  onMouseLeave={() => {
-                                                    this.setState({
-                                                      toolTipVisible: false
-                                                    });
-                                                  }}
-                                                >
-                                                  i
-                                          </span>
-                                                <ConfirmTooltip
-                                                  arrowStyle={{ left: '83%' }}
-                                                  display={this.state.toolTipVisible}
-                                                  cancelBtnVisible={false}
-                                                  confirmBtnVisible={false}
-                                                  updateChildDisplay={(status) =>
-                                                    this.setState({
-                                                      toolTipVisible: status
-                                                    })
-                                                  }
-                                                  content={
-                                                    <FormattedMessage id="subscription.promotionTip2" />
-                                                  }
-                                                />
-                                              </span>
-                                            </label>
-                                          </div>
-                                          <br />
-                                          <div className="discountBox">
-                                            <FormattedMessage
-                                              id="saveExtra"
-                                              values={{
-                                                val:
-                                                  selectedSpecItem.subscriptionPercentage
-                                              }}
-                                            />
-                                          </div>
-                                          <br />
-                                          <div className="freeshippingBox">
-                                            <FormattedMessage id="freeShipping" />
-                                          </div>
-                                        </div>
-                                        <div className="freqency">
-                                          <span>
-                                            <FormattedMessage id="subscription.frequency" />
+                                      />
+                                    </span>
+                                  </div>
+                                  <div className="col-12 pl-0 pr-0">
+                                    <span className="freeshippingBox">
+                                      <FormattedMessage id="freeShipping" />
+                                    </span>
+                                  </div>
+                                  <div className="freqency freqency3 col-12 pl-0 pr-0 d-flex align-items-center mt-2">
+                                    <span>
+                                      <FormattedMessage id="subscription.frequency" />
                                       :
                                     </span>
-                                          <Selection
-                                            customContainerStyle={{
-                                              display: 'inline-block',
-                                              marginLeft: isMobile
-                                                ? '50px'
-                                                : '1.5rem',
-                                              height: isMobile ? '70px' : 'auto'
-                                            }}
-                                            selectedItemChange={
-                                              this.handleSelectedItemChange
-                                            }
-                                            optionList={this.computedList}
-                                            selectedItemData={{
-                                              value: form.frequencyId
-                                            }}
-                                            key={form.frequencyId}
-                                          />
-                                        </div>
-                                        <div className="price font-weight-normal text-right position-relative">
-                                          <div>
-                                            {formatMoney(
-                                              currentSubscriptionPrice || 0
-                                            )}
-                                            <span className="red unit-star">
-                                              <FormattedMessage
-                                                id="starUnit"
-                                                defaultMessage=" "
-                                              />
-                                            </span>
-                                          </div>
-                                          {process.env.REACT_APP_LANG === 'de' &&
-                                            selectedSpecItem ? (
-                                              <div
-                                                style={{
-                                                  fontSize: '14px',
-                                                  color: '#999'
-                                                }}
-                                              >
-                                                {formatMoney(
-                                                  (
-                                                    currentSubscriptionPrice /
-                                                    parseFloat(
-                                                      selectedSpecItem.goodsInfoWeight
-                                                    )
-                                                  ).toFixed(2)
-                                                )}
-                                        /{selectedSpecItem.goodsInfoUnit}{' '}
-                                              </div>
-                                            ) : null}
-                                        </div>
-                                      </div>
-                                    )
-                                ) : null}
-                                <div className="rc-md-up">
-                                  <div
-                                    className="mb-2 mr-2 text-right"
-                                    style={{ fontSize: '14px' }}
-                                  >
-                                    <FormattedMessage
-                                      id="pricesIncludeVAT"
-                                      values={{
-                                        val: <span className="red">*</span>
+                                    <Selection
+                                      customCls="flex-grow-1"
+                                      selectedItemChange={
+                                        this.handleSelectedItemChange
+                                      }
+                                      optionList={this.computedList}
+                                      selectedItemData={{
+                                        value: form.frequencyId
                                       }}
-                                      defaultMessage=" "
+                                      key={form.frequencyId}
                                     />
                                   </div>
-                                  <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
-                                    {/* {!this.isLogin &&
+                                </div>
+                              ) : (
+                                <div
+                                  className="buyMethod rc-margin-bottom--xs d-flex align-items-center 4"
+                                  style={{
+                                    borderColor: parseInt(form.buyWay)
+                                      ? '#e2001a'
+                                      : '#d7d7d7',
+                                    cursor: 'pointer'
+                                  }}
+                                  onClick={this.ChangeFormat.bind(this, 1)}
+                                >
+                                  <div className="radioBox">
+                                    <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
+                                      <FormattedMessage id="email">
+                                        {(txt) => (
+                                          <input
+                                            className="rc-input__radio"
+                                            id="type_frequency"
+                                            type="radio"
+                                            alt={txt}
+                                            name="buyWay"
+                                            value="1"
+                                            key="1"
+                                            checked={form.buyWay === 1}
+                                          />
+                                        )}
+                                      </FormattedMessage>
+                                      <label
+                                        className="rc-input__label--inline"
+                                        htmlFor="type_frequency"
+                                      >
+                                        <span
+                                          style={{
+                                            fontWeight: '400',
+                                            color: '#333'
+                                          }}
+                                        >
+                                          <span className="iconfont mr-2">
+                                            &#xe675;
+                                          </span>
+                                          <FormattedMessage id="autoship" />
+                                          <span
+                                            className="info-tooltip delivery-method-tooltip"
+                                            onMouseEnter={() => {
+                                              this.setState({
+                                                toolTipVisible: true
+                                              });
+                                            }}
+                                            onMouseLeave={() => {
+                                              this.setState({
+                                                toolTipVisible: false
+                                              });
+                                            }}
+                                          >
+                                            i
+                                          </span>
+                                          <ConfirmTooltip
+                                            arrowStyle={{ left: '83%' }}
+                                            display={this.state.toolTipVisible}
+                                            cancelBtnVisible={false}
+                                            confirmBtnVisible={false}
+                                            updateChildDisplay={(status) =>
+                                              this.setState({
+                                                toolTipVisible: status
+                                              })
+                                            }
+                                            content={
+                                              <FormattedMessage id="subscription.promotionTip2" />
+                                            }
+                                          />
+                                        </span>
+                                      </label>
+                                    </div>
+                                    <br />
+                                    <div className="discountBox">
+                                      <FormattedMessage
+                                        id="saveExtra"
+                                        values={{
+                                          val:
+                                            selectedSpecItem.subscriptionPercentage
+                                        }}
+                                      />
+                                    </div>
+                                    <br />
+                                    <div className="freeshippingBox">
+                                      <FormattedMessage id="freeShipping" />
+                                    </div>
+                                  </div>
+                                  <div className="freqency">
+                                    <span>
+                                      <FormattedMessage id="subscription.frequency" />
+                                      :
+                                    </span>
+                                    <Selection
+                                      customContainerStyle={{
+                                        display: 'inline-block',
+                                        marginLeft: isMobile
+                                          ? '50px'
+                                          : '1.5rem',
+                                        height: isMobile ? '70px' : 'auto'
+                                      }}
+                                      selectedItemChange={
+                                        this.handleSelectedItemChange
+                                      }
+                                      optionList={this.computedList}
+                                      selectedItemData={{
+                                        value: form.frequencyId
+                                      }}
+                                      key={form.frequencyId}
+                                    />
+                                  </div>
+                                  <div className="price font-weight-normal text-right position-relative">
+                                    <div>
+                                      {formatMoney(
+                                        currentSubscriptionPrice || 0
+                                      )}
+                                      <span className="red unit-star">
+                                        <FormattedMessage
+                                          id="starUnit"
+                                          defaultMessage=" "
+                                        />
+                                      </span>
+                                    </div>
+                                    {process.env.REACT_APP_LANG === 'de' &&
+                                    selectedSpecItem ? (
+                                      <div
+                                        style={{
+                                          fontSize: '14px',
+                                          color: '#999'
+                                        }}
+                                      >
+                                        {formatMoney(
+                                          (
+                                            currentSubscriptionPrice /
+                                            parseFloat(
+                                              selectedSpecItem.goodsInfoWeight
+                                            )
+                                          ).toFixed(2)
+                                        )}
+                                        /{selectedSpecItem.goodsInfoUnit}{' '}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              )
+                            ) : null}
+                            <div className="rc-md-up">
+                              <div
+                                className="mb-2 mr-2 text-right"
+                                style={{ fontSize: '14px' }}
+                              >
+                                <FormattedMessage
+                                  id="pricesIncludeVAT"
+                                  values={{
+                                    val: <span className="red">*</span>
+                                  }}
+                                  defaultMessage=" "
+                                />
+                              </div>
+                              <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
+                                {/* {!this.isLogin &&
                                 (form.buyWay ? (
                                   <span style={{ marginLeft: '10px' }}>
                                     <FormattedMessage id="unLoginSubscriptionTips" />
@@ -2656,39 +2662,42 @@ class Details extends React.Component {
                                 ))}
                               &nbsp;&nbsp; */}
 
-                                    <button
-                                      style={{ padding: '2px 30px' }}
-                                      className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${addToCartLoading ? 'ui-btn-loading' : ''
-                                        } ${btnStatus ? '' : 'rc-btn-solid-disabled'
-                                        }`}
-                                      onClick={this.hanldeAddToCart}
-                                    >
-                                      <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                                      <span className="default-txt">
-                                        <FormattedMessage
-                                          id={`${form.buyWay === 1
-                                              ? 'subscribe'
-                                              : 'details.addToCart'
-                                            }`}
-                                        />
-                                      </span>
-                                    </button>
-                                    {!this.state.loading && !bundle ? (
-                                      <>
-                                        &nbsp;&nbsp;
+                                <button
+                                  style={{ padding: '2px 30px' }}
+                                  className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                                    addToCartLoading ? 'ui-btn-loading' : ''
+                                  } ${
+                                    btnStatus ? '' : 'rc-btn-solid-disabled'
+                                  }`}
+                                  onClick={this.hanldeAddToCart}
+                                >
+                                  <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                                  <span className="default-txt">
+                                    <FormattedMessage
+                                      id={`${
+                                        form.buyWay === 1
+                                          ? 'subscribe'
+                                          : 'details.addToCart'
+                                      }`}
+                                    />
+                                  </span>
+                                </button>
+                                {!this.state.loading && !bundle ? (
+                                  <>
+                                    &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
                                     &nbsp;&nbsp;
                                     <div
-                                          className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
-                                          data-ccid="wtb-target"
-                                          data-ean={barcode}
-                                          onClick={this.handleBuyFromRetailer}
-                                        >
-                                          <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
-                                        </div>
-                                      </>
-                                    ) : null}
-                                    {/* {this.isLogin ? (
+                                      className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
+                                      data-ccid="wtb-target"
+                                      data-ean={barcode}
+                                      onClick={this.handleBuyFromRetailer}
+                                    >
+                                      <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                                    </div>
+                                  </>
+                                ) : null}
+                                {/* {this.isLogin ? (
                             {
                               De ? <div className="mb-2 mr-2" style={{ fontSize: "14px" }}><span className="vat-text">Preise inkl. MwSt</span></div> : null
                             }
@@ -2756,207 +2765,209 @@ class Details extends React.Component {
                                   </span>
                                 </LoginButton>
                               )} */}
-                                  </div>
-                                  <ErrMsgForCheckoutPanel
-                                    checkOutErrMsg={checkOutErrMsg}
-                                  />
-                                </div>
-                              </>
-                            )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Advantage />
-              {isMobile &&
-                goodsDetailTab.tabName.map((ele, index) => (
-                  <React.Fragment key={index}>
-                    <dl>
-                      <div
-                        className={`rc-list__accordion-item test-color 
-                  ${activeTabIdxList.includes(index) ? 'showItem' : 'hiddenItem'
-                          }`}
-                      >
-                        <div
-                          className="rc-list__header d-flex justify-content-between"
-                          onClick={this.changeTab.bind(this, {
-                            idx: index,
-                            type: 'toggle'
-                          })}
-                        >
-                          <div dangerouslySetInnerHTML={{ __html: ele }} />
-                          <span
-                            className="iconfont font-weight-bold"
-                            style={{
-                              transform: activeTabIdxList.includes(index)
-                                ? 'rotate(90deg)'
-                                : 'rotate(-90deg)'
-                            }}
-                          >
-                            &#xe6fa;
-                        </span>
-                        </div>
-                        <div className={`rc-list__content`}>
-                          <p
-                            dangerouslySetInnerHTML={{
-                              __html: goodsDetailTab.tabContent[index]
-                            }}
-                          />
-                          <LazyLoad height={200}>
-                            <img
-                              src={goodsDetailTab.tabContent[index].imgUl}
-                              alt=""
-                            />
-                          </LazyLoad>
-                        </div>
-                      </div>
-                    </dl>
-                  </React.Fragment>
-                ))}
-
-              {/* 描述、好处、组成、指南板块*/}
-              {!isMobile && goodsDetailTab.tabName.length ? (
-                <div className="rc-max-width--xl rc-padding-x--sm">
-                  <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
-                    <div>
-                      <div className="rc-border-bottom rc-border-colour--interface">
-                        <nav className="rc-fade--x">
-                          <ul
-                            className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
-                            role="tablist"
-                          >
-                            {goodsDetailTab.tabName.map((ele, index) => (
-                              <li key={index}>
-                                <button
-                                  className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                  data-toggle={`tab__panel-${index}`}
-                                  aria-selected={
-                                    activeTabIdxList.includes(index)
-                                      ? 'true'
-                                      : 'false'
-                                  }
-                                  role="tab"
-                                  onClick={this.changeTab.bind(this, {
-                                    idx: index,
-                                    type: 'switch'
-                                  })}
-                                >
-                                  {ele}
-                                </button>
-                              </li>
-                            ))}
-                          </ul>
-                        </nav>
-                      </div>
-                      <div
-                        className="rc-tabs tabs-detail"
-                        style={{ marginTop: '40px' }}
-                      >
-                        {goodsDetailTab.tabContent.map((ele, i) => (
-                          <div
-                            id={`tab__panel-${i}`}
-                            key={i}
-                            className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                            aria-expanded={
-                              activeTabIdxList.includes(i) ? 'true' : 'false'
-                            }
-                          >
-                            <div className="block">
-                              <p
-                                className="content rc-scroll--x detail-content-tabinfo"
-                                style={{ marginBottom: '4rem' }}
-                                dangerouslySetInnerHTML={createMarkup(ele)}
+                              </div>
+                              <ErrMsgForCheckoutPanel
+                                checkOutErrMsg={checkOutErrMsg}
                               />
                             </div>
-                          </div>
-                        ))}
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
-              ) : null}
-
-              <div className="split-line rc-bg-colour--brand4"></div>
-              {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
-                <AdvantageTips />
-              ) : null}
-              {/* 电话邮箱联系板块 */}
-              <div className="split-line rc-bg-colour--brand4"></div>
-              <div className="good-contact d-flex justify-content-center">
-                {!isMobile ? (
-                  <img className="good-contact-img mr-5" src={details.goodsImg} />
-                ) : null}
-                <div className="good-contact-dec">
-                  <h1 className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs">
-                    <FormattedMessage id="detail.question" />
-                  </h1>
-                  <p>
-                    <FormattedMessage id="detail.answer" />
-                  </p>
-                  <div className="good-contact-link d-flex">
-                    <div className="good-contact-tel d-flex">
-                      <div>
-                        <p>
-                          <FormattedMessage id="detail.telephone" />
-                        </p>
-                        <a href={`tel:${configStore.storeContactPhoneNumber}`}>
-                          {configStore.storeContactPhoneNumber}
-                        </a>
-                        <p>{configStore.contactTimePeriod}</p>
-                      </div>
-                      <span className="rc-icon rc-contact rc-iconography rc-brand1" />
-                    </div>
-                    <div className="good-contact-email d-flex">
-                      <a href={this.state.contactUs}>
-                        <FormattedMessage id="detail.email" />
-                      </a>
-                      <span className="rc-icon rc-email rc-iconography rc-brand1"></span>
-                    </div>
-                  </div>
-                </div>
               </div>
-              <div id="goods-recommendation-box">
-                <Carousel
-                  location={location}
-                  history={history}
-                  goodsId={goodsId}
-                  key={goodsId}
-                />
-              </div>
-              <div
-                className="sticky-addtocart"
-                style={{ transform: 'translateY(-80px)' }}
-              >
-                <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                  {!vet ? (
-                    <button
-                      className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${addToCartLoading ? 'ui-btn-loading' : ''
-                        } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                      onClick={this.hanldeAddToCart}
-                    >
-                      <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                      <span className="default-txt">
-                        {form.buyWay === 1 ? (
-                          <FormattedMessage id="subscribe" />
-                        ) : (
-                            <FormattedMessage id="details.addToCart" />
-                          )}
-                      </span>
-                    </button>
-                  ) : null}
-                  {!this.state.loading && !bundle ? (
+            </div>
+            <Advantage />
+            {isMobile &&
+              goodsDetailTab.tabName.map((ele, index) => (
+                <React.Fragment key={index}>
+                  <dl>
                     <div
-                      className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
-                      data-ccid="wtb-target"
-                      data-ean={barcode}
-                      onClick={this.handleBuyFromRetailer}
+                      className={`rc-list__accordion-item test-color 
+                  ${
+                    activeTabIdxList.includes(index) ? 'showItem' : 'hiddenItem'
+                  }`}
                     >
-                      <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                      <div
+                        className="rc-list__header d-flex justify-content-between"
+                        onClick={this.changeTab.bind(this, {
+                          idx: index,
+                          type: 'toggle'
+                        })}
+                      >
+                        <div dangerouslySetInnerHTML={{ __html: ele }} />
+                        <span
+                          className="iconfont font-weight-bold"
+                          style={{
+                            transform: activeTabIdxList.includes(index)
+                              ? 'rotate(90deg)'
+                              : 'rotate(-90deg)'
+                          }}
+                        >
+                          &#xe6fa;
+                        </span>
+                      </div>
+                      <div className={`rc-list__content`}>
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: goodsDetailTab.tabContent[index]
+                          }}
+                        />
+                        <LazyLoad height={200}>
+                          <img
+                            src={goodsDetailTab.tabContent[index].imgUl}
+                            alt=""
+                          />
+                        </LazyLoad>
+                      </div>
                     </div>
-                  ) : null}
-                  {/* {this.isLogin ? (
+                  </dl>
+                </React.Fragment>
+              ))}
+
+            {/* 描述、好处、组成、指南板块*/}
+            {!isMobile && goodsDetailTab.tabName.length ? (
+              <div className="rc-max-width--xl rc-padding-x--sm">
+                <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
+                  <div>
+                    <div className="rc-border-bottom rc-border-colour--interface">
+                      <nav className="rc-fade--x">
+                        <ul
+                          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
+                          role="tablist"
+                        >
+                          {goodsDetailTab.tabName.map((ele, index) => (
+                            <li key={index}>
+                              <button
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                data-toggle={`tab__panel-${index}`}
+                                aria-selected={
+                                  activeTabIdxList.includes(index)
+                                    ? 'true'
+                                    : 'false'
+                                }
+                                role="tab"
+                                onClick={this.changeTab.bind(this, {
+                                  idx: index,
+                                  type: 'switch'
+                                })}
+                              >
+                                {ele}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </nav>
+                    </div>
+                    <div
+                      className="rc-tabs tabs-detail"
+                      style={{ marginTop: '40px' }}
+                    >
+                      {goodsDetailTab.tabContent.map((ele, i) => (
+                        <div
+                          id={`tab__panel-${i}`}
+                          key={i}
+                          className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
+                          aria-expanded={
+                            activeTabIdxList.includes(i) ? 'true' : 'false'
+                          }
+                        >
+                          <div className="block">
+                            <p
+                              className="content rc-scroll--x detail-content-tabinfo"
+                              style={{ marginBottom: '4rem' }}
+                              dangerouslySetInnerHTML={createMarkup(ele)}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            <div className="split-line rc-bg-colour--brand4"></div>
+            {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
+              <AdvantageTips />
+            ) : null}
+            {/* 电话邮箱联系板块 */}
+            <div className="split-line rc-bg-colour--brand4"></div>
+            <div className="good-contact d-flex justify-content-center">
+              {!isMobile ? (
+                <img className="good-contact-img mr-5" src={details.goodsImg} />
+              ) : null}
+              <div className="good-contact-dec">
+                <h1 className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs">
+                  <FormattedMessage id="detail.question" />
+                </h1>
+                <p>
+                  <FormattedMessage id="detail.answer" />
+                </p>
+                <div className="good-contact-link d-flex">
+                  <div className="good-contact-tel d-flex">
+                    <div>
+                      <p>
+                        <FormattedMessage id="detail.telephone" />
+                      </p>
+                      <a href={`tel:${configStore.storeContactPhoneNumber}`}>
+                        {configStore.storeContactPhoneNumber}
+                      </a>
+                      <p>{configStore.contactTimePeriod}</p>
+                    </div>
+                    <span className="rc-icon rc-contact rc-iconography rc-brand1" />
+                  </div>
+                  <div className="good-contact-email d-flex">
+                    <a href={this.state.contactUs}>
+                      <FormattedMessage id="detail.email" />
+                    </a>
+                    <span className="rc-icon rc-email rc-iconography rc-brand1"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="goods-recommendation-box">
+              <Carousel
+                location={location}
+                history={history}
+                goodsId={goodsId}
+                key={goodsId}
+              />
+            </div>
+            <div
+              className="sticky-addtocart"
+              style={{ transform: 'translateY(-80px)' }}
+            >
+              <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
+                {!vet ? (
+                  <button
+                    className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                      addToCartLoading ? 'ui-btn-loading' : ''
+                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                    onClick={this.hanldeAddToCart}
+                  >
+                    <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                    <span className="default-txt">
+                      {form.buyWay === 1 ? (
+                        <FormattedMessage id="subscribe" />
+                      ) : (
+                        <FormattedMessage id="details.addToCart" />
+                      )}
+                    </span>
+                  </button>
+                ) : null}
+                {!this.state.loading && !bundle ? (
+                  <div
+                    className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
+                    data-ccid="wtb-target"
+                    data-ean={barcode}
+                    onClick={this.handleBuyFromRetailer}
+                  >
+                    <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                  </div>
+                ) : null}
+                {/* {this.isLogin ? (
                   <button
                     className={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
@@ -2995,7 +3006,7 @@ class Details extends React.Component {
                     </span>
                   </LoginButton>
                 )} */}
-                  {/* {!this.isLogin &&
+                {/* {!this.isLogin &&
                   (form.buyWay ? (
                     <span style={{ marginLeft: '10px' }}>
                       <FormattedMessage id="unLoginSubscriptionTips" />
@@ -3012,10 +3023,10 @@ class Details extends React.Component {
                       <FormattedMessage id="guestCheckout" />
                     </button>
                   ))} */}
-                </div>
               </div>
-            </main>
-          )}
+            </div>
+          </main>
+        )}
 
         {/* 或许可以删掉，暂时没用== */}
         <aside

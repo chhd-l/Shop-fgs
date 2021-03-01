@@ -22,6 +22,7 @@ export default class DropDownMenuForHub extends React.Component {
       this
     );
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   handleNavChildrenMouseOver(item, childrenItem, e) {
     e.preventDefault();
@@ -61,9 +62,20 @@ export default class DropDownMenuForHub extends React.Component {
     // 点击subMenu埋点-end
     // this.props.handleClickNavItem(item);
   };
+
+  menuItemEvent(item, cItem) {
+    const Level1 = item?.Link?.Text;
+    const Level2 = cItem?.Link?.Text;
+    this.hubGA && dataLayer.push({
+      event: 'navTopClick',
+      navTopClick: {
+        itemName: `${Level1}|${Level2}`,
+      }
+    });
+  }
+
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
-
     let menuItemListGroupedByStep = [];
     let menuItemList = [];
     let otherItemList = [];
@@ -99,6 +111,7 @@ export default class DropDownMenuForHub extends React.Component {
                     className="medium mb-2 ui-cursor-pointer"
                     key={cItem.id}
                     style={{ display: 'block' }}
+                    onClick={() => this.menuItemEvent(item, cItem)}
                   >
                     {cItem.Link.Text}
                   </a>
@@ -191,6 +204,7 @@ export default class DropDownMenuForHub extends React.Component {
       showNav,
       showLoginBtn
     } = this.props;
+
     return (
       <>
         <nav
