@@ -176,6 +176,11 @@ class GoogleTagManager extends React.Component {
       this.props.hubAdditionalEvents
     );
 
+    let hubProductsLoad = Object.assign(
+      {},
+      this.props.hubProductsLoad
+    )
+
     let hubGA = process.env.REACT_APP_HUB_GA == '1';
     let addEvents = hubGA ? hubAdditionalEvents : additionalEvents;
     let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
@@ -185,6 +190,13 @@ class GoogleTagManager extends React.Component {
       code: `window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(${JSON.stringify(addEvents)});`
     });
+
+    if (hubProductsLoad) {
+      loadJS({
+        code: `window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(${JSON.stringify(hubProductsLoad)});`
+      });
+    }
 
     if (ecommerceEvents || hubEcommerceEvents) {
       loadJS({
