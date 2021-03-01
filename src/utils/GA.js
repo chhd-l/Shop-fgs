@@ -1,44 +1,10 @@
 import { toJS } from 'mobx';
+
 const isHubGA = process.env.REACT_APP_HUB_GA
 
-export const myAccountPushEvent = (myAccountScreenName) => {
-  if (!isHubGA) return
-  dataLayer.push({
-    'event': 'myAccountScreen',
-    myAccountScreenName, //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
-  })
-  console.log(myAccountScreenName)
-  console.log({ dataLayer })
-}
-
-
-export const myAccountActionPushEvent = (myAccountActionName) => {
-  if (!isHubGA) return
-  dataLayer.push({
-    'event': 'myAccountAction',
-    myAccountActionName,
-    //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change email', 'Change password', 'Delete Account'
-  })
-  console.log(myAccountActionName)
-  console.log({ dataLayer })
-}
-
-
-export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
-  dataLayer.push({
-    'event': 'faqClick',
-    'faqClick': {
-      item, //Generic name in English for each item
-      clickType //'Expand' or 'Collapse'
-    }
-  });
-  // console.log({dataLayer})
-  // debugger
-}
-
 //天-0周  周-value*1 月-value*4
-export const getComputedWeeks = (frequencyList) => {
-  let calculatedWeeks = {};
+const getComputedWeeks = (frequencyList) => {
+  let calculatedWeeks = {}; 
 
   frequencyList.forEach((item) => {
     switch (item.type) {
@@ -57,6 +23,42 @@ export const getComputedWeeks = (frequencyList) => {
   return calculatedWeeks
 }
 
+
+//myAccountScreen
+export const myAccountPushEvent = (myAccountScreenName) => {
+  if (!isHubGA) return
+  dataLayer.push({
+    'event': 'myAccountScreen',
+    myAccountScreenName, //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
+  })
+  console.log(myAccountScreenName)
+}
+
+//myAccountAction
+export const myAccountActionPushEvent = (myAccountActionName) => {
+  if (!isHubGA) return
+  dataLayer.push({
+    'event': 'myAccountAction',
+    myAccountActionName,
+    //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change email', 'Change password', 'Delete Account'
+  })
+  console.log(myAccountActionName)
+}
+
+//faqClick
+export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
+  dataLayer.push({
+    'event': 'faqClick',
+    'faqClick': {
+      item, //Generic name in English for each item
+      clickType //'Expand' or 'Collapse'
+    }
+  });
+  // console.log({dataLayer})
+  // debugger
+}
+
+//cartScreenLoad
 export const GACartScreenLoad = () => {
   dataLayer.push({
     event: 'cartScreenLoad'
@@ -64,9 +66,10 @@ export const GACartScreenLoad = () => {
 }
 
 
+//cart init 游客
 export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
   let breed = []
-  productList[0].goodsAttributesValueRelList.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+  productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
       breed.push(item2.goodsAttributeValue)
   })
   const calculatedWeeks = getComputedWeeks(frequencyList)
@@ -98,11 +101,11 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
       'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
       'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
-
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
-      promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
-      promoCodeAmount: 8 //Promo code amount, only if promo activated
+
+      promoCodeName: '', //Promo code name, only if promo activated
+      promoCodeAmount: '' //Promo code amount, only if promo activated
     });
   }
   dataLayer.push({
@@ -110,7 +113,7 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
   });
 }
 
-
+//cart init 会员
 export const GAInitLoginCart = ({productList,frequencyList,props}) => {
 
   const calculatedWeeks = getComputedWeeks(frequencyList)
@@ -132,7 +135,7 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goods.goodsNo, //Main item code
-      SKU: item.goodsInfos &&item.goodsInfos[0].goodsInfoNo, //product SKU
+      SKU: item.goodsInfoNo, //product SKU
       subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
       technology: technology, //'Dry', 'Wet', 'Pack'
       brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
@@ -145,8 +148,8 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
       breed, //All animal breeds associated with the product in an array
 
 
-      promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
-      promoCodeAmount: 8 //Promo code amount, only if promo activated
+      promoCodeName: '', //Promo code name, only if promo activated
+      promoCodeAmount: '' //Promo code amount, only if promo activated
     });
   }
   dataLayer.push({
@@ -154,11 +157,21 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
   });
 }
 
+//cart cartChangeSubscription
+export const GACartChangeSubscription = (btnContent) => {
+  dataLayer.push({
+    event: 'cartChangeSubscription',
+    cartChangeSubscription: {
+      button: btnContent //Values : 'Single purchase', 'Autoship'
+    }
+  });
+}
+
 
 //checkout init 游客
 export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
   let breed = []
-  productList[0].goodsAttributesValueRelList.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+  productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
       breed.push(item2.goodsAttributeValue)
   })
   const calculatedWeeks = getComputedWeeks(frequencyList)
@@ -192,8 +205,8 @@ export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
         breed, //All animal breeds associated with the product in an array
 
-        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+        'promoCodeName': '', //Promo code name, only if promo activated     
+        'promoCodeAmount': '' //Promo code amount, only if promo activated
       })
     }
     dataLayer.push({
@@ -221,7 +234,7 @@ export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
         'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
         'name': item.goodsName, //WeShare product name, always in English
         'mainItemCode': item.goods.goodsNo, //Main item code
-        'SKU': item.goodsInfos[0].goodsInfoNo, //product SKU
+        'SKU': item.goodsInfoNo, //product SKU
         'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
         'technology': technology, //'Dry', 'Wet', 'Pack'
         'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
@@ -229,11 +242,11 @@ export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
         'quantity': item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
         'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
         'recommendationID': props.clinicStore.linkClinicId || '', //recommendation ID
-
-        //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
+         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
          breed, //All animal breeds associated with the product in an array
-        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+
+        'promoCodeName': '', //Promo code name, only if promo activated     
+        'promoCodeAmount': '' //Promo code amount, only if promo activated
       })
     }
     dataLayer.push({
@@ -241,7 +254,7 @@ export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
     })
 }
 
-
+//checkout step
 export const checkoutDataLayerPushEvent = ({ name, options }) => {
   dataLayer.push({
     event: 'checkoutStep',
@@ -251,3 +264,18 @@ export const checkoutDataLayerPushEvent = ({ name, options }) => {
     }
   });
 };
+
+//Order confirmation
+export const orderConfirmationPushEvent = (details)=>{
+  dataLayer.push({
+    'event': 'orderConfirmation',
+    'orderConfirmation': {
+      'id': details.transactionId || "", //Transaction ID, same as backend system
+      'currency': process.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
+      'amount': details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
+      'taxes': details.tradePrice.taxFreePrice || '', //Taxes amount, US number format, local currency
+      'shipping': details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
+      'paymentMethod': 'Credit Card' //'Credit Card' currently only payment method in use
+    }
+  });
+}

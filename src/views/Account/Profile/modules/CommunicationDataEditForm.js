@@ -5,8 +5,7 @@ import { withOktaAuth } from '@okta/okta-react';
 import Consent from '@/components/Consent';
 import { updateCustomerBaseInfo } from '@/api/user';
 import classNames from 'classnames';
-import {myAccountActionPushEvent} from "@/utils/GA"
-
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 class CommunicationDataEditForm extends React.Component {
   static defaultProps = {
@@ -146,7 +145,9 @@ class CommunicationDataEditForm extends React.Component {
       userBindConsent({
         ...submitParam,
         ...{ oktaToken },
-        customerId: (userInfo && userInfo.customerId) || ''
+        customerId: (userInfo && userInfo.customerId) || '',
+        communicationEmail: form.communicationEmail,
+        communicationPhone: form.communicationPhone
       })
     ])
       .then(async (res) => {
@@ -187,7 +188,7 @@ class CommunicationDataEditForm extends React.Component {
     this.props.updateEditOperationPanelName(status ? 'Communication' : '');
   };
   handleClickEditBtn = () => {
-    myAccountActionPushEvent('Edit contact info')
+    myAccountActionPushEvent('Edit contact info');
     window.scrollTo({
       top: 0,
       behavior: 'smooth'

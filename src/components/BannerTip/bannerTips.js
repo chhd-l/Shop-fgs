@@ -1,8 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { LinkJSX } from './link';
+import { getDeviceType } from '@/utils/utils';
 import './index.less';
+
+const isMobile = getDeviceType() === 'H5';
+
+function Container({ children }) {
+  return isMobile ? (
+    <marquee>{children}</marquee>
+  ) : (
+    <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
+      {children}
+    </div>
+  );
+}
 
 export const bannerTips = () => {
   return (
@@ -13,7 +25,7 @@ export const bannerTips = () => {
       {process.env.REACT_APP_IS_PROMOTION === 'true' && (
         <div className="rc-bg-colour--brand4 text-center">
           <div className="rc-layout-container rc-content-h-middle">
-            <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
+            <Container>
               <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
               <div className="d-flex align-items-center">
                 <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text">
@@ -28,13 +40,12 @@ export const bannerTips = () => {
                     {process.env.REACT_APP_LANG == 'en' ? (
                       <FormattedMessage id="joinTheClub" />
                     ) : (
-                        <FormattedMessage id="aboutUs.learnMore" />
-                      )}
-
+                      <FormattedMessage id="aboutUs.learnMore" />
+                    )}
                   </Link>
                 </div>
               </div>
-            </div>
+            </Container>
           </div>
         </div>
       )}

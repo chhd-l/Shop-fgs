@@ -18,6 +18,7 @@ import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import {orderConfirmationPushEvent} from "@/utils/GA"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -117,7 +118,7 @@ class Confirmation extends React.Component {
           detailList: res.map((ele) => ele.context)
         }, () => {
           (!isHubGA) && this.getGAEComTransaction()
-          isHubGA && this.hubGAOrderConfirmation()
+          isHubGA && orderConfirmationPushEvent(this.state.details)
         });
         const payRecordRes = await getPayRecord(resContext.totalTid);
         this.setState({
@@ -309,20 +310,6 @@ class Confirmation extends React.Component {
   }
   //GA 埋点 end
 
-  hubGAOrderConfirmation() {
-    const { details } = this.state;
-    dataLayer.push({
-      'event': 'orderConfirmation',
-      'orderConfirmation': {
-        'id': details.transactionId, //Transaction ID, same as backend system
-        'currency': process.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
-        'amount': details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
-        'taxes': details.tradePrice.taxFreePrice || '', //Taxes amount, US number format, local currency
-        'shipping': details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
-        'paymentMethod': 'Credit Card' //'Credit Card' currently only payment method in use
-      }
-    });
-  }
   render() {
     const { loading, details, subOrderNumberList } = this.state;
     const event = {

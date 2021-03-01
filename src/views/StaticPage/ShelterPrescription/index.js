@@ -32,7 +32,7 @@ class ShelterPrescription extends React.Component {
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
       email: 'Send us an Email',
-      phoneDes: 'Monday trought Friday:8:00 AM - 4:30  PM CT'
+      phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
   toScroll = (anchorName) => {
@@ -61,21 +61,23 @@ class ShelterPrescription extends React.Component {
   }
   getList = (item) => {
     return (
-      <Link to='/'>
-       <a className="rc-card__link">
-        <article className="rc-card rc-card--b">
-          <picture className="rc-card__image">
-            <img
-              style={{ maxHeight: '12rem' }}
-              alt={item.goodsName}
-              src={item.goodsImg}
-            />
-          </picture>
-          <div className="rc-card__body">
-            <header>
-              <h1 className="rc-card__title" style={{ height: '2em' }}>
-                {item.goodsName}
-              </h1>
+      <Link to="/">
+        <a className="rc-card__link rc-card--product">
+          <article className="rc-card rc-card--b">
+            <picture className="rc-card__image">
+              <img
+              className="m-auto"
+                style={{ maxHeight: '150px',maxWidth:'150px' }}
+                alt={item.goodsName}
+                src={item.goodsImg}
+              />
+            </picture>
+            <div className="rc-card__body">
+              <header>
+                <h3 className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">
+                  {item.goodsName}
+                </h3>
+              </header>
               <div className="ui-text-overflow-line2">{item.goodsSubtitle}</div>
               {/* <div className="rc-btn-group">
                 <Rate def={2} disabled={true} marginSize="smallRate" />
@@ -90,12 +92,11 @@ class ShelterPrescription extends React.Component {
               <div className="price-item">
                 {formatMoney(item.minMarketPrice)}
               </div>
-            </header>
-          </div>
-        </article>
-      </a>
-   </Link>
-      );
+            </div>
+          </article>
+        </a>
+      </Link>
+    );
   };
   render() {
     const { match, history, location } = this.props;

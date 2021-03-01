@@ -90,6 +90,7 @@ import Help from '@/views/StaticPage/Help';
 import ContactUs from '@/views/StaticPage/ContactUs';
 import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
 import TermsConditions from '@/views/StaticPage/TermsAndConditions';
+import TermsConditionsUs from './views/StaticPage/TermsAndConditions/US_index';
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
 import DE_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/DE_index.js';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
@@ -260,7 +261,7 @@ const App = () => (
               <Route
                 exact
                 path="/termsandconditions"
-                component={TermsConditions}
+                component={process.env.REACT_APP_LANG=='fr'?TermsConditions:TermsConditionsUs }
               />
               <Route
                 exact

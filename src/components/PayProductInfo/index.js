@@ -329,7 +329,11 @@ class PayProductInfo extends React.Component {
                       <div className="col-8 start-lines">
                         <p className="order-receipt-label">
                           <span>
-                            <FormattedMessage id="total" />
+                            {process.env.REACT_APP_LANG == 'en' ? (
+                              <FormattedMessage id="subtotal" />
+                            ) : (
+                                <FormattedMessage id="total" />
+                              )}
                           </span>
                         </p>
                       </div>
@@ -347,7 +351,11 @@ class PayProductInfo extends React.Component {
                       <div className="col-7 start-lines">
                         <p className="order-receipt-label order-shipping-cost">
                           <span>
-                            <FormattedMessage id="delivery" />
+                            {process.env.REACT_APP_LANG == 'en' ? (
+                              <FormattedMessage id="shipping" />
+                            ) : (
+                                <FormattedMessage id="delivery" />
+                              )}
                           </span>
                         </p>
                       </div>
@@ -361,7 +369,7 @@ class PayProductInfo extends React.Component {
                     </div>
 
                     {/* 税额 */}
-                    {process.env.REACT_APP_LANG=='en' ? (
+                    {process.env.REACT_APP_LANG == 'en' ? (
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">
