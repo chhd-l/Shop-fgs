@@ -1829,7 +1829,7 @@ class Details extends React.Component {
                                 className="text-break mb-1 mt-2"
                                 style={{ fontSize: '1.17rem' }}
                               >
-                                {details.goodsNewSubtitle}
+                                {details.goodsSubtitle}
                               </h2>
                             </div>
                             {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
@@ -1935,7 +1935,7 @@ class Details extends React.Component {
                                       className="text-break mb-1 mt-2"
                                       style={{ fontSize: '1.17rem' }}
                                     >
-                                      {details.goodsNewSubtitle}
+                                      {details.goodsSubtitle}
                                     </h2>
                                   </div>
                                   {!!+process.env
