@@ -678,7 +678,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
-            shopperLocale: 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             payChannelItem: adyenPayParam.paymentToken
@@ -704,7 +704,7 @@ class Payment extends React.Component {
               subForm.buyWay === 'frequency'
                 ? 'adyen_later_subscription'
                 : 'adyen_klarna_pay_lat',
-            shopperLocale: 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -717,7 +717,7 @@ class Payment extends React.Component {
               subForm.buyWay === 'frequency'
                 ? 'adyen_klarna_subscription'
                 : 'adyen_klarna_pay_now',
-            shopperLocale: 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -730,7 +730,7 @@ class Payment extends React.Component {
               subForm.buyWay === 'frequency'
                 ? 'adyen_sofort_subscription'
                 : 'directEbanking',
-            shopperLocale: 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -1182,7 +1182,7 @@ class Payment extends React.Component {
       param.clinicsId = clinicStore.selectClinicId;
       param.clinicsName = clinicStore.selectClinicName;
     }
-    debugger
+    //debugger
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
