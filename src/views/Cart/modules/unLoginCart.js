@@ -1631,17 +1631,18 @@ class UnLoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {(txt) => (
-                        <a
-                          tabIndex="1"
+                        <Link
+                          to="/home"
                           className="ui-cursor-pointer-pure"
-                          onClick={this.goBack}
+                          role="button"
+                          aria-pressed="true"
                           title={txt}
                         >
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                            <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
+                            <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
                             {txt}
                           </span>
-                        </a>
+                        </Link>
                       )}
                     </FormattedMessage>
                   </div>
