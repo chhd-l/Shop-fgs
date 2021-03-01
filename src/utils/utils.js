@@ -653,6 +653,3 @@ export function getRequest() {
   }
   return jsonList;
 }
-
-
-
