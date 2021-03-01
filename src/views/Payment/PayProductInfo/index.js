@@ -91,9 +91,6 @@ class PayProductInfo extends React.Component {
 
     this.setState({
       calculatedWeeks
-    },()=>{
-      // console.log(this.state.calculatedWeeks)
-      // debugger
     })
   }
   //会员 GA需要的product信息
@@ -227,7 +224,6 @@ class PayProductInfo extends React.Component {
   }
 
   GAInitialProductArray(productList){
-    if(this.props.location.pathname != '/checkout') return //只有checkout页面才执行
     if(!isGACheckoutLock){//防止重复调用
       isGACheckoutLock = true
       this.getComputedWeeks(this.state.frequencyList)
