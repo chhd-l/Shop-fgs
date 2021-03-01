@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
@@ -163,23 +163,39 @@ class Help extends React.Component {
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
                                 <b>
-                                  <Link
-                                    href={
-                                      emailLink
-                                        ? emailLink
-                                        : this.state.mailAddress
-                                    }
-                                    style={{
-                                      verticalAlign: 'inherit',
-                                      color: '#0087BD'
-                                    }}
-                                  >
-                                    {emailTitle ? (
-                                      emailTitle
-                                    ) : (
-                                      <FormattedMessage id="help.byEmail" />
-                                    )}
-                                  </Link>
+                                  <FormattedMessage id="help.byEmail" />
+                                  {process.env.REACT_APP_LANG == 'us' ? (
+                                    <span
+                                      style={{
+                                        verticalAlign: 'inherit',
+                                        color: '#0087BD'
+                                      }}
+                                    >
+                                      {emailTitle ? (
+                                        emailTitle
+                                      ) : (
+                                        <FormattedMessage id="help.byEmail" />
+                                      )}
+                                    </span>
+                                  ) : (
+                                    <Link
+                                      href={
+                                        emailLink
+                                          ? emailLink
+                                          : this.state.mailAddress
+                                      }
+                                      style={{
+                                        verticalAlign: 'inherit',
+                                        color: '#0087BD'
+                                      }}
+                                    >
+                                      {emailTitle ? (
+                                        emailTitle
+                                      ) : (
+                                        <FormattedMessage id="help.byEmail" />
+                                      )}
+                                    </Link>
+                                  )}
                                 </b>
                                 <p>
                                   <span style={{ color: 'rgb(0, 0, 0)' }}>
@@ -197,20 +213,36 @@ class Help extends React.Component {
                                       color: 'rgb(0, 135, 189)'
                                     }}
                                   >
-                                    <a
-                                      href={this.state.mailAddress}
-                                      style={{
-                                        fontSize: '16px',
-                                        borderBottom: '1px solid transparent'
-                                      }}
-                                      className="rc-styled-link"
-                                    >
-                                      {email ? (
-                                        email
-                                      ) : (
-                                        <FormattedMessage id="help.email" />
-                                      )}
-                                    </a>
+                                    {process.env.REACT_APP_LANG == 'us' ? (
+                                      <Link
+                                        href={emailLink}
+                                        style={{
+                                          fontSize: '16px',
+                                          borderBottom: '1px solid transparent'
+                                        }}
+                                      >
+                                        {emailTitle ? (
+                                          emailTitle
+                                        ) : (
+                                          <FormattedMessage id="help.email" />
+                                        )}
+                                      </Link>
+                                    ) : (
+                                      <a
+                                        href={this.state.mailAddress}
+                                        style={{
+                                          fontSize: '16px',
+                                          borderBottom: '1px solid transparent'
+                                        }}
+                                        className="rc-styled-link"
+                                      >
+                                        {email ? (
+                                          email
+                                        ) : (
+                                          <FormattedMessage id="help.email" />
+                                        )}
+                                      </a>
+                                    )}
                                   </p>
                                 </div>
                               </div>

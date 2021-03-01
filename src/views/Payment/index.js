@@ -1219,7 +1219,7 @@ class Payment extends React.Component {
         .filter(
           (ele) =>
             ele.subscriptionStatus &&
-            ele.subscriptionPrice > 0 &&
+            (ele.subscriptionPrice > 0||ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
             ele.goodsInfoFlag
         )
         .map((g) => {
