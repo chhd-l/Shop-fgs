@@ -66,8 +66,6 @@ export const GACartScreenLoad = () => {
 
 //cart init 游客
 export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
-  console.log(productList)
-  debugger
   let breed = []
   productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
       breed.push(item2.goodsAttributeValue)
@@ -135,7 +133,7 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goods.goodsNo, //Main item code
-      SKU: item.goodsInfos &&item.goodsInfos[0].goodsInfoNo, //product SKU
+      SKU: item.goodsInfoNo, //product SKU
       subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
       technology: technology, //'Dry', 'Wet', 'Pack'
       brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
@@ -224,7 +222,7 @@ export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
         'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
         'name': item.goodsName, //WeShare product name, always in English
         'mainItemCode': item.goods.goodsNo, //Main item code
-        'SKU': item.goodsInfos[0].goodsInfoNo, //product SKU
+        'SKU': item.goodsInfoNo, //product SKU
         'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
         'technology': technology, //'Dry', 'Wet', 'Pack'
         'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
