@@ -4,7 +4,7 @@ import {
   ADYEN_CREDIT_CARD_IMGURL_ENUM,
   ADYEN_CREDIT_CARD_BRANDS
 } from '@/utils/constant';
-import { loadJS } from '@/utils/utils';
+import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
@@ -58,6 +58,9 @@ class AdyenCreditCardForm extends React.Component {
   }
   initForm() {
     const _this = this;
+    dynamicLoadCss(
+      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
+    );
     loadJS({
       url:
         'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
