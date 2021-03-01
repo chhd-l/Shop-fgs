@@ -1467,17 +1467,17 @@ class Payment extends React.Component {
         // 获取税额
         if (this.isLogin) {
           await this.props.checkoutStore.updateLoginCart('', false, false, {
-            country: process.env.REACT_APP_GA_COUNTRY, // 传国家简写 / data.countryName
-            region: data.provinceNo,
+            country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+            region: data.provinceNo, // 省份简写
             city: data.city,
             street: data.address1,
             postalCode: data.postCode,
-            customerAccount: this.state.guestEmail
+            customerAccount: this.state.email
           });
         } else {
           await this.props.checkoutStore.updateUnloginCart('', '', false, {
-            country: process.env.REACT_APP_GA_COUNTRY, // 传国家简写 / data.countryName
-            region: data.provinceNo,
+            country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+            region: data.provinceNo, // 省份简写
             city: data.city,
             street: data.address1,
             postalCode: data.postCode,
