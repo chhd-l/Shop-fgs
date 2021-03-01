@@ -40,7 +40,12 @@ class AddressList extends React.Component {
         address2: '',
         rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryName: '',
         city: '',
+        cityName: '',
+        provinceNo: '',
+        provinceName: '',
+        province: '',
         postCode: '',
         phoneNumber: '',
         isDefalt: false,
@@ -222,7 +227,6 @@ class AddressList extends React.Component {
 
     if (idx > -1) {
       const tmp = addressList[idx];
-      console.log('★★★★★★★★-> tmp: ', tmp);
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
         lastName: tmp.lastName,
@@ -305,18 +309,24 @@ class AddressList extends React.Component {
     this.setState({ addOrEdit: false, saveErrorMsg: '' });
     this.scrollToTitle();
   };
+  // 保存地址
   async handleSavePromise() {
     try {
       this.setState({ saveLoading: true });
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
+      // 手动输入的城市 id 设为 null
+      let ctId = deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city;
       let params = {
         address1: deliveryAddress.address1,
         address2: deliveryAddress.address2,
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
-        countryId: +deliveryAddress.country,
-        cityId: +deliveryAddress.city,
+        countryId: deliveryAddress.country,
+        city: deliveryAddress.cityName,
+        cityId: ctId,
+        province: deliveryAddress.provinceName,
+        provinceId: deliveryAddress.province,
         consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
@@ -324,7 +334,6 @@ class AddressList extends React.Component {
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
         postCode: deliveryAddress.postCode,
-        provinceId: deliveryAddress.province,
         rfc: deliveryAddress.rfc,
         email: deliveryAddress.email,
         type: this.props.type.toUpperCase()
@@ -541,7 +550,6 @@ class AddressList extends React.Component {
       selectedId,
       validationLoading, validationAddress, modalVisible, selectValidationOption
     } = this.state;
-
     const _list = addressList.map((item, i) => (
       <div
         className={`rounded address-item ${item.selected ? 'selected' : 'border'
@@ -587,7 +595,7 @@ class AddressList extends React.Component {
             <span>
               {[
                 matchNamefromDict(this.state.countryList, item.countryId),
-                item.cityName,
+                item.city,
                 item.address1
               ].join(', ')}
             </span>

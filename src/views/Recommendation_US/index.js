@@ -872,7 +872,7 @@ class Recommendation extends React.Component {
                   </div>
                 </div>
               ) : (
-                productList.length && (
+                productList.length>0 && (
                   <div>
                     <div className="recommendProductInner">
                       <div className="imageTabBox">

@@ -666,9 +666,10 @@ class AccountOrders extends React.Component {
                           <>
                             {orderList.map((order) => {
                               let isGift = order.tradeItems.find(
-                                item.subscriptionPlanId.length > 0
+                                (item) =>
+                                  (item.subscriptionPlanId || []).length > 0
                               );
-                              console.info('isGift', isGift)
+                              console.info('isGift', isGift);
                               retrun(
                                 <div
                                   className="card-container"

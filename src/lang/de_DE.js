@@ -396,6 +396,7 @@ const de_DE = {
   Size: 'Größe',
   weight_s: 'weight',
   quantityText: 'Anzahl',
+  quantity: 'Menge',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
   getPetFailed: 'Get Pet Failed',

@@ -84,6 +84,7 @@ export function getConfig() {
     params: { storeId: process.env.REACT_APP_STOREID }
   });
 }
+
 export function queryHeaderNavigations() {
   return axios({
     url: `${api.navigations}`,

@@ -18,7 +18,7 @@ let isGACheckoutLock = false
 const isHubGA = process.env.REACT_APP_HUB_GA
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-@inject('checkoutStore', 'loginStore', 'paymentStore','clinicStore')
+@inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -180,7 +180,7 @@ class PayProductInfo extends React.Component {
       });
     });
 
-    (!isHubGA)&&this.GACheck(productList)
+    (!isHubGA) && this.GACheck(productList)
     isHubGA && this.GAInitialProductArray(productList)
   }
   get totalPrice() {
@@ -494,7 +494,7 @@ class PayProductInfo extends React.Component {
                           false
                         );
                       }
-                      
+
                       if (
                         (!result.context.promotionFlag ||
                           result.context.couponCodeFlag)
@@ -601,7 +601,11 @@ class PayProductInfo extends React.Component {
                   <div className="col-8 start-lines">
                     <p className="order-receipt-label">
                       <span>
-                        <FormattedMessage id="total" />
+                        {process.env.REACT_APP_LANG == 'en' ? (
+                          <FormattedMessage id="subtotal" />
+                        ) : (
+                            <FormattedMessage id="total" />
+                          )}
                       </span>
                     </p>
                   </div>
@@ -697,7 +701,11 @@ class PayProductInfo extends React.Component {
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost">
                       <span>
-                        <FormattedMessage id="delivery" />
+                        {process.env.REACT_APP_LANG == 'en' ? (
+                          <FormattedMessage id="shipping" />
+                        ) : (
+                            <FormattedMessage id="delivery" />
+                          )}
                       </span>
                     </p>
                   </div>
@@ -711,7 +719,7 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 税额 */}
-                {process.env.REACT_APP_LANG=='en' ? (
+                {process.env.REACT_APP_LANG == 'en' ? (
                   <div className="row leading-lines shipping-item">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">

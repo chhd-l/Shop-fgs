@@ -1328,23 +1328,28 @@ class SubscriptionDetail extends React.Component {
         subscribeId: subDetail.subscribeId
       };
       if (!this.state.isGift) {
-        param = {
-          goodsItems: subDetail.goodsInfo.map((el) => {
-            return {
-              skuId: el.skuId,
-              subscribeNum: el.subscribeNum,
-              subscribeGoodsId: el.subscribeGoodsId,
-              periodTypeId: el.periodTypeId
-            };
-          })
-        };
-        Object.assign(param, {
-          changeField: this.props.intl.messages['produtctNumber']
-        });
+        Object.assign(
+          param,
+          {
+            goodsItems: subDetail.goodsInfo.map((el) => {
+              return {
+                skuId: el.skuId,
+                subscribeNum: el.subscribeNum,
+                subscribeGoodsId: el.subscribeGoodsId,
+                periodTypeId: el.periodTypeId
+              };
+            })
+          },
+          {
+            changeField: this.props.intl.messages['produtctNumber']
+          }
+        );
       } else {
         //subscribeStatus 暂停传1 重启0
-        param.subscribeStatus =
-          this.state.subDetail.subscribeStatus === '0' ? '1' : '0';
+        Object.assign(param, {
+          subscribeStatus:
+            this.state.subDetail.subscribeStatus === '0' ? '1' : '0'
+        });
       }
 
       await this.doUpdateDetail(param);
