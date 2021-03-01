@@ -64,7 +64,12 @@ export const GACartScreenLoad = () => {
 }
 
 
+//cart init 游客
 export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
+  let breed = []
+  productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+      breed.push(item2.goodsAttributeValue)
+  })
   const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = [];
   for (let item of productList) {
@@ -77,6 +82,8 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
     let subscriptionFrequency = item.form ? calculatedWeeks[item.form.frequencyId] : ''
     let range = item.goodsCateName?.split("/")[1] || ""
     let technology = item.goodsCateName?.split("/")[2] || ""
+    
+    
 
     arr.push({
       'price': price, //Product Price, including discount if promo code activated for this product
@@ -92,11 +99,11 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
       'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
       'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
-
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-      breed: ['unLoginCart'], //All animal breeds associated with the product in an array
-      promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
-      promoCodeAmount: 8 //Promo code amount, only if promo activated
+      breed, //All animal breeds associated with the product in an array
+
+      promoCodeName: '', //Promo code name, only if promo activated
+      promoCodeAmount: '' //Promo code amount, only if promo activated
     });
   }
   dataLayer.push({
@@ -104,10 +111,8 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
   });
 }
 
-
+//cart init 会员
 export const GAInitLoginCart = ({productList,frequencyList,props}) => {
-  // console.log((productList.toJS()))
-  //debugger
 
   const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = [];
@@ -128,7 +133,7 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goods.goodsNo, //Main item code
-      SKU: item.goodsInfos &&item.goodsInfos[0].goodsInfoNo, //product SKU
+      SKU: item.goodsInfoNo, //product SKU
       subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
       technology: technology, //'Dry', 'Wet', 'Pack'
       brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
@@ -141,8 +146,8 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
       breed, //All animal breeds associated with the product in an array
 
 
-      promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
-      promoCodeAmount: 8 //Promo code amount, only if promo activated
+      promoCodeName: '', //Promo code name, only if promo activated
+      promoCodeAmount: '' //Promo code amount, only if promo activated
     });
   }
   dataLayer.push({
@@ -150,9 +155,14 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
   });
 }
 
-export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
-  const calculatedWeeks = getComputedWeeks(frequencyList)
 
+//checkout init 游客
+export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
+  let breed = []
+  productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+      breed.push(item2.goodsAttributeValue)
+  })
+  const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
@@ -181,10 +191,10 @@ export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
 
         'recommendationID': props.clinicStore.linkClinicId || '', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-        'breed': ['HubGAGetProductUnlogin'], //All animal breeds associated with the product in an array
+        breed, //All animal breeds associated with the product in an array
 
-        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+        'promoCodeName': '', //Promo code name, only if promo activated     
+        'promoCodeAmount': '' //Promo code amount, only if promo activated
       })
     }
     dataLayer.push({
@@ -192,6 +202,7 @@ export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
     })
 }
 
+//checkout init 会员
 export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
   const calculatedWeeks = getComputedWeeks(frequencyList)
 
@@ -211,7 +222,7 @@ export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
         'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
         'name': item.goodsName, //WeShare product name, always in English
         'mainItemCode': item.goods.goodsNo, //Main item code
-        'SKU': item.goodsInfos[0].goodsInfoNo, //product SKU
+        'SKU': item.goodsInfoNo, //product SKU
         'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
         'technology': technology, //'Dry', 'Wet', 'Pack'
         'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
@@ -219,11 +230,11 @@ export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
         'quantity': item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
         'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
         'recommendationID': props.clinicStore.linkClinicId || '', //recommendation ID
-
-        //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
+         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
          breed, //All animal breeds associated with the product in an array
-        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+
+        'promoCodeName': '', //Promo code name, only if promo activated     
+        'promoCodeAmount': '' //Promo code amount, only if promo activated
       })
     }
     dataLayer.push({

@@ -913,29 +913,25 @@ class List extends React.Component {
         goodsInfos,
         goodsBrand,
         goodsName,
-        goodsAttributesValueRelVOAllList = []
+        goodsAttributesValueRelVOAllList = [],
+        goodsCateName
       } = item;
       const breed = goodsAttributesValueRelVOAllList
         .filter((attr) => attr.goodsAttributeName == 'breeds')
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
-      // const recommendationID = this.props.clinicStore?.linkClinicId || '';
+      const cateName = goodsCateName?.split('/') || '';
       return {
         price: minMarketPrice,
         specie,
-        range: '', //待确认 是否是字符串还是[]
+        range: cateName?.[1],
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        // recommendationID,
-        technology: '', //待确认 是否是字符串还是[]
+        technology: cateName?.[2],
         brand: 'Royal Canin',
-        // size: '',
-        // sizeCategory: '',
         breed
-        // promoCodeName: '',
-        // promoCodeAmount: '',
       };
     });
 
