@@ -104,7 +104,10 @@ class CommunicationDataEditForm extends React.Component {
     this.setState({
       saveLoading: true
     });
-    const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+    const oktaTokenString =
+      this.props.authState && this.props.authState.accessToken
+        ? this.props.authState.accessToken.value
+        : '';
     let oktaToken = 'Bearer ' + oktaTokenString;
     let submitParam = this.bindSubmitParam(this.state.list);
     Promise.all([
@@ -115,7 +118,12 @@ class CommunicationDataEditForm extends React.Component {
           oktaToken: oktaToken
         })
       ),
-      userBindConsent({ ...submitParam, ...{ oktaToken } })
+      userBindConsent({
+        ...submitParam,
+        ...{ oktaToken },
+        communicationEmail: form.communicationEmail,
+        communicationPhone: form.communicationPhone
+      })
     ])
       .then(async (res) => {
         await this.init();
@@ -204,7 +212,7 @@ class CommunicationDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  style={{minWidth: '52px'}}
+                  style={{ minWidth: '52px' }}
                   className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
@@ -258,8 +266,7 @@ class CommunicationDataEditForm extends React.Component {
               }`}
             />
             <div className={`${editFormVisible ? '' : 'hidden'}`}>
-              <span className={`rc-meta`}>
-              </span>
+              <span className={`rc-meta`}></span>
               <div>
                 <label className="form-control-label rc-input--full-width w-100">
                   <FormattedMessage id="account.preferredMethodOfCommunication" />
