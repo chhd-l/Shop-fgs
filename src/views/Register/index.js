@@ -755,10 +755,9 @@ class Register extends Component {
                             <FormattedMessage id="registerFooter1" />
                             &nbsp;
                             <a
-                              href="mailto:conso.fr@royalcanin.com"
-                              className="rc-text-colour--brand1"
+                              href="/help"
                             >
-                              conso.fr@royalcanin.com
+                              here
                             </a>
                           </p>
                         </div>
