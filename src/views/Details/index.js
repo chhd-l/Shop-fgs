@@ -891,7 +891,8 @@ class Details extends React.Component {
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:res.context.goodsAttributesValueRelList
                 }
               ),
               images,
@@ -941,7 +942,8 @@ class Details extends React.Component {
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:res.context.goodsAttributesValueRelList
                 }
               ),
               images

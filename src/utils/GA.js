@@ -65,6 +65,10 @@ export const GACartScreenLoad = () => {
 
 
 export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
+  let breed = []
+  productList[0].goodsAttributesValueRelList.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+      breed.push(item2.goodsAttributeValue)
+  })
   const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = [];
   for (let item of productList) {
@@ -77,6 +81,8 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
     let subscriptionFrequency = item.form ? calculatedWeeks[item.form.frequencyId] : ''
     let range = item.goodsCateName?.split("/")[1] || ""
     let technology = item.goodsCateName?.split("/")[2] || ""
+    
+    
 
     arr.push({
       'price': price, //Product Price, including discount if promo code activated for this product
@@ -94,7 +100,7 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
 
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-      breed: ['unLoginCart'], //All animal breeds associated with the product in an array
+      breed, //All animal breeds associated with the product in an array
       promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
       promoCodeAmount: 8 //Promo code amount, only if promo activated
     });
@@ -106,8 +112,6 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
 
 
 export const GAInitLoginCart = ({productList,frequencyList,props}) => {
-  // console.log((productList.toJS()))
-  //debugger
 
   const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = [];
@@ -150,9 +154,14 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
   });
 }
 
-export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
-  const calculatedWeeks = getComputedWeeks(frequencyList)
 
+//checkout init 游客
+export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
+  let breed = []
+  productList[0].goodsAttributesValueRelList.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+      breed.push(item2.goodsAttributeValue)
+  })
+  const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
@@ -181,7 +190,7 @@ export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
 
         'recommendationID': props.clinicStore.linkClinicId || '', //recommendation ID
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-        'breed': ['HubGAGetProductUnlogin'], //All animal breeds associated with the product in an array
+        breed, //All animal breeds associated with the product in an array
 
         'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
         'promoCodeAmount': 8 //Promo code amount, only if promo activated
@@ -192,6 +201,7 @@ export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
     })
 }
 
+//checkout init 会员
 export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
   const calculatedWeeks = getComputedWeeks(frequencyList)
 
