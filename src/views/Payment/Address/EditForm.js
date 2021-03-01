@@ -58,7 +58,7 @@ class EditForm extends React.Component {
       this.setState({
         countryList: res
       });
-      address.countryName= res[0].name;
+      address.countryName = res[0].name;
     });
     // 查询省份列表（美国：州）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
@@ -68,8 +68,8 @@ class EditForm extends React.Component {
     });
   }
   computedList(key) {
-    let tmp= '';
-    if(process.env.REACT_APP_LANG === 'en' && key=='province'){
+    let tmp = '';
+    if (key == 'province') {
       tmp = this.state[`${key}List`].map((c) => {
         return {
           value: c.id.toString(),
@@ -77,8 +77,8 @@ class EditForm extends React.Component {
           stateNo: c.stateNo
         };
       });
-      tmp.unshift({ value: 'state', name: 'state' });
-    }else{
+      tmp.unshift({ value: '', name: 'state' });
+    } else {
       tmp = this.state[`${key}List`].map((c) => {
         return {
           value: c.id.toString(),
@@ -128,12 +128,11 @@ class EditForm extends React.Component {
   };
   handleSelectedItemChange(key, data) {
     const { address } = this.state;
-    if(process.env.REACT_APP_LANG === 'en' && key=='province'){
-      address.provinceName= data.name;
-      address.provinceNo= data.stateNo; // 省份简写
-    }
-    if(key=='country'){
-      address.countryName= data.name
+    if (key == 'province') {
+      address.provinceName = data.name;
+      address.provinceNo = data.stateNo; // 省份简写      
+    } else if (key == 'country') {
+      address.countryName = data.name;
     }
     address[key] = data.value;
     this.setState({ address }, () => {
@@ -310,19 +309,19 @@ class EditForm extends React.Component {
     )
   }
   provinceJSX = () => {
-    const { address, errMsgObj } = this.state;
+    const { address } = this.state;
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
         <label className="form-control-label" htmlFor="shippingProvince">State</label>
         <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
           <Selection
-            selectedItemChange={(data) =>
-              this.handleSelectedItemChange('province', data)
-            }
-            optionList={this.computedList('province')}
-            selectedItemData={{
-              value: address.province
+            selectedItemChange={(data) => {
+              if (data.value != '') {
+                this.handleSelectedItemChange('province', data)
+              }
             }}
+            optionList={this.computedList('province')}
+            selectedItemData={{ value: address.province }}
             key={address.province}
           />
         </span>

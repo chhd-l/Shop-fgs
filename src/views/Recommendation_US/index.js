@@ -14,7 +14,11 @@ import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
 import noPic from '@/assets/images/noPic.png';
 import storeLogo from '@/assets/images/storeLogo.png';
-import ImageMagnifier from './components/ImageMagnifier';
+import COHORTADVISOR from './images/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png';
+import CLUBSHIPPING from './images/CLUB-BENEFITS_FREE-SHIPPING.png';
+import CLUBRECOS from './images/CLUB-BENEFITS_PRODUCT-RECOS.png';
+// import ImageMagnifier from './components/ImageMagnifier';
+import ImageMagnifier from '../Recommendation_FR/components/ImageMagnifier';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
@@ -59,6 +63,11 @@ const petsiconArr = [dogIconPng, catIconPng];
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
+const imagesArr = [
+  { img: COHORTADVISOR, text: 'Royal Canin Pet Advisor Live' },
+  { img: CLUBRECOS, text: 'Personalized Recommendations' },
+  { img: CLUBSHIPPING, text: 'Free Shipping & 5% Off Every Autoship Order' }
+];
 const secondlistArr = [
   {
     altText: 'image one',
@@ -1299,6 +1308,20 @@ class Recommendation extends React.Component {
                 )
               )}
             </section>
+          </div>
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+            <div className="rc-layout-container rc-four-column rc-content-v-middle text-center">
+              {images.map((item) => (
+                <div className="rc-column">
+                  <div className="img-hover-switch rc-margin-bottom--sm">
+                    <img src={item.img} />
+                  </div>
+                  <p>
+                    <strong>{item.text}</strong>
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="rc-max-width--lg rc-padding-y--lg">
             <div className="rc-max-width--md text-center rc-padding-x--sm">
