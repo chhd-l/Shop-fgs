@@ -201,11 +201,8 @@ function ListItemH5ForGlobalStyle(props) {
               ) : null}
               {props.children}
 
-              {item ? (
-                <div
-                  class="rc-card__meta text-center col-12"
-                  style={{ margin: '0' }}
-                >
+              {item && item.goodsNewSubtitle ? (
+                <div className="rc-card__meta text-center col-12 ui-text-overflow-line2 m-0">
                   {item.goodsNewSubtitle}
                 </div>
               ) : null}
@@ -359,13 +356,13 @@ function ListItemForDefault(props) {
 }
 function ListItemBodyH5ForGlobalStyle({ item }) {
   return (
-    <div
-      className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
-      style={{ paddingRight: '0' }}
-    >
+    <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
       <div className="product-name" title={item.goodsName}>
         {item.goodsName}
       </div>
+      {item.technologyOrBreedsAttr ? (
+        <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
+      ) : null}
       <div className="product-price">
         {item.toPrice ? (
           <span className="mr-1" style={{ fontSize: '.8em' }}>
@@ -386,9 +383,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
   );
 }
 function ListItemBody({ item, headingTag }) {
-  const {goodsAttributesValueRelVOAllList = []} = item;
-  let technology = goodsAttributesValueRelVOAllList.filter(item => item.goodsAttributeName == "Technology" || item.goodsAttributeName == 'breeds').map(item => item.goodsAttributeValueEn).join(',');
-  let goodHeading = `<${headingTag ? headingTag : 'h2'} 
+  const goodHeading = `<${headingTag ? headingTag : 'h2'} 
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
       ${item.goodsName}
@@ -396,14 +391,14 @@ function ListItemBody({ item, headingTag }) {
   const defaultJSX = (
     <>
       <div className="height-product-tile-plpOnly">
-        <div dangerouslySetInnerHTML={{ __html: goodHeading }}></div>
+        <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
         {/*商品描述*/}
         <h6
           className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
           style={{ color: '#4a4a4a' }}
-          title={item.goodsNewSubtitle}
+          title={item.goodsSubtitle}
         >
-          {item.goodsNewSubtitle}
+          {item.goodsSubtitle}
         </h6>
       </div>
       {/*商品评分和评论数目*/}
@@ -503,44 +498,54 @@ function ListItemBody({ item, headingTag }) {
       {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly">
-            <div className="text-center" style={{color:"#666",fontSize: '0.85rem'}}>{technology}</div>
+            {item.technologyOrBreedsAttr ? (
+              <div className="rc-card__meta text-center">
+                {item.technologyOrBreedsAttr}
+              </div>
+            ) : null}
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
           </div>
           <br />
-          {/*商品价格*/}
-          {item.fromPrice ? <div className="d-flex justify-content-center">
-            <div className="rc-card__price text-left PriceFitScreen">
-              <div className={`rc-full-width PriceFitScreen`}>
-                <span
-                  style={{
-                    color: '#000'
-                  }}
-                  className="value sales"
-                >
-                  {item.toPrice ? (
-                    <span className="mr-1" style={{ fontSize: '.8em' }}>
-                      <FormattedMessage id="startFrom" />
-                    </span>
-                  ) : null}
-                  {item.fromPrice ? formatMoney(item.fromPrice) : null}
-                  {item.toPrice ? (
-                    <>
-                      <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
-                        <FormattedMessage id="startEnd" />
+          {item.fromPrice ? (
+            <div className="d-flex justify-content-center">
+              <div className="rc-card__price text-left PriceFitScreen">
+                <div className={`rc-full-width PriceFitScreen`}>
+                  <span
+                    style={{
+                      color: '#000'
+                    }}
+                    className="value sales"
+                  >
+                    {item.toPrice ? (
+                      <span className="mr-1" style={{ fontSize: '.8em' }}>
+                        <FormattedMessage id="startFrom" />
                       </span>
-                      {formatMoney(item.toPrice)}
-                    </>
-                  ) : null}
-                </span>
+                    ) : null}
+                    {item.fromPrice ? formatMoney(item.fromPrice) : null}
+                    {item.toPrice ? (
+                      <>
+                        <span
+                          className="ml-1 mr-1"
+                          style={{ fontSize: '.8em' }}
+                        >
+                          <FormattedMessage id="startEnd" />
+                        </span>
+                        {formatMoney(item.toPrice)}
+                      </>
+                    ) : null}
+                  </span>
+                </div>
               </div>
             </div>
-          </div> : null}
-          <div
-            class="rc-card__meta text-center ui-text-overflow-line2 col-12"
-            style={{ padding: '0', marginBottom: '10px' }}
-          >
-            {item.goodsNewSubtitle}
-          </div>
+          ) : null}
+          {item.goodsNewSubtitle ? (
+            <div
+              className="rc-card__meta text-center ui-text-overflow-line2 col-12 p-0"
+              style={{ marginBottom: '10px' }}
+            >
+              {item.goodsNewSubtitle}
+            </div>
+          ) : null}
         </>
       ) : (
         defaultJSX
@@ -558,7 +563,7 @@ function ProductFinderAd({
   return (
     {
       fr: (
-        <div className="ml-4 mr-4 pl-4 pr-4">
+        <div className="ml-4 mr-4 pl-4 pr-4 pb-4 pb-md-0">
           {isRetailProducts || isVetProducts ? null : (
             <div className="row align-items-center">
               <div className="col-12 col-md-6">
@@ -720,7 +725,7 @@ class List extends React.Component {
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
-    const cateId = getParaByName(search, 'cateId');
+    const cateId = getParaByName(search, 'cateId');
     const utm_source = getParaByName(search, 'utm_source'); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
       this.setState({
@@ -742,10 +747,10 @@ class List extends React.Component {
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
             : keywordsSearch
-              ? keywordsSearch
-              : '',
+            ? keywordsSearch
+            : '',
         cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
-        cateId,
+        cateId
       },
       () => {
         this.initData();
@@ -1209,9 +1214,18 @@ class List extends React.Component {
     let filterList = tmpList.concat(customFilter);
 
     // isVetProducts 过滤掉'breeds' 'Sterilized''Specific needs'
-    let vetFilterList = filterList.filter(item => item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized' && item.attributeName !== 'Specific needs');
-    let sptFilterList = filterList.filter(item => item.attributeName !== 'Size');
-    let allFilterList = this.state.isVetProducts ? vetFilterList : sptFilterList;
+    let vetFilterList = filterList.filter(
+      (item) =>
+        item.attributeName !== 'breeds' &&
+        item.attributeName !== 'Sterilized' &&
+        item.attributeName !== 'Specific needs'
+    );
+    let sptFilterList = filterList.filter(
+      (item) => item.attributeName !== 'Size'
+    );
+    let allFilterList = this.state.isVetProducts
+      ? vetFilterList
+      : sptFilterList;
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -1615,7 +1629,17 @@ class List extends React.Component {
                     e.taggingType === 'Image' &&
                     e.showPage &&
                     e.showPage.includes('PLP')
-                )[0]
+                )[0],
+                technologyOrBreedsAttr:
+                  isHub &&
+                  ele.goodsAttributesValueRelVOAllList
+                    .filter(
+                      (item) =>
+                        item.goodsAttributeName == 'Technology' ||
+                        item.goodsAttributeName == 'breeds'
+                    )
+                    .map((item) => item.goodsAttributeValueEn)
+                    .join(',')
               });
               const tmpItem = find(
                 res.context.goodsList,
@@ -1624,7 +1648,8 @@ class List extends React.Component {
               if (tmpItem) {
                 const {
                   goodsCateName,
-                  goodsNewSubtitle,
+                  goodsSubtitle,
+                  goodsNewSubtitle, // 商品into介绍
                   subscriptionStatus,
                   avgEvaluate,
                   minMarketPrice,
@@ -1635,6 +1660,7 @@ class List extends React.Component {
                 } = tmpItem;
                 ret = Object.assign(ret, {
                   goodsCateName,
+                  goodsSubtitle,
                   goodsNewSubtitle,
                   subscriptionStatus,
                   avgEvaluate,
