@@ -5,7 +5,8 @@ const api = {
   addressInfo: '/customer/addressInfo',
   // addressInfoNew: '/customer/addr/default',
   setDefaltAddress: '/customer/addr/default',
-  saveAddress: '/customer/addr'
+  saveAddress: '/customer/addr',
+  getAddressById: '/customer/address/'
 };
 
 export default api;
@@ -19,7 +20,7 @@ export function getAddressList(parameter) {
 }
 export function getAddressById(parameter) {
   return axios({
-    url: `${api.saveAddress}/${parameter.id}`,
+    url: `${api.getAddressById}/${parameter.id}`,
     method: 'get'
   });
 }

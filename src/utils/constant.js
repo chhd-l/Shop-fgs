@@ -143,15 +143,15 @@ export const ADDRESS_RULE = [
       CURRENT_LANGFILE['payment.province']
     )
   },
-  {
-    key: 'email',
-    regExp: EMAIL_REGEXP,
-    require: true,
-    errMsg: CURRENT_LANGFILE['enterCorrectValue'].replace(
-      /{.+}/,
-      CURRENT_LANGFILE['email']
-    )
-  },
+  // {
+  //   key: 'email',
+  //   regExp: EMAIL_REGEXP,
+  //   require: true,
+  //   errMsg: CURRENT_LANGFILE['enterCorrectValue'].replace(
+  //     /{.+}/,
+  //     CURRENT_LANGFILE['email']
+  //   )
+  // },
   {
     key: 'phoneNumber',
     regExp: process.env.REACT_APP_LANG === 'fr' ? /[+(33)|0]\d{9}$/ : '',
