@@ -137,8 +137,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'province',
-    // require: true,
-    require: process.env.REACT_APP_LANG === 'en'? false : true,
+    require: process.env.REACT_APP_LANG === 'en'? true : false,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.province']
