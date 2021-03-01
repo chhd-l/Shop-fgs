@@ -1311,7 +1311,7 @@ class Recommendation extends React.Component {
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             <div className="rc-layout-container rc-four-column rc-content-v-middle text-center">
-              {images.map((item) => (
+              {imagesArr.map((item) => (
                 <div className="rc-column">
                   <div className="img-hover-switch rc-margin-bottom--sm">
                     <img src={item.img} />
