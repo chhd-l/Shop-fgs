@@ -615,6 +615,7 @@ const ru_RU = {
   'qualitySafety.title': 'Наши обязательства в области качества и пищевой безопасности',
   quantityCannotExceed10: 'Количество не может превышать 10',
   quantityText: 'product',
+  quantity: 'количество',
   queryDataFailed: 'Ошибка данных запроса',
   ratingGrade1: 'Самые последние',
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',

@@ -55,15 +55,17 @@ class SearchSelection extends React.Component {
     }
   };
   handleInputBlur = (e) => {
-    if (process.env.REACT_APP_LANG == 'en') {
-      // 美国可以输入，也可以选择
+    // if (process.env.REACT_APP_LANG == 'en') {
+      // 可以输入，也可以选择
       const target = e.target;
       const { form } = this.state;
       try {
         setTimeout(() => {
           if (this.otherValue && this.otherValue != '') {
             form.value = this.otherValue;
-            this.otherValue = '';
+            setTimeout(()=>{
+              this.otherValue = '';
+            },500);
           } else {
             form.value = target.value;
           }
@@ -96,17 +98,17 @@ class SearchSelection extends React.Component {
       } catch (error) {
         console.log(error);
       }
-    } else {
-      setTimeout(() => {
-        // 没有选择有效item时，回填之前的值
-        this.setState({
-          form: Object.assign(this.state.form, {
-            value: this.state.currentItem || ''
-          }),
-          searchForNoResult: true
-        });
-      }, 500);
-    }
+    // } else {
+    //   setTimeout(() => {
+    //     // 没有选择有效item时，回填之前的值
+    //     this.setState({
+    //       form: Object.assign(this.state.form, {
+    //         value: this.state.currentItem || ''
+    //       }),
+    //       searchForNoResult: true
+    //     });
+    //   }, 500);
+    // }
   };
   async queryList() {
     const { form, optionList } = this.state;

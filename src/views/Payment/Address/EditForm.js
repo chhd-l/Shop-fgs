@@ -143,6 +143,7 @@ class EditForm extends React.Component {
     const { address } = this.state;
     address.city = data.id;
     address.cityName = data.cityName;
+    console.log('★★★★★★★★-> EditForm: ', data);
     this.setState({ address }, () => {
       this.props.updateData(this.state.address);
     });

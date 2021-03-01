@@ -752,6 +752,7 @@ const fr_FR = {
   'qualitySafety.title': 'Engagement en faveur de la qualité et de la sécurité alimentaire',
   quantityCannotExceed10: 'La quantité ne peut pas dépasser 10',
   quantityText: 'Quantité',
+  quantity: 'Quantité',
   queryDataFailed: 'La requête des données a échoué',
   ratingGrade1: 'Le plus récent',
   ratingGrade2: 'Ratin du plus bas au plus élevég',

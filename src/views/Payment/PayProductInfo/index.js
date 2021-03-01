@@ -17,7 +17,7 @@ let isGACheckoutLock = false
 const isHubGA = process.env.REACT_APP_HUB_GA
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-@inject('checkoutStore', 'loginStore', 'paymentStore','clinicStore')
+@inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -39,7 +39,7 @@ class PayProductInfo extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
-      calculatedWeeks:{}
+      calculatedWeeks: {}
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -140,14 +140,14 @@ class PayProductInfo extends React.Component {
   }
 
   //会员 HubGA需要的product信息
-  HubGAGetProductLogin(productList){
+  HubGAGetProductLogin(productList) {
     let arr = []
     for (let item of productList) {
       let subscriptionFrequency = item.periodTypeId ? this.state.calculatedWeeks[item.periodTypeId] : ''
       let range = item.goods.goodsCateName?.split("/")[1] || "";
       let technology = item.goods.goodsCateName?.split("/")[2] || ""
       let breed = []
-      item.goodsAttributesValueRelVOList.filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+      item.goodsAttributesValueRelVOList.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
         breed.push(item2.goodsAttributeValue)
       })
 
@@ -167,7 +167,7 @@ class PayProductInfo extends React.Component {
         'recommendationID': this.props.clinicStore.linkClinicId || '', //recommendation ID
 
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
-         breed, //All animal breeds associated with the product in an array
+        breed, //All animal breeds associated with the product in an array
         'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
         'promoCodeAmount': 8 //Promo code amount, only if promo activated
       })
@@ -180,7 +180,7 @@ class PayProductInfo extends React.Component {
   }
 
   //游客 HubGA需要的product信息
-  HubGAGetProductUnlogin(productList){
+  HubGAGetProductUnlogin(productList) {
     let arr = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
@@ -223,8 +223,8 @@ class PayProductInfo extends React.Component {
     // debugger
   }
 
-  GAInitialProductArray(productList){
-    if(!isGACheckoutLock){//防止重复调用
+  GAInitialProductArray(productList) {
+    if (!isGACheckoutLock) {//防止重复调用
       isGACheckoutLock = true
       this.getComputedWeeks(this.state.frequencyList)
       this.isLogin ? this.HubGAGetProductLogin(productList) : this.HubGAGetProductUnlogin(productList)
@@ -282,7 +282,7 @@ class PayProductInfo extends React.Component {
       });
     });
 
-    (!isHubGA)&&this.GACheck(productList)
+    (!isHubGA) && this.GACheck(productList)
     isHubGA && this.GAInitialProductArray(productList)
   }
   get totalPrice() {
@@ -596,7 +596,7 @@ class PayProductInfo extends React.Component {
                           false
                         );
                       }
-                      
+
                       if (
                         (!result.context.promotionFlag ||
                           result.context.couponCodeFlag)
@@ -703,7 +703,11 @@ class PayProductInfo extends React.Component {
                   <div className="col-8 start-lines">
                     <p className="order-receipt-label">
                       <span>
-                        <FormattedMessage id="total" />
+                        {process.env.REACT_APP_LANG == 'en' ? (
+                          <FormattedMessage id="subtotal" />
+                        ) : (
+                            <FormattedMessage id="total" />
+                          )}
                       </span>
                     </p>
                   </div>
@@ -799,7 +803,11 @@ class PayProductInfo extends React.Component {
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost">
                       <span>
-                        <FormattedMessage id="delivery" />
+                        {process.env.REACT_APP_LANG == 'en' ? (
+                          <FormattedMessage id="shipping" />
+                        ) : (
+                            <FormattedMessage id="delivery" />
+                          )}
                       </span>
                     </p>
                   </div>
@@ -813,7 +821,7 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 税额 */}
-                {process.env.REACT_APP_LANG=='en' ? (
+                {process.env.REACT_APP_LANG == 'en' ? (
                   <div className="row leading-lines shipping-item">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">
