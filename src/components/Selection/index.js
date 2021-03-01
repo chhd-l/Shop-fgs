@@ -35,9 +35,7 @@ export default class Selection extends React.Component {
       optionsVisible: false,
       selectedItem: {
         name: '',
-        value:
-          (this.props.selectedItemData && this.props.selectedItemData.value) ||
-          '',
+        value: (this.props.selectedItemData && this.props.selectedItemData.value) ||'',
         id: -1
       },
       hoveredIdx: -1
