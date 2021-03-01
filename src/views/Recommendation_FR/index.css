@@ -4,10 +4,12 @@
 .Recommendation_FR .benefit {
   text-align: left;
 }
-.Recommendation_FR  .hide{
+.Recommendation_FR .hide {
   display: none;
 }
-.Recommendation_FR  .type-icon{
+.Recommendation_FR .type-icon {
+  border: 1px solid #ec001a;
+  border-radius: 100%;
   position: absolute;
   width: 64px;
   height: 64px;
@@ -19,23 +21,26 @@
 .Recommendation_FR .benefit ul {
   padding-left: 40px;
 }
-.Recommendation_FR .recommendation_feeding_box{
-  background: #F6F6F6;
+.Recommendation_FR .recommendation_feeding_box {
+  background: #f6f6f6;
   border-radius: 3px;
   color: #666;
-  padding: 52px 32px 30px;
+  /* padding: 52px 32px 30px; */
 }
-.Recommendation_FR .product_info{
+.Recommendation_FR .product_info {
   width: 100%;
   padding: 0px 40px;
 }
-@media (max-width:679px){
-  .Recommendation_FR .product_info{
+.rc-beta {
+  color: #e2001a;
+}
+@media (max-width: 679px) {
+  .Recommendation_FR .product_info {
     width: 100%;
     padding: 0px 20px;
   }
 }
-.Recommendation_FR .recommendation_feeding_box .reason{
+.Recommendation_FR .recommendation_feeding_box .reason {
   padding-bottom: 24px;
 }
 .Recommendation_FR .benefit ul > li {
@@ -43,7 +48,7 @@
   text-align: left;
   list-style: disc;
 }
-.Recommendation_FR  .help-container p{
+.Recommendation_FR .help-container p {
   text-align: left;
 }
 .Recommendation_FR h2 {
@@ -65,7 +70,7 @@
 }
 .recommendProduct .left {
   flex: 1;
-  border-right: 2px solid #f6f6f6 ;
+  border-right: 2px solid #f6f6f6;
 }
 .recommendProduct .right {
   flex: 4;
@@ -113,7 +118,7 @@
   padding-bottom: 20px;
 }
 .recommendProduct ul > li.active {
-  border-right: 2px solid rgba(226,0,26);
+  border-right: 2px solid rgba(226, 0, 26);
 }
 .recommendProduct ul > li.active i {
   position: absolute;
@@ -121,18 +126,18 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(226,0,26, 0.04);
+  background-color: rgba(226, 0, 26, 0.04);
 }
 .recommendProduct .right .main {
   display: flex;
   margin-top: 20px;
 }
-.recommendProduct .right .main .pic{
+.recommendProduct .right .main .pic {
   padding: 10px;
   flex: 1;
 }
 
-.Recommendation_FR .recommendProduct .right .text{
+.Recommendation_FR .recommendProduct .right .text {
   /* padding: 10px 40px 10px 10px; */
   flex: 1;
   /* padding-top: 60px; */
@@ -171,15 +176,19 @@
   width: 100%;
   text-align: center;
 }
-.re-p-md-68 { padding: 68px; }
-.re-p-md-4068 { padding: 40px 68px; }
+.re-p-md-68 {
+  padding: 68px;
+}
+.re-p-md-4068 {
+  padding: 40px 68px;
+}
 
 .recommendProduct .imageTabBox {
   overflow: hidden;
   text-align: center;
 }
-.recommendProduct .imageTabBox  .active {
-  color: #e2001a; 
+.recommendProduct .imageTabBox .active {
+  color: #e2001a;
   border-bottom: 4px solid #e2001a;
   cursor: pointer;
 }
@@ -192,8 +201,12 @@
 }
 
 @media (max-width: 480px) {
-  .re-p-sm-12 { padding: 1rem 2%; }
-  .re-p-0 { padding: 0; }
+  .re-p-sm-12 {
+    padding: 1rem 2%;
+  }
+  .re-p-0 {
+    padding: 0;
+  }
   .Recommendation_FR h2 {
     margin-top: 0;
   }
@@ -201,8 +214,9 @@
     margin-bottom: 10px;
     text-align: center;
   }
-  .Recommendation_FR p > .rc-btn, p > .btn {
-      display: inline-block !important;
+  .Recommendation_FR p > .rc-btn,
+  p > .btn {
+    display: inline-block !important;
   }
   .Recommendation_FR .recommendProduct {
     width: 100%;
@@ -216,7 +230,7 @@
     margin: 20px 0;
   }
   .recommendProduct {
-    padding: 0 ;
+    padding: 0;
   }
   .recommendProduct.re-custom .recommendProductInnerMobile ul li {
     width: 33%;
@@ -232,7 +246,7 @@
   }
   .recommendProduct ul > li.active {
     border-right: none;
-    border-bottom: 2px solid rgba(226,0,26);
+    border-bottom: 2px solid rgba(226, 0, 26);
   }
   .recommendProduct .top {
     text-align: center;
@@ -260,10 +274,11 @@
   .Recommendation_FR .scrollOutBox {
     height: 100px;
   }
-  .Recommendation_FR p>.rc-btn, p>.btn {
+  .Recommendation_FR p > .rc-btn,
+  p > .btn {
     margin-right: 0;
   }
-  .Recommendation_FR p>.rc-btn+.rc-styled-link {
+  .Recommendation_FR p > .rc-btn + .rc-styled-link {
     margin-left: 0;
   }
   .recommendProduct .right .description {
@@ -271,5 +286,3 @@
     height: 80px;
   }
 }
-
-
