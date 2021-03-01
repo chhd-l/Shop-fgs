@@ -54,6 +54,7 @@ import { format } from 'date-fns';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import {myAccountActionPushEvent} from "@/utils/GA"
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
@@ -1296,6 +1297,7 @@ class SubscriptionDetail extends React.Component {
     //   storeId: process.env.REACT_APP_STOREID
     // };
     let res = await getRemainings(params);
+    myAccountActionPushEvent('Cancel Subscription')
     let remainingsList = res.context;
     this.setState({
       remainingsList,
