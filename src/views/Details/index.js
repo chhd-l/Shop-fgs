@@ -376,10 +376,9 @@ class Details extends React.Component {
     });
 
     // 观察'推荐块'元素是否出现在可见视口中
-    if (this.hubGA && dataLayer) {
       let initObserver = new IntersectionObserver((entries) => {
         if (entries[0].intersectionRatio <= 0) return; // intersectionRatio 是否可见，不可见则返回
-        dataLayer.push({
+        this.hubGA && dataLayer.push({
           event: 'pdpAssociatedProductsDisplay',
           pdpAssociatedProductsDisplay: [
             {
@@ -416,7 +415,7 @@ class Details extends React.Component {
           this.state.initObserver.observe(this.state.recommendationGoodsDom);
         }
       );
-    }
+
     loadJS({
       url: 'https://fi-v2.global.commerce-connector.com/cc.js',
       id: 'cci-widget',
