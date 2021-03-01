@@ -1,26 +1,30 @@
 .shelter-prescription {
+  @media (min-width: 769px) {
+    .rc-card--product header {
+      min-height: 70px;
+    }
+  }
   .colom-direction {
     -ms-flex-direction: column;
     flex-direction: column;
   }
-  .product-list{
-    .rc-card__link{
+  .product-list {
+    .rc-card__link {
       cursor: pointer;
-      &:hover{
-        .rc-card--b{
-          border-color: #F70000;
+      &:hover {
+        .rc-card--b {
+          border-color: #f70000;
         }
       }
-
     }
   }
   .banner-benefits-box {
     .banner-benefits-li {
       line-height: 1.5rem;
       &:before {
-        content: "\2022";
+        content: '\2022';
         color: #ec001a;
-        margin-right: .75rem;
+        margin-right: 0.75rem;
       }
     }
   }
