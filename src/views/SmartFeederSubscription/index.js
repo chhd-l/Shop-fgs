@@ -858,9 +858,9 @@ class SmartFeederSubscription extends Component {
               // g = Object.assign({}, g, { selected: false });
               g = Object.assign({}, g, { selected: i === 0 });
               if (g.selected && !g.subscriptionStatus) {
-                let { form } = this.state;
-                form.buyWay = 0;
-                this.setState({ form });
+                // let { form } = this.state;
+                // form.buyWay = 0;
+                // this.setState({ form });
               }
               return g;
             });

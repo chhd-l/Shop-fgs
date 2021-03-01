@@ -228,7 +228,7 @@ class LoginCart extends React.Component {
         range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
         name: item.goodsName, //WeShare product name, always in English
         mainItemCode: item.goods.goodsNo, //Main item code
-        SKU: item.goodsInfos[0].goodsInfoNo, //product SKU
+        SKU: item.goodsInfos &&item.goodsInfos[0].goodsInfoNo, //product SKU
         subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
         technology: technology, //'Dry', 'Wet', 'Pack'
         brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
@@ -268,7 +268,7 @@ class LoginCart extends React.Component {
         recommendation: 'self-selected',
         type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',
         variant: item.specText ? parseInt(item.specText) : '',
-        sku: item.goodsInfos[0].goodsInfoNo
+        sku: item.goodsInfos&&item.goodsInfos[0].goodsInfoNo
       });
     }
     try {
@@ -368,6 +368,7 @@ class LoginCart extends React.Component {
 
       // 存在被删除商品，不能下单
       if (checkoutStore.deletedProNames.length) {
+        debugger
         window.scrollTo({ behavior: 'smooth', top: 0 });
         this.showErrMsg(
           <FormattedMessage

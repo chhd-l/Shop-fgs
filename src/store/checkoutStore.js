@@ -273,7 +273,7 @@ class CheckoutStore {
       if (tmpObj) {
         item.addedFlag = tmpObj.addedFlag;
         selectedSize.stock = tmpObj.stock;
-        const tmpName = tmpObj.goodsInfoName + ' ' + tmpObj.specText;
+        const tmpName = [tmpObj.goodsInfoName, tmpObj.specText].filter(e => e).join(' ');
         // handle product off shelves logic
         if (!tmpObj.addedFlag) {
           tmpOffShelvesProNames.push(tmpName);
@@ -382,13 +382,13 @@ class CheckoutStore {
 
         this.offShelvesProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => !ele.addedFlag)
-          .map((ele) => ele.goodsInfoName + ' ' + ele.specText);
+          .map((ele) => [ele.goodsInfoName, ele.specText].filter(e => e).join(' '));
         this.outOfstockProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => ele.buyCount > ele.stock)
-          .map((ele) => ele.goodsInfoName + ' ' + ele.specText);
+          .map((ele) => [ele.goodsInfoName, ele.specText].filter(e => e).join(' '));
         this.deletedProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => ele.delFlag)
-          .map((ele) => ele.goodsInfoName + ' ' + ele.specText);
+          .map((ele) => [ele.goodsInfoName, ele.specText].filter(e => e).join(' '));
         this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap);
         this.changeLoadingCartData(false);
       });

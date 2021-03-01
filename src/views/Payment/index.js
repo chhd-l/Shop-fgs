@@ -841,9 +841,7 @@ class Payment extends React.Component {
       }
 
       let isRepay = this.state.tid ? true : false;
-
       payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
-
       /* 4)调用支付 */
       const res = await action(parameters);
       const { tidList } = this.state;

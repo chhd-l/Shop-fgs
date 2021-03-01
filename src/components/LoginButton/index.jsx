@@ -63,7 +63,7 @@ const LoginButton = (props) => {
             let submitParam = bindSubmitParam(consents);
             // 不知道能不能拿到customerId
             let customerId =
-              loginStore.userinfo && loginStore.userinfo.customerId;
+              loginStore.userInfo && loginStore.userInfo.customerId;
             userBindConsent({
               ...submitParam,
               ...{ oktaToken },
