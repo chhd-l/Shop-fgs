@@ -64,9 +64,12 @@ export const GACartScreenLoad = () => {
 }
 
 
+//cart init 游客
 export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
+  console.log(productList)
+  debugger
   let breed = []
-  productList[0].goodsAttributesValueRelList.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+  productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
       breed.push(item2.goodsAttributeValue)
   })
   const calculatedWeeks = getComputedWeeks(frequencyList)
@@ -98,11 +101,11 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
       'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
       'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
-
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
-      promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
-      promoCodeAmount: 8 //Promo code amount, only if promo activated
+
+      promoCodeName: '', //Promo code name, only if promo activated
+      promoCodeAmount: '' //Promo code amount, only if promo activated
     });
   }
   dataLayer.push({
@@ -110,7 +113,7 @@ export const GAInitUnLoginCart = ({ productList, frequencyList, props }) => {
   });
 }
 
-
+//cart init 会员
 export const GAInitLoginCart = ({productList,frequencyList,props}) => {
 
   const calculatedWeeks = getComputedWeeks(frequencyList)
@@ -145,8 +148,8 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
       breed, //All animal breeds associated with the product in an array
 
 
-      promoCodeName: 'PROMO1234', //Promo code name, only if promo activated
-      promoCodeAmount: 8 //Promo code amount, only if promo activated
+      promoCodeName: '', //Promo code name, only if promo activated
+      promoCodeAmount: '' //Promo code amount, only if promo activated
     });
   }
   dataLayer.push({
@@ -158,7 +161,7 @@ export const GAInitLoginCart = ({productList,frequencyList,props}) => {
 //checkout init 游客
 export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
   let breed = []
-  productList[0].goodsAttributesValueRelList.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+  productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
       breed.push(item2.goodsAttributeValue)
   })
   const calculatedWeeks = getComputedWeeks(frequencyList)
@@ -192,8 +195,8 @@ export const GAInitUnLoginCheckout = ({productList,frequencyList,props}) => {
         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
         breed, //All animal breeds associated with the product in an array
 
-        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+        'promoCodeName': '', //Promo code name, only if promo activated     
+        'promoCodeAmount': '' //Promo code amount, only if promo activated
       })
     }
     dataLayer.push({
@@ -229,11 +232,11 @@ export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
         'quantity': item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
         'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
         'recommendationID': props.clinicStore.linkClinicId || '', //recommendation ID
-
-        //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
+         //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
          breed, //All animal breeds associated with the product in an array
-        'promoCodeName': 'PROMO1234', //Promo code name, only if promo activated     
-        'promoCodeAmount': 8 //Promo code amount, only if promo activated
+
+        'promoCodeName': '', //Promo code name, only if promo activated     
+        'promoCodeAmount': '' //Promo code amount, only if promo activated
       })
     }
     dataLayer.push({
