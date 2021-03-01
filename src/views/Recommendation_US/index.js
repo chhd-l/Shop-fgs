@@ -872,7 +872,7 @@ class Recommendation extends React.Component {
                   </div>
                 </div>
               ) : (
-                productList.length>0 && (
+                productList.length > 0 && (
                   <div>
                     <div className="recommendProductInner">
                       <div className="imageTabBox">
@@ -1036,10 +1036,11 @@ class Recommendation extends React.Component {
                           />
                           <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
                             <div className="">
-                              Recommended feeding amounts are located on the
+                              {productList[activeIndex]?.productMessage}
+                              {/* Recommended feeding amounts are located on the
                               back of the bag. Make sure you transition food
                               slowly over the course of the week to help prevent
-                              stomach upset.
+                              stomach upset. */}
                             </div>
                             {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
@@ -1633,7 +1634,6 @@ class Recommendation extends React.Component {
               <img src={cur_recommendation4} />
             </div>
           </div>
-       
         </main>
         <Footer />
       </div>

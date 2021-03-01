@@ -485,7 +485,7 @@ const Step3 = (props) => {
               </div>
             </div>
             <div className="font_size20 flex-fill text-right">
-              {detailInfo.planProds?.[0].settingPrice}
+              {formatMoney(detailInfo.planProds?.[0].settingPrice)}
             </div>
           </div>
           <div className="d-flex">
@@ -511,7 +511,7 @@ const Step3 = (props) => {
               <FormattedMessage id="total" />
             </div>
             <div className="flex-fill text-right">
-              {detailInfo.planProds?.[0].settingPrice}
+              {formatMoney(detailInfo.planProds?.[0].settingPrice)}
             </div>
           </div>
           <div>
