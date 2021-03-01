@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -14,7 +13,7 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
-import {GACartScreenLoad,GAInitUnLoginCart} from "@/utils/GA"
+import {GAInitUnLoginCart} from "@/utils/GA"
 import PayProductInfo from '../../Payment/PayProductInfo';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -70,7 +69,6 @@ class UnLoginCart extends React.Component {
       isShowValidCode: false, //是否显示无效promotionCode
       subscriptionDiscount: 0,
       activeToolTipIndex: 0,
-      calculatedWeeks: {}
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -156,7 +154,6 @@ class UnLoginCart extends React.Component {
       });
     });
     if(isHubGA){
-      GACartScreenLoad();
       GAInitUnLoginCart({productList:this.props.checkoutStore.cartData,frequencyList:this.state.frequencyList,props:this.props});
     }
     this.setCartData();
@@ -1609,8 +1606,7 @@ class UnLoginCart extends React.Component {
             </div>
 
 
-            {/* 页面没有看到 先注释掉 */}
-            {/* <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
+            <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
               <div
                 className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
                   mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
@@ -1649,7 +1645,7 @@ class UnLoginCart extends React.Component {
                 }
               />
               {this.getCheckotBtn()}
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

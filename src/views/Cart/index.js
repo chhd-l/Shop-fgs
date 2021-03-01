@@ -5,6 +5,7 @@ import LoginCart from './modules/loginCart';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import {GACartScreenLoad} from "@/utils/GA"
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
@@ -26,6 +27,7 @@ class Cart extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    GACartScreenLoad()
     setSeoConfig().then(res => {
       this.setState({seoConfig: res})
     });

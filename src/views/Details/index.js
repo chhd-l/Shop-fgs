@@ -1420,6 +1420,7 @@ class Details extends React.Component {
               el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
               return el;
             });
+
             checkoutStore.setCartData(handledData);
             let AuditData = handledData.filter((el) => el.auditCatFlag);
             checkoutStore.setAuditData(AuditData);
