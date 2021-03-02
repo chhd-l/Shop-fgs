@@ -51,6 +51,7 @@ class EditForm extends React.Component {
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
     });
+    console.log('----------------------> EditForm address: ', address);
 
     getDictionary({ type: 'country' }).then((res) => {
       const { address } = this.state;
@@ -141,7 +142,6 @@ class EditForm extends React.Component {
   }
   handleCityInputChange = (data) => {
     const { address } = this.state;
-    console.log('----------------------> handleCityInputChange data: ', data);
     address.city = data.id;
     address.cityName = data.cityName;
     this.setState({ address }, () => {
