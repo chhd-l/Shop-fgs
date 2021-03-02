@@ -33,7 +33,7 @@ class ShelterPrescription extends React.Component {
       emailDes: ' We will respond as soon as possible.',
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
-      email: 'Send us an Email',
+      email: 'Send us an email',
       phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
@@ -216,7 +216,7 @@ class ShelterPrescription extends React.Component {
                     <h2 className="red rc-beta markup-text">
                       Join The Club. Get Big Perks.
                     </h2>
-                    <p style={{wordBreak:'break-word'}}>
+                    <p style={{ wordBreak: 'break-word' }}>
                       When you choose autoship, you’re automatically part of the
                       Royal Canin® Club. With your membership, you get tailored
                       nutrition and support for your pet – along with automatic
@@ -298,14 +298,25 @@ class ShelterPrescription extends React.Component {
               style={{ borderBottomWidth: '4px' }}
             ></div>
           </div>
-          <div className="rc-max-width--md text-center rc-margin-y--md section-why text-center">
-            <h4 className="red">Why Royal Canin?</h4>
-            <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-              We focus our attention on the unique needs of cats and dogs. That
-              obsession with detail is what makes it possible for us to deliver
-              precise, effective nutrition and help pets become their
-              magnificent best.
+          <div className="experience-component experience-assets-divider">
+            <div
+              className="rc-border-bottom rc-border-colour--brand4"
+              style={{ borderBottomWidth: '4px' }}
+            ></div>
+          </div>
+          <div className="rc-max-width--md text-center section-why text-center">
+            <div className="rc-max-width--md text-center rc-margin-y--md">
+              <div className="rc-beta inherit-fontsize">
+                <h3 className="red">Why Royal Canin?</h3>
+              </div>
+              <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                We focus our attention on the unique needs of cats and dogs.
+                That obsession with detail is what makes it possible for us to
+                deliver precise, effective nutrition and help pets become their
+                magnificent best.
+              </div>
             </div>
+
             <div className="experience-component experience-assets-youtubeVideo">
               <div className="rc-max-width--md rc-padding-x--lg">
                 <div className="rc-video-wrapper dog-video">

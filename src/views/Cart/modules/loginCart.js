@@ -301,7 +301,6 @@ class LoginCart extends React.Component {
 
       // 存在被删除商品，不能下单
       if (checkoutStore.deletedProNames.length) {
-        debugger
         window.scrollTo({ behavior: 'smooth', top: 0 });
         this.showErrMsg(
           <FormattedMessage

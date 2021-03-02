@@ -26,8 +26,9 @@ import UserJSX from './jsx/user';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import { fetchHeaderNavigations } from '@/utils/utils';
-import { intl_user } from './lang/user';
+import { queryApiFromSessionCache } from '@/utils/utils';
 import { getNavigation } from '@/api/hub';
+import { intl_user } from './lang/user';
 import queryNavigation from './mock/navigation';
 import './index.less';
 
@@ -237,7 +238,10 @@ class Header extends React.Component {
   };
   initNavigationsForHub = async () => {
     try {
-      const res = await getNavigation();
+      const res = await queryApiFromSessionCache({
+        sessionKey: 'header-navigations-hub',
+        api: getNavigation
+      });
       // const res = await queryNavigation();
       let headerNavigationListForHub = (
         (res && res.data && res.data.MenuGroups) ||
