@@ -169,7 +169,7 @@ const LoginButton = (props) => {
       ref={props.buttonRef}
       id="J-btn-login"
     >
-      {props.children || <FormattedMessage id="loginText" />}
+      {props.children || <FormattedMessage id="login" />}
     </button>
   );
 };

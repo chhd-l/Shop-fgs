@@ -185,7 +185,12 @@ class ContactUs extends Component {
             <div className="form-group">
                 {' '}
                 <label className="form-control-label" htmlFor="shippingPhoneNumber">
-                    <FormattedMessage id="payment.phoneNumber" />
+                    {process.env.REACT_APP_LANG == 'en'?(
+                        <FormattedMessage id="payment.phoneNumber2" />
+                    ):(
+                        <FormattedMessage id="payment.phoneNumber" />
+                    )}
+                    
                 </label>
                 <span
                     className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
@@ -304,9 +309,7 @@ class ContactUs extends Component {
                             </p>
                         </div>
                     </div>
-                    <button disabled={!this.allRequiredChecked()} onClick={this.submitEvent.bind(this)} className="btn btn-block btn-primary" name="send" style={{ width: '200px', cursor: this.allRequiredChecked() ? "pointer" : "not-allowed" }}>
-                        Submit
-                            </button>
+                    <button disabled={!this.allRequiredChecked()} onClick={this.submitEvent.bind(this)} className="btn btn-block btn-primary rc_contact_us_btn" name="send" style={{ width: '200px', cursor: this.allRequiredChecked() ? "pointer" : "not-allowed" }}>Submit</button>
                 </div>
             </div>
         )
