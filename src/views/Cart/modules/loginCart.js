@@ -14,7 +14,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType
 } from '@/utils/utils';
-import { GAInitLoginCart, GACartScreenLoad, GACartChangeSubscription } from "@/utils/GA"
+import { GAInitLogin, GACartScreenLoad, GACartChangeSubscription } from "@/utils/GA"
 import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
@@ -111,7 +111,7 @@ class LoginCart extends React.Component {
     }
 
     if (isHubGA) {
-      GAInitLoginCart({ productList: this.props.checkoutStore.loginCartData, frequencyList: this.state.frequencyList, props: this.props })
+      GAInitLogin({ productList: this.props.checkoutStore.loginCartData, frequencyList: this.state.frequencyList, props: this.props })
       GACartScreenLoad()
     }
     this.setData();

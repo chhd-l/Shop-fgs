@@ -70,7 +70,7 @@ import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { de } from 'date-fns/locale';
 
-import { checkoutDataLayerPushEvent } from '@/utils/GA';
+import { checkoutDataLayerPushEvent,doGetGAVal } from '@/utils/GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -178,11 +178,12 @@ class Payment extends React.Component {
     this.adyenCardRef = React.createRef();
     this.payUCreditCardRef = React.createRef();
   }
+  getPetVal() {
+    let obj = doGetGAVal(this.props)
+    this.setState({pet:obj})
+  }
   componentWillMount(){
-    if(isHubGA){
-      const pet = this.props.configStore.pet
-      this.setState({pet})
-    }
+    isHubGA&&this.getPetVal()
   }
   async componentDidMount() {
     try {
