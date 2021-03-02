@@ -465,10 +465,6 @@ class LoginCart extends React.Component {
                               <div className="item-options"></div>
                               <div className="line-item-promo item-07984de212e393df75a36856b6"></div>
                             </div>
-                            {console.info(
-                              'item.subscriptionPlanGiftList',
-                              toJS(item.subscriptionPlanGiftList)
-                            )}
                             {toJS(item.planId)
                               ? toJS(item.subscriptionPlanGiftList).map(
                                   (gift) => (
