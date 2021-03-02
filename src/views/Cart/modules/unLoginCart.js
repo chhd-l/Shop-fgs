@@ -1329,9 +1329,6 @@ class UnLoginCart extends React.Component {
                 <div className="text-center" onClick={() => this.handleCheckout()}>
                   <div className="rc-styled-link color-999" aria-pressed="true">
                     <FormattedMessage id="guestCheckout" />
-                    {mobileCartVisibleKey === 'less'
-                      ? formatMoney(this.tradePrice)
-                      : null}
                   </div>
                 </div>
               )

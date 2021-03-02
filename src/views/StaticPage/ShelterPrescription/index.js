@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import CATSPng from './images/CATS@2x.png';
 import catAndPhone from './images/catAndPhone.png';
+import { IMG_DEFAULT } from '@/utils/constant';
 import videoPng from './images/video.png';
 import expertisePng from './images/expertise.png';
 import qualityPng from './images/quality.png';
@@ -21,7 +21,9 @@ class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: []
+      list: [{}],
+      defalutList:Array(7).fill({})
+      // list: [{}]
     };
     this.helpContentText = {
       title: "We're Here to Help",
@@ -55,21 +57,35 @@ class ShelterPrescription extends React.Component {
       '2c918085768f3a4101768f3f73c10093'
     ];
     let res = await getList({ goodsIds });
-    let list = res.context?.goodsList;
+    let list = res.context?.esGoodsPage.content;
     this.setState({ list });
-    console.info('.....', res);
+    console.info('.....', list);
   }
-  getList = (item) => {
+  getListItem = (idx) => {
+    let item = this.state.list[idx]||{}
     return (
+      // <Link to={{pathname: item
+      //   ? `/${
+      //       item.lowGoodsName
+      //         ? item.lowGoodsName.split(' ').join('-').replace('/', '')
+      //         : ''
+      //     }-${item.goodsNo}`
+      //   : ''}}>
       <Link to="/">
         <a className="rc-card__link rc-card--product">
-          <article className="rc-card rc-card--b">
+          <article className="rc-card rc-card--b rc-outline-light slik-list-article">
             <picture className="rc-card__image">
               <img
-              className="m-auto"
-                style={{ maxHeight: '150px',maxWidth:'150px' }}
+                className="m-auto"
+                style={{ maxHeight: '150px', maxWidth: '150px' }}
                 alt={item.goodsName}
-                src={item.goodsImg}
+                src={
+                  item.goodsImg ||
+                  item.goodsInfos?.sort(
+                    (a, b) => a.marketPrice - b.marketPrice
+                  )[0].goodsInfoImg ||
+                  IMG_DEFAULT
+                }
               />
             </picture>
             <div className="rc-card__body">
@@ -78,7 +94,12 @@ class ShelterPrescription extends React.Component {
                   {item.goodsName}
                 </h3>
               </header>
-              <div className="ui-text-overflow-line2">{item.goodsSubtitle}</div>
+              <div
+                className="ui-text-overflow-line2"
+                style={{ height: '48px' }}
+              >
+                {item.goodsSubtitle}
+              </div>
               {/* <div className="rc-btn-group">
                 <Rate def={2} disabled={true} marginSize="smallRate" />
                 <span
@@ -111,6 +132,11 @@ class ShelterPrescription extends React.Component {
       infinite: false,
       variableWidth: true
     };
+    const settingsPC = {
+      dots: true,
+      slidesToShow: 4,
+      slidesToScroll: 4
+    };
     return (
       <div className="shelter-prescription">
         <Header
@@ -123,10 +149,10 @@ class ShelterPrescription extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile rc-layout-container rc-three-column">
-            <div class="col-12 col-lg-5 rc-padding-x--sm--desktop">
+            <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
               <img src={CATSPng} />
             </div>
-            <div class="col-12 col-lg-7">
+            <div className="col-12 col-lg-7">
               <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                 <h1 className="red rc-beta markup-text">
                   Shop Royal Canin®. Give Back To Your Shelter.
@@ -175,9 +201,9 @@ class ShelterPrescription extends React.Component {
             </div>
           </div>
           <div className="gray-for-pc rc-padding-top--xl--mobile">
-            <div class="rc-layout-container rc-two-column rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile">
+            <div className="rc-layout-container rc-two-column rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile">
               <div className=" col-12 col-lg-6">
-                <div class=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                   <h2 className="red rc-beta markup-text">
                     Join The Club. Get Big Perks.
                   </h2>
@@ -199,7 +225,7 @@ class ShelterPrescription extends React.Component {
                   </p>
                 </div>
               </div>
-              <div class=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+              <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                 <img src={catAndPhone} />
               </div>
             </div>
@@ -209,22 +235,33 @@ class ShelterPrescription extends React.Component {
             <h2 className="rc-gamma rc-text--center rc-margin-bottom--md">
               Select your product from recommendations
             </h2>
-            <div class=" rc-md-up">
+            <div className=" rc-md-up">
+              {/* <Slider {...settingsPC}>
+                {this.state.defalutList.map((item, idx) => (
+                  <div className={`swiper-slide`} key={idx}>
+                    <div
+                      style={{ padding: '0 0.5rem', boxSizing: 'border-box' }}
+                    >
+                      {this.getListItem(item)}
+                    </div>
+                  </div>
+                ))}
+              </Slider> */}
               <div
                 className="rc-carousel rc-carousel--cards rc-match-heights"
                 data-js-carousel=""
                 data-rc-cards="true"
               >
                 <div className="rc-carousel__card-gal product-list">
-                  {this.state.list.map((item, idx) => (
-                    <div>{this.getList(item)}</div>
+                  {this.state.defalutList.map((item, idx) => (
+                    <div>{this.getListItem(idx)}</div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="rc-md-down rc-padding-x--lg">
               <Slider {...settings}>
-                {this.state.list.map((item, idx) => (
+                {this.state.defalutList.map((item, idx) => (
                   <div
                     style={{
                       width: slideWidth
@@ -235,7 +272,7 @@ class ShelterPrescription extends React.Component {
                     <div
                       style={{ padding: '0 0.5rem', boxSizing: 'border-box' }}
                     >
-                      {this.getList(item)}
+                      {this.getListItem(idx)}
                     </div>
                   </div>
                 ))}
@@ -251,7 +288,7 @@ class ShelterPrescription extends React.Component {
               style={{ borderBottomWidth: '4px' }}
             ></div>
           </div>
-          <div class="rc-max-width--md text-center rc-margin-y--md section-why text-center">
+          <div className="rc-max-width--md text-center rc-margin-y--md section-why text-center">
             <h4 className="red">Why Royal Canin?</h4>
             <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
               We focus our attention on the unique needs of cats and dogs. That
@@ -259,14 +296,14 @@ class ShelterPrescription extends React.Component {
               precise, effective nutrition and help pets become their
               magnificent best.
             </div>
-            <div class="experience-component experience-assets-youtubeVideo">
-              <div class="rc-max-width--md rc-padding-x--lg">
-                <div class="rc-video-wrapper dog-video">
+            <div className="experience-component experience-assets-youtubeVideo">
+              <div className="rc-max-width--md rc-padding-x--lg">
+                <div className="rc-video-wrapper dog-video">
                   <iframe
                     allowfullscreen=""
                     frameborder="0"
                     id="video-dog"
-                    class="optanon-category-4 "
+                    className="optanon-category-4 "
                     src="https://www.youtube.com/embed/FYwO1fiYoa8"
                   ></iframe>
                 </div>
@@ -276,7 +313,7 @@ class ShelterPrescription extends React.Component {
               allowfullscreen=""
               frameborder="0"
               id="video-cat"
-              class="optanon-category-4 show-video"
+              className="optanon-category-4 show-video"
               src="https://www.youtube.com/watch?v=FYwO1fiYoa8&feature=emb_logo&ab_channel=ROYALCANIN"
             ></iframe> */}
           </div>
