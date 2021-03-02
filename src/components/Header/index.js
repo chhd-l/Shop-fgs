@@ -27,8 +27,8 @@ import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import { fetchHeaderNavigations } from '@/utils/utils';
 import { intl_user } from './lang/user';
+import { getNavigation } from '@/api/hub';
 import queryNavigation from './mock/navigation';
-import axios from 'axios';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -237,10 +237,8 @@ class Header extends React.Component {
   };
   initNavigationsForHub = async () => {
     try {
-      // todo
-      // const res = await axios.get(`/navigation/getmodel`);
-      const res = await queryNavigation();
-      // debugger;
+      const res = await getNavigation();
+      // const res = await queryNavigation();
       let headerNavigationListForHub = (
         (res && res.data && res.data.MenuGroups) ||
         []

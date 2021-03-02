@@ -334,7 +334,6 @@ class PetForm extends React.Component {
       storeId: process.env.REACT_APP_STOREID,
       userId: consumerAccount
     };
-    // todo merge 保存宠物失败
     if (pets.petsId) {
       await editPets(param)
         .then((res) => {

@@ -10,7 +10,7 @@ import './index.css';
 import LoginButton from '@/components/LoginButton';
 import { withRouter } from 'react-router-dom';
 import LanguagePage from '@/views/Language';
-import axios from 'axios';
+import { getFooter } from '@/api/hub';
 import footerHubResult from './mock';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -29,10 +29,10 @@ class FooterHub extends React.Component {
   }
   componentDidMount() {
     this.props.configStore.queryConfig();
-    // axios.get('/footer/getmodel').then((res) => {
-    //     this.setState({ footerInfo: res.data })
-    // })
-    this.setState({ footerInfo: footerHubResult.data });
+    getFooter().then((res) => {
+      this.setState({ footerInfo: res.data });
+    });
+    // this.setState({ footerInfo: footerHubResult.data });
   }
   scrollToTop = () => {
     const widget = document.querySelector('#page-top');
@@ -54,7 +54,7 @@ class FooterHub extends React.Component {
       MenuInfoItems,
       MenuItems
     } = this.state.footerInfo;
-  
+
     return (
       <>
         <footer className="rc-bg-colour--interface-dark" id="footer">

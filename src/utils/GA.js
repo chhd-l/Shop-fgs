@@ -274,6 +274,7 @@ export const doGetGAVal = (props) => {
       breedName: []
     }
     const { loginStore:{isLogin},checkoutStore: { cartData, loginCartData } } = props
+    
     if (isLogin) {
       for (let item of loginCartData) {
         item.goodsAttributesValueRelVOList.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
@@ -294,6 +295,7 @@ export const doGetGAVal = (props) => {
           }
         })
         let arr =  cartData?.[0]?.goodsAttributesValueRelList?.toJS()
+        debugger
         arr.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
           breed.push(item2.goodsAttributeValue)
         })
