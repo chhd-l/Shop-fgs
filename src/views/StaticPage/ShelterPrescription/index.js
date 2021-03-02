@@ -33,7 +33,7 @@ class ShelterPrescription extends React.Component {
       emailDes: ' We will respond as soon as possible.',
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
-      email: 'Send us an Email',
+      email: 'Send us an email',
       phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }

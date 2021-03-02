@@ -219,7 +219,7 @@ class Recommendation extends React.Component {
       emailLink: '/help/contact',
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
-      email: 'Send us an Email',
+      email: 'Send us an email',
       phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
@@ -809,47 +809,51 @@ class Recommendation extends React.Component {
               className="text-center"
               style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
             >
-              <h1
-                className={`${
-                  process.env.REACT_APP_LANG === 'fr' ? '' : 'hide'
-                }`}
-                style={{ color: '#E2001A', margin: '20px' }}
-              >
-                Bienvenue !
-              </h1>
-              <h2 style={{ color: '#E2001A', margin: '20px' }}>
-                <FormattedMessage id="recommendation.welcomeText" />
-                {/* Merci pour votre visite en magasin, voici notre recommandation. */}
-              </h2>
-              {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+              <div className="rc-max-width--md text-center rc-margin-y--md">
+                <div className="rc-alpha inherit-fontsize">
+                  <h1>
+                    <FormattedMessage id="recommendation.welcomeText1" />
+                  </h1>
+                </div>
+                <div className="rc-beta inherit-fontsize">
+                  <p>
+                    <FormattedMessage id="recommendation.welcomeText2" />
+                    {/* Merci pour votre visite en magasin, voici notre recommandation. */}
+                  </p>
+                </div>
+                {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
             </h2> */}
-              <p style={{ fontSize: '18px' }}>
-                <FormattedMessage id="recommendation.welcomeSubText" />
-                {/* La recommandation a été faite en fonction des besoins uniques de
+                <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                  <span style={{ fontSize: '18px', color: 'rgb(61, 61, 60)' }}>
+                    <FormattedMessage id="recommendation.welcomeSubText" />
+                    {/* La recommandation a été faite en fonction des besoins uniques de
                 votre animal. */}
-              </p>
-              <p>
-                <button
-                  className={`rc-btn rc-btn--one ${
-                    this.state.buttonLoading ? 'ui-btn-loading' : ''
-                  } ${
-                    this.state.inStockProducts.length
-                      ? ''
-                      : 'rc-btn-solid-disabled'
-                  }`}
-                  onClick={() => {
-                    if (loginStore.isLogin) {
-                      this.hanldeLoginAddToCart();
-                    } else {
-                      this.hanldeUnloginAddToCart(productList, '/cart');
-                    }
-                  }}
-                >
-                  <FormattedMessage id="recommendation.welcomeBtn" />
-                  {/* Voir le panier */}
-                </button>
-              </p>
+                  </span>
+                </div>
+
+                <p>
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    } ${
+                      this.state.inStockProducts.length
+                        ? ''
+                        : 'rc-btn-solid-disabled'
+                    }`}
+                    onClick={() => {
+                      if (loginStore.isLogin) {
+                        this.hanldeLoginAddToCart();
+                      } else {
+                        this.hanldeUnloginAddToCart(productList, '/cart');
+                      }
+                    }}
+                  >
+                    <FormattedMessage id="recommendation.welcomeBtn" />
+                    {/* Voir le panier */}
+                  </button>
+                </p>
+              </div>
             </section>
           </div>
           <div className="transparentSection">
