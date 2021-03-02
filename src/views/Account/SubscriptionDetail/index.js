@@ -2069,7 +2069,7 @@ class SubscriptionDetail extends React.Component {
                                           <div>
                                             <span
                                               className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                                isActive ? '' : 'disabled'
+                                                isActive || isGift? '' : 'disabled'
                                               }`}
                                               style={{ marginLeft: '-8px' }}
                                               onClick={() => {
@@ -2158,7 +2158,7 @@ class SubscriptionDetail extends React.Component {
                                             />
                                             <span
                                               className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                                isActive ? '' : 'disabled'
+                                                isActive || isGift ? '' : 'disabled'
                                               }`}
                                               onClick={() => {
                                                 if (
@@ -2276,7 +2276,7 @@ class SubscriptionDetail extends React.Component {
                                           value: el.periodTypeId
                                         }}
                                         key={index + '_' + el.periodTypeId}
-                                        disabled={!isActive}
+                                        disabled={!isActive||isGift}
                                       />
                                     </h1>
                                   </div>

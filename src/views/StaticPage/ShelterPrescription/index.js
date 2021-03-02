@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import CATSPng from './images/CATS@2x.png';
+import CATSPng from './images/CATS2@2x.jpg';
 import catAndPhone from './images/catAndPhone.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import videoPng from './images/video.png';
@@ -64,14 +64,14 @@ class ShelterPrescription extends React.Component {
   getListItem = (idx) => {
     let item = this.state.list[idx]||{}
     return (
-      // <Link to={{pathname: item
-      //   ? `/${
-      //       item.lowGoodsName
-      //         ? item.lowGoodsName.split(' ').join('-').replace('/', '')
-      //         : ''
-      //     }-${item.goodsNo}`
-      //   : ''}}>
-      <Link to="/">
+      <Link to={{pathname: item
+        ? `/${
+            item.lowGoodsName
+              ? item.lowGoodsName.split(' ').join('-').replace('/', '')
+              : ''
+          }-${item.goodsNo}`
+        : ''}}>
+      {/* <Link to="/"> */}
         <a className="rc-card__link rc-card--product">
           <article className="rc-card rc-card--b rc-outline-light slik-list-article">
             <picture className="rc-card__image">
@@ -148,9 +148,11 @@ class ShelterPrescription extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile rc-layout-container rc-three-column">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile rc-layout-container rc-three-column row align-items-md-center">
             <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
+              <lazyLoad>
               <img src={CATSPng} />
+              </lazyLoad>
             </div>
             <div className="col-12 col-lg-7">
               <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">

@@ -12,6 +12,7 @@ import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 class Help extends React.Component {
   static defaultProps = {
     needReverse: true,
+    isEmailUnderLine: false,
     contentText: {
       title: '',
       des: '',
@@ -49,6 +50,7 @@ class Help extends React.Component {
       phoneTitle,
       phoneDes
     } = this.props.contentText;
+    let isEmailUnderLine = this.props.isEmailUnderLine
     return (
       <div className="experience-region experience-main">
         <div className="experience-component experience-layouts-1column">
@@ -234,7 +236,8 @@ class Help extends React.Component {
                                         href={this.state.mailAddress}
                                         style={{
                                           fontSize: '16px',
-                                          borderBottom: '1px solid transparent'
+                                          borderBottom: '1px solid transparent',
+                                          textDecoration:isEmailUnderLine?'underline':'none'
                                         }}
                                         className="rc-styled-link"
                                       >
