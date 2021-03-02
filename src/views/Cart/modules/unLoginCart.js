@@ -1250,9 +1250,9 @@ class UnLoginCart extends React.Component {
 
     const selectedGoodsInfo = pitem.goodsInfos.filter(
       (ele) =>
-        ele.mockSpecIds.sort().toString() ===
+        unique(ele.mockSpecIds).sort().toString() ===
         selectedSpecIds.sort().toString() &&
-        ele.mockSpecDetailIds.sort().toString() ===
+        unique(ele.mockSpecDetailIds).sort().toString() ===
         selectedSpecDetailId.sort().toString()
     )[0];
     // 之前sku pitem.goodsInfoId

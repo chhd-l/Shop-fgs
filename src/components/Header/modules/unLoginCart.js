@@ -54,11 +54,11 @@ class UnloginCart extends React.Component {
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
-  GAAccessToGuestCheck() {
+  GAAccessToGuestCheck(type) {
     this.hubGA ? dataLayer.push({
       'event': 'cartHeaderClicks',
       'cartHeaderClicks': {
-        'button': 'Continue as a Guest',
+        'button': type== 'buyNow'?'Buy now':'Continue as a Guest',
       }
     }) :
       dataLayer.push({
@@ -71,8 +71,8 @@ class UnloginCart extends React.Component {
         }
       });
   }
-  async handleCheckout({ needLogin = false } = {}) {
-    this.GAAccessToGuestCheck();
+  async handleCheckout({type, needLogin = false } = {}) {
+    this.GAAccessToGuestCheck(type);
     try {
       const {
         configStore,
@@ -284,7 +284,7 @@ class UnloginCart extends React.Component {
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                   <LoginButton
                     beforeLoginCallback={async () =>
-                      this.handleCheckout({ needLogin: true })
+                      this.handleCheckout({ type:'buyNow', needLogin: true })
                     }
                     btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       this.state.checkoutLoading ? 'ui-btn-loading' : ''
@@ -299,7 +299,7 @@ class UnloginCart extends React.Component {
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                     <span
                       id="unLoginCarCheckout"
-                      onClick={() => this.handleCheckout()}
+                      onClick={() => this.handleCheckout({type:'guest'})}
                       className={`rc-styled-link color-999 ui-cursor-pointer ${
                         this.state.checkoutLoading
                           ? 'ui-btn-loading ui-btn-loading-border-red'

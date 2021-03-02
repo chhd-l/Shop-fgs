@@ -261,7 +261,11 @@ const App = () => (
               <Route
                 exact
                 path="/termsandconditions"
-                component={process.env.REACT_APP_LANG=='fr'?TermsConditions:TermsConditionsUs }
+                component={
+                  process.env.REACT_APP_LANG == 'fr'
+                    ? TermsConditions
+                    : TermsConditionsUs
+                }
               />
               <Route
                 exact
@@ -629,7 +633,23 @@ const App = () => (
                     const splitName = { fr: '_FR.html', en: '_US.html' }[
                       process.env.REACT_APP_LANG
                     ];
-                    if (pathname.split('--').length > 1) {
+                    const productNameMappping = {
+                      '/ageing-12+-en-gelÃ©e-4153': '/ageing-12+-en-gelee-4153',
+                      '/british-shorthair-bouchÃ©es-spÃ©cial-2032':
+                        '/british-shorthair-bouchees-special-2032',
+                      '/intense-beauty-en-gelÃ©e-4151':
+                        '/intense-beauty-en-gelee-4151',
+                      '/kitten-en-gelÃ©e-4150': '/kitten-en-gelee-4150',
+                      '/kitten-sterilised-en-gelÃ©e-1072':
+                        '/kitten-sterilised-en-gelee-1072',
+                      '/maine-coon-bouchÃ©es-spÃ©cial-2031':
+                        '/maine-coon-bouchees-special-2031',
+                      '/persan-bouchÃ©es-spÃ©cial-2030':
+                        '/persan-bouchees-special-2030'
+                    };
+                    if (productNameMappping[pathname]) {
+                      redirectUrl = productNameMappping[pathname];
+                    } else if (pathname.split('--').length > 1) {
                       redirectUrl = pathname.split('--').join('-');
                     } else if (pathname.split(splitName).length > 1) {
                       redirectUrl = pathname.split(splitName)[0];

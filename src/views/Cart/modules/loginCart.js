@@ -12,7 +12,8 @@ import {
   mergeUnloginCartData,
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType
+  getDeviceType,
+  unique
 } from '@/utils/utils';
 import { GAInitLogin, GACartScreenLoad, GACartChangeSubscription } from "@/utils/GA"
 import find from 'lodash/find';
@@ -1574,9 +1575,9 @@ class LoginCart extends React.Component {
 
     const selectedGoodsInfo = pitem.goodsInfos.filter(
       (ele) =>
-        ele.mockSpecIds.sort().toString() ===
+        unique(ele.mockSpecIds).sort().toString() ===
         selectedSpecIds.sort().toString() &&
-        ele.mockSpecDetailIds.sort().toString() ===
+        unique(ele.mockSpecDetailIds).sort().toString() ===
         selectedSpecDetailId.sort().toString()
     )[0];
     // await this.handleRemovePromotionCode();
