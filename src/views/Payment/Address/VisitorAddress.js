@@ -70,7 +70,7 @@ class VisitorAddress extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     } catch (err) {
-      this.setState({ isValid: false }, () => {
+      this.setState({ isValid: false, loading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     }

@@ -38,6 +38,41 @@ class SearchSelection extends React.Component {
       this.setState({ form: form, optionList: [] });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
+        // 判断输入的内容是否为空，在未选择查询结果的时候，设置输入的值
+        if (this.otherValue && this.otherValue != '') {
+          form.value = this.otherValue;
+          setTimeout(() => {
+            this.otherValue = '';
+          }, 500);
+        } else {
+          form.value = target.value;
+        }
+        let citem = {
+          cityName: form.value,
+          cityNo: null,
+          countryName: null,
+          createTime: null,
+          delFlag: 0,
+          delTime: null,
+          id: form.value,
+          name: form.value,
+          osmId: null,
+          postCode: null,
+          sip: null,
+          stateId: null,
+          stateName: null,
+          storeId: process.env.REACT_APP_STOREID,
+          systemCityPostCodes: null,
+          updateTime: null
+        }
+        this.setState({
+          form: form.value,
+          optionPanelVisible: false,
+        }, () => {
+          this.props.selectedItemChange(citem);
+        });
+
+        // 搜索
         this.queryList();
       }, 1000);
     } catch (error) {
@@ -54,50 +89,52 @@ class SearchSelection extends React.Component {
       });
     }
   };
+  // 失去焦点（暂时弃用）
   handleInputBlur = (e) => {
     // if (process.env.REACT_APP_LANG == 'en') {
-      // 可以输入，也可以选择
-      const target = e.target;
-      const { form } = this.state;
-      try {
-        setTimeout(() => {
-          if (this.otherValue && this.otherValue != '') {
-            form.value = this.otherValue;
-            setTimeout(()=>{
-              this.otherValue = '';
-            },500);
-          } else {
-            form.value = target.value;
-          }
+    // 可以输入，也可以选择
+    const target = e.target;
+    const { form } = this.state;
+    try {
+      setTimeout(() => {
+        if (this.otherValue && this.otherValue != '') {
+          form.value = this.otherValue;
+          setTimeout(() => {
+            this.otherValue = '';
+          }, 500);
+        } else {
+          form.value = target.value;
+        }
 
-          let citem = {
-            cityName: form.value,
-            cityNo: null,
-            countryName: null,
-            createTime: null,
-            delFlag: 0,
-            delTime: null,
-            id: form.value,
-            name: form.value,
-            osmId: null,
-            postCode: null,
-            sip: null,
-            stateId: null,
-            stateName: null,
-            storeId: process.env.REACT_APP_STOREID,
-            systemCityPostCodes: null,
-            updateTime: null
-          }
+        let citem = {
+          cityName: form.value,
+          cityNo: null,
+          countryName: null,
+          createTime: null,
+          delFlag: 0,
+          delTime: null,
+          id: form.value,
+          name: form.value,
+          osmId: null,
+          postCode: null,
+          sip: null,
+          stateId: null,
+          stateName: null,
+          storeId: process.env.REACT_APP_STOREID,
+          systemCityPostCodes: null,
+          updateTime: null
+        }
 
-          this.setState({
-            form: form.value,
-            optionPanelVisible: false,
-          });
+        this.setState({
+          form: form.value,
+          optionPanelVisible: false,
+        }, () => {
           this.props.selectedItemChange(citem);
-        }, 500);
-      } catch (error) {
-        console.log(error);
-      }
+        });
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
     // } else {
     //   setTimeout(() => {
     //     // 没有选择有效item时，回填之前的值
@@ -187,7 +224,7 @@ class SearchSelection extends React.Component {
             value={form.value}
             onChange={(e) => this.handleInputChange(e)}
             onFocus={this.handleInputFocus}
-            onBlur={this.handleInputBlur}
+          // onBlur={this.handleInputBlur}
           />
           {this.props.customStyle && <label className="rc-input__label" />}
           {this.state.optionPanelVisible && (

@@ -14,7 +14,7 @@ import {
 import { queryCityNameById } from '@/api';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { myAccountPushEvent,myAccountActionPushEvent } from '@/utils/GA';
+import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 
 function CardItem(props) {
   const { data } = props;
@@ -34,8 +34,8 @@ function CardItem(props) {
         {data.type === 'DELIVERY' ? (
           <FormattedMessage id="deliveryAddress" />
         ) : (
-          <FormattedMessage id="billingAddress" />
-        )}
+            <FormattedMessage id="billingAddress" />
+          )}
       </div>
       <div>
         <div className="ccard-phone-title word-break">
@@ -51,7 +51,7 @@ function CardItem(props) {
         <p className="mb-0">{data.consigneeNumber}</p>
         <p className="mb-0">{data.address1}</p>
         {data.address2 ? <p className="mb-0">{data.address2}</p> : null}
-        <p className="mb-0">{data.postCode}, {data.cityName}, {props.countryName}</p>
+        <p className="mb-0">{data.postCode}, {data.city}, {props.countryName}</p>
       </div>
     </div>
   );
@@ -244,192 +244,97 @@ class AddressList extends React.Component {
         {listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
-          <div className={classNames({ border: curPageAtCover })}>
-            {loading ? <Loading positionAbsolute="true" /> : null}
-            <div className="personalInfo">
-              <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-                {curPageAtCover ? (
-                  <h5 className="mb-0">
-                    <svg
-                      className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                      aria-hidden="true"
-                    >
-                      <use xlinkHref="#iconaddresses"></use>
-                    </svg>
-                    <FormattedMessage id="account.myAddresses" />
-                  </h5>
-                ) : (
-                  <h5
-                    className="ui-cursor-pointer"
-                    onClick={this.handleClickGoBack}
-                  >
-                    <span>&larr; </span>
-                    <FormattedMessage id="account.myAddresses" />
-                  </h5>
-                )}
-                <FormattedMessage id="edit">
-                  {(txt) => (
-                    <button
-                      className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
-                        listVisible || editFormVisible ? 'hidden' : ''
+            <div className={classNames({ border: curPageAtCover })}>
+              {loading ? <Loading positionAbsolute="true" /> : null}
+              <div className="personalInfo">
+                <div className="profileSubFormTitle pl-3 pr-3 pt-3">
+                  {curPageAtCover ? (
+                    <h5 className="mb-0">
+                      <svg
+                        className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                        aria-hidden="true"
+                      >
+                        <use xlinkHref="#iconaddresses"></use>
+                      </svg>
+                      <FormattedMessage id="account.myAddresses" />
+                    </h5>
+                  ) : (
+                      <h5
+                        className="ui-cursor-pointer"
+                        onClick={this.handleClickGoBack}
+                      >
+                        <span>&larr; </span>
+                        <FormattedMessage id="account.myAddresses" />
+                      </h5>
+                    )}
+                  <FormattedMessage id="edit">
+                    {(txt) => (
+                      <button
+                        className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${listVisible || editFormVisible ? 'hidden' : ''
+                          }`}
+                        name="personalInformation"
+                        id="personalInfoEditBtn"
+                        title={txt}
+                        alt={txt}
+                        onClick={this.handleClickEditBtn}
+                      >
+                        {txt}
+                      </button>
+                    )}
+                  </FormattedMessage>
+                </div>
+                <hr
+                  className={classNames('account-info-hr-border-color', {
+                    'border-0': listVisible || editFormVisible
+                  })}
+                />
+                <div
+                  className={classNames(
+                    'pb-3',
+                    { 'pl-3': curPageAtCover },
+                    { 'pr-3': curPageAtCover }
+                  )}
+                >
+                  <div
+                    className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
                       }`}
-                      name="personalInformation"
-                      id="personalInfoEditBtn"
-                      title={txt}
-                      alt={txt}
-                      onClick={this.handleClickEditBtn}
-                    >
-                      {txt}
-                    </button>
-                  )}
-                </FormattedMessage>
-              </div>
-              <hr
-                className={classNames('account-info-hr-border-color', {
-                  'border-0': listVisible || editFormVisible
-                })}
-              />
-              <div
-                className={classNames(
-                  'pb-3',
-                  { 'pl-3': curPageAtCover },
-                  { 'pr-3': curPageAtCover }
-                )}
-              >
-                <div
-                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                    errorMsg ? '' : 'hidden'
-                  }`}
-                >
-                  <aside
-                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
-                    role="alert"
                   >
-                    <span className="pl-0">{errorMsg}</span>
-                    <button
-                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                      onClick={() => {
-                        this.setState({ errorMsg: '' });
-                      }}
-                      aria-label="Close"
+                    <aside
+                      className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                      role="alert"
                     >
-                      <span className="rc-screen-reader-text">
-                        <FormattedMessage id="close" />
-                      </span>
-                    </button>
-                  </aside>
-                </div>
+                      <span className="pl-0">{errorMsg}</span>
+                      <button
+                        className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                        onClick={() => {
+                          this.setState({ errorMsg: '' });
+                        }}
+                        aria-label="Close"
+                      >
+                        <span className="rc-screen-reader-text">
+                          <FormattedMessage id="close" />
+                        </span>
+                      </button>
+                    </aside>
+                  </div>
 
-                {/* preview form */}
-                <div
-                  className={classNames('row', 'ml-0', 'mr-0', {
-                    hidden: editFormVisible || listVisible
-                  })}
-                >
-                  {addressList.slice(0, 2).map((item, i) => (
-                    <div
-                      className="col-12 col-md-4 pt-2 pb-3 pl-3 pr-2"
-                      key={item.deliveryAddressId}
-                    >
-                      <CardItem
-                        data={item}
-                        handleClickCoverItem={this.handleClickCoverItem.bind(
-                          this,
-                          item,
-                          'cover'
-                        )}
-                        countryName={matchNamefromDict(
-                          countryList,
-                          item.countryId
-                        )}
-                      />
-                    </div>
-                  ))}
-                  {addressList.slice(0, 2).length < 2 && (
-                    <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
-                      {this.addBtnJSX({ fromPage: 'cover' })}
-                    </div>
-                  )}
-                </div>
-
-                {/* list panel */}
-                <div
-                  className={classNames({
-                    hidden: !listVisible || editFormVisible
-                  })}
-                >
-                  <div className={classNames('row', 'ml-0', 'mr-0')}>
-                    {addressList.map((item, i) => (
+                  {/* preview form */}
+                  <div
+                    className={classNames('row', 'ml-0', 'mr-0', {
+                      hidden: editFormVisible || listVisible
+                    })}
+                  >
+                    {addressList.slice(0, 2).map((item, i) => (
                       <div
-                        className="col-12 col-md-6 pt-2 pb-3 pl-3 pr-2"
+                        className="col-12 col-md-4 pt-2 pb-3 pl-3 pr-2"
                         key={item.deliveryAddressId}
                       >
                         <CardItem
                           data={item}
-                          operateBtnJSX={
-                            <>
-                              {item.isDefaltAddress === 1 ? (
-                                <div
-                                  className="red"
-                                  onClick={this.toggleSetDefault.bind(
-                                    this,
-                                    item
-                                  )}
-                                >
-                                  <span className="iconfont mr-1">
-                                    &#xe68c;
-                                  </span>
-                                  <span className="rc-styled-link red border-danger">
-                                    <FormattedMessage id="default" />
-                                  </span>
-                                </div>
-                              ) : (
-                                <div
-                                  className="ui-cursor-pointer"
-                                  onClick={this.toggleSetDefault.bind(
-                                    this,
-                                    item
-                                  )}
-                                >
-                                  {/* <span className="iconfont mr-1">
-                                    &#xe68c;
-                                  </span> */}
-                                  <span className="rc-styled-link">
-                                    <FormattedMessage id="setAsDefault" />
-                                  </span>
-                                </div>
-                              )}
-                              <span className="position-relative p-2 ui-cursor-pointer-pure pdl-1">
-                                <span
-                                  className="rc-styled-link"
-                                  onClick={this.handleClickDeleteBtn.bind(
-                                    this,
-                                    item
-                                  )}
-                                >
-                                  <FormattedMessage id="delete" />
-                                </span>
-                                <ConfirmTooltip
-                                  containerStyle={{
-                                    transform: 'translate(-89%, 105%)'
-                                  }}
-                                  arrowStyle={{ left: '89%' }}
-                                  display={item.confirmTooltipVisible}
-                                  confirm={this.deleteCard.bind(this, item)}
-                                  updateChildDisplay={(status) =>
-                                    this.updateConfirmTooltipVisible(
-                                      item,
-                                      status
-                                    )
-                                  }
-                                />
-                              </span>
-                            </>
-                          }
                           handleClickCoverItem={this.handleClickCoverItem.bind(
                             this,
                             item,
-                            'list'
+                            'cover'
                           )}
                           countryName={matchNamefromDict(
                             countryList,
@@ -438,25 +343,118 @@ class AddressList extends React.Component {
                         />
                       </div>
                     ))}
-                    <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
-                      {this.addBtnJSX({ fromPage: 'list' })}
+                    {addressList.slice(0, 2).length < 2 && (
+                      <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
+                        {this.addBtnJSX({ fromPage: 'cover' })}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* list panel */}
+                  <div
+                    className={classNames({
+                      hidden: !listVisible || editFormVisible
+                    })}
+                  >
+                    <div className={classNames('row', 'ml-0', 'mr-0')}>
+                      {addressList.map((item, i) => (
+                        <div
+                          className="col-12 col-md-6 pt-2 pb-3 pl-3 pr-2"
+                          key={item.deliveryAddressId}
+                        >
+                          <CardItem
+                            data={item}
+                            operateBtnJSX={
+                              <>
+                                {item.isDefaltAddress === 1 ? (
+                                  <div
+                                    className="red"
+                                    onClick={this.toggleSetDefault.bind(
+                                      this,
+                                      item
+                                    )}
+                                  >
+                                    <span className="iconfont mr-1">
+                                      &#xe68c;
+                                  </span>
+                                    <span className="rc-styled-link red border-danger">
+                                      <FormattedMessage id="default" />
+                                    </span>
+                                  </div>
+                                ) : (
+                                    <div
+                                      className="ui-cursor-pointer"
+                                      onClick={this.toggleSetDefault.bind(
+                                        this,
+                                        item
+                                      )}
+                                    >
+                                      {/* <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span> */}
+                                      <span className="rc-styled-link">
+                                        <FormattedMessage id="setAsDefault" />
+                                      </span>
+                                    </div>
+                                  )}
+                                <span className="position-relative p-2 ui-cursor-pointer-pure pdl-1">
+                                  <span
+                                    className="rc-styled-link"
+                                    onClick={this.handleClickDeleteBtn.bind(
+                                      this,
+                                      item
+                                    )}
+                                  >
+                                    <FormattedMessage id="delete" />
+                                  </span>
+                                  <ConfirmTooltip
+                                    containerStyle={{
+                                      transform: 'translate(-89%, 105%)'
+                                    }}
+                                    arrowStyle={{ left: '89%' }}
+                                    display={item.confirmTooltipVisible}
+                                    confirm={this.deleteCard.bind(this, item)}
+                                    updateChildDisplay={(status) =>
+                                      this.updateConfirmTooltipVisible(
+                                        item,
+                                        status
+                                      )
+                                    }
+                                  />
+                                </span>
+                              </>
+                            }
+                            handleClickCoverItem={this.handleClickCoverItem.bind(
+                              this,
+                              item,
+                              'list'
+                            )}
+                            countryName={matchNamefromDict(
+                              countryList,
+                              item.countryId
+                            )}
+                          />
+                        </div>
+                      ))}
+                      <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
+                        {this.addBtnJSX({ fromPage: 'list' })}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* edit form panel  */}
-                {editFormVisible && (
-                  <AddressEditForm
-                    addressId={this.state.curAddressId}
-                    backPage={this.state.fromPage}
-                    hideMyself={this.handleHideEditForm}
-                    refreshList={this.getAddressList}
-                  />
-                )}
+                  {/* edit form panel  */}
+                  {editFormVisible && (
+                    <AddressEditForm
+                      addressId={this.state.curAddressId}
+                      backPage={this.state.fromPage}
+                      hideMyself={this.handleHideEditForm}
+                      refreshList={this.getAddressList}
+                    />
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
       </>
     );
   }
