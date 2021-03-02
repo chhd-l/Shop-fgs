@@ -147,18 +147,29 @@ export default class Selection extends React.Component {
           >
             <div className="choices__list" dir="ltr" role="listbox">
               {optionList.map((item, i) => (
-                <div
-                  className={`choices__item choices__item--choice choices__item--selectable ${
-                    hoveredIdx === i ? 'is-highlighted' : ''
-                  }`}
-                  role="option"
-                  aria-selected="false"
-                  key={i}
-                  onClick={() => this.handleClickOption(item.value, item)}
-                  onMouseEnter={() => this.handleMouseEnterOption(i)}
-                >
-                  {item.name}
-                </div>
+                item.value==''?(
+                  <div
+                    className={`choices__item choices__item--choice choices__item--selectable ${
+                      hoveredIdx === i ? 'is-highlighted' : ''
+                    }`}
+                    role="option" aria-selected="false"
+                    key={i}
+                  >
+                    {item.name}
+                  </div>
+                ):(
+                  <div
+                    className={`choices__item choices__item--choice choices__item--selectable ${
+                      hoveredIdx === i ? 'is-highlighted' : ''
+                    }`}
+                    role="option" aria-selected="false"
+                    key={i}
+                    onClick={() => this.handleClickOption(item.value, item)}
+                    onMouseEnter={() => this.handleMouseEnterOption(i)}
+                  >
+                    {item.name}
+                  </div>
+                )
               ))}
             </div>
           </div>
