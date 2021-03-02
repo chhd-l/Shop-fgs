@@ -5,6 +5,7 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
+import {doGetGAVal} from "@/utils/GA"
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { Helmet } from 'react-helmet';
 
@@ -39,39 +40,8 @@ class Cart extends React.Component {
     });
   }
   getPetVal() {
-    let breed = [],
-           id = [],
-          obj = {
-      specieId: [],
-      breedName: []
-    }
-    const { loginStore:{isLogin},checkoutStore: { cartData, loginCartData },configStore } = this.props
-    if (isLogin) {
-      for (let item of loginCartData) {
-        item.goodsAttributesValueRelVOList.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
-          breed.push(item2.goodsAttributeValue)
-        })
-        if (item.cateId == '1134') {
-          id.push(1)
-        } else {
-          id.push(2)
-        }
-      }
-    } else {
-      cartData?.[0]?.goodsAttributesValueRelList?.toJS().filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
-        breed.push(item2.goodsAttributeValue)
-        if (item.cateId == '1134') {
-          id.push(1)
-        } else {
-          id.push(2)
-        }
-      })
-    }
-    obj.specieId = id
-    obj.breedName = breed
+    let obj = doGetGAVal(this.props)
     this.setState({pet:obj})
-    configStore.setGAPet(obj)
-
   }
   get isLogin() {
     return this.props.loginStore.isLogin;

@@ -12,7 +12,7 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
-import {GAInitUnLoginCart,GACartScreenLoad,GACartChangeSubscription} from "@/utils/GA"
+import {GAInitUnLogin,GACartScreenLoad,GACartChangeSubscription} from "@/utils/GA"
 import PayProductInfo from '../../Payment/PayProductInfo';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -156,7 +156,7 @@ class UnLoginCart extends React.Component {
       });
     });
     if(isHubGA){
-      GAInitUnLoginCart({productList:this.props.checkoutStore.cartData,frequencyList:this.state.frequencyList,props:this.props});
+      GAInitUnLogin({productList:this.props.checkoutStore.cartData,frequencyList:this.state.frequencyList,props:this.props});
       GACartScreenLoad()
     }
     this.setCartData();
@@ -1250,9 +1250,9 @@ class UnLoginCart extends React.Component {
 
     const selectedGoodsInfo = pitem.goodsInfos.filter(
       (ele) =>
-        ele.mockSpecIds.sort().toString() ===
+        unique(ele.mockSpecIds).sort().toString() ===
         selectedSpecIds.sort().toString() &&
-        ele.mockSpecDetailIds.sort().toString() ===
+        unique(ele.mockSpecDetailIds).sort().toString() ===
         selectedSpecDetailId.sort().toString()
     )[0];
     // 之前sku pitem.goodsInfoId

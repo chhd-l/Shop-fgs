@@ -85,7 +85,7 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    myAccountPushEvent('Orders & Subscriptions');
+    myAccountPushEvent('Orders');
     setSeoConfig({
       pageName: 'Account orders'
     }).then((res) => {

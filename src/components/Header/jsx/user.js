@@ -97,7 +97,7 @@ const UserJSX = (props) => {
                         if (!process.env.REACT_APP_STOREID) {
                           return;
                         }
-                        if (process.env.REACT_APP_LANG === 'fr') {
+                        if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'en') {
                           history.push('/register');
                         } else {
                           window.location.href =

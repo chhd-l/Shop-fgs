@@ -8,7 +8,7 @@ import {
   getFrequencyDict,
   matchNamefromDict
 } from '@/utils/utils';
-import {GAInitUnLoginCheckout,GAInitLoginCheckout} from "@/utils/GA"
+import {GAInitUnLogin,GAInitLogin} from "@/utils/GA"
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
@@ -59,10 +59,6 @@ class PayProductInfo extends React.Component {
     );
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    //     if (nextProps.buyWay === 'once') {
-    //       this.setState({isShowValidCode:false})
-    //     }
-    // console.log(nextProps, 'props2')
     let productList;
     if (
       JSON.stringify(nextProps.data) !==
@@ -128,7 +124,7 @@ class PayProductInfo extends React.Component {
     if(this.props.currentPage != 'checkout') return //只允许checkout页面才调用
     if(!isGACheckoutLock){//防止重复调用
       isGACheckoutLock = true
-      this.isLogin ? GAInitLoginCheckout({productList,frequencyList:this.state.frequencyList,props:this.props}) : GAInitUnLoginCheckout({productList,frequencyList:this.state.frequencyList,props:this.props})
+      this.isLogin ? GAInitLogin({productList,frequencyList:this.state.frequencyList,props:this.props}) : GAInitUnLogin({productList,frequencyList:this.state.frequencyList,props:this.props})
     }
   }
 

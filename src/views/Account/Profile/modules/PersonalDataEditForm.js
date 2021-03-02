@@ -134,7 +134,6 @@ class PersonalDataEditForm extends React.Component {
     this.props.updateEditOperationPanelName(status ? 'My account' : '');
   };
   handleSave = async () => {
-    myAccountActionPushEvent('Edit contact info')
     try {
       const { form } = this.state;
       this.setState({ loading: true });
@@ -160,6 +159,7 @@ class PersonalDataEditForm extends React.Component {
       });
 
       await updateCustomerBaseInfo(param);
+      
       this.props.updateData();
       this.changeEditFormVisible(false);
     } catch (err) {

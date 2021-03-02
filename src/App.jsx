@@ -102,7 +102,8 @@ import Tailorednutrition from '@/views/StaticPage/Tailorednutrition/index';
 import US_Tailorednutrition from '@/views/StaticPage/Tailorednutrition/US_index';
 import QualitySafety from '@/views/StaticPage/QualitySafety/index';
 import US_QualitySafety from '@/views/StaticPage/QualitySafety/US_index';
-import SearchShow from '@/views/StaticPage/SearchShow';
+import SearchShow from '@/views/StaticPage/SearchShow/index';
+import US_SearchShow from '@/views/StaticPage/SearchShow/US_index';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
 import AboutUsDe from '@/views/StaticPage/AboutUs/de-index';
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
@@ -261,7 +262,11 @@ const App = () => (
               <Route
                 exact
                 path="/termsandconditions"
-                component={process.env.REACT_APP_LANG=='fr'?TermsConditions:TermsConditionsUs }
+                component={
+                  process.env.REACT_APP_LANG == 'fr'
+                    ? TermsConditions
+                    : TermsConditionsUs
+                }
               />
               <Route
                 exact
@@ -333,7 +338,7 @@ const App = () => (
                 render={(props) => (
                   <AccountPetForm key={props.match.params.id} {...props} />
                 )}
-                // component={AccountPetForm}
+              // component={AccountPetForm}
               />
               <Route
                 path="/account/pets/petForm/"
@@ -493,7 +498,7 @@ const App = () => (
                 path="/Values"
                 component={
                   { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                    process.env.REACT_APP_LANG
+                  process.env.REACT_APP_LANG
                   ] || Values
                 }
               />
@@ -551,13 +556,18 @@ const App = () => (
                   />
                 )}
               />
+
               <Route
                 exact
                 // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
                 path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
                 render={(props) => {
                   if (props.location.state && props.location.state.noresult) {
-                    return <SearchShow {...props} />;
+                    if(process.env.REACT_APP_LANG=='en'){
+                      return <US_SearchShow {...props} />;
+                    }else{
+                      return <SearchShow {...props} />;
+                    }
                   } else {
                     return <List key={props.location.search} {...props} />;
                   }
@@ -629,7 +639,23 @@ const App = () => (
                     const splitName = { fr: '_FR.html', en: '_US.html' }[
                       process.env.REACT_APP_LANG
                     ];
-                    if (pathname.split('--').length > 1) {
+                    const productNameMappping = {
+                      '/ageing-12+-en-gelÃ©e-4153': '/ageing-12+-en-gelee-4153',
+                      '/british-shorthair-bouchÃ©es-spÃ©cial-2032':
+                        '/british-shorthair-bouchees-special-2032',
+                      '/intense-beauty-en-gelÃ©e-4151':
+                        '/intense-beauty-en-gelee-4151',
+                      '/kitten-en-gelÃ©e-4150': '/kitten-en-gelee-4150',
+                      '/kitten-sterilised-en-gelÃ©e-1072':
+                        '/kitten-sterilised-en-gelee-1072',
+                      '/maine-coon-bouchÃ©es-spÃ©cial-2031':
+                        '/maine-coon-bouchees-special-2031',
+                      '/persan-bouchÃ©es-spÃ©cial-2030':
+                        '/persan-bouchees-special-2030'
+                    };
+                    if (productNameMappping[pathname]) {
+                      redirectUrl = productNameMappping[pathname];
+                    } else if (pathname.split('--').length > 1) {
                       redirectUrl = pathname.split('--').join('-');
                     } else if (pathname.split(splitName).length > 1) {
                       redirectUrl = pathname.split(splitName)[0];
