@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@inject('clinicStore', 'configStore', 'paymentStore')
+@inject('clinicStore', 'configStore', 'paymentStore', 'checkoutStore')
 @injectIntl
 @observer
 class ClinicForm extends React.Component {
@@ -171,7 +171,8 @@ class ClinicForm extends React.Component {
                 queryList={async ({ inputVal }) => {
                   let res = await getPrescriberByCode({
                     code: inputVal,
-                    storeId: process.env.REACT_APP_STOREID
+                    storeId: process.env.REACT_APP_STOREID,
+                    auditAuthority: this.props.checkoutStore.autoAuditFlag
                   });
                   return (
                     (res.context && res.context.prescriberVo) ||
