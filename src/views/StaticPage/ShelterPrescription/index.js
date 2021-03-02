@@ -22,7 +22,7 @@ class ShelterPrescription extends React.Component {
     super(props);
     this.state = {
       list: [{}],
-      defalutList:Array(7).fill({})
+      defalutList: Array(7).fill({})
       // list: [{}]
     };
     this.helpContentText = {
@@ -62,16 +62,20 @@ class ShelterPrescription extends React.Component {
     console.info('.....', list);
   }
   getListItem = (idx) => {
-    let item = this.state.list[idx]||{}
+    let item = this.state.list[idx] || {};
     return (
-      <Link to={{pathname: item
-        ? `/${
-            item.lowGoodsName
-              ? item.lowGoodsName.split(' ').join('-').replace('/', '')
-              : ''
-          }-${item.goodsNo}`
-        : ''}}>
-      {/* <Link to="/"> */}
+      <Link
+        to={{
+          pathname: item
+            ? `/${
+                item.lowGoodsName
+                  ? item.lowGoodsName.split(' ').join('-').replace('/', '')
+                  : ''
+              }-${item.goodsNo}`
+            : ''
+        }}
+      >
+        {/* <Link to="/"> */}
         <a className="rc-card__link rc-card--product">
           <article className="rc-card rc-card--b rc-outline-light slik-list-article">
             <picture className="rc-card__image">
@@ -148,55 +152,57 @@ class ShelterPrescription extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile rc-layout-container rc-three-column row align-items-md-center">
-            <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
-              <lazyLoad>
-              <img src={CATSPng} />
-              </lazyLoad>
-            </div>
-            <div className="col-12 col-lg-7">
-              <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                <h1 className="red rc-beta markup-text">
-                  Shop Royal Canin®. Give Back To Your Shelter.
-                </h1>
-                <p>
-                  Your local shelter staff works tirelessly to keep pets like
-                  yours happy and healthy while they are waiting for their
-                  forever home – this dedication includes feeding these pets
-                  quality, precise nutrition. Now, when you buy Royal Canin® pet
-                  food through this link, your pet gets the support of tailored
-                  nutrition and{' '}
-                  <strong>
-                    10% of your purchase amount is credited back to your shelter
-                    to feed the pets in their care.
-                  </strong>
-                </p>
-                <div className="banner-benefits">
-                  <h6 className="rc-delta markup-text red">
-                    Sign up for autoship to become a member of the Royal Canin
-                    Club and you’ll receive these benefits:
-                  </h6>
-                  <div className="rc-layout-container rc-two-column banner-benefits-box red-dot-list row rc-margin-bottom--sm rc-margin-bottom--md--mobile text-left">
-                    <div className="banner-benefits-li col-6">
-                      30% off your first purchase
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile rc-layout-container rc-three-column">
+            <div className=" row align-items-md-center">
+              <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
+                <lazyLoad>
+                  <img src={CATSPng} />
+                </lazyLoad>
+              </div>
+              <div className="col-12 col-lg-7">
+                <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                  <h1 className="red rc-beta markup-text">
+                    Shop Royal Canin®. Give Back To Your Shelter.
+                  </h1>
+                  <p>
+                    Your local shelter staff works tirelessly to keep pets like
+                    yours happy and healthy while they are waiting for their
+                    forever home – this dedication includes feeding these pets
+                    quality, precise nutrition. Now, when you buy Royal Canin®
+                    pet food through this link, your pet gets the support of
+                    tailored nutrition and{' '}
+                    <strong>
+                      10% of your purchase amount is credited back to your
+                      shelter to feed the pets in their care.
+                    </strong>
+                  </p>
+                  <div className="banner-benefits">
+                    <h6 className="rc-delta markup-text red">
+                      Sign up for autoship to become a member of the Royal Canin
+                      Club and you’ll receive these benefits:
+                    </h6>
+                    <div className="rc-layout-container rc-two-column banner-benefits-box red-dot-list row rc-margin-bottom--sm rc-margin-bottom--md--mobile text-left">
+                      <div className="banner-benefits-li col-6">
+                        30% off your first purchase
+                      </div>
+                      <div className="banner-benefits-li col-6">
+                        5% off every autoship purchase
+                      </div>
+                      <div className="banner-benefits-li col-6">
+                        Royal Canin Pet Advisor Live App
+                      </div>
+                      <div className="banner-benefits-li col-6">
+                        Free shipping right to your home
+                      </div>
                     </div>
-                    <div className="banner-benefits-li col-6">
-                      5% off every autoship purchase
+                    <div className="text-center">
+                      <button
+                        onClick={() => this.toScroll('selectProduct')}
+                        className="rc-btn rc-btn--one gtm-content-block-btn "
+                      >
+                        Shop Recommended Formulas
+                      </button>
                     </div>
-                    <div className="banner-benefits-li col-6">
-                      Royal Canin Pet Advisor Live App
-                    </div>
-                    <div className="banner-benefits-li col-6">
-                      Free shipping right to your home
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <button
-                      onClick={() => this.toScroll('selectProduct')}
-                      className="rc-btn rc-btn--one gtm-content-block-btn "
-                    >
-                      Shop Recommended Formulas
-                    </button>
                   </div>
                 </div>
               </div>
