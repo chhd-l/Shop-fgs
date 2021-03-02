@@ -962,25 +962,26 @@ class List extends React.Component {
         goodsNo,
         goodsInfos,
         goodsBrand,
-        goodsName
+        goodsName,
+        goodsAttributesValueRelVOAllList = [],
+        goodsCateName
       } = item;
+      const breed = goodsAttributesValueRelVOAllList
+        .filter((attr) => attr.goodsAttributeName == 'breeds')
+        .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
-      // const recommendationID = this.props.clinicStore?.linkClinicId || '';
+      const cateName = goodsCateName?.split('/') || '';
       return {
         price: minMarketPrice,
         specie,
-        range: '', //需要后端加
+        range: cateName?.[1],
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        // recommendationID,
-        technology: '', //需要后端加
+        technology: cateName?.[2],
         brand: 'Royal Canin',
-        // size: '',//需要后端加
-        breed: '' //todo:接口添加返回
-        // promoCodeName: '',
-        // promoCodeAmount: '',
+        breed,
       };
     });
     dataLayer.push({
@@ -1209,18 +1210,21 @@ class List extends React.Component {
     let filterList = tmpList.concat(customFilter);
 
     // isVetProducts 过滤掉'breeds' 'Sterilized''Specific needs'
-    let vetFilterList = filterList.filter(
+    const vetFilterList = filterList.filter(
       (item) =>
         item.attributeName !== 'breeds' &&
         item.attributeName !== 'Sterilized' &&
         item.attributeName !== 'Specific needs'
     );
-    let sptFilterList = filterList.filter(
+    // 非isVetProducts 过滤掉'Size'
+    const sptFilterList = filterList.filter(
       (item) => item.attributeName !== 'Size'
     );
-    let allFilterList = this.state.isVetProducts
-      ? vetFilterList
-      : sptFilterList;
+    let allFilterList = isHub
+      ? this.state.isVetProducts
+        ? vetFilterList
+        : sptFilterList
+      : filterList;
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({

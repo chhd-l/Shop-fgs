@@ -8,10 +8,12 @@ import Help from './modules/Help';
 import FAQ from './modules/FAQ';
 import Details from './modules/Details';
 import StaticPage from './modules/StaticPage';
+import { getProductPetConfig } from '@/api/payment';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { getFoodDispenserList, getFoodDispenserDes } from '@/api/dispenser';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import LoginButton from '@/components/LoginButton';
 import './index.less';
 import AddCartSuccessMobile from '../Details/components/AddCartSuccessMobile';
 // import Swiper from 'swiper';
@@ -302,6 +304,7 @@ const Step3 = (props) => {
   const [detailInfo, setDetailInfo] = useState(defaultInfo);
   const [frequencyList, setFrequencyList] = useState([]);
   const [selectedFrequency, setSelectedFrequency] = useState();
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const handleSelectedItemChange = (data) => {
     setSelectedFrequency(data.value);
     let step3Data = Object.assign({}, detailInfo, { frequencyId: data.id });
@@ -381,7 +384,10 @@ const Step3 = (props) => {
           <div className="pad_2rem_pc">
             <div className="for_h5_img">
               <img src={foodPic2} />
-              <h6 className="rc-hero__section--text product_name text-center" style={{fontSize: '18px'}}>
+              <h6
+                className="rc-hero__section--text product_name text-center"
+                style={{ fontSize: '18px' }}
+              >
                 {detailInfo.planProds?.[0].goodsInfoName}
               </h6>
             </div>
@@ -525,14 +531,26 @@ const Step3 = (props) => {
                 </button>
               </div>
               <div className="rc-column">
-                <button
-                  onClick={() =>
-                    props.hanldeAddToCart({ redirect: true, needLogin: true })
-                  }
-                  className="rc-btn rc-btn--one wid100"
-                >
-                  <FormattedMessage id="checkout" />
-                </button>
+                {props.isLogin ? (
+                  <button
+                    onClick={() =>
+                      props.hanldeAddToCart({ redirect: true, needLogin: true })
+                    }
+                    className="rc-btn rc-btn--one wid100"
+                  >
+                    <FormattedMessage id="checkout" />
+                  </button>
+                ) : (
+                  <LoginButton
+                    beforeLoginCallback={async () => props.handleCheckout()}
+                    btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
+                      checkoutLoading ? 'ui-btn-loading' : ''
+                    }`}
+                    history={props.history}
+                  >
+                    <FormattedMessage id="checkout" />
+                  </LoginButton>
+                )}
               </div>
             </div>
           </div>
@@ -683,6 +701,18 @@ class SmartFeederSubscription extends Component {
       anchorElement.scrollIntoView();
     }
   };
+  handleCheckout = () => {
+    // 未登录情况下，直接跳转登录，food dispenser需要登录之后才能checkout
+    // this.GAAccessToGuestCheck();
+    try {
+      sessionItemRoyal.set('okta-redirectUrl', '/cart');
+      this.setState({ checkoutLoading: true });
+    } catch (err) {
+    } finally {
+      this.setState({ checkoutLoading: false });
+    }
+  };
+
   toOtherStep = async (stepName = 'step1') => {
     if (stepName == 'step2' || stepName == 'step3') {
       this.getStep2Data().then(() => {
@@ -1252,7 +1282,6 @@ class SmartFeederSubscription extends Component {
       step3Choosed
     } = this.state;
     const { goodsId, sizeList } = details;
-    console.info('redirectredirect', redirect);
     // 加入购物车 埋点start
     this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
@@ -1670,7 +1699,7 @@ class SmartFeederSubscription extends Component {
       instockStatus: this.state.quantity <= this.state.stock
     });
   };
-  hanldeLoginAddToCart = async () => {
+  hanldeLoginAddToCart = async ({ redirect }) => {
     try {
       const {
         configStore,
@@ -1682,7 +1711,6 @@ class SmartFeederSubscription extends Component {
       const { quantity, form, details, planId } = this.state;
       console.info('details', details);
       this.GAAddToCar(quantity, details);
-
       const { sizeList } = details;
       let currentSelectedSize;
       this.setState({ addToCartLoading: true });
@@ -1715,12 +1743,14 @@ class SmartFeederSubscription extends Component {
       if (isMobile) {
         // this.refs.showModalButton.click();
       } else {
-        headerCartStore.show();
-        setTimeout(() => {
-          headerCartStore.hide();
-        }, 4000);
+        if (!redirect) {
+          headerCartStore.show();
+          setTimeout(() => {
+            headerCartStore.hide();
+          }, 4000);
+        }
       }
-
+      console.info('redirect....', redirect);
       if (redirect) {
         if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           this.showCheckoutErrMsg(
@@ -1793,6 +1823,7 @@ class SmartFeederSubscription extends Component {
           clinicStore,
           isLogin: this.isLogin
         });
+        console.info('url', url);
         url && history.push(url);
         // history.push('/prescription');
       }
@@ -1923,10 +1954,13 @@ class SmartFeederSubscription extends Component {
                     case 'step3':
                       stepCom = (
                         <Step3
+                          handleCheckout={this.handleCheckout}
+                          history={this.props.history}
                           specList={this.state.specList}
                           getStep3Choosed={this.getStep3Choosed}
                           details={this.state.details}
                           toOtherStep={this.toOtherStep}
+                          isLogin={this.isLogin}
                           hanldeAddToCart={this.hanldeAddToCart}
                         />
                       );
@@ -1953,7 +1987,7 @@ class SmartFeederSubscription extends Component {
               </p>
             </div>
           )}
-          <Help />
+          <Help isEmailUnderLine={true} />
           <AddCartSuccessMobile />
         </main>
         <Footer />
