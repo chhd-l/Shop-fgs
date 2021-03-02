@@ -385,7 +385,7 @@ class PayProductInfo extends React.Component {
                           <p className="text-right">
                             <span className="shipping-total-cost">
                               {/* {formatMoney(details.tradePrice.taxFeePrice)} */}
-                              {formatMoney(this.taxFeePrice())}
+                              {formatMoney(this.taxFeePrice)}
                             </span>
                           </p>
                         </div>

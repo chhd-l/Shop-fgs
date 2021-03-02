@@ -1953,7 +1953,7 @@ class SmartFeederSubscription extends Component {
               </p>
             </div>
           )}
-          <Help />
+          <Help isEmailUnderLine={true}/>
           <AddCartSuccessMobile />
         </main>
         <Footer />
