@@ -864,11 +864,10 @@ class AccountOrders extends React.Component {
                                               .join(' - ')}
                                           </div>
                                           {item.subscriptionPlanId ? (
-                                            <div>
-                                              <i style={{ float: 'left' }}>
-                                                gift
+                                            <div className="align-items-center d-flex">
+                                              <i className="gift-icon">
                                               </i>
-                                              <div style={{ float: 'right' }}>
+                                              <div>
                                                 <span className="medium color-444 ui-text-overflow-line2">
                                                   Cadeaux
                                                 </span>
