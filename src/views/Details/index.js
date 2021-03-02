@@ -27,7 +27,8 @@ import {
   getParaByName,
   loadJS,
   getDictionary,
-  unique
+  unique,
+  filterObjectValue
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -1678,8 +1679,7 @@ class Details extends React.Component {
       .map((item) => item.goodsAttributeValue);
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
 
-    const GAProductsInfo = [
-      {
+    const GAProductsInfo = {
         price: minMarketPrice,
         specie,
         range: cateName?.[1]||'',
@@ -1691,11 +1691,12 @@ class Details extends React.Component {
         brand: 'Royal Canin',
         size,
         breed,
-      }
-    ];
-
+      };
+    const product =  filterObjectValue(GAProductsInfo);
     window.dataLayer&& dataLayer.push({
-      products: GAProductsInfo
+      products: [
+        product
+      ]
     })
     const hubEcEvents = {
       event: 'pdpScreenLoad'

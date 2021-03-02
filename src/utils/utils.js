@@ -670,3 +670,15 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
   }
   return ret;
 }
+
+// 处理对象属性值（排除属性值为：“”/null/undefined）
+export function filterObjectValue(obj) {
+  let nonEmpty = {};
+  if(obj === null || obj === undefined || obj === "") return nonEmpty;
+  for(let key in obj) {
+    if(obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
+      nonEmpty[key] = obj[key]
+    }
+  }
+  return nonEmpty;
+}
