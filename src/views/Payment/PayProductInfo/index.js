@@ -59,10 +59,6 @@ class PayProductInfo extends React.Component {
     );
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    //     if (nextProps.buyWay === 'once') {
-    //       this.setState({isShowValidCode:false})
-    //     }
-    // console.log(nextProps, 'props2')
     let productList;
     if (
       JSON.stringify(nextProps.data) !==
