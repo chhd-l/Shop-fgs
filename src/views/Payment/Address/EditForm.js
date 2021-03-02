@@ -50,9 +50,6 @@ class EditForm extends React.Component {
     const { initData = {} } = this.props;
     const { address } = this.state;
 
-    console.log('★★★★★★★★-> address: ', address);
-    console.log('★★★★★★★★-> initData: ', initData);
-
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
     });
@@ -326,8 +323,8 @@ class EditForm extends React.Component {
               }
             }}
             optionList={this.computedList('province')}
-            selectedItemData={{ value: address.province }}
-            key={address.province}
+            selectedItemData={{ value: address.province == 'state' ? 'null' : address.province }}
+            key={address.province == 'state' ? 'null' : address.province}
           />
         </span>
       </div>
