@@ -106,7 +106,12 @@ class ShippingAddressFrom extends React.Component {
         address1: data.address1,
         address2: data.address2,
         country: data.countryId,
+        countryName: data.countryName,
         city: data.cityId,
+        cityName: data.cityName,
+        provinceNo: data.provinceNo,
+        provinceName: data.province,
+        province: data.provinceId,
         postCode: data.postCode,
         phoneNumber: data.consigneeNumber,
         rfc: data.rfc,
@@ -158,11 +163,6 @@ class ShippingAddressFrom extends React.Component {
       });
       console.log('----------------------> handleSave data: ', data);
       // 手动输入的城市 id 设为 null
-      let ctId =
-        data.cityName == data.city
-          ? null
-          : data.city;
-
       let params = {
         address1: data.address1,
         address2: data.address2,
@@ -170,7 +170,7 @@ class ShippingAddressFrom extends React.Component {
         lastName: data.lastName,
         countryId: +data.country,
         city: data.cityName,
-        cityId: ctId,
+        cityId: data.cityName == data.city ? null : data.city,
         province: data.provinceName,
         provinceId: data.province,
         consigneeName: data.firstName + ' ' + data.lastName,
@@ -278,7 +278,6 @@ class ShippingAddressFrom extends React.Component {
     });
   };
   handleCityInputChange = (data) => {
-    console.log('----------------------> handleCityInputChange data: ', data);
     const { addressForm } = this.state;
     addressForm.city = data.id;
     addressForm.cityName = data.cityName;

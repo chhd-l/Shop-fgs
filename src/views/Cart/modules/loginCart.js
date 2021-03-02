@@ -1471,7 +1471,11 @@ class LoginCart extends React.Component {
                       }`}
                     aria-pressed="true"
                   >
-                    <FormattedMessage id="checkout" />
+                    {process.env.REACT_APP_LANG === 'en' ? (
+                      <FormattedMessage id="loginText" />
+                    ) : (
+                        <FormattedMessage id="checkout" />
+                      )}{' '}
                   </div>
                 </div>
               </a>
@@ -1524,7 +1528,11 @@ class LoginCart extends React.Component {
                       }`}
                     aria-pressed="true"
                   >
-                    <FormattedMessage id="checkout" />{' '}
+                    {process.env.REACT_APP_LANG === 'en' ? (
+                      <FormattedMessage id="loginText" />
+                    ) : (
+                        <FormattedMessage id="checkout" />
+                      )}{' '}
                     {mobileCartVisibleKey === 'less'
                       ? formatMoney(this.tradePrice)
                       : null}
