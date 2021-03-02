@@ -846,69 +846,7 @@ const en_US = {
   mailAddress: 'Mail address',
 
 
-  'termsandconditions.information':'Royal Canin SALES TERMS AND CONDITIONS',
 
-  'termsandconditions.paragraph2':'Welcome to Royal Canin!',
-  'termsandconditions.paragraph3':'Royal Canin U.S.A., Inc. (“Royal Canin,” “we,” “us,” “our”) provides its Royal Canin-branded products and related services (collectively, our “Products”) to you as our valued customer (“Customer”, “you”, “yours”) through our website located at https://shop.royalcanin.com/us and all related domains, subdomains, software, services, and features (collectively, the “Site”). ROYAL CANIN makes this Site available for your use subject to the Terms and Conditions contained herein (as amended from time to time, the “Terms”) and the ROYAL CANIN Terms of Use, available here https://my.royalcanin.com/termsofuse.',
-  'termsandconditions.paragraph4':'BY ACCESSING OR USING THE SITE IN ANY WAY, YOU AGREE TO AND ARE BOUND BY THIS AGREEMENT, AND IF YOU DO NOT ACCEPT ANY OF THE TERMS OF THIS AGREEMENT AND/OR YOU DO NOT MEET OR COMPLY WITH THEIR PROVISIONS, YOU MAY NOT USE THE SITE.',
-  'termsandconditions.paragraph5':'If you are under 13 years of age, you are not authorized to use the SITE, with or without registering. In addition, if you are under 18 years old, you may use the SITE with or without registering, only with the approval of your parent or guardian.',
-
-
-
-  'termsandconditions.title1.1':'1. SITE REGISTRATION',
-  'termsandconditions.title1.1descripition':'Access to our Site requires you to be registered with us via a ROYAL CANIN-generated registration form. This form will require you to provide certain requested information (including personal information). At such time, you will be provided with an account and login information including a username and password to successfully complete the registration process. If you choose to register for our Site, you agree to provide and maintain true, accurate, current and complete information about yourself as prompted by the Site’s registration form. For more information about our collection of personal information about you in connection with account registration on our Site, please review our Privacy Policy here: http://www.mars.com/global/policies/privacy/pp-english.aspx.',
-
-  'termsandconditions.title1.2descripition':'You are responsible for maintaining the confidentiality of your password and account, if any, and are fully responsible for any and all activities that occur under your password or account. You must provide accurate and complete information and keep your account information updated. Failure to do so shall constitute a breach of these Terms, which may result in immediate termination of your account. We may refuse to grant you a particular username for any reason, including, without limitation, if we have reason to believe that such username impersonates someone else, is protected by trademark or other proprietary rights, or is vulgar or otherwise offensive.',
-
-  'termsandconditions.title1.3descripition':'You may have the option to register with ROYAL CANIN using your Facebook or other third party services (“Social Networking Sites”) credentials or otherwise registering in order to access and use certain features of our Site. By logging in or directly integrating these Social Networking Sites into the Site, we make your online experiences richer and more personalized. To take advantage of these features and capabilities, we may ask you to authenticate, register for or log into Social Networking Sites on the websites of their respective providers. Please remember that the manner in which Social Networking Sites use, store and disclose your information is governed solely by the policies of such third parties, and ROYAL CANIN shall have no liability or responsibility for the privacy practices or other actions of any third',
-
-  'termsandconditions.title2':'2. SALES POLICY',
-
-  'termsandconditions.title2descripition':'Royal Canin cannot promise that any particular Products or pricing will be available at any time. Until Customer has confirmed an order, pricing, offers, selection and availability of any Products offered may change without notice.',
-
-
-  'termsandconditions.title3.1':'3. TERMINATION',
-  'termsandconditions.title3.1descripition':'In addition to any remedies that may be provided under these Terms, Royal Canin may terminate these Terms with immediate effect upon notice to Customer.',
-
-  'termsandconditions.title3.2':'4. RESALE',
-  'termsandconditions.title3.2descripition':'Customer shall not sell, fulfill, provide or ship any Products in any manner whatsoever. Royal Canin may immediately limit, stop or prohibit sales to Customer if Customer fails to comply with the obligations of this Section.',
-
-
-  'termsandconditions.title4':'5. PRODUCT DESCRIPTION AND PRICING ERRORS',
-  'termsandconditions.title4descripition':'Although Royal Canin tries to accurately describe and display Products, Royal Canin cannot and does not promise that Product descriptions or depictions are accurate, complete, reliable, current or error-free.',
-
-
-  'termsandconditions.title5':'6. ORDER ACCEPTANCE',
-  'termsandconditions.title5descripition':'When a Product is offered for sale as part of our Site, ROYAL CANIN may accept your offer to purchase such Product subject to these Terms. Customer\'s receipt of an electronic or other form of order confirmation from Royal Canin does not signify Royal Canin\'S acceptance of Customer\'s order, nor does it constitute confirmation of Royal Canin\'S offer to sell. Royal Canin reserves the right to accept or reject Customer\'s order for any reason at any time after receipt of Customer\'s order without providing a reason to Customer. If Royal Canin rejects Customer\'s order, Royal Canin will attempt to notify Customer using the e-mail address provided with Customer\'s order but Royal Canin disclaims any responsibility or liability in the event Customer does not receive any such attempted e-mail notification. Generally, Customer\'s credit/debit card or bank account will not be charged if Royal Canin rejects an order; however, Royal Canin will process a refund if a charge has been made against Customer\'s credit/debit card or bank account for a rejected order.',
-
-
-
-  'termsandconditions.title6.1':'7. ORDER LIMITATIONS/LIMITED QUANTITIES',
-  'termsandconditions.title6.1descripition':'Royal Canin may, at its sole discretion, limit or cancel quantities purchased. Restrictions may include orders placed by the same account, orders that use the same credit/debit card or bank account or orders that use the same billing and/or shipping address. If Royal Canin makes a change to Customer\'s order, Royal Canin will attempt to notify Customer by the e-mail and/or billing address provided with Customer\'s order but Royal Canin disclaims any responsibility or liability in the event Customer does not receive any such attempted notification. Royal Canin reserves the right to limit, stop or prohibit sales to Customer for any reason.',
-
-  'termsandconditions.title6.2':'8. SHIPPING AND HANDLING',
-  'termsandconditions.title6.2descripition':'This shipping and handling policy applies to orders delivered to Customer. Orders delivered to Customer that are filled from stock usually ship either the next business day after the order is received or per the truck delivery schedule in Customer\'s account area. Royal Canin shall not be liable for any delays, loss or damage in transit. Royal Canin may, in its sole discretion, without liability or penalty, make partial shipments of Products to Customer. Each shipment will constitute a separate sale, and Customer shall pay for the units shipped whether such shipment is in whole or partial fulfillment of Customer\'s order.',
-
-  'termsandconditions.title6.3descripition':'Customer may have the option to select “autoship” for the fulfillment of Products, resulting in the automatic shipment of Products selected by Customer on a preset frequency. Customer has the ability to adjust certain Product specifications related to autoship option, including size, weight and delivery frequency. Additionally, Customer may achieve product savings in certain cases by opting for autoship services. Please be advised that autoship is not a default feature and requires Customer to “opt-in” through selection on the Site. The default autoship frequency is delivery every four (4) weeks.',
-
-
-  'termsandconditions.title7descripition':'Title and risk of loss passes to Customer upon delivery of the Products at Customer\'s location set forth in Customer’s order.',
-
-
-  'termsandconditions.title8':'',
-  'termsandconditions.title8descripition':'',
-
-
-  'termsandconditions.title9':'',
-  'termsandconditions.title9descripition':'',
-
-
-  'termsandconditions.title10':'',
-  'termsandconditions.title10descripition':'',
-
-
-  'termsandconditions.title11':'',
-  'termsandconditions.title11descripition':'',
   'account.startAutoShipping': 'Learn more',
   'account.noSubscription': 'You do not yet know the Subscription? {val1} The Subscription allows you to receive your pet\'s favorite foods regularly and easily. Just tell us where and when to ship it, and we\'ll make sure everything it needs arrives right at your doorstep.',
   'account.noSubscriptionTitle': 'Discover the Subscription',
