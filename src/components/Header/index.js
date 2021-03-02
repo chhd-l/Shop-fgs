@@ -82,6 +82,7 @@ class Header extends React.Component {
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
 
     this.preTop = 0;
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   get isLogin() {
     return this.props.loginStore.isLogin;

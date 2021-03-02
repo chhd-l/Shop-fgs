@@ -31,6 +31,7 @@ export default class Search extends React.Component {
     this.hanldeSearchClick = this.hanldeSearchClick.bind(this);
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   handleSearchInputChange(e) {
     this.setState(
@@ -164,6 +165,16 @@ export default class Search extends React.Component {
       }
     });
   };
+
+  hanldeSearchFocus = () => {
+    this.hubGA && dataLayer.push({
+      event: 'topPictosClick',
+      topPictosClick: {
+        itemName: 'Type and search',
+      }
+    });
+  }
+
   renderResultJsx() {
     const { result, keywords } = this.state;
     let ret = null;
@@ -323,7 +334,7 @@ export default class Search extends React.Component {
                     type="search"
                     autoComplete="off"
                     placeholder={txt}
-                    // onFocus={this.hanldeSearchClick}
+                    onFocus={this.hanldeSearchFocus}
                     onChange={this.handleSearchInputChange}
                     value={keywords}
                   />
