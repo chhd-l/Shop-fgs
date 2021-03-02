@@ -8,7 +8,7 @@ import {
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
-import { validData, dynamicLoadCss } from '@/utils/utils';
+import { validData } from '@/utils/utils';
 import axios from 'axios';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
@@ -61,12 +61,6 @@ class PaymentEditForm extends React.Component {
         { name: '2018', value: 2018 }
       ]
     };
-  }
-  componentDidMount() {
-    this.props.paymentType === 'ADYEN' &&
-      dynamicLoadCss(
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
-      );
   }
   get userInfo() {
     return this.props.loginStore.userInfo;

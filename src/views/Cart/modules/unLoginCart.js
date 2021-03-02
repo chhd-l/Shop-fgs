@@ -33,6 +33,9 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const isGift = true;
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
+
 @injectIntl
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @observer
@@ -1326,9 +1329,6 @@ class UnLoginCart extends React.Component {
                 <div className="text-center" onClick={() => this.handleCheckout()}>
                   <div className="rc-styled-link color-999" aria-pressed="true">
                     <FormattedMessage id="guestCheckout" />
-                    {mobileCartVisibleKey === 'less'
-                      ? formatMoney(this.tradePrice)
-                      : null}
                   </div>
                 </div>
               )
@@ -1568,7 +1568,7 @@ class UnLoginCart extends React.Component {
 
 
           {/* 税额 */}
-          {process.env.REACT_APP_LANG == 'en' ? (
+          {customTaxSettingOpenFlag == 0 ? (
             <div className="row">
               <div className="col-8">
                 <p>
@@ -1620,9 +1620,8 @@ class UnLoginCart extends React.Component {
 
             <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
               <div
-                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
-                  mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-                }`}
+                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                  }`}
                 onClick={this.toggleMobileCart.bind(this, 'more')}
               >
                 <span

@@ -39,6 +39,9 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const pageLink = window.location.href;
 
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
+
 function HeadTip(props) {
   console.log(props, 'props');
   return (
@@ -1355,7 +1358,7 @@ class AccountOrders extends React.Component {
                                   </div>
 
                                   {/* 税额 */}
-                                  {process.env.REACT_APP_LANG=='en' ? (
+                                  {customTaxSettingOpenFlag == 0 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">&nbsp;</div>
                                       <div className="col-6 col-md-2 mb-2">

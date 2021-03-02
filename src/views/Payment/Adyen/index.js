@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import { dynamicLoadCss } from '@/utils/utils';
 import CardList from './list';
 import { scrollPaymentPanelIntoView } from '../modules/utils';
 
@@ -20,11 +19,6 @@ class AdyenCreditCard extends React.Component {
       errorMsg: ''
     };
     this.cardListRef = React.createRef();
-  }
-  componentDidMount() {
-    dynamicLoadCss(
-      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
-    );
   }
   updateSelectedCardInfo = (data) => {
     this.setState({ adyenPayParam: data });

@@ -63,9 +63,9 @@ export default class DropDownMenuForHub extends React.Component {
     // this.props.handleClickNavItem(item);
   };
 
-  menuItemEvent(item, cItem) {
+  menuItemEvent(item, cItem, type) {
     const Level1 = item?.Link?.Text;
-    const Level2 = cItem?.Link?.Text;
+    const Level2 = type ? cItem : cItem?.Link?.Text;
     this.hubGA && dataLayer.push({
       event: 'navTopClick',
       navTopClick: {
@@ -159,6 +159,7 @@ export default class DropDownMenuForHub extends React.Component {
                         <a
                           href={sItem.Link.Url}
                           className="medium mb-0 ui-cursor-pointer"
+                          onClick={() => this.menuItemEvent(item, sItem.Title,'products')}
                         >
                           {sItem.Title}
                         </a>

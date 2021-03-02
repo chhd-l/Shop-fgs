@@ -12,6 +12,10 @@ class ConfigStore {
     return this.info ? this.info.maxGoodsPrice : 0;
   }
 
+  @computed get customTaxSettingOpenFlag() {
+    return this.info ? this.info.customTaxSettingOpenFlag : 0;
+  }
+
   @computed get storeContactPhoneNumber() {
     return this.info && this.info.storeVO
       ? this.info.storeVO.storeContactPhoneNumber
