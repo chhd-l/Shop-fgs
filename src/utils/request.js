@@ -28,7 +28,7 @@ service.interceptors.request.use((config) => {
   if(config.method&&config.method.toLocaleLowerCase() === 'get'){
       Object.assign(config,{
         paramsSerializer: function (params) {
-          return qs.stringify(params, { arrayFormat: "indices" });
+          return qs.stringify(params, { arrayFormat: "indices", allowDots: true });
         }
       })
     }
