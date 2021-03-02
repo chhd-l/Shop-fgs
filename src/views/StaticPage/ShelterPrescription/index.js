@@ -208,33 +208,35 @@ class ShelterPrescription extends React.Component {
               </div>
             </div>
           </div>
-          <div className="gray-for-pc rc-padding-top--xl--mobile">
+          <div className="rc-padding-top--xl--mobile rc-bg-colour--brand4">
             <div className="rc-layout-container rc-two-column rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile align-items-md-center">
-              <div className=" col-12 col-lg-6">
-                <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                  <h2 className="red rc-beta markup-text">
-                    Join The Club. Get Big Perks.
-                  </h2>
-                  <p>
-                    When you choose autoship, you’re automatically part of the
-                    Royal Canin® Club. With your membership, you get tailored
-                    nutrition and support for your pet – along with automatic
-                    shipping and discounts. Your membership also includes Royal
-                    Canin Pet Advisor Live, where you can chat with a
-                    veterinarian around the clock about your pet’s health,
-                    nutrition and behavior; track your pet’s growth; and more.
-                  </p>
-                  <p>
-                    <Link to="/subscription-landing">
-                      <button className="rc-btn rc-btn--two gtm-content-block-btn ">
-                        JOIN THE CLUB
-                      </button>
-                    </Link>
-                  </p>
+              <div className="row align-items-md-center">
+                <div className=" col-12 col-lg-6">
+                  <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                    <h2 className="red rc-beta markup-text">
+                      Join The Club. Get Big Perks.
+                    </h2>
+                    <p style={{wordBreak:'break-word'}}>
+                      When you choose autoship, you’re automatically part of the
+                      Royal Canin® Club. With your membership, you get tailored
+                      nutrition and support for your pet – along with automatic
+                      shipping and discounts. Your membership also includes
+                      Royal Canin Pet Advisor Live, where you can chat with a
+                      veterinarian around the clock about your pet’s health,
+                      nutrition, behavior and more.
+                    </p>
+                    <p>
+                      <Link to="/subscription-landing">
+                        <button className="rc-btn rc-btn--two gtm-content-block-btn ">
+                          JOIN THE CLUB
+                        </button>
+                      </Link>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                <img src={catAndPhone} />
+                <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                  <img src={catAndPhone} />
+                </div>
               </div>
             </div>
           </div>

@@ -12,6 +12,7 @@ import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
+import { myAccountActionPushEvent } from '@/utils/GA';
 import {
   getDictionary,
   dynamicLoadCss,
@@ -54,7 +55,6 @@ import { format } from 'date-fns';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import {myAccountActionPushEvent} from "@/utils/GA"
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
@@ -1333,6 +1333,8 @@ class SubscriptionDetail extends React.Component {
       let param = {
         subscribeId: subDetail.subscribeId
       };
+      let subscribeStatus = ''
+      let subscribeStatusText = ''
       if (!this.state.isGift) {
         Object.assign(
           param,
@@ -1352,13 +1354,20 @@ class SubscriptionDetail extends React.Component {
         );
       } else {
         //subscribeStatus 暂停传1 重启0
+        if(this.state.subDetail.subscribeStatus === '0'){
+          subscribeStatus = '1'
+          subscribeStatusText = 'Pause Subscription'
+        }else{
+          subscribeStatus = '0'
+          subscribeStatusText = 'Restart Subscription'
+        }
         Object.assign(param, {
-          subscribeStatus:
-            this.state.subDetail.subscribeStatus === '0' ? '1' : '0'
+          subscribeStatus
         });
       }
 
       await this.doUpdateDetail(param);
+      subscribeStatusText && myAccountActionPushEvent(subscribeStatusText)
       if (this.state.isGift) {
         this.props.history.push('/account/subscription');
         return;
