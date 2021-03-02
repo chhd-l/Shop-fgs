@@ -1260,7 +1260,9 @@ class SubscriptionDetail extends React.Component {
           <a
             className="rc-styled-link"
             href="#/"
-            onClick={() => this.handleCancel}
+            onClick={(e) => {
+              this.handleCancel(e)
+            }}
           >
             <FormattedMessage id="subscription.cancelAll" />
           </a>

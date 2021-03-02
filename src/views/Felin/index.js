@@ -478,25 +478,15 @@ export default class Felin extends React.Component {
                         )}
                       </div>
                     </div>
-                    <form class="rc-checklist" data-rc-checklist="">
-                      <div class="rc-checklist-row">
-                        <label class="rc-checklist-row__label">
-                          <input
-                            type="checkbox"
-                            class="rc-checklist-row__input form-checkbox"
-                          />{' '}
-                          &nbsp;&nbsp;
-                          <span class="rc-checklist-row__subtitle rc-body rc-margin-top--xs">
-                            Les données personnelles, que vous renseignez sont
+                    <div class="rc-input rc-input--stacked">
+                      <input class="rc-input__checkbox" id="id-checkbox-cat-2" value="Cat" type="checkbox" name="checkbox-2" />
+                      <label class="rc-input__label--inline" for="id-checkbox-cat-2">Les données personnelles, que vous renseignez sont
                             traitées aux fins de confirmer et assurer le suivi
                             du rendez-vous Elles seront conservées en accord
                             avec les règles de gestion des données privées que
                             vous pourrez retrouver en ligne sur
-                            https://www.mars.com/privacy-policy-france
-                          </span>
-                        </label>
-                      </div>
-                    </form>
+                            https://www.mars.com/privacy-policy-france</label>
+                    </div>
                     <button
                       className="rc-btn rc-btn--two"
                       style={{ width: '100%' }}
