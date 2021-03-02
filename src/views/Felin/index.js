@@ -56,7 +56,8 @@ export default class Felin extends React.Component {
       isValid: false,
       curType: 'delivery',
       errMsgObj: {},
-      selectedDate: new Date()
+      selectedDate: new Date(),
+      step: 1,
     };
   }
   handleInputChange = (e) => {
@@ -277,96 +278,123 @@ export default class Felin extends React.Component {
                       textAlign: 'left'
                     }}
                   >
-                    <p>Choisissez un rendez-vous</p>
-                    <div>
-                      <h1
-                        className="rc-card__meta order-Id"
-                        style={{
-                          marginTop: '10px',
-                          display: 'inline-block',
-                          width: '283px'
-                        }}
-                      >
-                        <DatePicker
-                          className="receiveDate"
-                          placeholder="Select Date"
-                          dateFormat={datePickerConfig.format}
-                          locale={datePickerConfig.locale}
-                          minDate={new Date()}
-                          selected={this.state.selectedDate}
-                          // selected={new Date()}
-                          onChange={(date) => {
-                            this.setState({selectedDate: new Date(date)})
-                            console.log(date);
-                          }}
-                        />
-                      </h1>
-                      <span class="icon iconfont iconfont-date">&#xe6b3;</span>
-                    </div>
-                    <div>
-                      <Selection
-                        placeholder="Choose a time slot"
-                        optionList={[
-                          { name: '111', value: '111' },
-                          { name: '222', value: '222' },
-                          { name: '333', value: '333' }
-                        ]}
-                        selectedItemChange={() => {
-                          console.log(11);
-                        }}
-                      />
-                    </div>
-                    <p>Mon redenz-vous</p>
-                    <div style={{ padding: '.5rem 0' }}>
-                      <div style={{ position: 'relative' }}>
-                        <input
-                          className="rc-input__radio"
-                          id="female"
-                          value="1"
-                          // checked={!this.state.isMale}
-                          type="radio"
-                          name="gender"
-                          // onChange={(e) => this.genderChange(e)}
-                        />
-                        <label
-                          className="rc-input__label--inline"
-                          htmlFor="female"
-                        >
-                          <FormattedMessage id="Virtual appointment" />
-                        </label>
-                      </div>
-                      <div style={{ position: 'relative' }}>
-                        <input
-                          className="rc-input__radio"
-                          id="male"
-                          value="0"
-                          // checked={this.state.isMale}
-                          type="radio"
-                          name="gender"
-                          // onChange={(e) => this.genderChange(e)}
-                        />
-                        <label
-                          className="rc-input__label--inline"
-                          htmlFor="male"
-                        >
-                          <FormattedMessage id="Face-to-face appointment" />
-                        </label>
-                      </div>
-                    </div>
-                    <p>Consultation expert</p>
-                    <p>1111</p>
-                    <button
-                      className="rc-btn rc-btn--one"
-                      style={{ width: '100%' }}
-                    >
-                      <FormattedMessage id="Continuer en tant qu'invité" />
-                    </button>
-                    <button
-                      className="rc-btn rc-btn--two"
-                      style={{ margin: '5px 0', width: '100%' }}
-                    >
-                      <FormattedMessage id="Se connecter" />
-                    </button>
+                    {
+                      this.state.step === 1?(
+                        <>
+                          <p>Choisissez un rendez-vous</p>
+                          <div>
+                            <h1
+                              className="rc-card__meta order-Id"
+                              style={{
+                                marginTop: '10px',
+                                display: 'inline-block',
+                                width: '283px'
+                              }}
+                            >
+                              <DatePicker
+                                className="receiveDate"
+                                placeholder="Select Date"
+                                dateFormat={datePickerConfig.format}
+                                locale={datePickerConfig.locale}
+                                minDate={new Date()}
+                                selected={this.state.selectedDate}
+                                // selected={new Date()}
+                                onChange={(date) => {
+                                  this.setState({selectedDate: new Date(date)})
+                                  console.log(date);
+                                }}
+                              />
+                            </h1>
+                            <span class="icon iconfont iconfont-date">&#xe6b3;</span>
+                          </div>
+                          <div>
+                            <Selection
+                              placeholder="Choose a time slot"
+                              optionList={[
+                                { name: '111', value: '111' },
+                                { name: '222', value: '222' },
+                                { name: '333', value: '333' }
+                              ]}
+                              selectedItemChange={() => {
+                                console.log(11);
+                              }}
+                            />
+                          </div>
+                        </>
+                      ): null
+                    }
+                    {
+                      this.state.step === 2? (
+                        <>
+                          <p>Mon redenz-vous</p>
+                          <div style={{ padding: '.5rem 0' }}>
+                            <div style={{ position: 'relative' }}>
+                              <input
+                                className="rc-input__radio"
+                                id="female"
+                                value="1"
+                                // checked={!this.state.isMale}
+                                type="radio"
+                                name="gender"
+                                // onChange={(e) => this.genderChange(e)}
+                              />
+                              <label
+                                className="rc-input__label--inline"
+                                htmlFor="female"
+                              >
+                                <FormattedMessage id="Virtual appointment" />
+                              </label>
+                            </div>
+                            <div style={{ position: 'relative' }}>
+                              <input
+                                className="rc-input__radio"
+                                id="male"
+                                value="0"
+                                // checked={this.state.isMale}
+                                type="radio"
+                                name="gender"
+                                // onChange={(e) => this.genderChange(e)}
+                              />
+                              <label
+                                className="rc-input__label--inline"
+                                htmlFor="male"
+                              >
+                                <FormattedMessage id="Face-to-face appointment" />
+                              </label>
+                            </div>
+                          </div>
+                        </>
+                      ): null
+                    }
+                    {
+                      this.state.step === 3? (
+                        <>
+                          <p>Consultation expert</p>
+                          <p>1111</p>
+                          <button
+                            className="rc-btn rc-btn--one"
+                            style={{ width: '100%' }}
+                          >
+                            <FormattedMessage id="Continuer en tant qu'invité" />
+                          </button>
+                          <button
+                            className="rc-btn rc-btn--two"
+                            style={{ margin: '5px 0', width: '100%' }}
+                          >
+                            <FormattedMessage id="Se connecter" />
+                          </button>    
+                        </>
+                      ): null
+                    }
+                    {
+                      this.state.step === 4? (
+                        <></>
+                      ): null
+
+                    }
+                    
+                    
+                    
 
                     <div className="row">
                       <div className="form-group col-lg-12 pull-left required">

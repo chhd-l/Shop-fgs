@@ -26,7 +26,8 @@ import {
   queryStoreCateList,
   getParaByName,
   loadJS,
-  getDictionary
+  getDictionary,
+  unique
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -589,12 +590,13 @@ class Details extends React.Component {
         }
       }
       item.specText = specTextArr.join(' ');
-      if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
+      if (unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')) {
         item.selected = true;
         currentUnitPrice = item.salePrice;
         currentLinePrice = item.linePrice;
         currentSubscriptionPrice = item.subscriptionPrice;
         currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
+        console.log(item, 'stock')
         stock = item.stock;
       } else {
         item.selected = false;
@@ -977,6 +979,7 @@ class Details extends React.Component {
       });
   }
   updateInstockStatus() {
+    console.log(this.state.quantity, this.state.stock, 'stock')
     this.setState({
       instockStatus: this.state.quantity <= this.state.stock
     });
