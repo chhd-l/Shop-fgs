@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Loading from '@/components/Loading';
 import Selection from './Selection';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { getCountries } from '@/api/hub';
 import queryCountries from './mock';
 import './css/index.less';
 
@@ -17,7 +17,7 @@ export default class LanguagePage extends Component {
       allData: [],
       loading: true,
       submitUrl: '',
-      selectedLang: '',
+      selectedLang: ''
     };
   }
   componentDidMount() {
@@ -80,8 +80,8 @@ export default class LanguagePage extends Component {
   }
   async getAllData() {
     try {
-      // const langResult = await axios.get('/languagepicker/getcountries');
-      const langResult = await queryCountries();
+      const langResult = await getCountries();
+      // const langResult = await queryCountries();
       this.setState({ allData: langResult.data }, () => {
         this.placeCurrentCountryToFirst();
       });
@@ -105,7 +105,7 @@ export default class LanguagePage extends Component {
     this.setState({ allData: tempData });
     this.setState({
       submitUrl: data.Languages[0].Url,
-      selectedLang: ''//点击选择国家，清空选择的语言
+      selectedLang: '' //点击选择国家，清空选择的语言
     });
   };
   handleSelectedLangChange = (data) => {
@@ -159,13 +159,15 @@ export default class LanguagePage extends Component {
                     <label className="rc-select__label">
                       <FormattedMessage id="lang.language" />
                     </label>
-                   
+
                     <Selection
                       customCls="flex-grow-1"
                       selectedItemChange={this.handleSelectedLangChange}
                       optionList={this.languageComputedList}
                       selectedItemData={{
-                        value: this.state.selectedLang || this.currentCountryFirstLanguage //  选择的语言||默认为当前国家的第一语言
+                        value:
+                          this.state.selectedLang ||
+                          this.currentCountryFirstLanguage //  选择的语言||默认为当前国家的第一语言
                       }}
                       key={'lang'}
                     />

@@ -9,9 +9,9 @@ import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
-import recommendation2 from '@/assets/images/fr_recommendation2.png';
-import recommendation3 from '@/assets/images/fr_recommendation3.png';
-import recommendation4 from '@/assets/images/fr_recommendation4.png';
+import recommendation2 from './images/1xexpertise.jpg';
+import recommendation3 from './images/2xpartnership.jpg';
+import recommendation4 from './images/3xquality.jpg';
 import noPic from '@/assets/images/noPic.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import COHORTADVISOR from './images/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png';
@@ -211,9 +211,9 @@ class Recommendation extends React.Component {
     };
 
     this.helpContentText = {
-      title: 'Our pet experts are here to help you',
+      title: "We're Here to Help",
       des:
-        "We're pet lovers and experts in cat and dog nutrition and we're ready to to help you with any questions you might have.",
+        "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
       emailTitle: 'Email us',
       emailDes: ' We will respond as soon as possible.',
       emailLink: '/help/contact',
@@ -1397,12 +1397,10 @@ class Recommendation extends React.Component {
                     a member today.
                   </p>
                   <button
-                    className={`rc-btn rc-btn--one ${
+                    className={`rc-btn rc-btn--two ${
                       this.state.buttonLoading ? 'ui-btn-loading' : ''
                     } ${
-                      this.state.inStockProducts.length
-                        ? ''
-                        : 'rc-btn-solid-disabled'
+                      this.state.inStockProducts.length ? '' : 'rc-btn-disabled'
                     }`}
                     onClick={() => {
                       if (loginStore.isLogin) {
@@ -1426,7 +1424,9 @@ class Recommendation extends React.Component {
           <LineModule />
           <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
             <div className="rc-margin-bottom--md">
-              <h2 classNam="rc-beta">How to Join Royal Canin Club</h2>
+              <h2 classNam="rc-beta" style={{ color: '#e2001a' }}>
+                How to Join Royal Canin Club
+              </h2>
             </div>
             <Test />
             <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle">
@@ -1442,9 +1442,10 @@ class Recommendation extends React.Component {
                         src={item.img}
                       />
                     </lazyload>
-                    <div className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin">
-                      {item.des}
-                    </div>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.des }}
+                      className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"
+                    ></div>
                   </div>
                 </div>
               ))}
@@ -1623,15 +1624,23 @@ class Recommendation extends React.Component {
               </div>
             </div>
           </section>
-          <div className="rc-padding-top--md--desktop rc-max-width--lg rc-padding-x--md  rc-padding-x--md--mobile  rc-layout-container rc-three-column">
-            <div className="rc-column">
-              <img src={cur_recommendation2} />
-            </div>
-            <div className="rc-column">
-              <img src={cur_recommendation3} />
-            </div>
-            <div className="rc-column">
-              <img src={cur_recommendation4} />
+          <div className="rc-max-width--lg rc-padding-y--sm img-text-box">
+            <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
+              <div className="rc-column">
+                <LazyLoad>
+                  <img src={cur_recommendation2} />
+                </LazyLoad>
+              </div>
+              <div className="rc-column">
+                <LazyLoad>
+                  <img src={cur_recommendation3} />
+                </LazyLoad>
+              </div>
+              <div className="rc-column">
+                <LazyLoad>
+                  <img src={cur_recommendation4} />
+                </LazyLoad>
+              </div>
             </div>
           </div>
         </main>

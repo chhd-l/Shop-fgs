@@ -3,3 +3,10 @@
     min-height: 58px;
   }
 }
+.rc-alpha,
+.rc-beta {
+  color: #e2001a;
+}
+.img-text-box .lazyload-wrapper{
+  display: block;
+}

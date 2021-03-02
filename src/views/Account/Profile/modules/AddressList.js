@@ -156,7 +156,7 @@ class AddressList extends React.Component {
     this.changeListVisible(!closeListPage); // 是否关闭list页面，如果是从封面过来
   };
   handleClickAddBtn(fromPage) {
-    myAccountPushEvent('Payment & Addresses')
+    myAccountPushEvent('Addresses')
     this.changeEditFormVisible(true);
     this.setState({ fromPage });
   }
