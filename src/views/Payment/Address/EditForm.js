@@ -326,8 +326,8 @@ class EditForm extends React.Component {
               }
             }}
             optionList={this.computedList('province')}
-            selectedItemData={{ value: address.province }}
-            key={address.province}
+            selectedItemData={{ value: address.province == 'state' ? 'null' : address.province }}
+            key={address.province == 'state' ? 'null' : address.province}
           />
         </span>
       </div>

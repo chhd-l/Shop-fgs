@@ -332,7 +332,7 @@ const en_US = {
   getPetFailed: 'Get Pet Failed',
   giveConsentPersonalData: 'and give my consent to the processing of personal data, including cross-border transfer',
   goods: 'Goods',
-  guestCheckout: 'Check out as a Guest',
+  guestCheckout: 'Continue as a Guest',
   'header.basketEmpty': 'Your cart is empty',
   'header.carouselInfo1': "Tailored Nutrition For Your Pet",
   'header.carouselInfo2': 'Find precise nutrition based on the unique needs of your pet.',
