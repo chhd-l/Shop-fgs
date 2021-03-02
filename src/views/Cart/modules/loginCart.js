@@ -14,7 +14,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType
 } from '@/utils/utils';
-import {GAInitLoginCart, GACartScreenLoad,GACartChangeSubscription} from "@/utils/GA"
+import { GAInitLoginCart, GACartScreenLoad, GACartChangeSubscription } from "@/utils/GA"
 import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
@@ -110,8 +110,8 @@ class LoginCart extends React.Component {
       await this.checkoutStore.updateLoginCart();
     }
 
-    if(isHubGA){
-      GAInitLoginCart({productList: this.props.checkoutStore.loginCartData,frequencyList:this.state.frequencyList,props:this.props})
+    if (isHubGA) {
+      GAInitLoginCart({ productList: this.props.checkoutStore.loginCartData, frequencyList: this.state.frequencyList, props: this.props })
       GACartScreenLoad()
     }
     this.setData();
@@ -1204,6 +1204,7 @@ class LoginCart extends React.Component {
       isShowValidCode,
       mobileCartVisibleKey
     } = this.state;
+    const subtractionSign = '-';
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
@@ -1429,7 +1430,11 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
-                {formatMoney(this.taxFeePrice)}
+                {process.env.REACT_APP_LANG == 'en' ? (
+                  <b>{subtractionSign}</b>
+                ) : (
+                    formatMoney(this.taxFeePrice)
+                  )}
               </p>
             </div>
           </div>
@@ -1446,7 +1451,11 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-5">
               <p className="text-right grand-total-sum medium">
-                {formatMoney(this.tradePrice)}
+                {process.env.REACT_APP_LANG == 'en' ? (
+                  <b>{subtractionSign}</b>
+                ) : (
+                    formatMoney(this.tradePrice)
+                  )}
               </p>
             </div>
           </div>
