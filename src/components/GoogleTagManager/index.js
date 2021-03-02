@@ -129,14 +129,6 @@ class GoogleTagManager extends React.Component {
       code: `window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(${JSON.stringify(addEvents)});`
     });
-
-    if (this.props.hubProductsLoad) {
-      loadJS({
-        code: `window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(${JSON.stringify(this.props.hubProductsLoad)});`
-      });
-    }
-
    
     if (Object.keys(ecommerceEvents).length>0 || Object.keys(hubEcommerceEvents).length>0) {
       loadJS({
