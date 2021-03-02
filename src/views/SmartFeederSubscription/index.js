@@ -381,7 +381,7 @@ const Step3 = (props) => {
           <div className="pad_2rem_pc">
             <div className="for_h5_img">
               <img src={foodPic2} />
-              <h6 className="rc-hero__section--text product_name">
+              <h6 className="rc-hero__section--text product_name text-center" style={{fontSize: '18px'}}>
                 {detailInfo.planProds?.[0].goodsInfoName}
               </h6>
             </div>
@@ -476,7 +476,7 @@ const Step3 = (props) => {
           <span className="rc-icon rc-arrow--xs rc-iconography rc-quantity__btn side_icon"></span>
         </div>
         <div className="rc-column wrap_item check_order">
-          <h5 className="text-center h5_left_text">summary</h5>
+          <h5 className="text-center h5_left_text">Summary</h5>
           <div className="d-flex">
             <div style={{ width: '70%' }}>
               <h6>{detailInfo.planProds?.[0].goodsInfoName}</h6>
