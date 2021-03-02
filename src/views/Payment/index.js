@@ -167,7 +167,8 @@ class Payment extends React.Component {
       mobileCartVisibleKey: 'less', // less/more
       validSts: { billingAddr: true },
       saveBillingLoading: false,
-      payWayErr: ''
+      payWayErr: '',
+      pet: {}
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -177,7 +178,12 @@ class Payment extends React.Component {
     this.adyenCardRef = React.createRef();
     this.payUCreditCardRef = React.createRef();
   }
-
+  componentWillMount(){
+    if(isHubGA){
+      const pet = this.props.configStore.pet
+      this.setState({pet})
+    }
+  }
   async componentDidMount() {
     try {
       const { checkoutStore, paymentStore, clinicStore, history } = this.props;
@@ -2150,7 +2156,8 @@ class Payment extends React.Component {
         error: '',
         hitTimestamp: new Date(),
         filters: ''
-      }
+      },
+      pet: this.state.pet
     };
     const paymentMethodTitleForPrepare = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">

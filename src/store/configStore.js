@@ -2,11 +2,15 @@ import { action, observable, computed } from 'mobx';
 import { getConfig } from '@/api';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 class ConfigStore {
   @observable info = sessionItemRoyal.get('storeContentInfo')
     ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null;
+
+  //GA 全局变量 pet变量
+  @observable pet = localItemRoyal.get(`rc-ga-pet`) || ''
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
@@ -117,6 +121,12 @@ class ConfigStore {
     }
     this.info = res;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
+  }
+
+  @action.bound
+  setGAPet (data) {
+    this.pet = data
+    localItemRoyal.set(`rc-ga-pet`,data)
   }
 }
 export default ConfigStore;

@@ -27,7 +27,7 @@ class GoogleTagManager extends React.Component {
 
   componentDidMount() {
      // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
-    const {page ={}} = this.props.additionalEvents;
+    const {page ={},pet ={}} = this.props.additionalEvents;
     const commonSite =  {
       country: process.env.REACT_APP_GA_COUNTRY,
       environment: process.env.REACT_APP_GA_ENV,
@@ -66,8 +66,8 @@ class GoogleTagManager extends React.Component {
         globalURI: page?.path || '',
       },
       pet: {
-        specieID: page?.specieId || '',
-        breedName: ''
+        specieID: pet?.specieId || '',
+        breedName: pet?.breedName || ''
       },
     };
 
