@@ -10,7 +10,7 @@ function Container({ children }) {
   return isMobile ? (
     <marquee>{children}</marquee>
   ) : (
-    <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
+    <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs" style={{padding: '.3rem .5rem'}}>
       {children}
     </div>
   );
@@ -35,7 +35,7 @@ export const bannerTips = () => {
                   <Link
                     to="/subscription-landing"
                     className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                    style={{ minWidth: '110px' }}
+                    style={{ minWidth: '110px',padding:'4px 1.5rem' }}
                   >
                     {process.env.REACT_APP_LANG == 'en' ? (
                       <FormattedMessage id="joinTheClub" />
