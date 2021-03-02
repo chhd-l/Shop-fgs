@@ -201,7 +201,7 @@ class ShelterPrescription extends React.Component {
             </div>
           </div>
           <div className="gray-for-pc rc-padding-top--xl--mobile">
-            <div className="rc-layout-container rc-two-column rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile">
+            <div className="rc-layout-container rc-two-column rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile align-items-md-center">
               <div className=" col-12 col-lg-6">
                 <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                   <h2 className="red rc-beta markup-text">
