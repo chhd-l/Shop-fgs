@@ -21,7 +21,8 @@ class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [{},{},{},{}]
+      list: [{}],
+      defalutList:Array(7).fill({})
       // list: [{}]
     };
     this.helpContentText = {
@@ -60,7 +61,8 @@ class ShelterPrescription extends React.Component {
     this.setState({ list });
     console.info('.....', list);
   }
-  getListItem = (item) => {
+  getListItem = (idx) => {
+    let item = this.state.list[idx]||{}
     return (
       // <Link to={{pathname: item
       //   ? `/${
@@ -235,7 +237,7 @@ class ShelterPrescription extends React.Component {
             </h2>
             <div className=" rc-md-up">
               {/* <Slider {...settingsPC}>
-                {this.state.list.map((item, idx) => (
+                {this.state.defalutList.map((item, idx) => (
                   <div className={`swiper-slide`} key={idx}>
                     <div
                       style={{ padding: '0 0.5rem', boxSizing: 'border-box' }}
@@ -251,15 +253,15 @@ class ShelterPrescription extends React.Component {
                 data-rc-cards="true"
               >
                 <div className="rc-carousel__card-gal product-list">
-                  {this.state.list.map((item, idx) => (
-                    <div>{this.getListItem(item)}</div>
+                  {this.state.defalutList.map((item, idx) => (
+                    <div>{this.getListItem(idx)}</div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="rc-md-down rc-padding-x--lg">
               <Slider {...settings}>
-                {this.state.list.map((item, idx) => (
+                {this.state.defalutList.map((item, idx) => (
                   <div
                     style={{
                       width: slideWidth
@@ -270,7 +272,7 @@ class ShelterPrescription extends React.Component {
                     <div
                       style={{ padding: '0 0.5rem', boxSizing: 'border-box' }}
                     >
-                      {this.getListItem(item)}
+                      {this.getListItem(idx)}
                     </div>
                   </div>
                 ))}
