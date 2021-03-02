@@ -186,19 +186,21 @@ class AccountHome extends React.Component {
               </div>
             </div>
           </div>
-          <div className="accountHomeFooterLink">
-              <h2><img src={accountSLogo}></img></h2>
-              <p className="brandName">Royal Canin & Moi</p>
-              <p className="content">The application that accompanies you <br/> throughout the life of your companion</p>
-              <div className="payBtn">
-                <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
-                <img src={GooglePayImg}></img>
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
-                <img src={ApplePayImg}></img>
-                </a>
-              </div>
+          {
+            process.env.REACT_APP_HUB ? (<div className="accountHomeFooterLink">
+            <h2><img src={accountSLogo}></img></h2>
+            <p className="brandName">Royal Canin & Moi</p>
+            <p className="content">The application that accompanies you <br/> throughout the life of your companion</p>
+            <div className="payBtn">
+              <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
+              <img src={GooglePayImg}></img>
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
+              <img src={ApplePayImg}></img>
+              </a>
             </div>
+          </div>) : <></>
+          }
         </main>
         <Footer />
       </div>

@@ -79,9 +79,8 @@ class SideMenu extends React.Component {
         {menuList.map((item, i) => (
           <h2
             key={i}
-            className={`nav_item medium ui-cursor-pointer mb-4 ${
-              type === item.catogery ? 'active red' : ''
-            }`}
+            className={`nav_item medium ui-cursor-pointer mb-4 ${type === item.catogery ? 'active red' : ''
+              }`}
           >
             <FormattedMessage id={item.langKey}>
               {(txt) => (
@@ -95,8 +94,9 @@ class SideMenu extends React.Component {
             </FormattedMessage>
           </h2>
         ))}
-        <h2
-            style={{borderTop: "1px solid #E9E9E9"}}
+        {
+          process.env.REACT_APP_HUB ? (<h2
+            style={{ borderTop: "1px solid #E9E9E9" }}
             className={`nav_item medium ui-cursor-pointer mb-4 pt-4`}
           >
             <FormattedMessage id="account.monRoyalCanin">
@@ -109,7 +109,8 @@ class SideMenu extends React.Component {
                 </>
               )}
             </FormattedMessage>
-          </h2>
+          </h2>) : <></>
+        }
       </div>
     );
   }
