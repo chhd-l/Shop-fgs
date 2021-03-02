@@ -10,6 +10,7 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
+import {myAccountActionPushEvent} from "@/utils/GA"
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
@@ -169,9 +170,9 @@ class ShippingAddressFrom extends React.Component {
         type: curType.toUpperCase()
       };
       await (this.state.isAdd ? saveAddress : editAddress)(params);
+      myAccountActionPushEvent('Add Address')
       this.handleCancel();
       this.props.refreshList();
-      myAccountActionPushEvent('Add Address')
     } catch (err) {
       this.showErrorMsg(err.message);
     } finally {
