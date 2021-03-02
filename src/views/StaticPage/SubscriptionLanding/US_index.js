@@ -82,7 +82,7 @@ class SubscriptionLanding extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-pawListBlock">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--lg--mobile">
                     <div className="rc-max-width--lg rc-padding-y--sm">
                       <div className="rc-max-width--md text-center rc-padding-x--sm">
                         <h2 className="rc-beta text-center">

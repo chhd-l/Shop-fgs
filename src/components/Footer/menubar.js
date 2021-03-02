@@ -8,7 +8,7 @@ export const menubar = {
           { link: '/About-Us', messageId: 'aboutUs2' },
           { link: '/Values', messageId: 'Values' },
           { link: '/Quality-safety', messageId: 'qualitySafety' },
-          { link: '/Tailorednutrition', messageId: 'tailorednutrition' }
+          { link: '/Tailorednutrition', messageId: 'tailorednutrition2' }
         ]
       }
     ],
