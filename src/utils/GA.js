@@ -254,6 +254,45 @@ export const GAInitLoginCheckout = ({productList,frequencyList,props}) => {
     })
 }
 
+
+//GA pet 全局获取
+export const doGetGAVal = (props) => {
+  let breed = [],
+           id = [],
+          obj = {
+      specieId: [],
+      breedName: []
+    }
+    const { loginStore:{isLogin},checkoutStore: { cartData, loginCartData } } = props
+    if (isLogin) {
+      for (let item of loginCartData) {
+        item.goodsAttributesValueRelVOList.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
+          breed.push(item2.goodsAttributeValue)
+        })
+        if (item.cateId == '1134') {
+          id.push(1)
+        } else {
+          id.push(2)
+        }
+      }
+    } else {
+        cartData.forEach(item=>{
+          if (item.cateId == '1134') {
+            id.push(1)
+          } else {
+            id.push(2)
+          }
+        })
+        let arr =  cartData?.[0]?.goodsAttributesValueRelList?.toJS()
+        arr.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
+          breed.push(item2.goodsAttributeValue)
+        })
+    }
+    obj.specieId = id
+    obj.breedName = breed
+    return obj
+}
+
 //checkout step
 export const checkoutDataLayerPushEvent = ({ name, options }) => {
   dataLayer.push({
