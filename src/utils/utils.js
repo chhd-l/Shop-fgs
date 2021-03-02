@@ -655,6 +655,6 @@ export function getRequest() {
 }
 
 // 数组去重
-export function unique (arr) {
-  return Array.from(new Set(arr))
+export function unique(arr) {
+  return Array.from(new Set(arr));
 }

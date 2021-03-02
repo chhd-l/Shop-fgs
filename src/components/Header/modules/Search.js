@@ -6,6 +6,7 @@ import { getList } from '@/api/list';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { getSearch } from '@/api/hub';
 import querySearch from '../mock/search';
 import axios from 'axios';
 
@@ -52,24 +53,18 @@ export default class Search extends React.Component {
   async getSearchData() {
     const { keywords } = this.state;
     this.setState({ loading: true });
-
-    let params = {
-      // cateId: process.env.REACT_APP_CATEID,
-      keywords,
-      propDetails: [],
-      pageNum: 0,
-      brandIds: [],
-      pageSize: 20,
-      esGoodsInfoDTOList: [],
-      companyType: ''
-    };
     Promise.all([
-      getList(params),
-      // isHub && axios.get(`https://www.royalcanin.com/fr/api/royalcanin/predictive?keyword=${keywords}`)
-      isHub &&
-        axios.get(
-          `https://uatwedding.royalcanin.com/fr/api/royalcanin/predictive?keyword=${keywords}`
-        )
+      getList({
+        // cateId: process.env.REACT_APP_CATEID,
+        keywords,
+        propDetails: [],
+        pageNum: 0,
+        brandIds: [],
+        pageSize: 20,
+        esGoodsInfoDTOList: [],
+        companyType: ''
+      }),
+      isHub && getSearch({ keywords })
       // isHub && querySearch()
     ])
       .then((res) => {
