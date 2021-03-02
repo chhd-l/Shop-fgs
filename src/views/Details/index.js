@@ -451,9 +451,6 @@ class Details extends React.Component {
     this.setState(
       {
         calculatedWeeks
-      },
-      () => {
-        console.log(calculatedWeeks, 'calculatedWeeks===calculatedWeeks');
       }
     );
   }
@@ -1477,7 +1474,7 @@ class Details extends React.Component {
       });
     }
   }
-  changeTab({ idx, type }) {
+  changeTab({ idx, type, ele }) {
     let { activeTabIdxList } = this.state;
     if (type === 'switch') {
       // 切换其他，先删除所有，再添加本身
@@ -1492,6 +1489,11 @@ class Details extends React.Component {
       }
     }
     this.setState({ activeTabIdxList });
+
+    this.hubGA && dataLayer.push({
+      event: 'pdpTabsClick',
+      pdpTabsClickTabName: ele
+    });
   }
   handleAClick() {
     // dataLayer.push({
@@ -1626,19 +1628,6 @@ class Details extends React.Component {
 
   //商品详情页 埋点
   GAProductDetailPageView(item) {
-    const event = {
-      page: {
-        type: 'product',
-        theme: item.cateId == '1134' ? 'Cat' : 'Dog',
-        path: this.props.location.pathname,
-        error: '',
-        hitTimestamp: new Date(),
-        filters: ''
-      },
-      pet: {
-        specieId: item.cateId == '1134' ? '2' : '1'
-      }
-    };
     const eEvents = {
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
       ecommerce: {
@@ -1665,7 +1654,7 @@ class Details extends React.Component {
         }
       }
     };
-    this.setState({ event, eEvents });
+    this.setState({ eEvents });
   }
 
   //hub商品详情页 埋点
@@ -1683,9 +1672,10 @@ class Details extends React.Component {
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     const size = item?.sizeList.length && item?.sizeList.filter(item => item.selected).map(selectItem => selectItem.specText).toString();
     const breed = goodsAttributesValueRelList
-        .filter((attr) => attr.goodsAttributeName == 'breeds')
-        .map((item) => item.goodsAttributeValue);
+      .filter((attr) => attr.goodsAttributeName == 'breeds')
+      .map((item) => item.goodsAttributeValue);
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
+
     const GAProductsInfo = [
       {
         price: minMarketPrice,
@@ -1710,7 +1700,8 @@ class Details extends React.Component {
     };
     this.setState({
       hubProductsLoad,
-      hubEcEvents
+      hubEcEvents,
+      breed
     });
   }
 
@@ -1738,7 +1729,7 @@ class Details extends React.Component {
       activeTabIdxList,
       checkOutErrMsg,
       breadCrumbs,
-      event,
+      // event,
       eEvents,
       spuImages,
       pageLink,
@@ -1765,6 +1756,22 @@ class Details extends React.Component {
       }>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
+
+    const event = {
+      page: {
+        type: 'product',
+        theme: details.cateId == '1134' ? 'Cat' : 'Dog',
+        path: this.props.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
+      },
+      pet: {
+        specieId: details.cateId == '1134' ? '2' : '1',
+        breedName: this.state.breed,
+      }
+    };
+
     return (
       <div id="Details">
         {Object.keys(event).length || Object.keys(hubProductsLoad).length ? (
@@ -2797,7 +2804,8 @@ class Details extends React.Component {
                         className="rc-list__header d-flex justify-content-between"
                         onClick={this.changeTab.bind(this, {
                           idx: index,
-                          type: 'toggle'
+                          type: 'toggle',
+                          ele
                         })}
                       >
                         <div dangerouslySetInnerHTML={{ __html: ele }} />
@@ -2854,7 +2862,8 @@ class Details extends React.Component {
                                 role="tab"
                                 onClick={this.changeTab.bind(this, {
                                   idx: index,
-                                  type: 'switch'
+                                  type: 'switch',
+                                  ele
                                 })}
                               >
                                 {ele}
