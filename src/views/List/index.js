@@ -661,7 +661,6 @@ class List extends React.Component {
     const isVetProducts = isHub && location.pathname.includes('vet_products');
     const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail_products`;
     const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet_products`;
-    const showSmartFeeder = isDog && process.env.REACT_APP_LANG == 'fr';
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -714,13 +713,13 @@ class List extends React.Component {
       retailProductLink,
       vetProductLink,
       pageLink: '',
-      showSmartFeeder,
       listLazyLoadSection: 1
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
+    this.showSmartFeeder = isDog && this.hubGA;
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
@@ -2132,24 +2131,24 @@ class List extends React.Component {
                           }
                         />
                       ) : (
-                          <FiltersPC
-                            history={history}
-                            maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                            initing={initingFilter}
-                            onToggleFilterModal={this.toggleFilterModal}
-                            filterList={filterList}
-                            key={`2-${filterList.length}`}
-                            inputLabelKey={2}
-                            updateParentData={this.updateOperatedFilterList}
-                            hanldePriceSliderChange={this.hanldePriceSliderChange}
-                            markPriceAndSubscriptionLangDict={
-                              markPriceAndSubscriptionLangDict
-                            }
-                          />
-                        )}
-                      {this.state.showSmartFeeder ? (
+                        <FiltersPC
+                          history={history}
+                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          initing={initingFilter}
+                          onToggleFilterModal={this.toggleFilterModal}
+                          filterList={filterList}
+                          key={`2-${filterList.length}`}
+                          inputLabelKey={2}
+                          updateParentData={this.updateOperatedFilterList}
+                          hanldePriceSliderChange={this.hanldePriceSliderChange}
+                          markPriceAndSubscriptionLangDict={
+                            markPriceAndSubscriptionLangDict
+                          }
+                        />
+                      )}
+                      {/* 由于么数据暂时隐藏注释 */}
+                      {/* {this.state.showSmartFeeder ? (
                         <div className="smart-feeder-container">
-                          {/* 目前只有法国，语言暂时写死 */}
                           <p>Abonnement au distributeur connecté</p>
                           <p>
                             Un abonnement à l'alimentation de votre animal de
@@ -2164,7 +2163,7 @@ class List extends React.Component {
                           </a>
                           <img src={smartFeeder} />
                         </div>
-                      ) : null}
+                      ) : null} */}
                     </aside>
                   </div>
                   <div
