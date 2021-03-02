@@ -48,6 +48,12 @@ const menuList = [
     url: '/faq'
   },
   // {
+  //   catogery: 'Faq',
+  //   icon: <span className="iconfont iconzhuanfa"></span>,
+  //   langKey: 'account.monRoyalCanin',
+  //   url: '/faq'
+  // },
+  // {
   //   catogery: 'ShippingAddress',
   //   icon: <span className="rc-icon rc-cart--xs rc-iconography" />,
   //   langKey: 'shippingAddress',
@@ -73,9 +79,8 @@ class SideMenu extends React.Component {
         {menuList.map((item, i) => (
           <h2
             key={i}
-            className={`nav_item medium ui-cursor-pointer mb-4 ${
-              type === item.catogery ? 'active red' : ''
-            }`}
+            className={`nav_item medium ui-cursor-pointer mb-4 ${type === item.catogery ? 'active red' : ''
+              }`}
           >
             <FormattedMessage id={item.langKey}>
               {(txt) => (
@@ -89,6 +94,23 @@ class SideMenu extends React.Component {
             </FormattedMessage>
           </h2>
         ))}
+        {
+          process.env.REACT_APP_HUB ? (<h2
+            style={{ borderTop: "1px solid #E9E9E9" }}
+            className={`nav_item medium ui-cursor-pointer mb-4 pt-4`}
+          >
+            <FormattedMessage id="account.monRoyalCanin">
+              {(txt) => (
+                <>
+                  <span className="iconfont iconzhuanfa"></span>
+                  <a href="https://mon.royalcanin.fr/connexion/?_ga=2.78648916.173298844.1614564472-578005368.1614332396" title={txt} alt={txt} className="ml-2">
+                    {txt}
+                  </a>
+                </>
+              )}
+            </FormattedMessage>
+          </h2>) : <></>
+        }
       </div>
     );
   }

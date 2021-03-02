@@ -69,6 +69,7 @@ const tr_TR = {
   'account.warmNotice': 'Hoş geldiniz {val}, Bu alan hesabınızı yönetmeye ayrılmıştır. Profil bilgilerinizi kolayca değiştirebilir, evcil hayvan ihtiyaçlarınızı yönetebilir, siparişlerinizin durumunu ve Otomatik Gönderinizi kontrol edebilirsiniz.',
   'account.weight': 'Sizin cinsiniz {val} olan yetişkin bir köpeğin ağırlığı nedir?',
   'account.welcome': 'ROYAL CANIN® ailesine hoş geldiniz!',
+  "account.monRoyalCanin":"Mon Royal Canin",
   active: 'Aktif',
   addANewPaymentMethod: 'Yeni bir ödeme yöntemi ekleyin',
   addNewCreditCard: 'Yeni kredi kartı ekle',

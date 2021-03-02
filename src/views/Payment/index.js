@@ -70,7 +70,7 @@ import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { de } from 'date-fns/locale';
 
-import {checkoutDataLayerPushEvent} from "@/utils/GA"
+import { checkoutDataLayerPushEvent } from '@/utils/GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -79,8 +79,9 @@ const pageLink = window.location.href;
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
-
+let customTaxSettingOpenFlag = storeInfo
+  ? storeInfo.customTaxSettingOpenFlag
+  : 1;
 
 @inject(
   'loginStore',
@@ -331,8 +332,21 @@ class Payment extends React.Component {
     //   params = { customerId };
     // }
     // let res = await action(params);
+    // add subscriptionPlan consent
+    let subscriptionPlanIds = this.props.checkoutStore.loginCartData?.filter(
+      (item) => item.subscriptionPlanId?.length > 0
+    );
+    let groups = subscriptionPlanIds.map((item) => {
+      return {
+        consentGroup: 'subscription-plan',
+        itemId: item.subscriptionPlanId
+      };
+    });
     if (isLogin) {
       params = { customerId, consentPage: 'check out' };
+    }
+    if (groups) {
+      params.groups = groups;
     }
     const res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
       params
@@ -1215,7 +1229,7 @@ class Payment extends React.Component {
         .filter(
           (ele) =>
             ele.subscriptionStatus &&
-            (ele.subscriptionPrice > 0||ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
+            (ele.subscriptionPrice > 0 || ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
             ele.goodsInfoFlag
         )
         .map((g) => {
