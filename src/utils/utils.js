@@ -187,7 +187,7 @@ export function generatePayUScript(deviceSessionId) {
 
 export function loadJS({
   url,
-  callback = function () { },
+  callback = function () {},
   dataSets,
   code,
   className,
@@ -633,8 +633,8 @@ export function matchNamefromDict(dictList = [], id) {
     (ele) => ele && id && ele.id.toString() === id.toString()
   )[0]
     ? dictList.filter(
-      (ele) => ele && id && ele.id.toString() === id.toString()
-    )[0].name
+        (ele) => ele && id && ele.id.toString() === id.toString()
+      )[0].name
     : id;
 }
 //js获取地址栏参数，并将其转换为json对象
@@ -655,6 +655,18 @@ export function getRequest() {
 }
 
 // 数组去重
-export function unique (arr) {
-  return Array.from(new Set(arr))
+export function unique(arr) {
+  return Array.from(new Set(arr));
+}
+
+export async function queryApiFromSessionCache({ sessionKey, api }) {
+  let ret = sessionItemRoyal.get(sessionKey);
+  if (ret) {
+    ret = JSON.parse(ret);
+  } else {
+    const res = await api();
+    ret = res;
+    sessionItemRoyal.set(sessionKey, JSON.stringify(ret));
+  }
+  return ret;
 }

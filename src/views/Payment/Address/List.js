@@ -216,8 +216,12 @@ class AddressList extends React.Component {
       address2: '',
       rfc: '',
       country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+      countryName: '',
       city: '',
       cityName: '',
+      provinceNo: '',
+      provinceName: '',
+      province: '',
       postCode: '',
       phoneNumber: '',
       isDefalt: false
@@ -232,8 +236,12 @@ class AddressList extends React.Component {
         address2: tmp.address2,
         rfc: tmp.rfc,
         country: tmp.countryId ? tmp.countryId.toString() : '',
-        city: tmp.cityId ? tmp.cityId.toString() : '',
+        countryName: tmp.countryName,
+        city: tmp.cityId ? tmp.cityId : tmp.city,
         cityName: tmp.city,
+        provinceNo: tmp.provinceNo,
+        provinceName: tmp.province,
+        province: tmp.provinceId,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
@@ -269,6 +277,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
+    console.log('--------------------- 数据验证 data: ',data);
     try {
       await validData(ADDRESS_RULE, data); // 数据验证
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
@@ -376,9 +385,6 @@ class AddressList extends React.Component {
     }
     try {
       if (process.env.REACT_APP_LANG == 'en') {
-        this.setState({
-          validationLoading: true
-        });
         // 地址验证
         this.toAddressValidation();
       } else {
@@ -387,7 +393,7 @@ class AddressList extends React.Component {
       }
     } catch (err) {
       this.showErrMsg(err.message);
-      this.setState({ saveLoading: false });
+      this.setState({ saveLoading: false, validationLoading: true });
       this.scrollToTitle();
     }
   };
@@ -487,6 +493,9 @@ class AddressList extends React.Component {
   // 地址验证
   toAddressValidation = async () => {
     const { deliveryAddress } = this.state;
+    this.setState({
+      validationLoading: true
+    });
     try {
       let data = {
         city: deliveryAddress.cityName,
@@ -498,19 +507,28 @@ class AddressList extends React.Component {
       };
 
       let res = await addressValidation(data);
-      if (res.context.suggestionAddress) {
+      if (res.context && res.context != null) {
+        if (res.context.suggestionAddress) {
+          this.setState({
+            validationAddress: res.context.suggestionAddress
+          });
+        }
         this.setState({
-          validationAddress: res.context.suggestionAddress,
+          modalVisible: true,
           validationLoading: false
         });
+      } else {
+        this.setState({
+          validationLoading: false
+        });
+        // 不校验地址，进入下一步
+        await this.handleSavePromise();
+        this.clickConfirmAddressPanel();
       }
-      this.setState({
-        modalVisible: true
-      });
     } catch (err) {
-      console.log(err);
       this.setState({
-        modalVisible: false
+        modalVisible: false,
+        validationLoading: true
       });
     }
   };

@@ -50,7 +50,7 @@ class Help extends React.Component {
       phoneTitle,
       phoneDes
     } = this.props.contentText;
-    let isEmailUnderLine = this.props.isEmailUnderLine
+    let isEmailUnderLine = this.props.isEmailUnderLine;
     return (
       <div className="experience-region experience-main">
         <div className="experience-component experience-layouts-1column">
@@ -73,7 +73,7 @@ class Help extends React.Component {
                       {/* Our pet experts are here to help you   */}
                     </h1>
                     <div className="rc-large-body inherit-fontsize children-nomargin">
-                      <p className="m-auto">
+                      <p className="m-auto text-center">
                         {des ? (
                           des
                         ) : (
@@ -98,7 +98,14 @@ class Help extends React.Component {
                           <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
-                                <b style={{ color: '#00BCA3' }}>
+                                <b
+                                  style={{
+                                    color:
+                                      process.env.REACT_APP_LANG == 'us'
+                                        ? '#00A4A6'
+                                        : '#00BCA3'
+                                  }}
+                                >
                                   {phoneTitle ? (
                                     phoneTitle
                                   ) : (
@@ -171,8 +178,7 @@ class Help extends React.Component {
                                   {process.env.REACT_APP_LANG == 'us' ? (
                                     <span
                                       style={{
-                                        verticalAlign: 'inherit',
-                                        color: '#0087BD'
+                                        verticalAlign: 'inherit'
                                       }}
                                     >
                                       {emailTitle ? (
@@ -237,7 +243,9 @@ class Help extends React.Component {
                                         style={{
                                           fontSize: '16px',
                                           borderBottom: '1px solid transparent',
-                                          textDecoration:isEmailUnderLine?'underline':'none'
+                                          textDecoration: isEmailUnderLine
+                                            ? 'underline'
+                                            : 'none'
                                         }}
                                         className="rc-styled-link"
                                       >

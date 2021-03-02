@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { inject, observer } from 'mobx-react';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
 import { menubar } from './menubar';
@@ -10,13 +8,10 @@ import './index.css';
 import LoginButton from '@/components/LoginButton';
 import { withRouter } from 'react-router-dom';
 import LanguagePage from '@/views/Language';
-import axios from 'axios';
+import { queryApiFromSessionCache } from '@/utils/utils';
+import { getFooter } from '@/api/hub';
 import footerHubResult from './mock';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
-
-@inject('configStore')
-@observer
 class FooterHub extends React.Component {
   constructor(props) {
     super(props);
@@ -28,11 +23,12 @@ class FooterHub extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.configStore.queryConfig();
-    // axios.get('/footer/getmodel').then((res) => {
-    //     this.setState({ footerInfo: res.data })
-    // })
-    this.setState({ footerInfo: footerHubResult.data });
+    queryApiFromSessionCache({ sessionKey: 'footer-hub', api: getFooter }).then(
+      (res) => {
+        this.setState({ footerInfo: res.data });
+      }
+    );
+    // this.setState({ footerInfo: footerHubResult.data });
   }
   scrollToTop = () => {
     const widget = document.querySelector('#page-top');
@@ -54,7 +50,7 @@ class FooterHub extends React.Component {
       MenuInfoItems,
       MenuItems
     } = this.state.footerInfo;
-  
+
     return (
       <>
         <footer className="rc-bg-colour--interface-dark" id="footer">
