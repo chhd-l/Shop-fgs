@@ -82,6 +82,7 @@ const fr_FR = {
   'account.weight': "Quel est le poids d'un chien adulte de votre race {val}?",
   'account.welcome': 'Bienvenue dans la famille ROYAL CANIN®!',
   'account.yes': 'Oui',
+  "account.monRoyalCanin":"Mon Royal Canin",
   active: 'Actif',
   addANewAddress: 'Ajouter une nouvelle adresse',
   addANewPaymentMethod: 'Ajouter un nouveau mode de paiement',

@@ -14,7 +14,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType
 } from '@/utils/utils';
-import {GAInitLoginCart, GACartScreenLoad,GACartChangeSubscription} from "@/utils/GA"
+import { GAInitLoginCart, GACartScreenLoad, GACartChangeSubscription } from "@/utils/GA"
 import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
@@ -40,6 +40,9 @@ import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_p
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5';
 const isHubGA = process.env.REACT_APP_HUB_GA;
+
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -107,8 +110,8 @@ class LoginCart extends React.Component {
       await this.checkoutStore.updateLoginCart();
     }
 
-    if(isHubGA){
-      GAInitLoginCart({productList: this.props.checkoutStore.loginCartData,frequencyList:this.state.frequencyList,props:this.props})
+    if (isHubGA) {
+      GAInitLoginCart({ productList: this.props.checkoutStore.loginCartData, frequencyList: this.state.frequencyList, props: this.props })
       GACartScreenLoad()
     }
     this.setData();
@@ -1201,6 +1204,7 @@ class LoginCart extends React.Component {
       isShowValidCode,
       mobileCartVisibleKey
     } = this.state;
+    const subtractionSign = '-';
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
@@ -1417,7 +1421,7 @@ class LoginCart extends React.Component {
         </div>
 
         {/* 税额 */}
-        {process.env.REACT_APP_LANG == 'en' ? (
+        {customTaxSettingOpenFlag == 0 ? (
           <div className="row">
             <div className="col-8">
               <p>
@@ -1426,7 +1430,11 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
-                {formatMoney(this.taxFeePrice)}
+                {process.env.REACT_APP_LANG == 'en' ? (
+                  <b>{subtractionSign}</b>
+                ) : (
+                    formatMoney(this.taxFeePrice)
+                  )}
               </p>
             </div>
           </div>
@@ -1443,7 +1451,11 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-5">
               <p className="text-right grand-total-sum medium">
-                {formatMoney(this.tradePrice)}
+                {process.env.REACT_APP_LANG == 'en' ? (
+                  <b>{subtractionSign}</b>
+                ) : (
+                    formatMoney(this.tradePrice)
+                  )}
               </p>
             </div>
           </div>

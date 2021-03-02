@@ -60,6 +60,10 @@ const pageLink = window.location.href;
 
 const isMobile = getDeviceType() !== 'PC';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
+
 @inject('checkoutStore', 'loginStore')
 @injectIntl
 class SubscriptionDetail extends React.Component {
@@ -3254,8 +3258,7 @@ class SubscriptionDetail extends React.Component {
                                               </div>
 
                                               {/* 税额 */}
-                                              {process.env.REACT_APP_LANG ==
-                                              'en' ? (
+                                              {customTaxSettingOpenFlag == 0 ? (
                                                 <div className="row">
                                                   <div className="col-1 col-md-3" />
                                                   <label className="col-5 text-left">

@@ -1764,6 +1764,7 @@ class Details extends React.Component {
         this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
       }>`;
     let bundle = goodsType && goodsType === 2;
+    const isHub = process.env.REACT_APP_HUB == '1';
     return (
       <div id="Details">
         {Object.keys(event).length || Object.keys(hubProductsLoad).length ? (
@@ -1987,7 +1988,7 @@ class Details extends React.Component {
                                 __html: this.state.descContent
                               }}
                             ></div>
-                            {!this.state.loading && !isMobile && !bundle ? (
+                            {!this.state.loading && !isMobile && !bundle && isHub? (
                               <div
                                 className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                                 data-ccid="wtb-target"
@@ -2685,7 +2686,7 @@ class Details extends React.Component {
                                     />
                                   </span>
                                 </button>
-                                {!this.state.loading && !bundle ? (
+                                {!this.state.loading && !bundle && isHub? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -2896,40 +2897,43 @@ class Details extends React.Component {
               <AdvantageTips />
             ) : null}
             {/* 电话邮箱联系板块 */}
-            <div className="split-line rc-bg-colour--brand4"></div>
-            <div className="good-contact d-flex justify-content-center">
-              {!isMobile ? (
-                <img className="good-contact-img mr-5" src={details.goodsImg} />
-              ) : null}
-              <div className="good-contact-dec">
-                <h1 className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs">
-                  <FormattedMessage id="detail.question" />
-                </h1>
-                <p>
-                  <FormattedMessage id="detail.answer" />
-                </p>
-                <div className="good-contact-link d-flex">
-                  <div className="good-contact-tel d-flex">
-                    <div>
-                      <p>
-                        <FormattedMessage id="detail.telephone" />
-                      </p>
-                      <a href={`tel:${configStore.storeContactPhoneNumber}`}>
-                        {configStore.storeContactPhoneNumber}
-                      </a>
-                      <p>{configStore.contactTimePeriod}</p>
+            {isHub ? <>
+              <div className="split-line rc-bg-colour--brand4"></div>
+              <div className="good-contact d-flex justify-content-center">
+                {!isMobile ? (
+                  <img className="good-contact-img mr-5" src={details.goodsImg} />
+                ) : null}
+                <div className="good-contact-dec">
+                  <h1 className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs">
+                    <FormattedMessage id="detail.question" />
+                  </h1>
+                  <p>
+                    <FormattedMessage id="detail.answer" />
+                  </p>
+                  <div className="good-contact-link d-flex">
+                    <div className="good-contact-tel d-flex">
+                      <div>
+                        <p>
+                          <FormattedMessage id="detail.telephone" />
+                        </p>
+                        <a href={`tel:${configStore.storeContactPhoneNumber}`}>
+                          {configStore.storeContactPhoneNumber}
+                        </a>
+                        <p>{configStore.contactTimePeriod}</p>
+                      </div>
+                      <span className="rc-icon rc-contact rc-iconography rc-brand1" />
                     </div>
-                    <span className="rc-icon rc-contact rc-iconography rc-brand1" />
-                  </div>
-                  <div className="good-contact-email d-flex">
-                    <a href={this.state.contactUs}>
-                      <FormattedMessage id="detail.email" />
-                    </a>
-                    <span className="rc-icon rc-email rc-iconography rc-brand1"></span>
+                    <div className="good-contact-email d-flex">
+                      <a href={this.state.contactUs}>
+                        <FormattedMessage id="detail.email" />
+                      </a>
+                      <span className="rc-icon rc-email rc-iconography rc-brand1"></span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </>
+              : null}
             <div id="goods-recommendation-box">
               <Carousel
                 location={location}
@@ -2960,7 +2964,7 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle ? (
+                {!this.state.loading && !bundle && isHub ? (
                   <div
                     className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                     data-ccid="wtb-target"
@@ -3101,27 +3105,29 @@ class Details extends React.Component {
           </div>
         </div> */}
         {/* 最下方跳转更多板块 */}
-        <div className="split-line rc-bg-colour--brand4"></div>
-        <div className="more-link">
-          <LazyLoad height={200}>
-            <img src={loop} srcSet={loop} />
-          </LazyLoad>
-          <LazyLoad height={200}>
-            <img src={vert} srcSet={vert} className="vert" />
-          </LazyLoad>
-          <p>
-            <FormattedMessage id="detail.packagingDesc" />
-          </p>
-          <div>
-            <a
-              href="https://www.consignesdetri.fr/"
-              className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-              style={{ minWidth: '110px' }}
-            >
-              <FormattedMessage id="learnMore" />
-            </a>
+        {isHub ? <>
+          <div className="split-line rc-bg-colour--brand4"></div>
+          <div className="more-link">
+            <LazyLoad height={200}>
+              <img src={loop} srcSet={loop} />
+            </LazyLoad>
+            <LazyLoad height={200}>
+              <img src={vert} srcSet={vert} className="vert" />
+            </LazyLoad>
+            <p>
+              <FormattedMessage id="detail.packagingDesc" />
+            </p>
+            <div>
+              <a
+                href="https://www.consignesdetri.fr/"
+                className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                style={{ minWidth: '110px' }}
+              >
+                <FormattedMessage id="learnMore" />
+              </a>
+            </div>
           </div>
-        </div>
+        </> : null}
         <Help />
         <Footer />
       </div>

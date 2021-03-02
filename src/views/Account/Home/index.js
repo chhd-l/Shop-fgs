@@ -10,6 +10,9 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
 import { myAccountPushEvent } from '@/utils/GA';
+import accountSLogo from "@/assets/images/account_s_logo.png"
+import ApplePayImg from "@/assets/images/ApplePay.png" 
+import GooglePayImg from "@/assets/images/GooglePay.png" 
 import './index.less';
 import { Helmet } from 'react-helmet';
 
@@ -183,6 +186,19 @@ class AccountHome extends React.Component {
               </div>
             </div>
           </div>
+          <div className="accountHomeFooterLink">
+              <h2><img src={accountSLogo}></img></h2>
+              <p className="brandName">Royal Canin & Moi</p>
+              <p className="content">The application that accompanies you <br/> throughout the life of your companion</p>
+              <div className="payBtn">
+                <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
+                <img src={GooglePayImg}></img>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
+                <img src={ApplePayImg}></img>
+                </a>
+              </div>
+            </div>
         </main>
         <Footer />
       </div>
