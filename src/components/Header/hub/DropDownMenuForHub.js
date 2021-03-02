@@ -1,5 +1,4 @@
 import React from 'react';
-import Help from './HelpForHub';
 import NavItem from './NavItemForHub';
 import PromotionPanel from '../modules/PromotionPanel';
 import LazyLoad from 'react-lazyload';
@@ -11,25 +10,27 @@ export default class DropDownMenuForHub extends React.Component {
   static defaultProps = {
     headerNavigationList: [],
     activeTopParentId: -1,
-    handleClickNavItem: () => {},
     showNav: true,
     showLoginBtn: true
   };
   constructor(props) {
     super(props);
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
-    this.handleNavChildrenMouseOver = this.handleNavChildrenMouseOver.bind(
-      this
-    );
-    this.handleClickNavItem = this.handleClickNavItem.bind(this);
+    this.toggleListItem = this.toggleListItem.bind(this);
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
-  handleNavChildrenMouseOver(item, childrenItem, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-    this.props.updateActiveTopParentId(item.id);
+  toggleListItem(item) {
+    // 如果可以打开，就打开，否则不打开
+    let tmpId = -1;
+    const { activeTopParentId } = this.props;
+    if (item.expanded && activeTopParentId === -1) {
+      tmpId = item.id;
+    }
+    this.props.updateActiveTopParentId(tmpId);
   }
+  onListItemBlur = (e) => {
+    this.props.updateActiveTopParentId(-1);
+  };
   hanldeListItemMouseOver(item) {
     // 若存在子项，才展开
     this.props.updateActiveTopParentId(item.expanded ? item.id : -1);
@@ -50,153 +51,211 @@ export default class DropDownMenuForHub extends React.Component {
       }
     });
   }
-  handleClickNavItem = (item) => {
-    // 点击subMenu埋点-start
-    let interaction = {
-      category: 'submenu',
-      action: 'submenu',
-      label: item.navigationLink,
-      value: item.navigationName
-    };
-    this.GAClickMenu(interaction);
-    // 点击subMenu埋点-end
-    // this.props.handleClickNavItem(item);
-  };
 
   menuItemEvent(item, cItem, type) {
     const Level1 = item?.Link?.Text;
     const Level2 = type ? cItem : cItem?.Link?.Text;
-    this.hubGA && dataLayer.push({
-      event: 'navTopClick',
-      navTopClick: {
-        itemName: `${Level1}|${Level2}`,
-      }
-    });
+    this.hubGA &&
+      dataLayer.push({
+        event: 'navTopClick',
+        navTopClick: {
+          itemName: `${Level1}|${Level2}`
+        }
+      });
   }
 
   renderNormalMenu = (item, i) => {
-    const { activeTopParentId } = this.props;
+    let ret = null;
     let menuItemListGroupedByStep = [];
     let menuItemList = [];
     let otherItemList = [];
     // 全部为MenuItem时，四个为一列
+    // 全部为MenuItem时
     if (item.MenuItems.every((ele) => ele.Type === 'MenuItem')) {
-      for (let i = 0; i < item.MenuItems.length; i += 4) {
-        menuItemListGroupedByStep.push(item.MenuItems.slice(i, i + 4));
-      }
+      // for (let i = 0; i < item.MenuItems.length; i += 4) {
+      //   menuItemListGroupedByStep.push(item.MenuItems.slice(i, i + 4));
+      // }
+      menuItemListGroupedByStep.push(...item.MenuItems);
+      ret = menuItemListGroupedByStep.length > 0 && (
+        <ul
+          class={`rc-list__item-sub-menu rc-js--width-adjust-init bg-white ${
+            menuItemListGroupedByStep.length > 6
+              ? 'rc-list__item-sub-menu--double-column'
+              : 'rc-list__item-sub-menu--single-column'
+          }`}
+        >
+          {menuItemListGroupedByStep.map((gItem, gIdx) => (
+            <li>
+              <a
+                href={gItem.Link.Url}
+                class="rc-header__list-item rc-text-colour--text"
+                data-ref="nav-link"
+                role="menuitem"
+                // title="Breeds"
+                key={gItem.id}
+              >
+                {gItem.Link.Text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      );
     } else {
       menuItemList = item.MenuItems.filter((ele) => ele.Type === 'MenuItem');
       otherItemList = item.MenuItems.filter((ele) => ele.Type !== 'MenuItem');
     }
 
-    return (
-      <div
-        className={`${
-          process.env.REACT_APP_LANG == 'de' ? 'drop' : ''
-        } dropdown-nav bg-transparent d-flex justify-content-center ${
-          activeTopParentId === item.id ? 'show' : ''
-        }`}
-        aria-hidden={activeTopParentId === item.id}
-        onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-        onMouseOut={this.hanldeListItemMouseOut}
-        key={i}
-      >
-        <div className="d-flex align-items-start justify-content-between bg-white pt-4 pb-4 border-top">
-          {menuItemListGroupedByStep.length > 0 &&
-            menuItemListGroupedByStep.map((gItem, gIdx) => (
-              <div className="pl-4 pr-4" key={gIdx}>
-                {gItem.map((cItem) => (
-                  <a
-                    href={cItem.Link.Url}
-                    className="medium mb-2 ui-cursor-pointer"
-                    key={cItem.id}
-                    style={{ display: 'block' }}
-                    onClick={() => this.menuItemEvent(item, cItem)}
-                  >
-                    {cItem.Link.Text}
-                  </a>
-                ))}
-              </div>
-            ))}
-
-          {menuItemList.length > 0 && (
-            <div className="pl-4 pr-4">
-              {menuItemList.map((cItem) => (
-                <a
-                  href={cItem.Link.Url}
-                  className="medium mb-2 ui-cursor-pointer"
-                  key={cItem.id}
-                  style={{ display: 'block' }}
-                >
-                  {cItem.Link.Text}
-                </a>
-              ))}
-            </div>
-          )}
-
-          {otherItemList.map((cItem, cIdx) => (
+    if (item.Type === 'DetailedMenuGroup') {
+      ret = (
+        <div class="rc-list__item-sub-menu rc-list__item-sub-menu--three-column rc-mega-menu-dropdown rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white justify-content-between">
+          {item.MenuItems.map((cItem, cIdx) => (
             <React.Fragment key={cItem.id}>
-              {cItem.Type === 'DetailedMenuItem' && (
-                <div
-                  className={`d-flex align-items-center dropdown-nav__catogery__card pr-4 pl-4 ${
-                    cIdx === item.MenuItems.length ? '' : 'border-right'
-                  }`}
-                >
-                  <div className="mr-4 text-center">
-                    <LazyLoad>
+              {cItem.Type === 'PromotionalMenuItem' ? (
+                <div class="rc-list__item-sub-menu__container rc-border-all rc-border-colour--interface rc-margin--md--mobile">
+                  <div class="rc-layout-container rc-two-column rc-no-stack rc-margin-x--none rc-self-h-middle rc-padding-y--sm rc-padding--md--mobile">
+                    <div class="rc-column rc-self-h-middle rc-flex-wrap--wrap rc-padding-y--none">
+                      <h4 class="rc-delta">{cItem.Title}</h4>
+                      <p class="rc-body">{cItem.Subtitle}</p>
+                      <a
+                        href={cItem.PrimaryLink.Url}
+                        class="rc-btn rc-btn--two"
+                        data-ref="nav-link"
+                      >
+                        {cItem.PrimaryLink.Text}
+                      </a>
+                    </div>
+                    <div class="rc-column rc-padding-y--none">
                       <img
                         src={cItem.Image.Url}
                         alt={cItem.Image.AltText}
                         srcSet={cItem.Image.Srcset}
-                        style={{ width: '4rem', margin: '0 auto' }}
                       />
-                    </LazyLoad>
-                    <p className="red text-nowrap">{cItem.ImageDescription}</p>
+                    </div>
                   </div>
-                  <div>
+                </div>
+              ) : (
+                <div class="rc-list__item-sub-menu__container">
+                  <button
+                    class="rc-mega-menu-dropdown__column rc-mega-menu-dropdown__sub-section-header"
+                    tabindex="-1"
+                  >
+                    <span class="rc-mega-menu-dropdown__column-inner">
+                      <img
+                        src={cItem.Image.Url}
+                        alt={cItem.Image.AltText}
+                        srcSet={cItem.Image.Srcset}
+                      />
+                      <span class="rc-mega-menu-dropdown__column-title rc-delta">
+                        {cItem.ImageDescription}
+                      </span>
+                    </span>
+                  </button>
+
+                  <div class="rc-mega-menu-dropdown__column-inner rc-mega-menu-dropdown__sub-section__slide-tray">
                     {cItem.SubItems.map((sItem, sIdx) => (
-                      <React.Fragment key={sIdx}>
+                      <div
+                        class="rc-margin-bottom--xs mega-menu-inner-links"
+                        key={sIdx}
+                      >
                         <a
+                          class="rc-margin-bottom--xs--desktop rc-mega-menu-dropdown__link__title rc-text-colour--text rc-mega-menu-dropdown__link"
                           href={sItem.Link.Url}
-                          className="medium mb-0 ui-cursor-pointer"
-                          onClick={() => this.menuItemEvent(item, sItem.Title,'products')}
+                          data-ref="nav-link"
                         >
                           {sItem.Title}
                         </a>
                         {sItem.Subtitle ? (
-                          <p className="mb-3">{sItem.Subtitle}</p>
+                          <a
+                            class="rc-mega-menu-dropdown__link"
+                            href={sItem.Link.Url}
+                            data-ref="nav-link"
+                          >
+                            {sItem.Subtitle}
+                          </a>
                         ) : null}
-                      </React.Fragment>
+                      </div>
                     ))}
                   </div>
                 </div>
               )}
-              {cItem.Type === 'PromotionalMenuItem' && (
-                <PromotionPanel key={cItem.id} item={cItem} />
-              )}
             </React.Fragment>
           ))}
         </div>
-      </div>
-    );
-  };
-  renderHelpMenu = (item, i) => {
-    const { activeTopParentId } = this.props;
-    return (
-      <div
-        className={`dropdown-nav bg-transparent d-flex full-width-asset justify-content-center ${
-          activeTopParentId === item.id ? 'show' : ''
-        }`}
-        aria-hidden={activeTopParentId === item.id}
-        onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-        onMouseOut={this.hanldeListItemMouseOut}
-        key={i}
-      >
-        <div className="content-asset bg-white border-top">
-          <Help data={item} />
+      );
+    } else if (item.Type === 'ContactUsMenuGroup') {
+      ret = (
+        <div class="rc-list__item-sub-menu rc-mega-menu-dropdown rc-list__item-sub-menu--full rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white">
+          <div class="rc-layout-container rc-four-column rc-contact-dropdown">
+            {item.MenuItems.map((cItem, cIdx) =>
+              cIdx ? (
+                <div
+                  class="rc-column rc-border-all rc-border-colour--interface rc-contact-dropdown-column rc-margin-left--sm--desktop align-items-center d-flex"
+                  key={cIdx}
+                >
+                  <div class="rc-layout-container rc-three-column rc-contact-dropdown-column__container align-items-center d-flex">
+                    <div class="rc-column rc-double-width rc-contact-dropdown-column__inner">
+                      <a
+                        class="rc-contact-dropdown__sub-title rc-contact-dropdown-column__link"
+                        data-ref="nav-link"
+                        href="tel:+33 4 66 73 03 00"
+                      >
+                        {cItem.Subtitle}
+                      </a>
+                      <br />
+                      {/* <a
+                        class="rc-contact-dropdown__title rc-contact-dropdown-column__link"
+                        data-ref="nav-link"
+                        href="tel:+33 4 66 73 03 00"
+                      >
+                        +33 4 66 73 03 00
+                      </a>
+                      <br /> */}
+                      {item.Link && item.Link.Url ? (
+                        <a
+                          class="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link"
+                          data-ref="nav-link"
+                          href={item.Link.Url}
+                        >
+                          {cItem.Description}
+                        </a>
+                      ) : (
+                        <span class="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link">
+                          {cItem.Description}
+                        </span>
+                      )}
+                    </div>
+                    {item.Link && item.Link.Url ? (
+                      // <div class="rc-column rc-contact-dropdown-column__inner rc-contact-dropdown-column__icon">
+                      <a
+                        class={`rc-icon rc-brand1 ${
+                          {
+                            contact: 'rc-contact',
+                            email: 'rc-email',
+                            advice: 'rc-advice'
+                          }[cItem.Icon]
+                        }`}
+                        data-ref="nav-link"
+                        href={item.Link.Url}
+                      />
+                    ) : // </div>
+                    null}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  class="rc-column rc-contact-dropdown-column--first"
+                  key={cIdx}
+                >
+                  <p class="rc-delta">{cItem.Title}</p>
+                  <p class="body-copy">{cItem.Content}</p>
+                </div>
+              )
+            )}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return ret;
   };
   render() {
     const {
@@ -224,10 +283,16 @@ export default class DropDownMenuForHub extends React.Component {
                   activeTopParentId === item.id ? 'active' : ''
                 }`}
                 key={i}
-                onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-                onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
+                // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+                // onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
+                onClick={this.toggleListItem.bind(this, item)}
+                onBlur={this.onListItemBlur}
               >
-                <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
+                <ul
+                  className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center"
+                  style={{ outline: 'none' }}
+                  tabIndex={item.id}
+                >
                   <li className="rc-list__item">
                     <span className="rc-list__header pt-0 pb-0">
                       <NavItem
@@ -258,19 +323,11 @@ export default class DropDownMenuForHub extends React.Component {
                     </span>
                   </li>
                 </ul>
+                {item.expanded ? this.renderNormalMenu(item, i) : null}
               </li>
             ))}
           </ul>
         </nav>
-        <div className="rc-md-up">
-          {headerNavigationList
-            .filter((ele) => ele.expanded)
-            .map((item, i) =>
-              item.Type === 'ContactUsMenuGroup'
-                ? this.renderHelpMenu(item, i)
-                : this.renderNormalMenu(item, i)
-            )}
-        </div>
       </>
     );
   }
