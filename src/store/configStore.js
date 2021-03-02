@@ -2,6 +2,7 @@ import { action, observable, computed } from 'mobx';
 import { getConfig } from '@/api';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 class ConfigStore {
   @observable info = sessionItemRoyal.get('storeContentInfo')

@@ -66,11 +66,11 @@ export default class Search extends React.Component {
     Promise.all([
       getList(params),
       // isHub && axios.get(`https://www.royalcanin.com/fr/api/royalcanin/predictive?keyword=${keywords}`)
-      // isHub &&
-      //   axios.get(
-      //     `https://uatwedding.royalcanin.com/fr/shop/predictive?keyword=${keywords}`
-      //   )
-      isHub && querySearch()
+      isHub &&
+        axios.get(
+          `https://uatwedding.royalcanin.com/fr/api/royalcanin/predictive?keyword=${keywords}`
+        )
+      // isHub && querySearch()
     ])
       .then((res) => {
         let goodsContent = [];

@@ -70,7 +70,7 @@ import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { de } from 'date-fns/locale';
 
-import { checkoutDataLayerPushEvent } from '@/utils/GA';
+import { checkoutDataLayerPushEvent,doGetGAVal } from '@/utils/GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -167,7 +167,8 @@ class Payment extends React.Component {
       mobileCartVisibleKey: 'less', // less/more
       validSts: { billingAddr: true },
       saveBillingLoading: false,
-      payWayErr: ''
+      payWayErr: '',
+      pet: {}
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -177,7 +178,13 @@ class Payment extends React.Component {
     this.adyenCardRef = React.createRef();
     this.payUCreditCardRef = React.createRef();
   }
-
+  getPetVal() {
+    let obj = doGetGAVal(this.props)
+    this.setState({pet:obj})
+  }
+  componentWillMount(){
+    isHubGA&&this.getPetVal()
+  }
   async componentDidMount() {
     try {
       const { checkoutStore, paymentStore, clinicStore, history } = this.props;
@@ -2150,7 +2157,8 @@ class Payment extends React.Component {
         error: '',
         hitTimestamp: new Date(),
         filters: ''
-      }
+      },
+      pet: this.state.pet
     };
     const paymentMethodTitleForPrepare = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
