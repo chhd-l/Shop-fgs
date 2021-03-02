@@ -85,6 +85,7 @@ export default class AddressForm extends React.Component {
     });
   }
   handleCityInputChange = (data) => {
+    // console.log(data, 'data')
     const { deliveryAddress } = this.state;
     deliveryAddress.city = data.id;
     deliveryAddress.cityName = data.cityName;
