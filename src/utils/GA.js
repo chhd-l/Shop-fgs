@@ -1,9 +1,22 @@
+import { array } from 'js-md5';
 import { toJS } from 'mobx';
 
 const isHubGA = process.env.REACT_APP_HUB_GA
 
+
+//删除对象中空属性
+export function deleteObjEmptyAttr (obj) {
+  for(var key in obj){
+    if(obj[key] ==''||(Array.isArray(obj[key])&&obj[key].length==0)){
+       delete obj[key]
+    }
+  }
+  return obj
+}
+
+
 //天-0周  周-value*1 月-value*4
-const getComputedWeeks = (frequencyList) => {
+export const getComputedWeeks = (frequencyList) => {
   let calculatedWeeks = {}; 
 
   frequencyList.forEach((item) => {
@@ -88,9 +101,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
     let range = item.goodsCateName?.split("/")[1] || ""
     let technology = item.goodsCateName?.split("/")[2] || ""
     
-    
-
-    arr.push({
+    let obj = deleteObjEmptyAttr({
       'price': price, //Product Price, including discount if promo code activated for this product
       'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
       'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
@@ -109,7 +120,9 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 
       promoCodeName: '', //Promo code name, only if promo activated
       promoCodeAmount: '' //Promo code amount, only if promo activated
-    });
+    })
+
+    arr.push(obj);
   }
   dataLayer.push({
     products: arr
@@ -130,8 +143,7 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
       breed.push(item2.goodsAttributeValue)
     })
 
-
-    arr.push({
+    let obj = deleteObjEmptyAttr({
       price:
         item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
       specie: item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
@@ -153,7 +165,9 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
 
       promoCodeName: '', //Promo code name, only if promo activated
       promoCodeAmount: '' //Promo code amount, only if promo activated
-    });
+    })
+
+    arr.push(obj);
   }
   dataLayer.push({
     products: arr
@@ -295,14 +309,13 @@ export const doGetGAVal = (props) => {
           }
         })
         let arr =  cartData?.[0]?.goodsAttributesValueRelList?.toJS()
-        debugger
         arr.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
           breed.push(item2.goodsAttributeValue)
         })
     }
     obj.specieId = id
     obj.breedName = breed
-    return obj
+    return deleteObjEmptyAttr(obj)
 }
 
 //checkout step
@@ -320,7 +333,7 @@ export const checkoutDataLayerPushEvent = ({ name, options }) => {
 //Order confirmation
 export const orderConfirmationPushEvent = (details)=>{
   if (!isHubGA) return
-  dataLayer.push({
+  let obj = deleteObjEmptyAttr({
     'event': 'orderConfirmation',
     'orderConfirmation': {
       'id': details.transactionId || "", //Transaction ID, same as backend system
@@ -330,5 +343,6 @@ export const orderConfirmationPushEvent = (details)=>{
       'shipping': details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
       'paymentMethod': 'Credit Card' //'Credit Card' currently only payment method in use
     }
-  });
+  })
+  dataLayer.push(obj);
 }
