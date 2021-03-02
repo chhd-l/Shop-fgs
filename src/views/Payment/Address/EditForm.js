@@ -50,9 +50,6 @@ class EditForm extends React.Component {
     const { initData = {} } = this.props;
     const { address } = this.state;
 
-    console.log('★★★★★★★★-> address: ', address);
-    console.log('★★★★★★★★-> initData: ', initData);
-
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
     });
