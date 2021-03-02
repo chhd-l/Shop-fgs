@@ -31,8 +31,9 @@ export const myAccountPushEvent = (myAccountScreenName) => {
     'event': 'myAccountScreen',
     myAccountScreenName, //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
   })
-  // console.log(myAccountScreenName)
-  // debugger
+  console.log(!isHubGA)
+  console.log(myAccountScreenName)
+  debugger
 }
 
 //myAccountAction
