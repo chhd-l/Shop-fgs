@@ -20,7 +20,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
-const GAStep = ['age','breed','sterilized','genderCode','weight','sensitivity','petActivityCode','lifestyle']
+const GAStep = ['age','breedCode','sterilized','genderCode','weight','sensitivity','petActivityCode','lifestyle']
 
 class ProductFinder extends React.Component {
   constructor(props) {
@@ -66,6 +66,8 @@ class ProductFinder extends React.Component {
   GAHandle = (stepName,stepOrder,answerdQuestionList) => {
     if(!dataLayer) return
     if(isHubGA){
+      // console.log(stepName)
+      // debugger
       if(GAStep.indexOf(stepName) == -1) return //用GAStep去控制需要埋点的步骤
       productFinderPushEvent({type:this.state.type,stepName,stepOrder,answerdQuestionList})
     }else{

@@ -365,14 +365,14 @@ const getStepCurrentName = ({type,stepName})=>{
 //product finder  productFinderScreen:{previousAnswer}
 const getStepCurrentPreviousAnswer = (answerList)=>{
   if (answerList.length==0) return
-  if (answerList[length-1].productFinderAnswerDetailsVO){
-    return answerList[length-1].productFinderAnswerDetailsVO.prefix +answerList[length-1].productFinderAnswerDetailsVO.suffix
+  if (answerList[answerList.length-1].productFinderAnswerDetailsVO){
+    let productFinderAnswerDetailsVO = answerList[answerList.length-1].productFinderAnswerDetailsVO
+    return productFinderAnswerDetailsVO.prefix + " " + productFinderAnswerDetailsVO.suffix
   }
 }
 
 //product finder 
 export const productFinderPushEvent = ({type,stepName,stepOrder,answerdQuestionList}) => {
-  console.log({type,stepName,stepOrder,answerdQuestionList})
   dataLayer.push({
     'event' : 'productFinderScreen',
     'productFinderScreen' : {
