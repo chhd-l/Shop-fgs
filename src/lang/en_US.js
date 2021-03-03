@@ -687,7 +687,7 @@ const en_US = {
   'recommendation.thirdContent': 'We‘re pet lovers and experts in cat and dog nutrition and we’re ready to to help you with any questions you might have.',
   'recommendation.thirdTitle': 'Our pet experts are here to help you',
   'recommendation.viewDetail': 'View Detail',
-  'recommendation.viewInCart': 'View in cart',
+  'recommendation.viewInCart': 'View In Cart',
   'recommendation.secondBtnText':'Start now',
   'recommendation.secondTitle':'Ready to Get Started?',
   'recommendation.firstBtnText':'Sign up',
@@ -865,8 +865,7 @@ const en_US = {
   'addedtoCart': 'Added to cart',
   'continueMyPurchases': 'Continue my purchases',
   'goToCart': 'Go to shopping cart',
-  'subscribe': 'Subscribe',
-
+  'subscribe': 'Add to Cart',
   'registerCloud': 'Commerce Cloud Storefront reference architecture',
   'registerErrorMessage': 'An error occurred while creating your account. Please try again later or use a different email address. ',
   'registerWelcome': 'Welcome to',

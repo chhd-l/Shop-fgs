@@ -45,7 +45,8 @@ class ClinicForm extends React.Component {
     if (nName && nId) {
       this.setState({
         form: Object.assign(this.state.form, {
-          clinicName: nName
+          clinicName: nName,
+          clinicId: nId
         })
       });
     }

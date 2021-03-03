@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { loadJS } from '@/utils/utils';
+import { loadJS, filterObjectValueDeep } from '@/utils/utils';
 import { sha256 } from 'js-sha256';
 
 @inject('loginStore')
@@ -123,17 +123,16 @@ class GoogleTagManager extends React.Component {
     let addEvents = hubGA ? hubAdditionalEvents : additionalEvents;
     let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
     let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
-  
 
     loadJS({
       code: `window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(${JSON.stringify(addEvents)});`
+    window.dataLayer.push(${JSON.stringify(filterObjectValueDeep(addEvents))});`
     });
    
     if (Object.keys(ecommerceEvents).length>0 || Object.keys(hubEcommerceEvents).length>0) {
       loadJS({
         code: `window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(${JSON.stringify(ecEvents)});`
+      window.dataLayer.push(${JSON.stringify(filterObjectValueDeep(ecEvents))});`
       });
     }
 

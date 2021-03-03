@@ -88,13 +88,11 @@ class SearchSelection extends React.Component {
           systemCityPostCodes: null,
           updateTime: null
         }
-
         this.setState({
-          form: form.value,
+          form: form,
           optionPanelVisible: false,
-        }, () => {
-          this.props.selectedItemChange(citem);
         });
+        this.props.selectedItemChange(citem);
       }, 500);
     } catch (error) {
       console.log(error);
