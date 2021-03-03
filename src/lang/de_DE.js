@@ -1179,7 +1179,8 @@ const de_DE = {
   'smartFeederSubscription.times': 'fois',//times
   'smartFeederSubscription.pause': 'pause',//pause
   'smartFeederSubscription.restart': 'redémarrage',//restart
-  mustChooseACommunicationMethodTip: 'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen'
+  mustChooseACommunicationMethodTip: 'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen',
+  'bannerTip.btnText': 'Weitere Informationen'
 };
   
 export default de_DE;
