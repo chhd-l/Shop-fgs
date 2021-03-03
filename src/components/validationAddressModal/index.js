@@ -22,7 +22,7 @@ class ValidationAddressModal extends React.Component {
   render() {
     const { address, validationAddress, modalVisible, selectValidationOption } = this.props;
     return (
-      <div className={`modal validation_modal fade ${modalVisible == true ? 'show' : ''}`} id="shippingAddressValidationModal" tabindex="-1" role="dialog" aria-labelledby="shippingAddressValidationModal" aria-modal="true" style={{ paddingRight: '16px' }}>
+      <div className={`modal validation_modal fade ${modalVisible == true ? 'show' : ''}`} id="shippingAddressValidationModal" tabIndex="-1" role="dialog" aria-labelledby="shippingAddressValidationModal" aria-modal="true" style={{ paddingRight: '16px' }}>
         <div className="modal-dialog" role="document" style={{ transform: 'none' }}>
           <div className="modal-content rc-padding-x--lg rc-padding-y--sm rc-padding-y--lg--mobile" style={{ marginTop: '0' }}>
             <div className="modal-header text-center rc-padding-bottom--xs rc-padding-top--sm rc-padding-y--lg--mobile rc-margin-top--lg--mobile">
