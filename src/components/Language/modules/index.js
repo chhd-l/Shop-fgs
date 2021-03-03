@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Loading from '@/components/Loading';
 import Selection from './Selection';
-import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { getCountries } from '@/api/hub';
 import queryCountries from './mock';
@@ -9,7 +8,8 @@ import './css/index.less';
 
 export default class LanguagePage extends Component {
   static defaultProps = {
-    onClose: () => {}
+    onClose: () => {},
+    updateLoadingStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -80,6 +80,7 @@ export default class LanguagePage extends Component {
   }
   async getAllData() {
     try {
+      this.updateLoadingStatus(true);
       const langResult = await getCountries();
       // const langResult = await queryCountries();
       this.setState({ allData: langResult.data }, () => {
@@ -87,8 +88,13 @@ export default class LanguagePage extends Component {
       });
     } catch (err) {
     } finally {
-      this.setState({ loading: false });
+      this.updateLoadingStatus(false);
     }
+  }
+  updateLoadingStatus(status) {
+    this.setState({ loading: status }, () => {
+      this.props.updateLoadingStatus(this.state.loading);
+    });
   }
   handleSelectedCountryChange = (data) => {
     let tempData = [...this.state.allData];
@@ -119,7 +125,10 @@ export default class LanguagePage extends Component {
     return (
       <div className="languagePage">
         {this.state.loading ? <Loading bgColor={'#fff'} /> : null}
-        <aside className="language-picker-modal rc-modal rc-modal--full">
+        <aside
+          className="language-picker-modal rc-modal rc-modal--full"
+          style={{ left: 0 }}
+        >
           <div className="rc-modal__container">
             <header className="rc-modal__header">
               <button
@@ -130,7 +139,7 @@ export default class LanguagePage extends Component {
                 <FormattedMessage id="lang.close" />
               </button>
             </header>
-            <section className="rc-modal__content rc-max-width--xl">
+            <section className="rc-modal__content rc-max-width--xl text-left">
               <div>
                 <div
                   className="rc-alpha rc-modal__title rc-text--center"
