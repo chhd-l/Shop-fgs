@@ -94,7 +94,10 @@ class ShelterPrescription extends React.Component {
             </picture>
             <div className="rc-card__body">
               <header>
-                <h3 className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">
+                <h3
+                  className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
+                  style={{ height: '64px' }}
+                >
                   {item.goodsName}
                 </h3>
               </header>
@@ -152,8 +155,8 @@ class ShelterPrescription extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile rc-layout-container rc-three-column">
-            <div className=" row align-items-md-center">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-layout-container rc-three-column">
+            <div className=" row align-items-md-center rc-margin-x--none">
               <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
                 <lazyLoad>
                   <img src={CATSPng} />
@@ -289,7 +292,7 @@ class ShelterPrescription extends React.Component {
               </Slider>
             </div>
           </div>
-          <div className="rc-padding-top--lg text-center rc-column ">
+          <div className="rc-padding-top--lg text-center">
             <Help contentText={this.helpContentText} needReverse={false} />
           </div>
           <div className="experience-component experience-assets-divider">
@@ -309,11 +312,14 @@ class ShelterPrescription extends React.Component {
               <div className="rc-beta inherit-fontsize">
                 <h3 className="red">Why Royal Canin?</h3>
               </div>
-              <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                We focus our attention on the unique needs of cats and dogs.
-                That obsession with detail is what makes it possible for us to
-                deliver precise, effective nutrition and help pets become their
-                magnificent best.
+              <div>
+              {/* <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content"> */}
+                <p style={{ wordBreak: 'break-word' }}>
+                  We focus our attention on the unique needs of cats and dogs.
+                  That obsession with detail is what makes it possible for us to
+                  deliver precise, effective nutrition and help pets become
+                  their magnificent best.
+                </p>
               </div>
             </div>
 

@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
+import PhoneModal from '../../StaticPage/Help/components/phoneModal.js';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
@@ -38,6 +39,12 @@ class Help extends React.Component {
       showModal: false
     };
   }
+  mobileDial = () => {
+    this.setState({ showModal: true });
+  };
+  cancelModal = () => {
+    this.setState({ showModal: false });
+  };
   render(h) {
     const {
       title,
@@ -53,6 +60,9 @@ class Help extends React.Component {
     let isEmailUnderLine = this.props.isEmailUnderLine;
     return (
       <div className="experience-region experience-main">
+        {this.state.showModal ? (
+          <PhoneModal cancelModal={this.cancelModal} />
+        ) : null}
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
@@ -142,16 +152,40 @@ class Help extends React.Component {
                                   </p>
                                 </div>
                                 <div className="rc-margin-top--xs">
-                                  <p
-                                    style={{ color: '#00BCA3' }}
-                                    className="rc-alpha rc-border--none rc-md-down"
-                                    onClick={this.mobileDial}
-                                  >
-                                    {
-                                      this.props.configStore
-                                        .storeContactPhoneNumber
-                                    }
-                                  </p>
+                                  {process.env.REACT_APP_LANG == 'us' ? (
+                                    <p
+                                      style={{ color: '#00BCA3' }}
+                                      className="rc-numeric rc-md-down"
+                                    >
+                                      <a
+                                        href={
+                                          'tel:' +
+                                          (phone
+                                            ? phone
+                                            : this.props.configStore
+                                                .storeContactPhoneNumber)
+                                        }
+                                        style={{ color: '#00BCA3' }}
+                                      >
+                                        {/* <FormattedMessage id="help.tel" /> */}
+                                        {phone
+                                          ? phone
+                                          : this.props.configStore
+                                              .storeContactPhoneNumber}
+                                      </a>
+                                    </p>
+                                  ) : (
+                                    <p
+                                      style={{ color: '#00BCA3' }}
+                                      className="rc-alpha rc-border--none rc-md-down"
+                                      onClick={this.mobileDial}
+                                    >
+                                      {phone
+                                        ? phone
+                                        : this.props.configStore
+                                            .storeContactPhoneNumber}
+                                    </p>
+                                  )}
                                 </div>
                               </div>
                             </div>

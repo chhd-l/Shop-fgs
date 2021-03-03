@@ -916,7 +916,7 @@ class Recommendation extends React.Component {
                           </span>
                         ))}
                       </div>
-                      <div className="right">
+                      <div className="right rc-padding-x--lg ">
                         <div className="main">
                           <div className="pic">
                             <ImageMagnifier
@@ -1379,7 +1379,9 @@ class Recommendation extends React.Component {
                     </LazyLoad>
                   </div>
                   <p>
-                    <strong>{item.text}</strong>
+                    <strong style={{ color: 'rgb(61, 61, 60)' }}>
+                      {item.text}
+                    </strong>
                   </p>
                 </div>
               ))}
@@ -1592,7 +1594,11 @@ class Recommendation extends React.Component {
               <FormattedMessage id="recommendation.fourTitle" />
             </h2>
             <p>
-              <FormattedMessage id="recommendation.fourContent" />
+              We focus our attention on the unique needs of cats and dogs. That
+              obsession with detail is what makes it possible for us to deliver
+              precise, effective nutrition and help pets become their
+              magnificent best.
+              {/* <FormattedMessage id="recommendation.fourContent" /> */}
             </p>
             <p>
               <button
@@ -1611,7 +1617,7 @@ class Recommendation extends React.Component {
                   }
                 }}
               >
-                Commander
+                Place order
               </button>
             </p>
             <div class="experience-component experience-assets-youtubeVideo">
