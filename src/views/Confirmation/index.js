@@ -122,6 +122,10 @@ class Confirmation extends React.Component {
           totalTid: resContext.totalTid,
           detailList: res.map((ele) => ele.context)
         }, () => {
+          let isAllOneShootGoods = this.state.details.tradeItems.every((item) => {
+            return item.goodsInfoFlag != 1 //goodsInfoFlag==1表示订阅
+          })
+          this.setState({ isAllOneShootGoods })
           (!isHubGA) && this.getGAEComTransaction()
           isHubGA && orderConfirmationPushEvent(this.state.details)
         });

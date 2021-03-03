@@ -307,7 +307,9 @@ export const doGetGAVal = (props) => {
             id.push(2)
           }
         })
-        let arr =  cartData?.[0]?.goodsAttributesValueRelList?.toJS()
+
+        let arr = cartData[0]&&cartData[0].goodsAttributesValueRelList||[]
+  
         arr.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
           breed.push(item2.goodsAttributeValue)
         })
@@ -365,14 +367,14 @@ const getStepCurrentName = ({type,stepName})=>{
 //product finder  productFinderScreen:{previousAnswer}
 const getStepCurrentPreviousAnswer = (answerList)=>{
   if (answerList.length==0) return
-  if (answerList[length-1].productFinderAnswerDetailsVO){
-    return answerList[length-1].productFinderAnswerDetailsVO.prefix +answerList[length-1].productFinderAnswerDetailsVO.suffix
+  if (answerList[answerList.length-1].productFinderAnswerDetailsVO){
+    let productFinderAnswerDetailsVO = answerList[answerList.length-1].productFinderAnswerDetailsVO
+    return productFinderAnswerDetailsVO.prefix + " " + productFinderAnswerDetailsVO.suffix
   }
 }
 
 //product finder 
 export const productFinderPushEvent = ({type,stepName,stepOrder,answerdQuestionList}) => {
-  console.log({type,stepName,stepOrder,answerdQuestionList})
   dataLayer.push({
     'event' : 'productFinderScreen',
     'productFinderScreen' : {

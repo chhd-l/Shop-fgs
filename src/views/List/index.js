@@ -507,7 +507,7 @@ function ListItemBody({ item, headingTag }) {
           </div>
           {/* <br /> */}
           {item.fromPrice ? (
-            <div className="d-flex justify-content-center rc-padding-top--xs">
+            <div className="d-flex justify-content-center" style={{padding:'1rem 0'}}>
               <div className="rc-card__price text-left PriceFitScreen">
                 <div className={`rc-full-width PriceFitScreen`}>
                   <span
@@ -915,10 +915,10 @@ class List extends React.Component {
         goodsCateName
       } = item;
       const breed = goodsAttributesValueRelVOAllList
-        .filter((attr) => attr.goodsAttributeName == 'breeds')
+        .filter((attr) => attr.goodsAttributeName && attr.goodsAttributeName.toLowerCase() == 'breeds')
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      const specie = breed.toString().indexOf('Cat') > -1? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: minMarketPrice,
@@ -967,11 +967,11 @@ class List extends React.Component {
         goodsAttributesValueRelVOAllList = [],
         goodsCateName
       } = item;
-      const breed = goodsAttributesValueRelVOAllList
-        .filter((attr) => attr.goodsAttributeName == 'breeds')
-        .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      const breed = goodsAttributesValueRelVOAllList
+        .filter((attr) => attr.goodsAttributeName && attr.goodsAttributeName.toLowerCase() == 'breeds')
+        .map((item) => item.goodsAttributeValue);
+      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: minMarketPrice,

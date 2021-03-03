@@ -686,14 +686,20 @@ export function filterObjectValue(obj) {
 // 递归处理对象属性值（排除属性值为：“”/null/undefined）
 export function filterObjectValueDeep(obj) {
   let nonEmpty = {};
-  for (let key in obj) {
-    let type = Object.prototype.toString.call(obj[key]).slice(8, -1);
-    if (type !== 'Object' && obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
-      nonEmpty[key] = obj[key]
+    for (let key in obj) {
+      let type = Object.prototype.toString.call(obj[key]).slice(8, -1);
+      if (type !== 'Object' && obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
+        nonEmpty[key] = obj[key]
+      }
+      if (type === 'Object') {
+        nonEmpty[key] = filterObjectValueDeep(obj[key])
+      }
     }
-    if (type === 'Object') {
-      nonEmpty[key] = filterObjectValueDeep(obj[key])
+
+    for(let key in nonEmpty) { //删除空对象
+      if(JSON.stringify(nonEmpty[key]) === '{}') {
+        delete nonEmpty[key]
+      }
     }
-  }
   return nonEmpty;
 }
