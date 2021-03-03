@@ -521,8 +521,6 @@ class PaymentComp extends React.Component {
           loading: false
         });
       });
-
-    myAccountActionPushEvent('Delete Address');
   }
   updateConfirmTooltipVisible(el, status) {
     let { creditCardList } = this.state;

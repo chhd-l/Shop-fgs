@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { inject, observer } from 'mobx-react';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
 import { menubar } from './menubar';
@@ -9,52 +7,42 @@ import { contactInfo } from './contactInfo';
 import './index.css';
 import LoginButton from '@/components/LoginButton';
 import { withRouter } from 'react-router-dom';
-import LanguagePage from '@/views/Language';
-import axios from 'axios';
+import Language from '@/components/Language';
+import { queryApiFromSessionCache } from '@/utils/utils';
+import { getFooter } from '@/api/hub';
 import footerHubResult from './mock';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
-
-@inject('configStore')
-@observer
 class FooterHub extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cur_menubar: menubar[process.env.REACT_APP_LANG] || [],
       cur_contactInfo: contactInfo[process.env.REACT_APP_LANG] || null,
-      footerInfo: {},
-      languagePopVisible: false
+      footerInfo: {}
     };
   }
   componentDidMount() {
-    this.props.configStore.queryConfig();
-    // axios.get('/footer/getmodel').then((res) => {
-    //     this.setState({ footerInfo: res.data })
-    // })
-    this.setState({ footerInfo: footerHubResult.data });
+    queryApiFromSessionCache({ sessionKey: 'footer-hub', api: getFooter }).then(
+      (res) => {
+        this.setState({ footerInfo: res.data });
+      }
+    );
+    // this.setState({ footerInfo: footerHubResult.data });
   }
   scrollToTop = () => {
     const widget = document.querySelector('#page-top');
     widget && widget.scrollIntoView();
   };
-  handleClickShowLanguage = () => {
-    this.setState({ languagePopVisible: true });
-  };
-  onLanguagePopClose = () => {
-    this.setState({ languagePopVisible: false });
-  };
   render() {
     if (Object.keys(this.state.footerInfo).length == 0) return null;
     const { isLogin, history } = this.props;
-    const { languagePopVisible } = this.state;
     const {
       LocalMarketSettings: { ContactUsUrl, ContactPhone },
       MenuGroups,
       MenuInfoItems,
       MenuItems
     } = this.state.footerInfo;
-  
+
     return (
       <>
         <footer className="rc-bg-colour--interface-dark" id="footer">
@@ -80,20 +68,13 @@ class FooterHub extends React.Component {
                 )}
 
                 <a
-                  className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3`}
+                  className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3 text-white`}
                   role="menuitem"
                   href={MenuItems[1].Link.Url}
-                  style={{ color: '#fff' }}
                 >
                   {MenuItems[1].Link.Text}
                 </a>
-                <span
-                  className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3"
-                  style={{ color: '#fff' }}
-                  onClick={this.handleClickShowLanguage}
-                >
-                  <FormattedMessage id="language" />
-                </span>
+                <Language className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3 text-white" />
                 <a
                   style={{
                     position: 'absolute',
@@ -195,13 +176,10 @@ class FooterHub extends React.Component {
                   </a>
                 </div>
                 <div>
-                  <span
+                  <Language
                     className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3"
                     style={{ marginLeft: '-.8rem' }}
-                    onClick={this.handleClickShowLanguage}
-                  >
-                    <FormattedMessage id="language" />
-                  </span>
+                  />
                 </div>
 
                 <div>
@@ -241,10 +219,9 @@ class FooterHub extends React.Component {
                     {ContactPhone}
                   </a>
                   <a
-                    className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
+                    className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3 text-white"
                     role="menuitem"
                     href={ContactUsUrl.Url}
-                    style={{ color: '#fff' }}
                   >
                     {ContactUsUrl.Text}
                   </a>
@@ -258,9 +235,6 @@ class FooterHub extends React.Component {
           {cookieSettingsBtn[process.env.REACT_APP_LANG]}
           {/* <!-- OneTrust Cookies Settings button end --> */}
         </footer>
-        {languagePopVisible ? (
-          <LanguagePage onClose={this.onLanguagePopClose} />
-        ) : null}
       </>
     );
   }

@@ -37,7 +37,7 @@
 @media (max-width: 679px) {
   .Recommendation_FR .product_info {
     width: 100%;
-    padding: 0px 20px;
+    padding: 0px;
   }
 }
 .Recommendation_FR .recommendation_feeding_box .reason {

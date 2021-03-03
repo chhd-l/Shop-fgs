@@ -40,7 +40,7 @@ export const menubar = {
       {
         titleId: 'footer.help',
         list: [
-          { link: '/help', messageId: 'Contact Us' },
+          { link: '/help/contact', messageId: 'Contact Us' },
           { link: '/faq', messageId: 'FAQs' }
         ]
       }

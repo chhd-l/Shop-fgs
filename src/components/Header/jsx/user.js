@@ -14,6 +14,7 @@ const isMobile = getDeviceType() === 'H5';
 const isLogin = !!localItemRoyal.get('rc-token');
 const userInfo = localItemRoyal.get('rc-userinfo') || null;
 
+
 const UserJSX = (props) => {
   const firstNameLetter =
     userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1);
@@ -97,7 +98,7 @@ const UserJSX = (props) => {
                         if (!process.env.REACT_APP_STOREID) {
                           return;
                         }
-                        if (process.env.REACT_APP_LANG === 'fr') {
+                        if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'en') {
                           history.push('/register');
                         } else {
                           window.location.href =

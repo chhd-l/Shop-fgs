@@ -121,7 +121,7 @@ class AddressList extends React.Component {
     await deleteCard({ id: el.id })
       .then(() => {
         this.getPaymentMethodList();
-        myAccountActionPushEvent('Delete Address')
+        myAccountActionPushEvent('Delete payment method')
       })
       .catch((err) => {
         this.setState({
@@ -156,7 +156,7 @@ class AddressList extends React.Component {
     this.changeListVisible(!closeListPage);
   };
   handleClickAddBtn(fromPage) {
-    myAccountPushEvent('Payment & Addresses')
+    myAccountPushEvent('Payment')
     this.changeEditFormVisible(true);
     this.setState({ fromPage });
     window.scroll({ top: 0, behavior: 'smooth' });

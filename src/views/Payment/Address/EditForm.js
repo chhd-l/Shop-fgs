@@ -7,8 +7,6 @@ import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { getProvincesList } from '@/api/index';
 
-const localItemRoyal = window.__.localItemRoyal;
-
 /**
  * add/edit address form - member/visitor
  */
@@ -53,6 +51,7 @@ class EditForm extends React.Component {
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
     });
+    console.log('----------------------> EditForm address: ', address);
 
     getDictionary({ type: 'country' }).then((res) => {
       const { address } = this.state;
@@ -314,7 +313,7 @@ class EditForm extends React.Component {
     const { address } = this.state;
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
-        <label className="form-control-label" htmlFor="shippingProvince">State</label>
+        <label className="form-control-label" htmlFor="shippingProvince"><FormattedMessage id="payment.state" /></label>
         <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
           <Selection
             selectedItemChange={(data) => {
@@ -323,8 +322,8 @@ class EditForm extends React.Component {
               }
             }}
             optionList={this.computedList('province')}
-            selectedItemData={{ value: address.province == 'state' ? 'null' : address.province }}
-            key={address.province == 'state' ? 'null' : address.province}
+            selectedItemData={{ value: address.province }}
+            key={address.province}
           />
         </span>
       </div>
@@ -480,7 +479,7 @@ class EditForm extends React.Component {
             <div className="col-12 col-md-6">
               {this.provinceJSX()}
             </div>
-          ) : (<></>)}
+          ) : (null)}
 
           <div className="col-12 col-md-6">
             {this.postCodeJSX()}

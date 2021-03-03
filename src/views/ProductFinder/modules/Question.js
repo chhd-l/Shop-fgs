@@ -381,7 +381,9 @@ class Question extends React.Component {
           questionType: qRes.questionType,
           configSizeAttach: sizeStep
         });
-        this.props.GAHandle(resContext.step.name);
+        console.log(resContext)
+        //debugger
+        this.props.GAHandle(resContext.step.name,resContext.stepOrder,resContext.answerdQuestionList);
         this.setState(
           {
             questionCfg: {

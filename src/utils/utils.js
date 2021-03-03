@@ -655,6 +655,45 @@ export function getRequest() {
 }
 
 // 数组去重
-export function unique (arr) {
-  return Array.from(new Set(arr))
+export function unique(arr) {
+  return Array.from(new Set(arr));
+}
+
+export async function queryApiFromSessionCache({ sessionKey, api }) {
+  let ret = sessionItemRoyal.get(sessionKey);
+  if (ret) {
+    ret = JSON.parse(ret);
+  } else {
+    const res = await api();
+    ret = res;
+    sessionItemRoyal.set(sessionKey, JSON.stringify(ret));
+  }
+  return ret;
+}
+
+// 处理对象属性值（排除属性值为：“”/null/undefined）
+export function filterObjectValue(obj) {
+  let nonEmpty = {};
+  if(obj === null || obj === undefined || obj === "") return nonEmpty;
+  for(let key in obj) {
+    if(obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
+      nonEmpty[key] = obj[key]
+    }
+  }
+  return nonEmpty;
+}
+
+// 递归处理对象属性值（排除属性值为：“”/null/undefined）
+export function filterObjectValueDeep(obj) {
+  let nonEmpty = {};
+  for (let key in obj) {
+    let type = Object.prototype.toString.call(obj[key]).slice(8, -1);
+    if (type !== 'Object' && obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
+      nonEmpty[key] = obj[key]
+    }
+    if (type === 'Object') {
+      nonEmpty[key] = filterObjectValueDeep(obj[key])
+    }
+  }
+  return nonEmpty;
 }

@@ -9,9 +9,9 @@ import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
-import recommendation2 from '@/assets/images/fr_recommendation2.png';
-import recommendation3 from '@/assets/images/fr_recommendation3.png';
-import recommendation4 from '@/assets/images/fr_recommendation4.png';
+import recommendation2 from './images/1xexpertise.jpg';
+import recommendation3 from './images/2xpartnership.jpg';
+import recommendation4 from './images/3xquality.jpg';
 import noPic from '@/assets/images/noPic.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import COHORTADVISOR from './images/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png';
@@ -211,15 +211,15 @@ class Recommendation extends React.Component {
     };
 
     this.helpContentText = {
-      title: 'Our pet experts are here to help you',
+      title: "We're Here to Help",
       des:
-        "We're pet lovers and experts in cat and dog nutrition and we're ready to to help you with any questions you might have.",
+        "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
       emailTitle: 'Email us',
       emailDes: ' We will respond as soon as possible.',
       emailLink: '/help/contact',
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
-      email: 'Send us an Email',
+      email: 'Send us an email',
       phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
@@ -697,6 +697,13 @@ class Recommendation extends React.Component {
       // history.push('/prescription');
     }
   }
+  addCart = () => {
+    if (this.props.loginStore.isLogin) {
+      this.hanldeLoginAddToCart();
+    } else {
+      this.hanldeUnloginAddToCart(productList, '/cart');
+    }
+  };
   render(h) {
     const { loginStore, history, configStore } = this.props;
     const event = {
@@ -809,47 +816,45 @@ class Recommendation extends React.Component {
               className="text-center"
               style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
             >
-              <h1
-                className={`${
-                  process.env.REACT_APP_LANG === 'fr' ? '' : 'hide'
-                }`}
-                style={{ color: '#E2001A', margin: '20px' }}
-              >
-                Bienvenue !
-              </h1>
-              <h2 style={{ color: '#E2001A', margin: '20px' }}>
-                <FormattedMessage id="recommendation.welcomeText" />
-                {/* Merci pour votre visite en magasin, voici notre recommandation. */}
-              </h2>
-              {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+              <div className="rc-max-width--md text-center rc-margin-y--md">
+                <div className="rc-alpha inherit-fontsize">
+                  <h1>
+                    <FormattedMessage id="recommendation.welcomeText1" />
+                  </h1>
+                </div>
+                <div className="rc-beta inherit-fontsize">
+                  <p>
+                    <FormattedMessage id="recommendation.welcomeText2" />
+                    {/* Merci pour votre visite en magasin, voici notre recommandation. */}
+                  </p>
+                </div>
+                {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
             </h2> */}
-              <p style={{ fontSize: '18px' }}>
-                <FormattedMessage id="recommendation.welcomeSubText" />
-                {/* La recommandation a été faite en fonction des besoins uniques de
+                <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                  <span style={{ fontSize: '18px', color: 'rgb(61, 61, 60)' }}>
+                    <FormattedMessage id="recommendation.welcomeSubText" />
+                    {/* La recommandation a été faite en fonction des besoins uniques de
                 votre animal. */}
-              </p>
-              <p>
-                <button
-                  className={`rc-btn rc-btn--one ${
-                    this.state.buttonLoading ? 'ui-btn-loading' : ''
-                  } ${
-                    this.state.inStockProducts.length
-                      ? ''
-                      : 'rc-btn-solid-disabled'
-                  }`}
-                  onClick={() => {
-                    if (loginStore.isLogin) {
-                      this.hanldeLoginAddToCart();
-                    } else {
-                      this.hanldeUnloginAddToCart(productList, '/cart');
-                    }
-                  }}
-                >
-                  <FormattedMessage id="recommendation.welcomeBtn" />
-                  {/* Voir le panier */}
-                </button>
-              </p>
+                  </span>
+                </div>
+
+                <p>
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    } ${
+                      this.state.inStockProducts.length
+                        ? ''
+                        : 'rc-btn-solid-disabled'
+                    }`}
+                    onClick={this.addCart}
+                  >
+                    <FormattedMessage id="recommendation.welcomeBtn" />
+                    {/* Voir le panier */}
+                  </button>
+                </p>
+              </div>
             </section>
           </div>
           <div className="transparentSection">
@@ -912,7 +917,7 @@ class Recommendation extends React.Component {
                           </span>
                         ))}
                       </div>
-                      <div className="right">
+                      <div className="right rc-padding-x--lg ">
                         <div className="main">
                           <div className="pic">
                             <ImageMagnifier
@@ -928,16 +933,16 @@ class Recommendation extends React.Component {
                             />
                           </div>
                         </div>
-                        <div className="text">
-                          <h2
+                        <div className="product-recommendation__desc text-center rc-padding-bottom--lg--mobile">
+                          <h3
                             title={
                               productList[activeIndex].goodsInfo.goodsInfoName
                             }
-                            className="rc-gamma ui-text-overflow-line2 text-break"
+                            className="rc-gamma"
                             style={{ color: '#E2001A' }}
                           >
                             {productList[activeIndex].goodsInfo.goodsInfoName}
-                          </h2>
+                          </h3>
                           {/* <h4>
                             From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
                           </h4> */}
@@ -946,15 +951,7 @@ class Recommendation extends React.Component {
                               <div className="rc-input product-pricing__card__head__title">
                                 <FormattedMessage id="listPrice" />
                               </div>
-                              <b
-                                className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
-                                style={{
-                                  flex: 3,
-                                  fontWeight: '200',
-                                  fontSize: '22px'
-                                  // color: 'rgba(102,102,102,.7)'
-                                }}
-                              >
+                              <div className="rc-large-body  m-auto">
                                 {MaxLinePrice > 0 ? (
                                   MaxLinePrice === MinLinePrice ? (
                                     <span>{formatMoney(MaxLinePrice)}</span>
@@ -967,7 +964,7 @@ class Recommendation extends React.Component {
                                     </span>
                                   )
                                 ) : null}
-                              </b>
+                              </div>
                             </div>
                           )}
                           {MaxSubPrice > 0 && (
@@ -975,29 +972,12 @@ class Recommendation extends React.Component {
                               {/* <div className="rc-input product-pricing__card__head__title">
                                 <FormattedMessage id="autoship" />
                               </div> */}
-                              <b
-                                className="rc-padding-y--none"
-                                style={{
-                                  flex: 3,
-                                  fontWeight: '200',
-                                  fontSize: '22px'
-                                  // color: 'rgba(102,102,102,.7)'
-                                }}
-                              >
-                                <span>
-                                  <FormattedMessage id="from" />{' '}
-                                  {formatMoney(MinSubPrice)}{' '}
-                                  <FormattedMessage id="to" />{' '}
-                                  {formatMoney(MaxMarketPrice)}
-                                </span>
-                                {/* {MaxSubPrice > 0 ? (
-                                  MaxSubPrice === MinSubPrice ? (
-                                    <span>{formatMoney(MaxSubPrice)}</span>
-                                  ) : (
-                                    
-                                  )
-                                ) : null} */}
-                              </b>
+                              <div className="rc-large-body  m-auto">
+                                <FormattedMessage id="from" />{' '}
+                                {formatMoney(MinSubPrice)}{' '}
+                                <FormattedMessage id="to" />{' '}
+                                {formatMoney(MaxMarketPrice)}
+                              </div>
                             </div>
                           )}
                           {this.state.showMore ? (
@@ -1045,10 +1025,10 @@ class Recommendation extends React.Component {
                             {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
                           </div>
-                          <p classNam="legal-disclaimer d-flex rc-padding-x--sm">
+                          <div className="rc-margin-bottom--none rc-meta text-center w-100">
                             Royal Canin's feeding guidelines can also be found
                             on the product packaging.
-                          </p>
+                          </div>
                         </div>
 
                         {productList[activeIndex].benefit ? (
@@ -1088,26 +1068,16 @@ class Recommendation extends React.Component {
                           }}
                         >
                           <button
-                            className={`rc-btn rc-btn--one ${
+                            className={`rc-btn rc-btn--one rc-btn--sm ${
                               this.state.buttonLoading ? 'ui-btn-loading' : ''
                             } ${
                               this.state.inStockProducts.length
                                 ? ''
                                 : 'rc-btn-solid-disabled'
                             }`}
-                            onClick={() => {
-                              if (loginStore.isLogin) {
-                                this.hanldeLoginAddToCart();
-                              } else {
-                                this.hanldeUnloginAddToCart(
-                                  productList,
-                                  '/cart'
-                                );
-                              }
-                            }}
+                            onClick={this.addCart}
                           >
-                            {/* <FormattedMessage id="recommendation.viewInCart" /> */}
-                            Mon panier
+                            <FormattedMessage id="recommendation.viewInCart" />
                           </button>
                         </p>
                       </div>
@@ -1375,7 +1345,9 @@ class Recommendation extends React.Component {
                     </LazyLoad>
                   </div>
                   <p>
-                    <strong>{item.text}</strong>
+                    <strong style={{ color: 'rgb(61, 61, 60)' }}>
+                      {item.text}
+                    </strong>
                   </p>
                 </div>
               ))}
@@ -1397,20 +1369,12 @@ class Recommendation extends React.Component {
                     a member today.
                   </p>
                   <button
-                    className={`rc-btn rc-btn--one ${
+                    className={`rc-btn rc-btn--two ${
                       this.state.buttonLoading ? 'ui-btn-loading' : ''
                     } ${
-                      this.state.inStockProducts.length
-                        ? ''
-                        : 'rc-btn-solid-disabled'
+                      this.state.inStockProducts.length ? '' : 'rc-btn-disabled'
                     }`}
-                    onClick={() => {
-                      if (loginStore.isLogin) {
-                        this.hanldeLoginAddToCart();
-                      } else {
-                        this.hanldeUnloginAddToCart(productList, '/cart');
-                      }
-                    }}
+                    onClick={this.AddCart}
                   >
                     Start Now
                   </button>
@@ -1426,7 +1390,9 @@ class Recommendation extends React.Component {
           <LineModule />
           <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
             <div className="rc-margin-bottom--md">
-              <h2 classNam="rc-beta">How to Join Royal Canin Club</h2>
+              <h2 classNam="rc-beta" style={{ color: '#e2001a' }}>
+                How to Join Royal Canin Club
+              </h2>
             </div>
             <Test />
             <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle">
@@ -1442,143 +1408,16 @@ class Recommendation extends React.Component {
                         src={item.img}
                       />
                     </lazyload>
-                    <div className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin">
-                      {item.des}
-                    </div>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.des }}
+                      className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"
+                    ></div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
           <LineModule />
-          {/* <div className="rc-max-width--lg rc-padding-y--lg">
-            <div className="rc-max-width--md text-center rc-padding-x--sm">
-              <h2 className="rc-beta text-center">
-                <FormattedMessage id="recommendation.firstTitle" />
-              </h2>
-              <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
-                <h2>
-                  <FormattedMessage id="recommendation.firstSubTitle" />
-                </h2>
-              </div>
-            </div>
-            <div
-              className={`rc-layout-container rc-two-column rc-content-h-middle flex-md-row ${
-                process.env.REACT_APP_LANG === 'fr' ? 'flex-column-reverse' : ''
-              }`}
-            >
-              <div className="rc-column">
-                <div className="rc-padding-y--lg--mobile rc-full-width">
-                  <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                    {[1, 2, 3, 4].map((item) => (
-                      <li
-                        className="rc-list__item"
-                        style={{ paddingLeft: '2rem' }}
-                      >
-                        <i
-                          className="wof rc-margin-right--xs"
-                          style={{ position: 'absolute', left: '0' }}
-                        ></i>
-                        <FormattedMessage
-                          id={`recommendation.firstContent${item}`}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                  <p style={{ marginTop: '30px', marginBottom: '30px' }}>
-                    <button
-                      className={`rc-btn rc-btn--one ${
-                        this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      } ${
-                        this.state.inStockProducts.length
-                          ? ''
-                          : 'rc-btn-solid-disabled'
-                      }`}
-                      onClick={() => {
-                        if (loginStore.isLogin) {
-                          this.hanldeLoginAddToCart();
-                        } else {
-                          this.hanldeUnloginAddToCart(productList, '/cart');
-                        }
-                      }}
-                    >
-                      <FormattedMessage id="recommendation.firstBtnText" />
-                    </button>
-                  </p>
-                </div>
-              </div>
-              <div className="rc-column">
-                <img
-                  alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
-                  className="w-100 lazyloaded"
-                  src={petsTypeImagArr[this.state.petType]}
-                />
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm">
-            <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
-              <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">
-                <FormattedMessage id="recommendation.secondTitle" />
-              </h2>
-            </div>
-            <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
-              {this.state.secondlist.map((item, idx) => (
-                <div
-                  className={`${
-                    process.env.REACT_APP_LANG === 'fr' ? 'col-6' : ''
-                  } col-md-3 rc-column`}
-                >
-                  <div className="rc-margin-bottom--sm">
-                    <img
-                      style={{ width: '160px' }}
-                      className="m-auto lazyloaded"
-                      alt={item.altText}
-                      onMouseOver={(e) => this.hoverChange(e, idx)}
-                      onMouseOut={(e) => this.hoverChange(e, -1)}
-                      title={item.altText}
-                      src={`${item.isHover ? item.imgHover : item.imgPath}`}
-                    />
-                  </div>
-                  <h7>
-                    <p
-                      className="m-auto"
-                      style={{ width: '160px', maxWidth: '100%' }}
-                      dangerouslySetInnerHTML={{ __html: item.text }}
-                    ></p>
-                  </h7>
-                </div>
-              ))}
-            </div>
-
-            <p
-              style={{
-                marginTop: '70px',
-                textAlign: 'center',
-                marginBottom: isMobile ? '0' : '70px'
-              }}
-            >
-              <button
-                className={`rc-btn rc-btn--one ${
-                  this.state.buttonLoading ? 'ui-btn-loading' : ''
-                } ${
-                  this.state.inStockProducts.length
-                    ? ''
-                    : 'rc-btn-solid-disabled'
-                }`}
-                onClick={() => {
-                  if (loginStore.isLogin) {
-                    this.hanldeLoginAddToCart();
-                  } else {
-                    this.hanldeUnloginAddToCart(productList, '/cart');
-                  }
-                }}
-              >
-                <FormattedMessage id="recommendation.secondBtnText" />
-              </button>
-            </p>
-          </div>
-           */}
           <div className="help-container">
             <Help contentText={this.helpContentText} needReverse={false} />
           </div>
@@ -1587,7 +1426,11 @@ class Recommendation extends React.Component {
               <FormattedMessage id="recommendation.fourTitle" />
             </h2>
             <p>
-              <FormattedMessage id="recommendation.fourContent" />
+              We focus our attention on the unique needs of cats and dogs. That
+              obsession with detail is what makes it possible for us to deliver
+              precise, effective nutrition and help pets become their
+              magnificent best.
+              {/* <FormattedMessage id="recommendation.fourContent" /> */}
             </p>
             <p>
               <button
@@ -1598,15 +1441,9 @@ class Recommendation extends React.Component {
                     ? ''
                     : 'rc-btn-solid-disabled'
                 }`}
-                onClick={() => {
-                  if (loginStore.isLogin) {
-                    this.hanldeLoginAddToCart();
-                  } else {
-                    this.hanldeUnloginAddToCart(productList, '/cart');
-                  }
-                }}
+                onClick={this.addCart}
               >
-                Commander
+                Place order
               </button>
             </p>
             <div class="experience-component experience-assets-youtubeVideo">
@@ -1623,15 +1460,23 @@ class Recommendation extends React.Component {
               </div>
             </div>
           </section>
-          <div className="rc-padding-top--md--desktop rc-max-width--lg rc-padding-x--md  rc-padding-x--md--mobile  rc-layout-container rc-three-column">
-            <div className="rc-column">
-              <img src={cur_recommendation2} />
-            </div>
-            <div className="rc-column">
-              <img src={cur_recommendation3} />
-            </div>
-            <div className="rc-column">
-              <img src={cur_recommendation4} />
+          <div className="rc-max-width--lg rc-padding-y--sm img-text-box">
+            <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
+              <div className="rc-column">
+                <LazyLoad>
+                  <img src={cur_recommendation2} />
+                </LazyLoad>
+              </div>
+              <div className="rc-column">
+                <LazyLoad>
+                  <img src={cur_recommendation3} />
+                </LazyLoad>
+              </div>
+              <div className="rc-column">
+                <LazyLoad>
+                  <img src={cur_recommendation4} />
+                </LazyLoad>
+              </div>
             </div>
           </div>
         </main>

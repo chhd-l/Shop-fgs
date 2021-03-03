@@ -3,3 +3,24 @@
     min-height: 58px;
   }
 }
+.Recommendation_FR .rc-meta {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.rc-alpha,
+.rc-beta {
+  color: #e2001a;
+}
+.img-text-box .lazyload-wrapper {
+  display: block;
+}
+.Recommendation_FR .rc-gamma {
+  font-size: 1.375rem;
+  line-height: 2rem;
+}
+@media (min-width: 769px) {
+  .Recommendation_FR .rc-gamma {
+    font-size: 1.625rem;
+    line-height: 2.5rem;
+  }
+}

@@ -43,7 +43,8 @@ const isMobile = getDeviceType() === 'H5';
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
+const customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1; // 税额开关 0: on, 1: off
+const enterPriceType = storeInfo ? Number(storeInfo.systemTaxSetting.configVOList[1].context) : 0;  // 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -301,7 +302,6 @@ class LoginCart extends React.Component {
 
       // 存在被删除商品，不能下单
       if (checkoutStore.deletedProNames.length) {
-        debugger
         window.scrollTo({ behavior: 'smooth', top: 0 });
         this.showErrMsg(
           <FormattedMessage
@@ -1422,7 +1422,7 @@ class LoginCart extends React.Component {
         </div>
 
         {/* 税额 */}
-        {customTaxSettingOpenFlag == 0 ? (
+        {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
           <div className="row">
             <div className="col-8">
               <p>
@@ -1471,7 +1471,11 @@ class LoginCart extends React.Component {
                       }`}
                     aria-pressed="true"
                   >
-                    <FormattedMessage id="checkout" />
+                    {process.env.REACT_APP_LANG === 'en' ? (
+                      <FormattedMessage id="loginText" />
+                    ) : (
+                        <FormattedMessage id="checkout" />
+                      )}{' '}
                   </div>
                 </div>
               </a>
@@ -1524,7 +1528,11 @@ class LoginCart extends React.Component {
                       }`}
                     aria-pressed="true"
                   >
-                    <FormattedMessage id="checkout" />{' '}
+                    {process.env.REACT_APP_LANG === 'en' ? (
+                      <FormattedMessage id="loginText" />
+                    ) : (
+                        <FormattedMessage id="checkout" />
+                      )}{' '}
                     {mobileCartVisibleKey === 'less'
                       ? formatMoney(this.tradePrice)
                       : null}
