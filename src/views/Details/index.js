@@ -665,50 +665,52 @@ class Details extends React.Component {
 
           tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
             .map((g) => {
-              let ret;
+              let ret = g.content;
               if (g.content && g.contentType === 'json') {
-                const parsedContent = JSON.parse(g.content).map((el) => {
-                  el = JSON.parse(el);
-                  return el;
-                });
-                // 1 特殊处理description tab【只取EretailShort Description进行展示】
-                // 2 特殊处理benifit tab【拼接星星展示样式】
-                if (descriptionLang.includes(g.descriptionName)) {
-                  const shortDesc = parsedContent
-                    .map((ele) => {
-                      return ele['EretailShort Description'];
-                    })
-                    .filter((e) => e)[0];
-                  const prescriberDesc = parsedContent
-                    .map((ele) => {
-                      return ele['Prescriber Description'];
-                    })
-                    .filter((e) => e)[0];
-                  if (!goodsRes.saleableFlag && goodsRes.displayFlag) {
-                    this.setState({
-                      descContent: isVet ? prescriberDesc : shortDesc
-                    });
-                    ret = null;
-                  } else if (isVet) {
-                    ret = prescriberDesc;
-                  } else {
-                    ret = shortDesc;
-                  }
-                } else if (benifitLang.includes(g.descriptionName)) {
-                  let tmpHtml = parsedContent
-                    .map((ele) => {
-                      return `<li>
+                try {
+                  const parsedContent = JSON.parse(g.content).map((el) => {
+                    el = JSON.parse(el);
+                    return el;
+                  });
+                  // 1 特殊处理description tab【只取EretailShort Description进行展示】
+                  // 2 特殊处理benifit tab【拼接星星展示样式】
+                  if (descriptionLang.includes(g.descriptionName)) {
+                    const shortDesc = parsedContent
+                      .map((ele) => {
+                        return ele['EretailShort Description'];
+                      })
+                      .filter((e) => e)[0];
+                    const prescriberDesc = parsedContent
+                      .map((ele) => {
+                        return ele['Prescriber Description'];
+                      })
+                      .filter((e) => e)[0];
+                    if (!goodsRes.saleableFlag && goodsRes.displayFlag) {
+                      this.setState({
+                        descContent: isVet ? prescriberDesc : shortDesc
+                      });
+                      ret = null;
+                    } else if (isVet) {
+                      ret = prescriberDesc;
+                    } else {
+                      ret = shortDesc;
+                    }
+                  } else if (benifitLang.includes(g.descriptionName)) {
+                    let tmpHtml = parsedContent
+                      .map((ele) => {
+                        return `<li>
                   <div class="list_title">${Object.keys(ele)[0]}</div>
                   <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
                     Object.values(ele)[0].Description
                   }</div>
                 </li>`;
-                    })
-                    .join('');
-                  ret = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                      })
+                      .join('');
+                    ret = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                   ${tmpHtml}
                 </ul>`;
-                }
+                  }
+                } catch (err) {}
               }
               g.content = ret;
               return g;
