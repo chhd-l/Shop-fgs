@@ -676,10 +676,8 @@ export function filterObjectValue(obj) {
   let nonEmpty = {};
   if(obj === null || obj === undefined || obj === "") return nonEmpty;
   for(let key in obj) {
-    if(Object.prototype.toString.call(obj[key]) !== '[object Object]' && obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
+    if(obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
       nonEmpty[key] = obj[key]
-    }else {
-      filterObjectValue(obj[key])
     }
   }
   return nonEmpty;
