@@ -1109,7 +1109,9 @@ class Payment extends React.Component {
       guestEmail,
       promotionCode
     } = this.state;
-    let param = {
+
+    let param = {};
+    param = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,

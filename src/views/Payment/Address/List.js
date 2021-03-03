@@ -209,44 +209,82 @@ class AddressList extends React.Component {
     const { type } = this.props;
     const { deliveryAddress, addressList } = this.state;
     this.currentOperateIdx = idx;
-    let tmpDeliveryAddress = {
-      firstName: '',
-      lastName: '',
-      address1: '',
-      address2: '',
-      rfc: '',
-      country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
-      countryName: '',
-      city: '',
-      cityName: '',
-      provinceNo: '',
-      provinceName: '',
-      province: '',
-      postCode: '',
-      phoneNumber: '',
-      isDefalt: false
-    };
+
+    let tmpDeliveryAddress = {};
+
+    if (process.env.REACT_APP_LANG === 'en') {
+      tmpDeliveryAddress = {
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
+        rfc: '',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryName: '',
+        city: '',
+        cityName: '',
+        provinceNo: '',
+        provinceName: '',
+        province: '',
+        postCode: '',
+        phoneNumber: '',
+        isDefalt: false
+      };
+    }else{
+      tmpDeliveryAddress = {
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
+        rfc: '',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryName: '',
+        city: '',
+        cityName: '',
+        postCode: '',
+        phoneNumber: '',
+        isDefalt: false
+      };
+    }
 
     if (idx > -1) {
       const tmp = addressList[idx];
-      tmpDeliveryAddress = {
-        firstName: tmp.firstName,
-        lastName: tmp.lastName,
-        address1: tmp.address1,
-        address2: tmp.address2,
-        rfc: tmp.rfc,
-        country: tmp.countryId ? tmp.countryId.toString() : '',
-        countryName: tmp.countryName,
-        city: tmp.cityId ? tmp.cityId : tmp.city,
-        cityName: tmp.city,
-        provinceNo: tmp.provinceNo,
-        provinceName: tmp.province,
-        province: tmp.provinceId,
-        postCode: tmp.postCode,
-        phoneNumber: tmp.consigneeNumber,
-        isDefalt: tmp.isDefaltAddress === 1 ? true : false,
-        email: tmp.email
-      };
+      if (process.env.REACT_APP_LANG === 'en') {
+        tmpDeliveryAddress = {
+          firstName: tmp.firstName,
+          lastName: tmp.lastName,
+          address1: tmp.address1,
+          address2: tmp.address2,
+          rfc: tmp.rfc,
+          country: tmp.countryId ? tmp.countryId.toString() : '',
+          countryName: tmp.countryName,
+          city: tmp.cityId ? tmp.cityId : tmp.city,
+          cityName: tmp.city,
+          provinceNo: tmp.provinceNo,
+          provinceName: tmp.province,
+          province: tmp.provinceId,
+          postCode: tmp.postCode,
+          phoneNumber: tmp.consigneeNumber,
+          isDefalt: tmp.isDefaltAddress === 1 ? true : false,
+          email: tmp.email
+        };
+      }else{
+        tmpDeliveryAddress = {
+          firstName: tmp.firstName,
+          lastName: tmp.lastName,
+          address1: tmp.address1,
+          address2: tmp.address2,
+          rfc: tmp.rfc,
+          country: tmp.countryId ? tmp.countryId.toString() : '',
+          countryName: tmp.countryName,
+          city: tmp.cityId ? tmp.cityId : tmp.city,
+          cityName: tmp.city,
+          postCode: tmp.postCode,
+          phoneNumber: tmp.consigneeNumber,
+          isDefalt: tmp.isDefaltAddress === 1 ? true : false,
+          email: tmp.email
+        };
+      }
     }
 
     this.setState(
