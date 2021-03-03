@@ -697,6 +697,13 @@ class Recommendation extends React.Component {
       // history.push('/prescription');
     }
   }
+  addCart = () => {
+    if (this.props.loginStore.isLogin) {
+      this.hanldeLoginAddToCart();
+    } else {
+      this.hanldeUnloginAddToCart(productList, '/cart');
+    }
+  };
   render(h) {
     const { loginStore, history, configStore } = this.props;
     const event = {
@@ -841,13 +848,7 @@ class Recommendation extends React.Component {
                         ? ''
                         : 'rc-btn-solid-disabled'
                     }`}
-                    onClick={() => {
-                      if (loginStore.isLogin) {
-                        this.hanldeLoginAddToCart();
-                      } else {
-                        this.hanldeUnloginAddToCart(productList, '/cart');
-                      }
-                    }}
+                    onClick={this.addCart}
                   >
                     <FormattedMessage id="recommendation.welcomeBtn" />
                     {/* Voir le panier */}
@@ -932,16 +933,16 @@ class Recommendation extends React.Component {
                             />
                           </div>
                         </div>
-                        <div className="text">
-                          <h2
+                        <div className="product-recommendation__desc text-center rc-padding-bottom--lg--mobile">
+                          <h3
                             title={
                               productList[activeIndex].goodsInfo.goodsInfoName
                             }
-                            className="rc-gamma ui-text-overflow-line2 text-break"
+                            className="rc-gamma"
                             style={{ color: '#E2001A' }}
                           >
                             {productList[activeIndex].goodsInfo.goodsInfoName}
-                          </h2>
+                          </h3>
                           {/* <h4>
                             From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
                           </h4> */}
@@ -950,15 +951,7 @@ class Recommendation extends React.Component {
                               <div className="rc-input product-pricing__card__head__title">
                                 <FormattedMessage id="listPrice" />
                               </div>
-                              <b
-                                className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
-                                style={{
-                                  flex: 3,
-                                  fontWeight: '200',
-                                  fontSize: '22px'
-                                  // color: 'rgba(102,102,102,.7)'
-                                }}
-                              >
+                              <div className="rc-large-body  m-auto">
                                 {MaxLinePrice > 0 ? (
                                   MaxLinePrice === MinLinePrice ? (
                                     <span>{formatMoney(MaxLinePrice)}</span>
@@ -971,7 +964,7 @@ class Recommendation extends React.Component {
                                     </span>
                                   )
                                 ) : null}
-                              </b>
+                              </div>
                             </div>
                           )}
                           {MaxSubPrice > 0 && (
@@ -979,29 +972,12 @@ class Recommendation extends React.Component {
                               {/* <div className="rc-input product-pricing__card__head__title">
                                 <FormattedMessage id="autoship" />
                               </div> */}
-                              <b
-                                className="rc-padding-y--none"
-                                style={{
-                                  flex: 3,
-                                  fontWeight: '200',
-                                  fontSize: '22px'
-                                  // color: 'rgba(102,102,102,.7)'
-                                }}
-                              >
-                                <span>
-                                  <FormattedMessage id="from" />{' '}
-                                  {formatMoney(MinSubPrice)}{' '}
-                                  <FormattedMessage id="to" />{' '}
-                                  {formatMoney(MaxMarketPrice)}
-                                </span>
-                                {/* {MaxSubPrice > 0 ? (
-                                  MaxSubPrice === MinSubPrice ? (
-                                    <span>{formatMoney(MaxSubPrice)}</span>
-                                  ) : (
-                                    
-                                  )
-                                ) : null} */}
-                              </b>
+                              <div className="rc-large-body  m-auto">
+                                <FormattedMessage id="from" />{' '}
+                                {formatMoney(MinSubPrice)}{' '}
+                                <FormattedMessage id="to" />{' '}
+                                {formatMoney(MaxMarketPrice)}
+                              </div>
                             </div>
                           )}
                           {this.state.showMore ? (
@@ -1049,10 +1025,10 @@ class Recommendation extends React.Component {
                             {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
                           </div>
-                          <p classNam="legal-disclaimer d-flex rc-padding-x--sm">
+                          <div className="rc-margin-bottom--none rc-meta text-center w-100">
                             Royal Canin's feeding guidelines can also be found
                             on the product packaging.
-                          </p>
+                          </div>
                         </div>
 
                         {productList[activeIndex].benefit ? (
@@ -1092,26 +1068,16 @@ class Recommendation extends React.Component {
                           }}
                         >
                           <button
-                            className={`rc-btn rc-btn--one ${
+                            className={`rc-btn rc-btn--one rc-btn--sm ${
                               this.state.buttonLoading ? 'ui-btn-loading' : ''
                             } ${
                               this.state.inStockProducts.length
                                 ? ''
                                 : 'rc-btn-solid-disabled'
                             }`}
-                            onClick={() => {
-                              if (loginStore.isLogin) {
-                                this.hanldeLoginAddToCart();
-                              } else {
-                                this.hanldeUnloginAddToCart(
-                                  productList,
-                                  '/cart'
-                                );
-                              }
-                            }}
+                            onClick={this.addCart}
                           >
-                            {/* <FormattedMessage id="recommendation.viewInCart" /> */}
-                            Mon panier
+                            <FormattedMessage id="recommendation.viewInCart" />
                           </button>
                         </p>
                       </div>
@@ -1408,13 +1374,7 @@ class Recommendation extends React.Component {
                     } ${
                       this.state.inStockProducts.length ? '' : 'rc-btn-disabled'
                     }`}
-                    onClick={() => {
-                      if (loginStore.isLogin) {
-                        this.hanldeLoginAddToCart();
-                      } else {
-                        this.hanldeUnloginAddToCart(productList, '/cart');
-                      }
-                    }}
+                    onClick={this.AddCart}
                   >
                     Start Now
                   </button>
@@ -1458,134 +1418,6 @@ class Recommendation extends React.Component {
             </div>
           </div>
           <LineModule />
-          {/* <div className="rc-max-width--lg rc-padding-y--lg">
-            <div className="rc-max-width--md text-center rc-padding-x--sm">
-              <h2 className="rc-beta text-center">
-                <FormattedMessage id="recommendation.firstTitle" />
-              </h2>
-              <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
-                <h2>
-                  <FormattedMessage id="recommendation.firstSubTitle" />
-                </h2>
-              </div>
-            </div>
-            <div
-              className={`rc-layout-container rc-two-column rc-content-h-middle flex-md-row ${
-                process.env.REACT_APP_LANG === 'fr' ? 'flex-column-reverse' : ''
-              }`}
-            >
-              <div className="rc-column">
-                <div className="rc-padding-y--lg--mobile rc-full-width">
-                  <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                    {[1, 2, 3, 4].map((item) => (
-                      <li
-                        className="rc-list__item"
-                        style={{ paddingLeft: '2rem' }}
-                      >
-                        <i
-                          className="wof rc-margin-right--xs"
-                          style={{ position: 'absolute', left: '0' }}
-                        ></i>
-                        <FormattedMessage
-                          id={`recommendation.firstContent${item}`}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                  <p style={{ marginTop: '30px', marginBottom: '30px' }}>
-                    <button
-                      className={`rc-btn rc-btn--one ${
-                        this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      } ${
-                        this.state.inStockProducts.length
-                          ? ''
-                          : 'rc-btn-solid-disabled'
-                      }`}
-                      onClick={() => {
-                        if (loginStore.isLogin) {
-                          this.hanldeLoginAddToCart();
-                        } else {
-                          this.hanldeUnloginAddToCart(productList, '/cart');
-                        }
-                      }}
-                    >
-                      <FormattedMessage id="recommendation.firstBtnText" />
-                    </button>
-                  </p>
-                </div>
-              </div>
-              <div className="rc-column">
-                <img
-                  alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
-                  className="w-100 lazyloaded"
-                  src={petsTypeImagArr[this.state.petType]}
-                />
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm">
-            <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
-              <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">
-                <FormattedMessage id="recommendation.secondTitle" />
-              </h2>
-            </div>
-            <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
-              {this.state.secondlist.map((item, idx) => (
-                <div
-                  className={`${
-                    process.env.REACT_APP_LANG === 'fr' ? 'col-6' : ''
-                  } col-md-3 rc-column`}
-                >
-                  <div className="rc-margin-bottom--sm">
-                    <img
-                      style={{ width: '160px' }}
-                      className="m-auto lazyloaded"
-                      alt={item.altText}
-                      onMouseOver={(e) => this.hoverChange(e, idx)}
-                      onMouseOut={(e) => this.hoverChange(e, -1)}
-                      title={item.altText}
-                      src={`${item.isHover ? item.imgHover : item.imgPath}`}
-                    />
-                  </div>
-                  <h7>
-                    <p
-                      className="m-auto"
-                      style={{ width: '160px', maxWidth: '100%' }}
-                      dangerouslySetInnerHTML={{ __html: item.text }}
-                    ></p>
-                  </h7>
-                </div>
-              ))}
-            </div>
-
-            <p
-              style={{
-                marginTop: '70px',
-                textAlign: 'center',
-                marginBottom: isMobile ? '0' : '70px'
-              }}
-            >
-              <button
-                className={`rc-btn rc-btn--one ${
-                  this.state.buttonLoading ? 'ui-btn-loading' : ''
-                } ${
-                  this.state.inStockProducts.length
-                    ? ''
-                    : 'rc-btn-solid-disabled'
-                }`}
-                onClick={() => {
-                  if (loginStore.isLogin) {
-                    this.hanldeLoginAddToCart();
-                  } else {
-                    this.hanldeUnloginAddToCart(productList, '/cart');
-                  }
-                }}
-              >
-                <FormattedMessage id="recommendation.secondBtnText" />
-              </button>
-            </p>
-          </div>
-           */}
           <div className="help-container">
             <Help contentText={this.helpContentText} needReverse={false} />
           </div>
@@ -1609,13 +1441,7 @@ class Recommendation extends React.Component {
                     ? ''
                     : 'rc-btn-solid-disabled'
                 }`}
-                onClick={() => {
-                  if (loginStore.isLogin) {
-                    this.hanldeLoginAddToCart();
-                  } else {
-                    this.hanldeUnloginAddToCart(productList, '/cart');
-                  }
-                }}
+                onClick={this.addCart}
               >
                 Place order
               </button>
