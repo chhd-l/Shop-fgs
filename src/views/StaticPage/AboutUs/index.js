@@ -90,7 +90,7 @@ class AboutUs extends React.Component {
             </nav>
             <div className="experience-region experience-main">
 
-              <div className="experience-component experience-layouts-1column">
+              {/* <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-headingBlock">
@@ -106,7 +106,7 @@ class AboutUs extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
