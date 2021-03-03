@@ -951,6 +951,7 @@ const en_US = {
   'plp.vet.cat.button':'Discover range',
   'signInAndRegisterNow': 'Sign in / Register now',
   contactTimePeriod: 'For any questions, our pet experts are available from Monday to Friday, 8.00 a.m to 4.30 p.m CT',
-  mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method'
+  mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method',
+  'bannerTip.btnText': 'Join the Club'
 }
 export default en_US;

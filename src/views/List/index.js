@@ -919,15 +919,15 @@ class List extends React.Component {
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
-      const cateName = goodsCateName?.split('/') || '';
+      const cateName = goodsCateName?.split('/');
       return {
         price: minMarketPrice,
         specie,
-        range: cateName?.[1],
+        range: cateName?.[1]|| '',
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        technology: cateName?.[2],
+        technology: cateName?.[2]|| '',
         brand: 'Royal Canin',
         breed
       };
@@ -970,15 +970,15 @@ class List extends React.Component {
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
-      const cateName = goodsCateName?.split('/') || '';
+      const cateName = goodsCateName?.split('/');
       return {
         price: minMarketPrice,
         specie,
-        range: cateName?.[1],
+        range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        technology: cateName?.[2],
+        technology: cateName?.[2] || '',
         brand: 'Royal Canin',
         breed,
       };
