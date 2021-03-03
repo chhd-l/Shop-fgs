@@ -57,6 +57,7 @@ class Help extends React.Component {
       phoneTitle,
       phoneDes
     } = this.props.contentText;
+    let isUS = process.env.REACT_APP_LANG == 'en';
     let isEmailUnderLine = this.props.isEmailUnderLine;
     return (
       <div className="experience-region experience-main">
@@ -70,7 +71,7 @@ class Help extends React.Component {
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                   <div
                     className={`text-center ${
-                      true ? '' : 'rc-margin-y--sm rc-margin-top--lg--mobile'
+                      isUS ? 'rc-margin-y--sm rc-margin-top--lg--mobile rc-column' : ''
                     }`}
                   >
                     <h1 className="rc-beta">
@@ -83,7 +84,10 @@ class Help extends React.Component {
                       {/* Our pet experts are here to help you   */}
                     </h1>
                     <div className="rc-large-body inherit-fontsize children-nomargin">
-                      <p className="m-auto text-center">
+                      <p
+                        className="text-center"
+                        style={{ marginBottom: isUS ? '16px' : '0' }}
+                      >
                         {des ? (
                           des
                         ) : (
@@ -110,10 +114,7 @@ class Help extends React.Component {
                               <div className="w-100">
                                 <b
                                   style={{
-                                    color:
-                                      process.env.REACT_APP_LANG == 'us'
-                                        ? '#00A4A6'
-                                        : '#00BCA3'
+                                    color: isUS ? '#00A4A6' : '#00BCA3'
                                   }}
                                 >
                                   {phoneTitle ? (
@@ -130,31 +131,31 @@ class Help extends React.Component {
                                   }}
                                 ></p>
                                 <div className="rc-margin-top--xs">
-                                  <p
-                                    style={{ color: '#00BCA3' }}
+                                  <a
                                     className="rc-numeric rc-md-up"
-                                  >
-                                    <a
-                                      href={
-                                        phone
-                                          ? phone
-                                          : this.props.configStore
-                                              .storeContactPhoneNumber
-                                      }
-                                      style={{ color: '#00BCA3' }}
-                                    >
-                                      {/* <FormattedMessage id="help.tel" /> */}
-                                      {phone
+                                    href={
+                                      phone
                                         ? phone
                                         : this.props.configStore
-                                            .storeContactPhoneNumber}
-                                    </a>
-                                  </p>
+                                            .storeContactPhoneNumber
+                                    }
+                                    style={{
+                                      color: isUS ? '#00A4A6' : '#00BCA3'
+                                    }}
+                                  >
+                                    {/* <FormattedMessage id="help.tel" /> */}
+                                    {phone
+                                      ? phone
+                                      : this.props.configStore
+                                          .storeContactPhoneNumber}
+                                  </a>
                                 </div>
                                 <div className="rc-margin-top--xs">
                                   {process.env.REACT_APP_LANG == 'us' ? (
                                     <p
-                                      style={{ color: '#00BCA3' }}
+                                      style={{
+                                        color: isUS ? '#00A4A6' : '#00BCA3'
+                                      }}
                                       className="rc-numeric rc-md-down"
                                     >
                                       <a
@@ -165,7 +166,9 @@ class Help extends React.Component {
                                             : this.props.configStore
                                                 .storeContactPhoneNumber)
                                         }
-                                        style={{ color: '#00BCA3' }}
+                                        style={{
+                                          color: isUS ? '#00A4A6' : '#00BCA3'
+                                        }}
                                       >
                                         {/* <FormattedMessage id="help.tel" /> */}
                                         {phone
@@ -176,7 +179,9 @@ class Help extends React.Component {
                                     </p>
                                   ) : (
                                     <p
-                                      style={{ color: '#00BCA3' }}
+                                      style={{
+                                        color: isUS ? '#00A4A6' : '#00BCA3'
+                                      }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                       onClick={this.mobileDial}
                                     >
@@ -190,14 +195,12 @@ class Help extends React.Component {
                               </div>
                             </div>
                             <div className="rc-column rc-content-v-middle">
-                              <LazyLoad>
-                                <img
-                                  className="align-self-center widthAuto"
-                                  src={callImg}
-                                  alt="By telephone"
-                                  title="By telephone"
-                                />
-                              </LazyLoad>
+                              <img
+                                className="align-self-center widthAuto"
+                                src={callImg}
+                                alt="By telephone"
+                                title="By telephone"
+                              />
                             </div>
                           </div>
                         </div>
