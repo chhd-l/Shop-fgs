@@ -27,7 +27,8 @@ import {
   getParaByName,
   loadJS,
   getDictionary,
-  unique
+  unique,
+  filterObjectValue
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -259,7 +260,6 @@ class Details extends React.Component {
       event: {},
       eEvents: {},
       hubEcEvents: {},
-      hubProductsLoad: {},
       GAListParam: '',
       initing: true,
       details: {
@@ -1679,30 +1679,29 @@ class Details extends React.Component {
       .map((item) => item.goodsAttributeValue);
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
 
-    const GAProductsInfo = [
-      {
+    const GAProductsInfo = {
         price: minMarketPrice,
         specie,
-        range: cateName?.[1],
+        range: cateName?.[1]||'',
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
         recommendationID,
-        technology: cateName?.[2],
+        technology: cateName?.[2]|| '',
         brand: 'Royal Canin',
         size,
         breed,
-      }
-    ];
-
-    const hubProductsLoad = {
-      products: GAProductsInfo
-    };
+      };
+    const product =  filterObjectValue(GAProductsInfo);
+    window.dataLayer&& dataLayer.push({
+      products: [
+        product
+      ]
+    })
     const hubEcEvents = {
       event: 'pdpScreenLoad'
     };
     this.setState({
-      hubProductsLoad,
       hubEcEvents,
       breed
     });
@@ -1736,7 +1735,6 @@ class Details extends React.Component {
       eEvents,
       spuImages,
       pageLink,
-      hubProductsLoad,
       hubEcEvents,
       goodsType,
       barcode
@@ -1777,9 +1775,8 @@ class Details extends React.Component {
 
     return (
       <div id="Details">
-        {Object.keys(event).length || Object.keys(hubProductsLoad).length ? (
+        {Object.keys(event).length ? (
           <GoogleTagManager
-            hubProductsLoad={hubProductsLoad}
             hubEcommerceEvents={hubEcEvents}
             additionalEvents={event}
             ecommerceEvents={eEvents}

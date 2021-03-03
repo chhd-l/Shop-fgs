@@ -10,7 +10,7 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
-import {myAccountActionPushEvent} from "@/utils/GA"
+import { myAccountActionPushEvent } from "@/utils/GA"
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
@@ -100,38 +100,62 @@ class ShippingAddressFrom extends React.Component {
       let res = await getAddressById({ id });
       let data = res.context;
       console.log('------------------------ getAddressById data: ', data);
-      let addressForm = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        address1: data.address1,
-        address2: data.address2,
-        country: data.countryId,
-        city: data.cityId,
-        postCode: data.postCode,
-        phoneNumber: data.consigneeNumber,
-        rfc: data.rfc,
-        isDefalt: data.isDefaltAddress === 1 ? true : false,
-        deliveryAddressId: data.deliveryAddressId,
-        customerId: data.customerId,
-        addressType: data.type,
-        email: data.email
-      };
+      let addressForm = {};
+      if (process.env.REACT_APP_LANG === 'en') {
+        addressForm = {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          address1: data.address1,
+          address2: data.address2,
+          country: data.countryId,
+          countryName: data.countryName,
+          city: data.cityId,
+          cityName: data.cityName,
+          provinceNo: data.provinceNo,
+          provinceName: data.province,
+          province: data.provinceId,
+          postCode: data.postCode,
+          phoneNumber: data.consigneeNumber,
+          rfc: data.rfc,
+          isDefalt: data.isDefaltAddress === 1 ? true : false,
+          deliveryAddressId: data.deliveryAddressId,
+          customerId: data.customerId,
+          addressType: data.type,
+          email: data.email
+        };
+      } else {
+        addressForm = {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          address1: data.address1,
+          address2: data.address2,
+          country: data.countryId,
+          countryName: data.countryName,
+          city: data.cityId,
+          cityName: data.cityName,
+          postCode: data.postCode,
+          phoneNumber: data.consigneeNumber,
+          rfc: data.rfc,
+          isDefalt: data.isDefaltAddress === 1 ? true : false,
+          deliveryAddressId: data.deliveryAddressId,
+          customerId: data.customerId,
+          addressType: data.type,
+          email: data.email
+        };
+      }
 
       let cityRes = await queryCityNameById({ id: [data.cityId] });
       addressForm.cityName =
         cityRes.context.systemCityVO.length &&
         cityRes.context.systemCityVO[0].cityName;
-      this.setState(
-        {
-          addressForm,
-          showModal: true,
-          isAdd: false,
-          curType: data.type === 'DELIVERY' ? 'delivery' : 'billing'
-        },
-        () => {
-          this.validFormData();
-        }
-      );
+      this.setState({
+        addressForm,
+        showModal: true,
+        isAdd: false,
+        curType: data.type === 'DELIVERY' ? 'delivery' : 'billing'
+      }, () => {
+        this.validFormData();
+      });
     } catch (err) {
       this.showErrorMsg(err.message.toString());
     } finally {
@@ -157,34 +181,52 @@ class ShippingAddressFrom extends React.Component {
         saveLoading: true
       });
       console.log('----------------------> handleSave data: ', data);
-      // 手动输入的城市 id 设为 null
-      let ctId =
-        data.cityName == data.city
-          ? null
-          : data.city;
+      let params = {};
+      if (process.env.REACT_APP_LANG === 'en') {
+        // 手动输入的城市 id 设为 null
+        params = {
+          address1: data.address1,
+          address2: data.address2,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          countryId: +data.country,
+          city: data.cityName,
+          cityId: data.cityName == data.city ? null : data.city,
+          province: data.provinceName,
+          provinceId: data.province,
+          consigneeName: data.firstName + ' ' + data.lastName,
+          consigneeNumber: data.phoneNumber,
+          customerId: data.customerId,
+          deliveryAddress: data.address1 + ' ' + data.address2,
+          deliveryAddressId: data.deliveryAddressId,
+          isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
+          postCode: data.postCode,
+          rfc: data.rfc,
+          email: data.email,
+          type: curType.toUpperCase()
+        };
+      } else {
+        params = {
+          address1: data.address1,
+          address2: data.address2,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          countryId: +data.country,
+          city: data.cityName,
+          cityId: data.cityName == data.city ? null : data.city,
+          consigneeName: data.firstName + ' ' + data.lastName,
+          consigneeNumber: data.phoneNumber,
+          customerId: data.customerId,
+          deliveryAddress: data.address1 + ' ' + data.address2,
+          deliveryAddressId: data.deliveryAddressId,
+          isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
+          postCode: data.postCode,
+          rfc: data.rfc,
+          email: data.email,
+          type: curType.toUpperCase()
+        };
+      }
 
-      let params = {
-        address1: data.address1,
-        address2: data.address2,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        countryId: +data.country,
-        city: data.cityName,
-        cityId: ctId,
-        province: data.provinceName,
-        provinceId: data.province,
-        consigneeName: data.firstName + ' ' + data.lastName,
-        consigneeNumber: data.phoneNumber,
-        customerId: data.customerId,
-        deliveryAddress: data.address1 + ' ' + data.address2,
-        deliveryAddressId: data.deliveryAddressId,
-        isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
-        postCode: data.postCode,
-        provinceId: data.province,
-        rfc: data.rfc,
-        email: data.email,
-        type: curType.toUpperCase()
-      };
       await (this.state.isAdd ? saveAddress : editAddress)(params);
       myAccountActionPushEvent('Add Address')
       this.handleCancel();
@@ -278,7 +320,6 @@ class ShippingAddressFrom extends React.Component {
     });
   };
   handleCityInputChange = (data) => {
-    console.log('----------------------> handleCityInputChange data: ', data);
     const { addressForm } = this.state;
     addressForm.city = data.id;
     addressForm.cityName = data.cityName;
