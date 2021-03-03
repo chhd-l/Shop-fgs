@@ -29,7 +29,7 @@ export default class DropDownMenuForHub extends React.Component {
     this.props.updateActiveTopParentId(tmpId);
   }
   onListItemBlur = (e) => {
-    this.props.updateActiveTopParentId(-1);
+    setTimeout(() => this.props.updateActiveTopParentId(-1), 200);
   };
   hanldeListItemMouseOver(item) {
     // 若存在子项，才展开
