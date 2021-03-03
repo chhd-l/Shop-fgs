@@ -67,7 +67,7 @@ class ProductFinder extends React.Component {
   GAHandle = (stepName,stepOrder,answerdQuestionList) => {
     if(!dataLayer) return
     dataLayer.push({
-      event: 'productFinderScreen',
+      event: 'virtualPageView',
       page: {
         type: 'Product Finder',
         virtualPageURL: this.getStepCurrent(stepName)
