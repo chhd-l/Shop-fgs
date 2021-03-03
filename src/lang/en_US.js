@@ -952,6 +952,7 @@ const en_US = {
   contactTimePeriod: 'For any questions, our pet experts are available from Monday to Friday, 8.00 a.m to 4.30 p.m CT',
   mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method',
   mustChooseTheConsentTip: 'In order to confirm that you wish to be contacted, please tick the corresponding box.',
-  'bannerTip.btnText': 'Join the Club'
+  'bannerTip.btnText': 'Join the Club',
+  'cart.firstOrderDiscountTip': 'The 30% discount for your first order will be applied during checkout'
 }
 export default en_US;
