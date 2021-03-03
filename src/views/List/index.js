@@ -383,7 +383,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
   );
 }
 function ListItemBody({ item, headingTag }) {
-  const goodHeading = `<${headingTag ? headingTag : 'h2'} 
+  const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
       ${item.goodsName}
@@ -595,7 +595,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImgRetail} />
+                  <img style={{marginLeft:'45px'}} src={pfRecoImgRetail} />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -622,7 +622,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImgVet} />
+                  <img style={{marginLeft:'45px'}} src={pfRecoImgVet} />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
