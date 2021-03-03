@@ -1,4 +1,3 @@
-import { array } from 'js-md5';
 import { toJS } from 'mobx';
 
 const isHubGA = process.env.REACT_APP_HUB_GA
