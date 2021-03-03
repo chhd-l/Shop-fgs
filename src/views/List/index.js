@@ -225,7 +225,7 @@ function ListItemForDefault(props) {
         <div className="fullHeight">
           <span className="ui-cursor-pointer">
             <article className="rc-card--a rc-text--center text-center">
-              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
+              <div className="pb-0 justify-content-start rc-padding-top--md">
                 <div className="height-product-tile-plpOnly">
                   <h3
                     className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break text-center"
@@ -235,7 +235,7 @@ function ListItemForDefault(props) {
                   </h3>
                 </div>
                 <div
-                  className=" text-center rc-padding-top--md"
+                  className=" text-center rc-padding-top--xs"
                   style={{ fontSize: 'large' }}
                 >
                   <FormattedMessage
@@ -315,7 +315,7 @@ function ListItemForDefault(props) {
                   <picture className="rc-card__image">
                     <div
                       className="d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                      style={{ height: '14rem' }}
+                      style={{ height: '13rem' }}
                     >
                       {/*循环遍历的图片*/}
                       <LazyLoad
@@ -498,16 +498,16 @@ function ListItemBody({ item, headingTag }) {
       {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly">
-            {item.technologyOrBreedsAttr ? (
-              <div className="rc-card__meta text-center">
-                {item.technologyOrBreedsAttr}
-              </div>
-            ) : null}
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
+            {item.technologyOrBreedsAttr ? (
+              <p className="rc-card__meta text-center rc-padding-top--xs">
+                {item.technologyOrBreedsAttr}
+              </p>
+            ) : null}
           </div>
-          <br />
+          {/* <br /> */}
           {item.fromPrice ? (
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center rc-padding-top--xs">
               <div className="rc-card__price text-left PriceFitScreen">
                 <div className={`rc-full-width PriceFitScreen`}>
                   <span
@@ -619,10 +619,10 @@ function ProductFinderAd({
             <div className="row align-items-center">
               <div className="col-12 col-md-6">
                 <LazyLoad
-                  style={{ width: '100%', height: '100%' }}
+                  style={{ width: '100%', height: '100%',display:'flex',justifyContent:'flex-end' }}
                   height={200}
                 >
-                  <img style={{marginLeft:'45px'}} src={pfRecoImgVet} />
+                  <img src={pfRecoImgVet} />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -915,10 +915,10 @@ class List extends React.Component {
         goodsCateName
       } = item;
       const breed = goodsAttributesValueRelVOAllList
-        .filter((attr) => attr.goodsAttributeName == 'breeds')
+        .filter((attr) => attr.goodsAttributeName && attr.goodsAttributeName.toLowerCase() == 'breeds')
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      const specie = breed.toString().indexOf('Cat') > -1? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: minMarketPrice,
@@ -967,11 +967,11 @@ class List extends React.Component {
         goodsAttributesValueRelVOAllList = [],
         goodsCateName
       } = item;
-      const breed = goodsAttributesValueRelVOAllList
-        .filter((attr) => attr.goodsAttributeName == 'breeds')
-        .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      const breed = goodsAttributesValueRelVOAllList
+        .filter((attr) => attr.goodsAttributeName && attr.goodsAttributeName.toLowerCase() == 'breeds')
+        .map((item) => item.goodsAttributeValue);
+      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: minMarketPrice,

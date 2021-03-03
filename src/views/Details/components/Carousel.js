@@ -57,7 +57,7 @@ class Carousel extends React.Component {
                   const size = goodsSpecDetailVOS?.[0].detailName;
                   const { breeds = [], Range = [], Technology = [] } = attributesValue;
                   const breed = breeds?.length && breeds.map(item => item.attributeDetailName);
-                  const specie = breed.includes('Cat_Cat') ? 'Cat' : 'Dog';
+                  const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
                   const range = Range?.length && Range.map(item => item.attributeDetailName).toString() || '';
                   const technology = Technology?.length && Technology.map(item => item.attributeDetailName).toString() || '';
                   return {
