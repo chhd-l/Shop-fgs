@@ -9,6 +9,7 @@ import Question from './modules/Question';
 import LazyLoad from 'react-lazyload';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import {productFinderPushEvent} from "@/utils/GA"
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -17,6 +18,9 @@ import './index.less';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
+const isHubGA = process.env.REACT_APP_HUB_GA;
+
+const GAStep = ['age','breed','sterilized','genderCode','weight','sensitivity','petActivityCode','lifestyle']
 
 class ProductFinder extends React.Component {
   constructor(props) {
@@ -32,16 +36,7 @@ class ProductFinder extends React.Component {
     this.seletTheType = this.seletTheType.bind(this);
   }
   componentDidMount() {
-    this.GAHandle('speciesCode');
-    // const cachedType = localItemRoyal.get(`pf-cache-type`);
-    // const tmpOrder = sessionItemRoyal.get('pf-edit-order');
-    // const cachedQuestionData = localItemRoyal.get(
-    //   `pf-cache-${cachedType}-question`
-    // );
-
-    // if (cachedType && (cachedQuestionData || tmpOrder)) {
-    //   this.setState({ type: cachedType });
-    // }
+    (!isHubGA)&&this.GAHandle('speciesCode');
     setSeoConfig({
       pageName: 'Product finder'
     }).then((res) => {
@@ -67,10 +62,15 @@ class ProductFinder extends React.Component {
     };
     return stepVirtualPageURLObj[stepCurrent];
   };
-  GAHandle = (stepName) => {
-    if (dataLayer) {
+
+  GAHandle = (stepName,stepOrder,answerdQuestionList) => {
+    if(!dataLayer) return
+    if(isHubGA){
+      if(GAStep.indexOf(stepName) == -1) return //用GAStep去控制需要埋点的步骤
+      productFinderPushEvent({type:this.state.type,stepName,stepOrder,answerdQuestionList})
+    }else{
       dataLayer.push({
-        event: 'virtualPageView',
+        event: 'productFinderScreen',
         page: {
           type: 'Product Finder',
           virtualPageURL: this.getStepCurrent(stepName)
@@ -167,10 +167,6 @@ class ProductFinder extends React.Component {
               <Question
                 GAHandle={this.GAHandle}
                 type={type}
-                // defaultQuestionData={localItemRoyal.get(
-                //   `pf-cache-${type}-question`
-                // )}
-                // defaultStep={sessionItemRoyal.get('pf-edit-order')}
                 history={this.props.history}
               />
             ) : (
