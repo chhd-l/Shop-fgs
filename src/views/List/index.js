@@ -507,7 +507,7 @@ function ListItemBody({ item, headingTag }) {
           </div>
           {/* <br /> */}
           {item.fromPrice ? (
-            <div className="d-flex justify-content-center rc-padding-top--xs">
+            <div className="d-flex justify-content-center" style={{padding:'1rem 0'}}>
               <div className="rc-card__price text-left PriceFitScreen">
                 <div className={`rc-full-width PriceFitScreen`}>
                   <span
