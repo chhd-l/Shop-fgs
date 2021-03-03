@@ -802,7 +802,7 @@ class SubscriptionDetail extends React.Component {
                                     padding: isMobile ? '0 0 0 10px' : '0'
                                   }}
                                 >
-                                  <div
+                                  {/* <div
                                     className="rc-layout-container rc-five-column"
                                     style={{
                                       paddingRight: isMobile ? '0' : '60px',
@@ -868,8 +868,8 @@ class SubscriptionDetail extends React.Component {
                                         </p>
                                       </div>
                                     </div>
-                                  </div>
-                                  {/* {isActive ? (
+                                  </div> */}
+                                  {isActive ? (
                                     <>
                                       <LazyLoad>
                                         <img
@@ -882,7 +882,7 @@ class SubscriptionDetail extends React.Component {
                                         />
                                       </LazyLoad>
                                       <a
-                                        className="rc-styled-link"
+                                        className={`rc-styled-link ${isGift?'disabled':''}`}
                                         href="#/"
                                         onClick={(e) =>
                                           this.handleSkipNext(e, el)
@@ -891,7 +891,7 @@ class SubscriptionDetail extends React.Component {
                                         <FormattedMessage id="skip" />
                                       </a>
                                     </>
-                                  ) : null} */}
+                                  ) : null}
                                 </div>
                                 {/* <span className="red">
                                   {formatMoney(tradeItem.subscriptionPrice)}

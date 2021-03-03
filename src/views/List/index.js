@@ -915,10 +915,10 @@ class List extends React.Component {
         goodsCateName
       } = item;
       const breed = goodsAttributesValueRelVOAllList
-        .filter((attr) => attr.goodsAttributeName == 'breeds')
+        .filter((attr) => attr.goodsAttributeName && attr.goodsAttributeName.toLowerCase() == 'breeds')
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      const specie = breed.toString().indexOf('Cat') > -1? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: minMarketPrice,
@@ -967,11 +967,11 @@ class List extends React.Component {
         goodsAttributesValueRelVOAllList = [],
         goodsCateName
       } = item;
-      const breed = goodsAttributesValueRelVOAllList
-        .filter((attr) => attr.goodsAttributeName == 'breeds')
-        .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
+      const breed = goodsAttributesValueRelVOAllList
+        .filter((attr) => attr.goodsAttributeName && attr.goodsAttributeName.toLowerCase() == 'breeds')
+        .map((item) => item.goodsAttributeValue);
+      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: minMarketPrice,
