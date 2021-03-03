@@ -34,7 +34,8 @@ const isGift = true;
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
+const customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1; // 税额开关 0: on, 1: off
+const enterPriceType = storeInfo ? Number(storeInfo.systemTaxSetting.configVOList[1].context) : 0; // 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
 
 @injectIntl
 @inject('checkoutStore', 'loginStore', 'clinicStore')
@@ -1568,7 +1569,7 @@ class UnLoginCart extends React.Component {
 
 
           {/* 税额 */}
-          {customTaxSettingOpenFlag == 0 ? (
+          {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
             <div className="row">
               <div className="col-8">
                 <p>
