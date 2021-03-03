@@ -90,7 +90,7 @@ class SearchSelection extends React.Component {
           }
 
           this.setState({
-            form: form.value,
+            form: form,
             optionPanelVisible: false,
           });
           this.props.selectedItemChange(citem);
