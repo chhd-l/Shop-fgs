@@ -72,6 +72,12 @@ class Confirmation extends React.Component {
     let obj = doGetGAVal(this.props)
     this.setState({pet:obj})
   }
+  getIsAllOneShootGoods=()=>{
+    let isAllOneShootGoods = this.state.details.tradeItems.every((item) => {
+      return item.goodsInfoFlag != 1 //goodsInfoFlag==1表示订阅
+    })
+    this.setState({ isAllOneShootGoods })
+  }
   componentWillMount() {
     isHubGA&&this.getPetVal()
   }
@@ -123,7 +129,10 @@ class Confirmation extends React.Component {
           detailList: res.map((ele) => ele.context)
         }, () => {
           (!isHubGA) && this.getGAEComTransaction()
-          isHubGA && orderConfirmationPushEvent(this.state.details)
+          if(isHubGA){
+            this.getIsAllOneShootGoods()
+            orderConfirmationPushEvent(this.state.details)
+          }
         });
         const payRecordRes = await getPayRecord(resContext.totalTid);
         this.setState({
@@ -198,6 +207,7 @@ class Confirmation extends React.Component {
       return item.goodsInfoFlag != 1 //goodsInfoFlag==1表示订阅
     })
     this.setState({ isAllOneShootGoods })
+
 
     let isAllSubscriptionGoods = details.tradeItems.every((item) => {
       return item.goodsInfoFlag == 1
