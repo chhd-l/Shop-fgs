@@ -347,8 +347,8 @@ export const orderConfirmationPushEvent = (details)=>{
 }
 
 
-//product finder 
-const getStepCurrentHub = ({type,stepName})=>{
+//product finder  productFinderScreen:{name}
+const getStepCurrentName = ({type,stepName})=>{
   let stepVirtualPageURLObj = { 
     age: 'productfinder/' + type + '/age',
     breed: 'productfinder/' + type + '/breed',
@@ -362,14 +362,23 @@ const getStepCurrentHub = ({type,stepName})=>{
   return stepVirtualPageURLObj[stepName];
 }
 
+//product finder  productFinderScreen:{previousAnswer}
+const getStepCurrentPreviousAnswer = (answerList)=>{
+  if (answerList.length==0) return
+  if (answerList[answerList.length-1].productFinderAnswerDetailsVO){
+    let productFinderAnswerDetailsVO = answerList[answerList.length-1].productFinderAnswerDetailsVO
+    return productFinderAnswerDetailsVO.prefix + " " + productFinderAnswerDetailsVO.suffix
+  }
+}
+
 //product finder 
 export const productFinderPushEvent = ({type,stepName,stepOrder,answerdQuestionList}) => {
   dataLayer.push({
     'event' : 'productFinderScreen',
     'productFinderScreen' : {
-      'name' : getStepCurrentHub({type,stepName}), //Pattern : productfinder/pet/step, see full list below
-      'number' : 3, //Step number
-      'previousAnswer' : 'My dog has health issues' //Answer to previous question, generic name, in English
+      'name' : getStepCurrentName({type,stepName}), //Pattern : productfinder/pet/step, see full list below
+      'number' : stepOrder, //Step number
+      'previousAnswer' :getStepCurrentPreviousAnswer(answerdQuestionList)  //Answer to previous question, generic name, in English
       }
     });
 }

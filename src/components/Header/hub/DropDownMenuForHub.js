@@ -16,6 +16,7 @@ export default class DropDownMenuForHub extends React.Component {
   constructor(props) {
     super(props);
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
+    this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.toggleListItem = this.toggleListItem.bind(this);
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
@@ -27,6 +28,7 @@ export default class DropDownMenuForHub extends React.Component {
       tmpId = item.id;
     }
     this.props.updateActiveTopParentId(tmpId);
+    !item.expanded && this.menuItemEvent(item);
   }
   onListItemBlur = (e) => {
     setTimeout(() => this.props.updateActiveTopParentId(-1), 200);
@@ -38,20 +40,9 @@ export default class DropDownMenuForHub extends React.Component {
   hanldeListItemMouseOut = () => {
     this.props.updateActiveTopParentId(-1);
   };
-  // 埋点submenu和banner
-  GAClickMenu(interaction) {
-    const { category, action, label, value } = interaction;
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
-      interaction: {
-        category,
-        action,
-        label,
-        value
-      }
-    });
+  handleClickNavItem(item, cItem) {
+    this.menuItemEvent(item, cItem);
   }
-
   menuItemEvent(item, cItem, type) {
     const Level1 = item?.Link?.Text;
     const Level2 = type ? cItem : cItem?.Link?.Text;
@@ -59,7 +50,7 @@ export default class DropDownMenuForHub extends React.Component {
       dataLayer.push({
         event: 'navTopClick',
         navTopClick: {
-          itemName: `${Level1}|${Level2}`
+          itemName: [Level1, Level2].filter((e) => e).join('|')
         }
       });
   }
@@ -93,6 +84,7 @@ export default class DropDownMenuForHub extends React.Component {
                 role="menuitem"
                 // title="Breeds"
                 key={gItem.id}
+                onClick={this.handleClickNavItem.bind(this, item, gItem)}
               >
                 {gItem.Link.Text}
               </a>
@@ -120,6 +112,11 @@ export default class DropDownMenuForHub extends React.Component {
                         href={cItem.PrimaryLink.Url}
                         className="rc-btn rc-btn--two"
                         data-ref="nav-link"
+                        onClick={this.handleClickNavItem.bind(
+                          this,
+                          item,
+                          cItem
+                        )}
                       >
                         {cItem.PrimaryLink.Text}
                       </a>
@@ -161,6 +158,12 @@ export default class DropDownMenuForHub extends React.Component {
                           className="rc-margin-bottom--xs--desktop rc-mega-menu-dropdown__link__title rc-text-colour--text rc-mega-menu-dropdown__link"
                           href={sItem.Link.Url}
                           data-ref="nav-link"
+                          onClick={this.handleClickNavItem.bind(
+                            this,
+                            item,
+                            sItem,
+                            1
+                          )}
                         >
                           {sItem.Title}
                         </a>
@@ -169,6 +172,12 @@ export default class DropDownMenuForHub extends React.Component {
                             className="rc-mega-menu-dropdown__link"
                             href={sItem.Link.Url}
                             data-ref="nav-link"
+                            onClick={this.handleClickNavItem.bind(
+                              this,
+                              item,
+                              sItem,
+                              1
+                            )}
                           >
                             {sItem.Subtitle}
                           </a>
@@ -198,6 +207,11 @@ export default class DropDownMenuForHub extends React.Component {
                         className="rc-contact-dropdown__sub-title rc-contact-dropdown-column__link"
                         data-ref="nav-link"
                         href="tel:+33 4 66 73 03 00"
+                        onClick={this.handleClickNavItem.bind(
+                          this,
+                          item,
+                          cItem
+                        )}
                       >
                         {cItem.Subtitle}
                       </a>
@@ -210,11 +224,16 @@ export default class DropDownMenuForHub extends React.Component {
                         +33 4 66 73 03 00
                       </a>
                       <br /> */}
-                      {item.Link && item.Link.Url ? (
+                      {cItem.Link && cItem.Link.Url ? (
                         <a
                           className="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link"
                           data-ref="nav-link"
                           href={item.Link.Url}
+                          onClick={this.handleClickNavItem.bind(
+                            this,
+                            item,
+                            cItem
+                          )}
                         >
                           {cItem.Description}
                         </a>
@@ -236,6 +255,11 @@ export default class DropDownMenuForHub extends React.Component {
                         }`}
                         data-ref="nav-link"
                         href={item.Link.Url}
+                        onClick={this.handleClickNavItem.bind(
+                          this,
+                          item,
+                          cItem
+                        )}
                       />
                     ) : // </div>
                     null}

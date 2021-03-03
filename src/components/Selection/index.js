@@ -50,7 +50,8 @@ export default class Selection extends React.Component {
   handleClickOption(value, item) {
     this.setState(
       {
-        selectedItem: { value, ...item }
+        selectedItem: { value, ...item },
+        optionsVisible: false
       },
       () => {
         this.props.selectedItemChange(this.state.selectedItem);
@@ -161,11 +162,23 @@ export default class Selection extends React.Component {
                   <div
                     className={`choices__item choices__item--choice choices__item--selectable ${
                       hoveredIdx === i ? 'is-highlighted' : ''
-                    }`}
+                    } ${item.disabled? 'disabled_item': ''}`}
                     role="option" aria-selected="false"
                     key={i}
-                    onClick={() => this.handleClickOption(item.value, item)}
-                    onMouseEnter={() => this.handleMouseEnterOption(i)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      if(item.disabled) {
+                        return
+                      }
+                      this.handleClickOption(item.value, item)
+                    }}
+                    onMouseEnter={() => {
+                      if(item.disabled) {
+                        return
+                      }
+                      this.handleMouseEnterOption(i) 
+                    }}
                   >
                     {item.name}
                   </div>

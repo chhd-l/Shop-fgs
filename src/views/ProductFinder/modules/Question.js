@@ -125,7 +125,7 @@ class Question extends React.Component {
       }
       return item;
     });
-    this.props.GAHandle(targetItem.questionName);
+    this.props.GAHandle(targetItem.questionName,editStopOrder,answerdQuestionList);
     this.setDefaultDataFromCache({
       questionName: targetItem.questionName,
       answerList: targetItem.answerList,
@@ -381,8 +381,6 @@ class Question extends React.Component {
           questionType: qRes.questionType,
           configSizeAttach: sizeStep
         });
-        console.log(resContext)
-        //debugger
         this.props.GAHandle(resContext.step.name,resContext.stepOrder,resContext.answerdQuestionList);
         this.setState(
           {

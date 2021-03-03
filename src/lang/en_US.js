@@ -865,8 +865,7 @@ const en_US = {
   'addedtoCart': 'Added to cart',
   'continueMyPurchases': 'Continue my purchases',
   'goToCart': 'Go to shopping cart',
-  'subscribe': 'Subscribe',
-
+  'subscribe': 'Add to Cart',
   'registerCloud': 'Commerce Cloud Storefront reference architecture',
   'registerErrorMessage': 'An error occurred while creating your account. Please try again later or use a different email address. ',
   'registerWelcome': 'Welcome to',
