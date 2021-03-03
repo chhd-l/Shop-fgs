@@ -493,7 +493,7 @@ class Header extends React.Component {
         >
           {+process.env.REACT_APP_HUB ? (
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
-              <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right">
+              <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">
                 <div className="rc-column p-0">
                   <Language
                     className={`qhx rc-btn rc-btn--icon-label rc-icon rc-language--xs rc-iconography ui-cursor-pointer ${
