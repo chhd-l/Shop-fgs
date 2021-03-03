@@ -7,7 +7,7 @@ import LazyLoad from 'react-lazyload';
 import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
 import { Link } from 'react-router-dom';
-import LanguagePage from '@/views/Language';
+import Language from '@/components/Language';
 
 function SecondItemContainer(props) {
   const { item } = props;
@@ -50,8 +50,7 @@ class MegaMenuMobileForHub extends React.Component {
     this.state = {
       showMegaMenu: false,
       menuData: this.props.menuData,
-      portalAndShareData: [],
-      languagePopVisible: false
+      portalAndShareData: []
     };
     this.toggleMenu = this.toggleMenu.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
@@ -275,20 +274,9 @@ class MegaMenuMobileForHub extends React.Component {
       </>
     );
   };
-  handleClickShowLanguage = () => {
-    this.setState({ languagePopVisible: true });
-  };
-  onLanguagePopClose = () => {
-    this.setState({ languagePopVisible: false });
-  };
   render() {
     const { history, isLogin, userInfo } = this.props;
-    const {
-      showMegaMenu,
-      menuData,
-      portalAndShareData,
-      languagePopVisible
-    } = this.state;
+    const { showMegaMenu, menuData, portalAndShareData } = this.state;
     return (
       <>
         <button
@@ -373,13 +361,10 @@ class MegaMenuMobileForHub extends React.Component {
                       ))}
                     </li>
                     <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
-                      <span
-                        onClick={this.handleClickShowLanguage}
-                        className="rc-list__header bg-transparent border-0"
-                      >
+                      <Language className="rc-list__header bg-transparent border-0">
                         <span className="iconfont">&#xe60c;</span>{' '}
                         <FormattedMessage id="language" />
-                      </span>
+                      </Language>
                     </li>
                   </ul>
                 </div>
@@ -387,9 +372,6 @@ class MegaMenuMobileForHub extends React.Component {
             </nav>
           </section>
         </div>
-        {languagePopVisible ? (
-          <LanguagePage onClose={this.onLanguagePopClose} />
-        ) : null}
       </>
     );
   }

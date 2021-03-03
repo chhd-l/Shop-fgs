@@ -301,7 +301,6 @@ class LoginCart extends React.Component {
 
       // 存在被删除商品，不能下单
       if (checkoutStore.deletedProNames.length) {
-        debugger
         window.scrollTo({ behavior: 'smooth', top: 0 });
         this.showErrMsg(
           <FormattedMessage
@@ -1471,7 +1470,11 @@ class LoginCart extends React.Component {
                       }`}
                     aria-pressed="true"
                   >
-                    <FormattedMessage id="checkout" />
+                    {process.env.REACT_APP_LANG === 'en' ? (
+                      <FormattedMessage id="loginText" />
+                    ) : (
+                        <FormattedMessage id="checkout" />
+                      )}{' '}
                   </div>
                 </div>
               </a>
@@ -1524,7 +1527,11 @@ class LoginCart extends React.Component {
                       }`}
                     aria-pressed="true"
                   >
-                    <FormattedMessage id="checkout" />{' '}
+                    {process.env.REACT_APP_LANG === 'en' ? (
+                      <FormattedMessage id="loginText" />
+                    ) : (
+                        <FormattedMessage id="checkout" />
+                      )}{' '}
                     {mobileCartVisibleKey === 'less'
                       ? formatMoney(this.tradePrice)
                       : null}

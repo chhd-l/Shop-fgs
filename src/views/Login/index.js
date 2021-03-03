@@ -126,7 +126,6 @@ class Login extends React.Component {
     let customerId =  this.getUserInfo &&  this.getUserInfo.customerId
     login(this.state.loginForm)
       .then((res) => {
-        debugger
         localItemRoyal.set('rc-token', res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;

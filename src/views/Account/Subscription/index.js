@@ -89,7 +89,7 @@ class Subscription extends React.Component {
   }
 
   async componentDidMount() {
-    myAccountPushEvent('Orders & Subscriptions')
+    myAccountPushEvent('Subscriptions')
     setSeoConfig({
       pageName: 'Account subscriptions'
     }).then((res) => {

@@ -8,7 +8,7 @@ export default function PromotionPanel({ item }) {
         <div className="container-text">
           <p className="title-text red">{item.Title}</p>
           <p className="medium">{item.Subtitle}</p>
-          <a link={item.PrimaryLink.Url} className="rc-btn rc-btn--two red">
+          <a href={item.PrimaryLink.Url} className="rc-btn rc-btn--two red">
             {item.PrimaryLink.Text}
           </a>
         </div>

@@ -18,7 +18,7 @@ import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
-import {orderConfirmationPushEvent} from "@/utils/GA"
+import {orderConfirmationPushEvent,doGetGAVal} from "@/utils/GA"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -27,7 +27,7 @@ const pageLink = window.location.href
 const isHubGA = process.env.REACT_APP_HUB_GA
 
 
-@inject('checkoutStore', 'frequencyStore')
+@inject('checkoutStore', 'frequencyStore','loginStore')
 @observer
 class Confirmation extends React.Component {
   constructor(props) {
@@ -63,12 +63,17 @@ class Confirmation extends React.Component {
       detailList: null,
       payRecord: null,
       email: '',
-      isAllOneShootGoods: true
+      isAllOneShootGoods: true,
+      pet: {}
     };
     this.timer = null;
   }
-  componentWillUnmount() {
-
+  getPetVal() {
+    let obj = doGetGAVal(this.props)
+    this.setState({pet:obj})
+  }
+  componentWillMount() {
+    isHubGA&&this.getPetVal()
   }
   async componentDidMount() {
     setSeoConfig().then(res => {
@@ -320,7 +325,8 @@ class Confirmation extends React.Component {
         error: '',
         hitTimestamp: new Date(),
         filters: '',
-      }
+      },
+      pet: this.state.pet
     };
 
     return (

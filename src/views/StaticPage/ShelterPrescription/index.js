@@ -33,7 +33,7 @@ class ShelterPrescription extends React.Component {
       emailDes: ' We will respond as soon as possible.',
       phoneTitle: 'Call us',
       phone: '1-844-673-3772',
-      email: 'Send us an Email',
+      email: 'Send us an email',
       phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
@@ -94,7 +94,10 @@ class ShelterPrescription extends React.Component {
             </picture>
             <div className="rc-card__body">
               <header>
-                <h3 className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">
+                <h3
+                  className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
+                  style={{ height: '64px' }}
+                >
                   {item.goodsName}
                 </h3>
               </header>
@@ -152,8 +155,8 @@ class ShelterPrescription extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile rc-layout-container rc-three-column">
-            <div className=" row align-items-md-center">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-layout-container rc-three-column">
+            <div className=" row align-items-md-center rc-margin-x--none">
               <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
                 <lazyLoad>
                   <img src={CATSPng} />
@@ -208,33 +211,35 @@ class ShelterPrescription extends React.Component {
               </div>
             </div>
           </div>
-          <div className="gray-for-pc rc-padding-top--xl--mobile">
+          <div className="rc-padding-top--xl--mobile rc-bg-colour--brand4">
             <div className="rc-layout-container rc-two-column rc-max-width--xl rc-padding-x--sm rc-padding-x--sm--mobile align-items-md-center">
-              <div className=" col-12 col-lg-6">
-                <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                  <h2 className="red rc-beta markup-text">
-                    Join The Club. Get Big Perks.
-                  </h2>
-                  <p>
-                    When you choose autoship, you’re automatically part of the
-                    Royal Canin® Club. With your membership, you get tailored
-                    nutrition and support for your pet – along with automatic
-                    shipping and discounts. Your membership also includes Royal
-                    Canin Pet Advisor Live, where you can chat with a
-                    veterinarian around the clock about your pet’s health,
-                    nutrition and behavior; track your pet’s growth; and more.
-                  </p>
-                  <p>
-                    <Link to="/subscription-landing">
-                      <button className="rc-btn rc-btn--two gtm-content-block-btn ">
-                        JOIN THE CLUB
-                      </button>
-                    </Link>
-                  </p>
+              <div className="row align-items-md-center">
+                <div className=" col-12 col-lg-6">
+                  <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                    <h2 className="red rc-beta markup-text">
+                      Join The Club. Get Big Perks.
+                    </h2>
+                    <p style={{ wordBreak: 'break-word' }}>
+                      When you choose autoship, you’re automatically part of the
+                      Royal Canin® Club. With your membership, you get tailored
+                      nutrition and support for your pet – along with automatic
+                      shipping and discounts. Your membership also includes
+                      Royal Canin Pet Advisor Live, where you can chat with a
+                      veterinarian around the clock about your pet’s health,
+                      nutrition, behavior and more.
+                    </p>
+                    <p>
+                      <Link to="/subscription-landing">
+                        <button className="rc-btn rc-btn--two gtm-content-block-btn ">
+                          JOIN THE CLUB
+                        </button>
+                      </Link>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                <img src={catAndPhone} />
+                <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                  <img src={catAndPhone} />
+                </div>
               </div>
             </div>
           </div>
@@ -287,7 +292,7 @@ class ShelterPrescription extends React.Component {
               </Slider>
             </div>
           </div>
-          <div className="rc-padding-top--lg text-center rc-column ">
+          <div className="rc-padding-top--lg text-center">
             <Help contentText={this.helpContentText} needReverse={false} />
           </div>
           <div className="experience-component experience-assets-divider">
@@ -296,14 +301,28 @@ class ShelterPrescription extends React.Component {
               style={{ borderBottomWidth: '4px' }}
             ></div>
           </div>
-          <div className="rc-max-width--md text-center rc-margin-y--md section-why text-center">
-            <h4 className="red">Why Royal Canin?</h4>
-            <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-              We focus our attention on the unique needs of cats and dogs. That
-              obsession with detail is what makes it possible for us to deliver
-              precise, effective nutrition and help pets become their
-              magnificent best.
+          <div className="experience-component experience-assets-divider">
+            <div
+              className="rc-border-bottom rc-border-colour--brand4"
+              style={{ borderBottomWidth: '4px' }}
+            ></div>
+          </div>
+          <div className="rc-max-width--md text-center section-why text-center">
+            <div className="rc-max-width--md text-center rc-margin-y--md">
+              <div className="rc-beta inherit-fontsize">
+                <h3 className="red">Why Royal Canin?</h3>
+              </div>
+              <div>
+              {/* <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content"> */}
+                <p style={{ wordBreak: 'break-word' }}>
+                  We focus our attention on the unique needs of cats and dogs.
+                  That obsession with detail is what makes it possible for us to
+                  deliver precise, effective nutrition and help pets become
+                  their magnificent best.
+                </p>
+              </div>
             </div>
+
             <div className="experience-component experience-assets-youtubeVideo">
               <div className="rc-max-width--md rc-padding-x--lg">
                 <div className="rc-video-wrapper dog-video">

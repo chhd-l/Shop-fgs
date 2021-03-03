@@ -1,9 +1,22 @@
+import { array } from 'js-md5';
 import { toJS } from 'mobx';
 
 const isHubGA = process.env.REACT_APP_HUB_GA
 
+
+//删除对象中空属性
+export function deleteObjEmptyAttr (obj) {
+  for(var key in obj){
+    if(obj[key] ==''||(Array.isArray(obj[key])&&obj[key].length==0)){
+       delete obj[key]
+    }
+  }
+  return obj
+}
+
+
 //天-0周  周-value*1 月-value*4
-const getComputedWeeks = (frequencyList) => {
+export const getComputedWeeks = (frequencyList) => {
   let calculatedWeeks = {}; 
 
   frequencyList.forEach((item) => {
@@ -31,7 +44,8 @@ export const myAccountPushEvent = (myAccountScreenName) => {
     'event': 'myAccountScreen',
     myAccountScreenName, //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
   })
-  console.log(myAccountScreenName)
+  // console.log(myAccountScreenName)
+  // debugger
 }
 
 //myAccountAction
@@ -42,11 +56,13 @@ export const myAccountActionPushEvent = (myAccountActionName) => {
     myAccountActionName,
     //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change email', 'Change password', 'Delete Account'
   })
-  console.log(myAccountActionName)
+  // console.log(myAccountActionName)
+  // debugger
 }
 
 //faqClick
 export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
+  if (!isHubGA) return
   dataLayer.push({
     'event': 'faqClick',
     'faqClick': {
@@ -58,6 +74,7 @@ export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
 
 //cartScreenLoad
 export const GACartScreenLoad = () => {
+  if (!isHubGA) return
   dataLayer.push({
     event: 'cartScreenLoad'
   });
@@ -66,6 +83,7 @@ export const GACartScreenLoad = () => {
 
 //init 游客(cart+checkout都使用)
 export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
+  if (!isHubGA) return
   let breed = []
   productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
       breed.push(item2.goodsAttributeValue)
@@ -83,9 +101,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
     let range = item.goodsCateName?.split("/")[1] || ""
     let technology = item.goodsCateName?.split("/")[2] || ""
     
-    
-
-    arr.push({
+    let obj = deleteObjEmptyAttr({
       'price': price, //Product Price, including discount if promo code activated for this product
       'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
       'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
@@ -104,7 +120,9 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 
       promoCodeName: '', //Promo code name, only if promo activated
       promoCodeAmount: '' //Promo code amount, only if promo activated
-    });
+    })
+
+    arr.push(obj);
   }
   dataLayer.push({
     products: arr
@@ -113,7 +131,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 
 //init 会员(cart+checkout都使用)
 export const GAInitLogin = ({productList,frequencyList,props}) => {
-
+  if (!isHubGA) return
   const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = [];
   for (let item of productList) {
@@ -125,8 +143,7 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
       breed.push(item2.goodsAttributeValue)
     })
 
-
-    arr.push({
+    let obj = deleteObjEmptyAttr({
       price:
         item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
       specie: item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
@@ -148,7 +165,9 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
 
       promoCodeName: '', //Promo code name, only if promo activated
       promoCodeAmount: '' //Promo code amount, only if promo activated
-    });
+    })
+
+    arr.push(obj);
   }
   dataLayer.push({
     products: arr
@@ -157,6 +176,7 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
 
 //cart cartChangeSubscription
 export const GACartChangeSubscription = (btnContent) => {
+  if (!isHubGA) return
   dataLayer.push({
     event: 'cartChangeSubscription',
     cartChangeSubscription: {
@@ -260,6 +280,7 @@ export const GACartChangeSubscription = (btnContent) => {
 
 //GA pet 全局获取
 export const doGetGAVal = (props) => {
+  if (!isHubGA) return
   let breed = [],
            id = [],
           obj = {
@@ -267,6 +288,7 @@ export const doGetGAVal = (props) => {
       breedName: []
     }
     const { loginStore:{isLogin},checkoutStore: { cartData, loginCartData } } = props
+    
     if (isLogin) {
       for (let item of loginCartData) {
         item.goodsAttributesValueRelVOList.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
@@ -293,11 +315,12 @@ export const doGetGAVal = (props) => {
     }
     obj.specieId = id
     obj.breedName = breed
-    return obj
+    return deleteObjEmptyAttr(obj)
 }
 
 //checkout step
 export const checkoutDataLayerPushEvent = ({ name, options }) => {
+  if (!isHubGA) return
   dataLayer.push({
     event: 'checkoutStep',
     checkoutStep: {
@@ -309,7 +332,8 @@ export const checkoutDataLayerPushEvent = ({ name, options }) => {
 
 //Order confirmation
 export const orderConfirmationPushEvent = (details)=>{
-  dataLayer.push({
+  if (!isHubGA) return
+  let obj = deleteObjEmptyAttr({
     'event': 'orderConfirmation',
     'orderConfirmation': {
       'id': details.transactionId || "", //Transaction ID, same as backend system
@@ -319,5 +343,6 @@ export const orderConfirmationPushEvent = (details)=>{
       'shipping': details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
       'paymentMethod': 'Credit Card' //'Credit Card' currently only payment method in use
     }
-  });
+  })
+  dataLayer.push(obj);
 }

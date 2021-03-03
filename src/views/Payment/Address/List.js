@@ -27,8 +27,8 @@ class AddressList extends React.Component {
     type: 'delivery',
     showOperateBtn: true,
     titleVisible: true,
-    updateFormValidStatus: () => {},
-    updateData: () => {}
+    updateFormValidStatus: () => { },
+    updateData: () => { }
   };
   constructor(props) {
     super(props);
@@ -136,8 +136,6 @@ class AddressList extends React.Component {
         () => {
           // this.updateSelectedData();
           // this.confirmToNextPanel({ init });
-          
-    console.log('★★★★★★★★-> List addressList: ', addressList);
         }
       );
     } catch (err) {
@@ -211,36 +209,82 @@ class AddressList extends React.Component {
     const { type } = this.props;
     const { deliveryAddress, addressList } = this.state;
     this.currentOperateIdx = idx;
-    let tmpDeliveryAddress = {
-      firstName: '',
-      lastName: '',
-      address1: '',
-      address2: '',
-      rfc: '',
-      country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
-      city: '',
-      cityName: '',
-      postCode: '',
-      phoneNumber: '',
-      isDefalt: false
-    };
+
+    let tmpDeliveryAddress = {};
+
+    if (process.env.REACT_APP_LANG === 'en') {
+      tmpDeliveryAddress = {
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
+        rfc: '',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryName: '',
+        city: '',
+        cityName: '',
+        provinceNo: '',
+        provinceName: '',
+        province: '',
+        postCode: '',
+        phoneNumber: '',
+        isDefalt: false
+      };
+    }else{
+      tmpDeliveryAddress = {
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
+        rfc: '',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryName: '',
+        city: '',
+        cityName: '',
+        postCode: '',
+        phoneNumber: '',
+        isDefalt: false
+      };
+    }
 
     if (idx > -1) {
       const tmp = addressList[idx];
-      tmpDeliveryAddress = {
-        firstName: tmp.firstName,
-        lastName: tmp.lastName,
-        address1: tmp.address1,
-        address2: tmp.address2,
-        rfc: tmp.rfc,
-        country: tmp.countryId ? tmp.countryId.toString() : '',
-        city: tmp.cityId ? tmp.cityId.toString() : '',
-        cityName: tmp.city, 
-        postCode: tmp.postCode,
-        phoneNumber: tmp.consigneeNumber,
-        isDefalt: tmp.isDefaltAddress === 1 ? true : false,
-        email: tmp.email
-      };
+      if (process.env.REACT_APP_LANG === 'en') {
+        tmpDeliveryAddress = {
+          firstName: tmp.firstName,
+          lastName: tmp.lastName,
+          address1: tmp.address1,
+          address2: tmp.address2,
+          rfc: tmp.rfc,
+          country: tmp.countryId ? tmp.countryId.toString() : '',
+          countryName: tmp.countryName,
+          city: tmp.cityId ? tmp.cityId : tmp.city,
+          cityName: tmp.city,
+          provinceNo: tmp.provinceNo,
+          provinceName: tmp.province,
+          province: tmp.provinceId,
+          postCode: tmp.postCode,
+          phoneNumber: tmp.consigneeNumber,
+          isDefalt: tmp.isDefaltAddress === 1 ? true : false,
+          email: tmp.email
+        };
+      }else{
+        tmpDeliveryAddress = {
+          firstName: tmp.firstName,
+          lastName: tmp.lastName,
+          address1: tmp.address1,
+          address2: tmp.address2,
+          rfc: tmp.rfc,
+          country: tmp.countryId ? tmp.countryId.toString() : '',
+          countryName: tmp.countryName,
+          city: tmp.cityId ? tmp.cityId : tmp.city,
+          cityName: tmp.city,
+          postCode: tmp.postCode,
+          phoneNumber: tmp.consigneeNumber,
+          isDefalt: tmp.isDefaltAddress === 1 ? true : false,
+          email: tmp.email
+        };
+      }
     }
 
     this.setState(
@@ -271,6 +315,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
+    console.log('--------------------- 数据验证 data: ',data);
     try {
       await validData(ADDRESS_RULE, data); // 数据验证
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
@@ -326,10 +371,11 @@ class AddressList extends React.Component {
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         countryId: deliveryAddress.country,
-        city: deliveryAddress.cityName,
         cityId: ctId,
-        province: deliveryAddress.provinceName,
+        city: deliveryAddress.cityName,
         provinceId: deliveryAddress.province,
+        province: deliveryAddress.provinceName,
+        provinceNo: deliveryAddress.provinceNo,
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
@@ -377,9 +423,6 @@ class AddressList extends React.Component {
     }
     try {
       if (process.env.REACT_APP_LANG == 'en') {
-        this.setState({
-          validationLoading: true
-        });
         // 地址验证
         this.toAddressValidation();
       } else {
@@ -388,7 +431,7 @@ class AddressList extends React.Component {
       }
     } catch (err) {
       this.showErrMsg(err.message);
-      this.setState({ saveLoading: false });
+      this.setState({ saveLoading: false, validationLoading: true });
       this.scrollToTitle();
     }
   };
@@ -446,9 +489,8 @@ class AddressList extends React.Component {
           ) : null}
         </h5>
         <p
-          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${
-            addOrEdit ? 'hidden' : ''
-          }`}
+          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${addOrEdit ? 'hidden' : ''
+            }`}
           onClick={this.addOrEditAddress.bind(this, -1)}
         >
           <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
@@ -489,6 +531,9 @@ class AddressList extends React.Component {
   // 地址验证
   toAddressValidation = async () => {
     const { deliveryAddress } = this.state;
+    this.setState({
+      validationLoading: true
+    });
     try {
       let data = {
         city: deliveryAddress.cityName,
@@ -500,19 +545,28 @@ class AddressList extends React.Component {
       };
 
       let res = await addressValidation(data);
-      if (res.context.suggestionAddress) {
+      if (res.context && res.context != null) {
+        if (res.context.suggestionAddress) {
+          this.setState({
+            validationAddress: res.context.suggestionAddress
+          });
+        }
         this.setState({
-          validationAddress: res.context.suggestionAddress,
+          modalVisible: true,
           validationLoading: false
         });
+      } else {
+        this.setState({
+          validationLoading: false
+        });
+        // 不校验地址，进入下一步
+        await this.handleSavePromise();
+        this.clickConfirmAddressPanel();
       }
-      this.setState({
-        modalVisible: true
-      });
     } catch (err) {
-      console.log(err);
       this.setState({
-        modalVisible: false
+        modalVisible: false,
+        validationLoading: true
       });
     }
   };
@@ -569,13 +623,11 @@ class AddressList extends React.Component {
     } = this.state;
     const _list = addressList.map((item, i) => (
       <div
-        className={`rounded address-item ${
-          item.selected ? 'selected' : 'border'
-        } ${foledMore && !item.selected ? 'hidden' : ''} ${
-          !item.selected && i !== addressList.length - 1
+        className={`rounded address-item ${item.selected ? 'selected' : 'border'
+          } ${foledMore && !item.selected ? 'hidden' : ''} ${!item.selected && i !== addressList.length - 1
             ? 'border-bottom-0'
             : ''
-        }`}
+          }`}
         key={item.deliveryAddressId}
         onClick={(e) => this.selectAddress(e, i)}
       >
@@ -590,14 +642,14 @@ class AddressList extends React.Component {
                 />
               </svg>
             ) : (
-              <svg width="24" height="32">
-                <path
-                  d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
-                  fill="#c4c4c4"
-                  fillRule="evenodd"
-                />
-              </svg>
-            )}
+                <svg width="24" height="32">
+                  <path
+                    d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
+                    fill="#c4c4c4"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              )}
             {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
           </div>
           <div
@@ -652,11 +704,11 @@ class AddressList extends React.Component {
               <b className="addr-switch switch-on" />
             </>
           ) : (
-            <>
-              <FormattedMessage id="unfoldAddress" />
-              <b className="addr-switch switch-off" />
-            </>
-          )}
+              <>
+                <FormattedMessage id="unfoldAddress" />
+                <b className="addr-switch switch-off" />
+              </>
+            )}
         </span>
       </div>
     );
@@ -689,17 +741,16 @@ class AddressList extends React.Component {
         {panelStatus.isPrepare
           ? this.titleJSXForPrepare()
           : panelStatus.isEdit
-          ? this.titleJSXForEdit()
-          : panelStatus.isCompleted
-          ? this.titleJSXForCompeleted()
-          : null}
+            ? this.titleJSXForEdit()
+            : panelStatus.isCompleted
+              ? this.titleJSXForCompeleted()
+              : null}
       </div>
     );
     const _form = (
       <fieldset
-        className={`shipping-address-block rc-fieldset position-relative ${
-          addOrEdit || loading ? '' : 'hidden'
-        }`}
+        className={`shipping-address-block rc-fieldset position-relative ${addOrEdit || loading ? '' : 'hidden'
+          }`}
       >
         {addOrEdit && (
           <EditForm
@@ -774,15 +825,13 @@ class AddressList extends React.Component {
       <>
         {this.props.children}
         <div
-          className={`mt-1 ${
-            this.props.visible ? '' : 'hidden'
-          } payment-addressList`}
+          className={`mt-1 ${this.props.visible ? '' : 'hidden'
+            } payment-addressList`}
         >
           {_title}
           <div
-            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-              saveErrorMsg ? '' : 'hidden'
-            }`}
+            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${saveErrorMsg ? '' : 'hidden'
+              }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -803,9 +852,8 @@ class AddressList extends React.Component {
             </aside>
           </div>
           <aside
-            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-              successTipVisible ? '' : 'hidden'
-            }`}
+            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successTipVisible ? '' : 'hidden'
+              }`}
             role="alert"
           >
             <span className="pl-0">
@@ -814,72 +862,71 @@ class AddressList extends React.Component {
           </aside>
 
           <div
-            className={`${!addOrEdit ? 'addr-container' : ''} ${
-              loading ? 'pt-3 pb-3' : ''
-            }`}
+            className={`${!addOrEdit ? 'addr-container' : ''} ${loading ? 'pt-3 pb-3' : ''
+              }`}
           >
             {loading ? (
               <Skeleton color="#f5f5f5" count={2} width="100%" />
             ) : this.state.errMsg ? (
               <span className="pt-2 pb-2">{this.state.errMsg}</span>
             ) : (
-              <>
-                {panelStatus.isEdit ? (
                   <>
-                    {!addOrEdit ? (
-                      addressList.length ? (
-                        <>
-                          <div className="addr-container-scroll">{_list}</div>
-                          {addressList.length > 1 && _foldBtn}
-                          {/* 该按钮，只用来确认地址列表 */}
-                          {this.isDeliverAddress && (
-                            <div className="d-flex justify-content-end mt-3">
-                              <button
-                                className={`rc-btn rc-btn--one`}
-                                onClick={this.clickConfirmAddressPanel}
-                              >
-                                <FormattedMessage id="yes" />
-                              </button>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <FormattedMessage id="order.noDataTip" />
-                      )
+                    {panelStatus.isEdit ? (
+                      <>
+                        {!addOrEdit ? (
+                          addressList.length ? (
+                            <>
+                              <div className="addr-container-scroll">{_list}</div>
+                              {addressList.length > 1 && _foldBtn}
+                              {/* 该按钮，只用来确认地址列表 */}
+                              {this.isDeliverAddress && (
+                                <div className="d-flex justify-content-end mt-3">
+                                  <button
+                                    className={`rc-btn rc-btn--one`}
+                                    onClick={this.clickConfirmAddressPanel}
+                                  >
+                                    <FormattedMessage id="yes" />
+                                  </button>
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                              <FormattedMessage id="order.noDataTip" />
+                            )
+                        ) : null}
+                        {_form}
+                      </>
+                    ) : panelStatus.isCompleted ? (
+                      <AddressPreview
+                        form={
+                          addressList.filter(
+                            (a) => a.deliveryAddressId === selectedId
+                          )[0] || null
+                        }
+                      />
                     ) : null}
-                    {_form}
                   </>
-                ) : panelStatus.isCompleted ? (
-                  <AddressPreview
-                    form={
-                      addressList.filter(
-                        (a) => a.deliveryAddressId === selectedId
-                      )[0] || null
-                    }
-                  />
-                ) : null}
-              </>
-            )}
+                )}
           </div>
           {validationLoading ? (
             <Loading positionFixed="true" />
           ) : (
-            <ValidationAddressModal
-              modalVisible={modalVisible}
-              address={deliveryAddress}
-              validationAddress={validationAddress}
-              selectValidationOption={selectValidationOption}
-              handleChooseValidationAddress={(e) =>
-                this.chooseValidationAddress(e)
-              }
-              hanldeClickConfirm={() => this.confirmValidationAddress()}
-              close={() => {
-                this.setState({
-                  modalVisible: false
-                });
-              }}
-            />
-          )}
+              <ValidationAddressModal
+                modalVisible={modalVisible}
+                address={deliveryAddress}
+                validationAddress={validationAddress}
+                selectValidationOption={selectValidationOption}
+                handleChooseValidationAddress={(e) =>
+                  this.chooseValidationAddress(e)
+                }
+                hanldeClickConfirm={() => this.confirmValidationAddress()}
+                close={() => {
+                  this.setState({
+                    modalVisible: false
+                  });
+                }}
+              />
+            )}
         </div>
       </>
     );

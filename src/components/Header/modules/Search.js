@@ -6,6 +6,7 @@ import { getList } from '@/api/list';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { getSearch } from '@/api/hub';
 import querySearch from '../mock/search';
 import axios from 'axios';
 
@@ -30,6 +31,7 @@ export default class Search extends React.Component {
     this.hanldeSearchClick = this.hanldeSearchClick.bind(this);
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   handleSearchInputChange(e) {
     this.setState(
@@ -52,24 +54,18 @@ export default class Search extends React.Component {
   async getSearchData() {
     const { keywords } = this.state;
     this.setState({ loading: true });
-
-    let params = {
-      // cateId: process.env.REACT_APP_CATEID,
-      keywords,
-      propDetails: [],
-      pageNum: 0,
-      brandIds: [],
-      pageSize: 20,
-      esGoodsInfoDTOList: [],
-      companyType: ''
-    };
     Promise.all([
-      getList(params),
-      // isHub && axios.get(`https://www.royalcanin.com/fr/api/royalcanin/predictive?keyword=${keywords}`)
-      isHub &&
-        axios.get(
-          `https://uatwedding.royalcanin.com/fr/api/royalcanin/predictive?keyword=${keywords}`
-        )
+      getList({
+        // cateId: process.env.REACT_APP_CATEID,
+        keywords,
+        propDetails: [],
+        pageNum: 0,
+        brandIds: [],
+        pageSize: 20,
+        esGoodsInfoDTOList: [],
+        companyType: ''
+      }),
+      isHub && getSearch({ keywords })
       // isHub && querySearch()
     ])
       .then((res) => {
@@ -169,6 +165,16 @@ export default class Search extends React.Component {
       }
     });
   };
+
+  hanldeSearchFocus = () => {
+    this.hubGA && dataLayer.push({
+      event: 'topPictosClick',
+      topPictosClick: {
+        itemName: 'Type and search',
+      }
+    });
+  }
+
   renderResultJsx() {
     const { result, keywords } = this.state;
     let ret = null;
@@ -328,7 +334,7 @@ export default class Search extends React.Component {
                     type="search"
                     autoComplete="off"
                     placeholder={txt}
-                    // onFocus={this.hanldeSearchClick}
+                    onFocus={this.hanldeSearchFocus}
                     onChange={this.handleSearchInputChange}
                     value={keywords}
                   />
