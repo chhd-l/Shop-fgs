@@ -1670,13 +1670,13 @@ class Details extends React.Component {
       goodsInfos,
       goodsNo
     } = item;
-    const specie = cateId === '1134' ? 'Cat' : 'Dog';
     const cateName = goodsCateName?.split('/') || '';
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     const size = item?.sizeList.length && item?.sizeList.filter(item => item.selected).map(selectItem => selectItem.specText).toString();
     const breed = goodsAttributesValueRelList
-      .filter((attr) => attr.goodsAttributeName == 'breeds')
+      .filter((attr) => attr.goodsAttributeName && attr.goodsAttributeName.toLowerCase() == 'breeds')
       .map((item) => item.goodsAttributeValue);
+    const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
 
     const GAProductsInfo = {
