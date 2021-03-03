@@ -87,7 +87,7 @@ class QualitySafety extends React.Component {
                         <h1><FormattedMessage id="qualitySafety.title" /></h1>
                       </div>
                       <div
-                        className="rc-margin-left--lg text-center rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                        className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
                         <p><FormattedMessage id="qualitySafety.description" /></p>
                       </div>
                     </div>
