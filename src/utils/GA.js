@@ -307,7 +307,9 @@ export const doGetGAVal = (props) => {
             id.push(2)
           }
         })
-        let arr =  cartData?.[0]?.goodsAttributesValueRelList?.toJS()
+
+        let arr = cartData[0]&&cartData[0].goodsAttributesValueRelList||[]
+  
         arr.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
           breed.push(item2.goodsAttributeValue)
         })
