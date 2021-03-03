@@ -40,7 +40,8 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-let customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1;
+const customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1; // 税额开关 0: on, 1: off
+const enterPriceType = storeInfo ? Number(storeInfo.systemTaxSetting.configVOList[1].context) : 0;  // 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
 
 function HeadTip(props) {
   console.log(props, 'props');
@@ -1358,7 +1359,7 @@ class AccountOrders extends React.Component {
                                   </div>
 
                                   {/* 税额 */}
-                                  {customTaxSettingOpenFlag == 0 ? (
+                                  {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">&nbsp;</div>
                                       <div className="col-6 col-md-2 mb-2">

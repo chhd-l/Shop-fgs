@@ -32,7 +32,8 @@ import {
   getDictionary,
   setSeoConfig,
   getDeviceType,
-  loadJS
+  loadJS,
+  filterObjectValue
 } from '@/utils/utils';
 import './index.less';
 
@@ -902,7 +903,6 @@ class List extends React.Component {
 
   // hub商品列表 埋点
   hubGAProductImpression(productList, totalElements, keywords) {
-    console.log(productList, 'productList===productList====');
     const products = productList.map((item, index) => {
       const {
         minMarketPrice,
@@ -920,7 +920,7 @@ class List extends React.Component {
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
-      return {
+      let productItem = {
         price: minMarketPrice,
         specie,
         range: cateName?.[1]|| '',
@@ -931,6 +931,8 @@ class List extends React.Component {
         brand: 'Royal Canin',
         breed
       };
+      let res = filterObjectValue(productItem);
+      return res;
     });
 
     dataLayer.push({
@@ -971,7 +973,7 @@ class List extends React.Component {
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = goodsCate?.cateId === '1134' ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
-      return {
+      let productItem = {
         price: minMarketPrice,
         specie,
         range: cateName?.[1] || '',
@@ -981,7 +983,9 @@ class List extends React.Component {
         technology: cateName?.[2] || '',
         brand: 'Royal Canin',
         breed,
-      };
+      }
+      let res = filterObjectValue(productItem);
+      return res;
     });
     dataLayer.push({
       event: 'plpListLazyLoad',
