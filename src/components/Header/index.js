@@ -21,12 +21,15 @@ import DropDownMenu from './modules/DropDownMenu';
 import DropDownMenuForHub from './hub/DropDownMenuForHub';
 import MegaMenuMobile from './modules/MegaMenuMobile';
 import MegaMenuMobileForHub from './hub/MegaMenuMobileForHub';
+import Language from '@/components/Language';
 import Search from './modules/Search';
 import UserJSX from './jsx/user';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
-import { fetchHeaderNavigations } from '@/utils/utils';
-import { queryApiFromSessionCache } from '@/utils/utils';
+import {
+  fetchHeaderNavigations,
+  queryApiFromSessionCache
+} from '@/utils/utils';
 import { getNavigation } from '@/api/hub';
 import { intl_user } from './lang/user';
 import queryNavigation from './mock/navigation';
@@ -488,6 +491,20 @@ class Header extends React.Component {
           className={`rc-header ${searchBarVisible ? 'searchbar' : ''}`}
           data-js-header-scroll
         >
+          {+process.env.REACT_APP_HUB ? (
+            <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
+              <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right">
+                <div className="rc-column p-0">
+                  <Language
+                    className={`qhx rc-btn rc-btn--icon-label rc-icon rc-language--xs rc-iconography ui-cursor-pointer ${
+                      0 ? 'ui-btn-loading ui-btn-loading-border-red' : ''
+                    }`}
+                    style={{ fontSize: '14px' }}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : null}
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align"

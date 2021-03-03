@@ -78,7 +78,7 @@ export default class DropDownMenuForHub extends React.Component {
       menuItemListGroupedByStep.push(...item.MenuItems);
       ret = menuItemListGroupedByStep.length > 0 && (
         <ul
-          class={`rc-list__item-sub-menu rc-js--width-adjust-init bg-white ${
+          className={`rc-list__item-sub-menu rc-js--width-adjust-init bg-white ${
             menuItemListGroupedByStep.length > 6
               ? 'rc-list__item-sub-menu--double-column'
               : 'rc-list__item-sub-menu--single-column'
@@ -88,7 +88,7 @@ export default class DropDownMenuForHub extends React.Component {
             <li>
               <a
                 href={gItem.Link.Url}
-                class="rc-header__list-item rc-text-colour--text"
+                className="rc-header__list-item rc-text-colour--text"
                 data-ref="nav-link"
                 role="menuitem"
                 // title="Breeds"
@@ -107,24 +107,24 @@ export default class DropDownMenuForHub extends React.Component {
 
     if (item.Type === 'DetailedMenuGroup') {
       ret = (
-        <div class="rc-list__item-sub-menu rc-list__item-sub-menu--three-column rc-mega-menu-dropdown rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white justify-content-between">
+        <div className="rc-list__item-sub-menu rc-list__item-sub-menu--three-column rc-mega-menu-dropdown rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white justify-content-between">
           {item.MenuItems.map((cItem, cIdx) => (
             <React.Fragment key={cItem.id}>
               {cItem.Type === 'PromotionalMenuItem' ? (
-                <div class="rc-list__item-sub-menu__container rc-border-all rc-border-colour--interface rc-margin--md--mobile">
-                  <div class="rc-layout-container rc-two-column rc-no-stack rc-margin-x--none rc-self-h-middle rc-padding-y--sm rc-padding--md--mobile">
-                    <div class="rc-column rc-self-h-middle rc-flex-wrap--wrap rc-padding-y--none">
-                      <h4 class="rc-delta">{cItem.Title}</h4>
-                      <p class="rc-body">{cItem.Subtitle}</p>
+                <div className="rc-list__item-sub-menu__container rc-border-all rc-border-colour--interface rc-margin--md--mobile">
+                  <div className="rc-layout-container rc-two-column rc-no-stack rc-margin-x--none rc-self-h-middle rc-padding-y--sm rc-padding--md--mobile">
+                    <div className="rc-column rc-self-h-middle rc-flex-wrap--wrap rc-padding-y--none">
+                      <h4 className="rc-delta">{cItem.Title}</h4>
+                      <p className="rc-body">{cItem.Subtitle}</p>
                       <a
                         href={cItem.PrimaryLink.Url}
-                        class="rc-btn rc-btn--two"
+                        className="rc-btn rc-btn--two"
                         data-ref="nav-link"
                       >
                         {cItem.PrimaryLink.Text}
                       </a>
                     </div>
-                    <div class="rc-column rc-padding-y--none">
+                    <div className="rc-column rc-padding-y--none">
                       <img
                         src={cItem.Image.Url}
                         alt={cItem.Image.AltText}
@@ -134,31 +134,31 @@ export default class DropDownMenuForHub extends React.Component {
                   </div>
                 </div>
               ) : (
-                <div class="rc-list__item-sub-menu__container">
+                <div className="rc-list__item-sub-menu__container">
                   <button
-                    class="rc-mega-menu-dropdown__column rc-mega-menu-dropdown__sub-section-header"
-                    tabindex="-1"
+                    className="rc-mega-menu-dropdown__column rc-mega-menu-dropdown__sub-section-header"
+                    tabIndex="-1"
                   >
-                    <span class="rc-mega-menu-dropdown__column-inner">
+                    <span className="rc-mega-menu-dropdown__column-inner">
                       <img
                         src={cItem.Image.Url}
                         alt={cItem.Image.AltText}
                         srcSet={cItem.Image.Srcset}
                       />
-                      <span class="rc-mega-menu-dropdown__column-title rc-delta">
+                      <span className="rc-mega-menu-dropdown__column-title rc-delta">
                         {cItem.ImageDescription}
                       </span>
                     </span>
                   </button>
 
-                  <div class="rc-mega-menu-dropdown__column-inner rc-mega-menu-dropdown__sub-section__slide-tray">
+                  <div className="rc-mega-menu-dropdown__column-inner rc-mega-menu-dropdown__sub-section__slide-tray">
                     {cItem.SubItems.map((sItem, sIdx) => (
                       <div
-                        class="rc-margin-bottom--xs mega-menu-inner-links"
+                        className="rc-margin-bottom--xs mega-menu-inner-links"
                         key={sIdx}
                       >
                         <a
-                          class="rc-margin-bottom--xs--desktop rc-mega-menu-dropdown__link__title rc-text-colour--text rc-mega-menu-dropdown__link"
+                          className="rc-margin-bottom--xs--desktop rc-mega-menu-dropdown__link__title rc-text-colour--text rc-mega-menu-dropdown__link"
                           href={sItem.Link.Url}
                           data-ref="nav-link"
                         >
@@ -166,7 +166,7 @@ export default class DropDownMenuForHub extends React.Component {
                         </a>
                         {sItem.Subtitle ? (
                           <a
-                            class="rc-mega-menu-dropdown__link"
+                            className="rc-mega-menu-dropdown__link"
                             href={sItem.Link.Url}
                             data-ref="nav-link"
                           >
@@ -184,18 +184,18 @@ export default class DropDownMenuForHub extends React.Component {
       );
     } else if (item.Type === 'ContactUsMenuGroup') {
       ret = (
-        <div class="rc-list__item-sub-menu rc-mega-menu-dropdown rc-list__item-sub-menu--full rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white">
-          <div class="rc-layout-container rc-four-column rc-contact-dropdown">
+        <div className="rc-list__item-sub-menu rc-mega-menu-dropdown rc-list__item-sub-menu--full rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white">
+          <div className="rc-layout-container rc-four-column rc-contact-dropdown">
             {item.MenuItems.map((cItem, cIdx) =>
               cIdx ? (
                 <div
-                  class="rc-column rc-border-all rc-border-colour--interface rc-contact-dropdown-column rc-margin-left--sm--desktop align-items-center d-flex"
+                  className="rc-column rc-border-all rc-border-colour--interface rc-contact-dropdown-column rc-margin-left--sm--desktop align-items-center d-flex"
                   key={cIdx}
                 >
-                  <div class="rc-layout-container rc-three-column rc-contact-dropdown-column__container align-items-center d-flex">
-                    <div class="rc-column rc-double-width rc-contact-dropdown-column__inner">
+                  <div className="rc-layout-container rc-three-column rc-contact-dropdown-column__container align-items-center d-flex">
+                    <div className="rc-column rc-double-width rc-contact-dropdown-column__inner">
                       <a
-                        class="rc-contact-dropdown__sub-title rc-contact-dropdown-column__link"
+                        className="rc-contact-dropdown__sub-title rc-contact-dropdown-column__link"
                         data-ref="nav-link"
                         href="tel:+33 4 66 73 03 00"
                       >
@@ -203,7 +203,7 @@ export default class DropDownMenuForHub extends React.Component {
                       </a>
                       <br />
                       {/* <a
-                        class="rc-contact-dropdown__title rc-contact-dropdown-column__link"
+                        className="rc-contact-dropdown__title rc-contact-dropdown-column__link"
                         data-ref="nav-link"
                         href="tel:+33 4 66 73 03 00"
                       >
@@ -212,22 +212,22 @@ export default class DropDownMenuForHub extends React.Component {
                       <br /> */}
                       {item.Link && item.Link.Url ? (
                         <a
-                          class="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link"
+                          className="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link"
                           data-ref="nav-link"
                           href={item.Link.Url}
                         >
                           {cItem.Description}
                         </a>
                       ) : (
-                        <span class="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link">
+                        <span className="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link">
                           {cItem.Description}
                         </span>
                       )}
                     </div>
                     {item.Link && item.Link.Url ? (
-                      // <div class="rc-column rc-contact-dropdown-column__inner rc-contact-dropdown-column__icon">
+                      // <div className="rc-column rc-contact-dropdown-column__inner rc-contact-dropdown-column__icon">
                       <a
-                        class={`rc-icon rc-brand1 ${
+                        className={`rc-icon rc-brand1 ${
                           {
                             contact: 'rc-contact',
                             email: 'rc-email',
@@ -243,11 +243,11 @@ export default class DropDownMenuForHub extends React.Component {
                 </div>
               ) : (
                 <div
-                  class="rc-column rc-contact-dropdown-column--first"
+                  className="rc-column rc-contact-dropdown-column--first"
                   key={cIdx}
                 >
-                  <p class="rc-delta">{cItem.Title}</p>
-                  <p class="body-copy">{cItem.Content}</p>
+                  <p className="rc-delta">{cItem.Title}</p>
+                  <p className="body-copy">{cItem.Content}</p>
                 </div>
               )
             )}

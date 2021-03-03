@@ -234,7 +234,9 @@ class VisitorAddress extends React.Component {
       form.address2 = validationAddress.address2;
       form.city = validationAddress.city;
       form.cityName = validationAddress.city;
-      form.provinceName = validationAddress.provinceCode;
+      if (process.env.REACT_APP_LANG === 'en') {
+        form.provinceName = validationAddress.provinceCode;
+      }
     }
 
     this.setState({
