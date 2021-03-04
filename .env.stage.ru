@@ -9,7 +9,7 @@ REACT_APP_RegisterCallback = https://shopstg.royalcanin.com/ru?origin=register
 #接口配置
 REACT_APP_BASEURL = https://shopstg.royalcanin.com/api
 
-REACT_APP_PaymentENV = test
+REACT_APP_PaymentENV = test1
 REACT_APP_PaymentKEY_MEMBER = fd931719-5733-4b77-b146-2fd22f9ad2e3
 REACT_APP_PaymentAPPID_MEMBER = com.razorfish.dev_mexico
 REACT_APP_PaymentKEY_VISITOR = fd931719-5733-4b77-b146-2fd22f9ad2e3
