@@ -259,7 +259,6 @@ class Details extends React.Component {
     this.state = {
       event: {},
       eEvents: {},
-      hubEcEvents: {},
       GAListParam: '',
       initing: true,
       details: {
@@ -1545,15 +1544,15 @@ class Details extends React.Component {
       breed
     };
     const product = filterObjectValue(GAProductsInfo);
-    window.dataLayer &&
+    if(window.dataLayer) {
       dataLayer.push({
         products: [product]
       });
-    const hubEcEvents = {
-      event: 'pdpScreenLoad'
-    };
+      dataLayer.push({
+        event: 'pdpScreenLoad'
+      })
+    }
     this.setState({
-      hubEcEvents,
       breed
     });
   }
@@ -1586,7 +1585,6 @@ class Details extends React.Component {
       eEvents,
       spuImages,
       pageLink,
-      hubEcEvents,
       goodsType,
       barcode
     } = this.state;
@@ -1628,7 +1626,6 @@ class Details extends React.Component {
       <div id="Details">
         {Object.keys(event).length ? (
           <GoogleTagManager
-            hubEcommerceEvents={hubEcEvents}
             additionalEvents={event}
             ecommerceEvents={eEvents}
           />
