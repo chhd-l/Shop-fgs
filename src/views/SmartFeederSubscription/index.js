@@ -9,6 +9,7 @@ import FAQ from './modules/FAQ';
 import Details from './modules/Details';
 import StaticPage from './modules/StaticPage';
 import { getProductPetConfig } from '@/api/payment';
+import { IMG_DEFAULT } from '@/utils/constant';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { getFoodDispenserList, getFoodDispenserDes } from '@/api/dispenser';
 import Header from '@/components/Header';
@@ -57,7 +58,7 @@ const Step1Pc = (props) => {
                 style={{ paddingTop: '.5rem' }}
               >
                 <img
-                  src={item.goodsInfoImg}
+                  src={item.goodsInfoImg || IMG_DEFAULT}
                   alt={item.goodsInfoName}
                   style={{ maxHeight: '10rem' }}
                 />
