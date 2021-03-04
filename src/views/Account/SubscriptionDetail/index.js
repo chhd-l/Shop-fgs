@@ -783,7 +783,7 @@ class SubscriptionDetail extends React.Component {
                                     padding: isMobile ? '0 0 0 10px' : '0'
                                   }}
                                 >
-                                  <div
+                                  {/* <div
                                     className="rc-layout-container rc-five-column"
                                     style={{
                                       paddingRight: isMobile ? '0' : '60px',
@@ -849,8 +849,30 @@ class SubscriptionDetail extends React.Component {
                                         </p>
                                       </div>
                                     </div>
-                                  </div>
-
+                                  </div> */}
+                                  {isActive ? (
+                                    <>
+                                      <LazyLoad>
+                                        <img
+                                          style={{
+                                            display: 'inline-block',
+                                            width: '20px',
+                                            marginRight: '5px'
+                                          }}
+                                          src={skipIcon}
+                                        />
+                                      </LazyLoad>
+                                      <a
+                                        className={`rc-styled-link ${isGift?'disabled':''}`}
+                                        href="#/"
+                                        onClick={(e) =>
+                                          this.handleSkipNext(e, el)
+                                        }
+                                      >
+                                        <FormattedMessage id="skip" />
+                                      </a>
+                                    </>
+                                  ) : null}
                                 </div>
 
                               </p>

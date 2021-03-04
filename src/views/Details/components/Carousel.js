@@ -5,6 +5,7 @@ import chunk from 'lodash/chunk';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import './Carousel.css';
 
@@ -28,8 +29,7 @@ class Carousel extends React.Component {
     };
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
-  componentDidMount() {
-    //定义变量获取屏幕视口宽度
+  componentDidMount() {    //定义变量获取屏幕视口宽度
     // var windowWidth = document.body.clientWidth
     // this.setState({
     //   windowWidth
@@ -57,7 +57,7 @@ class Carousel extends React.Component {
                   const size = goodsSpecDetailVOS?.[0].detailName;
                   const { breeds = [], Range = [], Technology = [] } = attributesValue;
                   const breed = breeds?.length && breeds.map(item => item.attributeDetailName);
-                  const specie = breed.includes('Cat_Cat') ? 'Cat' : 'Dog';
+                  const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
                   const range = Range?.length && Range.map(item => item.attributeDetailName).toString() || '';
                   const technology = Technology?.length && Technology.map(item => item.attributeDetailName).toString() || '';
                   return {
@@ -201,11 +201,10 @@ class Carousel extends React.Component {
   };
 
   hanldeClick = (item) => {
-    console.log(item);
     const { history, location } = this.props;
     sessionItemRoyal.set('recomment-preview', location.pathname);
 
-    history.push('/details/' + item.goodsInfoIds[0]);
+    // history.push('/details/' + item.goodsInfoIds[0]);
   };
   render() {
     return (
@@ -248,72 +247,82 @@ class Carousel extends React.Component {
                         {item.map((item2, index2) => {
                           return (
                             <p
-                              className="hdshoisdhdsaiof"
                               key={index2}
                               onClick={() => this.hanldeClick(item2)}
                               style={{ cursor: 'pointer' }}
                             >
-                              <div
-                                style={{
-                                  width: '150px',
-                                  height: '180px',
-                                  backgroundSize: '150px 180px',
-                                  backgroundImage:
-                                    'url(' + item2.goodsImg + ')',
-                                  margin: '10px auto 0'
+                              <Link
+                                to={{
+                                  pathname: item2
+                                    ? `/${item2.goodsName.toLowerCase()
+                                      .split(' ')
+                                      .join('-')
+                                      .replace('/', '')}-${item2.mainItemCode}`
+                                    : ''
                                 }}
-                              ></div>
-                              <div className="goodsName">{item2.goodsName}</div>
-                              <div className="subtitle">
-                                {item2.goodsSubtitle}
-                              </div>
-                              <div className="rete">
-                                <div className="display-inline">
-                                  <Rate
-                                    def={item2.avgEvaluate}
-                                    disabled={true}
-                                    marginSize="smallRate"
-                                  />
+                              >
+                                <div
+                                  style={{
+                                    width: '150px',
+                                    height: '180px',
+                                    backgroundSize: '150px 180px',
+                                    backgroundImage:
+                                      'url(' + item2.goodsImg + ')',
+                                    margin: '10px auto 0'
+                                  }}
+                                ></div>
+                                <div className="goodsName">{item2.goodsName}</div>
+                                <div className="subtitle">
+                                  {item2.goodsSubtitle}
                                 </div>
-                                <span className="comments rc-margin-left--xs rc-text-colour--text">
-                                  ({item2.goodsEvaluateNum})
-                                </span>
-                              </div>
-                              <div className="marketPrice">
-                                {formatMoney(item2.minMarketPrice)}
-                                {item2.minLinePrice && (
-                                  <span>{formatMoney(item2.minLinePrice)}</span>
-                                )}
-                              </div>
-                              {item2.minSubscriptionPrice ? (
-                                <p className="subscriptionPrice">
-                                  <div>
-                                    {formatMoney(item2.minSubscriptionPrice)}
-                                    <span
-                                      className="iconfont font-weight-bold red mr-1"
-                                      style={{
-                                        fontSize: '.65em',
-                                        marginLeft: '6px',
-                                        color: '#323232',
-                                        fontWeight: 'bold'
-                                      }}
-                                    >
-                                      &#xe675;
-                                    </span>
-                                    <span
-                                      className="position-relative red-text position-absolute"
-                                      style={{
-                                        fontSize: '.7em',
-                                        whiteSpace: 'nowrap',
-                                        marginTop: '4px',
-                                        marginLeft: '4px'
-                                      }}
-                                    >
-                                      <FormattedMessage id="autoshop" />
-                                    </span>
+                                <div className="rete">
+                                  <div className="display-inline">
+                                    <Rate
+                                      def={item2.avgEvaluate}
+                                      disabled={true}
+                                      marginSize="smallRate"
+                                    />
                                   </div>
-                                </p>
-                              ) : null}
+                                  <span className="comments rc-margin-left--xs rc-text-colour--text">
+                                    ({item2.goodsEvaluateNum})
+                                </span>
+                                </div>
+                                <div className="marketPrice">
+                                  {formatMoney(item2.minMarketPrice)}
+                                  {item2.minLinePrice && (
+                                    <span>{formatMoney(item2.minLinePrice)}</span>
+                                  )}
+                                </div>
+                                {item2.minSubscriptionPrice ? (
+                                  <p className="subscriptionPrice">
+                                    <div>
+                                      {formatMoney(item2.minSubscriptionPrice)}
+                                      <span
+                                        className="iconfont font-weight-bold red mr-1"
+                                        style={{
+                                          fontSize: '.65em',
+                                          marginLeft: '6px',
+                                          color: '#323232',
+                                          fontWeight: 'bold'
+                                        }}
+                                      >
+                                        &#xe675;
+                                    </span>
+                                      <span
+                                        className="position-relative red-text position-absolute"
+                                        style={{
+                                          fontSize: '.7em',
+                                          whiteSpace: 'nowrap',
+                                          marginTop: '4px',
+                                          marginLeft: '4px'
+                                        }}
+                                      >
+                                        <FormattedMessage id="autoshop" />
+                                      </span>
+                                    </div>
+                                  </p>
+                                ) : null}
+                              </Link>
                             </p>
                           );
                         })}

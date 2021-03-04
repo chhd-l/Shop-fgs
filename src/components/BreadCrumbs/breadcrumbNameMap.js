@@ -85,6 +85,11 @@ const breadcrumbNameMap = {
       name: 'Conditions Générales De Vente'
     }
   ],
+  '/termsandconditions': [
+    {
+      name: 'Terms & Conditions'
+    }
+  ],
   '/Values': [
     {
       name: 'values'

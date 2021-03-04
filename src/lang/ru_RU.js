@@ -779,7 +779,8 @@ const ru_RU = {
   yes: 'Да',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
-  'bannerTip.btnText': 'Узнать больше'
+  'bannerTip.btnText': 'Узнать больше',
+  'cart.delivery': 'Доставка'
 }
 
 export default ru_RU;

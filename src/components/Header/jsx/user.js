@@ -14,6 +14,7 @@ const isMobile = getDeviceType() === 'H5';
 const isLogin = !!localItemRoyal.get('rc-token');
 const userInfo = localItemRoyal.get('rc-userinfo') || null;
 
+
 const UserJSX = (props) => {
   const firstNameLetter =
     userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1);

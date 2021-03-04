@@ -507,7 +507,8 @@ const fr_FR = {
   month: 'Mois',
   moreAddress: "Plus d'adresse",
   moreChoicesAvailable: 'Plus de choix',
-  mustChooseACommunicationMethodTip: 'Désolé, vous avez vérifié le consentement à la communication, vous devez donc choisir une méthode de communication',
+  mustChooseACommunicationMethodTip: 'Vous avez accepté de recevoir des offres et des conseils de la part de Royal Canin. Merci de préciser comment nous pouvons vous contacter.',
+  mustChooseTheConsentTip: 'Afin de confirmer que vous souhaitez être contacté, merci de cocher la case correspondante.',
   myAutoshipOrder: 'Mon Abonnement',
   name: 'Prénom',
   name2: 'NOM',
@@ -1125,6 +1126,7 @@ const fr_FR = {
   'Your Pet is a…': 'Votre animal de compagnie est un...',
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
-  'bannerTip.btnText': 'En savoir plus'
+  'bannerTip.btnText': 'En savoir plus',
+  'cart.delivery': 'Frais de livraison'
 }
 export default fr_FR;

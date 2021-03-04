@@ -108,6 +108,7 @@ class SearchSelection extends React.Component {
           }),
           searchForNoResult: true
         });
+        this.props.selectedItemChange(citem);
       }, 500);
     }
   };

@@ -20,6 +20,7 @@ import LazyLoad from 'react-lazyload';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
+const isHubGA = process.env.REACT_APP_HUB_GA;
 
 function QListAndPetJSX(props) {
   const { questionlist, petBaseInfo } = props;
@@ -223,7 +224,8 @@ class ProductFinderResult extends React.Component {
       });
       let allGoods = JSON.parse(res)
       // let goodsList = [allGoods.mainProduct,...allGoods.otherProducts]
-      let goodsList = [allGoods.mainProduct]
+      let goodsList = [allGoods.mainProduct];
+      //(!isHubGA)&&this.GAProductImpression(goodsList)
       this.GAProductImpression(goodsList)
     } else {
       this.props.history.push('/product-finder');

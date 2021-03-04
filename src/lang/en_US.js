@@ -687,7 +687,7 @@ const en_US = {
   'recommendation.thirdContent': 'We‘re pet lovers and experts in cat and dog nutrition and we’re ready to to help you with any questions you might have.',
   'recommendation.thirdTitle': 'Our pet experts are here to help you',
   'recommendation.viewDetail': 'View Detail',
-  'recommendation.viewInCart': 'View in cart',
+  'recommendation.viewInCart': 'View In Cart',
   'recommendation.secondBtnText':'Start now',
   'recommendation.secondTitle':'Ready to Get Started?',
   'recommendation.firstBtnText':'Sign up',
@@ -865,8 +865,7 @@ const en_US = {
   'addedtoCart': 'Added to cart',
   'continueMyPurchases': 'Continue my purchases',
   'goToCart': 'Go to shopping cart',
-  'subscribe': 'Subscribe',
-
+  'subscribe': 'Add to Cart',
   'registerCloud': 'Commerce Cloud Storefront reference architecture',
   'registerErrorMessage': 'An error occurred while creating your account. Please try again later or use a different email address. ',
   'registerWelcome': 'Welcome to',
@@ -952,6 +951,11 @@ const en_US = {
   'signInAndRegisterNow': 'Sign in / Register now',
   contactTimePeriod: 'For any questions, our pet experts are available from Monday to Friday, 8.00 a.m to 4.30 p.m CT',
   mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method',
-  'bannerTip.btnText': 'Join the Club'
+  mustChooseTheConsentTip: 'In order to confirm that you wish to be contacted, please tick the corresponding box.',
+  'bannerTip.btnText': 'Join the Club',
+  'cart.firstOrderDiscountTip': 'The 30% discount for your first order will be applied during checkout',
+  'promotion.firstOrderDiscount': 'First Order Discount',
+  'cart.delivery': 'Shipping',
+  searchShow: 'Search Results',
 }
 export default en_US;

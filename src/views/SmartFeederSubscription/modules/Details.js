@@ -9,9 +9,12 @@ const Details = ({ goodsDetailTab, details }) => {
     { show: true },
     { show: false },
     { show: false },
+    { show: false },
+    { show: false },
+    { show: false },
     { show: false }
   ];
-  console.info('goodsDetailTab', goodsDetailTab)
+  console.info('goodsDetailTab', goodsDetailTab);
   const [tabs, setTabs] = useState(tabsArr);
   // const [goodsDetailTab, setGoodsDetailTab] = useState([]);
   // const getDetail = async () => {
@@ -69,10 +72,10 @@ const Details = ({ goodsDetailTab, details }) => {
   //                       tempContent =
   //                         tempContent +
   //                         `<p>
-                          
+
   //                         <div class="content">${
   //                           Object.values(JSON.parse(el))[0]
-  //                         }</div> 
+  //                         }</div>
   //                       </p>`;
   //                     });
   //                   } else {
@@ -91,7 +94,7 @@ const Details = ({ goodsDetailTab, details }) => {
   //                         <div class="title">
   //                           ${Object.keys(contentObj)[0]}
   //                         </div>
-  //                         <div class="content">${contentValue}</div> 
+  //                         <div class="content">${contentValue}</div>
   //                       `;
   //                     });
   //                   }
@@ -198,14 +201,15 @@ const Details = ({ goodsDetailTab, details }) => {
           </div>
         </div>
       ) : null}
-      {isMobile &&
-        goodsDetailTab.tabName &&
-        goodsDetailTab.tabName.map((ele, index) => (
-          <>
-            <dl>
+      <div></div>
+      <div className="dl-box">
+        {isMobile &&
+          goodsDetailTab.tabName &&
+          goodsDetailTab.tabName.map((ele, index) => (
+            <dl style={{ marginBottom: '0' }}>
               <div
                 className={`rc-list__accordion-item test-color 
-                  ${tabs[index].show ? 'showItem' : 'hiddenItem'}`}
+              ${tabs[index]?.show ? 'showItem' : 'hiddenItem'}`}
               >
                 <div
                   className="rc-list__header"
@@ -227,7 +231,7 @@ const Details = ({ goodsDetailTab, details }) => {
                   <div dangerouslySetInnerHTML={{ __html: ele }}></div>
                   <span
                     className={`icon-change ${
-                      tabs[index].show
+                      tabs[index]?.show
                         ? 'rc-icon rc-up rc-brand1'
                         : 'rc-icon rc-down rc-iconography'
                     }`}
@@ -245,8 +249,8 @@ const Details = ({ goodsDetailTab, details }) => {
                 </div>
               </div>
             </dl>
-          </>
-        ))}
+          ))}
+      </div>
     </>
   );
 };
