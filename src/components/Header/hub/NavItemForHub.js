@@ -3,9 +3,9 @@ import React from 'react';
 function NavItem({ item = {}, className, style = {}, children, onClick }) {
   return (
     <>
-      {item.link && item.link.url ? (
+      {item.Link && item.Link.Url ? (
         <a
-          href={item.link.url}
+          href={item.Link.Url}
           className={className}
           style={{ ...style }}
           onClick={onClick}

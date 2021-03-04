@@ -103,25 +103,49 @@ class CommunicationDataEditForm extends React.Component {
 
     return obj;
   };
+  showErrMsg(err) {
+    this.setState({ errorMsg: err });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      });
+    }, 3000);
+  }
   //保存
   handleSave = async () => {
     const { userInfo } = this.props;
     const { form, list } = this.state;
-    // 勾选了某条特殊consent情况下，phone/email不能同时取消
+    let errMsg = null;
+    const theConset = list.filter((l) =>
+      ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'].includes(
+        l.consentDesc
+      )
+    ).length;
     const hasCheckedTheConsent = list.filter(
       (l) =>
         ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'].includes(
           l.consentDesc
         ) && l.isChecked
     ).length;
+    // 1 勾选了某条特殊consent情况下，phone/email不能同时取消
+    // 2 勾选了phone/email，必须勾选某条特殊consent
     if (
       hasCheckedTheConsent &&
       !+form.communicationPhone &&
       !+form.communicationEmail
     ) {
-      this.setState({
-        errorMsg: <FormattedMessage id="mustChooseACommunicationMethodTip" />
-      });
+      errMsg = <FormattedMessage id="mustChooseACommunicationMethodTip" />;
+    } else if (
+      theConset &&
+      (+form.communicationPhone || +form.communicationEmail) &&
+      !hasCheckedTheConsent
+    ) {
+      errMsg = <FormattedMessage id="mustChooseTheConsentTip" />;
+    }
+
+    if (errMsg) {
+      this.showErrMsg(errMsg);
       return false;
     }
 
@@ -159,15 +183,10 @@ class CommunicationDataEditForm extends React.Component {
         });
       })
       .catch((err) => {
+        this.showErrMsg(err.message);
         this.setState({
-          errorMsg: err.message,
           saveLoading: false
         });
-        setTimeout(() => {
-          this.setState({
-            errorMsg: ''
-          });
-        }, 3000);
       });
   };
   handleCancel = () => {

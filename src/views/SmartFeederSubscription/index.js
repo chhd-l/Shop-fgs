@@ -223,7 +223,7 @@ const Step2 = (props) => {
     <div className="margin12 product_detail">
       <div>
         <div className="rc-layout-container rc-five-column">
-          <div className="rc-column">
+          <div className="rc-column  rc-header__center d-flex">
             <LazyLoad>
               <img src={foodPic2} />
             </LazyLoad>
@@ -278,7 +278,7 @@ const Step2 = (props) => {
             disabled={props.isDisabled}
             className="rc-btn rc-btn--two button192"
             onClick={() => {
-              this.props.toOtherStep('step1');
+             props.toOtherStep('step1');
             }}
           >
             <FormattedMessage id="smartFeederSubscription.selectAnotherProduct" />
@@ -289,7 +289,7 @@ const Step2 = (props) => {
             disabled={props.isDisabled}
             className="rc-btn rc-btn--one button192"
             onClick={() => {
-              this.props.toOtherStep('step3');
+             props.toOtherStep('step3');
             }}
           >
             <FormattedMessage id="smartFeederSubscription.conﬁrmThisProduct" />
@@ -521,7 +521,7 @@ const Step3 = (props) => {
             </div>
           </div>
           <div>
-            <div className="rc-layout-container rc-two-column  rc-text--center">
+            <div className="rc-layout-container rc-two-column step3-btn-box  rc-text--center">
               <div className="rc-column">
                 <button
                   onClick={props.hanldeAddToCart}
@@ -543,7 +543,7 @@ const Step3 = (props) => {
                 ) : (
                   <LoginButton
                     beforeLoginCallback={async () => props.handleCheckout()}
-                    btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
+                    btnClass={`wid100 rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       checkoutLoading ? 'ui-btn-loading' : ''
                     }`}
                     history={props.history}

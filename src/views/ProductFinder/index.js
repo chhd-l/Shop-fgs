@@ -20,7 +20,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
-const GAStep = ['age','breed','sterilized','genderCode','weight','sensitivity','petActivityCode','lifestyle']
+const GAStep = ['age','breedCode','sterilized','genderCode','weight','sensitivity','petActivityCode','lifestyle']
 
 class ProductFinder extends React.Component {
   constructor(props) {
@@ -36,7 +36,8 @@ class ProductFinder extends React.Component {
     this.seletTheType = this.seletTheType.bind(this);
   }
   componentDidMount() {
-    (!isHubGA)&&this.GAHandle('speciesCode');
+    this.GAHandle('speciesCode');
+    //(!isHubGA)&&this.GAHandle('speciesCode');
     setSeoConfig({
       pageName: 'Product finder'
     }).then((res) => {
@@ -65,18 +66,27 @@ class ProductFinder extends React.Component {
 
   GAHandle = (stepName,stepOrder,answerdQuestionList) => {
     if(!dataLayer) return
-    if(isHubGA){
-      if(GAStep.indexOf(stepName) == -1) return //用GAStep去控制需要埋点的步骤
-      productFinderPushEvent({type:this.state.type,stepName,stepOrder,answerdQuestionList})
-    }else{
-      dataLayer.push({
-        event: 'productFinderScreen',
-        page: {
-          type: 'Product Finder',
-          virtualPageURL: this.getStepCurrent(stepName)
-        }
-      });
-    }
+    dataLayer.push({
+      event: 'virtualPageView',
+      page: {
+        type: 'Product Finder',
+        virtualPageURL: this.getStepCurrent(stepName)
+      }
+    });
+    // if(isHubGA){
+    //   console.log(stepName)
+    //   // debugger
+    //   if(GAStep.indexOf(stepName) == -1) return //用GAStep去控制需要埋点的步骤
+    //   productFinderPushEvent({type:this.state.type,stepName,stepOrder,answerdQuestionList})
+    // }else{
+    //   dataLayer.push({
+    //     event: 'productFinderScreen',
+    //     page: {
+    //       type: 'Product Finder',
+    //       virtualPageURL: this.getStepCurrent(stepName)
+    //     }
+    //   });
+    // }
   };
   seletTheType(type) {
     this.setState({ type });

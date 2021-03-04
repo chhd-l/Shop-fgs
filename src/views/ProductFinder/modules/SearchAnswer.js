@@ -10,7 +10,8 @@ class SearchAnswer extends React.Component {
     this.state = {
       form: '',
       sizeForm: null,
-      hasSizeRadio: !!this.props.configSizeAttach
+      hasSizeRadio: !!this.props.configSizeAttach,
+      defaultData:''
     };
   }
   componentDidMount() {
@@ -33,6 +34,7 @@ class SearchAnswer extends React.Component {
     const mixedRaceText = this.props.intl.formatMessage({
       id: 'account.mixBreed'
     });
+
     // 选择按钮的时候datalayer可能改变
     if (this.props.configSizeAttach) {
       this.props.updateStepCurrent('size');

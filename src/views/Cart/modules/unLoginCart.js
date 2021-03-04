@@ -1590,7 +1590,7 @@ class UnLoginCart extends React.Component {
 
           <div class="row rc-margin-bottom--xs">
             <div class="col-12 greenColorText text-center">
-              <span>The 30% discount for your first order will be applied during checkout</span>
+              <FormattedMessage id="cart.firstOrderDiscountTip" defaultMessage={' '} />
             </div>
           </div>
 
