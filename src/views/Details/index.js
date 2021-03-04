@@ -56,7 +56,6 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC';
 // const pageLink = window.location.href;
-
 function AdvantageTips({ secondIconvisible = true }) {
   return (
     <div className="rc-full-width advantage-tips">
@@ -1836,7 +1835,13 @@ class Details extends React.Component {
                             </div>
                           )}
                         </div>
-                        {vet ? (
+                        {this.state.loading?
+                          <Skeleton
+                            color="#f5f5f5"
+                            width="100%"
+                            height="100%"
+                          />
+                        :vet? (
                           <>
                             <div
                               dangerouslySetInnerHTML={{
@@ -2569,7 +2574,7 @@ class Details extends React.Component {
                           &#xe6fa;
                         </span>
                       </div>
-                      <div className={`rc-list__content`}>
+                      <div className={`rc-list__content`} style={{overflowX:'auto'}}>
                         <p
                           dangerouslySetInnerHTML={{
                             __html: ele.content
