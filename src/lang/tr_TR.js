@@ -776,6 +776,7 @@ const tr_TR = {
   yes: 'Evet',
   yourEmailNotVerified: 'E-posta doğrulanmadı!',
   yourPasswordNotVerified: 'Şifreniz doğrulanmadı',
-  'bannerTip.btnText': 'Daha Fazla Bilgi Edinin'
+  'bannerTip.btnText': 'Daha Fazla Bilgi Edinin',
+  'cart.delivery': 'teslimat'
 }
 export default tr_TR;

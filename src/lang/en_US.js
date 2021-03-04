@@ -953,6 +953,8 @@ const en_US = {
   mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method',
   mustChooseTheConsentTip: 'In order to confirm that you wish to be contacted, please tick the corresponding box.',
   'bannerTip.btnText': 'Join the Club',
-  'cart.firstOrderDiscountTip': 'The 30% discount for your first order will be applied during checkout'
+  'cart.firstOrderDiscountTip': 'The 30% discount for your first order will be applied during checkout',
+  'promotion.firstOrderDiscount': 'First Order Discount',
+  'cart.delivery': 'Shipping'
 }
 export default en_US;

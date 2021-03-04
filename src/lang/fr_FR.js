@@ -1126,6 +1126,7 @@ const fr_FR = {
   'Your Pet is a…': 'Votre animal de compagnie est un...',
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
-  'bannerTip.btnText': 'En savoir plus'
+  'bannerTip.btnText': 'En savoir plus',
+  'cart.delivery': 'Frais de livraison'
 }
 export default fr_FR;
