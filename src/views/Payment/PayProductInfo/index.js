@@ -19,10 +19,10 @@ const isHubGA = process.env.REACT_APP_HUB_GA
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: on, 1: off
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
+// 税额开关 0: 开, 1: 关
+const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 // 买入价格开关 0：含税，1：不含税
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context || 0;
+const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
