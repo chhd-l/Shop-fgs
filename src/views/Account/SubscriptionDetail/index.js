@@ -882,7 +882,7 @@ class SubscriptionDetail extends React.Component {
                                       </div>
                                     </div>
                                   </div> */}
-                                  {isActive ? (
+                                  {isNotInactive ? (
                                     <>
                                       <LazyLoad>
                                         <img
@@ -896,7 +896,7 @@ class SubscriptionDetail extends React.Component {
                                       </LazyLoad>
                                       <a
                                         className={`rc-styled-link ${
-                                          isGift
+                                          isGift || !isActive
                                             ? 'disabled color-light-gray'
                                             : ''
                                         }`}
@@ -1374,6 +1374,7 @@ class SubscriptionDetail extends React.Component {
     let subscribeStatus = '0';
     let subscribeStatusText = 'Restart Subscription';
     let action = startSubscription;
+    let isActive = this.state.isActive
     let param = {
       subscribeId: subDetail.subscribeId
     };
@@ -1386,6 +1387,7 @@ class SubscriptionDetail extends React.Component {
     param.subscribeStatus = subscribeStatus;
     try {
       let res = action(param);
+      this.setState({isActive: !isActive})
       subscribeStatusText && myAccountActionPushEvent(subscribeStatusText);
     } catch (err) {
       this.showErrMsg(err.message);
