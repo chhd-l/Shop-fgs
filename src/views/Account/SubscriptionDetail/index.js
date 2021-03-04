@@ -12,7 +12,7 @@ import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
-import { myAccountActionPushEvent } from '@/utils/GA';
+import { myAccountActionPushEvent } from '@/utils/GA';
 import {
   getDictionary,
   dynamicLoadCss,
@@ -45,7 +45,9 @@ import {
   cancelAllSub,
   orderNowSub,
   getPromotionPrice,
-  updateNextDeliveryTime
+  updateNextDeliveryTime,
+  startSubscription,
+  pauseSubscription
 } from '@/api/subscription';
 import { getRemainings } from '@/api/dispenser';
 import { queryCityNameById } from '@/api';
@@ -62,8 +64,12 @@ const isMobile = getDeviceType() !== 'PC';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-const customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1; // 税额开关 0: on, 1: off
-const enterPriceType = storeInfo ? Number(storeInfo.systemTaxSetting.configVOList[1].context) : 0;  // 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
+const customTaxSettingOpenFlag = storeInfo
+  ? storeInfo.customTaxSettingOpenFlag
+  : 1; // 税额开关 0: on, 1: off
+const enterPriceType = storeInfo
+  ? Number(storeInfo.systemTaxSetting.configVOList[1].context)
+  : 0; // 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
 
 @inject('checkoutStore', 'loginStore')
 @injectIntl
@@ -199,6 +205,7 @@ class SubscriptionDetail extends React.Component {
         value: ''
       },
       isActive: false,
+      isNotInactive: false,
       isDataChange: false
     };
   }
@@ -405,7 +412,10 @@ class SubscriptionDetail extends React.Component {
           completedYearOption,
           noStartYear,
           completedYear,
-          isActive: subDetail.subscribeStatus === '0'
+          isActive: subDetail.subscribeStatus === '0',
+          isNotInactive:
+            subDetail.subscribeStatus === '0' ||
+            subDetail.subscribeStatus === '1' //subscribeStatus为2的时候不能操作按钮
         },
         () => {
           fn && fn();
@@ -471,7 +481,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
-  hanldeClickSubmit() {
+  hanldeClickSubmit = () => {
     let { modalType, subDetail } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (modalType === 'skipNext') {
@@ -517,7 +527,10 @@ class SubscriptionDetail extends React.Component {
         this.state.currentChangeItem
       );
     }
-  }
+  };
+  closeRemainings = () => {
+    this.setState({ remainingsVisible: false });
+  };
   showErrMsg(msg, type, fn) {
     if (type === 'success') {
       this.setState({
@@ -622,12 +635,12 @@ class SubscriptionDetail extends React.Component {
       subDetail,
       currentModalObj,
       todaydate,
-      isMobile,
       noStartYearOption,
       completedYearOption,
       noStartYear,
       completedYear,
       isActive,
+      isNotInactive,
       isGift
     } = this.state;
     return (
@@ -882,7 +895,11 @@ class SubscriptionDetail extends React.Component {
                                         />
                                       </LazyLoad>
                                       <a
-                                        className={`rc-styled-link ${isGift?'disabled':''}`}
+                                        className={`rc-styled-link ${
+                                          isGift
+                                            ? 'disabled color-light-gray'
+                                            : ''
+                                        }`}
                                         href="#/"
                                         onClick={(e) =>
                                           this.handleSkipNext(e, el)
@@ -1137,7 +1154,6 @@ class SubscriptionDetail extends React.Component {
     });
   }
   getButtonBoxGift = (subDetail) => {
-    let { isActive, isMobile } = this.state;
     return (
       <div class="rc-layout-container rc-two-column subdeatial-button-mobile">
         <div
@@ -1170,7 +1186,7 @@ class SubscriptionDetail extends React.Component {
             >
               &#xe62f;
             </i>
-            <a
+            <span
               style={{
                 position: 'relative',
                 top: '-0.3rem',
@@ -1178,15 +1194,14 @@ class SubscriptionDetail extends React.Component {
                 paddingRight: '0.5rem',
                 paddingLeft: '0.5rem'
               }}
-              className="rc-styled-link"
-              onClick={() => this.handleSaveChange(subDetail)}
+              className="rc-styled-link disabled"
             >
               {subDetail.subscribeStatus === '0' ? (
                 <FormattedMessage id="subscription.pause" />
               ) : (
                 <FormattedMessage id="subscription.restart" />
               )}
-            </a>
+            </span>
           </div>
           <div>
             <i
@@ -1240,34 +1255,63 @@ class SubscriptionDetail extends React.Component {
     );
   };
   getButtonBox = (subDetail) => {
-    let { isActive, isMobile } = this.state;
+    let { isNotInactive } = this.state;
     return (
       <div
         className="footerGroupButton"
-        style={{ display: isActive ? 'block' : 'none' }}
+        style={{ display: isNotInactive ? 'block' : 'none' }}
       >
         <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          {/* <div className="col-12 col-md-2"> */}
-          <LazyLoad>
-            <img
+          <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
+            <i
+              className="iconfont"
               style={{
-                display: 'inline-block',
-                width: '20px',
-                marginRight: '5px'
+                fontSize: '20px',
+                color: 'rgb(242,148,35)',
+                position: 'relative',
+                top: '2px'
               }}
-              src={cancelIcon}
-            />
-          </LazyLoad>
-          <a
-            className="rc-styled-link"
-            href="#/"
-            onClick={(e) => {
-              this.handleCancel(e)
-            }}
-          >
-            <FormattedMessage id="subscription.cancelAll" />
-          </a>
-          {/* </div> */}
+            >
+              &#xe62f;
+            </i>
+            <a
+              style={{
+                color: 'rgb(242,148,35)',
+                paddingRight: '0.5rem',
+                paddingLeft: '4px'
+              }}
+              className="rc-styled-link"
+              onClick={() => this.pauseOrStart(subDetail)}
+            >
+              {subDetail.subscribeStatus === '0' ? (
+                <FormattedMessage id="subscription.pause" />
+              ) : (
+                <FormattedMessage id="subscription.restart" />
+              )}
+            </a>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
+            <LazyLoad>
+              <img
+                style={{
+                  display: 'inline-block',
+                  width: '20px',
+                  marginRight: '5px'
+                }}
+                src={cancelIcon}
+              />
+            </LazyLoad>
+            <a
+              className="rc-styled-link"
+              href="#/"
+              onClick={(e) => {
+                this.handleCancel(e);
+              }}
+            >
+              <FormattedMessage id="subscription.cancelAll" />
+            </a>
+          </div>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <button
             className={`rc-btn rc-btn--one ${
@@ -1300,7 +1344,7 @@ class SubscriptionDetail extends React.Component {
     //   storeId: process.env.REACT_APP_STOREID
     // };
     let res = await getRemainings(params);
-    myAccountActionPushEvent('Cancel Subscription')
+    myAccountActionPushEvent('Cancel Subscription');
     let remainingsList = res.context;
     this.setState({
       remainingsList,
@@ -1325,6 +1369,30 @@ class SubscriptionDetail extends React.Component {
       )[0]
     });
   }
+
+  pauseOrStart = (subDetail) => {
+    let subscribeStatus = '0';
+    let subscribeStatusText = 'Restart Subscription';
+    let action = startSubscription;
+    let param = {
+      subscribeId: subDetail.subscribeId
+    };
+    //subscribeStatus 暂停传1 重启0
+    if (subDetail.subscribeStatus === '0') {
+      subscribeStatus = '1';
+      subscribeStatusText = 'Pause Subscription';
+      action = pauseSubscription;
+    }
+    param.subscribeStatus = subscribeStatus;
+    try {
+      let res = action(param);
+      subscribeStatusText && myAccountActionPushEvent(subscribeStatusText);
+    } catch (err) {
+      this.showErrMsg(err.message);
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
   async handleSaveChange(subDetail) {
     if (!this.state.isDataChange) {
       return false;
@@ -1334,41 +1402,32 @@ class SubscriptionDetail extends React.Component {
       let param = {
         subscribeId: subDetail.subscribeId
       };
-      let subscribeStatus = ''
-      let subscribeStatusText = ''
-      if (!this.state.isGift) {
-        Object.assign(
-          param,
-          {
-            goodsItems: subDetail.goodsInfo.map((el) => {
-              return {
-                skuId: el.skuId,
-                subscribeNum: el.subscribeNum,
-                subscribeGoodsId: el.subscribeGoodsId,
-                periodTypeId: el.periodTypeId
-              };
-            })
-          },
-          {
-            changeField: this.props.intl.messages['produtctNumber']
-          }
-        );
-      } else {
-        //subscribeStatus 暂停传1 重启0
-        if(this.state.subDetail.subscribeStatus === '0'){
-          subscribeStatus = '1'
-          subscribeStatusText = 'Pause Subscription'
-        }else{
-          subscribeStatus = '0'
-          subscribeStatusText = 'Restart Subscription'
-        }
-        Object.assign(param, {
-          subscribeStatus
-        });
-      }
 
+      if (this.state.isGift) {
+        //food dispensor 不能修改，不能暂停
+        return;
+      }
+      Object.assign(
+        param,
+        {
+          goodsItems: subDetail.goodsInfo.map((el) => {
+            return {
+              skuId: el.skuId,
+              subscribeNum: el.subscribeNum,
+              subscribeGoodsId: el.subscribeGoodsId,
+              periodTypeId: el.periodTypeId
+            };
+          })
+        },
+        {
+          changeField: this.props.intl.messages['produtctNumber']
+        }
+      );
+
+      Object.assign(param, {
+        subscribeStatus
+      });
       await this.doUpdateDetail(param);
-      subscribeStatusText && myAccountActionPushEvent(subscribeStatusText)
       if (this.state.isGift) {
         this.props.history.push('/account/subscription');
         return;
@@ -1414,7 +1473,9 @@ class SubscriptionDetail extends React.Component {
       noStartYear,
       completedYear,
       isActive,
-      isGift
+      isNotInactive,
+      isGift,
+      remainingsVisible
     } = this.state;
     console.log(noStartYear, currentCardInfo, 'hahaha');
     return (
@@ -1639,7 +1700,7 @@ class SubscriptionDetail extends React.Component {
                         <span>{`${subDetail.subscribeId}`}</span>
                       ) : null}
                       {subDetail.subscribeId ? (
-                        isActive ? (
+                        isNotInactive ? (
                           <span
                             style={{
                               background: '#E0F3D4',
@@ -2079,7 +2140,9 @@ class SubscriptionDetail extends React.Component {
                                           <div>
                                             <span
                                               className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                                isActive || isGift? '' : 'disabled'
+                                                isActive && !isGift
+                                                  ? ''
+                                                  : 'disabled'
                                               }`}
                                               style={{ marginLeft: '-8px' }}
                                               onClick={() => {
@@ -2168,7 +2231,9 @@ class SubscriptionDetail extends React.Component {
                                             />
                                             <span
                                               className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                                isActive || isGift ? '' : 'disabled'
+                                                isActive && !isGift
+                                                  ? ''
+                                                  : 'disabled'
                                               }`}
                                               onClick={() => {
                                                 if (
@@ -2286,7 +2351,7 @@ class SubscriptionDetail extends React.Component {
                                           value: el.periodTypeId
                                         }}
                                         key={index + '_' + el.periodTypeId}
-                                        disabled={!isActive||isGift}
+                                        disabled={!isActive || isGift}
                                       />
                                     </h1>
                                   </div>
@@ -3268,7 +3333,8 @@ class SubscriptionDetail extends React.Component {
                                               </div>
 
                                               {/* 税额 */}
-                                              {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                                              {customTaxSettingOpenFlag == 0 &&
+                                              enterPriceType == 1 ? (
                                                 <div className="row">
                                                   <div className="col-1 col-md-3" />
                                                   <label className="col-5 text-left">
@@ -3712,21 +3778,31 @@ class SubscriptionDetail extends React.Component {
               <Modal
                 headerVisible={false}
                 // footerVisible={false}
-                visible={this.state.remainingsVisible}
+                visible={remainingsVisible}
                 cancelBtnIsLink={true}
                 modalTitle={''}
-                close={() => {
-                  this.setState({ remainingsVisible: false });
-                }}
+                close={this.closeRemainings}
                 hanldeClickConfirm={() => this.hanldeClickSubmit()}
                 modalText={this.getModalBox()}
               ></Modal>
             </div>
-            <div className="sub-des-mobile-modal rc-md-down">
+            <div
+              className="sub-des-mobile-modal rc-md-down"
+              style={{
+                display: remainingsVisible ? 'block' : 'none'
+              }}
+            >
               {this.getModalBox()}
-              <a className="rc-styled-link">cancel</a>
+              <a className="rc-styled-link" onClick={this.closeRemainings}>
+                cancel
+              </a>
               <span style={{ padding: '0 1rem' }}>or</span>
-              <button className="rc-btn rc-btn--one">confoirm</button>
+              <button
+                className="rc-btn rc-btn--one"
+                onClick={this.hanldeClickSubmit}
+              >
+                confoirm
+              </button>
             </div>
           </main>
           <Footer />
