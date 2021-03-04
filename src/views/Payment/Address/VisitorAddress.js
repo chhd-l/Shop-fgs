@@ -216,9 +216,9 @@ class VisitorAddress extends React.Component {
     this.showNextPanel();
   }
   // 下一个最近的未complete的panel
-  showNextPanel=()=>{
+  showNextPanel = () => {
     const { paymentStore } = this.props;
-    const { billingChecked } = this.state;
+    const { form, billingChecked } = this.state;
     const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
     this.props.updateData(form);
 

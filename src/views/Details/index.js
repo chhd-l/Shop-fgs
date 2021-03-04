@@ -1221,7 +1221,7 @@ class Details extends React.Component {
         }, 4000);
       }
     } catch (err) {
-      this.setState({ errMsg: err.message.toString() });
+      this.setState({ errMsg: err.message });
     } finally {
       this.setState({ addToCartLoading: false });
     }
