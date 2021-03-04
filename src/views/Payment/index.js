@@ -952,28 +952,6 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
-        if (isHubGA) {
-          if (this.isLogin) {
-            isNewAccount().then((res) => {
-              if (res.context == 0) {
-                checkoutDataLayerPushEvent({
-                  name: 'Confirmation',
-                  options: 'New account'
-                });
-              } else {
-                checkoutDataLayerPushEvent({
-                  name: 'Confirmation',
-                  options: 'Existing account'
-                });
-              }
-            });
-          } else {
-            checkoutDataLayerPushEvent({
-              name: 'Confirmation',
-              options: 'Guest checkout'
-            });
-          }
-        }
         this.props.history.push('/confirmation');
       }
     } catch (err) {
