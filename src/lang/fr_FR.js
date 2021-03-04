@@ -467,7 +467,7 @@ const fr_FR = {
   //language-choose
   'lang.selectYourLocation': 'Sélectionnez votre emplacement',
   'lang.submit': 'Soumettre',
-  language: 'France/Français',
+  language: 'France/français',
   lastName: 'Nom de famille *',
   learnMore: 'En savoir plus',
   lessDetail: '[Montrer moins]',
