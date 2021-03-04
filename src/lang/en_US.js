@@ -957,5 +957,6 @@ const en_US = {
   'promotion.firstOrderDiscount': 'First Order Discount',
   'cart.delivery': 'Shipping',
   searchShow: 'Search Results',
+  
 }
 export default en_US;
