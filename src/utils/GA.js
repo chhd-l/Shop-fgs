@@ -138,7 +138,7 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
     let range = item.goods.goodsCateName?.split("/")[1] || "";
     let technology = item.goods.goodsCateName?.split("/")[2] || ""
     let breed = []
-    item.goodsAttributesValueRelVOList.filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+    item?.goodsAttributesValueRelVOList?.filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
       breed.push(item2.goodsAttributeValue)
     })
 
@@ -290,7 +290,7 @@ export const doGetGAVal = (props) => {
     
     if (isLogin) {
       for (let item of loginCartData) {
-        item.goodsAttributesValueRelVOList.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
+        item?.goodsAttributesValueRelVOList?.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
           breed.push(item2.goodsAttributeValue)
         })
         if (item.cateId == '1134') {
