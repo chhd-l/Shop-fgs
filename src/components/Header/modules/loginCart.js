@@ -322,7 +322,7 @@ class LoginCart extends React.Component {
                     cartData.map((item, index) => (
                       <div
                         className="minicart__product"
-                        key={index}
+                        key={item.goodsInfoId}
                         // key={item.goodsInfoId}
                       >
                         <div>
@@ -465,7 +465,7 @@ class LoginCart extends React.Component {
                               <div className="item-options"></div>
                               <div className="line-item-promo item-07984de212e393df75a36856b6"></div>
                             </div>
-                            {toJS(item.planId)
+                            {toJS(item.subscriptionPlanGiftList)
                               ? toJS(item.subscriptionPlanGiftList).map(
                                   (gift) => (
                                     <div className="product-line-item-details d-flex flex-row gift-box">

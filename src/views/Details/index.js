@@ -1048,8 +1048,8 @@ class Details extends React.Component {
       }
     } else {
       res = (quantity || 0) + 1;
-      if (quantity >= 30) {
-        res = 30;
+      if (quantity >= process.env.REACT_APP_LIMITED_NUM) {
+        res = process.env.REACT_APP_LIMITED_NUM;
       }
     }
     this.setState(
@@ -1075,8 +1075,8 @@ class Details extends React.Component {
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if (tmp > quantityMaxLimit) {
-        tmp = quantityMaxLimit;
+      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
+        tmp = process.env.REACT_APP_LIMITED_NUM;
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
@@ -1121,26 +1121,6 @@ class Details extends React.Component {
         this.matchGoods();
       }
     );
-    // this.setState
-    // this.setState({ checkOutErrMsg: "" });
-    // const { sizeList } = this.state.details;
-    // let list = cloneDeep(sizeList);
-    // let ret = list.map((elem, indx) => {
-    //   if (indx === index) {
-    //     elem = Object.assign({}, elem, { selected: true });
-    //   } else {
-    //     elem = Object.assign({}, elem, { selected: false });
-    //   }
-    //   return elem;
-    // });
-    // this.setState(
-    //   {
-    //     currentUnitPrice: data.salePrice,
-    //     details: Object.assign({}, this.state.details, { sizeList: ret }),
-    //     stock: data.stock || 0,
-    //   },
-    //   () => this.updateInstockStatus()
-    // );
   }
   async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
     try {
@@ -1200,83 +1180,7 @@ class Details extends React.Component {
           headerCartStore.hide();
         }, 4000);
       }
-
-      if (redirect) {
-        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo3"
-              values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          );
-          return false;
-        }
-
-        // 存在下架商品，不能下单
-        if (checkoutStore.offShelvesProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo4"
-              values={{
-                val: checkoutStore.offShelvesProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
-
-        // 库存不够，不能下单
-        if (checkoutStore.outOfstockProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo2"
-              values={{
-                val: checkoutStore.outOfstockProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
-        // 存在被删除商品，不能下单
-        if (checkoutStore.deletedProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo5"
-              values={{
-                val: checkoutStore.deletedProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
-        let autoAuditFlag = false;
-        let res = await getProductPetConfig({
-          goodsInfos: checkoutStore.loginCartData
-        });
-        let handledData = checkoutStore.loginCartData.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-          return el;
-        });
-        checkoutStore.setLoginCartData(handledData);
-        let AuditData = handledData.filter((el) => el.auditCatFlag);
-        checkoutStore.setAuditData(AuditData);
-        autoAuditFlag = res.context.autoAuditFlag;
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        checkoutStore.setPetFlag(res.context.petFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore,
-          checkoutStore,
-          clinicStore,
-          isLogin: this.isLogin
-        });
-        url && history.push(url);
-        // history.push('/prescription');
-      }
     } catch (err) {
-      console.log(err);
       this.setState({ errMsg: err.message.toString() });
     } finally {
       this.setState({ addToCartLoading: false });
@@ -1333,11 +1237,11 @@ class Details extends React.Component {
       if (historyItem) {
         flag = false;
         quantityNew += historyItem.quantity;
-        if (quantityNew > process.env.REACT_APP_LIMITED_NUM) {
+        if (quantityNew > +process.env.REACT_APP_LIMITED_NUM) {
           this.showCheckoutErrMsg(
             <FormattedMessage
               id="cart.errorMaxInfo"
-              values={{ val: process.env.REACT_APP_LIMITED_NUM }}
+              values={{ val: +process.env.REACT_APP_LIMITED_NUM }}
             />
           );
           this.setState({ addToCartLoading: false });
@@ -1352,32 +1256,6 @@ class Details extends React.Component {
         }
       }
     }
-
-    // 超过库存时，修改产品数量为最大值替换
-    // let res = await miniPurchases({
-    //   goodsInfoDTOList: [
-    //     {
-    //       goodsInfoId: currentSelectedSize.goodsInfoId,
-    //       goodsNum: quantityNew
-    //     }
-    //   ]
-    // });
-    // let tmpObj = find(
-    //   res.context.goodsList,
-    //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-    // );
-    // if (tmpObj) {
-    //   if (quantityNew > tmpObj.stock) {
-    //     quantityNew = tmpObj.stock;
-    //     if (flag) {
-    //       this.setState({
-    //         quantity: quantityNew
-    //       });
-    //     }
-    //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
-    //   }
-    // }
-
     const idx = findIndex(
       cartDataCopy,
       (c) =>
@@ -1396,11 +1274,11 @@ class Details extends React.Component {
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
-      if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
+      if (cartDataCopy.length >= +process.env.REACT_APP_LIMITED_CATE_NUM) {
         this.showCheckoutErrMsg(
           <FormattedMessage
             id="cart.errorMaxCate"
-            values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
+            values={{ val: +process.env.REACT_APP_LIMITED_CATE_NUM }}
           />
         );
         return;
@@ -1413,93 +1291,7 @@ class Details extends React.Component {
     }
 
     await checkoutStore.updateUnloginCart(cartDataCopy);
-    try {
-      if (redirect) {
-        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo3"
-              values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          );
-          throw new Error();
-        }
-        if (checkoutStore.offShelvesProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo4"
-              values={{
-                val: checkoutStore.offShelvesProNames.join('/')
-              }}
-            />
-          );
-          throw new Error();
-        }
-        if (checkoutStore.outOfstockProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo2"
-              values={{ val: checkoutStore.outOfstockProNames.join('/') }}
-            />
-          );
-          throw new Error();
-        }
-        if (needLogin) {
-          // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-        } else {
-          let autoAuditFlag = false;
-          if (this.isLogin) {
-            let res = await getProductPetConfig({
-              goodsInfos: checkoutStore.loginCartData
-            });
-            let handledData = checkoutStore.loginCartData.map((el, i) => {
-              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-              return el;
-            });
-            checkoutStore.setLoginCartData(handledData);
-            let AuditData = handledData.filter((el) => el.auditCatFlag);
-            checkoutStore.setAuditData(AuditData);
-            autoAuditFlag = res.context.autoAuditFlag;
-          } else {
-            let paramData = checkoutStore.cartData.map((el) => {
-              el.goodsInfoId = el.sizeList.filter(
-                (item) => item.selected
-              )[0].goodsInfoId;
-              return el;
-            });
-            let res = await getProductPetConfig({ goodsInfos: paramData });
-            let handledData = paramData.map((el, i) => {
-              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-              return el;
-            });
-
-            checkoutStore.setCartData(handledData);
-            let AuditData = handledData.filter((el) => el.auditCatFlag);
-            checkoutStore.setAuditData(AuditData);
-            autoAuditFlag = res.context.autoAuditFlag;
-            checkoutStore.setPetFlag(res.context.petFlag);
-          }
-          checkoutStore.setAutoAuditFlag(autoAuditFlag);
-          const url = distributeLinktoPrecriberOrPaymentPage({
-            configStore,
-            checkoutStore,
-            clinicStore,
-            isLogin: this.isLogin
-          });
-          url && history.push(url);
-          // history.push('/prescription');
-        }
-      }
-    } catch (err) {
-      console.log(err);
-      this.setState({ errMsg: err.message.toString() });
-    } finally {
-      this.setState({ addToCartLoading: false });
-    }
+    this.setState({ addToCartLoading: false });
     if (isMobile) {
       this.refs.showModalButton.click();
     } else {
@@ -2110,24 +1902,6 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            {/* <div className="align-left flex rc-margin-bottom--xs">
-                          <div className="stock__wrapper">
-                            <div className="stock">
-                              <label className="availability instock">
-                                <span className="title-select"></span>
-                              </label>
-                              <span
-                                className="availability-msg"
-                                data-ready-to-order="true"
-                              >
-                                <div>
-                                  <FormattedMessage id="Available" />
-                                </div>
-                              </span>
-                              &nbsp; for pick-up at PetStores for Clinics nearby
-                            </div>
-                          </div>
-                        </div> */}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
@@ -2715,27 +2489,6 @@ class Details extends React.Component {
                                 />
                               </div>
                               <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
-                                {/* {!this.isLogin &&
-                                (form.buyWay ? (
-                                  <span style={{ marginLeft: '10px' }}>
-                                    <FormattedMessage id="unLoginSubscriptionTips" />
-                                  </span>
-                                ) : (
-                                  <button
-                                    className={`rc-styled-link color-999 mr-2 ${
-                                      addToCartLoading
-                                        ? 'ui-btn-loading ui-btn-loading-border-red'
-                                        : ''
-                                    } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                                    onClick={this.hanldeAddToCart.bind(this, {
-                                      redirect: true
-                                    })}
-                                  >
-                                    <FormattedMessage id="guestCheckout" />
-                                  </button>
-                                ))}
-                              &nbsp;&nbsp; */}
-
                                 <button
                                   style={{ padding: '2px 30px' }}
                                   className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
@@ -2771,74 +2524,6 @@ class Details extends React.Component {
                                     </div>
                                   </>
                                 ) : null}
-                                {/* {this.isLogin ? (
-                            {
-                              De ? <div className="mb-2 mr-2" style={{ fontSize: "14px" }}><span className="vat-text">Preise inkl. MwSt</span></div> : null
-                            }
-                            <button
-                              style={{ padding: '2px 30px' }}
-                              className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                                addToCartLoading ? 'ui-btn-loading' : ''
-                              } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                              onClick={this.hanldeAddToCart}
-                            >
-                              <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                              <span className="default-txt">
-                                <FormattedMessage
-                                  id={`${
-                                    form.buyWay === 1
-                                      ? 'subscribe'
-                                      : 'details.addToCart'
-                                  }`}
-                                />
-                              </span>
-                            </button>
-                            {/* {this.isLogin ? (
-                                <button
-                                  className={`rc-btn rc-btn--one js-sticky-cta ${
-                                    addToCartLoading ? 'ui-btn-loading' : ''
-                                  } ${
-                                    btnStatus ? '' : 'rc-btn-solid-disabled'
-                                  }`}
-                                  onClick={this.hanldeAddToCart.bind(this, {
-                                    redirect: true,
-                                    needLogin: false
-                                  })}
-                                >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
-                                  <span className="default-txt">
-                                    <FormattedMessage id="checkout" />
-                                  </span>
-                                </button>
-                              ) : (
-                                <LoginButton
-                                  beforeLoginCallback={async () => {
-                                    try {
-                                      await this.hanldeUnloginAddToCart({
-                                        redirect: true,
-                                        needLogin: true
-                                      });
-                                      sessionItemRoyal.set(
-                                        'okta-redirectUrl',
-                                        '/cart'
-                                      );
-                                    } catch (err) {
-                                      throw new Error();
-                                    }
-                                  }}
-                                  btnClass={`rc-btn rc-btn--one js-sticky-cta ${
-                                    addToCartLoading ? 'ui-btn-loading' : ''
-                                  } ${
-                                    btnStatus ? '' : 'rc-btn-solid-disabled'
-                                  }`}
-                                  history={history}
-                                >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
-                                  <span className="default-txt">
-                                    <FormattedMessage id="checkout" />
-                                  </span>
-                                </LoginButton>
-                              )} */}
                               </div>
                               <ErrMsgForCheckoutPanel
                                 checkOutErrMsg={checkOutErrMsg}
@@ -3052,62 +2737,6 @@ class Details extends React.Component {
                     <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
                   </div>
                 ) : null}
-                {/* {this.isLogin ? (
-                  <button
-                    className={`rc-btn rc-btn--one js-sticky-cta ${
-                      addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    onClick={this.hanldeAddToCart.bind(this, {
-                      redirect: true,
-                      needLogin: false
-                    })}
-                  >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
-                    <span className="default-txt">
-                      <FormattedMessage id="checkout" />
-                    </span>
-                  </button>
-                ) : (
-                  <LoginButton
-                    beforeLoginCallback={async () => {
-                      try {
-                        await this.hanldeUnloginAddToCart({
-                          redirect: true,
-                          needLogin: true
-                        });
-                        sessionItemRoyal.set('okta-redirectUrl', '/cart');
-                      } catch (err) {
-                        throw new Error();
-                      }
-                    }}
-                    btnClass={`rc-btn rc-btn--one js-sticky-cta ${
-                      addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    history={history}
-                  >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
-                    <span className="default-txt">
-                      <FormattedMessage id="checkout" />
-                    </span>
-                  </LoginButton>
-                )} */}
-                {/* {!this.isLogin &&
-                  (form.buyWay ? (
-                    <span style={{ marginLeft: '10px' }}>
-                      <FormattedMessage id="unLoginSubscriptionTips" />
-                    </span>
-                  ) : (
-                    <button
-                      className={`rc-styled-link color-999 ${
-                        addToCartLoading ? 'ui-btn-loading' : ''
-                      } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                      onClick={this.hanldeAddToCart.bind(this, {
-                        redirect: true
-                      })}
-                    >
-                      <FormattedMessage id="guestCheckout" />
-                    </button>
-                  ))} */}
               </div>
             </div>
           </main>
@@ -3177,11 +2806,6 @@ class Details extends React.Component {
             </section>
           </div>
         </aside>
-        {/* <div className="rc-bg-colour--brand4">
-          <div className="contact-section rc-max-width--xl rc-padding-y--md rc-padding-x--sm">
-            <div className="content-asset">&nbsp;</div>
-          </div>
-        </div> */}
         {/* 最下方跳转更多板块 */}
         {isHub ? (
           <>

@@ -1,10 +1,19 @@
-.border-bottom-shadow{
-  -webkit-box-shadow: 0 2px 4px #f1f1f1!important;
-  box-shadow: 0 2px 4px #f1f1f1!important;
+.border-bottom-shadow {
+  -webkit-box-shadow: 0 2px 4px #f1f1f1 !important;
+  box-shadow: 0 2px 4px #f1f1f1 !important;
 }
 .smartfeedersubscription {
-
-  .choose_product .rc-card-grid--fixed{
+  .rc-list__accordion-item:first-child,
+  .rc-border-top,
+  .border-top {
+    border-top-style: none;
+  }
+  .dl-box dl:first-child {
+    .rc-list__accordion-item {
+      border-top-style: solid;
+    }
+  }
+  .choose_product .rc-card-grid--fixed {
     gap: 1rem;
     margin: 0 2rem 2rem;
   }
@@ -18,15 +27,15 @@
   }
   .banner-img {
     &::after {
-    content: '';
-    width: 30px;
-    position: absolute;
-    height: 100%;
-    background-color: red;
-    top: 0;
-    right: 0;
-    transform: rotate(4deg);
-    background: #fff;
+      content: '';
+      width: 30px;
+      position: absolute;
+      height: 100%;
+      background-color: red;
+      top: 0;
+      right: 0;
+      transform: rotate(4deg);
+      background: #fff;
     }
   }
   .list__header:active,
@@ -71,7 +80,7 @@
         border: 0.5rem solid #f7f7f7;
         box-sizing: content-box;
         right: -2.2rem;
-        z-index: 2;
+        z-index: 4;
         top: 0.5rem;
         // top: 50%;
         // transform: translateY(-50%);
@@ -196,7 +205,7 @@
     }
   }
   @media (min-width: 1100px) {
-    .choose_product .rc-card-grid--fixed{
+    .choose_product .rc-card-grid--fixed {
       margin-right: 9rem;
       margin-left: 9rem;
     }
@@ -223,19 +232,24 @@
         padding-left: 5rem;
       }
     }
-    
   }
   @media (max-width: 769px) {
-    .scroll-position{
+    .step3-btn-box{
+      .rc-column{
+        padding-right: 0;
+        padding-left: 0;
+      }
+    }
+    .scroll-position {
       position: relative;
       top: -66.66px;
     }
     .button192 {
       width: 12rem;
     }
-    .height-for-mobile{
-      height: 8rem!important;
-      width: auto!important;
+    .height-for-mobile {
+      height: 8rem !important;
+      width: auto !important;
     }
     .h5_no_pad {
       padding: 0px;
@@ -251,7 +265,7 @@
         }
         .side_icon {
           right: 50%;
-          transform: translateX(50%);
+          transform: translateX(50%) rotate(90deg);
           bottom: -2.2rem;
           top: auto;
         }
@@ -259,7 +273,7 @@
     }
     .banner-img {
       &::after {
-       display: none;
+        display: none;
       }
     }
     .rc_md_up {
@@ -305,11 +319,11 @@
     }
   }
   @media (min-width: 769px) {
-    .scroll-position{
+    .scroll-position {
       position: relative;
       top: -120px;
     }
-    .column{
+    .column {
       flex-direction: column;
     }
     .rc_md_down {

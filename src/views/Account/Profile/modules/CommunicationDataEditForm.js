@@ -103,6 +103,15 @@ class CommunicationDataEditForm extends React.Component {
 
     return obj;
   };
+  showErrMsg(err) {
+    this.setState({ errorMsg: err });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      });
+    }, 3000);
+  }
   //保存
   handleSave = async () => {
     const { userInfo } = this.props;
@@ -136,9 +145,7 @@ class CommunicationDataEditForm extends React.Component {
     }
 
     if (errMsg) {
-      this.setState({
-        errorMsg: errMsg
-      });
+      this.showErrMsg(errMsg);
       return false;
     }
 
@@ -176,15 +183,10 @@ class CommunicationDataEditForm extends React.Component {
         });
       })
       .catch((err) => {
+        this.showErrMsg(err.message);
         this.setState({
-          errorMsg: err.message,
           saveLoading: false
         });
-        setTimeout(() => {
-          this.setState({
-            errorMsg: ''
-          });
-        }, 3000);
       });
   };
   handleCancel = () => {

@@ -111,7 +111,7 @@ const staticPage = (props) => {
               src={bannerFood}
             />
           </div>
-          <img className="rc-md-down" src={bannerFood} />
+          <img className="rc-md-down m-auto" src={bannerFood} />
           <div className="rc-column rc-text--center">
             <div className="title">
               <FormattedMessage id="smartFeederSubscription.tabDes1" />
