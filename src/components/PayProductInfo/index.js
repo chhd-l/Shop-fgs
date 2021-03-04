@@ -13,8 +13,11 @@ import foodDispenserPic from '../../views/SmartFeederSubscription/img/food_dispe
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-const customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1; // 税额开关 0: on, 1: off
-const enterPriceType = storeInfo ? Number(storeInfo.systemTaxSetting.configVOList[1].context) : 0;  // 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
+// 税额开关 0: on, 1: off
+const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
+// 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
+const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1] || 0;
+
 
 @inject('checkoutStore')
 @injectIntl

@@ -8,7 +8,7 @@ import {
   getFrequencyDict,
   matchNamefromDict
 } from '@/utils/utils';
-import {GAInitUnLogin,GAInitLogin} from "@/utils/GA"
+import { GAInitUnLogin, GAInitLogin } from "@/utils/GA"
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,8 +19,10 @@ const isHubGA = process.env.REACT_APP_HUB_GA
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-const customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1; // 税额开关 0: on, 1: off
-const enterPriceType = storeInfo ? Number(storeInfo.systemTaxSetting.configVOList[1].context) : 0;  // 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
+// 税额开关 0: on, 1: off
+const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
+// 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
+const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1] || 0;
 
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
@@ -121,11 +123,11 @@ class PayProductInfo extends React.Component {
   }
 
   //Hub-GA checkout页面初始化
-  GAInitialProductArray(productList){
-    if(this.props.currentPage != 'checkout') return //只允许checkout页面才调用
-    if(!isGACheckoutLock){//防止重复调用
+  GAInitialProductArray(productList) {
+    if (this.props.currentPage != 'checkout') return //只允许checkout页面才调用
+    if (!isGACheckoutLock) {//防止重复调用
       isGACheckoutLock = true
-      this.isLogin ? GAInitLogin({productList,frequencyList:this.state.frequencyList,props:this.props}) : GAInitUnLogin({productList,frequencyList:this.state.frequencyList,props:this.props})
+      this.isLogin ? GAInitLogin({ productList, frequencyList: this.state.frequencyList, props: this.props }) : GAInitUnLogin({ productList, frequencyList: this.state.frequencyList, props: this.props })
     }
   }
 

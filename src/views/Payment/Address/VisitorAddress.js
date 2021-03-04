@@ -32,7 +32,6 @@ class VisitorAddress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
       isValid: false,
       form: this.props.initData,
       validationAddress: {
@@ -45,7 +44,8 @@ class VisitorAddress extends React.Component {
         provinceCode: null
       },
       billingChecked: true,
-      modalVisible: false,
+      validationLoading: false, // 地址校验loading
+      validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
     };
     this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
@@ -70,7 +70,7 @@ class VisitorAddress extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     } catch (err) {
-      this.setState({ isValid: false, loading: false }, () => {
+      this.setState({ isValid: false, validationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     }
@@ -85,25 +85,19 @@ class VisitorAddress extends React.Component {
     if (!isValid) {
       return false;
     }
-    this.setState({
-      loading: true
-    });
 
-    if (process.env.REACT_APP_LANG == 'en') {
-      // 地址验证
-      this.toAddressValidation();
-    } else {
-      this.handleNextPanel();
-    }
+    // 地址验证
+    // validationModalVisible - 控制是否查询数据
+    this.setState({
+      validationModalVisible: true,
+      validationLoading: true
+    });
   };
   // 不进行地址验证，进入下一步
   handleNextPanel = () => {
     const { paymentStore } = this.props;
     const { form, billingChecked } = this.state;
     const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
-    this.setState({
-      modalVisible: false
-    });
 
     this.props.updateData(form);
 
@@ -181,54 +175,31 @@ class VisitorAddress extends React.Component {
       </>
     );
   };
-  // 地址验证
-  toAddressValidation = async () => {
-    const { form } = this.state;
-    try {
-      let data = {
-        city: form.cityName,
-        countryId: Number(form.country),
-        deliveryAddress: form.address1,
-        postCode: form.postCode,
-        province: form.provinceName,
-        storeId: Number(process.env.REACT_APP_STOREID),
-      };
 
-      let res = await addressValidation(data);
-      this.setState({
-        loading: false
-      });
-      if (res.context && res.context != null) {
-        if (res.context.suggestionAddress) {
-          this.setState({
-            validationAddress: res.context.suggestionAddress,
-          });
-        }
-        this.setState({
-          modalVisible: true
-        });
-      } else {
-        this.handleNextPanel();
-      }
-
-    } catch (err) {
-      this.setState({
-        loading: false
-      });
-    }
-  };
   // 选择地址
   chooseValidationAddress = (e) => {
     this.setState({
       selectValidationOption: e.target.value
     });
   };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    this.setState({
+      validationLoading: false
+    });
+    if (data && data != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      this.showNextPanel();
+    }
+  }
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress(e) {
-    const { paymentStore } = this.props;
-    const { form, selectValidationOption, validationAddress, billingChecked } = this.state;
-    const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
-
+    const { form, selectValidationOption, validationAddress } = this.state;
     if (selectValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
@@ -238,11 +209,17 @@ class VisitorAddress extends React.Component {
         form.provinceName = validationAddress.provinceCode;
       }
     }
-
     this.setState({
-      modalVisible: false
+      validationModalVisible: false
     });
-
+    // 进入下一步
+    this.showNextPanel();
+  }
+  // 下一个最近的未complete的panel
+  showNextPanel=()=>{
+    const { paymentStore } = this.props;
+    const { billingChecked } = this.state;
+    const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
     this.props.updateData(form);
 
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
@@ -263,11 +240,16 @@ class VisitorAddress extends React.Component {
       });
     }
   }
+
   render() {
     const { panelStatus } = this;
 
     const { showConfirmBtn } = this.props;
-    const { loading, form, isValid, validationAddress, modalVisible, selectValidationOption } = this.state;
+    const { form, isValid,
+      validationLoading,
+      validationModalVisible,
+      selectValidationOption
+    } = this.state;
 
     const _editForm = (
       <EditForm
@@ -313,22 +295,21 @@ class VisitorAddress extends React.Component {
           ) : null
         ) : null}
 
-        {loading ?
-          <Loading positionFixed="true" /> :
-          <ValidationAddressModal
-            modalVisible={modalVisible}
-            address={form}
-            validationAddress={validationAddress}
-            selectValidationOption={selectValidationOption}
-            handleChooseValidationAddress={(e) => this.chooseValidationAddress(e)}
-            hanldeClickConfirm={() => this.confirmValidationAddress()}
-            close={() => {
-              this.setState({
-                modalVisible: false
-              });
-            }}
-          />
-        }
+        {validationLoading && <Loading positionFixed="true" />}
+        {validationModalVisible && <ValidationAddressModal
+          address={form}
+          updateValidationData={(res) => this.getValidationData(res)}
+          selectValidationOption={selectValidationOption}
+          handleChooseValidationAddress={(e) =>
+            this.chooseValidationAddress(e)
+          }
+          hanldeClickConfirm={() => this.confirmValidationAddress()}
+          close={() => {
+            this.setState({
+              validationModalVisible: false
+            });
+          }}
+        />}
 
       </>
     );
