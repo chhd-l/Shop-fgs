@@ -200,9 +200,11 @@ class CommunicationDataEditForm extends React.Component {
   changeEditFormVisible = (status) => {
     this.setState({ editFormVisible: status });
     if (status) {
+      // 回置初始状态值
       this.setState({
         form: Object.assign({}, this.props.data)
       });
+      this.init();
     }
     this.props.updateEditOperationPanelName(status ? 'Communication' : '');
   };

@@ -225,7 +225,8 @@ class ProductFinderResult extends React.Component {
       let allGoods = JSON.parse(res)
       // let goodsList = [allGoods.mainProduct,...allGoods.otherProducts]
       let goodsList = [allGoods.mainProduct];
-      (!isHubGA)&&this.GAProductImpression(goodsList)
+      //(!isHubGA)&&this.GAProductImpression(goodsList)
+      this.GAProductImpression(goodsList)
     } else {
       this.props.history.push('/product-finder');
     }

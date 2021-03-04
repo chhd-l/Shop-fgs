@@ -855,6 +855,7 @@ const es_ES = {
   'order.iVAIncluido': '(IVA incluido)',
   'validPromotionCode': 'No se puede agregar el cupón de descuento a su carrito',
   mustChooseACommunicationMethodTip: 'Lo sentimos, verificó el consentimiento de comunicación, por lo que debe elegir un método de comunicación',
-  'bannerTip.btnText': 'Más información'
+  'bannerTip.btnText': 'Más información',
+  'cart.delivery': 'Envío'
 }
 export default es_ES;

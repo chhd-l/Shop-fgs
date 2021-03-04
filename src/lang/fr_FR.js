@@ -291,7 +291,7 @@ const fr_FR = {
   enterDogBreed: 'Sélectionnez la race de votre chien',
   enterNickname: 'Entrez le surnom de votre animal',
   enterPasswordAgain: 'Entrez à nouveau le nouveau mot de passe',
-  estimatedTax: `Montant estimatif de l'impôt`,
+  estimatedTax: `Taxe estimée`,
   every: 'Tout',
   example: 'Exemple',
   examplePhone: '06 23 45 67 89 (tel. mobile pour un meilleur suivi de votre commande)',
@@ -1126,6 +1126,7 @@ const fr_FR = {
   'Your Pet is a…': 'Votre animal de compagnie est un...',
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
-  'bannerTip.btnText': 'En savoir plus'
+  'bannerTip.btnText': 'En savoir plus',
+  'cart.delivery': 'Frais de livraison'
 }
 export default fr_FR;

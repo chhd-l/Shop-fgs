@@ -27,7 +27,6 @@ class EditForm extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
         city: '',
@@ -36,8 +35,7 @@ class EditForm extends React.Component {
         provinceName: '',
         province: '',
         postCode: '',
-        phoneNumber: '',
-        // email: ''
+        phoneNumber: ''
       },
       countryList: [], // 国家列表
       provinceList: [], // 省份列表
@@ -47,11 +45,11 @@ class EditForm extends React.Component {
   componentDidMount() {
     const { initData = {} } = this.props;
     const { address } = this.state;
-
+    // delete initData['email'];
+    // delete address['email'];
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
     });
-    console.log('----------------------> EditForm address: ', address);
 
     getDictionary({ type: 'country' }).then((res) => {
       const { address } = this.state;
@@ -303,6 +301,7 @@ class EditForm extends React.Component {
           <CitySearchSelection
             defaultValue={address.cityName}
             key={address.cityName}
+            freeText={true}
             onChange={this.handleCityInputChange}
           />
         </span>
