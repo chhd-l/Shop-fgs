@@ -9,6 +9,8 @@ const api = {
   skipNextSub: `/${process.env.REACT_APP_STOREID}/sub/cancel-next`,
   cancelAllSub: '/sub/cancel',
   orderNowSub: '/sub/order-now',
+  startSubscription: '/sub/startSubscription', 
+  pauseSubscription: '/sub/pauseSubscription', 
   // orderNowSub: '/sub/createOrderNow',
   // getPromotionPrice: `/${process.env.REACT_APP_STOREID}/sub/prom-price`,
   getPromotionPrice: '/sub/getPromotionPrice',
@@ -85,6 +87,20 @@ export function updateNextDeliveryTime(parameter) {
   return axios({
     url: `${api.updateNextDeliveryTime}${parameter.subscribeId}`,
     method: 'put',
+    data: parameter
+  })
+}
+export function startSubscription (parameter) {
+  return axios({
+    url: `${api.startSubscription}`,
+    method: 'post',
+    data: parameter
+  })
+}
+export function pauseSubscription (parameter) {
+  return axios({
+    url: `${api.pauseSubscription}`,
+    method: 'post',
     data: parameter
   })
 }
