@@ -2669,26 +2669,20 @@ class Details extends React.Component {
                       <FormattedMessage id="detail.answer" />
                     </p>
                     <div className="good-contact-link d-flex">
-                      <div className="good-contact-tel d-flex">
+                      <a href={`tel:${configStore.storeContactPhoneNumber}`} className="good-contact-tel d-flex">
                         <div>
                           <p>
                             <FormattedMessage id="detail.telephone" />
                           </p>
-                          <a
-                            href={`tel:${configStore.storeContactPhoneNumber}`}
-                          >
-                            {configStore.storeContactPhoneNumber}
-                          </a>
+                          <span>{configStore.storeContactPhoneNumber}</span>
                           <p>{configStore.contactTimePeriod}</p>
                         </div>
                         <span className="rc-icon rc-contact rc-iconography rc-brand1" />
-                      </div>
-                      <div className="good-contact-email d-flex">
-                        <a href={this.state.contactUs}>
+                      </a>
+                        <a className="good-contact-email d-flex" href={this.state.contactUs}>
                           <FormattedMessage id="detail.email" />
+                          <span className="rc-icon rc-email rc-iconography rc-brand1"></span>
                         </a>
-                        <span className="rc-icon rc-email rc-iconography rc-brand1"></span>
-                      </div>
                     </div>
                   </div>
                 </div>
