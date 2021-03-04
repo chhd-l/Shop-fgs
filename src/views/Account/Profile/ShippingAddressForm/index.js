@@ -2,6 +2,8 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import CitySearchSelection from '@/components/CitySearchSelection';
+import ValidationAddressModal from '@/components/validationAddressModal';
+import Loading from '@/components/Loading';
 import './index.less';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById, getProvincesList } from '@/api';
@@ -59,7 +61,10 @@ class ShippingAddressFrom extends React.Component {
       provinceList: [], // 省份列表
       isValid: false,
       curType: 'delivery',
-      errMsgObj: {}
+      errMsgObj: {},
+      validationLoading: false, // 地址校验loading
+      validationModalVisible: false, // 地址校验查询开关
+      selectValidationOption: 'suggestedAddress',
     };
     this.handleTypeChange = this.handleTypeChange.bind(this);
   }
@@ -145,9 +150,10 @@ class ShippingAddressFrom extends React.Component {
       }
 
       let cityRes = await queryCityNameById({ id: [data.cityId] });
-      addressForm.cityName =
-        cityRes.context.systemCityVO.length &&
-        cityRes.context.systemCityVO[0].cityName;
+      // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
+      addressForm.cityName = cityRes?.context?.systemCityVO[0] && cityRes?.context?.systemCityVO[0]?.cityName || data.city;
+      addressForm.city = cityRes?.context?.systemCityVO[0] && cityRes?.context?.systemCityVO[0]?.city || data.city;
+
       this.setState({
         addressForm,
         showModal: true,
@@ -174,7 +180,56 @@ class ShippingAddressFrom extends React.Component {
       }
     );
   };
+
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    this.setState({
+      validationLoading: false
+    });
+    if (data && data != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      this.showNextPanel();
+    }
+  }
+  // 确认选择地址,切换到下一个最近的未complete的panel
+  confirmValidationAddress() {
+    const { addressForm, selectValidationOption, validationAddress } = this.state;
+
+    if (selectValidationOption == 'suggestedAddress') {
+      addressForm.address1 = validationAddress.address1;
+      addressForm.address2 = validationAddress.address2;
+      addressForm.city = validationAddress.city;
+      addressForm.cityName = validationAddress.city;
+      if (process.env.REACT_APP_LANG === 'en') {
+        addressForm.provinceName = validationAddress.provinceCode;
+      }
+    }
+    this.setState({
+      validationModalVisible: false
+    });
+    this.showNextPanel();
+  }
+  // 保存
   handleSave = async () => {
+    // 地址验证
+    this.setState({
+      validationModalVisible: true,
+      validationLoading: true
+    });
+  };
+  // 下一步
+  showNextPanel = async () => {
     try {
       const { curType, addressForm: data } = this.state;
       this.setState({
@@ -228,7 +283,7 @@ class ShippingAddressFrom extends React.Component {
       }
 
       await (this.state.isAdd ? saveAddress : editAddress)(params);
-      myAccountActionPushEvent('Add Address')
+      myAccountActionPushEvent('Add Address');
       this.handleCancel();
       this.props.refreshList();
     } catch (err) {
@@ -241,7 +296,8 @@ class ShippingAddressFrom extends React.Component {
         saveLoading: false
       });
     }
-  };
+  }
+
   showErrorMsg = (message) => {
     this.setState({
       errorMsg: message
@@ -383,7 +439,10 @@ class ShippingAddressFrom extends React.Component {
       curType,
       successMsg,
       errorMsg,
-      errMsgObj
+      errMsgObj,
+      validationLoading,
+      validationModalVisible,
+      selectValidationOption
     } = this.state;
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
@@ -550,9 +609,9 @@ class ShippingAddressFrom extends React.Component {
                   </div>
 
                   {/* 国家 */}
-                  <div className="col-lg-6 col-sm-12">
+                  <div className="form-group col-lg-6 pull-left required">
                     <div className="form-group col-lg-12 pull-left no-padding required dwfrm_shipping_shippingAddress_addressFields_province">
-                      <label className="form-control-label" htmlFor="country">
+                      <label className="form-control-label rc-full-width" htmlFor="country">
                         <FormattedMessage id="payment.country" />
                       </label>
                       <span
@@ -575,8 +634,8 @@ class ShippingAddressFrom extends React.Component {
 
                   {/* 省份 */}
                   {process.env.REACT_APP_LANG === 'en' ? (
-                    <div className="col-lg-6 col-sm-12">
-                      <div className="form-group col-lg-12 pull-left no-padding required">
+                    <div className="form-group col-lg-6 pull-left required">
+                      <div className="form-group col-lg-12 pull-left no-padding required dwfrm_shipping_shippingAddress_addressFields_province">
                         <label className="form-control-label" htmlFor="province">
                           <FormattedMessage id="payment.state" />
                         </label>
@@ -602,7 +661,7 @@ class ShippingAddressFrom extends React.Component {
                   ) : (null)}
 
                   {/* 城市 */}
-                  <div className="col-lg-6 col-sm-12">
+                  <div className="form-group col-lg-6 pull-left required">
                     <div className="form-group col-lg-12 pull-left no-padding required">
                       <label className="form-control-label" htmlFor="city">
                         <FormattedMessage id="payment.city" />
@@ -615,38 +674,14 @@ class ShippingAddressFrom extends React.Component {
                           <CitySearchSelection
                             key={this.state.addressForm.cityName}
                             defaultValue={this.state.addressForm.cityName}
+                            freeText={true}
                             onChange={this.handleCityInputChange}
                           />
                         </span>
                       </div>
                     </div>
                   </div>
-                  {/* <div className="form-group col-6 required d-flex flex-column">
-                  <label
-                    className="form-control-label rc-full-width"
-                    htmlFor="phone"
-                  >
-                    <FormattedMessage id="email" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                    style={{ maxWidth: '1000px' }}
-                    input-setup="true"
-                  >
-                    <input
-                      className="rc-input__control input__phoneField"
-                      id="email"
-                      type="email"
-                      name="email"
-                      value={addressForm.email}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="254"
-                    />
-                    <label className="rc-input__label" htmlFor="email" />
-                  </span>
-                </div>
-                 */}
+
                   <div className="form-group col-6 required d-flex flex-column justify-content-between">
                     <div className="no-padding">
                       <label
@@ -671,9 +706,6 @@ class ShippingAddressFrom extends React.Component {
                           value={addressForm.postCode}
                           onChange={this.handleInputChange}
                           onBlur={this.inputBlur}
-                          // maxLength="5"
-                          // minLength="5"
-                          //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                           data-js-pattern="(*.*)"
                           autoComplete="postal-code"
                         />
@@ -721,31 +753,6 @@ class ShippingAddressFrom extends React.Component {
                       <FormattedMessage id="examplePhone" />
                     </span>
                   </div>
-
-                  {/* <div className="form-group col-6 d-flex flex-column">
-                  <label
-                    className="form-control-label rc-full-width"
-                    htmlFor="reference"
-                  >
-                    <FormattedMessage id="payment.rfc" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control input__phoneField"
-                      id="reference"
-                      name="rfc"
-                      value={addressForm.rfc}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="50"
-                    />
-                    <label className="rc-input__label" htmlFor="reference" />
-                  </span>
-                </div> */}
 
                   {addressForm.addressType === 'DELIVERY' ? (
                     <div className="form-group col-12 col-md-6">
@@ -801,6 +808,23 @@ class ShippingAddressFrom extends React.Component {
               </div>
             )}
         </div>
+
+        {validationLoading && <Loading positionFixed="true" />}
+        {validationModalVisible && <ValidationAddressModal
+          address={addressForm}
+          updateValidationData={(res) => this.getValidationData(res)}
+          selectValidationOption={selectValidationOption}
+          handleChooseValidationAddress={(e) =>
+            this.chooseValidationAddress(e)
+          }
+          hanldeClickConfirm={() => this.confirmValidationAddress()}
+          close={() => {
+            this.setState({
+              validationModalVisible: false
+            });
+          }}
+        />}
+
       </div>
     );
   }

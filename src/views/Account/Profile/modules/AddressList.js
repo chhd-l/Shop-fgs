@@ -41,11 +41,6 @@ function CardItem(props) {
         <div className="ccard-phone-title word-break">
           <div className="address-name">
             <span>{data.firstName + ' ' + data.lastName}</span>
-            {/* {data.isDefaltAddress === 1 ? (
-              <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
-                <FormattedMessage id="default" />
-              </span>
-            ) : null} */}
           </div>
         </div>
         <p className="mb-0">{data.consigneeNumber}</p>

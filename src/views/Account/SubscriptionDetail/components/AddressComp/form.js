@@ -4,6 +4,7 @@ import findIndex from 'lodash/findIndex';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary } from '@/utils/utils';
+import { getProvincesList } from '@/api';
 
 export default class AddressForm extends React.Component {
   constructor(props) {
@@ -16,12 +17,17 @@ export default class AddressForm extends React.Component {
         address2: '',
         rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryName: '',
         city: '',
         cityName: '',
+        provinceNo: '',
+        provinceName: '',
+        province: '',
         postCode: '',
         phoneNumber: ''
       },
-      countryList: []
+      countryList: [],
+      provinceList: [], // 省份列表
     };
   }
   componentDidMount() {
@@ -29,25 +35,44 @@ export default class AddressForm extends React.Component {
       this.setState({
         countryList: res
       })
-    })
+    });
+    // 查询省份列表（美国：州）
+    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
+      this.setState({
+        provinceList: res.context.systemStates
+      });
+    });
+    console.log('------------------ deliveryAddress: ',this.state.deliveryAddress);
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.deliveryAddress) {
       this.setState({
         deliveryAddress: Object.assign({}, nextProps.data)
-      },() => {
+      }, () => {
         console.log(this.state.deliveryAddress, 'deliveryAddress')
       });
     }
   }
   computedList(key) {
-    let tmp = this.state[`${key}List`].map((c) => {
-      return {
-        value: c.id.toString(),
-        name: c.name
-      };
-    });
-    tmp.unshift({ value: '', name: '' });
+    let tmp = '';
+    if (key == 'province') {
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.id.toString(),
+          name: c.stateName,
+          stateNo: c.stateNo
+        };
+      });
+      tmp.unshift({ value: '', name: 'state' });
+    } else {
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.id.toString(),
+          name: c.name
+        };
+      });
+      tmp.unshift({ value: '', name: '' });
+    }
     return tmp;
   }
   deliveryInputChange(e) {
@@ -79,13 +104,18 @@ export default class AddressForm extends React.Component {
   }
   handleSelectedItemChange(key, data) {
     const { deliveryAddress } = this.state;
+    if (key == 'province') {
+      deliveryAddress.provinceName = data.name;
+      deliveryAddress.provinceNo = data.stateNo; // 省份简写      
+    } else if (key == 'country') {
+      deliveryAddress.countryName = data.name;
+    }
     deliveryAddress[key] = data.value;
     this.setState({ deliveryAddress: deliveryAddress }, () => {
       this.props.updateData(this.state.deliveryAddress);
     });
   }
   handleCityInputChange = (data) => {
-    // console.log(data, 'data')
     const { deliveryAddress } = this.state;
     deliveryAddress.city = data.id;
     deliveryAddress.cityName = data.cityName;
@@ -96,7 +126,7 @@ export default class AddressForm extends React.Component {
   _emailPanelJSX = () => {
     const { deliveryAddress } = this.state;
     return (
-      <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_phone">
+      <div className="col-12 col-md-6 required dwfrm_shipping_shippingAddress_addressFields_phone">
         <label className="form-control-label" htmlFor="shippingEmail">
           <FormattedMessage id="email" />
         </label>
@@ -130,7 +160,7 @@ export default class AddressForm extends React.Component {
   _postCodeJSX = () => {
     const { deliveryAddress } = this.state;
     return (
-      <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_postalCode">
+      <div className="col-12 col-md-6 required dwfrm_shipping_shippingAddress_addressFields_postalCode">
         <label className="form-control-label 1111" htmlFor="shippingZipCode">
           <FormattedMessage id="payment.postCode" />
         </label>
@@ -149,9 +179,6 @@ export default class AddressForm extends React.Component {
             onChange={(e) => this.deliveryInputChange(e)}
             onBlur={(e) => this.inputBlur(e)}
             name="postCode"
-            // maxLength="5"
-            // minLength="5"
-            //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
             data-js-pattern="(*.*)"
           />
           <label className="rc-input__label" htmlFor="id-text1"></label>
@@ -174,7 +201,7 @@ export default class AddressForm extends React.Component {
   _phonePanelJSX = () => {
     const { deliveryAddress } = this.state;
     return (
-      <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_phone">
+      <div className="col-12 col-md-6 required dwfrm_shipping_shippingAddress_addressFields_phone">
         <label className="form-control-label" htmlFor="shippingPhoneNumber">
           <FormattedMessage id="payment.phoneNumber" />
         </label>
@@ -191,37 +218,11 @@ export default class AddressForm extends React.Component {
             value={deliveryAddress.phoneNumber}
             onChange={(e) => this.deliveryInputChange(e)}
             onBlur={(e) => this.inputBlur(e)}
-            // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
-            // data-js-pattern="(^(\+52)\d{8}$)"
-            // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
+            s-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
             name="phoneNumber"
             maxLength="20"
             minLength="18"
           />
-          {/* <input
-        className="rc-input__control input__phoneField shippingPhoneNumber"
-        id="shippingPhoneNumber"
-        unselectable="on"
-        onSelect={() => {return false}}
-        onContextMenu={() => {return false}}
-        type="tel"
-        // type="text"
-        value={deliveryAddress.phoneNumber}
-        onCopy={() => {
-          return false
-        }}
-        unselectable
-        onSelectCapture={() => { return false }}
-        onChange={(e) => {
-          this.deliveryInputChange(e);
-        }}
-        onBlur={(e) => this.inputBlur(e)}
-        onClick={(e) => this.phoneNumberClick(e)}
-        data-js-pattern="(^(\+52)\d{8}$)"
-        name="phoneNumber"
-        maxlength="17"
-        minLength="16"
-      ></input> */}
           <label
             className="rc-input__label"
             htmlFor="shippingPhoneNumber"
@@ -242,95 +243,126 @@ export default class AddressForm extends React.Component {
       </div>
     );
   };
+  _provinceJSX = () => {
+    const { deliveryAddress } = this.state;
+    return (
+      <div className="col-12 col-md-6">
+        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
+          <label className="form-control-label" htmlFor="shippingProvince">
+            <FormattedMessage id="payment.state" />
+          </label>
+          <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+            <Selection
+              selectedItemChange={(data) =>
+                this.handleSelectedItemChange('province', data)
+              }
+              optionList={this.computedList('province')}
+              selectedItemData={{
+                value: deliveryAddress.province
+              }}
+              key={deliveryAddress.province}
+            />
+          </span>
+        </div>
+      </div>
+    );
+  };
   render() {
     const { deliveryAddress } = this.state;
     return (
-      <>
-        <div className="rc-layout-container">
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
-              <label className="form-control-label" htmlFor="shippingFirstName">
-                <FormattedMessage id="payment.firstName" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingFirstName"
-                  id="shippingFirstName"
-                  type="text"
-                  value={deliveryAddress.firstName}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
-                  name="firstName"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" htmlFor="id-text1"></label>
-              </span>
-              <div className="invalid-feedback">
-                <FormattedMessage
-                  id="payment.errorInfo"
-                  values={{
-                    val: <FormattedMessage id="payment.firstName" />
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingLastName">
-                <FormattedMessage id="payment.lastName" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingLastName"
-                  id="shippingLastName"
-                  type="text"
-                  value={deliveryAddress.lastName}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
-                  name="lastName"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" htmlFor="id-text1"></label>
-              </span>
-              <div className="invalid-feedback">
-                <FormattedMessage
-                  id="payment.errorInfo"
-                  values={{
-                    val: <FormattedMessage id="payment.lastName" />
-                  }}
-                />
-              </div>
+      <div className="row">
+        <div className="col-12 col-md-6">
+          <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
+            <label className="form-control-label" htmlFor="shippingFirstName">
+              <FormattedMessage id="payment.firstName" />
+            </label>
+            <span
+              className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+              input-setup="true"
+            >
+              <input
+                className="rc-input__control shippingFirstName"
+                id="shippingFirstName"
+                type="text"
+                value={deliveryAddress.firstName}
+                onChange={(e) => this.deliveryInputChange(e)}
+                onBlur={(e) => this.inputBlur(e)}
+                name="firstName"
+                maxLength="50"
+              />
+              <label className="rc-input__label" htmlFor="id-text1"></label>
+            </span>
+            <div className="invalid-feedback">
+              <FormattedMessage
+                id="payment.errorInfo"
+                values={{
+                  val: <FormattedMessage id="payment.firstName" />
+                }}
+              />
             </div>
           </div>
         </div>
-        <div className="rc-layout-container">
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
-              <label className="form-control-label" htmlFor="shippingCountry">
-                <FormattedMessage id="payment.country" />
-              </label>
-              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                <Selection
-                  selectedItemChange={(data) =>
-                    this.handleSelectedItemChange('country', data)
-                  }
-                  optionList={this.computedList('country')}
-                  selectedItemData={{
-                    value: this.state.deliveryAddress.country
-                  }}
-                  key={this.state.deliveryAddress.country}
-                />
-              </span>
+        <div className="col-12 col-md-6">
+          <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+            <label className="form-control-label" htmlFor="shippingLastName">
+              <FormattedMessage id="payment.lastName" />
+            </label>
+            <span
+              className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+              input-setup="true"
+            >
+              <input
+                className="rc-input__control shippingLastName"
+                id="shippingLastName"
+                type="text"
+                value={deliveryAddress.lastName}
+                onChange={(e) => this.deliveryInputChange(e)}
+                onBlur={(e) => this.inputBlur(e)}
+                name="lastName"
+                maxLength="50"
+              />
+              <label className="rc-input__label" htmlFor="id-text1"></label>
+            </span>
+            <div className="invalid-feedback">
+              <FormattedMessage
+                id="payment.errorInfo"
+                values={{
+                  val: <FormattedMessage id="payment.lastName" />
+                }}
+              />
             </div>
           </div>
-          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
+        </div>
+
+        {/* 国家 */}
+        <div className="col-12 col-md-6">
+          <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
+            <label className="form-control-label" htmlFor="shippingCountry">
+              <FormattedMessage id="payment.country" />
+            </label>
+            <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+              <Selection
+                selectedItemChange={(data) =>
+                  this.handleSelectedItemChange('country', data)
+                }
+                optionList={this.computedList('country')}
+                selectedItemData={{
+                  value: this.state.deliveryAddress.country
+                }}
+                key={this.state.deliveryAddress.country}
+              />
+            </span>
+          </div>
+        </div>
+
+        {/* 省份 */}
+        {process.env.REACT_APP_LANG === 'en' ? (
+          this._provinceJSX()
+        ) : (null)}
+
+        {/* 城市 */}
+        <div className="col-12 col-md-6 required dwfrm_shipping_shippingAddress_addressFields_city">
+          <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_city">
             <label className="form-control-label" htmlFor="shippingAddressCity">
               <FormattedMessage id="payment.city" />
             </label>
@@ -338,99 +370,71 @@ export default class AddressForm extends React.Component {
               <CitySearchSelection
                 defaultValue={this.state.deliveryAddress.cityName}
                 key={this.state.deliveryAddress.cityName}
+                freeText={true}
                 onChange={this.handleCityInputChange}
               />
             </span>
           </div>
         </div>
-        <div className="rc-layout-container">
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingLastName">
-                <FormattedMessage id="payment.address1" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingLastName"
-                  id="shippingLastName"
-                  type="text"
-                  value={deliveryAddress.address1}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
-                  name="address1"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" htmlFor="id-text1"></label>
-              </span>
-              <div className="invalid-feedback">
-                <FormattedMessage
-                  id="payment.errorInfo"
-                  values={{
-                    val: <FormattedMessage id="payment.address1" />
-                  }}
-                />
-              </div>
+
+        <div className="col-12 col-md-6">
+          <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+            <label className="form-control-label" htmlFor="shippingLastName">
+              <FormattedMessage id="payment.address1" />
+            </label>
+            <span
+              className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+              input-setup="true"
+            >
+              <input
+                className="rc-input__control shippingLastName"
+                id="shippingLastName"
+                type="text"
+                value={deliveryAddress.address1}
+                onChange={(e) => this.deliveryInputChange(e)}
+                onBlur={(e) => this.inputBlur(e)}
+                name="address1"
+                maxLength="50"
+              />
+              <label className="rc-input__label" htmlFor="id-text1"></label>
+            </span>
+            <div className="invalid-feedback">
+              <FormattedMessage
+                id="payment.errorInfo"
+                values={{
+                  val: <FormattedMessage id="payment.address1" />
+                }}
+              />
             </div>
           </div>
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
-            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingLastName">
-                <FormattedMessage id="payment.address2" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingLastName"
-                  id="shippingLastName"
-                  type="text"
-                  value={deliveryAddress.address2}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
-                  name="address2"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" htmlFor="id-text1"></label>
-              </span>
-            </div>
+        </div>
+        <div className="col-12 col-md-6">
+          <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
+            <label className="form-control-label" htmlFor="shippingLastName">
+              <FormattedMessage id="payment.address2" />
+            </label>
+            <span
+              className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+              input-setup="true"
+            >
+              <input
+                className="rc-input__control shippingLastName"
+                id="shippingLastName"
+                type="text"
+                value={deliveryAddress.address2}
+                onChange={(e) => this.deliveryInputChange(e)}
+                onBlur={(e) => this.inputBlur(e)}
+                name="address2"
+                maxLength="50"
+              />
+              <label className="rc-input__label" htmlFor="id-text1"></label>
+            </span>
           </div>
         </div>
 
-        <div className="rc-layout-container">
-          {/* {this._emailPanelJSX()} */}
-          {this._phonePanelJSX()}
-          {this._postCodeJSX()}
-        </div>
-        {/* <div className="rc-layout-container"> */}
-        {/* {this._postCodeJSX()} */}
-        {/* <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
-            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingLastName">
-                <FormattedMessage id="payment.rfc" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingLastName"
-                  type="text"
-                  value={deliveryAddress.rfc}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
-                  name="rfc"
-                  maxLength="50"
-                />
-                <label className="rc-input__label"></label>
-              </span>
-            </div>
-          </div> */}
-        {/* </div> */}
-      </>
+        {this._phonePanelJSX()}
+        {this._postCodeJSX()}
+      </div>
     );
   }
 }

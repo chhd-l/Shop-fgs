@@ -34,8 +34,10 @@ const isGift = true;
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-const customTaxSettingOpenFlag = storeInfo ? storeInfo.customTaxSettingOpenFlag : 1; // 税额开关 0: on, 1: off
-const enterPriceType = storeInfo ? Number(storeInfo.systemTaxSetting.configVOList[1].context) : 0; // 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
+// 税额开关 0: on, 1: off
+const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
+// 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
+const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1] || 0;
 
 @injectIntl
 @inject('checkoutStore', 'loginStore', 'clinicStore')

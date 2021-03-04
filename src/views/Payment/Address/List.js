@@ -5,7 +5,7 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
-import { queryCityNameById, addressValidation } from '@/api';
+import { queryCityNameById } from '@/api';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
@@ -62,8 +62,8 @@ class AddressList extends React.Component {
       saveErrorMsg: '',
       selectedId: '',
       isValid: false,
-      validationLoading: false,
-      modalVisible: false,
+      validationLoading: false, // 地址校验loading
+      validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
@@ -230,7 +230,7 @@ class AddressList extends React.Component {
         phoneNumber: '',
         isDefalt: false
       };
-    }else{
+    } else {
       tmpDeliveryAddress = {
         firstName: '',
         lastName: '',
@@ -249,6 +249,7 @@ class AddressList extends React.Component {
 
     if (idx > -1) {
       const tmp = addressList[idx];
+      console.log('--------------------- ★★★ add Or EditAddress data: ', tmp);
       if (process.env.REACT_APP_LANG === 'en') {
         tmpDeliveryAddress = {
           firstName: tmp.firstName,
@@ -268,7 +269,7 @@ class AddressList extends React.Component {
           isDefalt: tmp.isDefaltAddress === 1 ? true : false,
           email: tmp.email
         };
-      }else{
+      } else {
         tmpDeliveryAddress = {
           firstName: tmp.firstName,
           lastName: tmp.lastName,
@@ -315,7 +316,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------------------- 数据验证 data: ',data);
+    console.log('--------------------- 数据验证 data: ', data);
     try {
       await validData(ADDRESS_RULE, data); // 数据验证
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
@@ -361,34 +362,51 @@ class AddressList extends React.Component {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       // 手动输入的城市 id 设为 null
-      let ctId =
-        deliveryAddress.cityName == deliveryAddress.city
-          ? null
-          : deliveryAddress.city;
-      let params = {
-        address1: deliveryAddress.address1,
-        address2: deliveryAddress.address2,
-        firstName: deliveryAddress.firstName,
-        lastName: deliveryAddress.lastName,
-        countryId: deliveryAddress.country,
-        cityId: ctId,
-        city: deliveryAddress.cityName,
-        provinceId: deliveryAddress.province,
-        province: deliveryAddress.provinceName,
-        provinceNo: deliveryAddress.provinceNo,
-        consigneeName:
-          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-        consigneeNumber: deliveryAddress.phoneNumber,
-        customerId: originData ? originData.customerId : '',
-        deliveryAddress:
-          deliveryAddress.address1 + ' ' + deliveryAddress.address2,
-        deliveryAddressId: originData ? originData.deliveryAddressId : '',
-        isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-        postCode: deliveryAddress.postCode,
-        rfc: deliveryAddress.rfc,
-        email: deliveryAddress.email,
-        type: this.props.type.toUpperCase()
-      };
+      let params = {};
+      if (process.env.REACT_APP_LANG === 'en') {
+        params = {
+          address1: deliveryAddress.address1,
+          address2: deliveryAddress.address2,
+          firstName: deliveryAddress.firstName,
+          lastName: deliveryAddress.lastName,
+          countryId: deliveryAddress.country,
+          cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
+          city: deliveryAddress.cityName,
+          provinceId: deliveryAddress.province,
+          province: deliveryAddress.provinceName,
+          provinceNo: deliveryAddress.provinceNo,
+          consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+          consigneeNumber: deliveryAddress.phoneNumber,
+          customerId: originData ? originData.customerId : '',
+          deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+          deliveryAddressId: originData ? originData.deliveryAddressId : '',
+          isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+          postCode: deliveryAddress.postCode,
+          rfc: deliveryAddress.rfc,
+          email: deliveryAddress.email,
+          type: this.props.type.toUpperCase()
+        };
+      }else{
+        params = {
+          address1: deliveryAddress.address1,
+          address2: deliveryAddress.address2,
+          firstName: deliveryAddress.firstName,
+          lastName: deliveryAddress.lastName,
+          countryId: deliveryAddress.country,
+          cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
+          city: deliveryAddress.cityName,
+          consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+          consigneeNumber: deliveryAddress.phoneNumber,
+          customerId: originData ? originData.customerId : '',
+          deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+          deliveryAddressId: originData ? originData.deliveryAddressId : '',
+          isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+          postCode: deliveryAddress.postCode,
+          rfc: deliveryAddress.rfc,
+          email: deliveryAddress.email,
+          type: this.props.type.toUpperCase()
+        };
+      }
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
@@ -416,24 +434,67 @@ class AddressList extends React.Component {
    * 1 新增/编辑地址
    * 2 确认地址信息，并返回到封面
    */
-  handleSave = async () => {
+  handleSave = () => {
     const { isValid, addOrEdit } = this.state;
     if (!isValid || !addOrEdit) {
       return false;
     }
-    try {
-      if (process.env.REACT_APP_LANG == 'en') {
-        // 地址验证
-        this.toAddressValidation();
-      } else {
-        await this.handleSavePromise();
-        this.clickConfirmAddressPanel();
-      }
-    } catch (err) {
-      this.showErrMsg(err.message);
-      this.setState({ saveLoading: false, validationLoading: true });
-      this.scrollToTitle();
+    // 地址验证
+    this.setState({
+      validationModalVisible: true,
+      validationLoading: true
+    });
+  };
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    this.setState({
+      validationLoading: false
+    });
+    if (data && data != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      await this.handleSavePromise();
+      this.clickConfirmAddressPanel();
     }
+  }
+  // 点击地址验证确认按钮
+  confirmValidationAddress = async () => {
+    const {
+      deliveryAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
+
+    if (selectValidationOption == 'suggestedAddress') {
+      deliveryAddress.address1 = validationAddress.address1;
+      deliveryAddress.address2 = validationAddress.address2;
+      deliveryAddress.city = validationAddress.city;
+      deliveryAddress.cityName = validationAddress.city;
+      deliveryAddress.provinceName = validationAddress.provinceCode;
+    }
+    this.setState({
+      validationModalVisible: false
+    });
+    await this.handleSavePromise();
+    this.clickConfirmAddressPanel();
+  };
+  
+  /**
+   * 确认地址列表信息，并展示封面
+   */
+  clickConfirmAddressPanel = () => {
+    this.updateSelectedData();
+    this.confirmToNextPanel();
   };
 
   showErrMsg(msg) {
@@ -528,82 +589,7 @@ class AddressList extends React.Component {
       hideOthers: true
     });
   };
-  // 地址验证
-  toAddressValidation = async () => {
-    const { deliveryAddress } = this.state;
-    this.setState({
-      validationLoading: true
-    });
-    try {
-      let data = {
-        city: deliveryAddress.cityName,
-        countryId: Number(deliveryAddress.country),
-        deliveryAddress: deliveryAddress.address1,
-        postCode: deliveryAddress.postCode,
-        province: deliveryAddress.provinceName,
-        storeId: Number(process.env.REACT_APP_STOREID)
-      };
 
-      let res = await addressValidation(data);
-      if (res.context && res.context != null) {
-        if (res.context.suggestionAddress) {
-          this.setState({
-            validationAddress: res.context.suggestionAddress
-          });
-        }
-        this.setState({
-          modalVisible: true,
-          validationLoading: false
-        });
-      } else {
-        this.setState({
-          validationLoading: false
-        });
-        // 不校验地址，进入下一步
-        await this.handleSavePromise();
-        this.clickConfirmAddressPanel();
-      }
-    } catch (err) {
-      this.setState({
-        modalVisible: false,
-        validationLoading: true
-      });
-    }
-  };
-  // 选择地址
-  chooseValidationAddress = (e) => {
-    this.setState({
-      selectValidationOption: e.target.value
-    });
-  };
-  // 点击地址验证确认按钮
-  confirmValidationAddress = async () => {
-    const {
-      deliveryAddress,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
-
-    if (selectValidationOption == 'suggestedAddress') {
-      deliveryAddress.address1 = validationAddress.address1;
-      deliveryAddress.address2 = validationAddress.address2;
-      deliveryAddress.city = validationAddress.city;
-      deliveryAddress.cityName = validationAddress.city;
-      deliveryAddress.provinceName = validationAddress.provinceCode;
-    }
-    this.setState({
-      modalVisible: false
-    });
-    await this.handleSavePromise();
-    this.clickConfirmAddressPanel();
-  };
-  /**
-   * 确认地址列表信息，并展示封面
-   */
-  clickConfirmAddressPanel = () => {
-    this.updateSelectedData();
-    this.confirmToNextPanel();
-  };
   render() {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
@@ -617,8 +603,7 @@ class AddressList extends React.Component {
       successTipVisible,
       selectedId,
       validationLoading,
-      validationAddress,
-      modalVisible,
+      validationModalVisible,
       selectValidationOption
     } = this.state;
     const _list = addressList.map((item, i) => (
@@ -908,25 +893,23 @@ class AddressList extends React.Component {
                   </>
                 )}
           </div>
-          {validationLoading ? (
-            <Loading positionFixed="true" />
-          ) : (
-              <ValidationAddressModal
-                modalVisible={modalVisible}
-                address={deliveryAddress}
-                validationAddress={validationAddress}
-                selectValidationOption={selectValidationOption}
-                handleChooseValidationAddress={(e) =>
-                  this.chooseValidationAddress(e)
-                }
-                hanldeClickConfirm={() => this.confirmValidationAddress()}
-                close={() => {
-                  this.setState({
-                    modalVisible: false
-                  });
-                }}
-              />
-            )}
+
+          {validationLoading && <Loading positionFixed="true" />}
+          {validationModalVisible && <ValidationAddressModal
+            address={deliveryAddress}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            close={() => {
+              this.setState({
+                validationModalVisible: false
+              });
+            }}
+          />}
+
         </div>
       </>
     );
