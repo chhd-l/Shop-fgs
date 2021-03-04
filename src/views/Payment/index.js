@@ -13,6 +13,7 @@ import Progress from '@/components/Progress';
 import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Fr/faq';
+import US_Faq from './Fr/us_faq';
 import Loading from '@/components/Loading';
 
 import VisitorAddress from './Address/VisitorAddress';
@@ -2441,6 +2442,7 @@ class Payment extends React.Component {
                     />
                   )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
+                {process.env.REACT_APP_LANG == 'en' ? <US_Faq /> : null}
               </div>
             </div>
             <Adyen3DForm action={this.state.adyenAction} />
