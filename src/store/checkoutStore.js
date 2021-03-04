@@ -20,13 +20,15 @@ class CheckoutStore {
   @observable petFlag = localItemRoyal.get('rc-petFlag') || false;
   @observable loginCartData = localItemRoyal.get('rc-cart-data-login') || []; // 商品列表
   @observable cartPrice = localItemRoyal.get('rc-totalInfo') || null; // 价格数据
-  @observable goodsMarketingMap = localItemRoyal.get('goodsMarketingMap') || null; // promotion
+  @observable goodsMarketingMap =
+    localItemRoyal.get('goodsMarketingMap') || null; // promotion
   @observable loadingCartData = false;
   @observable outOfstockProNames = []; // 超出库存的商品
   @observable offShelvesProNames = []; // 下架的商品
   @observable deletedProNames = []; // 被删除的商品
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
-  @observable couponCodeFitFlag = localItemRoyal.get('rc-couponCodeFitFlag') || false;
+  @observable couponCodeFitFlag =
+    localItemRoyal.get('rc-couponCodeFitFlag') || false;
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
 
@@ -78,6 +80,12 @@ class CheckoutStore {
   @computed get promotionDiscount() {
     return this.cartPrice && this.cartPrice.promotionDiscount
       ? this.cartPrice.promotionDiscount
+      : '';
+  }
+  // 首单优惠
+  @computed get firstOrderOnThePlatformDiscountPrice() {
+    return this.cartPrice && this.cartPrice.firstOrderOnThePlatformDiscountPrice
+      ? this.cartPrice.firstOrderOnThePlatformDiscountPrice
       : '';
   }
 
@@ -192,12 +200,19 @@ class CheckoutStore {
       deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
-      subscriptionPrice: purchasesRes.subscriptionPrice
+      subscriptionPrice: purchasesRes.subscriptionPrice,
+      firstOrderOnThePlatformDiscountPrice:
+        purchasesRes.firstOrderOnThePlatformDiscountPrice
     });
   }
   // 游客
   @action.bound
-  async updateUnloginCart(data, promotionCode = this.promotionCode, purchaseFlag, taxFeeData) {
+  async updateUnloginCart(
+    data,
+    promotionCode = this.promotionCode,
+    purchaseFlag,
+    taxFeeData
+  ) {
     if (!data) {
       data = this.cartData;
     }
@@ -241,21 +256,27 @@ class CheckoutStore {
       deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
-      subscriptionPrice: purchasesRes.subscriptionPrice
+      subscriptionPrice: purchasesRes.subscriptionPrice,
+      firstOrderOnThePlatformDiscountPrice:
+        purchasesRes.firstOrderOnThePlatformDiscountPrice
     };
-    if (!promotionCode || !purchasesRes.promotionFlag || purchasesRes.couponCodeFlag) {
+    if (
+      !promotionCode ||
+      !purchasesRes.promotionFlag ||
+      purchasesRes.couponCodeFlag
+    ) {
       if (purchasesRes.couponCodeFlag && !purchasesRes.couponCodeDiscount) {
-        this.setCouponCodeFitFlag(false)
+        this.setCouponCodeFitFlag(false);
       } else {
-        this.setCouponCodeFitFlag(true)
+        this.setCouponCodeFitFlag(true);
       }
       params.discountPrice = purchasesRes.discountPrice;
-      params.promotionDiscountPrice = purchasesRes.promotionDiscountPrice
-      params.subscriptionDiscountPrice = purchasesRes.subscriptionDiscountPrice
+      params.promotionDiscountPrice = purchasesRes.promotionDiscountPrice;
+      params.subscriptionDiscountPrice = purchasesRes.subscriptionDiscountPrice;
     } else {
       params.discountPrice = this.discountPrice;
-      params.promotionDiscountPrice = this.promotionDiscountPrice
-      params.subscriptionDiscountPrice = this.subscriptionDiscountPrice
+      params.promotionDiscountPrice = this.promotionDiscountPrice;
+      params.subscriptionDiscountPrice = this.subscriptionDiscountPrice;
     }
     this.setCartPrice(params);
 
@@ -267,7 +288,7 @@ class CheckoutStore {
     Array.from(data, (item) => {
       item.sizeList.map((el) => {
         el.goodsInfoImg = el.goodsInfoImg || item.goodsImg;
-        el.currentAmount = el.salePrice * item.quantity
+        el.currentAmount = el.salePrice * item.quantity;
         return el;
       });
       let selectedSize = find(item.sizeList, (s) => s.selected);
@@ -280,7 +301,9 @@ class CheckoutStore {
       if (tmpObj) {
         item.addedFlag = tmpObj.addedFlag;
         selectedSize.stock = tmpObj.stock;
-        const tmpName = [tmpObj.goodsInfoName, tmpObj.specText].filter(e => e).join(' ');
+        const tmpName = [tmpObj.goodsInfoName, tmpObj.specText]
+          .filter((e) => e)
+          .join(' ');
         // handle product off shelves logic
         if (!tmpObj.addedFlag) {
           tmpOffShelvesProNames.push(tmpName);
@@ -306,7 +329,12 @@ class CheckoutStore {
 
   // 会员
   @action
-  async updateLoginCart(promotionCode = this.promotionCode, subscriptionFlag = false, purchaseFlag, taxFeeData) {
+  async updateLoginCart(
+    promotionCode = this.promotionCode,
+    subscriptionFlag = false,
+    purchaseFlag,
+    taxFeeData
+  ) {
     try {
       this.changeLoadingCartData(true);
 
@@ -378,34 +406,51 @@ class CheckoutStore {
           deliveryPrice: sitePurchasesRes.deliveryPrice,
           promotionDesc: sitePurchasesRes.promotionDesc,
           promotionDiscount: sitePurchasesRes.promotionDiscount,
-          subscriptionPrice: sitePurchasesRes.subscriptionPrice
+          subscriptionPrice: sitePurchasesRes.subscriptionPrice,
+          firstOrderOnThePlatformDiscountPrice:
+            sitePurchasesRes.firstOrderOnThePlatformDiscountPrice
         };
 
-        if (!promotionCode || !sitePurchasesRes.promotionFlag || sitePurchasesRes.couponCodeFlag) {
-          if (sitePurchasesRes.couponCodeFlag && !sitePurchasesRes.couponCodeDiscount) {
-            this.setCouponCodeFitFlag(false)
+        if (
+          !promotionCode ||
+          !sitePurchasesRes.promotionFlag ||
+          sitePurchasesRes.couponCodeFlag
+        ) {
+          if (
+            sitePurchasesRes.couponCodeFlag &&
+            !sitePurchasesRes.couponCodeDiscount
+          ) {
+            this.setCouponCodeFitFlag(false);
           } else {
-            this.setCouponCodeFitFlag(true)
+            this.setCouponCodeFitFlag(true);
           }
           params.discountPrice = sitePurchasesRes.discountPrice;
-          params.promotionDiscountPrice = sitePurchasesRes.promotionDiscountPrice
-          params.subscriptionDiscountPrice = sitePurchasesRes.subscriptionDiscountPrice
+          params.promotionDiscountPrice =
+            sitePurchasesRes.promotionDiscountPrice;
+          params.subscriptionDiscountPrice =
+            sitePurchasesRes.subscriptionDiscountPrice;
         } else {
           params.discountPrice = this.discountPrice;
-          params.promotionDiscountPrice = this.promotionDiscountPrice
-          params.subscriptionDiscountPrice = this.subscriptionDiscountPrice
+          params.promotionDiscountPrice = this.promotionDiscountPrice;
+          params.subscriptionDiscountPrice = this.subscriptionDiscountPrice;
         }
         this.setCartPrice(params);
 
         this.offShelvesProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => !ele.addedFlag)
-          .map((ele) => [ele.goodsInfoName, ele.specText].filter(e => e).join(' '));
+          .map((ele) =>
+            [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
+          );
         this.outOfstockProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => ele.buyCount > ele.stock)
-          .map((ele) => [ele.goodsInfoName, ele.specText].filter(e => e).join(' '));
+          .map((ele) =>
+            [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
+          );
         this.deletedProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => ele.delFlag)
-          .map((ele) => [ele.goodsInfoName, ele.specText].filter(e => e).join(' '));
+          .map((ele) =>
+            [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
+          );
         this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap);
         this.changeLoadingCartData(false);
       });

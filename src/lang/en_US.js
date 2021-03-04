@@ -366,7 +366,7 @@ const en_US = {
   'help.tip4': 'They can answer any problems at any time.',
   here: 'here to contact us',
   'help.title': "Need help?",
-  home: 'Home',
+  'home': 'My Account',
   'home.catogery1': 'Dietas Veterinarias Perros',
   'home.catogery2': 'Dietas Veterinarias Gatos',
   'home.catogery3': 'Dietas de Prescripción Veterinaria Perros',
@@ -957,5 +957,6 @@ const en_US = {
   'promotion.firstOrderDiscount': 'First Order Discount',
   'cart.delivery': 'Shipping',
   searchShow: 'Search Results',
+  isPurebred: 'Other Breed?',
 }
 export default en_US;

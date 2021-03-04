@@ -780,7 +780,8 @@ const ru_RU = {
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
   'bannerTip.btnText': 'Узнать больше',
-  'cart.delivery': 'Доставка'
+  'cart.delivery': 'Доставка',
+  'promotion.firstOrderDiscount': 'Скидка при первом заказе',
 }
 
 export default ru_RU;

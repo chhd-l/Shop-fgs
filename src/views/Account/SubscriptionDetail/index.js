@@ -64,13 +64,12 @@ const isMobile = getDeviceType() !== 'PC';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: on, 1: off
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
-// 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
+// 税额开关 0: 开, 1: 关
+const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
+// 买入价格开关 0：含税，1：不含税
 const enterPriceType =
-  (storeInfo?.systemTaxSetting?.configVOList &&
-    storeInfo?.systemTaxSetting?.configVOList[1]) ||
-  0;
+  storeInfo?.systemTaxSetting?.configVOList &&
+  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 @inject('checkoutStore', 'loginStore')
 @injectIntl
@@ -3076,7 +3075,6 @@ class SubscriptionDetail extends React.Component {
                                                     </div>
                                                   </div>
                                                 ))}
-
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
@@ -3109,10 +3107,7 @@ class SubscriptionDetail extends React.Component {
                                                     </b>
                                                   </div>
                                                 </div>
-                                              ) : (
-                                                <></>
-                                              )}
-
+                                              ) : null}
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
@@ -3153,8 +3148,8 @@ class SubscriptionDetail extends React.Component {
                                       el.tradeState.createTime.split('-')[0] ===
                                         completedYear.value
                                   )
-                                  .map((el) => (
-                                    <div className="card-container">
+                                  .map((el, i) => (
+                                    <div className="card-container" key={i}>
                                       <div className="card rc-margin-y--none ml-0">
                                         <div
                                           className="2222 card-header row rc-margin-x--none align-items-center pl-0 pr-0"
@@ -3190,20 +3185,38 @@ class SubscriptionDetail extends React.Component {
                                           )}
                                           {isMobile ? null : (
                                             <div className="col-12 col-md-3 pl-4">
-                                              <FormattedMessage id="promotion" />
-                                              :{' '}
-                                              <span
-                                                className="green"
-                                                style={{
-                                                  // color: '#e2001a',
-                                                  fontWeight: '400'
-                                                }}
-                                              >
-                                                -
-                                                {formatMoney(
-                                                  el.tradePrice.discountsPrice
-                                                )}
-                                              </span>
+                                              {[
+                                                {
+                                                  text: (
+                                                    <FormattedMessage id="promotion" />
+                                                  ),
+                                                  price:
+                                                    el.tradePrice.discountsPrice
+                                                },
+                                                {
+                                                  text: (
+                                                    <FormattedMessage id="promotion.firstOrderDiscount" />
+                                                  ),
+                                                  price:
+                                                    el.tradePrice
+                                                      .firstOrderOnThePlatformDiscountPrice
+                                                }
+                                              ]
+                                                .filter((ele) => ele.price > 0)
+                                                .map((ele, i) => (
+                                                  <React.Fragment key={i}>
+                                                    {ele.text}:{' '}
+                                                    <span
+                                                      className="green"
+                                                      style={{
+                                                        fontWeight: '400'
+                                                      }}
+                                                    >
+                                                      -{formatMoney(ele.price)}
+                                                    </span>
+                                                    <br />
+                                                  </React.Fragment>
+                                                ))}
                                             </div>
                                           )}
                                           <div
@@ -3368,19 +3381,12 @@ class SubscriptionDetail extends React.Component {
                                         ) : (
                                           <div className="col-4 col-md-7">
                                             <div
-                                              className="rc-layout-container rc-five-column"
+                                              className="rc-layout-container rc-five-column pt-0"
                                               style={{
-                                                paddingRight: '60px',
-                                                paddingTop: '0'
+                                                paddingRight: '60px'
                                               }}
                                             >
-                                              <div
-                                                className="rc-column flex-layout"
-                                                style={{
-                                                  width: '100%',
-                                                  padding: 0
-                                                }}
-                                              >
+                                              <div className="rc-column flex-layout p-0 w-100">
                                                 {el.tradeItems &&
                                                   el.tradeItems.map(
                                                     (tradeItem, index) => {
