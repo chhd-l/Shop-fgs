@@ -19,6 +19,7 @@
   }
   p {
     margin-bottom: 0;
+    color: #666;
   }
   .mb-20 {
     margin-bottom: 20px;
@@ -33,7 +34,30 @@
   .col-6 {
     margin: 50px 0;
   }
-  .content {
-    padding: 0 50px;
+}
+@media (min-width: 769px) {
+  .Felin {
+    .rc-layout-container.rc-two-column {
+      margin: 40px 150px;
+    }
+    .rc-espilon {
+      padding: 0 50px;
+    }
+    #felinFooter h3 {
+      width: 500px;
+    }
+    .ui-cursor-pointer {
+      margin: 0 20px;
+    }
+  }
+}
+@media (max-width: 769px) {
+  .Felin {
+    .rc-espilon {
+      width: 100%;
+    }
+    .ui-cursor-pointer {
+      margin: 0 10px;
+    }
   }
 }
