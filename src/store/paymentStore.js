@@ -1,19 +1,19 @@
 import { action, observable, computed, toJS } from 'mobx';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
-import { isNewAccount } from "@/api/user"
-import {checkoutDataLayerPushEvent} from "@/utils/GA"
+import { isNewAccount } from '@/api/user';
+import { checkoutDataLayerPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
-const isHubGA = process.env.REACT_APP_HUB_GA
+const isHubGA = process.env.REACT_APP_HUB_GA;
 
 class PaymentStore {
-  @observable isLogin = !!localItemRoyal.get("rc-token")
+  @observable isLogin = !!localItemRoyal.get('rc-token');
   @observable deliveryAddress = null;
   @observable billingAddress = null;
   @observable defaultCardDataFromAddr = null;
-  @observable browserInfo = {}
-  @observable md = '';//3ds参数
+  @observable browserInfo = {};
+  @observable md = ''; //3ds参数
 
   @observable selectedCardId = null;
   @observable defaultCardDataFromAddr = null;
@@ -92,9 +92,9 @@ class PaymentStore {
     }
   }
 
-
   @action.bound
-  setStsToCompleted({ key, isFirstLoad }) {//isFirstLoad表示进入checkout页面直接执行,此时不需要push-event
+  setStsToCompleted({ key, isFirstLoad }) {
+    //isFirstLoad表示进入checkout页面直接执行,此时不需要push-event
     if (isHubGA) {
       switch (key) {
         //填完邮件
@@ -113,13 +113,22 @@ class PaymentStore {
           if (this.isLogin) {
             isNewAccount().then((res) => {
               if (res.context == 0) {
-                checkoutDataLayerPushEvent({name:'Delivery',options:'New account'})
+                checkoutDataLayerPushEvent({
+                  name: 'Email',
+                  options: 'New account'
+                });
               } else {
-                checkoutDataLayerPushEvent({name:'Delivery',options:'Existing account'})
+                checkoutDataLayerPushEvent({
+                  name: 'Email',
+                  options: 'Existing account'
+                });
               }
-            })
+            });
           } else {
-            checkoutDataLayerPushEvent({name:'Delivery',options:'Guest checkout'})
+            checkoutDataLayerPushEvent({
+              name: 'Email',
+              options: 'Guest checkout'
+            });
           }
           break;
         //填完地址
@@ -127,13 +136,22 @@ class PaymentStore {
           if (this.isLogin) {
             isNewAccount().then((res) => {
               if (res.context == 0) {
-                checkoutDataLayerPushEvent({name:'Payment',options:'New account'})
+                checkoutDataLayerPushEvent({
+                  name: 'Delivery',
+                  options: 'New account'
+                });
               } else {
-                checkoutDataLayerPushEvent({name:'Payment',options:'Existing account'})
+                checkoutDataLayerPushEvent({
+                  name: 'Delivery',
+                  options: 'Existing account'
+                });
               }
-            })
+            });
           } else {
-            checkoutDataLayerPushEvent({name:'Payment',options:'Guest checkout'})
+            checkoutDataLayerPushEvent({
+              name: 'Delivery',
+              options: 'Guest checkout'
+            });
           }
           break;
         //填完支付信息
@@ -164,32 +182,40 @@ class PaymentStore {
       switch (key) {
         //填完邮件
         case 'email':
-          dataLayer[0].checkout.step = 2
-          dataLayer[0].checkout.option = 'guest checkout'
-          let option = 'guest checkout'
-          //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
-          if (this.isLogin) {
-            isNewAccount().then((res) => {
-              if (res.context == 0) {
-                dataLayer[0].checkout.option = 'new account'
-                option = 'new account'
-              } else {
-                dataLayer[0].checkout.option = 'account already created'
-                option = 'account already created'
-              }
-            })
+          if (dataLayer[0] && dataLayer[0].checkout) {
+            dataLayer[0].checkout.step = 2;
+            dataLayer[0].checkout.option = 'guest checkout';
+
+            let option = 'guest checkout';
+            //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
+            if (this.isLogin) {
+              isNewAccount().then((res) => {
+                if (res.context == 0) {
+                  dataLayer[0].checkout.option = 'new account';
+                  option = 'new account';
+                } else {
+                  dataLayer[0].checkout.option = 'account already created';
+                  option = 'account already created';
+                }
+              });
+            }
           }
           if (isFirstLoad) {
-            const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-            if(result){
+            const result = find(
+              dataLayer,
+              (ele) =>
+                ele.event ===
+                process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+            );
+            if (result) {
               result.checkout = {
                 step: 2,
                 option
-              }
+              };
               result.page = {
                 type: 'Checkout',
                 virtualPageURL: '/checkout/shipping'
-              }
+              };
             }
           } else {
             dataLayer.push({
@@ -202,24 +228,32 @@ class PaymentStore {
                 type: 'Checkout',
                 virtualPageURL: '/checkout/shipping'
               }
-            })
+            });
           }
 
           break;
         //填完地址
         case 'deliveryAddr':
-          dataLayer[0].checkout.step = 3;
-          dataLayer[0].checkout.option = ''
+          if (dataLayer[0] && dataLayer[0].checkout) {
+            dataLayer[0].checkout.step = 3;
+            dataLayer[0].checkout.option = '';
+          }
+
           if (isFirstLoad) {
-            const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+            const result = find(
+              dataLayer,
+              (ele) =>
+                ele.event ===
+                process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+            );
             result.checkout = {
               step: 3,
               option: 'shippingMethod'
-            }
+            };
             result.page = {
               type: 'Checkout',
               virtualPageURL: '/checkout/billing'
-            }
+            };
           } else {
             dataLayer.push({
               checkout: {
@@ -231,20 +265,28 @@ class PaymentStore {
                 type: 'Checkout',
                 virtualPageURL: '/checkout/billing'
               }
-            })
+            });
           }
           break;
         //填完支付信息
         case 'paymentMethod':
-          dataLayer[0].checkout.step = 4;
-          dataLayer[0].checkout.option = ''
+          if (dataLayer[0] && dataLayer[0].checkout) {
+            dataLayer[0].checkout.step = 4;
+            dataLayer[0].checkout.option = '';
+          }
+
           if (isFirstLoad) {
-            const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-            result.checkout = { step: 4, option: 'paymentMethod' }
+            const result = find(
+              dataLayer,
+              (ele) =>
+                ele.event ===
+                process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+            );
+            result.checkout = { step: 4, option: 'paymentMethod' };
             result.page = {
               type: 'Checkout',
               virtualPageURL: '/checkout/placeOrder'
-            }
+            };
           } else {
             dataLayer.push({
               checkout: {
@@ -256,7 +298,7 @@ class PaymentStore {
                 type: 'Checkout',
                 virtualPageURL: '/checkout/placeOrder'
               }
-            })
+            });
           }
           break;
       }
@@ -340,7 +382,7 @@ class PaymentStore {
 
   @action.bound
   setBrowserInfo(data) {
-    this.browserInfo = data
+    this.browserInfo = data;
   }
 }
 export default PaymentStore;

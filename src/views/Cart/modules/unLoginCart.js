@@ -1555,11 +1555,7 @@ class UnLoginCart extends React.Component {
           <div className="row">
             <div className="col-8">
               <p>
-                {process.env.REACT_APP_LANG == 'en' ? (
-                  <FormattedMessage id="shipping" />
-                ) : (
-                    <FormattedMessage id="delivery" />
-                  )}
+                <FormattedMessage id="cart.delivery" />
               </p>
             </div>
             <div className="col-4">

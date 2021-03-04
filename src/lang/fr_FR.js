@@ -1127,6 +1127,7 @@ const fr_FR = {
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
   'bannerTip.btnText': 'En savoir plus',
-  'cart.delivery': 'Frais de livraison'
+  'cart.delivery': 'Frais de livraison',
+  'promotion.firstOrderDiscount': 'Remise de première commande',
 }
 export default fr_FR;
