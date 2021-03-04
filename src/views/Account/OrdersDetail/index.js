@@ -42,8 +42,8 @@ const pageLink = window.location.href;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: on, 1: off
 const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
-// 买入价格开关 0：Exclusive of tax,1：Inclusive of tax
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1] || 0;
+// 买入价格开关 1：Inclusive of tax，0：Exclusive of tax
+const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1] || 1;
 
 function HeadTip(props) {
   console.log(props, 'props');

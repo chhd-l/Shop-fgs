@@ -221,7 +221,7 @@ class ShippingAddressFrom extends React.Component {
     this.showNextPanel();
   }
   // 保存
-  handleSave = async () => {
+  handleSave = () => {
     // 地址验证
     this.setState({
       validationModalVisible: true,
@@ -289,11 +289,15 @@ class ShippingAddressFrom extends React.Component {
     } catch (err) {
       this.showErrorMsg(err.message);
       this.setState({
-        saveLoading: false
+        saveLoading: false,
+        validationModalVisible: false,
+        validationLoading: false
       });
     } finally {
       this.setState({
-        saveLoading: false
+        saveLoading: false,
+        validationModalVisible: false,
+        validationLoading: false
       });
     }
   }

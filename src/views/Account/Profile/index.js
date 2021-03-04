@@ -39,8 +39,8 @@ function PanleContainer(props) {
         {loading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={5} />
         ) : (
-          props.children
-        )}
+            props.children
+          )}
       </div>
     </div>
   );
@@ -115,18 +115,19 @@ class AccountProfile extends React.Component {
           prescriberId = context.defaultClinics.clinicsId;
         }
 
-        this.setState({
-          originData: context,
-          personalData: {
+        let mydata = {};
+        if (process.env.REACT_APP_LANG === 'en') {
+          mydata = {
             firstName: context.firstName,
             lastName: context.lastName,
             email: context.email,
-            birthdate: context.birthDay
-              ? context.birthDay.split('-').join('/')
-              : context.birthDay,
+            birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
             country: context.countryId,
             city: context.cityId,
-
+            cityName: context.city,
+            provinceNo: context.provinceNo,
+            provinceName: context.province,
+            province: context.provinceId,
             phoneNumber: context.contactPhone,
             rfc: context.reference,
             address1: context.address1,
@@ -134,7 +135,29 @@ class AccountProfile extends React.Component {
             postCode: context.postalCode,
             communicationEmail: context.communicationEmail,
             communicationPhone: context.communicationPhone
-          },
+          };
+        } else {
+          mydata = {
+            firstName: context.firstName,
+            lastName: context.lastName,
+            email: context.email,
+            birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
+            country: context.countryId,
+            city: context.cityId,
+            cityName: context.city,
+            phoneNumber: context.contactPhone,
+            rfc: context.reference,
+            address1: context.address1,
+            address2: context.address2,
+            postCode: context.postalCode,
+            communicationEmail: context.communicationEmail,
+            communicationPhone: context.communicationPhone
+          };
+        }
+
+        this.setState({
+          originData: context,
+          personalData: mydata,
           addressBookData: {
             address1: context.house,
             address2: context.housing,

@@ -957,6 +957,10 @@ const en_US = {
   'promotion.firstOrderDiscount': 'First Order Discount',
   'cart.delivery': 'Shipping',
   searchShow: 'Search Results',
+<<<<<<< HEAD
   isPurebred: 'Other Breed?',
+=======
+  
+>>>>>>> 3016a5d604fbd68599dcf33f4cd0eb8ebcd35667
 }
 export default en_US;
