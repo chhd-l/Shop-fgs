@@ -70,7 +70,7 @@ import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { de } from 'date-fns/locale';
 
-import { checkoutDataLayerPushEvent,doGetGAVal } from '@/utils/GA';
+import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -180,12 +180,15 @@ class Payment extends React.Component {
   }
   getPetVal() {
     let obj = doGetGAVal(this.props)
-    this.setState({pet:obj})
+    this.setState({ pet: obj })
   }
-  componentWillMount(){
-    isHubGA&&this.getPetVal()
+  componentWillMount() {
+    isHubGA && this.getPetVal()
   }
   async componentDidMount() {
+    if (!this.isLogin) {
+      checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' })
+    }
     try {
       const { checkoutStore, paymentStore, clinicStore, history } = this.props;
       const { tid } = this.state;
@@ -1506,8 +1509,8 @@ class Payment extends React.Component {
       <>
         <div
           className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${paymentStore.deliveryAddrPanelStatus.isEdit
-              ? 'border-333'
-              : 'border-transparent'
+            ? 'border-333'
+            : 'border-transparent'
             }`}
           id="J_checkout_panel_deliveryAddr"
         >
@@ -1735,8 +1738,8 @@ class Payment extends React.Component {
               return (
                 <div
                   className={`rc-input rc-input--inline ${subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
-                      ? 'hidden'
-                      : ''
+                    ? 'hidden'
+                    : ''
                     }`}
                   key={i}
                 >
@@ -2393,8 +2396,8 @@ class Payment extends React.Component {
                 )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${paymentMethodPanelStatus.isEdit
-                      ? 'border-333'
-                      : 'border-transparent'
+                    ? 'border-333'
+                    : 'border-transparent'
                     }`}
                   id="J_checkout_panel_paymentMethod"
                 >
