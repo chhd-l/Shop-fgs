@@ -24,6 +24,7 @@ export default class DropDownMenu extends React.Component {
       this
     );
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   handleNavChildrenMouseOver(item, childrenItem, e) {
     e.preventDefault();
@@ -62,7 +63,8 @@ export default class DropDownMenu extends React.Component {
       }
     });
   }
-  handleClickNavItem = (item) => {
+
+  handleClickNavItem = (item, navItem) => {
     // 点击subMenu埋点-start
     let interaction = {
       category: 'submenu',
@@ -71,9 +73,24 @@ export default class DropDownMenu extends React.Component {
       value: item.navigationName
     };
     this.GAClickMenu(interaction);
+    this.hubGAClickMenu(item,navItem);
     // 点击subMenu埋点-end
     // this.props.handleClickNavItem(item);
   };
+
+  hubGAClickMenu(item, navItem) {
+    const level1 = navItem?.navigationName;
+    const level2 = item?.navigationName;
+    const itemName = [level1, level2].filter(item => item).join('|');
+    this.hubGA &&
+      dataLayer.push({
+        event: 'navTopClick',
+        navTopClick: {
+          itemName,
+        }
+      });
+  }
+
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
     const { currentDesc } = this.state;
@@ -152,7 +169,7 @@ export default class DropDownMenu extends React.Component {
                           <NavItem
                             className="dropdown-nav__link"
                             item={citem}
-                            onClick={this.handleClickNavItem.bind(this, citem)}
+                            onClick={this.handleClickNavItem.bind(this, citem, item)}
                             item={citem}
                           >
                             {citem.navigationName}
@@ -261,7 +278,7 @@ export default class DropDownMenu extends React.Component {
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
                     <span className="rc-list__header">
-                      <NavItem item={item} className="rc-list__header">
+                      <NavItem item={item} onClick={()=>this.hubGAClickMenu(item)} className="rc-list__header">
                         {item.expanded ? (
                           <span className="rc-header-with-icon header-icon">
                             {item.navigationName}

@@ -29,8 +29,7 @@ class Carousel extends React.Component {
     };
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
-  componentDidMount() {
-    //定义变量获取屏幕视口宽度
+  componentDidMount() {    //定义变量获取屏幕视口宽度
     // var windowWidth = document.body.clientWidth
     // this.setState({
     //   windowWidth

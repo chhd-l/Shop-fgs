@@ -452,7 +452,7 @@ class Subscription extends React.Component {
                         {/* {subItem.frequency} */}
                       </div>
                       <div className="col-4 col-md-2">
-                        {subItem.subscribeStatus === '0' ? (
+                        {subItem.subscribeStatus === '0' || subItem.subscribeStatus === '1' ? (
                           <div>
                             <i className="greenCircle"></i>
                             <FormattedMessage id="active" />

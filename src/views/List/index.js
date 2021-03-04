@@ -658,10 +658,10 @@ class List extends React.Component {
     super(props);
     const isDog = location.pathname.includes('dog');
     const isRetailProducts =
-      isHub && location.pathname.includes('retail_products');
-    const isVetProducts = isHub && location.pathname.includes('vet_products');
-    const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail_products`;
-    const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet_products`;
+      isHub && location.pathname.includes('retail-products');
+    const isVetProducts = isHub && location.pathname.includes('vet-products');
+    const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail-products`;
+    const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet-products`;
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
