@@ -322,7 +322,7 @@ class LoginCart extends React.Component {
                     cartData.map((item, index) => (
                       <div
                         className="minicart__product"
-                        key={index}
+                        key={item.goodsInfoId}
                         // key={item.goodsInfoId}
                       >
                         <div>
