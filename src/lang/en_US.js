@@ -955,6 +955,7 @@ const en_US = {
   'bannerTip.btnText': 'Join the Club',
   'cart.firstOrderDiscountTip': 'The 30% discount for your first order will be applied during checkout',
   'promotion.firstOrderDiscount': 'First Order Discount',
-  'cart.delivery': 'Shipping'
+  'cart.delivery': 'Shipping',
+  searchShow: 'Search Results',
 }
 export default en_US;
