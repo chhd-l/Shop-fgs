@@ -21,8 +21,8 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: on, 1: off
 const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
-// 买入价格开关 1：Inclusive of tax，0：Exclusive of tax
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1] || 1;
+// 买入价格开关 0：含税，1：不含税
+const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context || 0;
 
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
