@@ -2,6 +2,8 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import findIndex from 'lodash/findIndex';
 import CitySearchSelection from '@/components/CitySearchSelection';
+import ValidationAddressModal from '@/components/validationAddressModal';
+import Loading from '@/components/Loading';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
 import { updateCustomerBaseInfo } from '@/api/user';
@@ -10,8 +12,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import classNames from 'classnames';
-import { withOktaAuth } from '@okta/okta-react';
+import { withOktaAuth } from '@okta/okta-react';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import { getProvincesList } from '@/api/index';
 
 @injectIntl
 class PersonalDataEditForm extends React.Component {
@@ -30,7 +33,13 @@ class PersonalDataEditForm extends React.Component {
         lastName: '',
         birthdate: '',
         email: '',
-        country: '',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryName: '',
+        provinceNo: '',
+        provinceName: '',
+        province: '',
+        city: '',
+        cityName: '',
         phoneNumber: '',
         rfc: '',
         address1: '',
@@ -40,8 +49,12 @@ class PersonalDataEditForm extends React.Component {
       },
       oldForm: {},
       countryList: [],
+      provinceList: [], // 省份列表
       isValid: false,
-      errMsgObj: {}
+      errMsgObj: {},
+      validationLoading: false, // 地址校验loading
+      validationModalVisible: false, // 地址校验查询开关
+      selectValidationOption: 'suggestedAddress',
     };
     this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
       this
@@ -49,6 +62,7 @@ class PersonalDataEditForm extends React.Component {
   }
   componentDidMount() {
     const { data } = this.props;
+    const { form } = this.state;
     this.setState(
       {
         form: Object.assign({}, data, {
@@ -63,6 +77,12 @@ class PersonalDataEditForm extends React.Component {
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
+      });
+    });
+    // 查询省份列表（美国：州）
+    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
+      this.setState({
+        provinceList: res.context.systemStates
       });
     });
   }
@@ -117,6 +137,18 @@ class PersonalDataEditForm extends React.Component {
       });
     }, 5000);
   }
+  // 成功信息
+  showSuccessMsg() {
+    this.setState({
+      successTipVisible: true
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        successTipVisible: false
+      });
+    }, 5000);
+  }
   handleCancel = () => {
     const { oldForm } = this.state;
     this.setState({
@@ -133,48 +165,130 @@ class PersonalDataEditForm extends React.Component {
     this.setState({ editFormVisible: status });
     this.props.updateEditOperationPanelName(status ? 'My account' : '');
   };
-  handleSave = async () => {
+
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    this.setState({
+      validationLoading: false
+    });
+    if (data && data != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      this.showNextPanel();
+    }
+  }
+  // 确认选择地址,切换到下一个最近的未complete的panel
+  confirmValidationAddress() {
+    const { form, selectValidationOption, validationAddress } = this.state;
+
+    if (selectValidationOption == 'suggestedAddress') {
+      form.address1 = validationAddress.address1;
+      form.address2 = validationAddress.address2;
+      form.city = validationAddress.city;
+      form.cityName = validationAddress.city;
+      if (process.env.REACT_APP_LANG === 'en') {
+        form.provinceName = validationAddress.provinceCode;
+      }
+    }
+    this.setState({
+      validationModalVisible: false
+    });
+    this.showNextPanel();
+  }
+  // 保存数据
+  handleSave = () => {
+    // 地址验证
+    this.setState({
+      validationModalVisible: true,
+      validationLoading: true
+    });
+  }
+  showNextPanel = async () => {
     try {
       const { form } = this.state;
       this.setState({ loading: true });
       const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
       let oktaToken = 'Bearer ' + oktaTokenString;
-      let param = Object.assign({}, this.props.originData, {
-        firstName: form.firstName,
-        lastName: form.lastName,
-        email: form.email,
-        birthDay: form.birthdate
-          ? form.birthdate.split('/').join('-')
-          : form.birthdate,
-        countryId: form.country,
-        contactPhone: form.phoneNumber,
-        reference: form.rfc,
-        address1: form.address1,
-        address2: form.address2,
-        postalCode: form.postCode,
-        cityId: form.city,
-        communicationEmail: form.communicationEmail,
-        communicationPhone: form.communicationPhone,
-        oktaToken: oktaToken
-      });
+      let mydata = {};
+      if (process.env.REACT_APP_LANG === 'en') {
+        mydata = {
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          birthDay: form.birthdate ? form.birthdate.split('/').join('-') : form.birthdate,
+          countryId: form.country,
+          contactPhone: form.phoneNumber,
+          reference: form.rfc,
+          address1: form.address1,
+          address2: form.address2,
+          postalCode: form.postCode,
+          city: form.cityName,
+          cityId: form.cityName == form.city ? null : form.city,
+          province: form.provinceName,
+          provinceId: form.province,
+          communicationEmail: form.communicationEmail,
+          communicationPhone: form.communicationPhone,
+          oktaToken: oktaToken
+        };
+      } else {
+        mydata = {
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          birthDay: form.birthdate ? form.birthdate.split('/').join('-') : form.birthdate,
+          countryId: form.country,
+          contactPhone: form.phoneNumber,
+          reference: form.rfc,
+          address1: form.address1,
+          address2: form.address2,
+          postalCode: form.postCode,
+          city: form.cityName,
+          cityId: form.cityName == form.city ? null : form.city,
+          communicationEmail: form.communicationEmail,
+          communicationPhone: form.communicationPhone,
+          oktaToken: oktaToken
+        };
+      }
+      let param = Object.assign({}, this.props.originData, mydata);
 
       await updateCustomerBaseInfo(param);
-      
+
       this.props.updateData();
       this.changeEditFormVisible(false);
     } catch (err) {
       this.showErrMsg(err.message);
+      this.setState({
+        loading: false,
+        validationModalVisible: false,
+        validationLoading: false
+      });
     } finally {
       this.setState({
-        loading: false
+        loading: false,
+        validationModalVisible: false,
+        validationLoading: false
       });
     }
   };
+
   // 表单验证
   validFormData = async () => {
+    const { form } = this.state;
     try {
-      // console.log('★★★★★★★★★ validFormData: ',this.state.isValid);
-      await validData(PRESONAL_INFO_RULE, this.state.form);
+      // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
+      form.city = form?.city || form.cityName;
+      console.log('★★★★★★★★★ valiFormData: ', form);
+      await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
@@ -188,22 +302,41 @@ class PersonalDataEditForm extends React.Component {
     });
   }
   computedList(key) {
-    let tmp = this.state[`${key}List`].map((c) => {
-      return {
-        value: c.id.toString(),
-        name: c.name
-      };
-    });
-    tmp.unshift({ value: '', name: '' });
+    let tmp = '';
+    if (key == 'province') {
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.id.toString(),
+          name: c.stateName,
+          stateNo: c.stateNo
+        };
+      });
+      tmp.unshift({ value: '', name: 'state' });
+    } else {
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.id.toString(),
+          name: c.name
+        };
+      });
+      tmp.unshift({ value: '', name: '' });
+    }
     return tmp;
   }
   handleSelectedItemChange(key, data) {
     const { form } = this.state;
+    if (key == 'province') {
+      form.provinceName = data.name;
+      form.provinceNo = data.stateNo; // 省份简写      
+    } else if (key == 'country') {
+      form.countryName = data.name;
+    }
     form[key] = data.value;
     this.setState({ form: form }, () => {
       this.validFormData();
     });
   }
+  // 编辑个人信息
   handleClickEditBtn = () => {
     myAccountActionPushEvent('Edit profile info')
     window.scrollTo({
@@ -234,15 +367,15 @@ class PersonalDataEditForm extends React.Component {
       isValid,
       errorMsg,
       successTipVisible,
-      errMsgObj
+      errMsgObj,
+      validationLoading,
+      validationModalVisible,
+      selectValidationOption
     } = this.state;
     const { data } = this.props;
     const curPageAtCover = !editFormVisible;
     return (
       <div className={classNames({ border: curPageAtCover })}>
-        {/* {this.state.loading ? (
-          <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
-        ) : null} */}
         <div className="personalInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             {curPageAtCover ? (
@@ -256,20 +389,19 @@ class PersonalDataEditForm extends React.Component {
                 <FormattedMessage id="account.myAccount" />
               </h5>
             ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
-              >
-                <span>&larr; </span>
-                <FormattedMessage id="account.myAccount" />
-              </h5>
-            )}
+                <h5
+                  className="ui-cursor-pointer"
+                  onClick={this.handleClickGoBack}
+                >
+                  <span>&larr; </span>
+                  <FormattedMessage id="account.myAccount" />
+                </h5>
+              )}
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${
-                    editFormVisible ? 'hidden' : ''
-                  }`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${editFormVisible ? 'hidden' : ''
+                    }`}
                   name="personalInformation"
                   title={txt}
                   alt={txt}
@@ -287,9 +419,8 @@ class PersonalDataEditForm extends React.Component {
           />
           <div className="pl-3 pr-3 pb-3">
             <div
-              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                errorMsg ? '' : 'hidden'
-              }`}
+              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
+                }`}
             >
               <aside
                 className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -310,9 +441,8 @@ class PersonalDataEditForm extends React.Component {
               </aside>
             </div>
             <aside
-              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                successTipVisible ? '' : 'hidden'
-              }`}
+              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successTipVisible ? '' : 'hidden'
+                }`}
               role="alert"
             >
               <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -323,9 +453,8 @@ class PersonalDataEditForm extends React.Component {
             {/* preview form */}
             {data ? (
               <div
-                className={`row userProfileInfo text-break ${
-                  editFormVisible ? 'hidden' : ''
-                }`}
+                className={`row userProfileInfo text-break ${editFormVisible ? 'hidden' : ''
+                  }`}
               >
                 {[
                   {
@@ -588,6 +717,8 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="examplePostCode" />
                   </div>
                 </div>
+
+                {/* city */}
                 <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
@@ -599,6 +730,7 @@ class PersonalDataEditForm extends React.Component {
                     <CitySearchSelection
                       defaultValue={form.cityName}
                       key={form.cityName}
+                      freeText={true}
                       onChange={this.handleCityInputChange}
                     />
                   </span>
@@ -607,6 +739,34 @@ class PersonalDataEditForm extends React.Component {
                   </div>
                 </div>
 
+                {/* state */}
+                {process.env.REACT_APP_LANG === 'en' ? (
+                  <div className="form-group col-lg-6 required">
+                    <label className="form-control-label" htmlFor="province">
+                      <FormattedMessage id="payment.state" />
+                    </label>
+                    <span
+                      className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                      data-loc="countrySelect"
+                    >
+                      <Selection
+                        key={form.province}
+                        selectedItemChange={(data) =>
+                          this.handleSelectedItemChange('province', data)
+                        }
+                        optionList={this.computedList('province')}
+                        selectedItemData={{
+                          value: form.province
+                        }}
+                      />
+                    </span>
+                    <div className="invalid-feedback" style={{ display: 'none' }}>
+                      <FormattedMessage id="payment.errorInfo2" />
+                    </div>
+                  </div>
+                ) : (null)}
+
+                {/* country */}
                 <div className="form-group col-lg-6 required">
                   <label className="form-control-label" htmlFor="country">
                     <FormattedMessage id="payment.country" />
@@ -630,6 +790,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
+
                 <div
                   className={[
                     'form-group',
@@ -670,59 +831,6 @@ class PersonalDataEditForm extends React.Component {
                   )}
                 </div>
 
-                {/* <div className="form-group col-lg-6">
-                  <label className="form-control-label rc-input--full-width w-100">
-                    <FormattedMessage id="account.preferredMethodOfCommunication" />
-                  </label>
-                  {[
-                    { type: 'communicationPhone', langKey: 'phone' },
-                    { type: 'communicationEmail', langKey: 'email' }
-                  ].map((ele, idx) => (
-                    <div className="rc-input rc-input--inline" key={idx}>
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        id={`basicinfo-communication-checkbox-${ele.type}`}
-                        onChange={this.handleCommunicationCheckBoxChange.bind(
-                          this,
-                          ele
-                        )}
-                        checked={+form[ele.type]}
-                      />
-                      <label
-                        className="rc-input__label--inline text-break"
-                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
-                      >
-                        <FormattedMessage id={ele.langKey} />
-                      </label>
-                    </div>
-                  ))}
-                </div>
-                 */}
-                {/* <div className="form-group col-lg-6 pull-left">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="reference"
-                  >
-                    <FormattedMessage id="payment.rfc" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control input__phoneField"
-                      id="reference"
-                      name="rfc"
-                      value={form.rfc}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="50"
-                    />
-                    <label className="rc-input__label" htmlFor="reference" />
-                  </span>
-                </div> */}
               </div>
               <span
                 className={`rc-meta mandatoryField ${isValid ? 'hidden' : ''}`}
@@ -755,9 +863,26 @@ class PersonalDataEditForm extends React.Component {
             </div>
           </div>
         </div>
+
+        {validationLoading && <Loading positionFixed="true" />}
+        {validationModalVisible && <ValidationAddressModal
+          address={form}
+          updateValidationData={(res) => this.getValidationData(res)}
+          selectValidationOption={selectValidationOption}
+          handleChooseValidationAddress={(e) =>
+            this.chooseValidationAddress(e)
+          }
+          hanldeClickConfirm={() => this.confirmValidationAddress()}
+          close={() => {
+            this.setState({
+              validationModalVisible: false
+            });
+          }}
+        />}
+
       </div>
     );
   }
 }
 
-export default  withOktaAuth(PersonalDataEditForm);
+export default withOktaAuth(PersonalDataEditForm);
