@@ -181,7 +181,6 @@ class ImageMagnifier extends Component {
   }
   // props 变化时更新
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log(nextProps, 'nextProps');
     let { currentImg } = this.state;
     let { images } = this.props;
     if (!currentImg && images && images.length > 0) {

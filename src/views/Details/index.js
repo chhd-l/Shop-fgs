@@ -1909,7 +1909,6 @@ class Details extends React.Component {
                               }}
                             ></div>
                             {!this.state.loading &&
-                            !isMobile &&
                             !bundle &&
                             isHub ? (
                               <div
