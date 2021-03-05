@@ -726,7 +726,7 @@ class LoginCart extends React.Component {
                 <div className="availability  product-availability">
                   <div className="flex justify-content-between rc-md-up align-items-start">
                     <div
-                      className="buyMethod rc-margin-bottom--xs"
+                      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs"
                       style={{
                         borderColor: !parseInt(pitem.goodsInfoFlag)
                           ? '#e2001a'
@@ -790,6 +790,7 @@ class LoginCart extends React.Component {
                         <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
                           <div className="radioBox mr-2">
                             <span
+                              className="font15"
                               style={{
                                 fontWeight: '400',
                                 color: '#333',
