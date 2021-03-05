@@ -143,15 +143,18 @@ export async function getDictionary({ type, name = '' }) {
 
 export function getDeviceType() {
   let t = '';
-  if (
+  if(navigator.userAgent.match(/(pad|iPad)/i)){
+    t = 'Pad';
+  }else if (
     navigator.userAgent.match(
-      /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      /(phone|pod|iPhone|iPod|ios|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
     )
   ) {
     t = 'H5';
   } else {
     t = 'PC';
   }
+  console.log(navigator.userAgent.match(/(pad|iPad)/i), t, 'ttttt')
   return t;
 }
 
