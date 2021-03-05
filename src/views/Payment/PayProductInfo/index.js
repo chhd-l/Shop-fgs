@@ -699,7 +699,7 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-
+                
                 {/* 显示 promotionCode */}
                 {!this.state.isShowValidCode &&
                 this.promotionDiscountPrice > 0 ? (

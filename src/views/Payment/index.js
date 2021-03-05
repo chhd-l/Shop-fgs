@@ -180,13 +180,16 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
   }
   getPetVal() {
-    let obj = doGetGAVal(this.props);
-    this.setState({ pet: obj });
+    let obj = doGetGAVal(this.props)
+    this.setState({ pet: obj })
   }
   componentWillMount() {
-    isHubGA && this.getPetVal();
+    isHubGA && this.getPetVal()
   }
   async componentDidMount() {
+    if (!this.isLogin) {
+      checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' })
+    }
     try {
       const { checkoutStore, paymentStore, clinicStore, history } = this.props;
       const { tid } = this.state;

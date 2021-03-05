@@ -92,8 +92,7 @@ class VisitorAddress extends React.Component {
       validationModalVisible: true,
       validationLoading: true
     });
-    console.log('------------------ VisitorAddress handleClickConfirm');
-    console.log('------------------ VisitorAddress handleClickConfirm validationModalVisible: ',this.state.validationModalVisible);
+    // console.log('------------------ VisitorAddress handleClickConfirm');
   };
   // 不进行地址验证，进入下一步
   handleNextPanel = () => {
@@ -223,7 +222,7 @@ class VisitorAddress extends React.Component {
     this.setState({
       validationModalVisible: false
     });
-    
+
     this.props.updateData(form);
 
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
