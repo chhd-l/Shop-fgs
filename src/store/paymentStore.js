@@ -99,40 +99,6 @@ class PaymentStore {
       switch (key) {
         //填完邮件
         case 'email':
-          // if (this.isLogin) {
-          //   isNewAccount().then((res) => {
-          //     if (res.context == 0) {
-          //       checkoutDataLayerPushEvent({name:'Email',options:'New account'})
-          //     } else {
-          //       checkoutDataLayerPushEvent({name:'Email',options:'Existing account'})
-          //     }
-          //   })
-          // } else {
-          //   checkoutDataLayerPushEvent({name:'Email',options:'Guest checkout'})
-          // }
-          if (this.isLogin) {
-            isNewAccount().then((res) => {
-              if (res.context == 0) {
-                checkoutDataLayerPushEvent({
-                  name: 'Email',
-                  options: 'New account'
-                });
-              } else {
-                checkoutDataLayerPushEvent({
-                  name: 'Email',
-                  options: 'Existing account'
-                });
-              }
-            });
-          } else {
-            checkoutDataLayerPushEvent({
-              name: 'Email',
-              options: 'Guest checkout'
-            });
-          }
-          break;
-        //填完地址
-        case 'deliveryAddr':
           if (this.isLogin) {
             isNewAccount().then((res) => {
               if (res.context == 0) {
@@ -150,6 +116,29 @@ class PaymentStore {
           } else {
             checkoutDataLayerPushEvent({
               name: 'Delivery',
+              options: 'Guest checkout'
+            });
+          }
+          break;
+        //填完地址
+        case 'deliveryAddr':
+          if (this.isLogin) {
+            isNewAccount().then((res) => {
+              if (res.context == 0) {
+                checkoutDataLayerPushEvent({
+                  name: 'Payment',
+                  options: 'New account'
+                });
+              } else {
+                checkoutDataLayerPushEvent({
+                  name: 'Payment',
+                  options: 'Existing account'
+                });
+              }
+            });
+          } else {
+            checkoutDataLayerPushEvent({
+              name: 'Payment',
               options: 'Guest checkout'
             });
           }
@@ -199,38 +188,38 @@ class PaymentStore {
                 }
               });
             }
-          }
-          if (isFirstLoad) {
-            const result = find(
-              dataLayer,
-              (ele) =>
-                ele.event ===
-                process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
-            );
-            if (result) {
-              result.checkout = {
-                step: 2,
-                option
-              };
-              result.page = {
-                type: 'Checkout',
-                virtualPageURL: '/checkout/shipping'
-              };
-            }
-          } else {
-            dataLayer.push({
-              checkout: {
-                step: 2,
-                option
-              },
-              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
-              page: {
-                type: 'Checkout',
-                virtualPageURL: '/checkout/shipping'
-              }
-            });
-          }
 
+            if (isFirstLoad) {
+              const result = find(
+                dataLayer,
+                (ele) =>
+                  ele.event ===
+                  process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+              );
+              if (result) {
+                result.checkout = {
+                  step: 2,
+                  option
+                };
+                result.page = {
+                  type: 'Checkout',
+                  virtualPageURL: '/checkout/shipping'
+                };
+              }
+            } else {
+              dataLayer.push({
+                checkout: {
+                  step: 2,
+                  option
+                },
+                event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+                page: {
+                  type: 'Checkout',
+                  virtualPageURL: '/checkout/shipping'
+                }
+              });
+            }
+          }
           break;
         //填完地址
         case 'deliveryAddr':

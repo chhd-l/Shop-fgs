@@ -221,9 +221,6 @@ class AddressList extends React.Component {
         deliveryAddress.provinceName = validationAddress.provinceCode;
       }
     }
-    this.setState({
-      validationModalVisible: false
-    });
     this.showNextPanel();
   }
   // 新增或者编辑地址
@@ -239,6 +236,9 @@ class AddressList extends React.Component {
   showNextPanel() {
     const { deliveryAddress, addressList, itemIdx } = this.state;
     this.currentOperateIdx = itemIdx;
+    this.setState({
+      validationModalVisible: false
+    });
     let tmpDeliveryAddress = {
       firstName: '',
       lastName: '',

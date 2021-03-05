@@ -1382,7 +1382,7 @@ class Details extends React.Component {
     this.hubGA &&
       dataLayer.push({
         event: 'pdpTabsClick',
-        pdpTabsClickTabName: ele
+        pdpTabsClickTabName: ele?.descriptionName
       });
   }
   handleAClick() {

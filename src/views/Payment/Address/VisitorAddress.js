@@ -92,6 +92,7 @@ class VisitorAddress extends React.Component {
       validationModalVisible: true,
       validationLoading: true
     });
+    // console.log('------------------ VisitorAddress handleClickConfirm');
   };
   // 不进行地址验证，进入下一步
   handleNextPanel = () => {
@@ -209,9 +210,6 @@ class VisitorAddress extends React.Component {
         form.provinceName = validationAddress.provinceCode;
       }
     }
-    this.setState({
-      validationModalVisible: false
-    });
     // 进入下一步
     this.showNextPanel();
   }
@@ -220,6 +218,11 @@ class VisitorAddress extends React.Component {
     const { paymentStore } = this.props;
     const { form, billingChecked } = this.state;
     const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
+    
+    this.setState({
+      validationModalVisible: false
+    });
+
     this.props.updateData(form);
 
     paymentStore.setStsToCompleted({ key: this.curPanelKey });

@@ -72,15 +72,15 @@ class InfosPreview extends React.Component {
                         <div className="col-md-6">
                           &nbsp;
                           {matchNamefromDict(
-                            this.state.countryList,
-                            details.consignee.countryId
-                          )}
+                          this.state.countryList,
+                          details.consignee.countryId
+                        )}
                         </div>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.city" />
                         </div>
                         <div className="col-md-6">
-                          &nbsp;{details.consignee.cityName}
+                          &nbsp;{details.consignee.cityName ? details.consignee.cityName : details.consignee.city}
                         </div>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.postCode" />
@@ -151,15 +151,15 @@ class InfosPreview extends React.Component {
                         <div className="col-md-6">
                           &nbsp;
                           {matchNamefromDict(
-                            this.state.countryList,
-                            details.invoice.countryId
-                          )}
+                          this.state.countryList,
+                          details.invoice.countryId
+                        )}
                         </div>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.city" />
                         </div>
                         <div className="col-md-6">
-                          &nbsp;{details.invoice.cityName}
+                          &nbsp;{details.invoice.cityName ? details.invoice.cityName : details.invoice.city}
                         </div>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.postCode" />
@@ -201,10 +201,10 @@ class InfosPreview extends React.Component {
             </div>
           </div>
         ) : (
-          <span className="ml-3 mr-3">
-            <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
-          </span>
-        )}
+            <span className="ml-3 mr-3">
+              <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
+            </span>
+          )}
       </div>
     );
   }

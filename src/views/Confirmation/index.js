@@ -82,6 +82,8 @@ class Confirmation extends React.Component {
     isHubGA&&this.getPetVal()
   }
   async componentDidMount() {
+    const GA_product = localItemRoyal.get('rc-ga-product')
+    dataLayer.push(GA_product)
     setSeoConfig().then(res => {
       this.setState({ seoConfig: res })
     });
