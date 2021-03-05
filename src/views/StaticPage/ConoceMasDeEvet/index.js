@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import logoAnimatedPng from '@/assets/images/logo--animated2.png';
@@ -10,7 +10,7 @@ import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class Landing extends Component {
   constructor(props) {
@@ -119,8 +119,8 @@ class Landing extends Component {
     );
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     this.cal_clientWidth(document.body.clientWidth);
   }
@@ -138,10 +138,13 @@ class Landing extends Component {
       <div className="landing-wrap">
         <GoogleTagManager additionalEvents={event} GTMID="GTM-NR3FWTQ" />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         {this.state.loading ? <Loading /> : null}
         <div className="rc-three-column">
@@ -162,12 +165,13 @@ class Landing extends Component {
 
             {/* go to shop按钮 */}
             <div style={{ textAlign: 'center', marginTop: '-31px' }}>
-              <Link
-                className="rc-btn rc-btn rc-btn--one"
+              <DistributeHubLinkOrATag
+                href={'/'}
                 to="/home"
+                className="rc-btn rc-btn rc-btn--one"
               >
                 Conoce la Tienda
-              </Link>
+              </DistributeHubLinkOrATag>
             </div>
 
             {/* 介绍 */}
@@ -211,26 +215,29 @@ class Landing extends Component {
             <div className="rc-layout-container rc-five-column">
               <div className="rc-column rc-quad-width">
                 {/* logo */}
-                <Link
+                <DistributeHubLinkOrATag
+                  href={'/'}
                   to="/home"
                   className="header__nav__brand logo-home"
                   style={{ marginTop: '40px' }}
                 >
                   <span className="rc-screen-reader-text"></span>
                   <LazyLoad>
-                  <img
-                    alt="Royal Canin"
-                    src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                    style={{
-                      background:
-                        'url(' + logoAnimatedPng + ') no-repeat center center',
-                      width: '105px',
-                      height: '50px',
-                      backgroundSize: 'cover'
-                    }}
-                  />
+                    <img
+                      alt="Royal Canin"
+                      src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
+                      style={{
+                        background:
+                          'url(' +
+                          logoAnimatedPng +
+                          ') no-repeat center center',
+                        width: '105px',
+                        height: '50px',
+                        backgroundSize: 'cover'
+                      }}
+                    />
                   </LazyLoad>
-                </Link>
+                </DistributeHubLinkOrATag>
                 <div className="form-margin-top">
                   {/* form */}
                   {this.state.inputType.map((item, index) => {

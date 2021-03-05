@@ -338,7 +338,7 @@ const App = () => (
                 render={(props) => (
                   <AccountPetForm key={props.match.params.id} {...props} />
                 )}
-              // component={AccountPetForm}
+                // component={AccountPetForm}
               />
               <Route
                 path="/account/pets/petForm/"
@@ -413,30 +413,6 @@ const App = () => (
               />
 
               <Route
-                path="/subscription-landing-de"
-                exact
-                component={DE_SubscriptionLanding}
-              />
-
-              <Route
-                path="/subscription-landing-us"
-                exact
-                component={US_SubscriptionLanding}
-              />
-
-              <Route
-                path="/subscription-landing-ru"
-                exact
-                component={RU_SubscriptionLanding}
-              />
-
-              <Route
-                path="/subscription-landing-tr"
-                exact
-                component={TR_SubscriptionLanding}
-              />
-
-              <Route
                 exact
                 path="/subscription-landing"
                 component={(() => {
@@ -498,7 +474,7 @@ const App = () => (
                 path="/Values"
                 component={
                   { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                  process.env.REACT_APP_LANG
+                    process.env.REACT_APP_LANG
                   ] || Values
                 }
               />
@@ -563,9 +539,9 @@ const App = () => (
                 path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
                 render={(props) => {
                   if (props.location.state && props.location.state.noresult) {
-                    if(process.env.REACT_APP_LANG=='en'){
+                    if (process.env.REACT_APP_LANG == 'en') {
                       return <US_SearchShow {...props} />;
-                    }else{
+                    } else {
                       return <SearchShow {...props} />;
                     }
                   } else {
