@@ -20,7 +20,7 @@ const getPromotionInfo = ()=>{
 //删除对象中空属性
 export function deleteObjEmptyAttr (obj) {
   for(var key in obj){
-    if(obj[key] ===''||(Array.isArray(obj[key])&&obj[key].length==0)){
+    if(obj[key] ===null||obj[key] ===''||(Array.isArray(obj[key])&&obj[key].length==0)){
        delete obj[key]
     }
   }
@@ -133,8 +133,8 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
 
-      promoCodeName:promotionInfo[index].promoCodeName, //Promo code name, only if promo activated
-      promoCodeAmount: promotionInfo[index].promoCodeAmount //Promo code amount, only if promo activated
+      promoCodeName:promotionInfo[index]?.promoCodeName||"", //Promo code name, only if promo activated
+      promoCodeAmount: promotionInfo[index]?.promoCodeAmount||"" //Promo code amount, only if promo activated
     })
 
     arr.push(obj);
@@ -181,8 +181,8 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
       breed, //All animal breeds associated with the product in an array
 
 
-      promoCodeName:promotionInfo[index].promoCodeName, //Promo code name, only if promo activated
-      promoCodeAmount: promotionInfo[index].promoCodeAmount //Promo code amount, only if promo activated
+      promoCodeName:promotionInfo[index]?.promoCodeName||"", //Promo code name, only if promo activated
+      promoCodeAmount: promotionInfo[index]?.promoCodeAmount||"" //Promo code amount, only if promo activated
     })
 
     arr.push(obj);
