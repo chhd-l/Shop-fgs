@@ -47,6 +47,10 @@ class EditForm extends React.Component {
     const { address } = this.state;
     // delete initData['email'];
     // delete address['email'];
+
+    console.log('------------- EditForm initData: ',initData);
+    console.log('------------- EditForm address: ',address);
+
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
     });

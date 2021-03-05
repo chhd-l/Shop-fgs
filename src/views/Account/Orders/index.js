@@ -743,13 +743,14 @@ class AccountOrders extends React.Component {
                                           </div>
                                         )}
                                       </div>
-                                      <div className="col-12 col-md-2 text-nowrap">
+                                      <div className="col-12 col-md-2 text-nowrap padding0">
                                         <FormattedMessage id="order.orderDetails">
                                           {(txt) => (
                                             <Link
-                                              className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap"
+                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
+                                              <i className="rc-iconography rc-icon rc-news--xs"></i>
                                               <span
                                                 className="medium pull-right--desktop rc-styled-link"
                                                 title={txt}

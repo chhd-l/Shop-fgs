@@ -319,13 +319,16 @@ export default class DropDownMenuForHub extends React.Component {
                 >
                   <li className="rc-list__item">
                     <span className="rc-list__header pt-0 pb-0">
-                      <NavItem
-                        item={item}
+                      <span
+                        // item={item}
                         className={`rc-list__header border-bottom border-width-2 ${
                           item.id === activeTopParentId
                             ? 'border-red'
                             : 'border-transparent'
                         }`}
+                        // onClick={(e) => {
+                        //   e.preventDefault();
+                        // }}
                       >
                         {item.expanded ? (
                           <span className={`rc-header-with-icon header-icon`}>
@@ -343,7 +346,7 @@ export default class DropDownMenuForHub extends React.Component {
                         ) : (
                           item.Link && item.Link.Text
                         )}
-                      </NavItem>
+                      </span>
                     </span>
                   </li>
                 </ul>
