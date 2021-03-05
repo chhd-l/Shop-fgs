@@ -446,6 +446,9 @@
       padding: 0px 1.5rem;
     }
     padding:2px 0 0 23px;
+    .rc-icon.location--xs:after, .rc-icon.rc-location--xs:after {
+      background-position: 36.36% 70%;
+    }
   }
   .advantage-tips {
     .centered-icon-list__icon {
@@ -462,9 +465,35 @@
     .advantage-tips .centered-icon-list__icon {
       margin: 0;
     }
+    .rc-btn.add-to-cart-btn{
+        padding: 5px 1.5rem;
+        .rc-icon {
+          vertical-align: -15px;
+        }
+        .rc-cart--xs:after {
+          background-position: 18.18% 30.57%;
+        }
+        &::after {
+          height: 28px;
+        }
+      
+    }
     .other-buy-btn {
       width: 100%;
       margin-bottom: 1rem;
+      .rc-icon {
+        vertical-align: middle;
+      }
+      .rc-icon::after {
+        height: 25px;
+      }
+      .rc-icon.location--xs:after, .rc-icon.rc-location--xs:after {
+        background-position: 36.36% 69.5%;
+      }
+      .cc-InlineButton-module-button_3QLGy {
+        height: 2rem;
+        line-height: 2rem;
+      }
     }
     .more-link p {
       width: 94%;

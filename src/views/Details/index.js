@@ -321,7 +321,8 @@ class Details extends React.Component {
       purchaseTypeDict: [],
       barcode: '',
       descContent: '',
-      contactUs: ''
+      contactUs: '',
+      ccidBtnVisibility:'hidden',
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -381,6 +382,7 @@ class Details extends React.Component {
       }
     });
   }
+
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
@@ -535,7 +537,6 @@ class Details extends React.Component {
     let selectedArr = [];
     let idArr = [];
     let baseSpecId = details.baseSpec;
-    console.log(specList, 'specList');
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -582,7 +583,6 @@ class Details extends React.Component {
         currentLinePrice = item.linePrice;
         currentSubscriptionPrice = item.subscriptionPrice;
         currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
-        console.log(item, 'stock');
         stock = item.stock;
       } else {
         item.selected = false;
@@ -964,12 +964,10 @@ class Details extends React.Component {
         let ret = g.content;
         if (g.content && g.contentType === 'json') {
           try {
-            console.log(g.content)
             const parsedContent = JSON.parse(g.content).map((el) => {
               el = JSON.parse(el);
               return el;
             });
-            console.log(parsedContent, 'parsedContent');
             // weshre导入的Description name，此值固定，不跟随国家而变动，以便根据三种情况，处理不同的展示方式
             // 1 特殊处理description tab【只取EretailShort/Prescriber Description进行展示】
             // 2 特殊处理benifit tab【拼接星星展示样式】
@@ -991,7 +989,6 @@ class Details extends React.Component {
                     return ele['Prescriber Blod Description'];
                   })
                   .filter((e) => e)[0];
-                console.log(prescriberDesc, 'prescriberDesc');
                 if (goodsRes.goodsType === 2) {
                   ret = `<p style="white-space: pre-line; font-weight: 400">${blodDesc}</p><p style="white-space: pre-line; font-weight: 400">${prescriberDesc}</p><p style="white-space: pre-line;">${shortDesc}</p>`;
                 } else if (!goodsRes.saleableFlag && goodsRes.displayFlag) {
@@ -1023,10 +1020,8 @@ class Details extends React.Component {
                 break;
               case 'Compositions':
                 if(goodsRes.goodsType === 2) {
-                  console.log(parsedContent,' parsedContent111')
                   ret = parsedContent
                   .map((ele, i) => {
-                    console.log(parsedContent,' parsedContent111')
                     return `<p><div class="title">${Object.keys(ele)[0]}</div></p><p>
             ${Object.values(Object.values(ele)[0]).map(el => `<div class="content">${el}</div><p></p>`).join('')}
           </p>`;
@@ -1122,7 +1117,6 @@ class Details extends React.Component {
     }
   }
   handleSelectedItemChange = (data) => {
-    console.log(data, 'data===data');
     const { form } = this.state;
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
@@ -1602,6 +1596,26 @@ class Details extends React.Component {
     });
   }
 
+  ccidBtnRef(el) {
+    const self = this;
+    if (el) {
+      const config = { attributes: true, childList: true, subtree: true };
+      // 当观察到变动时执行的回调函数
+      const callback = function (mutationsList, observer) {
+        for (let mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            self.setState({
+              ccidBtnVisibility: 'visible'
+            })
+            observer.disconnect();
+          }
+        }
+      };
+      const observer = new MutationObserver(callback);
+      observer.observe(el, config);
+    }
+  }
+
   render() {
     const createMarkup = (text) => ({ __html: text });
     const { history, location, match, configStore } = this.props;
@@ -1900,9 +1914,11 @@ class Details extends React.Component {
                             isHub ? (
                               <div
                                 className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
+                                ref={(el)=>this.ccidBtnRef(el)}
                                 data-ccid="wtb-target"
                                 data-ean={barcode}
                                 onClick={this.handleBuyFromRetailer}
+                                style={{visibility:this.state.ccidBtnVisibility}}
                               >
                                 <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
                               </div>
@@ -2562,10 +2578,12 @@ class Details extends React.Component {
                                     <FormattedMessage id="or" />
                                     &nbsp;&nbsp;
                                     <div
+                                      ref={(el)=>this.ccidBtnRef(el)}
                                       className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                                       data-ccid="wtb-target"
                                       data-ean={barcode}
                                       onClick={this.handleBuyFromRetailer}
+                                      style={{visibility:this.state.ccidBtnVisibility}}
                                     >
                                       <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
                                     </div>
@@ -2762,7 +2780,7 @@ class Details extends React.Component {
               <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
                 {!vet ? (
                   <button
-                    className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                    className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                       addToCartLoading ? 'ui-btn-loading' : ''
                     } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     onClick={this.hanldeAddToCart}
@@ -2779,10 +2797,12 @@ class Details extends React.Component {
                 ) : null}
                 {!this.state.loading && !bundle && isHub ? (
                   <div
+                    ref={(el)=>this.ccidBtnRef(el)}
                     className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                     data-ccid="wtb-target"
                     data-ean={barcode}
                     onClick={this.handleBuyFromRetailer}
+                    style={{visibility:this.state.ccidBtnVisibility}}
                   >
                     <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
                   </div>

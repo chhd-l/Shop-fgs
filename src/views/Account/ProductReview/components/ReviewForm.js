@@ -90,11 +90,10 @@ class ReviewForm extends React.Component {
   render() {
     return (
       <div>
-        <div className="rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+        <div className="rc-five-column rc-padding-bottom--xs">
           <div className="rc-layout-container">
             <div
               className="rc-column padb0 padt0"
-              style={{ marginLeft: '-1rem' }}
             >
               <div className="">
                 <div className="rc-margin-top--xs">
@@ -167,10 +166,7 @@ class ReviewForm extends React.Component {
             </div>
           </div>
           <div className="">
-            <div
-              className="rc-column padt0 padb0"
-              style={{ marginLeft: '-1rem' }}
-            >
+            <div>
               <FormattedMessage id="writeYourReview" />
               <div className="padt20">
                 <span
@@ -202,7 +198,7 @@ class ReviewForm extends React.Component {
           </div>
 
           <div className="rc-layout-container rc-one-column padt0">
-            <div className="rc-column mb-3" style={{ marginLeft: '-1rem' }}>
+            <div className="rc-column mb-3">
               <div
                 className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                   this.state.errMessage ? null : 'hidden'
@@ -230,7 +226,7 @@ class ReviewForm extends React.Component {
             </div>
           </div>
           <div className="rc-layout-container rc-one-column padt0">
-            <div className="rc-column padt0" style={{ marginLeft: '-1rem' }}>
+            <div className="rc-column padt0">
               <label>
                 <input
                   name="isAnonymous"
