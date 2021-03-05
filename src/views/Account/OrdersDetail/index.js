@@ -1266,7 +1266,7 @@ class AccountOrders extends React.Component {
                                               )} */}
                                           </span>
                                         </div>
-                                        <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
+                                        <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
                                           <FormattedMessage
                                             id="xProduct"
                                             values={{ val: item.num }}
@@ -1292,7 +1292,7 @@ class AccountOrders extends React.Component {
                                             formatMoney(item.originalPrice)
                                           )}
                                         </div>
-                                        <div className="col-12 col-md-1 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                        <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
                                           {formatMoney(item.price)}
                                         </div>
                                       </div>
