@@ -9,7 +9,7 @@ import { getDeviceType } from '@/utils/utils.js';
 import '../css/user.less';
 
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() === 'H5';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const isLogin = !!localItemRoyal.get('rc-token');
 const userInfo = localItemRoyal.get('rc-userinfo') || null;
