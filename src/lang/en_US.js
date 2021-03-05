@@ -855,8 +855,8 @@ const en_US = {
 
 
   'account.startAutoShipping': 'Learn more',
-  'account.noSubscription': 'You do not yet know the Subscription? {val1} The Subscription allows you to receive your pet\'s favorite foods regularly and easily. Just tell us where and when to ship it, and we\'ll make sure everything it needs arrives right at your doorstep.',
-  'account.noSubscriptionTitle': 'Discover the Subscription',
+  'account.noSubscription': 'When you choose automatic shipping at checkout, you automatically become a member. You’ll save   on every order and receive perks like free delivery on a schedule of your choosing and other club-exclusive benefits.',
+  'account.noSubscriptionTitle': 'Join Royal Canin Club today!',
   'singlePurchase': 'Single purchase',
   'deliveryOneTimeOnly': 'Delivery 1 time only',
   'saveExtra': 'Save {val} on this subscription',
