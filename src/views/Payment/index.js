@@ -1463,10 +1463,10 @@ class Payment extends React.Component {
       });
     }
     try {
+      console.log('------------------ payment updateDeliveryAddrData data: ', data);
       if (process.env.REACT_APP_LANG === 'en') {
         // 获取税额
         if (this.isLogin) {
-          // console.log('------------------ updateDeliveryAddrData data: ', data);
           await this.props.checkoutStore.updateLoginCart('', false, false, {
             country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
             region: data.provinceNo, // 省份简写

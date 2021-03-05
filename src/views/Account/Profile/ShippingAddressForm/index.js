@@ -215,9 +215,6 @@ class ShippingAddressFrom extends React.Component {
         addressForm.provinceName = validationAddress.provinceCode;
       }
     }
-    this.setState({
-      validationModalVisible: false
-    });
     this.showNextPanel();
   }
   // 保存
@@ -230,6 +227,9 @@ class ShippingAddressFrom extends React.Component {
   };
   // 下一步
   showNextPanel = async () => {
+    this.setState({
+      validationModalVisible: false
+    });
     try {
       const { curType, addressForm: data } = this.state;
       this.setState({
