@@ -14,6 +14,14 @@ const api = {
 
 export default api
 
+function addOktaTokenField(param) {
+  let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'))
+  if(tokenObj.accessToken) {
+    param.token = 'Bearer ' + tokenObj.accessToken.accessToken
+  }
+  return param
+}
+
 export function getPetList (parameter) {
   return axios({
     url: `${api.getPetList}${parameter.customerId}`,
@@ -25,14 +33,14 @@ export function addPet (parameter) {
   return axios({
     url: `${api.addPet}`,
     method: 'post',
-    data: parameter
+    data: addOktaTokenField(parameter)
   })
 }
 export function batchAddPets (parameter) {
   return axios({
     url: `${api.batchAddPets}`,
     method: 'post',
-    data: parameter
+    data: addOktaTokenField(parameter)
   })
 }
 
@@ -48,14 +56,14 @@ export function delPets (parameter) {
   return axios({
     url: `${api.delPets}`,
     method: 'delete',
-    data: parameter
+    data: addOktaTokenField(parameter)
   })
 }
 export function editPets (parameter) {
   return axios({
     url: `${api.editPets}`,
     method: 'put',
-    data: parameter
+    data: addOktaTokenField(parameter)
   })
 }
 

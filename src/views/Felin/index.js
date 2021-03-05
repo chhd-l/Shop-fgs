@@ -82,7 +82,8 @@ export default class Felin extends React.Component {
       nextBtnEnable: false,
       nextBtnShow: true,
       felinType: 0,
-      consentChecked: false
+      consentChecked: false,
+      isContactUs: false
     };
   }
   handleInputChange = (e) => {
@@ -162,7 +163,7 @@ export default class Felin extends React.Component {
     }
   }
   render() {
-    let { userInfo, errMsgObj, nextBtnEnable, nextBtnShow } = this.state;
+    let { userInfo, errMsgObj, nextBtnEnable, nextBtnShow, isContactUs } = this.state;
     return (
       <div className="Felin">
         <Header
@@ -178,7 +179,9 @@ export default class Felin extends React.Component {
               <span
                 className="ui-cursor-pointer"
                 onClick={() => {
-                  scrollPaymentPanelIntoView('section5');
+                  this.setState({isContactUs: false},() => {
+                    scrollPaymentPanelIntoView('section5');
+                  })
                 }}
               >
                 En savoir plus
@@ -186,7 +189,9 @@ export default class Felin extends React.Component {
               <span
                 className="ui-cursor-pointer"
                 onClick={() => {
-                  scrollPaymentPanelIntoView('felinFooter');
+                  this.setState({isContactUs: false},() => {
+                    scrollPaymentPanelIntoView('felinFooter');
+                  })
                 }}
               >
                 Réserver un rendez-vous
@@ -196,7 +201,8 @@ export default class Felin extends React.Component {
                 className="ui-cursor-pointer"
                 style={{ color: '#666' }}
                 onClick={() => {
-                  scrollPaymentPanelIntoView('felinFooter');
+                  this.setState({isContactUs: true})
+                  window.scroll({top: 0})
                 }}
               >
                 Contacter L'Atelier Félin
@@ -207,7 +213,7 @@ export default class Felin extends React.Component {
             <br />
             <br />
             <br />
-            <div className="contactUs">
+            <div className="contactUs" style={{display: isContactUs? 'block': 'none'}}>
               <div className="rc-gamma inherit-fontsize">
                 <h3>Contacter l’Atelier Félin</h3>
               </div>
@@ -221,6 +227,7 @@ export default class Felin extends React.Component {
               <p>Horaires d’ouverture :</p>
               <p className="mb-20">Mardi - Dimanche, 10h - 20h</p>
             </div>
+            <div style={{display: !isContactUs? 'block': 'none'}}>
             <div class="rc-layout-container rc-two-column rc-content-h-middle">
               <div class="rc-column">
                 <h1 class="rc-espilon">
@@ -817,6 +824,7 @@ export default class Felin extends React.Component {
                   ) : null}
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </main>
