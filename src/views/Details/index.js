@@ -50,7 +50,7 @@ import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC';
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 // const pageLink = window.location.href;
 function AdvantageTips({ secondIconvisible = true }) {
   return (
@@ -1913,7 +1913,6 @@ class Details extends React.Component {
                               }}
                             ></div>
                             {!this.state.loading &&
-                            !isMobile &&
                             !bundle &&
                             isHub ? (
                               <div

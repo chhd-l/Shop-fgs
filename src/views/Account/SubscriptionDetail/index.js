@@ -60,7 +60,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const isMobile = getDeviceType() !== 'PC';
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
@@ -1019,7 +1019,7 @@ class SubscriptionDetail extends React.Component {
         style={{ display: isNotInactive ? 'block' : 'none' }}
       >
         <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
+          {/* <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
             <i
               className="iconfont"
               style={{
@@ -1047,7 +1047,7 @@ class SubscriptionDetail extends React.Component {
               )}
             </a>
           </div>
-          &nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp; */}
           <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
             <LazyLoad>
               <img

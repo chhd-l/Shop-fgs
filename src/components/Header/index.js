@@ -37,7 +37,7 @@ import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() === 'H5';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 @inject(
   'loginStore',

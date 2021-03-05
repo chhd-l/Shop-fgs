@@ -43,7 +43,7 @@ import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 import smartFeeder from '@/assets/images/smart_feeder.png';
 
 const isHub = process.env.REACT_APP_HUB == '1';
-const isMobile = getDeviceType() === 'H5';
+const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
@@ -1657,6 +1657,13 @@ class List extends React.Component {
           let goodsContent = esGoodsPage.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
+              const breedsAttr = ele.goodsAttributesValueRelVOAllList
+                .filter((item) => item.goodsAttributeName == 'breeds')
+                .map((t) => t.goodsAttributeValueEn);
+              const technologyAttr = ele.goodsAttributesValueRelVOAllList
+                .filter((item) => item.goodsAttributeName == 'Technology')
+                .map((t) => t.goodsAttributeValueEn);
+              const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
               let ret = Object.assign({}, ele, {
                 // 最低marketPrice对应的划线价
                 miLinePrice: ele.goodsInfos.sort(
@@ -1674,16 +1681,7 @@ class List extends React.Component {
                     e.showPage &&
                     e.showPage.includes('PLP')
                 )[0],
-                technologyOrBreedsAttr:
-                  isHub &&
-                  ele.goodsAttributesValueRelVOAllList
-                    .filter(
-                      (item) =>
-                        item.goodsAttributeName == 'Technology' ||
-                        item.goodsAttributeName == 'breeds'
-                    )
-                    .map((item) => item.goodsAttributeValueEn)
-                    .join(',')
+                technologyOrBreedsAttr: isHub && attrs
               });
               const tmpItem = find(
                 res.context.goodsList,
@@ -1814,7 +1812,7 @@ class List extends React.Component {
   }
 
   stickyMobileRefineBar() {
-    if (isMobile) {
+    if (isMobilePhone) {
       var t = document.getElementById('refineBar').getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
@@ -2057,7 +2055,7 @@ class List extends React.Component {
                         filterModalVisible ? 'active' : ''
                       }`}
                     >
-                      {isMobile ? (
+                      {isMobilePhone ? (
                         <Filters
                           history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -2169,7 +2167,7 @@ class List extends React.Component {
                         filterModalVisible ? 'active' : ''
                       }`}
                     >
-                      {isMobile ? (
+                      {isMobilePhone ? (
                         <Filters
                           history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
