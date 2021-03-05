@@ -1,5 +1,3 @@
-import { toJS } from 'mobx';
-
 const isHubGA = process.env.REACT_APP_HUB_GA
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -17,7 +15,7 @@ const getPromotionInfo = ()=>{
 }
 
 
-//删除对象中空属性
+// //删除对象中空属性
 export function deleteObjEmptyAttr (obj) {
   for(var key in obj){
     if(obj[key] ===null||obj[key] ===''||(Array.isArray(obj[key])&&obj[key].length==0)){
@@ -99,7 +97,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
   let promotionInfo = getPromotionInfo()
   if (!isHubGA) return
   let breed = []
-  productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
+  productList?.[0]?.goodsAttributesValueRelList?.filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
       breed.push(item2.goodsAttributeValue)
   })
   const calculatedWeeks = getComputedWeeks(frequencyList)
@@ -109,9 +107,9 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
     let cur_selected_size = item.sizeList.filter((item2) => {
       return item2.selected == true;
     });
-    let variant = cur_selected_size[0].specText;
-    let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
-    let price = item.goodsInfoFlag ? cur_selected_size[0].subscriptionPrice : cur_selected_size[0].marketPrice
+    let variant = cur_selected_size[0]?.specText;
+    let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
+    let price = item.goodsInfoFlag ? cur_selected_size[0]?.subscriptionPrice : cur_selected_size[0]?.marketPrice
     let subscriptionFrequency = item.form ? calculatedWeeks[item.form.frequencyId] : ''
     let range = item.goodsCateName?.split("/")[1] || ""
     let technology = item.goodsCateName?.split("/")[2] || ""
@@ -151,7 +149,7 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
   if (!isHubGA) return
   const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = [];
-  const mapProductList = new Map(productList.map((item,i)=>[i,item])) //换成map格式的目的 就是为了for of循环获取
+  const mapProductList = new Map(productList.map((item,i)=>[i,item])) //换成map格式的目的 就是为了for of循环获取index
   for (let [index,item] of mapProductList) {
     let subscriptionFrequency = item.periodTypeId ? calculatedWeeks[item.periodTypeId] : ''
     let range = item.goods.goodsCateName?.split("/")[1] || "";
@@ -203,10 +201,6 @@ export const GACartChangeSubscription = (btnContent) => {
     }
   });
 }
-
-
-
-
 
 
 //GA pet 全局获取
@@ -279,6 +273,7 @@ export const orderConfirmationPushEvent = (details)=>{
   }
   dataLayer.push(obj);
 }
+
 
 
 //product finder  productFinderScreen:{name}
