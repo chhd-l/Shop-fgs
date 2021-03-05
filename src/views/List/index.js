@@ -73,7 +73,7 @@ function ListItemH5ForGlobalStyle(props) {
   return item && item.productFinder ? (
     <div
       className="rc-column rc-column-pad fr-mobile-product"
-      // style={{ height: '300px' }}
+      style={{ height: '300px' }}
     >
       <article
         className="rc-card--product overflow-hidden"
@@ -82,7 +82,7 @@ function ListItemH5ForGlobalStyle(props) {
         <div className="fullHeight">
           <span className="ui-cursor-pointer">
             <article className="rc-card--a  margin-top--5">
-              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start text-center">
+              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
                 <div className="height-product-tile-plpOnly margin-top-mobile-20">
                   <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break ">
                     <FormattedMessage id="plp.retail.cat.product.finder.title" />
@@ -95,7 +95,7 @@ function ListItemH5ForGlobalStyle(props) {
                   <FormattedMessage
                     id="plp.retail.cat.product.finder.detail"
                     values={{
-                      val: ''
+                      val: <br/>
                     }}
                   />
                 </div>
@@ -114,14 +114,14 @@ function ListItemH5ForGlobalStyle(props) {
                       style={{
                         width: '100%',
                         height: '100%',
-                        // transform: 'translate(31%,-65%)'
+                        transform: 'translate(31%,-65%)'
                       }}
                     >
                       <img
                         src={isDogPage ? retailDog : pfRecoImgRetailFinder}
                         className="ImgFitScreen pt-3"
                         style={{
-                          // maxWidth: '50%',
+                          maxWidth: '50%',
                           maxHeight: '100%',
                           width: isDogPage ? '175px' : '150px',
                           height: 'auto',
