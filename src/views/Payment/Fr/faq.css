@@ -1,6 +1,9 @@
 .fr-faq{
     padding: 40px 0px 0px 100px;
 }
+.rc_faq_list p{
+    margin-bottom: 0 !important;
+}
 .fr-faq>div{
    height: 35px;
    line-height: 35px;
@@ -36,4 +39,20 @@
     text-align: center;
     padding: 40px 0 40px;
     font-size: 20px;
+}
+
+.rc_list_content ul,.rc_list_content li{
+    list-style-type: disc !important;
+    list-style: disc !important;
+}
+.rc_list_content ul li::marker{
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important;
+}
+.rc_list_content li{
+    margin-left: 2.5rem;
 }

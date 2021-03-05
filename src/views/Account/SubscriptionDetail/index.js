@@ -693,7 +693,8 @@ class SubscriptionDetail extends React.Component {
                             }}
                             key={index}
                           >
-                            <div className={`${isMobile ? 'none' : 'col-3'}`}>
+                            <div className={`col-3`}>
+                              {/* <div className={`${isMobile ? 'none' : 'col-3'}`}> */}
                               <p
                                 style={{
                                   marginBottom: '0',
@@ -780,7 +781,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                             <div
                               className={`${
-                                isMobile ? 'col-6' : 'col-4'
+                                isMobile ? 'col-3' : 'col-4'
                               } col-md-4`}
                             >
                               <p
@@ -1093,20 +1094,20 @@ class SubscriptionDetail extends React.Component {
       planId,
       storeId: process.env.REACT_APP_STOREID
     };
-    // let params = {
-    //   packageId: 'PK2102041541387',
-    //   planId: 'SP2102012016424',
-    //   goodsInfoId: 'ff80808173a2adef0173b3dd5900005f',
-    //   storeId: process.env.REACT_APP_STOREID
-    // };
-    let res = await getRemainings(params);
-    myAccountActionPushEvent('Cancel Subscription');
-    let remainingsList = res.context;
-    this.setState({
-      remainingsList,
-      modalType: 'cancelAll',
-      remainingsVisible: true
-    });
+    try {
+      let res = await getRemainings(params);
+      myAccountActionPushEvent('Cancel Subscription');
+      let remainingsList = res.context;
+      this.setState({
+        remainingsList,
+        modalType: 'cancelAll',
+        remainingsVisible: true
+      });
+    } catch (err) {
+      this.showErrMsg(err.message);
+    } finally {
+      this.setState({ loading: false });
+    }
     // this.setState({
     //   modalType: 'cancelAll',
     //   modalShow: true,
@@ -1126,7 +1127,7 @@ class SubscriptionDetail extends React.Component {
     });
   }
 
-  pauseOrStart = (subDetail) => {
+  pauseOrStart = async (subDetail) => {
     let subscribeStatus = '0';
     let subscribeStatusText = 'Restart Subscription';
     let action = startSubscription;
@@ -1142,9 +1143,10 @@ class SubscriptionDetail extends React.Component {
     }
     param.subscribeStatus = subscribeStatus;
     try {
-      let res = action(param);
-      this.setState({ isActive: !isActive });
+      let res = await action(param);
+      // this.setState({ isActive: !isActive, subscribeStatus });
       subscribeStatusText && myAccountActionPushEvent(subscribeStatusText);
+      await this.getDetail();
     } catch (err) {
       this.showErrMsg(err.message);
     } finally {
