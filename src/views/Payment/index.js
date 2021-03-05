@@ -12,8 +12,8 @@ import Footer from '@/components/Footer';
 import Progress from '@/components/Progress';
 import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
-import Faq from './Fr/faq';
-import US_Faq from './Fr/us_faq';
+import Faq from './Faq/faq';
+import US_Faq from './Faq/us_faq';
 import Loading from '@/components/Loading';
 
 import VisitorAddress from './Address/VisitorAddress';

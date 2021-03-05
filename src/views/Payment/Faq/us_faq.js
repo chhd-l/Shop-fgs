@@ -40,7 +40,7 @@ class Faq extends Component {
                     <div className="rc-list__accordion-item" style={{ borderTop: 'none' }} onClick={() => this.faqItemClick(0)}>
                         <dt>
                             <button className="rc-list__header" id="heading-73" data-toggle="content-73" style={{ background: '#f6f6f6' }}>
-                                <p style={{ width: '280px' }}><FormattedMessage id="checkout.faq.contactCustomer" /> ?</p>
+                                <p style={{ width: '280px' }}><FormattedMessage id="checkout.faq.contactCustomer" />?</p>
                             </button>
                         </dt>
                         <dd className="rc-list__content" id="content-73" aria-labelledby="heading-73">
@@ -51,7 +51,7 @@ class Faq extends Component {
                         <dt>
                             <button className="rc-list__header" id="heading-250" data-toggle="content-250" style={{ background: '#f6f6f6' }}><p style={{ width: '280px' }}><FormattedMessage
                                 id="checkout.faq.freeDelivery"
-                            /> ?</p></button>
+                            />?</p></button>
                         </dt>
                         <dd className="rc-list__content rc_list_content" id="content-250" aria-labelledby="heading-250">
                             <p style={{ padding: '0 0.5rem 1rem 0' }}>Royal Canin offers free shipping on all orders. Your package should arrive within 3-5 days.</p>
@@ -79,7 +79,7 @@ class Faq extends Component {
                         <dt>
                             <button className="rc-list__header" id="heading-530" data-toggle="content-530" style={{ background: '#f6f6f6' }}><p style={{ width: '280px' }}><FormattedMessage
                                 id="checkout.faq.FreeReturn"
-                            /> ?</p></button>
+                            />?</p></button>
                         </dt>
                         <dd className="rc-list__content" id="content-530" aria-labelledby="heading-530">
                             <p style={{ padding: '0 1.5rem 1rem 0.5rem' }}>Please see our return policy in our <a href="https://shop.royalcanin.com/terms_conditions.html" target="_blank" rel="nofollow noopener" data-tab-init="true"><span style={{ color: '#6888c9' }}>Terms and Conditions</span></a>&nbsp;or <Link to="/help/contact" target="_blank" ><span style={{ color: '#6888c9' }}>contact us</span></Link> for further assistance.</p>
