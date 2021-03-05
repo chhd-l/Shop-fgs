@@ -279,7 +279,7 @@ const Step2 = (props) => {
             disabled={props.isDisabled}
             className="rc-btn rc-btn--two button192"
             onClick={() => {
-             props.toOtherStep('step1');
+              props.toOtherStep('step1');
             }}
           >
             <FormattedMessage id="smartFeederSubscription.selectAnotherProduct" />
@@ -290,7 +290,7 @@ const Step2 = (props) => {
             disabled={props.isDisabled}
             className="rc-btn rc-btn--one button192"
             onClick={() => {
-             props.toOtherStep('step3');
+              props.toOtherStep('step3');
             }}
           >
             <FormattedMessage id="smartFeederSubscription.conﬁrmThisProduct" />
@@ -1887,7 +1887,10 @@ class SmartFeederSubscription extends Component {
         ) : (
           <div
             className="rc-text--center rc-header rc-padding-y--sm border-bottom-shadow"
-            style={{ background: '#fff', height: '120px' }}
+            style={{
+              background: '#fff',
+              height: isMobile ? '66.6px' : '120px'
+            }}
           >
             <button
               onClick={() => {
@@ -1971,6 +1974,14 @@ class SmartFeederSubscription extends Component {
                 })()}
                 <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
               </section>
+              <div
+                className="rc-border-bottom rc-border-colour--brand4"
+                style={{
+                  borderBottomWidth: '4px',
+                  position: 'relative',
+                  bottom: '-1.5rem'
+                }}
+              />
               <FAQ planId={this.state.planId} />
             </React.Fragment>
           ) : (
