@@ -295,6 +295,7 @@ export default class DropDownMenuForHub extends React.Component {
           className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
             showNav ? '' : 'rc-hidden'
           }`}
+          style={{paddingRight: '2px',paddingLeft: '2px'}}
         >
           <ul
             className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
@@ -331,7 +332,7 @@ export default class DropDownMenuForHub extends React.Component {
                         // }}
                       >
                         {item.expanded ? (
-                          <span className={`rc-header-with-icon header-icon`}>
+                          <span className={`header-icon`} style={{whiteSpace:'nowrap'}}>
                             {item.Link && item.Link.Text}
                             {item.id === activeTopParentId ? (
                               <span className="iconfont icon-dropdown-arrow ml-1">
