@@ -11,7 +11,7 @@ const getPromotionInfo = ()=>{
   return promotionInfo.goodsInfos.map(item=>{
     return {
       promoCodeName: item.marketingCode || "",
-      promoCodeAmount: item.marketingAmount || ''
+      promoCodeAmount: item.promotionDiscountPrice || ''
     }
   })
 }

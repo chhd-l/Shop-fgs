@@ -474,7 +474,7 @@ class CheckoutStore {
   //存储GA需要的product变量 给confirmation用
   @action
   saveGAProduct(data){
-    this.GA_product = data
+    localItemRoyal.set('rc-ga-product',data)
   }
 }
 export default CheckoutStore;
