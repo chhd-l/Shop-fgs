@@ -518,9 +518,7 @@ class Subscription extends React.Component {
                           <div className="rc-margin-top--sm">
                             <Link
                               className="rc-btn rc-btn--one"
-                              to={subscriptionLandingRouter(
-                                process.env.REACT_APP_LANG
-                              )}
+                              to="/subscription-landing"
                             >
                               <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
                             </Link>
