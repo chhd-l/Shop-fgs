@@ -73,11 +73,11 @@ class Pet extends React.Component {
       consumerAccount
     })
       .then((res) => {
-          let petList = res.context.context;
-          this.setState({
-            loading: false,
-            petList: petList
-          });
+        let petList = res.context.context;
+        this.setState({
+          loading: false,
+          petList: petList
+        });
       })
       .catch((err) => {
         this.setState({
