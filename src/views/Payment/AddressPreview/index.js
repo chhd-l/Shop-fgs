@@ -80,7 +80,7 @@ class InfosPreview extends React.Component {
                           <FormattedMessage id="payment.city" />
                         </div>
                         <div className="col-md-6">
-                          &nbsp;{details.consignee.cityName ? details.consignee.cityName : details.consignee.city}
+                          &nbsp;{details.consignee.cityName}
                         </div>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.postCode" />
@@ -159,7 +159,7 @@ class InfosPreview extends React.Component {
                           <FormattedMessage id="payment.city" />
                         </div>
                         <div className="col-md-6">
-                          &nbsp;{details.invoice.cityName ? details.invoice.cityName : details.invoice.city}
+                          &nbsp;{details.invoice.cityName}
                         </div>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.postCode" />
