@@ -2,11 +2,25 @@ import { toJS } from 'mobx';
 
 const isHubGA = process.env.REACT_APP_HUB_GA
 
+const localItemRoyal = window.__.localItemRoyal;
+
+
+
+const getPromotionInfo = ()=>{
+  let promotionInfo = localItemRoyal.get('rc-totalInfo');
+  return promotionInfo.goodsInfos.map(item=>{
+    return {
+      promoCodeName: item.marketingCode || "",
+      promoCodeAmount: item.promotionDiscountPrice || ''
+    }
+  })
+}
+
 
 //删除对象中空属性
 export function deleteObjEmptyAttr (obj) {
   for(var key in obj){
-    if(obj[key] ==''||(Array.isArray(obj[key])&&obj[key].length==0)){
+    if(obj[key] ===''||(Array.isArray(obj[key])&&obj[key].length==0)){
        delete obj[key]
     }
   }
@@ -82,6 +96,7 @@ export const GACartScreenLoad = () => {
 
 //init 游客(cart+checkout都使用)
 export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
+  let promotionInfo = getPromotionInfo()
   if (!isHubGA) return
   let breed = []
   productList?.[0]?.goodsAttributesValueRelList?.toJS().filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
@@ -89,7 +104,8 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
   })
   const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = [];
-  for (let item of productList) {
+  const mapProductList = new Map(productList.map((item,i)=>[i,item])) //换成map格式的目的 就是为了for of循环获取index
+  for (let [index,item] of mapProductList) {
     let cur_selected_size = item.sizeList.filter((item2) => {
       return item2.selected == true;
     });
@@ -117,8 +133,8 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
 
-      promoCodeName: '', //Promo code name, only if promo activated
-      promoCodeAmount: '' //Promo code amount, only if promo activated
+      promoCodeName:promotionInfo[index].promoCodeName, //Promo code name, only if promo activated
+      promoCodeAmount: promotionInfo[index].promoCodeAmount //Promo code amount, only if promo activated
     })
 
     arr.push(obj);
@@ -126,14 +142,17 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
   dataLayer.push({
     products: arr
   });
+  props.checkoutStore.saveGAProduct({products: arr})
 }
 
 //init 会员(cart+checkout都使用)
 export const GAInitLogin = ({productList,frequencyList,props}) => {
+  let promotionInfo = getPromotionInfo()
   if (!isHubGA) return
   const calculatedWeeks = getComputedWeeks(frequencyList)
   let arr = [];
-  for (let item of productList) {
+  const mapProductList = new Map(productList.map((item,i)=>[i,item])) //换成map格式的目的 就是为了for of循环获取
+  for (let [index,item] of mapProductList) {
     let subscriptionFrequency = item.periodTypeId ? calculatedWeeks[item.periodTypeId] : ''
     let range = item.goods.goodsCateName?.split("/")[1] || "";
     let technology = item.goods.goodsCateName?.split("/")[2] || ""
@@ -162,8 +181,8 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
       breed, //All animal breeds associated with the product in an array
 
 
-      promoCodeName: '', //Promo code name, only if promo activated
-      promoCodeAmount: '' //Promo code amount, only if promo activated
+      promoCodeName:promotionInfo[index].promoCodeName, //Promo code name, only if promo activated
+      promoCodeAmount: promotionInfo[index].promoCodeAmount //Promo code amount, only if promo activated
     })
 
     arr.push(obj);
@@ -171,6 +190,7 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
   dataLayer.push({
     products: arr
   });
+  props.checkoutStore.saveGAProduct({products: arr})
 }
 
 //cart cartChangeSubscription

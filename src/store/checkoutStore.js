@@ -10,7 +10,7 @@ const nullTaxFeeData = {
   city: '',
   street: '',
   postalCode: '',
-  customerAccount: ''
+  customerAccount: '',
 };
 
 class CheckoutStore {
@@ -31,6 +31,7 @@ class CheckoutStore {
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
+  @observable GA_product = {}
 
   @computed get tradePrice() {
     return this.cartPrice && this.cartPrice.tradePrice
@@ -202,8 +203,9 @@ class CheckoutStore {
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice,
       firstOrderOnThePlatformDiscountPrice:
-        purchasesRes.firstOrderOnThePlatformDiscountPrice
-    });
+        purchasesRes.firstOrderOnThePlatformDiscountPrice,
+      goodsInfos:purchasesRes.goodsInfos
+  });
   }
   // 游客
   @action.bound
@@ -258,7 +260,8 @@ class CheckoutStore {
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice,
       firstOrderOnThePlatformDiscountPrice:
-        purchasesRes.firstOrderOnThePlatformDiscountPrice
+        purchasesRes.firstOrderOnThePlatformDiscountPrice,
+      goodsInfos: purchasesRes.goodsInfos
     };
     if (
       !promotionCode ||
@@ -408,7 +411,8 @@ class CheckoutStore {
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice,
           firstOrderOnThePlatformDiscountPrice:
-            sitePurchasesRes.firstOrderOnThePlatformDiscountPrice
+            sitePurchasesRes.firstOrderOnThePlatformDiscountPrice,
+          goodsInfos:sitePurchasesRes.goodsInfos
         };
 
         if (
@@ -465,6 +469,12 @@ class CheckoutStore {
   @action
   changeLoadingCartData(data) {
     this.loadingCartData = data;
+  }
+
+  //存储GA需要的product变量 给confirmation用
+  @action
+  saveGAProduct(data){
+    localItemRoyal.set('rc-ga-product',data)
   }
 }
 export default CheckoutStore;
