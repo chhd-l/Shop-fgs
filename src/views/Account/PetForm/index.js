@@ -150,7 +150,6 @@ class PetForm extends React.Component {
       .catch((err) => {
         this.showErrorMsg(err.message);
       });
-    this.getPetList();
   }
   get specialNeedsOptions() {
     let option = this.state.specialNeeds.map((ele) => {
@@ -175,58 +174,58 @@ class PetForm extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  getPetList = async () => {
-    if (!this.userInfo.customerAccount) {
-      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
-      this.setState({
-        loading: false
-      });
-      return false;
-    }
-    await getPetList({
-      customerId: this.userInfo.customerId,
-      consumerAccount: this.userInfo.customerAccount
-    })
-      .then((res) => {
-        let petList = res.context.context;
-        if (petList.length > 0) {
-          let currentPet = petList.filter(
-            (el) => el.petsId === this.props.match.params.id
-          )[0];
-          this.setState({
-            loading: false,
-            showList: true,
-            petList
-          });
-          if (currentPet) {
-            this.edit(currentPet);
-            this.getSpecialNeeds(currentPet.customerPetsPropRelations);
-            this.setState({
-              currentPetId: currentPet.petsId,
-              currentPet: currentPet,
-              imgUrl: currentPet.petsImg.includes('http')
-                ? currentPet.petsImg
-                : ''
-            });
-          }
-        } else {
-          this.setState({
-            loading: false,
-            showList: false,
-            petList
-          });
-          this.add();
-        }
-      })
-      .catch((err) => {
-        this.setState({
-          loading: false
-        });
-        this.showErrorMsg(
-          err.message || this.props.intl.messages.getDataFailed
-        );
-      });
-  };
+  // getPetList = async () => {
+  //   if (!this.userInfo.customerAccount) {
+  //     this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
+  //     this.setState({
+  //       loading: false
+  //     });
+  //     return false;
+  //   }
+  //   await getPetList({
+  //     customerId: this.userInfo.customerId,
+  //     consumerAccount: this.userInfo.customerAccount
+  //   })
+  //     .then((res) => {
+  //       let petList = res.context.context;
+  //       if (petList.length > 0) {
+  //         let currentPet = petList.filter(
+  //           (el) => el.petsId === this.props.match.params.id
+  //         )[0];
+  //         this.setState({
+  //           loading: false,
+  //           showList: true,
+  //           petList
+  //         });
+  //         if (currentPet) {
+  //           this.edit(currentPet);
+  //           this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+  //           this.setState({
+  //             currentPetId: currentPet.petsId,
+  //             currentPet: currentPet,
+  //             imgUrl: currentPet.petsImg.includes('http')
+  //               ? currentPet.petsImg
+  //               : ''
+  //           });
+  //         }
+  //       } else {
+  //         this.setState({
+  //           loading: false,
+  //           showList: false,
+  //           petList
+  //         });
+  //         this.add();
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       this.setState({
+  //         loading: false
+  //       });
+  //       this.showErrorMsg(
+  //         err.message || this.props.intl.messages.getDataFailed
+  //       );
+  //     });
+  // };
 
   petsById = async (id) => {
     let params = {
@@ -359,9 +358,6 @@ class PetForm extends React.Component {
           this.setState({
             currentStep: currentStep
           });
-          setTimeout(() => {
-            this.getPetList();
-          }, 3000);
           this.props.history.push('/account/pets/');
         })
         .catch((err) => {
@@ -708,7 +704,6 @@ class PetForm extends React.Component {
     this.setState({
       loading: true
     });
-    this.getPetList();
   };
   updateConfirmTooltipVisible = (status) => {
     let { currentPet } = this.state;
@@ -778,7 +773,6 @@ class PetForm extends React.Component {
   handleErrMessage = () => {};
   render() {
     const {
-      petList,
       currentPet,
       selectedSpecialNeedsObj,
       selectedSizeObj,

@@ -405,7 +405,7 @@ class ProductReview extends React.Component {
                       </div>
                     </div>
 
-                    <div className="rc-layout-container rc-three-column">
+                    <div className="rc-border-bottom rc-border-colour--interface">
                       {/*<div className="rc-column rc-triple-width pad-left0 pad-right0">*/}
                       {/*    <ReviewList update={this.updateCurrent} />*/}
                       {/*</div>*/}
@@ -446,7 +446,9 @@ class ProductReview extends React.Component {
                               />
                             ))
                           : null}
-                        {this.state.productList.length > 0 ? (
+                      </div>
+                    </div>
+                    {this.state.productList.length > 0 ? (
                           <div className="rc-padding-top--sm">
                             <button
                               className="rc-btn rc-btn--sm rc-btn--two"
@@ -458,8 +460,6 @@ class ProductReview extends React.Component {
                             </button>
                           </div>
                         ) : null}
-                      </div>
-                    </div>
                   </div>
                 )}
               </div>
