@@ -534,7 +534,9 @@ class AccountOrders extends React.Component {
       address2: consignee.detailAddress2,
       rfc: consignee.rfc,
       country: consignee.countryId ? consignee.countryId.toString() : '',
-      city: consignee.cityId ? consignee.cityId.toString() : '',
+      // city: consignee.cityId ? consignee.cityId.toString() : '',
+      city: consignee.city == consignee.cityName ? null : consignee.city,
+      cityName: consignee.cityName,
       postCode: consignee.postCode,
       phoneNumber: consignee.phone,
       addressId: consignee.id
@@ -546,7 +548,9 @@ class AccountOrders extends React.Component {
       address2: invoice.address2,
       rfc: invoice.rfc,
       country: invoice.countryId ? invoice.countryId.toString() : '',
-      city: invoice.cityId ? invoice.cityId.toString() : '',
+      // city: invoice.cityId ? invoice.cityId.toString() : '',
+      city: invoice.city == invoice.cityName ? null : invoice.city,
+      cityName: invoice.cityName,
       postCode: invoice.postCode,
       phoneNumber: invoice.phone,
       addressId: invoice.addressId

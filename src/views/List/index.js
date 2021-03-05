@@ -1614,6 +1614,9 @@ class List extends React.Component {
           let goodsContent = esGoodsPage.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
+              const breedsAttr = ele.goodsAttributesValueRelVOAllList.filter(item => item.goodsAttributeName == 'breeds').map(t => t.goodsAttributeValueEn);
+              const technologyAttr = ele.goodsAttributesValueRelVOAllList.filter(item => item.goodsAttributeName == 'Technology').map(t => t.goodsAttributeValueEn);
+              const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
               let ret = Object.assign({}, ele, {
                 // 最低marketPrice对应的划线价
                 miLinePrice: ele.goodsInfos.sort(
@@ -1631,16 +1634,7 @@ class List extends React.Component {
                     e.showPage &&
                     e.showPage.includes('PLP')
                 )[0],
-                technologyOrBreedsAttr:
-                  isHub &&
-                  ele.goodsAttributesValueRelVOAllList
-                    .filter(
-                      (item) =>
-                        item.goodsAttributeName == 'Technology' ||
-                        item.goodsAttributeName == 'breeds'
-                    )
-                    .map((item) => item.goodsAttributeValueEn)
-                    .join(',')
+                technologyOrBreedsAttr: isHub && attrs
               });
               const tmpItem = find(
                 res.context.goodsList,
