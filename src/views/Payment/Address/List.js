@@ -249,7 +249,7 @@ class AddressList extends React.Component {
 
     if (idx > -1) {
       const tmp = addressList[idx];
-      console.log('--------------------- ★★★ add Or EditAddress data: ', tmp);
+      console.log('--------------------- ★★★ List add Or EditAddress data: ', tmp);
       if (process.env.REACT_APP_LANG === 'en') {
         tmpDeliveryAddress = {
           firstName: tmp.firstName,
@@ -316,7 +316,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------------------- 数据验证 data: ', data);
+    console.log('--------------------- List 数据验证 data: ', data);
     try {
       await validData(ADDRESS_RULE, data); // 数据验证
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
@@ -386,7 +386,7 @@ class AddressList extends React.Component {
           email: deliveryAddress.email,
           type: this.props.type.toUpperCase()
         };
-      }else{
+      } else {
         params = {
           address1: deliveryAddress.address1,
           address2: deliveryAddress.address2,
@@ -462,13 +462,21 @@ class AddressList extends React.Component {
         validationAddress: data
       });
     } else {
-      // 不校验地址，进入下一步
-      await this.handleSavePromise();
-      this.clickConfirmAddressPanel();
+      // 下一步
+      this.showNextPanel();
     }
   }
+  // 下一步
+  showNextPanel = async() => {
+    this.setState({
+      validationModalVisible: false
+    });
+    // 不校验地址，进入下一步
+    await this.handleSavePromise();
+    this.clickConfirmAddressPanel();
+  }
   // 点击地址验证确认按钮
-  confirmValidationAddress = async () => {
+  confirmValidationAddress = () => {
     const {
       deliveryAddress,
       selectValidationOption,
@@ -482,13 +490,10 @@ class AddressList extends React.Component {
       deliveryAddress.cityName = validationAddress.city;
       deliveryAddress.provinceName = validationAddress.provinceCode;
     }
-    this.setState({
-      validationModalVisible: false
-    });
-    await this.handleSavePromise();
-    this.clickConfirmAddressPanel();
+    // 下一步
+    this.showNextPanel();
   };
-  
+
   /**
    * 确认地址列表信息，并展示封面
    */
