@@ -119,6 +119,7 @@
     "build:stg_fr2": "dotenv -e .env.stage.fr2 node scripts/build.js",
     "build:stg_ru": "dotenv -e .env.stage.ru node scripts/build.js",
     "build:stg_tr": "dotenv -e .env.stage.tr node scripts/build.js",
+    "build:uat_fr2": "dotenv -e .env.uat.fr2 node scripts/build.js",
     "build:prod": "dotenv -e .env.production node scripts/build.js",
     "build:prod_mx": "dotenv -e .env.production.mx node scripts/build.js",
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
@@ -132,7 +133,8 @@
     "push:stg_fr2": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_fr2/fr/shop && rm -rf build_tmp",
     "push:stg_ru": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_ru && rm -rf build_tmp",
     "push:stg_tr": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_tr && rm -rf build_tmp",
-    "push:stg_us": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_us && rm -rf build_tmp"
+    "push:stg_us": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_us && rm -rf build_tmp",
+    "push:uat_fr2": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_fr3/fr/shop && rm -rf build_tmp"
   },
   "eslintConfig": {
     "extends": "react-app",
