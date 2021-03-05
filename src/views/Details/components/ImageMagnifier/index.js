@@ -7,7 +7,7 @@ import noPic from '@/assets/images/noPic.png';
 //import RightImg from '@/assets/images/right.png'
 import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
-let isMobile = getDeviceType() === 'H5';
+let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function getMuntiImg(img) {
   if (img) {

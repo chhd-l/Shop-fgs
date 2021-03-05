@@ -60,7 +60,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const isMobile = getDeviceType() !== 'PC';
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));

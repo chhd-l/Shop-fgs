@@ -154,7 +154,6 @@ export function getDeviceType() {
   } else {
     t = 'PC';
   }
-  console.log(navigator.userAgent.match(/(pad|iPad)/i), t, 'ttttt')
   return t;
 }
 
