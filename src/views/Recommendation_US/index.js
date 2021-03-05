@@ -858,370 +858,106 @@ class Recommendation extends React.Component {
             </section>
           </div>
           <div className="transparentSection">
-            <section className="recommendProduct re-custom">
-              {this.state.loading ? (
-                <div>
-                  <div
-                    className="recommendProductInner"
-                    style={{
-                      background: '#fff',
-                      minHeight: '600px'
-                    }}
-                  >
-                    <Skeleton
-                      color="#f5f5f5"
-                      width="100%"
-                      height="100%"
-                      count="3"
-                    />
-                  </div>
-                </div>
-              ) : (
-                productList.length > 0 && (
+            <section
+              className="recommendProduct re-custom rc-max-width--md"
+              style={{ paddingRight: 0, paddingLeft: 0 }}
+            >
+              <div style={{ boxShadow: '0 8px 15px rgb(0 0 0 / 10%)' }}>
+                {this.state.loading ? (
                   <div>
-                    <div className="recommendProductInner">
-                      <div className="imageTabBox">
-                        {productList.map((el, i) => (
-                          <span
-                            className={`${i === activeIndex ? 'active' : ''}`}
-                            style={{
-                              display: 'inline-block',
-                              width: '80px',
-                              textAlign: 'center',
-                              cursor: 'pointer'
-                            }}
-                            onClick={() => this.setState({ activeIndex: i })}
-                          >
-                            <img
-                              src={el.goodsInfo.goodsInfoImg}
-                              style={{
-                                width: '40px',
-                                display: 'inline-block',
-                                margin: '10px 0'
-                              }}
-                            />
-                            {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
-                            <p
-                              style={{
-                                textAlign: 'center',
-                                fontSize: '12px',
-                                marginBottom: '5px',
-                                width: '100%',
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis'
-                              }}
-                            >
-                              {el.goodsInfo.goodsInfoName}
-                            </p>
-                          </span>
-                        ))}
-                      </div>
-                      <div className="right rc-padding-x--lg ">
-                        <div className="main">
-                          <div className="pic">
-                            <ImageMagnifier
-                              sizeList={[productList[activeIndex].goodsInfo]}
-                              images={[productList[activeIndex].goodsInfo]}
-                              minImg={
-                                productList[activeIndex].goodsInfo.goodsInfoImg
-                              }
-                              maxImg={
-                                productList[activeIndex].goodsInfo.goodsInfoImg
-                              }
-                              config={false}
-                            />
-                          </div>
-                        </div>
-                        <div className="product-recommendation__desc text-center rc-padding-bottom--lg--mobile">
-                          <h3
-                            title={
-                              productList[activeIndex].goodsInfo.goodsInfoName
-                            }
-                            className="rc-gamma"
-                            style={{ color: '#E2001A' }}
-                          >
-                            {productList[activeIndex].goodsInfo.goodsInfoName}
-                          </h3>
-                          {/* <h4>
-                            From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
-                          </h4> */}
-                          {false && MaxLinePrice > 0 && (
-                            <div className="product-pricing__card__head d-flex align-items-center">
-                              <div className="rc-input product-pricing__card__head__title">
-                                <FormattedMessage id="listPrice" />
-                              </div>
-                              <div className="rc-large-body  m-auto">
-                                {MaxLinePrice > 0 ? (
-                                  MaxLinePrice === MinLinePrice ? (
-                                    <span>{formatMoney(MaxLinePrice)}</span>
-                                  ) : (
-                                    <span>
-                                      <FormattedMessage id="from" />{' '}
-                                      {formatMoney(MinLinePrice)}{' '}
-                                      <FormattedMessage id="to" />{' '}
-                                      {formatMoney(MaxLinePrice)}
-                                    </span>
-                                  )
-                                ) : null}
-                              </div>
-                            </div>
-                          )}
-                          {MaxSubPrice > 0 && (
-                            <div className="product-pricing__card__head d-flex align-items-center">
-                              {/* <div className="rc-input product-pricing__card__head__title">
-                                <FormattedMessage id="autoship" />
-                              </div> */}
-                              <div className="rc-large-body  m-auto">
-                                <FormattedMessage id="from" />{' '}
-                                {formatMoney(MinSubPrice)}{' '}
-                                <FormattedMessage id="to" />{' '}
-                                {formatMoney(MaxMarketPrice)}
-                              </div>
-                            </div>
-                          )}
-                          {this.state.showMore ? (
-                            <p
-                              className="product_info"
-                              dangerouslySetInnerHTML={createMarkup(tabDes)}
-                            ></p>
-                          ) : (
-                            <p
-                              className="product_info"
-                              style={{
-                                display: `${tabDesText ? '' : 'none'}`
-                              }}
-                            >
-                              {tabDesText}
-                              <strong
-                                style={{
-                                  whiteSpace: 'nowrap',
-                                  cursor: 'pointer'
-                                }}
-                                onClick={this.seeMore}
-                              >
-                                see more
-                              </strong>
-                            </p>
-                          )}
-                        </div>
-                        <div
-                          className=" text-center product_info"
-                          style={{ position: 'relative' }}
-                        >
-                          <img
-                            className="type-icon"
-                            src={catAndDog}
-                            // src={petsiconArr[this.state.petType]}
-                          />
-                          <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
-                            <div className="">
-                              {productList[activeIndex]?.productMessage}
-                              {/* Recommended feeding amounts are located on the
-                              back of the bag. Make sure you transition food
-                              slowly over the course of the week to help prevent
-                              stomach upset. */}
-                            </div>
-                            {/* <h6>Cute Puppy Breeding</h6>
-                            <div>994 Drummond Street, Newmark, New Jersey</div> */}
-                          </div>
-                          <div className="rc-margin-bottom--none rc-meta text-center w-100">
-                            Royal Canin's feeding guidelines can also be found
-                            on the product packaging.
-                          </div>
-                        </div>
-
-                        {productList[activeIndex].benefit ? (
-                          <React.Fragment>
-                            <p className="benefit product_info">
-                              <h5
-                                className="red"
-                                style={{
-                                  margin: '30px 0 20px',
-                                  fontSize: isMobile ? '18px' : 'auto'
-                                }}
-                              >
-                                Les bénéfices
-                              </h5>
-                              <p
-                                style={{ fontSize: 'auto' }}
-                                dangerouslySetInnerHTML={createMarkup(
-                                  productList[activeIndex].benefit
-                                )}
-                              ></p>
-                              <p
-                                style={{ fontSize: '16px' }}
-                                dangerouslySetInnerHTML={createMarkup(
-                                  productList[activeIndex].benefitMobile
-                                )}
-                              ></p>
-                              {/* <p>{productList[activeIndex]}</p> */}
-                            </p>
-                          </React.Fragment>
-                        ) : null}
-
-                        <p
-                          style={{
-                            marginTop: '30px',
-                            textAlign: 'center',
-                            marginBottom: isMobile ? '0' : '30px'
-                          }}
-                        >
-                          <button
-                            className={`rc-btn rc-btn--one rc-btn--sm ${
-                              this.state.buttonLoading ? 'ui-btn-loading' : ''
-                            } ${
-                              this.state.inStockProducts.length
-                                ? ''
-                                : 'rc-btn-solid-disabled'
-                            }`}
-                            onClick={this.addCart}
-                          >
-                            <FormattedMessage id="recommendation.viewInCart" />
-                          </button>
-                        </p>
-                      </div>
-                    </div>
                     <div
-                      className="recommendProductInnerMobile"
+                      className="recommendProductInner"
                       style={{
-                        // display: isMobile ? 'block' : 'none'
-                        display: 'none'
+                        background: '#fff',
+                        minHeight: '600px'
                       }}
                     >
-                      <div className="top">
-                        <div
-                          style={{
-                            padding: '32px 20px',
-                            textAlign: 'center',
-                            fontWeight: '500',
-                            float: 'left'
-                          }}
-                        >
-                          <FormattedMessage id="recommendation.recommendationPackage" />
-                        </div>
-                        <p
-                          ref="p"
-                          style={{ marginTop: '60px', textAlign: 'left' }}
-                        >
-                          {loginStore.isLogin ? (
-                            <button
-                              ref="loginButton"
-                              className={`rc-btn rc-btn--one ${
-                                this.state.buttonLoading ? 'ui-btn-loading' : ''
-                              }`}
-                              onClick={() => this.buyNow()}
-                            >
-                              <FormattedMessage id="recommendation.buyNow" />
-                            </button>
-                          ) : (
-                            <LoginButton
-                              beforeLoginCallback={async () =>
-                                this.buyNow(true)
-                              }
-                              btnClass={`rc-btn rc-btn--one ${
-                                this.state.buttonLoading ? 'ui-btn-loading' : ''
-                              } ${
-                                this.state.inStockProducts.length
-                                  ? ''
-                                  : 'rc-btn-solid-disabled'
-                              }`}
-                              history={history}
-                            >
-                              <FormattedMessage id="checkout" />
-                            </LoginButton>
-                          )}
-                          {!loginStore.isLogin && (
-                            <button
-                              className={`rc-styled-link color-999`}
-                              onClick={() => {
-                                // this.hanldeUnloginAddToCart(
-                                //   productList,
-                                //   '/prescription'
-                                // );
-                                this.buyNow();
-                              }}
-                            >
-                              <FormattedMessage id="guestCheckout" />
-                            </button>
-                          )}
-                        </p>
-                        <ul
-                          style={{
-                            overflow: 'hidden',
-                            marginTop: '40px',
-                            display: 'inline-block'
-                          }}
-                        >
+                      <Skeleton
+                        color="#f5f5f5"
+                        width="100%"
+                        height="100%"
+                        count="3"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  productList.length > 0 && (
+                    <div>
+                      <div className="recommendProductInner">
+                        <div className="imageTabBox">
                           {productList.map((el, i) => (
-                            <li
-                              onClick={() => this.setState({ activeIndex: i })}
+                            <span
                               className={`${i === activeIndex ? 'active' : ''}`}
+                              style={{
+                                display: 'inline-block',
+                                width: '80px',
+                                textAlign: 'center',
+                                cursor: 'pointer'
+                              }}
+                              onClick={() => this.setState({ activeIndex: i })}
                             >
-                              <i></i>
-                              <LazyLoad>
-                                <img
-                                  alt=""
-                                  style={{ height: '65px' }}
-                                  src={
-                                    el.goodsInfo.goodsInfoImg ||
-                                    el.goodsInfo.goods.goodsImg
-                                  }
-                                />
-                              </LazyLoad>
-                              <span className="proName">
+                              <img
+                                src={el.goodsInfo.goodsInfoImg}
+                                style={{
+                                  width: '40px',
+                                  display: 'inline-block',
+                                  margin: '10px 0'
+                                }}
+                              />
+                              {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
+                              <p
+                                style={{
+                                  textAlign: 'center',
+                                  fontSize: '12px',
+                                  marginBottom: '5px',
+                                  width: '100%',
+                                  overflow: 'hidden',
+                                  whiteSpace: 'nowrap',
+                                  textOverflow: 'ellipsis'
+                                }}
+                              >
                                 {el.goodsInfo.goodsInfoName}
-                              </span>
-                              <span className="proName">
-                                {el.goodsInfo.specText}
-                              </span>
-                              <span>X {el.recommendationNumber}</span>
-                            </li>
+                              </p>
+                            </span>
                           ))}
-                        </ul>
-                      </div>
-                      <div className="right">
-                        <div className="main">
-                          <div className="pic">
-                            <ImageMagnifier
-                              sizeList={[productList[activeIndex].goodsInfo]}
-                              // video={details.goodsVideo}
-                              images={[productList[activeIndex].goodsInfo]}
-                              minImg={
-                                productList[activeIndex].goodsInfo.goodsInfoImg
-                              }
-                              maxImg={
-                                productList[activeIndex].goodsInfo.goodsInfoImg
-                              }
-                              config={false}
-                            />
+                        </div>
+                        <div className="right rc-padding-x--lg ">
+                          <div className="main">
+                            <div className="pic">
+                              <ImageMagnifier
+                                sizeList={[productList[activeIndex].goodsInfo]}
+                                images={[productList[activeIndex].goodsInfo]}
+                                minImg={
+                                  productList[activeIndex].goodsInfo
+                                    .goodsInfoImg
+                                }
+                                maxImg={
+                                  productList[activeIndex].goodsInfo
+                                    .goodsInfoImg
+                                }
+                                config={false}
+                              />
+                            </div>
                           </div>
-
-                          <div className="text">
-                            <h2
+                          <div className="product-recommendation__desc text-center rc-padding-bottom--lg--mobile">
+                            <h3
                               title={
                                 productList[activeIndex].goodsInfo.goodsInfoName
                               }
-                              className="rc-gamma ui-text-overflow-line2 text-break"
-                              style={{ color: '#E2001A', marginTop: '3rem' }}
+                              className="rc-gamma"
+                              style={{ color: '#E2001A' }}
                             >
                               {productList[activeIndex].goodsInfo.goodsInfoName}
-                            </h2>
-                            {MaxLinePrice > 0 && (
-                              <div
-                                className="product-pricing__card__head d-flex align-items-center"
-                                style={{ fontSize: '1.2rem' }}
-                              >
+                            </h3>
+                            {/* <h4>
+                            From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
+                          </h4> */}
+                            {false && MaxLinePrice > 0 && (
+                              <div className="product-pricing__card__head d-flex align-items-center">
                                 <div className="rc-input product-pricing__card__head__title">
                                   <FormattedMessage id="listPrice" />
                                 </div>
-                                <b
-                                  className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
-                                  style={{
-                                    fontWeight: '200',
-                                    color: 'rgba(102,102,102,.7)'
-                                  }}
-                                >
+                                <div className="rc-large-body  m-auto">
                                   {MaxLinePrice > 0 ? (
                                     MaxLinePrice === MinLinePrice ? (
                                       <span>{formatMoney(MaxLinePrice)}</span>
@@ -1229,49 +965,304 @@ class Recommendation extends React.Component {
                                       <span>
                                         <FormattedMessage id="from" />{' '}
                                         {formatMoney(MinLinePrice)}{' '}
-                                        <FormattedMessage id="à" />{' '}
+                                        <FormattedMessage id="to" />{' '}
                                         {formatMoney(MaxLinePrice)}
                                       </span>
                                     )
                                   ) : null}
-                                </b>
+                                </div>
                               </div>
                             )}
-                            <div
-                              className="product-pricing__card__head d-flex align-items-center"
-                              style={{ fontSize: '1.2rem' }}
-                            >
-                              <div className="rc-input product-pricing__card__head__title">
-                                <FormattedMessage id="price" />
+                            {MaxSubPrice > 0 && (
+                              <div className="product-pricing__card__head d-flex align-items-center">
+                                {/* <div className="rc-input product-pricing__card__head__title">
+                                <FormattedMessage id="autoship" />
+                              </div> */}
+                                <div className="rc-large-body  m-auto">
+                                  <FormattedMessage id="from" />{' '}
+                                  {formatMoney(MinSubPrice)}{' '}
+                                  <FormattedMessage id="to" />{' '}
+                                  {formatMoney(MaxMarketPrice)}
+                                </div>
                               </div>
-                              <b
-                                className="rc-padding-y--none"
+                            )}
+                            {this.state.showMore ? (
+                              <p
+                                className="product_info"
+                                dangerouslySetInnerHTML={createMarkup(tabDes)}
+                              ></p>
+                            ) : (
+                              <p
+                                className="product_info"
                                 style={{
-                                  fontWeight: '200'
-                                  // color: 'rgba(102,102,102,.7)'
+                                  display: `${tabDesText ? '' : 'none'}`
                                 }}
                               >
-                                {MaxMarketPrice > 0 ? (
-                                  MaxMarketPrice === MinMarketPrice ? (
-                                    <span>{formatMoney(MaxMarketPrice)}</span>
-                                  ) : (
-                                    <span>
-                                      <FormattedMessage id="from" />{' '}
-                                      {formatMoney(MinMarketPrice)}{' '}
-                                      <FormattedMessage id="à" />{' '}
-                                      {formatMoney(MaxMarketPrice)}
-                                    </span>
-                                  )
-                                ) : null}
-                              </b>
+                                {tabDesText}
+                                <strong
+                                  style={{
+                                    whiteSpace: 'nowrap',
+                                    cursor: 'pointer'
+                                  }}
+                                  onClick={this.seeMore}
+                                >
+                                  see more
+                                </strong>
+                              </p>
+                            )}
+                          </div>
+                          <div
+                            className=" text-center"
+                            style={{ position: 'relative' }}
+                          >
+                            <img
+                              className="type-icon"
+                              src={catAndDog}
+                              // src={petsiconArr[this.state.petType]}
+                            />
+                            <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
+                              <div className="">
+                                {productList[activeIndex]?.productMessage}
+                                {/* Recommended feeding amounts are located on the
+                              back of the bag. Make sure you transition food
+                              slowly over the course of the week to help prevent
+                              stomach upset. */}
+                              </div>
+                              {/* <h6>Cute Puppy Breeding</h6>
+                            <div>994 Drummond Street, Newmark, New Jersey</div> */}
                             </div>
-                            {MaxSubPrice > 0 && (
+                            <div className="rc-margin-bottom--none rc-meta text-center w-100">
+                              Royal Canin's feeding guidelines can also be found
+                              on the product packaging.
+                            </div>
+                          </div>
+
+                          {productList[activeIndex].benefit ? (
+                            <React.Fragment>
+                              <p className="benefit product_info">
+                                <h5
+                                  className="red"
+                                  style={{
+                                    margin: '30px 0 20px',
+                                    fontSize: isMobile ? '18px' : 'auto'
+                                  }}
+                                >
+                                  Les bénéfices
+                                </h5>
+                                <p
+                                  style={{ fontSize: 'auto' }}
+                                  dangerouslySetInnerHTML={createMarkup(
+                                    productList[activeIndex].benefit
+                                  )}
+                                ></p>
+                                <p
+                                  style={{ fontSize: '16px' }}
+                                  dangerouslySetInnerHTML={createMarkup(
+                                    productList[activeIndex].benefitMobile
+                                  )}
+                                ></p>
+                                {/* <p>{productList[activeIndex]}</p> */}
+                              </p>
+                            </React.Fragment>
+                          ) : null}
+
+                          <p
+                            style={{
+                              marginTop: '30px',
+                              textAlign: 'center',
+                              marginBottom: isMobile ? '0' : '30px'
+                            }}
+                          >
+                            <button
+                              className={`rc-btn rc-btn--one rc-btn--sm ${
+                                this.state.buttonLoading ? 'ui-btn-loading' : ''
+                              } ${
+                                this.state.inStockProducts.length
+                                  ? ''
+                                  : 'rc-btn-solid-disabled'
+                              }`}
+                              onClick={this.addCart}
+                            >
+                              <FormattedMessage id="recommendation.viewInCart" />
+                            </button>
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        className="recommendProductInnerMobile"
+                        style={{
+                          // display: isMobile ? 'block' : 'none'
+                          display: 'none'
+                        }}
+                      >
+                        <div className="top">
+                          <div
+                            style={{
+                              padding: '32px 20px',
+                              textAlign: 'center',
+                              fontWeight: '500',
+                              float: 'left'
+                            }}
+                          >
+                            <FormattedMessage id="recommendation.recommendationPackage" />
+                          </div>
+                          <p
+                            ref="p"
+                            style={{ marginTop: '60px', textAlign: 'left' }}
+                          >
+                            {loginStore.isLogin ? (
+                              <button
+                                ref="loginButton"
+                                className={`rc-btn rc-btn--one ${
+                                  this.state.buttonLoading
+                                    ? 'ui-btn-loading'
+                                    : ''
+                                }`}
+                                onClick={() => this.buyNow()}
+                              >
+                                <FormattedMessage id="recommendation.buyNow" />
+                              </button>
+                            ) : (
+                              <LoginButton
+                                beforeLoginCallback={async () =>
+                                  this.buyNow(true)
+                                }
+                                btnClass={`rc-btn rc-btn--one ${
+                                  this.state.buttonLoading
+                                    ? 'ui-btn-loading'
+                                    : ''
+                                } ${
+                                  this.state.inStockProducts.length
+                                    ? ''
+                                    : 'rc-btn-solid-disabled'
+                                }`}
+                                history={history}
+                              >
+                                <FormattedMessage id="checkout" />
+                              </LoginButton>
+                            )}
+                            {!loginStore.isLogin && (
+                              <button
+                                className={`rc-styled-link color-999`}
+                                onClick={() => {
+                                  // this.hanldeUnloginAddToCart(
+                                  //   productList,
+                                  //   '/prescription'
+                                  // );
+                                  this.buyNow();
+                                }}
+                              >
+                                <FormattedMessage id="guestCheckout" />
+                              </button>
+                            )}
+                          </p>
+                          <ul
+                            style={{
+                              overflow: 'hidden',
+                              marginTop: '40px',
+                              display: 'inline-block'
+                            }}
+                          >
+                            {productList.map((el, i) => (
+                              <li
+                                onClick={() =>
+                                  this.setState({ activeIndex: i })
+                                }
+                                className={`${
+                                  i === activeIndex ? 'active' : ''
+                                }`}
+                              >
+                                <i></i>
+                                <LazyLoad>
+                                  <img
+                                    alt=""
+                                    style={{ height: '65px' }}
+                                    src={
+                                      el.goodsInfo.goodsInfoImg ||
+                                      el.goodsInfo.goods.goodsImg
+                                    }
+                                  />
+                                </LazyLoad>
+                                <span className="proName">
+                                  {el.goodsInfo.goodsInfoName}
+                                </span>
+                                <span className="proName">
+                                  {el.goodsInfo.specText}
+                                </span>
+                                <span>X {el.recommendationNumber}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="right">
+                          <div className="main">
+                            <div className="pic">
+                              <ImageMagnifier
+                                sizeList={[productList[activeIndex].goodsInfo]}
+                                // video={details.goodsVideo}
+                                images={[productList[activeIndex].goodsInfo]}
+                                minImg={
+                                  productList[activeIndex].goodsInfo
+                                    .goodsInfoImg
+                                }
+                                maxImg={
+                                  productList[activeIndex].goodsInfo
+                                    .goodsInfoImg
+                                }
+                                config={false}
+                              />
+                            </div>
+
+                            <div className="text">
+                              <h2
+                                title={
+                                  productList[activeIndex].goodsInfo
+                                    .goodsInfoName
+                                }
+                                className="rc-gamma ui-text-overflow-line2 text-break"
+                                style={{ color: '#E2001A', marginTop: '3rem' }}
+                              >
+                                {
+                                  productList[activeIndex].goodsInfo
+                                    .goodsInfoName
+                                }
+                              </h2>
+                              {MaxLinePrice > 0 && (
+                                <div
+                                  className="product-pricing__card__head d-flex align-items-center"
+                                  style={{ fontSize: '1.2rem' }}
+                                >
+                                  <div className="rc-input product-pricing__card__head__title">
+                                    <FormattedMessage id="listPrice" />
+                                  </div>
+                                  <b
+                                    className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
+                                    style={{
+                                      fontWeight: '200',
+                                      color: 'rgba(102,102,102,.7)'
+                                    }}
+                                  >
+                                    {MaxLinePrice > 0 ? (
+                                      MaxLinePrice === MinLinePrice ? (
+                                        <span>{formatMoney(MaxLinePrice)}</span>
+                                      ) : (
+                                        <span>
+                                          <FormattedMessage id="from" />{' '}
+                                          {formatMoney(MinLinePrice)}{' '}
+                                          <FormattedMessage id="à" />{' '}
+                                          {formatMoney(MaxLinePrice)}
+                                        </span>
+                                      )
+                                    ) : null}
+                                  </b>
+                                </div>
+                              )}
                               <div
                                 className="product-pricing__card__head d-flex align-items-center"
                                 style={{ fontSize: '1.2rem' }}
                               >
                                 <div className="rc-input product-pricing__card__head__title">
-                                  <FormattedMessage id="autoship" />
+                                  <FormattedMessage id="price" />
                                 </div>
                                 <b
                                   className="rc-padding-y--none"
@@ -1280,59 +1271,89 @@ class Recommendation extends React.Component {
                                     // color: 'rgba(102,102,102,.7)'
                                   }}
                                 >
-                                  {MaxSubPrice > 0 ? (
-                                    MaxSubPrice === MinSubPrice ? (
-                                      <span>{formatMoney(MaxSubPrice)}</span>
+                                  {MaxMarketPrice > 0 ? (
+                                    MaxMarketPrice === MinMarketPrice ? (
+                                      <span>{formatMoney(MaxMarketPrice)}</span>
                                     ) : (
                                       <span>
                                         <FormattedMessage id="from" />{' '}
-                                        {formatMoney(MinSubPrice)}{' '}
+                                        {formatMoney(MinMarketPrice)}{' '}
                                         <FormattedMessage id="à" />{' '}
-                                        {formatMoney(MaxSubPrice)}
+                                        {formatMoney(MaxMarketPrice)}
                                       </span>
                                     )
                                   ) : null}
                                 </b>
                               </div>
-                            )}
+                              {MaxSubPrice > 0 && (
+                                <div
+                                  className="product-pricing__card__head d-flex align-items-center"
+                                  style={{ fontSize: '1.2rem' }}
+                                >
+                                  <div className="rc-input product-pricing__card__head__title">
+                                    <FormattedMessage id="autoship" />
+                                  </div>
+                                  <b
+                                    className="rc-padding-y--none"
+                                    style={{
+                                      fontWeight: '200'
+                                      // color: 'rgba(102,102,102,.7)'
+                                    }}
+                                  >
+                                    {MaxSubPrice > 0 ? (
+                                      MaxSubPrice === MinSubPrice ? (
+                                        <span>{formatMoney(MaxSubPrice)}</span>
+                                      ) : (
+                                        <span>
+                                          <FormattedMessage id="from" />{' '}
+                                          {formatMoney(MinSubPrice)}{' '}
+                                          <FormattedMessage id="à" />{' '}
+                                          {formatMoney(MaxSubPrice)}
+                                        </span>
+                                      )
+                                    ) : null}
+                                  </b>
+                                </div>
+                              )}
 
-                            <p>
-                              {productList[activeIndex].goodsInfo.goods
-                                .goodsDescription || ''}
-                            </p>
-                            <p>
-                              <button
-                                className="rc-btn rc-btn--two mb-3 mt-2"
-                                onClick={() => {
-                                  history.push(
-                                    '/details/' +
-                                      productList[activeIndex].goodsInfo
-                                        .goodsInfoId
-                                  );
-                                }}
-                              >
-                                <FormattedMessage id="recommendation.viewDetail" />
-                              </button>
-                            </p>
+                              <p>
+                                {productList[activeIndex].goodsInfo.goods
+                                  .goodsDescription || ''}
+                              </p>
+                              <p>
+                                <button
+                                  className="rc-btn rc-btn--two mb-3 mt-2"
+                                  onClick={() => {
+                                    history.push(
+                                      '/details/' +
+                                        productList[activeIndex].goodsInfo
+                                          .goodsInfoId
+                                    );
+                                  }}
+                                >
+                                  <FormattedMessage id="recommendation.viewDetail" />
+                                </button>
+                              </p>
+                            </div>
                           </div>
-                        </div>
 
-                        <p
-                          style={{
-                            textAlign: 'center',
-                            fontSize: '12px',
-                            color: '#ccc',
-                            marginBottom: '60px',
-                            letterSpacing: '0'
-                          }}
-                        >
-                          <FormattedMessage id="recommendation.productDescription" />
-                        </p>
+                          <p
+                            style={{
+                              textAlign: 'center',
+                              fontSize: '12px',
+                              color: '#ccc',
+                              marginBottom: '60px',
+                              letterSpacing: '0'
+                            }}
+                          >
+                            <FormattedMessage id="recommendation.productDescription" />
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              )}
+                  )
+                )}
+              </div>
             </section>
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
@@ -1421,11 +1442,15 @@ class Recommendation extends React.Component {
           <div className="help-container">
             <Help contentText={this.helpContentText} needReverse={false} />
           </div>
-          <section style={{ textAlign: 'center' }}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+          <LineModule />
+          <section
+            style={{ textAlign: 'center' }}
+            className="rc-max-width--md text-center rc-margin-y--md"
+          >
+            <h2 style={{ color: '#E2001A' }}>
               <FormattedMessage id="recommendation.fourTitle" />
             </h2>
-            <p>
+            <p style={{ fontSize: '18px' }}>
               We focus our attention on the unique needs of cats and dogs. That
               obsession with detail is what makes it possible for us to deliver
               precise, effective nutrition and help pets become their

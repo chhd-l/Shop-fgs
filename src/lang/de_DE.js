@@ -1181,7 +1181,8 @@ const de_DE = {
   'smartFeederSubscription.restart': 'redémarrage',//restart
   mustChooseACommunicationMethodTip: 'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen',
   'bannerTip.btnText': 'Weitere Informationen',
-  'cart.delivery': 'Lieferkosten'
+  'cart.delivery': 'Lieferkosten',
+  'promotion.firstOrderDiscount': 'Rabatt erster Bestellung',
 };
   
 export default de_DE;

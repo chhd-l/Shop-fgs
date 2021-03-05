@@ -856,6 +856,7 @@ const es_ES = {
   'validPromotionCode': 'No se puede agregar el cupón de descuento a su carrito',
   mustChooseACommunicationMethodTip: 'Lo sentimos, verificó el consentimiento de comunicación, por lo que debe elegir un método de comunicación',
   'bannerTip.btnText': 'Más información',
-  'cart.delivery': 'Envío'
+  'cart.delivery': 'Envío',
+  'promotion.firstOrderDiscount': 'Descuento de primer pedido',
 }
 export default es_ES;

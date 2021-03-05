@@ -42,8 +42,11 @@ const pageLink = window.location.href;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: on, 1: off
 const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
-// 买入价格开关 0：含税，1：不含税
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context || 0;
+// 买入价格开关 0：Inclusive of tax，1：Exclusive of tax
+const enterPriceType =
+  (storeInfo?.systemTaxSetting?.configVOList &&
+    storeInfo?.systemTaxSetting?.configVOList[1]?.context) ||
+  1;
 
 function HeadTip(props) {
   console.log(props, 'props');
@@ -85,9 +88,11 @@ function LogisticsProgress(props) {
     <ul className="text-break">
       {(props.list || []).map((item, i) => (
         <li
-          className={`logi-item align-items-center ${item.active ? 'active' : ''
-            } ${!hasMoreLessOperation || !i || moreLogistics ? 'd-flex' : 'hidden'
-            }`}
+          className={`logi-item align-items-center ${
+            item.active ? 'active' : ''
+          } ${
+            !hasMoreLessOperation || !i || moreLogistics ? 'd-flex' : 'hidden'
+          }`}
           key={i}
         >
           <span className={`logi-time text-right ${customDateCls}`}>
@@ -359,7 +364,7 @@ class AccountOrders extends React.Component {
             tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
             tradeState.payState === 'NOT_PAID' &&
             new Date(resContext.orderTimeOut).getTime() >
-            new Date(res.defaultLocalDateTime).getTime() &&
+              new Date(res.defaultLocalDateTime).getTime() &&
             (!resContext.payWay || resContext.payWay.toUpperCase() !== 'OXXO')
         });
       })
@@ -438,19 +443,21 @@ class AccountOrders extends React.Component {
           </a>
           <div id="bottom-tooltip" className="rc-tooltip text-left pl-1 pr-1">
             <div
-              className={`border-bottom p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading
-                ? 'ui-btn-loading ui-btn-loading-border-red'
-                : ''
-                }`}
+              className={`border-bottom p-1 ui-cursor-pointer ${
+                this.props.returnOrExchangeLoading
+                  ? 'ui-btn-loading ui-btn-loading-border-red'
+                  : ''
+              }`}
               onClick={() => this.hanldeItemClick('exchange')}
             >
               <FormattedMessage id="order.return" />
             </div>
             <div
-              className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading
-                ? 'ui-btn-loading ui-btn-loading-border-red'
-                : ''
-                }`}
+              className={`p-1 ui-cursor-pointer ${
+                this.props.returnOrExchangeLoading
+                  ? 'ui-btn-loading ui-btn-loading-border-red'
+                  : ''
+              }`}
               onClick={() => this.hanldeItemClick('return')}
             >
               <FormattedMessage id="order.exchange" />
@@ -466,7 +473,7 @@ class AccountOrders extends React.Component {
     let ret = <span />;
     if (
       new Date(this.state.defaultLocalDateTime).getTime() <
-      new Date(details.orderTimeOut).getTime() &&
+        new Date(details.orderTimeOut).getTime() &&
       details.tradeState.flowState === 'AUDIT' &&
       details.tradeState.deliverStatus === 'NOT_YET_SHIPPED'
     ) {
@@ -482,10 +489,11 @@ class AccountOrders extends React.Component {
           </a>
           <div id="bottom-tooltip" className="rc-tooltip text-left pl-1 pr-1">
             <div
-              className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading
-                ? 'ui-btn-loading ui-btn-loading-border-red'
-                : ''
-                }`}
+              className={`p-1 ui-cursor-pointer ${
+                this.props.returnOrExchangeLoading
+                  ? 'ui-btn-loading ui-btn-loading-border-red'
+                  : ''
+              }`}
               onClick={() => {
                 this.setState({ cancelOrderModalVisible: true });
               }}
@@ -584,8 +592,8 @@ class AccountOrders extends React.Component {
     const filteredLogisticsList = logisticsList
       .map((ele) =>
         ele.syncLogisticsInfo &&
-          ele.syncLogisticsInfo.originInfo &&
-          ele.syncLogisticsInfo.originInfo.trackInfo
+        ele.syncLogisticsInfo.originInfo &&
+        ele.syncLogisticsInfo.originInfo.trackInfo
           ? ele
           : null
       )
@@ -599,10 +607,11 @@ class AccountOrders extends React.Component {
                 <nav className="rc-bg-colour--brand4 p-3">
                   {logisticsList.map((item, i) => (
                     <span
-                      className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${activeTabIdx === i
-                        ? 'active red rc-bg-colour--brand3'
-                        : ''
-                        }`}
+                      className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
+                        activeTabIdx === i
+                          ? 'active red rc-bg-colour--brand3'
+                          : ''
+                      }`}
                       onClick={this.changeTab.bind(this, i)}
                       key={i}
                     >
@@ -779,10 +788,11 @@ class AccountOrders extends React.Component {
                       {canPayNow ? (
                         <>
                           <span
-                            className={`red ui-cursor-pointer ${payNowLoading
-                              ? 'ui-btn-loading ui-btn-loading-border-red'
-                              : ''
-                              }`}
+                            className={`red ui-cursor-pointer ${
+                              payNowLoading
+                                ? 'ui-btn-loading ui-btn-loading-border-red'
+                                : ''
+                            }`}
                             onClick={this.handleClickPayNow}
                           >
                             <span className={`red rc-styled-link mr-2`}>
@@ -994,20 +1004,21 @@ class AccountOrders extends React.Component {
                     </span>
                   </span>
                 ) : (
-                    <Link
-                      to="/account/orders"
-                      className="rc-md-down mt-3 inlineblock"
-                    >
-                      <span className="red">&lt;</span>
-                      <span className="rc-styled-link rc-progress__breadcrumb ml-2">
-                        <FormattedMessage id="account.ordersTitle" />
-                      </span>
-                    </Link>
-                  )}
+                  <Link
+                    to="/account/orders"
+                    className="rc-md-down mt-3 inlineblock"
+                  >
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2">
+                      <FormattedMessage id="account.ordersTitle" />
+                    </span>
+                  </Link>
+                )}
 
                 <div
-                  className={`row justify-content-center mt-3 mt-md-0 ${showLogisticsDetail ? 'hidden' : ''
-                    }`}
+                  className={`row justify-content-center mt-3 mt-md-0 ${
+                    showLogisticsDetail ? 'hidden' : ''
+                  }`}
                 >
                   <div className="order_listing_details col-12 no-padding">
                     <div className="card confirm-details orderDetailsPage ml-0 mr-0 border-0">
@@ -1068,11 +1079,13 @@ class AccountOrders extends React.Component {
                                 {progressList.map((item, i) => (
                                   <>
                                     <span
-                                      className={`od-prg-text position-relative ${!i ? 'ml-3' : ''
-                                        } ${i <= currentProgerssIndex
+                                      className={`od-prg-text position-relative ${
+                                        !i ? 'ml-3' : ''
+                                      } ${
+                                        i <= currentProgerssIndex
                                           ? 'compelete red'
                                           : ''
-                                        }`}
+                                      }`}
                                     >
                                       {i <= currentProgerssIndex ? (
                                         <svg
@@ -1086,10 +1099,10 @@ class AccountOrders extends React.Component {
                                           <use xlinkHref="#iconwancheng" />
                                         </svg>
                                       ) : (
-                                          <span className="od-prg-icon inlineblock text-white">
-                                            {i + 1}
-                                          </span>
-                                        )}
+                                        <span className="od-prg-icon inlineblock text-white">
+                                          {i + 1}
+                                        </span>
+                                      )}
                                       <span className="ml-1 rc-md-up">
                                         {item.displayName}
                                       </span>
@@ -1120,12 +1133,13 @@ class AccountOrders extends React.Component {
                                     </span>
                                     {i !== progressList.length - 1 ? (
                                       <span
-                                        className={`od-prg-line position-relative flex-fill ml-2 mr-2 ${i < currentProgerssIndex
-                                          ? 'complete'
-                                          : i == currentProgerssIndex
+                                        className={`od-prg-line position-relative flex-fill ml-2 mr-2 ${
+                                          i < currentProgerssIndex
+                                            ? 'complete'
+                                            : i == currentProgerssIndex
                                             ? 'ing'
                                             : ''
-                                          }`}
+                                        }`}
                                       />
                                     ) : null}
                                   </>
@@ -1161,14 +1175,14 @@ class AccountOrders extends React.Component {
 
                                 {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
                                   'true' && (
-                                    <div className="col-12 col-md-4 text-left mb-2">
-                                      <FormattedMessage id="payment.clinicTitle3" />
-                                      <br />
-                                      <span className="medium">
-                                        {details.clinicsName}
-                                      </span>
-                                    </div>
-                                  )}
+                                  <div className="col-12 col-md-4 text-left mb-2">
+                                    <FormattedMessage id="payment.clinicTitle3" />
+                                    <br />
+                                    <span className="medium">
+                                      {details.clinicsName}
+                                    </span>
+                                  </div>
+                                )}
                                 {/* {this.returnOrExchangeBtnJSX()} */}
                                 {/* {this.cancelOrderBtnJSX()} */}
                               </div>
@@ -1179,11 +1193,13 @@ class AccountOrders extends React.Component {
                                   {details.tradeItems.map((item, i) => (
                                     <div className="border-bottom p-2" key={i}>
                                       <div
-                                        className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0 ${i ? 'pt-3' : ''
-                                          } ${i !== details.tradeItems.length - 1
+                                        className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0 ${
+                                          i ? 'pt-3' : ''
+                                        } ${
+                                          i !== details.tradeItems.length - 1
                                             ? 'pb-3'
                                             : ''
-                                          }`}
+                                        }`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
                                           <LazyLoad classNamePrefix="d-flex justify-content-center align-items-center">
@@ -1217,23 +1233,23 @@ class AccountOrders extends React.Component {
 
                                             <span className="rc-md-down">
                                               {details.subscriptionResponseVO &&
-                                                item.subscriptionStatus ? (
-                                                  <>
-                                                    <span className="red font-weight-normal">
-                                                      {formatMoney(
-                                                        item.subscriptionPrice
-                                                      )}
-                                                    </span>
+                                              item.subscriptionStatus ? (
+                                                <>
+                                                  <span className="red font-weight-normal">
+                                                    {formatMoney(
+                                                      item.subscriptionPrice
+                                                    )}
+                                                  </span>
 
-                                                    <span className="text-line-through ml-2">
-                                                      {formatMoney(
-                                                        item.originalPrice
-                                                      )}
-                                                    </span>
-                                                  </>
-                                                ) : (
-                                                  formatMoney(item.originalPrice)
-                                                )}
+                                                  <span className="text-line-through ml-2">
+                                                    {formatMoney(
+                                                      item.originalPrice
+                                                    )}
+                                                  </span>
+                                                </>
+                                              ) : (
+                                                formatMoney(item.originalPrice)
+                                              )}
                                             </span>
                                             {/* {details.subscriptionResponseVO &&
                                               item.subscriptionStatus && (
@@ -1258,23 +1274,23 @@ class AccountOrders extends React.Component {
                                         </div>
                                         <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
                                           {details.subscriptionResponseVO &&
-                                            item.subscriptionStatus ? (
-                                              <>
-                                                <span className="red font-weight-normal">
-                                                  {formatMoney(
-                                                    item.subscriptionPrice
-                                                  )}
-                                                </span>
+                                          item.subscriptionStatus ? (
+                                            <>
+                                              <span className="red font-weight-normal">
+                                                {formatMoney(
+                                                  item.subscriptionPrice
+                                                )}
+                                              </span>
 
-                                                <span className="text-line-through ml-2">
-                                                  {formatMoney(
-                                                    item.originalPrice
-                                                  )}
-                                                </span>
-                                              </>
-                                            ) : (
-                                              formatMoney(item.originalPrice)
-                                            )}
+                                              <span className="text-line-through ml-2">
+                                                {formatMoney(
+                                                  item.originalPrice
+                                                )}
+                                              </span>
+                                            </>
+                                          ) : (
+                                            formatMoney(item.originalPrice)
+                                          )}
                                         </div>
                                         <div className="col-12 col-md-1 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
                                           {formatMoney(item.price)}
@@ -1315,22 +1331,22 @@ class AccountOrders extends React.Component {
                                   ) : null} */}
                                   {details.tradePrice
                                     .subscriptionDiscountPrice ? (
-                                      <>
-                                        <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                          &nbsp;
+                                    <>
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                        &nbsp;
                                       </div>
-                                        <div className="col-6 col-md-2 mb-2 green">
-                                          <FormattedMessage id="promotion" />
-                                        </div>
-                                        <div className="col-6 col-md-3 text-right green text-nowrap">
-                                          -
+                                      <div className="col-6 col-md-2 mb-2 green">
+                                        <FormattedMessage id="promotion" />
+                                      </div>
+                                      <div className="col-6 col-md-3 text-right green text-nowrap">
+                                        -
                                         {formatMoney(
                                           details.tradePrice
                                             .subscriptionDiscountPrice
                                         )}
-                                        </div>
-                                      </>
-                                    ) : null}
+                                      </div>
+                                    </>
+                                  ) : null}
                                   {details.tradePrice.promotionDiscountPrice ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
@@ -1342,9 +1358,9 @@ class AccountOrders extends React.Component {
                                       <div className="col-6 col-md-3 text-right green text-nowrap">
                                         -
                                         {formatMoney(
-                                        details.tradePrice
-                                          .promotionDiscountPrice
-                                      )}
+                                          details.tradePrice
+                                            .promotionDiscountPrice
+                                        )}
                                       </div>
                                     </>
                                   ) : null}
@@ -1360,10 +1376,33 @@ class AccountOrders extends React.Component {
                                     )}
                                   </div>
 
-                                  {/* 税额 */}
-                                  {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                                  {/* first order discount */}
+                                  {details.tradePrice
+                                    .firstOrderOnThePlatformDiscountPrice >
+                                    0 && (
                                     <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">&nbsp;</div>
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
+                                      <div className="col-6 col-md-2 mb-2 green">
+                                        <FormattedMessage id="promotion.firstOrderDiscount" />
+                                      </div>
+                                      <div className="col-6 col-md-3 text-right text-nowrap green">
+                                        {formatMoney(
+                                          details.tradePrice
+                                            .firstOrderOnThePlatformDiscountPrice
+                                        )}
+                                      </div>
+                                    </>
+                                  )}
+
+                                  {/* 税额 */}
+                                  {customTaxSettingOpenFlag == 0 &&
+                                  enterPriceType == 1 ? (
+                                    <>
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
                                       <div className="col-6 col-md-2 mb-2">
                                         <FormattedMessage id="estimatedTax" />
                                       </div>
@@ -1373,7 +1412,9 @@ class AccountOrders extends React.Component {
                                         )}
                                       </div>
                                     </>
-                                  ) : (<></>)}
+                                  ) : (
+                                    <></>
+                                  )}
 
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
@@ -1500,7 +1541,7 @@ class AccountOrders extends React.Component {
                                               style={{ width: '20%' }}
                                               src={
                                                 CREDIT_CARD_IMG_ENUM[
-                                                payRecord.paymentVendor.toUpperCase()
+                                                  payRecord.paymentVendor.toUpperCase()
                                                 ] ||
                                                 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                                               }

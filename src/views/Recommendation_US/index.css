@@ -1,12 +1,3 @@
-@media (min-width: 679px) {
-  .rc-intro {
-    min-height: 58px;
-  }
-}
-.Recommendation_FR .rc-meta {
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
 .rc-alpha,
 .rc-beta {
   color: #e2001a;
@@ -22,5 +13,18 @@
   .Recommendation_FR .rc-gamma {
     font-size: 1.625rem;
     line-height: 2.5rem;
+  }
+  .rc-intro {
+    min-height: 58px;
+  }
+  .Recommendation_FR .rc-meta {
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+  }
+}
+@media (max-width: 769px) {
+  .Recommendation_FR .rc-meta {
+    font-size: 0.75rem;
+    line-height: 1rem;
   }
 }
