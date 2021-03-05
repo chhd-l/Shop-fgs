@@ -44,7 +44,7 @@ import pfRecoImgRetailFinder from '@/assets/images/product-finder-recomend-retai
 import smartFeeder from '@/assets/images/smart_feeder.png';
 
 const isHub = process.env.REACT_APP_HUB == '1';
-const isMobile = getDeviceType() === 'H5';
+const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
@@ -1771,7 +1771,7 @@ class List extends React.Component {
   }
 
   stickyMobileRefineBar() {
-    if (isMobile) {
+    if (isMobilePhone) {
       var t = document.getElementById('refineBar').getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
@@ -2009,7 +2009,7 @@ class List extends React.Component {
                       className={`rc-filters border-top ${filterModalVisible ? 'active' : ''
                         }`}
                     >
-                      {isMobile ? (
+                      {isMobilePhone ? (
                         <Filters
                           history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -2119,7 +2119,7 @@ class List extends React.Component {
                       className={`rc-filters ${filterModalVisible ? 'active' : ''
                         }`}
                     >
-                      {isMobile ? (
+                      {isMobilePhone ? (
                         <Filters
                           history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -2244,7 +2244,7 @@ class List extends React.Component {
                               ? _loadingJXS
                               : productList.map((item, i) =>
                                 process.env.REACT_APP_PLP_STYLE ===
-                                  'layout-global' && isMobile ? (
+                                  'layout-global' && isMobilePhone ? (
                                     <ListItemH5ForGlobalStyle
                                       sourceParam={this.state.sourceParam}
                                       isDogPage={isDogPage}
@@ -2345,7 +2345,7 @@ class List extends React.Component {
                               )}
                           </article>
                           <div
-                            className="grid-footer rc-full-width"
+                            className="grid-footer rc-full-width list-pagination-wrap"
                             style={{ marginTop: '0.5rem' }}
                           >
                             <Pagination
