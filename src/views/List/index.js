@@ -2293,7 +2293,7 @@ class List extends React.Component {
                             ? _loadingJXS
                             : productList.map((item, i) =>
                                 process.env.REACT_APP_PLP_STYLE ===
-                                  'layout-global' && isMobile ? (
+                                  'layout-global' && isMobilePhone ? (
                                   <ListItemH5ForGlobalStyle
                                     sourceParam={this.state.sourceParam}
                                     isDogPage={isDogPage}
