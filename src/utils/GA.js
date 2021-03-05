@@ -8,7 +8,7 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const getPromotionInfo = ()=>{
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
-  return promotionInfo?.goodsInfos.map(item=>{
+  return promotionInfo?.goodsInfos?.map(item=>{
     return {
       promoCodeName: item.marketingCode || "",
       promoCodeAmount: item.promotionDiscountPrice || ''
