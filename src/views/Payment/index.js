@@ -12,7 +12,8 @@ import Footer from '@/components/Footer';
 import Progress from '@/components/Progress';
 import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
-import Faq from './Fr/faq';
+import Faq from './Faq/faq';
+import US_Faq from './Faq/us_faq';
 import Loading from '@/components/Loading';
 
 import VisitorAddress from './Address/VisitorAddress';
@@ -1465,10 +1466,10 @@ class Payment extends React.Component {
       });
     }
     try {
+      console.log('------------------ payment updateDeliveryAddrData data: ', data);
       if (process.env.REACT_APP_LANG === 'en') {
         // 获取税额
         if (this.isLogin) {
-          // console.log('------------------ updateDeliveryAddrData data: ', data);
           await this.props.checkoutStore.updateLoginCart('', false, false, {
             country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
             region: data.provinceNo, // 省份简写
@@ -2449,6 +2450,7 @@ class Payment extends React.Component {
                   />
                 )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
+                {process.env.REACT_APP_LANG == 'en' ? <US_Faq /> : null}
               </div>
             </div>
             <Adyen3DForm action={this.state.adyenAction} />

@@ -16,7 +16,7 @@ import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
-import Faq from '../../Payment/Fr/faq';
+import Faq from '../../Payment/Faq/faq';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href

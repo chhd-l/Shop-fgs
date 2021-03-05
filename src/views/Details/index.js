@@ -1028,7 +1028,7 @@ class Details extends React.Component {
                   .map((ele, i) => {
                     console.log(parsedContent,' parsedContent111')
                     return `<p><div class="title">${Object.keys(ele)[0]}</div></p><p>
-            ${Object.values(Object.values(ele)[0]).map(el => `<div class="content">${el}</div>`)}
+            ${Object.values(Object.values(ele)[0]).map(el => `<div class="content">${el}</div><p></p>`).join('')}
           </p>`;
                   })
                   .join('');
@@ -1382,7 +1382,7 @@ class Details extends React.Component {
     this.hubGA &&
       dataLayer.push({
         event: 'pdpTabsClick',
-        pdpTabsClickTabName: ele
+        pdpTabsClickTabName: ele?.descriptionName
       });
   }
   handleAClick() {

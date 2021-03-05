@@ -200,9 +200,6 @@ class PersonalDataEditForm extends React.Component {
         form.provinceName = validationAddress.provinceCode;
       }
     }
-    this.setState({
-      validationModalVisible: false
-    });
     this.showNextPanel();
   }
   // 保存数据
@@ -214,6 +211,9 @@ class PersonalDataEditForm extends React.Component {
     });
   }
   showNextPanel = async () => {
+    this.setState({
+      validationModalVisible: false
+    });
     try {
       const { form } = this.state;
       this.setState({ loading: true });

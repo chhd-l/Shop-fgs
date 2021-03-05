@@ -1022,7 +1022,8 @@ class Recommendation extends React.Component {
                             />
                             <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
                               <div className="">
-                                {productList[activeIndex]?.productMessage}
+                                {productList[activeIndex]?.productMessage ||
+                                  'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.'}
                                 {/* Recommended feeding amounts are located on the
                               back of the bag. Make sure you transition food
                               slowly over the course of the week to help prevent

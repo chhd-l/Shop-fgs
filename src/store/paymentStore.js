@@ -188,38 +188,38 @@ class PaymentStore {
                 }
               });
             }
-          }
-          if (isFirstLoad) {
-            const result = find(
-              dataLayer,
-              (ele) =>
-                ele.event ===
-                process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
-            );
-            if (result) {
-              result.checkout = {
-                step: 2,
-                option
-              };
-              result.page = {
-                type: 'Checkout',
-                virtualPageURL: '/checkout/shipping'
-              };
-            }
-          } else {
-            dataLayer.push({
-              checkout: {
-                step: 2,
-                option
-              },
-              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
-              page: {
-                type: 'Checkout',
-                virtualPageURL: '/checkout/shipping'
-              }
-            });
-          }
 
+            if (isFirstLoad) {
+              const result = find(
+                dataLayer,
+                (ele) =>
+                  ele.event ===
+                  process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+              );
+              if (result) {
+                result.checkout = {
+                  step: 2,
+                  option
+                };
+                result.page = {
+                  type: 'Checkout',
+                  virtualPageURL: '/checkout/shipping'
+                };
+              }
+            } else {
+              dataLayer.push({
+                checkout: {
+                  step: 2,
+                  option
+                },
+                event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+                page: {
+                  type: 'Checkout',
+                  virtualPageURL: '/checkout/shipping'
+                }
+              });
+            }
+          }
           break;
         //填完地址
         case 'deliveryAddr':
