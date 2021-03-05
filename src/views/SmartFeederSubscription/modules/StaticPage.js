@@ -152,6 +152,12 @@ const staticPage = (props) => {
           </div>
           <div className="rc-column">
             <img src={video} />
+            {/* <video width="320" height="240" controls>
+              <source
+                src="https://d2cshop.blob.core.windows.net/stg/img/Petkit-with-subtitles-in-French.mp4"
+                type="video/mp4"
+              ></source>
+            </video> */}
           </div>
         </div>
       </section>
