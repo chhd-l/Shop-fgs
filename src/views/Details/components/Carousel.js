@@ -37,7 +37,6 @@ class Carousel extends React.Component {
     const { goodsId } = this.props;
     if (goodsId) {
       getGoodsRelation(goodsId).then((res) => {
-        console.log(res, 'resRelation+++')
         this.setState(
           {
             goodsList: chunk(res.context.goods, 4)

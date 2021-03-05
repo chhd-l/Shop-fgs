@@ -3,10 +3,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index:62;
+  z-index: 62;
   padding-top: 16px !important;
   // box-shadow:0 2px 4px #f1f1f1;
-  background:#fff;
+  background: #fff;
 }
 // .refine-bar{
 //   .bread-title{
@@ -16,21 +16,30 @@
 //     text-overflow: ellipsis;
 //   }
 // }
-#root .page-list-center-arrow .choices[data-type*=select-one]:after{
+#root .page-list-center-arrow .choices[data-type*='select-one']:after {
   margin-top: -8.5px;
 }
-.page-list-center-arrow{
-  &.rc-select .choices{
+.page-list-center-arrow {
+  &.rc-select .choices {
     border-bottom: 0;
   }
 }
-#root .refine-bar .choices[data-type*=select-one]:after {
+#root .refine-bar .choices[data-type*='select-one']:after {
   // margin-top: -7.5px;
   width: 30px;
   height: 28px;
 }
-.list_select_choose{
-  .choices .select, .rc-select .choices{
+.list-pagination-wrap {
+  .justify-content-between {
+    justify-content: center !important; //兼容list页面页数过多出现问题
+  }
+  .rc-pagination {
+    max-width: none;
+  }
+}
+.list_select_choose {
+  .choices .select,
+  .rc-select .choices {
     border-bottom: 0;
   }
 }
@@ -40,20 +49,20 @@
 .ui-font-nothing .rc-icon {
   margin-right: 5px;
 }
-body .rc-layout-grid .rc-column-pad{
+body .rc-layout-grid .rc-column-pad {
   padding: 4px 0.5rem !important;
 }
-.margin0{
+.margin0 {
   margin: 0 !important;
 }
-.padding0{
+.padding0 {
   padding: 0 !important;
 }
-.fr-mobile-product-list{
+.fr-mobile-product-list {
   // padding-right: 2rem;
   text-align: left;
-  margin: auto  auto  auto 0rem;
-  .product-name{
+  margin: auto auto auto 0rem;
+  .product-name {
     line-height: 2rem;
     font-size: 1.375rem;
     overflow: hidden;
@@ -64,9 +73,9 @@ body .rc-layout-grid .rc-column-pad{
     color: #e2001a;
     font-weight: 300;
   }
-  .product-price{
+  .product-price {
     display: block;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     color: #000;
     font-size: 1.25rem;
   }
@@ -75,8 +84,8 @@ body .rc-layout-grid .rc-column-pad{
   .ui-font-nothing {
     font-size: 18px;
   }
-  .rc-meta{
-    &.rc-md-down{
+  .rc-meta {
+    &.rc-md-down {
       display: none;
     }
   }
@@ -149,8 +158,8 @@ body .rc-layout-grid .rc-column-pad{
 }
 
 @media (max-width: 540px) {
-  .fr-mobile{
-    &.overflow-hidden{
+  .fr-mobile {
+    &.overflow-hidden {
       overflow: hidden !important;
     }
   }
@@ -203,7 +212,7 @@ body .rc-layout-grid .rc-column-pad{
     width: 73%;
     left: -16%;
     top: 7%;
-    &.fr-label{
+    &.fr-label {
       width: 68%;
       left: -25%;
       top: 16%;
@@ -251,4 +260,3 @@ body .rc-layout-grid .rc-column-pad{
     }
   }
 }
-

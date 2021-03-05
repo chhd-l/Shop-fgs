@@ -56,6 +56,7 @@ export default class DropDownMenuForHub extends React.Component {
   }
 
   renderNormalMenu = (item, i) => {
+    const { contactPhone } = this.props;
     let ret = null;
     let menuItemListGroupedByStep = [];
     let menuItemList = [];
@@ -203,10 +204,8 @@ export default class DropDownMenuForHub extends React.Component {
                 >
                   <div className="rc-layout-container rc-three-column rc-contact-dropdown-column__container align-items-center d-flex">
                     <div className="rc-column rc-double-width rc-contact-dropdown-column__inner">
-                      <a
+                      <span
                         className="rc-contact-dropdown__sub-title rc-contact-dropdown-column__link"
-                        data-ref="nav-link"
-                        href="tel:+33 4 66 73 03 00"
                         onClick={this.handleClickNavItem.bind(
                           this,
                           item,
@@ -214,16 +213,21 @@ export default class DropDownMenuForHub extends React.Component {
                         )}
                       >
                         {cItem.Subtitle}
-                      </a>
+                      </span>
                       <br />
-                      {/* <a
-                        className="rc-contact-dropdown__title rc-contact-dropdown-column__link"
-                        data-ref="nav-link"
-                        href="tel:+33 4 66 73 03 00"
-                      >
-                        +33 4 66 73 03 00
-                      </a>
-                      <br /> */}
+                      {cItem.Icon === 'contact' && (
+                        <>
+                          <a
+                            className="rc-contact-dropdown__title rc-contact-dropdown-column__link"
+                            data-ref="nav-link"
+                            href={`tel:${contactPhone}`}
+                          >
+                            {contactPhone}
+                          </a>
+                          <br />
+                        </>
+                      )}
+
                       {cItem.Link && cItem.Link.Url ? (
                         <a
                           className="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link"
@@ -295,6 +299,7 @@ export default class DropDownMenuForHub extends React.Component {
           className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
             showNav ? '' : 'rc-hidden'
           }`}
+          style={{paddingRight: '2px',paddingLeft: '2px'}}
         >
           <ul
             className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
@@ -331,7 +336,7 @@ export default class DropDownMenuForHub extends React.Component {
                         // }}
                       >
                         {item.expanded ? (
-                          <span className={`rc-header-with-icon header-icon`}>
+                          <span className={`header-icon`} style={{whiteSpace:'nowrap'}}>
                             {item.Link && item.Link.Text}
                             {item.id === activeTopParentId ? (
                               <span className="iconfont icon-dropdown-arrow ml-1">

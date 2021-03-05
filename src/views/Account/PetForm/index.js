@@ -359,9 +359,6 @@ class PetForm extends React.Component {
           this.setState({
             currentStep: currentStep
           });
-          setTimeout(() => {
-            this.getPetList();
-          }, 3000);
           this.props.history.push('/account/pets/');
         })
         .catch((err) => {
@@ -704,12 +701,6 @@ class PetForm extends React.Component {
       });
     }
   };
-  cancel = () => {
-    this.setState({
-      loading: true
-    });
-    this.getPetList();
-  };
   updateConfirmTooltipVisible = (status) => {
     let { currentPet } = this.state;
     currentPet.confirmTooltipVisible = status;
@@ -778,7 +769,6 @@ class PetForm extends React.Component {
   handleErrMessage = () => {};
   render() {
     const {
-      petList,
       currentPet,
       selectedSpecialNeedsObj,
       selectedSizeObj,

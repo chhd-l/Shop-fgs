@@ -9,10 +9,11 @@ import { getDeviceType } from '@/utils/utils.js';
 import '../css/user.less';
 
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() === 'H5';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const isLogin = !!localItemRoyal.get('rc-token');
 const userInfo = localItemRoyal.get('rc-userinfo') || null;
+const clientWidth = document.body.clientWidth;
 
 
 const UserJSX = (props) => {
@@ -98,7 +99,10 @@ const UserJSX = (props) => {
                         if (!process.env.REACT_APP_STOREID) {
                           return;
                         }
-                        if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'en') {
+                        if (
+                          process.env.REACT_APP_LANG === 'fr' ||
+                          process.env.REACT_APP_LANG === 'en'
+                        ) {
                           history.push('/register');
                         } else {
                           window.location.href =
@@ -169,9 +173,9 @@ const UserJSX = (props) => {
       ) : null}
     </>
   );
-  return isMobile
-    ? null
-    : {
+  //clientWidth用于兼容 ipad pro展示
+  return !isMobile || clientWidth > 769
+    ? {
         //hub专用
         1: (
           <li
@@ -188,13 +192,16 @@ const UserJSX = (props) => {
             {/* 登录 */}
             {isLogin && (
               <a className="brefName">
-                <Link to="/account" className="text-white">{firstNameLetter}</Link>{' '}
+                <Link to="/account" className="text-white">
+                  {firstNameLetter}
+                </Link>{' '}
                 {showCart ? <LoginUserBox self={self} {...props} /> : null}
               </a>
             )}
           </li>
         )
-      }[process.env.REACT_APP_HUB] || defaultJSX;
+      }[process.env.REACT_APP_HUB] || defaultJSX
+    : null;
 };
 
 export default UserJSX;

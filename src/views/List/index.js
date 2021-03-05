@@ -44,7 +44,7 @@ import pfRecoImgRetailFinder from '@/assets/images/product-finder-recomend-retai
 import smartFeeder from '@/assets/images/smart_feeder.png';
 
 const isHub = process.env.REACT_APP_HUB == '1';
-const isMobile = getDeviceType() === 'H5';
+const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
@@ -73,7 +73,7 @@ function ListItemH5ForGlobalStyle(props) {
   return item && item.productFinder ? (
     <div
       className="rc-column rc-column-pad fr-mobile-product"
-      style={{ height: '300px' }}
+      // style={{ height: '300px' }}
     >
       <article
         className="rc-card--product overflow-hidden"
@@ -82,7 +82,7 @@ function ListItemH5ForGlobalStyle(props) {
         <div className="fullHeight">
           <span className="ui-cursor-pointer">
             <article className="rc-card--a  margin-top--5">
-              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
+              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start text-center">
                 <div className="height-product-tile-plpOnly margin-top-mobile-20">
                   <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break ">
                     <FormattedMessage id="plp.retail.cat.product.finder.title" />
@@ -95,7 +95,7 @@ function ListItemH5ForGlobalStyle(props) {
                   <FormattedMessage
                     id="plp.retail.cat.product.finder.detail"
                     values={{
-                      val: <br />
+                      val: ''
                     }}
                   />
                 </div>
@@ -114,14 +114,14 @@ function ListItemH5ForGlobalStyle(props) {
                       style={{
                         width: '100%',
                         height: '100%',
-                        transform: 'translate(31%,-65%)'
+                        // transform: 'translate(31%,-65%)'
                       }}
                     >
                       <img
                         src={isDogPage ? retailDog : pfRecoImgRetailFinder}
                         className="ImgFitScreen pt-3"
                         style={{
-                          maxWidth: '50%',
+                          // maxWidth: '50%',
                           maxHeight: '100%',
                           width: isDogPage ? '175px' : '150px',
                           height: 'auto',
@@ -1771,7 +1771,7 @@ class List extends React.Component {
   }
 
   stickyMobileRefineBar() {
-    if (isMobile) {
+    if (isMobilePhone) {
       var t = document.getElementById('refineBar').getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
@@ -2009,7 +2009,7 @@ class List extends React.Component {
                       className={`rc-filters border-top ${filterModalVisible ? 'active' : ''
                         }`}
                     >
-                      {isMobile ? (
+                      {isMobilePhone ? (
                         <Filters
                           history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -2119,7 +2119,7 @@ class List extends React.Component {
                       className={`rc-filters ${filterModalVisible ? 'active' : ''
                         }`}
                     >
-                      {isMobile ? (
+                      {isMobilePhone ? (
                         <Filters
                           history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -2244,7 +2244,7 @@ class List extends React.Component {
                               ? _loadingJXS
                               : productList.map((item, i) =>
                                 process.env.REACT_APP_PLP_STYLE ===
-                                  'layout-global' && isMobile ? (
+                                  'layout-global' && isMobilePhone ? (
                                     <ListItemH5ForGlobalStyle
                                       sourceParam={this.state.sourceParam}
                                       isDogPage={isDogPage}
@@ -2345,7 +2345,7 @@ class List extends React.Component {
                               )}
                           </article>
                           <div
-                            className="grid-footer rc-full-width"
+                            className="grid-footer rc-full-width list-pagination-wrap"
                             style={{ marginTop: '0.5rem' }}
                           >
                             <Pagination

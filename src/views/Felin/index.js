@@ -80,7 +80,9 @@ export default class Felin extends React.Component {
         value: ''
       },
       nextBtnEnable: false,
-      nextBtnShow: true
+      nextBtnShow: true,
+      felinType: 0,
+      consentChecked: false
     };
   }
   handleInputChange = (e) => {
@@ -104,30 +106,63 @@ export default class Felin extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
       await validData(targetRule, { [target.name]: value });
-      this.setState({
-        errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: ''
-        })
-      });
+      this.setState(
+        {
+          errMsgObj: Object.assign({}, errMsgObj, {
+            [target.name]: ''
+          })
+        },
+        () => {
+          this.updateButtonState();
+        }
+      );
     } catch (err) {
       console.log(err, 'err');
-      this.setState({
-        errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: err.message
-        })
-      });
+      this.setState(
+        {
+          errMsgObj: Object.assign({}, errMsgObj, {
+            [target.name]: err.message
+          })
+        },
+        () => {
+          this.updateButtonState();
+        }
+      );
     }
   };
   goNextStep() {
-    let { step, selectedTimeObj } = this.state
+    let { step, selectedTimeObj } = this.state;
     this.setState({ step: step + 1 }, () => {
-      if(this.step === 2) {
-        this.setState({nextBtnShow: false})
+      if (step === 2) {
+        this.setState({ nextBtnShow: false });
       }
+      this.updateButtonState();
     });
   }
+  updateButtonState() {
+    let {
+      step,
+      selectedTimeObj,
+      consentChecked,
+      selectedDate,
+      felinType
+    } = this.state;
+    if (step === 1 && selectedTimeObj.value && selectedDate) {
+      this.setState({ nextBtnEnable: true });
+    } else if (step === 2) {
+      this.setState({ nextBtnEnable: true });
+    } else if (
+      step === 4 &&
+      Object.values(this.state.errMsgObj).every((el) => el === '') &&
+      consentChecked
+    ) {
+      this.setState({ nextBtnEnable: true });
+    } else {
+      this.setState({ nextBtnEnable: false });
+    }
+  }
   render() {
-    let { userInfo, errMsgObj } = this.state;
+    let { userInfo, errMsgObj, nextBtnEnable, nextBtnShow } = this.state;
     return (
       <div className="Felin">
         <Header
@@ -156,16 +191,36 @@ export default class Felin extends React.Component {
               >
                 Réserver un rendez-vous
               </span>
-              <Link to="/help/contact">
-                <span className="ui-cursor-pointer" style={{ color: '#666' }}>
-                  Contacter L'Atelier Félin
-                </span>
-              </Link>
+              {/* <Link to="/help/contact"> */}
+              <span
+                className="ui-cursor-pointer"
+                style={{ color: '#666' }}
+                onClick={() => {
+                  scrollPaymentPanelIntoView('felinFooter');
+                }}
+              >
+                Contacter L'Atelier Félin
+              </span>
+              {/* </Link> */}
             </div>
             <br />
             <br />
             <br />
             <br />
+            <div className="contactUs">
+              <div className="rc-gamma inherit-fontsize">
+                <h3>Contacter l’Atelier Félin</h3>
+              </div>
+              <p className="mb-20">
+                Nous cherchons à apporter le meilleur pour votre chat. Contactez-nous pour en savoir plus sur l’Atelier Félin et notre mission.
+              </p>
+              <p>latelierfelin@royalcanin.com</p>
+              <p className="mb-20">(555) 555-5555</p>
+              <p>6 Rue des Coutures Saint-Gervais</p>
+              <p className="mb-20">75003 Paris</p>
+              <p>Horaires d’ouverture :</p>
+              <p className="mb-20">Mardi - Dimanche, 10h - 20h</p>
+            </div>
             <div class="rc-layout-container rc-two-column rc-content-h-middle">
               <div class="rc-column">
                 <h1 class="rc-espilon">
@@ -329,7 +384,10 @@ export default class Felin extends React.Component {
               </div>
             </div>
             <Divider />
-            <div id="section5" class="rc-layout-container rc-two-column rc-content-h-middle">
+            <div
+              id="section5"
+              class="rc-layout-container rc-two-column rc-content-h-middle"
+            >
               <div class="rc-column">
                 <h1 class="rc-espilon">
                   <LazyLoad>
@@ -357,9 +415,6 @@ export default class Felin extends React.Component {
                       Venez rencontrer nos associations partenaires pour adopter
                       des chats (le weekend exclusivement).
                     </p>
-                    <button className="rc-btn rc-btn--two">
-                      Venez découvrir l’univers du chat dans notre magasin
-                    </button>
                   </div>
                 </h1>
               </div>
@@ -409,8 +464,12 @@ export default class Felin extends React.Component {
                               selected={this.state.selectedDate}
                               // selected={new Date()}
                               onChange={(date) => {
-                                this.setState({ selectedDate: new Date(date) });
-                                console.log(date);
+                                this.setState(
+                                  { selectedDate: new Date(date) },
+                                  () => {
+                                    this.updateButtonState();
+                                  }
+                                );
                               }}
                             />
                           </h1>
@@ -433,7 +492,12 @@ export default class Felin extends React.Component {
                             ]}
                             selectedItemChange={(data) => {
                               console.log(data);
-                              this.setState({ selectedTimeObj: data });
+                              this.setState({ selectedTimeObj: data }, () => {
+                                this.updateButtonState();
+                              });
+                            }}
+                            selectedItemData={{
+                              value: this.state.selectedTimeObj.value
                             }}
                             enableBlur={false}
                           />
@@ -454,10 +518,12 @@ export default class Felin extends React.Component {
                               className="rc-input__radio"
                               id="female"
                               value="1"
-                              // checked={!this.state.isMale}
+                              checked={this.state.felinType}
                               type="radio"
                               name="gender"
-                              // onChange={(e) => this.genderChange(e)}
+                              onChange={(e) => {
+                                this.setState({ felinType: 1 });
+                              }}
                             />
                             <label
                               className="rc-input__label--inline"
@@ -471,9 +537,12 @@ export default class Felin extends React.Component {
                               className="rc-input__radio"
                               id="male"
                               value="0"
-                              // checked={this.state.isMale}
+                              checked={!this.state.felinType}
                               type="radio"
                               name="gender"
+                              onChange={(e) => {
+                                this.setState({ felinType: 0 });
+                              }}
                               // onChange={(e) => this.genderChange(e)}
                             />
                             <label
@@ -642,6 +711,12 @@ export default class Felin extends React.Component {
                             value="Cat"
                             type="checkbox"
                             name="checkbox-2"
+                            checked={this.state.consentChecked}
+                            onClick={() => {
+                              this.setState({
+                                consentChecked: !this.state.consentChecked
+                              });
+                            }}
                           />
                           <label
                             class="rc-input__label--inline"
@@ -658,6 +733,10 @@ export default class Felin extends React.Component {
                         <button
                           className="rc-btn rc-btn--two"
                           style={{ width: '100%' }}
+                          disabled={!nextBtnEnable}
+                          onClick={() => {
+                            this.setState({ step: this.state.step + 1 });
+                          }}
                         >
                           <FormattedMessage id="Confirmer mes informations" />
                         </button>
@@ -704,21 +783,38 @@ export default class Felin extends React.Component {
                         >
                           {userInfo.phoneNumber}
                         </p>
+                        <button
+                          className="rc-btn rc-btn--one"
+                          style={{ width: '100%' }}
+                          onClick={() => {
+                            this.setState({ step: this.state.step + 1 });
+                          }}
+                        >
+                          <FormattedMessage id="Confirmer le rendez-vous" />
+                        </button>
+                        <button
+                          className="rc-btn rc-btn--two"
+                          style={{ margin: '5px 0', width: '100%' }}
+                          onClick={() => {
+                            this.setState({ step: 1, nextBtnShow: true });
+                          }}
+                        >
+                          <FormattedMessage id="Go back for modification" />
+                        </button>
                       </>
                     ) : null}
                   </div>
-                  {
-                    this.state.nextBtnShow? (
-                      <div style={{ width: '100%', textAlign: 'right' }}>
-                        <button
-                          className="rc-btn rc-btn--two"
-                          onClick={this.goNextStep.bind(this)}
-                        >
-                          <FormattedMessage id="next" />
-                        </button>
-                      </div>
-                    ): null
-                  }
+                  {nextBtnShow ? (
+                    <div style={{ width: '100%', textAlign: 'right' }}>
+                      <button
+                        className="rc-btn rc-btn--two"
+                        onClick={this.goNextStep.bind(this)}
+                        disabled={!nextBtnEnable}
+                      >
+                        <FormattedMessage id="next" />
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
