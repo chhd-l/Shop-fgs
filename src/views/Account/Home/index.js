@@ -190,7 +190,7 @@ class AccountHome extends React.Component {
             process.env.REACT_APP_HUB ? (<div className="accountHomeFooterLink">
             <h2><img src={accountSLogo}></img></h2>
             <p className="brandName">Royal Canin & Moi</p>
-            <p className="content">The application that accompanies you <br/> throughout the life of your companion</p>
+            <p className="content">L'application qui vous accompagne tout <br/> au long de la vie de votre compagnon </p>
             <div className="payBtn">
               <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
               <img src={GooglePayImg}></img>

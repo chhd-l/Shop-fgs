@@ -72,7 +72,8 @@ class Header extends React.Component {
       headerNavigationListForHub: [],
       activeTopParentId: -1,
       isSearchSuccess: false, //是否搜索成功
-      searchBarVisible: false
+      searchBarVisible: false,
+      contactPhone: ''
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -260,7 +261,8 @@ class Header extends React.Component {
         };
       });
       this.setState({
-        headerNavigationListForHub
+        headerNavigationListForHub,
+        contactPhone: res && res.data && res.data.ContactPhone
       });
     } catch (err) {
       console.log(err);
@@ -479,7 +481,8 @@ class Header extends React.Component {
       showSearchInput,
       showCenter,
       showCart,
-      searchBarVisible
+      searchBarVisible,
+      contactPhone
     } = this.state;
     return (
       <>
@@ -515,6 +518,7 @@ class Header extends React.Component {
                   {+process.env.REACT_APP_HUB ? (
                     <MegaMenuMobileForHub
                       menuData={headerNavigationListForHub}
+                      contactPhone={contactPhone}
                       handleClickNavItem={this.handleClickNavItem}
                       configStore={configStore}
                       key={headerNavigationListForHub.length}
@@ -596,6 +600,7 @@ class Header extends React.Component {
 
           {+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
+              contactPhone={contactPhone}
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}
               headerNavigationList={headerNavigationListForHub}

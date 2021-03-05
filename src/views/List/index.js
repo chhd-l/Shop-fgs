@@ -2345,7 +2345,7 @@ class List extends React.Component {
                               )}
                           </article>
                           <div
-                            className="grid-footer rc-full-width"
+                            className="grid-footer rc-full-width list-pagination-wrap"
                             style={{ marginTop: '0.5rem' }}
                           >
                             <Pagination

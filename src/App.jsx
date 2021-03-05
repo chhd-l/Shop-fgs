@@ -633,8 +633,8 @@ const App = () => (
                   if (/^\/persan[0-9]/.test(pathname))
                     return <ListSource key={Math.random()} {...props} />;
 
-                  // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
-                  if (/^(?!.*(\/).*\1).+[-].+$/.test(pathname)) {
+                  // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
+                  if (/^(?!.*(\/).*\1).+[-].*[0-9]{1,}.*$/.test(pathname)) {
                     let redirectUrl = '';
                     const splitName = { fr: '_FR.html', en: '_US.html' }[
                       process.env.REACT_APP_LANG

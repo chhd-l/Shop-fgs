@@ -110,7 +110,7 @@ class CommunicationDataEditForm extends React.Component {
       this.setState({
         errorMsg: ''
       });
-    }, 3000);
+    }, 5000);
   }
   //保存
   handleSave = async () => {
