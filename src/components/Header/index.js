@@ -1,5 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom'
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
 import {
