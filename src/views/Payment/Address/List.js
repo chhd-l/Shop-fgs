@@ -100,14 +100,18 @@ class AddressList extends React.Component {
       );
       const defaultAddressItem = find(
         addressList,
-        (ele) => ele.isDefaltAddress === 1
+        (ele) => {
+          console.log(ele, 'defaultAddressItem')
+          return ele.isDefaltAddress === 1
+        }
       );
+      
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
         (addressList.length && addressList[0].deliveryAddressId) ||
         '';
-
+        console.log(defaultAddressItem, 'defaultAddressItem', addressList.length ,addressList[0].deliveryAddressId)
       Array.from(
         addressList,
         (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
@@ -127,6 +131,7 @@ class AddressList extends React.Component {
           : ele.cityId;
         return ele;
       });
+      console.log(addressList, tmpId, 'defaultAddressItem')
       this.setState(
         {
           addressList,
@@ -810,7 +815,7 @@ class AddressList extends React.Component {
         </div>
       </fieldset>
     );
-
+    console.log(addressList, selectedId, 'defaultAddressItem')
     return (
       <>
         {this.props.children}
