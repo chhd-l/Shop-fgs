@@ -25,12 +25,13 @@ export default class AddressPreview extends React.Component {
         <p>{form.address1}</p>
         {form.address2 ? <p>{form.address2}</p> : null}
         <p>
-          <span>{[form.postCode, form.cityName, ' '].join(',')}</span>
-
-          {process.env.REACT_APP_LANG === 'en'?(
-            <span>{form.province}, </span>
-          ):(<></>)}
           
+          <span>{[form.postCode, form.cityName == 0 ? form.city : form.cityName, ' '].join(',')}</span>
+
+          {process.env.REACT_APP_LANG === 'en' ? (
+            <span>{form.province}, </span>
+          ) : (<></>)}
+
           <span>
             {matchNamefromDict(
               this.state.countryList,

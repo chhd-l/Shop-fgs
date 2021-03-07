@@ -41,6 +41,8 @@ class InfosPreview extends React.Component {
     return (
       <div style={{ padding: '0 15px' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
+
+          {JSON.stringify(details.consignee)}
           {details ? (
             <div
               className={[
@@ -63,7 +65,8 @@ class InfosPreview extends React.Component {
                 this.state.countryList,
                 details.consignee.countryId
               )}{' '}
-              {details.consignee.cityName}
+              {/* 支付成功后返回的订单信息 */}
+              {details.consignee.city}
               <br />
               {details.consignee.detailAddress1}
               <br />
@@ -126,6 +129,7 @@ class InfosPreview extends React.Component {
               {payRecord.email}
             </div>
           ) : null}
+          {/* {JSON.stringify(details.invoice)} */}
           {details ? (
             <div
               className={[
