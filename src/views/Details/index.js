@@ -10,7 +10,7 @@ import Selection from '@/components/Selection';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
-import LoginButton from '@/components/LoginButton';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
@@ -322,7 +322,7 @@ class Details extends React.Component {
       barcode: '',
       descContent: '',
       contactUs: '',
-      ccidBtnVisibility:'hidden',
+      ccidBtnVisibility: 'hidden'
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -1019,22 +1019,26 @@ class Details extends React.Component {
 
                 break;
               case 'Compositions':
-                if(goodsRes.goodsType === 2) {
+                if (goodsRes.goodsType === 2) {
                   ret = parsedContent
-                  .map((ele, i) => {
-                    return `<p><div class="title">${Object.keys(ele)[0]}</div></p><p>
-            ${Object.values(Object.values(ele)[0]).map(el => `<div class="content">${el}</div><p></p>`).join('')}
+                    .map((ele, i) => {
+                      return `<p><div class="title">${
+                        Object.keys(ele)[0]
+                      }</div></p><p>
+            ${Object.values(Object.values(ele)[0])
+              .map((el) => `<div class="content">${el}</div><p></p>`)
+              .join('')}
           </p>`;
-                  })
-                  .join('');
-                }else {
+                    })
+                    .join('');
+                } else {
                   ret = parsedContent
-                  .map((ele) => {
-                    return `<p>
+                    .map((ele) => {
+                      return `<p>
             <div class="content">${Object.values(ele)[0]}</div>
           </p>`;
-                  })
-                  .join('');
+                    })
+                    .join('');
                 }
                 break;
             }
@@ -1606,7 +1610,7 @@ class Details extends React.Component {
           if (mutation.type === 'childList') {
             self.setState({
               ccidBtnVisibility: 'visible'
-            })
+            });
             observer.disconnect();
           }
         }
@@ -1913,11 +1917,13 @@ class Details extends React.Component {
                             isHub ? (
                               <div
                                 className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
-                                ref={(el)=>this.ccidBtnRef(el)}
+                                ref={(el) => this.ccidBtnRef(el)}
                                 data-ccid="wtb-target"
                                 data-ean={barcode}
                                 onClick={this.handleBuyFromRetailer}
-                                style={{visibility:this.state.ccidBtnVisibility}}
+                                style={{
+                                  visibility: this.state.ccidBtnVisibility
+                                }}
                               >
                                 <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
                               </div>
@@ -2577,12 +2583,14 @@ class Details extends React.Component {
                                     <FormattedMessage id="or" />
                                     &nbsp;&nbsp;
                                     <div
-                                      ref={(el)=>this.ccidBtnRef(el)}
+                                      ref={(el) => this.ccidBtnRef(el)}
                                       className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                                       data-ccid="wtb-target"
                                       data-ean={barcode}
                                       onClick={this.handleBuyFromRetailer}
-                                      style={{visibility:this.state.ccidBtnVisibility}}
+                                      style={{
+                                        visibility: this.state.ccidBtnVisibility
+                                      }}
                                     >
                                       <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
                                     </div>
@@ -2796,12 +2804,12 @@ class Details extends React.Component {
                 ) : null}
                 {!this.state.loading && !bundle && isHub ? (
                   <div
-                    ref={(el)=>this.ccidBtnRef(el)}
+                    ref={(el) => this.ccidBtnRef(el)}
                     className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                     data-ccid="wtb-target"
                     data-ean={barcode}
                     onClick={this.handleBuyFromRetailer}
-                    style={{visibility:this.state.ccidBtnVisibility}}
+                    style={{ visibility: this.state.ccidBtnVisibility }}
                   >
                     <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
                   </div>
@@ -2853,14 +2861,18 @@ class Details extends React.Component {
                     d="M512 0C230.4 0 0 230.4 0 512c0 281.6 230.4 512 512 512 281.6 0 512-230.4 512-512C1024 230.4 793.6 0 512 0zM512 960c-249.6 0-448-204.8-448-448 0-249.6 204.8-448 448-448 249.6 0 448 198.4 448 448C960 761.6 761.6 960 512 960zM691.2 339.2 454.4 576 332.8 454.4c-19.2-19.2-51.2-19.2-76.8 0C243.2 480 243.2 512 262.4 531.2l153.6 153.6c19.2 19.2 51.2 19.2 70.4 0l51.2-51.2 224-224c19.2-19.2 25.6-51.2 0-70.4C742.4 320 710.4 320 691.2 339.2z"
                     p-id="2969"
                     fill="#47b800"
-                  ></path>
+                  />
                 </svg>
                 <p style={{ color: '#47b800 !important' }}>
                   <FormattedMessage id="addedtoCart" />
                 </p>
-                <Link to="/home" style={{ color: '#666', fontWeight: 400 }}>
+                <DistributeHubLinkOrATag
+                  href={'/home'}
+                  to="/"
+                  style={{ color: '#666', fontWeight: 400 }}
+                >
                   <FormattedMessage id="continueMyPurchases" />
-                </Link>
+                </DistributeHubLinkOrATag>
                 <p>
                   <FormattedMessage id="or" />
                 </p>

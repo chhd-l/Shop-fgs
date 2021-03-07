@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { getDeviceType } from '@/utils/utils';
 import './index.less';
 
-const isMobile = getDeviceType() === 'H5';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function Container({ children }) {
   return isMobile ? (
