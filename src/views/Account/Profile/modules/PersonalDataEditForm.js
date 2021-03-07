@@ -79,6 +79,8 @@ class PersonalDataEditForm extends React.Component {
         this.validFormData();
       }
     );
+
+
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -413,20 +415,19 @@ class PersonalDataEditForm extends React.Component {
                 <FormattedMessage id="account.myAccount" />
               </h5>
             ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
-              >
-                <span>&larr; </span>
-                <FormattedMessage id="account.myAccount" />
-              </h5>
-            )}
+                <h5
+                  className="ui-cursor-pointer"
+                  onClick={this.handleClickGoBack}
+                >
+                  <span>&larr; </span>
+                  <FormattedMessage id="account.myAccount" />
+                </h5>
+              )}
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${
-                    editFormVisible ? 'hidden' : ''
-                  }`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${editFormVisible ? 'hidden' : ''
+                    }`}
                   name="personalInformation"
                   title={txt}
                   alt={txt}
@@ -444,9 +445,8 @@ class PersonalDataEditForm extends React.Component {
           />
           <div className="pl-3 pr-3 pb-3">
             <div
-              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                errorMsg ? '' : 'hidden'
-              }`}
+              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
+                }`}
             >
               <aside
                 className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -467,9 +467,8 @@ class PersonalDataEditForm extends React.Component {
               </aside>
             </div>
             <aside
-              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                successTipVisible ? '' : 'hidden'
-              }`}
+              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successTipVisible ? '' : 'hidden'
+                }`}
               role="alert"
             >
               <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -480,9 +479,8 @@ class PersonalDataEditForm extends React.Component {
             {/* preview form */}
             {data ? (
               <div
-                className={`row userProfileInfo text-break ${
-                  editFormVisible ? 'hidden' : ''
-                }`}
+                className={`row userProfileInfo text-break ${editFormVisible ? 'hidden' : ''
+                  }`}
               >
                 {[
                   {
