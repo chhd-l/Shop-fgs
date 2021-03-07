@@ -70,9 +70,9 @@ export default class Search extends React.Component {
     ])
       .then((res) => {
         let goodsContent = [];
-        const esGoods = res[0] && res[0].context && res[0].context.esGoods;
-        if (esGoods && esGoods.content.length) {
-          goodsContent = (esGoods.content || []).map((ele) => {
+        const esGoodsPage = res[0] && res[0].context && res[0].context.esGoodsPage;
+        if (esGoodsPage && esGoodsPage.content.length) {
+          goodsContent = (esGoodsPage.content || []).map((ele) => {
             let ret = Object.assign({}, ele);
             const tmpItem = find(
               res[0].context.goodsList || [],
@@ -90,7 +90,7 @@ export default class Search extends React.Component {
           });
           if (dataLayer[0] && dataLayer[0].search) {
             dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = esGoods.totalElements;
+            dataLayer[0].search.results = esGoodsPage.totalElements;
             dataLayer[0].search.type = 'with results';
           }
 
@@ -100,7 +100,7 @@ export default class Search extends React.Component {
               {},
               {
                 productList: goodsContent,
-                totalElements: esGoods.totalElements
+                totalElements: esGoodsPage.totalElements
               },
               { attach: res[1] && res[1].data }
             )

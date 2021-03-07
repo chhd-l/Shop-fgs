@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import OxxoModal from './modules/OxxoModal';
 import PayProductInfo from '@/components/PayProductInfo';
 import AddressPreview from './modules/AddressPreview';
-import BannerTip from '@/components/BannerTip';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -18,16 +18,15 @@ import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
-import {orderConfirmationPushEvent,doGetGAVal} from "@/utils/GA"
+import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
-const isHubGA = process.env.REACT_APP_HUB_GA
+const isHubGA = process.env.REACT_APP_HUB_GA;
 
-
-@inject('checkoutStore', 'frequencyStore','loginStore')
+@inject('checkoutStore', 'frequencyStore', 'loginStore')
 @observer
 class Confirmation extends React.Component {
   constructor(props) {
@@ -69,23 +68,23 @@ class Confirmation extends React.Component {
     this.timer = null;
   }
   getPetVal() {
-    let obj = doGetGAVal(this.props)
-    this.setState({pet:obj})
+    let obj = doGetGAVal(this.props);
+    this.setState({ pet: obj });
   }
-  getIsAllOneShootGoods=()=>{
+  getIsAllOneShootGoods = () => {
     let isAllOneShootGoods = this.state.details.tradeItems.every((item) => {
-      return item.goodsInfoFlag != 1 //goodsInfoFlag==1表示订阅
-    })
-    this.setState({ isAllOneShootGoods })
-  }
+      return item.goodsInfoFlag != 1; //goodsInfoFlag==1表示订阅
+    });
+    this.setState({ isAllOneShootGoods });
+  };
   componentWillMount() {
-    isHubGA&&this.getPetVal()
+    isHubGA && this.getPetVal();
   }
   async componentDidMount() {
-    const GA_product = localItemRoyal.get('rc-ga-product')
-    dataLayer.push(GA_product)
-    setSeoConfig().then(res => {
-      this.setState({ seoConfig: res })
+    const GA_product = localItemRoyal.get('rc-ga-product');
+    dataLayer.push(GA_product);
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     const { subOrderNumberList } = this.state;
     let productList;
@@ -123,19 +122,22 @@ class Confirmation extends React.Component {
         );
         this.setState({
           email: resContext.consignee.email
-        })
-
-        this.setState({
-          details: resContext,
-          totalTid: resContext.totalTid,
-          detailList: res.map((ele) => ele.context)
-        }, () => {
-          (!isHubGA) && this.getGAEComTransaction()
-          if(isHubGA){
-            this.getIsAllOneShootGoods()
-            orderConfirmationPushEvent(this.state.details)
-          }
         });
+
+        this.setState(
+          {
+            details: resContext,
+            totalTid: resContext.totalTid,
+            detailList: res.map((ele) => ele.context)
+          },
+          () => {
+            !isHubGA && this.getGAEComTransaction();
+            if (isHubGA) {
+              this.getIsAllOneShootGoods();
+              orderConfirmationPushEvent(this.state.details);
+            }
+          }
+        );
         const payRecordRes = await getPayRecord(resContext.totalTid);
         this.setState({
           payRecord: payRecordRes.context,
@@ -167,55 +169,57 @@ class Confirmation extends React.Component {
         <div style={{ padding: '0 20px 0 10px' }}>
           <FormattedMessage id="or" />
         </div>
-        <Link
+        <DistributeHubLinkOrATag
+          href={'/'}
           to="/home"
           className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis"
         >
           <FormattedMessage id="continueShopping" />
-        </Link>
+        </DistributeHubLinkOrATag>
       </>
-    )
+    );
     return (
       {
         oneShoot: (
           <>
-            <Link
+            <DistributeHubLinkOrATag
+              href={'/'}
               to="/home"
               className="rc-btn rc-btn--one"
               style={{ transform: 'scale(.85)' }}
             >
               <FormattedMessage id="confirmation.oneShoot" />
-            </Link>
+            </DistributeHubLinkOrATag>
           </>
         )
-      }
-    )[buyWay] || defaultJSX
-  }
+      }[buyWay] || defaultJSX
+    );
+  };
   //商品全是oneShoot和有订阅的商品区分
   computedGotoAccountBtn(isAllOneShootGoods) {
-    let res = ''
+    let res = '';
     if (isAllOneShootGoods) {
-      res = 'oneShoot'
+      res = 'oneShoot';
     } else {
-      res = 'subscription'
+      res = 'subscription';
     }
-    return res
+    return res;
   }
   //GA 埋点 start
   getGAEComTransaction() {
     const { details } = this.state;
 
     let isAllOneShootGoods = details.tradeItems.every((item) => {
-      return item.goodsInfoFlag != 1 //goodsInfoFlag==1表示订阅
-    })
-    this.setState({ isAllOneShootGoods })
-
+      return item.goodsInfoFlag != 1; //goodsInfoFlag==1表示订阅
+    });
+    this.setState({ isAllOneShootGoods });
 
     let isAllSubscriptionGoods = details.tradeItems.every((item) => {
-      return item.goodsInfoFlag == 1
-    })
+      return item.goodsInfoFlag == 1;
+    });
 
-    if (isAllOneShootGoods || isAllSubscriptionGoods) { //商品均是oneshoot或者均是subscription
+    if (isAllOneShootGoods || isAllSubscriptionGoods) {
+      //商品均是oneshoot或者均是subscription
       let products = details.tradeItems.map((item) => {
         return {
           id: item.spuNo,
@@ -247,17 +251,19 @@ class Confirmation extends React.Component {
           }
         }
       };
-      dataLayer.push(eEvents)
-    } else { //既有oneshoot，又有subscription
-      let oneShootProduct = []
-      let oneShootProductTotalPrice = ''
-      let subscriptionProduct = []
-      let subscriptionProductTotalPrice = ''
-      let subscription_eEvents = ''
-      let oneShooteEvents = ''
+      dataLayer.push(eEvents);
+    } else {
+      //既有oneshoot，又有subscription
+      let oneShootProduct = [];
+      let oneShootProductTotalPrice = '';
+      let subscriptionProduct = [];
+      let subscriptionProductTotalPrice = '';
+      let subscription_eEvents = '';
+      let oneShooteEvents = '';
       for (let item of details.tradeItems) {
         if (item.goodsInfoFlag) {
-          subscriptionProductTotalPrice = (subscriptionProductTotalPrice * 1000 + item.price * 1000) / 1000
+          subscriptionProductTotalPrice =
+            (subscriptionProductTotalPrice * 1000 + item.price * 1000) / 1000;
           subscriptionProduct.push({
             id: item.spuNo,
             name: item.spuName,
@@ -270,7 +276,7 @@ class Confirmation extends React.Component {
             recommandation: details.recommendationId
               ? 'recommended'
               : 'self-selected'
-          })
+          });
           subscription_eEvents = {
             event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
             ecommerce: {
@@ -288,7 +294,8 @@ class Confirmation extends React.Component {
             }
           };
         } else {
-          oneShootProductTotalPrice = (oneShootProductTotalPrice * 1000 + item.price * 1000) / 1000
+          oneShootProductTotalPrice =
+            (oneShootProductTotalPrice * 1000 + item.price * 1000) / 1000;
           oneShootProduct.push({
             id: item.spuNo,
             name: item.spuName,
@@ -301,7 +308,7 @@ class Confirmation extends React.Component {
             recommandation: details.recommendationId
               ? 'recommended'
               : 'self-selected'
-          })
+          });
           oneShooteEvents = {
             event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
             ecommerce: {
@@ -320,10 +327,9 @@ class Confirmation extends React.Component {
           };
         }
       }
-      dataLayer.push(subscription_eEvents)
-      dataLayer.push(oneShooteEvents)
+      dataLayer.push(subscription_eEvents);
+      dataLayer.push(oneShooteEvents);
     }
-
   }
   //GA 埋点 end
 
@@ -336,23 +342,28 @@ class Confirmation extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       },
       pet: this.state.pet
     };
 
     return (
       <div>
-        {
-          <GoogleTagManager additionalEvents={event} />
-        }
+        {<GoogleTagManager additionalEvents={event} />}
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription} />
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header history={this.props.history} match={this.props.match} showNav={false} />
+        <Header
+          history={this.props.history}
+          match={this.props.match}
+          showNav={false}
+        />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
           {/* <BannerTip /> */}
           <div className="rc-max-width--xl pb-4">
@@ -371,11 +382,16 @@ class Confirmation extends React.Component {
                 </b>
               </h4>
               <p style={{ marginBottom: '5px' }}>
-                <FormattedMessage id="confirmation.info2" values={{
-                  val1: `${this.state.email}`
-                }} />
+                <FormattedMessage
+                  id="confirmation.info2"
+                  values={{
+                    val1: `${this.state.email}`
+                  }}
+                />
               </p>
-              <div className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}>
+              <div
+                className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}
+              >
                 <div className="d-flex align-items-center justify-content-center">
                   {this.state.oxxoPayUrl ? (
                     <>
@@ -387,25 +403,29 @@ class Confirmation extends React.Component {
                       >
                         <FormattedMessage id="printEbanx" />
                       </Link>
-                    &nbsp;
-                    <FormattedMessage id="or" />
-                    &nbsp;
-                    <Link
+                      &nbsp;
+                      <FormattedMessage id="or" />
+                      &nbsp;
+                      <DistributeHubLinkOrATag
+                        href={'/'}
                         to="/home"
                         className="rc-meta rc-styled-link backtohome mb-0"
                       >
                         <FormattedMessage id="continueShopping" />
-                      </Link>
+                      </DistributeHubLinkOrATag>
                     </>
                   ) : (
-                      this.AdyenBtnJSX(this.computedGotoAccountBtn(this.state.isAllOneShootGoods))
-                    )}
+                    this.AdyenBtnJSX(
+                      this.computedGotoAccountBtn(this.state.isAllOneShootGoods)
+                    )
+                  )}
                 </div>
               </div>
             </div>
             <div
-              className={`rc-max-width--xl rc-bottom-spacing imformation ${loading ? 'rc-bg-colour--brand3' : ''
-                }`}
+              className={`rc-max-width--xl rc-bottom-spacing imformation ${
+                loading ? 'rc-bg-colour--brand3' : ''
+              }`}
             >
               {loading ? (
                 <div className="p-3">
@@ -419,32 +439,35 @@ class Confirmation extends React.Component {
               ) : this.state.errorMsg2 ? (
                 this.state.errorMsg2
               ) : (
+                <>
+                  {this.state.detailList.map((ele, i) => (
                     <>
-                      {this.state.detailList.map((ele, i) => (
-                        <>
-                          {/* 支付信息 */}
-                          <div className="red mb-2">
-                            <FormattedMessage id="order.orderInformation" />
-                            {/* ({subOrderNumberList[i]}) */}
-                          </div>
-                          <div
-                            className="product-summary rc-bg-colour--brand3 mb-4 mt-0"
-                            key={i}
-                          >
-                            <PayProductInfo details={ele} location={this.props.location} />
-                          </div>
-                        </>
-                      ))}
-                      {/* 地址信息 */}
+                      {/* 支付信息 */}
                       <div className="red mb-2">
-                        <FormattedMessage id="confirmation.customerInformation" />
+                        <FormattedMessage id="order.orderInformation" />
+                        {/* ({subOrderNumberList[i]}) */}
                       </div>
-                      <AddressPreview
-                        details={this.state.details}
-                        payRecord={this.state.payRecord}
-                      />
+                      <div
+                        className="product-summary rc-bg-colour--brand3 mb-4 mt-0"
+                        key={i}
+                      >
+                        <PayProductInfo
+                          details={ele}
+                          location={this.props.location}
+                        />
+                      </div>
                     </>
-                  )}
+                  ))}
+                  {/* 地址信息 */}
+                  <div className="red mb-2">
+                    <FormattedMessage id="confirmation.customerInformation" />
+                  </div>
+                  <AddressPreview
+                    details={this.state.details}
+                    payRecord={this.state.payRecord}
+                  />
+                </>
+              )}
             </div>
           </div>
         </main>
