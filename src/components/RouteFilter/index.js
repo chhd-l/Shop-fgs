@@ -284,8 +284,10 @@ class RouteFilter extends Component {
       });
     }
 
-
-    if (process.env.REACT_APP_MARS_FOOTER && pathname !== '/required') {
+    if (
+      process.env.REACT_APP_MARS_FOOTER &&
+      /[\/implicit\/callback|\/required|\/refuge$]/.test(pathname)
+    ) {
       loadJS({
         url: process.env.REACT_APP_MARS_FOOTER
       });
