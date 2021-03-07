@@ -6,7 +6,6 @@ import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const pageLink = window.location.href;
 class Exception extends React.Component {
@@ -216,15 +215,14 @@ class Exception extends React.Component {
                   <div className="rc-padding-y--md rc-md-down"></div>
                 </div>
               </div>
-              <DistributeHubLinkOrATag
-                href={'/'}
+              <Link
                 to="/home"
                 className="rc-btn rc-btn--two"
                 role="button"
                 aria-pressed="true"
               >
                 <FormattedMessage id="continueShopping" />
-              </DistributeHubLinkOrATag>
+              </Link>
             </div>
           </div>
         </div>

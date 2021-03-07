@@ -12,7 +12,6 @@ import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import Filters from './Filters';
 import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
@@ -98,8 +97,7 @@ function ListItemH5ForGlobalStyle(props) {
                     }}
                   />
                 </div>
-                <DistributeHubLinkOrATag
-                  href={'/product-finder'}
+                <Link
                   to="/product-finder"
                 >
                   <button
@@ -108,7 +106,7 @@ function ListItemH5ForGlobalStyle(props) {
                   >
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
                   </button>
-                </DistributeHubLinkOrATag>
+                </Link>
                 <picture className="rc-card__image">
                   <div className="rc-padding-bottom--xs justify-content-center ">
                     <div
@@ -257,8 +255,7 @@ function ListItemForDefault(props) {
                   />
                 </div>
                 <div style={{ margin: '0 auto' }}>
-                  <DistributeHubLinkOrATag
-                    href={'/product-finder'}
+                  <Link
                     to="/product-finder"
                   >
                     <button
@@ -267,7 +264,7 @@ function ListItemForDefault(props) {
                     >
                       <FormattedMessage id="plp.retail.cat.product.finder.button" />
                     </button>
-                  </DistributeHubLinkOrATag>
+                  </Link>
                 </div>
               </div>
               <picture className="rc-card__image">
@@ -602,13 +599,12 @@ function ProductFinderAd({
                 <p>
                   <FormattedMessage id="productFinder.recoDesc" />
                 </p>
-                <DistributeHubLinkOrATag
-                  href={'/product-finder'}
+                <Link
                   to="/product-finder"
                 >
                   className="rc-btn rc-btn--two">
                   <FormattedMessage id="productFinder.index" />
-                </DistributeHubLinkOrATag>
+                </Link>
               </div>
             </div>
           )}
@@ -1971,13 +1967,12 @@ class List extends React.Component {
           <BannerTip />
           <BreadCrumbsNavigation list={breadListByDeco.filter((b) => b)} />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <DistributeHubLinkOrATag
-              href={'/'}
+            <Link
               to="/home"
               className="back-link"
             >
               <FormattedMessage id="homePage" />
-            </DistributeHubLinkOrATag>
+            </Link>
           </div>
           {titleData ? (
             <div className="rc-max-width--lg rc-padding-x--sm">

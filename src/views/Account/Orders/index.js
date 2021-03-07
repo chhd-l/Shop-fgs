@@ -27,7 +27,6 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import base64 from 'base-64';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 import './index.less';
 
@@ -581,13 +580,12 @@ class AccountOrders extends React.Component {
                             <p>
                               <FormattedMessage id="account.orders.tips" />
                             </p>
-                            <DistributeHubLinkOrATag
-                              href={'/'}
+                            <Link
                               to="/home"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="account.orders.btns" />
-                            </DistributeHubLinkOrATag>
+                            </Link>
                           </div>
                         </div>
                       </div>
