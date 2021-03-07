@@ -39,8 +39,8 @@ function PanleContainer(props) {
         {loading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={5} />
         ) : (
-          props.children
-        )}
+            props.children
+          )}
       </div>
     </div>
   );
@@ -115,48 +115,27 @@ class AccountProfile extends React.Component {
         prescriberId = context.defaultClinics.clinicsId;
       }
 
-      let mydata = {};
+      let mydata = {
+        firstName: context.firstName,
+        lastName: context.lastName,
+        email: context.email,
+        birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
+        country: context.countryId,
+        city: context.cityId,
+        cityName: context.city,
+        phoneNumber: context.contactPhone,
+        rfc: context.reference,
+        address1: context.address1,
+        address2: context.address2,
+        postCode: context.postalCode,
+        communicationEmail: context.communicationEmail,
+        communicationPhone: context.communicationPhone
+      };
+      
       if (process.env.REACT_APP_LANG === 'en') {
-        mydata = {
-          firstName: context.firstName,
-          lastName: context.lastName,
-          email: context.email,
-          birthdate: context.birthDay
-            ? context.birthDay.split('-').join('/')
-            : context.birthDay,
-          country: context.countryId,
-          city: context.cityId,
-          cityName: context.city,
-          provinceNo: context.provinceNo,
-          provinceName: context.province,
-          province: context.provinceId,
-          phoneNumber: context.contactPhone,
-          rfc: context.reference,
-          address1: context.address1,
-          address2: context.address2,
-          postCode: context.postalCode,
-          communicationEmail: context.communicationEmail,
-          communicationPhone: context.communicationPhone
-        };
-      } else {
-        mydata = {
-          firstName: context.firstName,
-          lastName: context.lastName,
-          email: context.email,
-          birthdate: context.birthDay
-            ? context.birthDay.split('-').join('/')
-            : context.birthDay,
-          country: context.countryId,
-          city: context.cityId,
-          cityName: context.city,
-          phoneNumber: context.contactPhone,
-          rfc: context.reference,
-          address1: context.address1,
-          address2: context.address2,
-          postCode: context.postalCode,
-          communicationEmail: context.communicationEmail,
-          communicationPhone: context.communicationPhone
-        };
+        mydata.provinceNo = context.provinceNo;
+        mydata.provinceName = context.province;
+        mydata.province = context.provinceId;
       }
 
       this.setState({
@@ -180,18 +159,18 @@ class AccountProfile extends React.Component {
         }
       });
 
-      queryCityNameById({
-        id: [context.cityId]
-      }).then((cityRes) => {
-        const cityVORes = cityRes.context.systemCityVO || [];
-        this.setState({
-          personalData: Object.assign(this.state.personalData, {
-            cityName: cityVORes.filter((c) => c.id === context.cityId).length
-              ? cityVORes.filter((c) => c.id === context.cityId)[0].cityName
-              : ''
-          })
-        });
-      });
+      // queryCityNameById({
+      //   id: [context.cityId]
+      // }).then((cityRes) => {
+      //   const cityVORes = cityRes.context.systemCityVO || [];
+      //   this.setState({
+      //     personalData: Object.assign(this.state.personalData, {
+      //       cityName: cityVORes.filter((c) => c.id === context.cityId).length
+      //         ? cityVORes.filter((c) => c.id === context.cityId)[0].cityName
+      //         : ''
+      //     })
+      //   });
+      // });
     } catch (err) {
     } finally {
       this.setState({ loading: false });

@@ -1007,8 +1007,8 @@ class Payment extends React.Component {
         guestEmail
       } = this.state;
 
-      console.log('----------- Payment visitorLoginAndAddToCart deliveryAddress: ', deliveryAddress);
-      console.log('----------- Payment visitorLoginAndAddToCart billingAddress: ', billingAddress);
+      console.log('----------- ★ Payment visitorLoginAndAddToCart deliveryAddress: ', deliveryAddress);
+      console.log('----------- ★★ Payment visitorLoginAndAddToCart billingAddress: ', billingAddress);
 
       const cartData = this.cartData.filter((ele) => ele.selected);
 
@@ -1020,7 +1020,7 @@ class Payment extends React.Component {
           billAddress1: billingAddress.address1,
           billAddress2: billingAddress.address2,
           billCity: billingAddress.city,
-          billCityName: billingAddress.city,
+          billCityName: billingAddress.cityName,
           billCountry: billingAddress.country,
           billFirstName: billingAddress.firstName,
           billLastName: billingAddress.lastName,
@@ -1034,11 +1034,9 @@ class Payment extends React.Component {
       );
       param.city = param.city == param.cityName ? null : param.city;
       param.billCity = param.billCity == param.billCityName ? null : param.billCity;
-      param.billCityName = param.billCityName;
-      // console.log('----------- 游客注册并登录&批量添加后台购物车 param 222 : ', param);
-      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
-        param
-      );
+      
+      console.log('----------- 游客注册并登录&批量添加后台购物车 param 222 : ', param);
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = this.bindSubmitParam(this.state.listData);
       userBindConsent({
@@ -1914,8 +1912,8 @@ class Payment extends React.Component {
   };
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
-    console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
-    console.log('------------- ★★ 222 Payment renderAddrPreview billingAddress: ', this.state.billingAddress);
+    // console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
+    // console.log('------------- ★★ 222 Payment renderAddrPreview billingAddress: ', this.state.billingAddress);
     // this.setState({
     //   billingAddress: form
     // });
@@ -1964,11 +1962,6 @@ class Payment extends React.Component {
       brandDeco = paymentMethod.paymentVendor;
       holderNameDeco = paymentMethod.holderName;
       expirationDate = paymentMethod.expirationDate;
-      if(expirationDate) {
-        let curExpirationDate = paymentMethod.expirationDate.split('-')
-        curExpirationDate.pop()
-        expirationDate = curExpirationDate.join('-')
-      }
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
@@ -1994,7 +1987,7 @@ class Payment extends React.Component {
                 {expirationDate ? (
                   <>
                     <br />
-                    <span>{getFormatDate(expirationDate)}</span>
+                    <span>{getFormatDate(expirationDate).substr(3)}</span>
                   </>
                 ) : null}
               </div>
