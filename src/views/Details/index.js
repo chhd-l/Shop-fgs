@@ -2604,8 +2604,7 @@ class Details extends React.Component {
                                       data-ean={barcode}
                                       onClick={this.handleBuyFromRetailer}
                                       style={{
-                                        visibility: this.state.ccidBtnVisibility,
-                                        marginTop: '20px'
+                                        visibility: this.state.ccidBtnVisibility
                                       }}
                                     >
                                       <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
