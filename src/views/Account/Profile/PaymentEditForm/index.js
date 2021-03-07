@@ -250,33 +250,34 @@ class PaymentEditForm extends React.Component {
     const target = e.target;
     const { paymentForm } = this.state;
     const name = target.name;
-    let value = ''
+    let value = '';
     value = target.value;
     paymentForm[name] = value;
     this.setState({ paymentForm }, () => {
       console.log(paymentForm, '--------paymentForm');
     });
     this.inputBlur(e);
-  }
+  };
 
   handleSelectedItemChange = (name, item) => {
-    debugger
     const { paymentForm } = this.state;
     paymentForm[name] = item.value;
     this.setState({ paymentForm }, () => {
       console.log(paymentForm, '--------paymentForm');
     });
-  }
+  };
   handelCheckboxChange = () => {
-    debugger
-    const { paymentForm } = this.state
-    paymentForm['isChecked'] = !paymentForm['isChecked']
-    this.setState({
-      paymentForm
-    }, () => {
-      console.log(paymentForm, '--------paymentForm');
-    })
-  }
+    const { paymentForm } = this.state;
+    paymentForm['isChecked'] = !paymentForm['isChecked'];
+    this.setState(
+      {
+        paymentForm
+      },
+      () => {
+        console.log(paymentForm, '--------paymentForm');
+      }
+    );
+  };
 
   render() {
     const {
@@ -290,7 +291,7 @@ class PaymentEditForm extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <LazyLoad>
+          <LazyLoad key={idx}>
             <img key={idx} className="logo-payment-card" src={el} alt="" />
           </LazyLoad>
         ))}

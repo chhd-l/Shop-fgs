@@ -19,7 +19,8 @@ import { getProvincesList } from '@/api/index';
 @injectIntl
 class PersonalDataEditForm extends React.Component {
   static defaultProps = {
-    originData: null
+    originData: null,
+    editFormVisible: false
   };
   constructor(props) {
     super(props);
@@ -54,21 +55,21 @@ class PersonalDataEditForm extends React.Component {
       errMsgObj: {},
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
-      selectValidationOption: 'suggestedAddress',
+      selectValidationOption: 'suggestedAddress'
     };
     this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
       this
     );
   }
   componentDidMount() {
-    const { data } = this.props;
-    const { form } = this.state;
+    const { data, editFormVisible } = this.props;
     this.setState(
       {
         form: Object.assign({}, data, {
           birthdate: format(new Date(), 'yyyy-MM-dd')
         }),
-        oldForm: Object.assign({}, data)
+        oldForm: Object.assign({}, data),
+        editFormVisible
       },
       () => {
         this.validFormData();
@@ -186,7 +187,7 @@ class PersonalDataEditForm extends React.Component {
       // 不校验地址，进入下一步
       this.showNextPanel();
     }
-  }
+  };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
     const { form, selectValidationOption, validationAddress } = this.state;
@@ -209,7 +210,7 @@ class PersonalDataEditForm extends React.Component {
       validationModalVisible: true,
       validationLoading: true
     });
-  }
+  };
   showNextPanel = async () => {
     this.setState({
       validationModalVisible: false
@@ -217,7 +218,10 @@ class PersonalDataEditForm extends React.Component {
     try {
       const { form } = this.state;
       this.setState({ loading: true });
-      const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+      const oktaTokenString =
+        this.props.authState && this.props.authState.accessToken
+          ? this.props.authState.accessToken.value
+          : '';
       let oktaToken = 'Bearer ' + oktaTokenString;
       let mydata = {};
       if (process.env.REACT_APP_LANG === 'en') {
@@ -225,7 +229,9 @@ class PersonalDataEditForm extends React.Component {
           firstName: form.firstName,
           lastName: form.lastName,
           email: form.email,
-          birthDay: form.birthdate ? form.birthdate.split('/').join('-') : form.birthdate,
+          birthDay: form.birthdate
+            ? form.birthdate.split('/').join('-')
+            : form.birthdate,
           countryId: form.country,
           contactPhone: form.phoneNumber,
           reference: form.rfc,
@@ -245,7 +251,9 @@ class PersonalDataEditForm extends React.Component {
           firstName: form.firstName,
           lastName: form.lastName,
           email: form.email,
-          birthDay: form.birthdate ? form.birthdate.split('/').join('-') : form.birthdate,
+          birthDay: form.birthdate
+            ? form.birthdate.split('/').join('-')
+            : form.birthdate,
           countryId: form.country,
           contactPhone: form.phoneNumber,
           reference: form.rfc,
@@ -327,7 +335,7 @@ class PersonalDataEditForm extends React.Component {
     const { form } = this.state;
     if (key == 'province') {
       form.provinceName = data.name;
-      form.provinceNo = data.stateNo; // 省份简写      
+      form.provinceNo = data.stateNo; // 省份简写
     } else if (key == 'country') {
       form.countryName = data.name;
     }
@@ -337,13 +345,14 @@ class PersonalDataEditForm extends React.Component {
     });
   }
   // 编辑个人信息
-  handleClickEditBtn = () => {
-    myAccountActionPushEvent('Edit profile info')
+  handleClickEditBtn = async () => {
+    myAccountActionPushEvent('Edit profile info');
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
     this.changeEditFormVisible(true);
+    await this.props.updateData();
     this.validFormData();
   };
   handleClickGoBack = () => {
@@ -389,19 +398,20 @@ class PersonalDataEditForm extends React.Component {
                 <FormattedMessage id="account.myAccount" />
               </h5>
             ) : (
-                <h5
-                  className="ui-cursor-pointer"
-                  onClick={this.handleClickGoBack}
-                >
-                  <span>&larr; </span>
-                  <FormattedMessage id="account.myAccount" />
-                </h5>
-              )}
+              <h5
+                className="ui-cursor-pointer"
+                onClick={this.handleClickGoBack}
+              >
+                <span>&larr; </span>
+                <FormattedMessage id="account.myAccount" />
+              </h5>
+            )}
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${editFormVisible ? 'hidden' : ''
-                    }`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${
+                    editFormVisible ? 'hidden' : ''
+                  }`}
                   name="personalInformation"
                   title={txt}
                   alt={txt}
@@ -419,8 +429,9 @@ class PersonalDataEditForm extends React.Component {
           />
           <div className="pl-3 pr-3 pb-3">
             <div
-              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
-                }`}
+              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                errorMsg ? '' : 'hidden'
+              }`}
             >
               <aside
                 className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -441,8 +452,9 @@ class PersonalDataEditForm extends React.Component {
               </aside>
             </div>
             <aside
-              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successTipVisible ? '' : 'hidden'
-                }`}
+              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                successTipVisible ? '' : 'hidden'
+              }`}
               role="alert"
             >
               <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -453,8 +465,9 @@ class PersonalDataEditForm extends React.Component {
             {/* preview form */}
             {data ? (
               <div
-                className={`row userProfileInfo text-break ${editFormVisible ? 'hidden' : ''
-                  }`}
+                className={`row userProfileInfo text-break ${
+                  editFormVisible ? 'hidden' : ''
+                }`}
               >
                 {[
                   {
@@ -476,10 +489,10 @@ class PersonalDataEditForm extends React.Component {
                     val: data.address1
                   }
                 ].map((item, i) => (
-                  <>
+                  <React.Fragment key={i}>
                     <div className="col-6 col-md-9">{item.name}</div>
                     <div className="col-6 col-md-3">{item.val}</div>
-                  </>
+                  </React.Fragment>
                 ))}
               </div>
             ) : null}
@@ -760,11 +773,14 @@ class PersonalDataEditForm extends React.Component {
                         }}
                       />
                     </span>
-                    <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
                       <FormattedMessage id="payment.errorInfo2" />
                     </div>
                   </div>
-                ) : (null)}
+                ) : null}
 
                 {/* country */}
                 <div className="form-group col-lg-6 required">
@@ -830,7 +846,6 @@ class PersonalDataEditForm extends React.Component {
                     <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
                   )}
                 </div>
-
               </div>
               <span
                 className={`rc-meta mandatoryField ${isValid ? 'hidden' : ''}`}
@@ -865,21 +880,22 @@ class PersonalDataEditForm extends React.Component {
         </div>
 
         {validationLoading && <Loading positionFixed="true" />}
-        {validationModalVisible && <ValidationAddressModal
-          address={form}
-          updateValidationData={(res) => this.getValidationData(res)}
-          selectValidationOption={selectValidationOption}
-          handleChooseValidationAddress={(e) =>
-            this.chooseValidationAddress(e)
-          }
-          hanldeClickConfirm={() => this.confirmValidationAddress()}
-          close={() => {
-            this.setState({
-              validationModalVisible: false
-            });
-          }}
-        />}
-
+        {validationModalVisible && (
+          <ValidationAddressModal
+            address={form}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            close={() => {
+              this.setState({
+                validationModalVisible: false
+              });
+            }}
+          />
+        )}
       </div>
     );
   }
