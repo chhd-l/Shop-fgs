@@ -370,6 +370,7 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
+    console.log(cssStyle, 'cssStyle123')
     let {
       images,
       video,
