@@ -2867,8 +2867,8 @@ class Details extends React.Component {
                   <FormattedMessage id="addedtoCart" />
                 </p>
                 <DistributeHubLinkOrATag
-                  href={'/home'}
-                  to="/"
+                  href={'/'}
+                  to="/home"
                   style={{ color: '#666', fontWeight: 400 }}
                 >
                   <FormattedMessage id="continueMyPurchases" />

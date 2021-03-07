@@ -385,7 +385,7 @@ class SubscriptionDetail extends React.Component {
         {
           isGift: isGift,
           subDetail: subDetail,
-          currentCardInfo: subDetail.paymentInfo,
+          currentCardInfo: subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
           orderOptions: orderOptions,
