@@ -268,9 +268,6 @@ class Header extends React.Component {
       console.log(err);
     }
   };
-  toUrl = (path) => {
-    this.props.history.push(path);
-  };
   /**
    * token过期时，主动登出
    */

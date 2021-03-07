@@ -1,6 +1,6 @@
 import React from 'react';
 import NavItem from './NavItemForHub';
-import PromotionPanel from '../modules/PromotionPanel';
+import PromotionPanel from '../hub/PromotionPanel';
 import LazyLoad from 'react-lazyload';
 
 /**
@@ -21,17 +21,23 @@ export default class DropDownMenuForHub extends React.Component {
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   toggleListItem(item) {
+    this.flag = 1;
     // 如果可以打开，就打开，否则不打开
     let tmpId = -1;
     const { activeTopParentId } = this.props;
-    if (item.expanded && activeTopParentId === -1) {
+    if (item.expanded && activeTopParentId === -1 && this.flag) {
       tmpId = item.id;
     }
     this.props.updateActiveTopParentId(tmpId);
     !item.expanded && this.menuItemEvent(item);
   }
   onListItemBlur = (e) => {
-    setTimeout(() => this.props.updateActiveTopParentId(-1), 200);
+    this.flag = 0;
+    setTimeout(() => {
+      if (!this.flag) {
+        this.props.updateActiveTopParentId(-1);
+      }
+    }, 200);
   };
   hanldeListItemMouseOver(item) {
     // 若存在子项，才展开
@@ -58,119 +64,115 @@ export default class DropDownMenuForHub extends React.Component {
   renderNormalMenu = (item, i) => {
     const { contactPhone } = this.props;
     let ret = null;
-    let menuItemListGroupedByStep = [];
-    let menuItemList = [];
-    let otherItemList = [];
-    // 全部为MenuItem时，四个为一列
-    // 全部为MenuItem时
-    if (item.MenuItems.every((ele) => ele.Type === 'MenuItem')) {
-      // for (let i = 0; i < item.MenuItems.length; i += 4) {
-      //   menuItemListGroupedByStep.push(item.MenuItems.slice(i, i + 4));
-      // }
-      menuItemListGroupedByStep.push(...item.MenuItems);
-      ret = menuItemListGroupedByStep.length > 0 && (
-        <ul
-          className={`rc-list__item-sub-menu rc-js--width-adjust-init bg-white ${
-            menuItemListGroupedByStep.length > 6
-              ? 'rc-list__item-sub-menu--double-column'
-              : 'rc-list__item-sub-menu--single-column'
-          }`}
-        >
-          {menuItemListGroupedByStep.map((gItem, gIdx) => (
-            <li>
-              <a
-                href={gItem.Link.Url}
-                className="rc-header__list-item rc-text-colour--text"
-                data-ref="nav-link"
-                role="menuitem"
-                // title="Breeds"
-                key={gItem.id}
-                onClick={this.handleClickNavItem.bind(this, item, gItem)}
+
+    switch (item.Type) {
+      case 'MenuGroup':
+        const menuItemListGroupedByStep = item.MenuItems.filter(
+          (ele) => ele.Type === 'MenuItem'
+        );
+        const promotionItemList = item.MenuItems.filter(
+          (ele) => ele.Type === 'PromotionalMenuItem'
+        );
+        if (
+          menuItemListGroupedByStep.length > 0 &&
+          promotionItemList.length > 0
+        ) {
+          ret = (
+            <div
+              className={`bg-white rc-js--width-adjust-init rc-list__item-sub-menu--fixed rc-list__item-sub-menu rc-list__item-sub-menu--two-column rc-mega-menu-dropdown rc-list__with-promolinks`}
+            >
+              <ul
+                className={`rc-list__item-sub-menu__container rc-margin--md--mobile`}
               >
-                {gItem.Link.Text}
-              </a>
-            </li>
-          ))}
-        </ul>
-      );
-    } else {
-      menuItemList = item.MenuItems.filter((ele) => ele.Type === 'MenuItem');
-      otherItemList = item.MenuItems.filter((ele) => ele.Type !== 'MenuItem');
-    }
-
-    if (item.Type === 'DetailedMenuGroup') {
-      ret = (
-        <div className="rc-list__item-sub-menu rc-list__item-sub-menu--three-column rc-mega-menu-dropdown rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white justify-content-between">
-          {item.MenuItems.map((cItem, cIdx) => (
-            <React.Fragment key={cItem.id}>
-              {cItem.Type === 'PromotionalMenuItem' ? (
-                <div className="rc-list__item-sub-menu__container rc-border-all rc-border-colour--interface rc-margin--md--mobile">
-                  <div className="rc-layout-container rc-two-column rc-no-stack rc-margin-x--none rc-self-h-middle rc-padding-y--sm rc-padding--md--mobile">
-                    <div className="rc-column rc-self-h-middle rc-flex-wrap--wrap rc-padding-y--none">
-                      <h4 className="rc-delta">{cItem.Title}</h4>
-                      <p className="rc-body">{cItem.Subtitle}</p>
-                      <a
-                        href={cItem.PrimaryLink.Url}
-                        className="rc-btn rc-btn--two"
-                        data-ref="nav-link"
-                        onClick={this.handleClickNavItem.bind(
-                          this,
-                          item,
-                          cItem
-                        )}
-                      >
-                        {cItem.PrimaryLink.Text}
-                      </a>
-                    </div>
-                    <div className="rc-column rc-padding-y--none">
-                      <img
-                        src={cItem.Image.Url}
-                        alt={cItem.Image.AltText}
-                        srcSet={cItem.Image.Srcset}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="rc-list__item-sub-menu__container">
-                  <button
-                    className="rc-mega-menu-dropdown__column rc-mega-menu-dropdown__sub-section-header"
-                    tabIndex="-1"
+                {menuItemListGroupedByStep.map((gItem) => (
+                  <li key={gItem.id}>
+                    <a
+                      href={gItem.Link.Url}
+                      className="rc-header__list-item rc-text-colour--text"
+                      data-ref="nav-link"
+                      role="menuitem"
+                      title={gItem.Link.Text}
+                      key={gItem.id}
+                      onClick={this.handleClickNavItem.bind(this, item, gItem)}
+                    >
+                      {gItem.Link.Text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <PromotionPanel
+                item={item}
+                cItem={promotionItemList[0]}
+                handleClickNavItem={this.handleClickNavItem}
+              />
+            </div>
+          );
+        } else if (menuItemListGroupedByStep.length > 0) {
+          ret = (
+            <ul
+              className={`rc-list__item-sub-menu rc-js--width-adjust-init bg-white ${
+                menuItemListGroupedByStep.length > 6
+                  ? 'rc-list__item-sub-menu--double-column'
+                  : 'rc-list__item-sub-menu--single-column'
+              }`}
+            >
+              {menuItemListGroupedByStep.map((gItem) => (
+                <li key={gItem.id}>
+                  <a
+                    href={gItem.Link.Url}
+                    className="rc-header__list-item rc-text-colour--text"
+                    data-ref="nav-link"
+                    role="menuitem"
+                    title={gItem.Link.Text}
+                    key={gItem.id}
+                    onClick={this.handleClickNavItem.bind(this, item, gItem)}
                   >
-                    <span className="rc-mega-menu-dropdown__column-inner">
-                      <img
-                        src={cItem.Image.Url}
-                        alt={cItem.Image.AltText}
-                        srcSet={cItem.Image.Srcset}
-                      />
-                      <span className="rc-mega-menu-dropdown__column-title rc-delta">
-                        {cItem.ImageDescription}
-                      </span>
-                    </span>
-                  </button>
+                    {gItem.Link.Text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          );
+        }
 
-                  <div className="rc-mega-menu-dropdown__column-inner rc-mega-menu-dropdown__sub-section__slide-tray">
-                    {cItem.SubItems.map((sItem, sIdx) => (
-                      <div
-                        className="rc-margin-bottom--xs mega-menu-inner-links"
-                        key={sIdx}
-                      >
-                        <a
-                          className="rc-margin-bottom--xs--desktop rc-mega-menu-dropdown__link__title rc-text-colour--text rc-mega-menu-dropdown__link"
-                          href={sItem.Link.Url}
-                          data-ref="nav-link"
-                          onClick={this.handleClickNavItem.bind(
-                            this,
-                            item,
-                            sItem,
-                            1
-                          )}
+        break;
+      case 'DetailedMenuGroup':
+        ret = (
+          <div className="rc-list__item-sub-menu rc-list__item-sub-menu--three-column rc-mega-menu-dropdown rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white justify-content-between">
+            {item.MenuItems.map((cItem) => (
+              <React.Fragment key={cItem.id}>
+                {cItem.Type === 'PromotionalMenuItem' ? (
+                  <PromotionPanel
+                    item={item}
+                    cItem={cItem}
+                    handleClickNavItem={this.handleClickNavItem}
+                  />
+                ) : (
+                  <div className="rc-list__item-sub-menu__container">
+                    <button
+                      className="rc-mega-menu-dropdown__column rc-mega-menu-dropdown__sub-section-header"
+                      tabIndex="-1"
+                    >
+                      <span className="rc-mega-menu-dropdown__column-inner">
+                        <img
+                          src={cItem.Image.Url}
+                          alt={cItem.Image.AltText}
+                          srcSet={cItem.Image.Srcset}
+                        />
+                        <span className="rc-mega-menu-dropdown__column-title rc-delta">
+                          {cItem.ImageDescription}
+                        </span>
+                      </span>
+                    </button>
+
+                    <div className="rc-mega-menu-dropdown__column-inner rc-mega-menu-dropdown__sub-section__slide-tray">
+                      {cItem.SubItems.map((sItem, sIdx) => (
+                        <div
+                          className="rc-margin-bottom--xs mega-menu-inner-links"
+                          key={sIdx}
                         >
-                          {sItem.Title}
-                        </a>
-                        {sItem.Subtitle ? (
                           <a
-                            className="rc-mega-menu-dropdown__link"
+                            className="rc-margin-bottom--xs--desktop rc-mega-menu-dropdown__link__title rc-text-colour--text rc-mega-menu-dropdown__link"
                             href={sItem.Link.Url}
                             data-ref="nav-link"
                             onClick={this.handleClickNavItem.bind(
@@ -180,108 +182,137 @@ export default class DropDownMenuForHub extends React.Component {
                               1
                             )}
                           >
-                            {sItem.Subtitle}
+                            {sItem.Title}
                           </a>
-                        ) : null}
-                      </div>
-                    ))}
+                          {sItem.Subtitle ? (
+                            <a
+                              className="rc-mega-menu-dropdown__link"
+                              href={sItem.Link.Url}
+                              data-ref="nav-link"
+                              onClick={this.handleClickNavItem.bind(
+                                this,
+                                item,
+                                sItem,
+                                1
+                              )}
+                            >
+                              {sItem.Subtitle}
+                            </a>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      );
-    } else if (item.Type === 'ContactUsMenuGroup') {
-      ret = (
-        <div className="rc-list__item-sub-menu rc-mega-menu-dropdown rc-list__item-sub-menu--full rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white">
-          <div className="rc-layout-container rc-four-column rc-contact-dropdown">
-            {item.MenuItems.map((cItem, cIdx) =>
-              cIdx ? (
-                <div
-                  className="rc-column rc-border-all rc-border-colour--interface rc-contact-dropdown-column rc-margin-left--sm--desktop align-items-center d-flex"
-                  key={cIdx}
-                >
-                  <div className="rc-layout-container rc-three-column rc-contact-dropdown-column__container align-items-center d-flex">
-                    <div className="rc-column rc-double-width rc-contact-dropdown-column__inner">
-                      <span
-                        className="rc-contact-dropdown__sub-title rc-contact-dropdown-column__link"
-                        onClick={this.handleClickNavItem.bind(
-                          this,
-                          item,
-                          cItem
-                        )}
-                      >
-                        {cItem.Subtitle}
-                      </span>
-                      <br />
-                      {cItem.Icon === 'contact' && (
-                        <>
-                          <a
-                            className="rc-contact-dropdown__title rc-contact-dropdown-column__link"
-                            data-ref="nav-link"
-                            href={`tel:${contactPhone}`}
-                          >
-                            {contactPhone}
-                          </a>
-                          <br />
-                        </>
-                      )}
-
-                      {cItem.Link && cItem.Link.Url ? (
-                        <a
-                          className="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link"
-                          data-ref="nav-link"
-                          href={item.Link.Url}
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        );
+        break;
+      case 'ContactUsMenuGroup':
+        ret = (
+          <div className="rc-list__item-sub-menu rc-mega-menu-dropdown rc-list__item-sub-menu--full rc-list__item-sub-menu--fixed rc-js--width-adjust-init bg-white">
+            <div className="rc-layout-container rc-four-column rc-contact-dropdown">
+              {item.MenuItems.map((cItem, cIdx) =>
+                cIdx ? (
+                  <div
+                    className="rc-column rc-border-all rc-border-colour--interface rc-contact-dropdown-column rc-margin-left--sm--desktop align-items-center d-flex"
+                    key={cIdx}
+                  >
+                    <div className="rc-layout-container rc-three-column rc-contact-dropdown-column__container align-items-center d-flex">
+                      <div className="rc-column rc-double-width rc-contact-dropdown-column__inner">
+                        <span
+                          className="rc-contact-dropdown__sub-title rc-contact-dropdown-column__link"
                           onClick={this.handleClickNavItem.bind(
                             this,
                             item,
                             cItem
                           )}
                         >
-                          {cItem.Description}
-                        </a>
-                      ) : (
-                        <span className="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link">
-                          {cItem.Description}
+                          {cItem.Subtitle}
                         </span>
+                        <br />
+                        {cItem.Icon === 'contact' && (
+                          <>
+                            <a
+                              className="rc-contact-dropdown__title rc-contact-dropdown-column__link ui-cursor-pointer"
+                              data-ref="nav-link"
+                              href={`tel:${contactPhone}`}
+                            >
+                              {contactPhone}
+                            </a>
+                            <br />
+                          </>
+                        )}
+
+                        {cItem.Link && cItem.Link.Url ? (
+                          <a
+                            className="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link"
+                            data-ref="nav-link"
+                            href={cItem.Link.Url}
+                            onClick={this.handleClickNavItem.bind(
+                              this,
+                              item,
+                              cItem
+                            )}
+                          >
+                            {cItem.Description}
+                          </a>
+                        ) : (
+                          <span className="rc-contact-dropdown__opening-hours rc-contact-dropdown-column__link">
+                            {cItem.Description}
+                          </span>
+                        )}
+                      </div>
+                      {cItem.Link && cItem.Link.Url ? (
+                        <a
+                          className={`rc-icon rc-brand1 ${
+                            {
+                              contact: 'rc-contact',
+                              email: 'rc-email',
+                              advice: 'rc-advice'
+                            }[cItem.Icon]
+                          }`}
+                          data-ref="nav-link"
+                          href={cItem.Link.Url}
+                          onClick={this.handleClickNavItem.bind(
+                            this,
+                            item,
+                            cItem
+                          )}
+                        />
+                      ) : (
+                        <span
+                          className={`rc-icon rc-brand1 ${
+                            {
+                              contact: 'rc-contact',
+                              email: 'rc-email',
+                              advice: 'rc-advice'
+                            }[cItem.Icon]
+                          }`}
+                          onClick={this.handleClickNavItem.bind(
+                            this,
+                            item,
+                            cItem
+                          )}
+                        />
                       )}
                     </div>
-                    {item.Link && item.Link.Url ? (
-                      // <div className="rc-column rc-contact-dropdown-column__inner rc-contact-dropdown-column__icon">
-                      <a
-                        className={`rc-icon rc-brand1 ${
-                          {
-                            contact: 'rc-contact',
-                            email: 'rc-email',
-                            advice: 'rc-advice'
-                          }[cItem.Icon]
-                        }`}
-                        data-ref="nav-link"
-                        href={item.Link.Url}
-                        onClick={this.handleClickNavItem.bind(
-                          this,
-                          item,
-                          cItem
-                        )}
-                      />
-                    ) : // </div>
-                    null}
                   </div>
-                </div>
-              ) : (
-                <div
-                  className="rc-column rc-contact-dropdown-column--first"
-                  key={cIdx}
-                >
-                  <p className="rc-delta">{cItem.Title}</p>
-                  <p className="body-copy">{cItem.Content}</p>
-                </div>
-              )
-            )}
+                ) : (
+                  <div
+                    className="rc-column rc-contact-dropdown-column--first"
+                    key={cIdx}
+                  >
+                    <p className="rc-delta">{cItem.Title}</p>
+                    <p className="body-copy">{cItem.Content}</p>
+                  </div>
+                )
+              )}
+            </div>
           </div>
-        </div>
-      );
+        );
+        break;
     }
     return ret;
   };
@@ -299,7 +330,7 @@ export default class DropDownMenuForHub extends React.Component {
           className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
             showNav ? '' : 'rc-hidden'
           }`}
-          style={{paddingRight: '2px',paddingLeft: '2px'}}
+          style={{ paddingRight: '2px', paddingLeft: '2px' }}
         >
           <ul
             className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
@@ -324,34 +355,47 @@ export default class DropDownMenuForHub extends React.Component {
                 >
                   <li className="rc-list__item">
                     <span className="rc-list__header pt-0 pb-0">
-                      <span
-                        // item={item}
-                        className={`rc-list__header border-bottom border-width-2 ${
-                          item.id === activeTopParentId
-                            ? 'border-red'
-                            : 'border-transparent'
-                        }`}
-                        // onClick={(e) => {
-                        //   e.preventDefault();
-                        // }}
-                      >
-                        {item.expanded ? (
-                          <span className={`header-icon`} style={{whiteSpace:'nowrap'}}>
-                            {item.Link && item.Link.Text}
-                            {item.id === activeTopParentId ? (
-                              <span className="iconfont icon-dropdown-arrow ml-1">
-                                &#xe6f9;
-                              </span>
-                            ) : (
-                              <span className="iconfont icon-dropdown-arrow ml-1">
-                                &#xe6fa;
-                              </span>
-                            )}
-                          </span>
-                        ) : (
-                          item.Link && item.Link.Text
-                        )}
-                      </span>
+                      {item.expanded ? (
+                        <span
+                          // item={item}
+                          className={`rc-list__header border-bottom border-width-2 ${
+                            item.id === activeTopParentId
+                              ? 'border-red'
+                              : 'border-transparent'
+                          }`}
+                        >
+                          {item.expanded ? (
+                            <span
+                              className={`header-icon`}
+                              style={{ whiteSpace: 'nowrap' }}
+                            >
+                              {item.Link && item.Link.Text}
+                              {item.id === activeTopParentId ? (
+                                <span className="iconfont icon-dropdown-arrow ml-1">
+                                  &#xe6f9;
+                                </span>
+                              ) : (
+                                <span className="iconfont icon-dropdown-arrow ml-1">
+                                  &#xe6fa;
+                                </span>
+                              )}
+                            </span>
+                          ) : (
+                            item.Link && item.Link.Text
+                          )}
+                        </span>
+                      ) : (
+                        <NavItem
+                          item={item}
+                          className={`rc-list__header border-bottom border-width-2 ${
+                            item.id === activeTopParentId
+                              ? 'border-red'
+                              : 'border-transparent'
+                          }`}
+                        >
+                          {item.Link && item.Link.Text}
+                        </NavItem>
+                      )}
                     </span>
                   </li>
                 </ul>
