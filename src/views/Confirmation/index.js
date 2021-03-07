@@ -7,7 +7,6 @@ import Footer from '@/components/Footer';
 import OxxoModal from './modules/OxxoModal';
 import PayProductInfo from '@/components/PayProductInfo';
 import AddressPreview from './modules/AddressPreview';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -169,27 +168,25 @@ class Confirmation extends React.Component {
         <div style={{ padding: '0 20px 0 10px' }}>
           <FormattedMessage id="or" />
         </div>
-        <DistributeHubLinkOrATag
-          href={'/'}
+        <Link
           to="/home"
           className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis"
         >
           <FormattedMessage id="continueShopping" />
-        </DistributeHubLinkOrATag>
+        </Link>
       </>
     );
     return (
       {
         oneShoot: (
           <>
-            <DistributeHubLinkOrATag
-              href={'/'}
+            <Link
               to="/home"
               className="rc-btn rc-btn--one"
               style={{ transform: 'scale(.85)' }}
             >
               <FormattedMessage id="confirmation.oneShoot" />
-            </DistributeHubLinkOrATag>
+            </Link>
           </>
         )
       }[buyWay] || defaultJSX
@@ -406,13 +403,12 @@ class Confirmation extends React.Component {
                       &nbsp;
                       <FormattedMessage id="or" />
                       &nbsp;
-                      <DistributeHubLinkOrATag
-                        href={'/'}
+                      <Link
                         to="/home"
                         className="rc-meta rc-styled-link backtohome mb-0"
                       >
                         <FormattedMessage id="continueShopping" />
-                      </DistributeHubLinkOrATag>
+                      </Link>
                     </>
                   ) : (
                     this.AdyenBtnJSX(

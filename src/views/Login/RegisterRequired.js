@@ -11,7 +11,6 @@ import { withOktaAuth } from '@okta/okta-react';
 import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -289,8 +288,7 @@ class RegisterRequired extends Component {
               >
                 {/* Logo */}
                 <div className="rc-margin-bottom--sm">
-                  <DistributeHubLinkOrATag
-                    href={'/'}
+                  <Link
                     to="/home"
                     className="logo-home d-inline-block"
                     title="Commerce Cloud
@@ -307,7 +305,7 @@ class RegisterRequired extends Component {
                         alt="Royal Canin Flagship Store"
                       />
                     </div>
-                  </DistributeHubLinkOrATag>
+                  </Link>
                 </div>
 
                 {/* Header title */}

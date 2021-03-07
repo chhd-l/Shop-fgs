@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { Link } from 'react-router-dom'
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
 import {
@@ -535,14 +535,10 @@ class Header extends React.Component {
               ) : null}
             </ul>
 
-            <DistributeHubLinkOrATag
-              href={'/'}
-              to="/home"
-              className="header__nav__brand logo-home"
-            >
+            <Link to="/home" className="header__nav__brand logo-home">
               <span className="rc-screen-reader-text" />
               <Logo />
-            </DistributeHubLinkOrATag>
+            </Link>
             <ul
               className={`rc-list rc-list--blank rc-list--align rc-header__right ${
                 this.props.showLoginBtn ? 'rc-list--inline' : 'rc-hidden'

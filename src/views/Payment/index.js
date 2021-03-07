@@ -870,9 +870,9 @@ class Payment extends React.Component {
             .call(res.context)
             .slice(8, -1);
           let adyenAction = '';
-          if (contextType === 'Array' && res.context.action) {
+          if (contextType === 'Array' && res.context.redirectUrl) {
             //正常时候,res.context后台返回数组
-            adyenAction = JSON.parse(res.context.action);
+            adyenAction = JSON.parse(res.context.redirectUrl);
             if (subOrderNumberList.length) {
               sessionItemRoyal.set(
                 'subOrderNumberList',
@@ -880,9 +880,9 @@ class Payment extends React.Component {
               );
             }
             this.setState({ adyenAction });
-          } else if (contextType === 'Object' && res.context.action) {
+          } else if (contextType === 'Object' && res.context.redirectUrl) {
             //会员repay时，res.context后台返回对象
-            adyenAction = JSON.parse(res.context.action);
+            adyenAction = JSON.parse(res.context.redirectUrl);
             if (subOrderNumberList.length) {
               sessionItemRoyal.set(
                 'subOrderNumberList',
@@ -1006,6 +1006,10 @@ class Payment extends React.Component {
         creditCardInfo,
         guestEmail
       } = this.state;
+
+      console.log('----------- Payment visitorLoginAndAddToCart deliveryAddress: ', deliveryAddress);
+      console.log('----------- Payment visitorLoginAndAddToCart billingAddress: ', billingAddress);
+
       const cartData = this.cartData.filter((ele) => ele.selected);
 
       let param = Object.assign(
@@ -1028,10 +1032,10 @@ class Payment extends React.Component {
           consigneeEmail: deliveryAddress.email
         }
       );
-
       param.city = param.city == param.cityName ? null : param.city;
-      param.billCity = param.city;
-      param.billCityName = param.cityName;
+      param.billCity = param.billCity == param.billCityName ? null : param.billCity;
+      param.billCityName = param.billCityName;
+      // console.log('----------- 游客注册并登录&批量添加后台购物车 param 222 : ', param);
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
@@ -1099,9 +1103,9 @@ class Payment extends React.Component {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
-      // city: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
       cityName: deliveryAddress.cityName,
-      city: deliveryAddress.cityName,
+      // city: deliveryAddress.cityName,
+      city: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1312,9 +1316,10 @@ class Payment extends React.Component {
           address2: deliveryAddress.address2,
           rfc: deliveryAddress.rfc,
           country: deliveryAddress.countryId ? deliveryAddress.countryId.toString() : '',
-          cityId: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
+          cityId: deliveryAddress.cityId,
           cityName: deliveryAddress.cityName,
-          city: deliveryAddress.cityName,
+          // city: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
+          city: deliveryAddress.city,
           postCode: deliveryAddress.postCode,
           phoneNumber: deliveryAddress.consigneeNumber,
           email: deliveryAddress.email,
@@ -1329,9 +1334,9 @@ class Payment extends React.Component {
             address2: billingAddress.address2,
             rfc: billingAddress.rfc,
             country: billingAddress.countryId ? billingAddress.countryId.toString() : '',
-            cityId: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
             cityName: billingAddress.cityName,
-            city: billingAddress.cityName,
+            // city: billingAddress.city == billingAddress.cityName ? null : billingAddress.city,
+            city: billingAddress.city,
             postCode: billingAddress.postCode,
             phoneNumber: billingAddress.consigneeNumber,
             addressId:
@@ -1468,8 +1473,8 @@ class Payment extends React.Component {
         billingAddress: data
       });
     }
+    // console.log('------------------ payment updateDeliveryAddrData data: ', data);
     try {
-      console.log('------------------ payment updateDeliveryAddrData data: ', data);
       if (process.env.REACT_APP_LANG === 'en') {
         // 获取税额
         if (this.isLogin) {
@@ -1606,7 +1611,6 @@ class Payment extends React.Component {
     const { isLogin } = this;
     const { paymentStore } = this.props;
     const { adyenPayParam, paymentTypeVal } = this.state;
-
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
     this.setState({ saveBillingLoading: true });
@@ -1910,6 +1914,11 @@ class Payment extends React.Component {
   };
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
+    console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
+    console.log('------------- ★★ 222 Payment renderAddrPreview billingAddress: ', this.state.billingAddress);
+    // this.setState({
+    //   billingAddress: form
+    // });
     return form ? (
       <>
         {titleVisible && (
@@ -1920,7 +1929,7 @@ class Payment extends React.Component {
             <br />
           </>
         )}
-        <AddressPreview boldName={boldName} form={form} />
+        <AddressPreview boldName={boldName} form={form} isLogin={this.isLogin} />
       </>
     ) : null;
   };

@@ -10,7 +10,6 @@ import Selection from '@/components/Selection';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
@@ -2879,13 +2878,12 @@ class Details extends React.Component {
                 <p style={{ color: '#47b800 !important' }}>
                   <FormattedMessage id="addedtoCart" />
                 </p>
-                <DistributeHubLinkOrATag
-                  href={'/'}
+                <Link
                   to="/home"
                   style={{ color: '#666', fontWeight: 400 }}
                 >
                   <FormattedMessage id="continueMyPurchases" />
-                </DistributeHubLinkOrATag>
+                </Link>
                 <p>
                   <FormattedMessage id="or" />
                 </p>

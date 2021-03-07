@@ -932,18 +932,20 @@ class AccountOrders extends React.Component {
             title={<FormattedMessage id="orderStatus.COMPLETED" />}
             tip={<FormattedMessage id="order.completeTip" />}
             operation={
-              <FormattedMessage id="comment">
-                {(txt) => (
-                  <Link
-                    className="rc-btn rc-btn--sm rc-btn--one"
-                    to={`/account/productReview/${orderNumber}`}
-                    title={txt}
-                    alt={txt}
-                  >
-                    {txt}
-                  </Link>
-                )}
-              </FormattedMessage>
+              !!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                <FormattedMessage id="comment">
+                  {(txt) => (
+                    <Link
+                      className="rc-btn rc-btn--sm rc-btn--one"
+                      to={`/account/productReview/${orderNumber}`}
+                      title={txt}
+                      alt={txt}
+                    >
+                      {txt}
+                    </Link>
+                  )}
+                </FormattedMessage>
+              )
             }
             moreTip={this.renderLogitiscsJSX()}
           />
@@ -1469,7 +1471,7 @@ class AccountOrders extends React.Component {
                                         this.state.countryList,
                                         details.consignee.countryId
                                       )}{' '}
-                                      {details.consignee.cityName}
+                                      {details.consignee.city}
                                       <br />
                                       {details.consignee.detailAddress1}
                                       <br />
@@ -1508,7 +1510,7 @@ class AccountOrders extends React.Component {
                                         this.state.countryList,
                                         details.invoice.countryId
                                       )}{' '}
-                                      {details.invoice.cityName}
+                                      {details.invoice.city}
                                       <br />
                                       {details.invoice.address1}
                                       <br />
