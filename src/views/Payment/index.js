@@ -1032,7 +1032,6 @@ class Payment extends React.Component {
       param.city = param.city == param.cityName ? null : param.city;
       param.billCity = param.city;
       param.billCityName = param.cityName;
-      console.log('-------------------------- ★★★ Payment param: ', param);
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
@@ -1101,7 +1100,7 @@ class Payment extends React.Component {
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
       // city: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
-      // cityName: deliveryAddress.cityName,
+      cityName: deliveryAddress.cityName,
       city: deliveryAddress.cityName,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
@@ -1314,6 +1313,7 @@ class Payment extends React.Component {
           rfc: deliveryAddress.rfc,
           country: deliveryAddress.countryId ? deliveryAddress.countryId.toString() : '',
           cityId: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
+          cityName: deliveryAddress.cityName,
           city: deliveryAddress.cityName,
           postCode: deliveryAddress.postCode,
           phoneNumber: deliveryAddress.consigneeNumber,
@@ -1330,6 +1330,7 @@ class Payment extends React.Component {
             rfc: billingAddress.rfc,
             country: billingAddress.countryId ? billingAddress.countryId.toString() : '',
             cityId: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
+            cityName: billingAddress.cityName,
             city: billingAddress.cityName,
             postCode: billingAddress.postCode,
             phoneNumber: billingAddress.consigneeNumber,
