@@ -116,6 +116,7 @@ const es_ES = {
   cancel: 'cancelación',
   card: 'Tarjeta',
   cardCvvIsInvalid: 'su tarjeta cvv no es válida',
+  nameInvalid: 'Tu nombre no es válido',
   cardNumber: 'Número de tarjeta',
   cardNumberIsInvalid: 'su número de tarjeta no es válido',
   'cart.catDiet': 'Dietas veterinarias para gatos',

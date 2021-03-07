@@ -102,6 +102,7 @@ const tr_TR = {
   breed: 'Doğurmak',
   cancel: 'İptal etmek',
   cardCvvIsInvalid: 'kart özgeçmişiniz geçersiz',
+  nameInvalid: 'Adın geçersiz',
   cardNumber: 'Kart numarası',
   cardNumberIsInvalid: 'kart numaranız geçersiz',
   'cart.catDiet': 'Kediniz için bir diyet seçin',

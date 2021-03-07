@@ -7,11 +7,12 @@ import { getFormatDate, datePickerConfig } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
 import DatePicker from 'react-datepicker';
-import { ADDRESS_RULE } from '@/utils/constant';
+import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.less';
 import { Link } from 'react-router-dom';
+import LoginButton from '@/components/LoginButton'
 
 function Divider() {
   return (
@@ -103,7 +104,7 @@ export default class Felin extends React.Component {
   inputBlur = async (e) => {
     const { errMsgObj } = this.state;
     const target = e.target;
-    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const targetRule = PRESONAL_INFO_RULE.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
       await validData(targetRule, { [target.name]: value });
@@ -132,11 +133,14 @@ export default class Felin extends React.Component {
     }
   };
   goNextStep() {
-    let { step, selectedTimeObj } = this.state;
+    let { step, selectedTimeObj, selectedDate, } = this.state;
     this.setState({ step: step + 1 }, () => {
       if (step === 2) {
         this.setState({ nextBtnShow: false });
       }
+      // let felinForm = {
+      //   selectedDate: 
+      // }
       this.updateButtonState();
     });
   }
@@ -591,12 +595,17 @@ export default class Felin extends React.Component {
                         >
                           <FormattedMessage id="Continuer en tant qu'invité" />
                         </button>
-                        <button
+                        {/* <button
                           className="rc-btn rc-btn--two"
                           style={{ margin: '5px 0', width: '100%' }}
                         >
                           <FormattedMessage id="Se connecter" />
-                        </button>
+                        </button> */}
+                        <LoginButton
+                          className="rc-btn rc-btn--two"
+                          btnStyle={{margin: '5px 0', width: '100%'}}
+                          history={this.props.history}
+                        >Se connecter</LoginButton>
                       </>
                     ) : null}
                     {this.state.step === 4 ? (
@@ -722,6 +731,8 @@ export default class Felin extends React.Component {
                             onClick={() => {
                               this.setState({
                                 consentChecked: !this.state.consentChecked
+                              }, () => {
+                                this.updateButtonState()
                               });
                             }}
                           />

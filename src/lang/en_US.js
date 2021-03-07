@@ -119,6 +119,7 @@ const en_US = {
   cancel: 'Cancel',
   card: 'Card',
   cardCvvIsInvalid: 'your card cvv is invalid',
+  nameInvalid: 'your name is invalid',
   cardNumber: 'Card Number',
   cardNumberIsInvalid: 'your card number is invalid',
   'cart.catDiet': 'Choose a diet for your cat',
