@@ -50,7 +50,8 @@ import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() === 'H5';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const isPad = getDeviceType() === 'Pad';
 // const pageLink = window.location.href;
 function AdvantageTips({ secondIconvisible = true }) {
   return (
@@ -988,12 +989,14 @@ class Details extends React.Component {
                     return ele['Prescriber Blod Description'];
                   })
                   .filter((e) => e)[0];
+                  console.log('hahahaha', !goodsRes.saleableFlag && goodsRes.displayFlag, goodsRes.saleableFlag, goodsRes.displayFlag)
                 if (goodsRes.goodsType === 2) {
                   ret = `<p style="white-space: pre-line; font-weight: 400">${blodDesc}</p><p style="white-space: pre-line; font-weight: 400">${prescriberDesc}</p><p style="white-space: pre-line;">${shortDesc}</p>`;
                 } else if (!goodsRes.saleableFlag && goodsRes.displayFlag) {
                   this.setState({
                     descContent: isVet ? prescriberDesc : shortDesc
                   });
+                  
                   ret = null;
                 } else if (isVet) {
                   ret = `<p style="white-space: pre-line;">${prescriberDesc}</p>`;
@@ -1611,11 +1614,6 @@ class Details extends React.Component {
           eanDoms[0].nextElementSibling.click()
         }, false)
         
-
-        eanDoms[0].parentElement.onClick = function() {
-          console.log(111)
-        }
-        console.log(eanDoms[0].parentElement.onclick, 'aaa123')
         for (let mutation of mutationsList) {
           if (mutation.type === 'childList') {
             self.setState({
@@ -2817,7 +2815,7 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle && isHub ? (
+                {!this.state.loading && !bundle && isHub && isPad ? (
                   <div
                     ref={(el) => this.ccidBtnRef(el)}
                     className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"

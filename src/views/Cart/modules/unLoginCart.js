@@ -1812,17 +1812,18 @@ class UnLoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {(txt) => (
-                        <a
-                          tabIndex="1"
-                          className="ui-cursor-pointer-pure"
-                          onClick={this.goBack}
-                          title={txt}
-                        >
-                          <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                            <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
-                            {txt}
-                          </span>
-                        </a>
+                        <Link to="/home">{txt}</Link>
+                        // <a
+                        //   tabIndex="1"
+                        //   className="ui-cursor-pointer-pure"
+                        //   onClick={this.goBack}
+                        //   title={txt}
+                        // >
+                        //   <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                        //     <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
+                        //     {txt}
+                        //   </span>
+                        // </a>
                       )}
                     </FormattedMessage>
                   </div>

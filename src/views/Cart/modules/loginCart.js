@@ -1781,17 +1781,18 @@ class LoginCart extends React.Component {
                       <div className="rc-column">
                         <FormattedMessage id="continueShopping">
                           {(txt) => (
-                            <a
-                              tabIndex="1"
-                              className="ui-cursor-pointer-pure"
-                              onClick={(e) => this.goBack(e)}
-                              title={txt}
-                            >
-                              <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
-                                {txt}
-                              </span>
-                            </a>
+                            <Link to="/home">{txt}</Link>
+                            // <a
+                            //   tabIndex="1"
+                            //   className="ui-cursor-pointer-pure"
+                            //   onClick={(e) => this.goBack(e)}
+                            //   title={txt}
+                            // >
+                            //   <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                            //     <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
+                            //     {txt}
+                            //   </span>
+                            // </a>
                           )}
                         </FormattedMessage>
                       </div>
