@@ -142,6 +142,11 @@ class AdyenCreditCardForm extends React.Component {
       let currentCardEncryptedSecurityCode =
         adyenFormData.encryptedSecurityCode; //获取当前保存卡的encryptedSecurityCode
       if (adyenFormData.storePaymentMethod) {
+        // let nameReg = /[0-9]/
+        // if(nameReg.test(adyenFormData.hasHolderName)) {
+        //   this.props.showErrorMsg(this.props.intl.messages.nameInvalid)
+        //   return
+        // }
         this.setState({ saveLoading: true });
         const res = await addOrUpdatePaymentMethod({
           storeId: process.env.REACT_APP_STOREID,
@@ -174,6 +179,7 @@ class AdyenCreditCardForm extends React.Component {
       myAccountActionPushEvent('Add payment Method')
       this.isLogin && this.props.updateFormVisible(false);
     } catch (err) {
+      this.props.showErrorMsg(err.message)
       throw new Error(err.message);
     }
   };

@@ -102,6 +102,7 @@ const ru_RU = {
   breed: 'Порода',
   cancel: 'Отмена',
   cardCvvIsInvalid: 'CVV вашей карты недействителен',
+  nameInvalid: 'Ваше имя недействительно',
   cardNumber: 'Номер карты',
   cardNumberIsInvalid: 'номер вашей карты недействителен',
   'cart.catDiet': 'Выберите диету для своей кошки',

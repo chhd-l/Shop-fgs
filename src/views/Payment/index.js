@@ -1955,6 +1955,9 @@ class Payment extends React.Component {
       brandDeco = paymentMethod.paymentVendor;
       holderNameDeco = paymentMethod.holderName;
       expirationDate = paymentMethod.expirationDate;
+      let curExpirationDate = paymentMethod.expirationDate.split('-')
+      curExpirationDate.pop()
+      expirationDate = curExpirationDate.join('-')
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
@@ -1980,7 +1983,7 @@ class Payment extends React.Component {
                 {expirationDate ? (
                   <>
                     <br />
-                    <span>{getFormatDate(expirationDate).substr(3)}</span>
+                    <span>{getFormatDate(expirationDate)}</span>
                   </>
                 ) : null}
               </div>

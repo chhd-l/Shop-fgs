@@ -139,6 +139,7 @@ const de_DE = {
   cancel: 'Abbrechen',
   card: 'Karte',
   cardCvvIsInvalid: 'Ihr Kreditkarten Prüfziffer ist ungültig',
+  nameInvalid: 'Ihr Name ist ungültig',
   cardNumber: 'Kartennummer',
   cardNumberIsInvalid: 'Ihre Kartennummer ist ungültig',
   'cart.catDiet': 'Nahrungen für Katzen',
