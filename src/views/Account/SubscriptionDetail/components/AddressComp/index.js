@@ -256,6 +256,9 @@ class AddressList extends React.Component {
     });
     if (itemIdx > -1) {
       const tmp = addressList[itemIdx];
+
+      console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
+
       if (process.env.REACT_APP_LANG === 'en') {
         tmpDeliveryAddress = {
           firstName: tmp.firstName,
@@ -264,8 +267,9 @@ class AddressList extends React.Component {
           address2: tmp.address2,
           rfc: tmp.rfc,
           country: tmp.countryId ? tmp.countryId.toString() : '',
-          city: tmp.cityName,
-          cityId: tmp.cityName == tmp.city ? null : tmp.city,
+          cityName: tmp.cityName,
+          city: tmp.cityName == tmp.city ? null : tmp.city,
+          cityId: tmp.cityId,
           province: tmp.provinceName,
           provinceId: tmp.province,
           postCode: tmp.postCode,
@@ -281,8 +285,9 @@ class AddressList extends React.Component {
           address2: tmp.address2,
           rfc: tmp.rfc,
           country: tmp.countryId ? tmp.countryId.toString() : '',
-          city: tmp.cityName,
-          cityId: tmp.cityName == tmp.city ? null : tmp.city,
+          cityName: tmp.cityName,
+          city: tmp.cityName == tmp.city ? null : tmp.city,
+          cityId: tmp.cityId,
           postCode: tmp.postCode,
           phoneNumber: tmp.consigneeNumber,
           email: tmp.email,

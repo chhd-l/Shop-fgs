@@ -42,14 +42,13 @@ export default class AddressForm extends React.Component {
         provinceList: res.context.systemStates
       });
     });
-    console.log('------------------ deliveryAddress: ',this.state.deliveryAddress);
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.deliveryAddress) {
       this.setState({
         deliveryAddress: Object.assign({}, nextProps.data)
       }, () => {
-        console.log(this.state.deliveryAddress, 'deliveryAddress')
+        console.log('------------------ ★ SubscriptionDetail form: ', this.state.deliveryAddress);
       });
     }
   }
@@ -368,7 +367,7 @@ export default class AddressForm extends React.Component {
             </label>
             <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
               <CitySearchSelection
-                defaultValue={this.state.deliveryAddress.cityName}
+                defaultValue={this.state.deliveryAddress.cityName == 0 ? this.state.deliveryAddress.city : this.state.deliveryAddress.cityName}
                 key={this.state.deliveryAddress.cityName}
                 freeText={true}
                 onChange={this.handleCityInputChange}
