@@ -111,11 +111,15 @@ class AddressList extends React.Component {
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
         (addressList.length && addressList[0].deliveryAddressId) ||
         '';
-        console.log(defaultAddressItem, 'defaultAddressItem', addressList.length ,addressList[0].deliveryAddressId)
+
       Array.from(
         addressList,
         (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
       );
+
+      const tmpObj = find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
+      this.props.updateData(tmpObj);
+      this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       let cityRes = [];
       if (addressList.length) {
@@ -131,7 +135,7 @@ class AddressList extends React.Component {
           : ele.cityId;
         return ele;
       });
-      console.log(addressList, tmpId, 'defaultAddressItem')
+
       this.setState(
         {
           addressList,
@@ -898,7 +902,6 @@ class AddressList extends React.Component {
                             (a) => a.deliveryAddressId === selectedId
                           )[0] || null
                         }
-                        isLogin={true}
                       />
                     ) : null}
                   </>
