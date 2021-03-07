@@ -870,9 +870,9 @@ class Payment extends React.Component {
             .call(res.context)
             .slice(8, -1);
           let adyenAction = '';
-          if (contextType === 'Array' && res.context.action) {
+          if (contextType === 'Array' && res.context.redirectUrl) {
             //正常时候,res.context后台返回数组
-            adyenAction = JSON.parse(res.context.action);
+            adyenAction = JSON.parse(res.context.redirectUrl);
             if (subOrderNumberList.length) {
               sessionItemRoyal.set(
                 'subOrderNumberList',
@@ -880,9 +880,9 @@ class Payment extends React.Component {
               );
             }
             this.setState({ adyenAction });
-          } else if (contextType === 'Object' && res.context.action) {
+          } else if (contextType === 'Object' && res.context.redirectUrl) {
             //会员repay时，res.context后台返回对象
-            adyenAction = JSON.parse(res.context.action);
+            adyenAction = JSON.parse(res.context.redirectUrl);
             if (subOrderNumberList.length) {
               sessionItemRoyal.set(
                 'subOrderNumberList',
