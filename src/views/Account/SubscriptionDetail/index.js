@@ -1184,7 +1184,7 @@ class SubscriptionDetail extends React.Component {
       );
 
       Object.assign(param, {
-        subscribeStatus
+        subscribeStatus: subDetail.subscribeStatus
       });
       await this.doUpdateDetail(param);
       if (this.state.isGift) {

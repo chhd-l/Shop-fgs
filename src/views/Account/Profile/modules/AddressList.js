@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Loading from '@/components/Loading';
-import { getDictionary, matchNamefromDict } from '@/utils/utils';
+import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
@@ -15,6 +15,7 @@ import { queryCityNameById } from '@/api';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
+const isPad = getDeviceType() === 'Pad';
 
 function CardItem(props) {
   const { data } = props;
@@ -399,6 +400,7 @@ class AddressList extends React.Component {
                                       this,
                                       item
                                     )}
+                                    style={isPad? {position: 'absolute', top: '20px', right: '24px'}: {}}
                                   >
                                     <FormattedMessage id="delete" />
                                   </span>

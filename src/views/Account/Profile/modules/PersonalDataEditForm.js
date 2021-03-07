@@ -1,4 +1,5 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import findIndex from 'lodash/findIndex';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -6,7 +7,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import Loading from '@/components/Loading';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
-import { updateCustomerBaseInfo } from '@/api/user';
+import { updateCustomerBaseInfo, getCustomerInfo } from '@/api/user';
 import Selection from '@/components/Selection';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -17,6 +18,9 @@ import { myAccountActionPushEvent } from '@/utils/GA';
 import { getProvincesList } from '@/api/index';
 
 @injectIntl
+@inject('loginStore')
+@observer
+
 class PersonalDataEditForm extends React.Component {
   static defaultProps = {
     originData: null,
@@ -88,6 +92,9 @@ class PersonalDataEditForm extends React.Component {
         provinceList: res.context.systemStates
       });
     });
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
   handleInputChange = (e) => {
     const target = e.target;
@@ -273,6 +280,11 @@ class PersonalDataEditForm extends React.Component {
 
       await updateCustomerBaseInfo(param);
 
+      const customerId = this.userInfo && this.userInfo.customerId;
+      let res = await getCustomerInfo({ customerId });
+      const context = res.context;
+      this.props.loginStore.setUserInfo(context);
+      
       this.props.updateData();
       this.changeEditFormVisible(false);
     } catch (err) {
@@ -301,6 +313,7 @@ class PersonalDataEditForm extends React.Component {
       await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
+      console.log(err, 'err')
       this.setState({ isValid: false });
     }
   };
@@ -364,7 +377,9 @@ class PersonalDataEditForm extends React.Component {
     const { form } = this.state;
     form.city = data.id;
     form.cityName = data.cityName;
-    this.setState({ form });
+    this.setState({ form }, () => {
+      this.validFormData();
+    });
   };
   handleCommunicationCheckBoxChange(item) {
     let { form } = this.state;

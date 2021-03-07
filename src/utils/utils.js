@@ -578,7 +578,7 @@ export async function fetchHeaderNavigations() {
   return ret;
 }
 
-export function getFormatDate(date) {
+export function getFormatDate(date, callback) {
   if (process.env.REACT_APP_LANG === 'fr') {
     const cache = createIntlCache();
     const intl = createIntl(
@@ -588,9 +588,17 @@ export function getFormatDate(date) {
       },
       cache
     );
-    return intl.formatDate(date);
+    if(callback && typeof callback === "function") {
+      return callback(intl.formatDate(date))
+    }else {
+      return intl.formatDate(date);
+    }
   } else {
-    return date;
+    if(callback && typeof callback === "function") {
+      return callback(date)
+    }else {
+      return date;
+    }
   }
 }
 

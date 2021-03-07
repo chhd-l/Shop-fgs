@@ -870,9 +870,9 @@ class Payment extends React.Component {
             .call(res.context)
             .slice(8, -1);
           let adyenAction = '';
-          if (contextType === 'Array' && res.context.action) {
+          if (contextType === 'Array' && res.context.redirectUrl) {
             //正常时候,res.context后台返回数组
-            adyenAction = JSON.parse(res.context.action);
+            adyenAction = JSON.parse(res.context.redirectUrl);
             if (subOrderNumberList.length) {
               sessionItemRoyal.set(
                 'subOrderNumberList',
@@ -880,9 +880,9 @@ class Payment extends React.Component {
               );
             }
             this.setState({ adyenAction });
-          } else if (contextType === 'Object' && res.context.action) {
+          } else if (contextType === 'Object' && res.context.redirectUrl) {
             //会员repay时，res.context后台返回对象
-            adyenAction = JSON.parse(res.context.action);
+            adyenAction = JSON.parse(res.context.redirectUrl);
             if (subOrderNumberList.length) {
               sessionItemRoyal.set(
                 'subOrderNumberList',
@@ -1962,6 +1962,12 @@ class Payment extends React.Component {
       brandDeco = paymentMethod.paymentVendor;
       holderNameDeco = paymentMethod.holderName;
       expirationDate = paymentMethod.expirationDate;
+      if(expirationDate) {
+        let curExpirationDate = paymentMethod.expirationDate.split('-')
+        curExpirationDate.pop()
+        expirationDate = curExpirationDate.join('-')
+      }
+      console.log(expirationDate, 'expirationDate')
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
@@ -1987,7 +1993,13 @@ class Payment extends React.Component {
                 {expirationDate ? (
                   <>
                     <br />
-                    <span>{getFormatDate(expirationDate).substr(3)}</span>
+                    <span>{getFormatDate(expirationDate, (date) => {
+                      if (process.env.REACT_APP_LANG === 'fr') {
+                        return date.slice(3)
+                      }else {
+                        return date
+                      }
+                    })}</span>
                   </>
                 ) : null}
               </div>
