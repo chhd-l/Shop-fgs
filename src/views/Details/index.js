@@ -50,7 +50,7 @@ import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+const isMobile = getDeviceType() === 'H5';
 // const pageLink = window.location.href;
 function AdvantageTips({ secondIconvisible = true }) {
   return (
@@ -1928,7 +1928,7 @@ class Details extends React.Component {
                             ></div>
                             {!this.state.loading &&
                             !bundle &&
-                            isHub ? (
+                            isHub && !isMobile ? (
                               <div
                                 className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                                 ref={(el) => this.ccidBtnRef(el)}
