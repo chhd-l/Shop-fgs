@@ -1602,10 +1602,10 @@ class LoginCart extends React.Component {
     );
   }
   async handleChooseSize(sdItem, pitem) {
-    if (this.state.changSizeLoading) {
+    if (this.state.checkoutLoading) {
       return false;
     }
-    this.setState({ changSizeLoading: true });
+    this.setState({ checkoutLoading: true });
 
     const otherGoodsSpecs = pitem.goodsSpecs.filter(
       (s) => s.specId !== sdItem.specId
@@ -1635,7 +1635,7 @@ class LoginCart extends React.Component {
       goodsInfoFlag: pitem.goodsInfoFlag
     });
     await this.updateCartCache(this.clearPromotionCode.bind(this));
-    this.setState({ changSizeLoading: false });
+    this.setState({ checkoutLoading: false });
   }
   // 切换规格/单次订阅购买时，清空promotion code
   clearPromotionCode() {
@@ -1647,11 +1647,11 @@ class LoginCart extends React.Component {
     });
   }
   async changeFrequencyType(pitem) {
-    if (this.state.changSizeLoading) {
+    if (this.state.checkoutLoading) {
       return false;
     }
     this.setState({
-      changSizeLoading: true
+      checkoutLoading: true
     });
     // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
@@ -1664,7 +1664,7 @@ class LoginCart extends React.Component {
     });
 
     await this.updateCartCache(this.clearPromotionCode.bind(this));
-    this.setState({ changSizeLoading: false });
+    this.setState({ checkoutLoading: false });
   }
   handleRemovePromotionCode = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
@@ -1781,17 +1781,18 @@ class LoginCart extends React.Component {
                       <div className="rc-column">
                         <FormattedMessage id="continueShopping">
                           {(txt) => (
-                            <a
-                              tabIndex="1"
-                              className="ui-cursor-pointer-pure"
-                              onClick={(e) => this.goBack(e)}
-                              title={txt}
-                            >
-                              <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
-                                {txt}
-                              </span>
-                            </a>
+                            <Link to="/home">{txt}</Link>
+                            // <a
+                            //   tabIndex="1"
+                            //   className="ui-cursor-pointer-pure"
+                            //   onClick={(e) => this.goBack(e)}
+                            //   title={txt}
+                            // >
+                            //   <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                            //     <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
+                            //     {txt}
+                            //   </span>
+                            // </a>
                           )}
                         </FormattedMessage>
                       </div>

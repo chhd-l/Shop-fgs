@@ -220,14 +220,14 @@ class ImageMagnifier extends Component {
     this.setState(
       {
         magnifierOff: true,
-        params: Object.assign({}, this.state.params, {
-          width: document.querySelector('#J_detail_img')
-            ? document.querySelector('#J_detail_img').offsetWidth
-            : 10,
-          height: document.querySelector('#J_detail_img')
-            ? document.querySelector('#J_detail_img').offsetHeight
-            : 10
-        })
+        // params: Object.assign({}, this.state.params, {
+        //   width: document.querySelector('#J_detail_img')
+        //     ? document.querySelector('#J_detail_img').offsetWidth
+        //     : 10,
+        //   height: document.querySelector('#J_detail_img')
+        //     ? document.querySelector('#J_detail_img').offsetHeight
+        //     : 10
+        // })
       },
       () => this.initParam()
     );
@@ -370,6 +370,7 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
+    console.log(cssStyle, 'cssStyle123')
     let {
       images,
       video,

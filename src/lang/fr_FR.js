@@ -129,6 +129,7 @@ const fr_FR = {
   cancel: 'Annuler',
   card: 'Carte',
   cardCvvIsInvalid: "Le CV de votre carte n'est pas valide",
+  nameInvalid: 'Votre nom est invalide',
   cardNumber: 'Numéro de carte',
   cardNumberIsInvalid: "Votre numéro de carte n'est pas valide",
   // 'cart.catDiet': 'Aliments pour chats',

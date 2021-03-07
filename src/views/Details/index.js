@@ -50,7 +50,8 @@ import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const isPad = getDeviceType() === 'Pad';
 // const pageLink = window.location.href;
 function AdvantageTips({ secondIconvisible = true }) {
   return (
@@ -366,20 +367,6 @@ class Details extends React.Component {
 
     this.setState({
       contactUs
-    });
-
-    loadJS({
-      url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-      id: 'cci-widget',
-      dataSets: {
-        token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-        locale: 'fr-FR',
-        displaylanguage: 'fr',
-        widgetid: 'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
-        ean: '3182550784436',
-        subid: '',
-        trackingid: ''
-      }
     });
   }
 
@@ -872,6 +859,19 @@ class Details extends React.Component {
               barcode
             },
             () => {
+              loadJS({
+                url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+                id: 'cci-widget',
+                dataSets: {
+                  token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+                  locale: 'fr-FR',
+                  displaylanguage: 'fr',
+                  widgetid: 'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+                  ean: '3182550784436',
+                  subid: '',
+                  trackingid: ''
+                }
+              });
               this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
@@ -989,12 +989,14 @@ class Details extends React.Component {
                     return ele['Prescriber Blod Description'];
                   })
                   .filter((e) => e)[0];
+                  console.log('hahahaha', !goodsRes.saleableFlag && goodsRes.displayFlag, goodsRes.saleableFlag, goodsRes.displayFlag)
                 if (goodsRes.goodsType === 2) {
                   ret = `<p style="white-space: pre-line; font-weight: 400">${blodDesc}</p><p style="white-space: pre-line; font-weight: 400">${prescriberDesc}</p><p style="white-space: pre-line;">${shortDesc}</p>`;
                 } else if (!goodsRes.saleableFlag && goodsRes.displayFlag) {
                   this.setState({
                     descContent: isVet ? prescriberDesc : shortDesc
                   });
+                  
                   ret = null;
                 } else if (isVet) {
                   ret = `<p style="white-space: pre-line;">${prescriberDesc}</p>`;
@@ -1606,6 +1608,12 @@ class Details extends React.Component {
       const config = { attributes: true, childList: true, subtree: true };
       // 当观察到变动时执行的回调函数
       const callback = function (mutationsList, observer) {
+        console.log(document.querySelectorAll('.eanIcon'), 'aaa123')
+        let eanDoms = document.querySelectorAll('.eanIcon')
+        eanDoms[0].parentElement.addEventListener('click', function() {
+          eanDoms[0].nextElementSibling.click()
+        }, false)
+        
         for (let mutation of mutationsList) {
           if (mutation.type === 'childList') {
             self.setState({
@@ -1685,6 +1693,10 @@ class Details extends React.Component {
       }
     };
 
+    console.log(process.env.REACT_APP_LANG === 'fr',
+    process.env.REACT_APP_LANG === 'ru',
+    process.env.REACT_APP_LANG === 'tr',
+    process.env.REACT_APP_LANG === 'en', 'cssStyle123')
     return (
       <div id="Details">
         {Object.keys(event).length ? (
@@ -1914,7 +1926,7 @@ class Details extends React.Component {
                             ></div>
                             {!this.state.loading &&
                             !bundle &&
-                            isHub ? (
+                            isHub && !isMobile ? (
                               <div
                                 className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                                 ref={(el) => this.ccidBtnRef(el)}
@@ -1922,10 +1934,11 @@ class Details extends React.Component {
                                 data-ean={barcode}
                                 onClick={this.handleBuyFromRetailer}
                                 style={{
-                                  visibility: this.state.ccidBtnVisibility
+                                  visibility: this.state.ccidBtnVisibility,
+                                  marginTop: '20px'
                                 }}
                               >
-                                <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
+                                <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
                               </div>
                             ) : null}
                           </>
@@ -2592,7 +2605,7 @@ class Details extends React.Component {
                                         visibility: this.state.ccidBtnVisibility
                                       }}
                                     >
-                                      <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
+                                      <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
                                     </div>
                                   </>
                                 ) : null}
@@ -2802,16 +2815,16 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle && isHub ? (
+                {!this.state.loading && !bundle && isHub && isPad ? (
                   <div
                     ref={(el) => this.ccidBtnRef(el)}
                     className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
                     data-ccid="wtb-target"
                     data-ean={barcode}
                     onClick={this.handleBuyFromRetailer}
-                    style={{ visibility: this.state.ccidBtnVisibility }}
+                    style={{ visibility: this.state.ccidBtnVisibility, marginTop: '20px' }}
                   >
-                    <span className="rc-icon rc-location--xs rc-iconography rc-brand1" />
+                    <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
                   </div>
                 ) : null}
               </div>
@@ -2867,8 +2880,8 @@ class Details extends React.Component {
                   <FormattedMessage id="addedtoCart" />
                 </p>
                 <DistributeHubLinkOrATag
-                  href={'/home'}
-                  to="/"
+                  href={'/'}
+                  to="/home"
                   style={{ color: '#666', fontWeight: 400 }}
                 >
                   <FormattedMessage id="continueMyPurchases" />

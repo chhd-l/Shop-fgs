@@ -289,6 +289,12 @@
   color: #666;
   font-weight: 600;
 }
+.rc-contact-dropdown__title {
+  margin: 0;
+  font-size: 22px;
+  color: #e2001a;
+  font-weight: 300;
+}
 
 @media (min-width: 960px) {
   .rc-list__item-sub-menu {
@@ -305,6 +311,11 @@
     .rc-list__item-sub-menu li {
       display: block;
       width: 100%;
+    }
+    &.rc-list__item-sub-menu--two-column {
+      .rc-list__item-sub-menu__container {
+        flex: 0 0 calc(50% - 20px);
+      }
     }
     &.rc-list__item-sub-menu--three-column {
       .rc-list__item-sub-menu__container {
