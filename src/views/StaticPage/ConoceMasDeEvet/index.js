@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import logoAnimatedPng from '@/assets/images/logo--animated2.png';
@@ -165,13 +164,12 @@ class Landing extends Component {
 
             {/* go to shop按钮 */}
             <div style={{ textAlign: 'center', marginTop: '-31px' }}>
-              <DistributeHubLinkOrATag
-                href={'/'}
+              <Link
                 to="/home"
                 className="rc-btn rc-btn rc-btn--one"
               >
                 Conoce la Tienda
-              </DistributeHubLinkOrATag>
+              </Link>
             </div>
 
             {/* 介绍 */}
@@ -215,8 +213,7 @@ class Landing extends Component {
             <div className="rc-layout-container rc-five-column">
               <div className="rc-column rc-quad-width">
                 {/* logo */}
-                <DistributeHubLinkOrATag
-                  href={'/'}
+                <Link
                   to="/home"
                   className="header__nav__brand logo-home"
                   style={{ marginTop: '40px' }}
@@ -237,7 +234,7 @@ class Landing extends Component {
                       }}
                     />
                   </LazyLoad>
-                </DistributeHubLinkOrATag>
+                </Link>
                 <div className="form-margin-top">
                   {/* form */}
                   {this.state.inputType.map((item, index) => {

@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
 import './index.css';
@@ -298,13 +297,12 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <DistributeHubLinkOrATag
-                              href={'/product-finder'}
+                            <Link
                               to="/product-finder"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="header.toBegin" />
-                            </DistributeHubLinkOrATag>
+                            </Link>
                             {/* <Link className="rc-btn rc-btn--sm rc-btn--two"
                                to="/cats"><FormattedMessage id="account.cat" /></Link>
                             <Link className="rc-btn rc-btn--sm rc-btn--two"
