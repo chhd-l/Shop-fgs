@@ -42,7 +42,7 @@ class InfosPreview extends React.Component {
       <div style={{ padding: '0 15px' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
 
-          {JSON.stringify(details.consignee)}
+          {/* {JSON.stringify(details.consignee)} */}
           {details ? (
             <div
               className={[
@@ -152,7 +152,7 @@ class InfosPreview extends React.Component {
                 this.state.countryList,
                 details.invoice.countryId
               )}{' '}
-              {details.invoice.cityName}
+              {details.invoice.city}
               <br />
               {details.invoice.address1}
               <br />

@@ -32,7 +32,6 @@ class ValidationAddressModal extends React.Component {
     };
   }
   componentDidMount() {
-    console.log('------------------ validationAddressModal componentDidMount');
     this.toAddressValidation();
   }
   close() {

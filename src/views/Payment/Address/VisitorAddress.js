@@ -218,7 +218,7 @@ class VisitorAddress extends React.Component {
     const { paymentStore } = this.props;
     const { form, billingChecked } = this.state;
     const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
-    
+
     this.setState({
       validationModalVisible: false
     });
@@ -294,7 +294,7 @@ class VisitorAddress extends React.Component {
               )}
             </fieldset>
           ) : panelStatus.isCompleted ? (
-            <AddressPreview form={form} />
+            <AddressPreview form={form} isLogin={false} />
           ) : null
         ) : null}
 
