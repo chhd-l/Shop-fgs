@@ -309,7 +309,7 @@ class PersonalDataEditForm extends React.Component {
     try {
       // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
       form.city = form?.city || form.cityName;
-      console.log('★★★★★★★★★ valiFormData: ', form);
+      // console.log('★★★★★★★★★ valiFormData: ', form);
       await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
