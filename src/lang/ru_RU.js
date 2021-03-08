@@ -678,7 +678,7 @@ const ru_RU = {
   saveSuccess: 'Сохранить успех',
   saveSuccessfullly: 'Успешно сохраним',
   search: 'Поиск',
-  searchForAProductOrArtical: 'Search for a product or article',
+  searchForAProductOrArtical: 'Найдите продукт или статью',
   searchNoBreed: 'не родословная',
   searchPrescriber: 'Обыскать клинику',
   securityQuestion: 'Вопрос безопасности',
@@ -783,6 +783,7 @@ const ru_RU = {
   'bannerTip.btnText': 'Узнать больше',
   'cart.delivery': 'Доставка',
   'promotion.firstOrderDiscount': 'Скидка при первом заказе',
+  'language':'Russia/Россия'
 }
 
 export default ru_RU;
