@@ -675,7 +675,7 @@ const tr_TR = {
   saveSuccess: 'Başarıyı Kaydet',
   saveSuccessfullly: 'Başarıyla kaydedin',
   search: 'Arama',
-  searchForAProductOrArtical: 'Search for a product or artical',
+  searchForAProductOrArtical: 'Search for a product or article',
   searchNoBreed: 'soy ağacı değil',
   searchPrescriber: 'Bir klinik ara',
   securityQuestion: 'Güvenlik Sorusu',

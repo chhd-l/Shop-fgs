@@ -232,49 +232,26 @@ class PersonalDataEditForm extends React.Component {
           ? this.props.authState.accessToken.value
           : '';
       let oktaToken = 'Bearer ' + oktaTokenString;
-      let mydata = {};
+      let mydata = {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        birthDay: form.birthdate ? form.birthdate.split('/').join('-') : form.birthdate,
+        countryId: form.country,
+        contactPhone: form.phoneNumber,
+        reference: form.rfc,
+        address1: form.address1,
+        address2: form.address2,
+        postalCode: form.postCode,
+        city: form.cityName,
+        cityId: form.cityName == form.city ? null : form.city,
+        communicationEmail: form.communicationEmail,
+        communicationPhone: form.communicationPhone,
+        oktaToken: oktaToken
+      };
       if (process.env.REACT_APP_LANG === 'en') {
-        mydata = {
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          birthDay: form.birthdate
-            ? form.birthdate.split('/').join('-')
-            : form.birthdate,
-          countryId: form.country,
-          contactPhone: form.phoneNumber,
-          reference: form.rfc,
-          address1: form.address1,
-          address2: form.address2,
-          postalCode: form.postCode,
-          city: form.cityName,
-          cityId: form.cityName == form.city ? null : form.city,
-          province: form.provinceName,
-          provinceId: form.province,
-          communicationEmail: form.communicationEmail,
-          communicationPhone: form.communicationPhone,
-          oktaToken: oktaToken
-        };
-      } else {
-        mydata = {
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          birthDay: form.birthdate
-            ? form.birthdate.split('/').join('-')
-            : form.birthdate,
-          countryId: form.country,
-          contactPhone: form.phoneNumber,
-          reference: form.rfc,
-          address1: form.address1,
-          address2: form.address2,
-          postalCode: form.postCode,
-          city: form.cityName,
-          cityId: form.cityName == form.city ? null : form.city,
-          communicationEmail: form.communicationEmail,
-          communicationPhone: form.communicationPhone,
-          oktaToken: oktaToken
-        };
+          mydata.province= form.provinceName;
+          mydata.provinceId= form.province;
       }
       let param = Object.assign({}, this.props.originData, mydata);
 
@@ -309,7 +286,7 @@ class PersonalDataEditForm extends React.Component {
     try {
       // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
       form.city = form?.city || form.cityName;
-      console.log('★★★★★★★★★ valiFormData: ', form);
+      // console.log('★★★★★★★★★ valiFormData: ', form);
       await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
