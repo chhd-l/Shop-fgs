@@ -50,7 +50,7 @@ import { Link } from 'react-router-dom';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const isPad = getDeviceType() === 'Pad';
+const PC = getDeviceType() === 'PC' ||getDeviceType() === 'Pad';
 // const pageLink = window.location.href;
 function AdvantageTips({ secondIconvisible = true }) {
   return (
@@ -322,7 +322,7 @@ class Details extends React.Component {
       barcode: '',
       descContent: '',
       contactUs: '',
-      ccidBtnVisibility: 'hidden'
+      ccidBtnDisplay: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -1621,11 +1621,11 @@ class Details extends React.Component {
         eanDoms[0].parentElement.addEventListener('click', function() {
           eanDoms[0].nextElementSibling.click()
         }, false)
-        
+
         for (let mutation of mutationsList) {
           if (mutation.type === 'childList') {
             self.setState({
-              ccidBtnVisibility: 'visible'
+              ccidBtnDisplay: true
             });
             observer.disconnect();
           }
@@ -1665,7 +1665,8 @@ class Details extends React.Component {
       spuImages,
       pageLink,
       goodsType,
-      barcode
+      barcode,
+      ccidBtnDisplay
     } = this.state;
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
@@ -1934,19 +1935,19 @@ class Details extends React.Component {
                             ></div>
                             {!this.state.loading &&
                             !bundle &&
-                            isHub && !isMobile ? (
+                            isHub && PC  ? (
                               <div
-                                className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
+                                className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${!ccidBtnDisplay && 'rc-btn-solid-disabled'}`}
                                 ref={(el) => this.ccidBtnRef(el)}
                                 data-ccid="wtb-target"
                                 data-ean={barcode}
                                 onClick={this.handleBuyFromRetailer}
                                 style={{
-                                  visibility: this.state.ccidBtnVisibility,
                                   marginTop: '20px'
                                 }}
                               >
                                 <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
+                                {!ccidBtnDisplay ? <span className="default-txt">Acheter via nos revendeurs</span> : null}
                               </div>
                             ) : null}
                           </>
@@ -2605,15 +2606,13 @@ class Details extends React.Component {
                                     &nbsp;&nbsp;
                                     <div
                                       ref={(el) => this.ccidBtnRef(el)}
-                                      className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
+                                      className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${!ccidBtnDisplay && 'rc-btn-solid-disabled'}`}
                                       data-ccid="wtb-target"
                                       data-ean={barcode}
                                       onClick={this.handleBuyFromRetailer}
-                                      style={{
-                                        visibility: this.state.ccidBtnVisibility
-                                      }}
                                     >
                                       <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
+                                      {!ccidBtnDisplay ? <span className="default-txt">Acheter via nos revendeurs</span> : null}
                                     </div>
                                   </>
                                 ) : null}
@@ -2823,16 +2822,16 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle && isHub && isPad ? (
+                {!this.state.loading && !bundle && isHub  ? (
                   <div
                     ref={(el) => this.ccidBtnRef(el)}
-                    className="other-buy-btn rc-btn rc-btn--sm rc-btn--two"
+                    className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${!ccidBtnDisplay && 'rc-btn-solid-disabled'}`}
                     data-ccid="wtb-target"
                     data-ean={barcode}
                     onClick={this.handleBuyFromRetailer}
-                    style={{ visibility: this.state.ccidBtnVisibility, marginTop: '20px' }}
                   >
                     <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
+                    {!ccidBtnDisplay ? <span className="default-txt">Acheter via nos revendeurs</span> : null}
                   </div>
                 ) : null}
               </div>
