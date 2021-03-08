@@ -155,7 +155,7 @@ class Step1H5 extends Component {
               >
                 <div>
                   <img
-                    src={item.goodsInfoImg}
+                    src={item.goodsInfoImg  || IMG_DEFAULT}
                     className="m-auto"
                     style={{ maxHeight: '12rem' }}
                   />
@@ -369,7 +369,7 @@ const Step3 = (props) => {
               title={detailInfo.planGifts?.[0].goodsInfoName}
             />
             <div
-              className="d-flex"
+              className="d-flex width12"
               style={{ flexDirection: 'column', justifyContent: 'center' }}
             >
               <h6>{detailInfo.planGifts?.[0].goodsInfoName}</h6>
@@ -386,7 +386,7 @@ const Step3 = (props) => {
             <div className="for_h5_img">
               <img src={foodPic2} />
               <h6
-                className="rc-hero__section--text product_name text-center"
+                className="rc-hero__section--text product_name text-center width12"
                 style={{ fontSize: '18px' }}
               >
                 {detailInfo.planProds?.[0].goodsInfoName}
