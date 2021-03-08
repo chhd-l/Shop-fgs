@@ -440,7 +440,7 @@ function AdvantageTips() {
   );
 }
 
-class Home extends React.Component {
+class ClubLandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -576,6 +576,8 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
+          <CommentCarousel/>
+          <HelpComponents/>
         </main>
         <Footer />
       </div>
@@ -583,4 +585,4 @@ class Home extends React.Component {
   }
 }
 
-export default withOktaAuth(Home);
+export default withOktaAuth(ClubLandingPage);
