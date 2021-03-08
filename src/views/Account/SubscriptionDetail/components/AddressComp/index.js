@@ -257,7 +257,7 @@ class AddressList extends React.Component {
     if (itemIdx > -1) {
       const tmp = addressList[itemIdx];
 
-      console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
+      // console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
 
       if (process.env.REACT_APP_LANG === 'en') {
         tmpDeliveryAddress = {

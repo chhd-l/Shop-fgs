@@ -258,7 +258,7 @@ class AddressList extends React.Component {
 
     if (idx > -1) {
       const tmp = addressList[idx];
-      console.log('--------------------- ★★★ List add Or EditAddress data: ', tmp);
+      // console.log('--------------------- ★★★ List add Or EditAddress data: ', tmp);
       if (process.env.REACT_APP_LANG === 'en') {
         tmpDeliveryAddress = {
           firstName: tmp.firstName,
