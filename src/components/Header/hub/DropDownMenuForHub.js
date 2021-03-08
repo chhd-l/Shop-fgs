@@ -136,14 +136,14 @@ export default class DropDownMenuForHub extends React.Component {
                 }`}
               >
                 <div className="mr-4 text-center">
-                  <LazyLoad>
+                  {/* <LazyLoad> */}
                     <img
                       src={cItem.Image.Url}
                       alt={cItem.Image.AltText}
                       srcSet={cItem.Image.Srcset}
                       style={{ width: '4rem', margin: '0 auto' }}
                     />
-                  </LazyLoad>
+                  {/* </LazyLoad> */}
                   <p className="red">{cItem.ImageDescription}</p>
                 </div>
                 <div>
