@@ -601,7 +601,6 @@ function ProductFinderAd({
                 </p>
                 <Link
                   to="/product-finder"
-                >
                   className="rc-btn rc-btn--two">
                   <FormattedMessage id="productFinder.index" />
                 </Link>

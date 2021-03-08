@@ -685,7 +685,7 @@ const ru_RU = {
   saveSuccess: 'Сохранить успех',
   saveSuccessfullly: 'Успешно сохраним',
   search: 'Поиск',
-  searchForAProductOrArtical: 'Search for a product or artical',
+  searchForAProductOrArtical: 'Search for a product or article',
   searchNoBreed: 'не родословная',
   searchPrescriber: 'Обыскать клинику',
   securityQuestion: 'Вопрос безопасности',

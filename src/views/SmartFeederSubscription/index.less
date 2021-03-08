@@ -8,6 +8,20 @@
   .border-top {
     border-top-style: none;
   }
+  video {
+    //居中
+    // position: absolute;
+    // margin: auto;
+    // left: 0;
+    // right: 0;
+    // bottom: 0;
+    // top: 0;
+    //填满
+    object-fit: fill;
+    width: 100%;
+    height: 100%;
+  }
+
   .dl-box dl:first-child {
     .rc-list__accordion-item {
       border-top-style: solid;
@@ -115,11 +129,6 @@
       .choices__inner {
         background-color: #f7f7f7 !important;
         text-indent: 0.5rem;
-      }
-      img {
-        width: auto;
-        height: 8rem;
-        margin: 0 auto;
       }
     }
     .back_button {
@@ -234,8 +243,17 @@
     }
   }
   @media (max-width: 769px) {
-    .step3-btn-box{
-      .rc-column{
+    .free_sampling,
+    .food_info {
+      .width12 {
+        width: 12rem;
+      }
+      img {
+        flex: 1;
+      }
+    }
+    .step3-btn-box {
+      .rc-column {
         padding-right: 0;
         padding-left: 0;
       }
@@ -248,8 +266,10 @@
       width: 12rem;
     }
     .height-for-mobile {
-      height: 8rem !important;
-      width: auto !important;
+      width: 100%;
+      height: autos;
+      // height: 8rem !important;
+      // width: auto !important;
     }
     .h5_no_pad {
       padding: 0px;
@@ -319,6 +339,13 @@
     }
   }
   @media (min-width: 769px) {
+    .food_info {
+      img {
+        width: auto;
+        height: 8rem;
+        margin: 0 auto;
+      }
+    }
     .scroll-position {
       position: relative;
       top: -120px;
