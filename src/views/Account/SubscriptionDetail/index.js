@@ -304,14 +304,15 @@ class SubscriptionDetail extends React.Component {
   }
   getMinDate(nextDeliveryTime) {
     let time = new Date(nextDeliveryTime);
-    if (
-      time.getTime() - 14 * 24 * 60 * 60 * 1000 >
-      this.state.minDate.getTime() + 24 * 60 * 60 * 1000
-    ) {
-      return new Date(time.getTime() - 14 * 24 * 60 * 60 * 1000);
-    } else {
-      return new Date(this.state.minDate.getTime() + 24 * 60 * 60 * 1000);
-    }
+    // if (
+    //   time.getTime() - 14 * 24 * 60 * 60 * 1000 >
+    //   this.state.minDate.getTime() + 24 * 60 * 60 * 1000
+    // ) {
+    //   return new Date(time.getTime() - 14 * 24 * 60 * 60 * 1000);
+    // } else {
+    //   return new Date(this.state.minDate.getTime() + 24 * 60 * 60 * 1000);
+    // }
+    return new Date(this.state.minDate.getTime() + 1 * 24 * 60 * 60 * 1000);
   }
   getMaxDate(nextDeliveryTime) {
     return new Date(
@@ -1236,6 +1237,7 @@ class SubscriptionDetail extends React.Component {
       isGift,
       remainingsVisible
     } = this.state;
+    isGift = true
     console.log(noStartYear, currentCardInfo, 'hahaha');
     return (
       <div className="subscriptionDetail">
