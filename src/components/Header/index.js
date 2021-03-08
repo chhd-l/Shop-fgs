@@ -303,6 +303,13 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    let scrolledDom = document.querySelector('.rc-header--scrolled')
+    if(scrolledDom) {
+      document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'none'
+    }else {
+      document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'block'
+    }
+
     let baseEl = document.querySelector('#J_sidecart_container');
     if (!baseEl) {
       return false;
