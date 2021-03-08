@@ -23,6 +23,30 @@ class SearchSelection extends React.Component {
     };
     this.timer = null;
     this.otherValue = '';
+    this.searchText = React.createRef();
+  }
+  // freeText=true时设置参数
+  handleSetInputItem = () => {
+    const { form } = this.state;
+    let citem = {
+      cityName: form.value,
+      cityNo: null,
+      countryName: null,
+      createTime: null,
+      delFlag: 0,
+      delTime: null,
+      id: form.value,
+      name: form.value,
+      osmId: null,
+      postCode: null,
+      sip: null,
+      stateId: null,
+      stateName: null,
+      storeId: process.env.REACT_APP_STOREID,
+      systemCityPostCodes: null,
+      updateTime: null
+    }
+    this.props.selectedItemChange(citem);
   }
   handleInputChange = (e) => {
     e.nativeEvent.stopImmediatePropagation();
@@ -30,12 +54,23 @@ class SearchSelection extends React.Component {
     const { form } = this.state;
     try {
       form.value = target.value;
-      this.setState({ form: form, searchForNoResult: true });
+      this.setState({
+        form: form,
+        searchForNoResult: true
+      });
       if (!target.value) {
         return false;
       }
       form.pageNum = 0;
-      this.setState({ form: form, optionList: [] });
+      this.setState({
+        form: form,
+        optionList: []
+      }, () => {
+        if (this.props.freeText) {
+          // this.handleSetInputItem();
+        }
+      });
+
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.queryList(); // 搜索
@@ -50,7 +85,7 @@ class SearchSelection extends React.Component {
       this.setState({
         currentItem: tmpVal
       });
-      // freeText= false 时，失去焦点清空文本框value，赋值placeholder
+      // freeText= false，获取焦点时清空文本框value，赋值placeholder
       if (!this.props.freeText) {
         this.setState({
           placeholder: tmpVal,
@@ -116,6 +151,7 @@ class SearchSelection extends React.Component {
       }, 500);
     }
   };
+
   async queryList() {
     const { form, optionList } = this.state;
     this.setState({ loadingList: true, optionPanelVisible: true });
@@ -193,6 +229,7 @@ class SearchSelection extends React.Component {
             onChange={(e) => this.handleInputChange(e)}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
+            ref={this.searchText}
           />
           {this.props.customStyle && <label className="rc-input__label" />}
           {this.state.optionPanelVisible && (

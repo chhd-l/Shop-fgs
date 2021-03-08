@@ -158,9 +158,11 @@
     width: auto;
     height: auto;
     opacity: 0;
+    display: none !important;
     &.show {
       max-height: 415px;
       opacity: 1;
+      display: flex !important;
     }
     &.dropdown-nav__4,
     &.dropdown-nav__5 {
@@ -326,7 +328,7 @@
   .rc-list__item-sub-menu {
     left: 50%;
     opacity: 0;
-    display: flex;
+    display: none;
     width: 100%;
     flex-wrap: wrap;
     padding: 40px 64px;

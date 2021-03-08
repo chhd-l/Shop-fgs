@@ -234,7 +234,7 @@ class PaymentStore {
               (ele) =>
                 ele.event ===
                 process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
-            );
+            )||{};
             result.checkout = {
               step: 3,
               option: 'shippingMethod'

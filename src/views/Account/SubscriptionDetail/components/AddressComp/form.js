@@ -81,6 +81,9 @@ export default class AddressForm extends React.Component {
     if (name === 'postCode') {
       value = value.replace(/\s+/g, '');
     }
+    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+      value = value.replace(/^[0]/, '+(33)');
+    }
     const { deliveryAddress } = this.state;
     deliveryAddress[name] = value;
     this.inputBlur(e);
