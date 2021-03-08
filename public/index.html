@@ -71,8 +71,8 @@
   </script>
   <script type="text/javascript">
     function OptanonWrapper() { }
-    if ("<%= process.env.REACT_APP_LANG %>" == 'fr' && Optanon) {
-      setTimeout(function () { Optanon.Close(); }, 300000);
+    if ("<%= process.env.REACT_APP_LANG %>" == 'fr' && window.Optanon) {
+      setTimeout(function () { window.Optanon && window.Optanon.Close(); }, 300000);
     }
   </script>
   <!-- OneTrust Cookies Consent Notice (Production Standard, shop.royalcanin.mx, es-MX) end -->
