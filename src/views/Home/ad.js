@@ -74,7 +74,7 @@ export function TopAds() {
                   <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
                     <Link to="/Tailorednutrition">
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
-                        <source
+                      <source
                           media="(max-width: 640px)"
                           data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=400, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=600 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=800 2x"
                           srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=400, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=600 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=800 2x"
@@ -94,7 +94,7 @@ export function TopAds() {
                             className="w-100 lazyloaded"
                             alt="Royal Canin Extensive Product Range"
                             title="Royal Canin Extensive Product Range"
-                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2004"
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Banner_USA@2x.png`}
                           />
                         </LazyLoad>
                       </picture>
