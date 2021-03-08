@@ -1257,8 +1257,7 @@ class List extends React.Component {
     const vetFilterList = filterList.filter(
       (item) =>
         item.attributeName !== 'breeds' &&
-        item.attributeName !== 'Sterilized' &&
-        item.attributeName !== 'Specific needs'
+        item.attributeName !== 'Sterilized'
     );
     // 非isVetProducts 过滤掉'Size'
     const sptFilterList = filterList.filter(
