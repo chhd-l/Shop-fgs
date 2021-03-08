@@ -48,7 +48,7 @@ export default class AddressForm extends React.Component {
       this.setState({
         deliveryAddress: Object.assign({}, nextProps.data)
       }, () => {
-        console.log('------------------ ★ SubscriptionDetail form: ', this.state.deliveryAddress);
+        // console.log('------------------ ★ SubscriptionDetail form: ', this.state.deliveryAddress);
       });
     }
   }
