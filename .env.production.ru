@@ -48,9 +48,9 @@ REACT_APP_CATEID = '1138'
 #最低限额
 REACT_APP_MINIMUM_AMOUNT = 0
 #商品数量限制
-REACT_APP_LIMITED_NUM = 20
+REACT_APP_LIMITED_NUM = 10
 #商品种类限制
-REACT_APP_LIMITED_CATE_NUM = 100
+REACT_APP_LIMITED_CATE_NUM = 30
 
 #货币单位
 REACT_APP_CURRENCY_TYPE = 3
@@ -80,7 +80,7 @@ REACT_APP_ROOT_CLS = 'ui-custom-hub'
 REACT_APP_HUB = 1
 
 #删除账户
-REACT_APP_DELETE_My_ACCOUNT_URL = https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/ru-ru/manager/settings
+REACT_APP_DELETE_My_ACCOUNT_URL = https://account.royalcanin.com/ru-ru/manager/settings
 
 REACT_APP_HUB_URL = https://www.royalcanin.com/ru
 
