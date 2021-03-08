@@ -155,7 +155,7 @@ class Step1H5 extends Component {
               >
                 <div>
                   <img
-                    src={item.goodsInfoImg  || IMG_DEFAULT}
+                    src={item.goodsInfoImg || IMG_DEFAULT}
                     className="m-auto"
                     style={{ maxHeight: '12rem' }}
                   />
@@ -363,11 +363,13 @@ const Step3 = (props) => {
       <div className="rc-layout-container rc-three-column wrap_container margin_for_1rem">
         <div className="rc-column wrap_item free_sampling">
           <div className="pad_3rem_pc d-flex column">
-            <img
-              className="height-for-mobile"
-              src={detailInfo.planGifts?.[0].goodsInfoImg || foodDispenserPic}
-              title={detailInfo.planGifts?.[0].goodsInfoName}
-            />
+            <div style={{ flex: 1 }}>
+              <img
+                className="height-for-mobile"
+                src={detailInfo.planGifts?.[0].goodsInfoImg || foodDispenserPic}
+                title={detailInfo.planGifts?.[0].goodsInfoName}
+              />
+            </div>
             <div
               className="d-flex width12"
               style={{ flexDirection: 'column', justifyContent: 'center' }}
@@ -384,13 +386,17 @@ const Step3 = (props) => {
         <div className="rc-column wrap_item food_info">
           <div className="pad_2rem_pc">
             <div className="for_h5_img">
-              <img src={foodPic2} />
-              <h6
-                className="rc-hero__section--text product_name text-center width12"
-                style={{ fontSize: '18px' }}
-              >
-                {detailInfo.planProds?.[0].goodsInfoName}
-              </h6>
+              <div style={{ flex: 1 }}>
+                <img src={foodPic2} />
+              </div>
+              <div className=" width12">
+                <h6
+                  className="rc-hero__section--text product_name"
+                  style={{ fontSize: '18px' }}
+                >
+                  {detailInfo.planProds?.[0].goodsInfoName}
+                </h6>
+              </div>
             </div>
             <div style={{ overflow: 'hidden' }}>
               {props.specList.map((item) => (
