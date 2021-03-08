@@ -29,7 +29,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
-
+let RCDrawPng= `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -99,7 +99,7 @@ function HealthNutrition() {
                                     data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
                                     alt="Royal Canin specific dog food for every breed"
                                     title="Royal Canin specific dog food for every breed"
-                                    src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
+                                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
                                   />
                                 </LazyLoad>
                               </picture>
@@ -151,7 +151,7 @@ function HealthNutrition() {
                                     data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
                                     alt="Royal Canin specific cat food for every breed"
                                     title="Royal Canin specific cat food for every breed"
-                                    src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
+                                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
                                   />
                                 </LazyLoad>
                               </picture>
@@ -195,10 +195,10 @@ function HealthNutrition() {
                           <LazyLoad height={200}>
                             <img
                               className="w-100 ls-is-cached lazyloaded"
-                              data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png"
+                              data-src={RCDrawPng}
                               alt="Royal Canin Health Through Nutrition"
                               title="Royal Canin Health Through Nutrition"
-                              src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png"
+                              src={RCDrawPng}
                             />
                           </LazyLoad>
                         </picture>
@@ -294,7 +294,7 @@ function Share() {
                                 alt="Royal Canin Cat Products on Social Media"
                                 title="Royal Canin Cat Products on Social Media"
                                 srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=586&amp;sfrm=png 2x"
-                                src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png"
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/homeSOCIAL2.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -317,7 +317,7 @@ function Share() {
                                 alt="Royal Canin Dog Products on Social Media"
                                 title="Royal Canin Dog Products on Social Media"
                                 srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=586&amp;sfrm=png 2x"
-                                src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png"
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/SOCIAL3.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -340,7 +340,7 @@ function Share() {
                                 alt="Royal Canin Cat Products on Social Media"
                                 title="Royal Canin Cat Products on Social Media"
                                 srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=586&amp;sfrm=png 2x"
-                                src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png"
+                                src={`/${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg`}
                               />
                             </LazyLoad>
                           </picture>

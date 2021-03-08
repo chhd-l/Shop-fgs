@@ -4,24 +4,36 @@ import NavItem from './NavItemForHub';
 
 function DescJSX({ item }) {
   return (
-    <div className="dropdown-nav__help__text align-self-center">
-      <h4 className="title rc-delta">{item.Content}</h4>
+    <div
+      className="dropdown-nav__help__text align-self-center"
+      style={{ width: '250px' }}
+    >
+      <h4 className="title rc-delta">{item.Title}</h4>
       <div
         className="desc children-nomargin text-left rc-text-colour--text"
-        dangerouslySetInnerHTML={{ __html: item.Title }}
+        dangerouslySetInnerHTML={{ __html: item.Content }}
       />
     </div>
   );
 }
 
-function IconPanel({ item }) {
+function IconPanel({ data, item, handleClickNavItem }) {
   return (
     <NavItem
       item={item}
       className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center"
+      onClick={() => {
+        handleClickNavItem({
+          item: data,
+          cItem: item
+        });
+      }}
     >
-      <div className="rc-margin-right--xs flex-grow-1">
+      <div className="rc-margin-right--xs flex-grow-1 text-nowrap">
         <span className="medium">{item.Subtitle}</span>
+        {item.contactPhone ? (
+          <div className="title rc-delta mb-0">{item.contactPhone}</div>
+        ) : null}
         <div>
           {item.Link && item.Link.Url ? (
             <a href={item.Link.Url} className="rc-large-body tel red">
@@ -52,13 +64,21 @@ function IconPanel({ item }) {
   );
 }
 
-export default function Help({ data }) {
+export default function Help({ data, handleClickNavItem }) {
   return (
     <div className="dropdown-nav__help d-md-flex">
       {data.MenuItems.map((item) => {
         return (
           <React.Fragment key={item.id}>
-            {item.Icon ? <IconPanel item={item} /> : <DescJSX item={item} />}
+            {item.Icon ? (
+              <IconPanel
+                data={data}
+                item={item}
+                handleClickNavItem={handleClickNavItem}
+              />
+            ) : (
+              <DescJSX item={item} />
+            )}
           </React.Fragment>
         );
       })}

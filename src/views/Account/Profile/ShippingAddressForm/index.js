@@ -104,50 +104,30 @@ class ShippingAddressFrom extends React.Component {
     try {
       let res = await getAddressById({ id });
       let data = res.context;
-      console.log('------------------------ getAddressById data: ', data);
-      let addressForm = {};
+      let addressForm = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address1: data.address1,
+        address2: data.address2,
+        country: data.countryId,
+        countryName: data.countryName,
+        city: data.cityId,
+        cityName: data.cityName,
+        postCode: data.postCode,
+        phoneNumber: data.consigneeNumber,
+        rfc: data.rfc,
+        isDefalt: data.isDefaltAddress === 1 ? true : false,
+        deliveryAddressId: data.deliveryAddressId,
+        customerId: data.customerId,
+        addressType: data.type,
+        email: data.email
+      };
       if (process.env.REACT_APP_LANG === 'en') {
-        addressForm = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          address1: data.address1,
-          address2: data.address2,
-          country: data.countryId,
-          countryName: data.countryName,
-          city: data.cityId,
-          cityName: data.cityName,
-          provinceNo: data.provinceNo,
-          provinceName: data.province,
-          province: data.provinceId,
-          postCode: data.postCode,
-          phoneNumber: data.consigneeNumber,
-          rfc: data.rfc,
-          isDefalt: data.isDefaltAddress === 1 ? true : false,
-          deliveryAddressId: data.deliveryAddressId,
-          customerId: data.customerId,
-          addressType: data.type,
-          email: data.email
-        };
-      } else {
-        addressForm = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          address1: data.address1,
-          address2: data.address2,
-          country: data.countryId,
-          countryName: data.countryName,
-          city: data.cityId,
-          cityName: data.cityName,
-          postCode: data.postCode,
-          phoneNumber: data.consigneeNumber,
-          rfc: data.rfc,
-          isDefalt: data.isDefaltAddress === 1 ? true : false,
-          deliveryAddressId: data.deliveryAddressId,
-          customerId: data.customerId,
-          addressType: data.type,
-          email: data.email
-        };
+        addressForm.provinceNo = data.provinceNo;
+        addressForm.provinceName = data.province;
+        addressForm.province = data.provinceId;
       }
+      console.log('------------------------ getAddressById addressForm: ', addressForm);
 
       let cityRes = await queryCityNameById({ id: [data.cityId] });
       // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
@@ -235,52 +215,31 @@ class ShippingAddressFrom extends React.Component {
       this.setState({
         saveLoading: true
       });
-      console.log('----------------------> handleSave data: ', data);
-      let params = {};
+      let params = {
+        address1: data.address1,
+        address2: data.address2,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        countryId: +data.country,
+        city: data.cityName,
+        cityId: data.cityName == data.city ? null : data.city,
+        consigneeName: data.firstName + ' ' + data.lastName,
+        consigneeNumber: data.phoneNumber,
+        customerId: data.customerId,
+        deliveryAddress: data.address1 + ' ' + data.address2,
+        deliveryAddressId: data.deliveryAddressId,
+        isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
+        postCode: data.postCode,
+        rfc: data.rfc,
+        email: data.email,
+        type: curType.toUpperCase()
+      };
       if (process.env.REACT_APP_LANG === 'en') {
         // 手动输入的城市 id 设为 null
-        params = {
-          address1: data.address1,
-          address2: data.address2,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          countryId: +data.country,
-          city: data.cityName,
-          cityId: data.cityName == data.city ? null : data.city,
-          province: data.provinceName,
-          provinceId: data.province,
-          consigneeName: data.firstName + ' ' + data.lastName,
-          consigneeNumber: data.phoneNumber,
-          customerId: data.customerId,
-          deliveryAddress: data.address1 + ' ' + data.address2,
-          deliveryAddressId: data.deliveryAddressId,
-          isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
-          postCode: data.postCode,
-          rfc: data.rfc,
-          email: data.email,
-          type: curType.toUpperCase()
-        };
-      } else {
-        params = {
-          address1: data.address1,
-          address2: data.address2,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          countryId: +data.country,
-          city: data.cityName,
-          cityId: data.cityName == data.city ? null : data.city,
-          consigneeName: data.firstName + ' ' + data.lastName,
-          consigneeNumber: data.phoneNumber,
-          customerId: data.customerId,
-          deliveryAddress: data.address1 + ' ' + data.address2,
-          deliveryAddressId: data.deliveryAddressId,
-          isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
-          postCode: data.postCode,
-          rfc: data.rfc,
-          email: data.email,
-          type: curType.toUpperCase()
-        };
+        params.province = data.provinceName;
+        params.provinceId = data.province;
       }
+      console.log('----------------------> handleSave params: ', params);
 
       await (this.state.isAdd ? saveAddress : editAddress)(params);
       myAccountActionPushEvent('Add Address');
@@ -494,323 +453,324 @@ class ShippingAddressFrom extends React.Component {
           {this.state.loading ? (
             <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
           ) : (
-              <div className={`userContactInfoEdit`}>
-                <div className="row">
-                  {[
-                    { type: 'delivery', langKey: 'deliveryAddress' },
-                    { type: 'billing', langKey: 'billingAddress' }
-                  ].map((item, i) => (
-                    <div className="col-12 col-md-4" key={i}>
-                      <div className="rc-input rc-input--inline">
-                        <input
-                          className="rc-input__radio"
-                          id={`account-info-address-${item.type}-${i}`}
-                          checked={curType === item.type}
-                          type="radio"
-                          disabled={!!this.props.addressId}
-                          onChange={this.handleTypeChange.bind(this, item)}
-                        />
-                        <label
-                          className="rc-input__label--inline"
-                          htmlFor={`account-info-address-${item.type}-${i}`}
-                        >
-                          <FormattedMessage id={item.langKey} />
-                        </label>
-                      </div>
+            <div className={`userContactInfoEdit`}>
+              <div className="row">
+                {[
+                  { type: 'delivery', langKey: 'deliveryAddress' },
+                  { type: 'billing', langKey: 'billingAddress' }
+                ].map((item, i) => (
+                  <div className="col-12 col-md-4" key={i}>
+                    <div className="rc-input rc-input--inline">
+                      <input
+                        className="rc-input__radio"
+                        id={`account-info-address-${item.type}-${i}`}
+                        checked={curType === item.type}
+                        type="radio"
+                        disabled={!!this.props.addressId}
+                        onChange={this.handleTypeChange.bind(this, item)}
+                      />
+                      <label
+                        className="rc-input__label--inline"
+                        htmlFor={`account-info-address-${item.type}-${i}`}
+                      >
+                        <FormattedMessage id={item.langKey} />
+                      </label>
                     </div>
-                  ))}
+                  </div>
+                ))}
+              </div>
+              <div className="row">
+                <div className="form-group col-lg-6 pull-left required">
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="address"
+                  >
+                    <FormattedMessage id="payment.firstName" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="firstName"
+                      name="firstName"
+                      required=""
+                      aria-required="true"
+                      value={addressForm.firstName}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                      autoComplete="address-line"
+                    />
+                    <label className="rc-input__label" htmlFor="firstName" />
+                  </span>
+                  {errMsgObj.firstName && (
+                    <div className="text-danger-2">{errMsgObj.firstName}</div>
+                  )}
                 </div>
-                <div className="row">
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="address"
-                    >
-                      <FormattedMessage id="payment.firstName" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--label rc-margin--none rc-input--full-width"
-                      input-setup="true"
-                    >
-                      <input
-                        type="text"
-                        className="rc-input__control"
-                        id="firstName"
-                        name="firstName"
-                        required=""
-                        aria-required="true"
-                        value={addressForm.firstName}
-                        onChange={this.handleInputChange}
-                        onBlur={this.inputBlur}
-                        maxLength="50"
-                        autoComplete="address-line"
-                      />
-                      <label className="rc-input__label" htmlFor="firstName" />
-                    </span>
-                    {errMsgObj.firstName && (
-                      <div className="text-danger-2">{errMsgObj.firstName}</div>
-                    )}
-                  </div>
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="lastName"
-                    >
-                      <FormattedMessage id="payment.lastName" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--label rc-margin--none rc-input--full-width"
-                      input-setup="true"
-                    >
-                      <input
-                        type="text"
-                        className="rc-input__control"
-                        id="lastName"
-                        name="lastName"
-                        required=""
-                        aria-required="true"
-                        value={addressForm.lastName}
-                        onChange={this.handleInputChange}
-                        onBlur={this.inputBlur}
-                        maxLength="50"
-                        autoComplete="address-line"
-                      />
-                      <label className="rc-input__label" htmlFor="lastName" />
-                    </span>
-                    {errMsgObj.lastName && (
-                      <div className="text-danger-2">{errMsgObj.lastName}</div>
-                    )}
-                  </div>
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="address"
-                    >
-                      <FormattedMessage id="payment.address1" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--label rc-margin--none rc-input--full-width"
-                      input-setup="true"
-                    >
-                      <input
-                        type="text"
-                        className="rc-input__control"
-                        id="address1"
-                        name="address1"
-                        required=""
-                        aria-required="true"
-                        value={addressForm.address1}
-                        onChange={this.handleInputChange}
-                        onBlur={this.inputBlur}
-                        maxLength="50"
-                        autoComplete="address-line"
-                      />
-                      <label className="rc-input__label" htmlFor="address1" />
-                    </span>
-                    {errMsgObj.address1 && (
-                      <div className="text-danger-2">{errMsgObj.address1}</div>
-                    )}
-                  </div>
+                <div className="form-group col-lg-6 pull-left required">
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="lastName"
+                  >
+                    <FormattedMessage id="payment.lastName" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="lastName"
+                      name="lastName"
+                      required=""
+                      aria-required="true"
+                      value={addressForm.lastName}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                      autoComplete="address-line"
+                    />
+                    <label className="rc-input__label" htmlFor="lastName" />
+                  </span>
+                  {errMsgObj.lastName && (
+                    <div className="text-danger-2">{errMsgObj.lastName}</div>
+                  )}
+                </div>
+                <div className="form-group col-lg-6 pull-left required">
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="address"
+                  >
+                    <FormattedMessage id="payment.address1" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="address1"
+                      name="address1"
+                      required=""
+                      aria-required="true"
+                      value={addressForm.address1}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                      autoComplete="address-line"
+                    />
+                    <label className="rc-input__label" htmlFor="address1" />
+                  </span>
+                  {errMsgObj.address1 && (
+                    <div className="text-danger-2">{errMsgObj.address1}</div>
+                  )}
+                </div>
 
-                  {/* 国家 */}
+                {/* 国家 */}
+                <div className="form-group col-lg-6 pull-left required">
+                  {/* <div className="form-group col-lg-12 pull-left no-padding required dwfrm_shipping_shippingAddress_addressFields_province"> */}
+                  <label className="form-control-label rc-full-width" htmlFor="country">
+                    <FormattedMessage id="payment.country" />
+                  </label>
+                  <span
+                    className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+                    data-loc="countrySelect"
+                    style={{ marginTop: '0' }}
+                  >
+                    <Selection
+                      key={addressForm.country}
+                      selectedItemChange={(data) =>
+                        this.handleSelectedItemChange('country', data)
+                      }
+                      optionList={this.computedList('country')}
+                      selectedItemData={{
+                        value: addressForm.country
+                      }}
+                    />
+                  </span>
+                  {/* </div> */}
+                </div>
+
+                {/* 省份 */}
+                {process.env.REACT_APP_LANG === 'en' ? (
                   <div className="form-group col-lg-6 pull-left required">
                     <div className="form-group col-lg-12 pull-left no-padding required dwfrm_shipping_shippingAddress_addressFields_province">
-                      <label className="form-control-label rc-full-width" htmlFor="country">
-                        <FormattedMessage id="payment.country" />
+                      <label className="form-control-label" htmlFor="province">
+                        <FormattedMessage id="payment.state" />
                       </label>
-                      <span
-                        className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                        data-loc="countrySelect"
-                      >
-                        <Selection
-                          key={addressForm.country}
-                          selectedItemChange={(data) =>
-                            this.handleSelectedItemChange('country', data)
-                          }
-                          optionList={this.computedList('country')}
-                          selectedItemData={{
-                            value: addressForm.country
-                          }}
-                        />
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* 省份 */}
-                  {process.env.REACT_APP_LANG === 'en' ? (
-                    <div className="form-group col-lg-6 pull-left required">
-                      <div className="form-group col-lg-12 pull-left no-padding required dwfrm_shipping_shippingAddress_addressFields_province">
-                        <label className="form-control-label" htmlFor="province">
-                          <FormattedMessage id="payment.state" />
-                        </label>
-                        <div data-js-dynamicselect="province" data-template="shipping">
-                          <span
-                            className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                            data-loc="provinceSelect"
-                          >
-                            <Selection
-                              key={addressForm.province}
-                              selectedItemChange={(data) => {
-                                if (data.value != '') {
-                                  this.handleSelectedItemChange('province', data)
-                                }
-                              }}
-                              optionList={this.computedList('province')}
-                              selectedItemData={{ value: addressForm.province }}
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (null)}
-
-                  {/* 城市 */}
-                  <div className="form-group col-lg-6 pull-left required">
-                    <div className="form-group col-lg-12 pull-left no-padding required">
-                      <label className="form-control-label" htmlFor="city">
-                        <FormattedMessage id="payment.city" />
-                      </label>
-                      <div data-js-dynamicselect="city" data-template="shipping">
+                      <div data-js-dynamicselect="province" data-template="shipping">
                         <span
                           className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                          data-loc="citySelect"
+                          data-loc="provinceSelect"
                         >
-                          <CitySearchSelection
-                            key={this.state.addressForm.cityName}
-                            defaultValue={this.state.addressForm.cityName}
-                            freeText={true}
-                            onChange={this.handleCityInputChange}
+                          <Selection
+                            key={addressForm.province}
+                            selectedItemChange={(data) => {
+                              if (data.value != '') {
+                                this.handleSelectedItemChange('province', data)
+                              }
+                            }}
+                            optionList={this.computedList('province')}
+                            selectedItemData={{ value: addressForm.province }}
                           />
                         </span>
                       </div>
                     </div>
                   </div>
+                ) : (null)}
 
-                  <div className="form-group col-6 required d-flex flex-column justify-content-between">
-                    <div className="no-padding">
-                      <label
-                        className="form-control-label rc-full-width"
-                        htmlFor="zipCode"
-                      >
-                        <FormattedMessage id="payment.postCode" />
-                      </label>
+                {/* 城市 */}
+                <div className="form-group col-lg-6 pull-left required">
+                  <div className="form-group col-lg-12 pull-left no-padding required">
+                    <label className="form-control-label" htmlFor="city">
+                      <FormattedMessage id="payment.city" />
+                    </label>
+                    <div data-js-dynamicselect="city" data-template="shipping">
                       <span
-                        className="rc-input rc-input--inline rc-input--label rc-margin-top--none rc-margin-right--none rc-margin-left--none rc-full-width"
-                        data-js-validate=""
-                        style={{ maxWidth: '1000px' }}
-                        data-js-warning-message="*Post Code isn’t valid"
-                        input-setup="true"
+                        className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+                        data-loc="citySelect"
                       >
-                        <input
-                          className="rc-input__control"
-                          type="number"
-                          id="zipCode"
-                          data-range-error="The postal code needs to be 6 characters"
-                          name="postCode"
-                          value={addressForm.postCode}
-                          onChange={this.handleInputChange}
-                          onBlur={this.inputBlur}
-                          data-js-pattern="(*.*)"
-                          autoComplete="postal-code"
+                        <CitySearchSelection
+                          key={this.state.addressForm.cityName}
+                          defaultValue={this.state.addressForm.cityName}
+                          freeText={true}
+                          onChange={this.handleCityInputChange}
                         />
-                        <label className="rc-input__label" htmlFor="zipCode" />
                       </span>
-                      {errMsgObj.postCode && (
-                        <div className="text-danger-2">{errMsgObj.postCode}</div>
-                      )}
-                      <div className="ui-lighter">
-                        <FormattedMessage id="example" />:{' '}
-                        <FormattedMessage id="examplePostCode" />
-                      </div>
                     </div>
                   </div>
-                  <div className={["form-group", "col-6", "d-flex", "flex-column", "justify-content-between", process.env.REACT_APP_LANG == 'de' ? '' : 'required'].join(" ")}>
+                </div>
+
+                <div className="form-group col-6 required d-flex flex-column justify-content-between">
+                  <div className="no-padding">
                     <label
                       className="form-control-label rc-full-width"
-                      htmlFor="phone"
+                      htmlFor="zipCode"
                     >
-                      <FormattedMessage id="payment.phoneNumber" />
+                      <FormattedMessage id="payment.postCode" />
                     </label>
                     <span
-                      className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                      className="rc-input rc-input--inline rc-input--label rc-margin-top--none rc-margin-right--none rc-margin-left--none rc-full-width"
+                      data-js-validate=""
                       style={{ maxWidth: '1000px' }}
+                      data-js-warning-message="*Post Code isn’t valid"
                       input-setup="true"
                     >
                       <input
-                        className="rc-input__control input__phoneField"
-                        id="phone"
-                        type="text"
-                        name="phoneNumber"
-                        value={addressForm.phoneNumber}
+                        className="rc-input__control"
+                        type="number"
+                        id="zipCode"
+                        data-range-error="The postal code needs to be 6 characters"
+                        name="postCode"
+                        value={addressForm.postCode}
                         onChange={this.handleInputChange}
                         onBlur={this.inputBlur}
-                        maxLength="20"
-                        minLength="18"
+                        data-js-pattern="(*.*)"
+                        autoComplete="postal-code"
                       />
-                      <label className="rc-input__label" htmlFor="phone" />
+                      <label className="rc-input__label" htmlFor="zipCode" />
                     </span>
-                    {errMsgObj.phoneNumber && (
-                      <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
+                    {errMsgObj.postCode && (
+                      <div className="text-danger-2">{errMsgObj.postCode}</div>
                     )}
-                    <span className="ui-lighter">
+                    <div className="ui-lighter">
                       <FormattedMessage id="example" />:{' '}
-                      <FormattedMessage id="examplePhone" />
-                    </span>
-                  </div>
-
-                  {addressForm.addressType === 'DELIVERY' ? (
-                    <div className="form-group col-12 col-md-6">
-                      <div
-                        className="rc-input rc-input--inline"
-                        onClick={this.isDefalt}
-                      >
-                        <input
-                          type="checkbox"
-                          className="rc-input__checkbox"
-                          value={addressForm.isDefalt}
-                          checked={addressForm.isDefalt}
-                        />
-                        <label className="rc-input__label--inline text-break w-100">
-                          <FormattedMessage id="setDefaultAddress" />
-                        </label>
-                      </div>
+                      <FormattedMessage id="examplePostCode" />
                     </div>
-                  ) : null}
+                  </div>
                 </div>
-                <span className="rc-meta mandatoryField">
-                  * <FormattedMessage id="account.requiredFields" />
-                </span>
-                <div className="text-right">
-                  <span
-                    className="rc-styled-link editPersonalInfoBtn"
-                    name="contactInformation"
-                    onClick={this.handleCancel}
+                <div className={["form-group", "col-6", "d-flex", "flex-column", "justify-content-between", process.env.REACT_APP_LANG == 'de' ? '' : 'required'].join(" ")}>
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="phone"
                   >
-                    <FormattedMessage id="cancel" />
+                    <FormattedMessage id="payment.phoneNumber" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                    style={{ maxWidth: '1000px' }}
+                    input-setup="true"
+                  >
+                    <input
+                      className="rc-input__control input__phoneField"
+                      id="phone"
+                      type="text"
+                      name="phoneNumber"
+                      value={addressForm.phoneNumber}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="20"
+                      minLength="18"
+                    />
+                    <label className="rc-input__label" htmlFor="phone" />
                   </span>
+                  {errMsgObj.phoneNumber && (
+                    <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
+                  )}
+                  <span className="ui-lighter">
+                    <FormattedMessage id="example" />:{' '}
+                    <FormattedMessage id="examplePhone" />
+                  </span>
+                </div>
+
+                {addressForm.addressType === 'DELIVERY' ? (
+                  <div className="form-group col-12 col-md-6">
+                    <div
+                      className="rc-input rc-input--inline"
+                      onClick={this.isDefalt}
+                    >
+                      <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        value={addressForm.isDefalt}
+                        checked={addressForm.isDefalt}
+                      />
+                      <label className="rc-input__label--inline text-break w-100">
+                        <FormattedMessage id="setDefaultAddress" />
+                      </label>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+              <span className="rc-meta mandatoryField">
+                * <FormattedMessage id="account.requiredFields" />
+              </span>
+              <div className="text-right">
+                <span
+                  className="rc-styled-link editPersonalInfoBtn"
+                  name="contactInformation"
+                  onClick={this.handleCancel}
+                >
+                  <FormattedMessage id="cancel" />
+                </span>
                 &nbsp;
                 <FormattedMessage id="or" />
                 &nbsp;
                 <button
-                    className={classNames(
-                      'rc-btn',
-                      'rc-btn--one',
-                      'editAddress',
-                      {
-                        'ui-btn-loading': this.state.saveLoading
-                      }
-                    )}
-                    data-sav="false"
-                    name="contactInformation"
-                    type="submit"
-                    disabled={!isValid}
-                    onClick={this.handleSave}
-                  >
-                    <FormattedMessage id="save" />
-                  </button>
-                </div>
+                  className={classNames(
+                    'rc-btn',
+                    'rc-btn--one',
+                    'editAddress',
+                    {
+                      'ui-btn-loading': this.state.saveLoading
+                    }
+                  )}
+                  data-sav="false"
+                  name="contactInformation"
+                  type="submit"
+                  disabled={!isValid}
+                  onClick={this.handleSave}
+                >
+                  <FormattedMessage id="save" />
+                </button>
               </div>
-            )}
+            </div>
+          )}
         </div>
 
         {validationLoading && <Loading positionFixed="true" />}
