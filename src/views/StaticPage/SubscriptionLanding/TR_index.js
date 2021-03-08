@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import autoship from './images/autoship.png';
 import icon1 from './images/icon1.png';
 import icon2 from './images/icon2.png';
+import { inject, observer } from 'mobx-react';
 import icon3 from './images/icon3.png';
 import icon4 from './images/icon4.png';
 import cat from './images/cat.png';
@@ -20,6 +21,8 @@ import { Helmet } from 'react-helmet';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
 
+@inject('configStore')
+@observer
 class Help extends React.Component {
   constructor(props) {
     super(props);
@@ -301,12 +304,12 @@ class Help extends React.Component {
                         <LazyLoad>
                           <img
                             className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            data-src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png`}
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x1.png 2x`}
                             alt="call us"
                             title="call us"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                            srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x1.png 2x`}
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png`}
                           />
                         </LazyLoad>
                       </div>
@@ -343,12 +346,12 @@ class Help extends React.Component {
                         <LazyLoad>
                           <img
                             className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            data-src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png`}
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x1.png 2x`}
                             alt="email us"
                             title="email us"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                            srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x1.png 2x`}
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png`}
                           />
                         </LazyLoad>
                       </div>
@@ -388,12 +391,12 @@ class Help extends React.Component {
                         <LazyLoad>
                           <img
                             className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            data-src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png`}
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x1.png 2x`}
                             alt="faq"
                             title="faq"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                            srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x1.png 2x`}
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png`}
                           />
                         </LazyLoad>
                       </div>

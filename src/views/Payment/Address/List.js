@@ -105,7 +105,7 @@ class AddressList extends React.Component {
           return ele.isDefaltAddress === 1
         }
       );
-      
+
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
@@ -219,81 +219,48 @@ class AddressList extends React.Component {
     const { deliveryAddress, addressList } = this.state;
     this.currentOperateIdx = idx;
 
-    let tmpDeliveryAddress = {};
-
+    let tmpDeliveryAddress = {
+      firstName: '',
+      lastName: '',
+      address1: '',
+      address2: '',
+      rfc: '',
+      country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+      countryName: '',
+      city: '',
+      cityName: '',
+      postCode: '',
+      phoneNumber: '',
+      isDefalt: false
+    };
     if (process.env.REACT_APP_LANG === 'en') {
-      tmpDeliveryAddress = {
-        firstName: '',
-        lastName: '',
-        address1: '',
-        address2: '',
-        rfc: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
-        countryName: '',
-        city: '',
-        cityName: '',
-        provinceNo: '',
-        provinceName: '',
-        province: '',
-        postCode: '',
-        phoneNumber: '',
-        isDefalt: false
-      };
-    } else {
-      tmpDeliveryAddress = {
-        firstName: '',
-        lastName: '',
-        address1: '',
-        address2: '',
-        rfc: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
-        countryName: '',
-        city: '',
-        cityName: '',
-        postCode: '',
-        phoneNumber: '',
-        isDefalt: false
-      };
+      tmpDeliveryAddress.provinceNo = '';
+      tmpDeliveryAddress.provinceName = '';
+      tmpDeliveryAddress.province = '';
     }
 
     if (idx > -1) {
       const tmp = addressList[idx];
-      console.log('--------------------- ★★★ List add Or EditAddress data: ', tmp);
+      // console.log('--------------------- ★★★ List add Or EditAddress data: ', tmp);
+      tmpDeliveryAddress = {
+        firstName: tmp.firstName,
+        lastName: tmp.lastName,
+        address1: tmp.address1,
+        address2: tmp.address2,
+        rfc: tmp.rfc,
+        country: tmp.countryId ? tmp.countryId.toString() : '',
+        countryName: tmp.countryName,
+        city: tmp.cityId ? tmp.cityId : tmp.city,
+        cityName: tmp.city,
+        postCode: tmp.postCode,
+        phoneNumber: tmp.consigneeNumber,
+        isDefalt: tmp.isDefaltAddress === 1 ? true : false,
+        email: tmp.email
+      };
       if (process.env.REACT_APP_LANG === 'en') {
-        tmpDeliveryAddress = {
-          firstName: tmp.firstName,
-          lastName: tmp.lastName,
-          address1: tmp.address1,
-          address2: tmp.address2,
-          rfc: tmp.rfc,
-          country: tmp.countryId ? tmp.countryId.toString() : '',
-          countryName: tmp.countryName,
-          city: tmp.cityId ? tmp.cityId : tmp.city,
-          cityName: tmp.city,
-          provinceNo: tmp.provinceNo,
-          provinceName: tmp.province,
-          province: tmp.provinceId,
-          postCode: tmp.postCode,
-          phoneNumber: tmp.consigneeNumber,
-          isDefalt: tmp.isDefaltAddress === 1 ? true : false,
-          email: tmp.email
-        };
-      } else {
-        tmpDeliveryAddress = {
-          firstName: tmp.firstName,
-          lastName: tmp.lastName,
-          address1: tmp.address1,
-          address2: tmp.address2,
-          rfc: tmp.rfc,
-          country: tmp.countryId ? tmp.countryId.toString() : '',
-          countryName: tmp.countryName,
-          city: tmp.cityId ? tmp.cityId : tmp.city,
-          cityName: tmp.city,
-          postCode: tmp.postCode,
-          phoneNumber: tmp.consigneeNumber,
-          isDefalt: tmp.isDefaltAddress === 1 ? true : false,
-          email: tmp.email
-        };
+        tmpDeliveryAddress.provinceNo = tmp.provinceNo;
+        tmpDeliveryAddress.provinceName = tmp.province;
+        tmpDeliveryAddress.province = tmp.provinceId;
       }
     }
 
@@ -371,53 +338,32 @@ class AddressList extends React.Component {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       // 手动输入的城市 id 设为 null
-      let params = {};
+      let params = {
+        address1: deliveryAddress.address1,
+        address2: deliveryAddress.address2,
+        firstName: deliveryAddress.firstName,
+        lastName: deliveryAddress.lastName,
+        countryId: deliveryAddress.country,
+        cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
+        city: deliveryAddress.cityName,
+        cityName: deliveryAddress.cityName,
+        consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeNumber: deliveryAddress.phoneNumber,
+        customerId: originData ? originData.customerId : '',
+        deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+        deliveryAddressId: originData ? originData.deliveryAddressId : '',
+        isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+        postCode: deliveryAddress.postCode,
+        rfc: deliveryAddress.rfc,
+        email: deliveryAddress.email,
+        type: this.props.type.toUpperCase()
+      };
       if (process.env.REACT_APP_LANG === 'en') {
-        params = {
-          address1: deliveryAddress.address1,
-          address2: deliveryAddress.address2,
-          firstName: deliveryAddress.firstName,
-          lastName: deliveryAddress.lastName,
-          countryId: deliveryAddress.country,
-          cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
-          city: deliveryAddress.cityName,
-          cityName: deliveryAddress.cityName,
-          provinceId: deliveryAddress.province,
-          province: deliveryAddress.provinceName,
-          provinceNo: deliveryAddress.provinceNo,
-          consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-          consigneeNumber: deliveryAddress.phoneNumber,
-          customerId: originData ? originData.customerId : '',
-          deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
-          deliveryAddressId: originData ? originData.deliveryAddressId : '',
-          isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-          postCode: deliveryAddress.postCode,
-          rfc: deliveryAddress.rfc,
-          email: deliveryAddress.email,
-          type: this.props.type.toUpperCase()
-        };
-      } else {
-        params = {
-          address1: deliveryAddress.address1,
-          address2: deliveryAddress.address2,
-          firstName: deliveryAddress.firstName,
-          lastName: deliveryAddress.lastName,
-          countryId: deliveryAddress.country,
-          cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
-          city: deliveryAddress.cityName,
-          cityName: deliveryAddress.cityName,
-          consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-          consigneeNumber: deliveryAddress.phoneNumber,
-          customerId: originData ? originData.customerId : '',
-          deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
-          deliveryAddressId: originData ? originData.deliveryAddressId : '',
-          isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-          postCode: deliveryAddress.postCode,
-          rfc: deliveryAddress.rfc,
-          email: deliveryAddress.email,
-          type: this.props.type.toUpperCase()
-        };
+        params.provinceId = deliveryAddress.province;
+        params.province = deliveryAddress.provinceName;
+        params.provinceNo = deliveryAddress.provinceNo;
       }
+
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
       if (res.context.deliveryAddressId) {
@@ -477,7 +423,7 @@ class AddressList extends React.Component {
     }
   }
   // 下一步
-  showNextPanel = async() => {
+  showNextPanel = async () => {
     this.setState({
       validationModalVisible: false
     });
@@ -642,14 +588,14 @@ class AddressList extends React.Component {
                 />
               </svg>
             ) : (
-                <svg width="24" height="32">
-                  <path
-                    d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
-                    fill="#c4c4c4"
-                    fillRule="evenodd"
-                  />
-                </svg>
-              )}
+              <svg width="24" height="32">
+                <path
+                  d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
+                  fill="#c4c4c4"
+                  fillRule="evenodd"
+                />
+              </svg>
+            )}
             {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
           </div>
           <div
@@ -672,12 +618,12 @@ class AddressList extends React.Component {
                   item.address1
                 ].join(', ')
               ) : (
-                  [
-                    matchNamefromDict(this.state.countryList, item.countryId),
-                    item.city,
-                    item.address1
-                  ].join(', ')
-                )}
+                [
+                  matchNamefromDict(this.state.countryList, item.countryId),
+                  item.city,
+                  item.address1
+                ].join(', ')
+              )}
             </span>
           </div>
           <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
@@ -704,11 +650,11 @@ class AddressList extends React.Component {
               <b className="addr-switch switch-on" />
             </>
           ) : (
-              <>
-                <FormattedMessage id="unfoldAddress" />
-                <b className="addr-switch switch-off" />
-              </>
-            )}
+            <>
+              <FormattedMessage id="unfoldAddress" />
+              <b className="addr-switch switch-off" />
+            </>
+          )}
         </span>
       </div>
     );
@@ -870,43 +816,43 @@ class AddressList extends React.Component {
             ) : this.state.errMsg ? (
               <span className="pt-2 pb-2">{this.state.errMsg}</span>
             ) : (
+              <>
+                {panelStatus.isEdit ? (
                   <>
-                    {panelStatus.isEdit ? (
-                      <>
-                        {!addOrEdit ? (
-                          addressList.length ? (
-                            <>
-                              <div className="addr-container-scroll">{_list}</div>
-                              {addressList.length > 1 && _foldBtn}
-                              {/* 该按钮，只用来确认地址列表 */}
-                              {this.isDeliverAddress && (
-                                <div className="d-flex justify-content-end mt-3">
-                                  <button
-                                    className={`rc-btn rc-btn--one`}
-                                    onClick={this.clickConfirmAddressPanel}
-                                  >
-                                    <FormattedMessage id="yes" />
-                                  </button>
-                                </div>
-                              )}
-                            </>
-                          ) : (
-                              <FormattedMessage id="order.noDataTip" />
-                            )
-                        ) : null}
-                        {_form}
-                      </>
-                    ) : panelStatus.isCompleted ? (
-                      <AddressPreview
-                        form={
-                          addressList.filter(
-                            (a) => a.deliveryAddressId === selectedId
-                          )[0] || null
-                        }
-                      />
+                    {!addOrEdit ? (
+                      addressList.length ? (
+                        <>
+                          <div className="addr-container-scroll">{_list}</div>
+                          {addressList.length > 1 && _foldBtn}
+                          {/* 该按钮，只用来确认地址列表 */}
+                          {this.isDeliverAddress && (
+                            <div className="d-flex justify-content-end mt-3">
+                              <button
+                                className={`rc-btn rc-btn--one`}
+                                onClick={this.clickConfirmAddressPanel}
+                              >
+                                <FormattedMessage id="yes" />
+                              </button>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <FormattedMessage id="order.noDataTip" />
+                      )
                     ) : null}
+                    {_form}
                   </>
-                )}
+                ) : panelStatus.isCompleted ? (
+                  <AddressPreview
+                    form={
+                      addressList.filter(
+                        (a) => a.deliveryAddressId === selectedId
+                      )[0] || null
+                    }
+                  />
+                ) : null}
+              </>
+            )}
           </div>
 
           {validationLoading && <Loading positionFixed="true" />}

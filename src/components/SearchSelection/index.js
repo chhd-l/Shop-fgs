@@ -48,10 +48,15 @@ class SearchSelection extends React.Component {
     const tmpVal = this.state.form.value;
     if (tmpVal) {
       this.setState({
-        placeholder: tmpVal,
-        form: Object.assign(this.state.form, { value: '' }),
         currentItem: tmpVal
       });
+      // freeText= false 时，失去焦点清空文本框value，赋值placeholder
+      if (!this.props.freeText) {
+        this.setState({
+          placeholder: tmpVal,
+          form: Object.assign(this.state.form, { value: '' })
+        });
+      }
     }
   };
   handleInputBlur = (e) => {
@@ -90,7 +95,7 @@ class SearchSelection extends React.Component {
           }
 
           this.setState({
-            form: form.value,
+            form: form,
             optionPanelVisible: false,
           }, () => {
             this.props.selectedItemChange(citem);
@@ -183,8 +188,7 @@ class SearchSelection extends React.Component {
           <input
             type="text"
             placeholder={this.state.placeholder}
-            className={`${this.props.customStyle ? 'rc-input__control' : 'form-control'
-              }`}
+            className={`${this.props.customStyle ? 'rc-input__control' : 'form-control'}`}
             value={form.value}
             onChange={(e) => this.handleInputChange(e)}
             onFocus={this.handleInputFocus}
