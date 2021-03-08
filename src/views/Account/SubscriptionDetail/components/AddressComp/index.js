@@ -37,8 +37,8 @@ function CardItem(props) {
         {data.type === 'DELIVERY' ? (
           <FormattedMessage id="deliveryAddress" />
         ) : (
-            <FormattedMessage id="billingAddress" />
-          )}
+          <FormattedMessage id="billingAddress" />
+        )}
       </div>
       <div>
         <div className="ccard-phone-title word-break">
@@ -257,42 +257,25 @@ class AddressList extends React.Component {
     if (itemIdx > -1) {
       const tmp = addressList[itemIdx];
 
-      console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
-
+      // console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
+      tmpDeliveryAddress = {
+        firstName: tmp.firstName,
+        lastName: tmp.lastName,
+        address1: tmp.address1,
+        address2: tmp.address2,
+        rfc: tmp.rfc,
+        country: tmp.countryId ? tmp.countryId.toString() : '',
+        cityName: tmp.cityName,
+        city: tmp.cityName == tmp.city ? null : tmp.city,
+        cityId: tmp.cityId,
+        postCode: tmp.postCode,
+        phoneNumber: tmp.consigneeNumber,
+        email: tmp.email,
+        isDefalt: tmp.isDefaltAddress === 1 ? true : false
+      };
       if (process.env.REACT_APP_LANG === 'en') {
-        tmpDeliveryAddress = {
-          firstName: tmp.firstName,
-          lastName: tmp.lastName,
-          address1: tmp.address1,
-          address2: tmp.address2,
-          rfc: tmp.rfc,
-          country: tmp.countryId ? tmp.countryId.toString() : '',
-          cityName: tmp.cityName,
-          city: tmp.cityName == tmp.city ? null : tmp.city,
-          cityId: tmp.cityId,
-          province: tmp.provinceName,
-          provinceId: tmp.province,
-          postCode: tmp.postCode,
-          phoneNumber: tmp.consigneeNumber,
-          email: tmp.email,
-          isDefalt: tmp.isDefaltAddress === 1 ? true : false
-        };
-      } else {
-        tmpDeliveryAddress = {
-          firstName: tmp.firstName,
-          lastName: tmp.lastName,
-          address1: tmp.address1,
-          address2: tmp.address2,
-          rfc: tmp.rfc,
-          country: tmp.countryId ? tmp.countryId.toString() : '',
-          cityName: tmp.cityName,
-          city: tmp.cityName == tmp.city ? null : tmp.city,
-          cityId: tmp.cityId,
-          postCode: tmp.postCode,
-          phoneNumber: tmp.consigneeNumber,
-          email: tmp.email,
-          isDefalt: tmp.isDefaltAddress === 1 ? true : false
-        };
+        tmpDeliveryAddress.province = tmp.provinceName;
+        tmpDeliveryAddress.provinceId = tmp.province;
       }
     }
     this.setState({
@@ -348,51 +331,28 @@ class AddressList extends React.Component {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       await validData(ADDRESS_RULE, deliveryAddress);
-      let params = {};
+      let params = {
+        address1: deliveryAddress.address1,
+        address2: deliveryAddress.address2,
+        firstName: deliveryAddress.firstName,
+        lastName: deliveryAddress.lastName,
+        countryId: +deliveryAddress.country,
+        cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
+        city: deliveryAddress.cityName,
+        consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeNumber: deliveryAddress.phoneNumber,
+        customerId: originData ? originData.customerId : '',
+        deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+        deliveryAddressId: originData ? originData.deliveryAddressId : '',
+        isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+        postCode: deliveryAddress.postCode,
+        rfc: deliveryAddress.rfc,
+        email: deliveryAddress.email,
+        type: this.props.type.toUpperCase()
+      };
       if (process.env.REACT_APP_LANG === 'en') {
-        params = {
-          address1: deliveryAddress.address1,
-          address2: deliveryAddress.address2,
-          firstName: deliveryAddress.firstName,
-          lastName: deliveryAddress.lastName,
-          countryId: +deliveryAddress.country,
-          cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
-          city: deliveryAddress.cityName,
-          province: deliveryAddress.provinceName,
-          provinceId: deliveryAddress.province,
-          consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-          consigneeNumber: deliveryAddress.phoneNumber,
-          customerId: originData ? originData.customerId : '',
-          deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
-          deliveryAddressId: originData ? originData.deliveryAddressId : '',
-          isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-          postCode: deliveryAddress.postCode,
-          provinceId: deliveryAddress.province,
-          rfc: deliveryAddress.rfc,
-          email: deliveryAddress.email,
-          type: this.props.type.toUpperCase()
-        };
-      } else {
-        params = {
-          address1: deliveryAddress.address1,
-          address2: deliveryAddress.address2,
-          firstName: deliveryAddress.firstName,
-          lastName: deliveryAddress.lastName,
-          countryId: +deliveryAddress.country,
-          cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
-          city: deliveryAddress.cityName,
-          consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-          consigneeNumber: deliveryAddress.phoneNumber,
-          customerId: originData ? originData.customerId : '',
-          deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
-          deliveryAddressId: originData ? originData.deliveryAddressId : '',
-          isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-          postCode: deliveryAddress.postCode,
-          provinceId: deliveryAddress.province,
-          rfc: deliveryAddress.rfc,
-          email: deliveryAddress.email,
-          type: this.props.type.toUpperCase()
-        };
+        params.province = deliveryAddress.provinceName;
+        params.provinceId = deliveryAddress.province;
       }
 
       this.setState({ saveLoading: true });
@@ -586,8 +546,8 @@ class AddressList extends React.Component {
             {this.props.type === 'delivery' ? (
               <FormattedMessage id="payment.deliveryTitle" />
             ) : (
-                <FormattedMessage id="payment.billTitle" />
-              )}
+              <FormattedMessage id="payment.billTitle" />
+            )}
           </h5>
         </div>
         <div
@@ -630,249 +590,249 @@ class AddressList extends React.Component {
           ) : this.state.errMsg ? (
             <span className="pt-2 pb-2">{this.state.errMsg}</span>
           ) : (
-                <>
-                  {!addOrEdit ? (
-                    addressList.length ? (
-                      <>
-                        <div
-                          className="d-flex align-items-center justify-content-between flex-wrap"
-                          style={{ lineHeight: '40px' }}
-                        >
+            <>
+              {!addOrEdit ? (
+                addressList.length ? (
+                  <>
+                    <div
+                      className="d-flex align-items-center justify-content-between flex-wrap"
+                      style={{ lineHeight: '40px' }}
+                    >
+                      <div
+                        className={`rc-input rc-input--inline ${this.props.type === 'delivery' ? '' : 'hidden'
+                          }`}
+                        onClick={() => {
+                          isBillSame = !isBillSame;
+                          console.log(isBillSame);
+                          this.setState({ isBillSame });
+                        }}
+                      >
+                        {isBillSame ? (
+                          <input
+                            type="checkbox"
+                            className="rc-input__checkbox"
+                            value={true}
+                            key={1}
+                            checked
+                          />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            className="rc-input__checkbox"
+                            key={2}
+                            value={false}
+                          />
+                        )}
+                        <label className="rc-input__label--inline text-break billingSame">
+                          <FormattedMessage id="biliingAddressSameAs" />
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      className={classNames({
+                        // hidden: !listVisible || editFormVisible
+                      })}
+                    >
+                      <div className={classNames('row', 'ml-0', 'mr-0')}>
+                        {addressList.map((item, i) => (
                           <div
-                            className={`rc-input rc-input--inline ${this.props.type === 'delivery' ? '' : 'hidden'
-                              }`}
-                            onClick={() => {
-                              isBillSame = !isBillSame;
-                              console.log(isBillSame);
-                              this.setState({ isBillSame });
-                            }}
+                            className="col-12 col-md-6 p-2"
+                            key={item.deliveryAddressId}
                           >
-                            {isBillSame ? (
-                              <input
-                                type="checkbox"
-                                className="rc-input__checkbox"
-                                value={true}
-                                key={1}
-                                checked
-                              />
-                            ) : (
-                                <input
-                                  type="checkbox"
-                                  className="rc-input__checkbox"
-                                  key={2}
-                                  value={false}
-                                />
-                              )}
-                            <label className="rc-input__label--inline text-break billingSame">
-                              <FormattedMessage id="biliingAddressSameAs" />
-                            </label>
-                          </div>
-                        </div>
-                        <div
-                          className={classNames({
-                            // hidden: !listVisible || editFormVisible
-                          })}
-                        >
-                          <div className={classNames('row', 'ml-0', 'mr-0')}>
-                            {addressList.map((item, i) => (
-                              <div
-                                className="col-12 col-md-6 p-2"
-                                key={item.deliveryAddressId}
-                              >
-                                <CardItem
-                                  data={item}
-                                  operateBtnJSX={
-                                    <>
-                                      {item.isDefaltAddress === 1 ? (
-                                        <div
-                                          className="red"
-                                          onClick={this.toggleSetDefault.bind(
-                                            this,
-                                            item
-                                          )}
-                                        >
-                                          <span className="iconfont mr-1">
-                                            &#xe68c;
+                            <CardItem
+                              data={item}
+                              operateBtnJSX={
+                                <>
+                                  {item.isDefaltAddress === 1 ? (
+                                    <div
+                                      className="red"
+                                      onClick={this.toggleSetDefault.bind(
+                                        this,
+                                        item
+                                      )}
+                                    >
+                                      <span className="iconfont mr-1">
+                                        &#xe68c;
                                       </span>
-                                          <span className="rc-styled-link red border-danger">
-                                            <FormattedMessage id="default" />
-                                          </span>
-                                        </div>
-                                      ) : (
-                                          <div
-                                            className="ui-cursor-pointer"
-                                            onClick={this.toggleSetDefault.bind(
-                                              this,
-                                              item
-                                            )}
-                                          >
-                                            <span className="rc-styled-link">
-                                              <FormattedMessage id="setAsDefault" />
-                                            </span>
-                                          </div>
-                                        )}
-                                      <span className="position-relative p-2 ui-cursor-pointer-pure  pdl-1">
-                                        <span
-                                          className="rc-styled-link"
-                                          onClick={() => this.addOrEditAddress(i)}
-                                        >
-                                          <FormattedMessage id="edit" />
-                                        </span>
-
+                                      <span className="rc-styled-link red border-danger">
+                                        <FormattedMessage id="default" />
                                       </span>
-                                    </>
-                                  }
-                                  handleClick={() => this.selectAddress(i)}
-                                  countryName={matchNamefromDict(
-                                    countryList,
-                                    item.countryId
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className="ui-cursor-pointer"
+                                      onClick={this.toggleSetDefault.bind(
+                                        this,
+                                        item
+                                      )}
+                                    >
+                                      <span className="rc-styled-link">
+                                        <FormattedMessage id="setAsDefault" />
+                                      </span>
+                                    </div>
                                   )}
-                                />
-                              </div>
-                            ))}
-                            <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
-                              {this.addBtnJSX({ fromPage: 'list' })}
-                            </div>
-                          </div>
-                        </div>
+                                  <span className="position-relative p-2 ui-cursor-pointer-pure  pdl-1">
+                                    <span
+                                      className="rc-styled-link"
+                                      onClick={() => this.addOrEditAddress(i)}
+                                    >
+                                      <FormattedMessage id="edit" />
+                                    </span>
 
-                      </>
-                    ) : (
-                        <FormattedMessage id="order.noDataTip" />
-                      )
-                  ) : null}
-                  {!addOrEdit && (
-                    <div className="text-right" style={{ marginTop: '10px' }}>
-                      {/* <button
+                                  </span>
+                                </>
+                              }
+                              handleClick={() => this.selectAddress(i)}
+                              countryName={matchNamefromDict(
+                                countryList,
+                                item.countryId
+                              )}
+                            />
+                          </div>
+                        ))}
+                        <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
+                          {this.addBtnJSX({ fromPage: 'list' })}
+                        </div>
+                      </div>
+                    </div>
+
+                  </>
+                ) : (
+                  <FormattedMessage id="order.noDataTip" />
+                )
+              ) : null}
+              {!addOrEdit && (
+                <div className="text-right" style={{ marginTop: '10px' }}>
+                  {/* <button
                     className="rc-btn rc-btn--sm rc-btn--two"
                     onClick={() => this.props.cancel()}
                   >
                     Cancel
                   </button> */}
-                      <a
-                        className="rc-styled-link editPersonalInfoBtn"
-                        onClick={() => {
-                          this.props.cancel();
-                          // this.scrollToPaymentComp();
-                        }}
-                      >
-                        <FormattedMessage id="cancel" />
-                      </a>
-                  &nbsp;&nbsp;
-                      <span>
-                        <FormattedMessage id="or" />
-                      </span>
-                  &nbsp;&nbsp;
-                      <button
-                        className="rc-btn rc-btn--sm rc-btn--one"
-                        onClick={() => {
-                          this.props.save(
-                            addressList.filter((el) => el.selected)[0],
-                            isBillSame,
-                            this.queryAddressList.bind(this)
-                          );
-                        }}
-                      >
-                        <FormattedMessage id="save" />
-                      </button>
-                    </div>
-                  )}
-
-                  {/* add or edit address form */}
-                  <fieldset
-                    className={`shipping-address-block rc-fieldset position-relative ${addOrEdit || loading ? '' : 'hidden'
-                      }`}
+                  <a
+                    className="rc-styled-link editPersonalInfoBtn"
+                    onClick={() => {
+                      this.props.cancel();
+                      // this.scrollToPaymentComp();
+                    }}
                   >
-                    <AddressForm
-                      data={deliveryAddress}
-                      updateData={(data) => this.updateDeliveryAddress(data)}
-                    />
-                    {this.state.saveLoading ? (
-                      <Loading positionAbsolute="true" />
-                    ) : null}
-                    <div className="rc-layout-container">
-                      <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center">
-                        <div>
-                          {this.props.type === 'delivery' ? (
-                            <div
-                              className="rc-input rc-input--inline w-100 mw-100"
-                              onClick={() => this.isDefalt()}
-                            >
-                              {deliveryAddress.isDefalt ? (
-                                <input
-                                  type="checkbox"
-                                  className="rc-input__checkbox"
-                                  value={deliveryAddress.isDefalt}
-                                  key={1}
-                                  checked
-                                />
-                              ) : (
-                                  <input
-                                    type="checkbox"
-                                    className="rc-input__checkbox"
-                                    key={2}
-                                    value={deliveryAddress.isDefalt}
-                                  />
-                                )}
-                              <label
-                                className={`rc-input__label--inline text-break`}
-                              >
-                                <FormattedMessage id="setDefaultAddress" />
-                              </label>
-                            </div>
-                          ) : null}
-                        </div>
-                        {
-                          <>
-                            <div className="rc-md-up">
-                              <a
-                                className="rc-styled-link"
-                                onClick={() =>
-                                  this.deleteAddress(
-                                    addressList[this.currentOperateIdx]
-                                  )
-                                }
-                              >
-                                <FormattedMessage id="delete" />
-                              </a>
-                          &nbsp;
-                          <FormattedMessage id="or" />
-                          &nbsp;
-                          <button
-                                className="rc-btn rc-btn--one submitBtn"
-                                name="contactPreference"
-                                type="submit"
-                                onClick={() => this.handleSave()}
-                              >
-                                <FormattedMessage id="save" />
-                              </button>
-                            </div>
-                            <div className="rc-md-down rc-full-width text-right">
-                              <a
-                                className="rc-styled-link"
-                                onClick={() => this.handleClickCancel()}
-                              >
-                                <FormattedMessage id="cancel" />
-                              </a>
-                          &nbsp;
-                          <FormattedMessage id="or" />
-                          &nbsp;
-                          <button
-                                className="rc-btn rc-btn--one submitBtn"
-                                name="contactPreference"
-                                type="submit"
-                                onClick={() => this.handleSave()}
-                              >
-                                <FormattedMessage id="save" />
-                              </button>
-                            </div>
-                          </>
-                        }
-                      </div>
-                    </div>
-                  </fieldset>
-                </>
+                    <FormattedMessage id="cancel" />
+                  </a>
+                  &nbsp;&nbsp;
+                  <span>
+                    <FormattedMessage id="or" />
+                  </span>
+                  &nbsp;&nbsp;
+                  <button
+                    className="rc-btn rc-btn--sm rc-btn--one"
+                    onClick={() => {
+                      this.props.save(
+                        addressList.filter((el) => el.selected)[0],
+                        isBillSame,
+                        this.queryAddressList.bind(this)
+                      );
+                    }}
+                  >
+                    <FormattedMessage id="save" />
+                  </button>
+                </div>
               )}
+
+              {/* add or edit address form */}
+              <fieldset
+                className={`shipping-address-block rc-fieldset position-relative ${addOrEdit || loading ? '' : 'hidden'
+                  }`}
+              >
+                <AddressForm
+                  data={deliveryAddress}
+                  updateData={(data) => this.updateDeliveryAddress(data)}
+                />
+                {this.state.saveLoading ? (
+                  <Loading positionAbsolute="true" />
+                ) : null}
+                <div className="rc-layout-container">
+                  <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center">
+                    <div>
+                      {this.props.type === 'delivery' ? (
+                        <div
+                          className="rc-input rc-input--inline w-100 mw-100"
+                          onClick={() => this.isDefalt()}
+                        >
+                          {deliveryAddress.isDefalt ? (
+                            <input
+                              type="checkbox"
+                              className="rc-input__checkbox"
+                              value={deliveryAddress.isDefalt}
+                              key={1}
+                              checked
+                            />
+                          ) : (
+                            <input
+                              type="checkbox"
+                              className="rc-input__checkbox"
+                              key={2}
+                              value={deliveryAddress.isDefalt}
+                            />
+                          )}
+                          <label
+                            className={`rc-input__label--inline text-break`}
+                          >
+                            <FormattedMessage id="setDefaultAddress" />
+                          </label>
+                        </div>
+                      ) : null}
+                    </div>
+                    {
+                      <>
+                        <div className="rc-md-up">
+                          <a
+                            className="rc-styled-link"
+                            onClick={() =>
+                              this.deleteAddress(
+                                addressList[this.currentOperateIdx]
+                              )
+                            }
+                          >
+                            <FormattedMessage id="delete" />
+                          </a>
+                          &nbsp;
+                          <FormattedMessage id="or" />
+                          &nbsp;
+                          <button
+                            className="rc-btn rc-btn--one submitBtn"
+                            name="contactPreference"
+                            type="submit"
+                            onClick={() => this.handleSave()}
+                          >
+                            <FormattedMessage id="save" />
+                          </button>
+                        </div>
+                        <div className="rc-md-down rc-full-width text-right">
+                          <a
+                            className="rc-styled-link"
+                            onClick={() => this.handleClickCancel()}
+                          >
+                            <FormattedMessage id="cancel" />
+                          </a>
+                          &nbsp;
+                          <FormattedMessage id="or" />
+                          &nbsp;
+                          <button
+                            className="rc-btn rc-btn--one submitBtn"
+                            name="contactPreference"
+                            type="submit"
+                            onClick={() => this.handleSave()}
+                          >
+                            <FormattedMessage id="save" />
+                          </button>
+                        </div>
+                      </>
+                    }
+                  </div>
+                </div>
+              </fieldset>
+            </>
+          )}
         </div>
 
         {validationLoading && <Loading positionFixed="true" />}

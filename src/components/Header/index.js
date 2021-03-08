@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
 import {
@@ -72,8 +72,7 @@ class Header extends React.Component {
       headerNavigationListForHub: [],
       activeTopParentId: -1,
       isSearchSuccess: false, //是否搜索成功
-      searchBarVisible: false,
-      contactPhone: ''
+      searchBarVisible: false
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -247,22 +246,33 @@ class Header extends React.Component {
         api: getNavigation
       });
       // const res = await queryNavigation();
+      const contactPhone = res && res.data && res.data.ContactPhone;
       let headerNavigationListForHub = (
         (res && res.data && res.data.MenuGroups) ||
         []
       ).map((ele, i) => {
         ele.MenuItems = (ele.MenuItems || []).map((cEle, j) => {
+          if (cEle.Icon === 'contact' && contactPhone) {
+            cEle.contactPhone = contactPhone;
+            cEle.Link = cEle.Link || {};
+            cEle.Link.Url = cEle.Link.Url || `tel:${contactPhone}`;
+          }
           return { ...cEle, id: `${i + 1}-${j}` };
         });
+        // 是否可下拉
+        const expanded = !!(ele.MenuItems && ele.MenuItems.length);
+        // 可以展开的顶级父节点，Link置空，使其不可跳转
+        if (expanded && ele.Link && ele.Link.Url) {
+          ele.Link.Url = '';
+        }
         return {
           ...ele,
-          expanded: !!(ele.MenuItems && ele.MenuItems.length),
+          expanded,
           id: i + 1
         };
       });
       this.setState({
-        headerNavigationListForHub,
-        contactPhone: res && res.data && res.data.ContactPhone
+        headerNavigationListForHub
       });
     } catch (err) {
       console.log(err);
@@ -478,8 +488,7 @@ class Header extends React.Component {
       showSearchInput,
       showCenter,
       showCart,
-      searchBarVisible,
-      contactPhone
+      searchBarVisible
     } = this.state;
     return (
       <>
@@ -515,7 +524,6 @@ class Header extends React.Component {
                   {+process.env.REACT_APP_HUB ? (
                     <MegaMenuMobileForHub
                       menuData={headerNavigationListForHub}
-                      contactPhone={contactPhone}
                       handleClickNavItem={this.handleClickNavItem}
                       configStore={configStore}
                       key={headerNavigationListForHub.length}
@@ -597,7 +605,6 @@ class Header extends React.Component {
 
           {+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
-              contactPhone={contactPhone}
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}
               headerNavigationList={headerNavigationListForHub}

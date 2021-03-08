@@ -1,42 +1,10 @@
 import locales from '@/lang';
-import catsImg from '@/assets/images/banner-list/cats.jpg';
-import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
 import cartebancaireImg from '@/assets/images/credit-cards/cartebancaire.png';
 import oxxo from '@/assets/images/oxxo.png';
-
-import breedCatsImg from '@/assets/images/banner-list/Banner_BHN_Persa.jpg';
-import breedDogsImg from '@/assets/images/banner-list/Banner_BHN_German_Shepherd.jpg';
-
-import CARECAT from '@/assets/images/MX-L-VET-CARE-CAT.jpg';
-import CAREDOG from '@/assets/images/MX-L-VET-CARE-DOG.jpg';
-import DIETCAT from '@/assets/images/MX-L-VET-DIET-CAT.jpg';
-import DIETDOG from '@/assets/images/MX-L-VET-DIET-DOG.jpg';
-import Bundles_Breed_Cat from '@/assets/images/home-catogery-mx/Bundles_Breed_Cat.jpg';
-import Bundles_Breed_Dog from '@/assets/images/home-catogery-mx/Bundles_Breed_Dog.jpg';
-
-import untereHarnwege from '@/assets/images/home-catogery-de/01_UntereHarnwege.jpg';
-import hautFell from '@/assets/images/home-catogery-de/02_HautFell.jpg';
-import ubergewicht from '@/assets/images/home-catogery-de/03_Ubergewicht.jpg';
-import diabetesMellitus from '@/assets/images/home-catogery-de/04_Diabetes_mellitus.jpg';
-import magenDarmTrakt from '@/assets/images/home-catogery-de/05_Magen-Darm-Trakt.jpg';
-import leber from '@/assets/images/home-catogery-de/06_Leber.jpg';
-import niere from '@/assets/images/home-catogery-de/07_Niere.jpg';
-import gelenke from '@/assets/images/home-catogery-de/08_Gelenke.jpg';
-import herz from '@/assets/images/home-catogery-de/09_Herz.jpg';
-import kastration from '@/assets/images/home-catogery-de/10_Kastration.jpg';
-import maulhohle from '@/assets/images/home-catogery-de/11_Maulhohle.jpg';
-import verhalten from '@/assets/images/home-catogery-de/12_Verhalten.jpg';
-import aufzuchtWachstum from '@/assets/images/home-catogery-de/13_AufzuchtWachstum.jpg';
-import prophylaxe from '@/assets/images/home-catogery-de/14_Prophylaxe.jpg';
-import pillAssist from '@/assets/images/home-catogery-de/15_PillAssist.jpg';
-
-import puppyRuImg from '@/assets/images/banner-list/puppy-ru.png';
-import kittenRuImg from '@/assets/images/banner-list/kitten-ru.png';
-import catsRuImg from '@/assets/images/banner-list/cats-ru.png';
 
 const CURRENT_LANGFILE = locales;
 

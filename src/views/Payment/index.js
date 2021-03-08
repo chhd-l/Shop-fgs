@@ -691,8 +691,10 @@ class Payment extends React.Component {
         successUrl: successUrlFun(type),
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
+        domainName: process.env.REACT_APP_DOMAIN || "",
         phone
       });
+      console.log(finalParam)
       return finalParam;
     } catch (err) {
       console.log(err);
@@ -1007,8 +1009,8 @@ class Payment extends React.Component {
         guestEmail
       } = this.state;
 
-      console.log('----------- ★ Payment visitorLoginAndAddToCart deliveryAddress: ', deliveryAddress);
-      console.log('----------- ★★ Payment visitorLoginAndAddToCart billingAddress: ', billingAddress);
+      // console.log('----------- ★ Payment visitorLoginAndAddToCart deliveryAddress: ', deliveryAddress);
+      // console.log('----------- ★★ Payment visitorLoginAndAddToCart billingAddress: ', billingAddress);
 
       const cartData = this.cartData.filter((ele) => ele.selected);
 
@@ -1305,7 +1307,7 @@ class Payment extends React.Component {
       const { deliveryAddress, billingAddress, billingChecked } = this.state;
       let tmpDeliveryAddress = { ...deliveryAddress };
       let tmpBillingAddress = { ...billingAddress };
-      console.log('-------------------------- ★★★ Payment deliveryAddress deliveryAddress: ', deliveryAddress);
+      // console.log('-------------------------- ★★★ Payment deliveryAddress deliveryAddress: ', deliveryAddress);
       if (this.isLogin) {
         tmpDeliveryAddress = {
           firstName: deliveryAddress.firstName,
