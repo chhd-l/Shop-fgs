@@ -154,6 +154,29 @@
 }
 
 .ui-custom-hub {
+  .dropdown-nav {
+    position: absolute;
+    left: 0;
+    /* transform: translateX(-50%); */
+    width: auto;
+    height: auto;
+    opacity: 0;
+    &.show {
+      max-height: 415px;
+      opacity: 1;
+    }
+    &.dropdown-nav__4,
+    &.dropdown-nav__5 {
+      position: fixed;
+      transform: translateX(-50%);
+      left: 50%;
+    }
+    &.dropdown-nav__6,
+    &.dropdown-nav__7 {
+      left: auto;
+      right: 0;
+    }
+  }
   .rc-header__nav--secondary {
     box-shadow: none;
     height: calc(2.5rem + 2px);
@@ -166,6 +189,12 @@
   }
   .rc-content--fixed-header {
     padding-top: 10rem;
+  }
+  .nav-column {
+    width: 350px;
+  }
+  .nav-two-column {
+    width: 700px;
   }
 }
 

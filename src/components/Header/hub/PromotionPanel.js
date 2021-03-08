@@ -7,27 +7,27 @@ export default function PromotionPanel({
   handleClickNavItem = () => {}
 }) {
   return (
-    <div className="rc-list__item-sub-menu__container rc-border-all rc-border-colour--interface rc-margin--md--mobile">
-      <div className="rc-layout-container rc-two-column rc-no-stack rc-margin-x--none rc-self-h-middle rc-padding-y--sm rc-padding--md--mobile">
-        <div className="rc-column rc-self-h-middle rc-flex-wrap--wrap rc-padding-y--none">
-          <h4 className="rc-delta">{cItem.Title}</h4>
-          <p className="rc-body">{cItem.Subtitle}</p>
+    <div className="p-4 pt-sm-0 pb-sm-0 dropdown-nav__ad__card">
+      <div className="border d-flex align-items-center p-4">
+        <div className="container-text">
+          <p className="title-text red">{cItem.Title}</p>
+          <p className="medium">{cItem.Subtitle}</p>
           <a
             href={cItem.PrimaryLink.Url}
-            className="rc-btn rc-btn--two"
-            data-ref="nav-link"
-            onClick={handleClickNavItem.bind(this, item, cItem)}
+            className="rc-btn rc-btn--two red"
+            onClick={handleClickNavItem.bind(this, { item, cItem })}
           >
             {cItem.PrimaryLink.Text}
           </a>
         </div>
-        <div className="rc-column rc-padding-y--none">
+        <LazyLoad style={{ flex: 1, width: '100%', height: '100%' }}>
           <img
+            className="ad-img"
             src={cItem.Image.Url}
             alt={cItem.Image.AltText}
             srcSet={cItem.Image.Srcset}
           />
-        </div>
+        </LazyLoad>
       </div>
     </div>
   );
