@@ -691,8 +691,10 @@ class Payment extends React.Component {
         successUrl: successUrlFun(type),
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
+        domainName: process.env.REACT_APP_DOMAIN || "",
         phone
       });
+      console.log(finalParam)
       return finalParam;
     } catch (err) {
       console.log(err);
