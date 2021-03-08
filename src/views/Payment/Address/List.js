@@ -381,6 +381,7 @@ class AddressList extends React.Component {
           countryId: deliveryAddress.country,
           cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
           city: deliveryAddress.cityName,
+          cityName: deliveryAddress.cityName,
           provinceId: deliveryAddress.province,
           province: deliveryAddress.provinceName,
           provinceNo: deliveryAddress.provinceNo,
@@ -404,6 +405,7 @@ class AddressList extends React.Component {
           countryId: deliveryAddress.country,
           cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
           city: deliveryAddress.cityName,
+          cityName: deliveryAddress.cityName,
           consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
           consigneeNumber: deliveryAddress.phoneNumber,
           customerId: originData ? originData.customerId : '',
@@ -416,8 +418,7 @@ class AddressList extends React.Component {
           type: this.props.type.toUpperCase()
         };
       }
-      const tmpPromise =
-        this.currentOperateIdx > -1 ? editAddress : saveAddress;
+      const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
       if (res.context.deliveryAddressId) {
         this.setState({
@@ -819,7 +820,7 @@ class AddressList extends React.Component {
         </div>
       </fieldset>
     );
-    console.log(addressList, selectedId, 'defaultAddressItem')
+    // console.log(addressList, selectedId, 'defaultAddressItem')
     return (
       <>
         {this.props.children}

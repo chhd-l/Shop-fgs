@@ -15,8 +15,10 @@ export default class AddressPreview extends React.Component {
   }
   render() {
     const { form, boldName, isLogin } = this.props;
+
     return form ? (
       <div className="children-nomargin">
+        {/* cityId: {form?.cityId} ------ cityName: {form.cityName} ------ city: {form.city} ---islogin: {isLogin}--- */}
         {/* {JSON.stringify(form)} */}
         <p className={`${boldName ? 'medium' : ''}`}>
           {form.firstName + ' ' + form.lastName}
@@ -26,11 +28,7 @@ export default class AddressPreview extends React.Component {
         {form.address2 ? <p>{form.address2}</p> : null}
         <p>
 
-          {isLogin?(
-            <span>{[form.postCode, form.city, ' '].join(',')}</span>
-          ):(
-            <span>{[form.postCode, form.city == form.cityName ? form.cityName : form.cityName, ' '].join(',')}</span>
-          )}
+          <span>{[form.postCode, form.cityName == 0 || form.cityName == null ? form.city : form.cityName, ' '].join(',')}</span>
 
           {process.env.REACT_APP_LANG === 'en' ? (
             <span>{form.province}, </span>
