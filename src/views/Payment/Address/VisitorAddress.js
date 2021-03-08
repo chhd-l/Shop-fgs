@@ -288,7 +288,7 @@ class VisitorAddress extends React.Component {
                     onClick={this.handleClickConfirm}
                     disabled={!isValid}
                   >
-                    <FormattedMessage id="clinic.confirm" />
+                    <FormattedMessage id="clinic.confirm3" />
                   </button>
                 </div>
               )}
