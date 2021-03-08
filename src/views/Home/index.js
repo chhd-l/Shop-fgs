@@ -24,6 +24,8 @@ import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
 import shippmentHome from '@/assets/images/home/shippment@2x.png';
 import question from '@/assets/images/home/question@2x.png';
+import CommentCarousel from '../../components/CommentCarousel';
+import HelpComponents from '../../components/HelpComponents/HelpComponents';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -557,7 +559,6 @@ class Home extends React.Component {
 
           <HealthNutrition />
           <Share />
-
           <Divider />
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
@@ -575,6 +576,8 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
+          <CommentCarousel/>
+          <HelpComponents/>
         </main>
         <Footer />
       </div>
