@@ -69,7 +69,7 @@ const ru_RU = {
   'account.warmNotice': 'Добро пожаловать, {val}! Эта область предназначена для управления вашей учетной записью. Вы можете легко изменить информацию в своем профиле, управлять потребностями своего питомца, проверять статус своих заказов и свой автозаказ.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
-  "account.monRoyalCanin":"Mon Royal Canin",
+  "account.monRoyalCanin":"Мой Royal Canin",
   active: 'Активный',
   addANewPaymentMethod: 'Добавить новый способ оплаты',
   addNewCreditCard: 'Добавить новую кредитную карту',
@@ -783,6 +783,12 @@ const ru_RU = {
   'bannerTip.btnText': 'Узнать больше',
   'cart.delivery': 'Доставка',
   'promotion.firstOrderDiscount': 'Скидка при первом заказе',
+  'home':'Личный кабинет',
+  'account.ordersTitle':'Заказы',
+  'account.subscriptionTitle':'Подписка на корм',
+  'account.petsTitle':'Мои животные',
+  'account.faqTitle':'Часто задаваемые вопросы',
+  'account.faqTip':'У вас есть вопросы ? Мы здесь, чтобы удовлетворить ваши потребности и потребности ваших питомцев'
 }
 
 export default ru_RU;
