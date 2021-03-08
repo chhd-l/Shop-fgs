@@ -104,50 +104,30 @@ class ShippingAddressFrom extends React.Component {
     try {
       let res = await getAddressById({ id });
       let data = res.context;
-      console.log('------------------------ getAddressById data: ', data);
-      let addressForm = {};
+      let addressForm = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address1: data.address1,
+        address2: data.address2,
+        country: data.countryId,
+        countryName: data.countryName,
+        city: data.cityId,
+        cityName: data.cityName,
+        postCode: data.postCode,
+        phoneNumber: data.consigneeNumber,
+        rfc: data.rfc,
+        isDefalt: data.isDefaltAddress === 1 ? true : false,
+        deliveryAddressId: data.deliveryAddressId,
+        customerId: data.customerId,
+        addressType: data.type,
+        email: data.email
+      };
       if (process.env.REACT_APP_LANG === 'en') {
-        addressForm = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          address1: data.address1,
-          address2: data.address2,
-          country: data.countryId,
-          countryName: data.countryName,
-          city: data.cityId,
-          cityName: data.cityName,
-          provinceNo: data.provinceNo,
-          provinceName: data.province,
-          province: data.provinceId,
-          postCode: data.postCode,
-          phoneNumber: data.consigneeNumber,
-          rfc: data.rfc,
-          isDefalt: data.isDefaltAddress === 1 ? true : false,
-          deliveryAddressId: data.deliveryAddressId,
-          customerId: data.customerId,
-          addressType: data.type,
-          email: data.email
-        };
-      } else {
-        addressForm = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          address1: data.address1,
-          address2: data.address2,
-          country: data.countryId,
-          countryName: data.countryName,
-          city: data.cityId,
-          cityName: data.cityName,
-          postCode: data.postCode,
-          phoneNumber: data.consigneeNumber,
-          rfc: data.rfc,
-          isDefalt: data.isDefaltAddress === 1 ? true : false,
-          deliveryAddressId: data.deliveryAddressId,
-          customerId: data.customerId,
-          addressType: data.type,
-          email: data.email
-        };
+        addressForm.provinceNo = data.provinceNo;
+        addressForm.provinceName = data.province;
+        addressForm.province = data.provinceId;
       }
+      console.log('------------------------ getAddressById addressForm: ', addressForm);
 
       let cityRes = await queryCityNameById({ id: [data.cityId] });
       // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
@@ -235,52 +215,31 @@ class ShippingAddressFrom extends React.Component {
       this.setState({
         saveLoading: true
       });
-      console.log('----------------------> handleSave data: ', data);
-      let params = {};
+      let params = {
+        address1: data.address1,
+        address2: data.address2,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        countryId: +data.country,
+        city: data.cityName,
+        cityId: data.cityName == data.city ? null : data.city,
+        consigneeName: data.firstName + ' ' + data.lastName,
+        consigneeNumber: data.phoneNumber,
+        customerId: data.customerId,
+        deliveryAddress: data.address1 + ' ' + data.address2,
+        deliveryAddressId: data.deliveryAddressId,
+        isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
+        postCode: data.postCode,
+        rfc: data.rfc,
+        email: data.email,
+        type: curType.toUpperCase()
+      };
       if (process.env.REACT_APP_LANG === 'en') {
         // 手动输入的城市 id 设为 null
-        params = {
-          address1: data.address1,
-          address2: data.address2,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          countryId: +data.country,
-          city: data.cityName,
-          cityId: data.cityName == data.city ? null : data.city,
-          province: data.provinceName,
-          provinceId: data.province,
-          consigneeName: data.firstName + ' ' + data.lastName,
-          consigneeNumber: data.phoneNumber,
-          customerId: data.customerId,
-          deliveryAddress: data.address1 + ' ' + data.address2,
-          deliveryAddressId: data.deliveryAddressId,
-          isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
-          postCode: data.postCode,
-          rfc: data.rfc,
-          email: data.email,
-          type: curType.toUpperCase()
-        };
-      } else {
-        params = {
-          address1: data.address1,
-          address2: data.address2,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          countryId: +data.country,
-          city: data.cityName,
-          cityId: data.cityName == data.city ? null : data.city,
-          consigneeName: data.firstName + ' ' + data.lastName,
-          consigneeNumber: data.phoneNumber,
-          customerId: data.customerId,
-          deliveryAddress: data.address1 + ' ' + data.address2,
-          deliveryAddressId: data.deliveryAddressId,
-          isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
-          postCode: data.postCode,
-          rfc: data.rfc,
-          email: data.email,
-          type: curType.toUpperCase()
-        };
+        params.province = data.provinceName;
+        params.provinceId = data.province;
       }
+      console.log('----------------------> handleSave params: ', params);
 
       await (this.state.isAdd ? saveAddress : editAddress)(params);
       myAccountActionPushEvent('Add Address');
