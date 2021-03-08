@@ -534,7 +534,6 @@ class Home extends React.Component {
           ) : (
             <SalesCategory />
           )}
-          <div style={{width: '100%',height:'1000px'}}>tets</div>
           <TopAds />
           <Divider />
           <section>
