@@ -80,7 +80,7 @@ REACT_APP_ROOT_CLS = 'ui-custom-hub'
 REACT_APP_HUB = 1
 
 #删除账户
-REACT_APP_DELETE_My_ACCOUNT_URL = https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/ru-ru/manager/settings
+REACT_APP_DELETE_My_ACCOUNT_URL = https://account.royalcanin.com/ru-ru/manager/settings
 
 REACT_APP_HUB_URL = https://www.royalcanin.com/ru
 
