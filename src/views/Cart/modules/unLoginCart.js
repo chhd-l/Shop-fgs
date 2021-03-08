@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -1812,7 +1813,7 @@ class UnLoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {(txt) => (
-                        <Link to="/home">{txt}</Link>
+                        <DistributeHubLinkOrATag href="" to="/home">{txt}</DistributeHubLinkOrATag>
                         // <a
                         //   tabIndex="1"
                         //   className="ui-cursor-pointer-pure"

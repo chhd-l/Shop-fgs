@@ -1,4 +1,5 @@
 import React from 'react';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
@@ -2936,9 +2937,9 @@ class Details extends React.Component {
                 <p style={{ color: '#47b800 !important' }}>
                   <FormattedMessage id="addedtoCart" />
                 </p>
-                <Link to="/home" style={{ color: '#666', fontWeight: 400 }}>
+                <DistributeHubLinkOrATag href="" to="/home" style={{ color: '#666', fontWeight: 400 }}>
                   <FormattedMessage id="continueMyPurchases" />
-                </Link>
+                </DistributeHubLinkOrATag>
                 <p>
                   <FormattedMessage id="or" />
                 </p>

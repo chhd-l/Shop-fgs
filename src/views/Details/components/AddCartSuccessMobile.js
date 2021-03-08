@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const AddCartSuccessMobile = () => {
   return (
@@ -47,12 +48,13 @@ const AddCartSuccessMobile = () => {
             <p style={{ color: '#47b800 !important' }}>
               <FormattedMessage id="addedtoCart" />
             </p>
-            <Link
+            <DistributeHubLinkOrATag
+              href=""
               to="/home"
               style={{ color: '#666', fontWeight: 400 }}
             >
               <FormattedMessage id="continueMyPurchases" />
-            </Link>
+            </DistributeHubLinkOrATag>
             <p>
               <FormattedMessage id="or" />
             </p>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from '@/assets/images/logo--animated2.png';
@@ -288,7 +289,8 @@ class RegisterRequired extends Component {
               >
                 {/* Logo */}
                 <div className="rc-margin-bottom--sm">
-                  <Link
+                  <DistributeHubLinkOrATag
+                    href=""
                     to="/home"
                     className="logo-home d-inline-block"
                     title="Commerce Cloud
@@ -305,7 +307,7 @@ class RegisterRequired extends Component {
                         alt="Royal Canin Flagship Store"
                       />
                     </div>
-                  </Link>
+                  </DistributeHubLinkOrATag>
                 </div>
 
                 {/* Header title */}

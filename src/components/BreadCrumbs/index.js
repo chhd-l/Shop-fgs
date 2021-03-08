@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import BreadcrumbNameMap from './breadcrumbNameMap';
 import { FormattedMessage } from 'react-intl';
 
@@ -27,7 +28,8 @@ const BreadCrumbs = withRouter((props) => {
             itemType="https://schema.org/ListItem"
             itemProp="itemListElement"
           >
-            <Link
+            <DistributeHubLinkOrATag
+              href={''}
               to="/home"
               className="rc-styled-link rc-progress__breadcrumb mr-0"
               ariaLabel="Links to home page"
@@ -37,7 +39,7 @@ const BreadCrumbs = withRouter((props) => {
               <span itemProp="name">
                 <FormattedMessage id="homePage" />
               </span>
-            </Link>
+            </DistributeHubLinkOrATag>
           </li>
           {mapData.length > 0 && (
             <span itemProp="name" className="font-weight-normal ml-2 mr-2">

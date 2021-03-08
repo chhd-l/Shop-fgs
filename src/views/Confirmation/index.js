@@ -1,5 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
@@ -168,25 +169,27 @@ class Confirmation extends React.Component {
         <div style={{ padding: '0 20px 0 10px' }}>
           <FormattedMessage id="or" />
         </div>
-        <Link
+        <DistributeHubLinkOrATag
+          href=""
           to="/home"
           className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis"
         >
           <FormattedMessage id="continueShopping" />
-        </Link>
+        </DistributeHubLinkOrATag>
       </>
     );
     return (
       {
         oneShoot: (
           <>
-            <Link
+            <DistributeHubLinkOrATag
+              href=""
               to="/home"
               className="rc-btn rc-btn--one"
               style={{ transform: 'scale(.85)' }}
             >
               <FormattedMessage id="confirmation.oneShoot" />
-            </Link>
+            </DistributeHubLinkOrATag>
           </>
         )
       }[buyWay] || defaultJSX
@@ -403,12 +406,13 @@ class Confirmation extends React.Component {
                       &nbsp;
                       <FormattedMessage id="or" />
                       &nbsp;
-                      <Link
+                      <DistributeHubLinkOrATag
+                        href=""
                         to="/home"
                         className="rc-meta rc-styled-link backtohome mb-0"
                       >
                         <FormattedMessage id="continueShopping" />
-                      </Link>
+                      </DistributeHubLinkOrATag>
                     </>
                   ) : (
                     this.AdyenBtnJSX(
