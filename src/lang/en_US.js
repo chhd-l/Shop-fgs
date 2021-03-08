@@ -934,7 +934,7 @@ const en_US = {
   'account.yes':'Yes',
   'account.no':'No',
   values: 'values',
-  searchForAProductOrArtical: 'Search for a product or artical',
+  searchForAProductOrArtical: 'Search for a product or article',
   startTypingToSearch: 'Start typing to search',
   "detail.question":'Still have questions about this product?',
   "detail.answer":'Our advisers are real experts and passionate. They are at your disposal to answer any request.',

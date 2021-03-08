@@ -836,7 +836,7 @@ const fr_FR = {
   saveSuccessfullly: 'Sauvegarde réussie',
   search: 'chercher',
   searchBreed: 'Rechercher une race',
-  searchForAProductOrArtical: 'Rechercher un produit ou un artical',
+  searchForAProductOrArtical: 'Rechercher un produit ou un article',
   searchNoBreed: 'pas un pedigree',
   searchPrescriber: 'Trouver une clinique',
   searchShow: 'Résultats de la recherche',
