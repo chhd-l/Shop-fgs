@@ -58,7 +58,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   }
 };
 
-@inject('clinicStore')
+@inject('clinicStore', 'checkoutStore')
 @observer
 class Prescription extends React.Component {
   constructor(props) {
@@ -161,6 +161,7 @@ class Prescription extends React.Component {
   };
 
   async getPrescription(params) {
+    params.auditAuthority = this.props.checkoutStore.autoAuditFlag
     this.setState({ loading: true });
     const res = await getPrescription(params);
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
@@ -173,7 +174,7 @@ class Prescription extends React.Component {
   async getAllPrescription() {
     let params = {
       storeId: process.env.REACT_APP_STOREID,
-      auditAuthority: true
+      auditAuthority: this.props.checkoutStore.autoAuditFlag
     };
     const res = await getAllPrescription(params);
     let clinicArr = res.context.prescriberVo;

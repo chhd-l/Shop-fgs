@@ -70,7 +70,8 @@ export default class Search extends React.Component {
     ])
       .then((res) => {
         let goodsContent = [];
-        const esGoodsPage = res[0] && res[0].context && res[0].context.esGoodsPage;
+        const esGoodsPage =
+          res[0] && res[0].context && res[0].context.esGoodsPage;
         if (esGoodsPage && esGoodsPage.content.length) {
           goodsContent = (esGoodsPage.content || []).map((ele) => {
             let ret = Object.assign({}, ele);
@@ -167,13 +168,14 @@ export default class Search extends React.Component {
   };
 
   hanldeSearchFocus = () => {
-    this.hubGA && dataLayer.push({
-      event: 'topPictosClick',
-      topPictosClick: {
-        itemName: 'Type and search',
-      }
-    });
-  }
+    this.hubGA &&
+      dataLayer.push({
+        event: 'topPictosClick',
+        topPictosClick: {
+          itemName: 'Type and search'
+        }
+      });
+  };
 
   renderResultJsx() {
     const { result, keywords } = this.state;
@@ -271,36 +273,32 @@ export default class Search extends React.Component {
                   </div>
                 ) : null}
               </div>
-              {isHub && (
+              {isHub && result && result.attach ? (
                 <div class="col-12 col-md-5 rc-column rc-bg-colour--brand4">
-                  {result && result.attach ? (
-                    <>
-                      {(result.attach.Items || []).map((item, i) => (
-                        <a
-                          class="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                          alt={item.Title}
-                          title={item.Title}
-                          href={item.Url}
-                          key={i}
-                        >
-                          {item.Title}
-                        </a>
-                      ))}
-                      {(result.attach.FeaturedItems || []).map((item, i) => (
-                        <a
-                          class="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                          alt={item.Title}
-                          title={item.Title}
-                          href={item.Url}
-                          key={i}
-                        >
-                          {item.Title}
-                        </a>
-                      ))}
-                    </>
-                  ) : null}
+                  {(result.attach.Items || []).map((item, i) => (
+                    <a
+                      class="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
+                      alt={item.Title}
+                      title={item.Title}
+                      href={item.Url}
+                      key={i}
+                    >
+                      {item.Title}
+                    </a>
+                  ))}
+                  {(result.attach.FeaturedItems || []).map((item, i) => (
+                    <a
+                      class="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
+                      alt={item.Title}
+                      title={item.Title}
+                      href={item.Url}
+                      key={i}
+                    >
+                      {item.Title}
+                    </a>
+                  ))}
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
