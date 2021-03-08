@@ -67,11 +67,10 @@ class PersonalDataEditForm extends React.Component {
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
+    console.log(data, 'data')
     this.setState(
       {
-        form: Object.assign({}, data, {
-          birthdate: format(new Date(), 'yyyy-MM-dd')
-        }),
+        form: Object.assign({}, data),
         oldForm: Object.assign({}, data),
         editFormVisible
       },
