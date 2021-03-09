@@ -384,7 +384,7 @@
       width: 210px;
     }
     &-dec {
-      width: 35%;
+      width: 44%;
     }
     &-link {
       margin-top: 1.6rem;
@@ -392,7 +392,7 @@
     &-tel {
       min-width: 50%;
       // height: 7rem;
-      padding: 1rem 1.2rem;
+      padding: 1rem;
       border: 2px solid #f6f6f6;
       align-items: center;
       justify-content: space-between;
@@ -415,7 +415,7 @@
     }
     &-email {
       // height: 7rem;
-      padding: 1rem 1.2rem;
+      padding: 1rem;
       border: 2px solid #f6f6f6;
       min-width: 36%;
       align-items: center;
@@ -498,10 +498,6 @@
     .more-link p {
       width: 94%;
     }
-    .good-contact-dec {
-      text-align: left;
-      width: 90%;
-    }
     .good-contact{
       padding: 1rem 0;
       &-link {
@@ -516,8 +512,16 @@
   }
 }
 
-
 .unit-star {
   position: absolute;
   top: -0.8rem;
+}
+
+@media (max-width: 1024px) {
+  #Details {
+    .good-contact-dec {
+      text-align: left;
+      width: 90%;
+    }
+  }
 }
