@@ -244,7 +244,8 @@ class RouteFilter extends Component {
       !localItemRoyal.get('rc-token') &&
       pathname.indexOf('/account') !== -1
     ) {
-      history.push('/home');
+      sessionItemRoyal.set('okta-redirectUrl-hub', '/account')
+      history.push('/okta-login-page')
     }
     if (
       //游客+从url输入required ===>直接跳回首页
