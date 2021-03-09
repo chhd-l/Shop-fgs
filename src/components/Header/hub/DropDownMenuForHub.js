@@ -35,6 +35,8 @@ export default class DropDownMenuForHub extends React.Component {
   }
   onListItemBlur = (e) => {
     this.flag = 0;
+    // 延迟200毫秒，是为了解决跳转外联有效
+    // 延迟0秒，可以解决切换每个顶级父节点时，下拉有效
     setTimeout(() => {
       if (!this.flag) {
         this.props.updateActiveTopParentId(-1);
@@ -67,16 +69,32 @@ export default class DropDownMenuForHub extends React.Component {
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
     let menuItemListGroupedByStep = [];
-    let menuItemList = [];
-    let otherItemList = [];
+    let lists = [];
     // 全部为MenuItem时，四个为一列
     if (item.MenuItems.every((ele) => ele.Type === 'MenuItem')) {
       for (let i = 0; i < item.MenuItems.length; i += 4) {
         menuItemListGroupedByStep.push(item.MenuItems.slice(i, i + 4));
       }
     } else {
-      menuItemList = item.MenuItems.filter((ele) => ele.Type === 'MenuItem');
-      otherItemList = item.MenuItems.filter((ele) => ele.Type !== 'MenuItem');
+      // 排列这两个的顺序
+      const menuItemList = item.MenuItems.filter(
+        (ele) => ele.Type === 'MenuItem'
+      );
+      const otherItemList = item.MenuItems.filter(
+        (ele) => ele.Type !== 'MenuItem'
+      );
+      lists = [
+        {
+          sort: item.MenuItems.findIndex((ele) => ele.Type === 'MenuItem'),
+          value: menuItemList,
+          type: 'MenuItem'
+        },
+        {
+          sort: item.MenuItems.findIndex((ele) => ele.Type !== 'MenuItem'),
+          value: otherItemList,
+          type: 'OtherItem'
+        }
+      ].sort((a, b) => a.sort - b.sort);
     }
 
     return (
@@ -113,73 +131,88 @@ export default class DropDownMenuForHub extends React.Component {
             </div>
           ))}
 
-        {menuItemList.length > 0 && (
-          <div className="pl-4 pr-4 nav-column">
-            {menuItemList.map((cItem) => (
-              <a
-                href={cItem.Link.Url}
-                className="medium mb-2 ui-cursor-pointer btn-link"
-                key={cItem.id}
-                style={{ display: 'block' }}
-                onClick={this.handleClickNavItem.bind(this, { item, cItem })}
-                title={cItem.Link.Text}
-              >
-                {cItem.Link.Text}
-              </a>
-            ))}
-          </div>
-        )}
-
-        {otherItemList.map((cItem, cIdx) => (
-          <React.Fragment key={cItem.id}>
-            {cItem.Type === 'DetailedMenuItem' && (
-              <div
-                className={`d-flex align-items-center dropdown-nav__catogery__card pr-4 pl-4 ${
-                  cIdx ? '' : 'border-right'
-                }`}
-              >
-                <div className="mr-4 text-center">
-                  {/* <LazyLoad> */}
-                  <img
-                    src={cItem.Image.Url}
-                    alt={cItem.Image.AltText}
-                    srcSet={cItem.Image.Srcset}
-                    style={{ width: '4rem', margin: '0 auto' }}
-                  />
-                  {/* </LazyLoad> */}
-                  <p className="red">{cItem.ImageDescription}</p>
-                </div>
-                <div>
-                  {cItem.SubItems.map((sItem, sIdx) => (
-                    <React.Fragment key={sIdx}>
-                      <a
-                        href={sItem.Link.Url}
-                        className="medium mb-0 ui-cursor-pointer btn-link"
-                        onClick={this.handleClickNavItem.bind(this, {
-                          item,
-                          cItem: sItem,
-                          type: 1
-                        })}
-                      >
-                        {sItem.Title}
-                      </a>
-                      {sItem.Subtitle ? (
-                        <p className="mb-3">{sItem.Subtitle}</p>
-                      ) : null}
-                    </React.Fragment>
+        {lists.map((list, i) => (
+          <React.Fragment key={i}>
+            {list.value.length > 0 ? (
+              list.type === 'MenuItem' ? (
+                <div className="pl-4 pr-4 nav-column">
+                  {list.value.map((cItem) => (
+                    <a
+                      href={cItem.Link.Url}
+                      className="medium mb-2 ui-cursor-pointer btn-link"
+                      key={cItem.id}
+                      style={{ display: 'block' }}
+                      onClick={this.handleClickNavItem.bind(this, {
+                        item,
+                        cItem
+                      })}
+                      title={cItem.Link.Text}
+                    >
+                      {cItem.Link.Text}
+                    </a>
                   ))}
                 </div>
-              </div>
-            )}
-            {cItem.Type === 'PromotionalMenuItem' && (
-              <PromotionPanel
-                key={cItem.id}
-                item={item}
-                cItem={cItem}
-                handleClickNavItem={this.handleClickNavItem}
-                className="mt-3 flex-grow-1"
-              />
-            )}
+              ) : (
+                <>
+                  {list.value.map((cItem, cIdx) => (
+                    <React.Fragment key={cItem.id}>
+                      {cItem.Type === 'DetailedMenuItem' && (
+                        <div
+                          className={`d-flex align-items-center dropdown-nav__catogery__card pr-4 pl-4 ${
+                            cIdx ? '' : 'border-right'
+                          }`}
+                        >
+                          <div className="mr-4 text-center">
+                            {/* <LazyLoad> */}
+                            <img
+                              src={cItem.Image.Url}
+                              alt={cItem.Image.AltText}
+                              srcSet={cItem.Image.Srcset}
+                              style={{ width: '4rem', margin: '0 auto' }}
+                            />
+                            {/* </LazyLoad> */}
+                            <p className="red">{cItem.ImageDescription}</p>
+                          </div>
+                          <div>
+                            {cItem.SubItems.map((sItem, sIdx) => (
+                              <React.Fragment key={sIdx}>
+                                <a
+                                  href={sItem.Link.Url}
+                                  className="medium mb-0 ui-cursor-pointer btn-link"
+                                  onClick={this.handleClickNavItem.bind(this, {
+                                    item,
+                                    cItem: sItem,
+                                    type: 1
+                                  })}
+                                >
+                                  {sItem.Title}
+                                </a>
+                                {sItem.Subtitle ? (
+                                  <p className="mb-3">{sItem.Subtitle}</p>
+                                ) : null}
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {cItem.Type === 'PromotionalMenuItem' && (
+                        <PromotionPanel
+                          key={cItem.id}
+                          item={item}
+                          cItem={cItem}
+                          handleClickNavItem={this.handleClickNavItem}
+                          className={`dropdown-nav__ad__card flex-grow-1 ${
+                            item.Type === 'DetailedMenuGroup'
+                              ? 'dropdown-nav__ad__productcard'
+                              : ''
+                          }`}
+                        />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </>
+              )
+            ) : null}
           </React.Fragment>
         ))}
       </div>
