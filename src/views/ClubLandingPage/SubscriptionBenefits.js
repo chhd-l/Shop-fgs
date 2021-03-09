@@ -8,7 +8,7 @@ import autoship from '@/assets/images/home/autoship@2x.png';
 import delivery from '@/assets/images/home/delivery@2x.png';
 import question from '@/assets/images/home/question@2x.png';
 
-export function Advantage() {
+export function SubscriptionBenefits() {
   const defaultJSX = (
     <>
       <div className="col-12 col-md-6 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">

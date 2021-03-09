@@ -687,7 +687,7 @@ const ru_RU = {
   saveSuccess: 'Сохранить успех',
   saveSuccessfullly: 'Успешно сохраним',
   search: 'Поиск',
-  searchForAProductOrArtical: 'Search for a product or article',
+  searchForAProductOrArtical: 'Найдите продукт или статью',
   searchNoBreed: 'не родословная',
   searchPrescriber: 'Обыскать клинику',
   securityQuestion: 'Вопрос безопасности',
@@ -793,6 +793,13 @@ const ru_RU = {
   'bannerTip.btnText': 'Узнать больше',
   'cart.delivery': 'Доставка',
   'promotion.firstOrderDiscount': 'Скидка при первом заказе',
+  'language':'Russia/Россия',
+  'home':'Личный кабинет',
+  'account.ordersTitle':'Заказы',
+  'account.subscriptionTitle':'Подписка на корм',
+  'account.petsTitle':'Мои животные',
+  'account.faqTitle':'Часто задаваемые вопросы',
+  'account.faqTip':'У вас есть вопросы ? Мы здесь, чтобы удовлетворить ваши потребности и потребности ваших питомцев'
 }
 
 export default ru_RU;

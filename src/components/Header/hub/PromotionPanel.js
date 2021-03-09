@@ -20,14 +20,17 @@ export default function PromotionPanel({
             {cItem.PrimaryLink.Text}
           </a>
         </div>
-        <LazyLoad style={{ flex: 1, width: '100%', height: '100%' }}>
+        {/* <LazyLoad style={{ flex: 1, width: '100%', height: '100%' }}> */}
+        <div style={{ flex: 1, width: '100%', height: '100%' }}>
           <img
             className="ad-img"
             src={cItem.Image.Url}
             alt={cItem.Image.AltText}
             srcSet={cItem.Image.Srcset}
           />
-        </LazyLoad>
+        </div>
+          
+        {/* </LazyLoad> */}
       </div>
     </div>
   );
