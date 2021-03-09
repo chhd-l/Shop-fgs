@@ -277,16 +277,11 @@ class RouteFilter extends Component {
         url: process.env.REACT_APP_CONSENT_SCRIPT,
         id: 'global-script'
       });
-      loadJS({
-        url: 'https://www.googleoptimize.com/optimize.js?id=OPT-K6SFSDH',
-        type: 'text/plain',
-        className: 'optanon-category-2'
-      });
     }
 
     if (
       process.env.REACT_APP_MARS_FOOTER &&
-      !/[\/implicit\/callback|\/required|\/refuge$]/.test(pathname)
+      !/^\/implicit\/callback|^\/required|^\/refuge/.test(pathname)
     ) {
       loadJS({
         url: process.env.REACT_APP_MARS_FOOTER

@@ -133,7 +133,7 @@ class FooterHub extends React.Component {
                                       <a
                                         className="rc-list__link text-decoration-none color-f6f6f6"
                                         href={listItem.Link.Url}
-                                        target="_blank"
+                                        // target="_blank"
                                         role="menuitem"
                                         rel="nofollow"
                                       >

@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
+import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
 import {
@@ -17,15 +17,9 @@ import { withOktaAuth } from '@okta/okta-react';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject(
-  'loginStore',
-  'clinicStore',
-  'configStore',
-  'checkoutStore',
-  'headerSearchStore'
-)
+@inject('loginStore')
 @injectIntl
-@observer 
+@observer
 class OktaLogoutPage extends React.Component {
   constructor(props) {
     super(props);
@@ -41,33 +35,30 @@ class OktaLogoutPage extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
-    if(!this.isLogin) {
-      if(sessionItemRoyal.get("okta-redirectUrl-hub")) {
-        window.location.href = sessionItemRoyal.get("okta-redirectUrl-hub")
-      }else {
-        this.props.history.push('/')
+    setTimeout(() => {
+      if (!this.isLogin) {
+        if (sessionItemRoyal.get('okta-redirectUrl-hub')) {
+          let href = sessionItemRoyal.get('okta-redirectUrl-hub')
+          sessionItemRoyal.remove('okta-redirectUrl-hub')
+          window.location.href = href
+        } else {
+          this.props.history.push('/');
+        }
+      } else {
+        this.LogoutButton && this.LogoutButton.current.click();
       }
-    }else {
-      this.LogoutButton.current.click()
-    }
+    }, 300)
   }
 
   render() {
-    const {
-      loginStore,
-      history
-    } = this.props;
+    const { loginStore, history, match, location } = this.props;
     return (
       <>
-        {/* <LoginButton
-          buttonRef={this.LoginButton}
-          btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
-          history={history}
-        /> */}
         <LogoutButton
-          buttonRef={this.LoginButton}
+          buttonRef={this.LogoutButton}
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
           history={history}
+          callbackUrl="/okta-logout-page"
         />
         {loginStore.loginModal || this.state.loadingShow ? <Loading /> : null}
       </>
@@ -75,4 +66,4 @@ class OktaLogoutPage extends React.Component {
   }
 }
 
-export default withOktaAuth(OktaLogoutPage);
+export default OktaLogoutPage;

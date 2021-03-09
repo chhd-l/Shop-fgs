@@ -53,6 +53,7 @@ const LoginButton = (props) => {
         .getUser()
         .then((info) => {
           setUserInfo(info);
+          localItemRoyal.set('hahaha', JSON.stringify(authState))
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
             : '';
@@ -138,7 +139,7 @@ const LoginButton = (props) => {
         props.history && props.history.location.pathname
       );
       props.beforeLoginCallback && (await props.beforeLoginCallback());
-      oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      oktaAuth.signInWithRedirect(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       //debugger
       console.log(err);

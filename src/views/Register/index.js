@@ -352,6 +352,7 @@ class Register extends Component {
       list.filter((x) => x.isChecked && x.isRequired).length ===
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
+    const isHub = process.env.REACT_APP_HUB == '1';
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -362,7 +363,7 @@ class Register extends Component {
             <div className="rc-column rc-padding-top--lg--mobile">
               <div className="rc-margin-bottom--sm text-center">
                 <a
-                  href={process.env.REACT_APP_ACCESS_PATH}
+                  href={isHub ? process.env.REACT_APP_HUBPAGE_PREFIX : process.env.REACT_APP_ACCESS_PATH}
                   className="logo-home d-inline-block border-bottom border-transparent"
                   title="Commerce Cloud Storefront Reference Architecture Accueil"
                 >

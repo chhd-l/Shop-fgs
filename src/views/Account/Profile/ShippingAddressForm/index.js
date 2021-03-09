@@ -541,10 +541,7 @@ class ShippingAddressFrom extends React.Component {
                   )}
                 </div>
                 <div className="form-group col-lg-6 pull-left required">
-                  <label
-                    className="form-control-label rc-full-width"
-                    htmlFor="address"
-                  >
+                  <label className="form-control-label rc-full-width" htmlFor="address">
                     <FormattedMessage id="payment.address1" />
                   </label>
                   <span
@@ -570,6 +567,30 @@ class ShippingAddressFrom extends React.Component {
                     <div className="text-danger-2">{errMsgObj.address1}</div>
                   )}
                 </div>
+                <div className="form-group col-lg-6 pull-left">
+                  <label className="form-control-label rc-full-width" htmlFor="address2">
+                    <FormattedMessage id="payment.address2" />
+                  </label>
+                  <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="address2"
+                      name="address2"
+                      required=""
+                      aria-required="true"
+                      value={addressForm.address2}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                      autoComplete="address-line"
+                    />
+                    <label className="rc-input__label" htmlFor="address2" />
+                  </span>
+                  {errMsgObj.address2 && (
+                    <div className="text-danger-2">{errMsgObj.address2}</div>
+                  )}
+                </div>
 
                 {/* 国家 */}
                 <div className="form-group col-lg-6 pull-left required">
@@ -580,7 +601,6 @@ class ShippingAddressFrom extends React.Component {
                   <span
                     className="rc-select rc-full-width rc-input--full-width rc-select-processed"
                     data-loc="countrySelect"
-                    style={{ marginTop: '0' }}
                   >
                     <Selection
                       key={addressForm.country}
