@@ -2114,7 +2114,7 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            {false ? (
+                            {isMobile ? (
                               <>
                                 <div
                                   className="buyMethod rc-margin-bottom--xs row ml-0 mr-0"
