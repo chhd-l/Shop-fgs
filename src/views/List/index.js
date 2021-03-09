@@ -154,11 +154,10 @@ function ListItemH5ForGlobalStyle(props) {
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${
-                    item.lowGoodsName
-                      ? item.lowGoodsName.split(' ').join('-').replace('/', '')
-                      : ''
-                  }-${item.goodsNo}` + sourceParam
+                ? `/${item.lowGoodsName
+                  ? item.lowGoodsName.split(' ').join('-').replace('/', '')
+                  : ''
+                }-${item.goodsNo}` + sourceParam
                 : '',
               state: { GAListParam, historyBreads: breadListByDeco }
             }}
@@ -184,10 +183,10 @@ function ListItemH5ForGlobalStyle(props) {
                       src={
                         item.goodsImg || item.goodsInfos
                           ? item.goodsImg ||
-                            item.goodsInfos.sort(
-                              (a, b) => a.marketPrice - b.marketPrice
-                            )[0].goodsInfoImg ||
-                            IMG_DEFAULT
+                          item.goodsInfos.sort(
+                            (a, b) => a.marketPrice - b.marketPrice
+                          )[0].goodsInfoImg ||
+                          IMG_DEFAULT
                           : ''
                       }
                       alt={item.goodsName}
@@ -314,9 +313,9 @@ function ListItemForDefault(props) {
             to={{
               pathname: item
                 ? `/${item.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', '')}-${item.goodsNo}` + sourceParam
+                  .split(' ')
+                  .join('-')
+                  .replace('/', '')}-${item.goodsNo}` + sourceParam
                 : '',
               state: {
                 GAListParam,
@@ -775,8 +774,8 @@ class List extends React.Component {
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
             : keywordsSearch
-            ? keywordsSearch
-            : '',
+              ? keywordsSearch
+              : '',
         cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
         cateId
       },
@@ -849,6 +848,7 @@ class List extends React.Component {
     if (lastItem) {
       lastItem.link = { pathname, search };
     }
+    
     return ret;
   }
   //点击商品 埋点
@@ -882,10 +882,10 @@ class List extends React.Component {
     const { defaultFilterSearchForm } = this.state;
     let Filters = defaultFilterSearchForm?.attrList?.length
       ? defaultFilterSearchForm.attrList.map((item) => {
-          let { attributeName = '', attributeValues = [] } = item;
-          let filter = attributeValues.map((val) => `${attributeName}|${val}`);
-          return filter;
-        })
+        let { attributeName = '', attributeValues = [] } = item;
+        let filter = attributeValues.map((val) => `${attributeName}|${val}`);
+        return filter;
+      })
       : [];
     let activeFilters = flatMap(Filters);
     dataLayer.push({
@@ -1100,7 +1100,7 @@ class List extends React.Component {
                 filters = tmpFilter;
               }
             }
-          } catch (err) {}
+          } catch (err) { }
         } else {
           // this.props.history.push('/404');
         }
@@ -1116,8 +1116,8 @@ class List extends React.Component {
             targetRouter && targetRouter.id
               ? 'id'
               : targetRouter && targetRouter.storeCateId
-              ? 'storeCateId'
-              : ''
+                ? 'storeCateId'
+                : ''
         })
           .map((e) => ({
             ...e,
@@ -1566,9 +1566,8 @@ class List extends React.Component {
       .concat(goodsFilterRelList)
       .slice(0, 1)
       .map((item, i) => {
-        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${item.attributeName}&prefv${
-          i + 1
-        }=${item.attributeValues.join('|')}`;
+        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${item.attributeName}&prefv${i + 1
+          }=${item.attributeValues.join('|')}`;
         return item;
       });
 
@@ -1726,9 +1725,9 @@ class List extends React.Component {
                 position: (esGoodsPage.number + 1) * (i + 1),
                 url: g.lowGoodsName
                   ? `${urlPrefix}/${g.lowGoodsName
-                      .split(' ')
-                      .join('-')
-                      .replace('/', '')}-${g.goodsNo}${sourceParam}`
+                    .split(' ')
+                    .join('-')
+                    .replace('/', '')}-${g.goodsNo}${sourceParam}`
                   : ''
               }))
             }),
@@ -1745,15 +1744,15 @@ class List extends React.Component {
               // plp页面初始化埋点
               this.hubGA
                 ? this.hubGAProductImpression(
-                    this.state.productList,
-                    totalElements,
-                    keywords
-                  )
+                  this.state.productList,
+                  totalElements,
+                  keywords
+                )
                 : this.GAProductImpression(
-                    this.state.productList,
-                    totalElements,
-                    keywords
-                  );
+                  this.state.productList,
+                  totalElements,
+                  keywords
+                );
 
               // hubGa点击页码切换埋点
               this.hubGA &&
@@ -2045,9 +2044,8 @@ class List extends React.Component {
                       <FormattedMessage id="filters" />
                     </button>
                     <aside
-                      className={`rc-filters border-top ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
+                      className={`rc-filters border-top ${filterModalVisible ? 'active' : ''
+                        }`}
                     >
                       {isMobilePhone ? (
                         <Filters
@@ -2137,12 +2135,11 @@ class List extends React.Component {
                         )}
                       </span>
                       <i
-                        className={`rc-icon rc-filter--xs rc-iconography ${
-                          (filterModalVisible && !isTop) ||
+                        className={`rc-icon rc-filter--xs rc-iconography ${(filterModalVisible && !isTop) ||
                           (!filterModalVisible && isTop)
-                            ? 'rc-brand1'
-                            : ''
-                        }`}
+                          ? 'rc-brand1'
+                          : ''
+                          }`}
                         data-filter-trigger="filter-example"
                         style={{ position: 'relative', top: '0.4rem' }}
                         onClick={this.toggleFilterModal.bind(
@@ -2157,9 +2154,8 @@ class List extends React.Component {
                       /> */}
                     </div>
                     <aside
-                      className={`rc-filters ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
+                      className={`rc-filters ${filterModalVisible ? 'active' : ''
+                        }`}
                     >
                       {isMobilePhone ? (
                         <Filters
@@ -2221,22 +2217,21 @@ class List extends React.Component {
                           className="row pl-1"
                           style={{ alignItems: 'center' }}
                         >
+
                           <div className="col-12 col-md-8 rc-md-up">
-                            <span className="font-weight-normal">
-                              {process.env.REACT_APP_LANG == 'en'
-                                ? lastBreadListName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                  lastBreadListName.toLowerCase().slice(1)
-                                : lastBreadListName}{' '}
-                            </span>
+                            <span className="rc-intro rc-margin--none rc-md-up">
+                              <b>
+                                {process.env.REACT_APP_LANG == 'en' ?
+                                  lastBreadListName.toLowerCase().charAt(0).toUpperCase() + lastBreadListName.toLowerCase().slice(1) :
+                                  lastBreadListName}{' '}
+                              </b>
                             (
                             <FormattedMessage
-                              id="results"
-                              values={{ val: results }}
-                            />
+                                id="results"
+                                values={{ val: results }}
+                              />
                             )
+                            </span>
                           </div>
 
                           <div className="col-12 col-md-4  rc-md-up">
@@ -2286,106 +2281,106 @@ class List extends React.Component {
                           {loading
                             ? _loadingJXS
                             : productList.map((item, i) =>
-                                process.env.REACT_APP_PLP_STYLE ===
-                                  'layout-global' && isMobilePhone ? (
-                                  <ListItemH5ForGlobalStyle
-                                    sourceParam={this.state.sourceParam}
-                                    isDogPage={isDogPage}
-                                    key={item.id}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text fr-label"
+                              process.env.REACT_APP_PLP_STYLE ===
+                                'layout-global' && isMobilePhone ? (
+                                <ListItemH5ForGlobalStyle
+                                  sourceParam={this.state.sourceParam}
+                                  isDogPage={isDogPage}
+                                  key={item.id}
+                                  leftPromotionJSX={
+                                    item.taggingForText ? (
+                                      <div
+                                        className="product-item-flag-text fr-label"
+                                        style={{
+                                          backgroundColor:
+                                            item.taggingForText
+                                              .taggingFillColor,
+                                          color:
+                                            item.taggingForText
+                                              .taggingFontColor
+                                        }}
+                                      >
+                                        {item.taggingForText.taggingName}
+                                      </div>
+                                    ) : null
+                                  }
+                                  rightPromotionJSX={
+                                    item.taggingForImage ? (
+                                      <div className="product-item-flag-image position-absolute">
+                                        <img
                                           style={{
-                                            backgroundColor:
-                                              item.taggingForText
-                                                .taggingFillColor,
-                                            color:
-                                              item.taggingForText
-                                                .taggingFontColor
+                                            width: 'inherit',
+                                            height: 'inherit'
                                           }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
-                                    }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
-                                            style={{
-                                              width: 'inherit',
-                                              height: 'inherit'
-                                            }}
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
+                                          src={
+                                            item.taggingForImage.taggingImgUrl
+                                          }
+                                        />
+                                      </div>
+                                    ) : null
+                                  }
+                                  onClick={this.hanldeItemClick.bind(
+                                    this,
+                                    item,
+                                    i
+                                  )}
+                                  item={item}
+                                  GAListParam={GAListParam}
+                                  breadListByDeco={breadListByDeco}
+                                >
+                                  <ListItemBodyH5ForGlobalStyle item={item} />
+                                </ListItemH5ForGlobalStyle>
+                              ) : (
+                                <ListItemForDefault
+                                  sourceParam={this.state.sourceParam}
+                                  key={item.id}
+                                  isDogPage={isDogPage}
+                                  leftPromotionJSX={
+                                    item.taggingForText ? (
+                                      <div
+                                        className="product-item-flag-text"
+                                        style={{
+                                          backgroundColor:
+                                            item.taggingForText
+                                              .taggingFillColor,
+                                          color:
+                                            item.taggingForText
+                                              .taggingFontColor
+                                        }}
+                                      >
+                                        {item.taggingForText.taggingName}
+                                      </div>
+                                    ) : null
+                                  }
+                                  rightPromotionJSX={
+                                    item.taggingForImage ? (
+                                      <div className="product-item-flag-image position-absolute">
+                                        <img
+                                          src={
+                                            item.taggingForImage.taggingImgUrl
+                                          }
+                                        />
+                                      </div>
+                                    ) : null
+                                  }
+                                  onClick={this.hanldeItemClick.bind(
+                                    this,
+                                    item,
+                                    i
+                                  )}
+                                  item={item}
+                                  GAListParam={GAListParam}
+                                  breadListByDeco={breadListByDeco}
+                                >
+                                  <ListItemBody
                                     item={item}
-                                    GAListParam={GAListParam}
-                                    breadListByDeco={breadListByDeco}
-                                  >
-                                    <ListItemBodyH5ForGlobalStyle item={item} />
-                                  </ListItemH5ForGlobalStyle>
-                                ) : (
-                                  <ListItemForDefault
-                                    sourceParam={this.state.sourceParam}
-                                    key={item.id}
-                                    isDogPage={isDogPage}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text"
-                                          style={{
-                                            backgroundColor:
-                                              item.taggingForText
-                                                .taggingFillColor,
-                                            color:
-                                              item.taggingForText
-                                                .taggingFontColor
-                                          }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
+                                    headingTag={
+                                      this.state.seoConfig.headingTag
                                     }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
-                                    item={item}
-                                    GAListParam={GAListParam}
-                                    breadListByDeco={breadListByDeco}
-                                  >
-                                    <ListItemBody
-                                      item={item}
-                                      headingTag={
-                                        this.state.seoConfig.headingTag
-                                      }
-                                    />
-                                  </ListItemForDefault>
-                                )
-                              )}
+                                  />
+                                </ListItemForDefault>
+                              )
+                            )}
                         </article>
                         <div
                           className="grid-footer rc-full-width"
