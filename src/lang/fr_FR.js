@@ -400,8 +400,6 @@ const fr_FR = {
   'header.User.registerNow': "S'inscrire maintenant",
   'header.User.royalCaninPartner': 'Royal Canin partner?',
   'header.User.vetPortal': 'Vet portal',
-  'header.VCN': 'VCN',
-  'header.VD': 'VD',
   healthAndWellbeing: 'Santé et Nutrition',
   help: 'Aidez-moi',
   'help.byEmail': 'Par e-mail',

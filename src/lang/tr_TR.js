@@ -325,8 +325,6 @@ const tr_TR = {
   'header.User.registerNow': 'Şimdi üye Ol',
   'header.User.royalCaninPartner': 'Royal Canin partner?',
   'header.User.vetPortal': 'Vet portal',
-  'header.VCN': 'VCN',
-  'header.VD': 'VD',
   healthAndWellbeing: 'SAĞLIK & BESLENME',
   help: 'Yardım',
   'help.byEmail': 'Bize e-posta gönderin!',

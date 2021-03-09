@@ -398,8 +398,6 @@ const en_US = {
   'header.toBegin': 'Start now',
   'header.toLearnMore': 'To learn more',
   'header.toOrder': 'Buy now',
-  'header.VCN': 'VCN',
-  'header.VD': 'VD',
   healthAndNutrition: 'Health & Nutrition',
   help: 'Help',
   'help.byEmail': 'By email',
