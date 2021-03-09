@@ -1130,7 +1130,7 @@ const fr_FR = {
   'bannerTip.btnText': 'En savoir plus',
   'cart.delivery': 'Frais de livraison',
   'promotion.firstOrderDiscount': 'Remise de première commande',
-  "onlineStore.header.title": "Royal Canin magasin en ligne",
+  "onlineStore.header.title": "Royal Canin en ligne",
   "onlineStore.header.content": "Lorem ispum dolor sit amet fluctual mergitur",
   "onlineStore.salesCategory.cat": "Pour chat",
   "onlineStore.salesCategory.dog": "Pour chien",
@@ -1145,6 +1145,6 @@ const fr_FR = {
   "onlineStore.BottomInfo.faq.title": "Des questions?",
   "onlineStore.BottomInfo.faq.content1": "Vous pouvez également consulter notre rubrique FAQ qui vous apportera de nombreuses réponses.",
   "onlineStore.BottomInfo.faq.content2": "Voir la FAQ",
-  "onlineStore.breedcrumb": "Royal Canin magasin en ligne",
+  "onlineStore.breedcrumb": "Royal Canin en ligne",
 }
 export default fr_FR;
