@@ -39,7 +39,7 @@ export default class DropDownMenuForHub extends React.Component {
       if (!this.flag) {
         this.props.updateActiveTopParentId(-1);
       }
-    });
+    }, 200);
   };
   hanldeListItemMouseOver(item) {
     // 若存在子项，才展开
