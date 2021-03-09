@@ -134,6 +134,8 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
+import Rate from './components/Rate';
+import ClubLandingPage from './views/ClubLandingPage';
 if (process.env.REACT_APP_LANG === 'fr') {
   registerLocale(process.env.REACT_APP_LANG, fr);
   setDefaultLocale('fr');
@@ -267,6 +269,13 @@ const App = () => (
                   process.env.REACT_APP_LANG == 'fr'
                     ? TermsConditions
                     : TermsConditionsUs
+                }
+              />
+              <Route
+                exact
+                path="/clubLandingpage"
+                component={
+                  ClubLandingPage
                 }
               />
               <Route

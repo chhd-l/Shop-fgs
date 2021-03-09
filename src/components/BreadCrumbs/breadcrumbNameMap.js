@@ -100,6 +100,11 @@ const breadcrumbNameMap = {
       name: 'Nos combinaisons de croquettes et de bouchées'
     }
   ],
+  '/clublandingpage':[
+    {
+      name:'CLUB'
+    }
+  ],
   '/faq': [
     {
       name: 'FAQ'
