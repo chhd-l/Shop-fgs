@@ -138,12 +138,12 @@ export default class DropDownMenuForHub extends React.Component {
               >
                 <div className="mr-4 text-center">
                   {/* <LazyLoad> */}
-                    <img
-                      src={cItem.Image.Url}
-                      alt={cItem.Image.AltText}
-                      srcSet={cItem.Image.Srcset}
-                      style={{ width: '4rem', margin: '0 auto' }}
-                    />
+                  <img
+                    src={cItem.Image.Url}
+                    alt={cItem.Image.AltText}
+                    srcSet={cItem.Image.Srcset}
+                    style={{ width: '4rem', margin: '0 auto' }}
+                  />
                   {/* </LazyLoad> */}
                   <p className="red">{cItem.ImageDescription}</p>
                 </div>
@@ -209,70 +209,72 @@ export default class DropDownMenuForHub extends React.Component {
     } = this.props;
     return (
       <>
-        <nav
-          className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
-            showNav ? '' : 'rc-hidden'
-          }`}
-          style={{ paddingRight: '2px', paddingLeft: '2px' }}
-        >
-          <ul
-            className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
-              showLoginBtn ? '' : 'rc-hidden'
+        {showNav ? (
+          <nav
+            className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
+              showNav ? '' : 'rc-hidden'
             }`}
+            style={{ paddingRight: '2px', paddingLeft: '2px' }}
           >
-            {headerNavigationList.map((item, i) => (
-              <li
-                className={`rc-list__item ${item.expanded ? 'dropdown' : ''} ${
-                  activeTopParentId === item.id ? 'active' : ''
-                }`}
-                key={i}
-                // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-                // onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
-                onClick={this.toggleListItem.bind(this, item)}
-                onBlur={this.onListItemBlur}
-              >
-                <ul
-                  className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center"
-                  style={{ outline: 'none' }}
-                  tabIndex={item.id}
+            <ul
+              className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
+                showLoginBtn ? '' : 'rc-hidden'
+              }`}
+            >
+              {headerNavigationList.map((item, i) => (
+                <li
+                  className={`rc-list__item ${
+                    item.expanded ? 'dropdown' : ''
+                  } ${activeTopParentId === item.id ? 'active' : ''}`}
+                  key={i}
+                  // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+                  // onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
+                  onClick={this.toggleListItem.bind(this, item)}
+                  onBlur={this.onListItemBlur}
                 >
-                  <li className="rc-list__item">
-                    <span className="rc-list__header pt-0 pb-0">
-                      <NavItem
-                        item={item}
-                        className={`rc-list__header border-bottom border-width-2 ${
-                          item.id === activeTopParentId
-                            ? 'border-red'
-                            : 'border-transparent'
-                        }`}
-                      >
-                        {item.expanded ? (
-                          <span className={`rc-header-with-icon header-icon`}>
-                            {item.Link && item.Link.Text}
-                            {item.id === activeTopParentId ? (
-                              <span className="iconfont icon-dropdown-arrow ml-1">
-                                &#xe6f9;
-                              </span>
-                            ) : (
-                              <span className="iconfont icon-dropdown-arrow ml-1">
-                                &#xe6fa;
-                              </span>
-                            )}
-                          </span>
-                        ) : (
-                          item.Link && item.Link.Text
-                        )}
-                      </NavItem>
-                    </span>
-                  </li>
-                </ul>
-                {item.Type === 'ContactUsMenuGroup'
-                  ? this.renderHelpMenu(item, i)
-                  : this.renderNormalMenu(item, i)}
-              </li>
-            ))}
-          </ul>
-        </nav>
+                  <ul
+                    className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center"
+                    style={{ outline: 'none' }}
+                    tabIndex={item.id}
+                  >
+                    <li className="rc-list__item">
+                      <span className="rc-list__header pt-0 pb-0">
+                        <NavItem
+                          item={item}
+                          className={`rc-list__header border-bottom border-width-2 ${
+                            item.id === activeTopParentId
+                              ? 'border-red'
+                              : 'border-transparent'
+                          }`}
+                        >
+                          {item.expanded ? (
+                            <span className={`rc-header-with-icon header-icon`}>
+                              {item.Link && item.Link.Text}
+                              {item.id === activeTopParentId ? (
+                                <span className="iconfont icon-dropdown-arrow ml-1">
+                                  &#xe6f9;
+                                </span>
+                              ) : (
+                                <span className="iconfont icon-dropdown-arrow ml-1">
+                                  &#xe6fa;
+                                </span>
+                              )}
+                            </span>
+                          ) : (
+                            item.Link && item.Link.Text
+                          )}
+                        </NavItem>
+                      </span>
+                    </li>
+                  </ul>
+                  {item.Type === 'ContactUsMenuGroup'
+                    ? this.renderHelpMenu(item, i)
+                    : this.renderNormalMenu(item, i)}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
       </>
     );
   }
