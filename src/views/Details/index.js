@@ -859,19 +859,19 @@ class Details extends React.Component {
               barcode
             },
             () => {
-              loadJS({
-                url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-                id: 'cci-widget',
-                dataSets: {
-                  token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-                  locale: 'fr-FR',
-                  displaylanguage: 'fr',
-                  widgetid: 'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
-                  ean: '3182550784436',
-                  subid: '',
-                  trackingid: ''
-                }
-              });
+              // loadJS({
+              //   url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+              //   id: 'cci-widget',
+              //   dataSets: {
+              //     token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+              //     locale: 'fr-FR',
+              //     displaylanguage: 'fr',
+              //     widgetid: 'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+              //     ean: '3182550784436',
+              //     subid: '',
+              //     trackingid: ''
+              //   }
+              // });
               this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
@@ -1967,7 +1967,7 @@ class Details extends React.Component {
                                 __html: this.state.descContent
                               }}
                             ></div>
-                            {!this.state.loading && !bundle && isHub && PC ? (
+                            {/* {!this.state.loading && !bundle && isHub && PC ? (
                               <div
                                 className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${
                                   !ccidBtnDisplay && 'rc-btn-solid-disabled'
@@ -1987,7 +1987,7 @@ class Details extends React.Component {
                                   </span>
                                 ) : null}
                               </div>
-                            ) : null}
+                            ) : null} */}
                           </>
                         ) : (
                           <>
@@ -2459,7 +2459,7 @@ class Details extends React.Component {
                                     ) : null}
                                   </div>
                                 </div>
-                                {currentSubscriptionStatus ? (
+                                {/* {currentSubscriptionStatus ? ( */}
                                   <div
                                     className="buyMethod rc-margin-bottom--xs d-flex align-items-center"
                                     style={{
@@ -2605,7 +2605,7 @@ class Details extends React.Component {
                                       ) : null}
                                     </div>
                                   </div>
-                                ) : null}
+                                {/* ) : null} */}
                               </>
                             )}
                             <div className="rc-md-up">
@@ -2642,7 +2642,7 @@ class Details extends React.Component {
                                     />
                                   </span>
                                 </button>
-                                {!this.state.loading && !bundle && isHub ? (
+                                {/* {!this.state.loading && !bundle && isHub ? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -2665,7 +2665,7 @@ class Details extends React.Component {
                                       ) : null}
                                     </div>
                                   </>
-                                ) : null}
+                                ) : null} */}
                               </div>
                               <ErrMsgForCheckoutPanel
                                 checkOutErrMsg={checkOutErrMsg}
@@ -2872,7 +2872,7 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle && isHub ? (
+                {/* {!this.state.loading && !bundle && isHub ? (
                   <div
                     ref={(el) => this.ccidBtnRef(el)}
                     className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${
@@ -2889,7 +2889,7 @@ class Details extends React.Component {
                       </span>
                     ) : null}
                   </div>
-                ) : null}
+                ) : null} */}
               </div>
             </div>
           </main>
