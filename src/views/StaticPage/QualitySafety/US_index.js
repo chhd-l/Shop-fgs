@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet';
 
 import './index.css';
 
+import image1 from './images/image1.jpg';
 import image3 from './images/image3.jpg';
 import image4 from './images/image4.jpg';
 import image5 from './images/image5.jpg';
@@ -114,9 +115,9 @@ class QualitySafety extends React.Component {
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <LazyLoad>
                               <img className="w-100 lazyloaded"
-                                alt="Alimentation et processus de sécurité Royal Canin"
-                                title="Alimentation et processus de sécurité Royal Canin"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_1225Export_All_Lowres-1.jpg`} />
+                                alt="Royal Canin Food and Safety Processes"
+                                title="Royal Canin Food and Safety Processes"
+                                src={image1} />
                             </LazyLoad>
                           </picture>
                         </div>
@@ -139,7 +140,7 @@ class QualitySafety extends React.Component {
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <LazyLoad>
                               <img
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_0847Export_All_Lowres.jpg`} />
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_0847Export_All_Lowres.jpg`} alt="Consistent Quality" title="Consistent Quality" />
                             </LazyLoad>
                           </picture>
                         </div>
@@ -175,7 +176,7 @@ class QualitySafety extends React.Component {
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <LazyLoad>
                               <img className="w-100 ls-is-cached lazyloaded"
-                                alt="Des matières premières de qualité" title="Des matières premières de qualité"
+                                alt="A school of fish swimming in the sea" title="A school of fish swimming in the sea"
                                 src={image3} />
                             </LazyLoad>
                           </picture>
@@ -198,7 +199,7 @@ class QualitySafety extends React.Component {
                         <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <LazyLoad>
-                              <img src={image4} />
+                              <img src={image4} alt="A woman in a factory checking a clipboard" title="A woman in a factory checking a clipboard" />
                             </LazyLoad>
                           </picture>
                         </div>
@@ -234,7 +235,7 @@ class QualitySafety extends React.Component {
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <LazyLoad>
                               <img className="w-100 ls-is-cached lazyloaded"
-                                alt="Des matières premières de qualité" title="Des matières premières de qualité"
+                                alt="A selection of samples in beakers" title="A selection of samples in beakers"
                                 src={image5} />
                             </LazyLoad>
                           </picture>
