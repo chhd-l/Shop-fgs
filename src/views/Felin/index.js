@@ -39,8 +39,14 @@ function scrollIntoView(element) {
   const headerElement = document.querySelector(`.Felin`);
   if (element && headerElement) {
     // console.log(getElementTop(element) headerElement.offsetHeight)
+    let headerHeight = 93
+    if(getElementTop(element) > document.documentElement.scrollTop) {
+      headerHeight = 93
+    }else {
+      headerHeight = 159
+    }
     window.scroll({
-      top: getElementTop(element) - 80,
+      top: getElementTop(element) - headerHeight - 60,
       behavior: 'smooth'
     });
   }
