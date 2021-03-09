@@ -52,7 +52,7 @@ class OktaLoginPage extends React.Component {
         this.props.history.push('/')
       }
     }else {
-      this.LogoutButton.current && this.LoginButton.current.click()
+      this.LoginButton && this.LoginButton.current.click()
     }
   }
 
