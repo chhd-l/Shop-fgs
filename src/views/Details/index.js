@@ -1251,7 +1251,7 @@ class Details extends React.Component {
         }, 4000);
       }
     } catch (err) {
-      this.setState({ checkOutErrMsg: err.message });
+      this.showCheckoutErrMsg(err.message)
     } finally {
       this.setState({ addToCartLoading: false });
     }
@@ -1386,6 +1386,11 @@ class Details extends React.Component {
     this.setState({
       checkOutErrMsg: msg
     });
+    setTimeout(() => {
+      this.setState({
+        checkOutErrMsg: ''
+      });
+    }, 5000)
     if (isMobile) {
       window.scrollTo({
         top: 0,
@@ -1633,33 +1638,33 @@ class Details extends React.Component {
   }
 
   ccidBtnRef(el) {
-    const self = this;
-    if (el) {
-      const config = { attributes: true, childList: true, subtree: true };
-      // 当观察到变动时执行的回调函数
-      const callback = function (mutationsList, observer) {
-        console.log(document.querySelectorAll('.eanIcon'), 'aaa123');
-        let eanDoms = document.querySelectorAll('.eanIcon');
-        eanDoms[0].parentElement.addEventListener(
-          'click',
-          function () {
-            eanDoms[0].nextElementSibling.click();
-          },
-          false
-        );
+    // const self = this;
+    // if (el) {
+    //   const config = { attributes: true, childList: true, subtree: true };
+    //   // 当观察到变动时执行的回调函数
+    //   const callback = function (mutationsList, observer) {
+    //     console.log(document.querySelectorAll('.eanIcon'), 'aaa123');
+    //     let eanDoms = document.querySelectorAll('.eanIcon');
+    //     eanDoms[0].parentElement.addEventListener(
+    //       'click',
+    //       function () {
+    //         eanDoms[0].nextElementSibling.click();
+    //       },
+    //       false
+    //     );
 
-        for (let mutation of mutationsList) {
-          if (mutation.type === 'childList') {
-            self.setState({
-              ccidBtnDisplay: true
-            });
-            observer.disconnect();
-          }
-        }
-      };
-      const observer = new MutationObserver(callback);
-      observer.observe(el, config);
-    }
+    //     for (let mutation of mutationsList) {
+    //       if (mutation.type === 'childList') {
+    //         self.setState({
+    //           ccidBtnDisplay: true
+    //         });
+    //         observer.disconnect();
+    //       }
+    //     }
+    //   };
+    //   const observer = new MutationObserver(callback);
+    //   observer.observe(el, config);
+    // }
   }
 
   render() {
