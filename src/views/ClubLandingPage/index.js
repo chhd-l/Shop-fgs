@@ -27,6 +27,8 @@ import question from '@/assets/images/home/question@2x.png';
 import CommentCarousel from '../../components/CommentCarousel';
 import HelpComponents from '../../components/HelpComponents/HelpComponents';
 import BreadCrumbs from '../../components/BreadCrumbs';
+import HowItWorks from './HowItWorks';
+import JoinToday from './JoinToday';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -599,29 +601,8 @@ class ClubLandingPage extends React.Component {
 
 
           <Divider />
-
-
-          <Ads />
-
-          <HealthNutrition />
-          <Share />
-          <Divider />
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <AdvantageTips />
-            </div>
-          </div>
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-threeColumnContentBlock">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
-                    <FooterImage />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <HowItWorks/>
+          <JoinToday/>
           <CommentCarousel/>
           <HelpComponents/>
         </main>
