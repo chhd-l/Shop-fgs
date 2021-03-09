@@ -12,7 +12,7 @@ import SalesCategory from './modules/SalesCategory';
 import HubSalesCategory from './modules/HubSalesCategory';
 import { Ads } from './ad';
 import { TopAds } from './ad';
-import { Advantage } from './advantage';
+import { Advantage, SubscriptionBenefits } from './SubscriptionBenefits';
 import { setSeoConfig, getDeviceType } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
@@ -26,6 +26,7 @@ import shippmentHome from '@/assets/images/home/shippment@2x.png';
 import question from '@/assets/images/home/question@2x.png';
 import CommentCarousel from '../../components/CommentCarousel';
 import HelpComponents from '../../components/HelpComponents/HelpComponents';
+import BreadCrumbs from '../../components/BreadCrumbs';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -525,35 +526,80 @@ class ClubLandingPage extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-          <BannerTip />
+
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={history} />
             </div>
           </div>
-          {process.env.REACT_APP_HUB == 1 ? (
-            <HubSalesCategory />
-          ) : (
-            <SalesCategory />
-          )}
-          <TopAds />
-          <Divider />
+          <BreadCrumbs/>
+          {/*猫猫狗狗*/}
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    <FormattedMessage id="home.convenientTitle" />
+                    Your CLUB subscription benefits
                   </h4>
                   <div className="value-proposition__container">
                     <div className="row mx-0">
-                      <Advantage />
+                      <SubscriptionBenefits/>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </section>
+          <Divider/>
+
+
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-contentBlock">
+                  <div
+                    className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                    <a id="Food Quality and Safety" name="Food Quality and Safety" className="page-section-anchor" aria-hidden="true"></a>
+                    <div className="row align-items-md-center">
+                      <div className=" col-12 col-lg-6">
+                        <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                          <h2 className="rc-beta markup-text">
+                            EVER PET IS UNIQUE,THEIR NUTRITION SHOULD BE TOO
+                          </h2>
+                          <p>Our commitment to nutritional quality and product
+                          safety is at the heart of our operations worldwide.
+                          </p>
+                          <p>Our commitment to nutritional quality and product
+                            safety is at the heart of our operations worldwide.
+                          </p>
+                          <button className="rc-btn rc-btn--two">Join the Club</button>
+                        </div>
+                      </div>
+                      <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                          {/*引入U2B*/}
+                          {/*<iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.fr"*/}
+                          {/*        title="making a better world for pets" frameBorder="0"></iframe>*/}
+                          <iframe src="//player.bilibili.com/player.html?aid=84267566&amp;cid=145147963&amp;page=1" frameBorder="no"
+                                  scrolling="no" style={{width:'500px',height:'300px'}}></iframe>
+                        {/*<div className="rc-layout-container">*/}
+                        {/*  <div className="rc-column">*/}
+                        {/*    <div className="rc-video-wrapper">*/}
+                        {/*      <iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?rel=0&amp;controls=0&amp;showinfo=0?ecver=1"*/}
+                        {/*              allowFullScreen="" frameBorder="0" title="YouTube video: Making a better world for pets"></iframe>*/}
+                        {/*    </div>*/}
+                        {/*  </div>*/}
+                        {/*</div>*/}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <Divider />
+
 
           <Ads />
 
