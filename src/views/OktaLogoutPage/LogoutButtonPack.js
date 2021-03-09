@@ -35,6 +35,10 @@ class LogoutButtonPack extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    // this.props.authState && this.props.authState.accessToken
+    //     ? this.props.authState.accessToken.value
+    //     : '';
+    console.log(this.props.authState, 'authState')
     if (!this.isLogin) {
       if (sessionItemRoyal.get('okta-redirectUrl-hub')) {
         let href = sessionItemRoyal.get('okta-redirectUrl-hub')
