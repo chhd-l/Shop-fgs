@@ -10,7 +10,7 @@ import {
   getDictionary
 } from '@/utils/utils';
 import LoginButton from '@/components/LoginButton';
-import LogoutButton from './LogoutButtonPack';
+import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 
@@ -35,28 +35,25 @@ class OktaLogoutPage extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
-    // if (!this.isLogin) {
-    //   if (sessionItemRoyal.get('okta-redirectUrl-hub')) {
-    //     let href = sessionItemRoyal.get('okta-redirectUrl-hub')
-    //     sessionItemRoyal.remove('okta-redirectUrl-hub')
-    //     window.location.href = href
-    //   } else {
-    //     this.props.history.push('/');
-    //   }
-    // } else {
-    //   this.LogoutButton && this.LogoutButton.current.click();
-    // }
+    setTimeout(() => {
+      if (!this.isLogin) {
+        if (sessionItemRoyal.get('okta-redirectUrl-hub')) {
+          let href = sessionItemRoyal.get('okta-redirectUrl-hub')
+          sessionItemRoyal.remove('okta-redirectUrl-hub')
+          window.location.href = href
+        } else {
+          this.props.history.push('/');
+        }
+      } else {
+        this.LogoutButton && this.LogoutButton.current.click();
+      }
+    }, 300)
   }
 
   render() {
     const { loginStore, history, match, location } = this.props;
     return (
       <>
-        {/* <LoginButton
-          buttonRef={this.LoginButton}
-          btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
-          history={history}
-        /> */}
         <LogoutButton
           buttonRef={this.LogoutButton}
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
