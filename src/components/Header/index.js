@@ -304,11 +304,12 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
-    let scrolledDom = document.querySelector('.rc-header--scrolled')
-    if(scrolledDom) {
-      document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'none'
-    }else {
-      document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'block'
+    const scrolledDom = document.querySelector('.rc-header--scrolled');
+    const headerNavigationDom = document.querySelector(
+      '.rc-header__nav.rc-header__nav--secondary'
+    );
+    if (headerNavigationDom) {
+      headerNavigationDom.style.display = scrolledDom ? 'none' : 'flex';
     }
 
     let baseEl = document.querySelector('#J_sidecart_container');
@@ -551,7 +552,11 @@ class Header extends React.Component {
               ) : null}
             </ul>
 
-            <DistributeHubLinkOrATag href="" to="/home" className="header__nav__brand logo-home">
+            <DistributeHubLinkOrATag
+              href=""
+              to="/home"
+              className="header__nav__brand logo-home"
+            >
               <span className="rc-screen-reader-text" />
               <Logo />
             </DistributeHubLinkOrATag>

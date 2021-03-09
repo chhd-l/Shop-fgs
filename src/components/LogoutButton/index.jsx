@@ -27,6 +27,7 @@ const LogoutButton = (props) => {
   const logout = async () => {
     try {
       const idToken = authState.idToken;
+      console.log(idToken, authState, 'idToken')
       if (idToken) {
         const redirectUri =
           window.location.origin + process.env.REACT_APP_HOMEPAGE;

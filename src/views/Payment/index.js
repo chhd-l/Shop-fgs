@@ -177,15 +177,15 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
   }
   getPetVal() {
-    let obj = doGetGAVal(this.props)
-    this.setState({ pet: obj })
+    let obj = doGetGAVal(this.props);
+    this.setState({ pet: obj });
   }
   componentWillMount() {
-    isHubGA && this.getPetVal()
+    isHubGA && this.getPetVal();
   }
   async componentDidMount() {
     if (!this.isLogin) {
-      checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' })
+      checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' });
     }
     try {
       const { checkoutStore, paymentStore, clinicStore, history } = this.props;
@@ -691,10 +691,10 @@ class Payment extends React.Component {
         successUrl: successUrlFun(type),
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
-        domainName: process.env.REACT_APP_DOMAIN || "",
+        domainName: process.env.REACT_APP_DOMAIN || '',
         phone
       });
-      console.log(finalParam)
+      console.log(finalParam);
       return finalParam;
     } catch (err) {
       console.log(err);
@@ -840,8 +840,8 @@ class Payment extends React.Component {
       // debugger;
       switch (type) {
         case 'oxxo':
-          var oxxoContent = res.context;
-          var oxxoArgs = oxxoContent.args;
+          const oxxoContent = res.context;
+          const oxxoArgs = oxxoContent.args;
           oxxoPayUrl =
             oxxoArgs &&
               oxxoArgs.additionalDetails &&
@@ -901,15 +901,7 @@ class Payment extends React.Component {
         case 'adyenKlarnaPayNow':
         case 'directEbanking':
           subOrderNumberList = res.context.tidList;
-          // 删除本地购物车
-          if (this.isLogin) {
-            this.props.checkoutStore.removeLoginCartData();
-          } else {
-            this.props.checkoutStore.setCartData(
-              this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
-            ); // 只移除selected
-            //sessionItemRoyal.remove('rc-token');
-          }
+          this.removeLocalCartData();
           // 给klana支付跳转用
           if (res.context.tid) {
             sessionItemRoyal.set('orderNumber', res.context.tid);
@@ -924,6 +916,7 @@ class Payment extends React.Component {
       // if (orderNumber) {
       //   sessionItemRoyal.set('orderNumber', orderNumber);
       // }
+      this.removeLocalCartData();
       if (subOrderNumberList.length) {
         sessionItemRoyal.set(
           'subOrderNumberList',
@@ -994,6 +987,19 @@ class Payment extends React.Component {
     }
   }
 
+  // 删除本地购物车
+  removeLocalCartData() {
+    const { checkoutStore } = this.props;
+    if (this.isLogin) {
+      checkoutStore.removeLoginCartData();
+    } else {
+      checkoutStore.setCartData(
+        checkoutStore.cartData.filter((ele) => !ele.selected)
+      ); // 只移除selected
+      //sessionItemRoyal.remove('rc-token');
+    }
+  }
+
   /**************支付公共方法end*****************/
 
   /**
@@ -1035,10 +1041,16 @@ class Payment extends React.Component {
         }
       );
       param.city = param.city == param.cityName ? null : param.city;
-      param.billCity = param.billCity == param.billCityName ? null : param.billCity;
-      
-      console.log('----------- 游客注册并登录&批量添加后台购物车 param 222 : ', param);
-      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
+      param.billCity =
+        param.billCity == param.billCityName ? null : param.billCity;
+
+      console.log(
+        '----------- 游客注册并登录&批量添加后台购物车 param 222 : ',
+        param
+      );
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
+        param
+      );
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = this.bindSubmitParam(this.state.listData);
       userBindConsent({
@@ -1105,7 +1117,10 @@ class Payment extends React.Component {
       zipcode: deliveryAddress.postCode,
       cityName: deliveryAddress.cityName,
       // city: deliveryAddress.cityName,
-      city: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
+      city:
+        deliveryAddress.city == deliveryAddress.cityName
+          ? null
+          : deliveryAddress.city,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1315,7 +1330,9 @@ class Payment extends React.Component {
           address1: deliveryAddress.address1,
           address2: deliveryAddress.address2,
           rfc: deliveryAddress.rfc,
-          country: deliveryAddress.countryId ? deliveryAddress.countryId.toString() : '',
+          country: deliveryAddress.countryId
+            ? deliveryAddress.countryId.toString()
+            : '',
           cityId: deliveryAddress.cityId,
           cityName: deliveryAddress.cityName,
           // city: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
@@ -1333,7 +1350,9 @@ class Payment extends React.Component {
             address1: billingAddress.address1,
             address2: billingAddress.address2,
             rfc: billingAddress.rfc,
-            country: billingAddress.countryId ? billingAddress.countryId.toString() : '',
+            country: billingAddress.countryId
+              ? billingAddress.countryId.toString()
+              : '',
             cityName: billingAddress.cityName,
             // city: billingAddress.city == billingAddress.cityName ? null : billingAddress.city,
             city: billingAddress.city,
@@ -1507,6 +1526,10 @@ class Payment extends React.Component {
       this.setState({ billingAddress: data });
     }
   };
+  // 抓取异常信息
+  catchAddOrEditAddressErrorMessage = (msg) => {
+    this.showErrorMsg(msg);
+  }
 
   /**
    * 渲染address panel
@@ -1518,22 +1541,22 @@ class Payment extends React.Component {
       <>
         <div
           className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${paymentStore.deliveryAddrPanelStatus.isEdit
-            ? 'border-333'
-            : 'border-transparent'
+              ? 'border-333'
+              : 'border-transparent'
             }`}
           id="J_checkout_panel_deliveryAddr"
         >
           {this.isLogin ? (
-            <AddressList id="1" updateData={this.updateDeliveryAddrData} />
+            <AddressList id="1" updateData={this.updateDeliveryAddrData} catchErrorMessage={this.catchAddOrEditAddressErrorMessage} />
           ) : (
-              <VisitorAddress
-                key={1}
-                type="delivery"
-                initData={deliveryAddress}
-                guestEmail={guestEmail}
-                updateData={this.updateDeliveryAddrData}
-              />
-            )}
+            <VisitorAddress
+              key={1}
+              type="delivery"
+              initData={deliveryAddress}
+              guestEmail={guestEmail}
+              updateData={this.updateDeliveryAddrData}
+            />
+          )}
         </div>
       </>
     );
@@ -1579,25 +1602,24 @@ class Payment extends React.Component {
                 showOperateBtn={false}
                 visible={!billingChecked}
                 updateData={this.updateBillingAddrData}
+                updateFormValidStatus={this.updateValidStatus.bind(this, { key: 'billingAddr' })}
+                catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
+              />
+            ) : (
+              <VisitorAddress
+                ref={this.unLoginBillingAddrRef}
+                key={2}
+                titleVisible={false}
+                showConfirmBtn={false}
+                type="billing"
+                initData={billingAddress}
+                guestEmail={guestEmail}
+                updateData={this.updateBillingAddrData}
                 updateFormValidStatus={this.updateValidStatus.bind(this, {
                   key: 'billingAddr'
                 })}
               />
-            ) : (
-                <VisitorAddress
-                  ref={this.unLoginBillingAddrRef}
-                  key={2}
-                  titleVisible={false}
-                  showConfirmBtn={false}
-                  type="billing"
-                  initData={billingAddress}
-                  guestEmail={guestEmail}
-                  updateData={this.updateBillingAddrData}
-                  updateFormValidStatus={this.updateValidStatus.bind(this, {
-                    key: 'billingAddr'
-                  })}
-                />
-              )}
+            )}
           </>
         )}
       </>
@@ -1682,7 +1704,6 @@ class Payment extends React.Component {
         scrollPaymentPanelIntoView();
       });
     } catch (e) {
-
     } finally {
       this.setState({ saveBillingLoading: false });
     }
@@ -1747,8 +1768,8 @@ class Payment extends React.Component {
               return (
                 <div
                   className={`rc-input rc-input--inline ${subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
-                    ? 'hidden'
-                    : ''
+                      ? 'hidden'
+                      : ''
                     }`}
                   key={i}
                 >
@@ -1778,135 +1799,135 @@ class Payment extends React.Component {
           {payWayErr ? (
             payWayErr
           ) : (
-              <>
-                {/* ***********************支付选项卡的内容start******************************* */}
-                {/* oxxo */}
-                {paymentTypeVal === 'oxxo' && (
-                  <>
-                    <OxxoConfirm
-                      type={'oxxo'}
-                      updateEmail={this.updateEmail}
-                      billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
-                    />
-                    {payConfirmBtn({
-                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
+            <>
+              {/* ***********************支付选项卡的内容start******************************* */}
+              {/* oxxo */}
+              {paymentTypeVal === 'oxxo' && (
+                <>
+                  <OxxoConfirm
+                    type={'oxxo'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* payu creditCard */}
+              {paymentTypeVal === 'payUCreditCard' && (
+                <>
+                  <PayUCreditCard
+                    // todo
+                    // key={Object.values(this.defaultCardDataFromAddr || {}).join(
+                    //   '|'
+                    // )}
+                    ref={this.payUCreditCardRef}
+                    type={'PayUCreditCard'}
+                    isLogin={this.isLogin}
+                    showErrorMsg={this.showErrorMsg}
+                    onVisitorPayosDataConfirm={(data) => {
+                      this.setState({ payosdata: data });
+                    }}
+                    onVisitorCardInfoChange={(data) => {
+                      this.setState({ creditCardInfo: data });
+                    }}
+                    onPaymentCompDataChange={(data) => {
+                      this.setState({ selectedCardInfo: data });
+                    }}
+                    isApplyCvv={false}
+                    needReConfirmCVV={true}
+                    updateFormValidStatus={this.updateValidStatus.bind(this, {
+                      key: 'payUCreditCard'
                     })}
-                  </>
-                )}
-                {/* payu creditCard */}
-                {paymentTypeVal === 'payUCreditCard' && (
-                  <>
-                    <PayUCreditCard
-                      // todo
-                      // key={Object.values(this.defaultCardDataFromAddr || {}).join(
-                      //   '|'
-                      // )}
-                      ref={this.payUCreditCardRef}
-                      type={'PayUCreditCard'}
-                      isLogin={this.isLogin}
-                      showErrorMsg={this.showErrorMsg}
-                      onVisitorPayosDataConfirm={(data) => {
-                        this.setState({ payosdata: data });
-                      }}
-                      onVisitorCardInfoChange={(data) => {
-                        this.setState({ creditCardInfo: data });
-                      }}
-                      onPaymentCompDataChange={(data) => {
-                        this.setState({ selectedCardInfo: data });
-                      }}
-                      isApplyCvv={false}
-                      needReConfirmCVV={true}
-                      updateFormValidStatus={this.updateValidStatus.bind(this, {
-                        key: 'payUCreditCard'
-                      })}
-                      billingJSX={this.renderBillingJSX({
-                        type: 'payUCreditCard'
-                      })}
-                      defaultCardDataFromAddr={this.defaultCardDataFromAddr}
-                    />
-                    {payConfirmBtn({
-                      disabled: !validSts.payUCreditCard || validForBilling,
-                      loading: saveBillingLoading
+                    billingJSX={this.renderBillingJSX({
+                      type: 'payUCreditCard'
                     })}
-                  </>
-                )}
+                    defaultCardDataFromAddr={this.defaultCardDataFromAddr}
+                  />
+                  {payConfirmBtn({
+                    disabled: !validSts.payUCreditCard || validForBilling,
+                    loading: saveBillingLoading
+                  })}
+                </>
+              )}
 
-                {/* adyenCreditCard */}
-                {paymentTypeVal === 'adyenCard' && (
-                  <>
-                    <AdyenCreditCard
-                      ref={this.adyenCardRef}
-                      subBuyWay={subForm.buyWay}
-                      showErrorMsg={this.showErrorMsg}
-                      updateAdyenPayParam={this.updateAdyenPayParam}
-                      updateFormValidStatus={this.updateValidStatus.bind(this, {
-                        key: 'adyenCard'
-                      })}
-                      billingJSX={this.renderBillingJSX({
-                        type: 'adyenCard'
-                      })}
-                    />
-                    {/* 校验状态
+              {/* adyenCreditCard */}
+              {paymentTypeVal === 'adyenCard' && (
+                <>
+                  <AdyenCreditCard
+                    ref={this.adyenCardRef}
+                    subBuyWay={subForm.buyWay}
+                    showErrorMsg={this.showErrorMsg}
+                    updateAdyenPayParam={this.updateAdyenPayParam}
+                    updateFormValidStatus={this.updateValidStatus.bind(this, {
+                      key: 'adyenCard'
+                    })}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenCard'
+                    })}
+                  />
+                  {/* 校验状态
                   1 卡校验，从adyen form传入校验状态
                   2 billing校验 */}
-                    {payConfirmBtn({
-                      disabled: !validSts.adyenCard || validForBilling,
-                      loading: saveBillingLoading
+                  {payConfirmBtn({
+                    disabled: !validSts.adyenCard || validForBilling,
+                    loading: saveBillingLoading
+                  })}
+                </>
+              )}
+              {/* KlarnaPayLater */}
+              {paymentTypeVal === 'adyenKlarnaPayLater' && (
+                <>
+                  <AdyenCommonPay
+                    type={'adyenKlarnaPayLater'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenKlarnaPayLater'
                     })}
-                  </>
-                )}
-                {/* KlarnaPayLater */}
-                {paymentTypeVal === 'adyenKlarnaPayLater' && (
-                  <>
-                    <AdyenCommonPay
-                      type={'adyenKlarnaPayLater'}
-                      updateEmail={this.updateEmail}
-                      billingJSX={this.renderBillingJSX({
-                        type: 'adyenKlarnaPayLater'
-                      })}
-                    />
-                    {/* // 校验状态
+                  />
+                  {/* // 校验状态
             // 1 校验邮箱
             // 2 billing校验 */}
-                    {payConfirmBtn({
-                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* KlarnaPayNow  */}
+              {paymentTypeVal === 'adyenKlarnaPayNow' && (
+                <>
+                  <AdyenCommonPay
+                    type={'adyenKlarnaPayNow'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenKlarnaPayNow'
                     })}
-                  </>
-                )}
-                {/* KlarnaPayNow  */}
-                {paymentTypeVal === 'adyenKlarnaPayNow' && (
-                  <>
-                    <AdyenCommonPay
-                      type={'adyenKlarnaPayNow'}
-                      updateEmail={this.updateEmail}
-                      billingJSX={this.renderBillingJSX({
-                        type: 'adyenKlarnaPayNow'
-                      })}
-                    />
-                    {payConfirmBtn({
-                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* Sofort */}
+              {paymentTypeVal === 'directEbanking' && (
+                <>
+                  <AdyenCommonPay
+                    type={'directEbanking'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'directEbanking'
                     })}
-                  </>
-                )}
-                {/* Sofort */}
-                {paymentTypeVal === 'directEbanking' && (
-                  <>
-                    <AdyenCommonPay
-                      type={'directEbanking'}
-                      updateEmail={this.updateEmail}
-                      billingJSX={this.renderBillingJSX({
-                        type: 'directEbanking'
-                      })}
-                    />
-                    {payConfirmBtn({
-                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
-                    })}
-                  </>
-                )}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
 
-                {/* ***********************支付选项卡的内容end******************************* */}
-              </>
-            )}
+              {/* ***********************支付选项卡的内容end******************************* */}
+            </>
+          )}
           {/* oxxo */}
         </div>
       </div>
@@ -1929,7 +1950,11 @@ class Payment extends React.Component {
             <br />
           </>
         )}
-        <AddressPreview boldName={boldName} form={form} isLogin={this.isLogin} />
+        <AddressPreview
+          boldName={boldName}
+          form={form}
+          isLogin={this.isLogin}
+        />
       </>
     ) : null;
   };
@@ -1964,12 +1989,12 @@ class Payment extends React.Component {
       brandDeco = paymentMethod.paymentVendor;
       holderNameDeco = paymentMethod.holderName;
       expirationDate = paymentMethod.expirationDate;
-      if(expirationDate) {
-        let curExpirationDate = paymentMethod.expirationDate.split('-')
-        curExpirationDate.pop()
-        expirationDate = curExpirationDate.join('-')
+      if (expirationDate) {
+        let curExpirationDate = paymentMethod.expirationDate.split('-');
+        curExpirationDate.pop();
+        expirationDate = curExpirationDate.join('-');
       }
-      console.log(expirationDate, 'expirationDate')
+      console.log(expirationDate, 'expirationDate');
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
@@ -1982,32 +2007,34 @@ class Payment extends React.Component {
         <div className="row">
           {paymentTypeVal === 'payUCreditCard' ||
             paymentTypeVal === 'adyenCard' ? (
-              <div className="col-12 col-md-6">
-                <span className="medium">
-                  <FormattedMessage id="bankCard" />
-                </span>
-                <br />
-                <span>{holderNameDeco}</span>
-                <br />
-                <span>{brandDeco}</span>
-                <br />
-                <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
-                {expirationDate ? (
-                  <>
-                    <br />
-                    <span>{getFormatDate(expirationDate, (date) => {
+            <div className="col-12 col-md-6">
+              <span className="medium">
+                <FormattedMessage id="bankCard" />
+              </span>
+              <br />
+              <span>{holderNameDeco}</span>
+              <br />
+              <span>{brandDeco}</span>
+              <br />
+              <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
+              {expirationDate ? (
+                <>
+                  <br />
+                  <span>
+                    {getFormatDate(expirationDate, (date) => {
                       if (process.env.REACT_APP_LANG === 'fr') {
-                        return date.slice(3)
-                      }else {
-                        return date
+                        return date.slice(3);
+                      } else {
+                        return date;
                       }
-                    })}</span>
-                  </>
-                ) : null}
-              </div>
-            ) : (
-              <div className="col-12 col-md-6">{email}</div>
-            )}
+                    })}
+                  </span>
+                </>
+              ) : null}
+            </div>
+          ) : (
+            <div className="col-12 col-md-6">{email}</div>
+          )}
           {!tid && (
             <div className="col-12 col-md-6 mt-2 mt-md-0">
               {this.renderAddrPreview({
@@ -2273,24 +2300,24 @@ class Payment extends React.Component {
                 {tid ? (
                   <RepayAddressPreview details={orderDetails} />
                 ) : (
-                    <>
-                      <div className="shipping-form" id="J_checkout_panel_email">
-                        <div className="bg-transparent">
-                          {this.checkoutWithClinic ? (
-                            <OnePageClinicForm history={history} />
-                          ) : null}
-                          {!this.isLogin ? (
-                            <OnePageEmailForm
-                              history={history}
-                              onChange={this.updateGuestEmail}
-                            />
-                          ) : null}
+                  <>
+                    <div className="shipping-form" id="J_checkout_panel_email">
+                      <div className="bg-transparent">
+                        {this.checkoutWithClinic ? (
+                          <OnePageClinicForm history={history} />
+                        ) : null}
+                        {!this.isLogin ? (
+                          <OnePageEmailForm
+                            history={history}
+                            onChange={this.updateGuestEmail}
+                          />
+                        ) : null}
 
-                          {this.renderAddressPanel()}
-                        </div>
+                        {this.renderAddressPanel()}
                       </div>
-                    </>
-                  )}
+                    </div>
+                  </>
+                )}
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                     <h5
@@ -2422,8 +2449,8 @@ class Payment extends React.Component {
                 )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${paymentMethodPanelStatus.isEdit
-                    ? 'border-333'
-                    : 'border-transparent'
+                      ? 'border-333'
+                      : 'border-transparent'
                     }`}
                   id="J_checkout_panel_paymentMethod"
                 >
@@ -2454,21 +2481,21 @@ class Payment extends React.Component {
                     />
                   </>
                 ) : (
-                    <PayProductInfo
-                      data={recommend_data}
-                      fixToHeader={false}
-                      style={{ background: '#fff' }}
-                      ref="payProductInfo"
-                      location={location}
-                      history={history}
-                      frequencyName={subForm.frequencyName}
-                      buyWay={subForm.buyWay}
-                      sendPromotionCode={this.savePromotionCode}
-                      promotionCode={promotionCode}
-                      operateBtnVisible={!tid}
-                      currentPage="checkout"
-                    />
-                  )}
+                  <PayProductInfo
+                    data={recommend_data}
+                    fixToHeader={false}
+                    style={{ background: '#fff' }}
+                    ref="payProductInfo"
+                    location={location}
+                    history={history}
+                    frequencyName={subForm.frequencyName}
+                    buyWay={subForm.buyWay}
+                    sendPromotionCode={this.savePromotionCode}
+                    promotionCode={promotionCode}
+                    operateBtnVisible={!tid}
+                    currentPage="checkout"
+                  />
+                )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
                 {process.env.REACT_APP_LANG == 'en' ? <US_Faq /> : null}
               </div>
