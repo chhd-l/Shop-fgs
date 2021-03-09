@@ -274,7 +274,7 @@ function BottomInfo() {
                                                 </a>
                                             </font>
                                         </b>
-                                        <p>
+                                        <p style={{marginBottom:"2rem"}}>
                                             <span
                                                 style={{ color:"#828282",fontSize:'12px' }}
                                             >
