@@ -62,7 +62,6 @@ class LogoutButtonPack extends React.Component {
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
           callbackUrl="/okta-logout-page"
         />
-        {loginStore.loginModal || this.state.loadingShow ? <Loading /> : null}
       </>
     );
   }
