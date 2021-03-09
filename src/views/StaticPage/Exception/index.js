@@ -1,4 +1,5 @@
 import React from 'react';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -215,14 +216,15 @@ class Exception extends React.Component {
                   <div className="rc-padding-y--md rc-md-down"></div>
                 </div>
               </div>
-              <Link
+              <DistributeHubLinkOrATag
+                href=""
                 to="/home"
                 className="rc-btn rc-btn--two"
                 role="button"
                 aria-pressed="true"
               >
                 <FormattedMessage id="continueShopping" />
-              </Link>
+              </DistributeHubLinkOrATag>
             </div>
           </div>
         </div>

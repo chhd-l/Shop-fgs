@@ -1,5 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
@@ -97,7 +98,8 @@ function ListItemH5ForGlobalStyle(props) {
                     }}
                   />
                 </div>
-                <Link
+                <DistributeHubLinkOrATag
+                  href="/product-finder"
                   to="/product-finder"
                 >
                   <button
@@ -106,7 +108,7 @@ function ListItemH5ForGlobalStyle(props) {
                   >
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
                   </button>
-                </Link>
+                </DistributeHubLinkOrATag>
                 <picture className="rc-card__image">
                   <div className="rc-padding-bottom--xs justify-content-center ">
                     <div
@@ -254,7 +256,8 @@ function ListItemForDefault(props) {
                   />
                 </div>
                 <div style={{ margin: '0 auto' }}>
-                  <Link
+                  <DistributeHubLinkOrATag
+                    href="/product-finder"
                     to="/product-finder"
                   >
                     <button
@@ -263,7 +266,7 @@ function ListItemForDefault(props) {
                     >
                       <FormattedMessage id="plp.retail.cat.product.finder.button" />
                     </button>
-                  </Link>
+                  </DistributeHubLinkOrATag>
                 </div>
               </div>
               <picture className="rc-card__image">
@@ -598,11 +601,12 @@ function ProductFinderAd({
                 <p>
                   <FormattedMessage id="productFinder.recoDesc" />
                 </p>
-                <Link
+                <DistributeHubLinkOrATag
                   to="/product-finder"
+                  href="/product-finder"
                   className="rc-btn rc-btn--two">
                   <FormattedMessage id="productFinder.index" />
-                </Link>
+                </DistributeHubLinkOrATag>
               </div>
             </div>
           )}
@@ -1253,8 +1257,7 @@ class List extends React.Component {
     const vetFilterList = filterList.filter(
       (item) =>
         item.attributeName !== 'breeds' &&
-        item.attributeName !== 'Sterilized' &&
-        item.attributeName !== 'Specific needs'
+        item.attributeName !== 'Sterilized'
     );
     // 非isVetProducts 过滤掉'Size'
     const sptFilterList = filterList.filter(
@@ -1965,12 +1968,13 @@ class List extends React.Component {
           <BannerTip />
           <BreadCrumbsNavigation list={breadListByDeco.filter((b) => b)} />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <Link
+            <DistributeHubLinkOrATag
+              href=""
               to="/home"
               className="back-link"
             >
               <FormattedMessage id="homePage" />
-            </Link>
+            </DistributeHubLinkOrATag>
           </div>
           {titleData ? (
             <div className="rc-max-width--lg rc-padding-x--sm">

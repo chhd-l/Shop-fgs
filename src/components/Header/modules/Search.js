@@ -61,7 +61,7 @@ export default class Search extends React.Component {
         propDetails: [],
         pageNum: 0,
         brandIds: [],
-        pageSize: 20,
+        pageSize: isHub ? 10 : 20,
         esGoodsInfoDTOList: [],
         companyType: ''
       }),

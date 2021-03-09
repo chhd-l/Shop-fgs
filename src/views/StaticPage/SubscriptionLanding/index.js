@@ -1,5 +1,6 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
@@ -297,12 +298,13 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <Link
+                            <DistributeHubLinkOrATag
+                              href="/product-finder"
                               to="/product-finder"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="header.toBegin" />
-                            </Link>
+                            </DistributeHubLinkOrATag>
                             {/* <Link className="rc-btn rc-btn--sm rc-btn--two"
                                to="/cats"><FormattedMessage id="account.cat" /></Link>
                             <Link className="rc-btn rc-btn--sm rc-btn--two"

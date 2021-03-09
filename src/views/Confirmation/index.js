@@ -1,5 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
@@ -24,7 +25,6 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA;
-
 @inject('checkoutStore', 'frequencyStore', 'loginStore')
 @observer
 class Confirmation extends React.Component {
@@ -86,18 +86,6 @@ class Confirmation extends React.Component {
       this.setState({ seoConfig: res });
     });
     const { subOrderNumberList } = this.state;
-    let productList;
-    if (this.state.paywithLogin) {
-      productList = this.props.checkoutStore.loginCartData;
-    } else {
-      productList = this.props.checkoutStore.cartData.filter(
-        (ele) => ele.selected
-      );
-    }
-    this.setState({
-      productList: productList
-      // loading: false
-    });
     setTimeout(() => {
       if (this.state.oxxoPayUrl) {
         this.setState({ modalShow: false, oxxoModalShow: true });
@@ -146,7 +134,7 @@ class Confirmation extends React.Component {
       .catch((err) => {
         this.setState({
           loading: false,
-          errorMsg2: err.message.toString()
+          errorMsg2: err.message
         });
       });
   }
@@ -168,25 +156,27 @@ class Confirmation extends React.Component {
         <div style={{ padding: '0 20px 0 10px' }}>
           <FormattedMessage id="or" />
         </div>
-        <Link
+        <DistributeHubLinkOrATag
+          href=""
           to="/home"
           className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis"
         >
           <FormattedMessage id="continueShopping" />
-        </Link>
+        </DistributeHubLinkOrATag>
       </>
     );
     return (
       {
         oneShoot: (
           <>
-            <Link
+            <DistributeHubLinkOrATag
+              href=""
               to="/home"
               className="rc-btn rc-btn--one"
               style={{ transform: 'scale(.85)' }}
             >
               <FormattedMessage id="confirmation.oneShoot" />
-            </Link>
+            </DistributeHubLinkOrATag>
           </>
         )
       }[buyWay] || defaultJSX
@@ -403,12 +393,13 @@ class Confirmation extends React.Component {
                       &nbsp;
                       <FormattedMessage id="or" />
                       &nbsp;
-                      <Link
+                      <DistributeHubLinkOrATag
+                        href=""
                         to="/home"
                         className="rc-meta rc-styled-link backtohome mb-0"
                       >
                         <FormattedMessage id="continueShopping" />
-                      </Link>
+                      </DistributeHubLinkOrATag>
                     </>
                   ) : (
                     this.AdyenBtnJSX(
