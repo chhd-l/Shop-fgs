@@ -549,6 +549,10 @@ class ClubLandingPage extends React.Component {
                     </div>
                   </div>
                 </div>
+                <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                  <button className="rc-btn rc-btn--one">Get started</button>
+                </h4>
+
               </div>
             </div>
           </section>
@@ -603,6 +607,7 @@ class ClubLandingPage extends React.Component {
           <Divider />
           <HowItWorks/>
           <JoinToday/>
+          <br/>
           <CommentCarousel/>
           <HelpComponents/>
         </main>
