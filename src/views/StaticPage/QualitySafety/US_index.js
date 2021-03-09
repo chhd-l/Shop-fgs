@@ -305,6 +305,7 @@ class QualitySafety extends React.Component {
                       className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
                       <h2><FormattedMessage id="qualitySafety.FoodQualityandSafety" /></h2>
                       <p><FormattedMessage id="qualitySafety.foodQualityDetail" /></p>
+                      <p><br/><br/></p>
                     </div>
                   </div>
                 </div>
