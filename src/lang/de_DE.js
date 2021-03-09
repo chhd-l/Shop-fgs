@@ -374,8 +374,6 @@ const de_DE = {
   'header.toBegin': 'Auswählen',
   'header.toLearnMore': 'Um mehr zu lernen',
   'header.toOrder': 'Jetzt kaufen',
-  'header.VCN': 'VCN',
-  'header.VD': 'VD',
   healthAndNutrition: 'Gesundheit durch Ernährung',
   help: 'Hilfe',
   'help.byEmail': 'Online-Kontaktaufnahme',

@@ -336,8 +336,6 @@ const ru_RU = {
   'header.User.registerNow': 'регистр',
   'header.User.royalCaninPartner': 'Royal Canin partner?',
   'header.User.vetPortal': 'Vet portal',
-  'header.VCN': 'VCN',
-  'header.VD': 'VD',
   healthAndWellbeing: 'Здоровье и питание',
   help: 'Помогите',
   'help.byEmail': 'По электронной почте',
