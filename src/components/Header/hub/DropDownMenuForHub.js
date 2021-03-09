@@ -20,11 +20,13 @@ export default class DropDownMenuForHub extends React.Component {
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.toggleListItem = this.toggleListItem.bind(this);
   }
+  // flag - 1-打开状态 0-关闭状态
   toggleListItem(item) {
     this.flag = 1;
     // 如果可以打开，就打开，否则不打开
     let tmpId = -1;
     const { activeTopParentId } = this.props;
+    // 如果有下拉，且没有展开，且关闭状态，则打开下拉
     if (item.expanded && activeTopParentId === -1 && this.flag) {
       tmpId = item.id;
     }
@@ -37,7 +39,7 @@ export default class DropDownMenuForHub extends React.Component {
       if (!this.flag) {
         this.props.updateActiveTopParentId(-1);
       }
-    }, 200);
+    });
   };
   hanldeListItemMouseOver(item) {
     // 若存在子项，才展开
@@ -133,7 +135,7 @@ export default class DropDownMenuForHub extends React.Component {
             {cItem.Type === 'DetailedMenuItem' && (
               <div
                 className={`d-flex align-items-center dropdown-nav__catogery__card pr-4 pl-4 ${
-                  cIdx === item.MenuItems.length ? '' : 'border-right'
+                  cIdx ? '' : 'border-right'
                 }`}
               >
                 <div className="mr-4 text-center">
@@ -175,6 +177,7 @@ export default class DropDownMenuForHub extends React.Component {
                 item={item}
                 cItem={cItem}
                 handleClickNavItem={this.handleClickNavItem}
+                className="mt-3 flex-grow-1"
               />
             )}
           </React.Fragment>

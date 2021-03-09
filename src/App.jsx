@@ -100,6 +100,7 @@ import TR_GeneralConditions from '@/views/StaticPage/GeneralConditions/TR_index.
 import generalConditions from '@/views/StaticPage/GeneralConditions';
 import Tailorednutrition from '@/views/StaticPage/Tailorednutrition/index';
 import US_Tailorednutrition from '@/views/StaticPage/Tailorednutrition/US_index';
+import OnlineStore from '@/views/StaticPage/OnlineStore/index';
 import QualitySafety from '@/views/StaticPage/QualitySafety/index';
 import US_QualitySafety from '@/views/StaticPage/QualitySafety/US_index';
 import SearchShow from '@/views/StaticPage/SearchShow/index';
@@ -498,6 +499,7 @@ const App = () => (
                     : Tailorednutrition
                 }
               />
+              <Route exact path="/retail-products" component={OnlineStore} />
               <Route
                 path="/Quality-safety"
                 exact
