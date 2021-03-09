@@ -1,4 +1,5 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
@@ -24,7 +25,8 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA;
-
+@inject('loginStore')
+@observer
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
