@@ -144,6 +144,7 @@ const breadcrumbNameMap = {
   '/kitten-nutrition': [{name: 'Nutrition chatons'}],
   '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show': [{name: 'Search Results'}],
   '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show': [{name: 'Search Results'}],
+  '/retail-products': [{name: 'Royal Canin Online Store'}],
 };
 
 export default breadcrumbNameMap;
