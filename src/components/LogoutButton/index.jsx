@@ -27,21 +27,21 @@ const LogoutButton = (props) => {
   const logout = async () => {
     try {
       const idToken = authState.idToken;
-      console.log(idToken, 'idToken')
-      // if (idToken) {
-      //   const redirectUri =
-      //     window.location.origin + process.env.REACT_APP_HOMEPAGE;
-      //   // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
-      //   window.location.href = `${
-      //     process.env.REACT_APP_ISSUER
-      //   }/v1/logout?id_token_hint=${
-      //     idToken ? idToken.value : ''
-      //   }&post_logout_redirect_uri=${redirectUri}`;
-      //   await oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
-      // } else {
-      //   loginStore.changeLoginModal(false);
-      //   window.location.reload();
-      // }
+      console.log(idToken, authState, 'idToken')
+      if (idToken) {
+        const redirectUri =
+          window.location.origin + process.env.REACT_APP_HOMEPAGE;
+        // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
+        window.location.href = `${
+          process.env.REACT_APP_ISSUER
+        }/v1/logout?id_token_hint=${
+          idToken ? idToken.value : ''
+        }&post_logout_redirect_uri=${redirectUri}`;
+        await oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+      } else {
+        loginStore.changeLoginModal(false);
+        window.location.reload();
+      }
 
       setTimeout(() => {
         loginStore.changeLoginModal(false);
