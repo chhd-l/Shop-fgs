@@ -6,13 +6,14 @@ import dateIcon from '@/assets/images/date.png';
 import { getFormatDate, datePickerConfig } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
-import DatePicker from 'react-datepicker';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.less';
 import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
+import { loadJS } from '@/utils/utils';
+import { format } from 'date-fns';
 
 function Divider() {
   return (
@@ -39,11 +40,11 @@ function scrollIntoView(element) {
   const headerElement = document.querySelector(`.Felin`);
   if (element && headerElement) {
     // console.log(getElementTop(element) headerElement.offsetHeight)
-    let headerHeight = 93
-    if(getElementTop(element) > document.documentElement.scrollTop) {
-      headerHeight = 93
-    }else {
-      headerHeight = 159
+    let headerHeight = 93;
+    if (getElementTop(element) > document.documentElement.scrollTop) {
+      headerHeight = 93;
+    } else {
+      headerHeight = 159;
     }
     window.scroll({
       top: getElementTop(element) - headerHeight - 60,
@@ -97,14 +98,59 @@ export default class Felin extends React.Component {
   }
   componentDidMount() {
     window.addEventListener('scroll', (e) => {
-      if(document.querySelector('.rc-header--scrolled')) {
-        this.setState({topVal: '93px'})
-      }else {
-        this.setState({topVal: '159px'})
+      if (document.querySelector('.rc-header--scrolled')) {
+        this.setState({ topVal: '93px' });
+      } else {
+        this.setState({ topVal: '159px' });
       }
       // let topVal = document.documentElement.scrollTop
       // document.querySelector('.tabs').style.top = topVal + 'px'
     });
+    setTimeout(() => {
+      var picker = new Pikaday({
+        field: document.getElementById('datepicker'),
+        minDate: new Date(),
+        disableDayFn: (date) => {
+          return new Date(date).getDay() === 1;
+        },
+        format: 'DD/MM/YYYY',
+        toString(date, format) {
+          let day = date.getDate();
+          let month = date.getMonth() + 1;
+          const year = date.getFullYear();
+          if(day < 10) {
+            day =  '0' + day
+          }
+          if(month < 10) {
+            month = '0' + month
+          }
+          return `${day}/${month}/${year}`;
+        },
+        parse(dateString, format) {
+            const parts = dateString.split('/');
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            const year = parseInt(parts[2], 10);
+            return new Date(year, month, day);
+        }
+      });
+    }, 3000);
+
+    // setTimeout(() => {
+    //   const datePickerOptions = {
+    //     i18n: {
+    //       previousMonth: 'Poprzedni miesiąc',
+    //       nextMonth: 'Następny miesiąc',
+    //       months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+    //       weekdays: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwaretk', 'Piątek', 'Sobota'],
+    //       weekdaysShort: ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb']
+    //     },
+    //     disableWeekends: true,
+    //     minDate: new Date()
+    //   };
+    //   console.log(window.RCDL.features.Datepickers)
+    //   window.RCDL.features.Datepickers.init('.rc-input__date.rc-js-custom', null,datePickerOptions);
+    // }, 3000)
   }
   handleInputChange = (e) => {
     const target = e.target;
@@ -204,10 +250,26 @@ export default class Felin extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <div className="rc-bg-colour--brand3 pt-4 pb-4" style={{position: 'relative'}}>
-            <div className="d-flex justify-content-center tabs" style={{position: 'fixed', top: this.state.topVal, width: '100%', height: '60px', paddingTop: '24px', background: '#fff', zIndex: '10'}}>
+          <div
+            className="rc-bg-colour--brand3 pt-4 pb-4"
+            style={{ position: 'relative' }}
+          >
+            <div
+              className="d-flex justify-content-center tabs"
+              style={{
+                position: 'fixed',
+                top: this.state.topVal,
+                width: '100%',
+                height: '60px',
+                paddingTop: '24px',
+                background: '#fff',
+                zIndex: '10'
+              }}
+            >
               <span
-                className={`ui-cursor-pointer ${currentTabIndex === 0? 'active': ''}`}
+                className={`ui-cursor-pointer ${
+                  currentTabIndex === 0 ? 'active' : ''
+                }`}
                 onClick={() => {
                   this.setState(
                     { isContactUs: false, currentTabIndex: 0 },
@@ -220,7 +282,9 @@ export default class Felin extends React.Component {
                 En savoir plus
               </span>
               <span
-                className={`ui-cursor-pointer ${currentTabIndex === 1? 'active': ''}`}
+                className={`ui-cursor-pointer ${
+                  currentTabIndex === 1 ? 'active' : ''
+                }`}
                 onClick={() => {
                   this.setState(
                     { isContactUs: false, currentTabIndex: 1 },
@@ -234,7 +298,9 @@ export default class Felin extends React.Component {
               </span>
               {/* <Link to="/help/contact"> */}
               <span
-                className={`ui-cursor-pointer ${currentTabIndex === 2? 'active': ''}`}
+                className={`ui-cursor-pointer ${
+                  currentTabIndex === 2 ? 'active' : ''
+                }`}
                 style={{ color: '#666' }}
                 onClick={() => {
                   this.setState({ isContactUs: true, currentTabIndex: 2 });
@@ -293,7 +359,8 @@ export default class Felin extends React.Component {
                       Venez rencontrer nos comportementalistes félins
                     </button>
                     <p className="mt-3">
-                      L'Atelier Félin est ouvert uniquement du 20 avril au 13 juin 2021
+                      L'Atelier Félin est ouvert uniquement du 20 avril au 13
+                      juin 2021
                     </p>
                   </h1>
                 </div>
@@ -313,14 +380,21 @@ export default class Felin extends React.Component {
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
-                          Vous vivez en appartement avec votre chat ? Venez recontrer nos experts
+                          Vous vivez en appartement avec votre chat ? Venez
+                          recontrer nos experts
                         </h3>
                       </div>
                       <p className="mb-20">
-                        L’Atelier Félin est fait pour vous : venez rencontrer des experts, posez-leur vos questions sur le comportement de votre chat, ses habitudes, ses soins et la nourriture la plus appropriée à ses besoins…
+                        L’Atelier Félin est fait pour vous : venez rencontrer
+                        des experts, posez-leur vos questions sur le
+                        comportement de votre chat, ses habitudes, ses soins et
+                        la nourriture la plus appropriée à ses besoins…
                       </p>
                       <p className="mb-20">
-                        Des comportementalistes félins et vétérinaires vous accueillent pour établir le profil de votre chat et vous apporter  des conseils personnalisés et spécifiques à la vie en appartement.
+                        Des comportementalistes félins et vétérinaires vous
+                        accueillent pour établir le profil de votre chat et vous
+                        apporter des conseils personnalisés et spécifiques à la
+                        vie en appartement.
                       </p>
                       <button
                         className="rc-btn rc-btn--two"
@@ -359,14 +433,19 @@ export default class Felin extends React.Component {
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
-                          Obtenez une recommandation personnalisée pour son alimentation
+                          Obtenez une recommandation personnalisée pour son
+                          alimentation
                         </h3>
                       </div>
                       <p className="mb-20">
-                        Chaque chat est unique et a des besoins spécifiques selon sa race, son âge, ses sensibilités et son mode de vie.
+                        Chaque chat est unique et a des besoins spécifiques
+                        selon sa race, son âge, ses sensibilités et son mode de
+                        vie.
                       </p>
                       <p className="mb-20">
-                        En définissant les besoins nutritionnels de votre chat, nous déterminerons ensemble l'aliment qui lui conviendra le mieux.
+                        En définissant les besoins nutritionnels de votre chat,
+                        nous déterminerons ensemble l'aliment qui lui conviendra
+                        le mieux.
                       </p>
                       <button
                         className="rc-btn rc-btn--two"
@@ -387,11 +466,18 @@ export default class Felin extends React.Component {
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
-                          Faites l’expérience de notre nouveau service de distribution de croquettes personnalisé et plus durable
+                          Faites l’expérience de notre nouveau service de
+                          distribution de croquettes personnalisé et plus
+                          durable
                         </h3>
                       </div>
                       <p className="mb-20">
-                        Toutes nos croquettes sont distribuées à la demande et servies dans un contenant réutilisable et consigné. Lorsque votre contenant est vide, vous pouvez le recharger en boutique, ou vous faire livrer une nouvelle dose. Notre livreur repartira avec le contenant vide qui sera reconditionné pour un nouvel usage. 
+                        Toutes nos croquettes sont distribuées à la demande et
+                        servies dans un contenant réutilisable et consigné.
+                        Lorsque votre contenant est vide, vous pouvez le
+                        recharger en boutique, ou vous faire livrer une nouvelle
+                        dose. Notre livreur repartira avec le contenant vide qui
+                        sera reconditionné pour un nouvel usage.
                       </p>
                       <button
                         className="rc-btn rc-btn--two"
@@ -435,13 +521,16 @@ export default class Felin extends React.Component {
                         <h3>Découvrez l’Atelier Félin</h3>
                       </div>
                       <p className="mb-20">
-                        L’Atelier Félin est un lieu unique de Royal Canin, spécialiste de la santé animale et de la nutrition.
+                        L’Atelier Félin est un lieu unique de Royal Canin,
+                        spécialiste de la santé animale et de la nutrition.
                       </p>
                       <p className="mb-20">
-                        Nous vous accueillons au coeur du marais, au 6 Rue des Coutures Saint-Gervais, du 20 avril au 12 juin 2021.
+                        Nous vous accueillons au coeur du marais, au 6 Rue des
+                        Coutures Saint-Gervais, du 20 avril au 12 juin 2021.
                       </p>
                       <p className="mb-20">
-                        Venez rencontrer nos associations partenaires pour adopter des chats (le weekend exclusivement).
+                        Venez rencontrer nos associations partenaires pour
+                        adopter des chats (le weekend exclusivement).
                       </p>
                     </div>
                   </h1>
@@ -474,7 +563,7 @@ export default class Felin extends React.Component {
                           <p style={{ fontWeight: '500' }}>
                             Choisissez un rendez-vous
                           </p>
-                          <div style={{ borderBottom: '2px solid #' }}>
+                          <div style={{ borderBottom: '1px solid #eee' }}>
                             <h1
                               className="rc-card__meta order-Id"
                               style={{
@@ -483,7 +572,14 @@ export default class Felin extends React.Component {
                                 width: '283px'
                               }}
                             >
-                              <DatePicker
+                              <input
+                                type="text"
+                                autocomplete="off"
+                                id="datepicker"
+                                placeholder="Select Date"
+                                style={{width: '100%', border: 'none'}}
+                              ></input>
+                              {/* <DatePicker
                                 className="receiveDate"
                                 placeholder="Select Date"
                                 dateFormat={datePickerConfig.format}
@@ -499,7 +595,7 @@ export default class Felin extends React.Component {
                                     }
                                   );
                                 }}
-                              />
+                              /> */}
                             </h1>
                             <span class="icon iconfont iconfont-date">
                               &#xe6b3;
@@ -786,8 +882,8 @@ export default class Felin extends React.Component {
                         <p style={{ textAlign: 'center' }}>
                           L'Atelier Félin est ouvert du 20 avril au 12 juin
                           2021, tous les jours de 10h à 20h. Fermé le lundi.
-                          Toutes les réservations, abonnements et données
-                          seront annulés après cette date.
+                          Toutes les réservations, abonnements et données seront
+                          annulés après cette date.
                         </p>
                       ) : null}
                       {this.state.step === 5 ? (
