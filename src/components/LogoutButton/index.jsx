@@ -58,7 +58,7 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('rc-consent-list');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
-      await logout(process.env.REACT_APP_HOMEPAGE);
+      await logout(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       console.log(err);
       loginStore.changeLoginModal(false);
