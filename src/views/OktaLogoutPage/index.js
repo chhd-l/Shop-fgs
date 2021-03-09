@@ -57,12 +57,12 @@ class OktaLogoutPage extends React.Component {
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
           history={history}
         /> */}
-        {withOktaAuth(<LogoutButton
+        <LogoutButton
           buttonRef={this.LogoutButton}
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
           history={history}
           callbackUrl="/okta-logout-page"
-        />)}
+        />
         {loginStore.loginModal || this.state.loadingShow ? <Loading /> : null}
       </>
     );
