@@ -400,7 +400,7 @@ class AddressList extends React.Component {
     // 地址验证
     this.setState({
       validationModalVisible: true,
-      validationLoading: true
+      saveLoading: true
     });
   };
   // 选择地址

@@ -78,6 +78,51 @@ class SearchSelection extends React.Component {
     } catch (error) {
       console.log(error);
     }
+    if (this.props.freeText) {
+      const target = e.target;
+      const { form } = this.state;
+      try {
+        setTimeout(() => {
+          // 可以输入，也可以选择
+          if (this.otherValue && this.otherValue != '') {
+            form.value = this.otherValue;
+            setTimeout(() => {
+              this.otherValue = '';
+            }, 500);
+          } else {
+            form.value = target.value;
+          }
+
+          let citem = {
+            cityName: form.value,
+            cityNo: null,
+            countryName: null,
+            createTime: null,
+            delFlag: 0,
+            delTime: null,
+            id: form.value,
+            name: form.value,
+            osmId: null,
+            postCode: null,
+            sip: null,
+            stateId: null,
+            stateName: null,
+            storeId: process.env.REACT_APP_STOREID,
+            systemCityPostCodes: null,
+            updateTime: null
+          }
+
+          this.setState({
+            form: form,
+            optionPanelVisible: false,
+          }, () => {
+            this.props.selectedItemChange(citem);
+          });
+        }, 500);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
   handleInputFocus = (e) => {
     const tmpVal = this.state.form.value;
@@ -95,6 +140,7 @@ class SearchSelection extends React.Component {
     }
   };
   handleInputBlur = (e) => {
+    console.log(e, 'eee')
     if (this.props.freeText) {
       const target = e.target;
       const { form } = this.state;
