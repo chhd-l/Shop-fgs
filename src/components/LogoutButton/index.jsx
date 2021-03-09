@@ -36,7 +36,7 @@ const LogoutButton = (props) => {
         }/v1/logout?id_token_hint=${
           idToken ? idToken.value : ''
         }&post_logout_redirect_uri=${redirectUri}`;
-        await oktaAuth.signOut(process.env.REACT_APP_HOMEPAGE);
+        await oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
       } else {
         loginStore.changeLoginModal(false);
         window.location.reload();
@@ -58,6 +58,7 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('rc-consent-list');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
+      // await logout(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
       await logout(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       console.log(err);

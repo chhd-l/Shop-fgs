@@ -41,14 +41,18 @@ class OktaLoginPage extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    console.log(sessionItemRoyal.get("okta-redirectUrl-hub"), 'sessionItemRoyal.get("okta-redirectUrl-hub")')
+
     if(this.isLogin) {
       if(sessionItemRoyal.get("okta-redirectUrl-hub")) {
-        window.location.href = sessionItemRoyal.get("okta-redirectUrl-hub")
+        let href = sessionItemRoyal.get('okta-redirectUrl-hub')
+        sessionItemRoyal.remove('okta-redirectUrl-hub')
+        window.location.href = href
       }else {
         this.props.history.push('/')
       }
     }else {
-      this.LoginButton.current.click()
+      this.LogoutButton.current && this.LoginButton.current.click()
     }
   }
 
@@ -63,6 +67,7 @@ class OktaLoginPage extends React.Component {
           buttonRef={this.LoginButton}
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
           history={history}
+          callbackUrl="/okta-login-page"
         />
         {loginStore.loginModal || this.state.loadingShow ? <Loading /> : null}
       </>

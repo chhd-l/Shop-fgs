@@ -1,5 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
@@ -303,6 +304,13 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    let scrolledDom = document.querySelector('.rc-header--scrolled')
+    if(scrolledDom) {
+      document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'none'
+    }else {
+      document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'block'
+    }
+
     let baseEl = document.querySelector('#J_sidecart_container');
     if (!baseEl) {
       return false;
@@ -543,10 +551,10 @@ class Header extends React.Component {
               ) : null}
             </ul>
 
-            <Link to="/home" className="header__nav__brand logo-home">
+            <DistributeHubLinkOrATag href="" to="/home" className="header__nav__brand logo-home">
               <span className="rc-screen-reader-text" />
               <Logo />
-            </Link>
+            </DistributeHubLinkOrATag>
             <ul
               className={`rc-list rc-list--blank rc-list--align rc-header__right ${
                 this.props.showLoginBtn ? 'rc-list--inline' : 'rc-hidden'

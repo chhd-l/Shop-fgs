@@ -138,7 +138,7 @@ const LoginButton = (props) => {
         props.history && props.history.location.pathname
       );
       props.beforeLoginCallback && (await props.beforeLoginCallback());
-      oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      oktaAuth.signInWithRedirect(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       //debugger
       console.log(err);
