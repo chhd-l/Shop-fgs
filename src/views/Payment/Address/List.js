@@ -82,9 +82,7 @@ class AddressList extends React.Component {
     return this.props.type === 'delivery';
   }
   get panelStatus() {
-    const tmpKey = this.isDeliverAddress
-      ? 'deliveryAddrPanelStatus'
-      : 'billingAddrPanelStatus';
+    const tmpKey = this.isDeliverAddress ? 'deliveryAddrPanelStatus' : 'billingAddrPanelStatus';
     return this.props.paymentStore[tmpKey];
   }
   get curPanelKey() {
@@ -378,12 +376,16 @@ class AddressList extends React.Component {
         addOrEdit: false,
         saveLoading: false
       });
+      this.clickConfirmAddressPanel();
     } catch (err) {
       this.setState({
         saveLoading: false,
         addOrEdit: true
       });
-      throw new Error(err.message);
+      if(err?.message){
+        this.props.catchErrorMessage(err.message);
+      }
+      // throw new Error(err.message);
     }
   }
   /**
@@ -429,7 +431,7 @@ class AddressList extends React.Component {
     });
     // 不校验地址，进入下一步
     await this.handleSavePromise();
-    this.clickConfirmAddressPanel();
+    // this.clickConfirmAddressPanel();
   }
   // 点击地址验证确认按钮
   confirmValidationAddress = () => {
