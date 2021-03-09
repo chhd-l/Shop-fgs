@@ -56,7 +56,6 @@ class UnLoginCart extends React.Component {
     this.state = {
       promotionCode: '',
       mobileCartVisibleKey: 'less',
-      errorShow: false,
       errorMsg: '',
       productList: [],
       currentProductIdx: -1,
@@ -218,9 +217,6 @@ class UnLoginCart extends React.Component {
   }
   setCartData() {
     !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
-    console.log('productListproductList', productList);
-    debugger;
-    // todo
     let productList = this.props.checkoutStore.cartData.map((el) => {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
@@ -240,13 +236,12 @@ class UnLoginCart extends React.Component {
   }
   showErrMsg(msg) {
     this.setState({
-      errorShow: true,
       errorMsg: msg
     });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
-        errorShow: false
+        errorMsg: ''
       });
     }, 3000);
   }
@@ -382,16 +377,13 @@ class UnLoginCart extends React.Component {
       }
     } catch (e) {
       console.log(e);
-      this.setState({
-        errorShow: true,
-        errorMsg: e.message
-      });
+      this.showErrMsg(e.message);
     } finally {
       this.setState({ checkoutLoading: false });
     }
   }
   handleAmountChange(e, item) {
-    this.setState({ errorShow: false });
+    this.setState({ errorMsg: '' });
     const val = e.target.value;
     if (val === '') {
       item.quantity = val;
@@ -403,27 +395,11 @@ class UnLoginCart extends React.Component {
       let tmp = parseFloat(val);
       if (isNaN(tmp)) {
         tmp = 1;
-        this.setState({
-          errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo" />
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          });
-        }, 2000);
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
       }
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
-        this.setState({
-          errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo" />
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          });
-        }, 2000);
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
       }
       if (tmp > process.env.REACT_APP_LIMITED_NUM) {
         tmp = process.env.REACT_APP_LIMITED_NUM;
@@ -440,7 +416,7 @@ class UnLoginCart extends React.Component {
     }
   }
   addQuantity(item) {
-    this.setState({ errorShow: false });
+    this.setState({ errorMsg: '' });
     if (item.quantity < process.env.REACT_APP_LIMITED_NUM) {
       item.quantity++;
       this.setState(
@@ -461,7 +437,7 @@ class UnLoginCart extends React.Component {
     }
   }
   subQuantity(item) {
-    this.setState({ errorShow: false });
+    this.setState({ errorMsg: '' });
     if (item.quantity > 1) {
       item.quantity--;
       this.setState(
@@ -473,15 +449,7 @@ class UnLoginCart extends React.Component {
         }
       );
     } else {
-      this.setState({
-        errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo" />
-      });
-      setTimeout(() => {
-        this.setState({
-          errorShow: false
-        });
-      }, 2000);
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
     }
   }
   //GA 移除购物车商品 埋点
@@ -1711,7 +1679,7 @@ class UnLoginCart extends React.Component {
     );
   }
   async changeFrequencyType(pitem) {
-    this.setState({ errorShow: false });
+    this.setState({ errorMsg: '' });
     // await this.handleRemovePromotionCode();
     this.props.checkoutStore.removePromotionCode();
     this.setState(
@@ -1811,7 +1779,7 @@ class UnLoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const { productList } = this.state;
+    const { productList, errorMsg } = this.state;
 
     const List = this.getProducts(this.state.productList);
 
@@ -1860,19 +1828,16 @@ class UnLoginCart extends React.Component {
                 </div>
                 <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                   <div className="rc-column rc-double-width pt-0">
-                    <div
-                      className="rc-padding-bottom--xs cart-error-messaging cart-error"
-                      style={{
-                        display: this.state.errorShow ? 'block' : 'none'
-                      }}
-                    >
-                      <aside
-                        className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                        role="alert"
-                      >
-                        <span className="pl-0">{this.state.errorMsg}</span>
-                      </aside>
-                    </div>
+                    {errorMsg ? (
+                      <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
+                        <aside
+                          className="rc-alert rc-alert--error rc-alert--with-close text-break"
+                          role="alert"
+                        >
+                          <span className="pl-0">{errorMsg}</span>
+                        </aside>
+                      </div>
+                    ) : null}
                     <div className="rc-padding-bottom--xs">
                       <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                         <FormattedMessage id="cart.yourShoppingCart" />
