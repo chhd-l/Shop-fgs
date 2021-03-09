@@ -178,8 +178,8 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
       breed, //All animal breeds associated with the product in an array
 
 
-      promoCodeName:promotionInfo[index]?.promoCodeName||"", //Promo code name, only if promo activated
-      promoCodeAmount: promotionInfo[index]?.promoCodeAmount||"" //Promo code amount, only if promo activated
+      promoCodeName:promotionInfo?.promotionInfo[index]?.promoCodeName||"", //Promo code name, only if promo activated
+      promoCodeAmount: promotionInfo?.promotionInfo[index]?.promoCodeAmount||"" //Promo code amount, only if promo activated
     })
 
     arr.push(obj);
