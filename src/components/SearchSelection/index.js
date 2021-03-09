@@ -64,6 +64,7 @@ class SearchSelection extends React.Component {
     this.props.selectedItemChange(citem);
   }
   handleInputChange = (e) => {
+    console.log(e,'111')
     e.nativeEvent.stopImmediatePropagation();
     const target = e.target;
     const { form } = this.state;
@@ -290,7 +291,7 @@ class SearchSelection extends React.Component {
             // onKeyUp={(e) => throttle(this.handleInputChange(e), 2000)}
             onChange={(e) => this.handleInputChange(e)}
             onFocus={this.handleInputFocus}
-            // onBlur={this.handleInputBlur}
+            onBlur={this.handleInputBlur}
             ref={this.searchText}
           />
           {this.props.customStyle && <label className="rc-input__label" />}
