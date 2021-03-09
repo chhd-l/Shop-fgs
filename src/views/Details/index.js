@@ -2695,6 +2695,7 @@ class Details extends React.Component {
                     >
                       <div
                         className="rc-list__header d-flex justify-content-between"
+                        style={{textTransform: 'uppercase'}}
                         onClick={this.changeTab.bind(this, {
                           idx: index,
                           type: 'toggle',
