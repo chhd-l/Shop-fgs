@@ -256,7 +256,7 @@ function BottomInfo() {
                     <article className="rc-full-width rc-column">
                         <div className="rc-border-all rc-border-colour--interface fullHeight">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                <div className="rc-column rc-double-width rc-padding-top--md--mobile" style={{marginTop:"-28px"}}>
+                                <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                     <div className="w-100">
                                         <b>
                                             <font
@@ -274,7 +274,7 @@ function BottomInfo() {
                                                 </a>
                                             </font>
                                         </b>
-                                        <p>
+                                        <p style={{marginBottom:"2rem"}}>
                                             <span
                                                 style={{ color:"#828282",fontSize:'12px' }}
                                             >
