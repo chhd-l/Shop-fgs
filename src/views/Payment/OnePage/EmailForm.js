@@ -137,7 +137,7 @@ class EmailForm extends React.Component {
                 onClick={this.handleClickConfirm}
                 disabled={!isValid}
               >
-                <FormattedMessage id="clinic.confirm" />
+                <FormattedMessage id="clinic.confirm2" />
               </button>
             </div>
           </div>

@@ -310,7 +310,7 @@ class PersonalDataEditForm extends React.Component {
           stateNo: c.stateNo
         };
       });
-      tmp.unshift({ value: '', name: 'state' });
+      tmp.unshift({ value: '', name: 'State' });
     } else {
       tmp = this.state[`${key}List`].map((c) => {
         return {
