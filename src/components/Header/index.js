@@ -308,7 +308,7 @@ class Header extends React.Component {
     if(scrolledDom) {
       document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'none'
     }else {
-      document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'block'
+      document.querySelector('.rc-header__nav.rc-header__nav--secondary').style.display = 'flex'
     }
 
     let baseEl = document.querySelector('#J_sidecart_container');

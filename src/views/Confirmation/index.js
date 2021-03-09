@@ -1,5 +1,4 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
@@ -26,8 +25,6 @@ const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
-@inject('checkoutStore', 'frequencyStore', 'loginStore')
-@observer
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
@@ -87,18 +84,6 @@ class Confirmation extends React.Component {
       this.setState({ seoConfig: res });
     });
     const { subOrderNumberList } = this.state;
-    let productList;
-    if (this.state.paywithLogin) {
-      productList = this.props.checkoutStore.loginCartData;
-    } else {
-      productList = this.props.checkoutStore.cartData.filter(
-        (ele) => ele.selected
-      );
-    }
-    this.setState({
-      productList: productList
-      // loading: false
-    });
     setTimeout(() => {
       if (this.state.oxxoPayUrl) {
         this.setState({ modalShow: false, oxxoModalShow: true });
@@ -147,7 +132,7 @@ class Confirmation extends React.Component {
       .catch((err) => {
         this.setState({
           loading: false,
-          errorMsg2: err.message.toString()
+          errorMsg2: err.message
         });
       });
   }

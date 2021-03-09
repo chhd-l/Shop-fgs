@@ -35,7 +35,7 @@ class OktaLogoutPage extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
-    if (this.isLogin) {
+    if (!this.isLogin) {
       if (sessionItemRoyal.get('okta-redirectUrl-hub')) {
         let href = sessionItemRoyal.get('okta-redirectUrl-hub')
         sessionItemRoyal.remove('okta-redirectUrl-hub')
@@ -44,7 +44,7 @@ class OktaLogoutPage extends React.Component {
         this.props.history.push('/');
       }
     } else {
-      this.LogoutButton.current && this.LogoutButton.current.click();
+      this.LogoutButton && this.LogoutButton.current.click();
     }
   }
 
@@ -58,7 +58,7 @@ class OktaLogoutPage extends React.Component {
           history={history}
         /> */}
         <LogoutButton
-          buttonRef={this.LoginButton}
+          buttonRef={this.LogoutButton}
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
           history={history}
           callbackUrl="/okta-logout-page"

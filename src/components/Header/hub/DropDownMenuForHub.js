@@ -100,7 +100,7 @@ export default class DropDownMenuForHub extends React.Component {
               {gItem.map((cItem) => (
                 <a
                   href={cItem.Link.Url}
-                  className="medium mb-2 ui-cursor-pointer"
+                  className="medium mb-2 ui-cursor-pointer btn-link"
                   key={cItem.id}
                   style={{ display: 'block' }}
                   onClick={this.handleClickNavItem.bind(this, { item, cItem })}
@@ -116,10 +116,11 @@ export default class DropDownMenuForHub extends React.Component {
             {menuItemList.map((cItem) => (
               <a
                 href={cItem.Link.Url}
-                className="medium mb-2 ui-cursor-pointer"
+                className="medium mb-2 ui-cursor-pointer btn-link"
                 key={cItem.id}
                 style={{ display: 'block' }}
                 onClick={this.handleClickNavItem.bind(this, { item, cItem })}
+                title={cItem.Link.Text}
               >
                 {cItem.Link.Text}
               </a>
@@ -151,7 +152,7 @@ export default class DropDownMenuForHub extends React.Component {
                     <React.Fragment key={sIdx}>
                       <a
                         href={sItem.Link.Url}
-                        className="medium mb-0 ui-cursor-pointer"
+                        className="medium mb-0 ui-cursor-pointer btn-link"
                         onClick={this.handleClickNavItem.bind(this, {
                           item,
                           cItem: sItem,
