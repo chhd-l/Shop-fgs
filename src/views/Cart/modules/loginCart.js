@@ -607,11 +607,10 @@ class LoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div className="product-info__img w-100 mr-2">
+              <div className="product-info__img w-100 mr-2" style={{overflow:'hidden'}}>
                 <LazyLoad>
                   <img
                     className="product-image"
-                    style={{ maxWidth: '100px' }}
                     src={pitem.goodsInfoImg}
                     alt={pitem.goodsName}
                     title={pitem.goodsName}
