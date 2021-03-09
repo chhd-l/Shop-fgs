@@ -92,9 +92,8 @@ class Tailorednutrition extends React.Component {
                         <div className="rc-alpha inherit-fontsize">
                           <h1>Health is the Difference</h1>
                         </div>
-                        <div
-                          className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                          <h2>Our attention to the unique needs of cats and dogs has taught us that the smallest nutritional difference can make a huge difference to a pet’s health. This obsession with pet health drives us to deliver precise, effective nutrition, and help them become their magnificent best.</h2>
+                        <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                          <p><span style={{color: 'rgb(102, 102, 102)'}}>Our attention to the unique needs of cats and dogs has taught us that the smallest nutritional difference can make a huge difference to a pet’s health. This obsession with pet health drives us to deliver precise, effective nutrition, and help them become their magnificent best.</span></p>
                         </div>
                       </div>
                     </div>

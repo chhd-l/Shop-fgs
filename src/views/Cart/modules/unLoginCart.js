@@ -671,10 +671,7 @@ class UnLoginCart extends React.Component {
             </div>
             {/* <div className="d-flex pl-3"> */}
             <div className="d-flex">
-              <div
-                className="product-info__img w-100 mr-2"
-                style={{ overflow: 'hidden' }}
-              >
+              <div className="product-info__img w-100 mr-2" style={{overflow:'hidden'}}>
                 <LazyLoad>
                   <img
                     className="product-image"
