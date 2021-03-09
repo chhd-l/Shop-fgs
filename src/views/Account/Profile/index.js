@@ -10,6 +10,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import PersonalDataEditForm from './modules/PersonalDataEditForm';
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm';
+import DeleteMyAccount from './modules/DeleteMyAccount';
 import ClinicEditForm from './modules/ClinicEditForm';
 import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
@@ -325,6 +326,20 @@ class AccountProfile extends React.Component {
                         }
                       />
                     </PanleContainer>
+
+                    {/* 俄罗斯增加 Delete my account 模块，先做接口，后期跳转到okta */}
+                    {process.env.REACT_APP_DELETE_My_ACCOUNT_URL && (
+                      <PanleContainer
+                        customCls={classNames({
+                          hidden:
+                            editOperationPaneName &&
+                            editOperationPaneName !== 'Communication'
+                        })}
+                      >
+                        <DeleteMyAccount />
+                      </PanleContainer>
+                    )}
+
                   </>
                 </div>
               </div>

@@ -188,6 +188,8 @@ const de_DE = {
   'clinic.clinicTip':
     'Finden Sie eine ROYAL CANIN Partnerklinik in Ihrer Nähe.',
   'clinic.confirm': 'Bestätigen',
+  'clinic.confirm2': 'Bestätigen',
+  'clinic.confirm3': 'Bestätigen',
   'clinic.navigate': 'Navigieren',
   'clinic.selectVetClinics': 'Wählen Sie Tierkliniken',
   'clinic.vet': 'Tierarzt',
@@ -1007,6 +1009,7 @@ const de_DE = {
   xYears: '{val} Jahr (e)',
   year: 'Jahr',
   yes: 'Weiter',
+  yes2: 'Weiter',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   singlePurchase: 'Einzelbestellung',

@@ -62,7 +62,7 @@ export default class AddressForm extends React.Component {
           stateNo: c.stateNo
         };
       });
-      tmp.unshift({ value: '', name: 'state' });
+      tmp.unshift({ value: '', name: 'State' });
     } else {
       tmp = this.state[`${key}List`].map((c) => {
         return {
@@ -80,6 +80,9 @@ export default class AddressForm extends React.Component {
     const name = target.name;
     if (name === 'postCode') {
       value = value.replace(/\s+/g, '');
+    }
+    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+      value = value.replace(/^[0]/, '+(33)');
     }
     const { deliveryAddress } = this.state;
     deliveryAddress[name] = value;

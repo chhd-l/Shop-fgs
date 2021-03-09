@@ -85,8 +85,20 @@ export default class Felin extends React.Component {
       felinType: 0,
       consentChecked: false,
       isContactUs: false,
-      currentTabIndex: 0
+      currentTabIndex: 0,
+      topVal: '159px'
     };
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', (e) => {
+      if(document.querySelector('.rc-header--scrolled')) {
+        this.setState({topVal: '93px'})
+      }else {
+        this.setState({topVal: '159px'})
+      }
+      // let topVal = document.documentElement.scrollTop
+      // document.querySelector('.tabs').style.top = topVal + 'px'
+    });
   }
   handleInputChange = (e) => {
     const target = e.target;
@@ -186,8 +198,8 @@ export default class Felin extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <div className="rc-bg-colour--brand3 pt-4 pb-4">
-            <div className="d-flex justify-content-center">
+          <div className="rc-bg-colour--brand3 pt-4 pb-4" style={{position: 'relative'}}>
+            <div className="d-flex justify-content-center tabs" style={{position: 'fixed', top: this.state.topVal, width: '100%', height: '60px', paddingTop: '24px', background: '#fff', zIndex: '10'}}>
               <span
                 className={`ui-cursor-pointer ${currentTabIndex === 0? 'active': ''}`}
                 onClick={() => {

@@ -512,7 +512,7 @@ class AccountOrders extends React.Component {
     });
   }
   handleClickPayNow = async () => {
-    const { details } = this.state;
+    const { details:order, details } = this.state;
     const { consignee, invoice, tradePrice } = details;
     this.setState({ payNowLoading: true });
     const tradeItems = details.tradeItems.map((ele) => {
