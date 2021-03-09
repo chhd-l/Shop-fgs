@@ -25,7 +25,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA;
-@inject('loginStore')
+@inject('checkoutStore', 'frequencyStore', 'loginStore')
 @observer
 class Confirmation extends React.Component {
   constructor(props) {
