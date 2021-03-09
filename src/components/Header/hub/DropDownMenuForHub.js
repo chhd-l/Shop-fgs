@@ -133,7 +133,7 @@ export default class DropDownMenuForHub extends React.Component {
             {cItem.Type === 'DetailedMenuItem' && (
               <div
                 className={`d-flex align-items-center dropdown-nav__catogery__card pr-4 pl-4 ${
-                  cIdx === item.MenuItems.length ? '' : 'border-right'
+                  cIdx ? '' : 'border-right'
                 }`}
               >
                 <div className="mr-4 text-center">
@@ -175,6 +175,7 @@ export default class DropDownMenuForHub extends React.Component {
                 item={item}
                 cItem={cItem}
                 handleClickNavItem={this.handleClickNavItem}
+                className="mt-3 flex-grow-1"
               />
             )}
           </React.Fragment>
