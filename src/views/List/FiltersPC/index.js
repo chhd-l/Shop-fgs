@@ -116,7 +116,9 @@ class Filter extends React.Component {
       },
       () => this.props.updateParentData(this.state.filterList)
     );
+  }
 
+  FilterClick(parentItem, item) {
     //hub filter点击埋点
     const attributeName = parentItem?.attributeName || '';
     const attributeDetailName = item?.attributeDetailName || '';
@@ -137,7 +139,7 @@ class Filter extends React.Component {
         key={childItem.id}
       >
         {childItem.router ? (
-          <Link to={childItem.router} className="rc-input rc-input--stacked">
+          <Link to={childItem.router} onClick={() => this.FilterClick(parentItem, childItem)} className="rc-input rc-input--stacked">
             <input
               className={`rc-input__checkbox`}
               id={`filter-input-${childItem.id}-${inputLabelKey}`}
@@ -157,7 +159,7 @@ class Filter extends React.Component {
             </label>
           </Link>
         ) : (
-            <span className="rc-input rc-input--stacked">
+            <span onClick={() => this.FilterClick(parentItem, childItem)} className="rc-input rc-input--stacked">
               <input
                 className={`rc-input__checkbox`}
                 id={`filter-input-${childItem.id}-${inputLabelKey}`}
@@ -190,6 +192,7 @@ class Filter extends React.Component {
         {childItem.router ? (
           <Link
             to={childItem.router}
+            onClick={() => this.FilterClick(parentItem, childItem)}
             className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2"
           >
             <input
@@ -219,7 +222,7 @@ class Filter extends React.Component {
             </label>
           </Link>
         ) : (
-            <span className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
+            <span onClick={() => this.FilterClick(parentItem, childItem)} className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
               <input
                 className="rc-input__radio"
                 id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
