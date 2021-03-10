@@ -95,15 +95,14 @@ class Confirmation extends React.Component {
     const _title = panelStatus.isPrepare
       ? titleJSXForPrepare
       : panelStatus.isEdit
-      ? titleJSXForEdit
-      : null;
+        ? titleJSXForEdit
+        : null;
     return (
       <>
         <div
           id="J_checkout_panel_confirmation"
-          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded border ${
-            panelStatus.isEdit ? 'border-333' : 'border-transparent'
-          }`}
+          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded border ${panelStatus.isEdit ? 'border-333' : 'border-transparent'
+            }`}
         >
           <div className="bg-transparent d-flex justify-content-between align-items-center">
             {_title}
@@ -131,6 +130,17 @@ class Confirmation extends React.Component {
                 {formatMoney(tradePrice)}
               </button>
             </div>
+
+            {this.props.intl.messages.securePaymentProcessing && (
+              <div class="rc-text--right">
+                {}
+                <p class="rc-meta d-flex d-md-block align-items-center rc-margin-bottom--none ">
+                  <span class="rc-icon rc-lock--xs rc-iconography--xs"></span>
+                  <span class="rc-margin-left--xs"><FormattedMessage id="securePaymentProcessing" /></span>
+                </p>
+              </div>
+            )}
+
           </div>
         </div>
       </>

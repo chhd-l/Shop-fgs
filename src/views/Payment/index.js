@@ -14,6 +14,7 @@ import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq/faq';
 import US_Faq from './Faq/us_faq';
+import RU_Faq from './Faq/ru_faq';
 import Loading from '@/components/Loading';
 
 import VisitorAddress from './Address/VisitorAddress';
@@ -1050,12 +1051,14 @@ class Payment extends React.Component {
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
+      
+      
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = this.bindSubmitParam(this.state.listData);
       userBindConsent({
         ...submitParam,
         ...{ oktaToken: '' },
-        customerId: (this.userInfo && this.userInfo.customerId) || ''
+        customerId: postVisitorRegisterAndLoginRes.context && postVisitorRegisterAndLoginRes.context.customerId || ''
       });
       //游客绑定consent 一定要在游客注册之后 end
 
@@ -2498,6 +2501,7 @@ class Payment extends React.Component {
                 )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
                 {process.env.REACT_APP_LANG == 'en' ? <US_Faq /> : null}
+                {process.env.REACT_APP_LANG == 'ru' ? <RU_Faq /> : null}
               </div>
             </div>
             <Adyen3DForm action={this.state.adyenAction} />

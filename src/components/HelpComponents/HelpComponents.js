@@ -20,9 +20,8 @@ const HelpComponents =()=>{
               <p className="rc-card__meta">
                 You can reach us through the following options:
               </p>
-
-              -------
-
+              <div className='experience-component experience-layouts-1to2columnRatio'>
+                <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
               <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
                 <div className="rc-padding--none flex justify-content-center margin-auto">
                   <article className="rc-full-width rc-column rc-margin-top--md--mobile">
@@ -244,8 +243,8 @@ const HelpComponents =()=>{
                   </article>
                 </div>
               </div>
-
-
+                </div>
+              </div>
 
 
             </div>

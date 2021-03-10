@@ -294,6 +294,7 @@ const en_US = {
   dontHesitateToContactUs: 'Do not hesitate to contact us',
   download: 'Download',
   edit: 'Edit',
+  edit2: 'Edit',
   email: 'Email',
   emailAddress: 'Email Address *',
   emailUs: 'Email us',

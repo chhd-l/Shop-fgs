@@ -75,9 +75,10 @@ export function SubscriptionBenefits() {
     {
       en: (
         <>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+              <LazyLoad height={200} >
                 <img
                   className="value-proposition__img lazyloaded"
                   alt="ideal formula"
@@ -85,7 +86,7 @@ export function SubscriptionBenefits() {
                   src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
                 />
               </LazyLoad>
-
+              </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
                   Find the Ideal Formula for Your Pet’s Health
@@ -93,54 +94,78 @@ export function SubscriptionBenefits() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="club benefits"
-                  title="club benefits"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`}
-                />
-              </LazyLoad>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+                <LazyLoad height={200} >
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                  />
+                </LazyLoad>
+              </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Save 5% on Every Autoship Order Plus, 30% Off Your First Order
-                  Through Royal Canin Club
+                  Find the Ideal Formula for Your Pet’s Health
                 </p>
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="Welcome Box"
-                  title="Welcome Box"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`}
-                />
-              </LazyLoad>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+                <LazyLoad height={200} >
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                  />
+                </LazyLoad>
+              </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Get Expert Advice & Support with Royal Canin Pet Advisor Live
+                  Find the Ideal Formula for Your Pet’s Health
                 </p>
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="Free Automatic Shipping"
-                  title="Free Automatic Shipping"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`}
-                />
-              </LazyLoad>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+                <LazyLoad height={200} >
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                  />
+                </LazyLoad>
+              </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Free Automatic Shipping
+                  Find the Ideal Formula for Your Pet’s Health
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+                <LazyLoad height={200} >
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                  />
+                </LazyLoad>
+              </div>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
+                  Find the Ideal Formula for Your Pet’s Health
                 </p>
               </div>
             </div>

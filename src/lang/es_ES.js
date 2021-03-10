@@ -255,6 +255,7 @@ const es_ES = {
   dontHesitateToContactUs: 'No dude en contactar con nosotros',
   download: 'descargar',
   edit: 'Corregir',
+  edit2: 'Corregir',
   email: 'Correo electrónico',
   emailAddress: 'Dirección de correo electrónico *',
   emailUs: 'Envíenos un correo electrónico',
