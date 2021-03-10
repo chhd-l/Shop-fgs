@@ -625,7 +625,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
-            shopperLocale: 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             payPspItemEnum: 'ADYEN_CREDIT_CARD'
@@ -644,7 +644,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
-            shopperLocale: 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -654,7 +654,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
-            shopperLocale: 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -664,7 +664,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
             payPspItemEnum: 'ADYEN_SOFORT',
-            shopperLocale: 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -694,7 +694,6 @@ class Payment extends React.Component {
         domainName: process.env.REACT_APP_DOMAIN || '',
         phone
       });
-      console.log(finalParam);
       return finalParam;
     } catch (err) {
       console.log(err);
@@ -1154,6 +1153,7 @@ class Payment extends React.Component {
       param.clinicsId = clinicStore.selectClinicId;
       param.clinicsName = clinicStore.selectClinicName;
     }
+    //debugger
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {

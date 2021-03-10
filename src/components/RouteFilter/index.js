@@ -282,7 +282,7 @@ class RouteFilter extends Component {
 
     if (
       process.env.REACT_APP_MARS_FOOTER &&
-      !/^\/implicit\/callback|^\/required|^\/refuge/.test(pathname)
+      !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page/.test(pathname)
     ) {
       loadJS({
         url: process.env.REACT_APP_MARS_FOOTER
