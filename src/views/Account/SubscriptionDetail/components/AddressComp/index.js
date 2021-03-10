@@ -76,6 +76,7 @@ class AddressList extends React.Component {
         rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         city: '',
+        cityId: 0,
         postCode: '',
         phoneNumber: '',
         isDefalt: false
@@ -227,9 +228,19 @@ class AddressList extends React.Component {
   addOrEditAddress(idx = -1) {
     // 地址验证
     this.setState({
-      validationModalVisible: true,
-      validationLoading: true,
       itemIdx: idx
+    }, () => {
+      // 新增地址 idx= -1
+      if (idx < 0) {
+        this.showNextPanel()
+      } else {
+        // 地址验证
+        this.setState({
+          validationModalVisible: true,
+          validationLoading: true,
+        });
+      }
+
     });
   }
   // 下一步
@@ -247,6 +258,7 @@ class AddressList extends React.Component {
       rfc: '',
       country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
       city: '',
+      cityId: 0,
       postCode: '',
       phoneNumber: '',
       isDefalt: false
@@ -256,7 +268,6 @@ class AddressList extends React.Component {
     });
     if (itemIdx > -1) {
       const tmp = addressList[itemIdx];
-
       // console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
@@ -277,10 +288,26 @@ class AddressList extends React.Component {
         tmpDeliveryAddress.province = tmp.provinceName;
         tmpDeliveryAddress.provinceId = tmp.province;
       }
+      this.setState({
+        deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
+      });
+    } else {
+      this.setState({
+        deliveryAddress: {
+          firstName: '',
+          lastName: '',
+          address1: '',
+          address2: '',
+          rfc: '',
+          country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+          city: '',
+          cityId: 0,
+          postCode: '',
+          phoneNumber: '',
+          isDefalt: false
+        }
+      });
     }
-    this.setState({
-      deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
-    });
     this.scrollToTitle();
   }
 
@@ -320,7 +347,10 @@ class AddressList extends React.Component {
   }
   handleClickCancel() {
     if (this.state.addOrEdit) {
-      this.setState({ addOrEdit: false, saveErrorMsg: '' });
+      this.setState({
+        addOrEdit: false,
+        saveErrorMsg: ''
+      });
       this.scrollToTitle();
     } else {
       this.props.cancel();
