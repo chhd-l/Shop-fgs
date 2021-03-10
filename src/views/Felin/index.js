@@ -412,7 +412,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -424,7 +424,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -495,7 +495,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -510,7 +510,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
