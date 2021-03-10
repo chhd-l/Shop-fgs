@@ -100,6 +100,7 @@ import TR_GeneralConditions from '@/views/StaticPage/GeneralConditions/TR_index.
 import generalConditions from '@/views/StaticPage/GeneralConditions';
 import Tailorednutrition from '@/views/StaticPage/Tailorednutrition/index';
 import US_Tailorednutrition from '@/views/StaticPage/Tailorednutrition/US_index';
+import OnlineStore from '@/views/StaticPage/OnlineStore/index';
 import QualitySafety from '@/views/StaticPage/QualitySafety/index';
 import US_QualitySafety from '@/views/StaticPage/QualitySafety/US_index';
 import SearchShow from '@/views/StaticPage/SearchShow/index';
@@ -273,9 +274,7 @@ const App = () => (
               <Route
                 exact
                 path="/clubLandingpage"
-                component={
-                  ClubLandingPage
-                }
+                component={ClubLandingPage}
               />
               <Route
                 exact
@@ -498,6 +497,7 @@ const App = () => (
                     : Tailorednutrition
                 }
               />
+              <Route exact path="/retail-products" component={OnlineStore} />
               <Route
                 path="/Quality-safety"
                 exact
@@ -579,7 +579,8 @@ const App = () => (
                 path="/"
                 render={(props) => {
                   const { location } = props;
-                  const pathname = location.pathname;
+                  const { pathname, search } = location;
+
                   //为了匹配/refuge108785 这种数字动态的短链接
                   if (/^\/refuge/.test(pathname))
                     return <RefugeSource key={Math.random()} {...props} />;
@@ -654,9 +655,36 @@ const App = () => (
                     }
                   } else {
                     let redirectUrl = '';
+                    const specailPlpUrlMapping = {
+                      '/dogs?prefn1=breeds&prefv1=Boxer':
+                        '/dogs/retail-products?prefn1=breeds&prefv1=Boxer',
+                      '/dogs?prefn1=breeds&prefv1=Bulldog%20Anglais':
+                        '/dogs/retail-products?prefn1=breeds&prefv1=Bulldog-Anglais',
+                      '/dogs?prefn1=breeds&prefv1=Chihuahua':
+                        '/dogs/retail-products?prefn1=breeds&prefv1=Chihuahua',
+                      '/dogs?prefn1=breeds&prefv1=Berger%20Allemand':
+                        '/dogs/retail-products?prefn1=breeds&prefv1=Berger-Allemand',
+                      '/dogs?prefn1=breeds&prefv1=Golden%20Retriever':
+                        '/dogs/retail-products?prefn1=breeds&prefv1=Golden-Retriever',
+                      '/dogs?prefn1=breeds&prefv1=Labrador%20Retriever':
+                        '/dogs/retail-products?prefn1=breeds&prefv1=Labrador-Retriever',
+                      '/dogs?prefn1=breeds&prefv1=Shih%20Tzu':
+                        '/dogs/retail-products?prefn1=breeds&prefv1=Shih-Tzu',
+                      '/dogs?prefn1=breeds&prefv1=Yorkshire%20Terrier':
+                        '/dogs/retail-products?prefn1=breeds&prefv1=Yorkshire-Terrier',
+                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=British%20shorthair':
+                        '/cats/retail-products?prefn1=breeds&prefv1=British-shorthair',
+                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=Maine%20Coon':
+                        '/cats/retail-products?prefn1=breeds&prefv1=Maine-Coon',
+                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=Persan':
+                        '/cats/retail-products?prefn1=breeds&prefv1=Persan'
+                    };
                     if (pathname.split('.html').length > 1) {
                       redirectUrl = pathname.split('.html')[0];
+                    } else if (specailPlpUrlMapping[pathname + search]) {
+                      redirectUrl = specailPlpUrlMapping[pathname + search];
                     }
+
                     if (redirectUrl) {
                       return <Redirect to={redirectUrl} />;
                     } else {

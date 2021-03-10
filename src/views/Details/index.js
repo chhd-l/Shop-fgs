@@ -823,19 +823,6 @@ class Details extends React.Component {
           const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
 
           let images = [];
-          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-          //   if (res.context.images.length) {
-          //     images = res.context.images;
-          //   }
-          // } else {
-          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          // }
-          // let filterImages = res.context.goodsInfos.filter((el) => el.goodsInfoImg)
-          // if(filterImages.length) {
-          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)
-          // }else {
-          //   ima
-          // }
           images = res.context.goodsInfos;
           this.setState(
             {
@@ -853,8 +840,6 @@ class Details extends React.Component {
                 }
               ),
               images,
-              // images: res.context.images.concat(res.context.goodsInfos),
-              // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
               specList,
               barcode
             },
@@ -897,13 +882,6 @@ class Details extends React.Component {
           });
 
           let images = [];
-          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-          //   if (res.context.images.length) {
-          //     images = res.context.images;
-          //   }
-          // } else {
-          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          // }
           images = res.context.goodsInfos;
           this.setState(
             {
@@ -1251,7 +1229,7 @@ class Details extends React.Component {
         }, 4000);
       }
     } catch (err) {
-      this.setState({ checkOutErrMsg: err.message });
+      this.showCheckoutErrMsg(err.message)
     } finally {
       this.setState({ addToCartLoading: false });
     }
@@ -1386,6 +1364,11 @@ class Details extends React.Component {
     this.setState({
       checkOutErrMsg: msg
     });
+    setTimeout(() => {
+      this.setState({
+        checkOutErrMsg: ''
+      });
+    }, 5000)
     if (isMobile) {
       window.scrollTo({
         top: 0,
@@ -1956,7 +1939,7 @@ class Details extends React.Component {
                             height="100%"
                           />
                         ) : vet ? (
-                          <>
+                          <div>
                             <div
                               dangerouslySetInnerHTML={{
                                 __html: this.state.descContent
@@ -1983,9 +1966,9 @@ class Details extends React.Component {
                                 ) : null}
                               </div>
                             ) : null}
-                          </>
+                          </div>
                         ) : (
-                          <>
+                          <div>
                             <div className="align-left flex rc-margin-bottom--xs">
                               <div className="stock__wrapper">
                                 <div className="stock">
@@ -2115,7 +2098,7 @@ class Details extends React.Component {
                               </div>
                             </div>
                             {isMobile ? (
-                              <>
+                              <div>
                                 <div
                                   className="buyMethod rc-margin-bottom--xs row ml-0 mr-0"
                                   style={{
@@ -2361,11 +2344,13 @@ class Details extends React.Component {
                                     </div>
                                   </div>
                                 ) : null}
-                              </>
+                              </div>
                             ) : (
-                              <>
+                              <div>
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex align-items-center"
+                                  key="123456789"
+                                  aa="123456789"
                                   style={{
                                     borderColor: !parseInt(form.buyWay)
                                       ? '#e2001a'
@@ -2457,6 +2442,7 @@ class Details extends React.Component {
                                 {currentSubscriptionStatus ? (
                                   <div
                                     className="buyMethod rc-margin-bottom--xs d-flex align-items-center"
+                                    key="987654321"
                                     style={{
                                       borderColor: parseInt(form.buyWay)
                                         ? '#e2001a'
@@ -2601,7 +2587,7 @@ class Details extends React.Component {
                                     </div>
                                   </div>
                                 ) : null}
-                              </>
+                              </div>
                             )}
                             <div className="rc-md-up">
                               <div
@@ -2666,7 +2652,7 @@ class Details extends React.Component {
                                 checkOutErrMsg={checkOutErrMsg}
                               />
                             </div>
-                          </>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -2687,6 +2673,7 @@ class Details extends React.Component {
                     >
                       <div
                         className="rc-list__header d-flex justify-content-between"
+                        style={{textTransform: 'uppercase'}}
                         onClick={this.changeTab.bind(this, {
                           idx: index,
                           type: 'toggle',
