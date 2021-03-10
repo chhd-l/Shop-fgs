@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "20293502",
+      "name": "grayStar",
+      "font_class": "grayStar1",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
       "icon_id": "8406619",
       "name": "方向",
       "font_class": "icon-",
