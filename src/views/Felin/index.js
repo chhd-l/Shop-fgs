@@ -564,7 +564,7 @@ export default class Felin extends React.Component {
                           <p style={{ fontWeight: '500' }}>
                             Choisissez un rendez-vous
                           </p>
-                          <div style={{ borderBottom: '1px solid #eee' }}>
+                          <div style={{ borderBottom: '2px solid #aaa'}}>
                             <h1
                               className="rc-card__meta order-Id"
                               style={{
@@ -578,7 +578,7 @@ export default class Felin extends React.Component {
                                 autocomplete="off"
                                 id="datepicker"
                                 placeholder="Select Date"
-                                style={{width: '100%', border: 'none'}}
+                                style={{width: '100%', border: 'none', cursor: 'pointer'}}
                               ></input>
                               {/* <DatePicker
                                 className="receiveDate"

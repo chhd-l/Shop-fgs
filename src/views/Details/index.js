@@ -823,19 +823,6 @@ class Details extends React.Component {
           const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
 
           let images = [];
-          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-          //   if (res.context.images.length) {
-          //     images = res.context.images;
-          //   }
-          // } else {
-          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          // }
-          // let filterImages = res.context.goodsInfos.filter((el) => el.goodsInfoImg)
-          // if(filterImages.length) {
-          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)
-          // }else {
-          //   ima
-          // }
           images = res.context.goodsInfos;
           this.setState(
             {
@@ -853,8 +840,6 @@ class Details extends React.Component {
                 }
               ),
               images,
-              // images: res.context.images.concat(res.context.goodsInfos),
-              // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
               specList,
               barcode
             },
@@ -897,13 +882,6 @@ class Details extends React.Component {
           });
 
           let images = [];
-          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-          //   if (res.context.images.length) {
-          //     images = res.context.images;
-          //   }
-          // } else {
-          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          // }
           images = res.context.goodsInfos;
           this.setState(
             {
