@@ -6,6 +6,7 @@ const JoinToday=()=>{
     <div className="row rc-margin-x--none ">
       <div className="rc-full-width">
         <div className="experience-component experience-assets-importContentAsset">
+          <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
           <div className="content-asset">
             <div className="rc-bg-colour--brand4">
               <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
@@ -42,6 +43,7 @@ https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>

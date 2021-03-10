@@ -156,7 +156,7 @@ class CatNutrition extends React.Component {
                         Pourquoi choisir Royal Canin ?
                       </h4>
                       <div className="value-proposition__container">
-                        <div className="row mx-0">
+                        <div className="row mx-0row mx-0">
                           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>

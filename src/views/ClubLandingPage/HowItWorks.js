@@ -7,11 +7,11 @@ const HowItWorks=()=>{
     <div className='row rc-margin-x--none'>
     <div className='rc-full-width'>
       <div className='experience-component experience-assets-contentBlock'>
+        <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
         <br/>
         <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
           <h3 className="rc-beta">How it works</h3>
         </div>
-
         <div className="flex justify-content-between">
           <div className="rc-grid">
             <article className="rc-card rc-card--a">
@@ -78,6 +78,7 @@ const HowItWorks=()=>{
           </div>
         </div>
 
+      </div>
       </div>
     </div>
     </div>

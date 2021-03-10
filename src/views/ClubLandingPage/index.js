@@ -544,7 +544,7 @@ class ClubLandingPage extends React.Component {
                     Your CLUB subscription benefits
                   </h4>
                   <div className="value-proposition__container">
-                    <div className="row mx-0">
+                    <div className="row mx-0 justify-content-between">
                       <SubscriptionBenefits/>
                     </div>
                   </div>
@@ -560,16 +560,15 @@ class ClubLandingPage extends React.Component {
 
 
           <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
+                  <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'></div>
                   <div
                     className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
                     <a id="Food Quality and Safety" name="Food Quality and Safety" className="page-section-anchor" aria-hidden="true"></a>
                     <div className="row align-items-md-center">
                       <div className=" col-12 col-lg-6">
                         <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                          <h2 className="rc-beta markup-text">
+                          <h2 className="rc-beta markup-text" style={{fontWeight:'599'}}>
                             EVER PET IS UNIQUE,THEIR NUTRITION SHOULD BE TOO
                           </h2>
                           <p>Our commitment to nutritional quality and product
@@ -599,8 +598,6 @@ class ClubLandingPage extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
           </div>
 
 
