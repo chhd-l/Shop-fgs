@@ -1050,12 +1050,14 @@ class Payment extends React.Component {
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
+      
+      
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = this.bindSubmitParam(this.state.listData);
       userBindConsent({
         ...submitParam,
         ...{ oktaToken: '' },
-        customerId: (this.userInfo && this.userInfo.customerId) || ''
+        customerId: postVisitorRegisterAndLoginRes.context && postVisitorRegisterAndLoginRes.context.customerId || ''
       });
       //游客绑定consent 一定要在游客注册之后 end
 
