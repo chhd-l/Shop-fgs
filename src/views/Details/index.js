@@ -1688,6 +1688,7 @@ class Details extends React.Component {
         breedName: this.state.breed
       }
     };
+    console.log(this.props.location.pathname,'this.props.location.pathname')
     return (
       <div id="Details">
         {Object.keys(event).length ? (

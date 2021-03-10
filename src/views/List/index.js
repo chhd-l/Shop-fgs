@@ -1876,6 +1876,7 @@ class List extends React.Component {
     const { pageLink } = this.state;
     const { history } = this.props;
     const { pathname } = history.location;
+    console.log(pathname,'list-location.pathname')
     const {
       category,
       results,
