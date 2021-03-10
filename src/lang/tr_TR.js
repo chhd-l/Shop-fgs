@@ -232,6 +232,7 @@ const tr_TR = {
   dogs3: 'Köpek',
   download: 'İndir',
   edit: 'Düzenle',
+  edit2: 'Düzenle',
   email: 'E-posta',
   emailAddress: 'E *',
   enterCatBreed: 'Kedinizin cinsini girin',

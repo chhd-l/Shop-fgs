@@ -14,6 +14,7 @@ import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq/faq';
 import US_Faq from './Faq/us_faq';
+import RU_Faq from './Faq/ru_faq';
 import Loading from '@/components/Loading';
 
 import VisitorAddress from './Address/VisitorAddress';
@@ -2498,6 +2499,7 @@ class Payment extends React.Component {
                 )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
                 {process.env.REACT_APP_LANG == 'en' ? <US_Faq /> : null}
+                {process.env.REACT_APP_LANG == 'ru' ? <RU_Faq /> : null}
               </div>
             </div>
             <Adyen3DForm action={this.state.adyenAction} />
