@@ -1150,6 +1150,7 @@ const fr_FR = {
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
-  yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié"
+  yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
+  'contactUs.requiredField': 'The field is required',
 };
 export default fr_FR;

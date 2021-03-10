@@ -694,7 +694,6 @@ class Payment extends React.Component {
         domainName: process.env.REACT_APP_DOMAIN || '',
         phone
       });
-      console.log(finalParam);
       return finalParam;
     } catch (err) {
       console.log(err);
