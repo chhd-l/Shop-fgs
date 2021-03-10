@@ -98,6 +98,8 @@ class FAQ extends React.Component {
   }
 
   render(h) {
+    console.log(location.pathname,'11faq-location.pathname')
+
     const event = {
       page: {
         type: 'other',

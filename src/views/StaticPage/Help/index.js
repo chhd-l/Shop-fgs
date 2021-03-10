@@ -62,7 +62,7 @@ class Help extends React.Component {
     this.setState({ showModal: false });
   };
   render(h) {
-    
+    console.log('helphelp',location.pathname)
     const event = {
       page: {
         type: 'other',
