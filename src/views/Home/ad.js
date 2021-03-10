@@ -77,18 +77,18 @@ export function TopAds() {
                         <picture data-rc-feature-objectfillpolyfill-setup="true">
                           <source
                             media="(max-width: 640px)"
-                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x1.png 1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x2.png 2x`}
-                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x1.png 1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x2.png 2x`}
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x.png  1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x1.png 1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x2.png 2x`}
+                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x.png  1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x1.png 1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x2.png 2x`}
                           />
                           <source
                             media="(min-width: 640px) and (max-width: 769px)"
-                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x3.png,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x4.png  1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x5.png 2x`}
-                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x3.png,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x4.png  1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x5.png 2x`}
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x3.png  1x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x4.png  1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x5.png 2x`}
+                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x3.png  1x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x4.png  1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x5.png 2x`}
                           />
                           <source
                             media="(min-width: 769px)"
-                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x1.png,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp  1.5x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x2.png  2x`}
-                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x1.png,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp  1.5x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x2.png  2x`}
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x1.png 1x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp  1.5x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x2.png  2x`}
+                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x1.png 1x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp  1.5x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x2.png  2x`}
                           />
                           <img
                             className="w-100 lazyloaded"
