@@ -91,6 +91,7 @@ class FAQ extends React.Component {
   }
 
   render(h) {
+    console.log(location.pathname,'faq-location.pathname')
     const event = {
       page: {
         type: 'other',
