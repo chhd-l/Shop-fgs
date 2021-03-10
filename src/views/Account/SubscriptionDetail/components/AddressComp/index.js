@@ -131,6 +131,9 @@ class AddressList extends React.Component {
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
       );
+
+      // console.log('----------------------- ★ AddressComp queryAddressList addressList: ',addressList);
+
       let tmpId;
       const defaultAddressItem = find(
         addressList,
@@ -257,7 +260,8 @@ class AddressList extends React.Component {
     if (itemIdx > -1) {
       const tmp = addressList[itemIdx];
 
-      // console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
+      console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
+
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
         lastName: tmp.lastName,
@@ -265,9 +269,9 @@ class AddressList extends React.Component {
         address2: tmp.address2,
         rfc: tmp.rfc,
         country: tmp.countryId ? tmp.countryId.toString() : '',
-        cityName: tmp.cityName,
-        city: tmp.cityName == tmp.city ? null : tmp.city,
         cityId: tmp.cityId,
+        city: tmp.city,
+        cityName: tmp.cityName,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
         email: tmp.email,
@@ -331,14 +335,17 @@ class AddressList extends React.Component {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       await validData(ADDRESS_RULE, deliveryAddress);
+      console.log('----------------------- ★ AddressComp handleSave deliveryAddress: ',deliveryAddress);
       let params = {
         address1: deliveryAddress.address1,
         address2: deliveryAddress.address2,
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         countryId: +deliveryAddress.country,
-        cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
-        city: deliveryAddress.cityName,
+        // cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
+        cityId: deliveryAddress.cityId,
+        city: deliveryAddress.city,
+        cityName: deliveryAddress.cityName,
         consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
@@ -350,6 +357,9 @@ class AddressList extends React.Component {
         email: deliveryAddress.email,
         type: this.props.type.toUpperCase()
       };
+
+      console.log('----------------------- ★ AddressComp handleSave params: ',params);
+
       if (process.env.REACT_APP_LANG === 'en') {
         params.province = deliveryAddress.provinceName;
         params.provinceId = deliveryAddress.province;
@@ -482,6 +492,9 @@ class AddressList extends React.Component {
     try {
       let res = await getAddressList();
       let addressList = res.context;
+      
+      // console.log('----------------------- ★ AddressComp addressList: ',addressList);
+
       let cityRes = await queryCityNameById({
         id: addressList.map((ele) => ele.cityId)
       });
