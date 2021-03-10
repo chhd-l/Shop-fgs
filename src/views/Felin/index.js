@@ -368,7 +368,8 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/cat.jpeg`}
+                        loop="infinite"
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/felin_cat.gif`}
                       />
                     </LazyLoad>
                   </h1>
@@ -411,7 +412,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -423,7 +424,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -494,7 +495,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -509,7 +510,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -563,7 +564,7 @@ export default class Felin extends React.Component {
                           <p style={{ fontWeight: '500' }}>
                             Choisissez un rendez-vous
                           </p>
-                          <div style={{ borderBottom: '1px solid #eee' }}>
+                          <div style={{ borderBottom: '2px solid #aaa'}}>
                             <h1
                               className="rc-card__meta order-Id"
                               style={{
@@ -577,7 +578,7 @@ export default class Felin extends React.Component {
                                 autocomplete="off"
                                 id="datepicker"
                                 placeholder="Select Date"
-                                style={{width: '100%', border: 'none'}}
+                                style={{width: '100%', border: 'none', cursor: 'pointer'}}
                               ></input>
                               {/* <DatePicker
                                 className="receiveDate"
