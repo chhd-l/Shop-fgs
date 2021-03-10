@@ -691,7 +691,8 @@ class Details extends React.Component {
                         </ul>`;
                       } else if (
                         key === 'Composition' ||
-                        key === 'Ингредиенты'
+                        key === 'Ингредиенты' || 
+                        key === 'informations nutritionelles'
                       ) {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
@@ -897,7 +898,7 @@ class Details extends React.Component {
                         tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
                         </ul>`;
-                      } else if (key === 'Composition') {
+                      } else if (key === 'Composition' || key === 'Ингредиенты' || key === 'informations nutritionelles') {
                         if (res.context.goods.goodsType !== 2) {
                           tmpGoodsDetail[key].map((el) => {
                             tempContent =
