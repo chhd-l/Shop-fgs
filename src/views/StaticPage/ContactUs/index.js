@@ -79,7 +79,7 @@ class ContactUs extends Component {
         const { firstName, lastName, email, request } = this.state.address
         if (firstName && lastName && email && request) return true
     }
-    submitEvent() {
+    submitEvent =()=> {
         this.setState({isLoading:true})
         const { address } = this.state;
         address.phoneNumber = this.textInput.current.value
@@ -201,7 +201,7 @@ class ContactUs extends Component {
                         type="tel"
                         className="rc-input__control"
                         id="shippingPhoneNumber"
-                        //value={address.phoneNumber}
+                        //value={address.phoneNumber} //加了这个值输入的时候有bug，先去掉的
                         onChange={this.deliveryInputChange}
                         onBlur={this.inputBlur}
                         name="phoneNumber"
@@ -289,6 +289,19 @@ class ContactUs extends Component {
             </div>
         )
     }
+
+    submitBtn = () => {
+        return (
+            <button onClick={this.submitEvent} className="rc-btn rc-btn--one" name="send" style={{ width: '200px'}}>Submit</button>
+        )
+    }
+
+    disabledBtn = () => {
+        return (
+            <button class="rc-btn rc-btn--one" disabled style={{ width: '200px' }}>Submit</button>
+        )
+    }
+
     allFormJSX = () => {
         return (
             <div className="FAQ__section rc-padding--md">
@@ -309,7 +322,9 @@ class ContactUs extends Component {
                             </p>
                         </div>
                     </div>
-                    <button disabled={!this.allRequiredChecked()} onClick={this.submitEvent.bind(this)} className="btn btn-block btn-primary rc_contact_us_btn" name="send" style={{ width: '200px', cursor: this.allRequiredChecked() ? "pointer" : "not-allowed" }}>Submit</button>
+                    {
+                        this.allRequiredChecked()?this.submitBtn():this.disabledBtn()
+                    }
                 </div>
             </div>
         )

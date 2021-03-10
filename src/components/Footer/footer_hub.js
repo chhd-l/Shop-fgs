@@ -50,30 +50,27 @@ class FooterHub extends React.Component {
             {/* MenuItems PC     */}
             <div className="rc-md-up rc-layout-container rc-two-column rc-padding-x--xs--desktop">
               <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
-                {isLogin ? (
-                  <a
-                    className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${MenuItems[0].ICON}--xs rc-brand3`}
-                    role="menuitem"
-                    href={`${MenuItems[0].Link.Url}`}
-                  >
-                    {MenuItems[0].Link.Text}
-                  </a>
-                ) : (
-                  <LoginButton
-                    className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${MenuItems[0].ICON}--xs rc-brand3`}
-                    history={history}
-                  >
-                    {MenuItems[0].Link.Text}
-                  </LoginButton>
-                )}
+                {MenuItems.map((item, i) => (
+                  <React.Fragment key={i}>
+                    {item.Icon === 'user' && !isLogin ? (
+                      <LoginButton
+                        className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
+                        history={history}
+                      >
+                        {item.Link.Text}
+                      </LoginButton>
+                    ) : (
+                      <a
+                        className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
+                        role="menuitem"
+                        href={`${item.Link.Url}`}
+                      >
+                        {item.Link.Text}
+                      </a>
+                    )}
+                  </React.Fragment>
+                ))}
 
-                <a
-                  className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3 text-white`}
-                  role="menuitem"
-                  href={MenuItems[1].Link.Url}
-                >
-                  {MenuItems[1].Link.Text}
-                </a>
                 <Language className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3 text-white" />
                 <a
                   style={{
@@ -91,7 +88,7 @@ class FooterHub extends React.Component {
                 </a>
               </div>
             </div>
-            <div className="rc-divider rc-md-up"></div>
+            <div className="rc-divider rc-md-up" />
             {/* MenuGroups */}
             <div className="rc-layout-container rc-one-column rc-padding-x--xs">
               <div className="rc-column rc-padding-x--xs">
@@ -151,30 +148,40 @@ class FooterHub extends React.Component {
                 </nav>
               </div>
             </div>
-            <div className="rc-divider rc-md-up"></div>
+            <div className="rc-divider rc-md-up" />
             {/* MenuItems Mobile */}
             <div className="rc-md-down rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
               <div className="rc-column rc-padding-bottom--none">
-                <div>
-                  <a
-                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3"
-                    role="menuitem"
-                    style={{ marginLeft: '-.8rem' }}
-                    href={`${MenuItems[0].Link.Url}`}
-                  >
-                    {MenuItems[0].Link.Text}
-                  </a>
-                </div>
-                <div>
-                  <a
-                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-cart--xs rc-brand3"
-                    role="menuitem"
-                    href={MenuItems[1].Link.Url}
-                    style={{ marginLeft: '-.8rem' }}
-                  >
-                    {MenuItems[1].Link.Text}
-                  </a>
-                </div>
+                {MenuItems.map((item, i) => (
+                  <React.Fragment key={i}>
+                    {item.Icon === 'user' && !isLogin ? (
+                      <div>
+                        <LoginButton
+                          className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
+                          history={history}
+                          btnStyle={{
+                            marginLeft: '-.8rem',
+                            fontSize: 'inherit'
+                          }}
+                        >
+                          {item.Link.Text}
+                        </LoginButton>
+                      </div>
+                    ) : (
+                      <div>
+                        <a
+                          className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
+                          role="menuitem"
+                          href={item.Link.Url}
+                          style={{ marginLeft: '-.8rem' }}
+                        >
+                          {item.Link.Text}
+                        </a>
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))}
+
                 <div>
                   <Language
                     className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-language--xs rc-brand3"
