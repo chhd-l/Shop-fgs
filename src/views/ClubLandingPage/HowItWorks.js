@@ -15,18 +15,15 @@ const HowItWorks=()=>{
         <div className="flex justify-content-between">
           <div className="rc-grid">
             <article className="rc-card rc-card--a">
-              <button className="rc-btn rc-card__action rc-btn rc-btn--action rc-btn--action--inverse rc-icon rc-like--xs rc-iconography"
-                      aria-label="Like">
-                <span className="rc-screen-reader-text">Like</span>
-              </button>
+              <div className="rc-card__body">
+                  <p className="rc-card__meta">Get The RIGHT LAL ARE H UHERE</p>
+              </div>
               <picture className="rc-card__image">
                 <img src="https://placehold.it/300x150" alt="A Dachshund jumping"/>
               </picture>
               <div className="rc-card__body">
                 <header>
                   <p className="rc-card__meta">Meta 1</p>
-                  <h1 className="rc-card__title">Headline</h1>
-                  <p className="rc-card__meta">Meta 2</p>
                 </header>
               </div>
             </article>
@@ -34,18 +31,15 @@ const HowItWorks=()=>{
           <div style={{alignSelf:'center'}}> > </div>
           <div className="rc-grid">
             <article className="rc-card rc-card--a">
-              <button className="rc-btn rc-card__action rc-btn rc-btn--action rc-btn--action--inverse rc-icon rc-like--xs rc-iconography"
-                      aria-label="Like">
-                <span className="rc-screen-reader-text">Like</span>
-              </button>
+              <div className="rc-card__body">
+                <p className="rc-card__meta">Meta 2</p>
+              </div>
               <picture className="rc-card__image">
                 <img src="https://placehold.it/300x150" alt="A Dachshund jumping"/>
               </picture>
               <div className="rc-card__body">
                 <header>
                   <p className="rc-card__meta">Meta 1</p>
-                  <h1 className="rc-card__title">Headline</h1>
-                  <p className="rc-card__meta">Meta 2</p>
                 </header>
               </div>
             </article>
@@ -53,16 +47,15 @@ const HowItWorks=()=>{
           <div style={{alignSelf:'center'}}> > </div>
           <div className="rc-grid">
             <article className="rc-card rc-card--a">
-              <button className="rc-btn rc-card__action rc-btn rc-btn--action rc-btn--action--inverse rc-icon rc-like--xs rc-iconography"
-                      aria-label="Like">
-                <span className="rc-screen-reader-text">Like</span>
-              </button>
+              <div className="rc-card__body">
+                <p className="rc-card__meta">Meta 2</p>
+              </div>
               <picture className="rc-card__image">
                 <img src="https://placehold.it/300x150" alt="A Dachshund jumping"/>
               </picture>
               <div className="rc-card__body">
                 <header>
-                  <h1 className="rc-card__title">Headline</h1>
+                  <p className="rc-card__meta">Meta 1</p>
                 </header>
               </div>
             </article>
@@ -70,17 +63,15 @@ const HowItWorks=()=>{
           <div style={{alignSelf:'center'}}> > </div>
           <div className="rc-grid">
             <article className="rc-card rc-card--a">
-              <button className="rc-btn rc-card__action rc-btn rc-btn--action rc-btn--action--inverse rc-icon rc-like--xs rc-iconography"
-                      aria-label="Like">
-                <span className="rc-screen-reader-text">Like</span>
-              </button>
+              <div className="rc-card__body">
+                <p className="rc-card__meta">Meta 2</p>
+              </div>
               <picture className="rc-card__image">
                 <img src="https://placehold.it/300x150" alt="A Dachshund jumping"/>
               </picture>
               <div className="rc-card__body">
                 <header>
                   <p className="rc-card__meta">Meta 1</p>
-                  <h1 className="rc-card__title">Headline</h1>
                 </header>
               </div>
             </article>
