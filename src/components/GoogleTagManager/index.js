@@ -26,9 +26,9 @@ class GoogleTagManager extends React.Component {
   }
 
   componentDidMount() {
-     // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
-    const {page ={},pet ={}} = this.props.additionalEvents;
-    const commonSite =  {
+    // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
+    const { page = {}, pet = {} } = this.props.additionalEvents;
+    const commonSite = {
       country: process.env.REACT_APP_GA_COUNTRY,
       environment: process.env.REACT_APP_GA_ENV,
       id: process.env.REACT_APP_GTM_SITE_ID,
@@ -72,7 +72,7 @@ class GoogleTagManager extends React.Component {
     };
 
     let userInfo = this.props.loginStore.userInfo;
-    console.log({userInfo})
+    console.log({ userInfo })
 
     if (userInfo) {
       event.user = {
@@ -128,25 +128,28 @@ class GoogleTagManager extends React.Component {
       code: `window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(${JSON.stringify(filterObjectValueDeep(addEvents))});`
     });
-   
-    if (Object.keys(ecommerceEvents).length>0 || Object.keys(hubEcommerceEvents).length>0) {
+
+    if (Object.keys(ecommerceEvents).length > 0 || Object.keys(hubEcommerceEvents).length > 0) {
       loadJS({
         code: `window.dataLayer = window.dataLayer || [];
       window.dataLayer.push(${JSON.stringify(filterObjectValueDeep(ecEvents))});`
       });
     }
 
-  //   loadJS({
-  //     code: `(function(w,d,s,l,i){w[l] = w[l] || [];
-  //     w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });
-  //     var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-  //     j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl
-  //     ;
-  //     f.parentNode.insertBefore(j,f);
-  // })(window,document,'script','dataLayer','${process.env.REACT_APP_GA_GTMID}');`,
-  //     className: 'optanon-category-2',
-  //     type: 'text/plain'
-  //   });
+    if (!hubGA) {
+      loadJS({
+        code: `(function(w,d,s,l,i){w[l] = w[l] || [];
+      w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });
+      var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl
+      ;
+      f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','${process.env.REACT_APP_GA_GTMID}');`,
+        className: 'optanon-category-2',
+        type: 'text/plain'
+      });
+    }
+
   }
 }
 
