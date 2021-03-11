@@ -566,7 +566,6 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                  {console.log(111111, getDeviceType())}
                     {+process.env.REACT_APP_HUB && isMobile ? (
                       searchBarVisible ? null : (
                         <span
