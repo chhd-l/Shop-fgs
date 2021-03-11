@@ -328,7 +328,7 @@ export default class Search extends React.Component {
                 {(txt) => (
                   <input
                     ref={this.inputRef}
-                    className="search-field rc-bg-colour--brand4"
+                    className="search-field rc-bg-colour--brand4 ui-cursor-pointer-pure font-weight-light"
                     type="search"
                     autoComplete="off"
                     placeholder={txt}
