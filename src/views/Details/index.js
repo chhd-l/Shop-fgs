@@ -2302,7 +2302,7 @@ class Details extends React.Component {
                                 </div>
                               ) : null}
                               {
-                                true ? (
+                                false ? (
                                   <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
                                   key="987654321"

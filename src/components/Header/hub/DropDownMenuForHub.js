@@ -158,22 +158,25 @@ export default class DropDownMenuForHub extends React.Component {
                     <React.Fragment key={cItem.id}>
                       {cItem.Type === 'DetailedMenuItem' && (
                         <div
-                          className={`d-flex align-items-center dropdown-nav__catogery__card pr-4 pl-4 ${
+                          className={`d-flex align-items-center dropdown-nav__catogery__card pr-5 pl-4 ${
                             cIdx ? '' : 'border-right'
                           }`}
                         >
-                          <div className="mr-4 text-center">
+                          <div
+                            className="mr-4 text-center"
+                            style={{ width: '35%' }}
+                          >
                             {/* <LazyLoad> */}
                             <img
                               src={cItem.Image.Url}
                               alt={cItem.Image.AltText}
                               srcSet={cItem.Image.Srcset}
-                              style={{ width: '4rem', margin: '0 auto' }}
+                              style={{ width: '6rem', margin: '0 auto' }}
                             />
                             {/* </LazyLoad> */}
-                            <p className="red">{cItem.ImageDescription}</p>
+                            <p className="red medium">{cItem.ImageDescription}</p>
                           </div>
-                          <div>
+                          <div style={{ flex: 1 }}>
                             {cItem.SubItems.map((sItem, sIdx) => (
                               <React.Fragment key={sIdx}>
                                 <a

@@ -1191,7 +1191,7 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {
+          {false?
             (
               <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info" style={{marginTop: '-24px'}}>
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
@@ -1216,7 +1216,7 @@ class UnLoginCart extends React.Component {
                   euros.*
                 </div>
               </div>
-            )
+            ): null
           }
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
