@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import LazyLoad from 'react-lazyload';
 import dateIcon from '@/assets/images/date.png';
-import { getFormatDate, datePickerConfig } from '@/utils/utils';
+import { getFormatDate, datePickerConfig, validData } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
-import { validData } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.less';
 import { Link } from 'react-router-dom';
@@ -16,6 +15,8 @@ import { loadJS } from '@/utils/utils';
 import { format } from 'date-fns';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import FaceBook_Icon from '@/assets/images/facebookIcon.png'
+import Insgram_Icon from '@/assets/images/insgramIcon.png'
 
 function Divider() {
   return (
@@ -95,7 +96,8 @@ export default class Felin extends React.Component {
       consentChecked: false,
       isContactUs: false,
       currentTabIndex: 0,
-      topVal: '159px'
+      topVal: '159px',
+      currentDate: new Date()
     };
   }
   componentDidMount() {
@@ -120,24 +122,44 @@ export default class Felin extends React.Component {
           let day = date.getDate();
           let month = date.getMonth() + 1;
           const year = date.getFullYear();
-          if(day < 10) {
-            day =  '0' + day
+          if (day < 10) {
+            day = '0' + day;
           }
-          if(month < 10) {
-            month = '0' + month
+          if (month < 10) {
+            month = '0' + month;
           }
           return `${day}/${month}/${year}`;
         },
         parse(dateString, format) {
-            const parts = dateString.split('/');
-            const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10) - 1;
-            const year = parseInt(parts[2], 10);
-            return new Date(year, month, day);
+          const parts = dateString.split('/');
+          const day = parseInt(parts[0], 10);
+          const month = parseInt(parts[1], 10) - 1;
+          const year = parseInt(parts[2], 10);
+          return new Date(year, month, day);
         }
       });
     }, 3000);
 
+    document.querySelector(
+      '.react-calendar__navigation__prev-button'
+    ).innerHTML = `<span class="icon iconfont">
+      &#xe6fa;
+    </span>`;
+    document.querySelector(
+      '.react-calendar__navigation__next-button'
+    ).innerHTML = `<span class="icon iconfont">
+      &#xe6f9;
+    </span>`;
+
+    // document.querySelector('.iconfont.font-weight-bold.icon-arrow').innerHTML = `&#xe601;`
+    let iconDom = document.querySelector(
+      '.iconfont.font-weight-bold.icon-arrow '
+    );
+    document.querySelector('#Selection').removeChild(iconDom);
+    let needIconDom = document.createElement('span');
+    needIconDom.classList.add('icon', 'iconfont');
+    needIconDom.innerHTML = `&#xe601;`;
+    document.querySelector('#Selection').appendChild(needIconDom);
     // setTimeout(() => {
     //   const datePickerOptions = {
     //     i18n: {
@@ -325,16 +347,23 @@ export default class Felin extends React.Component {
                 <h3>Contacter l’Atelier Félin</h3>
               </div>
               <p className="mb-20">
-                Nous cherchons à apporter le meilleur pour votre chat.
                 Contactez-nous pour en savoir plus sur l’Atelier Félin et notre
                 mission.
               </p>
               <p>latelierfelin@royalcanin.com</p>
-              <p className="mb-20">(555) 555-5555</p>
+              <p className="mb-20">0986568097</p>
               <p>6 Rue des Coutures Saint-Gervais</p>
               <p className="mb-20">75003 Paris</p>
               <p>Horaires d’ouverture :</p>
               <p className="mb-20">Mardi - Dimanche, 10h - 20h</p>
+              <p>
+                <a href="https://fr-fr.facebook.com/RoyalCaninFrance/">
+                  <img style={{display: 'inline-block', width: '50px', marginLeft: '20px'}} src={FaceBook_Icon}/>  
+                </a>
+                <a href="https://www.instagram.com/royalcaninfrance/?hl=en">
+                  <img style={{display: 'inline-block', width: '50px', marginLeft: '20px'}} src={Insgram_Icon}/>
+                </a>
+              </p>
             </div>
             <div style={{ display: !isContactUs ? 'block' : 'none' }}>
               <div class="rc-layout-container rc-two-column rc-content-h-middle">
@@ -383,15 +412,15 @@ export default class Felin extends React.Component {
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
-                          Vous vivez en appartement avec votre chat ? Venez
-                          recontrer nos experts
+                          Vous vivez en appartement avec votre chat ? Posez
+                          toutes vos questions à nos experts
                         </h3>
                       </div>
                       <p className="mb-20">
                         L’Atelier Félin est fait pour vous : venez rencontrer
                         des experts, posez-leur vos questions sur le
                         comportement de votre chat, ses habitudes, ses soins et
-                        la nourriture la plus appropriée à ses besoins…
+                        la nutrition la plus appropriée à ses besoins…
                       </p>
                       <p className="mb-20">
                         Des comportementalistes félins et vétérinaires vous
@@ -529,7 +558,7 @@ export default class Felin extends React.Component {
                       </p>
                       <p className="mb-20">
                         Nous vous accueillons au coeur du marais, au 6 Rue des
-                        Coutures Saint-Gervais, du 20 avril au 12 juin 2021.
+                        Coutures Saint-Gervais, du 20 avril au 13 juin 2021.
                       </p>
                       <p className="mb-20">
                         Venez rencontrer nos associations partenaires pour
@@ -556,7 +585,7 @@ export default class Felin extends React.Component {
                     </div>
                     <div
                       style={{
-                        width: '300px',
+                        width: '320px',
                         display: 'inline-block',
                         textAlign: 'left'
                       }}
@@ -572,16 +601,21 @@ export default class Felin extends React.Component {
                               style={{
                                 marginTop: '10px',
                                 display: 'inline-block',
-                                width: '283px'
+                                width: '303px'
                               }}
                             >
                               <input
                                 type="text"
                                 autocomplete="off"
                                 id="datepicker"
-                                placeholder="Select Date"
-                                style={{width: '100%', border: 'none', cursor: 'pointer'}}
-                              ></input>
+                                placeholder="Sélectionner une date"
+                                style={{
+                                  width: '100%',
+                                  border: 'none',
+                                  cursor: 'pointer'
+                                }}
+                                value={getFormatDate(this.state.currentDate)}
+                              />
                               {/* <DatePicker
                                 className="receiveDate"
                                 placeholder="Select Date"
@@ -603,7 +637,21 @@ export default class Felin extends React.Component {
                             <span class="icon iconfont iconfont-date">
                               &#xe6b3;
                             </span>
-                            <Calendar value={new Date()} calendarType="US" locale={process.env.REACT_APP_Adyen_locale} showNeighboringMonth="false" view="month" onClickYear={() => {return}} minDate={new Date()}/>
+                            <Calendar
+                              value={this.state.currentDate}
+                              calendarType="US"
+                              locale={process.env.REACT_APP_Adyen_locale}
+                              view="month"
+                              onClickYear={() => {
+                                return;
+                              }}
+                              minDate={new Date()}
+                              onChange={(date) => {
+                                console.log(date);
+                                this.setState({ currentDate: date });
+                              }}
+                              // navigationLabel={() => `ahahahax`}
+                            />
                           </div>
                           <div>
                             <Selection
