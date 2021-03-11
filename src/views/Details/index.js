@@ -844,19 +844,22 @@ class Details extends React.Component {
               barcode
             },
             () => {
-              loadJS({
-                url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-                id: 'cci-widget',
-                dataSets: {
-                  token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-                  locale: 'fr-FR',
-                  displaylanguage: 'fr',
-                  widgetid: 'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
-                  ean: '3182550784436',
-                  subid: '',
-                  trackingid: ''
-                }
-              });
+              if (process.env.REACT_APP_HUBPAGE_WIDGETID) {
+                loadJS({
+                  url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+                  id: 'cci-widget',
+                  dataSets: {
+                    token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+                    locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+                    displaylanguage: process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+                    widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
+                    ean: '3182550784436',
+                    subid: '',
+                    trackingid: ''
+                  }
+                });
+              }
+
               this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
@@ -1754,7 +1757,7 @@ class Details extends React.Component {
                               {details.goodsSubtitle}
                             </h2>
                           </div>
-                          {+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                          {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
                             <div className="stars">
                               <div className="rc-card__price flex-inline">
                                 <div
@@ -1863,7 +1866,7 @@ class Details extends React.Component {
                                     {details.goodsSubtitle}
                                   </h2>
                                 </div>
-                                {+process.env
+                                {!!+process.env
                                   .REACT_APP_PDP_RATING_VISIBLE && (
                                   <div className="stars">
                                     <div className="rc-card__price flex-inline">
@@ -2505,8 +2508,7 @@ class Details extends React.Component {
                   }`}
                     >
                       <div
-                        className="rc-list__header d-flex justify-content-between"
-                        style={{ textTransform: 'uppercase' }}
+                        className="rc-list__header d-flex justify-content-between text-uppercase"
                         onClick={this.changeTab.bind(this, {
                           idx: index,
                           type: 'toggle',

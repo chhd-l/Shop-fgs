@@ -13,7 +13,7 @@ const JoinToday=()=>{
           <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
           <div className="content-asset">
             <div className="rc-bg-colour--brand4">
-              <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
+              <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm jointoday">
                 <div className="col-12 col-md-4 order-1 order-md-0">
                   <div className="rc-column rc-padding--none">
                     <LazyLoad >
@@ -40,9 +40,6 @@ const JoinToday=()=>{
                 <div className="col-12 col-md-4 order-2 order-md-2">
                   <div className="rc-column rc-padding--none">
                     <img src={Landingpagedog}    alt="Dog image"/>
-                  </div>
-                  <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                    <a className="rc-btn rc-btn--sm rc-btn--two w-50" href="https://shop.royalcanin.com/dogs/">Dog</a>
                   </div>
                 </div>
               </div>
