@@ -22,7 +22,7 @@ import './index.less';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
 
-const phone = 'tel:0845 300 5011' 
+const phone = 'tel:0800 41 51 61' 
 const mailAddress = 'mailto:suivi.dtc.france@royalcanin.com'
 const faqAddress = "https://uatwedding.royalcanin.com/fr/about-us/faqs"
 
