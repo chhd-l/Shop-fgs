@@ -57,7 +57,7 @@ class Header extends React.Component {
     //User组件跳转用
     personInformationRouter: '/account/information',
     petsRouter: '/account/pets',
-    subscriptionsRouter: '/account/subscription',
+    subscriptionsRouter: '/account/subscription'
   };
   constructor(props) {
     super(props);
@@ -69,8 +69,7 @@ class Header extends React.Component {
       headerNavigationList: [],
       headerNavigationListForHub: [],
       activeTopParentId: -1,
-      isSearchSuccess: false, //是否搜索成功
-      searchBarVisible: false
+      isSearchSuccess: false //是否搜索成功
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -475,11 +474,6 @@ class Header extends React.Component {
         window.encodeURIComponent(process.env.REACT_APP_RegisterCallback);
     }
   };
-  toggleSearchIcon = () => {
-    this.setState((curState) => ({
-      searchBarVisible: !curState.searchBarVisible
-    }));
-  };
   render() {
     const {
       showMiniIcons,
@@ -493,8 +487,7 @@ class Header extends React.Component {
       headerNavigationListForHub,
       showSearchInput,
       showCenter,
-      showCart,
-      searchBarVisible
+      showCart
     } = this.state;
     return (
       <>
@@ -502,10 +495,7 @@ class Header extends React.Component {
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
-        <header
-          className={`rc-header ${searchBarVisible ? 'searchbar' : ''}`}
-          data-js-header-scroll
-        >
+        <header className={`rc-header`} data-js-header-scroll>
           {+process.env.REACT_APP_HUB ? (
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
               <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">
@@ -567,14 +557,9 @@ class Header extends React.Component {
                 {showMiniIcons ? (
                   <>
                     {+process.env.REACT_APP_HUB && isMobile ? (
-                      searchBarVisible ? null : (
-                        <span
-                          className="iconfont icon-search mr-2"
-                          onClick={this.toggleSearchIcon}
-                        >
-                          &#xe6a5;
-                        </span>
-                      )
+                      <span className="iconfont icon-search mr-2 icon-search-mini">
+                        &#xe6a5;
+                      </span>
                     ) : (
                       <Search history={history} />
                     )}
@@ -602,16 +587,10 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
-          {/* 点击放大镜时，才会出现搜索条 */}
-          {searchBarVisible ? (
-            <nav className="bg-white nav-search pl-3 pr-3 pb-2">
-              <Search
-                history={history}
-                onClose={this.toggleSearchIcon}
-                focusedOnDidMount={true}
-              />
-            </nav>
-          ) : null}
+          {/* 向下滑动页面时，才会出现搜索条 */}
+          <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
+            <Search history={history} />
+          </nav>
 
           {+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
