@@ -1907,11 +1907,11 @@ class List extends React.Component {
       if (reDog.test(pathname)) {
         theme = 'Dog';
         type = 'Product Catalogue';
-        specieId = 1;
+        specieId = 2;
       } else if (reCat.test(pathname)) {
         theme = 'Cat';
         type = 'Product Catalogue';
-        specieId = 2;
+        specieId = 1;
       } else {
         theme = '';
         type = 'Product';
