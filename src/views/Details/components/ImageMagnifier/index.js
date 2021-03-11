@@ -160,24 +160,27 @@ class ImageMagnifier extends Component {
       selectedSizeInfo = [sizeList[0]];
     }
 
-    if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
-      let hoverIndex = 0;
-      images.map((el, i) => {
-        if (
-          el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
-          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg
-        ) {
-          hoverIndex = i;
-        }
-        return el;
-      });
-      this.setState({
-        currentImg: selectedSizeInfo[0].goodsInfoImg,
-        videoShow: false,
-        hoverIndex,
-        offsetX: isMobile ? hoverIndex * 230 : hoverIndex * 250
-      });
-    }
+    // if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
+    //   console.log(selectedSizeInfo, images,'hoverIndex')
+    //   let hoverIndex = 0;
+    //   images.map((el, i) => {
+    //     if (
+    //       el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
+    //       el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg
+    //     ) {
+    //       hoverIndex = i;
+    //     }
+    //     return el;
+    //   });
+
+    //   console.log(hoverIndex, 'hoverIndex')
+    //   this.setState({
+    //     currentImg: selectedSizeInfo[0].goodsInfoImg,
+    //     videoShow: false,
+    //     hoverIndex,
+    //     offsetX: isMobile ? hoverIndex * 230 : hoverIndex * 250
+    //   });
+    // }
   }
   // props 变化时更新
   UNSAFE_componentWillReceiveProps(nextProps) {
