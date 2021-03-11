@@ -185,12 +185,7 @@ class ContactUs extends Component {
             <div className="form-group">
                 {' '}
                 <label className="form-control-label" htmlFor="shippingPhoneNumber">
-                    {process.env.REACT_APP_LANG == 'en'?(
-                        <FormattedMessage id="payment.phoneNumber2" />
-                    ):(
-                        <FormattedMessage id="payment.phoneNumber" />
-                    )}
-                    
+                    <FormattedMessage id="payment.phoneNumber2" />
                 </label>
                 <span
                     className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"

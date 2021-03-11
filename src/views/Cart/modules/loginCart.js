@@ -14,7 +14,8 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
-  unique
+  unique,
+  getParaByName
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -44,6 +45,8 @@ const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
@@ -51,7 +54,9 @@ const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: 开, 1: 关
 const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 // 买入价格开关 0：含税，1：不含税
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context;
+const enterPriceType =
+  storeInfo?.systemTaxSetting?.configVOList &&
+  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -94,6 +99,17 @@ class LoginCart extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
+    const {
+      history: {
+        location: { search }
+      }
+    } = this.props;
+    // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
+    const tokenFromUrl = getParaByName(search, 'token');
+    if (tokenFromUrl) {
+      localItemRoyal.set('rc-token', tokenFromUrl);
+    }
+
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -608,7 +624,10 @@ class LoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div className="product-info__img w-100 mr-2" style={{overflow:'hidden'}}>
+              <div
+                className="product-info__img w-100 mr-2"
+                style={{ overflow: 'hidden' }}
+              >
                 <LazyLoad>
                   <img
                     className="product-image"
@@ -1192,7 +1211,11 @@ class LoginCart extends React.Component {
           <div className="col-6">
             <span
               className="rc-input rc-input--inline rc-input--label mr-0"
-              style={{ width: '150px', marginBottom: '10px' }}
+              style={{
+                width: '150px',
+                marginBottom: '10px',
+                overflow: 'hidden'
+              }}
             >
               <FormattedMessage id="promotionCode">
                 {(txt) => (
@@ -1297,11 +1320,7 @@ class LoginCart extends React.Component {
           ))}
         <div className="row">
           <div className="col-6">
-            {process.env.REACT_APP_LANG == 'en' ? (
-              <FormattedMessage id="subtotal" />
-            ) : (
-              <FormattedMessage id="total" />
-            )}
+            <FormattedMessage id="total2" />
           </div>
           <div className="col-6 no-padding-left">
             <p className="text-right sub-total">
@@ -1412,7 +1431,7 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
-                {process.env.REACT_APP_LANG == 'en' ? (
+                {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <b>{subtractionSign}</b>
                 ) : (
                   formatMoney(this.taxFeePrice)
@@ -1433,7 +1452,7 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-5">
               <p className="text-right grand-total-sum medium">
-                {process.env.REACT_APP_LANG == 'en' ? (
+                {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <b>{subtractionSign}</b>
                 ) : (
                   formatMoney(this.tradePrice)
@@ -1726,7 +1745,9 @@ class LoginCart extends React.Component {
                       <div className="rc-column">
                         <FormattedMessage id="continueShopping">
                           {(txt) => (
-                            <DistributeHubLinkOrATag href="" to="/home">{txt}</DistributeHubLinkOrATag>
+                            <DistributeHubLinkOrATag href="" to="/home">
+                              {txt}
+                            </DistributeHubLinkOrATag>
                             // <a
                             //   tabIndex="1"
                             //   className="ui-cursor-pointer-pure"

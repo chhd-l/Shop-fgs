@@ -82,7 +82,7 @@ class Faq extends Component {
                             />?</p></button>
                         </dt>
                         <dd className="rc-list__content" id="content-530" aria-labelledby="heading-530">
-                            <p style={{ padding: '0 1.5rem 1rem 0.5rem' }}>Please see our return policy in our <a href="https://shop.royalcanin.com/terms_conditions.html" target="_blank" rel="nofollow noopener" data-tab-init="true"><span style={{ color: '#6888c9' }}>Terms and Conditions</span></a>&nbsp;or <Link to="/help/contact" target="_blank" ><span style={{ color: '#6888c9' }}>contact us</span></Link> for further assistance.</p>
+                            <p style={{ padding: '0 1.5rem 1rem 0.5rem' }}>Please see our return policy in our <a href="/termsandconditions" target="_blank" rel="nofollow noopener" data-tab-init="true"><span style={{ color: '#6888c9' }}>Terms and Conditions</span></a>&nbsp;or <Link to="/help/contact" target="_blank" ><span style={{ color: '#6888c9' }}>contact us</span></Link> for further assistance.</p>
                         </dd>
                     </div>
                 </dl>

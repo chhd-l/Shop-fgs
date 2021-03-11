@@ -32,7 +32,7 @@ class PayProductInfo extends React.Component {
     fixToHeader: false,
     style: {},
     className: '',
-    onClickHeader: () => {},
+    onClickHeader: () => { },
     headerIcon: null,
     currentPage: ''
   };
@@ -65,7 +65,7 @@ class PayProductInfo extends React.Component {
     let productList;
     if (
       JSON.stringify(nextProps.data) !==
-        JSON.stringify(this.state.productList) &&
+      JSON.stringify(this.state.productList) &&
       this.props.data.length
     ) {
       productList = nextProps.data;
@@ -217,6 +217,12 @@ class PayProductInfo extends React.Component {
   get firstOrderOnThePlatformDiscountPrice() {
     return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
+  //特殊化处理俄罗斯checkout页面价格单位加粗
+  formatRuCheckMoney(val) {
+    const unit=val.substr(val.length-1,1);
+    const other=val.substring(0,val.length - 1);
+    return <span>{other}<b>{unit}</b></span>;
+  }
   getProducts(plist) {
     const List = plist.map((el, i) => {
       let selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
@@ -263,11 +269,11 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="line-item-total-price justify-content-end pull-right">
                   <div>
-                    {formatMoney(
+                    {this.formatRuCheckMoney(formatMoney(
                       el.sizeList.filter((el) => el.selected)[0][
-                        'marketPrice'
+                      'marketPrice'
                       ] * el.quantity
-                    )}
+                    ))}
                   </div>
                 </div>
               </div>
@@ -290,8 +296,7 @@ class PayProductInfo extends React.Component {
     //   }`
     // );
     this.props.history.push(
-      `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${
-        item.goodsNo
+      `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${item.goodsNo
       }`
     );
   }
@@ -377,7 +382,7 @@ class PayProductInfo extends React.Component {
                     <span className="green">
                       {formatMoney(
                         el.buyCount * el.salePrice -
-                          el.buyCount * el.subscriptionPrice
+                        el.buyCount * el.subscriptionPrice
                       )}
                     </span>{' '}
                     <FormattedMessage id="avecLabonnement" />
@@ -476,69 +481,71 @@ class PayProductInfo extends React.Component {
 
                   <label className="rc-input__label" htmlFor="id-text2" />
                 </span>
-                <button
-                  ref="applyButtton"
-                  id="promotionApply"
-                  className={`rc-btn rc-btn--sm rc-btn--two ${
-                    this.state.isClickApply
+                <div class="promo-code-submit">
+                  <button
+                    ref="applyButtton"
+                    id="promotionApply"
+                    className={`rc-btn rc-btn--md rc-btn--two ${this.state.isClickApply
                       ? 'ui-btn-loading ui-btn-loading-border-red'
                       : ''
-                  }`}
-                  style={{ marginTop: '10px', float: 'right' }}
-                  onClick={async () => {
-                    try {
-                      let result = {};
-                      if (!this.state.promotionInputValue) return;
-                      this.setState({
-                        isClickApply: true,
-                        isShowValidCode: false,
-                        lastPromotionInputValue: this.state.promotionInputValue
-                      });
-                      if (!this.isLogin) {
-                        //游客
-                        result = await checkoutStore.updateUnloginCart(
-                          '',
-                          this.state.promotionInputValue,
-                          false
-                        );
-                      } else {
-                        //会员
-                        result = await checkoutStore.updateLoginCart(
-                          this.state.promotionInputValue,
-                          this.props.buyWay === 'frequency',
-                          false
-                        );
-                      }
-
-                      if (
-                        !result.context.promotionFlag ||
-                        result.context.couponCodeFlag
-                      ) {
-                        //表示输入apply promotionCode成功
-                        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                        this.setState({ discount });
-                        this.props.sendPromotionCode(
-                          this.state.promotionInputValue
-                        );
-                      } else {
+                      }`}
+                    style={{ marginTop: '5px', float: 'right' }}
+                    onClick={async () => {
+                      try {
+                        let result = {};
+                        if (!this.state.promotionInputValue) return;
                         this.setState({
-                          isShowValidCode: true
+                          isClickApply: true,
+                          isShowValidCode: false,
+                          lastPromotionInputValue: this.state.promotionInputValue
                         });
-                        this.props.sendPromotionCode('');
+                        if (!this.isLogin) {
+                          //游客
+                          result = await checkoutStore.updateUnloginCart(
+                            '',
+                            this.state.promotionInputValue,
+                            false
+                          );
+                        } else {
+                          //会员
+                          result = await checkoutStore.updateLoginCart(
+                            this.state.promotionInputValue,
+                            this.props.buyWay === 'frequency',
+                            false
+                          );
+                        }
+
+                        if (
+                          !result.context.promotionFlag ||
+                          result.context.couponCodeFlag
+                        ) {
+                          //表示输入apply promotionCode成功
+                          discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                          this.setState({ discount });
+                          this.props.sendPromotionCode(
+                            this.state.promotionInputValue
+                          );
+                        } else {
+                          this.setState({
+                            isShowValidCode: true
+                          });
+                          this.props.sendPromotionCode('');
+                        }
+                        this.setState({
+                          isClickApply: false,
+                          promotionInputValue: ''
+                        });
+                      } catch (err) {
+                        this.setState({
+                          isClickApply: false
+                        });
                       }
-                      this.setState({
-                        isClickApply: false,
-                        promotionInputValue: ''
-                      });
-                    } catch (err) {
-                      this.setState({
-                        isClickApply: false
-                      });
-                    }
-                  }}
-                >
-                  <FormattedMessage id="apply" />
-                </button>
+                    }}
+                  >
+                    <FormattedMessage id="apply" />
+                  </button>
+                </div>
+
               </div>
               {this.state.isShowValidCode ? (
                 <div className="red" style={{ fontSize: '14px' }}>
@@ -560,9 +567,8 @@ class PayProductInfo extends React.Component {
                       }}
                     >
                       <div
-                        className={`${
-                          !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
-                        }`}
+                        className={`${!checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
+                          }`}
                       >
                         <p
                           style={{
@@ -577,9 +583,8 @@ class PayProductInfo extends React.Component {
                         </p>
                       </div>
                       <div
-                        className={`${
-                          !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                        } red`}
+                        className={`${!checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
+                          } red`}
                         style={{ padding: 0 }}
                       >
                         <p>
@@ -631,18 +636,14 @@ class PayProductInfo extends React.Component {
                   <div className="col-8 start-lines">
                     <p className="order-receipt-label">
                       <span>
-                        {process.env.REACT_APP_LANG == 'en' ? (
-                          <FormattedMessage id="subtotal" />
-                        ) : (
-                          <FormattedMessage id="total" />
-                        )}
+                        <FormattedMessage id="total2" />
                       </span>
                     </p>
                   </div>
                   <div className="col-4 end-lines">
                     <p className="text-right">
                       <span className="sub-total">
-                        {formatMoney(this.totalPrice)}
+                        {this.formatRuCheckMoney(formatMoney(this.totalPrice))}
                       </span>
                     </p>
                   </div>
@@ -678,11 +679,10 @@ class PayProductInfo extends React.Component {
                 </div> */}
                 {/* 显示 默认折扣 */}
                 <div
-                  className={`row leading-lines shipping-item green ${
-                    parseFloat(this.subscriptionDiscountPrice) > 0
-                      ? 'd-flex'
-                      : 'hidden'
-                  }`}
+                  className={`row leading-lines shipping-item green ${parseFloat(this.subscriptionDiscountPrice) > 0
+                    ? 'd-flex'
+                    : 'hidden'
+                    }`}
                 >
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost">
@@ -699,10 +699,10 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-                
+
                 {/* 显示 promotionCode */}
                 {!this.state.isShowValidCode &&
-                this.promotionDiscountPrice > 0 ? (
+                  this.promotionDiscountPrice > 0 ? (
                   // &&
                   //   this.props.checkoutStore.promotionCode
                   <div className="row leading-lines shipping-item flex-layout green">
@@ -736,7 +736,7 @@ class PayProductInfo extends React.Component {
                   <div className="col-5 end-lines">
                     <p className="text-right">
                       <span className="shipping-total-cost">
-                        {formatMoney(this.deliveryPrice)}
+                        {this.formatRuCheckMoney(formatMoney(this.deliveryPrice))}
                       </span>
                     </p>
                   </div>
@@ -775,7 +775,7 @@ class PayProductInfo extends React.Component {
                     <div className="col-5 end-lines">
                       <p className="text-right">
                         <span className="shipping-total-cost">
-                          {formatMoney(this.taxFeePrice)}
+                          {this.formatRuCheckMoney(formatMoney(this.taxFeePrice))}
                         </span>
                       </p>
                     </div>
