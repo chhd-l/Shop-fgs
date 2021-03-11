@@ -1,5 +1,10 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
+import howitworck1 from './ClubImage/howit1.png'
+import howitworck2 from './ClubImage/howIt2.png'
+import howitworck3 from './ClubImage/howit3.png'
+import howitworck4 from './ClubImage/howit4.png'
+import workflowicon from './ClubImage/howitworkflow.png'
 
 const HowItWorks=()=>{
   return(
@@ -12,67 +17,71 @@ const HowItWorks=()=>{
         <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
           <h3 className="rc-beta">How it works</h3>
         </div>
-        <div className="flex justify-content-between">
-          <div className="rc-grid">
-            <article className="rc-card rc-card--a">
+        <div style={{display:"flex"}} className='justify-content-between'>
+          <div  >
+            <article >
               <div className="rc-card__body">
-                  <p className="rc-card__meta">Get The RIGHT LAL ARE H UHERE</p>
+                <p className="rc-card__meta"><h5>GET THE RIGHT DIET AND RATION</h5></p>
               </div>
-              <picture className="rc-card__image">
-                <img src="https://placehold.it/300x150" alt="A Dachshund jumping"/>
-              </picture>
+              <LazyLoad height={180}>
+                <img
+                  className="w-90 lazyloaded"
+                  src={howitworck1}
+                />
+              </LazyLoad>
               <div className="rc-card__body">
-                <header>
-                  <p className="rc-card__meta">Meta 1</p>
-                </header>
-              </div>
-            </article>
-          </div>
-          <div style={{alignSelf:'center'}}> > </div>
-          <div className="rc-grid">
-            <article className="rc-card rc-card--a">
-              <div className="rc-card__body">
-                <p className="rc-card__meta">Meta 2</p>
-              </div>
-              <picture className="rc-card__image">
-                <img src="https://placehold.it/300x150" alt="A Dachshund jumping"/>
-              </picture>
-              <div className="rc-card__body">
-                <header>
-                  <p className="rc-card__meta">Meta 1</p>
-                </header>
+                  <p className="rc-card__meta">Answer a few questions to get a tailor-made nutritional recommendation.</p>
               </div>
             </article>
           </div>
-          <div style={{alignSelf:'center'}}> > </div>
-          <div className="rc-grid">
-            <article className="rc-card rc-card--a">
+          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img src={workflowicon}/> </article> </div>
+          <div  >
+            <article >
               <div className="rc-card__body">
-                <p className="rc-card__meta">Meta 2</p>
+                <p className="rc-card__meta"><h5>SELECT THE CLUB SUBSCRIPTION</h5></p>
               </div>
-              <picture className="rc-card__image">
-                <img src="https://placehold.it/300x150" alt="A Dachshund jumping"/>
-              </picture>
+              <LazyLoad height={180}>
+                <img
+                  className="w-90 lazyloaded"
+                  src={howitworck2}
+                />
+              </LazyLoad>
               <div className="rc-card__body">
-                <header>
-                  <p className="rc-card__meta">Meta 1</p>
-                </header>
+                <p className="rc-card__meta">Proceed to check out to subscribe. You will receive a welcome pack with your first delivery.</p>
               </div>
             </article>
           </div>
-          <div style={{alignSelf:'center'}}> > </div>
-          <div className="rc-grid">
-            <article className="rc-card rc-card--a">
+          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img src={workflowicon}/> </article> </div>
+          <div  >
+            <article >
               <div className="rc-card__body">
-                <p className="rc-card__meta">Meta 2</p>
+                <p className="rc-card__meta"><h5>CONTROL YOUR SUBSCRIPTION</h5></p>
               </div>
-              <picture className="rc-card__image">
-                <img src="https://placehold.it/300x150" alt="A Dachshund jumping"/>
-              </picture>
+              <LazyLoad height={180}>
+                <img
+                  className="w-90 lazyloaded"
+                  src={howitworck3}
+                />
+              </LazyLoad>
               <div className="rc-card__body">
-                <header>
-                  <p className="rc-card__meta">Meta 1</p>
-                </header>
+                <p className="rc-card__meta">Manage your CLUB subscription in your account area and enjoy automatic refills.</p>
+              </div>
+            </article>
+          </div>
+          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img src={workflowicon}/> </article> </div>
+          <div  >
+            <article >
+              <div className="rc-card__body">
+                <p className="rc-card__meta"><h5>Enjoy EXCLUSIVE REWARDS AND SERVICES</h5></p>
+              </div>
+              <LazyLoad height={180}>
+                <img
+                  className="w-90 lazyloaded"
+                  src={howitworck4}
+                />
+              </LazyLoad>
+              <div className="rc-card__body">
+                <p className="rc-card__meta">Take advantage of subscription offers and services, like a personal pet advisor, vet consultations and more.</p>
               </div>
             </article>
           </div>

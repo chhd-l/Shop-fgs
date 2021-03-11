@@ -1,30 +1,22 @@
 import React, { Component } from 'react';
 import './index.less';
 import Tooltip from '@/components/Tooltip';
-import redStar from './images/redStar.svg';
-import grayStar from './images/grayStar.svg';
-import oraStar from './images/oraStar.svg';
-import halfStar from './images/halfStar.png';
-import oraStar_active from './images/oraStar_active.svg';
-import LazyLoad from 'react-lazyload';
 export default class Rate extends Component {
-  state = {
-    count: this.props.number || 5,
-    num: this.props.def || 0,
-    disabled: this.props.disabled || false,
-    enter: 0,
-    leave: this.props.def || 0,
-    state: ['不满意', '满意', '超满意'],
-    tooltipStatus: false,
-    inActiveStar: grayStar,
-    activeStar: redStar,
-    halfStar: halfStar
+  static defaultProps = {
+    color: 'red' // red yellow
   };
-  componentDidMount = () => {
-    if (this.props.color === 'yellow') {
-      this.setState({ inActiveStar: oraStar, activeStar: oraStar_active });
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: this.props.number || 5,
+      num: this.props.def || 0,
+      disabled: this.props.disabled || false,
+      enter: 0,
+      leave: this.props.def || 0,
+      state: ['不满意', '满意', '超满意'],
+      tooltipStatus: false
+    };
+  }
   /** 数据更新前 */
   UNSAFE_componentWillUpdate = () => {
     this.showState();
@@ -45,19 +37,43 @@ export default class Rate extends Component {
       return state[1];
     }
   }
-  /** 数据更新后 */
-  componentDidUpdate = () => {};
   render() {
+    const { color } = this.props;
     let { count, num, enter, leave } = this.state;
     const t = /^(([^0][0-9]+|0)$)|^(([1-9]+)$)/; //整数
     const flag = !t.test(num);
     const numInt = parseInt(num);
     const tooltip = this.props.tooltip ? this.props.tooltip : null;
+
+    const activeStar =
+      color === 'red' ? (
+        <span className="iconfont red rate__icon">&#xe6f2;</span>
+      ) : (
+        <span className="iconfont rate__icon yellow">&#xe6f2;</span>
+      );
+
+    const halfStar = (
+      <svg
+        className="svg-icon"
+        aria-hidden="true"
+        style={{ width: '1em', height: '1em' }}
+      >
+        <use xlinkHref="#iconxingxing" />
+      </svg>
+    );
+
+    const inActiveStar =
+      color === 'red' ? (
+        <span className="iconfont rate__icon grey">&#xe6f2;</span>
+      ) : (
+        <span className="iconfont rate__icon grey">&#xe600;</span>
+      );
     return (
       <div>
         <div className="rate flex">
           {new Array(count).fill().map((item, index) => (
             <span
+              className="rate__icon__container"
               key={index}
               onClick={() => {
                 if (!this.state.disabled) {
@@ -89,27 +105,17 @@ export default class Rate extends Component {
               }}
             >
               {enter > index || num - 1 >= index ? (
-                <LazyLoad>
-                  <img src={this.state.activeStar} alt="" />
-                </LazyLoad>
+                <>{activeStar}</>
               ) : flag && index === numInt ? (
-                <LazyLoad>
-                  <img src={this.state.halfStar} alt="" />
-                </LazyLoad>
+                <>{halfStar}</>
               ) : (
-                <LazyLoad>
-                  <img src={this.state.inActiveStar} alt="" />
-                </LazyLoad>
+                <>{inActiveStar}</>
               )}
             </span>
           ))}
         </div>
         {tooltip && this.state.tooltipStatus ? (
-          <Tooltip
-            // containerStyle={{ transform: 'translate(-89%, 89%)' }}
-            // arrowStyle={{ left: '120%' }}
-            content={tooltip}
-          />
+          <Tooltip content={tooltip} />
         ) : null}
       </div>
     );

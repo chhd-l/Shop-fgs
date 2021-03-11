@@ -1,5 +1,6 @@
 import React from 'react'
 import Rate from '../Rate';
+import CommentImg from './img/Custmersay.PNG'
 
 const CommentCarousel=()=>{
   return(
@@ -20,7 +21,7 @@ const CommentCarousel=()=>{
                     <span className="rc-screen-reader-text">Like</span>
                   </button>
                   <picture className="rc-card__image">
-                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text"/>
+                    <img src={CommentImg} alt="alt text"/>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -41,7 +42,7 @@ const CommentCarousel=()=>{
                     <span className="rc-screen-reader-text">Like</span>
                   </button>
                   <picture className="rc-card__image">
-                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text"/>
+                    <img src={CommentImg} alt="alt text"/>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -62,7 +63,7 @@ const CommentCarousel=()=>{
                     <span className="rc-screen-reader-text">Like</span>
                   </button>
                   <picture className="rc-card__image">
-                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text"/>
+                    <img src={CommentImg} alt="alt text"/>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -83,7 +84,7 @@ const CommentCarousel=()=>{
                     <span className="rc-screen-reader-text">Like</span>
                   </button>
                   <picture className="rc-card__image">
-                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text"/>
+                    <img src={CommentImg} alt="alt text"/>
                   </picture>
                   <div className="rc-card__body">
                     <header>
