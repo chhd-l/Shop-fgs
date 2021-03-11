@@ -142,7 +142,7 @@ export const LoginUserBox = (props) => {
         </div>
         <div className="Media-body">
           <div className="fullName">
-            {userInfo && [userInfo.firstName, userInfo.lastName].join(' ')}
+            {userInfo && userInfo.contactName}
           </div>
           <LogoutButton containerStyle={{ background: '#fff' }} />
         </div>
