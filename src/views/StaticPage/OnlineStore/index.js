@@ -16,13 +16,13 @@ import shippmentHome from '@/assets/images/home/shippment@2x.png';
 import phoneImg from '@/assets/images/online-store-phone.png';
 import emailImg from '@/assets/images/online-store-email.png';
 import messageImg from '@/assets/images/online-store-message.png';
-import { Link } from 'react-router-dom';
+import { Link,withRouter} from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href
 
-const phone = 'tel:0845 300 5011' 
 const mailAddress = 'mailto:suivi.dtc.france@royalcanin.com'
 const faqAddress = "https://uatwedding.royalcanin.com/fr/about-us/faqs"
 
@@ -145,274 +145,7 @@ function AdvantageTips() {
     );
 }
 
-function BottomInfo() {
-    return (
-        <div>
-            <div className="online-store-bottomInfo experience-region experience-main">
-                <div className="experience-component experience-layouts-1column">
-                    <div className="row rc-margin-x--none">
-                        <div className="rc-full-width">
-                            <div className="experience-component experience-assets-headingBlock">
-                                <div className="rc-max-width--md text-center rc-margin-y--md">
-                                    <div className="rc-alpha inherit-fontsize">
-                                        <h1><FormattedMessage id="onlineStore.footer.title" /></h1>
-                                    </div>
-                                    <div
-                                        className="text-center rc-intro inherit-fontsize children-nomargin heading-block-content">
-                                        <p><FormattedMessage id="onlineStore.footer.content" values={{
-                                            val1: (
-                                                <br />
-                                            )
-                                        }} /></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="rc-layout-container rc-three-column rc-match-heights rc-padding-bottom--lg rc-max-width--lg">
-                <div className="rc-column rc-padding--none">
-                    <article className="rc-full-width rc-column">
-                        <div className="rc-border-all rc-border-colour--interface fullHeight">
-                            <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                <div className="rc-column rc-double-width rc-padding-top--md--mobile">
-                                    <div className="w-100">
-                                        <b>
-                                            <font
-                                                style={{ verticalAlign: 'inherit' }}
-                                            >
-                                                <a
-                                                    href="javascript:;"
-                                                    style={{
-                                                        verticalAlign: 'inherit',
-                                                        cursor:'auto',
-                                                        color:"#6C6C6C"
-                                                    }}
-                                                >
-                                                    <FormattedMessage id="onlineStore.BottomInfo.phone.title" />
-                                                </a>
-                                            </font>
-                                        </b>
-                                        <div className="rc-margin-top--xs">
-                                            <p
-                                                className="rc-numeric rc-md-up text-nowrap"
-                                                style={{
-                                                    color: 'rgb(0, 135, 189)'
-                                                }}
-                                            >
-                                                <a
-                                                    href={phone}
-                                                    style={{
-                                                        fontSize: '20px',
-                                                        color: "#E2001A"
-                                                    }}
-                                                    className="rc-styled-link"
-                                                >
-                                                    <FormattedMessage id="onlineStore.BottomInfo.phone.content1" />
-                                                </a>
-                                            </p>
-                                        </div>
-                                        <p>
-                                            <span
-                                                style={{color:"#828282",fontSize: '12px'}}
-                                            >
-                                                <font
-                                                    style={{
-                                                        verticalAlign: 'inherit'
-                                                    }}
-                                                >
-                                                    <font
-                                                        style={{
-                                                            verticalAlign: 'inherit',
-                                                        }}
-                                                    >
-                                                        <FormattedMessage id="onlineStore.BottomInfo.phone.content2" values={{
-                                                            val1:(
-                                                                <br/>
-                                                            )
-                                                        }} />
-                                                    </font>
-                                                </font>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="rc-column rc-content-v-middle">
-                                    <LazyLoad>
-                                        <img
-                                            className="align-self-center widthAuto"
-                                            src={phoneImg}
-                                            alt="By email"
-                                            title="By email"
-                                        />
-                                    </LazyLoad>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div className="rc-column rc-padding--none">
-                    <article className="rc-full-width rc-column">
-                        <div className="rc-border-all rc-border-colour--interface fullHeight">
-                            <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                <div className="rc-column rc-double-width rc-padding-top--md--mobile">
-                                    <div className="w-100">
-                                        <b>
-                                            <font
-                                                style={{ verticalAlign: 'inherit' }}
-                                            >
-                                                <a
-                                                    href="javascript:;"
-                                                    style={{
-                                                        verticalAlign: 'inherit',
-                                                        cursor:'auto',
-                                                        color:"#6C6C6C"
-                                                    }}
-                                                >
-                                                    <FormattedMessage id="onlineStore.BottomInfo.email.title" />
-                                                </a>
-                                            </font>
-                                        </b>
-                                        <p style={{marginBottom:"2rem"}}>
-                                            <span
-                                                style={{ color:"#828282",fontSize:'12px' }}
-                                            >
-                                                <font
-                                                    style={{
-                                                        verticalAlign: 'inherit'
-                                                    }}
-                                                >
-                                                    <font
-                                                        style={{
-                                                            verticalAlign: 'inherit'
-                                                        }}
-                                                    >
-                                                        <FormattedMessage id="onlineStore.BottomInfo.email.content1" />
-                                                    </font>
-                                                </font>
-                                            </span>
-                                        </p>
-                                        <div className="rc-margin-top--xs">
-                                            <p
-                                                className="rc-numeric rc-md-up text-nowrap"
-                                                style={{
-                                                    color: 'rgb(0, 135, 189)'
-                                                }}
-                                            >
-                                                <a
-                                                    href={mailAddress}
-                                                    style={{
-                                                        fontSize: '18px',
-                                                        color:"#000",
-                                                        borderBottom:"1px solid #DADADA"
-                                                    }}
-                                                    
-                                                >
-                                                    <FormattedMessage id="onlineStore.BottomInfo.email.content2" />
-                                                </a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="rc-column rc-content-v-middle">
-                                    <LazyLoad>
-                                        <img
-                                            className="align-self-center widthAuto"
-                                            src={emailImg}
-                                            alt="By email"
-                                            title="By email"
-                                        />
-                                    </LazyLoad>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div className="rc-column rc-padding--none">
-                    <article className="rc-full-width rc-column">
-                        <div className="rc-border-all rc-border-colour--interface fullHeight">
-                            <div className="rc-layout-container rc-five-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                <div className="rc-column rc-quad-width rc-padding-top--md--mobile">
-                                    <div className="w-100">
-                                        <b>
-                                            <font
-                                                style={{ verticalAlign: 'inherit' }}
-                                            >
-                                                <a
-                                                    href="javascript:;"
-                                                    style={{
-                                                        verticalAlign: 'inherit',
-                                                        cursor:'auto',
-                                                        color:"#6C6C6C"
-                                                    }}
-                                                >
-                                                    <FormattedMessage id="onlineStore.BottomInfo.faq.title" />
-                                                </a>
-                                            </font>
-                                        </b>
-                                        <p>
-                                            <span
-                                                style={{ color:"#828282",fontSize:'12px'}}
-                                            >
-                                                <font
-                                                    style={{
-                                                        verticalAlign: 'inherit'
-                                                    }}
-                                                >
-                                                    <font
-                                                        style={{
-                                                            verticalAlign: 'inherit'
-                                                        }}
-                                                    >
-                                                        <FormattedMessage id="onlineStore.BottomInfo.faq.content1" values={{val1:(
-                                                            <br/>
-                                                        )}} />
-                                                    </font>
-                                                </font>
-                                            </span>
-                                        </p>
-                                        <div className="rc-margin-top--xs">
-                                            <p
-                                                className="rc-numeric rc-md-up text-nowrap"
-                                                style={{
-                                                    color: "#000",
-                                                }}
-                                            >
-                                                <Link
-                                                    to={faqAddress}
-                                                    style={{
-                                                        fontSize: '18px',
-                                                        color: "#000",
-                                                        borderBottom:"1px solid #DADADA"
-                                                    }}
-                                                >
-                                                    <FormattedMessage id="onlineStore.BottomInfo.faq.content2" />
-                                                </Link>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="rc-column rc-content-v-middle">
-                                    <LazyLoad>
-                                        <img
-                                            className="align-self-center widthAuto"
-                                            src={messageImg}
-                                            alt="By email"
-                                            title="By email"
-                                        />
-                                    </LazyLoad>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </div>
-
-    )
-}
-
+@inject('configStore')
 class OnlineStore extends React.Component {
     constructor(props) {
         super(props);
@@ -424,6 +157,273 @@ class OnlineStore extends React.Component {
             }
         };
     }
+    BottomInfo =()=>{
+        const phone = this.props.configStore.storeContactPhoneNumber
+        return (
+            <div>
+                <div className="online-store-bottomInfo experience-region experience-main">
+                    <div className="experience-component experience-layouts-1column">
+                        <div className="row rc-margin-x--none">
+                            <div className="rc-full-width">
+                                <div className="experience-component experience-assets-headingBlock">
+                                    <div className="rc-max-width--md text-center rc-margin-y--md">
+                                        <div className="rc-alpha inherit-fontsize">
+                                            <h1><FormattedMessage id="onlineStore.footer.title" /></h1>
+                                        </div>
+                                        <div
+                                            className="text-center rc-intro inherit-fontsize children-nomargin heading-block-content">
+                                            <p><FormattedMessage id="onlineStore.footer.content" values={{
+                                                val1: (
+                                                    <br />
+                                                )
+                                            }} /></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="rc-layout-container rc-three-column rc-match-heights rc-padding-bottom--lg rc-max-width--lg">
+                    <div className="rc-column rc-padding--none">
+                        <article className="rc-full-width rc-column">
+                            <div className="rc-border-all rc-border-colour--interface fullHeight">
+                                <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                    <div className="rc-column rc-double-width rc-padding-top--md--mobile">
+                                        <div className="w-100">
+                                            <b>
+                                                <font
+                                                    style={{ verticalAlign: 'inherit' }}
+                                                >
+                                                    <a
+                                                        href="javascript:;"
+                                                        style={{
+                                                            verticalAlign: 'inherit',
+                                                            cursor:'auto',
+                                                            color:"#6C6C6C"
+                                                        }}
+                                                    >
+                                                        <FormattedMessage id="onlineStore.BottomInfo.phone.title" />
+                                                    </a>
+                                                </font>
+                                            </b>
+                                            <div className="rc-margin-top--xs">
+                                                <p
+                                                    className="rc-numeric rc-md-up text-nowrap"
+                                                    style={{
+                                                        color: 'rgb(0, 135, 189)'
+                                                    }}
+                                                >
+                                                    <a
+                                                        href={'tel:'+phone}
+                                                        style={{
+                                                            fontSize: '20px',
+                                                            color: "#E2001A"
+                                                        }}
+                                                        className="rc-styled-link"
+                                                    >
+                                                        {phone}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <p>
+                                                <span
+                                                    style={{color:"#828282",fontSize: '12px'}}
+                                                >
+                                                    <font
+                                                        style={{
+                                                            verticalAlign: 'inherit'
+                                                        }}
+                                                    >
+                                                        <font
+                                                            style={{
+                                                                verticalAlign: 'inherit',
+                                                            }}
+                                                        >
+                                                            <FormattedMessage id="onlineStore.BottomInfo.phone.content2" values={{
+                                                                val1:(
+                                                                    <br/>
+                                                                )
+                                                            }} />
+                                                        </font>
+                                                    </font>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="rc-column rc-content-v-middle">
+                                        <LazyLoad>
+                                            <img
+                                                className="align-self-center widthAuto"
+                                                src={phoneImg}
+                                                alt="By email"
+                                                title="By email"
+                                            />
+                                        </LazyLoad>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div className="rc-column rc-padding--none">
+                        <article className="rc-full-width rc-column">
+                            <div className="rc-border-all rc-border-colour--interface fullHeight">
+                                <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                    <div className="rc-column rc-double-width rc-padding-top--md--mobile">
+                                        <div className="w-100">
+                                            <b>
+                                                <font
+                                                    style={{ verticalAlign: 'inherit' }}
+                                                >
+                                                    <a
+                                                        href="javascript:;"
+                                                        style={{
+                                                            verticalAlign: 'inherit',
+                                                            cursor:'auto',
+                                                            color:"#6C6C6C"
+                                                        }}
+                                                    >
+                                                        <FormattedMessage id="onlineStore.BottomInfo.email.title" />
+                                                    </a>
+                                                </font>
+                                            </b>
+                                            <p style={{marginBottom:"2rem"}}>
+                                                <span
+                                                    style={{ color:"#828282",fontSize:'12px' }}
+                                                >
+                                                    <font
+                                                        style={{
+                                                            verticalAlign: 'inherit'
+                                                        }}
+                                                    >
+                                                        <font
+                                                            style={{
+                                                                verticalAlign: 'inherit'
+                                                            }}
+                                                        >
+                                                            <FormattedMessage id="onlineStore.BottomInfo.email.content1" />
+                                                        </font>
+                                                    </font>
+                                                </span>
+                                            </p>
+                                            <div className="rc-margin-top--xs">
+                                                <p
+                                                    className="rc-numeric rc-md-up text-nowrap"
+                                                    style={{
+                                                        color: 'rgb(0, 135, 189)'
+                                                    }}
+                                                >
+                                                    <a
+                                                        href={mailAddress}
+                                                        style={{
+                                                            fontSize: '18px',
+                                                            color:"#000",
+                                                            borderBottom:"1px solid #DADADA"
+                                                        }}
+                                                        
+                                                    >
+                                                        <FormattedMessage id="onlineStore.BottomInfo.email.content2" />
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="rc-column rc-content-v-middle">
+                                        <LazyLoad>
+                                            <img
+                                                className="align-self-center widthAuto"
+                                                src={emailImg}
+                                                alt="By email"
+                                                title="By email"
+                                            />
+                                        </LazyLoad>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div className="rc-column rc-padding--none">
+                        <article className="rc-full-width rc-column">
+                            <div className="rc-border-all rc-border-colour--interface fullHeight">
+                                <div className="rc-layout-container rc-five-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                    <div className="rc-column rc-quad-width rc-padding-top--md--mobile">
+                                        <div className="w-100">
+                                            <b>
+                                                <font
+                                                    style={{ verticalAlign: 'inherit' }}
+                                                >
+                                                    <a
+                                                        href="javascript:;"
+                                                        style={{
+                                                            verticalAlign: 'inherit',
+                                                            cursor:'auto',
+                                                            color:"#6C6C6C"
+                                                        }}
+                                                    >
+                                                        <FormattedMessage id="onlineStore.BottomInfo.faq.title" />
+                                                    </a>
+                                                </font>
+                                            </b>
+                                            <p>
+                                                <span
+                                                    style={{ color:"#828282",fontSize:'12px'}}
+                                                >
+                                                    <font
+                                                        style={{
+                                                            verticalAlign: 'inherit'
+                                                        }}
+                                                    >
+                                                        <font
+                                                            style={{
+                                                                verticalAlign: 'inherit'
+                                                            }}
+                                                        >
+                                                            <FormattedMessage id="onlineStore.BottomInfo.faq.content1" values={{val1:(
+                                                                <br/>
+                                                            )}} />
+                                                        </font>
+                                                    </font>
+                                                </span>
+                                            </p>
+                                            <div className="rc-margin-top--xs">
+                                                <p
+                                                    className="rc-numeric rc-md-up text-nowrap"
+                                                    style={{
+                                                        color: "#000",
+                                                    }}
+                                                >
+                                                    <Link
+                                                        to={faqAddress}
+                                                        style={{
+                                                            fontSize: '18px',
+                                                            color: "#000",
+                                                            borderBottom:"1px solid #DADADA"
+                                                        }}
+                                                    >
+                                                        <FormattedMessage id="onlineStore.BottomInfo.faq.content2" />
+                                                    </Link>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="rc-column rc-content-v-middle">
+                                        <LazyLoad>
+                                            <img
+                                                className="align-self-center widthAuto"
+                                                src={messageImg}
+                                                alt="By email"
+                                                title="By email"
+                                            />
+                                        </LazyLoad>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        )
+    }
     componentWillUnmount() {
 
     }
@@ -431,6 +431,8 @@ class OnlineStore extends React.Component {
         setSeoConfig().then(res => {
             this.setState({ seoConfig: res })
         });
+
+        console.log(this.props.configStore.storeContactPhoneNumber)
     }
 
     render(h) {
@@ -468,7 +470,8 @@ class OnlineStore extends React.Component {
                     <Divider />
                     <AdvantageTips />
                     <Divider />
-                    <BottomInfo />
+                    {/* <BottomInfo /> */}
+                    {this.BottomInfo()}
                 </main>
                 <Footer />
             </div>

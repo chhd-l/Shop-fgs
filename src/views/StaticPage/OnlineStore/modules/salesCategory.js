@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
 import './css/salesCategory.less';
-import catsImg from './images/cats.png';
-import dogsImg from './images/dogs.png';
+import catsImg from '@/assets/images/salesCategory_cat.png' 
+import dogsImg from '@/assets/images/salesCategory_dog.png' 
 
 export default class OnlineStoreSalesCategory extends Component {
     static defaultProps = {};
@@ -69,7 +69,7 @@ export default class OnlineStoreSalesCategory extends Component {
                                 <h1 className="rc-espilon">
                                     <FormattedMessage id="onlineStore.salesCategory.cat" />
                                 </h1>
-                                <img src={catsImg} />
+                                <img src={catsImg}/>
                             </div>
                             <div className="rc-layout-container rc-two-column ml-0 mr-0">
                                 {this.state.listLoading ? (

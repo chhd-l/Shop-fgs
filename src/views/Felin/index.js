@@ -14,6 +14,8 @@ import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
 import { loadJS } from '@/utils/utils';
 import { format } from 'date-fns';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 function Divider() {
   return (
@@ -369,7 +371,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         loop="infinite"
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/felin_cat.gif`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/felin_cat_sm.gif`}
                       />
                     </LazyLoad>
                   </h1>
@@ -564,7 +566,7 @@ export default class Felin extends React.Component {
                           <p style={{ fontWeight: '500' }}>
                             Choisissez un rendez-vous
                           </p>
-                          <div style={{ borderBottom: '2px solid #aaa'}}>
+                          <div>
                             <h1
                               className="rc-card__meta order-Id"
                               style={{
@@ -601,6 +603,7 @@ export default class Felin extends React.Component {
                             <span class="icon iconfont iconfont-date">
                               &#xe6b3;
                             </span>
+                            <Calendar value={new Date()} calendarType="US" locale={process.env.REACT_APP_Adyen_locale} showNeighboringMonth="false" view="month" onClickYear={() => {return}} minDate={new Date()}/>
                           </div>
                           <div>
                             <Selection
