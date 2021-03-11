@@ -364,7 +364,7 @@ const fr_FR = {
   getDataFailed: 'Obtenir les données a échoué',
   getPetFailed: "Obtenir l'animal a échoué",
   giveConsentPersonalData: 'et donner mon consentement au traitement des données personnelles, y compris le transfert transfrontalier',
-  goods: 'Étaient',
+  goods: 'Produits',
   goToCart: 'Aller au panier',
   guestCheckout: 'Acheter sans inscription',
   'header.basketEmpty': 'Votre panier est vide',
