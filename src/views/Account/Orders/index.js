@@ -756,7 +756,7 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="order.orderDetails">
                                           {(txt) => (
                                             <Link
-                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap"
+                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
                                               <i className="rc-iconography rc-icon rc-news--xs"></i>

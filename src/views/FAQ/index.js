@@ -102,7 +102,7 @@ class FAQ extends React.Component {
       page: {
         type: 'other',
         theme: 'Brand',
-        path: location.pathname,
+        path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
         filters: ''

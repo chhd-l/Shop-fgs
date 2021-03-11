@@ -1684,10 +1684,11 @@ class Details extends React.Component {
         filters: ''
       },
       pet: {
-        specieId: details.cateId == '1134' ? '2' : '1',
+        specieId: details.cateId == '1134' ? 1 : 2,
         breedName: this.state.breed
       }
     };
+    
     return (
       <div id="Details">
         {Object.keys(event).length ? (
