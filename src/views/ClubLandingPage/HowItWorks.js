@@ -17,8 +17,8 @@ const HowItWorks=()=>{
         <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
           <h3 className="rc-beta">How it works</h3>
         </div>
-        <div style={{display:"flex"}} className='justify-content-between'>
-          <div  >
+        <div style={{display:"flex"}} className='justify-content-between howitworks'>
+          <div >
             <article >
               <div className="rc-card__body">
                 <p className="rc-card__meta"><h5>GET THE RIGHT DIET AND RATION</h5></p>
@@ -34,7 +34,7 @@ const HowItWorks=()=>{
               </div>
             </article>
           </div>
-          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img src={workflowicon}/> </article> </div>
+          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img className="imagetransform" src={workflowicon}/> </article> </div>
           <div  >
             <article >
               <div className="rc-card__body">
@@ -51,7 +51,7 @@ const HowItWorks=()=>{
               </div>
             </article>
           </div>
-          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img src={workflowicon}/> </article> </div>
+          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img className="imagetransform" src={workflowicon}/> </article> </div>
           <div  >
             <article >
               <div className="rc-card__body">
@@ -68,7 +68,7 @@ const HowItWorks=()=>{
               </div>
             </article>
           </div>
-          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img src={workflowicon}/> </article> </div>
+          <div style={{alignSelf:'center',marginLeft:'10px',marginRight:'10px'}} ><article> <img className="imagetransform" src={workflowicon}/> </article> </div>
           <div  >
             <article >
               <div className="rc-card__body">
