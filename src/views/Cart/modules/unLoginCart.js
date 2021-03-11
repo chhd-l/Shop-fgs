@@ -1187,9 +1187,9 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {false?
+          {false ?
             (
-              <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info" style={{marginTop: '-24px'}}>
+              <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info" style={{ marginTop: '-24px' }}>
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
@@ -1203,8 +1203,8 @@ class UnLoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="text-center" style={{width: '200px'}}>
-                  <img style={{display: 'inline-block' ,width: '100px'}} src={Club_Logo}/>  
+                <div className="text-center" style={{ width: '200px' }}>
+                  <img style={{ display: 'inline-block', width: '100px' }} src={Club_Logo} />
                 </div>
                 <div className="tips-info mobile-text-center">
                   You can cancel your subscription anytime, but you will have to
@@ -1212,7 +1212,7 @@ class UnLoginCart extends React.Component {
                   euros.*
                 </div>
               </div>
-            ): null
+            ) : null
           }
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
@@ -1392,7 +1392,7 @@ class UnLoginCart extends React.Component {
             <div className="col-6">
               <span
                 className="rc-input rc-input--inline rc-input--label mr-0"
-                style={{ width: '150px', marginBottom: '10px' }}
+                style={{ width: '150px', marginBottom: '10px',overflow:'hidden' }}
               >
                 <FormattedMessage id="promotionCode">
                   {(txt) => (
@@ -1494,11 +1494,7 @@ class UnLoginCart extends React.Component {
             ))}
           <div className="row">
             <div className="col-6">
-              {process.env.REACT_APP_LANG == 'en' ? (
-                <FormattedMessage id="subtotal" />
-              ) : (
-                <FormattedMessage id="total" />
-              )}
+              <FormattedMessage id="total2" />
             </div>
             <div className="col-6 no-padding-left">
               <p className="text-right sub-total">

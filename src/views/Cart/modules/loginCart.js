@@ -1187,7 +1187,7 @@ class LoginCart extends React.Component {
           <div className="col-6">
             <span
               className="rc-input rc-input--inline rc-input--label mr-0"
-              style={{ width: '150px', marginBottom: '10px' }}
+              style={{ width: '150px', marginBottom: '10px', overflow: 'hidden' }}
             >
               <FormattedMessage id="promotionCode">
                 {(txt) => (
@@ -1211,8 +1211,8 @@ class LoginCart extends React.Component {
               <button
                 id="promotionApply"
                 className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${this.state.isClickApply
-                    ? 'ui-btn-loading ui-btn-loading-border-red'
-                    : ''
+                  ? 'ui-btn-loading ui-btn-loading-border-red'
+                  : ''
                   }`}
                 style={{
                   marginTop: '10px',
@@ -1289,11 +1289,7 @@ class LoginCart extends React.Component {
           ))}
         <div className="row">
           <div className="col-6">
-            {process.env.REACT_APP_LANG == 'en' ? (
-              <FormattedMessage id="subtotal" />
-            ) : (
-              <FormattedMessage id="total" />
-            )}
+            <FormattedMessage id="total2" />
           </div>
           <div className="col-6 no-padding-left">
             <p className="text-right sub-total">

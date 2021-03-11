@@ -29,13 +29,15 @@ class Faq extends Component {
     render() {
         return (
             <Fragment>
-                <div className="fr-faq">
-                    <div><span className="icon icon1"></span>100% безопасный платеж</div>
-                    <div><span className="icon icon2"></span>Гарантия возврата</div>
-                    <div><span className="icon icon3"></span>Премиум качество</div>
-                    <div><span className="icon icon4"></span>Бесплатная доставка</div>
+                <div class="rc-padding-top--md rc-content-v-middle">
+                    <ul class="rc-list rc-list--blank">
+                        <li class="rc-list__item rc-icon rc-lock--xs rc-iconography--xs rc-margin-bottom--xs">100% безопасный платеж</li>
+                        <li class="rc-list__item rc-icon rc-loading--xs rc-iconography--xs rc-margin-bottom--xs">Гарантия возврата</li>
+                        <li class="rc-list__item rc-icon rc-icon rc-low-maintenance--xs rc-iconography rc-margin-bottom--xs">Премиум качество</li>
+                        <li class="rc-list__item rc-icon rc-shop--xs rc-iconography--xs">Бесплатная доставка</li>
+                    </ul>
                 </div>
-                <div className="faq-title rc-delta" style={{marginBottom:'0 !important'}}>FAQ</div>
+                <div className="faq-title rc-delta" style={{ marginBottom: '0 !important' }}>FAQ</div>
                 <dl data-toggle-group="" data-toggle-effect="rc-expand--vertical" className="rc_faq_list">
                     <div className="rc-list__accordion-item" style={{ borderTop: 'none' }} onClick={() => this.faqItemClick(0)}>
                         <dt>

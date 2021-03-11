@@ -104,17 +104,17 @@ class PayProductInfo extends React.Component {
                       item.specDetails,
                       item.num > 1
                         ? this.props.intl.formatMessage(
-                            { id: 'items' },
-                            {
-                              val: item.num
-                            }
-                          )
+                          { id: 'items' },
+                          {
+                            val: item.num
+                          }
+                        )
                         : this.props.intl.formatMessage(
-                            { id: 'item' },
-                            {
-                              val: item.num
-                            }
-                          )
+                          { id: 'item' },
+                          {
+                            val: item.num
+                          }
+                        )
                     ]
                       .filter((e) => e)
                       .join(' - ')}
@@ -138,7 +138,7 @@ class PayProductInfo extends React.Component {
                   <div className="line-item-total-price text-nowrap">
                     {(details.subscriptionResponseVO &&
                       item.subscriptionStatus) ||
-                    item.price < item.splitPrice ? (
+                      item.price < item.splitPrice ? (
                       <>
                         <span className="text-line-through">
                           {formatMoney(item.splitPrice)}
@@ -197,7 +197,7 @@ class PayProductInfo extends React.Component {
                       <div
                         className="line-item-name ui-text-overflow-line2 text-break"
                         title={gift.goodsInfoName}
-                        // onClick={this.handleClickProName.bind(this, item)}
+                      // onClick={this.handleClickProName.bind(this, item)}
                       >
                         <span className="light">{gift.goodsInfoName}</span>
                       </div>
@@ -337,11 +337,7 @@ class PayProductInfo extends React.Component {
                       <div className="col-8 start-lines">
                         <p className="order-receipt-label">
                           <span>
-                            {process.env.REACT_APP_LANG == 'en' ? (
-                              <FormattedMessage id="subtotal" />
-                            ) : (
-                              <FormattedMessage id="total" />
-                            )}
+                            <FormattedMessage id="total2" />
                           </span>
                         </p>
                       </div>
@@ -374,23 +370,23 @@ class PayProductInfo extends React.Component {
 
                     {details.tradePrice.firstOrderOnThePlatformDiscountPrice >
                       0 && (
-                      <div className="row leading-lines shipping-item green">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <FormattedMessage id="promotion.firstOrderDiscount" />
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            -
+                        <div className="row leading-lines shipping-item green">
+                          <div className="col-7 start-lines">
+                            <p className="order-receipt-label order-shipping-cost">
+                              <FormattedMessage id="promotion.firstOrderDiscount" />
+                            </p>
+                          </div>
+                          <div className="col-5 end-lines">
+                            <p className="text-right">
+                              -
                             {formatMoney(
                               details.tradePrice
                                 .firstOrderOnThePlatformDiscountPrice
                             )}
-                          </p>
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
                     {/* 税额 */}
                     {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
@@ -432,8 +428,8 @@ class PayProductInfo extends React.Component {
                             <span className="shipping-total-cost green">
                               -
                               {formatMoney(
-                                details.tradePrice.subscriptionDiscountPrice
-                              )}
+                              details.tradePrice.subscriptionDiscountPrice
+                            )}
                             </span>
                           </p>
                         </div>
@@ -455,8 +451,8 @@ class PayProductInfo extends React.Component {
                             <span className="shipping-total-cost green">
                               -
                               {formatMoney(
-                                details.tradePrice.promotionDiscountPrice
-                              )}
+                              details.tradePrice.promotionDiscountPrice
+                            )}
                             </span>
                           </p>
                         </div>
