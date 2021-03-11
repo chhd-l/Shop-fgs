@@ -29,6 +29,7 @@ import HelpComponents from '../../components/HelpComponents/HelpComponents';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import HowItWorks from './HowItWorks';
 import JoinToday from './JoinToday';
+import ClubHeroCarousel from './ClubHeroCarousel';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -531,7 +532,7 @@ class ClubLandingPage extends React.Component {
 
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              <HeroCarousel history={history} />
+              <ClubHeroCarousel history={history} />
             </div>
           </div>
           <BreadCrumbs/>
