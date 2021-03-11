@@ -1589,7 +1589,8 @@ class Details extends React.Component {
       });
     }
     this.setState({
-      breed
+      breed,
+      specie
     });
   }
 
@@ -1677,18 +1678,18 @@ class Details extends React.Component {
     const event = {
       page: {
         type: 'product',
-        theme: details.cateId == '1134' ? 'Cat' : 'Dog',
+        theme: this.state.specie,
         path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
         filters: ''
       },
       pet: {
-        specieId: details.cateId == '1134' ? 1 : 2,
+        specieId: this.state.specie === 'Cat' ? 1 : 2,
         breedName: this.state.breed
       }
     };
-    
+
     return (
       <div id="Details">
         {Object.keys(event).length ? (
