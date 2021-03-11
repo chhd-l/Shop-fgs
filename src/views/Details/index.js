@@ -2300,6 +2300,125 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
+                              {
+                                true ? (
+                                  <div
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                  key="987654321"
+                                  style={{
+                                    borderColor: parseInt(form.buyWay)
+                                      ? '#e2001a'
+                                      : '#d7d7d7',
+                                    cursor: 'pointer'
+                                  }}
+                                  onClick={this.ChangeFormat.bind(this, 1)}
+                                >
+                                  <div className="radioBox order-1 order-md-1 col-8 col-md-4">
+                                    <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
+                                      <FormattedMessage id="email">
+                                        {(txt) => (
+                                          <input
+                                            className="rc-input__radio"
+                                            id="type_frequency"
+                                            type="radio"
+                                            alt={txt}
+                                            name="buyWay"
+                                            value="1"
+                                            key="1"
+                                            checked={form.buyWay === 1}
+                                          />
+                                        )}
+                                      </FormattedMessage>
+                                      <label
+                                        className="rc-input__label--inline"
+                                        htmlFor="type_frequency"
+                                      >
+                                        <span
+                                          style={{
+                                            fontWeight: '400',
+                                            color: '#333'
+                                          }}
+                                        >
+                                          <span className="iconfont mr-2">
+                                            &#xe675;
+                                          </span>
+                                          <FormattedMessage id="Club subscription" />
+                                        </span>
+                                      </label>
+                                    </div>
+                                    <br />
+                                    <div className="discountBox" style={{background: '#3ab41d'}}>
+                                      <FormattedMessage
+                                        id="saveExtra"
+                                        values={{
+                                          val:
+                                            selectedSpecItem.subscriptionPercentage
+                                        }}
+                                      />
+                                    </div>
+                                      <br />
+                                      <div className="freeshippingBox">
+                                        <FormattedMessage id="freeShipping" />
+                                      </div>
+                                    </div>
+                                    <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
+                                      <span>
+                                        <FormattedMessage id="subscription.frequency" />
+                                        :
+                                      </span>
+                                      <Selection
+                                        customContainerStyle={{
+                                          display: 'inline-block',
+                                          marginLeft: isMobile
+                                            ? '50px'
+                                            : '1.5rem',
+                                          height: isMobile ? '70px' : 'auto'
+                                        }}
+                                        selectedItemChange={
+                                          this.handleSelectedItemChange
+                                        }
+                                        optionList={this.computedList}
+                                        selectedItemData={{
+                                          value: form.frequencyId
+                                        }}
+                                        key={form.frequencyId}
+                                      />
+                                    </div>
+                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
+                                      <div>
+                                        {formatMoney(
+                                          currentSubscriptionPrice || 0
+                                        )}
+                                        <span className="red unit-star">
+                                          <FormattedMessage
+                                            id="starUnit"
+                                            defaultMessage=" "
+                                          />
+                                        </span>
+                                      </div>
+                                      {process.env.REACT_APP_LANG === 'de' &&
+                                      selectedSpecItem ? (
+                                        <div
+                                          style={{
+                                            fontSize: '14px',
+                                            color: '#999'
+                                          }}
+                                        >
+                                          {formatMoney(
+                                            (
+                                              currentSubscriptionPrice /
+                                              parseFloat(
+                                                selectedSpecItem.goodsInfoWeight
+                                              )
+                                            ).toFixed(2)
+                                          )}
+                                          /{selectedSpecItem.goodsInfoUnit}{' '}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                ): null
+                              }
                             </div>
                             <div className="rc-md-up">
                               <div

@@ -1113,61 +1113,6 @@ class LoginCart extends React.Component {
                 </div>
               ) : null}
             </div>
-            {/* <div className="rc-margin-bottom--sm rc-md-down">
-            <div className="product-card-footer product-card-price d-flex">
-              <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                <div className="rc-quantity d-flex">
-                  <span
-                    className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                    onClick={() => this.subQuantity(pitem)}
-                  ></span>
-                  <input
-                    className="rc-quantity__input"
-                    value={pitem.buyCount}
-                    onChange={(e) =>
-                      this.handleAmountChange(e.target.value, pitem)
-                    }
-                    min="1"
-                    max="10"
-                  />
-                  <span
-                    className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                    onClick={() => this.addQuantity(pitem)}
-                  ></span>
-                </div>
-              </div>
-              <div className="line-item-total-price d-flex justify-content-center">
-                <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
-                  =
-                </p>
-                <div className="price">
-                  <div className="strike-through non-adjusted-price">null</div>
-                  <b className="pricing line-item-total-price-amount light">
-                    {formatMoney(pitem.buyCount * pitem.salePrice)}
-                  </b>
-                </div>
-              </div>
-            </div>
-            <div className="availability  product-availability">
-              <div className="flex justify-content-between flex-wrap">
-                <div>
-                  {pitem.subscriptionStatus && pitem.subscriptionPrice > 0 ? (
-                    <>
-                      <span
-                        className="iconfont font-weight-bold red mr-1"
-                        style={{ fontSize: '.9em' }}
-                      >
-                        &#xe675;
-                      </span>
-                      <FormattedMessage id="details.Subscription" />
-                    </>
-                  ) : null}
-                </div>
-                <div className="stock__wrapper">
-                </div>
-              </div>
-            </div>
-          </div> */}
           </div>
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
