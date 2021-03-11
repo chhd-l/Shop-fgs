@@ -32,6 +32,7 @@ import Selection from '@/components/Selection';
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
+import Club_Logo from '@/assets/images/Logo_club.png'
 import './index.less';
 
 const guid = uuidv4();
@@ -1186,6 +1187,33 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
+          {false?
+            (
+              <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info" style={{marginTop: '-24px'}}>
+                <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
+                  <img
+                    className="img"
+                    src={foodDispenserPic}
+                  />
+                  <div className="mobile-text-center">
+                    <div>test</div>
+                    <div>
+                      x1{' '}
+                      <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center" style={{width: '200px'}}>
+                  <img style={{display: 'inline-block' ,width: '100px'}} src={Club_Logo}/>  
+                </div>
+                <div className="tips-info mobile-text-center">
+                  You can cancel your subscription anytime, but you will have to
+                  pay the remaining balance of the dispenser market price of 120
+                  euros.*
+                </div>
+              </div>
+            ): null
+          }
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
               <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info">

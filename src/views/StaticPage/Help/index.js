@@ -66,7 +66,7 @@ class Help extends React.Component {
       page: {
         type: 'other',
         theme: '',
-        path: location.pathname,
+        path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
         filters: '',

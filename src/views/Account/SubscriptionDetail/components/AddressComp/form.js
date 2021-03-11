@@ -370,7 +370,7 @@ export default class AddressForm extends React.Component {
             </label>
             <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
               <CitySearchSelection
-                defaultValue={this.state.deliveryAddress.cityName == 0 ? this.state.deliveryAddress.city : this.state.deliveryAddress.cityName}
+                defaultValue={this.state.deliveryAddress.cityName == 0 || this.state.deliveryAddress.cityName == null ? this.state.deliveryAddress.city : this.state.deliveryAddress.cityName}
                 key={this.state.deliveryAddress.cityName}
                 freeText={true}
                 onChange={this.handleCityInputChange}

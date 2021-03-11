@@ -713,3 +713,7 @@ export function filterObjectValueDeep(obj) {
     }
   return nonEmpty;
 }
+
+export function isCountriesContainer(countries) {
+  return countries.indexOf(process.env.REACT_APP_LANG) > -1
+}

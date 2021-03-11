@@ -1,5 +1,6 @@
 import React from 'react'
 import Rate from '../Rate';
+import CommentImg from './img/Custmersay.PNG'
 
 const CommentCarousel=()=>{
   return(
@@ -7,6 +8,7 @@ const CommentCarousel=()=>{
       <div className="row rc-margin-x--none">
         <div className="rc-full-width">
           <div className="experience-component experience-layouts-cardcarousel">
+            <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <h3 className="rc-beta">What our customers are saying</h3>
             </div>
@@ -19,7 +21,7 @@ const CommentCarousel=()=>{
                     <span className="rc-screen-reader-text">Like</span>
                   </button>
                   <picture className="rc-card__image">
-                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text"/>
+                    <img src={CommentImg} alt="alt text"/>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -40,7 +42,7 @@ const CommentCarousel=()=>{
                     <span className="rc-screen-reader-text">Like</span>
                   </button>
                   <picture className="rc-card__image">
-                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text"/>
+                    <img src={CommentImg} alt="alt text"/>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -61,7 +63,7 @@ const CommentCarousel=()=>{
                     <span className="rc-screen-reader-text">Like</span>
                   </button>
                   <picture className="rc-card__image">
-                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text"/>
+                    <img src={CommentImg} alt="alt text"/>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -82,7 +84,7 @@ const CommentCarousel=()=>{
                     <span className="rc-screen-reader-text">Like</span>
                   </button>
                   <picture className="rc-card__image">
-                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text"/>
+                    <img src={CommentImg} alt="alt text"/>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -220,6 +222,7 @@ const CommentCarousel=()=>{
               </div>
             </div>
 
+          </div>
           </div>
         </div>
       </div>

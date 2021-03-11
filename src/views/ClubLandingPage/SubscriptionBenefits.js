@@ -8,6 +8,12 @@ import autoship from '@/assets/images/home/autoship@2x.png';
 import delivery from '@/assets/images/home/delivery@2x.png';
 import question from '@/assets/images/home/question@2x.png';
 
+import phoneicon from './ClubImage/phoneicon@4x.png'
+import gifticon from './ClubImage/pictogifts@4x.png'
+import spetadviser from './ClubImage/pictospetadviser@4x.png'
+import shippingicon from './ClubImage/pictoshipping@4x.png'
+import nutrition from './ClubImage/pictonutrition@4x.png'
+
 export function SubscriptionBenefits() {
   const defaultJSX = (
     <>
@@ -75,17 +81,19 @@ export function SubscriptionBenefits() {
     {
       en: (
         <>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+              <LazyLoad height={200} >
                 <img
                   className="value-proposition__img lazyloaded"
+                  style={{width:'100px',height:'100px'}}
                   alt="ideal formula"
                   title="ideal formula"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                  src={nutrition}
                 />
               </LazyLoad>
-
+              </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
                   Find the Ideal Formula for Your Pet’s Health
@@ -93,54 +101,82 @@ export function SubscriptionBenefits() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="club benefits"
-                  title="club benefits"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`}
-                />
-              </LazyLoad>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+                <LazyLoad height={200} >
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{width:'100px',height:'100px'}}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={gifticon}
+                  />
+                </LazyLoad>
+              </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Save 5% on Every Autoship Order Plus, 30% Off Your First Order
-                  Through Royal Canin Club
+                  A welcome box, rewards and services
                 </p>
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="Welcome Box"
-                  title="Welcome Box"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`}
-                />
-              </LazyLoad>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+                <LazyLoad height={200} >
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{width:'100px',height:'100px'}}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={spetadviser}
+                  />
+                </LazyLoad>
+              </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Get Expert Advice & Support with Royal Canin Pet Advisor Live
+                  A pet advisor and personalized newsletters
                 </p>
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="Free Automatic Shipping"
-                  title="Free Automatic Shipping"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`}
-                />
-              </LazyLoad>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+                <LazyLoad height={200} >
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{width:'100px',height:'100px'}}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={shippingicon}
+                  />
+                </LazyLoad>
+              </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Free Automatic Shipping
+                  Automatic food refills with free shipping
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{display:'flex',justifyContent:'center'}}>
+                <LazyLoad height={200} >
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{width:'100px',height:'100px'}}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={phoneicon}
+                  />
+                </LazyLoad>
+              </div>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
+                  Full control and free from engagement
                 </p>
               </div>
             </div>

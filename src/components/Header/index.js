@@ -32,7 +32,6 @@ import {
   queryApiFromSessionCache
 } from '@/utils/utils';
 import { getNavigation } from '@/api/hub';
-import { intl_user } from './lang/user';
 import queryNavigation from './mock/navigation';
 import './index.less';
 
@@ -59,8 +58,6 @@ class Header extends React.Component {
     personInformationRouter: '/account/information',
     petsRouter: '/account/pets',
     subscriptionsRouter: '/account/subscription',
-    //User组件多语言
-    intl_user
   };
   constructor(props) {
     super(props);
@@ -569,6 +566,7 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
+                  {console.log(111111, getDeviceType())}
                     {+process.env.REACT_APP_HUB && isMobile ? (
                       searchBarVisible ? null : (
                         <span

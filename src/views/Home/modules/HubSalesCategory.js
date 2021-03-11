@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
 import './css/HubSalesCategory.less';
-import catsImg from './images/cats.png';
-import dogsImg from './images/dogs.png';
+import catsImg from '@/assets/images/salesCategory_cat.png' 
+import dogsImg from '@/assets/images/salesCategory_dog.png' 
 
 export default class HubSalesCategory extends Component {
   static defaultProps = {};
