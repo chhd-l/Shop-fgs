@@ -8,6 +8,12 @@ import autoship from '@/assets/images/home/autoship@2x.png';
 import delivery from '@/assets/images/home/delivery@2x.png';
 import question from '@/assets/images/home/question@2x.png';
 
+import phoneicon from './ClubImage/phoneicon@4x.png'
+import gifticon from './ClubImage/pictogifts@4x.png'
+import spetadviser from './ClubImage/pictospetadviser@4x.png'
+import shippingicon from './ClubImage/pictoshipping@4x.png'
+import nutrition from './ClubImage/pictonutrition@4x.png'
+
 export function SubscriptionBenefits() {
   const defaultJSX = (
     <>
@@ -81,9 +87,10 @@ export function SubscriptionBenefits() {
               <LazyLoad height={200} >
                 <img
                   className="value-proposition__img lazyloaded"
+                  style={{width:'100px',height:'100px'}}
                   alt="ideal formula"
                   title="ideal formula"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                  src={nutrition}
                 />
               </LazyLoad>
               </div>
@@ -100,15 +107,16 @@ export function SubscriptionBenefits() {
                 <LazyLoad height={200} >
                   <img
                     className="value-proposition__img lazyloaded"
+                    style={{width:'100px',height:'100px'}}
                     alt="ideal formula"
                     title="ideal formula"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                    src={gifticon}
                   />
                 </LazyLoad>
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Find the Ideal Formula for Your Pet’s Health
+                  A welcome box, rewards and services
                 </p>
               </div>
             </div>
@@ -119,15 +127,16 @@ export function SubscriptionBenefits() {
                 <LazyLoad height={200} >
                   <img
                     className="value-proposition__img lazyloaded"
+                    style={{width:'100px',height:'100px'}}
                     alt="ideal formula"
                     title="ideal formula"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                    src={spetadviser}
                   />
                 </LazyLoad>
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Find the Ideal Formula for Your Pet’s Health
+                  A pet advisor and personalized newsletters
                 </p>
               </div>
             </div>
@@ -138,15 +147,16 @@ export function SubscriptionBenefits() {
                 <LazyLoad height={200} >
                   <img
                     className="value-proposition__img lazyloaded"
+                    style={{width:'100px',height:'100px'}}
                     alt="ideal formula"
                     title="ideal formula"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                    src={shippingicon}
                   />
                 </LazyLoad>
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Find the Ideal Formula for Your Pet’s Health
+                  Automatic food refills with free shipping
                 </p>
               </div>
             </div>
@@ -157,15 +167,16 @@ export function SubscriptionBenefits() {
                 <LazyLoad height={200} >
                   <img
                     className="value-proposition__img lazyloaded"
+                    style={{width:'100px',height:'100px'}}
                     alt="ideal formula"
                     title="ideal formula"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
+                    src={phoneicon}
                   />
                 </LazyLoad>
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Find the Ideal Formula for Your Pet’s Health
+                  Full control and free from engagement
                 </p>
               </div>
             </div>

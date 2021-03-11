@@ -569,13 +569,12 @@ class ClubLandingPage extends React.Component {
                       <div className=" col-12 col-lg-6">
                         <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                           <h2 className="rc-beta markup-text" style={{fontWeight:'599'}}>
-                            EVER PET IS UNIQUE,THEIR NUTRITION SHOULD BE TOO
+                            EVER PET IS UNIQUE,THEIR NUTRITION SHOULD BE
                           </h2>
-                          <p>Our commitment to nutritional quality and product
-                          safety is at the heart of our operations worldwide.
+                          <p>At Royal Canin, we are dedicated to understanding the needs of pets to ensure their best health and well-being.
                           </p>
-                          <p>Our commitment to nutritional quality and product
-                            safety is at the heart of our operations worldwide.
+                          <p>Our Royal Canin CLUB subscription program is designed by experts to ensure your pet gets precise nutrition combined with the advice and health support that you and your pet need.
+
                           </p>
                           <button className="rc-btn rc-btn--two">Join the Club</button>
                         </div>
