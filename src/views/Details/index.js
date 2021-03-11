@@ -524,6 +524,11 @@ class Details extends React.Component {
     let selectedArr = [];
     let idArr = [];
     let baseSpecId = details.baseSpec;
+    specList.map(el => {
+      if (!el.chidren.filter(el => el.selected).length) {
+        el.chidren[0].selected = true
+      }
+    })
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
