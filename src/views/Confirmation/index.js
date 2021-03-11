@@ -326,7 +326,7 @@ class Confirmation extends React.Component {
       page: {
         type: 'Order Confirmation',
         theme: '',
-        path: location.pathname,
+        path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
         filters: ''
