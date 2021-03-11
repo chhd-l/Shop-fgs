@@ -535,7 +535,6 @@ const fr_FR = {
   'onlineStore.BottomInfo.faq.content1': 'Vous pouvez également consulter notre rubrique FAQ qui vous apportera de nombreuses réponses.',
   'onlineStore.BottomInfo.faq.content2': 'Voir la FAQ',
   'onlineStore.BottomInfo.faq.title': 'Des questions?',
-  'onlineStore.BottomInfo.phone.content1': '0800 41 51 61',
   'onlineStore.BottomInfo.phone.content2': 'De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi {val1} (appel non surtaxé)',
   'onlineStore.BottomInfo.phone.title': 'Par téléphone',
   'onlineStore.breedcrumb': 'Boutique Royal Canin',
