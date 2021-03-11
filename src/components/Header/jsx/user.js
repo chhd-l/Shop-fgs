@@ -198,7 +198,11 @@ const UserJSX = (props) => {
                 <Link to="/account" className="text-white">
                   {firstNameLetter}
                 </Link>{' '}
-                {showCart ? <LoginUserBox self={self} {...props} /> : null}
+                <LoginUserBox
+                  className={`${showCart ? '' : 'rc-hidden'}`}
+                  self={self}
+                  {...props}
+                />
               </a>
             )}
           </li>

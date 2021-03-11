@@ -59,8 +59,7 @@ export const UnLoginUserBox = ({ history, className }) => {
   );
 };
 
-export const LoginUserBox = (props) => {
-  const { self } = props;
+export const LoginUserBox = ({ self, className }) => {
   const {
     personInformationRouter,
     petsRouter,
@@ -71,7 +70,7 @@ export const LoginUserBox = (props) => {
       link: '/account',
       text: (
         <>
-          <span className="iconfont">&#xe697;</span>{' '}
+          <span className="iconfont rc-text-colour--iconography">&#xe697;</span>{' '}
           <span>
             <FormattedMessage id="header.User.home" />
           </span>
@@ -82,7 +81,7 @@ export const LoginUserBox = (props) => {
       link: personInformationRouter,
       text: (
         <>
-          <span className="iconfont">&#xe69c;</span>{' '}
+          <span className="iconfont rc-text-colour--iconography">&#xe69c;</span>{' '}
           <span>
             <FormattedMessage id="header.User.myPersonalInformation" />
           </span>
@@ -93,7 +92,7 @@ export const LoginUserBox = (props) => {
       link: petsRouter,
       text: (
         <>
-          <span className="iconfont">&#xe69a;</span>{' '}
+          <span className="iconfont rc-text-colour--iconography">&#xe69a;</span>{' '}
           <span>
             <FormattedMessage id="header.User.pets" />
           </span>
@@ -104,7 +103,7 @@ export const LoginUserBox = (props) => {
       link: '/account/orders',
       text: (
         <>
-          <span className="iconfont">&#xe699;</span>{' '}
+          <span className="iconfont rc-text-colour--iconography">&#xe699;</span>{' '}
           <span>
             <FormattedMessage id="header.User.myOrders" />
           </span>
@@ -115,7 +114,7 @@ export const LoginUserBox = (props) => {
       link: subscriptionsRouter,
       text: (
         <>
-          <span className="iconfont">&#xe6a2;</span>{' '}
+          <span className="iconfont rc-text-colour--iconography">&#xe6a2;</span>{' '}
           <span>
             <FormattedMessage id="header.User.mySubscriptions" />
           </span>
@@ -126,7 +125,7 @@ export const LoginUserBox = (props) => {
       link: '/faq',
       text: (
         <>
-          <span className="iconfont">&#xe696;</span>{' '}
+          <span className="iconfont rc-text-colour--iconography">&#xe696;</span>{' '}
           <span>
             <FormattedMessage id="header.User.faq" />
           </span>
@@ -135,16 +134,19 @@ export const LoginUserBox = (props) => {
     }
   ];
   return (
-    <div className={`user-login-popover`}>
+    <div className={`user-login-popover ${className}`}>
       <div className="Media">
-        <div className="Media-figure">
+        <Link to="/account" className="Media-figure">
           {userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1)}
-        </div>
+        </Link>
         <div className="Media-body">
-          <div className="fullName">
+          <Link to="/account" className="fullName">
             {userInfo && [userInfo.firstName, userInfo.lastName].join(' ')}
-          </div>
-          <LogoutButton containerStyle={{ background: '#fff' }} />
+          </Link>
+          <LogoutButton
+            btnClass="logoff-style medium ui-cursor-pointer"
+            containerStyle={{ background: '#fff', color: '#444' }}
+          />
         </div>
       </div>
       {menuList.map((item, i) => (
@@ -158,7 +160,7 @@ export const LoginUserBox = (props) => {
           href={process.env.REACT_APP_HUB_MONROYALCANIN}
           style={{ borderTop: '1px solid #DEDEDE', paddingTop: '5px' }}
         >
-          <span className="iconfont iconzhuanfa" />
+          <span className="iconfont iconzhuanfa rc-text-colour--iconography" />
           <span>
             <FormattedMessage id="header.User.monRoyalCanin" />
           </span>
