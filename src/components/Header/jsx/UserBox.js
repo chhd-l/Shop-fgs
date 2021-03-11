@@ -8,30 +8,30 @@ import '../css/user.less';
 const localItemRoyal = window.__.localItemRoyal;
 const userInfo = localItemRoyal.get('rc-userinfo') || null;
 
-export const UnLoginUserBox = (props) => {
-  const { self, history } = props;
+export const UnLoginUserBox = ({ history, className }) => {
   return (
-    <div className={`user-unLogin-popover`}>
+    <div className={`user-unLogin-popover ${className}`}>
       <div className="already">
         <FormattedMessage id="header.User.alreadyRegistered" />
       </div>
       <LoginButton
-        btnStyle={{ width: '14rem', margin: '.5rem 0', padding: '5px 0' }}
+        className="rc-btn rc-btn--one mt-1 mb-1"
+        btnStyle={{ width: '14rem', padding: '5px 0' }}
         history={history}
       />
       <div className="newUser">
         <FormattedMessage id="header.User.newUser" />
-        <Link className="medium pl-1" to="/register">
+        <Link className="medium pl-2 ui-cursor-pointer" to="/register">
           <FormattedMessage id="header.User.registerNow" />
         </Link>
       </div>
       {process.env.REACT_APP_HUB_MONROYALCANIN ? (
         <a
-          className="Offers pt-2 pb-2 text-left"
+          className="Offers pt-2 pb-2111 text-left mt-1"
           href={process.env.REACT_APP_HUB_MONROYALCANIN}
           style={{ display: 'block' }}
         >
-          <span className="iconfont iconzhuanfa mr-3" />
+          <span className="iconfont iconzhuanfa mr-3 rc-text-colour--iconography" />
           <FormattedMessage id="header.User.monRoyalCanin" />
         </a>
       ) : null}
@@ -148,11 +148,7 @@ export const LoginUserBox = (props) => {
         </div>
       </div>
       {menuList.map((item, i) => (
-        <Link
-          key={i}
-          className="basicItem w-100"
-          to={item.link}
-        >
+        <Link key={i} className="basicItem w-100" to={item.link}>
           {item.text}
         </Link>
       ))}

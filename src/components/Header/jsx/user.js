@@ -15,7 +15,6 @@ const isLogin = !!localItemRoyal.get('rc-token');
 const userInfo = localItemRoyal.get('rc-userinfo') || null;
 const clientWidth = document.body.clientWidth;
 
-
 const UserJSX = (props) => {
   const firstNameLetter =
     userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1);
@@ -186,7 +185,11 @@ const UserJSX = (props) => {
             {/* 未登录 */}
             {!isLogin && (
               <a className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
-                {showCart ? <UnLoginUserBox self={self} {...props} /> : null}
+                <UnLoginUserBox
+                  className={`${showCart ? '' : 'rc-hidden'}`}
+                  self={self}
+                  {...props}
+                />
               </a>
             )}
             {/* 登录 */}
