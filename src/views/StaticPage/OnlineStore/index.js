@@ -145,7 +145,6 @@ function AdvantageTips() {
     );
 }
 
-
 @inject('configStore')
 class OnlineStore extends React.Component {
     constructor(props) {
