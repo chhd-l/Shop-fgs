@@ -159,7 +159,7 @@ class UnLoginCart extends React.Component {
           frequencyId:
             (process.env.REACT_APP_FREQUENCY_ID &&
               parseInt(process.env.REACT_APP_FREQUENCY_ID)) ||
-            res[0]
+              res[0]
               ? res[0].id
               : ''
         })
@@ -545,17 +545,17 @@ class UnLoginCart extends React.Component {
     return (
       <div
         className="rc-md-up"
-        // style={{
-        //   display: `${isGift ? 'initial' : 'none'}`,
-        //   position: 'relative',
-        //   top: '1.2rem',
-        //   margin: '0 2rem'
-        // }}
+      // style={{
+      //   display: `${isGift ? 'initial' : 'none'}`,
+      //   position: 'relative',
+      //   top: '1.2rem',
+      //   margin: '0 2rem'
+      // }}
       >
         <div className="product-card-footer product-card-price d-flex">
           <div
             className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto"
-            // style={{ margin: `${isGift ? '0 auto' : 'auto'}` }}
+          // style={{ margin: `${isGift ? '0 auto' : 'auto'}` }}
           >
             <div>
               <FormattedMessage id="quantity" />:{' '}
@@ -587,10 +587,9 @@ class UnLoginCart extends React.Component {
     let isGift = !!pitem.subscriptionPlanGiftList;
     return (
       <div
-        className={`product-quickview product-null product-wrapper product-detail  ${
-          isGift ? 'gift-size-mobile-fr' : ''
-        }`}
-        // style={{ display: `${isGift ? 'initial' : 'none'}` }}
+        className={`product-quickview product-null product-wrapper product-detail  ${isGift ? 'gift-size-mobile-fr' : ''
+          }`}
+      // style={{ display: `${isGift ? 'initial' : 'none'}` }}
       >
         <div className="detail-panel">
           <section className="attributes">
@@ -610,13 +609,11 @@ class UnLoginCart extends React.Component {
                         {sItem.chidren.map((sdItem, i2) => (
                           <div
                             style={{
-                              display: `${
-                                !sdItem.selected && isGift ? 'none' : 'initial'
-                              }`
+                              display: `${!sdItem.selected && isGift ? 'none' : 'initial'
+                                }`
                             }}
-                            className={`rc-swatch__item ${
-                              sdItem.selected ? 'selected' : ''
-                            }`}
+                            className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''
+                              }`}
                             key={i2}
                             onClick={() =>
                               this.handleChooseSize(sdItem, pitem, index)
@@ -647,9 +644,8 @@ class UnLoginCart extends React.Component {
       return (
         <div>
           <div
-            className={`rc-border-all rc-border-colour--interface product-info p-3 ${
-              isGift ? 'no-margin-bottom' : 'has-margin-bottom'
-            }`}
+            className={`rc-border-all rc-border-colour--interface product-info p-3 ${isGift ? 'no-margin-bottom' : 'has-margin-bottom'
+              }`}
             key={index}
           >
             <div
@@ -671,7 +667,7 @@ class UnLoginCart extends React.Component {
             </div>
             {/* <div className="d-flex pl-3"> */}
             <div className="d-flex">
-              <div className="product-info__img w-100 mr-2" style={{overflow:'hidden'}}>
+              <div className="product-info__img w-100 mr-2" style={{ overflow: 'hidden' }}>
                 <LazyLoad>
                   <img
                     className="product-image"
@@ -735,7 +731,7 @@ class UnLoginCart extends React.Component {
                             className={[
                               'availability',
                               pitem.addedFlag &&
-                              pitem.quantity <=
+                                pitem.quantity <=
                                 pitem.sizeList.filter((el) => el.selected)[0]
                                   .stock
                                 ? 'instock'
@@ -753,7 +749,7 @@ class UnLoginCart extends React.Component {
                             <div
                               className={[
                                 pitem.addedFlag &&
-                                pitem.quantity <=
+                                  pitem.quantity <=
                                   pitem.sizeList.filter((el) => el.selected)[0]
                                     .stock
                                   ? ''
@@ -761,7 +757,7 @@ class UnLoginCart extends React.Component {
                               ].join(' ')}
                             >
                               {pitem.addedFlag &&
-                              pitem.quantity <=
+                                pitem.quantity <=
                                 pitem.sizeList.filter((el) => el.selected)[0]
                                   .stock ? (
                                 <FormattedMessage id="details.inStock" />
@@ -833,8 +829,8 @@ class UnLoginCart extends React.Component {
                         >
                           {formatMoney(
                             pitem.quantity *
-                              pitem.sizeList.filter((el) => el.selected)[0]
-                                .salePrice
+                            pitem.sizeList.filter((el) => el.selected)[0]
+                              .salePrice
                           )}
                         </div>
                       </div>
@@ -929,13 +925,13 @@ class UnLoginCart extends React.Component {
                                     <b className="product-pricing__card__head__price red  rc-padding-y--none">
                                       {formatMoney(
                                         pitem.quantity *
-                                          pitem.sizeList.filter(
-                                            (el) => el.selected
-                                          )[0].salePrice -
-                                          pitem.quantity *
-                                            pitem.sizeList.filter(
-                                              (el) => el.selected
-                                            )[0].subscriptionPrice
+                                        pitem.sizeList.filter(
+                                          (el) => el.selected
+                                        )[0].salePrice -
+                                        pitem.quantity *
+                                        pitem.sizeList.filter(
+                                          (el) => el.selected
+                                        )[0].subscriptionPrice
                                       )}
                                     </b>
                                   )
@@ -953,15 +949,15 @@ class UnLoginCart extends React.Component {
                             >
                               {formatMoney(
                                 pitem.quantity *
-                                  pitem.sizeList.filter((el) => el.selected)[0]
-                                    .salePrice
+                                pitem.sizeList.filter((el) => el.selected)[0]
+                                  .salePrice
                               )}
                             </div>
                             <div style={{ color: '#ec001a' }}>
                               {formatMoney(
                                 pitem.quantity *
-                                  pitem.sizeList.filter((el) => el.selected)[0]
-                                    .subscriptionPrice
+                                pitem.sizeList.filter((el) => el.selected)[0]
+                                  .subscriptionPrice
                               )}
                             </div>
 
@@ -1052,7 +1048,7 @@ class UnLoginCart extends React.Component {
                   >
                     {formatMoney(
                       pitem.quantity *
-                        pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                      pitem.sizeList.filter((el) => el.selected)[0].salePrice
                     )}
                   </div>
                 </div>
@@ -1133,12 +1129,12 @@ class UnLoginCart extends React.Component {
                             <b className="product-pricing__card__head__price red  rc-padding-y--none">
                               {formatMoney(
                                 pitem.quantity *
-                                  pitem.sizeList.filter((el) => el.selected)[0]
-                                    .salePrice -
-                                  pitem.quantity *
-                                    pitem.sizeList.filter(
-                                      (el) => el.selected
-                                    )[0].subscriptionPrice
+                                pitem.sizeList.filter((el) => el.selected)[0]
+                                  .salePrice -
+                                pitem.quantity *
+                                pitem.sizeList.filter(
+                                  (el) => el.selected
+                                )[0].subscriptionPrice
                               )}
                             </b>
                           )
@@ -1155,15 +1151,15 @@ class UnLoginCart extends React.Component {
                       >
                         {formatMoney(
                           pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0]
-                              .salePrice
+                          pitem.sizeList.filter((el) => el.selected)[0]
+                            .salePrice
                         )}
                       </div>
                       <div style={{ color: '#ec001a' }}>
                         {formatMoney(
                           pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0]
-                              .subscriptionPrice
+                          pitem.sizeList.filter((el) => el.selected)[0]
+                            .subscriptionPrice
                         )}
                       </div>
 
@@ -1243,9 +1239,9 @@ class UnLoginCart extends React.Component {
     const selectedGoodsInfo = pitem.goodsInfos.filter(
       (ele) =>
         unique(ele.mockSpecIds).sort().toString() ===
-          selectedSpecIds.sort().toString() &&
+        selectedSpecIds.sort().toString() &&
         unique(ele.mockSpecDetailIds).sort().toString() ===
-          selectedSpecDetailId.sort().toString()
+        selectedSpecDetailId.sort().toString()
     )[0];
     // 之前sku pitem.goodsInfoId
     // 增加当前sku selectedGoodsInfo.goodsInfoId
@@ -1390,11 +1386,10 @@ class UnLoginCart extends React.Component {
               <p className="text-right sub-total">
                 <button
                   id="promotionApply"
-                  className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
-                    this.state.isClickApply
-                      ? 'ui-btn-loading ui-btn-loading-border-red'
-                      : ''
-                  }`}
+                  className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${this.state.isClickApply
+                    ? 'ui-btn-loading ui-btn-loading-border-red'
+                    : ''
+                    }`}
                   style={{
                     marginTop: '10px',
                     float: 'right',
@@ -1427,9 +1422,8 @@ class UnLoginCart extends React.Component {
                 key={i}
               >
                 <div
-                  className={`${
-                    !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
-                  }`}
+                  className={`${!checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
+                    }`}
                 >
                   <p
                     style={{
@@ -1444,9 +1438,8 @@ class UnLoginCart extends React.Component {
                   </p>
                 </div>
                 <div
-                  className={`${
-                    !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                  } red`}
+                  className={`${!checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
+                    } red`}
                   style={{ padding: 0 }}
                 >
                   <p>
@@ -1570,7 +1563,7 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="col-4">
                 <p className="text-right shipping-cost">
-                  {process.env.REACT_APP_LANG == 'en' ? (
+                  {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                     <b>{subtractionSign}</b>
                   ) : (
                     formatMoney(this.taxFeePrice)
@@ -1598,7 +1591,7 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="col-5">
                 <p className="text-right grand-total-sum medium">
-                  {process.env.REACT_APP_LANG == 'en' ? (
+                  {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                     <b>{subtractionSign}</b>
                   ) : (
                     formatMoney(this.tradePrice)
@@ -1615,9 +1608,8 @@ class UnLoginCart extends React.Component {
 
             <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
               <div
-                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
-                  mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-                }`}
+                className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                  }`}
                 onClick={this.toggleMobileCart.bind(this, 'more')}
               >
                 <span
