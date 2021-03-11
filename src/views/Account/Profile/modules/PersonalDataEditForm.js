@@ -343,6 +343,7 @@ class PersonalDataEditForm extends React.Component {
       behavior: 'smooth'
     });
     this.changeEditFormVisible(true);
+    // todo
     await this.props.updateData();
     this.validFormData();
   };

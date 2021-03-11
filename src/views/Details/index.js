@@ -1754,7 +1754,7 @@ class Details extends React.Component {
                               {details.goodsSubtitle}
                             </h2>
                           </div>
-                          {+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                          {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
                             <div className="stars">
                               <div className="rc-card__price flex-inline">
                                 <div
@@ -1863,7 +1863,7 @@ class Details extends React.Component {
                                     {details.goodsSubtitle}
                                   </h2>
                                 </div>
-                                {+process.env
+                                {!!+process.env
                                   .REACT_APP_PDP_RATING_VISIBLE && (
                                   <div className="stars">
                                     <div className="rc-card__price flex-inline">
