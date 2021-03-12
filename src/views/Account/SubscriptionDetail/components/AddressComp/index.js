@@ -230,10 +230,14 @@ class AddressList extends React.Component {
   addOrEditAddress(idx = -1) {
     // 地址验证
     this.setState({
-      validationModalVisible: true,
       validationLoading: true,
       itemIdx: idx
     });
+    setTimeout(()=>{
+      this.setState({
+        validationModalVisible: true
+      });
+    },800);
   }
   // 下一步
   showNextPanel() {
