@@ -172,11 +172,13 @@ const UserJSX = (props) => {
       ) : null}
     </>
   );
-  //clientWidth用于兼容 ipad pro展示
-  return !isMobile || clientWidth > 769
-    ? {
-        //hub专用
-        1: (
+
+  return (
+    {
+      //hub专用
+      1:
+        //clientWidth用于兼容 ipad pro展示
+        !isMobile || clientWidth > 769 ? (
           <li
             onMouseOver={self.handleMouseOver}
             onMouseOut={self.handleMouseOut}
@@ -206,9 +208,9 @@ const UserJSX = (props) => {
               </a>
             )}
           </li>
-        )
-      }[process.env.REACT_APP_HUB] || defaultJSX
-    : null;
+        ) : null
+    }[process.env.REACT_APP_HUB] || defaultJSX
+  );
 };
 
 export default UserJSX;
