@@ -702,6 +702,8 @@ class PaymentEditForm extends React.Component {
             <PaymentForm form={this.state.paymentForm}
               monthList={this.state.monthList}
               yearList={this.state.yearList}
+              countryList={this.state.countryList}
+              stateList={this.state.stateList}
               handelCheckboxChange={this.handelCheckboxChange}
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
