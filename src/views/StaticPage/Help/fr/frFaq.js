@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;
@@ -63,17 +64,18 @@ class FrFaq extends Component {
                     <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                       <p>
                         {`Vous pouvez également consulter notre rubrique `}
-                        <a
+                        <DistributeHubLinkOrATag
                           style={{
                             textDecoration: 'underline',
                             color: 'rgb(236,0,26)',
                             backgroundColor: 'rgb(255,255,255)',
                             padding: '0 3px'
                           }}
-                          href={`${process.env.REACT_APP_ACCESS_PATH}faq`}
+                          to="/faq"
+                          href="/about-us/faqs"
                         >
                           FAQ
-                        </a>
+                        </DistributeHubLinkOrATag>
                         qui vous apportera de nombreuses réponses.
                       </p>
                     </div>

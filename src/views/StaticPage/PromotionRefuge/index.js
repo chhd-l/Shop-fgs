@@ -10,6 +10,7 @@ import Carouselem from '@/components/Carouselem';
 import LazyLoad from 'react-lazyload';
 import { list1, list2, list3, list4 } from './goods';
 import { Link } from 'react-router-dom';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
@@ -437,7 +438,7 @@ class PromotionRefuge extends React.Component {
                                     </b>
                                     <p>
                                       {`Vous pouvez également consulter notre rubrique `}
-                                      <Link
+                                      {/* <Link
                                         to="/faq"
                                         style={{
                                           backgroundColor: 'white',
@@ -445,7 +446,15 @@ class PromotionRefuge extends React.Component {
                                         }}
                                       >
                                         FAQ
-                                      </Link>
+                                      </Link> */}
+                                      <DistributeHubLinkOrATag
+                                        style={{
+                                          backgroundColor: 'white',
+                                          color: 'rgb(236,0,26)'
+                                        }}
+                                        to="/faq"
+                                        href="/about-us/faqs"
+                                      >FAQ</DistributeHubLinkOrATag>
                                       qui vous apportera de nombreuses réponses.
                                     </p>
                                   </div>
