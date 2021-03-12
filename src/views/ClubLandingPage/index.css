@@ -84,6 +84,9 @@
     display: flex;
     flex-direction: column;
   }
+  .indexdesktop{
+    display: none;
+  }
 }
 
 @media (min-width: 639.98px) {

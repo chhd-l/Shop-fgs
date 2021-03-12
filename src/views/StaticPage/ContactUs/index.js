@@ -9,6 +9,7 @@ import { backSpacerUP, backSpacerDOWN } from "./utils/usPhone"
 import { validData } from '@/utils/utils';
 import successImg from '@/assets/images/credit-cards/success.png';
 import "./index.less"
+import { submitContactUsInfo } from '@/api/contactUs';
 
 class ContactUs extends Component {
     constructor(props) {
@@ -79,17 +80,42 @@ class ContactUs extends Component {
         const { firstName, lastName, email, request } = this.state.address
         if (firstName && lastName && email && request) return true
     }
-    submitEvent =()=> {
+    submitEvent = async ()=> {
         this.setState({isLoading:true})
         const { address } = this.state;
         address.phoneNumber = this.textInput.current.value
-        setTimeout(()=>{
+      //contact us请求接口调用
+      await submitContactUsInfo({
+        firstName: address.firstName,
+        lastName: address.lastName,
+        email: address.email,
+        phoneNumber: address.phoneNumber,
+        orderNumber: address.orderNumber,
+        question: address.question,
+        request: address.request,
+      }).then((res) => {
+          if (res.code=="K-000000") {
+            //接口返回提交成功
+            this.setState({mail:address.email});
             this.setState({isLoading:false,isFinished:true})
             window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-              });
-        },2000)
+              top: 0,
+              behavior: 'smooth'
+            });
+          }else{
+            //接口返回提交失败状态及原因
+            this.setState({isLoading:false,isFinished:false})
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          window.scrollTo(0, 0);
+          this.setState({ isLoading:false,isFinished:false });
+        });
     }
 
     firstNameJSX = () => {
