@@ -349,16 +349,8 @@ class PaymentForm extends React.Component {
                   className="rc-input rc-input--full-width"
                   input-setup="true"
                 >
-                  {/* <input
-                    className="rc-input__control"
-                    id="city"
-                    value={form.city}
-                    onChange={this.props.handleInputChange}
-                    onBlur={this.props.inputBlur}
-                    name="city"
-                    maxLength="254"
-                  /> */}
                   <CitySearchSelection
+                    placeholder={null}
                     defaultValue={form.city}
                     key={form.city}
                     freeText={true}
