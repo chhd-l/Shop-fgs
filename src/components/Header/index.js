@@ -69,7 +69,8 @@ class Header extends React.Component {
       headerNavigationList: [],
       headerNavigationListForHub: [],
       activeTopParentId: -1,
-      isSearchSuccess: false //是否搜索成功
+      isSearchSuccess: false, //是否搜索成功
+      searchBarVisible: false
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -300,6 +301,13 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    // 滑动时，移除.searchbar--visile，search bar的显示隐藏交由.rc-header--scrolled控制
+    this.toggleDomClassName({
+      dom: document.querySelector('.rc-header'),
+      operatedClassName: 'searchbar--visile',
+      active: false
+    });
+
     const scrolledDom = document.querySelector('.rc-header--scrolled');
     const headerNavigationDom = document.querySelector(
       '.rc-header__nav.rc-header__nav--secondary'
@@ -444,17 +452,34 @@ class Header extends React.Component {
       value: 1
     });
   }
-  toggleShowBodyMask({ visible = false }) {
-    if (visible) {
-      let cls = document.querySelector('body').className.split(' ') || [];
-      cls.push('open-dropdown');
-      document.querySelector('body').className = cls.join(' ');
-    } else {
-      let cls = document.querySelector('body').className.split(' ') || [];
-      const idx = cls.findIndex((c) => c === 'open-dropdown');
-      cls.splice(idx, 1);
-      document.querySelector('body').className = cls.join(' ');
+  /**
+   *
+   * @param {HTML dom} dom 需要操作的dom对象
+   * @param {String} operatedClassName 需要操作的class名字
+   * @param {Boolean} active true-添加 false-删除
+   * @returns
+   */
+  toggleDomClassName({ dom, operatedClassName, active }) {
+    if (!dom) {
+      return false;
     }
+    let cls = dom.className.split(' ') || [];
+    if (active) {
+      cls.push(operatedClassName);
+    } else {
+      const idx = cls.findIndex((c) => c === operatedClassName);
+      if (idx > -1) {
+        cls.splice(idx, 1);
+      }
+    }
+    dom.className = cls.join(' ');
+  }
+  toggleShowBodyMask({ visible = false }) {
+    this.toggleDomClassName({
+      dom: document.querySelector('body'),
+      operatedClassName: 'open-dropdown',
+      active: visible
+    });
   }
   updateActiveTopParentId = (id) => {
     this.setState({ activeTopParentId: id }, () => {
@@ -473,6 +498,20 @@ class Header extends React.Component {
         process.env.REACT_APP_RegisterPrefix +
         window.encodeURIComponent(process.env.REACT_APP_RegisterCallback);
     }
+  };
+  toggleSearchIcon = () => {
+    this.setState(
+      (curState) => ({
+        searchBarVisible: !curState.searchBarVisible
+      }),
+      () => {
+        this.toggleDomClassName({
+          dom: document.querySelector('.rc-header'),
+          operatedClassName: 'searchbar--visile',
+          active: this.state.searchBarVisible
+        });
+      }
+    );
   };
   render() {
     const {
@@ -557,7 +596,10 @@ class Header extends React.Component {
                 {showMiniIcons ? (
                   <>
                     {!!+process.env.REACT_APP_HUB && isMobile ? (
-                      <span className="iconfont icon-search mr-2 icon-search-mini">
+                      <span
+                        className="iconfont icon-search mr-2 icon-search-mini"
+                        onClick={this.toggleSearchIcon}
+                      >
                         &#xe6a5;
                       </span>
                     ) : (
@@ -594,7 +636,7 @@ class Header extends React.Component {
             </nav>
           )}
 
-          {!!+process.env.REACT_APP_HUB ? (
+          {+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}

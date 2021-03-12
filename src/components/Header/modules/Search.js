@@ -340,7 +340,7 @@ export default class Search extends React.Component {
               </FormattedMessage>
             </div>
             {result ? (
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
                 </div>
@@ -399,7 +399,7 @@ export default class Search extends React.Component {
                 <FormattedMessage id="search" />
               </span>
             </button>
-            <div className="rc-sm-up">
+            <div className="rc-sm-down">
               <form
                 className={`inlineblock headerSearch headerSearchDesktop relative ${
                   showSearchInput ? '' : 'rc-hidden'

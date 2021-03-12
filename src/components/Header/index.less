@@ -51,18 +51,21 @@
     transform: rotate(90deg);
   }
 }
-.search-box-expaned {
-  display: block;
-}
+
 .icon-search-mini {
   display: none;
 }
 
-.rc-header--scrolled {
+.rc-header.rc-header--scrolled {
   .search-full-input-container {
     display: none;
   }
   .icon-search-mini {
+    display: block;
+  }
+}
+.rc-header.searchbar--visile {
+  .search-full-input-container {
     display: block;
   }
 }
@@ -226,6 +229,11 @@
       }
       .rc-nav {
         top: 4.167rem;
+      }
+    }
+    .searchbar--visile {
+      .rc-nav {
+        top: 6.8rem;
       }
     }
 
