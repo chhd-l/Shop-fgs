@@ -1682,7 +1682,7 @@ class Details extends React.Component {
       }>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
-    const fromPathName = location.state?.historyBreads?.[0]?.link?.pathname;
+    const fromPathName = location.state?.historyBreads?.[0]?.link?.pathname || location.pathname;
     let theme = '';
     let specieId = '';
     if (fromPathName?.indexOf('dog') > -1) {

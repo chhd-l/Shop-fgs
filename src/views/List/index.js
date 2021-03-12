@@ -2238,7 +2238,7 @@ class List extends React.Component {
                             <span className="rc-intro rc-margin--none rc-md-up">
                               <b style={{textTransform:'capitalize'}}>
                                 {lastBreadListName}
-                              </b>
+                              </b>l
                               (
                               <FormattedMessage
                                 id="results"
