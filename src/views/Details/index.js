@@ -1666,7 +1666,6 @@ class Details extends React.Component {
     } = this.state;
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    console.log(details,'detailsdetails')
     const vet =
       process.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
@@ -1683,14 +1682,14 @@ class Details extends React.Component {
       }>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
-    const fromPathName = location.state?.historyBreads?.[0]?.link?.pathname;
+    const fromPathName = location.state?.historyBreads?.[0]?.link?.pathname || location.pathname;
     let theme = '';
     let specieId = '';
-    if (fromPathName.indexOf('dog') > -1) {
+    if (fromPathName?.indexOf('dog') > -1) {
       theme = 'Dog';
       specieId = 2;
     }
-    if (fromPathName.indexOf('cat') > -1) {
+    if (fromPathName?.indexOf('cat') > -1) {
       theme = 'Cat';
       specieId = 1;
     }

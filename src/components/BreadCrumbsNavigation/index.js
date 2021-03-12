@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 function BreadCrumbsNavigation({ list }) {
-  if(process.env.REACT_APP_LANG == 'en' && list[0]?.name){
+  // 首字母大写
+  if(list[0]?.name){
     let lsname= list[0].name;
     list[0].name= lsname.toLowerCase().charAt(0).toUpperCase() + lsname.toLowerCase().slice(1);
   }

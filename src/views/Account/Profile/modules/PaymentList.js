@@ -70,7 +70,7 @@ class AddressList extends React.Component {
       listLoading: false,
       creditCardList: [],
       fromPage: 'cover',
-      paymentType: process.env.REACT_APP_GA_COUNTRY == 'US'?'cyber':'PAYU', //getway接口没配置美国支付cyber，暂时这样
+      paymentType: 'PAYU', //getway接口没配置美国支付cyber，暂时这样
       errorMsg: ''
     };
 
@@ -83,8 +83,8 @@ class AddressList extends React.Component {
   componentDidMount() {
     this.getPaymentMethodList();
     getWays().then((res) => {
-      if (res.context && res.context.name === 'ADYEN') {
-        this.setState({ paymentType: 'ADYEN' });
+      if (res.context && res.context && res.context.name) {
+        this.setState({ paymentType: res.context.name }); //PAYU,ADYEN,CYBER
       }
     });
   }
