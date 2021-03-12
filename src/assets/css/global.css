@@ -16203,8 +16203,8 @@ body.open-dropdown:after {
   width: 100%;
   top: 0;
   left: 0;
-  opacity: .4;
-  background: #333;
+  /* opacity: .4; */
+  background: #ADADAD;
   -webkit-transition: 1s;
   transition: 1s
 }
