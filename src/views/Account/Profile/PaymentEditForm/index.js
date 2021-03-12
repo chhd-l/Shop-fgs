@@ -854,7 +854,9 @@ class PaymentEditForm extends React.Component {
             hanldeClickConfirm={() => this.confirmValidationAddress()}
             close={() => {
               this.setState({
-                validationModalVisible: false
+                validationModalVisible: false,
+                validationLoading: false,
+                saveLoading: false
               });
             }}
           />
