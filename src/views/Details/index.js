@@ -669,7 +669,7 @@ class Details extends React.Component {
               productRate: goodsRes.avgEvaluate,
               replyNum: goodsRes.goodsEvaluateNum,
               goodsId: goodsRes.goodsId,
-              minMarketPrice: goodsRes.minMarketPrice,
+              minMarketPrice: goodsRes.minMarketPrice,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 taggingForText: (taggingList || []).filter(

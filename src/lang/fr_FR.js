@@ -368,7 +368,7 @@ const fr_FR = {
   goToCart: 'Aller au panier',
   guestCheckout: 'Acheter sans inscription',
   'header.basketEmpty': 'Votre panier est vide',
-  'header.carouselInfo1': "Trouver l'alimentation adaptée à mon animal",
+  'header.carouselInfo1': "Quel aliment pour mon animal ?",
   'header.carouselInfo2': 'Le questionnaire d’aide au choix vous permettra de connaître l’aliment recommandé pour votre animal en 6 questions',
   'header.carouselInfo3': 'Nutrition animale',
   'header.carouselInfo4': 'Conseiller personnel',
@@ -380,7 +380,7 @@ const fr_FR = {
   'header.carouselInfo10': 'Conseiller personnel ROYAL CANIN® CLUB',
   'header.carouselInfo11': 'ROYAL CANIN® CLUB pour chatons',
   'header.startTypingToSearch': 'Taper votre recherche',
-  'header.toBegin': 'Accéder au questionnaire',
+  'header.toBegin': "Trouver l'aliment adapté",
   'header.toLearnMore': 'Pour apprendre plus',
   'header.toOrder': 'Acheter maintenant',
   //header.User  unLogin
