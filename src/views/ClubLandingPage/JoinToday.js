@@ -4,6 +4,7 @@ import Landingpagecat from './ClubImage/Landingpagecat.png'
 import Landingpagedog from './ClubImage/landingpagedog.png'
 import howitworck4 from './ClubImage/howit4.png';
 import LazyLoad from 'react-lazyload';
+import './index.css'
 
 const JoinToday=()=>{
   return(<div className="experience-component experience-layouts-1column">
@@ -29,7 +30,7 @@ const JoinToday=()=>{
                   className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
                   <div style={{display:'flex',justifyContent:'center'}}><Logo/></div>
                   <br/>
-                  <div className="rc-gamma rc-text--center"><h2 style={{fontWeight:'550'}}>Join our subscription today</h2></div>
+                  <div className="rc-gamma text-center"><h2 style={{fontWeight:'550'}}>Join our subscription today</h2></div>
                   <div className="rc-intro inherit-fontsize rc-text--center">
                     <h5>Tell us about your pet to get a precise nutritional recommendation.</h5>
                   </div>

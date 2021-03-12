@@ -524,6 +524,11 @@ class Details extends React.Component {
     let selectedArr = [];
     let idArr = [];
     let baseSpecId = details.baseSpec;
+    specList.map(el => {
+      if (!el.chidren.filter(el => el.selected).length) {
+        el.chidren[0].selected = true
+      }
+    })
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -1677,19 +1682,28 @@ class Details extends React.Component {
       }>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
-
+    const fromPathName = location.state?.historyBreads?.[0]?.link?.pathname;
+    let theme = '';
+    let specieId = '';
+    if (fromPathName?.indexOf('dog') > -1) {
+      theme = 'Dog';
+      specieId = 2;
+    }
+    if (fromPathName?.indexOf('cat') > -1) {
+      theme = 'Cat';
+      specieId = 1;
+    }
     const event = {
       page: {
         type: 'product',
-        theme: this.state.specie,
-        path: this.props.location.pathname,
+        theme,
+        path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
         filters: ''
       },
       pet: {
-        specieId: this.state.specie === 'Cat' ? 1 : 2,
-        breedName: this.state.breed
+        specieId,
       }
     };
 

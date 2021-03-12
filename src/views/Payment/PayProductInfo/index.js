@@ -219,9 +219,11 @@ class PayProductInfo extends React.Component {
   }
   //特殊化处理俄罗斯checkout页面价格单位加粗
   formatRuCheckMoney(val) {
-    const unit=val.substr(val.length-1,1);
-    const other=val.substring(0,val.length - 1);
-    return <span>{other}<b>{unit}</b></span>;
+    if(process.env.REACT_APP_NAVIGATOR_LANG=='ru'){
+      const unit=val.substr(val.length-1,1);
+      const other=val.substring(0,val.length - 1);
+      return <span>{other}<b>{unit}</b></span>;
+    }
   }
   getProducts(plist) {
     const List = plist.map((el, i) => {
