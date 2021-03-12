@@ -606,7 +606,7 @@ class UnLoginCart extends React.Component {
                   {pitem.goodsSpecs &&
                     pitem.goodsSpecs.map((sItem, i) => (
                       <div key={i} className="overflow-hidden">
-                        <div className="text-left ml-1">{sItem.specName}:</div>
+                        <div className="text-left ml-1">{(sItem.specName).charAt(0).toUpperCase() + (sItem.specName).slice(1)}:</div>
                         {sItem.chidren.map((sdItem, i2) => (
                           <div
                             style={{
