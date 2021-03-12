@@ -8,10 +8,11 @@ export default class Modal extends React.Component {
     visible: false,
     headerVisible: true,
     confirmLoading: false,
+    cancelBtnText: <FormattedMessage id="cancel" />,
     confirmBtnText: <FormattedMessage id="yes" />,
     cancelBtnVisible: true,
     footerVisible: true,
-    cancelBtnIsLink:false
+    cancelBtnIsLink: false
   };
   close() {
     this.props.close();
@@ -73,7 +74,8 @@ export default class Modal extends React.Component {
               </div>
               {this.props.footerVisible && (
                 <div className="modal-footer">
-                  {this.props.cancelBtnVisible && !this.props.cancelBtnIsLink? (
+                  {this.props.cancelBtnVisible &&
+                  !this.props.cancelBtnIsLink ? (
                     <button
                       id="modalFooterCancel"
                       type="button"
@@ -81,10 +83,10 @@ export default class Modal extends React.Component {
                       data-dismiss="modal"
                       onClick={() => this.close()}
                     >
-                      <FormattedMessage id="cancel" />
+                      {this.props.cancelBtnText}
                     </button>
                   ) : null}
-                   {this.props.cancelBtnVisible && this.props.cancelBtnIsLink? (
+                  {this.props.cancelBtnVisible && this.props.cancelBtnIsLink ? (
                     <a
                       id="modalFooterCancel"
                       type="button"
@@ -92,7 +94,7 @@ export default class Modal extends React.Component {
                       data-dismiss="modal"
                       onClick={() => this.close()}
                     >
-                      <FormattedMessage id="cancel" />
+                      {this.props.cancelBtnText}
                     </a>
                   ) : null}
                   <button

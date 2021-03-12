@@ -254,7 +254,7 @@ const Step2 = (props) => {
           </div>
         </div>
       </div>
-      <Details goodsDetailTab={props.goodsDetailTab} details={props.details} />
+      <Details goodsDetailTabs={props.goodsDetailTab} details={props.details} />
       <div className="rc-text--center rc-md-up">
         <button
           className="rc-btn rc-btn--sm rc-btn--two button192"
