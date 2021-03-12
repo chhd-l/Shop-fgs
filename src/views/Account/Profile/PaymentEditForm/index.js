@@ -19,7 +19,7 @@ import PaymentForm from '@/components/PaymentForm';
 @observer
 class PaymentEditForm extends React.Component {
   static defaultProps = {
-    paymentType: 'cyber' // PAYU ADYEN cyber(美国支付)
+    paymentType: 'PAYU' // PAYU ADYEN CYBER(美国支付)
   };
   constructor(props) {
     super(props);
@@ -43,23 +43,55 @@ class PaymentEditForm extends React.Component {
 
       // 組件
       paymentForm: {
-        cardNumber: '',
-        month: '01',
-        year: '2018',
         cardholderName: '',
-        codeSecure: '',
-        isChecked: true
+        cardNumber: '',
+        expirationMonth: '',
+        expirationYear: '',
+        securityCode: '',
+        firstName: "",
+        lastName: "",
+        address1: "",
+        address2: "",//非必填
+        country: "",
+        state: "",
+        city: "",
+        zipCode: "",
+        email: "",
+        isSaveCard: true
       },
       monthList: [
         { name: '01', value: 1 },
-        { name: '02', value: 2 }
+        { name: '02', value: 2 },
+        { name: '03', value: 3 },
+        { name: '04', value: 4 },
+        { name: '05', value: 5 },
+        { name: '06', value: 6 },
+        { name: '07', value: 7 },
+        { name: '08', value: 8 },
+        { name: '09', value: 9 },
+        { name: '10', value: 10 },
+        { name: '11', value: 11 },
+        { name: '12', value: 12 },
       ],
       yearList: [
-        { name: '2015', value: 2015 },
-        { name: '2016', value: 2016 },
-        { name: '2017', value: 2017 },
-        { name: '2018', value: 2018 }
-      ]
+        { name: '2021', value: 2021 },
+        { name: '2022', value: 2022 },
+        { name: '2023', value: 2023 },
+        { name: '2024', value: 2024 },
+        { name: '2025', value: 2025 },
+        { name: '2026', value: 2026 },
+        { name: '2027', value: 2027 },
+        { name: '2028', value: 2028 },
+        { name: '2029', value: 2029 },
+        { name: '2030', value: 2030 },
+      ],
+      countryList:[
+        { name: 'Unite States', value: 'Unite States' },
+      ],
+      stateList:[
+        { name: 'Alabama', value: 'Alabama' },
+        { name: 'Alaska', value: 'Alaska' }
+      ],
     };
   }
   get userInfo() {
@@ -246,6 +278,7 @@ class PaymentEditForm extends React.Component {
     this.props.hideMyself({ closeListPage: this.props.backPage === 'cover' });
   };
 
+  //input输入事件
   handleInputChange = (e) => {
     const target = e.target;
     const { paymentForm } = this.state;
@@ -254,27 +287,28 @@ class PaymentEditForm extends React.Component {
     value = target.value;
     paymentForm[name] = value;
     this.setState({ paymentForm }, () => {
-      console.log(paymentForm, '--------paymentForm');
+      console.log(paymentForm, '--------handleInputChange');
     });
     this.inputBlur(e);
   };
-
+  //select事件
   handleSelectedItemChange = (name, item) => {
     const { paymentForm } = this.state;
     paymentForm[name] = item.value;
     this.setState({ paymentForm }, () => {
-      console.log(paymentForm, '--------paymentForm');
+      console.log(paymentForm, '--------handleSelectedItemChange');
     });
   };
-  handelCheckboxChange = () => {
+  //checkbox事件
+  handelCheckboxChange = (name) => {
     const { paymentForm } = this.state;
-    paymentForm['isChecked'] = !paymentForm['isChecked'];
+    paymentForm[name] = !paymentForm[name];
     this.setState(
       {
         paymentForm
       },
       () => {
-        console.log(paymentForm, '--------paymentForm');
+        console.log(paymentForm, '--------handelCheckboxChange');
       }
     );
   };
@@ -663,17 +697,17 @@ class PaymentEditForm extends React.Component {
         )
         }
 
-        { paymentType === 'cyber' && (
-            <>
-              <PaymentForm form={this.state.paymentForm}
-                monthList={this.state.monthList}
-                yearList={this.state.yearList}
-                handelCheckboxChange={this.handelCheckboxChange}
-                handleInputChange={this.handleInputChange}
-                handleSelectedItemChange={this.handleSelectedItemChange}
-                inputBlur={this.inputBlur} />
-            </>
-          )
+        { paymentType === 'CYBER' && (
+          <>
+            <PaymentForm form={this.state.paymentForm}
+              monthList={this.state.monthList}
+              yearList={this.state.yearList}
+              handelCheckboxChange={this.handelCheckboxChange}
+              handleInputChange={this.handleInputChange}
+              handleSelectedItemChange={this.handleSelectedItemChange}
+              inputBlur={this.inputBlur} />
+          </>
+        )
         }
       </div>
     );
