@@ -612,6 +612,22 @@ class Details extends React.Component {
       })
     ])
       .then((resList) => {
+        if (process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID) {
+
+          loadJS({
+            url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+            id: 'cci-widget',
+            dataSets: {
+              token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+              locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+              displaylanguage: process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+              widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
+              ean: '3182550784436',
+              subid: '',
+              trackingid: ''
+            }
+          });
+        }
         const res = resList[0];
         const frequencyDictRes = resList[1];
         const purchaseTypeDictRes = resList[2];
@@ -859,22 +875,6 @@ class Details extends React.Component {
               barcode
             },
             () => {
-              if (process.env.REACT_APP_HUBPAGE_WIDGETID) {
-                loadJS({
-                  url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-                  id: 'cci-widget',
-                  dataSets: {
-                    token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-                    locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
-                    displaylanguage: process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
-                    widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
-                    ean: '3182550784436',
-                    subid: '',
-                    trackingid: ''
-                  }
-                });
-              }
-
               this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
@@ -1711,7 +1711,7 @@ class Details extends React.Component {
     const De = process.env.REACT_APP_LANG === 'de';
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
-    } 
+    }
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
