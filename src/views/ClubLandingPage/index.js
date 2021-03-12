@@ -541,18 +541,7 @@ class ClubLandingPage extends React.Component {
           {console.log(innerWidth,'🌙')}
 
 
-           <div className='experience-component experience-layouts-1to2columnRatio indexmobile'>
-            <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
-              <div className="rc-max-width--md text-center rc-margin-y--md">
-                <div className="rc-alpha inherit-fontsize"><h1>Tailor-made nutrition</h1></div>
-                <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                  <p>Get the right diet from 210 formulas with premium ingredients to fit your pet's unique health needs.</p>
-                </div>
-                <br/>
-                <button className="rc-btn rc-btn--one">Learn more</button>
-              </div>
-            </div>
-          </div>
+
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">

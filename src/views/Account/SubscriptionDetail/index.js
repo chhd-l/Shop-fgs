@@ -12,7 +12,10 @@ import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
+import clubIcon from '@/assets/images/club-icon.png';
+import productDetail from './productDetail.json';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import {
   getDictionary,
   dynamicLoadCss,
@@ -23,6 +26,8 @@ import {
   formatMoney,
   setSeoConfig
 } from '@/utils/utils';
+import foodPic2 from '../../SmartFeederSubscription/img/step2_food.png';
+import Details from '../../SmartFeederSubscription/modules/Details';
 // import ModalFr from '@/components/Recommendation_FR';
 import DatePicker from 'react-datepicker';
 import cancelIcon from './images/cancel.png';
@@ -49,6 +54,7 @@ import {
   startSubscription,
   pauseSubscription
 } from '@/api/subscription';
+import goodsDetailTab from './goodsDetailTab.json';
 import { getRemainings } from '@/api/dispenser';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
@@ -80,8 +86,12 @@ class SubscriptionDetail extends React.Component {
       //订阅购物车参数
       subTotal: 0,
       subShipping: 0,
+      addNewPetVisible: false,
+      changeRecommendationVisible: true,
+      produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
+      changeProductVisible: false,
       seoConfig: {
         title: '',
         metaKeywords: '',
@@ -319,6 +329,177 @@ class SubscriptionDetail extends React.Component {
       new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
     );
   }
+  closeAddNewPet = () => {
+    this.setState({ addNewPetVisible: false });
+  };
+  showAddNewPet = () => {
+    this.setState({ addNewPetVisible: true });
+  };
+  recommendationModal = () => {
+    return (
+      <div>
+        <Modal
+          headerVisible={true}
+          footerVisible={false}
+          visible={true}
+          modalTitle=""
+          close={this.closeAddNewPet}
+        >
+          <h4 className="red text-center mb-3 mt-3">
+            Your product recommendation
+          </h4>
+          <p className="text-center">Please choose your options</p>
+          <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm ">
+            <div className="d-flex ">
+              <div className="d-flex rc-margin-right--xs">
+                <img src="" />
+                <div>
+                  <p>name</p>
+                  <p>type</p>
+                </div>
+              </div>
+              <div className="line-item-quantity text-lg-center rc-margin-right--xs">
+                <div className="text-left ml-1 font_size12 pad_b_5">
+                  <FormattedMessage id="quantityText" />:
+                </div>
+                <div className="rc-quantity d-flex">
+                  <span
+                    className=" rc-icon rc-minus--xs rc-iconography rc-quantity__btn js-qty-minus"
+                    style={{ transform: 'scale(0.8)' }}
+                    // onClick={() => this.subQuantity(pitem)}
+                  ></span>
+                  <input
+                    className="rc-quantity__input"
+                    value="1"
+                    min="1"
+                    max="10"
+                    disabled
+                    // onChange={(e) =>
+                    //   this.handleAmountChange(e.target.value, pitem)
+                    // }
+                  />
+                  <span
+                    className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn js-qty-plus"
+                    style={{ transform: 'scale(0.8)' }}
+                    // onClick={() => this.addQuantity(pitem)}
+                  ></span>
+                </div>
+              </div>
+              <div
+                className="cart-and-ipay rc-margin-right--xs"
+                style={{ float: 'left' }}
+              >
+                <div className="rc-swatch __select-size">
+                  {/* <div className="rc-swatch__item selected">
+                            <span>
+                              {find(pitem.sizeList, s => s.selected).specText}
+                              <i></i>
+                            </span>
+                          </div> */}
+                  <div className="overflow-hidden">
+                    <div className="text-left ml-1 font_size12 pad_b_5">
+                      {/* <FormattedMessage id={item.specName} />: */}
+                      <FormattedMessage id="size" />:
+                    </div>
+                    {/* {item.chidren.map((sdItem) => ( */}
+                    <div
+                      className={`rc-swatch__item`}
+                      // key={i2}
+                      // onClick={() =>
+                      //   this.handleChooseSize(sdItem, pitem, index)
+                      // }
+                    >
+                      <span>
+                        2kg
+                        {/* {sdItem.detailName} */}
+                        <i></i>
+                      </span>
+                    </div>
+                    {/* ))} */}
+                  </div>
+                </div>
+              </div>
+              <p className="frequency rc-margin-right--xs">
+                Frequency
+                {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
+                <div>
+                  <Selection
+                    customContainerStyle={{}}
+                    // selectedItemChange={(data) => handleSelectedItemChange(data)}
+                    optionList={[]}
+                    selectedItemData={{
+                      value: 1
+                    }}
+                    customStyleType="select-one"
+                  />
+                </div>
+              </p>
+            </div>
+           <div className="d-flex">
+           <span className="rc-styled-link">See other recommendation</span>
+            <div>
+              <button className="rc-btn rc-btn--two rc-btn--sm">Product details</button>
+              <button className="rc-btn rc-btn--one rc-btn--sm">Change now</button>
+            </div>
+           </div>
+          </div>
+        </Modal>
+      </div>
+    );
+  };
+  addNewCatModal = () => {
+    return (
+      <div className="add-new-cat-modal">
+        <Modal
+          headerVisible={true}
+          footerVisible={false}
+          visible={this.state.addNewPetVisible}
+          modalTitle={'Link a pet profile to your CLUB subscription'}
+          close={this.closeAddNewPet}
+          // hanldeClickConfirm={() => this.hanldeClickSubmit()}
+          // modalText={this.getModalBox()}
+        >
+          <div className="rc-padding-x--md">
+            <div className="rc-layout-container rc-two-column add-new-cat-modal">
+              <div className="rc-column">
+                <div
+                  style={{ paddingLeft: '2rem', height: '100px' }}
+                  className=" border-solid d-flex height100 align-items-center"
+                >
+                  {false ? (
+                    <img src="" className="pet-img" />
+                  ) : (
+                    <div className="pet-img"></div>
+                  )}
+                  <div style={{ paddingLeft: '1rem' }}>
+                    <div style={{ color: '#e2001a' }}>Merlot</div>
+                    <div>persian</div>
+                  </div>
+                </div>
+              </div>
+              <div className="rc-column">
+                <div
+                  style={{ paddingLeft: '2rem' }}
+                  className="border-dot height100 align-items-center d-flex"
+                >
+                  <div>
+                    <Link to="/account/pets">
+                      + <strong>a new cat</strong>
+                    </Link>
+                  </div>
+                  <img
+                    style={{ paddingLeft: '2rem' }}
+                    className="pet-icon"
+                    src={Banner_Cat}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    );
+  };
   async getDetail(fn) {
     try {
       this.setState({ loading: true });
@@ -913,9 +1094,9 @@ class SubscriptionDetail extends React.Component {
   }
   getButtonBoxGift = (subDetail) => {
     return (
-      <div class="rc-layout-container rc-two-column subdeatial-button-mobile">
+      <div className="rc-layout-container rc-two-column subdeatial-button-mobile">
         <div
-          class="rc-column subdeatial-button-mobile-save rc-md-down"
+          className="rc-column subdeatial-button-mobile-save rc-md-down"
           style={{ textAlign: 'right' }}
         >
           <button
@@ -932,7 +1113,7 @@ class SubscriptionDetail extends React.Component {
           </button>
         </div>
 
-        <div class="rc-column d-flex">
+        <div className="rc-column d-flex">
           <div className="subdeatial-button-mobile-pad">
             <i
               className="iconfont"
@@ -993,7 +1174,7 @@ class SubscriptionDetail extends React.Component {
           </div>
         </div>
         <div
-          class="rc-column subdeatial-button-mobile-save rc-md-up"
+          className="rc-column subdeatial-button-mobile-save rc-md-up"
           style={{ textAlign: 'right' }}
         >
           <button
@@ -1127,6 +1308,262 @@ class SubscriptionDetail extends React.Component {
       )[0]
     });
   }
+  showChangeRecommendation = () => {
+    this.closeProdutctDetail();
+    this.setState({ changeRecommendationVisible: true });
+  };
+  closeAndShowChangeProduct = () => {
+    this.closeProdutctDetail();
+    this.showChangeProduct();
+  };
+  showProdutctDetail = () => {
+    this.closeChangeProduct();
+    this.setState({ produtctDetailVisible: true });
+  };
+  closeProdutctDetail = () => {
+    this.setState({ produtctDetailVisible: false });
+  };
+  closeChangeProduct = () => {
+    this.setState({ changeProductVisible: false });
+  };
+  showChangeProduct = () => {
+    this.setState({ changeProductVisible: true });
+  };
+  getDetailModalInner = () => {
+    const createMarkup = (text) => ({ __html: text });
+    // console.info('detailsdetailsdetails', props.details);
+    return (
+      <div className="margin12 product_detail rc-padding-x--md">
+        <div>
+          <div className="rc-layout-container rc-five-column">
+            <div className="rc-column  rc-header__center d-flex">
+              <LazyLoad>
+                <img src={foodPic2} />
+              </LazyLoad>
+            </div>
+            <div className="rc-column rc-double-width">
+              <div className="title">details.goodsInfoName</div>
+              <div className="sub_title">foodFllType</div>
+              <div>
+                {/* <div className="block">
+                  <p
+                    className="content rc-scroll--x"
+                    style={{ marginBottom: '4rem' }}
+                    dangerouslySetInnerHTML={createMarkup(
+                      props.goodsDetailTab?.tabContent[0]
+                    )}
+                  />
+                </div> */}
+                Royal Canin Jack Russell Terrier Adult dry dog food is designed
+                to meet the nutritional needs of purebred Jack Russell Terriers
+                10 months and older Royal Canin knows what makes your Jack
+                Russell Terrier magnificent is in the details. Small but mighty,
+                the Jack Russell is an energetic dog that requires a ton of
+                activity. They can benefit from the right diet to help maintain
+                muscle mass, protect their skin and coat, and help with dental
+                care, especially as your good-looking little pal becomes older.
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <Details goodsDetailTab={goodsDetailTab} details={props.details} /> */}
+        <Details details={goodsDetailTab} />
+      </div>
+    );
+  };
+  changeProductModal = () => {
+    return (
+      <div className="change-product-modal">
+        <Modal
+          headerVisible={true}
+          footerVisible={false}
+          visible={this.state.changeProductVisible}
+          modalTitle={''}
+          close={this.closeChangeProduct}
+        >
+          <div className="p-f-result-box">
+            <img className="m-auto" src={clubIcon} />
+            <h4 className="red text-center mb-3 mt-3">
+              Your product recommendation
+            </h4>
+            <p className=" text-center">
+              Based on your pet's profile,we recommend the below products to
+              meet your pets'needs. Please comfirm the product change to update
+              your subscription
+            </p>
+          </div>
+
+          <div className="p-f-result-box">
+            <div className="border rounded row pt-3 pb-3">
+              <div className="col-12 col-md-6">
+                <LazyLoad style={{ height: '100%', width: '100%' }}>
+                  <img
+                    src={
+                      productDetail.mainProduct.goodsImg ||
+                      productDetail.mainProduct.goodsInfos.sort(
+                        (a, b) => a.marketPrice - b.marketPrice
+                      )[0].goodsInfoImg
+                    }
+                    className="p-img"
+                    alt=""
+                  />
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
+                <header className="rc-text--center">
+                  <h3
+                    className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
+                    title={productDetail.mainProduct.goodsName}
+                  >
+                    {productDetail.mainProduct.goodsName}
+                  </h3>
+                </header>
+                <div
+                  className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
+                  title={productDetail.mainProduct.subTitle}
+                >
+                  {productDetail.mainProduct.subTitle}
+                </div>
+                <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
+                  your daily ration
+                </div>
+                <div className="text-center mt-2">
+                  {productDetail.mainProduct.toPrice ? (
+                    <span className="mr-1" style={{ fontSize: '.8em' }}>
+                      <FormattedMessage id="startFrom" />
+                    </span>
+                  ) : null}
+                  {formatMoney(productDetail.mainProduct.fromPrice)}
+                  {productDetail.mainProduct.toPrice ? (
+                    <>
+                      <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                        <FormattedMessage id="startEnd" />
+                      </span>
+                      {formatMoney(productDetail.mainProduct.toPrice)}
+                    </>
+                  ) : null}
+                  {/* {formatMoney(
+                          Math.min.apply(
+                            null,
+                            productDetail.mainProduct.goodsInfos.map(
+                              (g) => g.marketPrice || 0
+                            )
+                          )
+                        )} */}
+                </div>
+                <div
+                  className="d-flex justify-content-center mt-3 testtest"
+                  // onClick={() => {
+                  //   this.GAProductClick(productDetail.mainProduct, 0);
+                  // }}
+                >
+                  <span
+                    onClick={this.showProdutctDetail}
+                    className="rc-btn rc-btn--one rc-btn--sm"
+                  >
+                    <FormattedMessage id="seeTheProduct" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="text-center">other products to consider</p>
+          <div className="rc-scroll--x pb-4 rc-padding-x--xl">
+            <div className="d-flex">
+              {productDetail?.otherProducts.map((ele, i) => (
+                <div
+                  className={`border rounded pt-3 pb-3 pl-2 pr-2 pl-md-0 pr-md-0 ${
+                    i ? 'ml-2' : ''
+                  }`}
+                  key={ele.id}
+                  style={{ flex: 1 }}
+                >
+                  <div className="mb-3 p-f-product-img">
+                    <LazyLoad style={{ height: '100%', width: '100%' }}>
+                      <img
+                        src={
+                          ele.goodsImg ||
+                          ele.goodsInfos.sort(
+                            (a, b) => a.marketPrice - b.marketPrice
+                          )[0].goodsInfoImg
+                        }
+                        className="p-img"
+                        alt=""
+                      />
+                    </LazyLoad>
+                  </div>
+                  <div className="d-flex flex-column justify-content-center">
+                    <header className="rc-text--center">
+                      <h3
+                        className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen p-f-product-title"
+                        title={ele.goodsName}
+                      >
+                        {ele.goodsName}
+                      </h3>
+                    </header>
+                    <div
+                      className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
+                      title={ele.subTitle}
+                    >
+                      {ele.subTitle}
+                    </div>
+                    <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
+                      your daily ration
+                    </div>
+                    <div className="text-center mt-2">
+                      {productDetail.mainProduct.toPrice ? (
+                        <span className="mr-1" style={{ fontSize: '.8em' }}>
+                          <FormattedMessage id="startFrom" />
+                        </span>
+                      ) : null}
+                      {formatMoney(productDetail.mainProduct.fromPrice)}
+                      {productDetail.mainProduct.toPrice ? (
+                        <>
+                          <span
+                            className="ml-1 mr-1"
+                            style={{ fontSize: '.8em' }}
+                          >
+                            <FormattedMessage id="startEnd" />
+                          </span>
+                          {formatMoney(productDetail.mainProduct.toPrice)}
+                        </>
+                      ) : null}
+                      {/* {formatMoney(
+                Math.min.apply(
+                  null,
+                  ele.goodsInfos.map((g) => g.marketPrice || 0)
+                )
+              )} */}
+                    </div>
+                    <div
+                      className="d-flex justify-content-center mt-3"
+                      // onClick={()=>{
+                      //   this.GAProductClick(ele, i+1)
+                      // }}
+                    >
+                      <Link
+                        to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
+                        className="rc-btn rc-btn--one rc-btn--sm"
+                      >
+                        <FormattedMessage id="seeTheProduct" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="details-infos d-flex">
+            <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+            The recommendations provided here are for infomational purpose
+            only.Ie should not be cosidered as guarantee for what may be best
+            for your individual pet. Quantity,Size and Frequency will be set up
+            in the CLUB management page
+          </p>
+        </Modal>
+      </div>
+    );
+  };
 
   pauseOrStart = async (subDetail) => {
     let subscribeStatus = '0';
@@ -1204,6 +1641,36 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
+  statusText = () => {
+    let { subDetail, isNotInactive } = this.state;
+    return subDetail.subscribeId ? (
+      isNotInactive ? (
+        <span
+          style={{
+            background: '#E0F3D4',
+            color: '#47B700',
+            fontSize: '14px',
+            padding: '0 5px',
+            marginLeft: '10px'
+          }}
+        >
+          <FormattedMessage id="active" />
+        </span>
+      ) : (
+        <span
+          style={{
+            background: '#FCEBD4',
+            color: '#ED8A00',
+            fontSize: '14px',
+            padding: '0 5px',
+            marginLeft: '10px'
+          }}
+        >
+          <FormattedMessage id="inactive" />
+        </span>
+      )
+    ) : null;
+  };
   render() {
     const event = {
       page: {
@@ -1445,40 +1912,36 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
+                    <div className="d-flex align-items-center add-pet-btn-wrap">
+                      <img src={clubIcon} className="rc-md-up" />
+                      <div
+                        className="pet-img add-pet-btn text-center"
+                        onClick={this.showAddNewPet}
+                      ></div>
+                      <div>
+                        For a better experience we recommend linking a pet
+                        profile to your Club subscription
+                        <div>
+                          <span
+                            className="rc-styled-link"
+                            onClick={this.showAddNewPet}
+                          >
+                            Link a profile
+                          </span>
+                          <span className="mobile-block">
+                            {this.statusText()}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                     <h4
                       className="rc-delta font-weight-normal mb-2"
-                      style={{ color: '#666' }}
+                      style={{ color: '#666', display: 'none' }}
                     >
                       {subDetail.subscribeId ? (
                         <span>{`${subDetail.subscribeId}`}</span>
                       ) : null}
-                      {subDetail.subscribeId ? (
-                        isNotInactive ? (
-                          <span
-                            style={{
-                              background: '#E0F3D4',
-                              color: '#47B700',
-                              fontSize: '14px',
-                              padding: '0 5px',
-                              marginLeft: '10px'
-                            }}
-                          >
-                            <FormattedMessage id="active" />
-                          </span>
-                        ) : (
-                          <span
-                            style={{
-                              background: '#FCEBD4',
-                              color: '#ED8A00',
-                              fontSize: '14px',
-                              padding: '0 5px',
-                              marginLeft: '10px'
-                            }}
-                          >
-                            <FormattedMessage id="inactive" />
-                          </span>
-                        )
-                      ) : null}
+                      {this.statusText()}
                     </h4>
                   </div>
                   {/* <hr className="rc-margin-top---none" /> */}
@@ -1854,6 +2317,12 @@ class SubscriptionDetail extends React.Component {
                                         <LazyLoad>
                                           <img src={el.goodsPic} alt="" />
                                         </LazyLoad>
+                                        <span
+                                          className="rc-styled-link"
+                                          onClick={this.showChangeProduct}
+                                        >
+                                          change product
+                                        </span>
                                       </div>
                                       <div
                                         className="v-center"
@@ -2977,7 +3446,7 @@ class SubscriptionDetail extends React.Component {
                                           <div className={`col-12 col-md-6`}>
                                             <div className="text-right">
                                               <div className="row">
-                                                <div class="col-1 col-md-3" />
+                                                <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
                                                   <FormattedMessage id="subscription.total" />
                                                 </label>
@@ -2992,7 +3461,7 @@ class SubscriptionDetail extends React.Component {
                                               {el.tradePrice
                                                 .subscriptionDiscountPrice ? (
                                                 <div className="row">
-                                                  <div class="col-1 col-md-3" />
+                                                  <div className="col-1 col-md-3" />
                                                   <label className="green col-5 text-left">
                                                     <FormattedMessage id="promotion" />
                                                     :
@@ -3011,7 +3480,7 @@ class SubscriptionDetail extends React.Component {
                                               {el.tradePrice
                                                 .promotionDiscountPrice ? (
                                                 <div className="row">
-                                                  <div class="col-1 col-md-3" />
+                                                  <div className="col-1 col-md-3" />
                                                   <label className="green col-5 text-left">
                                                     <FormattedMessage id="promotion" />
                                                     :
@@ -3030,7 +3499,7 @@ class SubscriptionDetail extends React.Component {
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el, i) => (
                                                   <div className="row" key={i}>
-                                                    <div class="col-1 col-md-3" />
+                                                    <div className="col-1 col-md-3" />
                                                     <label
                                                       className="red-text col-5"
                                                       style={{
@@ -3557,6 +4026,23 @@ class SubscriptionDetail extends React.Component {
             </div>
           </main>
           <Footer />
+          {this.addNewCatModal()}
+          {this.changeProductModal()}
+          {this.recommendationModal()}
+          <div className="product-detail-modal">
+            <Modal
+              headerVisible={true}
+              footerVisible={true}
+              visible={this.state.produtctDetailVisible}
+              cancelBtnText="See other recommendation"
+              confirmBtnText="Choose this product"
+              modalTitle={''}
+              hanldeClickConfirm={this.showChangeRecommendation}
+              close={this.closeAndShowChangeProduct}
+            >
+              {this.getDetailModalInner()}
+            </Modal>
+          </div>
         </div>
       </div>
     );

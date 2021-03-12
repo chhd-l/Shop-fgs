@@ -1033,6 +1033,21 @@ const en_US = {
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
-  yourPasswordNotVerified: 'Your password has not been verified'
+  yourPasswordNotVerified: 'Your password has not been verified',
+  "cyber.form.cardHolderName": "Name on Card",
+  "cyber.form.cardNumber": "Card number",
+  "cyber.form.EXPMonth": "Expiration Month",
+  "cyber.form.EXPYear": "Expiration Year",
+  "cyber.form.secureCode": "Security Code",
+  "cyber.form.saveFor": "Save for next payment",
+  'cyber.form.theBox': 'This box is required for subscription',
+  'cyber.form.firstName': 'First Name',
+  'cyber.form.lastName': 'LastName Name',
+  'cyber.form.address1': 'Address (line 1)',
+  'cyber.form.address2': 'Address (line 2)',
+  'cyber.form.country': 'Country',
+  'cyber.form.state': 'State',
+  'cyber.form.city': 'City',
+  'cyber.form.email': 'Email',
 }
 export default en_US;
