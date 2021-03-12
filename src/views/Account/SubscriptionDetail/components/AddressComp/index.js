@@ -239,9 +239,13 @@ class AddressList extends React.Component {
       } else {
         // 地址验证
         this.setState({
-          validationModalVisible: true,
-          validationLoading: true,
+          validationLoading: true
         });
+        setTimeout(()=>{
+          this.setState({
+            validationModalVisible: true
+          });
+        },800);
       }
 
     });

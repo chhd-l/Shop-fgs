@@ -399,9 +399,13 @@ class AddressList extends React.Component {
     }
     // 地址验证
     this.setState({
-      validationModalVisible: true,
       saveLoading: true
     });
+    setTimeout(()=>{
+      this.setState({
+        validationModalVisible: true
+      });
+    },800);
   };
   // 选择地址
   chooseValidationAddress = (e) => {
