@@ -104,11 +104,6 @@ class LoginCart extends React.Component {
         location: { search }
       }
     } = this.props;
-    // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
-    const tokenFromUrl = getParaByName(search, 'token');
-    if (tokenFromUrl) {
-      localItemRoyal.set('rc-token', tokenFromUrl);
-    }
 
     await getFrequencyDict().then((res) => {
       this.setState({
