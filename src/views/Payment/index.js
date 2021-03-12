@@ -1050,8 +1050,8 @@ class Payment extends React.Component {
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
-      
-      
+
+
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = this.bindSubmitParam(this.state.listData);
       userBindConsent({
@@ -1543,8 +1543,8 @@ class Payment extends React.Component {
       <>
         <div
           className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${paymentStore.deliveryAddrPanelStatus.isEdit
-              ? 'border-333'
-              : 'border-transparent'
+            ? 'border-333'
+            : 'border-transparent'
             }`}
           id="J_checkout_panel_deliveryAddr"
         >
@@ -1632,12 +1632,17 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
+    this.setState({ saveBillingLoading: true });
+    setTimeout(() => {
+      this.confirmPaymentPanel();
+    }, 800);
+  };
+  confirmPaymentPanel = async () => {
     const { isLogin } = this;
     const { paymentStore } = this.props;
     const { adyenPayParam, paymentTypeVal } = this.state;
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
-    this.setState({ saveBillingLoading: true });
 
     async function handleClickSaveAdyenForm(_this) {
       try {
@@ -1709,7 +1714,7 @@ class Payment extends React.Component {
     } finally {
       this.setState({ saveBillingLoading: false });
     }
-  };
+  }
 
   handleClickPaymentPanelEdit = () => {
     this.props.paymentStore.setStsToEdit({
@@ -1770,8 +1775,8 @@ class Payment extends React.Component {
               return (
                 <div
                   className={`rc-input rc-input--inline ${subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
-                      ? 'hidden'
-                      : ''
+                    ? 'hidden'
+                    : ''
                     }`}
                   key={i}
                 >
@@ -2451,8 +2456,8 @@ class Payment extends React.Component {
                 )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${paymentMethodPanelStatus.isEdit
-                      ? 'border-333'
-                      : 'border-transparent'
+                    ? 'border-333'
+                    : 'border-transparent'
                     }`}
                   id="J_checkout_panel_paymentMethod"
                 >
