@@ -524,6 +524,11 @@ class Details extends React.Component {
     let selectedArr = [];
     let idArr = [];
     let baseSpecId = details.baseSpec;
+    specList.map(el => {
+      if (!el.chidren.filter(el => el.selected).length) {
+        el.chidren[0].selected = true
+      }
+    })
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -844,19 +849,22 @@ class Details extends React.Component {
               barcode
             },
             () => {
-              loadJS({
-                url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-                id: 'cci-widget',
-                dataSets: {
-                  token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-                  locale: 'fr-FR',
-                  displaylanguage: 'fr',
-                  widgetid: 'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
-                  ean: '3182550784436',
-                  subid: '',
-                  trackingid: ''
-                }
-              });
+              if (process.env.REACT_APP_HUBPAGE_WIDGETID) {
+                loadJS({
+                  url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+                  id: 'cci-widget',
+                  dataSets: {
+                    token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+                    locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+                    displaylanguage: process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+                    widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
+                    ean: '3182550784436',
+                    subid: '',
+                    trackingid: ''
+                  }
+                });
+              }
+
               this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
@@ -1658,6 +1666,7 @@ class Details extends React.Component {
     } = this.state;
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+    console.log(details,'detailsdetails')
     const vet =
       process.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
@@ -1674,19 +1683,28 @@ class Details extends React.Component {
       }>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
-
+    const fromPathName = location.state?.historyBreads?.[0]?.link?.pathname;
+    let theme = '';
+    let specieId = '';
+    if (fromPathName.indexOf('dog') > -1) {
+      theme = 'Dog';
+      specieId = 2;
+    }
+    if (fromPathName.indexOf('cat') > -1) {
+      theme = 'Cat';
+      specieId = 1;
+    }
     const event = {
       page: {
         type: 'product',
-        theme: this.state.specie,
-        path: this.props.location.pathname,
+        theme,
+        path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
         filters: ''
       },
       pet: {
-        specieId: this.state.specie === 'Cat' ? 1 : 2,
-        breedName: this.state.breed
+        specieId,
       }
     };
 
@@ -1754,7 +1772,7 @@ class Details extends React.Component {
                               {details.goodsSubtitle}
                             </h2>
                           </div>
-                          {+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                          {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
                             <div className="stars">
                               <div className="rc-card__price flex-inline">
                                 <div
@@ -1863,7 +1881,7 @@ class Details extends React.Component {
                                     {details.goodsSubtitle}
                                   </h2>
                                 </div>
-                                {+process.env
+                                {!!+process.env
                                   .REACT_APP_PDP_RATING_VISIBLE && (
                                   <div className="stars">
                                     <div className="rc-card__price flex-inline">
@@ -2505,8 +2523,7 @@ class Details extends React.Component {
                   }`}
                     >
                       <div
-                        className="rc-list__header d-flex justify-content-between"
-                        style={{ textTransform: 'uppercase' }}
+                        className="rc-list__header d-flex justify-content-between text-uppercase"
                         onClick={this.changeTab.bind(this, {
                           idx: index,
                           type: 'toggle',

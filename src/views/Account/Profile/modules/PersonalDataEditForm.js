@@ -215,9 +215,13 @@ class PersonalDataEditForm extends React.Component {
   handleSave = () => {
     // 地址验证
     this.setState({
-      validationModalVisible: true,
       validationLoading: true
     });
+    setTimeout(()=>{
+      this.setState({
+        validationModalVisible: true
+      });
+    },800);
   };
   showNextPanel = async () => {
     this.setState({
@@ -343,6 +347,7 @@ class PersonalDataEditForm extends React.Component {
       behavior: 'smooth'
     });
     this.changeEditFormVisible(true);
+    // todo
     await this.props.updateData();
     this.validFormData();
   };

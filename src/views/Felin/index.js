@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import LazyLoad from 'react-lazyload';
 import dateIcon from '@/assets/images/date.png';
-import { getFormatDate, datePickerConfig } from '@/utils/utils';
+import { getFormatDate, datePickerConfig, validData } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
-import { validData } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.less';
 import { Link } from 'react-router-dom';
@@ -16,6 +15,8 @@ import { loadJS } from '@/utils/utils';
 import { format } from 'date-fns';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import FaceBook_Icon from '@/assets/images/facebookIcon.png'
+import Insgram_Icon from '@/assets/images/insgramIcon.png'
 
 function Divider() {
   return (
@@ -42,11 +43,11 @@ function scrollIntoView(element) {
   const headerElement = document.querySelector(`.Felin`);
   if (element && headerElement) {
     // console.log(getElementTop(element) headerElement.offsetHeight)
-    let headerHeight = 93;
+    let headerHeight = 54;
     if (getElementTop(element) > document.documentElement.scrollTop) {
-      headerHeight = 93;
+      headerHeight = 54;
     } else {
-      headerHeight = 159;
+      headerHeight = 120;
     }
     window.scroll({
       top: getElementTop(element) - headerHeight - 60,
@@ -95,49 +96,70 @@ export default class Felin extends React.Component {
       consentChecked: false,
       isContactUs: false,
       currentTabIndex: 0,
-      topVal: '159px'
+      topVal: '159px',
+      currentDate: new Date()
     };
   }
   componentDidMount() {
     window.addEventListener('scroll', (e) => {
       if (document.querySelector('.rc-header--scrolled')) {
-        this.setState({ topVal: '93px' });
+        this.setState({ topVal: '54px' });
       } else {
-        this.setState({ topVal: '159px' });
+        this.setState({ topVal: '120px' });
       }
       // let topVal = document.documentElement.scrollTop
       // document.querySelector('.tabs').style.top = topVal + 'px'
     });
-    setTimeout(() => {
-      var picker = new Pikaday({
-        field: document.getElementById('datepicker'),
-        minDate: new Date(),
-        disableDayFn: (date) => {
-          return new Date(date).getDay() === 1;
-        },
-        format: 'DD/MM/YYYY',
-        toString(date, format) {
-          let day = date.getDate();
-          let month = date.getMonth() + 1;
-          const year = date.getFullYear();
-          if(day < 10) {
-            day =  '0' + day
-          }
-          if(month < 10) {
-            month = '0' + month
-          }
-          return `${day}/${month}/${year}`;
-        },
-        parse(dateString, format) {
-            const parts = dateString.split('/');
-            const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10) - 1;
-            const year = parseInt(parts[2], 10);
-            return new Date(year, month, day);
-        }
-      });
-    }, 3000);
+    // setTimeout(() => {
+    //   var picker = new Pikaday({
+    //     field: document.getElementById('datepicker'),
+    //     minDate: new Date(),
+    //     disableDayFn: (date) => {
+    //       return new Date(date).getDay() === 1;
+    //     },
+    //     format: 'DD/MM/YYYY',
+    //     toString(date, format) {
+    //       let day = date.getDate();
+    //       let month = date.getMonth() + 1;
+    //       const year = date.getFullYear();
+    //       if (day < 10) {
+    //         day = '0' + day;
+    //       }
+    //       if (month < 10) {
+    //         month = '0' + month;
+    //       }
+    //       return `${day}/${month}/${year}`;
+    //     },
+    //     parse(dateString, format) {
+    //       const parts = dateString.split('/');
+    //       const day = parseInt(parts[0], 10);
+    //       const month = parseInt(parts[1], 10) - 1;
+    //       const year = parseInt(parts[2], 10);
+    //       return new Date(year, month, day);
+    //     }
+    //   });
+    // }, 3000);
 
+    document.querySelector(
+      '.react-calendar__navigation__prev-button'
+    ).innerHTML = `<span class="icon iconfont">
+      &#xe6fa;
+    </span>`;
+    document.querySelector(
+      '.react-calendar__navigation__next-button'
+    ).innerHTML = `<span class="icon iconfont">
+      &#xe6f9;
+    </span>`;
+
+    // document.querySelector('.iconfont.font-weight-bold.icon-arrow').innerHTML = `&#xe601;`
+    let iconDom = document.querySelector(
+      '.iconfont.font-weight-bold.icon-arrow '
+    );
+    document.querySelector('#Selection').removeChild(iconDom);
+    let needIconDom = document.createElement('span');
+    needIconDom.classList.add('icon', 'iconfont');
+    needIconDom.innerHTML = `&#xe601;`;
+    document.querySelector('#Selection').appendChild(needIconDom);
     // setTimeout(() => {
     //   const datePickerOptions = {
     //     i18n: {
@@ -325,16 +347,23 @@ export default class Felin extends React.Component {
                 <h3>Contacter l’Atelier Félin</h3>
               </div>
               <p className="mb-20">
-                Nous cherchons à apporter le meilleur pour votre chat.
                 Contactez-nous pour en savoir plus sur l’Atelier Félin et notre
                 mission.
               </p>
               <p>latelierfelin@royalcanin.com</p>
-              <p className="mb-20">(555) 555-5555</p>
+              <p className="mb-20">0986568097</p>
               <p>6 Rue des Coutures Saint-Gervais</p>
               <p className="mb-20">75003 Paris</p>
               <p>Horaires d’ouverture :</p>
               <p className="mb-20">Mardi - Dimanche, 10h - 20h</p>
+              <p>
+                <a href="https://fr-fr.facebook.com/RoyalCaninFrance/">
+                  <img style={{display: 'inline-block', width: '50px', marginLeft: '20px'}} src={FaceBook_Icon}/>  
+                </a>
+                <a href="https://www.instagram.com/royalcaninfrance/?hl=en">
+                  <img style={{display: 'inline-block', width: '50px', marginLeft: '20px'}} src={Insgram_Icon}/>
+                </a>
+              </p>
             </div>
             <div style={{ display: !isContactUs ? 'block' : 'none' }}>
               <div class="rc-layout-container rc-two-column rc-content-h-middle">
@@ -346,7 +375,7 @@ export default class Felin extends React.Component {
                       />
                     </LazyLoad>
                     <div className="rc-gamma inherit-fontsize mt-2">
-                      <h3>
+                      <h3 className="firstTitle">
                         Un nouveau lieu d’échanges sur la santé et le bien-être
                         de votre chat, au coeur de Paris
                       </h3>
@@ -360,7 +389,7 @@ export default class Felin extends React.Component {
                     >
                       Venez rencontrer nos comportementalistes félins
                     </button>
-                    <p className="mt-3">
+                    <p className="mt-3" style={{fontSize: '14px', marginLeft: '10px'}}>
                       L'Atelier Félin est ouvert uniquement du 20 avril au 13
                       juin 2021
                     </p>
@@ -383,15 +412,15 @@ export default class Felin extends React.Component {
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
-                          Vous vivez en appartement avec votre chat ? Venez
-                          recontrer nos experts
+                          Vous vivez en appartement avec votre chat ? Posez
+                          toutes vos questions à nos experts
                         </h3>
                       </div>
                       <p className="mb-20">
                         L’Atelier Félin est fait pour vous : venez rencontrer
                         des experts, posez-leur vos questions sur le
                         comportement de votre chat, ses habitudes, ses soins et
-                        la nourriture la plus appropriée à ses besoins…
+                        la nutrition la plus appropriée à ses besoins…
                       </p>
                       <p className="mb-20">
                         Des comportementalistes félins et vétérinaires vous
@@ -414,7 +443,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x_1.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -426,7 +455,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.png`}
                       />
                     </LazyLoad>
                   </h1>
@@ -497,7 +526,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -512,7 +541,7 @@ export default class Felin extends React.Component {
                   <h1 class="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x.jpeg`}
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
                       />
                     </LazyLoad>
                   </h1>
@@ -529,7 +558,7 @@ export default class Felin extends React.Component {
                       </p>
                       <p className="mb-20">
                         Nous vous accueillons au coeur du marais, au 6 Rue des
-                        Coutures Saint-Gervais, du 20 avril au 12 juin 2021.
+                        Coutures Saint-Gervais, du 20 avril au 13 juin 2021.
                       </p>
                       <p className="mb-20">
                         Venez rencontrer nos associations partenaires pour
@@ -549,14 +578,20 @@ export default class Felin extends React.Component {
                     style={{ paddingTop: '50px' }}
                   >
                     <div className="rc-gamma inherit-fontsize">
-                      <h3 style={{ display: 'inline-block' }}>
-                        Réservez un rendez-vous avec un de nos experts dès à
-                        présent.
-                      </h3>
+                      {
+                        this.state.step < 6? (<h3 style={{ display: 'inline-block' }}>
+                          Réservez un rendez-vous avec un de nos experts dès à
+                          présent.
+                        </h3>): (
+                          <h3 style={{ display: 'inline-block' }}>
+                            Rendez-vous confirmé.
+                          </h3>
+                        )
+                      }
                     </div>
                     <div
                       style={{
-                        width: '300px',
+                        width: this.state.step < 6?'320px': '450px',
                         display: 'inline-block',
                         textAlign: 'left'
                       }}
@@ -572,16 +607,22 @@ export default class Felin extends React.Component {
                               style={{
                                 marginTop: '10px',
                                 display: 'inline-block',
-                                width: '283px'
+                                width: '303px'
                               }}
                             >
                               <input
                                 type="text"
                                 autocomplete="off"
                                 id="datepicker"
-                                placeholder="Select Date"
-                                style={{width: '100%', border: 'none', cursor: 'pointer'}}
-                              ></input>
+                                placeholder="Sélectionner une date"
+                                style={{
+                                  width: '100%',
+                                  border: 'none',
+                                  // cursor: 'pointer'
+                                }}
+                                disabled
+                                value={getFormatDate(this.state.currentDate, null, 'fr')}
+                              />
                               {/* <DatePicker
                                 className="receiveDate"
                                 placeholder="Select Date"
@@ -603,7 +644,21 @@ export default class Felin extends React.Component {
                             <span class="icon iconfont iconfont-date">
                               &#xe6b3;
                             </span>
-                            <Calendar value={new Date()} calendarType="US" locale={process.env.REACT_APP_Adyen_locale} showNeighboringMonth="false" view="month" onClickYear={() => {return}} minDate={new Date()}/>
+                            <Calendar
+                              value={this.state.currentDate}
+                              calendarType="US"
+                              locale={process.env.REACT_APP_Adyen_locale}
+                              view="month"
+                              onClickYear={() => {
+                                return;
+                              }}
+                              minDate={new Date()}
+                              onChange={(date) => {
+                                console.log(date);
+                                this.setState({ currentDate: date });
+                              }}
+                              // navigationLabel={() => `ahahahax`}
+                            />
                           </div>
                           <div>
                             <Selection
@@ -943,6 +998,46 @@ export default class Felin extends React.Component {
                           </button>
                         </>
                       ) : null}
+                      {
+                        this.state.step === 6?(
+                          <>
+                          <div style={{display: 'inline-block', verticalAlign: 'middle', paddingTop: '10px'}}>
+                          <p
+                            className="text-center"
+                            style={{ fontWeight: '500' }}
+                          >
+                            Mon redenz-vous
+                          </p>
+                          <p
+                            className="text-center"
+                            style={{ fontWeight: '500' }}
+                          >
+                            Consultation expert
+                          </p>
+                          <p
+                            className="text-center"
+                            style={{ margin: '10px 0 20px' }}
+                          >
+                            {this.state.selectedTimeObj.name}
+                          </p>
+                          <p
+                            className="text-center"
+                            style={{ fontWeight: '500' }}
+                          >
+                            {userInfo.username}
+                          </p>
+                          <p className="text-center">{userInfo.email}</p>
+                          <p
+                            className="text-center"
+                            style={{ margin: '10px 0 20px' }}
+                          >
+                            {userInfo.phoneNumber}
+                          </p>
+                          </div>
+                          <img style={{display: 'inline-block', width: '180px', marginLeft: '100px'}} src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/qrcode.png`}/>
+                          </>
+                        ): null
+                      }
                     </div>
                     {nextBtnShow ? (
                       <div style={{ width: '100%', textAlign: 'right' }}>

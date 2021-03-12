@@ -578,8 +578,8 @@ export async function fetchHeaderNavigations() {
   return ret;
 }
 
-export function getFormatDate(date, callback) {
-  if (process.env.REACT_APP_LANG === 'fr') {
+export function getFormatDate(date, callback, lang) {
+  if (process.env.REACT_APP_LANG === 'fr' || lang === 'fr') {
     const cache = createIntlCache();
     const intl = createIntl(
       {
