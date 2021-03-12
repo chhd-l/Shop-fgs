@@ -1,11 +1,11 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage,injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getProvincesList } from '@/api/index';
+import { getProvincesList, queryCityByName } from '@/api/index';
 
 /**
  * add/edit address form - member/visitor
@@ -48,8 +48,8 @@ class EditForm extends React.Component {
     // delete initData['email'];
     // delete address['email'];
 
-    console.log('------------- EditForm initData: ',initData);
-    console.log('------------- EditForm address: ',address);
+    console.log('------------- EditForm initData: ', initData);
+    console.log('------------- EditForm address: ', address);
 
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
@@ -308,6 +308,7 @@ class EditForm extends React.Component {
             freeText={true}
             onChange={this.handleCityInputChange}
           />
+
         </span>
       </div>
     )
