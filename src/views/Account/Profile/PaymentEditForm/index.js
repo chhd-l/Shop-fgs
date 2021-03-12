@@ -323,6 +323,15 @@ class PaymentEditForm extends React.Component {
       console.log(paymentForm, '--------handleSelectedItemChange');
     });
   };
+  //selct city特殊处理
+  handleSelectedCityChange = (data) => {
+    const { paymentForm } = this.state;
+    paymentForm.city = data.cityName;
+    
+    this.setState({ paymentForm }, () => {
+      console.log(paymentForm, '--------handleSelectedCityChange');
+    });
+  }
   //checkbox事件
   handelCheckboxChange = (name) => {
     const { paymentForm } = this.state;
@@ -803,6 +812,7 @@ class PaymentEditForm extends React.Component {
               handelCheckboxChange={this.handelCheckboxChange}
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
+              handleSelectedCityChange={this.handleSelectedCityChange}
               inputBlur={this.inputBlur} />
             <div className="row" style={{ marginTop: '20px' }}>
               <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{ width: '200px' }}>Cancel</button></div>

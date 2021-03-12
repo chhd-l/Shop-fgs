@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Selection from '@/components/Selection';
+import CitySearchSelection from '@/components/CitySearchSelection';
 class PaymentForm extends React.Component {
   static defaultProps = {
     form: {
@@ -348,7 +349,7 @@ class PaymentForm extends React.Component {
                   className="rc-input rc-input--full-width"
                   input-setup="true"
                 >
-                  <input
+                  {/* <input
                     className="rc-input__control"
                     id="city"
                     value={form.city}
@@ -356,6 +357,12 @@ class PaymentForm extends React.Component {
                     onBlur={this.props.inputBlur}
                     name="city"
                     maxLength="254"
+                  /> */}
+                  <CitySearchSelection
+                    defaultValue={form.city}
+                    key={form.city}
+                    freeText={true}
+                    onChange={this.props.handleSelectedCityChange}
                   />
                   <label className="rc-input__label" htmlFor="city" />
                 </span>
