@@ -201,9 +201,13 @@ class ShippingAddressFrom extends React.Component {
   handleSave = () => {
     // 地址验证
     this.setState({
-      validationModalVisible: true,
       validationLoading: true
     });
+    setTimeout(()=>{
+      this.setState({
+        validationModalVisible: true
+      });
+    },800);
   };
   // 下一步
   showNextPanel = async () => {
