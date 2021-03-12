@@ -1039,7 +1039,7 @@ const en_US = {
   "cyber.form.EXPMonth": "Expiration Month",
   "cyber.form.EXPYear": "Expiration Year",
   "cyber.form.secureCode": "Security Code",
-  "cyber.form.saveFor": "Save for next payment",
+  "cyber.form.saveFor": "Save this card as my preferred payment method",
   'cyber.form.theBox': 'This box is required for subscription',
   'cyber.form.firstName': 'First Name',
   'cyber.form.lastName': 'LastName Name',
@@ -1048,6 +1048,7 @@ const en_US = {
   'cyber.form.country': 'Country',
   'cyber.form.state': 'State',
   'cyber.form.city': 'City',
+  'cyber.form.zipCode': 'ZIP Code',
   'cyber.form.email': 'Email',
 }
 export default en_US;
