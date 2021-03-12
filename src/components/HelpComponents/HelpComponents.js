@@ -81,7 +81,7 @@ const HelpComponents =()=>{
                               style={{ color: '#00BCA3' }}
                               className="rc-alpha rc-border--none rc-md-down"
                             >
-                              O874 657 890
+                              0874 657 890
                             </p>
 
                           </div>
