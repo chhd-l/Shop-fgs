@@ -8,12 +8,14 @@ import {
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
-import { validData } from '@/utils/utils';
+import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
 import PaymentForm from '@/components/PaymentForm';
 import { getProvincesList } from '@/api/index';
+import Loading from '@/components/Loading';
+import ValidationAddressModal from '@/components/validationAddressModal';
 
 @inject('loginStore')
 @injectIntl
@@ -90,12 +92,28 @@ class PaymentEditForm extends React.Component {
         { name: 'Unite States', value: 'Unite States' },
       ],
       stateList: [],
+      
+      validationLoading: false, // 地址校验loading
+      validationModalVisible: false, // 地址校验查询开关
+      selectValidationOption: 'suggestedAddress'
     };
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
   componentDidMount() {
+    getDictionary({ type: 'country' }).then((res) => {
+      const { paymentForm } = this.state;
+      let clist= [{ value: res[0]?.name, name: res[0]?.name }];
+      this.setState({
+        countryList: clist
+      },()=>{
+        console.log('countryList: ',this.state.countryList);
+      });
+      paymentForm.country = res[0]?.name;
+      
+    });
+
     // 查询省份列表（美国：州）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
       this.setState({
@@ -332,13 +350,72 @@ class PaymentEditForm extends React.Component {
     return tmp;
   }
 
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    this.setState({
+      validationLoading: false
+    });
+    if (data && data != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      this.showNextPanel();
+    }
+  };
+  // 确认选择地址,切换到下一个最近的未complete的panel
+  confirmValidationAddress() {
+    const { paymentForm, selectValidationOption, validationAddress } = this.state;
+
+    // if (selectValidationOption == 'suggestedAddress') {
+    //   form.address1 = validationAddress.address1;
+    //   form.address2 = validationAddress.address2;
+    //   form.city = validationAddress.city;
+    //   form.cityName = validationAddress.city;
+    //   if (process.env.REACT_APP_LANG === 'en') {
+    //     form.provinceName = validationAddress.provinceCode;
+    //   }
+    // }
+    this.showNextPanel();
+  }
+  handleCyberSave = () => {
+    // 地址验证
+    this.setState({
+      validationLoading: true
+    });
+    setTimeout(() => {
+      this.setState({
+        validationModalVisible: true
+      });
+    }, 800);
+  }
+  // 确认校验地址后下一步操作
+  showNextPanel = () => {
+    this.setState({
+      validationModalVisible: false
+    });
+    // do somehting
+  }
+
   render() {
     const {
       creditCardInfoForm,
       errorMsg,
       successMsg,
       currentVendor,
-      saveLoading
+      saveLoading,
+      paymentForm,
+      validationLoading,
+      validationModalVisible,
+      selectValidationOption
     } = this.state;
     const { paymentType } = this.props;
 
@@ -730,12 +807,33 @@ class PaymentEditForm extends React.Component {
             <div className="row" style={{ marginTop: '20px' }}>
               <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{ width: '200px' }}>Cancel</button></div>
               <div className="col-sm-3"></div>
-              <div className="col-sm-3"><button class="rc-btn rc-btn--one" style={{ width: '200px' }}>Save</button></div>
+              <div className="col-sm-3">
+                <button class="rc-btn rc-btn--one" style={{ width: '200px' }} onClick={this.handleCyberSave}>Save</button>
+              </div>
               <div className="col-sm-3"></div>
             </div>
           </>
         )
         }
+
+        {validationLoading && <Loading positionFixed="true" />}
+        {validationModalVisible && (
+          <ValidationAddressModal
+            address={paymentForm}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            close={() => {
+              this.setState({
+                validationModalVisible: false
+              });
+            }}
+          />
+        )}
+
       </div>
     );
   }
