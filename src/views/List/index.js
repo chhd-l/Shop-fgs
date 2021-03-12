@@ -2225,10 +2225,8 @@ class List extends React.Component {
 
                           <div className="col-12 col-md-8 rc-md-up">
                             <span className="rc-intro rc-margin--none rc-md-up">
-                              <b>
-                                {process.env.REACT_APP_LANG == 'en' ?
-                                  lastBreadListName.toLowerCase().charAt(0).toUpperCase() + lastBreadListName.toLowerCase().slice(1) :
-                                  lastBreadListName}{' '}
+                              <b style={{textTransform:'capitalize'}}>
+                                {lastBreadListName}
                               </b>
                             (
                             <FormattedMessage
