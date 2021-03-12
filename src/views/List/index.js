@@ -1511,11 +1511,6 @@ class List extends React.Component {
       actionFromFilter,
       sourceParam
     } = this.state;
-    console.log(
-      initingList,
-      defaultFilterSearchForm,
-      'defaultFilterSearchForm==='
-    );
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -1584,10 +1579,6 @@ class List extends React.Component {
       //   }
       // });
     }
-    console.log(
-      goodsAttributesValueRelVOList.concat(goodsFilterRelList),
-      'goodsAttributesValueRelVOList==='
-    );
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -1876,7 +1867,6 @@ class List extends React.Component {
     const { pageLink } = this.state;
     const { history } = this.props;
     const { pathname } = history.location;
-    console.log(pathname,'list-location.pathname')
     const {
       category,
       results,
