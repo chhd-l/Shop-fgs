@@ -662,7 +662,7 @@ export default class Felin extends React.Component {
                           </div>
                           <div>
                             <Selection
-                              placeholder="Choose a time slot"
+                              placeholder="Choisissez une fente horaire"
                               optionList={[
                                 { name: '10:00 – 10:20 AM', value: '111' },
                                 { name: '10:30 – 10:50 AM', value: '222' },
@@ -695,7 +695,7 @@ export default class Felin extends React.Component {
                           >
                             Mon redenz-vous
                           </p>
-                          <div style={{ padding: '.5rem 0' }}>
+                          <div style={{ padding: '.5rem 0', margin: '30px 40px' }}>
                             <div style={{ position: 'relative' }}>
                               <input
                                 className="rc-input__radio"
@@ -712,7 +712,8 @@ export default class Felin extends React.Component {
                                 className="rc-input__label--inline"
                                 htmlFor="female"
                               >
-                                <FormattedMessage id="Virtual appointment" />
+                                {/* <FormattedMessage id="Virtual appointment" /> */}
+                                <FormattedMessage id="Rendez-vous virtuel" />
                               </label>
                             </div>
                             <div style={{ position: 'relative' }}>
@@ -732,7 +733,8 @@ export default class Felin extends React.Component {
                                 className="rc-input__label--inline"
                                 htmlFor="male"
                               >
-                                <FormattedMessage id="Face-to-face appointment" />
+                                {/* <FormattedMessage id="Face-to-face appointment" /> */}
+                                <FormattedMessage id="Rendez-vous face à face" />
                               </label>
                             </div>
                           </div>
@@ -742,7 +744,7 @@ export default class Felin extends React.Component {
                         <>
                           <p
                             className="text-center"
-                            style={{ fontWeight: '500' }}
+                            style={{ fontWeight: '500', marginTop: '30px' }}
                           >
                             Mon redenz-vous
                           </p>
@@ -754,7 +756,7 @@ export default class Felin extends React.Component {
                           </p>
                           <p
                             className="text-center"
-                            style={{ margin: '10px 0 20px' }}
+                            style={{ margin: '10px 0 20px', marginBottom: '40px' }}
                           >
                             {this.state.selectedTimeObj.name}
                           </p>
@@ -938,7 +940,7 @@ export default class Felin extends React.Component {
                         </>
                       ) : null}
                       {this.state.step === 1 || this.state.step === 2 ? (
-                        <p style={{ textAlign: 'center' }}>
+                        <p style={{ textAlign: 'center', fontSize: '14px' }}>
                           L'Atelier Félin est ouvert du 20 avril au 12 juin
                           2021, tous les jours de 10h à 20h. Fermé le lundi.
                           Toutes les réservations, abonnements et données seront
@@ -949,7 +951,7 @@ export default class Felin extends React.Component {
                         <>
                           <p
                             className="text-center"
-                            style={{ fontWeight: '500' }}
+                            style={{ fontWeight: '500', marginTop: '30px' }}
                           >
                             Mon redenz-vous
                           </p>
@@ -974,7 +976,7 @@ export default class Felin extends React.Component {
                           <p className="text-center">{userInfo.email}</p>
                           <p
                             className="text-center"
-                            style={{ margin: '10px 0 20px' }}
+                            style={{ margin: '10px 0 40px' }}
                           >
                             {userInfo.phoneNumber}
                           </p>
