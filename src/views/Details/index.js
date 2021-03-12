@@ -835,7 +835,7 @@ class Details extends React.Component {
           )?.[0]?.detailName;
           const goodsInfoBarcode = goodsInfos.find(
             (item) => item.packSize === goodSize
-          )?.goodsInfoBarcode;
+          )?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
           const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
 
           let images = [];
@@ -1646,7 +1646,6 @@ class Details extends React.Component {
       const config = { attributes: true, childList: true, subtree: true };
       // 当观察到变动时执行的回调函数
       const callback = function (mutationsList, observer) {
-        console.log(document.querySelectorAll('.eanIcon'), 'aaa123');
         let eanDoms = document.querySelectorAll('.eanIcon');
         eanDoms[0].parentElement.addEventListener(
           'click',
