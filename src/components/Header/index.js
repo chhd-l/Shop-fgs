@@ -57,7 +57,7 @@ class Header extends React.Component {
     //User组件跳转用
     personInformationRouter: '/account/information',
     petsRouter: '/account/pets',
-    subscriptionsRouter: '/account/subscription',
+    subscriptionsRouter: '/account/subscription'
   };
   constructor(props) {
     super(props);
@@ -301,6 +301,13 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    // 滑动时，移除.searchbar--visile，search bar的显示隐藏交由.rc-header--scrolled控制
+    this.toggleDomClassName({
+      dom: document.querySelector('.rc-header'),
+      operatedClassName: 'searchbar--visile',
+      active: false
+    });
+
     const scrolledDom = document.querySelector('.rc-header--scrolled');
     const headerNavigationDom = document.querySelector(
       '.rc-header__nav.rc-header__nav--secondary'
@@ -445,17 +452,34 @@ class Header extends React.Component {
       value: 1
     });
   }
-  toggleShowBodyMask({ visible = false }) {
-    if (visible) {
-      let cls = document.querySelector('body').className.split(' ') || [];
-      cls.push('open-dropdown');
-      document.querySelector('body').className = cls.join(' ');
-    } else {
-      let cls = document.querySelector('body').className.split(' ') || [];
-      const idx = cls.findIndex((c) => c === 'open-dropdown');
-      cls.splice(idx, 1);
-      document.querySelector('body').className = cls.join(' ');
+  /**
+   *
+   * @param {HTML dom} dom 需要操作的dom对象
+   * @param {String} operatedClassName 需要操作的class名字
+   * @param {Boolean} active true-添加 false-删除
+   * @returns
+   */
+  toggleDomClassName({ dom, operatedClassName, active }) {
+    if (!dom) {
+      return false;
     }
+    let cls = dom.className.split(' ') || [];
+    if (active) {
+      cls.push(operatedClassName);
+    } else {
+      const idx = cls.findIndex((c) => c === operatedClassName);
+      if (idx > -1) {
+        cls.splice(idx, 1);
+      }
+    }
+    dom.className = cls.join(' ');
+  }
+  toggleShowBodyMask({ visible = false }) {
+    this.toggleDomClassName({
+      dom: document.querySelector('body'),
+      operatedClassName: 'open-dropdown',
+      active: visible
+    });
   }
   updateActiveTopParentId = (id) => {
     this.setState({ activeTopParentId: id }, () => {
@@ -476,9 +500,18 @@ class Header extends React.Component {
     }
   };
   toggleSearchIcon = () => {
-    this.setState((curState) => ({
-      searchBarVisible: !curState.searchBarVisible
-    }));
+    this.setState(
+      (curState) => ({
+        searchBarVisible: !curState.searchBarVisible
+      }),
+      () => {
+        this.toggleDomClassName({
+          dom: document.querySelector('.rc-header'),
+          operatedClassName: 'searchbar--visile',
+          active: this.state.searchBarVisible
+        });
+      }
+    );
   };
   render() {
     const {
@@ -493,8 +526,7 @@ class Header extends React.Component {
       headerNavigationListForHub,
       showSearchInput,
       showCenter,
-      showCart,
-      searchBarVisible
+      showCart
     } = this.state;
     return (
       <>
@@ -502,11 +534,8 @@ class Header extends React.Component {
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
-        <header
-          className={`rc-header ${searchBarVisible ? 'searchbar' : ''}`}
-          data-js-header-scroll
-        >
-          {+process.env.REACT_APP_HUB ? (
+        <header className={`rc-header`} data-js-header-scroll>
+          {!!+process.env.REACT_APP_HUB ? (
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
               <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">
                 <div className="rc-column p-0">
@@ -527,7 +556,7 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  {+process.env.REACT_APP_HUB ? (
+                  {!!+process.env.REACT_APP_HUB ? (
                     <MegaMenuMobileForHub
                       menuData={headerNavigationListForHub}
                       handleClickNavItem={this.handleClickNavItem}
@@ -566,15 +595,13 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                    {+process.env.REACT_APP_HUB && isMobile ? (
-                      searchBarVisible ? null : (
-                        <span
-                          className="iconfont icon-search mr-2"
-                          onClick={this.toggleSearchIcon}
-                        >
-                          &#xe6a5;
-                        </span>
-                      )
+                    {!!+process.env.REACT_APP_HUB && isMobile ? (
+                      <span
+                        className="iconfont icon-search mr-2 icon-search-mini"
+                        onClick={this.toggleSearchIcon}
+                      >
+                        &#xe6a5;
+                      </span>
                     ) : (
                       <Search history={history} />
                     )}
@@ -602,16 +629,12 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
-          {/* 点击放大镜时，才会出现搜索条 */}
-          {searchBarVisible ? (
-            <nav className="bg-white nav-search pl-3 pr-3 pb-2">
-              <Search
-                history={history}
-                onClose={this.toggleSearchIcon}
-                focusedOnDidMount={true}
-              />
+          {/* 向下滑动页面时，才会出现搜索条 */}
+          {!!+process.env.REACT_APP_HUB && isMobile && (
+            <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
+              <Search history={history} />
             </nav>
-          ) : null}
+          )}
 
           {+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub

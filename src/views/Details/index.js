@@ -617,6 +617,22 @@ class Details extends React.Component {
       })
     ])
       .then((resList) => {
+        if (process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID) {
+
+          loadJS({
+            url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+            id: 'cci-widget',
+            dataSets: {
+              token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+              locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+              displaylanguage: process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+              widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
+              ean: '3182550784436',
+              subid: '',
+              trackingid: ''
+            }
+          });
+        }
         const res = resList[0];
         const frequencyDictRes = resList[1];
         const purchaseTypeDictRes = resList[2];
@@ -658,7 +674,7 @@ class Details extends React.Component {
               productRate: goodsRes.avgEvaluate,
               replyNum: goodsRes.goodsEvaluateNum,
               goodsId: goodsRes.goodsId,
-              minMarketPrice: goodsRes.minMarketPrice,
+              minMarketPrice: goodsRes.minMarketPrice,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 taggingForText: (taggingList || []).filter(
@@ -824,7 +840,7 @@ class Details extends React.Component {
           )?.[0]?.detailName;
           const goodsInfoBarcode = goodsInfos.find(
             (item) => item.packSize === goodSize
-          )?.goodsInfoBarcode;
+          )?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
           const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
 
           let images = [];
@@ -849,22 +865,6 @@ class Details extends React.Component {
               barcode
             },
             () => {
-              if (process.env.REACT_APP_HUBPAGE_WIDGETID) {
-                loadJS({
-                  url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-                  id: 'cci-widget',
-                  dataSets: {
-                    token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-                    locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
-                    displaylanguage: process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
-                    widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
-                    ean: '3182550784436',
-                    subid: '',
-                    trackingid: ''
-                  }
-                });
-              }
-
               this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
@@ -1608,7 +1608,6 @@ class Details extends React.Component {
       const config = { attributes: true, childList: true, subtree: true };
       // 当观察到变动时执行的回调函数
       const callback = function (mutationsList, observer) {
-        console.log(document.querySelectorAll('.eanIcon'), 'aaa123');
         let eanDoms = document.querySelectorAll('.eanIcon');
         eanDoms[0].parentElement.addEventListener(
           'click',
@@ -1673,7 +1672,7 @@ class Details extends React.Component {
     const De = process.env.REACT_APP_LANG === 'de';
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
-    } 
+    }
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
