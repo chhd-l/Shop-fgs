@@ -121,6 +121,7 @@
     "build:stg_ru": "dotenv -e .env.stage.ru node scripts/build.js",
     "build:stg_tr": "dotenv -e .env.stage.tr node scripts/build.js",
     "build:uat_fr2": "dotenv -e .env.uat.fr2 node scripts/build.js",
+    "build:site_fr": "dotenv -e .env.site.fr node scripts/build.js",
     "build:prod": "dotenv -e .env.production node scripts/build.js",
     "build:prod_mx": "dotenv -e .env.production.mx node scripts/build.js",
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
