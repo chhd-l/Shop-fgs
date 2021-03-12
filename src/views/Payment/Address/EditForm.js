@@ -1,11 +1,11 @@
 import React from 'react';
-import { FormattedMessage,injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getProvincesList, queryCityByName } from '@/api/index';
+import { getProvincesList } from '@/api/index';
 
 /**
  * add/edit address form - member/visitor
@@ -72,7 +72,7 @@ class EditForm extends React.Component {
   }
   computedList(key) {
     let tmp = '';
-    if (key == 'province') {
+    if (key == 'state') {
       tmp = this.state[`${key}List`].map((c) => {
         return {
           value: c.id.toString(),
@@ -131,7 +131,7 @@ class EditForm extends React.Component {
   };
   handleSelectedItemChange(key, data) {
     const { address } = this.state;
-    if (key == 'province') {
+    if (key == 'state') {
       address.provinceName = data.name;
       address.provinceNo = data.stateNo; // 省份简写      
     } else if (key == 'country') {
@@ -308,7 +308,6 @@ class EditForm extends React.Component {
             freeText={true}
             onChange={this.handleCityInputChange}
           />
-
         </span>
       </div>
     )
