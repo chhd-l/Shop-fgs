@@ -86,10 +86,10 @@ class PaymentEditForm extends React.Component {
         { name: '2029', value: 2029 },
         { name: '2030', value: 2030 },
       ],
-      countryList:[
+      countryList: [
         { name: 'Unite States', value: 'Unite States' },
       ],
-      stateList:[],
+      stateList: [],
     };
   }
   get userInfo() {
@@ -727,6 +727,12 @@ class PaymentEditForm extends React.Component {
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
               inputBlur={this.inputBlur} />
+            <div className="row" style={{ marginTop: '20px' }}>
+              <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{ width: '200px' }}>Cancel</button></div>
+              <div className="col-sm-3"></div>
+              <div className="col-sm-3"><button class="rc-btn rc-btn--one" style={{ width: '200px' }}>Save</button></div>
+              <div className="col-sm-3"></div>
+            </div>
           </>
         )
         }

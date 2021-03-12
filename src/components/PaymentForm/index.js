@@ -448,12 +448,6 @@ class PaymentForm extends React.Component {
               </div>
             </div>
           </div>
-          <div className="row" style={{marginTop:'20px'}}>
-            <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{width:'200px'}}>Cancel</button></div>
-            <div className="col-sm-3"></div>
-            <div className="col-sm-3"><button class="rc-btn rc-btn--one" style={{width:'200px'}}>Save</button></div>
-            <div className="col-sm-3"></div>
-          </div>
         </div>
 
       </div>
