@@ -496,7 +496,7 @@ class Header extends React.Component {
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
         <header className={`rc-header`} data-js-header-scroll>
-          {+process.env.REACT_APP_HUB ? (
+          {!!+process.env.REACT_APP_HUB ? (
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
               <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">
                 <div className="rc-column p-0">
@@ -517,7 +517,7 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  {+process.env.REACT_APP_HUB ? (
+                  {!!+process.env.REACT_APP_HUB ? (
                     <MegaMenuMobileForHub
                       menuData={headerNavigationListForHub}
                       handleClickNavItem={this.handleClickNavItem}
@@ -556,7 +556,7 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                    {+process.env.REACT_APP_HUB && isMobile ? (
+                    {!!+process.env.REACT_APP_HUB && isMobile ? (
                       <span className="iconfont icon-search mr-2 icon-search-mini">
                         &#xe6a5;
                       </span>
@@ -588,13 +588,13 @@ class Header extends React.Component {
             </ul>
           </nav>
           {/* 向下滑动页面时，才会出现搜索条 */}
-          {+process.env.REACT_APP_HUB && isMobile && (
+          {!!+process.env.REACT_APP_HUB && isMobile && (
             <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
               <Search history={history} />
             </nav>
           )}
 
-          {+process.env.REACT_APP_HUB ? (
+          {!!+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}
