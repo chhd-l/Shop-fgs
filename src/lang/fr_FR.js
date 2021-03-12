@@ -712,7 +712,7 @@ const fr_FR = {
   price: 'Achat unique',
   printEbanx: 'Imprimer Ebanx',
   privacyPolicy: 'Politique de confidentialité',
-  product: 'produit',
+  product: 'Produit',
   'product-finder': 'Aide aux choix',
   'productFinder.ageErrorShow': 'La sélection de l’âge doit être supérieure à 0 mois',
   'productFinder.createMyPetProfile': "Créer mon profil d'animal",
@@ -927,7 +927,6 @@ const fr_FR = {
   'smartFeederSubscription.restart': 'redémarrage',
   //restart
   //Smart feeder subscription
-  'smartFeederSubscription.selectAnotherProduct': 'sélectionnez un autre produit',
   //Delivered at the first shipment
   'smartFeederSubscription.selectAnotherProduct': 'sélectionnez un autre produit',
   // With app control technology, you can set feeding times to automatically feed your pet or choose to feed them manually. Simply download the app, add your device and you’re set!
