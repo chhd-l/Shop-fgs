@@ -431,7 +431,8 @@ class AddressList extends React.Component {
   // 下一步
   showNextPanel = async () => {
     this.setState({
-      validationModalVisible: false
+      validationModalVisible: false,
+      saveLoading: false
     });
     // 不校验地址，进入下一步
     await this.handleSavePromise();
@@ -872,7 +873,9 @@ class AddressList extends React.Component {
             hanldeClickConfirm={() => this.confirmValidationAddress()}
             close={() => {
               this.setState({
-                validationModalVisible: false
+                validationModalVisible: false,
+                validationLoading: false,
+                saveLoading: false
               });
             }}
           />}

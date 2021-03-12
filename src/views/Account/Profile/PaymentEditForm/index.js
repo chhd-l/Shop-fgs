@@ -8,12 +8,14 @@ import {
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
-import { validData } from '@/utils/utils';
+import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
 import PaymentForm from '@/components/PaymentForm';
 import { getProvincesList } from '@/api/index';
+import Loading from '@/components/Loading';
+import ValidationAddressModal from '@/components/validationAddressModal';
 
 @inject('loginStore')
 @injectIntl
@@ -86,16 +88,33 @@ class PaymentEditForm extends React.Component {
         { name: '2029', value: 2029 },
         { name: '2030', value: 2030 },
       ],
-      countryList: [
-        { name: 'Unite States', value: 'Unite States' },
-      ],
+      countryList: [],
       stateList: [],
+      
+      validationLoading: false, // 地址校验loading
+      validationModalVisible: false, // 地址校验查询开关
+      selectValidationOption: 'suggestedAddress',
+
+      ValidationAddressData:{},//用于validationAddress校验的参数组装
+
+      validationAddress:""
     };
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
   componentDidMount() {
+    //查询国家
+    getDictionary({ type: 'country' }).then((res) => {
+      const { paymentForm } = this.state;
+      let clist= [{ value: res[0]?.name, name: res[0]?.name }];
+      this.setState({
+        countryList: clist
+      });
+      paymentForm.country = res[0]?.name;
+      paymentForm.countryId = res[0]?.id;
+    });
+
     // 查询省份列表（美国：州）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
       this.setState({
@@ -305,6 +324,15 @@ class PaymentEditForm extends React.Component {
       console.log(paymentForm, '--------handleSelectedItemChange');
     });
   };
+  //selct city特殊处理
+  handleSelectedCityChange = (data) => {
+    const { paymentForm } = this.state;
+    paymentForm.city = data.cityName;
+    
+    this.setState({ paymentForm }, () => {
+      console.log(paymentForm, '--------handleSelectedCityChange');
+    });
+  }
   //checkbox事件
   handelCheckboxChange = (name) => {
     const { paymentForm } = this.state;
@@ -318,18 +346,88 @@ class PaymentEditForm extends React.Component {
       }
     );
   };
+  //转换optionList对象
   computedList(key) {
     let tmp = '';
     if (key == 'state') {
       tmp = this.state[`${key}List`].map((c) => {
         return {
           value: c.stateName,
-          name: c.stateName
+          name: c.stateName,
         };
       });
       tmp.unshift({ value: '', name: 'State' });
     }
     return tmp;
+  }
+
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    this.setState({
+      validationLoading: false
+    });
+    if (data && data != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      this.showNextPanel();
+    }
+  };
+  // 确认选择地址,切换到下一个最近的未complete的panel
+  confirmValidationAddress() {
+    const { paymentForm, selectValidationOption, validationAddress } = this.state;
+    console.log({paymentForm, selectValidationOption, validationAddress})
+    debugger
+
+    // if (selectValidationOption == 'suggestedAddress') {
+    //   form.address1 = validationAddress.address1;
+    //   form.address2 = validationAddress.address2;
+    //   form.city = validationAddress.city;
+    //   form.cityName = validationAddress.city;
+    //   if (process.env.REACT_APP_LANG === 'en') {
+    //     form.provinceName = validationAddress.provinceCode;
+    //   }
+    // }
+    this.showNextPanel();
+  }
+  //CYBER支付保存event
+  handleCyberSave = () => {
+    const {paymentForm} = this.state
+    // 地址验证
+    this.setState({
+      validationLoading: true
+    });
+
+   let ValidationAddressData = {}
+   ValidationAddressData['cityName'] = paymentForm.city
+   ValidationAddressData['country'] = paymentForm.countryId
+   ValidationAddressData['address1'] = paymentForm.address1
+   ValidationAddressData['postCode'] = paymentForm.zipCode
+   ValidationAddressData['provinceName'] = paymentForm.state
+
+   this.setState({ValidationAddressData})
+
+    setTimeout(() => {
+      this.setState({
+        validationModalVisible: true
+      });
+    }, 800);
+  }
+  // 确认校验地址后下一步操作
+  showNextPanel = () => {
+    this.setState({
+      validationModalVisible: false
+    });
+    // do somehting
   }
 
   render() {
@@ -338,7 +436,11 @@ class PaymentEditForm extends React.Component {
       errorMsg,
       successMsg,
       currentVendor,
-      saveLoading
+      saveLoading,
+      ValidationAddressData,
+      validationLoading,
+      validationModalVisible,
+      selectValidationOption
     } = this.state;
     const { paymentType } = this.props;
 
@@ -726,16 +828,40 @@ class PaymentEditForm extends React.Component {
               handelCheckboxChange={this.handelCheckboxChange}
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
+              handleSelectedCityChange={this.handleSelectedCityChange}
               inputBlur={this.inputBlur} />
             <div className="row" style={{ marginTop: '20px' }}>
               <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{ width: '200px' }}>Cancel</button></div>
               <div className="col-sm-3"></div>
-              <div className="col-sm-3"><button class="rc-btn rc-btn--one" style={{ width: '200px' }}>Save</button></div>
+              <div className="col-sm-3">
+                <button class="rc-btn rc-btn--one" style={{ width: '200px' }} onClick={this.handleCyberSave}>Save</button>
+              </div>
               <div className="col-sm-3"></div>
             </div>
           </>
         )
         }
+
+        {validationLoading && <Loading positionFixed="true" />}
+        {validationModalVisible && (
+          <ValidationAddressModal
+            address={ValidationAddressData}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            close={() => {
+              this.setState({
+                validationModalVisible: false,
+                validationLoading: false,
+                saveLoading: false
+              });
+            }}
+          />
+        )}
+
       </div>
     );
   }
