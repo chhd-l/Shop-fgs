@@ -588,9 +588,11 @@ class Header extends React.Component {
             </ul>
           </nav>
           {/* 向下滑动页面时，才会出现搜索条 */}
-          <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
-            <Search history={history} />
-          </nav>
+          {+process.env.REACT_APP_HUB && isMobile && (
+            <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
+              <Search history={history} />
+            </nav>
+          )}
 
           {+process.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
