@@ -1346,7 +1346,7 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
 
-    await checkoutStore.updateUnloginCart(cartDataCopy);
+    await checkoutStore.updateUnloginCart({cartData: cartDataCopy});
     this.setState({ addToCartLoading: false });
     if (isMobile) {
       this.refs.showModalButton.click();

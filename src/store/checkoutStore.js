@@ -10,7 +10,7 @@ const nullTaxFeeData = {
   city: '',
   street: '',
   postalCode: '',
-  customerAccount: '',
+  customerAccount: ''
 };
 
 class CheckoutStore {
@@ -31,7 +31,7 @@ class CheckoutStore {
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
-  @observable GA_product = {}
+  @observable GA_product = {};
 
   @computed get tradePrice() {
     return this.cartPrice && this.cartPrice.tradePrice
@@ -204,17 +204,18 @@ class CheckoutStore {
       subscriptionPrice: purchasesRes.subscriptionPrice,
       firstOrderOnThePlatformDiscountPrice:
         purchasesRes.firstOrderOnThePlatformDiscountPrice,
-      goodsInfos:purchasesRes.goodsInfos
-  });
+      goodsInfos: purchasesRes.goodsInfos
+    });
   }
   // 游客
   @action.bound
-  async updateUnloginCart(
-    data,
+  async updateUnloginCart({
+    cartData: data,
     promotionCode = this.promotionCode,
     purchaseFlag,
-    taxFeeData
-  ) {
+    taxFeeData,
+    guestEmail
+  } = {}) {
     if (!data) {
       data = this.cartData;
     }
@@ -244,7 +245,8 @@ class CheckoutStore {
       city: taxFeeData.city,
       street: taxFeeData.street,
       postalCode: taxFeeData.postalCode,
-      customerAccount: taxFeeData.customerAccount
+      customerAccount: taxFeeData.customerAccount,
+      guestEmail
     });
 
     let backCode = purchasesRes.code;
@@ -332,12 +334,12 @@ class CheckoutStore {
 
   // 会员
   @action
-  async updateLoginCart(
+  async updateLoginCart({
     promotionCode = this.promotionCode,
     subscriptionFlag = false,
     purchaseFlag,
     taxFeeData
-  ) {
+  } = {}) {
     try {
       this.changeLoadingCartData(true);
 
@@ -412,7 +414,7 @@ class CheckoutStore {
           subscriptionPrice: sitePurchasesRes.subscriptionPrice,
           firstOrderOnThePlatformDiscountPrice:
             sitePurchasesRes.firstOrderOnThePlatformDiscountPrice,
-          goodsInfos:sitePurchasesRes.goodsInfos
+          goodsInfos: sitePurchasesRes.goodsInfos
         };
 
         if (
@@ -473,8 +475,8 @@ class CheckoutStore {
 
   //存储GA需要的product变量 给confirmation用
   @action
-  saveGAProduct(data){
-    localItemRoyal.set('rc-ga-product',data)
+  saveGAProduct(data) {
+    localItemRoyal.set('rc-ga-product', data);
   }
 }
 export default CheckoutStore;
