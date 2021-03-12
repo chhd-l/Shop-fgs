@@ -295,7 +295,7 @@ function Share() {
                                 className="w-100 lazyloaded"
                                 alt="Royal Canin Cat Products on Social Media"
                                 title="Royal Canin Cat Products on Social Media"
-                                srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg 2x`}
+                                srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg 2x`}
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg`}
                               />
                             </LazyLoad>

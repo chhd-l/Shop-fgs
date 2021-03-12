@@ -213,7 +213,7 @@ class AccountOrders extends React.Component {
               tradeState.flowState === 'COMPLETED' ||
               tradeState.flowState === 'VOID',
             canReview:
-              +process.env.REACT_APP_PDP_RATING_VISIBLE &&
+              !!+process.env.REACT_APP_PDP_RATING_VISIBLE &&
               tradeState.flowState === 'COMPLETED' &&
               !ele.storeEvaluateVO,
             canViewTrackInfo:

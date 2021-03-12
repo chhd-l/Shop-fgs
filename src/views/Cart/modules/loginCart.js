@@ -14,7 +14,8 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
-  unique
+  unique,
+  getParaByName
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -44,6 +45,8 @@ const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
@@ -51,7 +54,9 @@ const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: 开, 1: 关
 const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 // 买入价格开关 0：含税，1：不含税
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context;
+const enterPriceType =
+  storeInfo?.systemTaxSetting?.configVOList &&
+  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -94,6 +99,12 @@ class LoginCart extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
+    const {
+      history: {
+        location: { search }
+      }
+    } = this.props;
+
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -608,7 +619,10 @@ class LoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div className="product-info__img w-100 mr-2" style={{overflow:'hidden'}}>
+              <div
+                className="product-info__img w-100 mr-2"
+                style={{ overflow: 'hidden' }}
+              >
                 <LazyLoad>
                   <img
                     className="product-image"
@@ -1113,61 +1127,6 @@ class LoginCart extends React.Component {
                 </div>
               ) : null}
             </div>
-            {/* <div className="rc-margin-bottom--sm rc-md-down">
-            <div className="product-card-footer product-card-price d-flex">
-              <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                <div className="rc-quantity d-flex">
-                  <span
-                    className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                    onClick={() => this.subQuantity(pitem)}
-                  ></span>
-                  <input
-                    className="rc-quantity__input"
-                    value={pitem.buyCount}
-                    onChange={(e) =>
-                      this.handleAmountChange(e.target.value, pitem)
-                    }
-                    min="1"
-                    max="10"
-                  />
-                  <span
-                    className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                    onClick={() => this.addQuantity(pitem)}
-                  ></span>
-                </div>
-              </div>
-              <div className="line-item-total-price d-flex justify-content-center">
-                <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
-                  =
-                </p>
-                <div className="price">
-                  <div className="strike-through non-adjusted-price">null</div>
-                  <b className="pricing line-item-total-price-amount light">
-                    {formatMoney(pitem.buyCount * pitem.salePrice)}
-                  </b>
-                </div>
-              </div>
-            </div>
-            <div className="availability  product-availability">
-              <div className="flex justify-content-between flex-wrap">
-                <div>
-                  {pitem.subscriptionStatus && pitem.subscriptionPrice > 0 ? (
-                    <>
-                      <span
-                        className="iconfont font-weight-bold red mr-1"
-                        style={{ fontSize: '.9em' }}
-                      >
-                        &#xe675;
-                      </span>
-                      <FormattedMessage id="details.Subscription" />
-                    </>
-                  ) : null}
-                </div>
-                <div className="stock__wrapper">
-                </div>
-              </div>
-            </div>
-          </div> */}
           </div>
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
@@ -1247,7 +1206,11 @@ class LoginCart extends React.Component {
           <div className="col-6">
             <span
               className="rc-input rc-input--inline rc-input--label mr-0"
-              style={{ width: '150px', marginBottom: '10px' }}
+              style={{
+                width: '150px',
+                marginBottom: '10px',
+                overflow: 'hidden'
+              }}
             >
               <FormattedMessage id="promotionCode">
                 {(txt) => (
@@ -1352,11 +1315,7 @@ class LoginCart extends React.Component {
           ))}
         <div className="row">
           <div className="col-6">
-            {process.env.REACT_APP_LANG == 'en' ? (
-              <FormattedMessage id="subtotal" />
-            ) : (
-              <FormattedMessage id="total" />
-            )}
+            <FormattedMessage id="total2" />
           </div>
           <div className="col-6 no-padding-left">
             <p className="text-right sub-total">
@@ -1467,7 +1426,7 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
-                {process.env.REACT_APP_LANG == 'en' ? (
+                {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <b>{subtractionSign}</b>
                 ) : (
                   formatMoney(this.taxFeePrice)
@@ -1488,7 +1447,7 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-5">
               <p className="text-right grand-total-sum medium">
-                {process.env.REACT_APP_LANG == 'en' ? (
+                {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <b>{subtractionSign}</b>
                 ) : (
                   formatMoney(this.tradePrice)
@@ -1781,7 +1740,9 @@ class LoginCart extends React.Component {
                       <div className="rc-column">
                         <FormattedMessage id="continueShopping">
                           {(txt) => (
-                            <DistributeHubLinkOrATag href="" to="/home">{txt}</DistributeHubLinkOrATag>
+                            <DistributeHubLinkOrATag href="" to="/home">
+                              {txt}
+                            </DistributeHubLinkOrATag>
                             // <a
                             //   tabIndex="1"
                             //   className="ui-cursor-pointer-pure"

@@ -13,7 +13,7 @@
   max-height: 20%;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden;  
+  overflow: hidden;
 }
 .ui-pop {
   position: fixed;
@@ -70,6 +70,32 @@
   .ui-pop .btn-cheat {
     height: 1.2rem
   }
+  .howitworks{
+    display: flex;
+    flex-direction: column;
+  }
+  .imagetransform{
+    transform:rotate(90deg) ;
+    width: 50%;
+    height: 50%;
+    margin-left: 20px;
+  }
+  .jointoday{
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 639.98px) {
+  .indexmobile{
+    display: none;
+  }
+
+  .club-video{
+    width: 400px;
+    height: 250px;
+  }
+
 }
 .DeCenter{
   margin: 0 auto;

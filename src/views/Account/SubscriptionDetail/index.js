@@ -1704,7 +1704,7 @@ class SubscriptionDetail extends React.Component {
       isGift,
       remainingsVisible
     } = this.state;
-    console.log(noStartYear, currentCardInfo, 'hahaha');
+    // console.log(noStartYear, currentCardInfo, 'hahaha');
     return (
       <div className="subscriptionDetail">
         <div>

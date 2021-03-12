@@ -19,7 +19,7 @@ import PaymentForm from '@/components/PaymentForm';
 @observer
 class PaymentEditForm extends React.Component {
   static defaultProps = {
-    paymentType: 'PAYU' // PAYU ADYEN
+    paymentType: 'cyber' // PAYU ADYEN cyber(美国支付)
   };
   constructor(props) {
     super(props);
@@ -43,11 +43,11 @@ class PaymentEditForm extends React.Component {
 
       // 組件
       paymentForm: {
-        cardNumber: '12000000000',
-        month: 1,
-        year: null,
-        cardholderName: 'yanguuuuu',
-        codeSecure: '1111',
+        cardNumber: '',
+        month: '01',
+        year: '2018',
+        cardholderName: '',
+        codeSecure: '',
         isChecked: true
       },
       monthList: [
@@ -288,6 +288,7 @@ class PaymentEditForm extends React.Component {
       saveLoading
     } = this.state;
     const { paymentType } = this.props;
+
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
@@ -299,21 +300,12 @@ class PaymentEditForm extends React.Component {
     );
     return (
       <div className="credit-card-content">
-        {/* <PaymentForm form={this.state.paymentForm}
-          monthList={this.state.monthList}
-          yearList={this.state.yearList}
-          handelCheckboxChange={this.handelCheckboxChange}
-          handleInputChange={this.handleInputChange}
-          handleSelectedItemChange={this.handleSelectedItemChange}
-          inputBlur={this.inputBlur} /> */}
-
-        {paymentType === 'ADYEN' ? (
+        {paymentType === 'ADYEN' && (
           <>
             <div className="content-asset">
               <div
-                className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                  errorMsg ? '' : 'hidden'
-                }`}
+                className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
+                  }`}
               >
                 <aside
                   className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -334,9 +326,8 @@ class PaymentEditForm extends React.Component {
                 </aside>
               </div>
               <aside
-                className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                  successMsg ? '' : 'hidden'
-                }`}
+                className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successMsg ? '' : 'hidden'
+                  }`}
                 role="alert"
               >
                 <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -354,15 +345,16 @@ class PaymentEditForm extends React.Component {
               showErrorMsg={this.showErrorMsg}
             />
           </>
-        ) : (
+        )}
+
+        {paymentType === 'PAYU' && (
           <>
             <div className={`credit-card-form`}>
               <div className="rc-margin-bottom--xs">
                 <div className="content-asset">
                   <div
-                    className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                      errorMsg ? '' : 'hidden'
-                    }`}
+                    className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
+                      }`}
                   >
                     <aside
                       className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -383,9 +375,8 @@ class PaymentEditForm extends React.Component {
                     </aside>
                   </div>
                   <aside
-                    className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                      successMsg ? '' : 'hidden'
-                    }`}
+                    className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successMsg ? '' : 'hidden'
+                      }`}
                     role="alert"
                   >
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -410,7 +401,7 @@ class PaymentEditForm extends React.Component {
                                 alt="Card"
                                 src={
                                   CREDIT_CARD_IMG_ENUM[
-                                    currentVendor && currentVendor.toUpperCase()
+                                  currentVendor && currentVendor.toUpperCase()
                                   ] ||
                                   'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                                 }
@@ -654,9 +645,8 @@ class PaymentEditForm extends React.Component {
                     </span>
                     &nbsp;
                     <button
-                      className={`rc-btn rc-btn--one submitBtn editAddress ${
-                        saveLoading ? 'ui-btn-loading' : ''
-                      }`}
+                      className={`rc-btn rc-btn--one submitBtn editAddress ${saveLoading ? 'ui-btn-loading' : ''
+                        }`}
                       data-sav="false"
                       name="contactInformation"
                       type="submit"
@@ -670,7 +660,21 @@ class PaymentEditForm extends React.Component {
               </div>
             </div>
           </>
-        )}
+        )
+        }
+
+        { paymentType === 'cyber' && (
+            <>
+              <PaymentForm form={this.state.paymentForm}
+                monthList={this.state.monthList}
+                yearList={this.state.yearList}
+                handelCheckboxChange={this.handelCheckboxChange}
+                handleInputChange={this.handleInputChange}
+                handleSelectedItemChange={this.handleSelectedItemChange}
+                inputBlur={this.inputBlur} />
+            </>
+          )
+        }
       </div>
     );
   }

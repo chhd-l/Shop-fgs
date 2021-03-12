@@ -2,8 +2,10 @@ import React from 'react';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
+import pictofaq from './img/pictofaq.png'
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
+import './index.css'
 
 const HelpComponents =()=>{
   return(
@@ -23,7 +25,7 @@ const HelpComponents =()=>{
               <div className='experience-component experience-layouts-1to2columnRatio'>
                 <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
               <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
-                <div className="rc-padding--none flex justify-content-center margin-auto">
+                <div className="rc-padding--none flex justify-content-center margin-auto mobilehelp">
                   <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                   <div className="rc-border-all rc-border-colour--interface fullHeight">
                     <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
@@ -79,7 +81,7 @@ const HelpComponents =()=>{
                               style={{ color: '#00BCA3' }}
                               className="rc-alpha rc-border--none rc-md-down"
                             >
-                              你好吗
+                              O874 657 890
                             </p>
 
                           </div>
@@ -102,8 +104,8 @@ const HelpComponents =()=>{
                     <div className="rc-border-all rc-border-colour--interface fullHeight">
                       <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                         <div className="rc-column rc-double-width rc-padding-top--md--mobile">
-                          <div className="w-100">
-                            <b style={{ color: '#00BCA3' }}>
+                          <div className="w-100 ">
+                            <b style={{ color: '#46aacf' }}>
                               Email us,
                             </b>
                             <p>
@@ -114,6 +116,7 @@ const HelpComponents =()=>{
                               We'll do our best to get back to you as fast as possible
                               and within 12 hours
                             </p>
+                            <p>Send us an Email</p>
                             <div className="rc-margin-top--xs">
                               <p
                                 style={{ color: '#00BCA3' }}
@@ -152,7 +155,6 @@ const HelpComponents =()=>{
                                 style={{ color: '#00BCA3' }}
                                 className="rc-alpha rc-border--none rc-md-down"
                               >
-                                你好吗
                               </p>
 
                             </div>
@@ -222,7 +224,6 @@ const HelpComponents =()=>{
                                 style={{ color: '#00BCA3' }}
                                 className="rc-alpha rc-border--none rc-md-down"
                               >
-                                你好吗
                               </p>
 
                             </div>
@@ -232,7 +233,7 @@ const HelpComponents =()=>{
                           <LazyLoad>
                             <img
                               className="align-self-center widthAuto"
-                              src={helpImg}
+                              src={pictofaq}
                               alt="By telephone"
                               title="By telephone"
                             />

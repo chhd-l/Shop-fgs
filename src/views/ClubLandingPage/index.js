@@ -29,6 +29,7 @@ import HelpComponents from '../../components/HelpComponents/HelpComponents';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import HowItWorks from './HowItWorks';
 import JoinToday from './JoinToday';
+import ClubHeroCarousel from './ClubHeroCarousel';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -531,11 +532,16 @@ class ClubLandingPage extends React.Component {
 
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              <HeroCarousel history={history} />
+              <ClubHeroCarousel history={history} />
             </div>
           </div>
           <BreadCrumbs/>
           {/*猫猫狗狗*/}
+
+          {console.log(innerWidth,'🌙')}
+
+
+
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">
@@ -561,39 +567,37 @@ class ClubLandingPage extends React.Component {
 
           <div className="experience-component experience-layouts-1column">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'></div>
-                  <div
-                    className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                    <a id="Food Quality and Safety" name="Food Quality and Safety" className="page-section-anchor" aria-hidden="true"></a>
-                    <div className="row align-items-md-center">
-                      <div className=" col-12 col-lg-6">
-                        <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                          <h2 className="rc-beta markup-text" style={{fontWeight:'599'}}>
-                            EVER PET IS UNIQUE,THEIR NUTRITION SHOULD BE TOO
-                          </h2>
-                          <p>Our commitment to nutritional quality and product
-                          safety is at the heart of our operations worldwide.
-                          </p>
-                          <p>Our commitment to nutritional quality and product
-                            safety is at the heart of our operations worldwide.
-                          </p>
-                          <button className="rc-btn rc-btn--two">Join the Club</button>
+                  <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
+                    <div className="experience-component experience-layouts-1column">
+                      <div className="row rc-margin-x--none">
+                        <div className="rc-full-width">
+                          <div className="experience-component experience-assets-contentBlock">
+                            <div
+                              className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                              <a id="undefined" name="undefined" className="page-section-anchor" aria-hidden="true"></a>
+                              <div className="row align-items-md-center">
+                                <div className=" col-12 col-lg-6">
+                                  <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                                    <h2 className="rc-beta markup-text" style={{fontWeight:'599'}}>
+                                      EVER PET IS UNIQUE,THEIR NUTRITION SHOULD BE
+                                    </h2>
+                                    <p>At Royal Canin, we are dedicated to understanding the needs of pets to ensure their best health and well-being.
+                                    </p>
+                                    <p>Our Royal Canin CLUB subscription program is designed by experts to ensure your pet gets precise nutrition combined with the advice and health support that you and your pet need.
+                                    </p>
+                                    <button className="rc-btn rc-btn--two">Join the Club</button>
+                                  </div>
+                                </div>
+                                <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop ">
+                                  <div className="lazyload-wrapper video-wrapper">
+                                    <iframe src="//player.bilibili.com/player.html?aid=84267566&amp;cid=145147963&amp;page=1" frameBorder="no"
+                                            scrolling="no" className="club-video"></iframe>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                          {/*引入U2B*/}
-                          {/*<iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.fr"*/}
-                          {/*        title="making a better world for pets" frameBorder="0"></iframe>*/}
-                          <iframe src="//player.bilibili.com/player.html?aid=84267566&amp;cid=145147963&amp;page=1" frameBorder="no"
-                                  scrolling="no" style={{width:'500px',height:'300px'}}></iframe>
-                        {/*<div className="rc-layout-container">*/}
-                        {/*  <div className="rc-column">*/}
-                        {/*    <div className="rc-video-wrapper">*/}
-                        {/*      <iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?rel=0&amp;controls=0&amp;showinfo=0?ecver=1"*/}
-                        {/*              allowFullScreen="" frameBorder="0" title="YouTube video: Making a better world for pets"></iframe>*/}
-                        {/*    </div>*/}
-                        {/*  </div>*/}
-                        {/*</div>*/}
                       </div>
                     </div>
                   </div>

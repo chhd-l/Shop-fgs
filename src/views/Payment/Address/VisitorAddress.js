@@ -89,9 +89,13 @@ class VisitorAddress extends React.Component {
     // 地址验证
     // validationModalVisible - 控制是否查询数据
     this.setState({
-      validationModalVisible: true,
       validationLoading: true
     });
+    setTimeout(()=>{
+      this.setState({
+        validationModalVisible: true
+      });
+    },800);
     // console.log('------------------ VisitorAddress handleClickConfirm');
   };
   // 不进行地址验证，进入下一步

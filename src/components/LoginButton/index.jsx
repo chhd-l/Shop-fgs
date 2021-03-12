@@ -103,6 +103,9 @@ const LoginButton = (props) => {
                   });
                   userinfo.defaultClinics =
                     customerInfoRes.context.defaultClinics;
+                    
+                  console.log(customerInfoRes)
+                  debugger
                   loginStore.setUserInfo(customerInfoRes.context);
 
                   const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
