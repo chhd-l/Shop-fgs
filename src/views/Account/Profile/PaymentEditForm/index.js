@@ -13,6 +13,7 @@ import axios from 'axios';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
 import PaymentForm from '@/components/PaymentForm';
+import { getProvincesList } from '@/api/index';
 
 @inject('loginStore')
 @injectIntl
@@ -85,17 +86,22 @@ class PaymentEditForm extends React.Component {
         { name: '2029', value: 2029 },
         { name: '2030', value: 2030 },
       ],
-      countryList:[
+      countryList: [
         { name: 'Unite States', value: 'Unite States' },
       ],
-      stateList:[
-        { name: 'Alabama', value: 'Alabama' },
-        { name: 'Alaska', value: 'Alaska' }
-      ],
+      stateList: [],
     };
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
+  }
+  componentDidMount() {
+    // 查询省份列表（美国：州）
+    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
+      this.setState({
+        stateList: res.context.systemStates
+      });
+    });
   }
   cardInfoInputChange = (e) => {
     const target = e.target;
@@ -312,6 +318,19 @@ class PaymentEditForm extends React.Component {
       }
     );
   };
+  computedList(key) {
+    let tmp = '';
+    if (key == 'state') {
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.stateName,
+          name: c.stateName
+        };
+      });
+      tmp.unshift({ value: '', name: 'State' });
+    }
+    return tmp;
+  }
 
   render() {
     const {
@@ -703,11 +722,17 @@ class PaymentEditForm extends React.Component {
               monthList={this.state.monthList}
               yearList={this.state.yearList}
               countryList={this.state.countryList}
-              stateList={this.state.stateList}
+              stateList={this.computedList('state')}
               handelCheckboxChange={this.handelCheckboxChange}
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
               inputBlur={this.inputBlur} />
+            <div className="row" style={{ marginTop: '20px' }}>
+              <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{ width: '200px' }}>Cancel</button></div>
+              <div className="col-sm-3"></div>
+              <div className="col-sm-3"><button class="rc-btn rc-btn--one" style={{ width: '200px' }}>Save</button></div>
+              <div className="col-sm-3"></div>
+            </div>
           </>
         )
         }

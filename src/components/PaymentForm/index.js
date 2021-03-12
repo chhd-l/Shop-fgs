@@ -312,7 +312,7 @@ class PaymentForm extends React.Component {
             </div>
             {/* state */}
             <div className="col-sm-6">
-              <div className="form-group required">
+              <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
                 <label className="form-control-label" htmlFor="month">
                   <FormattedMessage id="cyber.form.state" />
                 </label>
@@ -321,14 +321,14 @@ class PaymentForm extends React.Component {
                   data-loc="countrySelect"
                 >
                   <Selection
-                    key={form.state}
-                    selectedItemChange={(data) =>
-                      this.props.handleSelectedItemChange('state', data)
-                    }
-                    optionList={this.props.stateList}
-                    selectedItemData={{
-                      value: form.state
+                    selectedItemChange={(data) => {
+                      if (data.value != '') {
+                        this.props.handleSelectedItemChange('state', data)
+                      }
                     }}
+                    optionList={this.props.stateList}
+                    selectedItemData={{ value: form.state }}
+                    key={form.state}
                   />
                 </span>
                 <div className="invalid-feedback" style={{ display: 'none' }}>
@@ -444,7 +444,7 @@ class PaymentForm extends React.Component {
                 <label className="rc-input__label--inline text-break">
                   <FormattedMessage id="cyber.form.saveFor" />
                 </label>
-                <div className="red-text"><FormattedMessage id="cyber.form.theBox" /></div>
+                {/* <div className="red-text"><FormattedMessage id="cyber.form.theBox" /></div> */}
               </div>
             </div>
           </div>
