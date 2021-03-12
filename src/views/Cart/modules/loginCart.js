@@ -14,7 +14,8 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
-  unique
+  unique,
+  getParaByName
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -44,6 +45,8 @@ const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
@@ -51,7 +54,9 @@ const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: 开, 1: 关
 const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 // 买入价格开关 0：含税，1：不含税
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context;
+const enterPriceType =
+  storeInfo?.systemTaxSetting?.configVOList &&
+  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -94,6 +99,17 @@ class LoginCart extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
+    const {
+      history: {
+        location: { search }
+      }
+    } = this.props;
+    // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
+    const tokenFromUrl = getParaByName(search, 'token');
+    if (tokenFromUrl) {
+      localItemRoyal.set('rc-token', tokenFromUrl);
+    }
+
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -105,7 +121,7 @@ class LoginCart extends React.Component {
           frequencyId:
             (process.env.REACT_APP_FREQUENCY_ID &&
               parseInt(process.env.REACT_APP_FREQUENCY_ID)) ||
-              res[0]
+            res[0]
               ? res[0].id
               : ''
         })
@@ -529,8 +545,9 @@ class LoginCart extends React.Component {
     let isGift = !!pitem.subscriptionPlanGiftList;
     return (
       <div
-        className={`product-quickview product-null product-wrapper product-detail ${isGift ? 'gift-size-mobile-fr' : ''
-          }`}
+        className={`product-quickview product-null product-wrapper product-detail ${
+          isGift ? 'gift-size-mobile-fr' : ''
+        }`}
       >
         <div className="detail-panel">
           <section className="attributes">
@@ -550,11 +567,13 @@ class LoginCart extends React.Component {
                         {sItem.chidren.map((sdItem, i2) => (
                           <div
                             style={{
-                              display: `${!sdItem.selected && isGift ? 'none' : 'initial'
-                                }`
+                              display: `${
+                                !sdItem.selected && isGift ? 'none' : 'initial'
+                              }`
                             }}
-                            className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''
-                              }`}
+                            className={`rc-swatch__item ${
+                              sdItem.selected ? 'selected' : ''
+                            }`}
                             key={i2}
                             onClick={this.handleChooseSize.bind(
                               this,
@@ -588,8 +607,9 @@ class LoginCart extends React.Component {
       return (
         <div className="product-info ">
           <div
-            className={`rc-border-all rc-border-colour--interface product-info p-3 ${isGift ? 'no-margin-bottom' : 'has-margin-bottom'
-              }`}
+            className={`rc-border-all rc-border-colour--interface product-info p-3 ${
+              isGift ? 'no-margin-bottom' : 'has-margin-bottom'
+            }`}
             key={index}
           >
             <div
@@ -604,7 +624,10 @@ class LoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div className="product-info__img w-100 mr-2" style={{ overflow: 'hidden' }}>
+              <div
+                className="product-info__img w-100 mr-2"
+                style={{ overflow: 'hidden' }}
+              >
                 <LazyLoad>
                   <img
                     className="product-image"
@@ -704,7 +727,7 @@ class LoginCart extends React.Component {
                             ].join(' ')}
                           >
                             {pitem.addedFlag &&
-                              pitem.buyCount <= pitem.stock ? (
+                            pitem.buyCount <= pitem.stock ? (
                               <FormattedMessage id="details.inStock" />
                             ) : pitem.addedFlag ? (
                               <FormattedMessage id="details.outStock" />
@@ -848,8 +871,8 @@ class LoginCart extends React.Component {
                                     <b className="product-pricing__card__head__price red  rc-padding-y--none">
                                       {formatMoney(
                                         pitem.buyCount * pitem.salePrice -
-                                        pitem.buyCount *
-                                        pitem.subscriptionPrice
+                                          pitem.buyCount *
+                                            pitem.subscriptionPrice
                                       )}
                                     </b>
                                   )
@@ -909,8 +932,9 @@ class LoginCart extends React.Component {
             <div className="rc-margin-bottom--sm rc-md-down">
               {isGift && this.getSizeBox(pitem, index)}
               <div
-                className={`product-card-footer product-card-price d-flex rc-margin-bottom--sm ${isGift ? 'gift-quantity-mobile-box' : ''
-                  }`}
+                className={`product-card-footer product-card-price d-flex rc-margin-bottom--sm ${
+                  isGift ? 'gift-quantity-mobile-box' : ''
+                }`}
               >
                 <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
                   <div style={{ marginTop: '12px' }}>
@@ -1081,7 +1105,7 @@ class LoginCart extends React.Component {
                             <b className="11111 product-pricing__card__head__price red  rc-padding-y--none">
                               {formatMoney(
                                 pitem.buyCount * pitem.salePrice -
-                                pitem.buyCount * pitem.subscriptionPrice
+                                  pitem.buyCount * pitem.subscriptionPrice
                               )}
                             </b>
                           )
@@ -1187,7 +1211,11 @@ class LoginCart extends React.Component {
           <div className="col-6">
             <span
               className="rc-input rc-input--inline rc-input--label mr-0"
-              style={{ width: '150px', marginBottom: '10px', overflow: 'hidden' }}
+              style={{
+                width: '150px',
+                marginBottom: '10px',
+                overflow: 'hidden'
+              }}
             >
               <FormattedMessage id="promotionCode">
                 {(txt) => (
@@ -1210,10 +1238,11 @@ class LoginCart extends React.Component {
             <p className="text-right sub-total">
               <button
                 id="promotionApply"
-                className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${this.state.isClickApply
-                  ? 'ui-btn-loading ui-btn-loading-border-red'
-                  : ''
-                  }`}
+                className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
+                  this.state.isClickApply
+                    ? 'ui-btn-loading ui-btn-loading-border-red'
+                    : ''
+                }`}
                 style={{
                   marginTop: '10px',
                   float: 'right',
@@ -1245,8 +1274,9 @@ class LoginCart extends React.Component {
               key={i}
             >
               <div
-                className={`${!checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
-                  }`}
+                className={`${
+                  !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
+                }`}
               >
                 <p
                   style={{
@@ -1261,8 +1291,9 @@ class LoginCart extends React.Component {
                 </p>
               </div>
               <div
-                className={`${!checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                  } red`}
+                className={`${
+                  !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
+                } red`}
                 style={{ padding: 0 }}
               >
                 <p>
@@ -1436,8 +1467,9 @@ class LoginCart extends React.Component {
                 <div className="rc-padding-y--xs rc-column">
                   <div
                     data-oauthlogintargetendpoint="2"
-                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${checkoutLoading ? 'ui-btn-loading' : ''
-                      }`}
+                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
+                      checkoutLoading ? 'ui-btn-loading' : ''
+                    }`}
                     aria-pressed="true"
                   >
                     {process.env.REACT_APP_LANG === 'en' ? (
@@ -1453,8 +1485,9 @@ class LoginCart extends React.Component {
 
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
-              className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-                }`}
+              className={`order-summary-title rc-padding--none align-items-center justify-content-center text-center ${
+                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+              }`}
               onClick={this.toggleMobileCart.bind(this, 'more')}
             >
               <span
@@ -1491,8 +1524,9 @@ class LoginCart extends React.Component {
                 <div className="rc-padding-y--xs rc-column">
                   <div
                     data-oauthlogintargetendpoint="2"
-                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${checkoutLoading ? 'ui-btn-loading' : ''
-                      }`}
+                    className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
+                      checkoutLoading ? 'ui-btn-loading' : ''
+                    }`}
                     aria-pressed="true"
                   >
                     {process.env.REACT_APP_LANG === 'en' ? (
@@ -1551,9 +1585,9 @@ class LoginCart extends React.Component {
     const selectedGoodsInfo = pitem.goodsInfos.filter(
       (ele) =>
         unique(ele.mockSpecIds).sort().toString() ===
-        selectedSpecIds.sort().toString() &&
+          selectedSpecIds.sort().toString() &&
         unique(ele.mockSpecDetailIds).sort().toString() ===
-        selectedSpecDetailId.sort().toString()
+          selectedSpecDetailId.sort().toString()
     )[0];
     // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
@@ -1693,8 +1727,9 @@ class LoginCart extends React.Component {
           match={this.props.match}
         />
         <main
-          className={`rc-content--fixed-header ${productList.length ? '' : 'cart-empty'
-            }`}
+          className={`rc-content--fixed-header ${
+            productList.length ? '' : 'cart-empty'
+          }`}
         >
           <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
@@ -1710,7 +1745,9 @@ class LoginCart extends React.Component {
                       <div className="rc-column">
                         <FormattedMessage id="continueShopping">
                           {(txt) => (
-                            <DistributeHubLinkOrATag href="" to="/home">{txt}</DistributeHubLinkOrATag>
+                            <DistributeHubLinkOrATag href="" to="/home">
+                              {txt}
+                            </DistributeHubLinkOrATag>
                             // <a
                             //   tabIndex="1"
                             //   className="ui-cursor-pointer-pure"

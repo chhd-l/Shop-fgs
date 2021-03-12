@@ -932,7 +932,7 @@ class AccountOrders extends React.Component {
             title={<FormattedMessage id="orderStatus.COMPLETED" />}
             tip={<FormattedMessage id="order.completeTip" />}
             operation={
-              +process.env.REACT_APP_PDP_RATING_VISIBLE && (
+              !!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
                 <FormattedMessage id="comment">
                   {(txt) => (
                     <Link

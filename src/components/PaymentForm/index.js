@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import Selection from '@/components/Selection';
 class PaymentForm extends React.Component {
   static defaultProps = {
-    form:{
+    form: {
       cardNumber: '',
       month: null,
       year: null,
@@ -15,12 +15,43 @@ class PaymentForm extends React.Component {
     yearList: []
   };
 
-  render () {
+  render() {
     const { form } = this.props
     return (
       <div>
+        {/* Name on Card */}
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-12">
+            <div className="form-group required">
+              <label className="form-control-label">
+                {/*<FormattedMessage id="payment.cardNumber" />*/}
+                Name on Card
+              </label>
+              <span
+                className="rc-input rc-input--full-width"
+                input-setup="true"
+              >
+                <input
+                  type="cardholderName"
+                  className="rc-input__control email"
+                  id="cardNumber"
+                  value={form.cardholderName}
+                  onChange={this.props.handleInputChange}
+                  onBlur={this.props.inputBlur}
+                  name="cardholderName"
+                  maxLength="254"
+                />
+                <label className="rc-input__label" htmlFor="cardholderName" />
+              </span>
+              <div className="invalid-feedback">
+                <FormattedMessage id="payment.errorInfo2" />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Card number */}
+        <div className="row">
+          <div className="col-sm-12">
             <div className="form-group required">
               <label className="form-control-label">
                 <FormattedMessage id="payment.cardNumber" />
@@ -29,25 +60,28 @@ class PaymentForm extends React.Component {
                 className="rc-input rc-input--full-width"
                 input-setup="true"
               >
-                        <input
-                          type="cardNumber"
-                          className="rc-input__control email"
-                          id="cardNumber"
-                          value={form.cardNumber}
-                          onChange={this.props.handleInputChange}
-                          onBlur={this.props.inputBlur}
-                          name="cardNumber"
-                          maxLength="254"
-                          placeholder="Card Number"
-                        />
-                        <label className="rc-input__label" htmlFor="cardNumber" />
-                      </span>
+                <input
+                  type="cardNumber"
+                  className="rc-input__control email"
+                  id="cardNumber"
+                  value={form.cardNumber}
+                  onChange={this.props.handleInputChange}
+                  onBlur={this.props.inputBlur}
+                  name="cardNumber"
+                  maxLength="254"
+                  placeholder="Card Number"
+                />
+                <label className="rc-input__label" htmlFor="cardNumber" />
+              </span>
               <div className="invalid-feedback">
                 <FormattedMessage id="payment.errorInfo2" />
               </div>
             </div>
           </div>
-          <div className="col-sm-3">
+        </div>
+        <div className="row">
+          {/* EXPMonth */}
+          <div className="col-sm-4">
             <div className="form-group required">
               <label className="form-control-label" htmlFor="month">
                 <FormattedMessage id="payment.EXPMonth" />
@@ -56,23 +90,24 @@ class PaymentForm extends React.Component {
                 className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
                 data-loc="countrySelect"
               >
-                    <Selection
-                      key={form.month}
-                      selectedItemChange={(data) =>
-                        this.props.handleSelectedItemChange('month', data)
-                      }
-                      optionList={this.props.monthList}
-                      selectedItemData={{
-                        value: form.month
-                      }}
-                    />
-                  </span>
+                <Selection
+                  key={form.month}
+                  selectedItemChange={(data) =>
+                    this.props.handleSelectedItemChange('month', data)
+                  }
+                  optionList={this.props.monthList}
+                  selectedItemData={{
+                    value: form.month
+                  }}
+                />
+              </span>
               <div className="invalid-feedback" style={{ display: 'none' }}>
                 <FormattedMessage id="payment.errorInfo2" />
               </div>
             </div>
           </div>
-          <div className="col-sm-3">
+          {/* EXPYear */}
+          <div className="col-sm-4">
             <div className="form-group required">
               <label
                 className="form-control-label"
@@ -84,52 +119,24 @@ class PaymentForm extends React.Component {
                 className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
                 data-loc="countrySelect"
               >
-                    <Selection
-                      key={form.year}
-                      selectedItemChange={(data) =>
-                        this.props.handleSelectedItemChange('year', data)
-                      }
-                      optionList={this.props.yearList}
-                      selectedItemData={{
-                        value: form.year
-                      }}
-                    />
-                  </span>
+                <Selection
+                  key={form.year}
+                  selectedItemChange={(data) =>
+                    this.props.handleSelectedItemChange('year', data)
+                  }
+                  optionList={this.props.yearList}
+                  selectedItemData={{
+                    value: form.year
+                  }}
+                />
+              </span>
               <div className="invalid-feedback">
                 <FormattedMessage id="payment.errorInfo2" />
               </div>
             </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-6">
-            <div className="form-group required">
-              <label className="form-control-label">
-                {/*<FormattedMessage id="payment.cardNumber" />*/}
-                Cardholder Name (as it appears on your credit card)
-              </label>
-              <span
-                className="rc-input rc-input--full-width"
-                input-setup="true"
-              >
-                        <input
-                          type="cardholderName"
-                          className="rc-input__control email"
-                          id="cardNumber"
-                          value={form.cardholderName}
-                          onChange={this.props.handleInputChange}
-                          onBlur={this.props.inputBlur}
-                          name="cardholderName"
-                          maxLength="254"
-                        />
-                        <label className="rc-input__label" htmlFor="cardholderName" />
-                      </span>
-              <div className="invalid-feedback">
-                <FormattedMessage id="payment.errorInfo2" />
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-6">
+          {/* codeSecure */}
+          <div className="col-sm-4">
             <div className="form-group required">
               <label className="form-control-label" htmlFor="month">
                 <FormattedMessage id="payment.codeSecure" />
@@ -138,28 +145,29 @@ class PaymentForm extends React.Component {
                 className="rc-input rc-input--full-width"
                 input-setup="true"
               >
-                        <input
-                          type="codeSecure"
-                          className="rc-input__control email"
-                          id="codeSecure"
-                          value={form.codeSecure}
-                          onChange={this.props.handleInputChange}
-                          onBlur={this.props.inputBlur}
-                          name="codeSecure"
-                          maxLength="254"
-                        />
-                        <label className="rc-input__label" htmlFor="codeSecure" />
-                      </span>
+                <input
+                  type="codeSecure"
+                  className="rc-input__control email"
+                  id="codeSecure"
+                  value={form.codeSecure}
+                  onChange={this.props.handleInputChange}
+                  onBlur={this.props.inputBlur}
+                  name="codeSecure"
+                  maxLength="254"
+                />
+                <label className="rc-input__label" htmlFor="codeSecure" />
+              </span>
               <div className="invalid-feedback" style={{ display: 'none' }}>
                 <FormattedMessage id="payment.errorInfo2" />
               </div>
             </div>
           </div>
         </div>
+        {/* save card checkbox */}
         <div className="row">
           <div className="col-sm-6">
             <div className="rc-input rc-input--inline"
-                 onClick={this.props.handelCheckboxChange}>
+              onClick={this.props.handelCheckboxChange}>
 
               {form.isChecked ? (
                 <input
