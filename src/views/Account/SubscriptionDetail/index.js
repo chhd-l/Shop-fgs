@@ -349,99 +349,109 @@ class SubscriptionDetail extends React.Component {
             Your product recommendation
           </h4>
           <p className="text-center">Please choose your options</p>
-          <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm ">
-            <div className="d-flex ">
-              <div className="d-flex rc-margin-right--xs">
-                <img src="" />
-                <div>
-                  <p>name</p>
-                  <p>type</p>
+          <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm">
+            <div className="d-flex for-pc-bettwen">
+              <div className="d-flex for-mobile-colum">
+                <div className="d-flex rc-margin-right--xs">
+                  <img src="" />
+                  <div>
+                    <p>name</p>
+                    <p>type</p>
+                  </div>
                 </div>
-              </div>
-              <div className="line-item-quantity text-lg-center rc-margin-right--xs">
-                <div className="text-left ml-1 font_size12 pad_b_5">
-                  <FormattedMessage id="quantityText" />:
+                <div className="line-item-quantity text-lg-center rc-margin-right--xs">
+                  <div className="text-left ml-1 font_size12 pad_b_5">
+                    <FormattedMessage id="quantityText" />:
+                  </div>
+                  <div className="d-flex rc-align-children--space-between">
+                    <div className="rc-quantity d-flex">
+                      <span
+                        className=" rc-icon rc-minus--xs rc-iconography rc-quantity__btn js-qty-minus"
+                        style={{ transform: 'scale(0.8)' }}
+                        // onClick={() => this.subQuantity(pitem)}
+                      ></span>
+                      <input
+                        className="rc-quantity__input"
+                        value="1"
+                        min="1"
+                        max="10"
+                        disabled
+                        // onChange={(e) =>
+                        //   this.handleAmountChange(e.target.value, pitem)
+                        // }
+                      />
+                      <span
+                        className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn js-qty-plus"
+                        style={{ transform: 'scale(0.8)' }}
+                        // onClick={() => this.addQuantity(pitem)}
+                      ></span>
+                    </div>
+                    <strong className="rc-md-down">=$27</strong>
+                  </div>
                 </div>
-                <div className="rc-quantity d-flex">
-                  <span
-                    className=" rc-icon rc-minus--xs rc-iconography rc-quantity__btn js-qty-minus"
-                    style={{ transform: 'scale(0.8)' }}
-                    // onClick={() => this.subQuantity(pitem)}
-                  ></span>
-                  <input
-                    className="rc-quantity__input"
-                    value="1"
-                    min="1"
-                    max="10"
-                    disabled
-                    // onChange={(e) =>
-                    //   this.handleAmountChange(e.target.value, pitem)
-                    // }
-                  />
-                  <span
-                    className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn js-qty-plus"
-                    style={{ transform: 'scale(0.8)' }}
-                    // onClick={() => this.addQuantity(pitem)}
-                  ></span>
-                </div>
-              </div>
-              <div
-                className="cart-and-ipay rc-margin-right--xs"
-                style={{ float: 'left' }}
-              >
-                <div className="rc-swatch __select-size">
-                  {/* <div className="rc-swatch__item selected">
+                <div
+                  className="cart-and-ipay rc-margin-right--xs"
+                  style={{ float: 'left' }}
+                >
+                  <div className="rc-swatch __select-size">
+                    {/* <div className="rc-swatch__item selected">
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
                               <i></i>
                             </span>
                           </div> */}
-                  <div className="overflow-hidden">
-                    <div className="text-left ml-1 font_size12 pad_b_5">
-                      {/* <FormattedMessage id={item.specName} />: */}
-                      <FormattedMessage id="size" />:
+                    <div className="overflow-hidden">
+                      <div className="text-left ml-1 font_size12 pad_b_5">
+                        {/* <FormattedMessage id={item.specName} />: */}
+                        <FormattedMessage id="size" />:
+                      </div>
+                      {/* {item.chidren.map((sdItem) => ( */}
+                      <div
+                        className={`rc-swatch__item`}
+                        // key={i2}
+                        // onClick={() =>
+                        //   this.handleChooseSize(sdItem, pitem, index)
+                        // }
+                      >
+                        <span>
+                          2kg
+                          {/* {sdItem.detailName} */}
+                          <i></i>
+                        </span>
+                      </div>
+                      {/* ))} */}
                     </div>
-                    {/* {item.chidren.map((sdItem) => ( */}
-                    <div
-                      className={`rc-swatch__item`}
-                      // key={i2}
-                      // onClick={() =>
-                      //   this.handleChooseSize(sdItem, pitem, index)
-                      // }
-                    >
-                      <span>
-                        2kg
-                        {/* {sdItem.detailName} */}
-                        <i></i>
-                      </span>
-                    </div>
-                    {/* ))} */}
                   </div>
                 </div>
+                <p className="frequency rc-margin-right--xs">
+                  Frequency
+                  {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
+                  <div>
+                    <Selection
+                      customContainerStyle={{}}
+                      // selectedItemChange={(data) => handleSelectedItemChange(data)}
+                      optionList={[]}
+                      selectedItemData={{
+                        value: 1
+                      }}
+                      customStyleType="select-one"
+                    />
+                  </div>
+                </p>
               </div>
-              <p className="frequency rc-margin-right--xs">
-                Frequency
-                {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
-                <div>
-                  <Selection
-                    customContainerStyle={{}}
-                    // selectedItemChange={(data) => handleSelectedItemChange(data)}
-                    optionList={[]}
-                    selectedItemData={{
-                      value: 1
-                    }}
-                    customStyleType="select-one"
-                  />
-                </div>
-              </p>
+              <strong className="rc-md-up">=$27</strong>
             </div>
-           <div className="d-flex">
-           <span className="rc-styled-link">See other recommendation</span>
-            <div>
-              <button className="rc-btn rc-btn--two rc-btn--sm">Product details</button>
-              <button className="rc-btn rc-btn--one rc-btn--sm">Change now</button>
+            <div className="d-flex  for-mobile-colum">
+              <span className="rc-styled-link">See other recommendation</span>
+              <div>
+                <button className="rc-btn rc-btn--two rc-btn--sm">
+                  Product details
+                </button>
+                <button className="rc-btn rc-btn--one rc-btn--sm">
+                  Change now
+                </button>
+              </div>
             </div>
-           </div>
           </div>
         </Modal>
       </div>
