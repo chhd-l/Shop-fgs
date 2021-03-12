@@ -444,9 +444,15 @@ class PaymentForm extends React.Component {
                 <label className="rc-input__label--inline text-break">
                   <FormattedMessage id="cyber.form.saveFor" />
                 </label>
-                <div className="red-text"><FormattedMessage id="cyber.form.theBox" /></div>
+                {/* <div className="red-text"><FormattedMessage id="cyber.form.theBox" /></div> */}
               </div>
             </div>
+          </div>
+          <div className="row">
+            <div className="col-sm-3"><button class="rc-btn rc-btn--two">Cancel</button></div>
+            <div className="col-sm-3"></div>
+            <div className="col-sm-3"><button class="rc-btn rc-btn--one">Save</button></div>
+            <div className="col-sm-3"></div>
           </div>
         </div>
 
