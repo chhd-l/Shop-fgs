@@ -78,6 +78,7 @@
     transform:rotate(90deg) ;
     width: 50%;
     height: 50%;
+    margin-left: 20px;
   }
   .jointoday{
     display: flex;
@@ -94,7 +95,6 @@
     width: 400px;
     height: 250px;
   }
-
 
 }
 .DeCenter{

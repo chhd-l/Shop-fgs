@@ -74,8 +74,8 @@ class ClubHeroCarousel extends React.Component {
       this.setState({ banner: [{"bannerId":"2c91808577d880600177d8837f730004","storeId":123457910,"bannerName":"us_002","webUrl":`${Sliderone}`,"webImgName":"WeChat Image_20210225172634.jpg","webSkipUrl":"/subscription-landing","webUuid":"rc-upload-1614234945878-9","mobiUrl":`${Slidermobile1}`,"mobiImgName":"WeChat Image_20210225172628.jpg","mobiSkipUrl":"/subscription-landing","mobiUuid":"rc-upload-1614234945878-11","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-26 07:05:24.000","updateTime":"2021-02-26 07:05:24.000","bannerNo":1}
       ,{"bannerId":"2c91808577d880600177d8837f730004","storeId":123457910,"bannerName":"us_002","webUrl":`${Slidertwo}`,"webImgName":"WeChat Image_20210225172634.jpg","webSkipUrl":"/subscription-landing","webUuid":"rc-upload-1614234945878-9","mobiUrl":`${Slidermobile2}`,"mobiImgName":"WeChat Image_20210225172628.jpg","mobiSkipUrl":"/subscription-landing","mobiUuid":"rc-upload-1614234945878-11","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-26 07:05:24.000","updateTime":"2021-02-26 07:05:24.000","bannerNo":2},
           {"bannerId":"2c918085751fa3ad01752099f30a0002","storeId":123457910,"bannerName":"us_003","webUrl":`${Sliderthree}`,"webImgName":"us_003_a.jpg","webSkipUrl":"/help","webUuid":"rc-upload-1602569663057-13","mobiUrl":`${Slidermobile3}`,"mobiImgName":"us_003_b.jpg","mobiSkipUrl":"/help","mobiUuid":"rc-upload-1602569663057-15","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-24 05:55:42.000","updateTime":"2021-02-24 05:55:42.000","bannerNo":3}
-          ,{"bannerId":"2c918085751fa3ad01752099f30a0002","storeId":123457910,"bannerName":"us_003","webUrl":`${Sliderfive}`,"webImgName":"us_003_a.jpg","webSkipUrl":"/help","webUuid":"rc-upload-1602569663057-13","mobiUrl":`${Slidermobile5}`,"mobiImgName":"us_003_b.jpg","mobiSkipUrl":"/help","mobiUuid":"rc-upload-1602569663057-15","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-24 05:55:42.000","updateTime":"2021-02-24 05:55:42.000","bannerNo":3}
-          ,{"bannerId":"2c918085751fa3ad01752099f30a0002","storeId":123457910,"bannerName":"us_003","webUrl":`${Sliderseven}`,"webImgName":"us_003_a.jpg","webSkipUrl":"/help","webUuid":"rc-upload-1602569663057-13","mobiUrl":`${Slidermobile7}`,"mobiImgName":"us_003_b.jpg","mobiSkipUrl":"/help","mobiUuid":"rc-upload-1602569663057-15","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-24 05:55:42.000","updateTime":"2021-02-24 05:55:42.000","bannerNo":3}
+          ,{"bannerId":"2c918085751fa3ad01752099f30a0002","storeId":123457910,"bannerName":"us_003","webUrl":`${Sliderfive}`,"webImgName":"us_003_a.jpg","webSkipUrl":"/help","webUuid":"rc-upload-1602569663057-13","mobiUrl":`${Slidermobile5}`,"mobiImgName":"us_003_b.jpg","mobiSkipUrl":"/help","mobiUuid":"rc-upload-1602569663057-15","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-24 05:55:42.000","updateTime":"2021-02-24 05:55:42.000","bannerNo":4}
+          ,{"bannerId":"2c918085751fa3ad01752099f30a0002","storeId":123457910,"bannerName":"us_003","webUrl":`${Sliderseven}`,"webImgName":"us_003_a.jpg","webSkipUrl":"/help","webUuid":"rc-upload-1602569663057-13","mobiUrl":`${Slidermobile7}`,"mobiImgName":"us_003_b.jpg","mobiSkipUrl":"/help","mobiUuid":"rc-upload-1602569663057-15","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-24 05:55:42.000","updateTime":"2021-02-24 05:55:42.000","bannerNo":5}
           ] });
     });
   }
@@ -182,6 +182,7 @@ class ClubHeroCarousel extends React.Component {
 
     return (
       banner.length > 0 && (
+        <div>
         <Slider {...settings}>
           {banner.map((el, i) => (
             <div className="hero-carousel__slide" key={i}>
@@ -201,6 +202,7 @@ class ClubHeroCarousel extends React.Component {
                           src={el.webUrl}
                           alt=""
                         />
+                        <div>{el.bannerNo}</div>
                       </Link>
                     ) : (
                       <img className="rc-md-up mh-100" src={el.webUrl} alt="" />
@@ -228,9 +230,24 @@ class ClubHeroCarousel extends React.Component {
                   </>
                 )}
               </div>
+              <div className='experience-component experience-layouts-1to2columnRatio indexmobile'>
+                <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
+                  <div className="rc-max-width--md text-center rc-margin-y--md">
+                    <div className="rc-alpha inherit-fontsize"><h1>Tailor-made nutrition</h1></div>
+                    <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                      <p>Get the right diet from 210 formulas with premium ingredients to fit your pet's unique health needs.</p>
+                    </div>
+                    <br/>
+                    <button className="rc-btn rc-btn--one">Learn more</button>
+                  </div>
+                </div>
+              </div>
             </div>
+
           ))}
         </Slider>
+
+        </div>
       )
     );
   }

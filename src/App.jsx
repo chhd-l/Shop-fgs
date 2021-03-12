@@ -148,6 +148,26 @@ if (process.env.REACT_APP_LANG === 'fr') {
 } else if (process.env.REACT_APP_LANG === 'us') {
 }
 
+function getParaByName(search, name) {
+  search = search.substr(1);
+  if (typeof name === 'undefined') return search;
+  let searchArr = search.split('&');
+  for (let i = 0; i < searchArr.length; i++) {
+    let searchStr = searchArr[i];
+    searchArr[i] = searchStr.split('=');
+    if (searchArr[i][0] === name) {
+      return searchStr.replace(name + '=', '');
+    }
+  }
+  return '';
+}
+
+// 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
+const tokenFromUrl = getParaByName(window.location.search, 'token');
+if (tokenFromUrl) {
+  localStorage.setItem('en-rc-token', tokenFromUrl);
+}
+
 const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
