@@ -313,7 +313,7 @@ class ShelterPrescription extends React.Component {
                 <h3 className="red">Why Royal Canin?</h3>
               </div>
               <div>
-              {/* <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content"> */}
+                {/* <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content"> */}
                 <p style={{ wordBreak: 'break-word' }}>
                   We focus our attention on the unique needs of cats and dogs.
                   That obsession with detail is what makes it possible for us to
