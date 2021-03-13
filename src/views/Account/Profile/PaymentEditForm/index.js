@@ -12,7 +12,8 @@ import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
-import PaymentForm from '@/components/PaymentForm';
+import CyberPaymentForm from '@/components/CyberPaymentForm';
+import CyberBillingAddress from '@/components/CyberBillingAddress';
 import { getProvincesList } from '@/api/index';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
@@ -90,14 +91,14 @@ class PaymentEditForm extends React.Component {
       ],
       countryList: [],
       stateList: [],
-      
+
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress',
 
-      ValidationAddressData:{},//用于validationAddress校验的参数组装
+      ValidationAddressData: {},//用于validationAddress校验的参数组装
 
-      validationAddress:""
+      validationAddress: ""
     };
   }
   get userInfo() {
@@ -107,7 +108,7 @@ class PaymentEditForm extends React.Component {
     //查询国家
     getDictionary({ type: 'country' }).then((res) => {
       const { paymentForm } = this.state;
-      let clist= [{ value: res[0]?.name, name: res[0]?.name }];
+      let clist = [{ value: res[0]?.name, name: res[0]?.name }];
       this.setState({
         countryList: clist
       });
@@ -328,7 +329,7 @@ class PaymentEditForm extends React.Component {
   handleSelectedCityChange = (data) => {
     const { paymentForm } = this.state;
     paymentForm.city = data.cityName;
-    
+
     this.setState({ paymentForm }, () => {
       console.log(paymentForm, '--------handleSelectedCityChange');
     });
@@ -385,7 +386,7 @@ class PaymentEditForm extends React.Component {
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
     const { paymentForm, selectValidationOption, validationAddress } = this.state;
-    console.log({paymentForm, selectValidationOption, validationAddress})
+    console.log({ paymentForm, selectValidationOption, validationAddress })
     debugger
 
     // if (selectValidationOption == 'suggestedAddress') {
@@ -401,20 +402,20 @@ class PaymentEditForm extends React.Component {
   }
   //CYBER支付保存event
   handleCyberSave = () => {
-    const {paymentForm} = this.state
+    const { paymentForm } = this.state
     // 地址验证
     this.setState({
       validationLoading: true
     });
 
-   let ValidationAddressData = {}
-   ValidationAddressData['cityName'] = paymentForm.city
-   ValidationAddressData['country'] = paymentForm.countryId
-   ValidationAddressData['address1'] = paymentForm.address1
-   ValidationAddressData['postCode'] = paymentForm.zipCode
-   ValidationAddressData['provinceName'] = paymentForm.state
+    let ValidationAddressData = {}
+    ValidationAddressData['cityName'] = paymentForm.city
+    ValidationAddressData['country'] = paymentForm.countryId
+    ValidationAddressData['address1'] = paymentForm.address1
+    ValidationAddressData['postCode'] = paymentForm.zipCode
+    ValidationAddressData['provinceName'] = paymentForm.state
 
-   this.setState({ValidationAddressData})
+    this.setState({ ValidationAddressData })
 
     setTimeout(() => {
       this.setState({
@@ -820,16 +821,50 @@ class PaymentEditForm extends React.Component {
 
         { paymentType === 'CYBER' && (
           <>
-            <PaymentForm form={this.state.paymentForm}
+            <CyberPaymentForm form={this.state.paymentForm}
               monthList={this.state.monthList}
               yearList={this.state.yearList}
+              handleInputChange={this.handleInputChange}
+              handleSelectedItemChange={this.handleSelectedItemChange}
+              inputBlur={this.inputBlur} />
+            <CyberBillingAddress form={this.state.paymentForm}
               countryList={this.state.countryList}
               stateList={this.computedList('state')}
-              handelCheckboxChange={this.handelCheckboxChange}
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
               handleSelectedCityChange={this.handleSelectedCityChange}
-              inputBlur={this.inputBlur} />
+              inputBlur={this.inputBlur}
+            />
+            {/* saveCard checkbox */}
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="rc-input rc-input--inline"
+                  onClick={(data) => this.handelCheckboxChange('isSaveCard')}>
+
+                  {this.state.paymentForm.isSaveCard ? (
+                    <input
+                      type="checkbox"
+                      className="rc-input__checkbox"
+                      value={this.state.paymentForm.isSaveCard}
+                      key="1"
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      className="rc-input__checkbox"
+                      value={this.state.paymentForm.isSaveCard}
+                      key="2"
+                    />
+                  )}
+                  <label className="rc-input__label--inline text-break">
+                    <FormattedMessage id="cyber.form.saveFor" />
+                  </label>
+                  {/* <div className="red-text"><FormattedMessage id="cyber.form.theBox" /></div> */}
+                </div>
+              </div>
+            </div>
+            {/* 取消 确认 按钮 */}
             <div className="row" style={{ marginTop: '20px' }}>
               <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{ width: '200px' }}>Cancel</button></div>
               <div className="col-sm-3"></div>
@@ -842,6 +877,7 @@ class PaymentEditForm extends React.Component {
         )
         }
 
+        {/* 美国验证modal框 */}
         {validationLoading && <Loading positionFixed="true" />}
         {validationModalVisible && (
           <ValidationAddressModal
