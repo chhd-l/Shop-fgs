@@ -70,7 +70,7 @@ class AddressList extends React.Component {
       listLoading: false,
       creditCardList: [],
       fromPage: 'cover',
-      paymentType: 'PAYU', //getway接口没配置美国支付cyber，暂时这样
+      paymentType: 'PAYU', //getway接口没配置美国支付CYBER，暂时这样
       errorMsg: ''
     };
 
