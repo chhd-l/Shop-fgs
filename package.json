@@ -143,6 +143,17 @@
     "push:stg_us": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_us && rm -rf build_tmp",
     "push:uat_fr2": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_fr3/fr/shop && rm -rf build_tmp"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,json,css,vue}": [
+     "prettier --write",
+     "git add"
+    ]
+  },
   "eslintConfig": {
     "extends": "react-app",
     "rules": {
