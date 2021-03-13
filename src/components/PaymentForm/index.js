@@ -356,7 +356,6 @@ class PaymentForm extends React.Component {
                     freeText={true}
                     onChange={this.props.handleSelectedCityChange}
                   />
-                  <label className="rc-input__label" htmlFor="city" />
                 </span>
                 <div className="invalid-feedback">
                   <FormattedMessage id="payment.errorInfo2" />
