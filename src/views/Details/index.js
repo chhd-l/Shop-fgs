@@ -1977,7 +1977,7 @@ class Details extends React.Component {
                                 }`}
                                 ref={(el) => this.ccidBtnRef(el)}
                                 data-ccid="wtb-target"
-                                data-ean={"3182550751148"}
+                                data-ean={process.env.REACT_APP_LANG === 'fr' ? "3182550751148" : barcode}
                                 onClick={this.handleBuyFromRetailer}
                                 style={{
                                   marginTop: '20px'
