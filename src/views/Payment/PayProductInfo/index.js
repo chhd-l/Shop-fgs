@@ -525,6 +525,12 @@ class PayProductInfo extends React.Component {
                           isShowValidCode: true
                         });
                         this.props.sendPromotionCode('');
+                        clearTimeout(this.timer)
+                        this.timer = setTimeout(() => {
+                          this.setState({
+                            isShowValidCode: false
+                          });
+                        }, 5000)
                       }
                       this.setState({
                         isClickApply: false,

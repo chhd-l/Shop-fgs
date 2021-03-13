@@ -605,7 +605,8 @@ function ProductFinderAd({
                 <DistributeHubLinkOrATag
                   to="/product-finder"
                   href="/product-finder"
-                  className="rc-btn rc-btn--two">
+                  className="rc-btn rc-btn--two"
+                >
                   <FormattedMessage id="productFinder.index" />
                 </DistributeHubLinkOrATag>
               </div>
@@ -1139,15 +1140,16 @@ class List extends React.Component {
           const fvEles = decodeURI(
             getParaByName(search, `prefv${index + 1}`)
           ).split('|');
-          const tItem = (res[3] || []).filter(
+          const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
           )[0];
+
           if (tItem) {
             let attributeValues = [];
             let attributeValueIdList = [];
             Array.from(fvEles, (fvItem) => {
               const tFvItemList = tItem.attributesValueList.filter(
-                (t) => t.attributeDetailNameEn === fvItem
+                (t) => t.attributeDetailNameEnSplitByLine === fvItem
               );
               const tFvItemForFirst = tFvItemList[0];
               let tFvItem = tFvItemForFirst;
@@ -1155,7 +1157,7 @@ class List extends React.Component {
                 tFvItem =
                   tItem.attributesValueList.filter(
                     (t) =>
-                      t.attributeDetailNameEn === fvItem &&
+                      t.attributeDetailNameEnSplitByLine === fvItem &&
                       t.attributeDetailName
                         .toLocaleLowerCase()
                         .includes(`${isDogPage ? 'dog' : 'cat'}`)
@@ -1242,8 +1244,12 @@ class List extends React.Component {
       });
     }
   }
+  // 处理产品列表返回的filter list，
+  // 1 排序
+  // 2 根据默认参数设置filter select 状态
+  // 3 拼接router参数，用于点击filter时，跳转链接用
   handleFilterResData(res, customFilter) {
-    const { state, pathname, search } = this.props.history.location;
+    const { pathname, search } = this.props.history.location;
     let tmpList = res
       .filter((ele) => +ele.filterStatus)
       .sort((a) => (a.filterType === '0' ? -1 : 1))
@@ -1256,8 +1262,7 @@ class List extends React.Component {
     // isVetProducts 过滤掉'breeds' 'Sterilized''Specific needs'
     const vetFilterList = filterList.filter(
       (item) =>
-        item.attributeName !== 'breeds' &&
-        item.attributeName !== 'Sterilized'
+        item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
     );
     // 非isVetProducts 过滤掉'Size'
     const sptFilterList = filterList.filter(
@@ -1419,7 +1424,7 @@ class List extends React.Component {
           // 1 若移除后，子节点为空了，则移除该父节点
           if (targetPItem) {
             const idx = targetPItem.prefvs.findIndex(
-              (p) => p === cEle.attributeDetailNameEn
+              (p) => p === cEle.attributeDetailNameEnSplitByLine
             );
             targetPItem.prefvs.splice(idx, 1);
             if (!targetPItem.prefvs.length) {
@@ -1435,14 +1440,14 @@ class List extends React.Component {
 
           if (targetPItem) {
             if (pEle.choiceStatus === 'Single choice') {
-              targetPItem.prefvs = [cEle.attributeDetailNameEn];
+              targetPItem.prefvs = [cEle.attributeDetailNameEnSplitByLine];
             } else {
-              targetPItem.prefvs.push(cEle.attributeDetailNameEn);
+              targetPItem.prefvs.push(cEle.attributeDetailNameEnSplitByLine);
             }
           } else {
             prefnParamList.push({
               prefn: pEle.attributeName,
-              prefvs: [cEle.attributeDetailNameEn]
+              prefvs: [cEle.attributeDetailNameEnSplitByLine]
             });
           }
         }
@@ -1497,7 +1502,6 @@ class List extends React.Component {
     });
   }
   async getProductList(type) {
-    const { history } = this.props;
     let {
       cateType,
       currentPage,
@@ -1511,11 +1515,6 @@ class List extends React.Component {
       actionFromFilter,
       sourceParam
     } = this.state;
-    console.log(
-      initingList,
-      defaultFilterSearchForm,
-      'defaultFilterSearchForm==='
-    );
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -1585,10 +1584,6 @@ class List extends React.Component {
       //   }
       // });
     }
-    console.log(
-      goodsAttributesValueRelVOList.concat(goodsFilterRelList),
-      'goodsAttributesValueRelVOList==='
-    );
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -1640,8 +1635,9 @@ class List extends React.Component {
 
     getList(params)
       .then((res) => {
-        const esGoodsStoreGoodsFilterVOList =
-          res.context?.esGoodsStoreGoodsFilterVOList || [];
+        const esGoodsStoreGoodsFilterVOList = this.handledAttributeDetailNameEn(
+          res.context?.esGoodsStoreGoodsFilterVOList || []
+        );
         const esGoodsCustomFilterVOList =
           res.context?.esGoodsCustomFilterVOList || [];
         this.handleFilterResData(
@@ -1784,6 +1780,23 @@ class List extends React.Component {
           initingFilter: false
         });
       });
+  }
+
+  // 处理attributeDetailNameEn字段，处理空格为-
+  handledAttributeDetailNameEn(list) {
+    let tmpList = cloneDeep(list);
+    Array.from(tmpList, (ele) => {
+      (ele.attributesValueList || []).map((cEle) => {
+        if (cEle.attributeDetailNameEn) {
+          cEle.attributeDetailNameEnSplitByLine = cEle.attributeDetailNameEn
+            .split(' ')
+            .join('-');
+        }
+        return cEle;
+      });
+      return ele;
+    });
+    return tmpList;
   }
 
   hanldePageNumChange = ({ currentPage }) => {
@@ -1969,11 +1982,7 @@ class List extends React.Component {
           <BannerTip />
           <BreadCrumbsNavigation list={breadListByDeco.filter((b) => b)} />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <DistributeHubLinkOrATag
-              href=""
-              to="/home"
-              className="back-link"
-            >
+            <DistributeHubLinkOrATag href="" to="/home" className="back-link">
               <FormattedMessage id="homePage" />
             </DistributeHubLinkOrATag>
           </div>
