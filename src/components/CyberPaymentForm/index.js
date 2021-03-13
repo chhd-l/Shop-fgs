@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import Selection from '@/components/Selection';
 class CyberPaymentForm extends React.Component {
   static defaultProps = {
+    billingJSX: null,
     form: {
       cardholderName: '',
       cardNumber: '',
@@ -174,6 +175,7 @@ class CyberPaymentForm extends React.Component {
   }
 
   render() {
+    const {billingJSX} = this.props
     return (
       <div>
         {/* Name on Card */}
@@ -203,7 +205,7 @@ class CyberPaymentForm extends React.Component {
             {this.securityCodeJSX()}
           </div>
         </div>
-
+        {billingJSX}
       </div>
     )
   }

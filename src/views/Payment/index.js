@@ -32,7 +32,8 @@ import {
   formatMoney,
   generatePayUScript,
   getFormatDate,
-  setSeoConfig
+  setSeoConfig,
+  validData
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import {
@@ -59,6 +60,8 @@ import AdyenCreditCard from './Adyen';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
 
+import CyberPaymentForm from '@/components/CyberPaymentForm';
+
 import OnePageEmailForm from './OnePage/EmailForm';
 import OnePageClinicForm from './OnePage/ClinicForm';
 
@@ -68,9 +71,12 @@ import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
+import { ADDRESS_RULE } from './Cyber/constant/utils';
 import { de } from 'date-fns/locale';
 
 import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
+
+
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -165,7 +171,54 @@ class Payment extends React.Component {
       validSts: { billingAddr: true },
       saveBillingLoading: false,
       payWayErr: '',
-      pet: {}
+      pet: {},
+      //cyber参数
+      cyberPaymentForm: {
+        cardholderName: '',
+        cardNumber: '',
+        expirationMonth: '',
+        expirationYear: '',
+        securityCode: '',//000
+        firstName: "",
+        lastName: "",
+        address1: "",
+        address2: "",//非必填
+        country: "",
+        state: "",//Alabama
+        city: "",
+        zipCode: "",
+        email: "",
+        isSaveCard: true
+      },
+      cyberMonthList: [
+        { name: 'month', value: '' },
+        { name: '01', value: 1 },
+        { name: '02', value: 2 },
+        { name: '03', value: 3 },
+        { name: '04', value: 4 },
+        { name: '05', value: 5 },
+        { name: '06', value: 6 },
+        { name: '07', value: 7 },
+        { name: '08', value: 8 },
+        { name: '09', value: 9 },
+        { name: '10', value: 10 },
+        { name: '11', value: 11 },
+        { name: '12', value: 12 },
+      ],
+      cyberYearList: [
+        { name: 'year', value: '' },
+        { name: '2021', value: 2021 },
+        { name: '2022', value: 2022 },
+        { name: '2023', value: 2023 },
+        { name: '2024', value: 2024 },
+        { name: '2025', value: 2025 },
+        { name: '2026', value: 2026 },
+        { name: '2027', value: 2027 },
+        { name: '2028', value: 2028 },
+        { name: '2029', value: 2029 },
+        { name: '2030', value: 2030 },
+      ],
+      cyberErrMsgObj: {}
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -175,6 +228,51 @@ class Payment extends React.Component {
     this.adyenCardRef = React.createRef();
     this.payUCreditCardRef = React.createRef();
   }
+  inputBlur = async (e) => {
+    const { cyberErrMsgObj } = this.state;
+    const target = e.target;
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const value = target.value;
+    try {
+      await validData(targetRule, { [target.name]: value });
+      this.setState({
+        cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
+          [target.name]: ''
+        })
+      });
+    } catch (err) {
+      this.setState({
+        cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
+          [target.name]: err.message
+        })
+      });
+    }
+  };
+  //input输入事件
+  handleCyberInputChange = (e) => {
+    const target = e.target;
+    const { cyberPaymentForm } = this.state;
+    const name = target.name;
+    let value = '';
+    value = target.value;
+    cyberPaymentForm[name] = value;
+    this.setState({ cyberPaymentForm }, () => {
+      console.log(cyberPaymentForm, '--------handleInputChange');
+    });
+    this.inputBlur(e);
+  };
+  //select事件
+  handleCyberSelectedItemChange = (name, item) => {
+    let cyberErrMsgObj = this.state.cyberErrMsgObj
+    const { cyberPaymentForm } = this.state;
+    cyberPaymentForm[name] = item.value;
+
+    let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }) //选择了值，幼稚了，就清空没填提示
+
+    this.setState({ cyberPaymentForm, cyberErrMsgObj: obj }, () => {
+      console.log(cyberPaymentForm, '--------handleSelectedItemChange');
+    });
+  };
   getPetVal() {
     let obj = doGetGAVal(this.props);
     this.setState({ pet: obj });
@@ -231,8 +329,8 @@ class Payment extends React.Component {
         {
           needPrescriber: checkoutStore.autoAuditFlag
             ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-                (el) => el.prescriberFlag
-              ).length > 0
+              (el) => el.prescriberFlag
+            ).length > 0
             : checkoutStore.AuditData.length > 0
         },
         () => {
@@ -425,7 +523,27 @@ class Payment extends React.Component {
           name: 'directEbanking',
           id: 'sofort',
           paymentTypeVal: 'directEbanking'
-        }
+        },
+        visa: {
+          name: 'Visa',
+          id: 'visa',
+          paymentTypeVal: 'cyberVisa'
+        },
+        mastercard: {
+          name: 'Mastercard',
+          id: 'mastercard',
+          paymentTypeVal: 'cyberMastercard'
+        },
+        amex: {
+          name: 'Amex',
+          id: 'amex',
+          paymentTypeVal: 'cyberAmex'
+        },
+        discover: {
+          name: 'Discover',
+          id: 'discover',
+          paymentTypeVal: 'cyberDiscover'
+        },
       };
       let payWayNameArr = [];
       if (payWay.context) {
@@ -436,6 +554,7 @@ class Payment extends React.Component {
           )
           .filter((e) => e);
       }
+
       let payMethod = (payWayNameArr[0] && payWayNameArr[0].name) || 'none'; //初始化默认取第1个
       //各种支付component初始化方法
       var initPaymentWay = {
@@ -460,6 +579,19 @@ class Payment extends React.Component {
         },
         payuoxxo: () => {
           this.setState({ paymentTypeVal: 'oxxo' });
+        },
+        //cyber支付
+        Visa: () => {
+          this.setState({ paymentTypeVal: 'cyberVisa' });
+        },
+        Mastercard: () => {
+          this.setState({ paymentTypeVal: 'cyberMastercard' });
+        },
+        Amex: () => {
+          this.setState({ paymentTypeVal: 'cyberAmex' });
+        },
+        discover: () => {
+          this.setState({ paymentTypeVal: 'cyberDiscover' });
         },
         none: () => {
           console.log('no payway');
@@ -842,9 +974,9 @@ class Payment extends React.Component {
           const oxxoArgs = oxxoContent.args;
           oxxoPayUrl =
             oxxoArgs &&
-            oxxoArgs.additionalDetails &&
-            oxxoArgs.additionalDetails.object &&
-            oxxoArgs.additionalDetails.object.data[0]
+              oxxoArgs.additionalDetails &&
+              oxxoArgs.additionalDetails.object &&
+              oxxoArgs.additionalDetails.object.data[0]
               ? oxxoArgs.additionalDetails.object.data[0].href
               : '';
           subOrderNumberList = tidList.length
@@ -1552,11 +1684,10 @@ class Payment extends React.Component {
     return (
       <>
         <div
-          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
-            paymentStore.deliveryAddrPanelStatus.isEdit
-              ? 'border-333'
-              : 'border-transparent'
-          }`}
+          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${paymentStore.deliveryAddrPanelStatus.isEdit
+            ? 'border-333'
+            : 'border-transparent'
+            }`}
           id="J_checkout_panel_deliveryAddr"
         >
           {this.isLogin ? (
@@ -1791,11 +1922,10 @@ class Payment extends React.Component {
             {payWayNameArr.map((item, i) => {
               return (
                 <div
-                  className={`rc-input rc-input--inline ${
-                    subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
-                      ? 'hidden'
-                      : ''
-                  }`}
+                  className={`rc-input rc-input--inline ${subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
+                    ? 'hidden'
+                    : ''
+                    }`}
                   key={i}
                 >
                   <input
@@ -1950,6 +2080,28 @@ class Payment extends React.Component {
                 </>
               )}
 
+              {/* CYBER */}
+              {
+                (paymentTypeVal === 'cyberVisa' || paymentTypeVal === 'cyberMastercard' || paymentTypeVal === 'cyberAmex' || paymentTypeVal === 'cyberDiscover') && (
+                  <>
+                    <CyberPaymentForm form={this.state.cyberPaymentForm}
+                      errMsgObj={this.state.cyberErrMsgObj}
+                      monthList={this.state.cyberMonthList}
+                      yearList={this.state.cyberYearList}
+                      handleInputChange={this.handleCyberInputChange}
+                      handleSelectedItemChange={this.handleCyberSelectedItemChange}
+                      inputBlur={this.inputBlur} 
+                      billingJSX={this.renderBillingJSX({
+                        type: paymentTypeVal
+                      })}
+                    />
+                    {payConfirmBtn({
+                      disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                    })}
+                  </>
+                )
+              }
+
               {/* ***********************支付选项卡的内容end******************************* */}
             </>
           )}
@@ -2031,7 +2183,7 @@ class Payment extends React.Component {
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
           {paymentTypeVal === 'payUCreditCard' ||
-          paymentTypeVal === 'adyenCard' ? (
+            paymentTypeVal === 'adyenCard' ? (
             <div className="col-12 col-md-6">
               <span className="medium">
                 <FormattedMessage id="bankCard" />
@@ -2280,10 +2432,10 @@ class Payment extends React.Component {
     const paymentMethodTitle = paymentMethodPanelStatus.isPrepare
       ? paymentMethodTitleForPrepare
       : paymentMethodPanelStatus.isEdit
-      ? paymentMethodTitleForEdit
-      : paymentMethodPanelStatus.isCompleted
-      ? paymentMethodTitleForCompeleted
-      : null;
+        ? paymentMethodTitleForEdit
+        : paymentMethodPanelStatus.isCompleted
+          ? paymentMethodTitleForCompeleted
+          : null;
 
     return (
       <div>
@@ -2313,9 +2465,8 @@ class Payment extends React.Component {
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示 */}
                 <div
-                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-                    errorMsg ? '' : 'hidden'
-                  }`}
+                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${errorMsg ? '' : 'hidden'
+                    }`}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
@@ -2365,121 +2516,120 @@ class Payment extends React.Component {
                       </p>
                       {this.isLogin
                         ? checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct">
-                                <LazyLoad>
-                                  <img
-                                    className="pull-left"
-                                    alt=""
-                                    src={el.goodsInfoImg}
-                                  />
-                                </LazyLoad>
+                          return (
+                            <div className="petProduct">
+                              <LazyLoad>
+                                <img
+                                  className="pull-left"
+                                  alt=""
+                                  src={el.goodsInfoImg}
+                                />
+                              </LazyLoad>
 
-                                <div
-                                  className="pull-left"
-                                  style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petName ? el.petName : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.buyCount}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  className="pull-right"
-                                  style={{
-                                    marginTop: '30px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <button
-                                    className="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
-                                    }}
-                                  >
-                                    Select a pet
-                                  </button>
-                                </div>
+                              <div
+                                className="pull-left"
+                                style={{
+                                  marginTop: '20px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <p>
+                                  <span>Pet:</span>
+                                  <span>
+                                    {el.petName ? el.petName : 'required'}
+                                  </span>
+                                </p>
+                                <p>
+                                  <span>Qty:</span>
+                                  <span>{el.buyCount}</span>
+                                </p>
                               </div>
-                            );
-                          })
+                              <div
+                                className="pull-right"
+                                style={{
+                                  marginTop: '30px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <button
+                                  className="rc-btn rc-btn--sm rc-btn--one"
+                                  onClick={() => {
+                                    this.setState({
+                                      petModalVisible: true,
+                                      currentProIndex: i
+                                    });
+                                  }}
+                                >
+                                  Select a pet
+                                  </button>
+                              </div>
+                            </div>
+                          );
+                        })
                         : checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct" key={i}>
-                                <LazyLoad>
-                                  <img
-                                    alt=""
-                                    src={
-                                      el.sizeList.filter((el) => el.selected)[0]
-                                        .goodsInfoImg
-                                    }
-                                    className="pull-left"
-                                  />
-                                </LazyLoad>
-                                <div
+                          return (
+                            <div className="petProduct" key={i}>
+                              <LazyLoad>
+                                <img
+                                  alt=""
+                                  src={
+                                    el.sizeList.filter((el) => el.selected)[0]
+                                      .goodsInfoImg
+                                  }
                                   className="pull-left"
-                                  style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petForm
-                                        ? el.petForm.petName
-                                        : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.quantity}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  className="pull-right"
-                                  style={{
-                                    marginTop: '30px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <button
-                                    id="selectPet"
-                                    className="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
-                                    }}
-                                  >
-                                    Select a pet
-                                  </button>
-                                </div>
+                                />
+                              </LazyLoad>
+                              <div
+                                className="pull-left"
+                                style={{
+                                  marginTop: '20px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <p>
+                                  <span>Pet:</span>
+                                  <span>
+                                    {el.petForm
+                                      ? el.petForm.petName
+                                      : 'required'}
+                                  </span>
+                                </p>
+                                <p>
+                                  <span>Qty:</span>
+                                  <span>{el.quantity}</span>
+                                </p>
                               </div>
-                            );
-                          })}
+                              <div
+                                className="pull-right"
+                                style={{
+                                  marginTop: '30px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <button
+                                  id="selectPet"
+                                  className="rc-btn rc-btn--sm rc-btn--one"
+                                  onClick={() => {
+                                    this.setState({
+                                      petModalVisible: true,
+                                      currentProIndex: i
+                                    });
+                                  }}
+                                >
+                                  Select a pet
+                                  </button>
+                              </div>
+                            </div>
+                          );
+                        })}
                     </h5>
                   </div>
                 )}
                 <div
-                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
-                    paymentMethodPanelStatus.isEdit
-                      ? 'border-333'
-                      : 'border-transparent'
-                  }`}
+                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${paymentMethodPanelStatus.isEdit
+                    ? 'border-333'
+                    : 'border-transparent'
+                    }`}
                   id="J_checkout_panel_paymentMethod"
                 >
                   <span>{paymentMethodTitle}</span>
@@ -2530,9 +2680,8 @@ class Payment extends React.Component {
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
-              className={`order-summary-title align-items-center justify-content-between text-center ${
-                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-              }`}
+              className={`order-summary-title align-items-center justify-content-between text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                }`}
               onClick={this.toggleMobileCart.bind(this, 'more')}
             >
               <span

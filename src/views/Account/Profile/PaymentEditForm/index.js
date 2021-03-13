@@ -114,11 +114,11 @@ class PaymentEditForm extends React.Component {
     //查询国家
     getDictionary({ type: 'country' }).then((res) => {
       const { paymentForm } = this.state;
-      let clist = [{ value: res[0]?.name, name: res[0]?.name }];
+      let clist = [{ value: res[0]?.description, name: res[0]?.name }];
       this.setState({
         countryList: clist
       });
-      paymentForm.country = res[0]?.name;
+      paymentForm.country = res[0]?.description;
       paymentForm.countryId = res[0]?.id;
     });
 
