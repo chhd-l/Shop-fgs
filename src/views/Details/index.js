@@ -1969,6 +1969,7 @@ class Details extends React.Component {
                                 __html: this.state.descContent
                               }}
                             ></div>
+                            {/*这种情况时，eancode 在法国固定，其他国家待定  */}
                             {!this.state.loading && !bundle && isHub && PC ? (
                               <div
                                 className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${
@@ -1976,7 +1977,7 @@ class Details extends React.Component {
                                 }`}
                                 ref={(el) => this.ccidBtnRef(el)}
                                 data-ccid="wtb-target"
-                                data-ean={barcode}
+                                data-ean={"3182550751148"}
                                 onClick={this.handleBuyFromRetailer}
                                 style={{
                                   marginTop: '20px'
