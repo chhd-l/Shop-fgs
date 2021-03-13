@@ -17,11 +17,21 @@ class CyberBillingAddress extends React.Component {
       isSaveCard: true
     },
     countryList: [],
-    stateList: []
+    stateList: [],
+    errMsgObj: {
+      firstName: '',
+      lastName: '',
+      address1: '',
+      country: '',
+      state: '',
+      city:'',
+      zipCode: '',
+      email: ''
+    }
   };
 
   firstNameJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -42,15 +52,15 @@ class CyberBillingAddress extends React.Component {
           />
           <label className="rc-input__label" htmlFor="firstName" />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.firstName && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   lastNameJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -71,15 +81,15 @@ class CyberBillingAddress extends React.Component {
           />
           <label className="rc-input__label" htmlFor="lastName" />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.lastName && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   address1JSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -100,9 +110,9 @@ class CyberBillingAddress extends React.Component {
           />
           <label className="rc-input__label" htmlFor="address1" />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.address1 && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
@@ -134,7 +144,7 @@ class CyberBillingAddress extends React.Component {
   }
 
   countryJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label" htmlFor="month">
@@ -155,15 +165,15 @@ class CyberBillingAddress extends React.Component {
             }}
           />
         </span>
-        <div className="invalid-feedback" style={{ display: 'none' }}>
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.country && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   stateJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
         <label className="form-control-label" htmlFor="month">
@@ -184,15 +194,15 @@ class CyberBillingAddress extends React.Component {
             key={form.state}
           />
         </span>
-        <div className="invalid-feedback" style={{ display: 'none' }}>
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.state && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   cityJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -210,15 +220,15 @@ class CyberBillingAddress extends React.Component {
             onChange={this.props.handleSelectedCityChange}
           />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.city && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   zipCodeJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -239,15 +249,15 @@ class CyberBillingAddress extends React.Component {
           />
           <label className="rc-input__label" htmlFor="zipCode" />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.zipCode && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   emailJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -268,15 +278,14 @@ class CyberBillingAddress extends React.Component {
           />
           <label className="rc-input__label" htmlFor="email" />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.email && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   render() {
-    const { form } = this.props
     return (
       <div className="billingAddress">
         {/* firstName */}

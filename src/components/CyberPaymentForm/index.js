@@ -12,10 +12,17 @@ class CyberPaymentForm extends React.Component {
     },
     monthList: [],
     yearList: [],
+    errMsgObj: {
+      cardholderName: '',
+      cardNumber: '',
+      expirationMonth:'',
+      expirationYear:'',
+      securityCode: '',
+    }
   };
 
   nameOnCardJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -37,15 +44,15 @@ class CyberPaymentForm extends React.Component {
           />
           <label className="rc-input__label" htmlFor="cardholderName" />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.cardholderName && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   cardNumberJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -68,17 +75,17 @@ class CyberPaymentForm extends React.Component {
           />
           <label className="rc-input__label" htmlFor="cardNumber" />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.cardNumber && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   expirationMonthJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
-      <div className="form-group required">
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
         <label className="form-control-label" htmlFor="month">
           <FormattedMessage id="cyber.form.EXPMonth" />
         </label>
@@ -97,17 +104,17 @@ class CyberPaymentForm extends React.Component {
             }}
           />
         </span>
-        <div className="invalid-feedback" style={{ display: 'none' }}>
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.expirationMonth && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   expirationYearJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
-      <div className="form-group required">
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
         <label
           className="form-control-label"
           htmlFor="year"
@@ -129,15 +136,15 @@ class CyberPaymentForm extends React.Component {
             }}
           />
         </span>
-        <div className="invalid-feedback">
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.expirationYear && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div>
     )
   }
 
   securityCodeJSX = () => {
-    const { form } = this.props
+    const { form,errMsgObj } = this.props
     return (
       <div className="form-group required">
         <label className="form-control-label" htmlFor="month">
@@ -159,9 +166,9 @@ class CyberPaymentForm extends React.Component {
           />
           <label className="rc-input__label" htmlFor="securityCode" />
         </span>
-        <div className="invalid-feedback" style={{ display: 'none' }}>
-          <FormattedMessage id="payment.errorInfo2" />
-        </div>
+        {errMsgObj.securityCode && (
+          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+        )}
       </div >
     )
   }
