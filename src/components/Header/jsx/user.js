@@ -17,7 +17,7 @@ const clientWidth = document.body.clientWidth;
 
 const UserJSX = (props) => {
   const firstNameLetter =
-    userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1);
+    userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1)
   const { self, showUserIcon, history, showCart, showCenter } = props;const defaultJSX = (
     <>
       {showUserIcon ? (
