@@ -73,8 +73,18 @@ import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './Cyber/constant/utils';
 import { de } from 'date-fns/locale';
-
 import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
+import visaImg from '@/assets/images/credit-cards/visa.svg';
+import amexImg from '@/assets/images/credit-cards/amex.svg';
+import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
+import discoverImg from '@/assets/images/credit-cards/discover.svg';
+
+const cardTypeImg = {
+  visa: visaImg,
+  mastercard: mastercardImg,
+  amex: amexImg,
+  discover: discoverImg
+};
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1779,6 +1789,7 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
+    // debugger
     this.setState({ saveBillingLoading: true });
     setTimeout(() => {
       this.confirmPaymentPanel();
@@ -1941,7 +1952,16 @@ class Payment extends React.Component {
                     className="rc-input__label--inline"
                     htmlFor={`payment-info-${item.id}`}
                   >
-                    <FormattedMessage id={item.id} />
+                    {/* <FormattedMessage id={item.id} /> */}
+                    {cardTypeImg[item.id] ? (
+                      <img
+                        src={cardTypeImg[item.id]}
+                        title={item.id}
+                        style={{ width: '40px' }}
+                      />
+                    ) : (
+                      <FormattedMessage id={item.id} />
+                    )}
                   </label>
                 </div>
               );

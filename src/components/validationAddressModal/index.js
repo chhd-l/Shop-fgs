@@ -7,6 +7,7 @@ class ValidationAddressModal extends React.Component {
   static defaultProps = {
     modalTitle: <FormattedMessage id="information" />,
     updateValidationData: () => {},
+    btnLoading: false,
     address: {
       address1: '',
       address2: '',
@@ -246,7 +247,9 @@ class ValidationAddressModal extends React.Component {
                   </div>
                   <div className="sav-buttons-div text-center rc-padding-top--lg--mobile rc-padding-top--sm">
                     <button
-                      className="rc-btn rc-btn--one confirmAddress"
+                      className={`rc-btn rc-btn--one confirmAddress ${
+                        this.props.btnLoading ? 'ui-btn-loading' : ''
+                      }`}
                       onClick={(e) => this.hanldeClickConfirm(e)}
                     >
                       Confirm
