@@ -40,6 +40,8 @@ import './index.less';
 import '../index.css';
 import PayProductInfo from '../../Payment/PayProductInfo';
 import BannerTip from '@/components/BannerTip';
+import SubscriptionSelection from '../components/SubscriptionSelection';
+import OneOffSelection from '../components/OneOffSelection';
 import { v4 as uuidv4 } from 'uuid';
 const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
@@ -104,6 +106,11 @@ class LoginCart extends React.Component {
         location: { search }
       }
     } = this.props;
+    // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
+    const tokenFromUrl = getParaByName(search, 'token');
+    if (tokenFromUrl) {
+      localItemRoyal.set('rc-token', tokenFromUrl);
+    }
 
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -679,21 +686,6 @@ class LoginCart extends React.Component {
                     {pitem.goods.goodsSubtitle}
                   </div> */}
                     <div className="align-left flex">
-                      {/* <div className="stock__wrapper">
-                    <div className="stock">
-                      <label className="availability instock">
-                        <span className="title-select"></span>
-                      </label>
-                      <span
-                        className="availability-msg"
-                        data-ready-to-order="true"
-                      >
-                        <div>
-                          <FormattedMessage id="details.inStock" />
-                        </div>
-                      </span>
-                    </div>
-                  </div> */}
                       <div
                         className="stock"
                         style={{ margin: '.5rem 0 -.4rem' }}
@@ -737,395 +729,48 @@ class LoginCart extends React.Component {
                   {!isGift && this.getSizeBox(pitem, index)}
                   {!isGift && this.getQuantityBox(pitem, index)}
                 </div>
-                <div className="availability  product-availability">
-                  <div className="flex justify-content-between rc-md-up align-items-start">
-                    <div
-                      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs"
-                      style={{
-                        borderColor: !parseInt(pitem.goodsInfoFlag)
-                          ? '#e2001a'
-                          : '#d7d7d7',
-                        cursor: 'pointer',
-                        display: `${isGift ? 'none' : 'initial'}`
-                      }}
-                      onClick={this.hanldeToggleOneOffOrSub.bind(this, {
-                        goodsInfoFlag: 0,
-                        periodTypeId: null,
-                        pitem
-                      })}
-                    >
-                      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break">
-                        <div className="radioBox mr-2">
-                          <span
-                            style={{
-                              height: '100%',
-                              fontWeight: '100',
-                              color: '#666',
-                              fontSize: '20px',
-                              lineHeight: '1'
-                            }}
-                          >
-                            <LazyLoad>
-                              <img src={cartImg} />
-                            </LazyLoad>
-                            <FormattedMessage id="singlePurchase" />
-                          </span>
-                        </div>
-                        <div
-                          className="price singlePrice"
-                          style={{ fontSize: '22px' }}
-                        >
-                          {/* {formatMoney(
-                        pitem.quantity *
-                          pitem.sizeList.filter((el) => el.selected)[0].salePrice
-                      )} */}
-                          {formatMoney(pitem.buyCount * pitem.salePrice)}
-                        </div>
-                      </div>
-                    </div>
-                    {isGift && this.getSizeBox(pitem, index)}
-                    {isGift && this.getQuantityBox(pitem, index)}
-                    {pitem.subscriptionStatus ? (
-                      <div
-                        className="buyMethod rc-margin-bottom--xs rc-margin-left--xs"
-                        style={{
-                          borderColor: parseInt(pitem.goodsInfoFlag)
-                            ? '#e2001a'
-                            : '#d7d7d7',
-                          cursor: 'pointer',
-                          maxWidth: `${isGift ? '22rem' : 'initial'}`
-                        }}
-                        onClick={this.hanldeToggleOneOffOrSub.bind(this, {
-                          goodsInfoFlag: 1,
-                          periodTypeId: pitem.form.frequencyId,
-                          pitem
-                        })}
-                      >
-                        <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
-                          <div className="radioBox mr-2">
-                            <span
-                              className="font15"
-                              style={{
-                                fontWeight: '400',
-                                color: '#333',
-                                marginTop: '5px'
-                              }}
-                            >
-                              <span
-                                className="iconfont red mr-2"
-                                style={{ fontSize: '1.2em' }}
-                              >
-                                &#xe675;
-                              </span>
-                              <FormattedMessage id="autoship" />
-                              <span
-                                style={{
-                                  display: `${isGift ? 'none' : 'inline-block'}`
-                                }}
-                                className="info-tooltip delivery-method-tooltip"
-                                onMouseEnter={() => {
-                                  this.setState({
-                                    toolTipVisible: true,
-                                    activeToolTipIndex: index
-                                  });
-                                }}
-                                onMouseLeave={() => {
-                                  this.setState({
-                                    toolTipVisible: false
-                                  });
-                                }}
-                              >
-                                i
-                              </span>
-                              <ConfirmTooltip
-                                arrowStyle={{ left: '84%' }}
-                                display={
-                                  this.state.toolTipVisible &&
-                                  index === this.state.activeToolTipIndex
-                                }
-                                cancelBtnVisible={false}
-                                confirmBtnVisible={false}
-                                updateChildDisplay={(status) =>
-                                  this.setState({
-                                    toolTipVisible: status
-                                  })
-                                }
-                                content={
-                                  <FormattedMessage id="subscription.promotionTip2" />
-                                }
-                              />
-                            </span>
-                            {/* </div> */}
-                            <br />
-
-                            {!isGift && (
-                              <FormattedMessage
-                                id="saveExtraMoney"
-                                values={{
-                                  val: (
-                                    <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                      {formatMoney(
-                                        pitem.buyCount * pitem.salePrice -
-                                          pitem.buyCount *
-                                            pitem.subscriptionPrice
-                                      )}
-                                    </b>
-                                  )
-                                }}
-                              />
-                            )}
-                          </div>
-                          <div className="price">
-                            {!isGift && (
-                              <div
-                                style={{
-                                  fontSize: '15px',
-                                  textDecoration: 'line-through'
-                                }}
-                              >
-                                {formatMoney(pitem.buyCount * pitem.salePrice)}
-                              </div>
-                            )}
-                            {console.info(
-                              'pitem.settingPrice',
-                              pitem.settingPrice
-                            )}
-                            <div style={{ color: '#ec001a' }}>
-                              {formatMoney(
-                                isGift
-                                  ? pitem.buyCount * pitem.settingPrice
-                                  : pitem.buyCount * pitem.subscriptionPrice
-                              )}
-                            </div>
-
-                            {/* {formatMoney(currentSubscriptionPrice || 0)} */}
-                          </div>
-                        </div>
-                        <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
-                          <span>
-                            <FormattedMessage id="subscription.frequency" />:
-                          </span>
-                          <Selection
-                            customCls="flex-grow-1"
-                            selectedItemChange={(data) =>
-                              this.handleSelectedItemChange(pitem, data)
-                            }
-                            optionList={this.computedList}
-                            selectedItemData={{
-                              value: pitem.form.frequencyId
-                              // value: pitem.periodTypeId
-                            }}
-                            key={index}
-                          />
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
               </div>
             </div>
-            <div className="rc-margin-bottom--sm rc-md-down">
-              {isGift && this.getSizeBox(pitem, index)}
-              <div
-                className={`product-card-footer product-card-price d-flex rc-margin-bottom--sm ${
-                  isGift ? 'gift-quantity-mobile-box' : ''
-                }`}
-              >
-                <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                  <div style={{ marginTop: '12px' }}>
-                    <FormattedMessage id="quantity" />:{' '}
-                  </div>
-                  <div className="rc-quantity d-flex">
-                    <span
-                      className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                      onClick={this.subQuantity.bind(this, pitem)}
-                    />
-                    <input
-                      className="rc-quantity__input"
-                      value={pitem.buyCount}
-                      onChange={this.handleAmountChange.bind(this, pitem)}
-                      min="1"
-                      max="10"
-                    />
-                    <span
-                      className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                      onClick={this.addQuantity.bind(this, pitem)}
-                    ></span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="buyMethod rc-margin-bottom--xs"
-                style={{
-                  width: '100%',
-                  borderColor: !parseInt(pitem.goodsInfoFlag)
-                    ? '#e2001a'
-                    : '#d7d7d7',
-                  cursor: 'pointer',
-                  display: `${isGift ? 'none' : 'flex'}`
-                }}
-                onClick={this.hanldeToggleOneOffOrSub.bind(this, {
-                  goodsInfoFlag: 0,
-                  periodTypeId: null,
-                  pitem
-                })}
-              >
-                <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
-                  <div className="radioBox mr-2">
-                    <span
-                      style={{
-                        height: '100%',
-                        fontWeight: '100',
-                        color: '#666',
-                        fontSize: '20px'
-                      }}
-                    >
-                      <LazyLoad>
-                        <img src={cartImg} />
-                      </LazyLoad>
-                      <span style={{ fontSize: '16px' }}>
-                        <FormattedMessage id="singlePurchase" />
-                      </span>
-                    </span>
-                  </div>
-                  <div
-                    className="price singlePrice"
-                    style={{ fontSize: '18px' }}
-                  >
-                    {formatMoney(pitem.buyCount * pitem.salePrice)}
-                  </div>
-                </div>
-              </div>
-              {/* {this.getSizeBox(pitem, index)}
-              {this.getQuantityBox(pitem, index)} */}
-              {pitem.subscriptionStatus ? (
-                <div
-                  className="buyMethod rc-margin-bottom--xs"
-                  style={{
-                    width: '100%',
-                    borderColor: parseInt(pitem.goodsInfoFlag)
-                      ? '#e2001a'
-                      : '#d7d7d7',
-                    cursor: 'pointer'
-                  }}
-                  onClick={this.hanldeToggleOneOffOrSub.bind(this, {
-                    goodsInfoFlag: 1,
-                    periodTypeId: pitem.form.frequencyId,
+            <div class="buyMethodBox rc-layout-container rc-two-column">
+              <div class="rc-column">
+                <OneOffSelection
+                  isGift={isGift}
+                  pitem={pitem}
+                  isLogin={true}
+                  chooseOneOff={this.hanldeToggleOneOffOrSub.bind(this, {
+                    goodsInfoFlag: 0,
+                    periodTypeId: null,
                     pitem
                   })}
-                >
-                  <div className="buyMethodInnerBox row ml-0 mr-0">
-                    <div className="radioBox col-8 pl-0 pr-0">
-                      <span
-                        style={{
-                          fontWeight: '400',
-                          color: '#333',
-                          display: 'inline-block',
-                          marginTop: '5px'
-                        }}
-                      >
-                        <span
-                          className="iconfont red mr-2"
-                          style={{
-                            fontSize: '1.2em',
-                            display: `${isGift ? 'none' : 'inline-block'}`
-                          }}
-                        >
-                          &#xe675;
-                        </span>
-                        <FormattedMessage id="autoship" />
-                        <span
-                          className="info-tooltip delivery-method-tooltip"
-                          onMouseEnter={() => {
-                            this.setState({
-                              toolTipVisible: true,
-                              activeToolTipIndex: index
-                            });
-                          }}
-                          onMouseLeave={() => {
-                            this.setState({
-                              toolTipVisible: false
-                            });
-                          }}
-                        >
-                          i
-                        </span>
-                        <ConfirmTooltip
-                          arrowStyle={{ left: '84%' }}
-                          display={
-                            this.state.toolTipVisible &&
-                            index === this.state.activeToolTipIndex
-                          }
-                          cancelBtnVisible={false}
-                          confirmBtnVisible={false}
-                          updateChildDisplay={(status) =>
-                            this.setState({
-                              toolTipVisible: status
-                            })
-                          }
-                          content={
-                            <FormattedMessage id="subscription.promotionTip2" />
-                          }
-                        />
-                      </span>
-                    </div>
-                    <div className="price col-4 pl-0 pr-0">
-                      <div
-                        style={{
-                          display: `${isGift ? 'none' : 'initial'} `,
-                          fontSize: '15px',
-                          textDecoration: 'line-through'
-                        }}
-                      >
-                        {formatMoney(pitem.buyCount * pitem.salePrice)}
-                      </div>
-                      <div style={{ color: '#ec001a' }}>
-                        {formatMoney(
-                          isGift
-                            ? pitem.buyCount * pitem.settingPrice
-                            : pitem.buyCount * pitem.subscriptionPrice
-                        )}
-                      </div>
-
-                      {/* {formatMoney(currentSubscriptionPrice || 0)} */}
-                    </div>
-                    <div
-                      className="col-12 pl-0 pr-0"
-                      style={{ display: `${isGift ? 'none' : 'initial'} ` }}
-                    >
-                      <FormattedMessage
-                        id="saveExtraMoney"
-                        values={{
-                          val: (
-                            <b className="11111 product-pricing__card__head__price red  rc-padding-y--none">
-                              {formatMoney(
-                                pitem.buyCount * pitem.salePrice -
-                                  pitem.buyCount * pitem.subscriptionPrice
-                              )}
-                            </b>
-                          )
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
-                    <span>
-                      <FormattedMessage id="subscription.frequency" />:
-                    </span>
-                    <Selection
-                      customCls="flex-grow-1"
-                      selectedItemChange={(data) =>
-                        this.handleSelectedItemChange(pitem, data)
+                />
+                {isGift && this.getSizeBox(pitem, index)}
+                {isGift && this.getQuantityBox(pitem, index)}
+              </div>
+              <div class="rc-column">
+                {pitem.subscriptionStatus ? (
+                  <SubscriptionSelection
+                    isGift={isGift}
+                    pitem={pitem}
+                    activeToolTipIndex={this.state.activeToolTipIndex}
+                    index={index}
+                    toolTipVisible={this.state.toolTipVisible}
+                    computedList={this.computedList}
+                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                      this,
+                      {
+                        goodsInfoFlag: 1,
+                        periodTypeId: pitem.form.frequencyId,
+                        pitem
                       }
-                      optionList={this.computedList}
-                      selectedItemData={{
-                        value: form.frequencyId
-                      }}
-                      key={form.frequencyId}
-                    />
-                  </div>
-                </div>
-              ) : null}
+                    )}
+                    changeFrequency={(pitem, data) =>
+                      this.handleSelectedItemChange(pitem, data)
+                    }
+                    isLogin={true}
+                    setState={this.setState.bind(this)}
+                  />
+                ) : null}
+              </div>
             </div>
           </div>
           {isGift &&
@@ -1632,10 +1277,7 @@ class LoginCart extends React.Component {
     await checkoutStore.removePromotionCode();
     // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart({
-        promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency'
-      });
+      result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
     } else {
       result = await checkoutStore.updateUnloginCart();
     }
@@ -1654,14 +1296,15 @@ class LoginCart extends React.Component {
       discount: []
     });
     if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart({
-        promotionCode: lastPromotionInputValue,
-        subscriptionFlag: buyWay === 'frequency'
-      });
+      result = await checkoutStore.updateLoginCart(
+        lastPromotionInputValue,
+        buyWay === 'frequency'
+      );
     } else {
-      result = await checkoutStore.updateUnloginCart({
-        promotionCode: lastPromotionInputValue
-      });
+      result = await checkoutStore.updateUnloginCart(
+        '',
+        lastPromotionInputValue
+      );
     }
     if (
       result &&
