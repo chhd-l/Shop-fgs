@@ -12,10 +12,10 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
-import { myAccountActionPushEvent } from "@/utils/GA"
+import { myAccountActionPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 @injectIntl
 class ShippingAddressFrom extends React.Component {
@@ -64,7 +64,7 @@ class ShippingAddressFrom extends React.Component {
       errMsgObj: {},
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
-      selectValidationOption: 'suggestedAddress',
+      selectValidationOption: 'suggestedAddress'
     };
     this.handleTypeChange = this.handleTypeChange.bind(this);
   }
@@ -127,21 +127,33 @@ class ShippingAddressFrom extends React.Component {
         addressForm.provinceName = data.province;
         addressForm.province = data.provinceId;
       }
-      console.log('------------------------ getAddressById addressForm: ', addressForm);
+      console.log(
+        '------------------------ getAddressById addressForm: ',
+        addressForm
+      );
 
       let cityRes = await queryCityNameById({ id: [data.cityId] });
       // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
-      addressForm.cityName = cityRes?.context?.systemCityVO[0] && cityRes?.context?.systemCityVO[0]?.cityName || data.city;
-      addressForm.city = cityRes?.context?.systemCityVO[0] && cityRes?.context?.systemCityVO[0]?.city || data.city;
+      addressForm.cityName =
+        (cityRes?.context?.systemCityVO[0] &&
+          cityRes?.context?.systemCityVO[0]?.cityName) ||
+        data.city;
+      addressForm.city =
+        (cityRes?.context?.systemCityVO[0] &&
+          cityRes?.context?.systemCityVO[0]?.city) ||
+        data.city;
 
-      this.setState({
-        addressForm,
-        showModal: true,
-        isAdd: false,
-        curType: data.type === 'DELIVERY' ? 'delivery' : 'billing'
-      }, () => {
-        this.validFormData();
-      });
+      this.setState(
+        {
+          addressForm,
+          showModal: true,
+          isAdd: false,
+          curType: data.type === 'DELIVERY' ? 'delivery' : 'billing'
+        },
+        () => {
+          this.validFormData();
+        }
+      );
     } catch (err) {
       this.showErrorMsg(err.message.toString());
     } finally {
@@ -181,11 +193,16 @@ class ShippingAddressFrom extends React.Component {
       // 不校验地址，进入下一步
       this.showNextPanel();
     }
-  }
+  };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const { addressForm, selectValidationOption, validationAddress } = this.state;
-
+    const {
+      addressForm,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
+    let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
+    console.log({ paymentForm, selectValidationOption, validationAddress });
     if (selectValidationOption == 'suggestedAddress') {
       addressForm.address1 = validationAddress.address1;
       addressForm.address2 = validationAddress.address2;
@@ -194,6 +211,8 @@ class ShippingAddressFrom extends React.Component {
       if (process.env.REACT_APP_LANG === 'en') {
         addressForm.provinceName = validationAddress.provinceCode;
       }
+    } else {
+      addressForm = JSON.parse(JSON.stringify(oldAddressForm));
     }
     this.showNextPanel();
   }
@@ -203,11 +222,11 @@ class ShippingAddressFrom extends React.Component {
     this.setState({
       validationLoading: true
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       this.setState({
         validationModalVisible: true
       });
-    },800);
+    }, 800);
   };
   // 下一步
   showNextPanel = async () => {
@@ -232,7 +251,8 @@ class ShippingAddressFrom extends React.Component {
         customerId: data.customerId,
         deliveryAddress: data.address1 + ' ' + data.address2,
         deliveryAddressId: data.deliveryAddressId,
-        isDefaltAddress: data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
+        isDefaltAddress:
+          data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
         postCode: data.postCode,
         rfc: data.rfc,
         email: data.email,
@@ -263,7 +283,7 @@ class ShippingAddressFrom extends React.Component {
         validationLoading: false
       });
     }
-  }
+  };
 
   showErrorMsg = (message) => {
     this.setState({
@@ -379,7 +399,7 @@ class ShippingAddressFrom extends React.Component {
     const { addressForm } = this.state;
     if (key == 'province') {
       addressForm.provinceName = data.name;
-      addressForm.provinceNo = data.stateNo; // 省份简写      
+      addressForm.provinceNo = data.stateNo; // 省份简写
     } else if (key == 'country') {
       addressForm.countryName = data.name;
     }
@@ -424,8 +444,9 @@ class ShippingAddressFrom extends React.Component {
         </Helmet>
         <div className="content-asset">
           <div
-            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
-              }`}
+            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+              errorMsg ? '' : 'hidden'
+            }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -446,8 +467,9 @@ class ShippingAddressFrom extends React.Component {
             </aside>
           </div>
           <aside
-            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successMsg ? '' : 'hidden'
-              }`}
+            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+              successMsg ? '' : 'hidden'
+            }`}
             role="alert"
           >
             <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -545,7 +567,10 @@ class ShippingAddressFrom extends React.Component {
                   )}
                 </div>
                 <div className="form-group col-lg-6 pull-left required">
-                  <label className="form-control-label rc-full-width" htmlFor="address">
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="address"
+                  >
                     <FormattedMessage id="payment.address1" />
                   </label>
                   <span
@@ -572,10 +597,16 @@ class ShippingAddressFrom extends React.Component {
                   )}
                 </div>
                 <div className="form-group col-lg-6 pull-left">
-                  <label className="form-control-label rc-full-width" htmlFor="address2">
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="address2"
+                  >
                     <FormattedMessage id="payment.address2" />
                   </label>
-                  <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
+                  <span
+                    className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                    input-setup="true"
+                  >
                     <input
                       type="text"
                       className="rc-input__control"
@@ -599,7 +630,10 @@ class ShippingAddressFrom extends React.Component {
                 {/* 国家 */}
                 <div className="form-group col-lg-6 pull-left required">
                   {/* <div className="form-group col-lg-12 pull-left no-padding required dwfrm_shipping_shippingAddress_addressFields_province"> */}
-                  <label className="form-control-label rc-full-width" htmlFor="country">
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="country"
+                  >
                     <FormattedMessage id="payment.country" />
                   </label>
                   <span
@@ -627,7 +661,10 @@ class ShippingAddressFrom extends React.Component {
                       <label className="form-control-label" htmlFor="province">
                         <FormattedMessage id="payment.state" />
                       </label>
-                      <div data-js-dynamicselect="province" data-template="shipping">
+                      <div
+                        data-js-dynamicselect="province"
+                        data-template="shipping"
+                      >
                         <span
                           className="rc-select rc-full-width rc-input--full-width rc-select-processed"
                           data-loc="provinceSelect"
@@ -636,7 +673,7 @@ class ShippingAddressFrom extends React.Component {
                             key={addressForm.province}
                             selectedItemChange={(data) => {
                               if (data.value != '') {
-                                this.handleSelectedItemChange('province', data)
+                                this.handleSelectedItemChange('province', data);
                               }
                             }}
                             optionList={this.computedList('province')}
@@ -646,7 +683,7 @@ class ShippingAddressFrom extends React.Component {
                       </div>
                     </div>
                   </div>
-                ) : (null)}
+                ) : null}
 
                 {/* 城市 */}
                 <div className="form-group col-lg-6 pull-left required">
@@ -660,6 +697,7 @@ class ShippingAddressFrom extends React.Component {
                         data-loc="citySelect"
                       >
                         <CitySearchSelection
+                          placeholder={true}
                           key={this.state.addressForm.cityName}
                           defaultValue={this.state.addressForm.cityName}
                           freeText={true}
@@ -708,7 +746,16 @@ class ShippingAddressFrom extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className={["form-group", "col-6", "d-flex", "flex-column", "justify-content-between", process.env.REACT_APP_LANG == 'de' ? '' : 'required'].join(" ")}>
+                <div
+                  className={[
+                    'form-group',
+                    'col-6',
+                    'd-flex',
+                    'flex-column',
+                    'justify-content-between',
+                    process.env.REACT_APP_LANG == 'de' ? '' : 'required'
+                  ].join(' ')}
+                >
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="phone"
@@ -798,22 +845,23 @@ class ShippingAddressFrom extends React.Component {
         </div>
 
         {validationLoading && <Loading positionFixed="true" />}
-        {validationModalVisible && <ValidationAddressModal
-          address={addressForm}
-          updateValidationData={(res) => this.getValidationData(res)}
-          selectValidationOption={selectValidationOption}
-          handleChooseValidationAddress={(e) =>
-            this.chooseValidationAddress(e)
-          }
-          hanldeClickConfirm={() => this.confirmValidationAddress()}
-          close={() => {
-            this.setState({
-              validationModalVisible: false,
-              validationLoading: false
-            });
-          }}
-        />}
-
+        {validationModalVisible && (
+          <ValidationAddressModal
+            address={addressForm}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            close={() => {
+              this.setState({
+                validationModalVisible: false,
+                validationLoading: false
+              });
+            }}
+          />
+        )}
       </div>
     );
   }
