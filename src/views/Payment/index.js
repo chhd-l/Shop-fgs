@@ -965,7 +965,6 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
-      // debugger;
       switch (type) {
         case 'oxxo':
           const oxxoContent = res.context;
@@ -1286,7 +1285,6 @@ class Payment extends React.Component {
       param.clinicsId = clinicStore.selectClinicId;
       param.clinicsName = clinicStore.selectClinicName;
     }
-    //debugger
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
@@ -1779,7 +1777,6 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    // debugger
     this.setState({ saveBillingLoading: true });
     setTimeout(() => {
       this.confirmPaymentPanel();
@@ -1791,7 +1788,7 @@ class Payment extends React.Component {
     const { adyenPayParam, paymentTypeVal } = this.state;
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
-
+    // debugger
     async function handleClickSaveAdyenForm(_this) {
       try {
         if (
@@ -1869,6 +1866,7 @@ class Payment extends React.Component {
       key: 'paymentMethod',
       hideOthers: true
     });
+    // debugger
     const { billingChecked } = this.state;
     if (!billingChecked) {
       this.props.paymentStore.setStsToEdit({

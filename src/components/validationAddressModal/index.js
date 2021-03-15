@@ -33,9 +33,15 @@ class ValidationAddressModal extends React.Component {
     };
   }
   componentDidMount() {
+    this.setState({
+      modalVisible: false
+    });
     this.toAddressValidation();
   }
   close() {
+    this.setState({
+      modalVisible: false
+    });
     this.props.close();
   }
   hanldeClickConfirm() {
@@ -66,10 +72,16 @@ class ValidationAddressModal extends React.Component {
         });
         this.props.updateValidationData(valres);
       } else {
+        this.setState({
+          modalVisible: false
+        });
         this.props.updateValidationData(null);
       }
     } catch (err) {
       console.log('addressValidation:' + err.message);
+      this.setState({
+        modalVisible: false
+      });
       this.props.updateValidationData(null);
     }
   };
