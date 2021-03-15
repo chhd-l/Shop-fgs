@@ -78,6 +78,7 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
+import { usPaymentInfo } from '@/api/payment';
 
 const cardTypeImg = {
   visa: visaImg,
@@ -182,11 +183,11 @@ class Payment extends React.Component {
       pet: {},
       //cyber参数
       cyberPaymentForm: {
-        cardholderName: '',
-        cardNumber: '',
+        cardholderName: 'Didier Valansot',
+        cardNumber: '4111111111111111',
         expirationMonth: '',
         expirationYear: '',
-        securityCode: '', //000
+        securityCode: '000', //000
         firstName: '',
         lastName: '',
         address1: '',
@@ -1907,12 +1908,32 @@ class Payment extends React.Component {
       email,
       validSts,
       saveBillingLoading,
-      payWayNameArr
+      payWayNameArr,
+      cyberPaymentForm
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
     const validForBilling = !billingChecked && !validSts.billingAddr;
 
+    const validForCyberPayment = () => {
+      let isValidForCyberPayment = false;
+      let errMsgObj = {};
+      ADDRESS_RULE.forEach((item) => {
+        if (
+          Object.keys(cyberPaymentForm).indexOf(item.key) &&
+          !cyberPaymentForm[item.key] &&
+          item.require //必填项没值
+        ) {
+          errMsgObj[item.key] = true;
+        }
+      });
+      if (Object.keys(errMsgObj).length > 0) {
+        isValidForCyberPayment = false;
+      } else {
+        isValidForCyberPayment = true;
+      }
+      return !isValidForCyberPayment;
+    };
     const payConfirmBtn = ({ disabled, loading = false }) => {
       return (
         <div className="d-flex justify-content-end mt-3">
@@ -2124,7 +2145,7 @@ class Payment extends React.Component {
                     })}
                   />
                   {payConfirmBtn({
-                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                    disabled: validForCyberPayment() || validForBilling
                   })}
                 </>
               )}
