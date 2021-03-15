@@ -633,6 +633,7 @@ class PersonalDataEditForm extends React.Component {
                   </div>
                 </div>
 
+                {/* address1 */}
                 <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
@@ -664,10 +665,12 @@ class PersonalDataEditForm extends React.Component {
                     <div className="text-danger-2">{errMsgObj.address1}</div>
                   )}
                 </div>
+
+                {/* address2 */}
                 <div className="form-group col-lg-6 pull-left">
                   <label
                     className="form-control-label rc-input--full-width w-100"
-                    htmlFor="address1"
+                    htmlFor="address2"
                   >
                     <FormattedMessage id="payment.address2" />
                   </label>
@@ -695,6 +698,8 @@ class PersonalDataEditForm extends React.Component {
                     <div className="text-danger-2">{errMsgObj.address2}</div>
                   )}
                 </div>
+
+                {/* postCode */}
                 <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
@@ -808,6 +813,7 @@ class PersonalDataEditForm extends React.Component {
                   </div>
                 </div>
 
+                {/* phoneNumber */}
                 <div
                   className={[
                     'form-group',

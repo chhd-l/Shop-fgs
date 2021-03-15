@@ -6,10 +6,13 @@ import Selection from '@/components/Selection';
 import Loading from '@/components/Loading';
 import { ADDRESS_RULE } from './utils/constant';
 import { backSpacerUP, backSpacerDOWN } from './utils/usPhone';
-import { validData } from '@/utils/utils';
+import { validData, setSeoConfig } from '@/utils/utils';
 import successImg from '@/assets/images/credit-cards/success.png';
 import './index.less';
 import { submitContactUsInfo } from '@/api/contactUs';
+import { Helmet } from 'react-helmet';
+
+const pageLink = window.location.href;
 
 class ContactUs extends Component {
   constructor(props) {
@@ -37,8 +40,19 @@ class ContactUs extends Component {
       errMsgObj: {},
       mail: 'qhx717@qq.com',
       isLoading: false,
-      isFinished: false
+      isFinished: false,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
     };
+  }
+
+  async componentDidMount() {
+    setSeoConfig({ pageName: 'Contact Us Page' }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
   }
 
   deliveryInputChange = (e) => {
@@ -90,7 +104,9 @@ class ContactUs extends Component {
       email: address.email,
       phone: address.phoneNumber,
       orderNumber: address.orderNumber,
-      myQuestion: address.question,
+      myQuestion: this.state.questionList.find((item) => {
+        return item.value === address.question;
+      }).name,
       requestContext: address.request
     })
       .then((res) => {
@@ -409,55 +425,66 @@ class ContactUs extends Component {
 
   render() {
     return (
-      <div className="contactUs">
-        {this.state.isLoading ? <Loading bgColor={'#fff'} /> : null}
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
-        <div
-          className="rc-content--fixed-header rc-bg-colour--brand3"
-          style={{ background: '#f6f6f6' }}
-        >
-          <div className="contact-us-form talk-to-us">
-            <p>
-              <i>
-                A message to our valued customers regarding COVID-19: Royal
-                Canin’s top priority is the health and wellness of our
-                Associates, partners, and cats and dogs we serve. While we are
-                doing our best to maintain the level of service you have come to
-                expect, you may experience slight delays. We appreciate your
-                patience during this time.
-              </i>
-            </p>
-            <h2 className="rc-text-colour--brand1">Talk to us</h2>
-            <div className="rc-intro">
+      <div>
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
+        <div className="contactUs">
+          {this.state.isLoading ? <Loading bgColor={'#fff'} /> : null}
+          <Header
+            showMiniIcons={true}
+            showUserIcon={true}
+            location={this.props.location}
+            history={this.props.history}
+            match={this.props.match}
+          />
+          <div
+            className="rc-content--fixed-header rc-bg-colour--brand3"
+            style={{ background: '#f6f6f6' }}
+          >
+            <div className="contact-us-form talk-to-us">
               <p>
-                To learn more about the science behind Royal Canin diets, to get
-                a diet recommendation, or to ask a nutritional question, please
-                contact a Royal Canin Nutritional Advisor below.
+                <i>
+                  A message to our valued customers regarding COVID-19: Royal
+                  Canin’s top priority is the health and wellness of our
+                  Associates, partners, and cats and dogs we serve. While we are
+                  doing our best to maintain the level of service you have come
+                  to expect, you may experience slight delays. We appreciate
+                  your patience during this time.
+                </i>
               </p>
-              <p>
-                <strong>Monday - Friday:</strong>
-                &nbsp;8:00 AM - 4:30 PM CT
-              </p>
+              <h2 className="rc-text-colour--brand1">Talk to us</h2>
+              <div className="rc-intro">
+                <p>
+                  To learn more about the science behind Royal Canin diets, to
+                  get a diet recommendation, or to ask a nutritional question,
+                  please contact a Royal Canin Nutritional Advisor below.
+                </p>
+                <p>
+                  <strong>Monday - Friday:</strong>
+                  &nbsp;8:00 AM - 4:30 PM CT
+                </p>
+              </div>
+              <div className="d-flex">
+                <icon className="rc-icon rc-info rc-iconography"></icon>
+                <a
+                  href="tel:+(844) 673-3772"
+                  className="rc-styled-link--cta rc-gamma"
+                >
+                  (844) 673-3772
+                </a>
+              </div>
             </div>
-            <div className="d-flex">
-              <icon className="rc-icon rc-info rc-iconography"></icon>
-              <a
-                href="tel:+(844) 673-3772"
-                className="rc-styled-link--cta rc-gamma"
-              >
-                (844) 673-3772
-              </a>
-            </div>
+            {this.state.isFinished ? this.successContent() : this.allFormJSX()}
           </div>
-          {this.state.isFinished ? this.successContent() : this.allFormJSX()}
+          <Footer />
         </div>
-        <Footer />
       </div>
     );
   }

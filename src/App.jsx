@@ -125,6 +125,7 @@ import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
+import ClubLandingPage from './views/ClubLandingPage';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -134,8 +135,6 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
-import Rate from './components/Rate';
-import ClubLandingPage from './views/ClubLandingPage';
 if (process.env.REACT_APP_LANG === 'fr') {
   registerLocale(process.env.REACT_APP_LANG, fr);
   setDefaultLocale('fr');
@@ -147,26 +146,17 @@ if (process.env.REACT_APP_LANG === 'fr') {
   setDefaultLocale('es');
 } else if (process.env.REACT_APP_LANG === 'us') {
 }
-// 暂时注释
-// function getParaByName(search, name) {
-//   search = search.substr(1);
-//   if (typeof name === 'undefined') return search;
-//   let searchArr = search.split('&');
-//   for (let i = 0; i < searchArr.length; i++) {
-//     let searchStr = searchArr[i];
-//     searchArr[i] = searchStr.split('=');
-//     if (searchArr[i][0] === name) {
-//       return searchStr.replace(name + '=', '');
-//     }
-//   }
-//   return '';
-// }
 
-// // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
-// const tokenFromUrl = getParaByName(window.location.search, 'token');
-// if (tokenFromUrl) {
-//   localStorage.setItem('en-rc-token', tokenFromUrl);
-// }
+// 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
+const tokenFromUrl = window.location.search
+  .substr(1)
+  .split('&')
+  .filter((ele) => ele.includes('stoken'))?.[0]
+  ?.split('=')[1];
+if (tokenFromUrl) {
+  localItemRoyal.set('rc-iframe-from-storepotal', 1);
+  localItemRoyal.set('rc-token', tokenFromUrl);
+}
 
 const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
@@ -293,7 +283,7 @@ const App = () => (
               />
               <Route
                 exact
-                path="/clubLandingpage"
+                path="/club-subscription"
                 component={ClubLandingPage}
               />
               <Route
