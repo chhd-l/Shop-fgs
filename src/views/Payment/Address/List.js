@@ -27,8 +27,8 @@ class AddressList extends React.Component {
     type: 'delivery',
     showOperateBtn: true,
     titleVisible: true,
-    updateFormValidStatus: () => { },
-    updateData: () => { }
+    updateFormValidStatus: () => {},
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -82,7 +82,9 @@ class AddressList extends React.Component {
     return this.props.type === 'delivery';
   }
   get panelStatus() {
-    const tmpKey = this.isDeliverAddress ? 'deliveryAddrPanelStatus' : 'billingAddrPanelStatus';
+    const tmpKey = this.isDeliverAddress
+      ? 'deliveryAddrPanelStatus'
+      : 'billingAddrPanelStatus';
     return this.props.paymentStore[tmpKey];
   }
   get curPanelKey() {
@@ -96,13 +98,10 @@ class AddressList extends React.Component {
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
       );
-      const defaultAddressItem = find(
-        addressList,
-        (ele) => {
-          console.log(ele, 'defaultAddressItem')
-          return ele.isDefaltAddress === 1
-        }
-      );
+      const defaultAddressItem = find(addressList, (ele) => {
+        console.log(ele, 'defaultAddressItem');
+        return ele.isDefaltAddress === 1;
+      });
 
       let tmpId =
         selectedId ||
@@ -115,9 +114,11 @@ class AddressList extends React.Component {
         (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
       );
 
-      const tmpObj = find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
+      const tmpObj =
+        find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
       this.props.updateData(tmpObj);
-      this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+      this.isDeliverAddress &&
+        this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       let cityRes = [];
       if (addressList.length) {
@@ -155,9 +156,11 @@ class AddressList extends React.Component {
   }
   updateSelectedData() {
     const { selectedId, addressList } = this.state;
-    const tmpObj = find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    const tmpObj =
+      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     this.props.updateData(tmpObj);
-    this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+    this.isDeliverAddress &&
+      this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
   }
   confirmToNextPanel({ init = false } = {}) {
     if (this.curPanelKey !== 'deliveryAddr') {
@@ -342,13 +345,18 @@ class AddressList extends React.Component {
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         countryId: deliveryAddress.country,
-        cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
+        cityId:
+          deliveryAddress.cityName == deliveryAddress.city
+            ? null
+            : deliveryAddress.city,
         city: deliveryAddress.cityName,
         cityName: deliveryAddress.cityName,
-        consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeName:
+          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
-        deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+        deliveryAddress:
+          deliveryAddress.address1 + ' ' + deliveryAddress.address2,
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
         postCode: deliveryAddress.postCode,
@@ -362,7 +370,8 @@ class AddressList extends React.Component {
         params.provinceNo = deliveryAddress.provinceNo;
       }
 
-      const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress;
+      const tmpPromise =
+        this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
       if (res.context.deliveryAddressId) {
         this.setState({
@@ -382,7 +391,7 @@ class AddressList extends React.Component {
         saveLoading: false,
         addOrEdit: true
       });
-      if(err?.message){
+      if (err?.message) {
         this.props.catchErrorMessage(err.message);
       }
       // throw new Error(err.message);
@@ -401,11 +410,11 @@ class AddressList extends React.Component {
     this.setState({
       saveLoading: true
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       this.setState({
         validationModalVisible: true
       });
-    },800);
+    }, 800);
   };
   // 选择地址
   chooseValidationAddress = (e) => {
@@ -427,7 +436,7 @@ class AddressList extends React.Component {
       // 下一步
       this.showNextPanel();
     }
-  }
+  };
   // 下一步
   showNextPanel = async () => {
     this.setState({
@@ -437,7 +446,7 @@ class AddressList extends React.Component {
     // 不校验地址，进入下一步
     await this.handleSavePromise();
     // this.clickConfirmAddressPanel();
-  }
+  };
   // 点击地址验证确认按钮
   confirmValidationAddress = () => {
     const {
@@ -445,13 +454,15 @@ class AddressList extends React.Component {
       selectValidationOption,
       validationAddress
     } = this.state;
-
+    let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.address2 = validationAddress.address2;
       deliveryAddress.city = validationAddress.city;
       deliveryAddress.cityName = validationAddress.city;
       deliveryAddress.provinceName = validationAddress.provinceCode;
+    } else {
+      deliveryAddress = JSON.parse(JSON.stringify(oldDeliveryAddress));
     }
     // 下一步
     this.showNextPanel();
@@ -518,8 +529,9 @@ class AddressList extends React.Component {
           ) : null}
         </h5>
         <p
-          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${addOrEdit ? 'hidden' : ''
-            }`}
+          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${
+            addOrEdit ? 'hidden' : ''
+          }`}
           onClick={this.addOrEditAddress.bind(this, -1)}
         >
           <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
@@ -576,11 +588,13 @@ class AddressList extends React.Component {
     } = this.state;
     const _list = addressList.map((item, i) => (
       <div
-        className={`rounded address-item ${item.selected ? 'selected' : 'border'
-          } ${foledMore && !item.selected ? 'hidden' : ''} ${!item.selected && i !== addressList.length - 1
+        className={`rounded address-item ${
+          item.selected ? 'selected' : 'border'
+        } ${foledMore && !item.selected ? 'hidden' : ''} ${
+          !item.selected && i !== addressList.length - 1
             ? 'border-bottom-0'
             : ''
-          }`}
+        }`}
         key={item.deliveryAddressId}
         onClick={(e) => this.selectAddress(e, i)}
       >
@@ -617,20 +631,18 @@ class AddressList extends React.Component {
             ) : null}
             <br />
             <span>
-              {process.env.REACT_APP_LANG == 'en' ? (
-                [
-                  matchNamefromDict(this.state.countryList, item.countryId),
-                  item.province,
-                  item.city,
-                  item.address1
-                ].join(', ')
-              ) : (
-                [
-                  matchNamefromDict(this.state.countryList, item.countryId),
-                  item.city,
-                  item.address1
-                ].join(', ')
-              )}
+              {process.env.REACT_APP_LANG == 'en'
+                ? [
+                    matchNamefromDict(this.state.countryList, item.countryId),
+                    item.province,
+                    item.city,
+                    item.address1
+                  ].join(', ')
+                : [
+                    matchNamefromDict(this.state.countryList, item.countryId),
+                    item.city,
+                    item.address1
+                  ].join(', ')}
             </span>
           </div>
           <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
@@ -694,16 +706,17 @@ class AddressList extends React.Component {
         {panelStatus.isPrepare
           ? this.titleJSXForPrepare()
           : panelStatus.isEdit
-            ? this.titleJSXForEdit()
-            : panelStatus.isCompleted
-              ? this.titleJSXForCompeleted()
-              : null}
+          ? this.titleJSXForEdit()
+          : panelStatus.isCompleted
+          ? this.titleJSXForCompeleted()
+          : null}
       </div>
     );
     const _form = (
       <fieldset
-        className={`shipping-address-block rc-fieldset position-relative ${addOrEdit || loading ? '' : 'hidden'
-          }`}
+        className={`shipping-address-block rc-fieldset position-relative ${
+          addOrEdit || loading ? '' : 'hidden'
+        }`}
       >
         {addOrEdit && (
           <EditForm
@@ -778,13 +791,15 @@ class AddressList extends React.Component {
       <>
         {this.props.children}
         <div
-          className={`mt-1 ${this.props.visible ? '' : 'hidden'
-            } payment-addressList`}
+          className={`mt-1 ${
+            this.props.visible ? '' : 'hidden'
+          } payment-addressList`}
         >
           {_title}
           <div
-            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${saveErrorMsg ? '' : 'hidden'
-              }`}
+            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+              saveErrorMsg ? '' : 'hidden'
+            }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -805,8 +820,9 @@ class AddressList extends React.Component {
             </aside>
           </div>
           <aside
-            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successTipVisible ? '' : 'hidden'
-              }`}
+            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+              successTipVisible ? '' : 'hidden'
+            }`}
             role="alert"
           >
             <span className="pl-0">
@@ -815,8 +831,9 @@ class AddressList extends React.Component {
           </aside>
 
           <div
-            className={`${!addOrEdit ? 'addr-container' : ''} ${loading ? 'pt-3 pb-3' : ''
-              }`}
+            className={`${!addOrEdit ? 'addr-container' : ''} ${
+              loading ? 'pt-3 pb-3' : ''
+            }`}
           >
             {loading ? (
               <Skeleton color="#f5f5f5" count={2} width="100%" />
@@ -863,23 +880,24 @@ class AddressList extends React.Component {
           </div>
 
           {validationLoading && <Loading positionFixed="true" />}
-          {validationModalVisible && <ValidationAddressModal
-            address={deliveryAddress}
-            updateValidationData={(res) => this.getValidationData(res)}
-            selectValidationOption={selectValidationOption}
-            handleChooseValidationAddress={(e) =>
-              this.chooseValidationAddress(e)
-            }
-            hanldeClickConfirm={() => this.confirmValidationAddress()}
-            close={() => {
-              this.setState({
-                validationModalVisible: false,
-                validationLoading: false,
-                saveLoading: false
-              });
-            }}
-          />}
-
+          {validationModalVisible && (
+            <ValidationAddressModal
+              address={deliveryAddress}
+              updateValidationData={(res) => this.getValidationData(res)}
+              selectValidationOption={selectValidationOption}
+              handleChooseValidationAddress={(e) =>
+                this.chooseValidationAddress(e)
+              }
+              hanldeClickConfirm={() => this.confirmValidationAddress()}
+              close={() => {
+                this.setState({
+                  validationModalVisible: false,
+                  validationLoading: false,
+                  saveLoading: false
+                });
+              }}
+            />
+          )}
         </div>
       </>
     );

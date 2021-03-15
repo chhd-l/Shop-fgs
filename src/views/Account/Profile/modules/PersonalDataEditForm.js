@@ -20,7 +20,6 @@ import { getProvincesList } from '@/api/index';
 @injectIntl
 @inject('loginStore')
 @observer
-
 class PersonalDataEditForm extends React.Component {
   static defaultProps = {
     originData: null,
@@ -67,7 +66,7 @@ class PersonalDataEditForm extends React.Component {
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
-    console.log(data, 'data')
+    console.log(data, 'data');
     this.setState(
       {
         form: Object.assign({}, data),
@@ -78,7 +77,6 @@ class PersonalDataEditForm extends React.Component {
         this.validFormData();
       }
     );
-
 
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
@@ -199,7 +197,7 @@ class PersonalDataEditForm extends React.Component {
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
     const { form, selectValidationOption, validationAddress } = this.state;
-
+    let oldForm = JSON.parse(JSON.stringify(form));
     if (selectValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
@@ -208,6 +206,8 @@ class PersonalDataEditForm extends React.Component {
       if (process.env.REACT_APP_LANG === 'en') {
         form.provinceName = validationAddress.provinceCode;
       }
+    } else {
+      form = JSON.parse(JSON.stringify(oldForm));
     }
     this.showNextPanel();
   }
@@ -217,11 +217,11 @@ class PersonalDataEditForm extends React.Component {
     this.setState({
       validationLoading: true
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       this.setState({
         validationModalVisible: true
       });
-    },800);
+    }, 800);
   };
   showNextPanel = async () => {
     this.setState({
@@ -239,7 +239,9 @@ class PersonalDataEditForm extends React.Component {
         firstName: form.firstName,
         lastName: form.lastName,
         email: form.email,
-        birthDay: form.birthdate ? form.birthdate.split('/').join('-') : form.birthdate,
+        birthDay: form.birthdate
+          ? form.birthdate.split('/').join('-')
+          : form.birthdate,
         countryId: form.country,
         contactPhone: form.phoneNumber,
         reference: form.rfc,
@@ -253,8 +255,8 @@ class PersonalDataEditForm extends React.Component {
         oktaToken: oktaToken
       };
       if (process.env.REACT_APP_LANG === 'en') {
-          mydata.province= form.provinceName;
-          mydata.provinceId= form.province;
+        mydata.province = form.provinceName;
+        mydata.provinceId = form.province;
       }
       let param = Object.assign({}, this.props.originData, mydata);
 
@@ -264,7 +266,7 @@ class PersonalDataEditForm extends React.Component {
       let res = await getCustomerInfo({ customerId });
       const context = res.context;
       this.props.loginStore.setUserInfo(context);
-      
+
       this.props.updateData();
       this.changeEditFormVisible(false);
     } catch (err) {
@@ -293,7 +295,7 @@ class PersonalDataEditForm extends React.Component {
       await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
-      console.log(err, 'err')
+      console.log(err, 'err');
       this.setState({ isValid: false });
     }
   };
@@ -396,19 +398,20 @@ class PersonalDataEditForm extends React.Component {
                 <FormattedMessage id="account.myAccount" />
               </h5>
             ) : (
-                <h5
-                  className="ui-cursor-pointer"
-                  onClick={this.handleClickGoBack}
-                >
-                  <span>&larr; </span>
-                  <FormattedMessage id="account.myAccount" />
-                </h5>
-              )}
+              <h5
+                className="ui-cursor-pointer"
+                onClick={this.handleClickGoBack}
+              >
+                <span>&larr; </span>
+                <FormattedMessage id="account.myAccount" />
+              </h5>
+            )}
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${editFormVisible ? 'hidden' : ''
-                    }`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${
+                    editFormVisible ? 'hidden' : ''
+                  }`}
                   name="personalInformation"
                   title={txt}
                   alt={txt}
@@ -426,8 +429,9 @@ class PersonalDataEditForm extends React.Component {
           />
           <div className="pl-3 pr-3 pb-3">
             <div
-              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
-                }`}
+              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                errorMsg ? '' : 'hidden'
+              }`}
             >
               <aside
                 className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -448,8 +452,9 @@ class PersonalDataEditForm extends React.Component {
               </aside>
             </div>
             <aside
-              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successTipVisible ? '' : 'hidden'
-                }`}
+              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                successTipVisible ? '' : 'hidden'
+              }`}
               role="alert"
             >
               <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -460,8 +465,9 @@ class PersonalDataEditForm extends React.Component {
             {/* preview form */}
             {data ? (
               <div
-                className={`row userProfileInfo text-break ${editFormVisible ? 'hidden' : ''
-                  }`}
+                className={`row userProfileInfo text-break ${
+                  editFormVisible ? 'hidden' : ''
+                }`}
               >
                 {[
                   {
@@ -627,6 +633,7 @@ class PersonalDataEditForm extends React.Component {
                   </div>
                 </div>
 
+                {/* address1 */}
                 <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
@@ -658,10 +665,12 @@ class PersonalDataEditForm extends React.Component {
                     <div className="text-danger-2">{errMsgObj.address1}</div>
                   )}
                 </div>
+
+                {/* address2 */}
                 <div className="form-group col-lg-6 pull-left">
                   <label
                     className="form-control-label rc-input--full-width w-100"
-                    htmlFor="address1"
+                    htmlFor="address2"
                   >
                     <FormattedMessage id="payment.address2" />
                   </label>
@@ -689,6 +698,8 @@ class PersonalDataEditForm extends React.Component {
                     <div className="text-danger-2">{errMsgObj.address2}</div>
                   )}
                 </div>
+
+                {/* postCode */}
                 <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
@@ -735,6 +746,7 @@ class PersonalDataEditForm extends React.Component {
                   </label>
                   <span className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0">
                     <CitySearchSelection
+                      placeholder={true}
                       defaultValue={form.cityName}
                       key={form.cityName}
                       freeText={true}
@@ -801,6 +813,7 @@ class PersonalDataEditForm extends React.Component {
                   </div>
                 </div>
 
+                {/* phoneNumber */}
                 <div
                   className={[
                     'form-group',

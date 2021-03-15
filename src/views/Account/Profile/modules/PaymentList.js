@@ -16,7 +16,7 @@ import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import PaymentEditForm from '../PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import find from 'lodash/find';
-import { myAccountPushEvent, myAccountActionPushEvent} from '@/utils/GA';
+import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 
 function CardItem(props) {
   const { data } = props;
@@ -71,6 +71,7 @@ class AddressList extends React.Component {
       creditCardList: [],
       fromPage: 'cover',
       paymentType: 'PAYU', //getway接口没配置美国支付CYBER，暂时这样
+      payWay: '',
       errorMsg: ''
     };
 
@@ -84,7 +85,7 @@ class AddressList extends React.Component {
     this.getPaymentMethodList();
     getWays().then((res) => {
       if (res.context && res.context && res.context.name) {
-        this.setState({ paymentType: res.context.name }); //PAYU,ADYEN,CYBER
+        this.setState({ paymentType: res.context.name, payWay: res }); //PAYU,ADYEN,CYBER
       }
     });
   }
@@ -121,7 +122,7 @@ class AddressList extends React.Component {
     await deleteCard({ id: el.id })
       .then(() => {
         this.getPaymentMethodList();
-        myAccountActionPushEvent('Delete payment method')
+        myAccountActionPushEvent('Delete payment method');
       })
       .catch((err) => {
         this.setState({
@@ -156,7 +157,7 @@ class AddressList extends React.Component {
     this.changeListVisible(!closeListPage);
   };
   handleClickAddBtn(fromPage) {
-    myAccountPushEvent('Payment')
+    myAccountPushEvent('Payment');
     this.changeEditFormVisible(true);
     this.setState({ fromPage });
     window.scroll({ top: 0, behavior: 'smooth' });
@@ -400,6 +401,7 @@ class AddressList extends React.Component {
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getPaymentMethodList}
+                    payWay={this.state.payWay}
                     paymentType={this.state.paymentType}
                   />
                 )}
