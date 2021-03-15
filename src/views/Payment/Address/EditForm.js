@@ -17,7 +17,7 @@ class EditForm extends React.Component {
     type: 'billing',
     initData: null,
     isLogin: false,
-    updateData: () => { }
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -72,7 +72,7 @@ class EditForm extends React.Component {
   }
   computedList(key) {
     let tmp = '';
-    if (key == 'state') {
+    if (key == 'province') {
       tmp = this.state[`${key}List`].map((c) => {
         return {
           value: c.id.toString(),
@@ -131,9 +131,9 @@ class EditForm extends React.Component {
   };
   handleSelectedItemChange(key, data) {
     const { address } = this.state;
-    if (key == 'state') {
+    if (key == 'province') {
       address.provinceName = data.name;
-      address.provinceNo = data.stateNo; // 省份简写      
+      address.provinceNo = data.stateNo; // 省份简写
     } else if (key == 'country') {
       address.countryName = data.name;
     }
@@ -177,8 +177,8 @@ class EditForm extends React.Component {
           <div className="text-danger-2">{errMsgObj.firstName}</div>
         )}
       </div>
-    )
-  }
+    );
+  };
   lastNameJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -206,8 +206,8 @@ class EditForm extends React.Component {
           <div className="text-danger-2">{errMsgObj.lastName}</div>
         )}
       </div>
-    )
-  }
+    );
+  };
   addressRequiredJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -235,8 +235,8 @@ class EditForm extends React.Component {
           <div className="text-danger-2">{errMsgObj.address1}</div>
         )}
       </div>
-    )
-  }
+    );
+  };
   addressOptionJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -264,8 +264,8 @@ class EditForm extends React.Component {
           <div className="text-danger-2">{errMsgObj.address2}</div>
         )}
       </div>
-    )
-  }
+    );
+  };
   landJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -273,7 +273,10 @@ class EditForm extends React.Component {
         <label className="form-control-label" htmlFor="shippingCountry">
           <FormattedMessage id="payment.country" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
+        <span
+          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+          style={{ marginTop: 0 }}
+        >
           <Selection
             selectedItemChange={(data) =>
               this.handleSelectedItemChange('country', data)
@@ -286,8 +289,8 @@ class EditForm extends React.Component {
           />
         </span>
       </div>
-    )
-  }
+    );
+  };
   cityJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -295,13 +298,13 @@ class EditForm extends React.Component {
         className="form-group required dwfrm_shipping_shippingAddress_addressFields_city"
         id="addressFieldsCity"
       >
-        <label
-          className="form-control-label"
-          htmlFor="shippingAddressCity"
-        >
+        <label className="form-control-label" htmlFor="shippingAddressCity">
           <FormattedMessage id="payment.city" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
+        <span
+          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+          style={{ marginTop: 0 }}
+        >
           <CitySearchSelection
             defaultValue={address.cityName}
             key={address.cityName}
@@ -310,18 +313,23 @@ class EditForm extends React.Component {
           />
         </span>
       </div>
-    )
-  }
+    );
+  };
   provinceJSX = () => {
     const { address } = this.state;
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
-        <label className="form-control-label" htmlFor="shippingProvince"><FormattedMessage id="payment.state" /></label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{ marginTop: 0 }}>
+        <label className="form-control-label" htmlFor="shippingProvince">
+          <FormattedMessage id="payment.state" />
+        </label>
+        <span
+          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+          style={{ marginTop: 0 }}
+        >
           <Selection
             selectedItemChange={(data) => {
               if (data.value != '') {
-                this.handleSelectedItemChange('province', data)
+                this.handleSelectedItemChange('province', data);
               }
             }}
             optionList={this.computedList('province')}
@@ -330,8 +338,8 @@ class EditForm extends React.Component {
           />
         </span>
       </div>
-    )
-  }
+    );
+  };
   emailPanelJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
@@ -423,8 +431,8 @@ class EditForm extends React.Component {
         <span
           className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
           input-setup="true"
-        // data-js-validate=""
-        // data-js-warning-message="*Phone Number isn’t valid"
+          // data-js-validate=""
+          // data-js-warning-message="*Phone Number isn’t valid"
         >
           <input
             type="text"
@@ -457,85 +465,53 @@ class EditForm extends React.Component {
     const defaultJSX = (
       <>
         <div className="row">
-          <div className="col-12 col-md-6">
-            {this.firstNameJSX()}
-          </div>
-          <div className="col-12 col-md-6">
-            {this.lastNameJSX()}
-          </div>
+          <div className="col-12 col-md-6">{this.firstNameJSX()}</div>
+          <div className="col-12 col-md-6">{this.lastNameJSX()}</div>
 
-          <div className="col-12">
-            {this.addressRequiredJSX()}
-          </div>
-          <div className="col-12">
-            {this.addressOptionJSX()}
-          </div>
+          <div className="col-12">{this.addressRequiredJSX()}</div>
+          <div className="col-12">{this.addressOptionJSX()}</div>
 
-          <div className="col-12 col-md-6">
-            {this.landJSX()}
-          </div>
-          <div className="col-12 col-md-6">
-            {this.cityJSX()}
-          </div>
+          <div className="col-12 col-md-6">{this.landJSX()}</div>
+          <div className="col-12 col-md-6">{this.cityJSX()}</div>
 
           {process.env.REACT_APP_LANG === 'en' ? (
-            <div className="col-12 col-md-6">
-              {this.provinceJSX()}
-            </div>
-          ) : (null)}
+            <div className="col-12 col-md-6">{this.provinceJSX()}</div>
+          ) : null}
 
-          <div className="col-12 col-md-6">
-            {this.postCodeJSX()}
-          </div>
-          <div className="col-12 col-md-6">
-            {this.phonePanelJSX()}
-          </div>
+          <div className="col-12 col-md-6">{this.postCodeJSX()}</div>
+          <div className="col-12 col-md-6">{this.phonePanelJSX()}</div>
         </div>
-
       </>
-    )
+    );
     return (
       {
         de: (
           <>
             <div className="row">
-              <div className="col-12 col-md-6">
-                {this.firstNameJSX()}
-              </div>
-              <div className="col-12 col-md-6">
-                {this.lastNameJSX()}
-              </div>
+              <div className="col-12 col-md-6">{this.firstNameJSX()}</div>
+              <div className="col-12 col-md-6">{this.lastNameJSX()}</div>
 
-              <div className="col-12 col-md-6">
-                {this.addressRequiredJSX()}
-              </div>
+              <div className="col-12 col-md-6">{this.addressRequiredJSX()}</div>
               <div className="col-12 col-md-6" style={{ visibility: 'hidden' }}>
                 {this.addressOptionJSX()}
               </div>
-              <div className="col-12 col-md-6">
-                {this.postCodeJSX()}
-              </div>
-              <div className="col-12 col-md-6">
-                {this.cityJSX()}
-              </div>
+              <div className="col-12 col-md-6">{this.postCodeJSX()}</div>
+              <div className="col-12 col-md-6">{this.cityJSX()}</div>
               <div className="col-12 col-md-6">
                 {this.landJSX()}
-                <span style={{ padding: '2px', color: '#CA5264' }}>* Pflichtfelder</span>
+                <span style={{ padding: '2px', color: '#CA5264' }}>
+                  * Pflichtfelder
+                </span>
               </div>
-              <div className="col-12 col-md-6">
-                {this.phonePanelJSX()}
-              </div>
+              <div className="col-12 col-md-6">{this.phonePanelJSX()}</div>
             </div>
           </>
         )
-      }
-    )[process.env.REACT_APP_LANG] || defaultJSX
-  }
+      }[process.env.REACT_APP_LANG] || defaultJSX
+    );
+  };
   render() {
-    return (
-      this.showShipping()
-    )
-
+    return this.showShipping();
   }
 }
 
