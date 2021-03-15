@@ -15,8 +15,8 @@ import { loadJS } from '@/utils/utils';
 import { format } from 'date-fns';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import FaceBook_Icon from '@/assets/images/facebookIcon.png'
-import Insgram_Icon from '@/assets/images/insgramIcon.png'
+import FaceBook_Icon from '@/assets/images/facebookIcon.png';
+import Insgram_Icon from '@/assets/images/insgramIcon.png';
 
 function Divider() {
   return (
@@ -358,10 +358,24 @@ export default class Felin extends React.Component {
               <p className="mb-20">Mardi - Dimanche, 10h - 20h</p>
               <p>
                 <a href="https://fr-fr.facebook.com/RoyalCaninFrance/">
-                  <img style={{display: 'inline-block', width: '50px', marginLeft: '20px'}} src={FaceBook_Icon}/>  
+                  <img
+                    style={{
+                      display: 'inline-block',
+                      width: '50px',
+                      marginLeft: '20px'
+                    }}
+                    src={FaceBook_Icon}
+                  />
                 </a>
                 <a href="https://www.instagram.com/royalcaninfrance/?hl=en">
-                  <img style={{display: 'inline-block', width: '50px', marginLeft: '20px'}} src={Insgram_Icon}/>
+                  <img
+                    style={{
+                      display: 'inline-block',
+                      width: '50px',
+                      marginLeft: '20px'
+                    }}
+                    src={Insgram_Icon}
+                  />
                 </a>
               </p>
             </div>
@@ -389,7 +403,10 @@ export default class Felin extends React.Component {
                     >
                       Venez rencontrer nos comportementalistes félins
                     </button>
-                    <p className="mt-3" style={{fontSize: '14px', marginLeft: '10px'}}>
+                    <p
+                      className="mt-3"
+                      style={{ fontSize: '14px', marginLeft: '10px' }}
+                    >
                       L'Atelier Félin est ouvert uniquement du 20 avril au 13
                       juin 2021
                     </p>
@@ -578,20 +595,20 @@ export default class Felin extends React.Component {
                     style={{ paddingTop: '50px' }}
                   >
                     <div className="rc-gamma inherit-fontsize">
-                      {
-                        this.state.step < 6? (<h3 style={{ display: 'inline-block' }}>
+                      {this.state.step < 6 ? (
+                        <h3 style={{ display: 'inline-block' }}>
                           Réservez un rendez-vous avec un de nos experts dès à
                           présent.
-                        </h3>): (
-                          <h3 style={{ display: 'inline-block' }}>
-                            Rendez-vous confirmé.
-                          </h3>
-                        )
-                      }
+                        </h3>
+                      ) : (
+                        <h3 style={{ display: 'inline-block' }}>
+                          Rendez-vous confirmé.
+                        </h3>
+                      )}
                     </div>
                     <div
                       style={{
-                        width: this.state.step < 6?'320px': '450px',
+                        width: this.state.step < 6 ? '320px' : '450px',
                         display: 'inline-block',
                         textAlign: 'left'
                       }}
@@ -617,11 +634,15 @@ export default class Felin extends React.Component {
                                 placeholder="Sélectionner une date"
                                 style={{
                                   width: '100%',
-                                  border: 'none',
+                                  border: 'none'
                                   // cursor: 'pointer'
                                 }}
                                 disabled
-                                value={getFormatDate(this.state.currentDate, null, 'fr')}
+                                value={getFormatDate(
+                                  this.state.currentDate,
+                                  null,
+                                  'fr'
+                                )}
                               />
                               {/* <DatePicker
                                 className="receiveDate"
@@ -695,7 +716,9 @@ export default class Felin extends React.Component {
                           >
                             Mon redenz-vous
                           </p>
-                          <div style={{ padding: '.5rem 0', margin: '30px 40px' }}>
+                          <div
+                            style={{ padding: '.5rem 0', margin: '30px 40px' }}
+                          >
                             <div style={{ position: 'relative' }}>
                               <input
                                 className="rc-input__radio"
@@ -756,7 +779,10 @@ export default class Felin extends React.Component {
                           </p>
                           <p
                             className="text-center"
-                            style={{ margin: '10px 0 20px', marginBottom: '40px' }}
+                            style={{
+                              margin: '10px 0 20px',
+                              marginBottom: '40px'
+                            }}
                           >
                             {this.state.selectedTimeObj.name}
                           </p>
@@ -939,16 +965,8 @@ export default class Felin extends React.Component {
                           </button>
                         </>
                       ) : null}
-                      {this.state.step === 1 || this.state.step === 2 ? (
-                        <p style={{ textAlign: 'center', fontSize: '14px' }}>
-                          L'Atelier Félin est ouvert du 20 avril au 12 juin
-                          2021, tous les jours de 10h à 20h. Fermé le lundi.
-                          Toutes les réservations, abonnements et données seront
-                          annulés après cette date.
-                        </p>
-                      ) : null}
                       {this.state.step === 5 ? (
-                        <>
+                        <div style={{marginBottom: '20px'}}>
                           <p
                             className="text-center"
                             style={{ fontWeight: '500', marginTop: '30px' }}
@@ -998,48 +1016,70 @@ export default class Felin extends React.Component {
                           >
                             <FormattedMessage id="Go back for modification" />
                           </button>
+                        </div>
+                      ) : null}
+                      {this.state.step === 1 || this.state.step === 2 || this.state.step === 5 ? (
+                        <p style={{ textAlign: 'center', fontSize: '14px' }}>
+                          L'Atelier Félin est ouvert du 20 avril au 13 juin
+                          2021, tous les jours de 10h à 18h en magasin, et de
+                          18h à 20h en ligne par visioconférence. Fermé le lundi
+                          et le 1er mai. Toutes les réservations et abonnements
+                          seront annulés après le 13 juin.
+                        </p>
+                      ) : null}
+                      {this.state.step === 6 ? (
+                        <>
+                          <div
+                            style={{
+                              display: 'inline-block',
+                              verticalAlign: 'middle',
+                              paddingTop: '10px'
+                            }}
+                          >
+                            <p
+                              className="text-center"
+                              style={{ fontWeight: '500' }}
+                            >
+                              Mon redenz-vous
+                            </p>
+                            <p
+                              className="text-center"
+                              style={{ fontWeight: '500' }}
+                            >
+                              Consultation expert
+                            </p>
+                            <p
+                              className="text-center"
+                              style={{ margin: '10px 0 20px' }}
+                            >
+                              {this.state.selectedTimeObj.name}
+                            </p>
+                            <p
+                              className="text-center"
+                              style={{ fontWeight: '500' }}
+                            >
+                              {userInfo.username}
+                            </p>
+                            <p className="text-center">{userInfo.email}</p>
+                            <p
+                              className="text-center"
+                              style={{ margin: '10px 0 20px' }}
+                            >
+                              {userInfo.phoneNumber}
+                            </p>
+                          </div>
+                          <img
+                            style={{
+                              display: 'inline-block',
+                              width: '180px',
+                              // marginLeft: '100px',
+                              float: 'right',
+                              marginTop: '12px'
+                            }}
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/qrcode.png`}
+                          />
                         </>
                       ) : null}
-                      {
-                        this.state.step === 6?(
-                          <>
-                          <div style={{display: 'inline-block', verticalAlign: 'middle', paddingTop: '10px'}}>
-                          <p
-                            className="text-center"
-                            style={{ fontWeight: '500' }}
-                          >
-                            Mon redenz-vous
-                          </p>
-                          <p
-                            className="text-center"
-                            style={{ fontWeight: '500' }}
-                          >
-                            Consultation expert
-                          </p>
-                          <p
-                            className="text-center"
-                            style={{ margin: '10px 0 20px' }}
-                          >
-                            {this.state.selectedTimeObj.name}
-                          </p>
-                          <p
-                            className="text-center"
-                            style={{ fontWeight: '500' }}
-                          >
-                            {userInfo.username}
-                          </p>
-                          <p className="text-center">{userInfo.email}</p>
-                          <p
-                            className="text-center"
-                            style={{ margin: '10px 0 20px' }}
-                          >
-                            {userInfo.phoneNumber}
-                          </p>
-                          </div>
-                          <img style={{display: 'inline-block', width: '180px', marginLeft: '100px'}} src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/qrcode.png`}/>
-                          </>
-                        ): null
-                      }
                     </div>
                     {nextBtnShow ? (
                       <div style={{ width: '100%', textAlign: 'right' }}>
