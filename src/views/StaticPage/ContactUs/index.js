@@ -104,7 +104,9 @@ class ContactUs extends Component {
       email: address.email,
       phone: address.phoneNumber,
       orderNumber: address.orderNumber,
-      myQuestion: address.question,
+      myQuestion: this.state.questionList.find((item) => {
+        return item.value === address.question;
+      }).name,
       requestContext: address.request
     })
       .then((res) => {
