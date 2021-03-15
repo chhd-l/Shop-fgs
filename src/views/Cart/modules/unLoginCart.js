@@ -34,6 +34,8 @@ import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import './index.less';
+import SubscriptionSelection from '../components/SubscriptionSelection';
+import OneOffSelection from '../components/OneOffSelection';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -645,6 +647,7 @@ class UnLoginCart extends React.Component {
     );
   };
   getProducts(plist) {
+    const { loginStore } = this.props;
     const { form, isMobile } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
@@ -799,431 +802,86 @@ class UnLoginCart extends React.Component {
                   {!isGift && this.getSizeBox(pitem, index)}
                   {!isGift && this.getQuantityBox(pitem, index)}
                 </div>
-                <div className="availability  product-availability">
-                  <div className="flex justify-content-between rc-md-up align-items-start">
-                    <div
-                      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs"
-                      style={{
-                        borderColor: !parseInt(pitem.goodsInfoFlag)
-                          ? '#e2001a'
-                          : '#d7d7d7',
-                        cursor: 'pointer',
-                        display: `${isGift ? 'none' : 'initial'}`
-                      }}
-                      onClick={this.hanldeToggleOneOffOrSub.bind(this, {
-                        goodsInfoFlag: 0,
-                        periodTypeId: null,
-                        pitem
-                      })}
-                    >
-                      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break">
-                        <div className="radioBox mr-2">
-                          <span
-                            className="font15"
-                            style={{
-                              height: '100%',
-                              fontWeight: '100',
-                              color: '#666',
-                              fontSize: '20px',
-                              lineHeight: '1'
-                            }}
-                          >
-                            <LazyLoad>
-                              <img src={cartImg} />
-                            </LazyLoad>
-                            <span>
-                              <FormattedMessage id="singlePurchase" />
-                            </span>
-                          </span>
-                        </div>
-                        <div
-                          className="price singlePrice"
-                          style={{ fontSize: '22px' }}
-                        >
-                          {formatMoney(
-                            pitem.quantity *
-                              pitem.sizeList.filter((el) => el.selected)[0]
-                                .salePrice
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    {isGift && this.getSizeBox(pitem, index)}
-                    {isGift && this.getQuantityBox(pitem, index)}
-                    {pitem.sizeList.filter((el) => el.selected)[0]
-                      .subscriptionStatus ? (
-                      <div
-                        className="buyMethod rc-margin-bottom--xs rc-margin-left--xs"
-                        style={{
-                          borderColor: parseInt(pitem.goodsInfoFlag)
-                            ? '#e2001a'
-                            : '#d7d7d7',
-                          cursor: 'pointer',
-                          maxWidth: `${isGift ? '22rem' : 'initial'}`
-                        }}
-                        onClick={this.hanldeToggleOneOffOrSub.bind(this, {
-                          goodsInfoFlag: 1,
-                          periodTypeId: pitem.form.frequencyId,
-                          pitem
-                        })}
-                      >
-                        <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
-                          <div className="radioBox mr-2">
-                            <span
-                              style={{
-                                fontWeight: '400',
-                                color: '#333',
-                                display: 'inline-block',
-                                marginTop: '5px'
-                              }}
-                            >
-                              <span
-                                className="iconfont red mr-2"
-                                style={{ fontSize: '1.2em' }}
-                              >
-                                &#xe675;
-                              </span>
-                              {isGift ? (
-                                'Food Dispenser Subscription'
-                              ) : (
-                                <FormattedMessage id="autoship" />
-                              )}
-                              {!isGift && (
-                                <span
-                                  className="info-tooltip delivery-method-tooltip"
-                                  onMouseEnter={() => {
-                                    this.setState({
-                                      toolTipVisible: true,
-                                      activeToolTipIndex: index
-                                    });
-                                  }}
-                                  onMouseLeave={() => {
-                                    this.setState({
-                                      toolTipVisible: false
-                                    });
-                                  }}
-                                >
-                                  i
-                                </span>
-                              )}
-                              <ConfirmTooltip
-                                arrowStyle={{ left: '65%' }}
-                                display={
-                                  this.state.toolTipVisible &&
-                                  index === this.state.activeToolTipIndex
-                                }
-                                cancelBtnVisible={false}
-                                confirmBtnVisible={false}
-                                updateChildDisplay={(status) =>
-                                  this.setState({
-                                    toolTipVisible: status
-                                  })
-                                }
-                                content={
-                                  <FormattedMessage id="subscription.promotionTip2" />
-                                }
-                              />
-                            </span>
-                            {/* </div> */}
-                            <br />
-                            <span
-                              style={{
-                                display: `${isGift ? 'none' : 'initial'}`
-                              }}
-                            >
-                              <FormattedMessage
-                                id="saveExtraMoney"
-                                values={{
-                                  val: (
-                                    <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                      {formatMoney(
-                                        pitem.quantity *
-                                          pitem.sizeList.filter(
-                                            (el) => el.selected
-                                          )[0].salePrice -
-                                          pitem.quantity *
-                                            pitem.sizeList.filter(
-                                              (el) => el.selected
-                                            )[0].subscriptionPrice
-                                      )}
-                                    </b>
-                                  )
-                                }}
-                              />
-                            </span>
-                          </div>
-                          <div className="price">
-                            <div
-                              style={{
-                                fontSize: '15px',
-                                textDecoration: 'line-through',
-                                display: `${isGift ? 'none' : 'initial'}`
-                              }}
-                            >
-                              {formatMoney(
-                                pitem.quantity *
-                                  pitem.sizeList.filter((el) => el.selected)[0]
-                                    .salePrice
-                              )}
-                            </div>
-                            <div style={{ color: '#ec001a' }}>
-                              {formatMoney(
-                                pitem.quantity *
-                                  pitem.sizeList.filter((el) => el.selected)[0]
-                                    .subscriptionPrice
-                              )}
-                            </div>
-
-                            {/* {formatMoney(currentSubscriptionPrice || 0)} */}
-                          </div>
-                        </div>
-                        <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
-                          <span>
-                            <FormattedMessage id="subscription.frequency" />:
-                          </span>
-                          <Selection
-                            customCls="flex-grow-1"
-                            selectedItemChange={(data) =>
-                              this.handleSelectedItemChange(pitem, data)
-                            }
-                            optionList={this.computedList}
-                            selectedItemData={{
-                              value: pitem.form.frequencyId
-                            }}
-                          />
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
               </div>
             </div>
-            <div className="rc-margin-bottom--sm rc-md-down">
-              <div className="product-card-footer product-card-price d-flex rc-margin-bottom--sm">
-                <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                  <div className="rc-quantity d-flex">
-                    <span
-                      className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                      onClick={() => this.subQuantity(pitem)}
-                    ></span>
-                    <input
-                      className="rc-quantity__input"
-                      value={pitem.quantity}
-                      onChange={(e) => this.handleAmountChange(e, pitem)}
-                      min="1"
-                      max="10"
-                    />
-                    <span
-                      className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                      onClick={this.addQuantity.bind(this, pitem)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
-                className="buyMethod rc-margin-bottom--xs"
-                style={{
-                  width: '100%',
-                  borderColor: !parseInt(pitem.goodsInfoFlag)
-                    ? '#e2001a'
-                    : '#d7d7d7',
-                  cursor: 'pointer'
-                }}
-                onClick={this.hanldeToggleOneOffOrSub.bind(this, {
-                  goodsInfoFlag: 0,
-                  periodTypeId: null,
-                  pitem
-                })}
-              >
-                <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
-                  <div className="radioBox">
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        height: '100%',
-                        fontWeight: '100',
-                        color: '#666',
-                        fontSize: '20px',
-                        lineHeight: '56px'
-                      }}
-                    >
-                      <LazyLoad>
-                        <img src={cartImg} />
-                      </LazyLoad>
-                      <span style={{ fontSize: '16px' }}>
-                        <FormattedMessage id="singlePurchase" />
-                      </span>
-                    </span>
-                  </div>
-                  <div
-                    className="price singlePrice"
-                    style={{ fontSize: '18px' }}
-                  >
-                    {formatMoney(
-                      pitem.quantity *
-                        pitem.sizeList.filter((el) => el.selected)[0].salePrice
-                    )}
-                  </div>
-                </div>
-              </div>
-              {pitem.sizeList.filter((el) => el.selected)[0]
-                .subscriptionStatus ? (
-                <div
-                  className="buyMethod rc-margin-bottom--xs"
-                  style={{
-                    width: '100%',
-                    borderColor: parseInt(pitem.goodsInfoFlag)
-                      ? '#e2001a'
-                      : '#d7d7d7',
-                    cursor: 'pointer'
-                  }}
-                  onClick={this.hanldeToggleOneOffOrSub.bind(this, {
-                    goodsInfoFlag: 1,
-                    periodTypeId: pitem.form.frequencyId,
+            <div class="buyMethodBox rc-layout-container rc-two-column">
+              <div class="rc-column">
+                <OneOffSelection
+                  isGift={isGift}
+                  pitem={pitem}
+                  isLogin={false}
+                  chooseOneOff={this.hanldeToggleOneOffOrSub.bind(this, {
+                    goodsInfoFlag: 0,
+                    periodTypeId: null,
                     pitem
                   })}
-                >
-                  <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
-                    <div className="radioBox">
-                      <span
-                        style={{
-                          fontWeight: '400',
-                          color: '#333',
-                          display: 'inline-block',
-                          marginTop: '5px'
-                        }}
-                      >
-                        <span
-                          className="iconfont red mr-2"
-                          style={{ fontSize: '1.2em' }}
-                        >
-                          &#xe675;
-                        </span>
-                        <FormattedMessage id="autoship" />
-                        <span
-                          className="info-tooltip delivery-method-tooltip"
-                          onMouseEnter={() => {
-                            this.setState({
-                              toolTipVisible: true,
-                              activeToolTipIndex: index
-                            });
-                          }}
-                          onMouseLeave={() => {
-                            this.setState({
-                              toolTipVisible: false
-                            });
-                          }}
-                        >
-                          i
-                        </span>
-                        <ConfirmTooltip
-                          arrowStyle={{ left: '65%' }}
-                          display={
-                            this.state.toolTipVisible &&
-                            index === this.state.activeToolTipIndex
-                          }
-                          cancelBtnVisible={false}
-                          confirmBtnVisible={false}
-                          updateChildDisplay={(status) =>
-                            this.setState({
-                              toolTipVisible: status
-                            })
-                          }
-                          content={
-                            <FormattedMessage id="subscription.promotionTip2" />
-                          }
-                        />
-                      </span>
-                      <br />
-                      <FormattedMessage
-                        id="saveExtraMoney"
-                        values={{
-                          val: (
-                            <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                              {formatMoney(
-                                pitem.quantity *
-                                  pitem.sizeList.filter((el) => el.selected)[0]
-                                    .salePrice -
-                                  pitem.quantity *
-                                    pitem.sizeList.filter(
-                                      (el) => el.selected
-                                    )[0].subscriptionPrice
-                              )}
-                            </b>
-                          )
-                        }}
-                      />
-                    </div>
-                    <div className="price">
-                      <div
-                        style={{
-                          fontSize: '15px',
-                          textDecoration: 'line-through'
-                          // display:`${isGift?'none':'initial'}`
-                        }}
-                      >
-                        {formatMoney(
-                          pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0]
-                              .salePrice
-                        )}
-                      </div>
-                      <div style={{ color: '#ec001a' }}>
-                        {formatMoney(
-                          pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0]
-                              .subscriptionPrice
-                        )}
-                      </div>
-
-                      {/* {formatMoney(currentSubscriptionPrice || 0)} */}
-                    </div>
-                  </div>
-                  <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
-                    <span>
-                      <FormattedMessage id="subscription.frequency" />:
-                    </span>
-                    <Selection
-                      customCls="flex-grow-1"
-                      selectedItemChange={(data) =>
-                        this.handleSelectedItemChange(pitem, data)
+                />
+                {isGift && this.getSizeBox(pitem, index)}
+                {isGift && this.getQuantityBox(pitem, index)}
+              </div>
+              <div class="rc-column">
+                {pitem.sizeList.filter((el) => el.selected)[0]
+                  .subscriptionStatus ? (
+                  <SubscriptionSelection
+                    isGift={isGift}
+                    pitem={pitem}
+                    activeToolTipIndex={this.state.activeToolTipIndex}
+                    index={index}
+                    toolTipVisible={this.state.toolTipVisible}
+                    computedList={this.computedList}
+                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                      this,
+                      {
+                        goodsInfoFlag: 1,
+                        periodTypeId: pitem.form.frequencyId,
+                        pitem
                       }
-                      optionList={this.computedList}
-                      selectedItemData={{
-                        value: form.frequencyId
-                      }}
-                      key={form.frequencyId}
-                    />
-                  </div>
-                </div>
-              ) : null}
+                    )}
+                    changeFrequency={(pitem, data) =>
+                      this.handleSelectedItemChange(pitem, data)
+                    }
+                    isLogin={false}
+                    setState={this.setState.bind(this)}
+                  />
+                ) : null}
+              </div>
             </div>
           </div>
-          {false ? (
+          {true ? (
             <div
-              className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
+              className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-24px' }}
             >
-              <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
+              <div className="name-info flex-column-gift d-flex">
                 <img className="img" src={foodDispenserPic} />
-                <div className="mobile-text-center">
-                  <div>test</div>
-                  <div>
-                    x1{' '}
-                    <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
-                  </div>
-                </div>
               </div>
               <div className="text-center" style={{ width: '200px' }}>
                 <img
-                  style={{ display: 'inline-block', width: '100px' }}
+                  style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
                 />
               </div>
               <div className="tips-info mobile-text-center">
-                You can cancel your subscription anytime, but you will have to
+                <ul>
+                  <li className="rc-list__item">
+                    <strong>Best-in-class nutrition</strong> for your pet
+                  </li>
+                  <li className="rc-list__item">
+                    <strong>Adapted tips</strong> to care for your pet
+                  </li>
+                  <li className="rc-list__item">
+                    Your personal <strong>Pet advisor</strong>
+                  </li>
+                  <li className="rc-list__item">
+                    Exclusive <strong>rewards & offers</strong>
+                  </li>
+                  <li className="rc-list__item">
+                    <strong>Free, automatic delivery</strong> on every refill
+                  </li>
+                </ul>
+                {/* You can cancel your subscription anytime, but you will have to
                 pay the remaining balance of the dispenser market price of 120
-                euros.*
+                euros.* */}
               </div>
             </div>
           ) : null}
@@ -1522,37 +1180,6 @@ class UnLoginCart extends React.Component {
               </p>
             </div>
           </div>
-          {/* <div
-            className={`row red ${
-              parseInt(this.discountPrice) > 0 ? 'd-flex' : 'hidden'
-            }`}
-          >
-            <div className="col-8">
-              <p>
-                {this.promotionDesc}({this.promotionDiscount})
-              </p>
-            </div>
-            <div className="col-4">
-              <p className="text-right shipping-cost">
-                - {formatMoney(this.discountPrice)}
-              </p>
-            </div>
-          </div> */}
-          {/* 显示订阅折扣 */}
-          {/* <div
-            className={`row leading-lines shipping-item green ${
-              parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
-            }`}
-          >
-            <div className="col-8">
-              <p>{<FormattedMessage id="promotion" />}</p>
-            </div>
-            <div className="col-4">
-              <p className="text-right shipping-cost">
-                - {formatMoney(this.subscriptionPrice)}
-              </p>
-            </div>
-          </div> */}
           {/* 显示 默认折扣 */}
           {parseFloat(this.subscriptionDiscountPrice) > 0 && (
             <div className={`row leading-lines shipping-item green`}>
@@ -1794,7 +1421,7 @@ class UnLoginCart extends React.Component {
     } else {
       //会员
       result = await checkoutStore.updateLoginCart({
-        promotionCode: '', 
+        promotionCode: '',
         subscriptionFlag: buyWay === 'frequency'
       });
     }

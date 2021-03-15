@@ -1,0 +1,62 @@
+import React from 'react';
+import { formatMoney } from '@/utils/utils';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import ConfirmTooltip from '@/components/ConfirmTooltip';
+import Selection from '@/components/Selection';
+import cartImg from '../../modules/images/cart.png';
+import LazyLoad from 'react-lazyload';
+
+const OneOffSelection = function (props) {
+  console.log(props, 'props');
+  const {
+    isGift,
+    pitem,
+    activeToolTipIndex,
+    index,
+    toolTipVisible,
+    isLogin
+  } = props;
+  return (
+    <div
+      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs"
+      style={{
+        borderColor: !parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
+        cursor: 'pointer',
+        display: `${isGift ? 'none' : 'block'}`
+      }}
+      onClick={props.chooseOneOff}
+    >
+      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break">
+        <div className="radioBox mr-2">
+          <span
+            className="font15"
+            style={{
+              height: '100%',
+              fontWeight: '100',
+              color: '#666',
+              fontSize: '20px',
+              lineHeight: '1'
+            }}
+          >
+            <LazyLoad>
+              <img src={cartImg} />
+            </LazyLoad>
+            <span>
+              <FormattedMessage id="singlePurchase" />
+            </span>
+          </span>
+        </div>
+        <div className="price singlePrice" style={{ fontSize: '22px' }}>
+          {!isLogin
+            ? formatMoney(
+                pitem.quantity *
+                  pitem.sizeList.filter((el) => el.selected)[0].salePrice
+              )
+            : formatMoney(pitem.buyCount * pitem.salePrice)}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default OneOffSelection;

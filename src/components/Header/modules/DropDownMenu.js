@@ -83,6 +83,7 @@ export default class DropDownMenu extends React.Component {
     const level2 = item?.navigationName;
     const itemName = [level1, level2].filter((item) => item).join('|');
     this.hubGA &&
+      window.dataLayer &&
       dataLayer &&
       dataLayer.push({
         event: 'navTopClick',
