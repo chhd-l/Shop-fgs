@@ -1779,6 +1779,7 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
+    // debugger
     this.setState({ saveBillingLoading: true });
     setTimeout(() => {
       this.confirmPaymentPanel();
