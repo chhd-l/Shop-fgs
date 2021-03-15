@@ -104,7 +104,31 @@ class PaymentEditForm extends React.Component {
 
       validationAddress: '',
 
-      errMsgObj: {}
+      errMsgObj: {},
+
+      //CYBER支持的四种卡
+      payWayNameArr: [
+        {
+          name: 'Visa',
+          id: 'visa',
+          paymentTypeVal: 'cyberVisa'
+        },
+        {
+          name: 'Mastercard',
+          id: 'mastercard',
+          paymentTypeVal: 'cyberMastercard'
+        },
+        {
+          name: 'Amex',
+          id: 'amex',
+          paymentTypeVal: 'cyberAmex'
+        },
+        {
+          name: 'Discover',
+          id: 'discover',
+          paymentTypeVal: 'cyberDiscover'
+        }
+      ]
     };
   }
   get userInfo() {
@@ -459,7 +483,8 @@ class PaymentEditForm extends React.Component {
     ADDRESS_RULE.forEach((item) => {
       if (
         Object.keys(paymentForm).indexOf(item.key) &&
-        !paymentForm[item.key]
+        !paymentForm[item.key] &&
+        paymentForm[item.require] //必填项没值
       ) {
         errMsgObj[item.key] = true;
       }
@@ -517,7 +542,8 @@ class PaymentEditForm extends React.Component {
       validationLoading,
       validationModalVisible,
       selectValidationOption,
-      errMsgObj
+      errMsgObj,
+      payWayNameArr
     } = this.state;
     const { paymentType } = this.props;
 
@@ -901,6 +927,33 @@ class PaymentEditForm extends React.Component {
 
         {paymentType === 'CYBER' && (
           <>
+            {/* CYBER支持卡类型，才显示此tab栏 */}
+            {payWayNameArr.length > 1 && (
+              <div className={`ml-custom mr-custom`}>
+                {payWayNameArr.map((item, i) => {
+                  return (
+                    <div className={`rc-input rc-input--inline`} key={i}>
+                      <input
+                        className="rc-input__radio"
+                        id={`payment-info-${item.id}`}
+                        value={item.paymentTypeVal}
+                        type="radio"
+                        name="payment-info"
+                        onChange={this.handlePaymentTypeChange}
+                        checked={paymentTypeVal === item.paymentTypeVal}
+                      />
+                      <label
+                        className="rc-input__label--inline"
+                        htmlFor={`payment-info-${item.id}`}
+                      >
+                        <FormattedMessage id={item.id} />
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {/* ********************支付tab栏end********************************** */}
             <CyberPaymentForm
               form={this.state.paymentForm}
               errMsgObj={errMsgObj}
