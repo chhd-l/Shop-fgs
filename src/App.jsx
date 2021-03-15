@@ -283,7 +283,7 @@ const App = () => (
               />
               <Route
                 exact
-                path="/clubLandingpage"
+                path="/club-subscription"
                 component={ClubLandingPage}
               />
               <Route
