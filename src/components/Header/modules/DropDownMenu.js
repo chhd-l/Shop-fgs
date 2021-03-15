@@ -73,7 +73,7 @@ export default class DropDownMenu extends React.Component {
       value: item.navigationName
     };
     this.GAClickMenu(interaction);
-    this.hubGAClickMenu(item,navItem);
+    this.hubGAClickMenu(item, navItem);
     // 点击subMenu埋点-end
     // this.props.handleClickNavItem(item);
   };
@@ -81,12 +81,13 @@ export default class DropDownMenu extends React.Component {
   hubGAClickMenu(item, navItem) {
     const level1 = navItem?.navigationName;
     const level2 = item?.navigationName;
-    const itemName = [level1, level2].filter(item => item).join('|');
+    const itemName = [level1, level2].filter((item) => item).join('|');
     this.hubGA &&
+      dataLayer &&
       dataLayer.push({
         event: 'navTopClick',
         navTopClick: {
-          itemName,
+          itemName
         }
       });
   }
@@ -169,7 +170,11 @@ export default class DropDownMenu extends React.Component {
                           <NavItem
                             className="dropdown-nav__link"
                             item={citem}
-                            onClick={this.handleClickNavItem.bind(this, citem, item)}
+                            onClick={this.handleClickNavItem.bind(
+                              this,
+                              citem,
+                              item
+                            )}
                             item={citem}
                           >
                             {citem.navigationName}
@@ -278,7 +283,11 @@ export default class DropDownMenu extends React.Component {
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
                     <span className="rc-list__header">
-                      <NavItem item={item} onClick={()=>this.hubGAClickMenu(item)} className="rc-list__header">
+                      <NavItem
+                        item={item}
+                        onClick={() => this.hubGAClickMenu(item)}
+                        className="rc-list__header"
+                      >
                         {item.expanded ? (
                           <span className="rc-header-with-icon header-icon">
                             {item.navigationName}
