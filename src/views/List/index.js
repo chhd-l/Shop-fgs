@@ -447,7 +447,7 @@ function ListItemBody({ item, headingTag }) {
         <FormattedMessage id="startFrom" />
       </div>
       {/*商品价格*/}
-      <div className="d-flex justify-content-center">
+      <div className={`d-flex justify-content-center`}>
         <div className="rc-card__price text-left PriceFitScreen">
           <div
             className={`rc-full-width PriceFitScreen flex`}
@@ -1675,7 +1675,10 @@ class List extends React.Component {
                     e.showPage &&
                     e.showPage.includes('PLP')
                 )[0],
-                technologyOrBreedsAttr: isHub && attrs
+                technologyOrBreedsAttr: isHub && attrs,
+                // 临时处理法国plp价格
+                fromPrice:
+                  process.env.REACT_APP_LANG === 'fr' ? 0 : ele.fromPrice
               });
               const tmpItem = find(
                 res.context.goodsList,
