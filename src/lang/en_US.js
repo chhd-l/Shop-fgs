@@ -1,15 +1,20 @@
 const en_US = {
   aboutUs: 'ABOUT US',
-  'aboutUs.description': 'Animal health is the key to its beauty and well-being. We carefully study the smallest physiological features of dogs and cats in order to understand what their needs are and to offer them a unique individual nutrition.',
+  'aboutUs.description':
+    'Animal health is the key to its beauty and well-being. We carefully study the smallest physiological features of dogs and cats in order to understand what their needs are and to offer them a unique individual nutrition.',
   'aboutUs.FoodQualityandSafety': 'Food Quality and Safety',
-  'aboutUs.FoodQualityandSafetyDetail': 'Our commitment to nutritional quality and product safety is at the heart of our operations worldwide.',
+  'aboutUs.FoodQualityandSafetyDetail':
+    'Our commitment to nutritional quality and product safety is at the heart of our operations worldwide.',
   'aboutUs.history': 'Our History',
-  'aboutUs.historyDetail': 'Royal Canin was founded in 1968 by veterinarian Jean Cathary. Dr. Cathary’s vision was a pet food company grounded in science, providing nutrition as cats’ and dogs’ first medicine, and creating precise formulas to meet the unique needs of each pet.',
+  'aboutUs.historyDetail':
+    'Royal Canin was founded in 1968 by veterinarian Jean Cathary. Dr. Cathary’s vision was a pet food company grounded in science, providing nutrition as cats’ and dogs’ first medicine, and creating precise formulas to meet the unique needs of each pet.',
   'aboutUs.IncredibleDetail': 'Incredible in Every Detail',
   'aboutUs.learnMore': 'Learn More',
   'aboutUs.ourValues': 'Our Values',
-  'aboutUs.ourValuesDetail': 'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
-  'aboutUs.SeeHowWeDo': 'See how everything we do is driven by our passion for pet health.',
+  'aboutUs.ourValuesDetail':
+    'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
+  'aboutUs.SeeHowWeDo':
+    'See how everything we do is driven by our passion for pet health.',
   'aboutUs.shopCat': 'Shop Cat Formulas',
   'aboutUs.shopDog': 'Shop Dog Formulas',
   'aboutUs.shopTile': 'Shop Tailored Nutrition For Your Pet',
@@ -25,7 +30,8 @@ const en_US = {
   'account.dog': 'Dog',
   'account.Email': 'Email Address',
   'account.enterBirthDare': 'Enter the date of birth of your pet.',
-  'account.faqTip': 'If you have any questions, we are always ready to help you and your pet',
+  'account.faqTip':
+    'If you have any questions, we are always ready to help you and your pet',
   'account.faqTitle': 'FAQ',
   'account.features': 'What special needs does your pet have?',
   'account.feedSubscription': 'Feed Subscription',
@@ -33,28 +39,35 @@ const en_US = {
   'account.female': 'Female',
   'account.fine': 'Fine!',
   'account.gender': 'What gender is your pet?',
-  'account.helpTip': 'If you have questions, we are always ready to help you and your pet.',
+  'account.helpTip':
+    'If you have questions, we are always ready to help you and your pet.',
   'account.male': 'Male',
   'account.mixBreed': 'Mix breed',
   'account.myAccount': 'My account',
   'account.myAddresses': 'My addresses',
-  'account.myCommunicationPreferencesContent1': 'Perferred method of communication',
-  'account.myCommunicationPreferencesContent2': 'Consents given for communication',
-  'account.myCommunicationPreferencesDesc': 'Follow the Royal Canin information on the commuication',
+  'account.myCommunicationPreferencesContent1':
+    'Perferred method of communication',
+  'account.myCommunicationPreferencesContent2':
+    'Consents given for communication',
+  'account.myCommunicationPreferencesDesc':
+    'Follow the Royal Canin information on the commuication',
   'account.myCommunicationPreferencesTitle': 'My communication preferences',
   'account.myPayments': 'My payments',
   'account.nickname': "What is your pet's nickname?",
   'account.no': 'No',
-  'account.noPet': 'Create your pet profile today! Fill in the information and choose the most suitable diet',
-  'account.noSubscription': 'You did not discover our Autoship services yet ? AutoShip is a convenient way for you to get your orders delivered on a regular schedule. So, you save time and your pet never run out of food.',
- // 'account.noSubscription': 'When you choose automatic shipping at checkout, you automatically become a member. You’ll save   on every order and receive perks like free delivery on a schedule of your choosing and other club-exclusive benefits.',
+  'account.noPet':
+    'Create your pet profile today! Fill in the information and choose the most suitable diet',
+  'account.noSubscription':
+    'You did not discover our Autoship services yet ? AutoShip is a convenient way for you to get your orders delivered on a regular schedule. So, you save time and your pet never run out of food.',
+  // 'account.noSubscription': 'When you choose automatic shipping at checkout, you automatically become a member. You’ll save   on every order and receive perks like free delivery on a schedule of your choosing and other club-exclusive benefits.',
   'account.noSubscriptionTitle': "Let's get started!",
   'account.noSubscriptionTitle': 'Join Royal Canin Club today!',
   'account.notRegistred': 'New customer?',
   'account.of': 'of',
   'account.orders': 'Orders',
   'account.orders.btns': 'Buy now!',
-  'account.orders.tips': "You haven't placed any orders yet. Find the right food for your pet now!",
+  'account.orders.tips':
+    "You haven't placed any orders yet. Find the right food for your pet now!",
   'account.ordersTip': 'Check the status of your order or see past orders',
   'account.ordersTitle': 'My Orders',
   'account.paymentMethod': 'Payment method',
@@ -62,7 +75,8 @@ const en_US = {
   'account.personalArea': 'My account',
   'account.personalData': 'Personal data',
   'account.pets': 'My Pets',
-  'account.petsTip': "Create and manage your pet's profile to maintain its best health possible",
+  'account.petsTip':
+    "Create and manage your pet's profile to maintain its best health possible",
   'account.petsTitle': 'My Pets',
   'account.preferredContactMethod': 'Preferred Contact Method',
   'account.preferredMethodOfCommunication': 'Preferred method of communication',
@@ -76,12 +90,14 @@ const en_US = {
   'account.step': 'Step',
   'account.sterilized': 'Is your pet sterilized?',
   'account.subscription': 'My Club Shipments',
-  'account.subscriptionTip': 'Manage your club subscription and access to your exclusive membership services',
+  'account.subscriptionTip':
+    'Manage your club subscription and access to your exclusive membership services',
   'account.subscriptionTitle': 'My Club Shipments',
   'account.TheAddressBook': 'The address book',
   'account.toComeIn': 'To come in',
   'account.unknownBreed': 'Unknown breed',
-  'account.warmNotice': 'Welcome {val}, This area is dedicated to manage your account. You can easily change your profile information, manage your pet needs, check the status of your orders and your Autoship.',
+  'account.warmNotice':
+    'Welcome {val}, This area is dedicated to manage your account. You can easily change your profile information, manage your pet needs, check the status of your orders and your Autoship.',
   'account.weight': 'What is the weight of an adult dog of your breed {val}?',
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
   'account.yes': 'Yes',
@@ -135,19 +151,23 @@ const en_US = {
   cardNumberIsInvalid: 'your card number is invalid',
   'cart.catDiet': 'Choose a diet for your cat',
   'cart.deletInfo': 'Delete product?',
-  'cart.deletInfo2': 'Are you sure you want to remove this item from your cart?',
+  'cart.deletInfo2':
+    'Are you sure you want to remove this item from your cart?',
   'cart.delivery': 'Shipping',
   'cart.dogDiet': 'Choose a diet for your dog',
   'cart.errorInfo': "The number can't be less than 1",
   'cart.errorInfo2': 'You cannot place your order, out of stock product: {val}',
-  'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （{val}）',
+  'cart.errorInfo3':
+    '*Your order amount has not yet reached the minimum amount for free shipping （{val}）',
   'cart.errorInfo4': 'You cannot place your order, Off shelves product: {val}',
   'cart.errorInfo5': 'You cannot place your order, deleted product: {val}',
   'cart.errorMaxCate': "The shopping cart can't exceed {val} items",
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
-  'cart.firstOrderDiscountTip': 'The 30% discount for your first order will be applied during checkout',
+  'cart.firstOrderDiscountTip':
+    'The 30% discount for your first order will be applied during checkout',
   'cart.fullPrice': 'FULL RICE FOR YOUR PET',
-  'cart.miniCartTitle': '30% off first purchase, plus 5% off every order with autoship',
+  'cart.miniCartTitle':
+    '30% off first purchase, plus 5% off every order with autoship',
   // 'cart.totalProduct': '{val} item(s) in the basket',
   'cart.totalProduct': '{val} item(s)',
   'cart.totalProduct_nounit': '{val} in the basket',
@@ -162,19 +182,23 @@ const en_US = {
   changePassword: 'Change Password',
   changepic: 'Change picture',
   changepic: 'Change picture',
-  checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
-  checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
+  checkboxIsRequiredForSubscription:
+    'this checkbox is required for subscription',
+  checkboxIsRequiredForSubscription:
+    'this checkbox is required for subscription',
   checkout: 'Checkout',
   'checkout.faq.contactCustomer': 'How can I reach customer service',
   'checkout.faq.freeDelivery': 'Do you offer free shipping',
   'checkout.faq.FreeReturn': 'Do you offer free returns',
-  'checkout.faq.paymentInformation': 'How secure is my payment {val} information',
+  'checkout.faq.paymentInformation':
+    'How secure is my payment {val} information',
   checkoutTip: 'Please enter your information below',
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',
   chooseTheProduct: 'Choose the product',
   clickConfirmCardButton: 'Please click the confirm card button',
-  clickConfirmCvvButton: 'If you want to use this credit card, please enter CVV and click the Apply button',
+  clickConfirmCvvButton:
+    'If you want to use this credit card, please enter CVV and click the Apply button',
   clickHere: 'Click here',
   clickHere2: 'Here',
   'clinic.cancel': 'Cancel',
@@ -192,7 +216,8 @@ const en_US = {
   'comment.commentsTooLong': "Product comments can't more than 500 characters",
   'comment.noLogisticsRatingTip': 'Please comment on the logistics service',
   'comment.noProductRatingTip': 'Please comment on the products',
-  'comment.noShoppingExperienceTip': 'Please comment on the shopping experience',
+  'comment.noShoppingExperienceTip':
+    'Please comment on the shopping experience',
   completed: 'Completed',
   completed: 'Completed',
   CompleteRequiredItems: 'Please complete the required items',
@@ -201,8 +226,10 @@ const en_US = {
   'confirmation.account': 'Go to my account',
   'confirmation.customerInformation': 'Customer Information',
   'confirmation.info1': 'Thank you for your order.',
-  'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',
-  'confirmation.info3': ' Addresses and shipping methods are indicated under your goods.',
+  'confirmation.info2':
+    'In the near future, our staff will contact you to comfirm the order.',
+  'confirmation.info3':
+    ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.oneShoot': 'Go to my account',
   'confirmation.oneShoot': 'Go to my account',
   'confirmation.orderNumber': 'Order number',
@@ -210,15 +237,18 @@ const en_US = {
   'confirmation.rateTip2': 'What can we do to improve?',
   'confirmation.rateTip3': 'Enter up to 50 characters',
   'confirmation.rateTip4': 'Please score first.',
-  'confirmation.subscriptionDiscountPriceDes': 'You saved {val1}  with the mark',
-  'confirmation.subscriptionDiscountPriceDes': 'You saved {val1}  with the mark',
+  'confirmation.subscriptionDiscountPriceDes':
+    'You saved {val1}  with the mark',
+  'confirmation.subscriptionDiscountPriceDes':
+    'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
   confirmPassword: 'Confirm Password *',
   consent: 'Consent',
   consignee: 'Consignee',
   consigneeNumber: 'Consignee Number',
-  contactTimePeriod: 'For any questions, our pet experts are available from Monday to Friday, 8.00 a.m to 4.30 p.m CT',
+  contactTimePeriod:
+    'For any questions, our pet experts are available from Monday to Friday, 8.00 a.m to 4.30 p.m CT',
   contactUs: 'Contact Us',
   'contactUs.myQuestion': 'My Question',
   'contactUs.orderNumber': 'Order Number',
@@ -237,11 +267,40 @@ const en_US = {
   customerReviews: 'Customer reviews',
   cvvWarning: 'CVV is wrong',
   dataProtection: 'privacy policy',
-  'datePicker.months': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  'datePicker.months': [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ],
   'datePicker.nextMonth': 'next Month',
   'datePicker.previousMonth': 'previous Month',
-  'datePicker.weekdays': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-  'datePicker.weekdaysShort': ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'],
+  'datePicker.weekdays': [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ],
+  'datePicker.weekdaysShort': [
+    'Sun',
+    'Mon',
+    'Tues',
+    'Wed',
+    'Thur',
+    'Fri',
+    'Sat'
+  ],
   de_cats: 'For cats',
   de_dogs: 'For dogs',
   default: 'Default',
@@ -249,8 +308,10 @@ const en_US = {
   delete: 'Delete',
   deleteAddressFailed: 'Delete Address Failed',
   deleteAddressSuccess: 'Delete Address Success',
-  deleteAddressTip: 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
-  deleteCardTip: 'Sorry, this credit card has already been subject to a subscription, so it cannot be deleted.',
+  deleteAddressTip:
+    'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
+  deleteCardTip:
+    'Sorry, this credit card has already been subject to a subscription, so it cannot be deleted.',
   deliveredTip: 'Expected to arrive in about 3 days',
   deliveredTip: 'Expected to arrive in about 3 days',
   delivery: 'delivery',
@@ -265,9 +326,11 @@ const en_US = {
   'deliveryStatus.SHIPPED': 'All shipped',
   'deliveryStatus.VOID': 'To be delivered',
   detail: '[Show more]',
-  'detail.answer': 'Our advisers are real experts and passionate. They are at your disposal to answer any request.',
+  'detail.answer':
+    'Our advisers are real experts and passionate. They are at your disposal to answer any request.',
   'detail.email': 'By email',
-  'detail.packagingDesc': 'Our packaging / products may be subject to a sorting instruction',
+  'detail.packagingDesc':
+    'Our packaging / products may be subject to a sorting instruction',
   'detail.question': 'Still have questions about this product?',
   'detail.telephone': 'By telephone',
   'details.addToCart': 'Add to Cart',
@@ -315,14 +378,17 @@ const en_US = {
   expirationDateIsInvalid: 'your card expiration date is invalid',
   'faq.frequentQuestions': 'Frequently Asked Questions',
   // 'faq.title': "Got a question? Take a look below to see if it's already been answered. If you can't find what you are looking for, click {val1} to contact us.",
-  'faq.title': "Got a question? Take a look below to see if it's already been answered. If you can't find what you are looking for, click {val1}.",
+  'faq.title':
+    "Got a question? Take a look below to see if it's already been answered. If you can't find what you are looking for, click {val1}.",
   'faq.title2': 'Entrega del alimento',
-  FAQdesc: "If you have any question. Look below to see if there is an answer. If you can't find what you are looking for. {val} to contact us.",
+  FAQdesc:
+    "If you have any question. Look below to see if there is an answer. If you can't find what you are looking for. {val} to contact us.",
   filters: 'Filter products',
   findLocation: 'Find Location',
   findTheRightDiet: 'Find the right food',
   firstName: 'First Name *',
-  'firstNameLastName50characters!': 'First Name or Last Name cannot exceed 50 characters!',
+  'firstNameLastName50characters!':
+    'First Name or Last Name cannot exceed 50 characters!',
   'footer.aboutRoyalCanin': 'ROYAL CANIN',
   'footer.acceptance': 'Acceptance guarantee',
   'footer.action': 'Actions',
@@ -336,7 +402,8 @@ const en_US = {
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
   'footer.cookies': 'Biscuits',
   'footer.cookies': 'Cookies',
-  'footer.copyrightInfo': 'Copyright © Mars 2021®, Trademark of Mars Incorporated and its affiliates',
+  'footer.copyrightInfo':
+    'Copyright © Mars 2021®, Trademark of Mars Incorporated and its affiliates',
   'footer.copyrightInfo2': 'Copyright © Mars 2021',
   'footer.copyrightInfo2_1': 'An Affiliate of Mars, Incorporated',
   'footer.email': 'Contact Us',
@@ -368,7 +435,8 @@ const en_US = {
   forgetPassword: 'Forget password?',
   'forgetPassword.back': 'Back to log in',
   'forgetPassword.createNewPassword': 'Create new password',
-  'forgetPassword.forgetPasswordTip': 'You will be sent a letter with instructions for changing the password.',
+  'forgetPassword.forgetPasswordTip':
+    'You will be sent a letter with instructions for changing the password.',
   freeShipping: 'Free shipping',
   freeShipping: 'Free shipping',
   freeShipping: 'Free shipping',
@@ -378,21 +446,24 @@ const en_US = {
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
   getPetFailed: 'Get Pet Failed',
-  giveConsentPersonalData: 'and give my consent to the processing of personal data, including cross-border transfer',
+  giveConsentPersonalData:
+    'and give my consent to the processing of personal data, including cross-border transfer',
   goods: 'Goods',
   goToCart: 'Go to shopping cart',
   goToCart: 'Go to shopping cart',
   guestCheckout: 'Continue as a Guest',
   'header.basketEmpty': 'Your cart is empty',
   'header.carouselInfo1': 'Tailored Nutrition For Your Pet',
-  'header.carouselInfo2': 'Find precise nutrition based on the unique needs of your pet.',
+  'header.carouselInfo2':
+    'Find precise nutrition based on the unique needs of your pet.',
   'header.carouselInfo3': 'Pet Nutrition',
   'header.carouselInfo4': 'Personal consultant',
   'header.carouselInfo5': 'FREE veterinary examinations',
   'header.carouselInfo6': 'Branded accessories and VIP service',
   'header.carouselInfo7': 'Your pet’s health and well-being program',
   'header.carouselInfo8': 'Our experts will do everything to help you!',
-  'header.carouselInfo9': 'Your personal consultant in touch every day from 9.00 to 21.00',
+  'header.carouselInfo9':
+    'Your personal consultant in touch every day from 9.00 to 21.00',
   'header.carouselInfo10': 'Personal Consultant ROYAL CANIN® CLUB',
   'header.carouselInfo11': 'ROYAL CANIN® CLUB for kittens',
   'header.startTypingToSearch': 'Start typing to search',
@@ -413,14 +484,17 @@ const en_US = {
   'help.title': 'Need help?',
   here: 'here to contact us',
   home: 'My Account',
-  'home.convenientTip1': 'Selection of a diet according to the needs of your pet',
+  'home.convenientTip1':
+    'Selection of a diet according to the needs of your pet',
   'home.convenientTip2': 'Fast free shipping when ordering from {val}.',
-  'home.convenientTip3': 'Support service: ask a question about your pet to a specialist',
+  'home.convenientTip3':
+    'Support service: ask a question about your pet to a specialist',
   'home.convenientTitle': 'Why Shop Royal Canin?',
   'home.note1': '',
   'home.note2': '',
   'home.pageNotFound': 'Page not found…',
-  'home.pageNotFoundInfo': 'Sorry, the page you are looking for does not exist.',
+  'home.pageNotFoundInfo':
+    'Sorry, the page you are looking for does not exist.',
   'home.point1': 'Secure Payment',
   'home.point2': 'Free Automatic Shipping',
   'home.point3': 'Premium Quality',
@@ -433,7 +507,8 @@ const en_US = {
   'home.specialInfo1': 'The splendor of each breed is',
   'home.specialInfo2': 'in its uniqueness.',
   'home.specialInfo3': 'Find out what makes them unique!',
-  'home.specialInfo4': 'For more than 50 years, we have been following the principle of “Well-being for dogs and cats, above all.” We create adapted food for animals according to their special needs.',
+  'home.specialInfo4':
+    'For more than 50 years, we have been following the principle of “Well-being for dogs and cats, above all.” We create adapted food for animals according to their special needs.',
   'home.viewProducts': 'View Products',
   homePage: 'Home',
   ihaveADefaultClinic: 'I have a default clinic',
@@ -441,7 +516,8 @@ const en_US = {
   inactive: 'Inactive',
   information: 'Information',
   inputSearchText: 'input search text',
-  inputYourEmailReceivePayment: 'Input your email to receive payment voucher & order status notices.',
+  inputYourEmailReceivePayment:
+    'Input your email to receive payment voucher & order status notices.',
   inTheBasket: 'in the basket',
   inTransit: 'In transit',
   invoice: 'invoice',
@@ -458,18 +534,23 @@ const en_US = {
   kitten: 'Kitten (0-1 year old)',
   lastName: 'Last Name *',
   learnMore: 'learn more',
-  'list.errMsg': 'No products found, please change the search criteria and try again.',
-  'list.errMsg2': 'No products found, please change the keywords and try again.',
+  'list.errMsg':
+    'No products found, please change the search criteria and try again.',
+  'list.errMsg2':
+    'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
-  'list.errMsg4': 'No products found. Please change your search term and try again.',
+  'list.errMsg4':
+    'No products found. Please change your search term and try again.',
   'list.youSearchedFor': 'You searched for',
   listPrice: 'List price',
   login: 'Login',
   'login.firstCheck': '',
   'login.forgetPassword': 'Forget your password?',
   'login.guestContinue': 'Continue with a guest',
-  'login.loginTip': ' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
-  'login.passwordTip': '8-20 characters and include at a lowercase letter, an uppercase letter, a number',
+  'login.loginTip':
+    ' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
+  'login.passwordTip':
+    '8-20 characters and include at a lowercase letter, an uppercase letter, a number',
   'login.register': 'Create a personal account',
   'login.secondCheck': ' I confirm that I am over 18 years old',
   'login.thirdCheck': ' I agree to receive the marketing newsletter',
@@ -493,10 +574,13 @@ const en_US = {
   'mixed Breed': 'mixed Breed',
   'mixed Breed': 'mixed Breed',
   MMYY: 'MM/YY',
-  modalCancelAllContent: 'Are you sure you want to cancel all the following deliveries?',
+  modalCancelAllContent:
+    'Are you sure you want to cancel all the following deliveries?',
   modalCancelAllTitle: 'CANCEL ALL ORDERS?',
-  modalChangeDateContent: 'Are you sure you want to change the next shipment date?',
-  modalChangeDateContent: 'Are you sure you want to change the next shipment date?',
+  modalChangeDateContent:
+    'Are you sure you want to change the next shipment date?',
+  modalChangeDateContent:
+    'Are you sure you want to change the next shipment date?',
   modalChangeDateTitle: 'Change the shipping date',
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
@@ -506,9 +590,12 @@ const en_US = {
   month: 'Month',
   moreAddress: 'More Address',
   moreChoicesAvailable: 'More Choices Available',
-  mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method',
-  mustChooseACommunicationMethodTip: 'Sorry, you checked communication consent, so you must choose a communication method',
-  mustChooseTheConsentTip: 'In order to confirm that you wish to be contacted, please tick the corresponding box.',
+  mustChooseACommunicationMethodTip:
+    'Sorry, you checked communication consent, so you must choose a communication method',
+  mustChooseACommunicationMethodTip:
+    'Sorry, you checked communication consent, so you must choose a communication method',
+  mustChooseTheConsentTip:
+    'In order to confirm that you wish to be contacted, please tick the corresponding box.',
   myAutoshipOrder: 'My Autoship Order',
   myAutoshipOrder: 'My Autoship Order',
   name: 'Name',
@@ -519,7 +606,8 @@ const en_US = {
   next: 'Next',
   nextShipment: 'Next shipment',
   nextShipment: 'Next shipment',
-  noClinicTip: 'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
+  noClinicTip:
+    'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
   noDefaultClinic: 'No default clinic',
   NoPromotionDesc: 'No PromotionDesc',
   noSpecialNeeds: 'No special needs',
@@ -533,7 +621,8 @@ const en_US = {
   or: 'or',
   order: 'Order',
   'order.cancelOrder': 'Cancel order',
-  'order.completeTip': 'The package was delivered by hand to the delivery address.',
+  'order.completeTip':
+    'The package was delivered by hand to the delivery address.',
   'order.confirmCancelOrderInfo': 'Do you really want to cancel the order?',
   'order.dealDatePeriod': 'Deal Date Period',
   'order.deliveryComment': 'Delivery comment',
@@ -543,7 +632,8 @@ const en_US = {
   'order.historyOfOrders': 'History of orders',
   'order.inputOrderNumberTip': 'Please input order number',
   'order.inputReturnNumberTip': 'Please input return number',
-  'order.inTranistTip': 'Your order has been shipped and you will receive the product soon. {val}',
+  'order.inTranistTip':
+    'Your order has been shipped and you will receive the product soon. {val}',
   'order.iVAIncluido': '',
   'order.iVAIncluido': '',
   'order.lastXDays': 'Last {val} days',
@@ -567,7 +657,8 @@ const en_US = {
   'order.progress6': 'Pending review',
   'order.progress7': 'Canceled',
   'order.rateModalTitle': 'Your opinion is important',
-  'order.refundErrorInfo': 'This order is associated with a refund in processing and cannot be reapplied.',
+  'order.refundErrorInfo':
+    'This order is associated with a refund in processing and cannot be reapplied.',
   'order.return': 'Return',
   'order.returnDate': 'Return Date',
   'order.returnDetails': 'Return Details',
@@ -576,8 +667,10 @@ const en_US = {
   'order.returnOrderDetails': 'Return Order Details',
   'order.returnStatus': 'Return Status',
   'order.shippingStatus': 'Shipping Status',
-  'order.toBeDeliveredTip': 'Your order has been successfully paid and we are preparing to ship.',
-  'order.toBePaidTip': 'Your order has not been paid, please pay as soon as possible. {val}',
+  'order.toBeDeliveredTip':
+    'Your order has been successfully paid and we are preparing to ship.',
+  'order.toBePaidTip':
+    'Your order has not been paid, please pay as soon as possible. {val}',
   'order.total': 'Total',
   'order.total': 'Total',
   'order.viewLogisticDetail': 'View logistic detail',
@@ -595,8 +688,10 @@ const en_US = {
   'orderStatus.REMEDY': 'To be delivered',
   'orderStatus.VOID': 'Canceled',
   orderSummary: 'Order Summary',
-  outOfStockContent_cart: 'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
-  outOfStockContent_pay: 'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
+  outOfStockContent_cart:
+    'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
+  outOfStockContent_pay:
+    'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
   oxxo: 'OXXO',
   oxxoTransactionFee: '(Does not include the OXXO transaction fee)',
   packageX: 'Package {val}',
@@ -622,9 +717,12 @@ const en_US = {
   'payment.commentOnDelivery': 'Comment on delivery',
   'payment.confirmCard': 'Confirm Card',
   'payment.confirmInfo1': 'I confirm that I am over 18 years old',
-  'payment.confirmInfo2': 'You must be 18 years or more to register on the site.',
-  'payment.confirmInfo3': 'He leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}',
-  'payment.confirmInfo4': 'You need to familiarize yourself with the User Agreement and the Privacy Policy and give your consent to the processing of personal data, including cross-border transfer.',
+  'payment.confirmInfo2':
+    'You must be 18 years or more to register on the site.',
+  'payment.confirmInfo3':
+    'He leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}',
+  'payment.confirmInfo4':
+    'You need to familiarize yourself with the User Agreement and the Privacy Policy and give your consent to the processing of personal data, including cross-border transfer.',
   'payment.country': 'Country',
   'payment.DEBIT': 'DEBIT',
   'payment.deliveryFrequency': 'Delivery Frequency',
@@ -637,7 +735,8 @@ const en_US = {
   'payment.EXPYear': 'EXP. Year',
   'payment.firstName': 'First Name',
   'payment.forFree': 'For Free',
-  'payment.forFreeTip': 'For any consumer making order in the website, no matter the amount, he or she is able to be provided free delivery service.',
+  'payment.forFreeTip':
+    'For any consumer making order in the website, no matter the amount, he or she is able to be provided free delivery service.',
   'payment.frequencyTip1': 'Yes, Make my life easy!',
   'payment.frequencyTip2': 'No, Thank you.',
   'payment.frequencyTip3': 'Your items will only ship once.',
@@ -659,7 +758,8 @@ const en_US = {
   'payment.socialId': 'Social id',
   'payment.state': 'State',
   'payment.subTip1': 'You will save an additional {val} on this order!',
-  'payment.subTip2': 'Save your first {icon} Subscription order and save {val} ({val2}) today!',
+  'payment.subTip2':
+    'Save your first {icon} Subscription order and save {val} ({val2}) today!',
   'payment.theBox': 'This box is required for subscription',
   // 'payment.totalProduct': '{val} total product(s)',
   'payment.totalProduct': '{val} products',
@@ -667,7 +767,8 @@ const en_US = {
   paymentMethod: 'Payment method',
   'paymethods.btn': 'Add Payment',
   //account.paymethods
-  'paymethods.info': "You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
+  'paymethods.info':
+    "You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
   'payStatus.NOT_PAID': 'Unpaid',
   'payStatus.PAID': 'Paid',
   'payStatus.PAID_IN': 'Paid in',
@@ -677,8 +778,10 @@ const en_US = {
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
   'pet.deletePet': 'Delete Pet Profile',
-  'pet.petListTitle': "Create and manage your pet's profile to maintain its best health possible",
-  'pet.petListTitle': "Create and manage your pet's profile to maintain its best health possible",
+  'pet.petListTitle':
+    "Create and manage your pet's profile to maintain its best health possible",
+  'pet.petListTitle':
+    "Create and manage your pet's profile to maintain its best health possible",
   petFemale: 'Female',
   petFemale: 'Female',
   petInfo: 'Pet information',
@@ -691,16 +794,19 @@ const en_US = {
   pleaseEnterTheCorrectEmail: 'Please enter the correct email',
   PleaseFillInstructions: 'Please fill in the return instructions',
   'plp.retail.cat.button': 'Discover range',
-  'plp.retail.cat.detail': 'Dietary foods that help maintain the health of cats diagnosed with problems',
+  'plp.retail.cat.detail':
+    'Dietary foods that help maintain the health of cats diagnosed with problems',
   'plp.retail.cat.product.finder.button': 'Find a product',
   'plp.retail.cat.product.finder.detail': 'Try our product finder',
   'plp.retail.cat.product.finder.title': 'Need help finding the right product?',
   //PLP-Retail-Cat
   'plp.retail.cat.title': 'Are you looking for veterinary products?',
   'plp.vet.cat.button': 'Discover range',
-  'plp.vet.cat.detail': 'Our complete range of dry foods and bites in sauce or jelly provides the most accurate nutrition for cats of all ages,sizes and breeds',
+  'plp.vet.cat.detail':
+    'Our complete range of dry foods and bites in sauce or jelly provides the most accurate nutrition for cats of all ages,sizes and breeds',
   //PLP-Vet-Cat
-  'plp.vet.cat.title': 'Are you looking for food available in specialised outlets?',
+  'plp.vet.cat.title':
+    'Are you looking for food available in specialised outlets?',
   plsFillEmailTip: 'Your email is not filled in in the address bar',
   policyFalse: 'Please check this box if you wish to continue.',
   prescription: 'Prescription',
@@ -708,39 +814,55 @@ const en_US = {
   price: 'Price',
   printEbanx: 'Print Ebanx',
   privacyPolicy: 'Privacy Policy',
-  'productFinder.ageErrorShow': 'Age selection needs to be greater than 0 months',
-  'productFinder.ageErrorShow': 'Age selection needs to be greater than 0 months',
+  'productFinder.ageErrorShow':
+    'Age selection needs to be greater than 0 months',
+  'productFinder.ageErrorShow':
+    'Age selection needs to be greater than 0 months',
   'productFinder.createMyPetProfile': 'Create my Pet Profile',
-  'productFinder.createMyPetProfileTip': 'Create your pet profile in RoyalCanin, and get the newsletter/specific offers which will be tailored for your pets.',
-  'productFinder.healthTip1': "If your cat has health problems, we recommend that you visit your veterinarian to ensure the optimal nutrition solution for your pet's individual needs.",
-  'productFinder.healthTip2': 'And, you can learn more about our veterinary diets product ranges.',
+  'productFinder.createMyPetProfileTip':
+    'Create your pet profile in RoyalCanin, and get the newsletter/specific offers which will be tailored for your pets.',
+  'productFinder.healthTip1':
+    "If your cat has health problems, we recommend that you visit your veterinarian to ensure the optimal nutrition solution for your pet's individual needs.",
+  'productFinder.healthTip2':
+    'And, you can learn more about our veterinary diets product ranges.',
   'productFinder.healthTitle': 'Veterinary Nutrition',
   'productFinder.helpTip1': 'Do you have any questions?',
-  'productFinder.helpTip2': 'Out Pet Experts are always here to help you find the most precise diet for your pet',
+  'productFinder.helpTip2':
+    'Out Pet Experts are always here to help you find the most precise diet for your pet',
   'productFinder.helpTip3': 'Get help from our pet advisor 123-456-789',
   'productFinder.index': 'Product finder',
   'productFinder.otherProductsToConsider': 'Other products to consider',
-  'productFinder.recoDesc': 'The more we know about your pet, the better we can provide the most precise nutrition tailored to its unique needs.',
+  'productFinder.recoDesc':
+    'The more we know about your pet, the better we can provide the most precise nutrition tailored to its unique needs.',
   'productFinder.recoTitle': 'Find the right food.',
-  'productFinder.resultHlep': 'Monday to Friday 8.30 a.m. to 12.30 p.m. and from 2 p.m. to 5 p.m',
+  'productFinder.resultHlep':
+    'Monday to Friday 8.30 a.m. to 12.30 p.m. and from 2 p.m. to 5 p.m',
   'productFinder.resultPage': 'Product finder result page',
-  'productFinder.rigisterMyPetProfile': 'Register your pet profile in RoyalCanin and get a notification when the best product is available.',
+  'productFinder.rigisterMyPetProfile':
+    'Register your pet profile in RoyalCanin and get a notification when the best product is available.',
   'productFinder.searchCompleted': 'Search completed!',
-  'productFinder.searchResultTip1ForCat': "Below are the products that best fit your cat's needs.",
-  'productFinder.searchResultTip1ForDog': "Below are the products that best fit your dog's needs.",
-  'productFinder.searchResultTip2': 'Click on the recommendations for more information.',
+  'productFinder.searchResultTip1ForCat':
+    "Below are the products that best fit your cat's needs.",
+  'productFinder.searchResultTip1ForDog':
+    "Below are the products that best fit your dog's needs.",
+  'productFinder.searchResultTip2':
+    'Click on the recommendations for more information.',
   'productFinder.searchResultTip3': 'We are sorry!',
-  'productFinder.searchResultTip4': "The most precise nutrition for your pet isn't currently availabel.",
-  'productFinder.searchResultWarningTip1': 'The recommendations provided here are for informational purpose only.It should not be considered as guarantee for what may be best for your indivaidual pet.',
+  'productFinder.searchResultTip4':
+    "The most precise nutrition for your pet isn't currently availabel.",
+  'productFinder.searchResultWarningTip1':
+    'The recommendations provided here are for informational purpose only.It should not be considered as guarantee for what may be best for your indivaidual pet.',
   'productFinder.startAgin': 'Start agin',
   'productFinder.summary': 'Summary',
   'productFinder.tip1': 'Find the right food for your pet',
-  'productFinder.tip2': 'This questionnaire will help you to choose the recommended food for your pet.',
+  'productFinder.tip2':
+    'This questionnaire will help you to choose the recommended food for your pet.',
   'productFinder.tip3': 'Your Pet is a ...',
   'productFinder.whyAreWeAskingThis': 'Why are we asking this?',
   productRating: 'Product rating',
   produtctNumber: 'Product number',
-  'profile.emailChoose': 'Yes, I would like to receive exclusive savings, product information, pet care tips & more from Royal Canin.',
+  'profile.emailChoose':
+    'Yes, I would like to receive exclusive savings, product information, pet care tips & more from Royal Canin.',
   promotion: 'Promotion',
   'promotion.firstOrderDiscount': 'First Order Discount',
   promotionalCode: 'Promotional Code',
@@ -748,18 +870,25 @@ const en_US = {
   puppy: 'Puppy (0-1 year old)',
   purchaseRating: 'Purchase experience  rating',
   qualitySafety: 'Quality Safety',
-  'qualitySafety.consistentDetail': 'All 1,800 food production operators worldwide follow the same strict process to ensure consistency and quality.Systematic quality checks are performed at every stage of production and all product batches are given a final test before shipping. In fact, every year we undertake half a million analyses worldwide. All our distributors worldwide are subject to warehouse and transportation audits to ensure they comply with our safety and logistical standards. These procedures guarantee the optimum quality, safety and nutritional value of our products',
+  'qualitySafety.consistentDetail':
+    'All 1,800 food production operators worldwide follow the same strict process to ensure consistency and quality.Systematic quality checks are performed at every stage of production and all product batches are given a final test before shipping. In fact, every year we undertake half a million analyses worldwide. All our distributors worldwide are subject to warehouse and transportation audits to ensure they comply with our safety and logistical standards. These procedures guarantee the optimum quality, safety and nutritional value of our products',
   'qualitySafety.consistentTitle': 'Consistent Quality',
-  'qualitySafety.description': 'Over the last five decades Royal Canin has put nutritional quality and product safety at the heart of our operations worldwide. This attention to the very smallest details helps us deliver the most precise and effective health nutrition for pets.',
-  'qualitySafety.foodDetail': 'Our gold standard production processes ensure Royal Canin delivers safe and high quality products worldwide. Our specialists use the same selection and purchasing processes worldwide for raw materials, ensuring all our products meet the same high nutritional standards. In-depth audits of local suppliers ensure precise specifications are met for all raw materials used in our facilities worldwide. Every shipment is checked before entering our production centers, and each facility is equipped with testing labs to analyze food safety indicators and nutritional quality.',
+  'qualitySafety.description':
+    'Over the last five decades Royal Canin has put nutritional quality and product safety at the heart of our operations worldwide. This attention to the very smallest details helps us deliver the most precise and effective health nutrition for pets.',
+  'qualitySafety.foodDetail':
+    'Our gold standard production processes ensure Royal Canin delivers safe and high quality products worldwide. Our specialists use the same selection and purchasing processes worldwide for raw materials, ensuring all our products meet the same high nutritional standards. In-depth audits of local suppliers ensure precise specifications are met for all raw materials used in our facilities worldwide. Every shipment is checked before entering our production centers, and each facility is equipped with testing labs to analyze food safety indicators and nutritional quality.',
   'qualitySafety.FoodQualityandSafety': 'Food Quality and Safety',
-  'qualitySafety.foodQualityDetail': 'At Royal Canin, we have always put food quality and product safety at the forefront of our operations. Our careful attention to detail allows us to provide the most precise and effective solutions to help each pet live their healthiest life possible.',
+  'qualitySafety.foodQualityDetail':
+    'At Royal Canin, we have always put food quality and product safety at the forefront of our operations. Our careful attention to detail allows us to provide the most precise and effective solutions to help each pet live their healthiest life possible.',
   'qualitySafety.foodTitle': 'Royal Canin Food and Safety Processes',
-  'qualitySafety.ingredientsDetail': "100% of incoming raw materials are analysed, and a sample of each is kept for two years. This ensures we are able to trace every raw material all the way back to its origin, for the full duration of the product's shelf life",
+  'qualitySafety.ingredientsDetail':
+    "100% of incoming raw materials are analysed, and a sample of each is kept for two years. This ensures we are able to trace every raw material all the way back to its origin, for the full duration of the product's shelf life",
   'qualitySafety.ingredientsTitle': 'Fully Traceable Ingredients',
-  'qualitySafety.materialsDetail': 'We choose ingredients based on their high nutritional content and the health benefits they deliver to pets. All efforts are made to source our raw materials from accredited suppliers close to our production centers, this supports the local economy, ensures freshness and reduces our carbon footprint.',
+  'qualitySafety.materialsDetail':
+    'We choose ingredients based on their high nutritional content and the health benefits they deliver to pets. All efforts are made to source our raw materials from accredited suppliers close to our production centers, this supports the local economy, ensures freshness and reduces our carbon footprint.',
   'qualitySafety.materialsTitle': 'Quality Raw Materials',
-  'qualitySafety.rigorousDetail': 'We use strict selection criteria to identify suppliers that can help us maintain our best-in-class quality and safety standards. As part of that we undergo in-depth audits to determine nutritional value, production quality, traceability and sustainability.',
+  'qualitySafety.rigorousDetail':
+    'We use strict selection criteria to identify suppliers that can help us maintain our best-in-class quality and safety standards. As part of that we undergo in-depth audits to determine nutritional value, production quality, traceability and sustainability.',
   'qualitySafety.rigorousTitle': 'Rigorous Supplier Selection',
   'qualitySafety.shopCat': 'Shop Cat Formulas',
   'qualitySafety.shopDog': 'Shop Dog Formulas',
@@ -777,87 +906,76 @@ const en_US = {
   recommandedForyou: 'Recommanded for you',
   'recommendation.buyNow': 'Buy now',
   'recommendation.firstBtnText': 'Sign up',
-  'recommendation.firstContent': 'Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.',
+  'recommendation.firstContent':
+    'Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.',
   'recommendation.firstContent1': ' Save 10% on every order.',
   'recommendation.firstContent2': 'Automatically delivered on your schedule.',
   'recommendation.firstContent3': 'Free shipping.',
   'recommendation.firstContent4': 'Change or cancel anytime.',
-  'recommendation.firstSubTitle': 'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
-  'recommendation.firstTitle': 'Discover your personally-selected nutrition recommendation below.',
+  'recommendation.firstSubTitle':
+    'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
+  'recommendation.firstTitle':
+    'Discover your personally-selected nutrition recommendation below.',
   'recommendation.firstTitle': 'Never run out of your pet’s food!',
-  'recommendation.fiveContent': 'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
-  'recommendation.fourContent': 'Your pet means the world to you, and their health and happiness means the world to us !',
+  'recommendation.fiveContent':
+    'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
+  'recommendation.fourContent':
+    'Your pet means the world to you, and their health and happiness means the world to us !',
   'recommendation.fourTitle': 'Why Royal Canin?',
-  'recommendation.productDescription': 'Royal Canin’s feeding guidelines can also be found on the product packaging.',
+  'recommendation.productDescription':
+    'Royal Canin’s feeding guidelines can also be found on the product packaging.',
   'recommendation.recommendationPackage': 'Recommendation Package',
-  'recommendation.secContent': 'At Royal Canin, we believe that nutrition plays a key role in supporting the health and well-being of cats and dogs. This is why we have designed ROYAL CANIN® Veterinary diets around proven nutritional science in order to address specific pet conditions. Follow your veterinarian‘s nutritional recommendation here below.',
+  'recommendation.secContent':
+    'At Royal Canin, we believe that nutrition plays a key role in supporting the health and well-being of cats and dogs. This is why we have designed ROYAL CANIN® Veterinary diets around proven nutritional science in order to address specific pet conditions. Follow your veterinarian‘s nutritional recommendation here below.',
   'recommendation.secondBtnText': 'Start now',
   'recommendation.secondTitle': 'Ready to Get Started?',
   'recommendation.secTitle': 'Veterinary health nutrition',
-  'recommendation.thirdContent': 'We‘re pet lovers and experts in cat and dog nutrition and we’re ready to to help you with any questions you might have.',
+  'recommendation.thirdContent':
+    'We‘re pet lovers and experts in cat and dog nutrition and we’re ready to to help you with any questions you might have.',
   'recommendation.thirdTitle': 'Our pet experts are here to help you',
   'recommendation.viewDetail': 'View Detail',
   'recommendation.viewInCart': 'View In Cart',
   'recommendation.viewInCart': 'View in cart',
   'recommendation.welcomeBtn': 'Buy now',
-  'recommendation.welcomeSubText': 'These recommendations were made based on your pet’s unique needs and have been automatically added to your cart. ',
+  'recommendation.welcomeSubText':
+    'These recommendations were made based on your pet’s unique needs and have been automatically added to your cart. ',
   'recommendation.welcomeText1': 'Welcome',
   'recommendation.welcomeText2': 'To Your Customized Product Recommendations',
   registerAname: 'A number',
-  registerAname: 'A number',
   registerCloud: 'Commerce Cloud Storefront reference architecture',
-  registerCloud: 'Commerce Cloud Storefront reference architecture',
-  registerCompleteForm: 'In order to create your account, please complete the form below.',
-  registerCompleteForm: 'In order to create your account, please complete the form below.',
-  registerContinuing: 'By continuing you agree to our MARS privacy policy. will collect and use your first name, last name and email address to provide you with a personalized experience. ',
-  registerContinuing: 'By continuing you agree to our MARS privacy policy. We will collect and use your name and email address to provide you with a personalized experience.',
+  registerCompleteForm:
+    'In order to create your account, please complete the form below.',
+  registerContinuing:
+    'By continuing you agree to our MARS privacy policy. We will collect and use your name and email address to provide you with a personalized experience.',
   registerCreateYourAccout: 'Create your Royal Canin account',
-  registerCreateYourAccout: 'Create Account',
-  registerDescription: '<p> Your personal data is collected and processed in accordance with the Royal Canin privacy statement, available <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> here </a> </p> ',
+  registerDescription:
+    '<p> Your personal data is collected and processed in accordance with the Royal Canin privacy statement, available <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> here </a> </p> ',
   registerEmail: 'Email address',
-  registerEmail: 'Email address',
-  registerEmailFormate: 'The email address does not match the specified format.',
-  registerEmailFormate: 'The email address does not match the specified format.',
-  registerErrorMessage: 'An error occurred while creating your account. Please try again later or use a different email address. ',
-  registerErrorMessage: 'An error occurred while creating your account. Please try again later or use a different email address. ',
-  registerFailed: 'Register failed',
-  registerFeckbook: 'Connect with Facebook',
+  registerEmailFormate:
+    'The email address does not match the specified format.',
+  registerErrorMessage:
+    'An error occurred while creating your account. Please try again later or use a different email address. ',
   registerFeckbook: 'Connect with Facebook',
   registerFillIn: 'Please fill in this field',
-  registerFillIn: 'Please fill in this field',
-  registerFooter1: 'You must be 16 years or older to submit a form. You can contact us by writing to Royal Canin France, Consumer Service - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES or by email to',
-  registerFooter1: 'You must be 13 years of age or older to submit a form. You can contact us at 1-844-673-3772 or click',
-  registerGoogle: 'Connect with Google',
+  registerFooter1:
+    'You must be 13 years of age or older to submit a form. You can contact us at 1-844-673-3772 or click',
   registerGoogle: 'Connect with Google',
   registerHaveAccount: 'Already have an account?',
-  registerHaveAccount: 'Already have an account?',
-  registerLength: '8 characters',
   registerLength: '8 characters',
   registerLoginIn: 'Log in',
-  registerLoginIn: 'Log in',
-  registerLowercase: 'One lowercase letter',
   registerLowercase: 'One lowercase letter',
   registerMandatory: 'Mandatory field',
-  registerMandatory: 'Mandatory field',
-  registerName: 'Name',
   registerName: 'Name',
   registerOr: 'OR',
-  registerOr: 'OR',
-  registerPassword: 'Password',
   registerPassword: 'Password',
   registerPasswordFormat: 'The password is not valid.',
-  registerPasswordFormat: 'The password is not valid.',
-  registerRules: 'Password must contain at least',
   registerRules: 'Password must contain at least',
   registerSpecial: 'A special character',
-  registerSpecial: 'A special character',
-  registerTogglePassword: 'Toggle password visibility',
   registerTogglePassword: 'Toggle password visibility',
   registerUppercase: 'One uppercase letter',
-  registerUppercase: 'One uppercase letter',
   registerWelcome: 'Welcome to',
-  registerWelcome: 'Welcome to',
-  remember48Hours: 'Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later.',
+  remember48Hours:
+    'Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later.',
   rememberMe: 'Remember Me',
   removeAllFilters: 'Remove all filters',
   replyComments: 'Reply comments',
@@ -868,9 +986,11 @@ const en_US = {
   'required.continue': 'continue',
   'required.fields': 'required frields',
   'required.logoTitle': 'Welcome to ROYALCANIN® online store',
-  requiredConsentCheckedTip: 'Please confirm the mandatory fields by ticking the box.',
+  requiredConsentCheckedTip:
+    'Please confirm the mandatory fields by ticking the box.',
   requiredFields: '* Required fields',
-  resetPasswordEmail: 'Reset password email has been sent to your mailbox, please note that check!',
+  resetPasswordEmail:
+    'Reset password email has been sent to your mailbox, please note that check!',
   results: '{val} Results',
   reviewisRequired: 'Review is required.',
   reviews: 'Reviews',
@@ -951,8 +1071,10 @@ const en_US = {
   'subscription.previousOrders': 'Previous Orders',
   'subscription.product': 'Product',
   'subscription.promotionTip': '{val} on your first order of the subscription',
-  'subscription.promotionTip2': 'With automatic shipping,you’ll become a member of the Royal Canin Club and get 30% off your first order, 5% off every autoship order and other extra perks.',
-  'subscription.promotionTip3': "Simply select autoship at checkout for easy regular deliveries. With automatic shipping, you'll become a member and get 10% off your first order and 5% off every autoship order.",
+  'subscription.promotionTip2':
+    'With automatic shipping,you’ll become a member of the Royal Canin Club and get 30% off your first order, 5% off every autoship order and other extra perks.',
+  'subscription.promotionTip3':
+    "Simply select autoship at checkout for easy regular deliveries. With automatic shipping, you'll become a member and get 10% off your first order and 5% off every autoship order.",
   'subscription.receiveDate': 'Next received date',
   'subscription.saveDiscount': 'Subscription Save Discount',
   'subscription.shipping': 'Shipping',
@@ -965,29 +1087,42 @@ const en_US = {
   'subscription.total': 'Total',
   'subscription.totalInclu': 'Total',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
-  'subscriptionLanding.content1': 'Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the Royal Canin Club at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with new pet gifts, exclusive offers and more.',
-  'subscriptionLanding.description1': 'Specialty Welcome Box - with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.',
-  'subscriptionLanding.description2': 'Free Shipping - just set your preferred schedule and you’ll never have to worry.',
-  'subscriptionLanding.description3': 'Personalized Recommendations - your breeder can send you the products they recommend for your pet as they grow.',
-  'subscriptionLanding.description4': '5% Off Every Autoship Order - plus, get 10% off your first order.',
+  'subscriptionLanding.content1':
+    'Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the Royal Canin Club at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with new pet gifts, exclusive offers and more.',
+  'subscriptionLanding.description1':
+    'Specialty Welcome Box - with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.',
+  'subscriptionLanding.description2':
+    'Free Shipping - just set your preferred schedule and you’ll never have to worry.',
+  'subscriptionLanding.description3':
+    'Personalized Recommendations - your breeder can send you the products they recommend for your pet as they grow.',
+  'subscriptionLanding.description4':
+    '5% Off Every Autoship Order - plus, get 10% off your first order.',
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
-  'subscriptionLanding.title1': 'Your Pet Needs You. You Need Total Pet Support.',
-  supportCardTypeMismatch: 'Sorry, the currently supported credit card types are: VISA, American Express, MasterCard',
+  'subscriptionLanding.title1':
+    'Your Pet Needs You. You Need Total Pet Support.',
+  supportCardTypeMismatch:
+    'Sorry, the currently supported credit card types are: VISA, American Express, MasterCard',
   systemError: 'system error',
   tailorednutrition: 'Health and Nutrition',
-  'tailorednutrition.description': 'Our attention to the unique needs of cats and dogs has taught us that the smallest nutritional difference can make a huge difference to a pet’s health. This obsession with pet health drives us to deliver precise, effective nutrition, and help them become their magnificent best.',
-  'tailorednutrition.formulasDetail': 'Take German Shepherds, for example: we all love them for their courage, loyalty, and intelligence. But for all their strength of body and mind, they have notoriously sensitive stomachs, so we craft their formula with highly digestible proteins and specific fibres to help their insides be as strong as their outsides.',
+  'tailorednutrition.description':
+    'Our attention to the unique needs of cats and dogs has taught us that the smallest nutritional difference can make a huge difference to a pet’s health. This obsession with pet health drives us to deliver precise, effective nutrition, and help them become their magnificent best.',
+  'tailorednutrition.formulasDetail':
+    'Take German Shepherds, for example: we all love them for their courage, loyalty, and intelligence. But for all their strength of body and mind, they have notoriously sensitive stomachs, so we craft their formula with highly digestible proteins and specific fibres to help their insides be as strong as their outsides.',
   'tailorednutrition.formulasTitle': 'Crafted Formulas',
-  'tailorednutrition.natureDetail': 'A Jack Russell in perfect health can jump up to six times their own height. Indoor cats and outdoor cats have very different energy needs. Nourishing their incredible natural potential with specially selected proteins and antioxidants addresses their unique needs.',
+  'tailorednutrition.natureDetail':
+    'A Jack Russell in perfect health can jump up to six times their own height. Indoor cats and outdoor cats have very different energy needs. Nourishing their incredible natural potential with specially selected proteins and antioxidants addresses their unique needs.',
   'tailorednutrition.natureTitle': 'Nourishing Their Nature',
-  'tailorednutrition.nutritionDetail': 'Dogs and cats have unique needs, and we focus on delivering the best possible health nutrition for each of those needs. Each recipe is formulated to deliver the exact level of nutrients that are essential to your pet’s individual health needs.',
+  'tailorednutrition.nutritionDetail':
+    'Dogs and cats have unique needs, and we focus on delivering the best possible health nutrition for each of those needs. Each recipe is formulated to deliver the exact level of nutrients that are essential to your pet’s individual health needs.',
   'tailorednutrition.nutritionTitle': 'What is Tailored Nutrition?',
   'tailorednutrition.result': 'The Result',
-  'tailorednutrition.resultDetail': 'The result is nutrition that is designed to address specific health needs with pin-point accuracy. Your pet receives the complete and balanced range of nutrients and amino acids he needs to build strong muscles, maintain a healthy body and support a strong immune system. Giving him all the energy he needs to thrive and live in the very best health possible.',
+  'tailorednutrition.resultDetail':
+    'The result is nutrition that is designed to address specific health needs with pin-point accuracy. Your pet receives the complete and balanced range of nutrients and amino acids he needs to build strong muscles, maintain a healthy body and support a strong immune system. Giving him all the energy he needs to thrive and live in the very best health possible.',
   'tailorednutrition.shopCat': 'Shop Cat Formulas',
   'tailorednutrition.shopDog': 'Shop Dog Formulas',
   'tailorednutrition.shopTile': 'Shop Tailored Nutrition For Your Pet',
-  'tailorednutrition.uniqueDetail': 'Many pets have uniquely shaped jaws and behaviour that create challenges to how they eat. That’s why we tailor not only our recipes at a nutritional level, but also design the shape and structure of each kibble to better meet the physical feeding needs of every pet.',
+  'tailorednutrition.uniqueDetail':
+    'Many pets have uniquely shaped jaws and behaviour that create challenges to how they eat. That’s why we tailor not only our recipes at a nutritional level, but also design the shape and structure of each kibble to better meet the physical feeding needs of every pet.',
   'tailorednutrition.uniqueTitle': 'Unique Formulas For Unique Needs',
   tailorednutrition2: 'Tailored Nutrition',
   taxLogo: '',
@@ -1034,12 +1169,12 @@ const en_US = {
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
   yourPasswordNotVerified: 'Your password has not been verified',
-  "cyber.form.cardHolderName": "Name on Card",
-  "cyber.form.cardNumber": "Card number",
-  "cyber.form.EXPMonth": "Expiration Month",
-  "cyber.form.EXPYear": "Expiration Year",
-  "cyber.form.secureCode": "Security Code",
-  "cyber.form.saveFor": "Save this card as my preferred payment method",
+  'cyber.form.cardHolderName': 'Name on Card',
+  'cyber.form.cardNumber': 'Card number',
+  'cyber.form.EXPMonth': 'Expiration Month',
+  'cyber.form.EXPYear': 'Expiration Year',
+  'cyber.form.secureCode': 'Security Code',
+  'cyber.form.saveFor': 'Save this card as my preferred payment method',
   'cyber.form.theBox': 'This box is required for subscription',
   'cyber.form.firstName': 'First Name',
   'cyber.form.lastName': 'LastName Name',
@@ -1049,6 +1184,6 @@ const en_US = {
   'cyber.form.state': 'State',
   'cyber.form.city': 'City',
   'cyber.form.zipCode': 'ZIP Code',
-  'cyber.form.email': 'Email',
-}
+  'cyber.form.email': 'Email'
+};
 export default en_US;

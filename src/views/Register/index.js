@@ -363,7 +363,11 @@ class Register extends Component {
             <div className="rc-column rc-padding-top--lg--mobile">
               <div className="rc-margin-bottom--sm text-center">
                 <a
-                  href={isHub ? process.env.REACT_APP_HUBPAGE_PREFIX : process.env.REACT_APP_ACCESS_PATH}
+                  href={
+                    isHub
+                      ? process.env.REACT_APP_HUBPAGE_PREFIX
+                      : process.env.REACT_APP_ACCESS_PATH
+                  }
                   className="logo-home d-inline-block border-bottom border-transparent"
                   title="Commerce Cloud Storefront Reference Architecture Accueil"
                 >
@@ -439,7 +443,9 @@ class Register extends Component {
                         <FormattedMessage id="registerLoginIn" />
                       </a>
                     </p>
-                    <SocialRegister />
+                    {process.env.REACT_APP_LANG !== 'ru' ? (
+                      <SocialRegister />
+                    ) : null}
                     <div className="rc-column">
                       <p className="rc-margin-bottom--none text-center rc-padding--xs">
                         <FormattedMessage id="registerContinuing" />
@@ -755,11 +761,7 @@ class Register extends Component {
                           <p>
                             <FormattedMessage id="registerFooter1" />
                             &nbsp;
-                            <a
-                              href="/help"
-                            >
-                              here
-                            </a>
+                            <a href="/help">here</a>
                           </p>
                         </div>
                       </form>
