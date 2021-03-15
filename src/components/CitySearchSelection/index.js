@@ -7,24 +7,31 @@ import { queryCityByName } from '@/api';
 class CitySearchSelection extends React.Component {
   render() {
     return (
-      <SearchSelection
-        queryList={async ({ inputVal, pageNum }) => {
-          let res = await queryCityByName({
-            cityName: inputVal,
-            pages: pageNum
-          });
-          return ((res.context && res.context.systemCityVO) || []).map((ele) =>
-            Object.assign(ele, { name: ele.cityName })
-          );
-        }}
-        selectedItemChange={(data) => this.props.onChange(data)}
-        defaultValue={this.props.defaultValue}
-        key={this.props.defaultValue}
-        freeText={this.props.freeText}
-        placeholder={this.props.placeholder&&this.props.placeholder==null?"":this.props.intl.messages.inputSearchText}
-        customStyle={true}
-        isBottomPaging={true}
-      />
+      <>
+        <SearchSelection
+          queryList={async ({ inputVal, pageNum }) => {
+            let res = await queryCityByName({
+              cityName: inputVal,
+              pages: pageNum
+            });
+            return (
+              (res.context && res.context.systemCityVO) ||
+              []
+            ).map((ele) => Object.assign(ele, { name: ele.cityName }));
+          }}
+          selectedItemChange={(data) => this.props.onChange(data)}
+          defaultValue={this.props.defaultValue}
+          key={this.props.defaultValue}
+          freeText={this.props.freeText}
+          placeholder={
+            this.props.placeholder
+              ? this.props.intl.messages.inputSearchText
+              : ''
+          }
+          customStyle={true}
+          isBottomPaging={true}
+        />
+      </>
     );
   }
 }

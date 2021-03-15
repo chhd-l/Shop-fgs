@@ -22,8 +22,9 @@ function CardItem(props) {
   const { data } = props;
   return (
     <div
-      className={`rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure h-100 address-item ${data.selected ? 'selected' : ''
-        }`}
+      className={`rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure h-100 address-item ${
+        data.selected ? 'selected' : ''
+      }`}
       onClick={props.handleClick}
     >
       <div
@@ -51,7 +52,7 @@ function CardItem(props) {
         <p className="mb-0">{data.city}</p>
         {process.env.REACT_APP_LANG === 'en' ? (
           <p className="mb-0">{data.province}</p>
-        ) : (null)}
+        ) : null}
         <p className="mb-0">{data.address1}</p>
       </div>
     </div>
@@ -211,11 +212,15 @@ class AddressList extends React.Component {
       // 不校验地址，进入下一步
       this.showNextPanel();
     }
-  }
+  };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const { deliveryAddress, selectValidationOption, validationAddress } = this.state;
-
+    const {
+      deliveryAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
+    let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.address2 = validationAddress.address2;
@@ -224,37 +229,41 @@ class AddressList extends React.Component {
       if (process.env.REACT_APP_LANG === 'en') {
         deliveryAddress.provinceName = validationAddress.provinceCode;
       }
+    } else {
+      deliveryAddress = JSON.parse(JSON.stringify(oldDeliveryAddress));
     }
     this.showNextPanel();
   }
   // 新增或者编辑地址
   addOrEditAddress(idx = -1) {
     // 地址验证
-    this.setState({
-      validationLoading: true,
-      itemIdx: idx
-    }, () => {
-      // 新增地址 idx= -1
-      if (idx < 0) {
-        this.showNextPanel()
-      } else {
-        // 地址验证
-        this.setState({
-          validationLoading: true
-        });
-        setTimeout(()=>{
+    this.setState(
+      {
+        validationLoading: true,
+        itemIdx: idx
+      },
+      () => {
+        // 新增地址 idx= -1
+        if (idx < 0) {
+          this.showNextPanel();
+        } else {
+          // 地址验证
           this.setState({
-            validationModalVisible: true
+            validationLoading: true
           });
-        },800);
+          setTimeout(() => {
+            this.setState({
+              validationModalVisible: true
+            });
+          }, 800);
+        }
       }
-
-    });
-    setTimeout(()=>{
+    );
+    setTimeout(() => {
       this.setState({
         validationModalVisible: true
       });
-    },800);
+    }, 800);
   }
   // 下一步
   showNextPanel() {
@@ -282,7 +291,10 @@ class AddressList extends React.Component {
     if (itemIdx > -1) {
       const tmp = addressList[itemIdx];
 
-      console.log('------------------ ★ SubscriptionDetail showNextPanel: ', tmp);
+      console.log(
+        '------------------ ★ SubscriptionDetail showNextPanel: ',
+        tmp
+      );
 
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
@@ -376,7 +388,10 @@ class AddressList extends React.Component {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       await validData(ADDRESS_RULE, deliveryAddress);
-      console.log('----------------------- ★ AddressComp handleSave deliveryAddress: ',deliveryAddress);
+      console.log(
+        '----------------------- ★ AddressComp handleSave deliveryAddress: ',
+        deliveryAddress
+      );
       let params = {
         address1: deliveryAddress.address1,
         address2: deliveryAddress.address2,
@@ -387,10 +402,12 @@ class AddressList extends React.Component {
         cityId: deliveryAddress.cityId,
         city: deliveryAddress.city,
         cityName: deliveryAddress.cityName,
-        consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+        consigneeName:
+          deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
         customerId: originData ? originData.customerId : '',
-        deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+        deliveryAddress:
+          deliveryAddress.address1 + ' ' + deliveryAddress.address2,
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
         postCode: deliveryAddress.postCode,
@@ -399,7 +416,10 @@ class AddressList extends React.Component {
         type: this.props.type.toUpperCase()
       };
 
-      console.log('----------------------- ★ AddressComp handleSave params: ',params);
+      console.log(
+        '----------------------- ★ AddressComp handleSave params: ',
+        params
+      );
 
       if (process.env.REACT_APP_LANG === 'en') {
         params.province = deliveryAddress.provinceName;
@@ -533,7 +553,7 @@ class AddressList extends React.Component {
     try {
       let res = await getAddressList();
       let addressList = res.context;
-      
+
       // console.log('----------------------- ★ AddressComp addressList: ',addressList);
 
       let cityRes = await queryCityNameById({
@@ -605,8 +625,9 @@ class AddressList extends React.Component {
           </h5>
         </div>
         <div
-          className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.saveErrorMsg ? '' : 'hidden'
-            }`}
+          className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+            this.state.saveErrorMsg ? '' : 'hidden'
+          }`}
         >
           <aside
             className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -627,8 +648,9 @@ class AddressList extends React.Component {
           </aside>
         </div>
         <aside
-          className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'
-            }`}
+          className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+            this.state.successTipVisible ? '' : 'hidden'
+          }`}
           role="alert"
         >
           <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -636,8 +658,9 @@ class AddressList extends React.Component {
           </p>
         </aside>
         <div
-          className={`rc-margin-bottom--sm ${!addOrEdit ? '' : 'checkout--padding'
-            } ${loading ? 'pt-3 pb-3' : ''}`}
+          className={`rc-margin-bottom--sm ${
+            !addOrEdit ? '' : 'checkout--padding'
+          } ${loading ? 'pt-3 pb-3' : ''}`}
         >
           {loading ? (
             <Skeleton color="#f5f5f5" count={2} width="100%" />
@@ -653,8 +676,9 @@ class AddressList extends React.Component {
                       style={{ lineHeight: '40px' }}
                     >
                       <div
-                        className={`rc-input rc-input--inline ${this.props.type === 'delivery' ? '' : 'hidden'
-                          }`}
+                        className={`rc-input rc-input--inline ${
+                          this.props.type === 'delivery' ? '' : 'hidden'
+                        }`}
                         onClick={() => {
                           isBillSame = !isBillSame;
                           console.log(isBillSame);
@@ -732,7 +756,6 @@ class AddressList extends React.Component {
                                     >
                                       <FormattedMessage id="edit" />
                                     </span>
-
                                   </span>
                                 </>
                               }
@@ -749,7 +772,6 @@ class AddressList extends React.Component {
                         </div>
                       </div>
                     </div>
-
                   </>
                 ) : (
                   <FormattedMessage id="order.noDataTip" />
@@ -794,8 +816,9 @@ class AddressList extends React.Component {
 
               {/* add or edit address form */}
               <fieldset
-                className={`shipping-address-block rc-fieldset position-relative ${addOrEdit || loading ? '' : 'hidden'
-                  }`}
+                className={`shipping-address-block rc-fieldset position-relative ${
+                  addOrEdit || loading ? '' : 'hidden'
+                }`}
               >
                 <AddressForm
                   data={deliveryAddress}
@@ -890,22 +913,23 @@ class AddressList extends React.Component {
         </div>
 
         {validationLoading && <Loading positionFixed="true" />}
-        {validationModalVisible && <ValidationAddressModal
-          address={deliveryAddress}
-          updateValidationData={(res) => this.getValidationData(res)}
-          selectValidationOption={selectValidationOption}
-          handleChooseValidationAddress={(e) =>
-            this.chooseValidationAddress(e)
-          }
-          hanldeClickConfirm={() => this.confirmValidationAddress()}
-          close={() => {
-            this.setState({
-              validationModalVisible: false,
-              validationLoading: false
-            });
-          }}
-        />}
-
+        {validationModalVisible && (
+          <ValidationAddressModal
+            address={deliveryAddress}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            close={() => {
+              this.setState({
+                validationModalVisible: false,
+                validationLoading: false
+              });
+            }}
+          />
+        )}
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
 import CATSPng from './images/CATS2@2x.jpg';
 import catAndPhone from './images/catAndPhone.png';
@@ -11,12 +12,14 @@ import expertisePng from './images/expertise.png';
 import qualityPng from './images/quality.png';
 import partnershipPng from './images/partnership.png';
 import { getList } from '@/api/list';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, getParaByName } from '@/utils/utils';
 import './index.less';
 import Slider from 'react-slick';
 // import Rate from '@/components/Rate';
 import Help from '../../SmartFeederSubscription/modules/Help';
 
+@inject('clinicStore')
+@observer
 class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +48,10 @@ class ShelterPrescription extends React.Component {
     }
   };
   componentDidMount() {
+    let clinicId = getParaByName(location.search,'shelterID')
+    this.props.clinicStore.setLinkClinicId(clinicId);
+    this.props.clinicStore.setLinkClinicName('');
+    this.props.clinicStore.setAuditAuthority(false);
     this.getDefaultList();
   }
   async getDefaultList() {
