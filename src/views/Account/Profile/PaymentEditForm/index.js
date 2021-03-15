@@ -51,22 +51,22 @@ class PaymentEditForm extends React.Component {
       paymentForm: {
         cardholderName: 'Didier Valansot',
         cardNumber: '4111111111111111',
-        expirationMonth: '',
-        expirationYear: '',
-        securityCode: '',//000
-        firstName: "Didier",
-        lastName: "Valansot",
-        address1: "add1",
-        address2: "add2",//非必填
-        country: "",
-        state: "",//Alabama
-        city: "New York",
-        zipCode: "10036",
-        email: "didier.valansot@publicissapient.com",
+        expirationMonth: 2,
+        expirationYear: '2022',
+        securityCode: '000', //000
+        firstName: 'Didier',
+        lastName: 'Valansot',
+        address1: 'add1',
+        address2: 'add2', //非必填
+        country: '',
+        state: '', //Alabama
+        city: '',
+        zipCode: '10036',
+        email: 'didier.valansot@publicissapient.com',
         isSaveCard: true
       },
       monthList: [
-        { name: 'month',value: ''},
+        { name: 'month', value: '' },
         { name: '01', value: 1 },
         { name: '02', value: 2 },
         { name: '03', value: 3 },
@@ -78,10 +78,10 @@ class PaymentEditForm extends React.Component {
         { name: '09', value: 9 },
         { name: '10', value: 10 },
         { name: '11', value: 11 },
-        { name: '12', value: 12 },
+        { name: '12', value: 12 }
       ],
       yearList: [
-        { name: 'year',value: ''},
+        { name: 'year', value: '' },
         { name: '2021', value: 2021 },
         { name: '2022', value: 2022 },
         { name: '2023', value: 2023 },
@@ -91,7 +91,7 @@ class PaymentEditForm extends React.Component {
         { name: '2027', value: 2027 },
         { name: '2028', value: 2028 },
         { name: '2029', value: 2029 },
-        { name: '2030', value: 2030 },
+        { name: '2030', value: 2030 }
       ],
       countryList: [],
       stateList: [],
@@ -100,11 +100,11 @@ class PaymentEditForm extends React.Component {
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress',
 
-      ValidationAddressData: {},//用于validationAddress校验的参数组装
+      ValidationAddressData: {}, //用于validationAddress校验的参数组装
 
-      validationAddress: "",
+      validationAddress: '',
 
-      errMsgObj:{}
+      errMsgObj: {}
     };
   }
   get userInfo() {
@@ -129,12 +129,12 @@ class PaymentEditForm extends React.Component {
       });
     });
   }
-  toTop = ()=>{
+  toTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  }
+  };
   cardInfoInputChange = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -191,20 +191,20 @@ class PaymentEditForm extends React.Component {
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.value;
     try {
-        await validData(targetRule, { [target.name]: value });
-        this.setState({
-            errMsgObj: Object.assign({}, errMsgObj, {
-                [target.name]: ''
-            })
-        });
+      await validData(targetRule, { [target.name]: value });
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: ''
+        })
+      });
     } catch (err) {
-        this.setState({
-            errMsgObj: Object.assign({}, errMsgObj, {
-                [target.name]: err.message
-            })
-        });
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: err.message
+        })
+      });
     }
-};
+  };
   // 实时获取卡类型
   cardNumberChange = async (e) => {
     const target = e.target;
@@ -351,13 +351,13 @@ class PaymentEditForm extends React.Component {
   };
   //select事件
   handleSelectedItemChange = (name, item) => {
-    let errMsgObj = this.state.errMsgObj
+    let errMsgObj = this.state.errMsgObj;
     const { paymentForm } = this.state;
     paymentForm[name] = item.value;
 
-    let obj = Object.assign({},errMsgObj,{[name]:''}) //选择了值，幼稚了，就清空没填提示
+    let obj = Object.assign({}, errMsgObj, { [name]: '' }); //选择了值，幼稚了，就清空没填提示
 
-    this.setState({ paymentForm,errMsgObj:obj }, () => {
+    this.setState({ paymentForm, errMsgObj: obj }, () => {
       console.log(paymentForm, '--------handleSelectedItemChange');
     });
   };
@@ -369,7 +369,7 @@ class PaymentEditForm extends React.Component {
     this.setState({ paymentForm }, () => {
       console.log(paymentForm, '--------handleSelectedCityChange');
     });
-  }
+  };
   //checkbox事件
   handelCheckboxChange = (name) => {
     const { paymentForm } = this.state;
@@ -390,7 +390,7 @@ class PaymentEditForm extends React.Component {
       tmp = this.state[`${key}List`].map((c) => {
         return {
           value: c.stateName,
-          name: c.stateName,
+          name: c.stateName
         };
       });
       tmp.unshift({ value: '', name: 'State' });
@@ -421,83 +421,90 @@ class PaymentEditForm extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   async confirmValidationAddress() {
-    const { paymentForm, selectValidationOption, validationAddress } = this.state;
-    //console.log({ paymentForm, selectValidationOption, validationAddress })
-    
-    let params =  Object.assign({}, paymentForm, {
-      pspName: "CYBER",	
-      cardType: "001",
-    })
-    console.log(params)
-    console.log(this.userInfo)
-    // debugger
-    usPaymentInfo(params).then((res)=>{
-      console.log(res)
-    })
+    let { paymentForm, selectValidationOption, validationAddress } = this.state;
+    let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
+    console.log({ paymentForm, selectValidationOption, validationAddress });
 
-    // if (selectValidationOption == 'suggestedAddress') {
-    //   form.address1 = validationAddress.address1;
-    //   form.address2 = validationAddress.address2;
-    //   form.city = validationAddress.city;
-    //   form.cityName = validationAddress.city;
-    //   if (process.env.REACT_APP_LANG === 'en') {
-    //     form.provinceName = validationAddress.provinceCode;
-    //   }
-    // }
+    if (selectValidationOption == 'suggestedAddress') {
+      paymentForm.address1 = validationAddress.address1;
+      paymentForm.address2 = validationAddress.address2;
+      paymentForm.city = validationAddress.city;
+      paymentForm.country = validationAddress.countryCode;
+      paymentForm.zipCode = validationAddress.postalCode;
+      if (process.env.REACT_APP_Adyen_country === 'US') {
+        paymentForm.state = validationAddress.provinceCode;
+      }
+    } else {
+      paymentForm = JSON.parse(JSON.stringify(oldPaymentForm));
+    }
+
+    let params = Object.assign({}, paymentForm, {
+      pspName: 'CYBER',
+      cardType: '001'
+    });
+
+    try {
+      const res = await usPaymentInfo(params);
+      console.log(res);
+    } catch (err) {
+      console.log('usPaymentInfo:' + err.message);
+    }
+
     this.showNextPanel();
   }
   //CYBER支付save判断必填项是否已经全部填完
-  cyberSaveIsAllRequiredFinished=()=>{
-    let errMsgObj = {}
-    const paymentForm = this.state.paymentForm
-    ADDRESS_RULE.forEach(item=>{
-      if(Object.keys(paymentForm).indexOf(item.key)&&(!paymentForm[item.key])) {
-        errMsgObj[item.key] = true
+  cyberSaveIsAllRequiredFinished = () => {
+    let errMsgObj = {};
+    const paymentForm = this.state.paymentForm;
+    ADDRESS_RULE.forEach((item) => {
+      if (
+        Object.keys(paymentForm).indexOf(item.key) &&
+        !paymentForm[item.key]
+      ) {
+        errMsgObj[item.key] = true;
       }
-    })
+    });
 
-    if(Object.keys(errMsgObj).length>0){
-      this.setState({errMsgObj},()=>{
-        console.log(this.state.errMsgObj)
-        //debugger
-        this.toTop()
-      })
-    }else{
-      this.handleCyberSave()
+    if (Object.keys(errMsgObj).length > 0) {
+      this.setState({ errMsgObj }, () => {
+        console.log(this.state.errMsgObj);
+        this.toTop();
+      });
+    } else {
+      this.handleCyberSave();
     }
-    
-  }
+  };
   //CYBER支付保存event
   handleCyberSave = () => {
-    const { paymentForm } = this.state
+    const { paymentForm } = this.state;
 
     // 地址验证
     this.setState({
       validationLoading: true
     });
 
-    let ValidationAddressData = {}
-    ValidationAddressData['cityName'] = paymentForm.city
-    ValidationAddressData['country'] = paymentForm.countryId
-    ValidationAddressData['address1'] = paymentForm.address1
-    ValidationAddressData['postCode'] = paymentForm.zipCode
-    ValidationAddressData['provinceName'] = paymentForm.state
+    let ValidationAddressData = {};
+    ValidationAddressData['cityName'] = paymentForm.city;
+    ValidationAddressData['country'] = paymentForm.countryId;
+    ValidationAddressData['address1'] = paymentForm.address1;
+    ValidationAddressData['postCode'] = paymentForm.zipCode;
+    ValidationAddressData['provinceName'] = paymentForm.state;
 
-    this.setState({ ValidationAddressData })
+    this.setState({ ValidationAddressData });
 
     setTimeout(() => {
       this.setState({
         validationModalVisible: true
       });
     }, 800);
-  }
+  };
   // 确认校验地址后下一步操作
   showNextPanel = () => {
     this.setState({
       validationModalVisible: false
     });
-    // do somehting
-  }
+    // 绑卡
+  };
 
   render() {
     const {
@@ -529,8 +536,9 @@ class PaymentEditForm extends React.Component {
           <>
             <div className="content-asset">
               <div
-                className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
-                  }`}
+                className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                  errorMsg ? '' : 'hidden'
+                }`}
               >
                 <aside
                   className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -551,8 +559,9 @@ class PaymentEditForm extends React.Component {
                 </aside>
               </div>
               <aside
-                className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successMsg ? '' : 'hidden'
-                  }`}
+                className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                  successMsg ? '' : 'hidden'
+                }`}
                 role="alert"
               >
                 <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -578,8 +587,9 @@ class PaymentEditForm extends React.Component {
               <div className="rc-margin-bottom--xs">
                 <div className="content-asset">
                   <div
-                    className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'
-                      }`}
+                    className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                      errorMsg ? '' : 'hidden'
+                    }`}
                   >
                     <aside
                       className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -600,8 +610,9 @@ class PaymentEditForm extends React.Component {
                     </aside>
                   </div>
                   <aside
-                    className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${successMsg ? '' : 'hidden'
-                      }`}
+                    className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                      successMsg ? '' : 'hidden'
+                    }`}
                     role="alert"
                   >
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
@@ -626,7 +637,7 @@ class PaymentEditForm extends React.Component {
                                 alt="Card"
                                 src={
                                   CREDIT_CARD_IMG_ENUM[
-                                  currentVendor && currentVendor.toUpperCase()
+                                    currentVendor && currentVendor.toUpperCase()
                                   ] ||
                                   'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                                 }
@@ -870,8 +881,9 @@ class PaymentEditForm extends React.Component {
                     </span>
                     &nbsp;
                     <button
-                      className={`rc-btn rc-btn--one submitBtn editAddress ${saveLoading ? 'ui-btn-loading' : ''
-                        }`}
+                      className={`rc-btn rc-btn--one submitBtn editAddress ${
+                        saveLoading ? 'ui-btn-loading' : ''
+                      }`}
                       data-sav="false"
                       name="contactInformation"
                       type="submit"
@@ -885,19 +897,21 @@ class PaymentEditForm extends React.Component {
               </div>
             </div>
           </>
-        )
-        }
+        )}
 
-        { paymentType === 'CYBER' && (
+        {paymentType === 'CYBER' && (
           <>
-            <CyberPaymentForm form={this.state.paymentForm}
+            <CyberPaymentForm
+              form={this.state.paymentForm}
               errMsgObj={errMsgObj}
               monthList={this.state.monthList}
               yearList={this.state.yearList}
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
-              inputBlur={this.inputBlur} />
-            <CyberBillingAddress form={this.state.paymentForm}
+              inputBlur={this.inputBlur}
+            />
+            <CyberBillingAddress
+              form={this.state.paymentForm}
               errMsgObj={errMsgObj}
               countryList={this.state.countryList}
               stateList={this.computedList('state')}
@@ -909,9 +923,10 @@ class PaymentEditForm extends React.Component {
             {/* saveCard checkbox */}
             <div className="row">
               <div className="col-sm-6">
-                <div className="rc-input rc-input--inline"
-                  onClick={() => this.handelCheckboxChange('isSaveCard')}>
-
+                <div
+                  className="rc-input rc-input--inline"
+                  onClick={() => this.handelCheckboxChange('isSaveCard')}
+                >
                   {this.state.paymentForm.isSaveCard ? (
                     <input
                       type="checkbox"
@@ -937,16 +952,29 @@ class PaymentEditForm extends React.Component {
             </div>
             {/* 取消 确认 按钮 */}
             <div className="row" style={{ marginTop: '20px' }}>
-              <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{ width: '200px' }}>Cancel</button></div>
+              <div className="col-sm-3">
+                <button
+                  class="rc-btn rc-btn--two"
+                  style={{ width: '200px' }}
+                  onClick={this.handleCancel}
+                >
+                  Cancel
+                </button>
+              </div>
               <div className="col-sm-3"></div>
               <div className="col-sm-3">
-                <button class="rc-btn rc-btn--one" style={{ width: '200px' }} onClick={this.cyberSaveIsAllRequiredFinished}>Save</button>
+                <button
+                  class="rc-btn rc-btn--one"
+                  style={{ width: '200px' }}
+                  onClick={this.cyberSaveIsAllRequiredFinished}
+                >
+                  Save
+                </button>
               </div>
               <div className="col-sm-3"></div>
             </div>
           </>
-        )
-        }
+        )}
 
         {/* 美国验证modal框 */}
         {validationLoading && <Loading positionFixed="true" />}
@@ -968,7 +996,6 @@ class PaymentEditForm extends React.Component {
             }}
           />
         )}
-
       </div>
     );
   }
