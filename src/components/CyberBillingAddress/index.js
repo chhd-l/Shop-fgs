@@ -171,7 +171,8 @@ class CyberBillingAddress extends React.Component {
   stateJSX = () => {
     const { form, errMsgObj } = this.props;
     return (
-      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
+      <div className="form-group required">
+        {/* <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province"></div> */}
         <label className="form-control-label" htmlFor="month">
           <FormattedMessage id="cyber.form.state" />
         </label>
