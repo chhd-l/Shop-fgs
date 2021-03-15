@@ -306,6 +306,7 @@ class EditForm extends React.Component {
           style={{ marginTop: 0 }}
         >
           <CitySearchSelection
+            placeholder={true}
             defaultValue={address.cityName}
             key={address.cityName}
             freeText={true}

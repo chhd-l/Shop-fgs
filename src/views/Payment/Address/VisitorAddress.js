@@ -27,7 +27,7 @@ class VisitorAddress extends React.Component {
     initData: null,
     titleVisible: true,
     showConfirmBtn: true,
-    updateFormValidStatus: () => { }
+    updateFormValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -91,11 +91,11 @@ class VisitorAddress extends React.Component {
     this.setState({
       validationLoading: true
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       this.setState({
         validationModalVisible: true
       });
-    },800);
+    }, 800);
     // console.log('------------------ VisitorAddress handleClickConfirm');
   };
   // 不进行地址验证，进入下一步
@@ -134,24 +134,26 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? (
       <>
         <i
-          className={`rc-icon rc-indoors--xs rc-margin-right--xs ${redColor ? 'rc-brand1' : 'rc-iconography'
-            }`}
+          className={`rc-icon rc-indoors--xs rc-margin-right--xs ${
+            redColor ? 'rc-brand1' : 'rc-iconography'
+          }`}
         />{' '}
         <span>
           <FormattedMessage id="payment.deliveryTitle" />
         </span>
       </>
     ) : (
-        <>
-          <i
-            className={`rc-icon rc-news--xs ${redColor ? 'rc-brand1' : 'rc-iconography'
-              }`}
-          />{' '}
-          <span>
-            <FormattedMessage id="payment.billTitle" />
-          </span>
-        </>
-      );
+      <>
+        <i
+          className={`rc-icon rc-news--xs ${
+            redColor ? 'rc-brand1' : 'rc-iconography'
+          }`}
+        />{' '}
+        <span>
+          <FormattedMessage id="payment.billTitle" />
+        </span>
+      </>
+    );
   };
   titleJSXForPrepare = () => {
     return (
@@ -201,10 +203,11 @@ class VisitorAddress extends React.Component {
       // 不校验地址，进入下一步
       this.showNextPanel();
     }
-  }
+  };
   // 确认选择地址,切换到下一个最近的未complete的panel
-  confirmValidationAddress(e) {
+  confirmValidationAddress() {
     const { form, selectValidationOption, validationAddress } = this.state;
+    let oldForm = JSON.parse(JSON.stringify(form));
     if (selectValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
@@ -213,6 +216,8 @@ class VisitorAddress extends React.Component {
       if (process.env.REACT_APP_LANG === 'en') {
         form.provinceName = validationAddress.provinceCode;
       }
+    } else {
+      form = JSON.parse(JSON.stringify(oldForm));
     }
     // 进入下一步
     this.showNextPanel();
@@ -246,13 +251,15 @@ class VisitorAddress extends React.Component {
         scrollPaymentPanelIntoView();
       });
     }
-  }
+  };
 
   render() {
     const { panelStatus } = this;
 
     const { showConfirmBtn } = this.props;
-    const { form, isValid,
+    const {
+      form,
+      isValid,
       validationLoading,
       validationModalVisible,
       selectValidationOption
@@ -269,10 +276,10 @@ class VisitorAddress extends React.Component {
     const _title = panelStatus.isPrepare
       ? this.titleJSXForPrepare()
       : panelStatus.isEdit
-        ? this.titleJSXForEdit()
-        : panelStatus.isCompleted
-          ? this.titleJSXForCompeleted()
-          : null;
+      ? this.titleJSXForEdit()
+      : panelStatus.isCompleted
+      ? this.titleJSXForCompeleted()
+      : null;
 
     return (
       <>
@@ -303,22 +310,23 @@ class VisitorAddress extends React.Component {
         ) : null}
 
         {validationLoading && <Loading positionFixed="true" />}
-        {validationModalVisible && <ValidationAddressModal
-          address={form}
-          updateValidationData={(res) => this.getValidationData(res)}
-          selectValidationOption={selectValidationOption}
-          handleChooseValidationAddress={(e) =>
-            this.chooseValidationAddress(e)
-          }
-          hanldeClickConfirm={() => this.confirmValidationAddress()}
-          close={() => {
-            this.setState({
-              validationModalVisible: false,
-              validationLoading: false
-            });
-          }}
-        />}
-
+        {validationModalVisible && (
+          <ValidationAddressModal
+            address={form}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            close={() => {
+              this.setState({
+                validationModalVisible: false,
+                validationLoading: false
+              });
+            }}
+          />
+        )}
       </>
     );
   }

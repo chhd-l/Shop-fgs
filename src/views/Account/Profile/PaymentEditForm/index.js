@@ -447,7 +447,6 @@ class PaymentEditForm extends React.Component {
   async confirmValidationAddress() {
     let { paymentForm, selectValidationOption, validationAddress } = this.state;
     let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
-    console.log({ paymentForm, selectValidationOption, validationAddress });
 
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
