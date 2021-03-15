@@ -17,6 +17,18 @@ import { myAccountActionPushEvent } from '@/utils/GA';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+const addressType = () => {
+  const defaultAddressType = [
+    { type: 'delivery', langKey: 'deliveryAddress' },
+    { type: 'billing', langKey: 'billingAddress' }
+  ];
+  return (
+    {
+      US: [{ type: 'delivery', langKey: 'deliveryAddress' }]
+    }[process.env.REACT_APP_GA_COUNTRY] || defaultAddressType
+  );
+};
+
 @injectIntl
 class ShippingAddressFrom extends React.Component {
   static defaultProps = {
@@ -481,10 +493,7 @@ class ShippingAddressFrom extends React.Component {
           ) : (
             <div className={`userContactInfoEdit`}>
               <div className="row">
-                {[
-                  { type: 'delivery', langKey: 'deliveryAddress' },
-                  { type: 'billing', langKey: 'billingAddress' }
-                ].map((item, i) => (
+                {addressType().map((item, i) => (
                   <div className="col-12 col-md-4" key={i}>
                     <div className="rc-input rc-input--inline">
                       <input

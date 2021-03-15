@@ -19,13 +19,32 @@ import { usPaymentInfo } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
+import visaImg from '@/assets/images/credit-cards/visa.svg';
+import amexImg from '@/assets/images/credit-cards/amex.svg';
+import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
+import discoverImg from '@/assets/images/credit-cards/discover.svg';
+
+const cardTypeImg = {
+  visa: visaImg,
+  mastercard: mastercardImg,
+  amex: amexImg,
+  discover: discoverImg
+};
+
+const cardTypeArr = {
+  cyberVisa: '001',
+  cyberMastercard: '002',
+  cyberAmex: '002',
+  cyberDiscover: '003'
+};
 
 @inject('loginStore')
 @injectIntl
 @observer
 class PaymentEditForm extends React.Component {
   static defaultProps = {
-    paymentType: 'PAYU' // PAYU ADYEN CYBER(美国支付)
+    paymentType: 'PAYU', // PAYU ADYEN CYBER(美国支付)
+    payWay: ''
   };
   constructor(props) {
     super(props);
@@ -128,7 +147,8 @@ class PaymentEditForm extends React.Component {
           id: 'discover',
           paymentTypeVal: 'cyberDiscover'
         }
-      ]
+      ],
+      paymentTypeVal: ''
     };
   }
   get userInfo() {
@@ -152,7 +172,73 @@ class PaymentEditForm extends React.Component {
         stateList: res.context.systemStates
       });
     });
+
+    this.initPaymentWay();
   }
+  initPaymentWay = () => {
+    const { payWay } = this.props;
+    const payuMethodsObj = {
+      visa: {
+        name: 'Visa',
+        id: 'visa',
+        paymentTypeVal: 'cyberVisa'
+      },
+      mastercard: {
+        name: 'Mastercard',
+        id: 'mastercard',
+        paymentTypeVal: 'cyberMastercard'
+      },
+      amex: {
+        name: 'Amex',
+        id: 'amex',
+        paymentTypeVal: 'cyberAmex'
+      },
+      discover: {
+        name: 'Discover',
+        id: 'discover',
+        paymentTypeVal: 'cyberDiscover'
+      }
+    };
+    let payWayNameArr = [];
+    if (payWay.context) {
+      payWayNameArr = (payWay.context.payPspItemVOList || [])
+        .map(
+          (p) => payuMethodsObj[p.code] || payuMethodsObj[p.code.toUpperCase()]
+        )
+        .filter((e) => e);
+    }
+
+    let payMethod = (payWayNameArr[0] && payWayNameArr[0].name) || 'none'; //初始化默认取第1个
+    //各种支付component初始化方法
+    var initPaymentWay = {
+      //cyber支付
+      Visa: () => {
+        this.setState({ paymentTypeVal: 'cyberVisa' });
+      },
+      Mastercard: () => {
+        this.setState({ paymentTypeVal: 'cyberMastercard' });
+      },
+      Amex: () => {
+        this.setState({ paymentTypeVal: 'cyberAmex' });
+      },
+      discover: () => {
+        this.setState({ paymentTypeVal: 'cyberDiscover' });
+      },
+      none: () => {
+        console.log('no payway');
+      }
+    };
+
+    //默认第一个,如没有支付方式,就不初始化方法
+    this.setState(
+      {
+        payWayNameArr
+      },
+      () => {
+        initPaymentWay[payMethod]();
+      }
+    );
+  };
   toTop = () => {
     window.scrollTo({
       top: 0,
@@ -379,7 +465,7 @@ class PaymentEditForm extends React.Component {
     const { paymentForm } = this.state;
     paymentForm[name] = item.value;
 
-    let obj = Object.assign({}, errMsgObj, { [name]: '' }); //选择了值，幼稚了，就清空没填提示
+    let obj = Object.assign({}, errMsgObj, { [name]: '' }); //选择有值了，就清空没填提示
 
     this.setState({ paymentForm, errMsgObj: obj }, () => {
       console.log(paymentForm, '--------handleSelectedItemChange');
@@ -387,10 +473,13 @@ class PaymentEditForm extends React.Component {
   };
   //selct city特殊处理
   handleSelectedCityChange = (data) => {
+    let errMsgObj = this.state.errMsgObj;
     const { paymentForm } = this.state;
     paymentForm.city = data.cityName;
 
-    this.setState({ paymentForm }, () => {
+    let obj = Object.assign({}, errMsgObj, { city: '' }); //选择有值了，就清空没填提示
+
+    this.setState({ paymentForm, obj }, () => {
       console.log(paymentForm, '--------handleSelectedCityChange');
     });
   };
@@ -417,7 +506,7 @@ class PaymentEditForm extends React.Component {
           name: c.stateName
         };
       });
-      tmp.unshift({ value: '', name: 'State' });
+      //tmp.unshift({ value: '', name: 'State' });
     }
     return tmp;
   }
@@ -463,7 +552,7 @@ class PaymentEditForm extends React.Component {
 
     let params = Object.assign({}, paymentForm, {
       pspName: 'CYBER',
-      cardType: '001'
+      cardType: cardTypeArr[this.state.paymentTypeVal] || '001' //默认visa
     });
 
     try {
@@ -483,7 +572,7 @@ class PaymentEditForm extends React.Component {
       if (
         Object.keys(paymentForm).indexOf(item.key) &&
         !paymentForm[item.key] &&
-        paymentForm[item.require] //必填项没值
+        item.require //必填项没值
       ) {
         errMsgObj[item.key] = true;
       }
@@ -491,7 +580,7 @@ class PaymentEditForm extends React.Component {
 
     if (Object.keys(errMsgObj).length > 0) {
       this.setState({ errMsgObj }, () => {
-        console.log(this.state.errMsgObj);
+        //console.log(this.state.errMsgObj);
         this.toTop();
       });
     } else {
@@ -530,6 +619,12 @@ class PaymentEditForm extends React.Component {
     // 绑卡
   };
 
+  handlePaymentTypeChange = (e) => {
+    this.setState({ paymentTypeVal: e.target.value }, () => {
+      console.log(this.state.paymentTypeVal);
+    });
+  };
+
   render() {
     const {
       creditCardInfoForm,
@@ -542,7 +637,8 @@ class PaymentEditForm extends React.Component {
       validationModalVisible,
       selectValidationOption,
       errMsgObj,
-      payWayNameArr
+      payWayNameArr,
+      paymentTypeVal
     } = this.state;
     const { paymentType } = this.props;
 
@@ -926,9 +1022,9 @@ class PaymentEditForm extends React.Component {
 
         {paymentType === 'CYBER' && (
           <>
-            {/* CYBER支持卡类型，才显示此tab栏 */}
+            {/* CYBER支持卡类型，超过一种才显示此tab栏 */}
             {payWayNameArr.length > 1 && (
-              <div className={`ml-custom mr-custom`}>
+              <div>
                 {payWayNameArr.map((item, i) => {
                   return (
                     <div className={`rc-input rc-input--inline`} key={i}>
@@ -945,7 +1041,12 @@ class PaymentEditForm extends React.Component {
                         className="rc-input__label--inline"
                         htmlFor={`payment-info-${item.id}`}
                       >
-                        <FormattedMessage id={item.id} />
+                        {/* <FormattedMessage id={item.id} /> */}
+                        <img
+                          src={cardTypeImg[item.id]}
+                          title={item.id}
+                          style={{ width: '40px' }}
+                        />
                       </label>
                     </div>
                   );
@@ -1006,7 +1107,7 @@ class PaymentEditForm extends React.Component {
             <div className="row" style={{ marginTop: '20px' }}>
               <div className="col-sm-3">
                 <button
-                  class="rc-btn rc-btn--two"
+                  className="rc-btn rc-btn--two"
                   style={{ width: '200px' }}
                   onClick={this.handleCancel}
                 >
@@ -1016,7 +1117,7 @@ class PaymentEditForm extends React.Component {
               <div className="col-sm-3"></div>
               <div className="col-sm-3">
                 <button
-                  class="rc-btn rc-btn--one"
+                  className="rc-btn rc-btn--one"
                   style={{ width: '200px' }}
                   onClick={this.cyberSaveIsAllRequiredFinished}
                 >
