@@ -18,7 +18,10 @@ import ImageMagnifier from './components/ImageMagnifier';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
-import { getRecommendationList, getRecommendationList_fr } from '@/api/recommendation';
+import {
+  getRecommendationList,
+  getRecommendationList_fr
+} from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
@@ -40,7 +43,7 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
 @inject('configStore')
@@ -103,12 +106,12 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    let paramArr = this.props.location.search.split('&')
-    let token = paramArr[paramArr.length - 1].split('=')[1]
+    let paramArr = this.props.location.search.split('&');
+    let token = paramArr[paramArr.length - 1].split('=')[1];
     setSeoConfig({
       pageName: 'SPT reco landing page'
-    }).then(res => {
-      this.setState({seoConfig: res})
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
@@ -118,44 +121,50 @@ class Help extends React.Component {
         productList.map((el) => {
           let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
           if (tmpGoodsDetail) {
-            try{
+            try {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  if(process.env.REACT_APP_LANG === 'fr') {
-                    let tempObj = {}
-                    let tempContent = ''
-                    try{
-                      if(key === 'Description') {
-                        tmpGoodsDetail[key].map(el => {
-                          tempContent = tempContent + `<p>${Object.values(JSON.parse(el))[0]}</p>`
-                        })
-                        el.tabDescription = tempContent
+                  if (process.env.REACT_APP_LANG === 'fr') {
+                    let tempObj = {};
+                    let tempContent = '';
+                    try {
+                      if (key === 'Description') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                        });
+                        el.tabDescription = tempContent;
                       }
-                      if(key === 'Bénéfices') {
-                        tmpGoodsDetail[key].map(ele => {
+                      if (key === 'Bénéfices') {
+                        tmpGoodsDetail[key].map((ele) => {
                           // <div class="">${Object.keys(JSON.parse(ele))[0]}</div>
-                          tempContent = tempContent + `<li>
-                            <div class="">${Object.values(JSON.parse(ele))[0]['Description']}</div>
-                          </li>`
-                        })
+                          tempContent =
+                            tempContent +
+                            `<li>
+                            <div class="">${
+                              Object.values(JSON.parse(ele))[0]['Description']
+                            }</div>
+                          </li>`;
+                        });
                         tempContent = `<ul class="">
                           ${tempContent}
-                        </ul>`
+                        </ul>`;
                         // this.setState({currentBenefit: tempContent})
-                        el.benefit = tempContent
+                        el.benefit = tempContent;
                       }
                       // console.log(tempContent, 'tempContent')
                       // el.goodsInfo.benefit = tempContent
-                    }catch(e) {
-                      console.log(e)
+                    } catch (e) {
+                      console.log(e);
                     }
-                  }else {
+                  } else {
                   }
                 }
               }
-            }catch(e) {
-              console.log(e)
+            } catch (e) {
+              console.log(e);
             }
           }
           if (!el.goodsInfo.goodsInfoImg) {
@@ -202,10 +211,10 @@ class Help extends React.Component {
           this.checkoutStock();
         });
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
-          this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
-          this.props.clinicStore.setLinkClinicName('');
-          this.props.clinicStore.setAuditAuthority(false);
-          this.setState({loading: false });
+        this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+        this.props.clinicStore.setLinkClinicName('');
+        this.props.clinicStore.setAuditAuthority(false);
+        this.setState({ loading: false });
         // });
       })
       .catch((err) => {
@@ -357,7 +366,9 @@ class Help extends React.Component {
         cartDataCopy.push(tmpData);
       }
       console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: cartDataCopy
+      });
     }
     this.props.history.push(path);
   }
@@ -520,13 +531,8 @@ class Help extends React.Component {
     console.log('props', this.props);
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
-    let {
-      productList,
-      activeIndex,
-      currentModalObj,
-      isMobile
-    } = this.state;
-    console.log(productList, 'sdsajdkldsa')
+    let { productList, activeIndex, currentModalObj, isMobile } = this.state;
+    console.log(productList, 'sdsajdkldsa');
     let MaxLinePrice,
       MinLinePrice,
       MaxMarketPrice,
@@ -567,10 +573,13 @@ class Help extends React.Component {
       <div className="Recommendation_FR">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -828,10 +837,14 @@ class Help extends React.Component {
                             style={{
                               width: '100%',
                               margin: '0 auto',
-                              padding: isMobile?'0 20px': '0 40px'
+                              padding: isMobile ? '0 20px' : '0 40px'
                             }}
-                            dangerouslySetInnerHTML={createMarkup(productList[activeIndex].goodsInfo.goods
-                              .goodsDescription || productList[activeIndex].tabDescription || '')}
+                            dangerouslySetInnerHTML={createMarkup(
+                              productList[activeIndex].goodsInfo.goods
+                                .goodsDescription ||
+                                productList[activeIndex].tabDescription ||
+                                ''
+                            )}
                           >
                             {/* {productList[activeIndex].goodsInfo.goods
                               .goodsDescription || productList[activeIndex].tabDescription || ''} */}
@@ -919,41 +932,45 @@ class Help extends React.Component {
                             <FormattedMessage id="recommendation.productDescription" />
                           </span>
                         </p> */}
-                        {
-                          productList[activeIndex].benefit?(
-                            <p
-                          className="benefit"
-                          style={{
-                            width: '100%',
-                            margin: '0 auto',
-                            padding: isMobile?'0 20px': '0 40px'
-                          }}
-                        >
-                          <h5 className="red" style={{ margin: '30px 0 20px', fontSize: isMobile? '18px': 'auto' }}>
-                            Les bénéfices
-                          </h5>
+                        {productList[activeIndex].benefit ? (
                           <p
-                            style={{fontSize: isMobile? '16px': 'auto'}}
-                            dangerouslySetInnerHTML={
-                              // productList[activeIndex].goodsInfo.goods
-                                // &&
-                              createMarkup(
-                                // this.state.currentBenefit
-                                productList[activeIndex].benefit
+                            className="benefit"
+                            style={{
+                              width: '100%',
+                              margin: '0 auto',
+                              padding: isMobile ? '0 20px' : '0 40px'
+                            }}
+                          >
+                            <h5
+                              className="red"
+                              style={{
+                                margin: '30px 0 20px',
+                                fontSize: isMobile ? '18px' : 'auto'
+                              }}
+                            >
+                              Les bénéfices
+                            </h5>
+                            <p
+                              style={{ fontSize: isMobile ? '16px' : 'auto' }}
+                              dangerouslySetInnerHTML={
                                 // productList[activeIndex].goodsInfo.goods
-                                // .benefit
-                                // JSON.parse(
-                                //   productList[activeIndex].goodsInfo.goods
-                                //     .benefit
-                                // )['Beneficios']
-                              )
-                            }
-                          ></p>
-                          {/* <p>{productList[activeIndex]}</p> */}
-                        </p>
-                          ): null
-                        }
-                        
+                                // &&
+                                createMarkup(
+                                  // this.state.currentBenefit
+                                  productList[activeIndex].benefit
+                                  // productList[activeIndex].goodsInfo.goods
+                                  // .benefit
+                                  // JSON.parse(
+                                  //   productList[activeIndex].goodsInfo.goods
+                                  //     .benefit
+                                  // )['Beneficios']
+                                )
+                              }
+                            ></p>
+                            {/* <p>{productList[activeIndex]}</p> */}
+                          </p>
+                        ) : null}
+
                         <p
                           style={{
                             marginTop: '30px',
@@ -1336,7 +1353,10 @@ class Help extends React.Component {
               </h2>
               <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
                 <h2>
-                  Notre service d'expédition automatique est conçu pour vous simplifier la vie et vous permettre de toujours recevoir le meilleur régime alimentaire pour votre animal de compagnie, directement à votre porte.
+                  Notre service d'expédition automatique est conçu pour vous
+                  simplifier la vie et vous permettre de toujours recevoir le
+                  meilleur régime alimentaire pour votre animal de compagnie,
+                  directement à votre porte.
                 </h2>
               </div>
               {/* <div className="d-block d-md-none rc-text--center">
@@ -1434,7 +1454,9 @@ class Help extends React.Component {
                   />
                 </div>
                 <h7>
-                  Trouvez les produits <strong>nutritionnels que vous avez sélectionnés</strong> dans votre panier.
+                  Trouvez les produits{' '}
+                  <strong>nutritionnels que vous avez sélectionnés</strong> dans
+                  votre panier.
                 </h7>
               </div>
               <div className="col-6 col-md-3 rc-column">
@@ -1447,7 +1469,9 @@ class Help extends React.Component {
                   />
                 </div>
                 <h7>
-                  Sélectionnez votre mode <strong>d'expédition, de livraison </strong>et <strong>de paiement</strong>.
+                  Sélectionnez votre mode{' '}
+                  <strong>d'expédition, de livraison </strong>et{' '}
+                  <strong>de paiement</strong>.
                 </h7>
               </div>
               <div className="col-6 col-md-3 rc-column">
@@ -1460,7 +1484,8 @@ class Help extends React.Component {
                   />
                 </div>
                 <h7>
-                  <strong>Recevez votre produit automatiquement</strong>, selon votre propre agenda.
+                  <strong>Recevez votre produit automatiquement</strong>, selon
+                  votre propre agenda.
                 </h7>
               </div>
               <div className="col-6 col-md-3 rc-column">
@@ -1473,7 +1498,10 @@ class Help extends React.Component {
                   />
                 </div>
                 <h7>
-                  <p>Modifiez votre planning <strong>de livraison à n'importe quel moment.</strong></p>
+                  <p>
+                    Modifiez votre planning{' '}
+                    <strong>de livraison à n'importe quel moment.</strong>
+                  </p>
                 </h7>
               </div>
             </div>

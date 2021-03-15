@@ -309,7 +309,7 @@ class Help extends React.Component {
         cartDataCopy.push(tmpData);
       }
       // console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
+      await this.props.checkoutStore.updateUnloginCart({cartData: cartDataCopy});
     }
     this.props.history.push(path);
   }

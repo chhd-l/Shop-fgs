@@ -231,6 +231,7 @@ class AddressList extends React.Component {
   addOrEditAddress(idx = -1) {
     // 地址验证
     this.setState({
+      validationLoading: true,
       itemIdx: idx
     }, () => {
       // 新增地址 idx= -1
@@ -249,6 +250,11 @@ class AddressList extends React.Component {
       }
 
     });
+    setTimeout(()=>{
+      this.setState({
+        validationModalVisible: true
+      });
+    },800);
   }
   // 下一步
   showNextPanel() {

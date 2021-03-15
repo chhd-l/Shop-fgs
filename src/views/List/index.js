@@ -1141,9 +1141,10 @@ class List extends React.Component {
           const fvEles = decodeURI(
             getParaByName(search, `prefv${index + 1}`)
           ).split('|');
-          const tItem = (
-            this.handledAttributeDetailNameEn(res[3]) || []
-          ).filter((r) => r.attributeName === fnEle)[0];
+          const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
+            (r) => r.attributeName === fnEle
+          )[0];
+
           if (tItem) {
             let attributeValues = [];
             let attributeValueIdList = [];
@@ -2040,6 +2041,9 @@ class List extends React.Component {
                 <div
                   className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
                   id="J_filter_contaner"
+                  style={{
+                    zIndex: 3
+                  }}
                 >
                   <div
                     className="refinements-fixed rc-column"
@@ -2236,10 +2240,10 @@ class List extends React.Component {
                         >
                           <div className="col-12 col-md-8 rc-md-up">
                             <span className="rc-intro rc-margin--none rc-md-up">
-                              <b style={{textTransform:'capitalize'}}>
+                              <b style={{ textTransform: 'capitalize' }}>
                                 {lastBreadListName}
-                              </b>l
-                              (
+                              </b>
+                              l (
                               <FormattedMessage
                                 id="results"
                                 values={{ val: results }}

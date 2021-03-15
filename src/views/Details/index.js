@@ -524,11 +524,11 @@ class Details extends React.Component {
     let selectedArr = [];
     let idArr = [];
     let baseSpecId = details.baseSpec;
-    specList.map(el => {
-      if (!el.chidren.filter(el => el.selected).length) {
-        el.chidren[0].selected = true
+    specList.map((el) => {
+      if (!el.chidren.filter((el) => el.selected).length) {
+        el.chidren[0].selected = true;
       }
-    })
+    });
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -617,6 +617,22 @@ class Details extends React.Component {
       })
     ])
       .then((resList) => {
+        if (process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID) {
+          loadJS({
+            url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+            id: 'cci-widget',
+            dataSets: {
+              token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+              locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+              displaylanguage:
+                process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+              widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
+              ean: '3182550784436',
+              subid: '',
+              trackingid: ''
+            }
+          });
+        }
         const res = resList[0];
         const frequencyDictRes = resList[1];
         const purchaseTypeDictRes = resList[2];
@@ -822,9 +838,9 @@ class Details extends React.Component {
           const goodSize = specList.map((item) =>
             item.chidren.find((good) => good.selected)
           )?.[0]?.detailName;
-          const goodsInfoBarcode = goodsInfos.find(
-            (item) => item.packSize === goodSize
-          )?.goodsInfoBarcode;
+          const goodsInfoBarcode =
+            goodsInfos.find((item) => item.packSize === goodSize)
+              ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
           const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
 
           let images = [];
@@ -849,22 +865,6 @@ class Details extends React.Component {
               barcode
             },
             () => {
-              if (process.env.REACT_APP_HUBPAGE_WIDGETID) {
-                loadJS({
-                  url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-                  id: 'cci-widget',
-                  dataSets: {
-                    token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-                    locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
-                    displaylanguage: process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
-                    widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
-                    ean: '3182550784436',
-                    subid: '',
-                    trackingid: ''
-                  }
-                });
-              }
-
               this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
@@ -1346,7 +1346,7 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
 
-    await checkoutStore.updateUnloginCart(cartDataCopy);
+    await checkoutStore.updateUnloginCart({ cartData: cartDataCopy });
     this.setState({ addToCartLoading: false });
     if (isMobile) {
       this.refs.showModalButton.click();
@@ -1608,7 +1608,6 @@ class Details extends React.Component {
       const config = { attributes: true, childList: true, subtree: true };
       // 当观察到变动时执行的回调函数
       const callback = function (mutationsList, observer) {
-        console.log(document.querySelectorAll('.eanIcon'), 'aaa123');
         let eanDoms = document.querySelectorAll('.eanIcon');
         eanDoms[0].parentElement.addEventListener(
           'click',
@@ -1673,7 +1672,7 @@ class Details extends React.Component {
     const De = process.env.REACT_APP_LANG === 'de';
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
-    } 
+    }
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
@@ -1682,7 +1681,8 @@ class Details extends React.Component {
       }>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
-    const fromPathName = location.state?.historyBreads?.[0]?.link?.pathname || location.pathname;
+    const fromPathName =
+      location.state?.historyBreads?.[0]?.link?.pathname || location.pathname;
     let theme = '';
     let specieId = '';
     if (fromPathName?.indexOf('dog') > -1) {
@@ -1703,7 +1703,7 @@ class Details extends React.Component {
         filters: ''
       },
       pet: {
-        specieId,
+        specieId
       }
     };
 
@@ -1928,6 +1928,7 @@ class Details extends React.Component {
                                 __html: this.state.descContent
                               }}
                             ></div>
+                            {/*这种情况时，eancode 在法国固定，其他国家待定  */}
                             {!this.state.loading && !bundle && isHub && PC ? (
                               <div
                                 className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${
@@ -1935,7 +1936,11 @@ class Details extends React.Component {
                                 }`}
                                 ref={(el) => this.ccidBtnRef(el)}
                                 data-ccid="wtb-target"
-                                data-ean={barcode}
+                                data-ean={
+                                  process.env.REACT_APP_LANG === 'fr'
+                                    ? '3182550751148'
+                                    : barcode
+                                }
                                 onClick={this.handleBuyFromRetailer}
                                 style={{
                                   marginTop: '20px'
@@ -2319,9 +2324,8 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {
-                                false ? (
-                                  <div
+                              {false ? (
+                                <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
                                   key="987654321"
                                   style={{
@@ -2366,7 +2370,10 @@ class Details extends React.Component {
                                       </label>
                                     </div>
                                     <br />
-                                    <div className="discountBox" style={{background: '#3ab41d'}}>
+                                    <div
+                                      className="discountBox"
+                                      style={{ background: '#3ab41d' }}
+                                    >
                                       <FormattedMessage
                                         id="saveExtra"
                                         values={{
@@ -2375,69 +2382,68 @@ class Details extends React.Component {
                                         }}
                                       />
                                     </div>
-                                      <br />
-                                      <div className="freeshippingBox">
-                                        <FormattedMessage id="freeShipping" />
-                                      </div>
-                                    </div>
-                                    <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
-                                      <span>
-                                        <FormattedMessage id="subscription.frequency" />
-                                        :
-                                      </span>
-                                      <Selection
-                                        customContainerStyle={{
-                                          display: 'inline-block',
-                                          marginLeft: isMobile
-                                            ? '50px'
-                                            : '1.5rem',
-                                          height: isMobile ? '70px' : 'auto'
-                                        }}
-                                        selectedItemChange={
-                                          this.handleSelectedItemChange
-                                        }
-                                        optionList={this.computedList}
-                                        selectedItemData={{
-                                          value: form.frequencyId
-                                        }}
-                                        key={form.frequencyId}
-                                      />
-                                    </div>
-                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
-                                      <div>
-                                        {formatMoney(
-                                          currentSubscriptionPrice || 0
-                                        )}
-                                        <span className="red unit-star">
-                                          <FormattedMessage
-                                            id="starUnit"
-                                            defaultMessage=" "
-                                          />
-                                        </span>
-                                      </div>
-                                      {process.env.REACT_APP_LANG === 'de' &&
-                                      selectedSpecItem ? (
-                                        <div
-                                          style={{
-                                            fontSize: '14px',
-                                            color: '#999'
-                                          }}
-                                        >
-                                          {formatMoney(
-                                            (
-                                              currentSubscriptionPrice /
-                                              parseFloat(
-                                                selectedSpecItem.goodsInfoWeight
-                                              )
-                                            ).toFixed(2)
-                                          )}
-                                          /{selectedSpecItem.goodsInfoUnit}{' '}
-                                        </div>
-                                      ) : null}
+                                    <br />
+                                    <div className="freeshippingBox">
+                                      <FormattedMessage id="freeShipping" />
                                     </div>
                                   </div>
-                                ): null
-                              }
+                                  <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
+                                    <span>
+                                      <FormattedMessage id="subscription.frequency" />
+                                      :
+                                    </span>
+                                    <Selection
+                                      customContainerStyle={{
+                                        display: 'inline-block',
+                                        marginLeft: isMobile
+                                          ? '50px'
+                                          : '1.5rem',
+                                        height: isMobile ? '70px' : 'auto'
+                                      }}
+                                      selectedItemChange={
+                                        this.handleSelectedItemChange
+                                      }
+                                      optionList={this.computedList}
+                                      selectedItemData={{
+                                        value: form.frequencyId
+                                      }}
+                                      key={form.frequencyId}
+                                    />
+                                  </div>
+                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
+                                    <div>
+                                      {formatMoney(
+                                        currentSubscriptionPrice || 0
+                                      )}
+                                      <span className="red unit-star">
+                                        <FormattedMessage
+                                          id="starUnit"
+                                          defaultMessage=" "
+                                        />
+                                      </span>
+                                    </div>
+                                    {process.env.REACT_APP_LANG === 'de' &&
+                                    selectedSpecItem ? (
+                                      <div
+                                        style={{
+                                          fontSize: '14px',
+                                          color: '#999'
+                                        }}
+                                      >
+                                        {formatMoney(
+                                          (
+                                            currentSubscriptionPrice /
+                                            parseFloat(
+                                              selectedSpecItem.goodsInfoWeight
+                                            )
+                                          ).toFixed(2)
+                                        )}
+                                        /{selectedSpecItem.goodsInfoUnit}{' '}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              ) : null}
                             </div>
                             <div className="rc-md-up">
                               <div

@@ -1414,7 +1414,7 @@ class SmartFeederSubscription extends Component {
       cartDataCopy.push(tmpData);
     }
 
-    await checkoutStore.updateUnloginCart(cartDataCopy);
+    await checkoutStore.updateUnloginCart({cartData: cartDataCopy});
     try {
       if (redirect) {
         if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
