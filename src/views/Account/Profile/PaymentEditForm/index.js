@@ -507,7 +507,7 @@ class PaymentEditForm extends React.Component {
           name: c.stateName
         };
       });
-      //tmp.unshift({ value: '', name: 'State' });
+      tmp.unshift({ value: '', name: 'State' });
     }
     return tmp;
   }
