@@ -100,9 +100,9 @@ const breadcrumbNameMap = {
       name: 'Nos combinaisons de croquettes et de bouchées'
     }
   ],
-  '/clublandingpage':[
+  '/club-subscription': [
     {
-      name:'CLUB'
+      name: 'CLUB'
     }
   ],
   '/faq': [
@@ -146,10 +146,14 @@ const breadcrumbNameMap = {
     { name: 'productFinder.resultPage' }
   ],
   '/cat-nutrition': [{ name: 'catNutrition' }],
-  '/kitten-nutrition': [{name: 'Nutrition chatons'}],
-  '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show': [{name: 'Search Results'}],
-  '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show': [{name: 'Search Results'}],
-  '/retail-products': [{name: 'onlineStore.breedcrumb'}],
+  '/kitten-nutrition': [{ name: 'Nutrition chatons' }],
+  '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show': [
+    { name: 'Search Results' }
+  ],
+  '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show': [
+    { name: 'Search Results' }
+  ],
+  '/retail-products': [{ name: 'onlineStore.breedcrumb' }]
 };
 
 export default breadcrumbNameMap;
