@@ -148,7 +148,8 @@ class PaymentEditForm extends React.Component {
           paymentTypeVal: 'cyberDiscover'
         }
       ],
-      paymentTypeVal: ''
+      paymentTypeVal: '',
+      btnLoading: false
     };
   }
   get userInfo() {
@@ -536,7 +537,7 @@ class PaymentEditForm extends React.Component {
   async confirmValidationAddress() {
     let { paymentForm, selectValidationOption, validationAddress } = this.state;
     let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
-
+    this.setState({ btnLoading: true });
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
       paymentForm.address2 = validationAddress.address2;
@@ -559,6 +560,8 @@ class PaymentEditForm extends React.Component {
       const res = await usPaymentInfo(params);
     } catch (err) {
       this.showErrorMsg(err.message);
+    } finally {
+      this.setState({ btnLoading: false });
     }
 
     this.showNextPanel();
@@ -1167,6 +1170,7 @@ class PaymentEditForm extends React.Component {
         {validationLoading && <Loading positionFixed="true" />}
         {validationModalVisible && (
           <ValidationAddressModal
+            btnLoading={this.state.btnLoading}
             address={ValidationAddressData}
             updateValidationData={(res) => this.getValidationData(res)}
             selectValidationOption={selectValidationOption}
