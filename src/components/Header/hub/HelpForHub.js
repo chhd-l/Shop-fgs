@@ -6,7 +6,7 @@ function DescJSX({ item }) {
   return (
     <div
       className="dropdown-nav__help__text align-self-center"
-      style={{ width: '250px' }}
+      style={{ minWidth: '250px' }}
     >
       <h4 className="title rc-delta">{item.Title}</h4>
       <div
@@ -21,7 +21,7 @@ function IconPanel({ data, item, handleClickNavItem }) {
   return (
     <NavItem
       item={item}
-      className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center"
+      className={`dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center dropdown-nav__help__card_${item.Icon}`}
       onClick={() => {
         handleClickNavItem({
           item: data,
@@ -29,7 +29,7 @@ function IconPanel({ data, item, handleClickNavItem }) {
         });
       }}
     >
-      <div className="rc-margin-right--xs flex-grow-1 text-nowrap">
+      <div className="rc-margin-right--xs flex-grow-1 text-nowrap11">
         <span className="medium">{item.Subtitle}</span>
         {item.contactPhone ? (
           <div className="title rc-delta mb-0">{item.contactPhone}</div>
