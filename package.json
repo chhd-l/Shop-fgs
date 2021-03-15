@@ -128,6 +128,7 @@
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
     "build:prod_fr": "dotenv -e .env.production.fr node scripts/build.js",
     "build:prod_fr2": "dotenv -e .env.production.fr2 node scripts/build.js",
+    "build:prod_fr3": "dotenv -e .env.production.fr3 node scripts/build.js",
     "analyze": "cross-env NODE_ENV=production npm_config_report=true npm run build:stg_fr",
     "pub:uat_mx": "npm run build:uat_mx && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@39.107.226.140:/app01/nginx/html_mx && rm -rf build_tmp",
     "pub:uat_de": "npm run build:uat_de && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@39.107.226.140:/app01/nginx/html_de && rm -rf build_tmp",
