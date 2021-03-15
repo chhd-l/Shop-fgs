@@ -1772,6 +1772,7 @@ class Payment extends React.Component {
                 initData={billingAddress}
                 guestEmail={guestEmail}
                 updateData={this.updateBillingAddrData}
+                setPaymentToCompleted={this.setPaymentToCompleted}
                 updateFormValidStatus={this.updateValidStatus.bind(this, {
                   key: 'billingAddr'
                 })}
@@ -1798,7 +1799,6 @@ class Payment extends React.Component {
     const { adyenPayParam, paymentTypeVal } = this.state;
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
-    // debugger
     async function handleClickSaveAdyenForm(_this) {
       try {
         if (
@@ -1859,18 +1859,23 @@ class Payment extends React.Component {
           this.unLoginBillingAddrRef.current.handleClickConfirm();
         }
       }
-      paymentStore.setStsToCompleted({ key: 'billingAddr' });
-      paymentStore.setStsToCompleted({ key: 'paymentMethod' });
-      paymentStore.setStsToEdit({ key: 'confirmation' });
-      setTimeout(() => {
-        scrollPaymentPanelIntoView();
-      });
+      this.setPaymentToCompleted();
     } catch (e) {
     } finally {
       this.setState({ saveBillingLoading: false });
     }
   };
-
+  // 收起面板，显示preview
+  setPaymentToCompleted = () => {
+    const { paymentStore } = this.props;
+    paymentStore.setStsToCompleted({ key: 'billingAddr' });
+    paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+    paymentStore.setStsToEdit({ key: 'confirmation' });
+    setTimeout(() => {
+      scrollPaymentPanelIntoView();
+    });
+  };
+  // 编辑
   handleClickPaymentPanelEdit = () => {
     this.props.paymentStore.setStsToEdit({
       key: 'paymentMethod',

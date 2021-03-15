@@ -536,7 +536,7 @@ class PaymentEditForm extends React.Component {
   // 确认选择地址,切换到下一个最近的未complete的panel
   async confirmValidationAddress() {
     let { paymentForm, selectValidationOption, validationAddress } = this.state;
-    let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
+    // let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
     this.setState({ btnLoading: true });
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
@@ -548,7 +548,7 @@ class PaymentEditForm extends React.Component {
         paymentForm.state = validationAddress.provinceCode;
       }
     } else {
-      paymentForm = JSON.parse(JSON.stringify(oldPaymentForm));
+      // paymentForm = JSON.parse(JSON.stringify(oldPaymentForm));
     }
 
     let params = Object.assign({}, paymentForm, {
@@ -1184,6 +1184,7 @@ class PaymentEditForm extends React.Component {
               this.chooseValidationAddress(e)
             }
             hanldeClickConfirm={() => this.confirmValidationAddress()}
+            validationModalVisible={validationModalVisible}
             close={() => {
               this.setState({
                 validationModalVisible: false,

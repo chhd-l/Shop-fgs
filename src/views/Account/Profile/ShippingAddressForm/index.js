@@ -863,6 +863,7 @@ class ShippingAddressFrom extends React.Component {
               this.chooseValidationAddress(e)
             }
             hanldeClickConfirm={() => this.confirmValidationAddress()}
+            validationModalVisible={validationModalVisible}
             close={() => {
               this.setState({
                 validationModalVisible: false,
