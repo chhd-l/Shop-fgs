@@ -558,6 +558,10 @@ class PaymentEditForm extends React.Component {
 
     try {
       const res = await usPaymentInfo(params);
+      if (res.code == 'K-000000') {
+        this.handleCancel();
+        this.props.refreshList();
+      }
     } catch (err) {
       this.showErrorMsg(err.message);
     } finally {
@@ -568,26 +572,28 @@ class PaymentEditForm extends React.Component {
   }
   //CYBER支付save判断必填项是否已经全部填完
   cyberSaveIsAllRequiredFinished = () => {
-    let errMsgObj = {};
-    const paymentForm = this.state.paymentForm;
-    ADDRESS_RULE.forEach((item) => {
-      if (
-        Object.keys(paymentForm).indexOf(item.key) &&
-        !paymentForm[item.key] &&
-        item.require //必填项没值
-      ) {
-        errMsgObj[item.key] = true;
-      }
-    });
-
-    if (Object.keys(errMsgObj).length > 0) {
-      this.setState({ errMsgObj }, () => {
-        //console.log(this.state.errMsgObj);
-        this.toTop();
+    setTimeout(() => {
+      let errMsgObj = {};
+      const paymentForm = this.state.paymentForm;
+      ADDRESS_RULE.forEach((item) => {
+        if (
+          Object.keys(paymentForm).indexOf(item.key) &&
+          !paymentForm[item.key] &&
+          item.require //必填项没值
+        ) {
+          errMsgObj[item.key] = true;
+        }
       });
-    } else {
-      this.handleCyberSave();
-    }
+
+      if (Object.keys(errMsgObj).length > 0) {
+        this.setState({ errMsgObj }, () => {
+          //console.log(this.state.errMsgObj);
+          this.toTop();
+        });
+      } else {
+        this.handleCyberSave();
+      }
+    }, 800);
   };
   //CYBER支付保存event
   handleCyberSave = () => {
