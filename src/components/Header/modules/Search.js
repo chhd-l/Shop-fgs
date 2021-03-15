@@ -340,7 +340,7 @@ export default class Search extends React.Component {
               </FormattedMessage>
             </div>
             {result ? (
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
                 </div>
@@ -447,6 +447,67 @@ export default class Search extends React.Component {
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
                 </div>
+              </form>
+            </div>
+            <div className="rc-sm-down">
+              <form
+                className={`rc-header__search-bar headerSearch ${
+                  showSearchInput ? '' : 'rc-hidden'
+                }`}
+                role="search"
+                name="simpleSearch"
+                style={{ position: 'fixed' }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                <Link
+                  className="productName rc-large-body ui-cursor-pointer"
+                  to={{
+                    // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                    pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+                    search: `?q=${keywords}`
+                  }}
+                >
+                  <button
+                    className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align"
+                    type="submit"
+                    aria-label="Search"
+                  >
+                    <span className="screen-reader-text">
+                      <FormattedMessage id="search" />
+                    </span>
+                  </button>
+                </Link>
+
+                <FormattedMessage id="header.startTypingToSearch">
+                  {(txt) => (
+                    <input
+                      ref={this.inputRefMobile}
+                      type="search"
+                      className="form-control search-field rc-header__input"
+                      placeholder={txt}
+                      autoComplete="off"
+                      aria-label="Start typing to search"
+                      value={this.state.keywords}
+                      onChange={this.handleSearchInputChange}
+                      style={{ padding: '1rem 4rem' }}
+                    />
+                  )}
+                </FormattedMessage>
+                <div className="suggestions-wrapper">
+                  {this.renderResultJsx()}
+                </div>
+                <button
+                  className="rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle"
+                  type="button"
+                  aria-label="Close"
+                  onClick={this.hanldeSearchCloseClick}
+                >
+                  <span className="screen-reader-text">
+                    <FormattedMessage id="close" />
+                  </span>
+                </button>
               </form>
             </div>
           </>

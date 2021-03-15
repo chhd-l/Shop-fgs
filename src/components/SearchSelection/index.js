@@ -41,8 +41,10 @@ class SearchSelection extends React.Component {
     this.searchText = React.createRef();
   }
   // freeText=true时设置参数
-  handleSetInputItem = () => {
+  handleSearchSelectionInput = (e) => {
+    const target = e.target;
     const { form } = this.state;
+    form.value = target.value;
     let citem = {
       cityName: form.value,
       cityNo: null,
@@ -166,7 +168,6 @@ class SearchSelection extends React.Component {
       }, 500);
     }
   };
-
   async queryList() {
     const { form, optionList } = this.state;
     this.setState({ loadingList: true, optionPanelVisible: true });
@@ -242,6 +243,7 @@ class SearchSelection extends React.Component {
             className={`${this.props.customStyle ? 'rc-input__control' : 'form-control'}`}
             value={form.value}
             // onKeyUp={(e) => throttle(this.handleInputChange(e), 2000)}
+            // onInput={(e)=>this.handleSearchSelectionInput(e)}
             onChange={(e) => this.handleInputChange(e)}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}

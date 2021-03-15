@@ -652,11 +652,12 @@ class PetForm extends React.Component {
       errorMsg: message
     });
     this.scrollToErrorMsg();
-    setTimeout(() => {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
       this.setState({
         errorMsg: ''
       });
-    }, 3000);
+    }, 5000);
   };
 
   showSuccessMsg = (message) => {

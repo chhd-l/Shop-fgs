@@ -885,7 +885,8 @@ class PersonalDataEditForm extends React.Component {
             hanldeClickConfirm={() => this.confirmValidationAddress()}
             close={() => {
               this.setState({
-                validationModalVisible: false
+                validationModalVisible: false,
+                validationLoading: false
               });
             }}
           />

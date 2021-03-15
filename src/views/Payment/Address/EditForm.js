@@ -48,8 +48,8 @@ class EditForm extends React.Component {
     // delete initData['email'];
     // delete address['email'];
 
-    console.log('------------- EditForm initData: ',initData);
-    console.log('------------- EditForm address: ',address);
+    console.log('------------- EditForm initData: ', initData);
+    console.log('------------- EditForm address: ', address);
 
     this.setState({ address: Object.assign(address, initData) }, () => {
       this.props.updateData(this.state.address);
@@ -72,7 +72,7 @@ class EditForm extends React.Component {
   }
   computedList(key) {
     let tmp = '';
-    if (key == 'province') {
+    if (key == 'state') {
       tmp = this.state[`${key}List`].map((c) => {
         return {
           value: c.id.toString(),
@@ -131,7 +131,7 @@ class EditForm extends React.Component {
   };
   handleSelectedItemChange(key, data) {
     const { address } = this.state;
-    if (key == 'province') {
+    if (key == 'state') {
       address.provinceName = data.name;
       address.provinceNo = data.stateNo; // 省份简写      
     } else if (key == 'country') {

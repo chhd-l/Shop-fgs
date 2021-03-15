@@ -21,7 +21,7 @@ class CitySearchSelection extends React.Component {
         defaultValue={this.props.defaultValue}
         key={this.props.defaultValue}
         freeText={this.props.freeText}
-        placeholder={this.props.intl.messages.inputSearchText}
+        placeholder={this.props.placeholder&&this.props.placeholder==null?"":this.props.intl.messages.inputSearchText}
         customStyle={true}
         isBottomPaging={true}
       />

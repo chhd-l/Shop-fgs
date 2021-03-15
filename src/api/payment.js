@@ -21,10 +21,21 @@ const api = {
   getProductPetConfig: '/order/config/findPet',
   // getProductPetConfig: '/order/config/findPet'
   adyen3DSResult: `/${process.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
-  Adyen3DSResult: '/Adyen3DSResult'
+  Adyen3DSResult: '/Adyen3DSResult',
+  //CYBER
+  usPaymentInfo:`/${process.env.REACT_APP_STOREID}/us-pay-payment-info` //CYBEr绑卡
 };
 
 export default api;
+
+export function usPaymentInfo(parameter) {
+  return axios({
+    url: api.usPaymentInfo,
+    method: 'post',
+    data: parameter
+  });
+}
+
 
 export function postVisitorRegisterAndLogin(parameter) {
   return axios({

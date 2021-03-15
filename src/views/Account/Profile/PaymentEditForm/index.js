@@ -8,11 +8,17 @@ import {
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
-import { validData } from '@/utils/utils';
+import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
-import PaymentForm from '@/components/PaymentForm';
+import CyberPaymentForm from '@/components/CyberPaymentForm';
+import CyberBillingAddress from '@/components/CyberBillingAddress';
+import { getProvincesList } from '@/api/index';
+import { usPaymentInfo } from '@/api/payment';
+import Loading from '@/components/Loading';
+import ValidationAddressModal from '@/components/validationAddressModal';
+import { ADDRESS_RULE } from './utils/constant';
 
 @inject('loginStore')
 @injectIntl
@@ -43,23 +49,24 @@ class PaymentEditForm extends React.Component {
 
       // 組件
       paymentForm: {
-        cardholderName: '',
-        cardNumber: '',
+        cardholderName: 'Didier Valansot',
+        cardNumber: '4111111111111111',
         expirationMonth: '',
         expirationYear: '',
-        securityCode: '',
-        firstName: "",
-        lastName: "",
-        address1: "",
-        address2: "",//非必填
+        securityCode: '',//000
+        firstName: "Didier",
+        lastName: "Valansot",
+        address1: "add1",
+        address2: "add2",//非必填
         country: "",
-        state: "",
-        city: "",
-        zipCode: "",
-        email: "",
+        state: "",//Alabama
+        city: "New York",
+        zipCode: "10036",
+        email: "didier.valansot@publicissapient.com",
         isSaveCard: true
       },
       monthList: [
+        { name: 'month',value: ''},
         { name: '01', value: 1 },
         { name: '02', value: 2 },
         { name: '03', value: 3 },
@@ -74,6 +81,7 @@ class PaymentEditForm extends React.Component {
         { name: '12', value: 12 },
       ],
       yearList: [
+        { name: 'year',value: ''},
         { name: '2021', value: 2021 },
         { name: '2022', value: 2022 },
         { name: '2023', value: 2023 },
@@ -85,17 +93,47 @@ class PaymentEditForm extends React.Component {
         { name: '2029', value: 2029 },
         { name: '2030', value: 2030 },
       ],
-      countryList:[
-        { name: 'Unite States', value: 'Unite States' },
-      ],
-      stateList:[
-        { name: 'Alabama', value: 'Alabama' },
-        { name: 'Alaska', value: 'Alaska' }
-      ],
+      countryList: [],
+      stateList: [],
+
+      validationLoading: false, // 地址校验loading
+      validationModalVisible: false, // 地址校验查询开关
+      selectValidationOption: 'suggestedAddress',
+
+      ValidationAddressData: {},//用于validationAddress校验的参数组装
+
+      validationAddress: "",
+
+      errMsgObj:{}
     };
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
+  }
+  componentDidMount() {
+    //查询国家
+    getDictionary({ type: 'country' }).then((res) => {
+      const { paymentForm } = this.state;
+      let clist = [{ value: res[0]?.description, name: res[0]?.name }];
+      this.setState({
+        countryList: clist
+      });
+      paymentForm.country = res[0]?.description;
+      paymentForm.countryId = res[0]?.id;
+    });
+
+    // 查询省份列表（美国：州）
+    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
+      this.setState({
+        stateList: res.context.systemStates
+      });
+    });
+  }
+  toTop = ()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
   cardInfoInputChange = (e) => {
     const target = e.target;
@@ -134,19 +172,39 @@ class PaymentEditForm extends React.Component {
       this.validFormData();
     });
   };
-  inputBlur = (e) => {
-    let validDom = Array.from(
-      e.target.parentElement.parentElement.children
-    ).filter((el) => {
-      let i = findIndex(Array.from(el.classList), (classItem) => {
-        return classItem === 'invalid-feedback';
-      });
-      return i > -1;
-    })[0];
-    if (validDom) {
-      validDom.style.display = e.target.value ? 'none' : 'block';
+  // inputBlur = (e) => {
+  //   let validDom = Array.from(
+  //     e.target.parentElement.parentElement.children
+  //   ).filter((el) => {
+  //     let i = findIndex(Array.from(el.classList), (classItem) => {
+  //       return classItem === 'invalid-feedback';
+  //     });
+  //     return i > -1;
+  //   })[0];
+  //   if (validDom) {
+  //     validDom.style.display = e.target.value ? 'none' : 'block';
+  //   }
+  // };
+  inputBlur = async (e) => {
+    const { errMsgObj } = this.state;
+    const target = e.target;
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const value = target.value;
+    try {
+        await validData(targetRule, { [target.name]: value });
+        this.setState({
+            errMsgObj: Object.assign({}, errMsgObj, {
+                [target.name]: ''
+            })
+        });
+    } catch (err) {
+        this.setState({
+            errMsgObj: Object.assign({}, errMsgObj, {
+                [target.name]: err.message
+            })
+        });
     }
-  };
+};
   // 实时获取卡类型
   cardNumberChange = async (e) => {
     const target = e.target;
@@ -293,12 +351,25 @@ class PaymentEditForm extends React.Component {
   };
   //select事件
   handleSelectedItemChange = (name, item) => {
+    let errMsgObj = this.state.errMsgObj
     const { paymentForm } = this.state;
     paymentForm[name] = item.value;
-    this.setState({ paymentForm }, () => {
+
+    let obj = Object.assign({},errMsgObj,{[name]:''}) //选择了值，幼稚了，就清空没填提示
+
+    this.setState({ paymentForm,errMsgObj:obj }, () => {
       console.log(paymentForm, '--------handleSelectedItemChange');
     });
   };
+  //selct city特殊处理
+  handleSelectedCityChange = (data) => {
+    const { paymentForm } = this.state;
+    paymentForm.city = data.cityName;
+
+    this.setState({ paymentForm }, () => {
+      console.log(paymentForm, '--------handleSelectedCityChange');
+    });
+  }
   //checkbox事件
   handelCheckboxChange = (name) => {
     const { paymentForm } = this.state;
@@ -312,6 +383,121 @@ class PaymentEditForm extends React.Component {
       }
     );
   };
+  //转换optionList对象
+  computedList(key) {
+    let tmp = '';
+    if (key == 'state') {
+      tmp = this.state[`${key}List`].map((c) => {
+        return {
+          value: c.stateName,
+          name: c.stateName,
+        };
+      });
+      tmp.unshift({ value: '', name: 'State' });
+    }
+    return tmp;
+  }
+
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    this.setState({
+      validationLoading: false
+    });
+    if (data && data != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      this.showNextPanel();
+    }
+  };
+  // 确认选择地址,切换到下一个最近的未complete的panel
+  async confirmValidationAddress() {
+    const { paymentForm, selectValidationOption, validationAddress } = this.state;
+    //console.log({ paymentForm, selectValidationOption, validationAddress })
+    
+    let params =  Object.assign({}, paymentForm, {
+      pspName: "CYBER",	
+      cardType: "001",
+    })
+    console.log(params)
+    console.log(this.userInfo)
+    // debugger
+    usPaymentInfo(params).then((res)=>{
+      console.log(res)
+    })
+
+    // if (selectValidationOption == 'suggestedAddress') {
+    //   form.address1 = validationAddress.address1;
+    //   form.address2 = validationAddress.address2;
+    //   form.city = validationAddress.city;
+    //   form.cityName = validationAddress.city;
+    //   if (process.env.REACT_APP_LANG === 'en') {
+    //     form.provinceName = validationAddress.provinceCode;
+    //   }
+    // }
+    this.showNextPanel();
+  }
+  //CYBER支付save判断必填项是否已经全部填完
+  cyberSaveIsAllRequiredFinished=()=>{
+    let errMsgObj = {}
+    const paymentForm = this.state.paymentForm
+    ADDRESS_RULE.forEach(item=>{
+      if(Object.keys(paymentForm).indexOf(item.key)&&(!paymentForm[item.key])) {
+        errMsgObj[item.key] = true
+      }
+    })
+
+    if(Object.keys(errMsgObj).length>0){
+      this.setState({errMsgObj},()=>{
+        console.log(this.state.errMsgObj)
+        //debugger
+        this.toTop()
+      })
+    }else{
+      this.handleCyberSave()
+    }
+    
+  }
+  //CYBER支付保存event
+  handleCyberSave = () => {
+    const { paymentForm } = this.state
+
+    // 地址验证
+    this.setState({
+      validationLoading: true
+    });
+
+    let ValidationAddressData = {}
+    ValidationAddressData['cityName'] = paymentForm.city
+    ValidationAddressData['country'] = paymentForm.countryId
+    ValidationAddressData['address1'] = paymentForm.address1
+    ValidationAddressData['postCode'] = paymentForm.zipCode
+    ValidationAddressData['provinceName'] = paymentForm.state
+
+    this.setState({ ValidationAddressData })
+
+    setTimeout(() => {
+      this.setState({
+        validationModalVisible: true
+      });
+    }, 800);
+  }
+  // 确认校验地址后下一步操作
+  showNextPanel = () => {
+    this.setState({
+      validationModalVisible: false
+    });
+    // do somehting
+  }
 
   render() {
     const {
@@ -319,7 +505,12 @@ class PaymentEditForm extends React.Component {
       errorMsg,
       successMsg,
       currentVendor,
-      saveLoading
+      saveLoading,
+      ValidationAddressData,
+      validationLoading,
+      validationModalVisible,
+      selectValidationOption,
+      errMsgObj
     } = this.state;
     const { paymentType } = this.props;
 
@@ -699,18 +890,85 @@ class PaymentEditForm extends React.Component {
 
         { paymentType === 'CYBER' && (
           <>
-            <PaymentForm form={this.state.paymentForm}
+            <CyberPaymentForm form={this.state.paymentForm}
+              errMsgObj={errMsgObj}
               monthList={this.state.monthList}
               yearList={this.state.yearList}
-              countryList={this.state.countryList}
-              stateList={this.state.stateList}
-              handelCheckboxChange={this.handelCheckboxChange}
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
               inputBlur={this.inputBlur} />
+            <CyberBillingAddress form={this.state.paymentForm}
+              errMsgObj={errMsgObj}
+              countryList={this.state.countryList}
+              stateList={this.computedList('state')}
+              handleInputChange={this.handleInputChange}
+              handleSelectedItemChange={this.handleSelectedItemChange}
+              handleSelectedCityChange={this.handleSelectedCityChange}
+              inputBlur={this.inputBlur}
+            />
+            {/* saveCard checkbox */}
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="rc-input rc-input--inline"
+                  onClick={() => this.handelCheckboxChange('isSaveCard')}>
+
+                  {this.state.paymentForm.isSaveCard ? (
+                    <input
+                      type="checkbox"
+                      className="rc-input__checkbox"
+                      value={this.state.paymentForm.isSaveCard}
+                      key="1"
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      className="rc-input__checkbox"
+                      value={this.state.paymentForm.isSaveCard}
+                      key="2"
+                    />
+                  )}
+                  <label className="rc-input__label--inline text-break">
+                    <FormattedMessage id="cyber.form.saveFor" />
+                  </label>
+                  {/* <div className="red-text"><FormattedMessage id="cyber.form.theBox" /></div> */}
+                </div>
+              </div>
+            </div>
+            {/* 取消 确认 按钮 */}
+            <div className="row" style={{ marginTop: '20px' }}>
+              <div className="col-sm-3"><button class="rc-btn rc-btn--two" style={{ width: '200px' }}>Cancel</button></div>
+              <div className="col-sm-3"></div>
+              <div className="col-sm-3">
+                <button class="rc-btn rc-btn--one" style={{ width: '200px' }} onClick={this.cyberSaveIsAllRequiredFinished}>Save</button>
+              </div>
+              <div className="col-sm-3"></div>
+            </div>
           </>
         )
         }
+
+        {/* 美国验证modal框 */}
+        {validationLoading && <Loading positionFixed="true" />}
+        {validationModalVisible && (
+          <ValidationAddressModal
+            address={ValidationAddressData}
+            updateValidationData={(res) => this.getValidationData(res)}
+            selectValidationOption={selectValidationOption}
+            handleChooseValidationAddress={(e) =>
+              this.chooseValidationAddress(e)
+            }
+            hanldeClickConfirm={() => this.confirmValidationAddress()}
+            close={() => {
+              this.setState({
+                validationModalVisible: false,
+                validationLoading: false,
+                saveLoading: false
+              });
+            }}
+          />
+        )}
+
       </div>
     );
   }

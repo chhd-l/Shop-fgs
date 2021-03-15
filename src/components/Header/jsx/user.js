@@ -172,43 +172,43 @@ const UserJSX = (props) => {
       ) : null}
     </>
   );
-  //clientWidth用于兼容 ipad pro展示
-  return !isMobile || clientWidth > 769
-    ? {
-        //hub专用
-        1: (
-          <li
-            onMouseOver={self.handleMouseOver}
-            onMouseOut={self.handleMouseOut}
-            onClick={self.loginIcon}
-          >
-            {/* 未登录 */}
-            {!isLogin && (
-              <a className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
-                <UnLoginUserBox
-                  className={`${showCart ? '' : 'rc-hidden'}`}
-                  self={self}
-                  {...props}
-                />
-              </a>
-            )}
-            {/* 登录 */}
-            {isLogin && (
-              <a className="brefName">
-                <Link to="/account" className="text-white">
-                  {firstNameLetter}
-                </Link>{' '}
-                <LoginUserBox
-                  className={`${showCart ? '' : 'rc-hidden'}`}
-                  self={self}
-                  {...props}
-                />
-              </a>
-            )}
-          </li>
-        )
-      }[process.env.REACT_APP_HUB] || defaultJSX
-    : null;
+
+  return +process.env.REACT_APP_HUB ? (
+    //clientWidth用于兼容 ipad pro展示
+    !isMobile || clientWidth > 769 ? (
+      <li
+        onMouseOver={self.handleMouseOver}
+        onMouseOut={self.handleMouseOut}
+        onClick={self.loginIcon}
+      >
+        {/* 未登录 */}
+        {!isLogin && (
+          <a className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
+            <UnLoginUserBox
+              className={`${showCart ? '' : 'rc-hidden'}`}
+              self={self}
+              {...props}
+            />
+          </a>
+        )}
+        {/* 登录 */}
+        {isLogin && (
+          <a className="brefName">
+            <Link to="/account" className="text-white">
+              {firstNameLetter}
+            </Link>{' '}
+            <LoginUserBox
+              className={`${showCart ? '' : 'rc-hidden'}`}
+              self={self}
+              {...props}
+            />
+          </a>
+        )}
+      </li>
+    ) : null
+  ) : (
+    defaultJSX
+  );
 };
 
 export default UserJSX;
