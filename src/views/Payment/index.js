@@ -1953,7 +1953,7 @@ class Payment extends React.Component {
                     htmlFor={`payment-info-${item.id}`}
                   >
                     {/* <FormattedMessage id={item.id} /> */}
-                    {ardTypeImg[item.id] ? (
+                    {cardTypeImg[item.id] ? (
                       <img
                         src={cardTypeImg[item.id]}
                         title={item.id}
