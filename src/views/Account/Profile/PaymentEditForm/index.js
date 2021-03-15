@@ -445,6 +445,7 @@ class PaymentEditForm extends React.Component {
   }
   handleCancel = () => {
     this.props.hideMyself({ closeListPage: this.props.backPage === 'cover' });
+    this.toTop();
   };
 
   //input输入事件
@@ -480,17 +481,21 @@ class PaymentEditForm extends React.Component {
 
     let obj = Object.assign({}, errMsgObj, { city: '' }); //选择有值了，就清空没填提示
 
-    this.setState({ paymentForm, obj }, () => {
+    this.setState({ paymentForm, errMsgObj: obj }, () => {
       console.log(paymentForm, '--------handleSelectedCityChange');
     });
   };
   //checkbox事件
   handelCheckboxChange = (name) => {
+    let errMsgObj = this.state.errMsgObj;
     const { paymentForm } = this.state;
     paymentForm[name] = !paymentForm[name];
+
+    let obj = Object.assign({}, errMsgObj, { isSaveCard: '' }); //选择有值了，就清空没填提示
     this.setState(
       {
-        paymentForm
+        paymentForm,
+        errMsgObj: obj
       },
       () => {
         console.log(paymentForm, '--------handelCheckboxChange');
@@ -572,28 +577,31 @@ class PaymentEditForm extends React.Component {
   }
   //CYBER支付save判断必填项是否已经全部填完
   cyberSaveIsAllRequiredFinished = () => {
-    setTimeout(() => {
-      let errMsgObj = {};
-      const paymentForm = this.state.paymentForm;
-      ADDRESS_RULE.forEach((item) => {
-        if (
-          Object.keys(paymentForm).indexOf(item.key) &&
-          !paymentForm[item.key] &&
-          item.require //必填项没值
-        ) {
-          errMsgObj[item.key] = true;
-        }
-      });
-
-      if (Object.keys(errMsgObj).length > 0) {
-        this.setState({ errMsgObj }, () => {
-          //console.log(this.state.errMsgObj);
-          this.toTop();
-        });
-      } else {
-        this.handleCyberSave();
+    let errMsgObj = {};
+    const paymentForm = this.state.paymentForm;
+    ADDRESS_RULE.forEach((item) => {
+      if (
+        Object.keys(paymentForm).indexOf(item.key) &&
+        !paymentForm[item.key] &&
+        item.require //必填项没值
+      ) {
+        errMsgObj[item.key] = true;
       }
-    }, 800);
+    });
+
+    if (Object.keys(errMsgObj).length > 0) {
+      this.setState({ errMsgObj }, () => {
+        //console.log(this.state.errMsgObj);
+        this.toTop();
+      });
+    } else if (!this.state.paymentForm.isSaveCard) {
+      let errMsgObj = Object.assign({}, this.state.errMsgObj, {
+        isSaveCard: true
+      });
+      this.setState({ errMsgObj });
+    } else {
+      this.handleCyberSave();
+    }
   };
   //CYBER支付保存event
   handleCyberSave = () => {
@@ -1142,7 +1150,11 @@ class PaymentEditForm extends React.Component {
                   <label className="rc-input__label--inline text-break">
                     <FormattedMessage id="cyber.form.saveFor" />
                   </label>
-                  {/* <div className="red-text"><FormattedMessage id="cyber.form.theBox" /></div> */}
+                  {this.state.errMsgObj.isSaveCard ? (
+                    <div className="red-text">
+                      <FormattedMessage id="cyber.form.theBox" />
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
