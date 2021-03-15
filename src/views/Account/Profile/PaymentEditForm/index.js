@@ -148,7 +148,8 @@ class PaymentEditForm extends React.Component {
           paymentTypeVal: 'cyberDiscover'
         }
       ],
-      paymentTypeVal: ''
+      paymentTypeVal: '',
+      btnLoading: false
     };
   }
   get userInfo() {
@@ -536,7 +537,7 @@ class PaymentEditForm extends React.Component {
   async confirmValidationAddress() {
     let { paymentForm, selectValidationOption, validationAddress } = this.state;
     let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
-
+    this.setState({ btnLoading: true });
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
       paymentForm.address2 = validationAddress.address2;
@@ -557,9 +558,10 @@ class PaymentEditForm extends React.Component {
 
     try {
       const res = await usPaymentInfo(params);
-      console.log(res);
     } catch (err) {
-      console.log('usPaymentInfo:' + err.message);
+      this.showErrorMsg(err.message);
+    } finally {
+      this.setState({ btnLoading: false });
     }
 
     this.showNextPanel();
@@ -1022,6 +1024,41 @@ class PaymentEditForm extends React.Component {
 
         {paymentType === 'CYBER' && (
           <>
+            <div className="content-asset">
+              <div
+                className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                  errorMsg ? '' : 'hidden'
+                }`}
+              >
+                <aside
+                  className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                  role="alert"
+                >
+                  <span className="pl-0">{errorMsg}</span>
+                  <button
+                    className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                    onClick={() => {
+                      this.setState({ errorMsg: '' });
+                    }}
+                    aria-label="Close"
+                  >
+                    <span className="rc-screen-reader-text">
+                      <FormattedMessage id="close" />
+                    </span>
+                  </button>
+                </aside>
+              </div>
+              <aside
+                className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                  successMsg ? '' : 'hidden'
+                }`}
+                role="alert"
+              >
+                <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                  {successMsg}
+                </p>
+              </aside>
+            </div>
             {/* CYBER支持卡类型，超过一种才显示此tab栏 */}
             {payWayNameArr.length > 1 && (
               <div>
@@ -1133,6 +1170,7 @@ class PaymentEditForm extends React.Component {
         {validationLoading && <Loading positionFixed="true" />}
         {validationModalVisible && (
           <ValidationAddressModal
+            btnLoading={this.state.btnLoading}
             address={ValidationAddressData}
             updateValidationData={(res) => this.getValidationData(res)}
             selectValidationOption={selectValidationOption}

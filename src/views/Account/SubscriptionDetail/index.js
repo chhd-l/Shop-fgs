@@ -87,7 +87,7 @@ class SubscriptionDetail extends React.Component {
       subTotal: 0,
       subShipping: 0,
       addNewPetVisible: false,
-      changeRecommendationVisible: true,
+      changeRecommendationVisible: false,
       produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -341,7 +341,7 @@ class SubscriptionDetail extends React.Component {
         <Modal
           headerVisible={true}
           footerVisible={false}
-          visible={true}
+          visible={this.state.changeRecommendationVisible}
           modalTitle=""
           close={this.closeAddNewPet}
         >
@@ -355,8 +355,8 @@ class SubscriptionDetail extends React.Component {
                 <div className="d-flex rc-margin-right--xs">
                   <img src="" />
                   <div>
-                    <p>name</p>
-                    <p>type</p>
+                    <div>name</div>
+                    <div>type</div>
                   </div>
                 </div>
                 <div className="line-item-quantity text-lg-center rc-margin-right--xs">
@@ -428,12 +428,19 @@ class SubscriptionDetail extends React.Component {
                   {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
                   <div>
                     <Selection
+                      optionList={this.frequencyListOptions}
+                      selectedItemChange={(el) => {
+                        if (el.periodTypeId !== data.id) {
+                          el.periodTypeId = data.id;
+                          // el.periodTypeValue = data.valueEn;
+                          this.setState({ isDataChange: true });
+                        }
+                      }}
+                      selectedItemData={{
+                        value: 5744
+                      }}
                       customContainerStyle={{}}
                       // selectedItemChange={(data) => handleSelectedItemChange(data)}
-                      optionList={[]}
-                      selectedItemData={{
-                        value: 1
-                      }}
                       customStyleType="select-one"
                     />
                   </div>
@@ -441,13 +448,24 @@ class SubscriptionDetail extends React.Component {
               </div>
               <strong className="rc-md-up">=$27</strong>
             </div>
-            <div className="d-flex  for-mobile-colum">
-              <span className="rc-styled-link">See other recommendation</span>
-              <div>
-                <button className="rc-btn rc-btn--two rc-btn--sm">
+            <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
+              <span
+                className="rc-styled-link"
+                onClick={this.showChangeRecommendation}
+              >
+                See other recommendation
+              </span>
+              <div className="for-mobile-colum">
+                <button
+                  onClick={this.showProdutctDetail}
+                  className="rc-btn rc-btn--two rc-btn--sm"
+                >
                   Product details
                 </button>
-                <button className="rc-btn rc-btn--one rc-btn--sm">
+                <button
+                  onClick={this.changePets}
+                  className="rc-btn rc-btn--one rc-btn--sm"
+                >
                   Change now
                 </button>
               </div>
@@ -1326,8 +1344,15 @@ class SubscriptionDetail extends React.Component {
     this.closeProdutctDetail();
     this.showChangeProduct();
   };
+  closeRecommendation = () => {
+    this.setState({ changeRecommendationVisible: false });
+  };
+  changePets = () => {
+    this.closeRecommendation();
+  };
   showProdutctDetail = () => {
     this.closeChangeProduct();
+    this.closeRecommendation();
     this.setState({ produtctDetailVisible: true });
   };
   closeProdutctDetail = () => {
