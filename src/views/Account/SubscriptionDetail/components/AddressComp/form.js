@@ -27,14 +27,14 @@ export default class AddressForm extends React.Component {
         phoneNumber: ''
       },
       countryList: [],
-      provinceList: [], // 省份列表
+      provinceList: [] // 省份列表
     };
   }
   componentDidMount() {
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
-      })
+      });
     });
     // 查询省份列表（美国：州）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
@@ -45,11 +45,14 @@ export default class AddressForm extends React.Component {
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.deliveryAddress) {
-      this.setState({
-        deliveryAddress: Object.assign({}, nextProps.data)
-      }, () => {
-        // console.log('------------------ ★ SubscriptionDetail form: ', this.state.deliveryAddress);
-      });
+      this.setState(
+        {
+          deliveryAddress: Object.assign({}, nextProps.data)
+        },
+        () => {
+          // console.log('------------------ ★ SubscriptionDetail form: ', this.state.deliveryAddress);
+        }
+      );
     }
   }
   computedList(key) {
@@ -108,7 +111,7 @@ export default class AddressForm extends React.Component {
     const { deliveryAddress } = this.state;
     if (key == 'province') {
       deliveryAddress.provinceName = data.name;
-      deliveryAddress.provinceNo = data.stateNo; // 省份简写      
+      deliveryAddress.provinceNo = data.stateNo; // 省份简写
     } else if (key == 'country') {
       deliveryAddress.countryName = data.name;
     }
@@ -358,9 +361,7 @@ export default class AddressForm extends React.Component {
         </div>
 
         {/* 省份 */}
-        {process.env.REACT_APP_LANG === 'en' ? (
-          this._provinceJSX()
-        ) : (null)}
+        {process.env.REACT_APP_LANG === 'en' ? this._provinceJSX() : null}
 
         {/* 城市 */}
         <div className="col-12 col-md-6 required dwfrm_shipping_shippingAddress_addressFields_city">
@@ -370,7 +371,13 @@ export default class AddressForm extends React.Component {
             </label>
             <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
               <CitySearchSelection
-                defaultValue={this.state.deliveryAddress.cityName == 0 || this.state.deliveryAddress.cityName == null ? this.state.deliveryAddress.city : this.state.deliveryAddress.cityName}
+                placeholder={true}
+                defaultValue={
+                  this.state.deliveryAddress.cityName == 0 ||
+                  this.state.deliveryAddress.cityName == null
+                    ? this.state.deliveryAddress.city
+                    : this.state.deliveryAddress.cityName
+                }
                 key={this.state.deliveryAddress.cityName}
                 freeText={true}
                 onChange={this.handleCityInputChange}

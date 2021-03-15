@@ -1,19 +1,19 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 class CyberBillingAddress extends React.Component {
   static defaultProps = {
     form: {
-      firstName: "",
-      lastName: "",
-      address1: "",
-      address2: "",//非必填
-      country: "",
-      state: "",
-      city: "",
-      zipCode: "",
-      email: "",
+      firstName: '',
+      lastName: '',
+      address1: '',
+      address2: '', //非必填
+      country: '',
+      state: '',
+      city: '',
+      zipCode: '',
+      email: '',
       isSaveCard: true
     },
     countryList: [],
@@ -24,23 +24,20 @@ class CyberBillingAddress extends React.Component {
       address1: '',
       country: '',
       state: '',
-      city:'',
+      city: '',
       zipCode: '',
       email: ''
     }
   };
 
   firstNameJSX = () => {
-    const { form,errMsgObj } = this.props
+    const { form, errMsgObj } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
           <FormattedMessage id="cyber.form.firstName" />
         </label>
-        <span
-          className="rc-input rc-input--full-width"
-          input-setup="true"
-        >
+        <span className="rc-input rc-input--full-width" input-setup="true">
           <input
             className="rc-input__control"
             id="firstName"
@@ -53,23 +50,22 @@ class CyberBillingAddress extends React.Component {
           <label className="rc-input__label" htmlFor="firstName" />
         </span>
         {errMsgObj.firstName && (
-          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   lastNameJSX = () => {
-    const { form,errMsgObj } = this.props
+    const { form, errMsgObj } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
           <FormattedMessage id="cyber.form.lastName" />
         </label>
-        <span
-          className="rc-input rc-input--full-width"
-          input-setup="true"
-        >
+        <span className="rc-input rc-input--full-width" input-setup="true">
           <input
             className="rc-input__control"
             id="lastName"
@@ -82,23 +78,22 @@ class CyberBillingAddress extends React.Component {
           <label className="rc-input__label" htmlFor="lastName" />
         </span>
         {errMsgObj.lastName && (
-          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   address1JSX = () => {
-    const { form,errMsgObj } = this.props
+    const { form, errMsgObj } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
           <FormattedMessage id="cyber.form.address1" />
         </label>
-        <span
-          className="rc-input rc-input--full-width"
-          input-setup="true"
-        >
+        <span className="rc-input rc-input--full-width" input-setup="true">
           <input
             className="rc-input__control email"
             id="address1"
@@ -111,23 +106,22 @@ class CyberBillingAddress extends React.Component {
           <label className="rc-input__label" htmlFor="address1" />
         </span>
         {errMsgObj.address1 && (
-          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   address2JSX = () => {
-    const { form } = this.props
+    const { form } = this.props;
     return (
       <div className="form-group">
         <label className="form-control-label">
           <FormattedMessage id="cyber.form.address2" />
         </label>
-        <span
-          className="rc-input rc-input--full-width"
-          input-setup="true"
-        >
+        <span className="rc-input rc-input--full-width" input-setup="true">
           <input
             className="rc-input__control"
             id="address2"
@@ -140,11 +134,11 @@ class CyberBillingAddress extends React.Component {
           <label className="rc-input__label" htmlFor="address2" />
         </span>
       </div>
-    )
-  }
+    );
+  };
 
   countryJSX = () => {
-    const { form,errMsgObj } = this.props
+    const { form, errMsgObj } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label" htmlFor="month">
@@ -166,14 +160,16 @@ class CyberBillingAddress extends React.Component {
           />
         </span>
         {errMsgObj.country && (
-          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   stateJSX = () => {
-    const { form,errMsgObj } = this.props
+    const { form, errMsgObj } = this.props;
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
         <label className="form-control-label" htmlFor="month">
@@ -186,7 +182,7 @@ class CyberBillingAddress extends React.Component {
           <Selection
             selectedItemChange={(data) => {
               if (data.value != '') {
-                this.props.handleSelectedItemChange('state', data)
+                this.props.handleSelectedItemChange('state', data);
               }
             }}
             optionList={this.props.stateList}
@@ -195,25 +191,24 @@ class CyberBillingAddress extends React.Component {
           />
         </span>
         {errMsgObj.state && (
-          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   cityJSX = () => {
-    const { form,errMsgObj } = this.props
+    const { form, errMsgObj } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
           <FormattedMessage id="cyber.form.city" />
         </label>
-        <span
-          className="rc-input rc-input--full-width"
-          input-setup="true"
-        >
+        <span className="rc-input rc-input--full-width" input-setup="true">
           <CitySearchSelection
-            placeholder={null}
+            placeholder={false}
             defaultValue={form.city}
             key={form.city}
             freeText={true}
@@ -221,23 +216,22 @@ class CyberBillingAddress extends React.Component {
           />
         </span>
         {errMsgObj.city && (
-          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   zipCodeJSX = () => {
-    const { form,errMsgObj } = this.props
+    const { form, errMsgObj } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
           <FormattedMessage id="cyber.form.zipCode" />
         </label>
-        <span
-          className="rc-input rc-input--full-width"
-          input-setup="true"
-        >
+        <span className="rc-input rc-input--full-width" input-setup="true">
           <input
             className="rc-input__control"
             id="zipCode"
@@ -250,23 +244,22 @@ class CyberBillingAddress extends React.Component {
           <label className="rc-input__label" htmlFor="zipCode" />
         </span>
         {errMsgObj.zipCode && (
-          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   emailJSX = () => {
-    const { form,errMsgObj } = this.props
+    const { form, errMsgObj } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
           <FormattedMessage id="cyber.form.email" />
         </label>
-        <span
-          className="rc-input rc-input--full-width"
-          input-setup="true"
-        >
+        <span className="rc-input rc-input--full-width" input-setup="true">
           <input
             className="rc-input__control"
             id="email"
@@ -279,67 +272,51 @@ class CyberBillingAddress extends React.Component {
           <label className="rc-input__label" htmlFor="email" />
         </span>
         {errMsgObj.email && (
-          <div className="text-danger-2"><FormattedMessage id="payment.errorInfo2" /></div>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
       <div className="billingAddress">
         {/* firstName */}
         <div className="row">
-          <div className="col-sm-12">
-            {this.firstNameJSX()}
-          </div>
+          <div className="col-sm-12">{this.firstNameJSX()}</div>
         </div>
         {/* lastName */}
         <div className="row">
-          <div className="col-sm-12">
-            {this.lastNameJSX()}
-          </div>
+          <div className="col-sm-12">{this.lastNameJSX()}</div>
         </div>
         {/* address1 */}
         <div className="row">
-          <div className="col-sm-12">
-            {this.address1JSX()}
-          </div>
+          <div className="col-sm-12">{this.address1JSX()}</div>
         </div>
         {/* address2 */}
         <div className="row">
-          <div className="col-sm-12">
-            {this.address2JSX()}
-          </div>
+          <div className="col-sm-12">{this.address2JSX()}</div>
         </div>
         <div className="row">
           {/* country*/}
-          <div className="col-sm-6">
-            {this.countryJSX()}
-          </div>
+          <div className="col-sm-6">{this.countryJSX()}</div>
           {/* state */}
-          <div className="col-sm-6">
-            {this.stateJSX()}
-          </div>
+          <div className="col-sm-6">{this.stateJSX()}</div>
         </div>
         <div className="row">
           {/* city */}
-          <div className="col-sm-6">
-            {this.cityJSX()}
-          </div>
+          <div className="col-sm-6">{this.cityJSX()}</div>
           {/* ZIP Code */}
-          <div className="col-sm-6">
-            {this.zipCodeJSX()}
-          </div>
+          <div className="col-sm-6">{this.zipCodeJSX()}</div>
         </div>
         {/* Email */}
         <div className="row">
-          <div className="col-sm-12">
-            {this.emailJSX()}
-          </div>
+          <div className="col-sm-12">{this.emailJSX()}</div>
         </div>
       </div>
-    )
+    );
   }
 }
-export default CyberBillingAddress
+export default CyberBillingAddress;
