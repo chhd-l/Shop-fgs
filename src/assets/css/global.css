@@ -17639,7 +17639,7 @@ body.open-dropdown:after {
   top: 0;
   left: 0;
   /* opacity: .4; */
-  background: #adadad;
+  background: rgba(51, 51, 51, 0.4);
   -webkit-transition: 1s;
   transition: 1s;
 }
