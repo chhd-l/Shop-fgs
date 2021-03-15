@@ -231,19 +231,6 @@ class PayProductInfo extends React.Component {
   get firstOrderOnThePlatformDiscountPrice() {
     return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
-  //特殊化处理俄罗斯checkout页面价格单位加粗
-  formatRuCheckMoney(val) {
-    if (process.env.REACT_APP_NAVIGATOR_LANG == 'ru') {
-      const unit = val.substr(val.length - 1, 1);
-      const other = val.substring(0, val.length - 1);
-      return (
-        <span>
-          {other}
-          <b>{unit}</b>
-        </span>
-      );
-    }
-  }
   getProducts(plist) {
     const List = plist.map((el, i) => {
       let selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
@@ -290,12 +277,10 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="line-item-total-price justify-content-end pull-right">
                   <div>
-                    {this.formatRuCheckMoney(
-                      formatMoney(
-                        el.sizeList.filter((el) => el.selected)[0][
-                          'marketPrice'
-                        ] * el.quantity
-                      )
+                    {formatMoney(
+                      el.sizeList.filter((el) => el.selected)[0][
+                        'marketPrice'
+                      ] * el.quantity
                     )}
                   </div>
                 </div>
@@ -681,7 +666,7 @@ class PayProductInfo extends React.Component {
                   <div className="col-4 end-lines">
                     <p className="text-right">
                       <span className="sub-total">
-                        {this.formatRuCheckMoney(formatMoney(this.totalPrice))}
+                        {formatMoney(this.totalPrice)}
                       </span>
                     </p>
                   </div>
@@ -774,9 +759,7 @@ class PayProductInfo extends React.Component {
                   <div className="col-5 end-lines">
                     <p className="text-right">
                       <span className="shipping-total-cost">
-                        {this.formatRuCheckMoney(
-                          formatMoney(this.deliveryPrice)
-                        )}
+                        {formatMoney(this.deliveryPrice)}
                       </span>
                     </p>
                   </div>
@@ -815,9 +798,7 @@ class PayProductInfo extends React.Component {
                     <div className="col-5 end-lines">
                       <p className="text-right">
                         <span className="shipping-total-cost">
-                          {this.formatRuCheckMoney(
-                            formatMoney(this.taxFeePrice)
-                          )}
+                          {formatMoney(this.taxFeePrice)}
                         </span>
                       </p>
                     </div>
