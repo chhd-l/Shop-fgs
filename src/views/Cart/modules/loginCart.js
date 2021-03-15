@@ -139,6 +139,9 @@ class LoginCart extends React.Component {
       GACartScreenLoad();
     }
     this.setData();
+    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+      this.handleCheckout();
+    }
   }
   get loginCartData() {
     return this.props.checkoutStore.loginCartData;
