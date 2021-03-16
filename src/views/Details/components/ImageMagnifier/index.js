@@ -45,7 +45,7 @@ class ImageMagnifier extends Component {
        */
       params: {
         // 放大倍数
-        scale: (props.config && props.config.scale) || 2,
+        scale: (props.config && props.config.scale) || 1.5,
         // 组件宽
         width: isMobile ? '230' : (props.config && props.config.width) || '250',
         // 组件高
@@ -222,7 +222,7 @@ class ImageMagnifier extends Component {
   mouseEnter = () => {
     this.setState(
       {
-        magnifierOff: true,
+        magnifierOff: true
         // params: Object.assign({}, this.state.params, {
         //   width: document.querySelector('#J_detail_img')
         //     ? document.querySelector('#J_detail_img').offsetWidth
@@ -373,7 +373,7 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
-    console.log(cssStyle, 'cssStyle123')
+    console.log(cssStyle, 'cssStyle123');
     let {
       images,
       video,
@@ -384,9 +384,9 @@ class ImageMagnifier extends Component {
     if (process.env.REACT_APP_LANG !== 'fr' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;
-      let temImage = spuImages[masterIndex]
-      spuImages.splice(masterIndex, 1)
-      spuImages.unshift(temImage)
+      let temImage = spuImages[masterIndex];
+      spuImages.splice(masterIndex, 1);
+      spuImages.unshift(temImage);
     }
     // images = this.filterImage(images)
     let imgCount = spuImages.length;
