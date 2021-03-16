@@ -772,7 +772,7 @@ class PetForm extends React.Component {
   render() {
     const event = {
       page: {
-        type: 'pet',
+        type: 'myAccountPet',
         theme: '',
         path: this.props.location.pathname,
         error: '',
