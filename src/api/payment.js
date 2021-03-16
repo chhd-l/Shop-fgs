@@ -123,13 +123,15 @@ export function adyenPaymentsDetails(parameter) {
 }
 
 export function getProductPetConfig(parameter) {
+  parameter.goodsInfos.map((ele) => {
+    return Object.assign(ele, {
+      goodsDetail: ''
+    });
+  });
   return axios({
     url: api.getProductPetConfig,
     method: 'post',
-    data: parameter.goodsInfos.map((ele) => {
-      const { goodsDetail, ...otherParam } = ele;
-      return otherParam;
-    })
+    data: parameter
   });
 }
 export function setDefaltCard(parameter) {
