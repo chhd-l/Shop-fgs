@@ -12,6 +12,8 @@ import { GAInitUnLogin, GAInitLogin } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
+import Club_Logo from '@/assets/images/Logo_club.png';
+import './index.css';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -255,6 +257,9 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, el)}
                   >
                     <span className="light">{el.goodsName}</span>
+                    {el.promotions && el.promotions.includes('club') ? (
+                      <img className="clubLogo" src={Club_Logo} />
+                    ) : null}
                   </div>
                 </div>
                 <div className="line-item-total-price justify-content-start pull-left">
@@ -329,6 +334,9 @@ class PayProductInfo extends React.Component {
                     <span className="light">
                       {el.goodsName || el.goods.goodsName}
                     </span>
+                    {el.promotions && el.promotions.includes('club') ? (
+                      <img className="clubLogo" src={Club_Logo} />
+                    ) : null}
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">

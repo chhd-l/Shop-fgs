@@ -44,6 +44,7 @@ import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import { v4 as uuidv4 } from 'uuid';
+import Club_Logo from '@/assets/images/Logo_club.png';
 const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
