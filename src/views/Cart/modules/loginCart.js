@@ -42,6 +42,7 @@ import PayProductInfo from '../../Payment/PayProductInfo';
 import BannerTip from '@/components/BannerTip';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
+import ClubSelection from '../components/ClubSelection';
 import { v4 as uuidv4 } from 'uuid';
 const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
@@ -750,7 +751,8 @@ class LoginCart extends React.Component {
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
               <div class="rc-column">
-                {pitem.subscriptionStatus ? (
+                {pitem.subscriptionStatus &&
+                (!pitem.promotions || !pitem.promotions.includes('club')) ? (
                   <SubscriptionSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -773,9 +775,70 @@ class LoginCart extends React.Component {
                     setState={this.setState.bind(this)}
                   />
                 ) : null}
+                {pitem.promotions && pitem.promotions.includes('club') ? (
+                  <ClubSelection
+                    isGift={isGift}
+                    pitem={pitem}
+                    activeToolTipIndex={this.state.activeToolTipIndex}
+                    index={index}
+                    toolTipVisible={this.state.toolTipVisible}
+                    computedList={this.computedList}
+                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                      this,
+                      {
+                        goodsInfoFlag: 2,
+                        periodTypeId: pitem.form.frequencyId,
+                        pitem
+                      }
+                    )}
+                    changeFrequency={(pitem, data) =>
+                      this.handleSelectedItemChange(pitem, data)
+                    }
+                    isLogin={true}
+                    setState={this.setState.bind(this)}
+                  />
+                ) : null}
               </div>
             </div>
           </div>
+          {pitem.promotions && pitem.promotions.includes('club') ? (
+            <div
+              className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
+              style={{ marginTop: '-24px' }}
+            >
+              <div className="name-info flex-column-gift d-flex">
+                <img className="img" src={foodDispenserPic} />
+              </div>
+              <div className="text-center" style={{ width: '200px' }}>
+                <img
+                  style={{ display: 'inline-block', width: '108px' }}
+                  src={Club_Logo}
+                />
+              </div>
+              <div className="tips-info mobile-text-center">
+                <ul>
+                  <li className="rc-list__item">
+                    <strong>Best-in-class nutrition</strong> for your pet
+                  </li>
+                  <li className="rc-list__item">
+                    <strong>Adapted tips</strong> to care for your pet
+                  </li>
+                  <li className="rc-list__item">
+                    Your personal <strong>Pet advisor</strong>
+                  </li>
+                  <li className="rc-list__item">
+                    Exclusive <strong>rewards & offers</strong>
+                  </li>
+                  <li className="rc-list__item">
+                    <strong>Free, automatic delivery</strong> on every refill
+                  </li>
+                </ul>
+                {/* You can cancel your subscription anytime, but you will have to
+                pay the remaining balance of the dispenser market price of 120
+                euros.* */}
+              </div>
+            </div>
+          ) : null}
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
               <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface">

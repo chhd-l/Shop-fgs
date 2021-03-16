@@ -36,6 +36,7 @@ import Club_Logo from '@/assets/images/Logo_club.png';
 import './index.less';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
+import ClubSelection from '../components/ClubSelection';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -821,7 +822,11 @@ class UnLoginCart extends React.Component {
               </div>
               <div class="rc-column">
                 {pitem.sizeList.filter((el) => el.selected)[0]
-                  .subscriptionStatus ? (
+                  .subscriptionStatus &&
+                (!pitem.sizeList.filter((el) => el.selected)[0].promotions ||
+                  !pitem.sizeList
+                    .filter((el) => el.selected)[0]
+                    .promotions.includes('club')) ? (
                   <SubscriptionSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -844,10 +849,39 @@ class UnLoginCart extends React.Component {
                     setState={this.setState.bind(this)}
                   />
                 ) : null}
+                {pitem.sizeList.filter((el) => el.selected)[0].promotions &&
+                pitem.sizeList
+                  .filter((el) => el.selected)[0]
+                  .promotions.includes('club') ? (
+                  <ClubSelection
+                    isGift={isGift}
+                    pitem={pitem}
+                    activeToolTipIndex={this.state.activeToolTipIndex}
+                    index={index}
+                    toolTipVisible={this.state.toolTipVisible}
+                    computedList={this.computedList}
+                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                      this,
+                      {
+                        goodsInfoFlag: 2,
+                        periodTypeId: pitem.form.frequencyId,
+                        pitem
+                      }
+                    )}
+                    changeFrequency={(pitem, data) =>
+                      this.handleSelectedItemChange(pitem, data)
+                    }
+                    isLogin={false}
+                    setState={this.setState.bind(this)}
+                  />
+                ) : null}
               </div>
             </div>
           </div>
-          {true ? (
+          {pitem.sizeList.filter((el) => el.selected)[0].promotions &&
+          pitem.sizeList
+            .filter((el) => el.selected)[0]
+            .promotions.includes('club') ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-24px' }}

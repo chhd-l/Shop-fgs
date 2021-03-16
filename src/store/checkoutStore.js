@@ -342,7 +342,6 @@ class CheckoutStore {
   } = {}) {
     try {
       this.changeLoadingCartData(true);
-
       if (!taxFeeData) {
         taxFeeData = nullTaxFeeData;
       }
