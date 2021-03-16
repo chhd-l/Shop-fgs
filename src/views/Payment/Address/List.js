@@ -454,7 +454,7 @@ class AddressList extends React.Component {
       selectValidationOption,
       validationAddress
     } = this.state;
-    let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
+    // let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.address2 = validationAddress.address2;
@@ -462,7 +462,7 @@ class AddressList extends React.Component {
       deliveryAddress.cityName = validationAddress.city;
       deliveryAddress.provinceName = validationAddress.provinceCode;
     } else {
-      deliveryAddress = JSON.parse(JSON.stringify(oldDeliveryAddress));
+      // deliveryAddress = JSON.parse(JSON.stringify(oldDeliveryAddress));
     }
     // 下一步
     this.showNextPanel();
@@ -889,6 +889,7 @@ class AddressList extends React.Component {
                 this.chooseValidationAddress(e)
               }
               hanldeClickConfirm={() => this.confirmValidationAddress()}
+              validationModalVisible={validationModalVisible}
               close={() => {
                 this.setState({
                   validationModalVisible: false,

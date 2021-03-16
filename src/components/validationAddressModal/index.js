@@ -8,6 +8,7 @@ class ValidationAddressModal extends React.Component {
     modalTitle: <FormattedMessage id="information" />,
     updateValidationData: () => {},
     btnLoading: false,
+    validationModalVisible: false,
     address: {
       address1: '',
       address2: '',
@@ -92,7 +93,9 @@ class ValidationAddressModal extends React.Component {
       <>
         {modalVisible ? (
           <div
-            className={`modal validation_modal fade show`}
+            className={`modal validation_modal fade ${
+              this.props.validationModalVisible ? 'show' : ''
+            }`}
             id="shippingAddressValidationModal"
             tabIndex="-1"
             role="dialog"
