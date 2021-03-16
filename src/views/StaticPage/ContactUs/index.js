@@ -73,13 +73,15 @@ class ContactUs extends Component {
       await validData(targetRule, { [target.name]: value });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: ''
+          [target.name]: '',
+          validEmail: ''
         })
       });
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: err.message
+          [target.name]: err.message,
+          validEmail: ''
         })
       });
     }
@@ -93,7 +95,33 @@ class ContactUs extends Component {
     const { firstName, lastName, email, request } = this.state.address;
     if (firstName && lastName && email && request) return true;
   };
+  //验证邮箱格式是否正确
+  emailFormatChecked = async () => {
+    const { errMsgObj } = this.state;
+    const { email } = this.state.address;
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === 'validEmail');
+    try {
+      await validData(targetRule, { validEmail: email });
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          validEmail: ''
+        })
+      });
+      return true;
+    } catch (err) {
+      window.scrollTo(0, 100);
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          validEmail: err.message
+        })
+      });
+      return false;
+    }
+  };
   submitEvent = async () => {
+    //点击提交按钮时先验证邮箱格式是否正确
+    const isValidEmail = await this.emailFormatChecked();
+    if (!isValidEmail) return;
     this.setState({ isLoading: true });
     const { address } = this.state;
     address.phoneNumber = this.textInput.current.value;
@@ -217,7 +245,8 @@ class ContactUs extends Component {
             'rc-input--inline',
             'rc-full-width',
             'rc-input--full-width',
-            errMsgObj.email ? 'rc-input--error' : ''
+            errMsgObj.email || errMsgObj.validEmail ? 'rc-input--error' : '',
+            errMsgObj.validEmail ? 'rc-input--invalid--email' : ''
           ].join(' ')}
           input-setup="true"
         >
@@ -233,8 +262,10 @@ class ContactUs extends Component {
           />
           <label className="rc-input__label" htmlFor="shippingEmail" />
         </span>
-        {errMsgObj.email && (
-          <div className="text-danger-2">{errMsgObj.email}</div>
+        {(errMsgObj.email || errMsgObj.validEmail) && (
+          <div className="text-danger-2">
+            {errMsgObj.email || errMsgObj.validEmail}
+          </div>
         )}
       </div>
     );
