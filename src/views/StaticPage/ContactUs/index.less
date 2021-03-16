@@ -103,4 +103,12 @@
     border-color: #ec001a !important;
     opacity: 1;
   }
+  .rc-input--invalid--email{
+    .rc-input__control{
+      color:  #c03344!important;
+    }
+    .rc-input__control:not([value=""])+.rc-input__label::after {
+      background-color: #c03344 !important;
+    }
+  }
 }
