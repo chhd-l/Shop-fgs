@@ -197,7 +197,7 @@ class PersonalDataEditForm extends React.Component {
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
     const { form, selectValidationOption, validationAddress } = this.state;
-    let oldForm = JSON.parse(JSON.stringify(form));
+    // let oldForm = JSON.parse(JSON.stringify(form));
     if (selectValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
@@ -207,7 +207,7 @@ class PersonalDataEditForm extends React.Component {
         form.provinceName = validationAddress.provinceCode;
       }
     } else {
-      form = JSON.parse(JSON.stringify(oldForm));
+      // form = JSON.parse(JSON.stringify(oldForm));
     }
     this.showNextPanel();
   }
@@ -896,6 +896,7 @@ class PersonalDataEditForm extends React.Component {
               this.chooseValidationAddress(e)
             }
             hanldeClickConfirm={() => this.confirmValidationAddress()}
+            validationModalVisible={validationModalVisible}
             close={() => {
               this.setState({
                 validationModalVisible: false,

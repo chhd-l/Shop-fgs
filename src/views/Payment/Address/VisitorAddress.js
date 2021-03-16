@@ -46,7 +46,8 @@ class VisitorAddress extends React.Component {
       billingChecked: true,
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
-      selectValidationOption: 'suggestedAddress'
+      selectValidationOption: 'suggestedAddress',
+      btnLoading: false
     };
     this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
   }
@@ -85,7 +86,6 @@ class VisitorAddress extends React.Component {
     if (!isValid) {
       return false;
     }
-
     // 地址验证
     // validationModalVisible - 控制是否查询数据
     this.setState({
@@ -96,7 +96,11 @@ class VisitorAddress extends React.Component {
         validationModalVisible: true
       });
     }, 800);
-    // console.log('------------------ VisitorAddress handleClickConfirm');
+
+    // console.log('------------------ 游客确认 VisitorAddress Delivery address:  ',this.state.validationModalVisible);
+    if (this.props.type !== 'delivery') {
+      throw new Error('游客确认 VisitorAddress Delivery address ');
+    }
   };
   // 不进行地址验证，进入下一步
   handleNextPanel = () => {
@@ -207,7 +211,10 @@ class VisitorAddress extends React.Component {
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
     const { form, selectValidationOption, validationAddress } = this.state;
-    let oldForm = JSON.parse(JSON.stringify(form));
+    // let oldForm = JSON.parse(JSON.stringify(form));
+    this.setState({
+      btnLoading: true
+    });
     if (selectValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
@@ -217,10 +224,14 @@ class VisitorAddress extends React.Component {
         form.provinceName = validationAddress.provinceCode;
       }
     } else {
-      form = JSON.parse(JSON.stringify(oldForm));
+      // form = JSON.parse(JSON.stringify(oldForm));
     }
     // 进入下一步
     this.showNextPanel();
+    // payment 时提交 billing address
+    if (this.props.type !== 'delivery') {
+      this.props.setPaymentToCompleted();
+    }
   }
   // 下一个最近的未complete的panel
   showNextPanel = () => {
@@ -229,7 +240,8 @@ class VisitorAddress extends React.Component {
     const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
 
     this.setState({
-      validationModalVisible: false
+      validationModalVisible: false,
+      btnLoading: false
     });
 
     this.props.updateData(form);
@@ -312,6 +324,7 @@ class VisitorAddress extends React.Component {
         {validationLoading && <Loading positionFixed="true" />}
         {validationModalVisible && (
           <ValidationAddressModal
+            btnLoading={this.state.btnLoading}
             address={form}
             updateValidationData={(res) => this.getValidationData(res)}
             selectValidationOption={selectValidationOption}
@@ -319,6 +332,7 @@ class VisitorAddress extends React.Component {
               this.chooseValidationAddress(e)
             }
             hanldeClickConfirm={() => this.confirmValidationAddress()}
+            validationModalVisible={validationModalVisible}
             close={() => {
               this.setState({
                 validationModalVisible: false,
