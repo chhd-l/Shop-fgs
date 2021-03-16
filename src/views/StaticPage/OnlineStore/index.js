@@ -18,6 +18,7 @@ import emailImg from '@/assets/images/online-store-email.png';
 import messageImg from '@/assets/images/online-store-message.png';
 import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -394,8 +395,8 @@ class OnlineStore extends React.Component {
                             color: '#000'
                           }}
                         >
-                          <Link
-                            to="/faq"
+                          <DistributeHubLinkOrATag
+                            href="/about-us/faqs"
                             style={{
                               fontSize: '18px',
                               color: '#000',
@@ -403,7 +404,7 @@ class OnlineStore extends React.Component {
                             }}
                           >
                             <FormattedMessage id="onlineStore.BottomInfo.faq.content2" />
-                          </Link>
+                          </DistributeHubLinkOrATag>
                         </p>
                       </div>
                     </div>
