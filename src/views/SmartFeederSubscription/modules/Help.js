@@ -71,7 +71,9 @@ class Help extends React.Component {
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                   <div
                     className={`text-center ${
-                      isUS ? 'rc-margin-y--sm rc-margin-top--lg--mobile rc-column' : ''
+                      isUS
+                        ? 'rc-margin-y--sm rc-margin-top--lg--mobile rc-column'
+                        : ''
                     }`}
                   >
                     <h1 className="rc-beta">
@@ -151,7 +153,7 @@ class Help extends React.Component {
                                   </a>
                                 </div>
                                 <div className="rc-margin-top--xs">
-                                  {process.env.REACT_APP_LANG == 'us' ? (
+                                  {process.env.REACT_APP_LANG == 'en' ? (
                                     <p
                                       style={{
                                         color: isUS ? '#00A4A6' : '#00BCA3'
@@ -212,7 +214,7 @@ class Help extends React.Component {
                               <div className="w-100">
                                 <b>
                                   {/* <FormattedMessage id="help.byEmail" /> */}
-                                  {process.env.REACT_APP_LANG == 'us' ? (
+                                  {process.env.REACT_APP_LANG == 'en' ? (
                                     <span
                                       style={{
                                         verticalAlign: 'inherit'
@@ -260,9 +262,10 @@ class Help extends React.Component {
                                       color: 'rgb(0, 135, 189)'
                                     }}
                                   >
-                                    {process.env.REACT_APP_LANG == 'us' ? (
+                                    {process.env.REACT_APP_LANG == 'en' ? (
                                       <Link
-                                        href={emailLink}
+                                        className="dkjdksjksjdks"
+                                        to={emailLink}
                                         style={{
                                           fontSize: '16px',
                                           borderBottom: '1px solid transparent'
@@ -284,7 +287,7 @@ class Help extends React.Component {
                                             ? 'underline'
                                             : 'none'
                                         }}
-                                        className="rc-styled-link"
+                                        className="rc-styled-link 1111"
                                       >
                                         {email ? (
                                           email

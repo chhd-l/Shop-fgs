@@ -30,12 +30,13 @@ class ShelterPrescription extends React.Component {
     };
     this.helpContentText = {
       title: "We're Here to Help",
+      emailLink: '/help/contact',
       des:
         "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible",
       emailTitle: 'Email us',
       emailDes: ' We will respond as soon as possible.',
       phoneTitle: 'Call us',
-      phone: '1-844-673-3772',
+      phone: 'tel:1-844-673-3772',
       email: 'Send us an email',
       phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
@@ -48,7 +49,7 @@ class ShelterPrescription extends React.Component {
     }
   };
   componentDidMount() {
-    let clinicId = getParaByName(location.search,'shelterID')
+    let clinicId = getParaByName(location.search, 'shelterID');
     this.props.clinicStore.setLinkClinicId(clinicId);
     this.props.clinicStore.setLinkClinicName('');
     this.props.clinicStore.setAuditAuthority(false);
@@ -103,7 +104,7 @@ class ShelterPrescription extends React.Component {
               <header>
                 <h3
                   className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
-                  style={{ height: '64px' }}
+                  // style={{ height: '64px' }}
                 >
                   {item.goodsName}
                 </h3>

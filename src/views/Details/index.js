@@ -2365,8 +2365,8 @@ class Details extends React.Component {
                 saleableFlag={details.saleableFlag}
                 displayFlag={details.displayFlag}
                 setState={this.setState.bind(this)}
-                hubGA={this.hubGA}
-                isMobile={isMobile}
+                // hubGA={this.hubGA}
+                // isMobile={isMobile}
               />
             ) : null}
 

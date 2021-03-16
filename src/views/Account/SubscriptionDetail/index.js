@@ -27,7 +27,7 @@ import {
   setSeoConfig
 } from '@/utils/utils';
 import foodPic2 from '../../SmartFeederSubscription/img/step2_food.png';
-import Details from '../../SmartFeederSubscription/modules/Details';
+import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 // import ModalFr from '@/components/Recommendation_FR';
 import DatePicker from 'react-datepicker';
 import cancelIcon from './images/cancel.png';
@@ -1401,8 +1401,8 @@ class SubscriptionDetail extends React.Component {
             </div>
           </div>
         </div>
+        <GoodsDetailTabs detailRes={props.details} />
         {/* <Details goodsDetailTab={goodsDetailTab} details={props.details} /> */}
-        <Details details={goodsDetailTab} />
       </div>
     );
   };
