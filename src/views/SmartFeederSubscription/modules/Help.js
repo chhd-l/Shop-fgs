@@ -23,7 +23,8 @@ class Help extends React.Component {
       emailLink: '',
       email: '',
       phoneTitle: '',
-      phoneDes: '',
+      phoneDes1: '',
+      phoneDes2: '',
       phone: ''
     }
   };
@@ -56,8 +57,11 @@ class Help extends React.Component {
       emailLink,
       emailDes,
       phoneTitle,
-      phoneDes
+      phoneDes1,
+      phoneDes2
     } = this.props.contentText;
+    const phoneDes = phoneDes1 + phoneDes2;
+    console.info('phoneDes', phoneDes);
     const { isRecommendationPage } = this.props;
     let isEmailUnderLine = this.props.isEmailUnderLine;
     return (

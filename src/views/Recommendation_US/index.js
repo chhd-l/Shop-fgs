@@ -60,7 +60,6 @@ import HOWENJOY from './images/HOW-TO-JOIN-ENJOY.png';
 import HOWSCHEDULE from './images/HOW-TO-JOIN-SCHEDULE.png';
 import HOWSHOP from './images/HOW-TO-JOIN-SHOP.png';
 import autoshipCatPng from './images/autoship_cat.png';
-import PuppyJPG from './images/MRRC-20046_D2C-Advisor_App-Puppy.jpg';
 const petsTypeImagArr = [
   `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`,
   autoshipCatPng
@@ -228,8 +227,11 @@ class Recommendation extends React.Component {
       ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
-      phoneDes: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes'
+      phoneDes1: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes1'
+      ],
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
       ]
     };
   }
@@ -719,6 +721,8 @@ class Recommendation extends React.Component {
   render(h) {
     const { loginStore, history, configStore } = this.props;
     console.info('this.helpContentText', this.helpContentText);
+    let PuppyJPG = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${this.props.intl.messages['recommendation.plusImg']}`;
+    console.info('PuppyJPG', PuppyJPG);
     const event = {
       page: {
         type: 'Content',
@@ -1396,14 +1400,10 @@ class Recommendation extends React.Component {
               <div className=" col-12 col-lg-6">
                 <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                   <h2 className="rc-beta markup-text">
-                    Everything Your Pet Needs PLUS Royal Canin Pet Advisor Live
+                    <FormattedMessage id="recommendation.plusTitle" />
                   </h2>
                   <p>
-                    No matter the need, we’ve got you covered with exclusive
-                    benefits like 24/7 access to pet experts and more through
-                    the Royal Canin Club. Joining is easy – sign up for
-                    automatic shipping on your pet’s tailored formulas to become
-                    a member today.
+                    <FormattedMessage id="recommendation.plusContent" />
                   </p>
                   <button
                     className={`rc-btn rc-btn--two ${
@@ -1413,7 +1413,7 @@ class Recommendation extends React.Component {
                     }`}
                     onClick={this.AddCart}
                   >
-                    Start Now
+                    <FormattedMessage id="recommendation.plusBtn" />
                   </button>
                 </div>
               </div>
@@ -1464,68 +1464,72 @@ class Recommendation extends React.Component {
               needReverse={false}
             />
           </div>
-          <LineModule />
-          <section
-            style={{ textAlign: 'center' }}
-            className="rc-max-width--md text-center rc-margin-y--md"
-          >
-            <h2 style={{ color: '#E2001A' }}>
-              <FormattedMessage id="recommendation.fourTitle" />
-            </h2>
-            <p style={{ fontSize: '18px' }}>
-              We focus our attention on the unique needs of cats and dogs. That
-              obsession with detail is what makes it possible for us to deliver
-              precise, effective nutrition and help pets become their
-              magnificent best.
-              {/* <FormattedMessage id="recommendation.fourContent" /> */}
-            </p>
-            <p>
-              <button
-                className={`rc-btn rc-btn--one ${
-                  this.state.buttonLoading ? 'ui-btn-loading' : ''
-                } ${
-                  this.state.inStockProducts.length
-                    ? ''
-                    : 'rc-btn-solid-disabled'
-                }`}
-                onClick={this.addCart}
+          {isUs && (
+            <React.Fragment>
+              <LineModule />
+              <section
+                style={{ textAlign: 'center' }}
+                className="rc-max-width--md text-center rc-margin-y--md"
               >
-                Place order
-              </button>
-            </p>
-            <div class="experience-component experience-assets-youtubeVideo">
-              <div class="rc-max-width--md rc-padding-x--lg">
-                <div class="rc-video-wrapper dog-video">
-                  <iframe
-                    allowfullscreen=""
-                    frameborder="0"
-                    id="video-dog"
-                    class="optanon-category-4 "
-                    src="https://www.youtube.com/embed/FYwO1fiYoa8"
-                  ></iframe>
+                <h2 style={{ color: '#E2001A' }}>
+                  <FormattedMessage id="recommendation.fourTitle" />
+                </h2>
+                <p style={{ fontSize: '18px' }}>
+                  We focus our attention on the unique needs of cats and dogs.
+                  That obsession with detail is what makes it possible for us to
+                  deliver precise, effective nutrition and help pets become
+                  their magnificent best.
+                  {/* <FormattedMessage id="recommendation.fourContent" /> */}
+                </p>
+                <p>
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    } ${
+                      this.state.inStockProducts.length
+                        ? ''
+                        : 'rc-btn-solid-disabled'
+                    }`}
+                    onClick={this.addCart}
+                  >
+                    Place order
+                  </button>
+                </p>
+                <div class="experience-component experience-assets-youtubeVideo">
+                  <div class="rc-max-width--md rc-padding-x--lg">
+                    <div class="rc-video-wrapper dog-video">
+                      <iframe
+                        allowfullscreen=""
+                        frameborder="0"
+                        id="video-dog"
+                        class="optanon-category-4 "
+                        src="https://www.youtube.com/embed/FYwO1fiYoa8"
+                      ></iframe>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <div className="rc-max-width--lg rc-padding-y--sm img-text-box">
+                <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
+                  <div className="rc-column">
+                    <LazyLoad>
+                      <img src={cur_recommendation2} />
+                    </LazyLoad>
+                  </div>
+                  <div className="rc-column">
+                    <LazyLoad>
+                      <img src={cur_recommendation3} />
+                    </LazyLoad>
+                  </div>
+                  <div className="rc-column">
+                    <LazyLoad>
+                      <img src={cur_recommendation4} />
+                    </LazyLoad>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-          <div className="rc-max-width--lg rc-padding-y--sm img-text-box">
-            <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
-              <div className="rc-column">
-                <LazyLoad>
-                  <img src={cur_recommendation2} />
-                </LazyLoad>
-              </div>
-              <div className="rc-column">
-                <LazyLoad>
-                  <img src={cur_recommendation3} />
-                </LazyLoad>
-              </div>
-              <div className="rc-column">
-                <LazyLoad>
-                  <img src={cur_recommendation4} />
-                </LazyLoad>
-              </div>
-            </div>
-          </div>
+            </React.Fragment>
+          )}
         </main>
         <Footer />
       </div>
