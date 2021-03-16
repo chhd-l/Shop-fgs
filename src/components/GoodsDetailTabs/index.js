@@ -17,22 +17,19 @@ const GoodsDetailTabs = function (props) {
     displayFlag,
     detailRes
   } = props;
-  if (!activeTabIdxList) {
+  if (activeTabIdxList === undefined) {
     activeTabIdxList = isMobile ? [] : [0];
   }
-  if (!saleableFlag) {
+  const [activeTabIdxLists, setActiveTabIdxLists] = useState(activeTabIdxList);
+  if (saleableFlag === undefined) {
     saleableFlag = detailRes?.goods?.saleableFlag;
   }
-  if (!displayFlag) {
+  if (displayFlag === undefined) {
     displayFlag = detailRes?.goods?.displayFlag;
   }
-  if (!goodsDescriptionDetailList) {
+  if (goodsDescriptionDetailList === undefined) {
     goodsDescriptionDetailList = detailRes.goodsDescriptionDetailList;
   }
-  console.info('saleableFlag', saleableFlag);
-  console.info('displayFlag', displayFlag);
-  console.info('activeTabIdxList', activeTabIdxList);
-  console.info('goodsDescriptionDetailList', goodsDescriptionDetailList);
   const handleTabData = () => {
     const isVet = goodsType === 3; //vet todo 没有测试这种场景
     let tmpGoodsDescriptionDetailList = (goodsDescriptionDetailList || []).sort(
@@ -72,9 +69,10 @@ const GoodsDetailTabs = function (props) {
                 if (goodsType === 2) {
                   ret = `<p style="white-space: pre-line; font-weight: 400">${blodDesc}</p><p style="white-space: pre-line; font-weight: 400">${prescriberDesc}</p><p style="white-space: pre-line;">${shortDesc}</p>`;
                 } else if (!saleableFlag && displayFlag) {
-                  props.setState({
-                    descContent: isVet ? prescriberDesc : shortDesc
-                  });
+                  props.setState &&
+                    props.setState({
+                      descContent: isVet ? prescriberDesc : shortDesc
+                    });
 
                   ret = null;
                 } else if (isVet) {
@@ -177,14 +175,15 @@ const GoodsDetailTabs = function (props) {
       activeTabIdxList = [idx];
     } else if (type === 'toggle') {
       // 如果有本身，则删除，否则添加
-      const i = activeTabIdxList.indexOf(idx);
+      const i = activeTabIdxLists.indexOf(idx);
       if (i > -1) {
         activeTabIdxList.splice(i, 1);
       } else {
         activeTabIdxList.push(idx);
       }
     }
-    props.setState({ activeTabIdxList });
+    setActiveTabIdxLists(activeTabIdxList);
+    props.setState && props.setState({ activeTabIdxList });
 
     hubGA &&
       dataLayer.push({
@@ -205,7 +204,7 @@ const GoodsDetailTabs = function (props) {
         <dl>
           <div
             className={`rc-list__accordion-item test-color 
-        ${activeTabIdxList.includes(index) ? 'showItem' : 'hiddenItem'}`}
+        ${activeTabIdxLists.includes(index) ? 'showItem' : 'hiddenItem'}`}
           >
             <div
               className="rc-list__header d-flex justify-content-between text-uppercase"
@@ -222,7 +221,7 @@ const GoodsDetailTabs = function (props) {
               />
               <span
                 className={`rc-vertical-align icon-change ${
-                  activeTabIdxList.includes(index)
+                  activeTabIdxLists.includes(index)
                     ? 'rc-icon rc-up rc-brand1'
                     : 'rc-icon rc-down rc-iconography'
                 }`}
@@ -256,7 +255,7 @@ const GoodsDetailTabs = function (props) {
                       className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                       data-toggle={`tab__panel-${index}`}
                       aria-selected={
-                        activeTabIdxList.includes(index) ? 'true' : 'false'
+                        activeTabIdxLists.includes(index) ? 'true' : 'false'
                       }
                       role="tab"
                       onClick={changeTab.bind(null, {
@@ -274,7 +273,7 @@ const GoodsDetailTabs = function (props) {
                     className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                     data-toggle={`tab__panel-${goodsDetailTabsData.length}`}
                     aria-selected={
-                      activeTabIdxList.includes(goodsDetailTabsData.length)
+                      activeTabIdxLists.includes(goodsDetailTabsData.length)
                         ? 'true'
                         : 'false'
                     }
@@ -297,7 +296,7 @@ const GoodsDetailTabs = function (props) {
                 id={`tab__panel-${i}`}
                 key={i}
                 className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                aria-expanded={activeTabIdxList.includes(i) ? 'true' : 'false'}
+                aria-expanded={activeTabIdxLists.includes(i) ? 'true' : 'false'}
               >
                 <div className="block">
                   <p
@@ -313,7 +312,7 @@ const GoodsDetailTabs = function (props) {
               key={goodsDetailTabsData.length}
               className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
               aria-expanded={
-                activeTabIdxList.includes(goodsDetailTabsData.length)
+                activeTabIdxLists.includes(goodsDetailTabsData.length)
                   ? 'true'
                   : 'false'
               }
