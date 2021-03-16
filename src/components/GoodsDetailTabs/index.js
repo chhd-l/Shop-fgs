@@ -21,14 +21,18 @@ const GoodsDetailTabs = function (props) {
     activeTabIdxList = isMobile ? [] : [0];
   }
   if (!saleableFlag) {
-    saleableFlag = detailRes.goods?.saleableFlag;
+    saleableFlag = detailRes?.goods?.saleableFlag;
   }
   if (!displayFlag) {
-    displayFlag = detailRes.goods?.displayFlag;
+    displayFlag = detailRes?.goods?.displayFlag;
   }
   if (!goodsDescriptionDetailList) {
     goodsDescriptionDetailList = detailRes.goodsDescriptionDetailList;
   }
+  console.info('saleableFlag', saleableFlag);
+  console.info('displayFlag', displayFlag);
+  console.info('activeTabIdxList', activeTabIdxList);
+  console.info('goodsDescriptionDetailList', goodsDescriptionDetailList);
   const handleTabData = () => {
     const isVet = goodsType === 3; //vet todo 没有测试这种场景
     let tmpGoodsDescriptionDetailList = (goodsDescriptionDetailList || []).sort(

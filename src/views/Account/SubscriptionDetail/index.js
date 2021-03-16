@@ -14,6 +14,7 @@ import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
 import clubIcon from '@/assets/images/club-icon.png';
 import productDetail from './productDetail.json';
+import goodsDetailTabJSON from '../../SmartFeederSubscription/modules/goodsDetailTab.json';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import {
@@ -1401,7 +1402,7 @@ class SubscriptionDetail extends React.Component {
             </div>
           </div>
         </div>
-        <GoodsDetailTabs detailRes={props.details} />
+        <GoodsDetailTabs detailRes={goodsDetailTabJSON.context} />
         {/* <Details goodsDetailTab={goodsDetailTab} details={props.details} /> */}
       </div>
     );
