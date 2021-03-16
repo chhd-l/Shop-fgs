@@ -977,7 +977,36 @@ const ru_RU = {
   'checkout.faq.contactCustomer': 'СЛУЖБА ПОДДЕРЖКИ',
   'checkout.faq.freeDelivery': 'БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 2500 руб.',
   'checkout.faq.paymentInformation': 'БЕЗОПАСНЫЕ ПЛАТЕЖИ',
-  'checkout.faq.FreeReturn': 'ВОЗВРАТ ТОВАРА'
+  'checkout.faq.FreeReturn': 'ВОЗВРАТ ТОВАРА',
+
+  //Club新增
+  'club.subscription.titile': '',
+  'club.subscription.icon1': '',
+  'club.subscription.icon2': '',
+  'club.subscription.icon3': '',
+  'club.subscription.icon4': '',
+  'club.subscription.icon5': '',
+  'club.subscription.button': '',
+  'club.video.detail.title': '',
+  'club.video.detail.description': '',
+  'club.video.detail.button': '',
+  'club.howitworks.title': '',
+  'club.howitworks.img1': '',
+  'club.howitworks.img1.titile': '',
+  'club.howitworks.img1.description': '',
+  'club.howitworks.img2': '',
+  'club.howitworks.img2.titile': '',
+  'club.howitworks.img2.description': '',
+  'club.howitworks.img3': '',
+  'club.howitworks.img3.titile': '',
+  'club.howitworks.img3.description': '',
+  'club.howitworks.img4': '',
+  'club.howitworks.img4.titile': '',
+  'club.howitworks.img4.description': '',
+  'club.joinsubscription.title': '',
+  'club.joinsubscription.description': '',
+  'club.joinsubscription.button': '',
+  'club.wheretohelp': ''
 };
 
 export default ru_RU;

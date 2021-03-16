@@ -1,5 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
@@ -769,6 +770,16 @@ class PetForm extends React.Component {
   }
   handleErrMessage = () => {};
   render() {
+    const event = {
+      page: {
+        type: 'myAccountPet',
+        theme: '',
+        path: this.props.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
+      }
+    };
     const {
       currentPet,
       selectedSpecialNeedsObj,
@@ -779,6 +790,7 @@ class PetForm extends React.Component {
     } = this.state;
     return (
       <div className="petForm">
+        <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>

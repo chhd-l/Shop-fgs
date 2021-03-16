@@ -14,7 +14,6 @@ import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
 import clubIcon from '@/assets/images/club-icon.png';
 import productDetail from './productDetail.json';
-import goodsDetailTabJSON from '../../SmartFeederSubscription/modules/goodsDetailTab.json';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import {
@@ -55,7 +54,7 @@ import {
   startSubscription,
   pauseSubscription
 } from '@/api/subscription';
-import goodsDetailTab from './goodsDetailTab.json';
+import goodsDetailTabJSON from './goodsDetailTab.json';
 import { getRemainings } from '@/api/dispenser';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
