@@ -3,6 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
@@ -10,13 +11,13 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
 import { myAccountPushEvent } from '@/utils/GA';
-import accountSLogo from "@/assets/images/account_s_logo.png"
-import ApplePayImg from "@/assets/images/ApplePay.png" 
-import GooglePayImg from "@/assets/images/GooglePay.png" 
+import accountSLogo from '@/assets/images/account_s_logo.png';
+import ApplePayImg from '@/assets/images/ApplePay.png';
+import GooglePayImg from '@/assets/images/GooglePay.png';
 import './index.less';
 import { Helmet } from 'react-helmet';
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 const itemList = [
   {
@@ -87,14 +88,31 @@ const itemList = [
     ),
     titleLangKey: 'account.faqTitle',
     textLangKey: 'account.faqTip',
-    link: '/faq'
+    link: '/faq',
+    href: '/about-us/faqs'
   }
 ];
+
+function Container({ className, item }) {
+  return item.href && item.link ? (
+    <DistributeHubLinkOrATag
+      className={className}
+      to={item.link}
+      href={item.href}
+    >
+      {item.children}
+    </DistributeHubLinkOrATag>
+  ) : (
+    <Link to={item.link} className={className}>
+      {item.children}
+    </Link>
+  );
+}
 
 @inject('loginStore', 'configStore')
 @observer
 class AccountHome extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       seoConfig: {
@@ -102,19 +120,19 @@ class AccountHome extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       }
-    }
+    };
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
   componentDidMount() {
-    myAccountPushEvent('Overview')
+    myAccountPushEvent('Overview');
 
     setSeoConfig({
       pageName: 'Account index'
-    }).then(res => {
-      this.setState({seoConfig: res})
-    });;
+    }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
   }
 
   render() {
@@ -125,7 +143,7 @@ class AccountHome extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     return (
@@ -134,8 +152,11 @@ class AccountHome extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -161,10 +182,10 @@ class AccountHome extends React.Component {
                 <div className="dashboard__profile-cards">
                   <div className="my__account-navigation row rc-padding-top--xs--desktop rc-padding-bottom--none">
                     {itemList.map((item, i) => (
-                      <Link
-                        key={i}
+                      <Container
                         className="col-12 col-md-4 mb-3 my__account_padding05"
-                        to={item.link}
+                        item={item}
+                        key={i}
                       >
                         <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content">
                           <div>{item.icon}</div>
@@ -179,28 +200,33 @@ class AccountHome extends React.Component {
                             </p>
                           </div>
                         </div>
-                      </Link>
+                      </Container>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {
-            process.env.REACT_APP_HUB ? (<div className="accountHomeFooterLink">
-            <h2><img src={accountSLogo}></img></h2>
-            <p className="brandName">Royal Canin & Moi</p>
-            <p className="content">L'application qui vous accompagne tout <br/> au long de la vie de votre compagnon </p>
-            <div className="payBtn">
-              <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
-              <img src={GooglePayImg}></img>
-              </a>
-              <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
-              <img src={ApplePayImg}></img>
-              </a>
+          {+process.env.REACT_APP_HUB ? (
+            <div className="accountHomeFooterLink">
+              <h2>
+                <img src={accountSLogo}></img>
+              </h2>
+              <p className="brandName">Royal Canin & Moi</p>
+              <p className="content">
+                L'application qui vous accompagne tout <br /> au long de la vie
+                de votre compagnon{' '}
+              </p>
+              <div className="payBtn">
+                <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
+                  <img src={GooglePayImg}></img>
+                </a>
+                <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
+                  <img src={ApplePayImg}></img>
+                </a>
+              </div>
             </div>
-          </div>) : <></>
-          }
+          ) : null}
         </main>
         <Footer />
       </div>

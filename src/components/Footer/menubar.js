@@ -183,8 +183,6 @@ export const menubar = {
             },
             messageId: 'footer.FAQAllgemeines'
           }
-          // { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-1', messageId: 'footer.FAQVersand' },
-          // { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
         ]
       }
     ],
