@@ -244,8 +244,11 @@ class RouteFilter extends Component {
       !localItemRoyal.get('rc-token') &&
       pathname.indexOf('/account') !== -1
     ) {
-      sessionItemRoyal.set('okta-redirectUrl-hub', '/account')
-      history.push('/okta-login-page')
+      sessionItemRoyal.set(
+        'okta-redirectUrl-hub',
+        process.env.REACT_APP_ACCESS_PATH + '/account'
+      );
+      history.push('/okta-login-page');
     }
     if (
       //游客+从url输入required ===>直接跳回首页
@@ -282,7 +285,9 @@ class RouteFilter extends Component {
 
     if (
       process.env.REACT_APP_MARS_FOOTER &&
-      !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page/.test(pathname)
+      !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page/.test(
+        pathname
+      )
     ) {
       loadJS({
         url: process.env.REACT_APP_MARS_FOOTER
