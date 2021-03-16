@@ -93,18 +93,18 @@ const itemList = [
   }
 ];
 
-function Container({ className, item }) {
+function Container({ className, item, children }) {
   return item.href && item.link ? (
     <DistributeHubLinkOrATag
       className={className}
       to={item.link}
       href={item.href}
     >
-      {item.children}
+      {children}
     </DistributeHubLinkOrATag>
   ) : (
     <Link to={item.link} className={className}>
-      {item.children}
+      {children}
     </Link>
   );
 }
