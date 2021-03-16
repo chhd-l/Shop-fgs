@@ -23,20 +23,21 @@ const GoodsDetailTabs = function (props) {
     activeTabIdxList,
     saleableFlag,
     displayFlag,
-    detailRes
+    detailRes,
+    isClub
   } = props;
-  if (!activeTabIdxList) {
-    activeTabIdxList = isMobile ? [] : [0];
-  }
-  if (!saleableFlag) {
-    saleableFlag = detailRes.goods?.saleableFlag;
-  }
-  if (!displayFlag) {
-    displayFlag = detailRes.goods?.displayFlag;
-  }
-  if (!goodsDescriptionDetailList) {
-    goodsDescriptionDetailList = detailRes.goodsDescriptionDetailList;
-  }
+  // if (!activeTabIdxList) {
+  //   activeTabIdxList = isMobile ? [] : [0];
+  // }
+  // if (!saleableFlag) {
+  //   saleableFlag = detailRes.goods?.saleableFlag;
+  // }
+  // if (!displayFlag) {
+  //   displayFlag = detailRes.goods?.displayFlag;
+  // }
+  // if (!goodsDescriptionDetailList) {
+  //   goodsDescriptionDetailList = detailRes.goodsDescriptionDetailList;
+  // }
   const handleTabData = () => {
     const isVet = goodsType === 3; //vet todo 没有测试这种场景
     let tmpGoodsDescriptionDetailList = (goodsDescriptionDetailList || []).sort(
@@ -273,25 +274,27 @@ const GoodsDetailTabs = function (props) {
                     </button>
                   </li>
                 ))}
-                <li key={goodsDetailTabsData.length}>
-                  <button
-                    className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                    data-toggle={`tab__panel-${goodsDetailTabsData.length}`}
-                    aria-selected={
-                      activeTabIdxList.includes(goodsDetailTabsData.length)
-                        ? 'true'
-                        : 'false'
-                    }
-                    role="tab"
-                    onClick={changeTab.bind(null, {
-                      idx: goodsDetailTabsData.length,
-                      type: 'switch',
-                      ele: { descriptionName: 'club' }
-                    })}
-                  >
-                    club
-                  </button>
-                </li>
+                {isClub ? (
+                  <li key={goodsDetailTabsData.length}>
+                    <button
+                      className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                      data-toggle={`tab__panel-${goodsDetailTabsData.length}`}
+                      aria-selected={
+                        activeTabIdxList.includes(goodsDetailTabsData.length)
+                          ? 'true'
+                          : 'false'
+                      }
+                      role="tab"
+                      onClick={changeTab.bind(null, {
+                        idx: goodsDetailTabsData.length,
+                        type: 'switch',
+                        ele: { descriptionName: 'club' }
+                      })}
+                    >
+                      club
+                    </button>
+                  </li>
+                ) : null}
               </ul>
             </nav>
           </div>
@@ -312,93 +315,95 @@ const GoodsDetailTabs = function (props) {
                 </div>
               </div>
             ))}
-            <div
-              id={`tab__panel-${goodsDetailTabsData.length}`}
-              key={goodsDetailTabsData.length}
-              className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-              aria-expanded={
-                activeTabIdxList.includes(goodsDetailTabsData.length)
-                  ? 'true'
-                  : 'false'
-              }
-            >
-              <div className="block">
-                <div class="row rc-margin-x--none flex-column-reverse flex-md-row">
-                  <div class="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                    <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                      <img
-                        src={phoneicon}
-                        alt="CLUB BENEFITS PET ADVISOR"
-                        class="m-auto rc-margin--none--desktop"
-                      />
-                      <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                        <p style={{ textAlign: 'left' }}>
-                          tailored and evolving premium nutrition
-                        </p>
+            {isClub ? (
+              <div
+                id={`tab__panel-${goodsDetailTabsData.length}`}
+                key={goodsDetailTabsData.length}
+                className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
+                aria-expanded={
+                  activeTabIdxList.includes(goodsDetailTabsData.length)
+                    ? 'true'
+                    : 'false'
+                }
+              >
+                <div className="block">
+                  <div class="row rc-margin-x--none flex-column-reverse flex-md-row">
+                    <div class="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
+                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                        <img
+                          src={phoneicon}
+                          alt="CLUB BENEFITS PET ADVISOR"
+                          class="m-auto rc-margin--none--desktop"
+                        />
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                          <p style={{ textAlign: 'left' }}>
+                            tailored and evolving premium nutrition
+                          </p>
+                        </div>
+                      </div>
+                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                        <img
+                          src={gifticon}
+                          alt="CLUB BENEFITS DISCOUNT"
+                          class="m-auto rc-margin--none--desktop"
+                        />
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                          <p style={{ textAlign: 'left' }}>
+                            A welcome box, rewards and services
+                          </p>
+                        </div>
+                      </div>
+                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                        <img
+                          src={spetadviser}
+                          alt="CLUB BENEFITS PET ADVISOR"
+                          class="m-auto rc-margin--none--desktop"
+                        />
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                          <p style={{ textAlign: 'left' }}>
+                            A pet advisor and personalized newsletters
+                          </p>
+                        </div>
+                      </div>
+                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                        <img
+                          src={shippingicon}
+                          alt="CLUB BENEFITS PET ADVISOR"
+                          class="m-auto rc-margin--none--desktop"
+                        />
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                          <p style={{ textAlign: 'left' }}>
+                            Automatic food reﬁlls with free shipping
+                          </p>
+                        </div>
+                      </div>
+                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                        <img
+                          src={nutrition}
+                          alt="CLUB BENEFITS PET ADVISOR"
+                          class="m-auto rc-margin--none--desktop"
+                        />
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                          <p style={{ textAlign: 'left' }}>
+                            Full control and free from engagement
+                          </p>
+                        </div>
                       </div>
                     </div>
-                    <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                      <img
-                        src={gifticon}
-                        alt="CLUB BENEFITS DISCOUNT"
-                        class="m-auto rc-margin--none--desktop"
-                      />
-                      <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                        <p style={{ textAlign: 'left' }}>
-                          A welcome box, rewards and services
-                        </p>
-                      </div>
-                    </div>
-                    <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                      <img
-                        src={spetadviser}
-                        alt="CLUB BENEFITS PET ADVISOR"
-                        class="m-auto rc-margin--none--desktop"
-                      />
-                      <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                        <p style={{ textAlign: 'left' }}>
-                          A pet advisor and personalized newsletters
-                        </p>
-                      </div>
-                    </div>
-                    <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                      <img
-                        src={shippingicon}
-                        alt="CLUB BENEFITS PET ADVISOR"
-                        class="m-auto rc-margin--none--desktop"
-                      />
-                      <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                        <p style={{ textAlign: 'left' }}>
-                          Automatic food reﬁlls with free shipping
-                        </p>
-                      </div>
-                    </div>
-                    <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                      <img
-                        src={nutrition}
-                        alt="CLUB BENEFITS PET ADVISOR"
-                        class="m-auto rc-margin--none--desktop"
-                      />
-                      <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                        <p style={{ textAlign: 'left' }}>
-                          Full control and free from engagement
-                        </p>
+                    <div class="col-12 col-md-6">
+                      <div class="rc-video-wrapper">
+                        <iframe
+                          src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com"
+                          allowfullscreen=""
+                          frameborder="0"
+                        ></iframe>
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-md-6">
-                    <div class="rc-video-wrapper">
-                      <iframe
-                        src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com"
-                        allowfullscreen=""
-                        frameborder="0"
-                      ></iframe>
-                    </div>
-                  </div>
+                  <HowItWorks />
                 </div>
-                <HowItWorks />
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
       </div>
