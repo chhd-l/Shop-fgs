@@ -124,6 +124,14 @@ export function adyenPaymentsDetails(parameter) {
 
 export function getProductPetConfig(parameter) {
   parameter.goodsInfos.map((ele) => {
+    if (ele.goods) {
+      ele.goods.goodsDetail = '';
+    }
+    if (ele.goodsInfos) {
+      ele.goodsInfos.map((el) => {
+        el.goods = null;
+      });
+    }
     return Object.assign(ele, {
       goodsDetail: ''
     });
