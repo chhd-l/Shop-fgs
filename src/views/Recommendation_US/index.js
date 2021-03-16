@@ -218,7 +218,7 @@ class Recommendation extends React.Component {
       emailDes: ' We will respond as soon as possible.',
       emailLink: '/help/contact',
       phoneTitle: 'Call us',
-      phone: '1-844-673-3772',
+      phone: 'tel:1-844-673-3772',
       email: 'Send us an email',
       phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
@@ -538,7 +538,9 @@ class Recommendation extends React.Component {
         cartDataCopy.push(tmpData);
       }
       console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart({cartData: cartDataCopy});
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: cartDataCopy
+      });
     }
     this.props.history.push(path);
   }

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, getDeviceType } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 import LazyLoad from 'react-lazyload';
 
 const GoodsDetailTabs = function (props) {
+  let hubGA = process.env.REACT_APP_HUB_GA == '1';
+  let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
   let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
   let {
     goodsDescriptionDetailList,
@@ -13,8 +15,20 @@ const GoodsDetailTabs = function (props) {
     activeTabIdxList,
     saleableFlag,
     displayFlag,
-    isMobile
+    detailRes
   } = props;
+  if (!activeTabIdxList) {
+    activeTabIdxList = isMobile ? [] : [0];
+  }
+  if (!saleableFlag) {
+    saleableFlag = detailRes.goods?.saleableFlag;
+  }
+  if (!displayFlag) {
+    displayFlag = detailRes.goods?.displayFlag;
+  }
+  if (!goodsDescriptionDetailList) {
+    goodsDescriptionDetailList = detailRes.goodsDescriptionDetailList;
+  }
   const handleTabData = () => {
     const isVet = goodsType === 3; //vet todo 没有测试这种场景
     let tmpGoodsDescriptionDetailList = (goodsDescriptionDetailList || []).sort(
@@ -168,7 +182,7 @@ const GoodsDetailTabs = function (props) {
     }
     props.setState({ activeTabIdxList });
 
-    props.hubGA &&
+    hubGA &&
       dataLayer.push({
         event: 'pdpTabsClick',
         pdpTabsClickTabName: ele?.descriptionName

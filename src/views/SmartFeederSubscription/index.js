@@ -6,7 +6,8 @@ import { toJS } from 'mobx';
 import cloneDeep from 'lodash/cloneDeep';
 import Help from './modules/Help';
 import FAQ from './modules/FAQ';
-import Details from './modules/Details';
+import GoodsDetailTabs from '@/components/GoodsDetailTabs';
+// import Details from './modules/Details';
 import StaticPage from './modules/StaticPage';
 import { getProductPetConfig } from '@/api/payment';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -254,7 +255,7 @@ const Step2 = (props) => {
           </div>
         </div>
       </div>
-      <Details goodsDetailTabs={props.goodsDetailTab} details={props.details} />
+      <GoodsDetailTabs detailRes={props.details} />
       <div className="rc-text--center rc-md-up">
         <button
           className="rc-btn rc-btn--sm rc-btn--two button192"
@@ -1414,7 +1415,7 @@ class SmartFeederSubscription extends Component {
       cartDataCopy.push(tmpData);
     }
 
-    await checkoutStore.updateUnloginCart({cartData: cartDataCopy});
+    await checkoutStore.updateUnloginCart({ cartData: cartDataCopy });
     try {
       if (redirect) {
         if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
