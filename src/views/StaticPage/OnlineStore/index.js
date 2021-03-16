@@ -24,7 +24,6 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const mailAddress = 'mailto:suivi.dtc.france@royalcanin.com';
-const faqAddress = 'https://uatwedding.royalcanin.com/fr/about-us/faqs';
 
 function Divider() {
   return (
