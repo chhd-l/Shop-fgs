@@ -325,6 +325,12 @@ const App = () => (
               />
               <Route
                 exact
+                path="/breeder/recommendation"
+                render={(props) => <Redirect to={{pathname: '/recommendation', search: props.location.search}} {...props}/>
+                }
+              />
+              <Route
+                exact
                 path="/recommendation"
                 render={(props) => <Recommendation_FR {...props} />}
               />
