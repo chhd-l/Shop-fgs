@@ -9,7 +9,7 @@ export default function PromotionPanel({
 }) {
   return (
     <div className={`p-4 pt-sm-0 pb-sm-0 dropdown-nav__ad__card ${className}`}>
-      <div className="border d-flex align-items-center p-4">
+      <div className="border d-flex align-items-center p-4 ">
         <div className="container-text">
           <p className="title-text red">{cItem.Title}</p>
           <p className="medium">{cItem.Subtitle}</p>
@@ -26,7 +26,7 @@ export default function PromotionPanel({
         <div style={{ flex: 1 }}>
           <img
             className="ad-img111"
-            style={{ margin: '0 auto', width: '8rem' }}
+            style={{ margin: '0 auto' }}
             src={cItem.Image.Url}
             alt={cItem.Image.AltText}
             srcSet={cItem.Image.Srcset}
