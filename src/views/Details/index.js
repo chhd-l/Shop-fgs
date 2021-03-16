@@ -2163,7 +2163,7 @@ class Details extends React.Component {
                                       : '#d7d7d7',
                                     cursor: 'pointer'
                                   }}
-                                  onClick={this.ChangeFormat.bind(this, 1)}
+                                  onClick={this.ChangeFormat.bind(this, 2)}
                                 >
                                   <div className="radioBox order-1 order-md-1 col-8 col-md-4">
                                     <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
@@ -2175,9 +2175,9 @@ class Details extends React.Component {
                                             type="radio"
                                             alt={txt}
                                             name="buyWay"
-                                            value="1"
-                                            key="1"
-                                            checked={form.buyWay === 1}
+                                            value="2"
+                                            key="2"
+                                            checked={form.buyWay === 2}
                                           />
                                         )}
                                       </FormattedMessage>
@@ -2365,8 +2365,7 @@ class Details extends React.Component {
                 saleableFlag={details.saleableFlag}
                 displayFlag={details.displayFlag}
                 setState={this.setState.bind(this)}
-                // hubGA={this.hubGA}
-                // isMobile={isMobile}
+                // isClub={selectedSpecItem.promotions && selectedSpecItem.promotions.includes('club')}
               />
             ) : null}
 

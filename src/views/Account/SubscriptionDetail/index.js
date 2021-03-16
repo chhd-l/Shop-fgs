@@ -511,7 +511,7 @@ class SubscriptionDetail extends React.Component {
                   className="border-dot height100 align-items-center d-flex"
                 >
                   <div>
-                    <Link to="/account/pets">
+                    <Link to="/account/pets/petForm">
                       + <strong>a new cat</strong>
                     </Link>
                   </div>
