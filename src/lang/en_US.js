@@ -254,6 +254,7 @@ const en_US = {
   'contactUs.orderNumber': 'Order Number',
   'contactUs.request': 'Request',
   'contactUs.requiredField': 'The field is required',
+  'contactUs.validEmailField': 'Please enter a valid E-Mail address',
   contactUsViaPhone: 'contáctenos por teléfono',
   continue: 'Continue',
   continueAsGuest: 'Continue as a guest',

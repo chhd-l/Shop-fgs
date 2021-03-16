@@ -34,8 +34,14 @@ const cardTypeImg = {
 const cardTypeArr = {
   cyberVisa: '001',
   cyberMastercard: '002',
-  cyberAmex: '002',
-  cyberDiscover: '003'
+  cyberAmex: '003',
+  cyberDiscover: '004'
+};
+const cardTypeName = {
+  cyberVisa: 'Visa',
+  cyberMastercard: 'Mastercard',
+  cyberAmex: 'Amex',
+  cyberDiscover: 'Discover'
 };
 
 @inject('loginStore')
@@ -43,8 +49,7 @@ const cardTypeArr = {
 @observer
 class PaymentEditForm extends React.Component {
   static defaultProps = {
-    paymentType: 'PAYU', // PAYU ADYEN CYBER(美国支付)
-    payWay: ''
+    paymentType: 'PAYU' // PAYU ADYEN CYBER(美国支付)
   };
   constructor(props) {
     super(props);
@@ -126,29 +131,29 @@ class PaymentEditForm extends React.Component {
       errMsgObj: {},
 
       //CYBER支持的四种卡
-      payWayNameArr: [
+      cardTypeArr: [
         {
           name: 'Visa',
           id: 'visa',
-          paymentTypeVal: 'cyberVisa'
+          cardTypeVal: 'cyberVisa'
         },
         {
           name: 'Mastercard',
           id: 'mastercard',
-          paymentTypeVal: 'cyberMastercard'
+          cardTypeVal: 'cyberMastercard'
         },
         {
           name: 'Amex',
           id: 'amex',
-          paymentTypeVal: 'cyberAmex'
+          cardTypeVal: 'cyberAmex'
         },
         {
           name: 'Discover',
           id: 'discover',
-          paymentTypeVal: 'cyberDiscover'
+          cardTypeVal: 'cyberDiscover'
         }
       ],
-      paymentTypeVal: '',
+      cardTypeVal: '',
       btnLoading: false
     };
   }
@@ -174,56 +179,47 @@ class PaymentEditForm extends React.Component {
       });
     });
 
-    this.initPaymentWay();
+    this.initCardType();
   }
-  initPaymentWay = () => {
-    const { payWay } = this.props;
-    const payuMethodsObj = {
-      visa: {
+  initCardType = () => {
+    let cardTypeArr = [
+      {
         name: 'Visa',
         id: 'visa',
-        paymentTypeVal: 'cyberVisa'
+        cardTypeVal: 'cyberVisa'
       },
-      mastercard: {
+      {
         name: 'Mastercard',
         id: 'mastercard',
-        paymentTypeVal: 'cyberMastercard'
+        cardTypeVal: 'cyberMastercard'
       },
-      amex: {
+      {
         name: 'Amex',
         id: 'amex',
-        paymentTypeVal: 'cyberAmex'
+        cardTypeVal: 'cyberAmex'
       },
-      discover: {
+      {
         name: 'Discover',
         id: 'discover',
-        paymentTypeVal: 'cyberDiscover'
+        cardTypeVal: 'cyberDiscover'
       }
-    };
-    let payWayNameArr = [];
-    if (payWay.context) {
-      payWayNameArr = (payWay.context.payPspItemVOList || [])
-        .map(
-          (p) => payuMethodsObj[p.code] || payuMethodsObj[p.code.toUpperCase()]
-        )
-        .filter((e) => e);
-    }
+    ];
 
-    let payMethod = (payWayNameArr[0] && payWayNameArr[0].name) || 'none'; //初始化默认取第1个
+    let cardType = 'Visa'; //默认Visa
     //各种支付component初始化方法
-    var initPaymentWay = {
+    var initCardType = {
       //cyber支付
       Visa: () => {
-        this.setState({ paymentTypeVal: 'cyberVisa' });
+        this.setState({ cardTypeVal: 'cyberVisa' });
       },
       Mastercard: () => {
-        this.setState({ paymentTypeVal: 'cyberMastercard' });
+        this.setState({ cardTypeVal: 'cyberMastercard' });
       },
       Amex: () => {
-        this.setState({ paymentTypeVal: 'cyberAmex' });
+        this.setState({ cardTypeVal: 'cyberAmex' });
       },
       discover: () => {
-        this.setState({ paymentTypeVal: 'cyberDiscover' });
+        this.setState({ cardTypeVal: 'cyberDiscover' });
       },
       none: () => {
         console.log('no payway');
@@ -233,10 +229,10 @@ class PaymentEditForm extends React.Component {
     //默认第一个,如没有支付方式,就不初始化方法
     this.setState(
       {
-        payWayNameArr
+        cardTypeArr
       },
       () => {
-        initPaymentWay[payMethod]();
+        initCardType[cardType]();
       }
     );
   };
@@ -558,7 +554,8 @@ class PaymentEditForm extends React.Component {
 
     let params = Object.assign({}, paymentForm, {
       pspName: 'CYBER',
-      cardType: cardTypeArr[this.state.paymentTypeVal] || '001' //默认visa
+      cardType: cardTypeArr[this.state.cardTypeVal] || '001', //默认visa
+      cardTypeName: cardTypeName[this.state.cardTypeVal] || 'Visa'
     });
 
     try {
@@ -636,8 +633,8 @@ class PaymentEditForm extends React.Component {
   };
 
   handlePaymentTypeChange = (e) => {
-    this.setState({ paymentTypeVal: e.target.value }, () => {
-      console.log(this.state.paymentTypeVal);
+    this.setState({ cardTypeVal: e.target.value }, () => {
+      console.log(this.state.cardTypeVal);
     });
   };
 
@@ -653,8 +650,8 @@ class PaymentEditForm extends React.Component {
       validationModalVisible,
       selectValidationOption,
       errMsgObj,
-      payWayNameArr,
-      paymentTypeVal
+      cardTypeArr,
+      cardTypeVal
     } = this.state;
     const { paymentType } = this.props;
 
@@ -1074,19 +1071,19 @@ class PaymentEditForm extends React.Component {
               </aside>
             </div>
             {/* CYBER支持卡类型，超过一种才显示此tab栏 */}
-            {payWayNameArr.length > 1 && (
+            {cardTypeArr.length > 1 && (
               <div>
-                {payWayNameArr.map((item, i) => {
+                {cardTypeArr.map((item, i) => {
                   return (
                     <div className={`rc-input rc-input--inline`} key={i}>
                       <input
                         className="rc-input__radio"
                         id={`payment-info-${item.id}`}
-                        value={item.paymentTypeVal}
+                        value={item.cardTypeVal}
                         type="radio"
                         name="payment-info"
                         onChange={this.handlePaymentTypeChange}
-                        checked={paymentTypeVal === item.paymentTypeVal}
+                        checked={cardTypeVal === item.cardTypeVal}
                       />
                       <label
                         className="rc-input__label--inline"
