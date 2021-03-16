@@ -14,6 +14,7 @@ class Help extends React.Component {
   static defaultProps = {
     needReverse: true,
     isEmailUnderLine: false,
+    isRecommendationPage: false,
     contentText: {
       title: '',
       des: '',
@@ -57,7 +58,7 @@ class Help extends React.Component {
       phoneTitle,
       phoneDes
     } = this.props.contentText;
-    let isUS = process.env.REACT_APP_LANG == 'en';
+    const { isRecommendationPage } = this.props;
     let isEmailUnderLine = this.props.isEmailUnderLine;
     return (
       <div className="experience-region experience-main">
@@ -71,7 +72,7 @@ class Help extends React.Component {
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                   <div
                     className={`text-center ${
-                      isUS
+                      isRecommendationPage
                         ? 'rc-margin-y--sm rc-margin-top--lg--mobile rc-column'
                         : ''
                     }`}
@@ -88,7 +89,9 @@ class Help extends React.Component {
                     <div className="rc-large-body inherit-fontsize children-nomargin">
                       <p
                         className="text-center"
-                        style={{ marginBottom: isUS ? '16px' : '0' }}
+                        style={{
+                          marginBottom: isRecommendationPage ? '16px' : '0'
+                        }}
                       >
                         {des ? (
                           des
@@ -116,7 +119,9 @@ class Help extends React.Component {
                               <div className="w-100">
                                 <b
                                   style={{
-                                    color: isUS ? '#00A4A6' : '#00BCA3'
+                                    color: isRecommendationPage
+                                      ? '#00A4A6'
+                                      : '#00BCA3'
                                   }}
                                 >
                                   {phoneTitle ? (
@@ -137,12 +142,14 @@ class Help extends React.Component {
                                     className="rc-numeric rc-md-up"
                                     href={
                                       phone
-                                        ? phone
+                                        ? `tel:${phone}`
                                         : this.props.configStore
                                             .storeContactPhoneNumber
                                     }
                                     style={{
-                                      color: isUS ? '#00A4A6' : '#00BCA3'
+                                      color: isRecommendationPage
+                                        ? '#00A4A6'
+                                        : '#00BCA3'
                                     }}
                                   >
                                     {/* <FormattedMessage id="help.tel" /> */}
@@ -153,10 +160,12 @@ class Help extends React.Component {
                                   </a>
                                 </div>
                                 <div className="rc-margin-top--xs">
-                                  {process.env.REACT_APP_LANG == 'en' ? (
+                                  {isRecommendationPage ? (
                                     <p
                                       style={{
-                                        color: isUS ? '#00A4A6' : '#00BCA3'
+                                        color: isRecommendationPage
+                                          ? '#00A4A6'
+                                          : '#00BCA3'
                                       }}
                                       className="rc-numeric rc-md-down"
                                     >
@@ -169,7 +178,9 @@ class Help extends React.Component {
                                                 .storeContactPhoneNumber)
                                         }
                                         style={{
-                                          color: isUS ? '#00A4A6' : '#00BCA3'
+                                          color: isRecommendationPage
+                                            ? '#00A4A6'
+                                            : '#00BCA3'
                                         }}
                                       >
                                         {/* <FormattedMessage id="help.tel" /> */}
@@ -182,7 +193,9 @@ class Help extends React.Component {
                                   ) : (
                                     <p
                                       style={{
-                                        color: isUS ? '#00A4A6' : '#00BCA3'
+                                        color: isRecommendationPage
+                                          ? '#00A4A6'
+                                          : '#00BCA3'
                                       }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                       onClick={this.mobileDial}
@@ -214,7 +227,7 @@ class Help extends React.Component {
                               <div className="w-100">
                                 <b>
                                   {/* <FormattedMessage id="help.byEmail" /> */}
-                                  {process.env.REACT_APP_LANG == 'en' ? (
+                                  {isRecommendationPage ? (
                                     <span
                                       style={{
                                         verticalAlign: 'inherit'
@@ -262,7 +275,7 @@ class Help extends React.Component {
                                       color: 'rgb(0, 135, 189)'
                                     }}
                                   >
-                                    {process.env.REACT_APP_LANG == 'en' ? (
+                                    {isRecommendationPage ? (
                                       <Link
                                         className="dkjdksjksjdks"
                                         to={emailLink}

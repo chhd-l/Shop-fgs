@@ -1,15 +1,20 @@
 const ru_RU = {
   aboutUs: 'О нас',
-  'aboutUs.description': 'Здоровье животного – залог его красоты и благополучия. Мы внимательно изучаем мельчайшие особенности физиологии собак и кошек, чтобы понять, каковы их потребности, и предложить для них уникальное индивидуальное питание.',
+  'aboutUs.description':
+    'Здоровье животного – залог его красоты и благополучия. Мы внимательно изучаем мельчайшие особенности физиологии собак и кошек, чтобы понять, каковы их потребности, и предложить для них уникальное индивидуальное питание.',
   'aboutUs.FoodQualityandSafety': 'Качество и безопасность',
-  'aboutUs.FoodQualityandSafetyDetail': 'Наша приверженность безопасности и качеству пищевых продуктов лежит в основе нашей деятельности по всему миру.',
+  'aboutUs.FoodQualityandSafetyDetail':
+    'Наша приверженность безопасности и качеству пищевых продуктов лежит в основе нашей деятельности по всему миру.',
   'aboutUs.history': 'Наша история',
-  'aboutUs.historyDetail': 'Компания ROYAL CANIN® была основана во Франции ветеринарным врачом Жаном Катари в 1968 году. С 1968 года компания ROYAL CANIN® работает над тем, чтобы сделать питание одним из методов поддержания здоровья кошек и собак. Это наш способ сделать мир для домашних животных лучше.',
+  'aboutUs.historyDetail':
+    'Компания ROYAL CANIN® была основана во Франции ветеринарным врачом Жаном Катари в 1968 году. С 1968 года компания ROYAL CANIN® работает над тем, чтобы сделать питание одним из методов поддержания здоровья кошек и собак. Это наш способ сделать мир для домашних животных лучше.',
   'aboutUs.IncredibleDetail': 'Здоровье каждого питомца уникально',
   'aboutUs.learnMore': 'Узнать больше',
   'aboutUs.ourValues': 'Наши ценности',
-  'aboutUs.ourValuesDetail': 'Узнайте больше об идеях и ценностях, которые определяют роль ROYAL CANIN® в мире.',
-  'aboutUs.SeeHowWeDo': 'Посмотрите наше короткое видео и убедитесь, что во всем, что мы делаем, нами движет подлинная увлеченность.',
+  'aboutUs.ourValuesDetail':
+    'Узнайте больше об идеях и ценностях, которые определяют роль ROYAL CANIN® в мире.',
+  'aboutUs.SeeHowWeDo':
+    'Посмотрите наше короткое видео и убедитесь, что во всем, что мы делаем, нами движет подлинная увлеченность.',
   'aboutUs.shopCat': 'Подберите подходящее здоровое питание для Вашей кошки!',
   'aboutUs.shopDog': 'Выберите нужный продукт. Какое у вас животное?',
   'aboutUs.shopTile': 'Выберите нужный продукт. Какое у вас животное?',
@@ -22,38 +27,46 @@ const ru_RU = {
   'account.cat': 'Кошка',
   'account.catOrDog': 'У тебя есть кошка или собака?',
   'account.dateTip': 'Пожалуйста, выберите прошедшую дату.',
-  'account.deleteMyaccountDesc': 'как только ваш счёт будет удален, вы не сможете использовать этот счёт для доступа к сервису Royal Canin.',
+  'account.deleteMyaccountDesc':
+    'как только ваш счёт будет удален, вы не сможете использовать этот счёт для доступа к сервису Royal Canin.',
   'account.deleteMyaccountTitle': 'Удалить счёт',
   'account.dog': 'Собака',
   // 'account.Email': 'Эл. адрес',
   'account.Email': 'Е-mail адрес',
   'account.enterBirthDare': 'Введите дату рождения вашего питомца.',
-  'account.faqTip': 'У вас есть вопросы ? Мы здесь, чтобы удовлетворить ваши потребности и потребности ваших питомцев',
+  'account.faqTip':
+    'У вас есть вопросы ? Мы здесь, чтобы удовлетворить ваши потребности и потребности ваших питомцев',
   'account.faqTitle': 'Часто задаваемые вопросы',
   'account.features': 'Какие особые потребности есть у вашего питомца?',
   'account.female': 'Женский',
   'account.fine': 'Отлично!',
   'account.gender': 'Какого пола ваш питомец?',
-  'account.helpTip': 'Если у вас есть вопросы, мы всегда готовы помочь вам и вашему питомцу',
+  'account.helpTip':
+    'Если у вас есть вопросы, мы всегда готовы помочь вам и вашему питомцу',
   'account.male': 'Мужчина',
   'account.monRoyalCanin': 'Mon Royal Canin',
   'account.myAccount': 'Мой аккаунт',
   'account.myAddresses': 'мой адрес',
   'account.myCommunicationPreferencesContent1': 'Предпочитаемый способ связи',
   'account.myCommunicationPreferencesContent2': 'Согласие на общение',
-  'account.myCommunicationPreferencesDesc': 'Следите за информацией Royal Canin в общении',
+  'account.myCommunicationPreferencesDesc':
+    'Следите за информацией Royal Canin в общении',
   'account.myCommunicationPreferencesTitle': 'Мои предпочтения в общении',
   'account.myPayments': 'Я плачу',
   'account.nickname': 'Какое прозвище у вашего питомца?',
-  'account.noPet': 'Создайте профиль своего питомца сегодня! Заполните информацию и выберите наиболее подходящую диету',
-  'account.noSubscription': 'Вы еще не узнали о наших услугах Autoship? AutoShip - это удобный способ регулярной доставки ваших заказов. Таким образом, вы экономите время, а у вашего питомца никогда не кончится еда.',
+  'account.noPet':
+    'Создайте профиль своего питомца сегодня! Заполните информацию и выберите наиболее подходящую диету',
+  'account.noSubscription':
+    'Вы еще не узнали о наших услугах Autoship? AutoShip - это удобный способ регулярной доставки ваших заказов. Таким образом, вы экономите время, а у вашего питомца никогда не кончится еда.',
   'account.noSubscriptionTitle': 'Давайте начнем!',
   'account.notRegistred': 'Вы не зарегистрированы?',
   'account.of': 'из',
   'account.orders': 'Заказы',
   'account.orders.btns': 'Начать покупки',
-  'account.orders.tips': 'Вы еще не разместили заказы! Начните делать покупки прямо сейчас, чтобы получить точный корм для вашего питомца',
-  'account.ordersTip': 'Проверять статус текущих заказов и просматривать историю предыдущих.',
+  'account.orders.tips':
+    'Вы еще не разместили заказы! Начните делать покупки прямо сейчас, чтобы получить точный корм для вашего питомца',
+  'account.ordersTip':
+    'Проверять статус текущих заказов и просматривать историю предыдущих.',
   'account.ordersTitle': 'Заказы',
   'account.paymentMethodTip': 'Просмотр и обновление платежной информации',
   'account.personalArea': 'Профиль',
@@ -77,9 +90,59 @@ const ru_RU = {
   'account.TheAddressBook': 'Адресная книга',
   'account.toComeIn': 'Войти',
   'account.unknownBreed': 'Неизвестная порода',
-  'account.warmNotice': 'Добро пожаловать, {val}! Эта область предназначена для управления вашей учетной записью. Вы можете легко изменить информацию в своем профиле, управлять потребностями своего питомца, проверять статус своих заказов и свой автозаказ.',
+  'account.warmNotice':
+    'Добро пожаловать, {val}! Эта область предназначена для управления вашей учетной записью. Вы можете легко изменить информацию в своем профиле, управлять потребностями своего питомца, проверять статус своих заказов и свой автозаказ.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
+  'recommendation.buyNow': 'Buy now',
+  'recommendation.firstBtnText': 'Sign up',
+  'recommendation.firstContent':
+    'Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.',
+  'recommendation.firstContent1': ' Save 10% on every order.',
+  'recommendation.firstContent2': 'Automatically delivered on your schedule.',
+  'recommendation.firstContent3': 'Free shipping.',
+  'recommendation.firstContent4': 'Change or cancel anytime.',
+  'recommendation.firstSubTitle':
+    'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
+  'recommendation.firstTitle':
+    'Discover your personally-selected nutrition recommendation below.',
+  'recommendation.firstTitle': 'Never run out of your pet’s food!',
+  'recommendation.helpContentText.title': "We're Here to Help",
+  'recommendation.helpContentText.des':
+    "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
+  'recommendation.helpContentText.emailTitle': 'Email us',
+  'recommendation.helpContentText.emailDes':
+    'We will respond as soon as possible.',
+  'recommendation.helpContentText.emailLink': '/help/contact',
+  'recommendation.helpContentText.phoneTitle': 'Call us',
+  'recommendation.helpContentText.phone': '1-844-673-3772',
+  'recommendation.helpContentText.email': 'Send us an email',
+  'recommendation.helpContentText.phoneDes1': 'Monday to Friday:',
+  'recommendation.helpContentText.phoneDes2': '8:00 AM - 4:30  PM CT',
+  'recommendation.fiveContent':
+    'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
+  'recommendation.fourContent':
+    'Your pet means the world to you, and their health and happiness means the world to us !',
+  'recommendation.fourTitle': 'Why Royal Canin?',
+  'recommendation.productDescription':
+    'Royal Canin’s feeding guidelines can also be found on the product packaging.',
+  'recommendation.recommendationPackage': 'Recommendation Package',
+  'recommendation.secContent':
+    'At Royal Canin, we believe that nutrition plays a key role in supporting the health and well-being of cats and dogs. This is why we have designed ROYAL CANIN® Veterinary diets around proven nutritional science in order to address specific pet conditions. Follow your veterinarian‘s nutritional recommendation here below.',
+  'recommendation.secondBtnText': 'Start now',
+  'recommendation.secondTitle': 'Ready to Get Started?',
+  'recommendation.secTitle': 'Veterinary health nutrition',
+  'recommendation.thirdContent':
+    'We‘re pet lovers and experts in cat and dog nutrition and we’re ready to to help you with any questions you might have.',
+  'recommendation.thirdTitle': 'Our pet experts are here to help you',
+  'recommendation.viewDetail': 'View Detail',
+  'recommendation.viewInCart': 'View In Cart',
+  'recommendation.viewInCart': 'View in cart',
+  'recommendation.welcomeBtn': 'Buy now',
+  'recommendation.welcomeSubText':
+    'These recommendations were made based on your pet’s unique needs and have been automatically added to your cart. ',
+  'recommendation.welcomeText1': 'Welcome',
+  'recommendation.welcomeText2': 'To Your Customized Product Recommendations',
   active: 'Активный',
   addANewPaymentMethod: 'Добавить новый способ оплаты',
   addNewCreditCard: 'Добавить новую кредитную карту',
@@ -121,14 +184,17 @@ const ru_RU = {
   'cart.delivery': 'Доставка',
   'cart.dogDiet': 'Выберите диету для своей собаки',
   'cart.errorInfo': 'Число не может быть меньше 1',
-  'cart.errorInfo2': 'Вы не можете разместить заказ, товар отсутствует в наличии.',
-  'cart.errorInfo3': '* Сумма вашего заказа еще не достигла минимальной суммы для бесплатной доставки （{val}）',
+  'cart.errorInfo2':
+    'Вы не можете разместить заказ, товар отсутствует в наличии.',
+  'cart.errorInfo3':
+    '* Сумма вашего заказа еще не достигла минимальной суммы для бесплатной доставки （{val}）',
   'cart.errorInfo4': 'Вы не можете разместить свой заказ, товар с полок',
   'cart.errorInfo5': 'Вы не можете разместить заказ, продукт удален: {val}',
   'cart.errorMaxCate': 'В корзине не может быть более {val} товаров',
   'cart.errorMaxInfo': 'Число не может быть больше {val}',
   'cart.fullPrice': 'ПОЛНЫЙ РИС ДЛЯ ВАШЕГО ДОМАШНИКА',
-  'cart.miniCartTitle': 'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
+  'cart.miniCartTitle':
+    'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
   'cart.totalProduct': '{val} товар (а/ов)',
   'cart.totalProduct_nounit': '{val} корзине',
   'cart.yourShoppingCart': 'Ваша Корзина',
@@ -136,16 +202,19 @@ const ru_RU = {
   cats2: 'Кошки',
   cats3: 'Кошки',
   chang: 'Изменить',
-  changeAnotherCard: 'Пожалуйста, перейдите на другую карту и попробуйте еще раз',
+  changeAnotherCard:
+    'Пожалуйста, перейдите на другую карту и попробуйте еще раз',
   changePassword: 'Изменить пароль',
   changepic: 'Change picture',
   checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
   checkout: 'Оформление заказа',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
-  choosePrescriber: 'Пожалуйста, выберите правильного врача, выписывающего рецепт',
+  choosePrescriber:
+    'Пожалуйста, выберите правильного врача, выписывающего рецепт',
   clickConfirmCardButton: 'Пожалуйста, нажмите кнопку подтверждения карты',
-  clickConfirmCvvButton: 'Если вы хотите использовать эту кредитную карту, введите CVV и нажмите кнопку Применить',
+  clickConfirmCvvButton:
+    'Если вы хотите использовать эту кредитную карту, введите CVV и нажмите кнопку Применить',
   clickHere: 'Кликните сюда',
   'clinic.cancel': 'Отмена',
   'clinic.clinic': 'клиника',
@@ -158,24 +227,30 @@ const ru_RU = {
   'clinic.vet': 'Ветеринар',
   close: 'Закрыть',
   club: 'КЛУБ',
-  'comment.commentsTooLong': 'Комментарии к продукту не могут содержать более 500 символов',
-  'comment.noLogisticsRatingTip': 'Прокомментируйте, пожалуйста, службу логистики',
+  'comment.commentsTooLong':
+    'Комментарии к продукту не могут содержать более 500 символов',
+  'comment.noLogisticsRatingTip':
+    'Прокомментируйте, пожалуйста, службу логистики',
   'comment.noProductRatingTip': 'Прокомментируйте, пожалуйста, товары',
-  'comment.noShoppingExperienceTip': 'Прокомментируйте, пожалуйста, опыт покупок',
+  'comment.noShoppingExperienceTip':
+    'Прокомментируйте, пожалуйста, опыт покупок',
   CompleteRequiredItems: 'Пожалуйста, заполните необходимые пункты',
   confirmation: 'Подтверждение',
   'confirmation.account': 'Go to my account',
   'confirmation.customerInformation': 'Информация для клиентов',
   'confirmation.info1': 'Спасибо за ваш заказ.',
-  'confirmation.info2': 'В ближайшее время с вами свяжутся наши сотрудники для подтверждения заказа.',
-  'confirmation.info3': 'Адреса и способы доставки указаны под вашими товарами.',
+  'confirmation.info2':
+    'В ближайшее время с вами свяжутся наши сотрудники для подтверждения заказа.',
+  'confirmation.info3':
+    'Адреса и способы доставки указаны под вашими товарами.',
   'confirmation.oneShoot': 'Go to my account',
   'confirmation.orderNumber': 'Номер заказа',
   'confirmation.rateTip': 'Как бы вы оценили свой шоппинг?',
   'confirmation.rateTip2': 'Что мы можем сделать, чтобы улучшить?',
   'confirmation.rateTip3': 'Введите до 50 символов',
   'confirmation.rateTip4': 'Пожалуйста, забейте первым.',
-  'confirmation.subscriptionDiscountPriceDes': 'You saved {val1}  with the mark',
+  'confirmation.subscriptionDiscountPriceDes':
+    'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы подтверждаете удаление?',
   confirmPassword: 'Подтвердить Пароль *',
@@ -193,18 +268,35 @@ const ru_RU = {
   creditCardTipMany: 'Вы создали кредитные карты: {number}, до 10',
   customerReviews: 'Отзывы клиентов',
   cvvWarning: 'CVV неправильный',
-  'datePicker.months': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+  'datePicker.months': [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь'
+  ],
   'datePicker.nextMonth': 'следующий месяц',
   'datePicker.previousMonth': 'прошлый месяц',
-  'datePicker.weekdays': ['Воскресенье понедельник вторник среда четверг пятница суббота'],
+  'datePicker.weekdays': [
+    'Воскресенье понедельник вторник среда четверг пятница суббота'
+  ],
   'datePicker.weekdaysShort': ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
   default: 'По умолчанию',
   defaultAddress: 'адрес по умолчанию',
   delete: 'Удалять',
   deleteAddressFailed: 'Не удалось удалить адрес',
   deleteAddressSuccess: 'Удалить адрес успешно',
-  deleteAddressTip: 'Извините, на этот адрес уже подписана подписка, поэтому его нельзя удалить.',
-  deleteCardTip: 'Извините, на эту кредитную карту уже подписана подписка, поэтому ее нельзя удалить.',
+  deleteAddressTip:
+    'Извините, на этот адрес уже подписана подписка, поэтому его нельзя удалить.',
+  deleteCardTip:
+    'Извините, на эту кредитную карту уже подписана подписка, поэтому ее нельзя удалить.',
   delivery: 'Доставка',
   delivery2: 'Доставка',
   deliveryAddress: 'Адресс доставки',
@@ -213,9 +305,11 @@ const ru_RU = {
   'deliveryStatus.PART_SHIPPED': 'Частично отправлено',
   'deliveryStatus.SHIPPED': 'Все отгружено',
   'deliveryStatus.VOID': 'Быть доставленным',
-  'detail.answer': 'Наши консультанты - настоящие эксперты и увлеченные. Они в вашем распоряжении, чтобы ответить на любой запрос.',
+  'detail.answer':
+    'Наши консультанты - настоящие эксперты и увлеченные. Они в вашем распоряжении, чтобы ответить на любой запрос.',
   'detail.email': 'По электронной почте',
-  'detail.packagingDesc': 'На нашу упаковку / продукцию могут распространяться инструкции по сортировке',
+  'detail.packagingDesc':
+    'На нашу упаковку / продукцию могут распространяться инструкции по сортировке',
   //pdp
   'detail.question': 'У вас остались вопросы об этом продукте ?',
   'detail.telephone': 'По телефону',
@@ -261,13 +355,15 @@ const ru_RU = {
   examplePostCode: '02860',
   expirationDateIsInvalid: 'срок действия вашей карты недействителен',
   'faq.frequentQuestions': 'Часто задаваемые вопросы',
-  'faq.title': 'У Вас вопрос? Посмотрите ниже, чтобы узнать, есть ли на него ответ. Если Вы не можете найти то, что ищете, нажмите {val}, чтобы связаться с нами.',
+  'faq.title':
+    'У Вас вопрос? Посмотрите ниже, чтобы узнать, есть ли на него ответ. Если Вы не можете найти то, что ищете, нажмите {val}, чтобы связаться с нами.',
   'faq.title2': 'Entrega del alimento',
   filters: 'Фильтры',
   findLocation: 'Найти место',
   findTheRightDiet: 'Подобрать рацион',
   firstName: 'Имя *',
-  'firstNameLastName50characters!': 'Имя или Фамилия не могут превышать 50 символов!',
+  'firstNameLastName50characters!':
+    'Имя или Фамилия не могут превышать 50 символов!',
   'footer.aboutRoyalCanin': 'О ROYAL CANIN®',
   'footer.Additionally': 'ДОПОЛНИТЕЛЬНО',
   'footer.confidentiality': 'Привацидад',
@@ -276,7 +372,8 @@ const ru_RU = {
   'footer.contactUs': 'Связаться с нами',
   'footer.cookieCollectionPolicy': 'Политика сбора файлов cookie',
   'footer.cookies': 'Печенье',
-  'footer.copyrightInfo': 'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
+  'footer.copyrightInfo':
+    'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
   'footer.email': 'Свяжитесь с нами',
   'footer.FAQ': 'ВОПРОСЫ-ОТВЕТЫ',
   'footer.healthAndNutrition': 'Здоровье и питание',
@@ -295,7 +392,8 @@ const ru_RU = {
   forgetPassword: 'Забыть пароль?',
   'forgetPassword.back': 'Вернуться на страницу входа',
   'forgetPassword.createNewPassword': 'Создать новый пароль',
-  'forgetPassword.forgetPasswordTip': 'Вам будет отправлено письмо с инструкциями по смене пароля.',
+  'forgetPassword.forgetPasswordTip':
+    'Вам будет отправлено письмо с инструкциями по смене пароля.',
   freeShipping: 'Бесплатная доставка',
   from: 'От',
   gender: 'Пол',
@@ -303,11 +401,13 @@ const ru_RU = {
   getConsumerAccountFailed: 'Не удалось получить учетную запись потребителя',
   getDataFailed: 'Не удалось получить данные',
   getPetFailed: 'Get Pet Failed',
-  giveConsentPersonalData: 'и даю согласие на обработку персональных данных, включая трансграничную передачу',
+  giveConsentPersonalData:
+    'и даю согласие на обработку персональных данных, включая трансграничную передачу',
   goods: 'Товар',
   guestCheckout: 'Продолжить без регистрации',
   'header.basketEmpty': 'ваша корзина пуста',
-  'header.carouselInfo1': 'Поддержите здоровье вашего питомца с помощью правильного питания',
+  'header.carouselInfo1':
+    'Поддержите здоровье вашего питомца с помощью правильного питания',
   'header.carouselInfo2': 'Выбирайте правильную пищу для своего питомца',
   'header.carouselInfo3': 'Питание для домашних животных',
   'header.carouselInfo4': 'Персональный консультант',
@@ -315,7 +415,8 @@ const ru_RU = {
   'header.carouselInfo6': 'Брендовые аксессуары и VIP обслуживание',
   'header.carouselInfo7': 'Программа здоровья и благополучия вашего питомца',
   'header.carouselInfo8': 'Наши специалисты сделают все, чтобы вам помочь!',
-  'header.carouselInfo9': 'Ваш персональный консультант на связи каждый день с 9.00 до 21.00',
+  'header.carouselInfo9':
+    'Ваш персональный консультант на связи каждый день с 9.00 до 21.00',
   'header.carouselInfo10': 'Персональный консультант ROYAL CANIN® CLUB',
   'header.carouselInfo11': 'ROYAL CANIN® CLUB для котят',
   'header.startTypingToSearch': 'Начать вводить для поиска',
@@ -345,8 +446,10 @@ const ru_RU = {
   'help.email': 'Эл. адрес',
   'help.needHelp': 'Нужна помощь ?',
   'help.tel': 'тел',
-  'help.tip1': 'Наши сотрудники по обслуживанию клиентов работают профессионально и с энтузиазмом.',
-  'help.tip2': 'Бесплатный звонок (со стационарного телефона) с понедельника по пятницу с 8 до 20 часов',
+  'help.tip1':
+    'Наши сотрудники по обслуживанию клиентов работают профессионально и с энтузиазмом.',
+  'help.tip2':
+    'Бесплатный звонок (со стационарного телефона) с понедельника по пятницу с 8 до 20 часов',
   'help.tip3': 'Мы ответим вам в течение максимум 12 часов.',
   'help.tip4': 'Они могут ответить на любые вопросы в любое время',
   here: 'здесь',
@@ -357,14 +460,19 @@ const ru_RU = {
   'home.catogery4': 'Dietas de Prescripción Veterinaria Gatos',
   'home.catogery5': 'КОШКИ',
   'home.catogery6': 'СОБАКИ',
-  'home.convenientTip1': 'Подбор рациона в соответствии с потребностями Вашего питомца',
+  'home.convenientTip1':
+    'Подбор рациона в соответствии с потребностями Вашего питомца',
   'home.convenientTip2': 'Быстрая бесплатная доставка при заказе из {val}.',
-  'home.convenientTip3': 'Служба поддержки: задайте интересующий вопрос о своем питомце специалисту',
+  'home.convenientTip3':
+    'Служба поддержки: задайте интересующий вопрос о своем питомце специалисту',
   'home.convenientTitle': 'Почему удобно совершать покупки с ROYAL CANIN®?',
-  'home.note1': 'Afectado por la epidemia, el tiempo de entrega puede extenderse.',
-  'home.note2': 'Nuestra área de distribución se limita a la Ciudad de México, Guadalajara y Monterrey.',
+  'home.note1':
+    'Afectado por la epidemia, el tiempo de entrega puede extenderse.',
+  'home.note2':
+    'Nuestra área de distribución se limita a la Ciudad de México, Guadalajara y Monterrey.',
   'home.pageNotFound': 'Страница не найдена…',
-  'home.pageNotFoundInfo': 'Извините, страница, которую вы ищете, не существует.',
+  'home.pageNotFoundInfo':
+    'Извините, страница, которую вы ищете, не существует.',
   'home.point1': 'Безопасные платежи',
   'home.point2': 'Гарантия качества',
   'home.point3': 'Премиальный сервис',
@@ -372,19 +480,22 @@ const ru_RU = {
   'home.point5': 'ЗАБОТИМСЯ О ЗДОРОВЬЕ СОБАК И КОШЕК С 1968 ГОДА',
   'home.point6': 'ВМЕСТЕ С ВАМИ',
   'home.productsCategory': 'Наши продукты по категориям',
-  'home.promotionTip': '10% скидка на первую покупку + 5% скидка на каждый заказ на автозаказ',
+  'home.promotionTip':
+    '10% скидка на первую покупку + 5% скидка на каждый заказ на автозаказ',
   'home.specialAnimalNutrition': 'Специальное питание для животных',
   'home.specialInfo1': 'Великолепие каждой породы есть',
   'home.specialInfo2': 'в своей уникальности.',
   'home.specialInfo3': 'Узнайте, что делает их уникальными!',
-  'home.specialInfo4': 'Более 50 лет мы следуем принципу Благополучие собак и кошек прежде всего. Мы создаем адаптированный корм для животных в соответствии с их особыми потребностями. ',
+  'home.specialInfo4':
+    'Более 50 лет мы следуем принципу Благополучие собак и кошек прежде всего. Мы создаем адаптированный корм для животных в соответствии с их особыми потребностями. ',
   'home.viewProducts': 'Просмотр продуктов',
   homePage: 'Главная страница',
   iHaveReadThe: 'Я прочитал',
   inactive: 'Неактивный',
   information: 'Информация',
   inputSearchText: 'введите текст для поиска',
-  inputYourEmailReceivePayment: 'Введите свой адрес электронной почты, чтобы получать платежный ваучер и уведомления о статусе заказа.',
+  inputYourEmailReceivePayment:
+    'Введите свой адрес электронной почты, чтобы получать платежный ваучер и уведомления о статусе заказа.',
   inTheBasket: 'в корзине',
   invoice: 'выставленный счет',
   isContinue: 'Стоит ли продолжать?',
@@ -403,18 +514,23 @@ const ru_RU = {
   language: 'Russia/Россия',
   lastName: 'Фамилия *',
   learnMore: 'Узнать больше',
-  'list.errMsg': 'Товаров не найдено. Измените критерии поиска и повторите попытку',
-  'list.errMsg2': 'Товаров не найдено. Измените ключевые слова и повторите попытку.',
+  'list.errMsg':
+    'Товаров не найдено. Измените критерии поиска и повторите попытку',
+  'list.errMsg2':
+    'Товаров не найдено. Измените ключевые слова и повторите попытку.',
   'list.errMsg3': 'Фильтры не найдены, повторите попытку позже.',
-  'list.errMsg4': 'Товаров не найдено. Измените поисковый запрос и попробуйте еще раз.',
+  'list.errMsg4':
+    'Товаров не найдено. Измените поисковый запрос и попробуйте еще раз.',
   'list.youSearchedFor': 'Вы искали',
   listPrice: 'Список цен',
   login: 'Авторизоваться',
   'login.firstCheck': '',
   'login.forgetPassword': 'Забыли свой пароль?',
   'login.guestContinue': 'Продолжить с гостем',
-  'login.loginTip': 'Для подключения к сервису ROYAL CANIN® требуется авторизация. Если у вас нет личного кабинета, вы можете зарегистрироваться сейчас.',
-  'login.passwordTip': '8–20 символов, включая строчные буквы, прописные буквы, цифры',
+  'login.loginTip':
+    'Для подключения к сервису ROYAL CANIN® требуется авторизация. Если у вас нет личного кабинета, вы можете зарегистрироваться сейчас.',
+  'login.passwordTip':
+    '8–20 символов, включая строчные буквы, прописные буквы, цифры',
   'login.register': 'Создать личный кабинет',
   'login.secondCheck': 'Подтверждаю, что мне больше 18 лет',
   'login.thirdCheck': 'Я согласен получать маркетинговую рассылку',
@@ -428,7 +544,8 @@ const ru_RU = {
   menu: 'Меню',
   miniBasket: 'Мини-корзина',
   MMYY: 'ММ / ГГ',
-  modalCancelAllContent: 'Вы уверены, что хотите отменить все следующие доставки?',
+  modalCancelAllContent:
+    'Вы уверены, что хотите отменить все следующие доставки?',
   modalCancelAllTitle: 'ОТМЕНИТЬ ВСЕ ЗАКАЗЫ?',
   modalOrderNowContent: 'Вы уверены, что хотите разместить этот заказ сейчас?',
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
@@ -436,13 +553,15 @@ const ru_RU = {
   modalSkipTitle: 'ПРОПУСТИТЬ СЛЕДУЮЩУЮ ДОСТАВКУ?',
   moreAddress: 'Подробнее Адрес',
   moreChoicesAvailable: 'Доступны другие варианты',
-  mustChooseACommunicationMethodTip: 'К сожалению, вы проверили согласие на общение, поэтому вам необходимо выбрать способ связи.',
+  mustChooseACommunicationMethodTip:
+    'К сожалению, вы проверили согласие на общение, поэтому вам необходимо выбрать способ связи.',
   name: 'Имя',
   name2: 'ИМЯ',
   nameInvalid: 'Ваше имя недействительно',
   newAddress: 'Новый адрес',
   newPassword: 'Новый пароль',
-  noClinicTip: 'Ваш рекомендательный код недействителен. {val} и узнайте действующий код в наших партнерских клиниках. ',
+  noClinicTip:
+    'Ваш рекомендательный код недействителен. {val} и узнайте действующий код в наших партнерских клиниках. ',
   NoPromotionDesc: 'No PromotionDesc',
   noSpecialNeeds: 'Нет особых потребностей',
   notate: '',
@@ -481,7 +600,8 @@ const ru_RU = {
   'order.progress6': 'Ожидает оценки',
   'order.progress7': 'Отменено',
   'order.rateModalTitle': 'Ваше мнение важно',
-  'order.refundErrorInfo': 'Этот заказ связан с возмещением в процессе обработки и не может быть подан повторно',
+  'order.refundErrorInfo':
+    'Этот заказ связан с возмещением в процессе обработки и не может быть подан повторно',
   'order.return': 'Возвращение',
   'order.returnDate': 'Дата возвращения',
   'order.returnDetails': 'Детали возврата',
@@ -490,8 +610,10 @@ const ru_RU = {
   'order.returnOrderDetails': 'Детали заказа на возврат',
   'order.returnStatus': 'Статус возврата',
   'order.shippingStatus': 'Статус отправки',
-  'order.toBeDeliveredTip': 'Ваш заказ был успешно оплачен, и мы готовимся к отправке.',
-  'order.toBePaidTip': 'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
+  'order.toBeDeliveredTip':
+    'Ваш заказ был успешно оплачен, и мы готовимся к отправке.',
+  'order.toBePaidTip':
+    'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
   'order.viewOrder': 'Посмотреть заказ',
   orders: 'Заказы',
   'orderStatus.AUDIT': 'Быть доставленным',
@@ -504,8 +626,10 @@ const ru_RU = {
   'orderStatus.REMEDY': 'Быть доставленным',
   'orderStatus.VOID': 'Отменено',
   orderSummary: 'Итого',
-  outOfStockContent_cart: 'Среди рекомендуемых в настоящее время товаров есть товары, которых нет в наличии.',
-  outOfStockContent_pay: 'Среди рекомендуемых в настоящее время товаров есть товары, которых нет в наличии.',
+  outOfStockContent_cart:
+    'Среди рекомендуемых в настоящее время товаров есть товары, которых нет в наличии.',
+  outOfStockContent_pay:
+    'Среди рекомендуемых в настоящее время товаров есть товары, которых нет в наличии.',
   oxxo: 'OXXO',
   oxxoTransactionFee: '(Не включает комиссию за транзакцию OXXO)',
   password: 'Пароль *',
@@ -529,9 +653,12 @@ const ru_RU = {
   'payment.commentOnDelivery': 'Комментарий о доставке',
   'payment.confirmCard': 'Подтвердить карту',
   'payment.confirmInfo1': 'Подтверждаю, что мне больше 18 лет',
-  'payment.confirmInfo2': 'Для регистрации на сайте вам должно быть 18 лет или больше',
-  'payment.confirmInfo3': 'He leído el Acuerdo de usuario y la {val1} y acepto el processingamiento de datos personales, включая {val2}',
-  'payment.confirmInfo4': 'Вам необходимо ознакомиться с Пользовательским соглашением и Политикой конфиденциальности и дать свое согласие на обработку персональных данных, включая трансграничную передачу.',
+  'payment.confirmInfo2':
+    'Для регистрации на сайте вам должно быть 18 лет или больше',
+  'payment.confirmInfo3':
+    'He leído el Acuerdo de usuario y la {val1} y acepto el processingamiento de datos personales, включая {val2}',
+  'payment.confirmInfo4':
+    'Вам необходимо ознакомиться с Пользовательским соглашением и Политикой конфиденциальности и дать свое согласие на обработку персональных данных, включая трансграничную передачу.',
   'payment.country': 'Страна',
   'payment.DEBIT': 'СПИСАНИЕ СРЕДСТВ',
   'payment.deliveryFrequency': 'Частота доставки',
@@ -542,7 +669,8 @@ const ru_RU = {
   'payment.errTip': 'введите cvv или выберите карту',
   'payment.firstName': 'Имя',
   'payment.forFree': 'Бесплатно',
-  'payment.forFreeTip': 'Для любого потребителя, делающего заказ на веб-сайте, независимо от суммы, ему или ей может быть предоставлена ​​бесплатная услуга доставки',
+  'payment.forFreeTip':
+    'Для любого потребителя, делающего заказ на веб-сайте, независимо от суммы, ему или ей может быть предоставлена ​​бесплатная услуга доставки',
   'payment.frequencyTip1': 'Да, сделай мою жизнь проще!',
   'payment.frequencyTip2': 'Нет, спасибо.',
   'payment.frequencyTip3': 'Ваши товары будут отправлены только один раз',
@@ -562,7 +690,8 @@ const ru_RU = {
   'payment.rfc': 'Ссылка',
   'payment.socialId': 'Социальный идентификатор',
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
-  'payment.subTip2': 'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
+  'payment.subTip2':
+    'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
   // 'payment.totalProduct': '{val} total product (s)',
   'payment.totalProduct': '{val} товар (а/ов)',
   'payment.yourOrder': 'Твоя очередь',
@@ -570,7 +699,8 @@ const ru_RU = {
   paymentMethod: 'Способ оплаты',
   'paymethods.btn': 'Добавить платеж',
   //account.paymethods:
-  'paymethods.info': 'У вас нет сохраненных способов оплаты. Добавьте сюда свою платежную информацию, чтобы ускорить оформление заказа. Это просто, конфиденциально и безопасно!',
+  'paymethods.info':
+    'У вас нет сохраненных способов оплаты. Добавьте сюда свою платежную информацию, чтобы ускорить оформление заказа. Это просто, конфиденциально и безопасно!',
   'payStatus.NOT_PAID': 'Неоплаченный',
   'payStatus.PAID': 'Платно',
   'payStatus.PAID_IN': 'Оплачено',
@@ -583,19 +713,24 @@ const ru_RU = {
   petType: 'Тип питомца',
   phone: 'Телефон',
   pleasecompleteTheRequiredItem: 'Заполните требуемый пункт',
-  pleaseEnterTheCorrectEmail: 'Пожалуйста, введите правильный адрес электронной почты',
+  pleaseEnterTheCorrectEmail:
+    'Пожалуйста, введите правильный адрес электронной почты',
   PleaseFillInstructions: 'Пожалуйста, заполните инструкции по возврату',
   'plp.retail.cat.button': 'Откройте для себя ассортимент',
-  'plp.retail.cat.detail': 'Диетические продукты, помогающие поддерживать здоровье кошек с проблемами',
+  'plp.retail.cat.detail':
+    'Диетические продукты, помогающие поддерживать здоровье кошек с проблемами',
   'plp.retail.cat.product.finder.button': 'Найти продукт',
   'plp.retail.cat.product.finder.detail': 'Попробуйте наш поиск продукта',
-  'plp.retail.cat.product.finder.title': 'Нужна помощь в поиске подходящего продукта?',
+  'plp.retail.cat.product.finder.title':
+    'Нужна помощь в поиске подходящего продукта?',
   //PLP-Retail-Cat
   'plp.retail.cat.title': 'Вы ищете ветеринарные продукты?',
   'plp.vet.cat.button': 'Откройте для себя ассортимент',
-  'plp.vet.cat.detail': 'Наш полный ассортимент сухих кормов и закусок в соусе или желе обеспечивает наиболее точный корм для кошек всех возрастов, размеров и пород.',
+  'plp.vet.cat.detail':
+    'Наш полный ассортимент сухих кормов и закусок в соусе или желе обеспечивает наиболее точный корм для кошек всех возрастов, размеров и пород.',
   //PLP-Vet-Cat
-  'plp.vet.cat.title': 'Вы ищете продукты, доступные в специализированных торговых точках?',
+  'plp.vet.cat.title':
+    'Вы ищете продукты, доступные в специализированных торговых точках?',
   plsFillEmailTip: 'Ваш адрес электронной почты не указан в адресной строке',
   prescription: 'Рецепт',
   prescriptionDeclined: 'Рецепт отклонен',
@@ -603,14 +738,17 @@ const ru_RU = {
   printEbanx: 'Печать Ebanx',
   privacyPolicy: 'Политика конфиденциальности',
   proceedToTheDeletion: 'продолжить удаление',
-  'productFinder.resultHlep': 'Понедельник - пятница с 8 ч. 30 м. до 12 ч. 30 м.',
+  'productFinder.resultHlep':
+    'Понедельник - пятница с 8 ч. 30 м. до 12 ч. 30 м.',
   'productFinder.resultPage': 'Пищевое питание',
   'productFinder.tip1': 'Найдите подходящую еду для своего питомца',
-  'productFinder.tip2': 'Эта анкета поможет вам выбрать рекомендованный корм для вашего питомца.',
+  'productFinder.tip2':
+    'Эта анкета поможет вам выбрать рекомендованный корм для вашего питомца.',
   'productFinder.tip3': 'Ваш питомец ...',
   productRating: 'Рейтинг товара',
   produtctNumber: 'Номер продукта',
-  'profile.emailChoose': 'Да, я хотел бы получать эксклюзивные скидки, информацию о продуктах, советы по уходу за домашними животными и многое другое от Royal Canin',
+  'profile.emailChoose':
+    'Да, я хотел бы получать эксклюзивные скидки, информацию о продуктах, советы по уходу за домашними животными и многое другое от Royal Canin',
   promotion: 'Продвижение',
   'promotion.firstOrderDiscount': 'Скидка при первом заказе',
   promotionalCode: 'Промо код',
@@ -619,23 +757,33 @@ const ru_RU = {
   purchaseRating: 'Рейтинг покупательского опыта',
   qualitySafety: 'Безопасность качества',
   QualitySafety: 'Качество и безопасность',
-  'qualitySafety.consistentDetail': 'Все 1800 операторов наших производственных линий в разных уголках мира следуют одним и тем же технологическим инструкциям, обеспечивая повсюду единый уровень качества. На каждой стадии производства регулярно проводятся процедуры контроля. Последний из этих тестов оценивает качество уже готовой продукции перед ее выходом с завода. Каждый год мы тестируем полмиллиона образцов! Все наши дистрибьюторы соблюдают высокие стандарты безопасности и качества логистики. Чтобы удостовериться в этом, мы регулярно проводим проверки на их складах и в транспортных парках. Благодаря такой системе контроля мы поддерживаем оптимальное качество, безопасность и пищевую ценность продукции.',
+  'qualitySafety.consistentDetail':
+    'Все 1800 операторов наших производственных линий в разных уголках мира следуют одним и тем же технологическим инструкциям, обеспечивая повсюду единый уровень качества. На каждой стадии производства регулярно проводятся процедуры контроля. Последний из этих тестов оценивает качество уже готовой продукции перед ее выходом с завода. Каждый год мы тестируем полмиллиона образцов! Все наши дистрибьюторы соблюдают высокие стандарты безопасности и качества логистики. Чтобы удостовериться в этом, мы регулярно проводим проверки на их складах и в транспортных парках. Благодаря такой системе контроля мы поддерживаем оптимальное качество, безопасность и пищевую ценность продукции.',
   'qualitySafety.consistentTitle': 'Стабильное качество',
-  'qualitySafety.description': 'ROYAL CANIN® существует 50 лет, и все эти годы качество и безопасность нашей продукции во всем мире были для нас безусловным приоритетом. Внимание к мельчайшим деталям позволяет нам делать специализированное здоровое питание для собак и кошек максимально эффективным.',
-  'qualitySafety.foodDetail': 'Высочайшие стандарты производства позволяют ROYAL CANIN обеспечивать качество и безопасность продукции в любой стране мира. Наши специалисты по закупкам во всех странах мира используют одни и те же процессы выбора и закупок сырья. Это гарантирует, что все наши продукты в равной степени соответствуют высоким стандартам в области питания. Многие наши поставщики являются долгосрочными партнерами. Регулярный углубленный аудит всех поставщиков обеспечивает точное соответствие качества сырья, которое мы используем на наших предприятиях по всему миру, нашим спецификациям.',
-  'qualitySafety.FoodQualityandSafety': 'Качество и безопасность пищевых продуктов',
-  'qualitySafety.foodQualityDetail': 'В Royal Canin мы всегда ставили во главу угла качество и безопасность продуктов питания. Наше пристальное внимание к деталям позволяет нам предлагать наиболее точные и эффективные решения, чтобы помочь каждому питомцу вести максимально здоровый образ жизни.',
+  'qualitySafety.description':
+    'ROYAL CANIN® существует 50 лет, и все эти годы качество и безопасность нашей продукции во всем мире были для нас безусловным приоритетом. Внимание к мельчайшим деталям позволяет нам делать специализированное здоровое питание для собак и кошек максимально эффективным.',
+  'qualitySafety.foodDetail':
+    'Высочайшие стандарты производства позволяют ROYAL CANIN обеспечивать качество и безопасность продукции в любой стране мира. Наши специалисты по закупкам во всех странах мира используют одни и те же процессы выбора и закупок сырья. Это гарантирует, что все наши продукты в равной степени соответствуют высоким стандартам в области питания. Многие наши поставщики являются долгосрочными партнерами. Регулярный углубленный аудит всех поставщиков обеспечивает точное соответствие качества сырья, которое мы используем на наших предприятиях по всему миру, нашим спецификациям.',
+  'qualitySafety.FoodQualityandSafety':
+    'Качество и безопасность пищевых продуктов',
+  'qualitySafety.foodQualityDetail':
+    'В Royal Canin мы всегда ставили во главу угла качество и безопасность продуктов питания. Наше пристальное внимание к деталям позволяет нам предлагать наиболее точные и эффективные решения, чтобы помочь каждому питомцу вести максимально здоровый образ жизни.',
   'qualitySafety.foodTitle': 'Качество и пищевая безопасность',
-  'qualitySafety.ingredientsDetail': 'Каждая партия сырья от наших поставщиков имеет уникальный номер. Это дает гарантированную возможность отследить происхождение сырья на этапе производства. В ходе изготовления продукции она проходит десять различных процедур контроля, что обеспечивает соответствие ее качества спецификациям. Это касается в том числе и отслеживаемости сырья по каждому ингредиенту.',
+  'qualitySafety.ingredientsDetail':
+    'Каждая партия сырья от наших поставщиков имеет уникальный номер. Это дает гарантированную возможность отследить происхождение сырья на этапе производства. В ходе изготовления продукции она проходит десять различных процедур контроля, что обеспечивает соответствие ее качества спецификациям. Это касается в том числе и отслеживаемости сырья по каждому ингредиенту.',
   'qualitySafety.ingredientsTitle': 'Полная отслеживаемость ингредиентов',
-  'qualitySafety.materialsDetail': 'При выборе ингредиентов мы обращаем особое внимание на содержание в них ценных питательных веществ и пользу, которую они могут принести здоровью животных. В связи с этим мы используем только мясо и рыбу, пригодные для употребления в пищу человеком. Мы прилагаем все усилия к тому, чтобы закупать сырье у аккредитованных поставщиков в хозяйствах, расположенных поблизости от наших заводов. Это способствует развитию местной экономики, обеспечивает свежесть сырья и снижает количество вредных выбросов в атмосферу.',
+  'qualitySafety.materialsDetail':
+    'При выборе ингредиентов мы обращаем особое внимание на содержание в них ценных питательных веществ и пользу, которую они могут принести здоровью животных. В связи с этим мы используем только мясо и рыбу, пригодные для употребления в пищу человеком. Мы прилагаем все усилия к тому, чтобы закупать сырье у аккредитованных поставщиков в хозяйствах, расположенных поблизости от наших заводов. Это способствует развитию местной экономики, обеспечивает свежесть сырья и снижает количество вредных выбросов в атмосферу.',
   'qualitySafety.materialsTitle': 'Качественное сырье',
-  'qualitySafety.rigorousDetail': 'При поиске поставщиков мы руководствуемся очень строгими критериями отбора и сотрудничаем лишь с теми, кто способен поддерживать наши высокие стандарты качества и безопасности. Мы проводим тщательные проверки на предприятиях поставщиков, оценивая пищевую ценность сырья, технологии производства, системы гарантий качества, отслеживаемости и экологичности. Такие проверки выполняются на протяжении всего периода нашего сотрудничества с поставщиком, обеспечивая поддержание стандартов качества.',
+  'qualitySafety.rigorousDetail':
+    'При поиске поставщиков мы руководствуемся очень строгими критериями отбора и сотрудничаем лишь с теми, кто способен поддерживать наши высокие стандарты качества и безопасности. Мы проводим тщательные проверки на предприятиях поставщиков, оценивая пищевую ценность сырья, технологии производства, системы гарантий качества, отслеживаемости и экологичности. Такие проверки выполняются на протяжении всего периода нашего сотрудничества с поставщиком, обеспечивая поддержание стандартов качества.',
   'qualitySafety.rigorousTitle': 'Строгий отбор поставщиков',
   'qualitySafety.shopCat': 'Купить формулы для кошек',
   'qualitySafety.shopDog': 'Купить формулы для собак',
-  'qualitySafety.shopTile': 'Магазин индивидуального питания для вашего питомца',
-  'qualitySafety.title': 'Наши обязательства в области качества и пищевой безопасности',
+  'qualitySafety.shopTile':
+    'Магазин индивидуального питания для вашего питомца',
+  'qualitySafety.title':
+    'Наши обязательства в области качества и пищевой безопасности',
   quantity: 'количество',
   quantityCannotExceed10: 'Количество не может превышать 10',
   quantityText: 'product',
@@ -648,15 +796,19 @@ const ru_RU = {
   registerAname: 'Число',
   registerCloud: 'Эталонная архитектура Commerce Cloud Storefront',
   registerCompleteForm: 'Чтобы создать учетную запись, заполните форму ниже.',
-  registerContinuing: 'Продолжая, вы соглашаетесь с нашей политикой конфиденциальности MARS. будет собирать и использовать ваше имя, фамилию и адрес электронной почты, чтобы предоставить вам индивидуальный подход. ',
+  registerContinuing:
+    'Продолжая, вы соглашаетесь с нашей политикой конфиденциальности MARS. будет собирать и использовать ваше имя, фамилию и адрес электронной почты, чтобы предоставить вам индивидуальный подход. ',
   registerCreateYourAccout: 'Создайте учетную запись Royal Canin',
   registerEmail: 'Адрес электронной почты',
-  registerEmailFormate: 'Адрес электронной почты не соответствует указанному формату.',
-  registerErrorMessage: 'Ошибка при создании вашей учетной записи. Повторите попытку позже или используйте другой адрес электронной почты. ',
+  registerEmailFormate:
+    'Адрес электронной почты не соответствует указанному формату.',
+  registerErrorMessage:
+    'Ошибка при создании вашей учетной записи. Повторите попытку позже или используйте другой адрес электронной почты. ',
   registerFailed: 'Ошибка регистрации',
   registerFeckbook: 'Подключиться к Facebook',
   registerFillIn: 'Пожалуйста, заполните это поле',
-  registerFooter1: 'Для отправки формы вам должно быть не менее 16 лет. Вы можете связаться с нами, написав в Royal Canin France, Consumer Service - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES или по электронной почте на адрес ',
+  registerFooter1:
+    'Для отправки формы вам должно быть не менее 16 лет. Вы можете связаться с нами, написав в Royal Canin France, Consumer Service - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES или по электронной почте на адрес ',
   registerGoogle: 'Подключиться к Google',
   registerHaveAccount: 'Уже есть учетная запись?',
   registerLength: '8 символов',
@@ -672,7 +824,8 @@ const ru_RU = {
   registerTogglePassword: 'Переключить видимость пароля',
   registerUppercase: 'Одна заглавная буква',
   registerWelcome: 'Добро пожаловать',
-  remember48Hours: 'Помните, что заказ до {val}, платеж истечет до {val} pm через два дня или после {val} pm, платеж истечет до {val} pm через три дня.',
+  remember48Hours:
+    'Помните, что заказ до {val}, платеж истечет до {val} pm через два дня или после {val} pm, платеж истечет до {val} pm через три дня.',
   rememberMe: 'Запомнить меня',
   removeAllFilters: 'Удалить все фильтры',
   replyComments: 'Ответить на комментарии',
@@ -682,15 +835,18 @@ const ru_RU = {
   'required.continue': 'continue',
   'required.fields': 'required frields',
   'required.logoTitle': 'Добро пожаловать в интернет-магазин ROYALCANIN®',
-  requiredConsentCheckedTip: 'Пожалуйста, подтвердите обязательные поля, установив галочку.',
+  requiredConsentCheckedTip:
+    'Пожалуйста, подтвердите обязательные поля, установив галочку.',
   requiredFields: '* Обязательные поля',
-  resetPasswordEmail: 'На ваш почтовый ящик отправлено письмо для сброса пароля, обратите внимание, что проверьте!',
+  resetPasswordEmail:
+    'На ваш почтовый ящик отправлено письмо для сброса пароля, обратите внимание, что проверьте!',
   results: '{val} Результатов',
   reviewisRequired: 'Требуется проверка.',
   reviews: 'Отзывы',
   royalCanin: 'Royal Canin',
   'salesCategory.cat': 'Для кошки',
-  'salesCategory.content': 'Каждая формула была создана для обеспечения питания, соответствующего потребностям их здоровья, вне зависимости от {val1} размера, расы, возраста или образа жизни.',
+  'salesCategory.content':
+    'Каждая формула была создана для обеспечения питания, соответствующего потребностям их здоровья, вне зависимости от {val1} размера, расы, возраста или образа жизни.',
   'salesCategory.dog': 'Для собаки',
   //salesCategory
   'salesCategory.title': 'Откройте для себя наш {val1} ассортимент блюд',
@@ -744,8 +900,10 @@ const ru_RU = {
   'subscription.previousOrders': 'Предыдущие заказы',
   'subscription.product': 'Товар',
   'subscription.promotionTip': '{val} на ваш первый заказ подписки',
-  'subscription.promotionTip2': 'Просто выберите автоматическую доставку при оформлении заказа, чтобы упростить регулярную доставку. С автоматической доставкой вы станете участником и получите 10% скидку на свой первый заказ и 5% скидку на каждый заказ автоматической доставки.',
-  'subscription.promotionTip3': 'Просто выберите автоматическую доставку при оформлении заказа, чтобы упростить регулярную доставку. С автоматической доставкой вы станете участником и получите 10% скидку на свой первый заказ и 5% скидку на каждый заказ автоматической доставки.',
+  'subscription.promotionTip2':
+    'Просто выберите автоматическую доставку при оформлении заказа, чтобы упростить регулярную доставку. С автоматической доставкой вы станете участником и получите 10% скидку на свой первый заказ и 5% скидку на каждый заказ автоматической доставки.',
+  'subscription.promotionTip3':
+    'Просто выберите автоматическую доставку при оформлении заказа, чтобы упростить регулярную доставку. С автоматической доставкой вы станете участником и получите 10% скидку на свой первый заказ и 5% скидку на каждый заказ автоматической доставки.',
   'subscription.receiveDate': 'Дата следующего получения',
   'subscription.saveDiscount': 'Скидка на подписку',
   'subscription.shipping': 'Перевозка',
@@ -758,27 +916,39 @@ const ru_RU = {
   'subscription.total': 'Всего',
   'subscription.totalInclu': 'Итого (включая НДС)',
   'subscriptionLanding.catButton': 'Корм для Кошки',
-  'subscriptionLanding.content1': 'Наша услуга по подписке на корм разработана специально для того, чтобы упростить вашу жизнь и гарантировать, что Вы всегда будете получать питание для Вашего питомца, доставляемое прямо к порогу.',
+  'subscriptionLanding.content1':
+    'Наша услуга по подписке на корм разработана специально для того, чтобы упростить вашу жизнь и гарантировать, что Вы всегда будете получать питание для Вашего питомца, доставляемое прямо к порогу.',
   'subscriptionLanding.description1': 'Вы экономите 10% с каждого заказа.',
-  'subscriptionLanding.description2': 'Заказ доставляется автоматически по Вашему расписанию.',
-  'subscriptionLanding.description3': 'Вы можете изменить или отменить подписку в любое время.',
+  'subscriptionLanding.description2':
+    'Заказ доставляется автоматически по Вашему расписанию.',
+  'subscriptionLanding.description3':
+    'Вы можете изменить или отменить подписку в любое время.',
   'subscriptionLanding.dogButton': 'Корм для Собаки',
   'subscriptionLanding.title1': 'У Вашего питомца никогда не закончится корм!',
   systemError: 'системная ошибка',
   tailorednutrition: 'Здоровье и питание',
-  'tailorednutrition.description': 'Заботясь о здоровье животных, мы создали ряд уникальных инноваций для собак и кошек, для щенков и котят, находящихся на этапе роста и развития, с несовершенной и уязвимой иммунной и пищеварительной системой. Здесь, продукты для щенков и котят, способствующие поддержанию здоровья за счет запатентованного комплекса антиоксидантов. Пребиотики и высокоусвояемые компоненты в составе помогают поддерживать здоровье пищеварительной системы. В ряде случаев выбор рациона играет ключевую роль, способствуя поддержанию благополучия и здоровья кошек и собак.',
-  'tailorednutrition.formulasDetail': 'Если говорить, например, о немецких овчарках, они поражают нас смелостью, верностью и умом. Но при всей своей силе – и физической, и интеллектуальной – и они имеют слабые места: в частности, чувствительное пищеварение. С учетом этого мы включаем в формулу продукта для немецких овчарок высокоусвояемые белки и особые виды клетчатки, которые помогают собакам поддерживать здоровое пищеварение.',
+  'tailorednutrition.description':
+    'Заботясь о здоровье животных, мы создали ряд уникальных инноваций для собак и кошек, для щенков и котят, находящихся на этапе роста и развития, с несовершенной и уязвимой иммунной и пищеварительной системой. Здесь, продукты для щенков и котят, способствующие поддержанию здоровья за счет запатентованного комплекса антиоксидантов. Пребиотики и высокоусвояемые компоненты в составе помогают поддерживать здоровье пищеварительной системы. В ряде случаев выбор рациона играет ключевую роль, способствуя поддержанию благополучия и здоровья кошек и собак.',
+  'tailorednutrition.formulasDetail':
+    'Если говорить, например, о немецких овчарках, они поражают нас смелостью, верностью и умом. Но при всей своей силе – и физической, и интеллектуальной – и они имеют слабые места: в частности, чувствительное пищеварение. С учетом этого мы включаем в формулу продукта для немецких овчарок высокоусвояемые белки и особые виды клетчатки, которые помогают собакам поддерживать здоровое пищеварение.',
   'tailorednutrition.formulasTitle': 'Уникальные формулы',
-  'tailorednutrition.natureDetail': 'Джек-рассел-терьер в отличной физической форме способен прыгать на высоту, в шесть раз превышающую его собственный рост. Кошки, ведущие разный образ жизни (в квартире или на улице), имеют совершенно разные потребности в энергии. Чтобы помочь каждому животному раскрыть его удивительный потенциал, мы тщательно отбираем белки и антиоксиданты, наилучшим образом поддерживающие их здоровье.',
+  'tailorednutrition.natureDetail':
+    'Джек-рассел-терьер в отличной физической форме способен прыгать на высоту, в шесть раз превышающую его собственный рост. Кошки, ведущие разный образ жизни (в квартире или на улице), имеют совершенно разные потребности в энергии. Чтобы помочь каждому животному раскрыть его удивительный потенциал, мы тщательно отбираем белки и антиоксиданты, наилучшим образом поддерживающие их здоровье.',
   'tailorednutrition.natureTitle': 'Питание с учетом потребностей',
-  'tailorednutrition.nutritionDetail': 'Мы создаем продукты, отвечающие породным потребностям животного и поддерживающие его здоровье. У породы собак или кошек больше уникальных особенностей, чем многие могут себе представить, и мы вкладываем весь свой опыт и увлеченность в то, чтобы как можно лучше адаптировать наши рационы к этим особенностям.',
+  'tailorednutrition.nutritionDetail':
+    'Мы создаем продукты, отвечающие породным потребностям животного и поддерживающие его здоровье. У породы собак или кошек больше уникальных особенностей, чем многие могут себе представить, и мы вкладываем весь свой опыт и увлеченность в то, чтобы как можно лучше адаптировать наши рационы к этим особенностям.',
   'tailorednutrition.nutritionTitle': 'Что такое специализированное питание?',
   'tailorednutrition.result': 'Результат',
-  'tailorednutrition.resultDetail': 'Результат нашей работы – питание, учитывающее породные особенности здоровья животных. Ваш питомец получает полный и сбалансированный набор питательных веществ, в том числе аминокислот, поддерживающих его мышцы и иммунитет, а также энергию для активной и здоровой жизни.',
-  'tailorednutrition.shopCat': 'Подберите подходящее здоровое питание для Вашей кошки!',
-  'tailorednutrition.shopDog': 'Подберите подходящее здоровое питание для Вашей собаки!',
-  'tailorednutrition.shopTile': 'Узнайте больше и подберите подходящее питание для вашего питомца',
-  'tailorednutrition.uniqueDetail': 'Животные многих пород отличаются уникальным строением челюстей и особенностями поведения, затрудняющими для них поедание корма. Вот почему мы заботимся не только о пищевой ценности своих формул кормов, но и о форме и текстуре каждой крокеты, стремясь сделать процесс потребления пищи комфортным для каждого животного.',
+  'tailorednutrition.resultDetail':
+    'Результат нашей работы – питание, учитывающее породные особенности здоровья животных. Ваш питомец получает полный и сбалансированный набор питательных веществ, в том числе аминокислот, поддерживающих его мышцы и иммунитет, а также энергию для активной и здоровой жизни.',
+  'tailorednutrition.shopCat':
+    'Подберите подходящее здоровое питание для Вашей кошки!',
+  'tailorednutrition.shopDog':
+    'Подберите подходящее здоровое питание для Вашей собаки!',
+  'tailorednutrition.shopTile':
+    'Узнайте больше и подберите подходящее питание для вашего питомца',
+  'tailorednutrition.uniqueDetail':
+    'Животные многих пород отличаются уникальным строением челюстей и особенностями поведения, затрудняющими для них поедание корма. Вот почему мы заботимся не только о пищевой ценности своих формул кормов, но и о форме и текстуре каждой крокеты, стремясь сделать процесс потребления пищи комфортным для каждого животного.',
   'tailorednutrition.uniqueTitle': 'Особые формулы для особых потребностей',
   taxLogo: 'IVA Incluido',
   total: 'Итого',
@@ -804,10 +974,10 @@ const ru_RU = {
   yes2: 'Подтвердить',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
-  'checkout.faq.contactCustomer':'СЛУЖБА ПОДДЕРЖКИ',
-  'checkout.faq.freeDelivery':'БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 2500 руб.',
-  'checkout.faq.paymentInformation':'БЕЗОПАСНЫЕ ПЛАТЕЖИ',
-  'checkout.faq.FreeReturn':'ВОЗВРАТ ТОВАРА',
-}
+  'checkout.faq.contactCustomer': 'СЛУЖБА ПОДДЕРЖКИ',
+  'checkout.faq.freeDelivery': 'БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 2500 руб.',
+  'checkout.faq.paymentInformation': 'БЕЗОПАСНЫЕ ПЛАТЕЖИ',
+  'checkout.faq.FreeReturn': 'ВОЗВРАТ ТОВАРА'
+};
 
 export default ru_RU;
