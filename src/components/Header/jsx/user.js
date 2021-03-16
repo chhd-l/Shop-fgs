@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
 import { UnLoginUserBox, LoginUserBox } from './UserBox';
@@ -17,8 +18,9 @@ const clientWidth = document.body.clientWidth;
 
 const UserJSX = (props) => {
   const firstNameLetter =
-    userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1)
-  const { self, showUserIcon, history, showCart, showCenter } = props;const defaultJSX = (
+    userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1);
+  const { self, showUserIcon, history, showCart, showCenter } = props;
+  const defaultJSX = (
     <>
       {showUserIcon ? (
         <>
@@ -156,10 +158,14 @@ const UserJSX = (props) => {
                       </Link>
                     </div>
                     <div className="link-style">
-                      <Link to="/faq" className="click-hover">
+                      <DistributeHubLinkOrATag
+                        href="/about-us/faqs"
+                        to="/faq"
+                        className="click-hover"
+                      >
                         <span className="iconfont">&#xe696;</span>{' '}
                         <FormattedMessage id="footer.FAQ" />
-                      </Link>
+                      </DistributeHubLinkOrATag>
                     </div>
                   </div>
                   <LogoutButton />
