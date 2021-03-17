@@ -397,6 +397,7 @@ class OnlineStore extends React.Component {
                         >
                           <DistributeHubLinkOrATag
                             href="/about-us/faqs"
+                            to="/faq"
                             style={{
                               fontSize: '18px',
                               color: '#000',

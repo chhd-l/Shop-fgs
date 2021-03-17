@@ -17,14 +17,16 @@ export default function PromotionPanel({
             href={cItem.PrimaryLink.Url}
             className="rc-btn rc-btn--two red"
             onClick={handleClickNavItem.bind(this, { item, cItem })}
+            style={{ textOverflow: 'ellipsis', width: '100%' }}
           >
             {cItem.PrimaryLink.Text}
           </a>
         </div>
         {/* <LazyLoad style={{ flex: 1, width: '100%', height: '100%' }}> */}
-        <div style={{ flex: 1, width: '100%', height: '100%' }}>
+        <div style={{ flex: 1 }}>
           <img
-            className="ad-img"
+            className="ad-img111"
+            style={{ margin: '0 auto', width: '8rem' }}
             src={cItem.Image.Url}
             alt={cItem.Image.AltText}
             srcSet={cItem.Image.Srcset}
