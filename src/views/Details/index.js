@@ -2155,7 +2155,7 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {selectedSpecItem.promotions &&
+                              {selectedSpecItem?.promotions &&
                               selectedSpecItem.promotions.includes('club') ? (
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
@@ -2389,9 +2389,12 @@ class Details extends React.Component {
                     />
                   ) : null}
                   <div className="good-contact-dec">
-                    <h1 className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs">
+                    <div
+                      style={{ fontSize: '20px' }}
+                      className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
+                    >
                       <FormattedMessage id="detail.question" />
-                    </h1>
+                    </div>
                     <p>
                       <FormattedMessage id="detail.answer" />
                     </p>

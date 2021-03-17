@@ -200,7 +200,7 @@ export function SubscriptionBenefits() {
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Find the Ideal Formula for Your Pet’s Health
+                  <FormattedMessage id="club.subscription.icon1" />
                 </p>
               </div>
             </div>
@@ -220,7 +220,7 @@ export function SubscriptionBenefits() {
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  A welcome box, rewards and services
+                  <FormattedMessage id="club.subscription.icon2" />
                 </p>
               </div>
             </div>
@@ -240,7 +240,7 @@ export function SubscriptionBenefits() {
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  A pet advisor and personalized newsletters
+                  <FormattedMessage id="club.subscription.icon3" />
                 </p>
               </div>
             </div>
@@ -260,7 +260,7 @@ export function SubscriptionBenefits() {
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Automatic food refills with free shipping
+                  <FormattedMessage id="club.subscription.icon4" />
                 </p>
               </div>
             </div>
@@ -280,13 +280,118 @@ export function SubscriptionBenefits() {
               </div>
               <div className="pl-3 d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro">
-                  Full control and free from engagement
+                  <FormattedMessage id="club.subscription.icon5" />
                 </p>
               </div>
             </div>
           </div>
         </>
       ),
+      tr: (
+        <>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <LazyLoad height={200}>
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{ width: '100px', height: '100px' }}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={nutrition}
+                  />
+                </LazyLoad>
+              </div>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
+                  <FormattedMessage id="club.subscription.icon1" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <LazyLoad height={200}>
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{ width: '100px', height: '100px' }}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={gifticon}
+                  />
+                </LazyLoad>
+              </div>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
+                  <FormattedMessage id="club.subscription.icon2" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <LazyLoad height={200}>
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{ width: '100px', height: '100px' }}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={spetadviser}
+                  />
+                </LazyLoad>
+              </div>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
+                  <FormattedMessage id="club.subscription.icon3" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <LazyLoad height={200}>
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{ width: '100px', height: '100px' }}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={shippingicon}
+                  />
+                </LazyLoad>
+              </div>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
+                  <FormattedMessage id="club.subscription.icon4" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <LazyLoad height={200}>
+                  <img
+                    className="value-proposition__img lazyloaded"
+                    style={{ width: '100px', height: '100px' }}
+                    alt="ideal formula"
+                    title="ideal formula"
+                    src={phoneicon}
+                  />
+                </LazyLoad>
+              </div>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
+                  <FormattedMessage id="club.subscription.icon5" />
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
+      ),
+
       fr: (
         <>
           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">

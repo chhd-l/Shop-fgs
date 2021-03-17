@@ -286,7 +286,9 @@ const App = () => (
               <Route
                 exact
                 path="/club-subscription"
-                component={ClubLandingPage}
+                component={
+                  process.env.REACT_APP_LANG == 'ru'||process.env.REACT_APP_LANG == 'tr'?
+                  ClubLandingPage:Exception}
               />
               <Route
                 exact

@@ -210,7 +210,7 @@ const GoodsDetailTabs = function (props) {
   return isMobile ? (
     goodsDetailTabsData.map((ele, index) => (
       <React.Fragment key={index} id="GoodsDetailTabs">
-        <dl>
+        <dl className="goodsdetailtabs-item-mobile">
           <div
             className={`rc-list__accordion-item test-color 
         ${activeTabIdxLists.includes(index) ? 'showItem' : 'hiddenItem'}`}

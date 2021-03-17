@@ -6,6 +6,7 @@ import catanddog from './ClubImage/catanddog.PNG';
 import howitworck4 from './ClubImage/howit4.png';
 import LazyLoad from 'react-lazyload';
 import './index.css';
+import { FormattedMessage } from 'react-intl';
 
 const JoinToday = () => {
   return (
@@ -28,7 +29,6 @@ const JoinToday = () => {
                               marginTop: '30px'
                             }}
                             src={Landingpagecat}
-                            alt=""
                           />
                         </LazyLoad>
                       </div>
@@ -42,13 +42,12 @@ const JoinToday = () => {
                       <br />
                       <div className="rc-gamma text-center">
                         <h2 style={{ fontWeight: '550' }}>
-                          Join our subscription today
+                          <FormattedMessage id="club.joinsubscription.title" />
                         </h2>
                       </div>
                       <div className="rc-intro inherit-fontsize rc-text--center">
                         <h5>
-                          Tell us about your pet to get a precise nutritional
-                          recommendation.
+                          <FormattedMessage id="club.joinsubscription.description" />
                         </h5>
                       </div>
                       <div style={{ display: 'flex' }}>
@@ -56,7 +55,7 @@ const JoinToday = () => {
                           style={{ margin: '0 auto' }}
                           className="rc-btn rc-btn--one"
                         >
-                          Get started
+                          <FormattedMessage id="club.joinsubscription.button" />
                         </button>
                       </div>
                     </div>

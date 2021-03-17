@@ -351,7 +351,7 @@ class SubscriptionDetail extends React.Component {
           <p className="text-center">Please choose your options</p>
           <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm">
             <div className="d-flex for-pc-bettwen">
-              <div className="d-flex for-mobile-colum">
+              <div className="d-flex for-mobile-colum for-mobile-100">
                 <div className="d-flex rc-margin-right--xs">
                   <img src="" />
                   <div>
@@ -424,7 +424,7 @@ class SubscriptionDetail extends React.Component {
                   </div>
                 </div>
                 <p className="frequency rc-margin-right--xs">
-                  Frequency
+                  Frequency：
                   {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
                   <div>
                     <Selection
@@ -450,7 +450,7 @@ class SubscriptionDetail extends React.Component {
             </div>
             <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
               <span
-                className="rc-styled-link"
+                className="rc-styled-link rc-btn"
                 onClick={this.showChangeRecommendation}
               >
                 See other recommendation
@@ -1576,12 +1576,17 @@ class SubscriptionDetail extends React.Component {
                       //   this.GAProductClick(ele, i+1)
                       // }}
                     >
-                      <Link
+                      {/* <Link
                         to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
+                        className="rc-btn rc-btn--one rc-btn--sm"
+                      > */}
+                      <span
+                        onClick={this.showProdutctDetail}
                         className="rc-btn rc-btn--one rc-btn--sm"
                       >
                         <FormattedMessage id="seeTheProduct" />
-                      </Link>
+                      </span>
+                      {/* </Link> */}
                     </div>
                   </div>
                 </div>
@@ -2006,12 +2011,20 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <div style={{ display: 'flex' }}>
-                                <LazyLoad>
-                                  <img
-                                    src={el.goodsPic}
-                                    style={{ width: '100px' }}
-                                  />
-                                </LazyLoad>
+                                <div>
+                                  <LazyLoad>
+                                    <img
+                                      src={el.goodsPic}
+                                      style={{ width: '100px' }}
+                                    />
+                                  </LazyLoad>
+                                  <span
+                                    className="rc-styled-link"
+                                    onClick={this.showChangeProduct}
+                                  >
+                                    change product
+                                  </span>
+                                </div>
                                 <div
                                   className="v-center"
                                   style={{ flex: '1', paddingLeft: '10px' }}

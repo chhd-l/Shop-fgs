@@ -30,6 +30,7 @@ import BreadCrumbs from '../../components/BreadCrumbs';
 import HowItWorks from './HowItWorks';
 import JoinToday from './JoinToday';
 import ClubHeroCarousel from './ClubHeroCarousel';
+import veterinayImg from './ClubImage/veterinaryproducts.PNG';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -529,71 +530,78 @@ class ClubLandingPage extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <ClubHeroCarousel history={history} />
             </div>
           </div>
-          <BreadCrumbs/>
+          <BreadCrumbs />
           {/*猫猫狗狗*/}
-
-          {console.log(innerWidth,'🌙')}
-
-
-
+          {console.log(innerWidth, '🌙')}
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    Your CLUB subscription benefits
+                    <FormattedMessage id="club.subscription.titile" />
                   </h4>
                   <div className="value-proposition__container">
                     <div className="row mx-0 justify-content-between">
-                      <SubscriptionBenefits/>
+                      <SubscriptionBenefits />
                     </div>
                   </div>
                 </div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <button className="rc-btn rc-btn--one">Get started</button>
+                  <button className="rc-btn rc-btn--one">
+                    <FormattedMessage id="club.subscription.button" />
+                  </button>
                 </h4>
-
               </div>
             </div>
           </section>
-          <Divider/>
-
-
+          <Divider />
           <div className="experience-component experience-layouts-1column">
-                <div className="experience-component experience-assets-contentBlock">
-                  <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
-                    <div className="experience-component experience-layouts-1column">
-                      <div className="row rc-margin-x--none">
-                        <div className="rc-full-width">
-                          <div className="experience-component experience-assets-contentBlock">
-                            <div
-                              className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                              <a id="undefined" name="undefined" className="page-section-anchor" aria-hidden="true"></a>
-                              <div className="row align-items-md-center">
-                                <div className=" col-12 col-lg-6">
-                                  <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                                    <h2 className="rc-beta markup-text" style={{fontWeight:'599'}}>
-                                      EVER PET IS UNIQUE,THEIR NUTRITION SHOULD BE
-                                    </h2>
-                                    <p>At Royal Canin, we are dedicated to understanding the needs of pets to ensure their best health and well-being.
-                                    </p>
-                                    <p>Our Royal Canin CLUB subscription program is designed by experts to ensure your pet gets precise nutrition combined with the advice and health support that you and your pet need.
-                                    </p>
-                                    <button className="rc-btn rc-btn--two">Join the Club</button>
-                                  </div>
-                                </div>
-                                <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop ">
-                                  <div className="lazyload-wrapper video-wrapper">
-                                    <iframe src="//player.bilibili.com/player.html?aid=84267566&amp;cid=145147963&amp;page=1" frameBorder="no"
-                                            scrolling="no" className="club-video"></iframe>
-                                  </div>
-                                </div>
+            <div className="experience-component experience-assets-contentBlock">
+              <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                <div className="experience-component experience-layouts-1column">
+                  <div className="row rc-margin-x--none">
+                    <div className="rc-full-width">
+                      <div className="experience-component experience-assets-contentBlock">
+                        <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                          <a
+                            id="undefined"
+                            name="undefined"
+                            className="page-section-anchor"
+                            aria-hidden="true"
+                          ></a>
+                          <div className="row align-items-md-center">
+                            <div className=" col-12 col-lg-6">
+                              <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                                <h2
+                                  className="rc-beta markup-text"
+                                  style={{ fontWeight: '599' }}
+                                >
+                                  <FormattedMessage id="club.video.detail.title" />
+                                </h2>
+                                <p>
+                                  <FormattedMessage id="club.video.detail.description.one" />
+                                </p>
+                                <p>
+                                  <FormattedMessage id="club.video.detail.description.two" />
+                                </p>
+                                <button className="rc-btn rc-btn--two">
+                                  <FormattedMessage id="club.video.detail.button" />
+                                </button>
+                              </div>
+                            </div>
+                            <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop ">
+                              <div className="lazyload-wrapper video-wrapper">
+                                <iframe
+                                  src="//player.bilibili.com/player.html?aid=84267566&amp;cid=145147963&amp;page=1"
+                                  frameBorder="no"
+                                  scrolling="no"
+                                  className="club-video"
+                                ></iframe>
                               </div>
                             </div>
                           </div>
@@ -602,15 +610,67 @@ class ClubLandingPage extends React.Component {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
           </div>
-
-
           <Divider />
-          <HowItWorks/>
-          <JoinToday/>
-          <br/>
-          <CommentCarousel/>
-          <HelpComponents/>
+          <HowItWorks />
+          <JoinToday />
+          <br />
+          <CommentCarousel />
+          {process.env.REACT_APP_LANG == 'ru' ? (
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none ">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-contentBlock">
+                    <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                      <a
+                        id="undefined"
+                        name="undefined"
+                        className="page-section-anchor"
+                        aria-hidden="true"
+                      ></a>
+                      <div className="row align-items-md-center">
+                        <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                          <picture data-rc-feature-objectfillpolyfill-setup="true">
+                            <img
+                              className="w-100 lazyloaded"
+                              data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw231c60b5/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622"
+                              alt="Yorkshire dog pic - Our Values"
+                              title="Yorkshire dog pic - Our Values"
+                              src={veterinayImg}
+                            />
+                          </picture>
+                        </div>
+                        <div className=" col-12 col-lg-6">
+                          <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                            <h2 className="rc-beta markup-text">
+                              Ищете ветеринарную диету?
+                            </h2>
+                            <p>
+                              <span>
+                                Диетическое питание, которое помогает
+                                поддерживать здоровье кошек с диагностированными
+                                заболеваниями.
+                              </span>
+                            </p>
+                            <button className="rc-btn rc-btn--two">
+                              Посмотреть ассортимент
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
+          }
+          <Divider />
+          <br />
+          <br />
+          <HelpComponents />
         </main>
         <Footer />
       </div>
