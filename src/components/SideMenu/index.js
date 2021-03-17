@@ -47,7 +47,8 @@ const menuList = [
     icon: <span className="iconfont">&#xe696;</span>,
     langKey: 'footer.FAQ',
     url: '/faq',
-    href: '/about-us/faqs'
+    href: '/about-us/faqs',
+    isHubOuterLink: true
   }
   // {
   //   catogery: 'Faq',
@@ -89,7 +90,7 @@ class SideMenu extends React.Component {
               {(txt) => (
                 <>
                   {item.icon}
-                  {item.href && item.url ? (
+                  {item.isHubOuterLink ? (
                     <DistributeHubLinkOrATag
                       to={item.url}
                       href={item.href}

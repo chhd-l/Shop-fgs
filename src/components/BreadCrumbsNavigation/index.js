@@ -5,7 +5,12 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 function BreadCrumbsNavigation({ list }) {
   const decoList = [
-    { name: <FormattedMessage id="homePage" />, link: '/', href: '' },
+    {
+      name: <FormattedMessage id="homePage" />,
+      link: '/',
+      href: '',
+      isHubOuterLink: true
+    },
     ...list
   ];
   return (
@@ -28,7 +33,7 @@ function BreadCrumbsNavigation({ list }) {
               >
                 {index === decoList.length - 1 || !item.link ? (
                   <span itemProp="name">{item.name}</span>
-                ) : item.href ? (
+                ) : item.isHubOuterLink ? (
                   <>
                     <DistributeHubLinkOrATag href={item.href} to={item.link}>
                       {item.name}

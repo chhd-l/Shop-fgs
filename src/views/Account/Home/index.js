@@ -89,12 +89,13 @@ const itemList = [
     titleLangKey: 'account.faqTitle',
     textLangKey: 'account.faqTip',
     link: '/faq',
-    href: '/about-us/faqs'
+    href: '/about-us/faqs',
+    isHubOuterLink: true
   }
 ];
 
 function Container({ className, item, children }) {
-  return item.href && item.link ? (
+  return item.isHubOuterLink ? (
     <DistributeHubLinkOrATag
       className={className}
       to={item.link}
