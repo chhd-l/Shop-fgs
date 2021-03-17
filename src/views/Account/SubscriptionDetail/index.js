@@ -54,7 +54,7 @@ import {
   startSubscription,
   pauseSubscription
 } from '@/api/subscription';
-import goodsDetailTab from './goodsDetailTab.json';
+import goodsDetailTabJSON from './goodsDetailTab.json';
 import { getRemainings } from '@/api/dispenser';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
@@ -511,7 +511,7 @@ class SubscriptionDetail extends React.Component {
                   className="border-dot height100 align-items-center d-flex"
                 >
                   <div>
-                    <Link to="/account/pets">
+                    <Link to="/account/pets/petForm">
                       + <strong>a new cat</strong>
                     </Link>
                   </div>
@@ -1401,7 +1401,7 @@ class SubscriptionDetail extends React.Component {
             </div>
           </div>
         </div>
-        <GoodsDetailTabs detailRes={props.details} />
+        <GoodsDetailTabs detailRes={goodsDetailTabJSON.context} />
         {/* <Details goodsDetailTab={goodsDetailTab} details={props.details} /> */}
       </div>
     );

@@ -419,6 +419,7 @@ class Subscription extends React.Component {
                               width: '40px',
                               display: 'inline-block'
                             }}
+                            alt=""
                           />
                         </LazyLoad>
                         <span

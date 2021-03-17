@@ -60,11 +60,12 @@ import HOWENJOY from './images/HOW-TO-JOIN-ENJOY.png';
 import HOWSCHEDULE from './images/HOW-TO-JOIN-SCHEDULE.png';
 import HOWSHOP from './images/HOW-TO-JOIN-SHOP.png';
 import autoshipCatPng from './images/autoship_cat.png';
-import PuppyJPG from './images/MRRC-20046_D2C-Advisor_App-Puppy.jpg';
 const petsTypeImagArr = [
   `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`,
   autoshipCatPng
 ];
+const isUs = process.env.REACT_APP_LANG === 'en';
+const isRu = process.env.REACT_APP_LANG === 'ru';
 const howImageArr = [
   {
     img: HOWSHOP,
@@ -138,6 +139,7 @@ const secondlistArr = [
     text: 'Change your schedule<strong>anytime you want.</strong>'
   }
 ];
+// const helpContentTextObj = {}
 // 不引入样式有问题
 const Test = () => {
   return (
@@ -151,8 +153,7 @@ const Test = () => {
   );
 };
 
-@inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
-@inject('configStore')
+@inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
 class Recommendation extends React.Component {
@@ -209,21 +210,31 @@ class Recommendation extends React.Component {
       isMobile: false,
       currentBenefit: ''
     };
-
     this.helpContentText = {
-      title: "We're Here to Help",
-      des:
-        "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
-      emailTitle: 'Email us',
-      emailDes: ' We will respond as soon as possible.',
-      emailLink: '/help/contact',
-      phoneTitle: 'Call us',
-      phone: 'tel:1-844-673-3772',
-      email: 'Send us an email',
-      phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
+      title: this.props.intl.messages['recommendation.helpContentText.title'],
+      des: this.props.intl.messages['recommendation.helpContentText.des'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ],
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
+      phone: this.props.intl.messages['recommendation.helpContentText.phone'],
+      email: this.props.intl.messages['recommendation.helpContentText.email'],
+      phoneDes1: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes1'
+      ],
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
+      ]
     };
   }
-
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -709,6 +720,9 @@ class Recommendation extends React.Component {
   };
   render(h) {
     const { loginStore, history, configStore } = this.props;
+    console.info('this.helpContentText', this.helpContentText);
+    let PuppyJPG = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${this.props.intl.messages['recommendation.plusImg']}`;
+    console.info('PuppyJPG', PuppyJPG);
     const event = {
       page: {
         type: 'Content',
@@ -906,6 +920,7 @@ class Recommendation extends React.Component {
                                   display: 'inline-block',
                                   margin: '10px 0'
                                 }}
+                                alt=""
                               />
                               {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
                               <p
@@ -1021,6 +1036,7 @@ class Recommendation extends React.Component {
                             <img
                               className="type-icon"
                               src={catAndDog}
+                              alt=""
                               // src={petsiconArr[this.state.petType]}
                             />
                             <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
@@ -1360,38 +1376,36 @@ class Recommendation extends React.Component {
               </div>
             </section>
           </div>
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-            <div className="rc-layout-container rc-four-column rc-content-v-middle text-center">
-              {imagesArr.map((item) => (
-                <div className="rc-column">
-                  <div className="img-hover-switch rc-margin-bottom--sm">
-                    <LazyLoad>
-                      <img className="m-center" src={item.img} />
-                    </LazyLoad>
+          {isUs && (
+            <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+              <div className="rc-layout-container rc-four-column rc-content-v-middle text-center">
+                {imagesArr.map((item) => (
+                  <div className="rc-column">
+                    <div className="img-hover-switch rc-margin-bottom--sm">
+                      <LazyLoad>
+                        <img className="m-center" src={item.img} alt="" />
+                      </LazyLoad>
+                    </div>
+                    <p>
+                      <strong style={{ color: 'rgb(61, 61, 60)' }}>
+                        {item.text}
+                      </strong>
+                    </p>
                   </div>
-                  <p>
-                    <strong style={{ color: 'rgb(61, 61, 60)' }}>
-                      {item.text}
-                    </strong>
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <LineModule />
           <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--xl">
             <div className="row align-items-md-center">
               <div className=" col-12 col-lg-6">
                 <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                   <h2 className="rc-beta markup-text">
-                    Everything Your Pet Needs PLUS Royal Canin Pet Advisor Live
+                    <FormattedMessage id="recommendation.plusTitle" />
                   </h2>
                   <p>
-                    No matter the need, we’ve got you covered with exclusive
-                    benefits like 24/7 access to pet experts and more through
-                    the Royal Canin Club. Joining is easy – sign up for
-                    automatic shipping on your pet’s tailored formulas to become
-                    a member today.
+                    <FormattedMessage id="recommendation.plusContent" />
                   </p>
                   <button
                     className={`rc-btn rc-btn--two ${
@@ -1401,113 +1415,124 @@ class Recommendation extends React.Component {
                     }`}
                     onClick={this.AddCart}
                   >
-                    Start Now
+                    <FormattedMessage id="recommendation.plusBtn" />
                   </button>
                 </div>
               </div>
               <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                 <LazyLoad>
-                  <img src={PuppyJPG} />
+                  <img src={PuppyJPG} alt="" />
                 </LazyLoad>
               </div>
             </div>
           </div>
           <LineModule />
-          <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
-            <div className="rc-margin-bottom--md">
-              <h2 classNam="rc-beta" style={{ color: '#e2001a' }}>
-                How to Join Royal Canin Club
-              </h2>
+          {isUs && (
+            <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
+              <div className="rc-margin-bottom--md">
+                <h2 classNam="rc-beta" style={{ color: '#e2001a' }}>
+                  How to Join Royal Canin Club
+                </h2>
+              </div>
+              <Test />
+              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle">
+                {howImageArr.map((item) => (
+                  <div className="rc-grid">
+                    <div>
+                      <h3 className="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs">
+                        <b>{item.title}</b>
+                      </h3>
+                      <lazyload>
+                        <img
+                          className="mx-auto rc-margin-bottom--xs"
+                          src={item.img}
+                          alt=""
+                        />
+                      </lazyload>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: item.des }}
+                        className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <Test />
-            <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle">
-              {howImageArr.map((item) => (
-                <div className="rc-grid">
-                  <div>
-                    <h3 className="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs">
-                      <b>{item.title}</b>
-                    </h3>
-                    <lazyload>
-                      <img
-                        className="mx-auto rc-margin-bottom--xs"
-                        src={item.img}
-                      />
-                    </lazyload>
-                    <div
-                      dangerouslySetInnerHTML={{ __html: item.des }}
-                      className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"
-                    ></div>
+          )}
+          <LineModule />
+          <div className="help-container 1111">
+            <Help
+              isRecommendationPage={true}
+              contentText={this.helpContentText}
+              needReverse={false}
+            />
+          </div>
+          {isUs && (
+            <React.Fragment>
+              <LineModule />
+              <section
+                style={{ textAlign: 'center' }}
+                className="rc-max-width--md text-center rc-margin-y--md"
+              >
+                <h2 style={{ color: '#E2001A' }}>
+                  <FormattedMessage id="recommendation.fourTitle" />
+                </h2>
+                <p style={{ fontSize: '18px' }}>
+                  We focus our attention on the unique needs of cats and dogs.
+                  That obsession with detail is what makes it possible for us to
+                  deliver precise, effective nutrition and help pets become
+                  their magnificent best.
+                  {/* <FormattedMessage id="recommendation.fourContent" /> */}
+                </p>
+                <p>
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    } ${
+                      this.state.inStockProducts.length
+                        ? ''
+                        : 'rc-btn-solid-disabled'
+                    }`}
+                    onClick={this.addCart}
+                  >
+                    Place order
+                  </button>
+                </p>
+                <div class="experience-component experience-assets-youtubeVideo">
+                  <div class="rc-max-width--md rc-padding-x--lg">
+                    <div class="rc-video-wrapper dog-video">
+                      <iframe
+                        allowfullscreen=""
+                        frameborder="0"
+                        id="video-dog"
+                        class="optanon-category-4 "
+                        src="https://www.youtube.com/embed/FYwO1fiYoa8"
+                      ></iframe>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-          <LineModule />
-          <div className="help-container">
-            <Help contentText={this.helpContentText} needReverse={false} />
-          </div>
-          <LineModule />
-          <section
-            style={{ textAlign: 'center' }}
-            className="rc-max-width--md text-center rc-margin-y--md"
-          >
-            <h2 style={{ color: '#E2001A' }}>
-              <FormattedMessage id="recommendation.fourTitle" />
-            </h2>
-            <p style={{ fontSize: '18px' }}>
-              We focus our attention on the unique needs of cats and dogs. That
-              obsession with detail is what makes it possible for us to deliver
-              precise, effective nutrition and help pets become their
-              magnificent best.
-              {/* <FormattedMessage id="recommendation.fourContent" /> */}
-            </p>
-            <p>
-              <button
-                className={`rc-btn rc-btn--one ${
-                  this.state.buttonLoading ? 'ui-btn-loading' : ''
-                } ${
-                  this.state.inStockProducts.length
-                    ? ''
-                    : 'rc-btn-solid-disabled'
-                }`}
-                onClick={this.addCart}
-              >
-                Place order
-              </button>
-            </p>
-            <div class="experience-component experience-assets-youtubeVideo">
-              <div class="rc-max-width--md rc-padding-x--lg">
-                <div class="rc-video-wrapper dog-video">
-                  <iframe
-                    allowfullscreen=""
-                    frameborder="0"
-                    id="video-dog"
-                    class="optanon-category-4 "
-                    src="https://www.youtube.com/embed/FYwO1fiYoa8"
-                  ></iframe>
+              </section>
+              <div className="rc-max-width--lg rc-padding-y--sm img-text-box">
+                <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
+                  <div className="rc-column">
+                    <LazyLoad>
+                      <img src={cur_recommendation2} alt="" />
+                    </LazyLoad>
+                  </div>
+                  <div className="rc-column">
+                    <LazyLoad>
+                      <img src={cur_recommendation3} alt="" />
+                    </LazyLoad>
+                  </div>
+                  <div className="rc-column">
+                    <LazyLoad>
+                      <img src={cur_recommendation4} alt="" />
+                    </LazyLoad>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-          <div className="rc-max-width--lg rc-padding-y--sm img-text-box">
-            <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
-              <div className="rc-column">
-                <LazyLoad>
-                  <img src={cur_recommendation2} />
-                </LazyLoad>
-              </div>
-              <div className="rc-column">
-                <LazyLoad>
-                  <img src={cur_recommendation3} />
-                </LazyLoad>
-              </div>
-              <div className="rc-column">
-                <LazyLoad>
-                  <img src={cur_recommendation4} />
-                </LazyLoad>
-              </div>
-            </div>
-          </div>
+            </React.Fragment>
+          )}
         </main>
         <Footer />
       </div>

@@ -736,6 +736,7 @@ class AccountOrders extends React.Component {
                           <img
                             className="rc-bg-colour--brand4"
                             src={sItem.pic}
+                            alt=""
                           />
                         </LazyLoad>
                       </div>

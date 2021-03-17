@@ -523,12 +523,6 @@ class Details extends React.Component {
     } = this.state;
     let selectedArr = [];
     let idArr = [];
-    let baseSpecId = details.baseSpec;
-    specList.map((el) => {
-      if (!el.chidren.filter((el) => el.selected).length) {
-        el.chidren[0].selected = true;
-      }
-    });
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -541,16 +535,6 @@ class Details extends React.Component {
     currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
 
     details.sizeList.map((item, i) => {
-      item.basePrice = 0;
-      details.goodsSpecDetails.map((el) => {
-        if (
-          el.specId === baseSpecId &&
-          item.mockSpecDetailIds.includes(el.specDetailId)
-        ) {
-          item.baseSpecLabel = el.detailName;
-        }
-        return el;
-      });
       let specTextArr = [];
       for (let specItem of specList) {
         for (let specDetailItem of specItem.chidren) {
@@ -559,12 +543,6 @@ class Details extends React.Component {
             item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
           ) {
             specTextArr.push(specDetailItem.detailName);
-          }
-          if (
-            item.mockSpecIds.includes(baseSpecId) &&
-            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-          ) {
-            item.baseSpecLabel = specDetailItem.detailName;
           }
         }
       }
@@ -1825,6 +1803,23 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
+                            <div className="productFinderBox">
+                              {true ? (
+                                <p>
+                                  The recommended daily ration for your pet is{' '}
+                                  <span className="strong">57g/day</span>
+                                  <a class="rc-styled-link backProductFinder">
+                                    Go back to recommendation
+                                  </a>
+                                </p>
+                              ) : (
+                                <p>
+                                  Find the right product and calculate your pet
+                                  ration using our{' '}
+                                  <a class="rc-styled-link">Product finder</a>
+                                </p>
+                              )}
+                            </div>
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
@@ -2007,7 +2002,11 @@ class Details extends React.Component {
                                   ) : null}
                                 </div>
                               </div>
-                              {currentSubscriptionStatus ? (
+                              {currentSubscriptionStatus &&
+                              (!selectedSpecItem.promotions ||
+                                !selectedSpecItem.promotions.includes(
+                                  'club'
+                                )) ? (
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
                                   key="987654321"
@@ -2153,7 +2152,8 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {false ? (
+                              {selectedSpecItem.promotions &&
+                              selectedSpecItem.promotions.includes('club') ? (
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
                                   key="987654321"
@@ -2163,7 +2163,7 @@ class Details extends React.Component {
                                       : '#d7d7d7',
                                     cursor: 'pointer'
                                   }}
-                                  onClick={this.ChangeFormat.bind(this, 1)}
+                                  onClick={this.ChangeFormat.bind(this, 2)}
                                 >
                                   <div className="radioBox order-1 order-md-1 col-8 col-md-4">
                                     <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
@@ -2175,9 +2175,9 @@ class Details extends React.Component {
                                             type="radio"
                                             alt={txt}
                                             name="buyWay"
-                                            value="1"
-                                            key="1"
-                                            checked={form.buyWay === 1}
+                                            value="2"
+                                            key="2"
+                                            checked={form.buyWay === 2}
                                           />
                                         )}
                                       </FormattedMessage>
@@ -2191,8 +2191,14 @@ class Details extends React.Component {
                                             color: '#333'
                                           }}
                                         >
-                                          <span className="iconfont mr-2">
-                                            &#xe675;
+                                          <span
+                                            className="iconfont mr-2"
+                                            style={{
+                                              fontWeight: '600',
+                                              color: '#ec001a'
+                                            }}
+                                          >
+                                            &#xe602;
                                           </span>
                                           <FormattedMessage id="Club subscription" />
                                         </span>
@@ -2214,6 +2220,9 @@ class Details extends React.Component {
                                     <br />
                                     <div className="freeshippingBox">
                                       <FormattedMessage id="freeShipping" />
+                                    </div>
+                                    <div className="learnMore">
+                                      <a class="rc-styled-link">Learn more</a>
                                     </div>
                                   </div>
                                   <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
@@ -2356,8 +2365,7 @@ class Details extends React.Component {
                 saleableFlag={details.saleableFlag}
                 displayFlag={details.displayFlag}
                 setState={this.setState.bind(this)}
-                // hubGA={this.hubGA}
-                // isMobile={isMobile}
+                // isClub={selectedSpecItem.promotions && selectedSpecItem.promotions.includes('club')}
               />
             ) : null}
 
@@ -2374,6 +2382,7 @@ class Details extends React.Component {
                     <img
                       className="good-contact-img mr-5"
                       src={details.goodsImg}
+                      alt=""
                     />
                   ) : null}
                   <div className="good-contact-dec">
@@ -2467,10 +2476,10 @@ class Details extends React.Component {
             <div className="split-line rc-bg-colour--brand4"></div>
             <div className="more-link">
               <LazyLoad height={200}>
-                <img src={loop} srcSet={loop} />
+                <img src={loop} srcSet={loop} alt="" />
               </LazyLoad>
               <LazyLoad height={200}>
-                <img src={vert} srcSet={vert} className="vert" />
+                <img src={vert} srcSet={vert} className="vert" alt="" />
               </LazyLoad>
               <p>
                 <FormattedMessage id="detail.packagingDesc" />

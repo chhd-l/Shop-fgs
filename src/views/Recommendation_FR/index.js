@@ -703,6 +703,7 @@ class Help extends React.Component {
                                 display: 'inline-block',
                                 margin: '10px 0'
                               }}
+                              alt=""
                             />
                             {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
                             <p

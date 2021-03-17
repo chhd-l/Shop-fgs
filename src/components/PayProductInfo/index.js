@@ -10,14 +10,17 @@ import {
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import foodDispenserPic from '../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
+import Club_Logo from '@/assets/images/Logo_club.png';
+import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: 开, 1: 关
 const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 // 买入价格开关 0：含税，1：不含税
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-
+const enterPriceType =
+  storeInfo?.systemTaxSetting?.configVOList &&
+  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 @inject('checkoutStore')
 @injectIntl
@@ -93,6 +96,9 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, item)}
                   >
                     <span className="light">{item.spuName}</span>
+                    {item.promotions && item.promotions.includes('club') ? (
+                      <img className="clubLogo" src={Club_Logo} alt="" />
+                    ) : null}
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
@@ -104,17 +110,17 @@ class PayProductInfo extends React.Component {
                       item.specDetails,
                       item.num > 1
                         ? this.props.intl.formatMessage(
-                          { id: 'items' },
-                          {
-                            val: item.num
-                          }
-                        )
+                            { id: 'items' },
+                            {
+                              val: item.num
+                            }
+                          )
                         : this.props.intl.formatMessage(
-                          { id: 'item' },
-                          {
-                            val: item.num
-                          }
-                        )
+                            { id: 'item' },
+                            {
+                              val: item.num
+                            }
+                          )
                     ]
                       .filter((e) => e)
                       .join(' - ')}
@@ -138,7 +144,7 @@ class PayProductInfo extends React.Component {
                   <div className="line-item-total-price text-nowrap">
                     {(details.subscriptionResponseVO &&
                       item.subscriptionStatus) ||
-                      item.price < item.splitPrice ? (
+                    item.price < item.splitPrice ? (
                       <>
                         <span className="text-line-through">
                           {formatMoney(item.splitPrice)}
@@ -197,7 +203,7 @@ class PayProductInfo extends React.Component {
                       <div
                         className="line-item-name ui-text-overflow-line2 text-break"
                         title={gift.goodsInfoName}
-                      // onClick={this.handleClickProName.bind(this, item)}
+                        // onClick={this.handleClickProName.bind(this, item)}
                       >
                         <span className="light">{gift.goodsInfoName}</span>
                       </div>
@@ -370,23 +376,23 @@ class PayProductInfo extends React.Component {
 
                     {details.tradePrice.firstOrderOnThePlatformDiscountPrice >
                       0 && (
-                        <div className="row leading-lines shipping-item green">
-                          <div className="col-7 start-lines">
-                            <p className="order-receipt-label order-shipping-cost">
-                              <FormattedMessage id="promotion.firstOrderDiscount" />
-                            </p>
-                          </div>
-                          <div className="col-5 end-lines">
-                            <p className="text-right">
-                              -
+                      <div className="row leading-lines shipping-item green">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <FormattedMessage id="promotion.firstOrderDiscount" />
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            -
                             {formatMoney(
                               details.tradePrice
                                 .firstOrderOnThePlatformDiscountPrice
                             )}
-                            </p>
-                          </div>
+                          </p>
                         </div>
-                      )}
+                      </div>
+                    )}
 
                     {/* 税额 */}
                     {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
@@ -428,8 +434,8 @@ class PayProductInfo extends React.Component {
                             <span className="shipping-total-cost green">
                               -
                               {formatMoney(
-                              details.tradePrice.subscriptionDiscountPrice
-                            )}
+                                details.tradePrice.subscriptionDiscountPrice
+                              )}
                             </span>
                           </p>
                         </div>
@@ -451,8 +457,8 @@ class PayProductInfo extends React.Component {
                             <span className="shipping-total-cost green">
                               -
                               {formatMoney(
-                              details.tradePrice.promotionDiscountPrice
-                            )}
+                                details.tradePrice.promotionDiscountPrice
+                              )}
                             </span>
                           </p>
                         </div>

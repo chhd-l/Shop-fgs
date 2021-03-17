@@ -20,11 +20,11 @@ import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-function formatMoney(price){
-  if(price.indexOf(".")>-1){
-   return price.replace(".",",")
+function formatMoney(price) {
+  if (price.indexOf('.') > -1) {
+    return price.replace('.', ',');
   }
-  return price
+  return price;
 }
 
 class Packfeed extends React.Component {
@@ -68,9 +68,7 @@ class Packfeed extends React.Component {
             <div className="row align-items-md-center">
               <div className=" col-12 col-lg-6">
                 <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                  <h2
-                    className="rc-beta markup-text"
-                  >
+                  <h2 className="rc-beta markup-text">
                     Quels sont les avantages de nos combinaisons alimentaires
                     pour chiens et chats ?
                   </h2>
@@ -309,6 +307,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="mx-auto lazyloaded"
                                 src={imagecat}
+                                alt=""
                               />
                             </LazyLoad>
                           </div>
@@ -352,6 +351,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="mx-auto lazyloaded"
                                 src={imagedog}
+                                alt=""
                               />
                             </LazyLoad>
                           </div>
@@ -388,6 +388,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="value-proposition__img lazyloaded"
                                 src={image4B}
+                                alt=""
                               />
                             </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -403,6 +404,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="value-proposition__img lazyloaded"
                                 src={image4C}
+                                alt=""
                               />
                             </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -418,6 +420,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="value-proposition__img lazyloaded"
                                 src={image4D}
+                                alt=""
                               />
                             </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -430,7 +433,7 @@ class Packfeed extends React.Component {
                         <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
                           <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                             <LazyLoad>
-                              <img src={image4E} />
+                              <img src={image4E} alt="" />
                             </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
                               <p className="rc-margin-bottom--none rc-intro">
