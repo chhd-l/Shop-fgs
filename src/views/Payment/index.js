@@ -2801,7 +2801,7 @@ class Payment extends React.Component {
                   checkoutStore={checkoutStore}
                 />
               </div>
-              <div className="rc-column pl-md-0 rc-md-up">
+              <div className="rc-column pl-md-0 rc-md-up ">
                 {tid ? (
                   <RePayProductInfo
                     fixToHeader={false}
