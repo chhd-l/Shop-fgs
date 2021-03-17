@@ -6,7 +6,7 @@ import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import './index.css';
 import LoginButton from '@/components/LoginButton';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import Language from '@/components/Language';
 import { queryApiFromSessionCache } from '@/utils/utils';
 import { getFooter } from '@/api/hub';
@@ -53,13 +53,19 @@ class FooterHub extends React.Component {
                 {MenuItems.map((item, i) => (
                   <React.Fragment key={i}>
                     {item.Icon === 'user' && !isLogin ? (
-                      <LoginButton
+                      <Link
+                        to="/account"
                         className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
-                        history={history}
                       >
                         {item.Link.Text}
-                      </LoginButton>
+                      </Link>
                     ) : (
+                      // <LoginButton
+                      //   className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
+                      //   history={history}
+                      // >
+                      //   {item.Link.Text}
+                      // </LoginButton>
                       <a
                         className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
                         role="menuitem"
