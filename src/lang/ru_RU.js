@@ -987,39 +987,51 @@ const ru_RU = {
   'checkout.faq.FreeReturn': 'ВОЗВРАТ ТОВАРА',
 
   //Club新增
-  'club.subscription.titile': '',
-  'club.subscription.icon1': '',
-  'club.subscription.icon2': '',
-  'club.subscription.icon3': '',
-  'club.subscription.icon4': '',
-  'club.subscription.icon5': '',
-  'club.subscription.button': '',
-  'club.video.detail.title': '',
-  'club.video.detail.description': '',
-  'club.video.detail.button': '',
-  'club.howitworks.title': '',
-  'club.howitworks.img1': '',
-  'club.howitworks.img1.titile': '',
-  'club.howitworks.img1.description': '',
-  'club.howitworks.img2': '',
-  'club.howitworks.img2.titile': '',
-  'club.howitworks.img2.description': '',
-  'club.howitworks.img3': '',
-  'club.howitworks.img3.titile': '',
-  'club.howitworks.img3.description': '',
-  'club.howitworks.img4': '',
-  'club.howitworks.img4.titile': '',
-  'club.howitworks.img4.description': '',
-  'club.joinsubscription.title': '',
-  'club.joinsubscription.description': '',
-  'club.joinsubscription.button': '',
-  'club.wheretohelp.card.callus.title': '',
-  'club.wheretohelp.card.callus.description': '',
-  'club.wheretohelp.card.callus.number': '',
-  'club.wheretohelp.card.email.title': '',
-  'club.wheretohelp.card.email.description': '',
-  'club.wheretohelp.card.email.number': '',
-  'club.wheretohelp.card.faq': ''
+  'club.subscription.titile':
+    'CLUB aboneliği ile sahip olacağınız ayrıcalıklar',
+  'club.subscription.icon1':
+    'İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri',
+  'club.subscription.icon2': 'Hoş geldin paketi, hediyeler ve özel hizmetler',
+  'club.subscription.icon3':
+    'Evcil hayvan danışmanı ve kişiselleştirilmiş bültenler',
+  'club.subscription.icon4': 'Ücretsiz kargo ile otomatik mama gönderimi',
+  'club.subscription.icon5': 'Taahhüt yok, tüm kontrol sizde',
+  'club.subscription.button': 'Başla',
+  'club.video.detail.title':
+    'ПОТРЕБНОСТИ КАЖДОГО ПИТОМЦА УНИКАЛЬНЫ, И ПИТАНИЕ ДОЛЖНО ИМ СООТВЕТСТВОВАТЬ ',
+  'club.video.detail.description.one':
+    'Мы в Royal Canin стремимся понять потребности домашних животных, чтобы обеспечить их здоровье и благополучие.',
+  'club.video.detail.description.two':
+    'Наша программа ROYAL CANIN КЛУБ разработана экспертами в области питания, чтобы Ваш питомец получал оптимальный рацион в сочетании с рекомендациями по поддержанию его здоровья и удовлетворению его потребностей.',
+  'club.video.detail.button': 'Вступить в КЛУБ',
+  'club.howitworks.title': 'Как это работает? ',
+  'club.howitworks.img1.titile': 'ПОДБЕРИТЕ ОПТИМАЛЬНЫЙ РАЦИОН ДЛЯ ПИТОМЦА',
+  'club.howitworks.img1.description':
+    'Заполните простую анкету, чтобы получить персональные рекомендации по питанию',
+  'club.howitworks.img2.titile': 'ВЫБЕРИТЕ ОПЦИЮ КЛУБНОЙ ПРОГРАММЫ',
+  'club.howitworks.img2.description':
+    'Продолжайте, чтобы завершить процесс подписки. С первой доставкой Вы получите приветственный подарок. ',
+  'club.howitworks.img3.titile': 'УПРАВЛЯЙТЕ ПОДПИСКОЙ',
+  'club.howitworks.img3.description':
+    'Обеспечим своевременное обновление корма с возможностью изменения даты доставки.',
+  'club.howitworks.img4.titile': 'ВОСПОЛЬЗУЙТЕСЬ СЕРВИСАМИ НАШЕГО КЛУБА',
+  'club.howitworks.img4.description':
+    'Cоветы персонального помощника Службы Заботы и бесплатные онлайн консультации на Petstory',
+  'club.joinsubscription.title': 'Вступите в наш КЛУБ уже сегодня',
+  'club.joinsubscription.description':
+    'Расскажите нам о своем питомце, чтобы получить персональные рекомендации по питанию. ',
+  'club.joinsubscription.button': 'Начать',
+  'club.wheretohelp': 'Есть вопросы?',
+  'club.wheretohelp.card.callus.title': 'Позвоните нам',
+  'club.wheretohelp.card.callus.description':
+    'Наши эксперты рады Вам помочь ежедневно с 9.00 до 18.00',
+  'club.wheretohelp.card.callus.number': '0874 657 890',
+  'club.wheretohelp.card.email.title': 'Напишите нам e-mail',
+  'club.wheretohelp.card.email.description':
+    'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
+  'club.wheretohelp.card.email.send': 'Отправьте нам e-mail',
+  'club.wheretohelp.card.faq':
+    'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ'
 };
 
 export default ru_RU;
