@@ -16,33 +16,42 @@ export default class DropDownMenuForHub extends React.Component {
   };
   constructor(props) {
     super(props);
+    this.state = {
+      currentClickedParentItemId: -1
+    };
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.toggleListItem = this.toggleListItem.bind(this);
+    this.onListItemFocus = this.onListItemFocus.bind(this);
   }
-  // flag - 1-打开状态 0-关闭状态
-  toggleListItem(item) {
-    this.flag = 1;
-    // 如果可以打开，就打开，否则不打开
+  toggleListItem(item, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    const { currentClickedParentItemId } = this.state;
+
     let tmpId = -1;
     const { activeTopParentId } = this.props;
-    // 如果有下拉，且没有展开，且关闭状态，则打开下拉
-    if (item.expanded && activeTopParentId === -1 && this.flag) {
+    // 如果可以下拉，且(没有展开/与前一次点击的item不同)时，则打开下拉
+    if (
+      item.expanded &&
+      (activeTopParentId === -1 || currentClickedParentItemId !== item.id)
+    ) {
       tmpId = item.id;
     }
     this.props.updateActiveTopParentId(tmpId);
+    this.setState({ currentClickedParentItemId: item.id });
     !item.expanded && this.menuItemEvent(item);
   }
   onListItemBlur = (e) => {
-    this.flag = 0;
-    // 延迟200毫秒，是为了解决跳转外联有效
-    // 延迟0秒，可以解决切换每个顶级父节点时，下拉有效
-    setTimeout(() => {
-      if (!this.flag) {
-        this.props.updateActiveTopParentId(-1);
-      }
-    }, 200);
+    this.timeOutId = setTimeout(() => {
+      this.props.updateActiveTopParentId(-1);
+    });
   };
+  onListItemFocus() {
+    clearTimeout(this.timeOutId);
+  }
   hanldeListItemMouseOver(item) {
     // 若存在子项，才展开
     this.props.updateActiveTopParentId(item.expanded ? item.id : -1);
@@ -174,7 +183,9 @@ export default class DropDownMenuForHub extends React.Component {
                               style={{ width: '6rem', margin: '0 auto' }}
                             />
                             {/* </LazyLoad> */}
-                            <p className="red medium">{cItem.ImageDescription}</p>
+                            <p className="red medium">
+                              {cItem.ImageDescription}
+                            </p>
                           </div>
                           <div style={{ flex: 1 }}>
                             {cItem.SubItems.map((sItem, sIdx) => (
@@ -263,18 +274,19 @@ export default class DropDownMenuForHub extends React.Component {
               {headerNavigationList.map((item, i) => (
                 <li
                   className={`rc-list__item ${
-                    item.expanded ? 'dropdown' : ''
-                  } ${activeTopParentId === item.id ? 'active' : ''}`}
+                    item.expanded ? `dropdown` : ''
+                  } ${activeTopParentId === item.id ? 'active' : ''} `}
                   key={i}
                   // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
                   // onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
-                  onClick={this.toggleListItem.bind(this, item)}
                   onBlur={this.onListItemBlur}
+                  onFocus={this.onListItemFocus}
                 >
                   <ul
                     className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center"
                     style={{ outline: 'none' }}
                     tabIndex={item.id}
+                    onClick={this.toggleListItem.bind(this, item)}
                   >
                     <li className="rc-list__item">
                       <span className="rc-list__header pt-0 pb-0">
