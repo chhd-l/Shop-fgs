@@ -89,7 +89,7 @@ class Subscription extends React.Component {
   }
 
   async componentDidMount() {
-    myAccountPushEvent('Subscriptions')
+    myAccountPushEvent('Subscriptions');
     setSeoConfig({
       pageName: 'Account subscriptions'
     }).then((res) => {
@@ -113,7 +113,7 @@ class Subscription extends React.Component {
       });
     });
     this.getSubList();
-    this.getGiftSubList()
+    this.getGiftSubList();
   }
 
   handleInputChange(e) {
@@ -224,7 +224,7 @@ class Subscription extends React.Component {
       },
       () => this.getGiftSubList()
     );
-  }
+  };
 
   hanldePageNumChange = (params) => {
     this.setState(
@@ -243,7 +243,7 @@ class Subscription extends React.Component {
       isGiftErrMsg,
       isGiftLoading,
       isGiftCurrentPage,
-      isGiftTotalPage,
+      isGiftTotalPage
     } = this.state;
     let dataList = isGift ? subGiftList : this.state.subList;
     let loading = isGift ? isGiftLoading : this.state.loading;
@@ -325,10 +325,7 @@ class Subscription extends React.Component {
                     key={subItem.subscribeId}
                   >
                     <div className="card rc-margin-y--none ml-0">
-                      <div
-                        className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-                        style={{ padding: '1rem 0' }}
-                      >
+                      <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 pt-3 pb-3">
                         <div className="col-12 col-md-4">
                           <p
                             style={{
@@ -338,12 +335,12 @@ class Subscription extends React.Component {
                               paddingLeft: '20px'
                             }}
                           >
-                            {subItem.subscribeId}
+                            {subItem.externalSubscribeId}
                           </p>
                         </div>
-                        <div className="col-4 col-md-2"></div>
-                        <div className="col-4 col-md-2"></div>
-                        <div className="col-4 col-md-2 pl-4"></div>
+                        <div className="col-4 col-md-2" />
+                        <div className="col-4 col-md-2" />
+                        <div className="col-4 col-md-2 pl-4" />
                         {/* <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                       <img
                         style={{
@@ -359,7 +356,7 @@ class Subscription extends React.Component {
                     </div> */}
                       </div>
                     </div>
-                    <div className="row rc-margin-x--none row align-items-center 1111" style={{ padding: '1rem 0' }}>
+                    <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">
                       <div className="col-4 col-md-4 d-flex flex-wrap">
                         {subItem.goodsInfo &&
                           subItem.goodsInfo.map((item) => (
@@ -406,8 +403,8 @@ class Subscription extends React.Component {
                                     (el) => el.id === item.periodTypeId
                                   )[0]
                                     ? frequencyList.filter(
-                                      (el) => el.id === item.periodTypeId
-                                    )[0].value
+                                        (el) => el.id === item.periodTypeId
+                                      )[0].value
                                     : ''}
                                 </p>
                               </span>
@@ -452,17 +449,18 @@ class Subscription extends React.Component {
                         {/* {subItem.frequency} */}
                       </div>
                       <div className="col-4 col-md-2">
-                        {subItem.subscribeStatus === '0' || subItem.subscribeStatus === '1' ? (
+                        {subItem.subscribeStatus === '0' ||
+                        subItem.subscribeStatus === '1' ? (
                           <div>
-                            <i className="greenCircle"></i>
+                            <i className="greenCircle" />
                             <FormattedMessage id="active" />
                           </div>
                         ) : (
-                            <div>
-                              <i className="yellowCircle"></i>
-                              <FormattedMessage id="inactive" />
-                            </div>
-                          )}
+                          <div>
+                            <i className="yellowCircle" />
+                            <FormattedMessage id="inactive" />
+                          </div>
+                        )}
                       </div>
                       <div className="col-4 col-md-2">
                         <button
@@ -483,50 +481,50 @@ class Subscription extends React.Component {
                 ))}
               </>
             ) : (
-                    // <div className="text-center mt-5">
-                    //   <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-                    //   <FormattedMessage id="subscription.noDataTip" />
-                    // </div>
-                    <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
-                      <div className="rc-column">
-                        <LazyLoad>
-                          <img
-                            src={noSubscription}
-                            alt="No Subscription"
-                            style={{ width: '100%' }}
-                          />
-                        </LazyLoad>
-                      </div>
-                      <div className="rc-column">
-                        <div className="rc-padding-right-lg rc-padding-y--sm ">
-                          <h4
-                            className="red"
-                            style={{ fontSize: '20px', marginBottom: '20px' }}
-                          >
-                            <FormattedMessage id="account.noSubscriptionTitle"></FormattedMessage>
-                          </h4>
-                          <div className="children-nomargin">
-                            <p style={{ wordBreak: 'keep-all', width: '90%' }}>
-                              <FormattedMessage
-                                id="account.noSubscription"
-                                values={{
-                                  val1: <br />
-                                }}
-                              />
-                            </p>
-                          </div>
-                          <div className="rc-margin-top--sm">
-                            <Link
-                              className="rc-btn rc-btn--one"
-                              to="/subscription-landing"
-                            >
-                              <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
+              // <div className="text-center mt-5">
+              //   <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+              //   <FormattedMessage id="subscription.noDataTip" />
+              // </div>
+              <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                <div className="rc-column">
+                  <LazyLoad>
+                    <img
+                      src={noSubscription}
+                      alt="No Subscription"
+                      style={{ width: '100%' }}
+                    />
+                  </LazyLoad>
+                </div>
+                <div className="rc-column">
+                  <div className="rc-padding-right-lg rc-padding-y--sm ">
+                    <h4
+                      className="red"
+                      style={{ fontSize: '20px', marginBottom: '20px' }}
+                    >
+                      <FormattedMessage id="account.noSubscriptionTitle" />
+                    </h4>
+                    <div className="children-nomargin">
+                      <p style={{ wordBreak: 'keep-all', width: '90%' }}>
+                        <FormattedMessage
+                          id="account.noSubscription"
+                          values={{
+                            val1: <br />
+                          }}
+                        />
+                      </p>
                     </div>
-                  )}
+                    <div className="rc-margin-top--sm">
+                      <Link
+                        className="rc-btn rc-btn--one"
+                        to="/subscription-landing"
+                      >
+                        <FormattedMessage id="account.startAutoShipping" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             {!errMsg && dataList.length ? (
               <div className="grid-footer rc-full-width mt-2">
                 <Pagination
@@ -590,9 +588,9 @@ class Subscription extends React.Component {
                   </Link>
                 </div>
               ) : (
-                  <SideMenu type="Subscription" />
-                )}
-              { }
+                <SideMenu type="Subscription" />
+              )}
+              {}
               <div className="rc-column  rc-quad-width">
                 {this.getPageBox()}
                 {/* {this.getPageBox(true)} */}
