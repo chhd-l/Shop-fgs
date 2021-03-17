@@ -2214,9 +2214,10 @@ class SubscriptionDetail extends React.Component {
                                     <FormattedMessage id="subscription.frequency"></FormattedMessage>
                                     :
                                   </b>
-                                  <h1
+                                  <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
+                                      fontSize: '20px',
                                       marginTop: '10px',
                                       display: 'inline-block',
                                       marginLeft: '10px'
@@ -2236,7 +2237,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                       key={index + '_' + el.periodTypeId}
                                     />
-                                  </h1>
+                                  </div>
                                 </div>
                                 <div className="rc-card-content">
                                   <b
@@ -2248,16 +2249,17 @@ class SubscriptionDetail extends React.Component {
                                     {/* Shipping Method: */}
                                     <FormattedMessage id="autoShipStarted" />
                                   </b>
-                                  <h1
+                                  <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
                                       marginTop: '10px',
                                       display: 'inline-block',
-                                      marginLeft: '10px'
+                                      marginLeft: '10px',
+                                      fontSize: '20px'
                                     }}
                                   >
                                     {getFormatDate(el.createTime.split(' ')[0])}
-                                  </h1>
+                                  </div>
                                 </div>
                                 <div className="rc-card-content">
                                   <b
@@ -2280,12 +2282,13 @@ class SubscriptionDetail extends React.Component {
                                     <FormattedMessage id="nextShipment"></FormattedMessage>
                                     :
                                   </b>
-                                  <h1
+                                  <div
                                     className="rc-card__meta order-Id"
                                     style={{
                                       marginTop: '10px',
                                       display: 'inline-block',
-                                      marginLeft: '10px'
+                                      marginLeft: '10px',
+                                      fontSize: '20px'
                                     }}
                                   >
                                     <DatePicker
@@ -2308,7 +2311,7 @@ class SubscriptionDetail extends React.Component {
                                         this.onDateChange(date)
                                       }
                                     />
-                                  </h1>
+                                  </div>
                                 </div>
                               </div>
                               {isGift && subDetail.subscribeStatus != 2
@@ -2585,12 +2588,13 @@ class SubscriptionDetail extends React.Component {
                                       <FormattedMessage id="subscription.frequency"></FormattedMessage>
                                       :
                                     </b>
-                                    <h1
+                                    <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
                                         marginTop: '10px',
                                         display: 'inline-block',
-                                        marginLeft: '10px'
+                                        marginLeft: '10px',
+                                        fontSize: '20px'
                                       }}
                                     >
                                       <Selection
@@ -2610,7 +2614,7 @@ class SubscriptionDetail extends React.Component {
                                         key={index + '_' + el.periodTypeId}
                                         disabled={!isActive || isGift}
                                       />
-                                    </h1>
+                                    </div>
                                   </div>
                                   <div className="rc-card-content">
                                     <b
@@ -2622,19 +2626,20 @@ class SubscriptionDetail extends React.Component {
                                       {/* Shipping Method: */}
                                       <FormattedMessage id="autoShipStarted" />
                                     </b>
-                                    <h1
+                                    <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
                                         marginTop: '10px',
                                         display: 'inline-block',
-                                        marginLeft: '10px'
+                                        marginLeft: '10px',
+                                        fontSize: '20px'
                                       }}
                                     >
                                       {getFormatDate(
                                         el.createTime.split(' ')[0]
                                       )}
                                       {/* <FormattedDate value={el.createTime.split(' ')[0]}/> */}
-                                    </h1>
+                                    </div>
                                   </div>
                                   <div className="rc-card-content">
                                     <b
@@ -2657,12 +2662,13 @@ class SubscriptionDetail extends React.Component {
                                       <FormattedMessage id="nextShipment"></FormattedMessage>
                                       :
                                     </b>
-                                    <h1
+                                    <div
                                       className="rc-card__meta order-Id"
                                       style={{
                                         marginTop: '10px',
                                         display: 'inline-block',
-                                        marginLeft: '10px'
+                                        marginLeft: '10px',
+                                        fontSize: '20px'
                                       }}
                                     >
                                       <DatePicker
@@ -2686,7 +2692,7 @@ class SubscriptionDetail extends React.Component {
                                           this.onDateChange(date)
                                         }
                                       />
-                                    </h1>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
