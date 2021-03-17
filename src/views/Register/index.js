@@ -258,7 +258,7 @@ class Register extends Component {
       customerAccount: registerForm.email,
       customerName: registerForm.name
     })
-      .then((res) => {
+      .then(async (res) => {
         //GA 注册成功 start
         dataLayer.push({
           event: `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
@@ -279,9 +279,9 @@ class Register extends Component {
         loginStore.setUserInfo(res.context.customerDetail);
 
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-        if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
-          mergeUnloginCartData();
-          checkoutStore.updateLoginCart();
+        if (checkoutStore.cartData.length) {
+          await mergeUnloginCartData();
+          await checkoutStore.updateLoginCart();
         }
         if (res.context.oktaSessionToken) {
           // hard code
@@ -363,7 +363,11 @@ class Register extends Component {
             <div className="rc-column rc-padding-top--lg--mobile">
               <div className="rc-margin-bottom--sm text-center">
                 <a
-                  href={isHub ? process.env.REACT_APP_HUBPAGE_PREFIX : process.env.REACT_APP_ACCESS_PATH}
+                  href={
+                    isHub
+                      ? process.env.REACT_APP_HUBPAGE_PREFIX
+                      : process.env.REACT_APP_ACCESS_PATH
+                  }
                   className="logo-home d-inline-block border-bottom border-transparent"
                   title="Commerce Cloud Storefront Reference Architecture Accueil"
                 >
@@ -755,11 +759,7 @@ class Register extends Component {
                           <p>
                             <FormattedMessage id="registerFooter1" />
                             &nbsp;
-                            <a
-                              href="/help"
-                            >
-                              here
-                            </a>
+                            <a href="/help">here</a>
                           </p>
                         </div>
                       </form>
