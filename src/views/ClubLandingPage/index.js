@@ -537,9 +537,7 @@ class ClubLandingPage extends React.Component {
           </div>
           <BreadCrumbs />
           {/*猫猫狗狗*/}
-
           {console.log(innerWidth, '🌙')}
-
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">
@@ -562,7 +560,6 @@ class ClubLandingPage extends React.Component {
             </div>
           </section>
           <Divider />
-
           <div className="experience-component experience-layouts-1column">
             <div className="experience-component experience-assets-contentBlock">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
@@ -616,50 +613,51 @@ class ClubLandingPage extends React.Component {
               </div>
             </div>
           </div>
-
           <Divider />
           <HowItWorks />
           <JoinToday />
           <br />
           <CommentCarousel />
-
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none ">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-contentBlock">
-                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                    <a
-                      id="undefined"
-                      name="undefined"
-                      className="page-section-anchor"
-                      aria-hidden="true"
-                    ></a>
-                    <div className="row align-items-md-center">
-                      <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                        <picture data-rc-feature-objectfillpolyfill-setup="true">
-                          <img
-                            className="w-100 lazyloaded"
-                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw231c60b5/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622"
-                            alt="Yorkshire dog pic - Our Values"
-                            title="Yorkshire dog pic - Our Values"
-                            src={veterinayImg}
-                          />
-                        </picture>
-                      </div>
-                      <div className=" col-12 col-lg-6">
-                        <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                          <h2 className="rc-beta markup-text">
-                            Ищете ветеринарную диету?
-                          </h2>
-                          <p>
-                            <span>
-                              Диетическое питание, которое помогает поддерживать
-                              здоровье кошек с диагностированными заболеваниями.
-                            </span>
-                          </p>
-                          <button className="rc-btn rc-btn--two">
-                            Посмотреть ассортимент
-                          </button>
+          {process.env.REACT_APP_LANG == 'ru' ? (
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none ">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-contentBlock">
+                    <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                      <a
+                        id="undefined"
+                        name="undefined"
+                        className="page-section-anchor"
+                        aria-hidden="true"
+                      ></a>
+                      <div className="row align-items-md-center">
+                        <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                          <picture data-rc-feature-objectfillpolyfill-setup="true">
+                            <img
+                              className="w-100 lazyloaded"
+                              data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw231c60b5/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622"
+                              alt="Yorkshire dog pic - Our Values"
+                              title="Yorkshire dog pic - Our Values"
+                              src={veterinayImg}
+                            />
+                          </picture>
+                        </div>
+                        <div className=" col-12 col-lg-6">
+                          <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                            <h2 className="rc-beta markup-text">
+                              Ищете ветеринарную диету?
+                            </h2>
+                            <p>
+                              <span>
+                                Диетическое питание, которое помогает
+                                поддерживать здоровье кошек с диагностированными
+                                заболеваниями.
+                              </span>
+                            </p>
+                            <button className="rc-btn rc-btn--two">
+                              Посмотреть ассортимент
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -667,7 +665,8 @@ class ClubLandingPage extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+          ) : null}
+          }
           <Divider />
           <br />
           <br />
