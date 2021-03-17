@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 function BreadCrumbsNavigation({ list }) {
   const decoList = [
-    { name: <FormattedMessage id="homePage" />, link: '/' },
+    { name: <FormattedMessage id="homePage" />, link: '/', href: '/' },
     ...list
   ];
   return (
@@ -27,15 +28,23 @@ function BreadCrumbsNavigation({ list }) {
               >
                 {index === decoList.length - 1 || !item.link ? (
                   <span itemProp="name">{item.name}</span>
+                ) : item.href ? (
+                  <>
+                    <DistributeHubLinkOrATag href={item.link}>
+                      {item.name}
+                    </DistributeHubLinkOrATag>
+                  </>
                 ) : (
-                  <Link
-                    className="rc-styled-link rc-progress__breadcrumb mr-0"
-                    itemType="https://schema.org/Thing"
-                    itemProp="item"
-                    to={item.link}
-                  >
-                    <span itemProp="name">{item.name}</span>
-                  </Link>
+                  <>
+                    <Link
+                      className="rc-styled-link rc-progress__breadcrumb mr-0"
+                      itemType="https://schema.org/Thing"
+                      itemProp="item"
+                      to={item.link}
+                    >
+                      <span itemProp="name">{item.name}</span>
+                    </Link>
+                  </>
                 )}
               </li>
               {index !== decoList.length - 1 && (
