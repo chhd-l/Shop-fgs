@@ -1010,7 +1010,7 @@ class Recommendation extends React.Component {
                           >
                             <img
                               className="type-icon"
-                              src={catAndDog}
+                              src={PetsImg}
                               alt=""
                               // src={petsiconArr[this.state.petType]}
                             />
