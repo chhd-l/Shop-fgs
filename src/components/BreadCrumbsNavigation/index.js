@@ -5,7 +5,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 function BreadCrumbsNavigation({ list }) {
   const decoList = [
-    { name: <FormattedMessage id="homePage" />, link: '/', href: '/' },
+    { name: <FormattedMessage id="homePage" />, link: '/', href: '' },
     ...list
   ];
   return (
@@ -30,7 +30,7 @@ function BreadCrumbsNavigation({ list }) {
                   <span itemProp="name">{item.name}</span>
                 ) : item.href ? (
                   <>
-                    <DistributeHubLinkOrATag href={item.link}>
+                    <DistributeHubLinkOrATag href={item.href} to={item.link}>
                       {item.name}
                     </DistributeHubLinkOrATag>
                   </>
