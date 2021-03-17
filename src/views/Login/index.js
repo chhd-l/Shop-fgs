@@ -123,13 +123,13 @@ class Login extends React.Component {
     this.props.loginStore.removeUserInfo();
 
     const { history } = this.props;
-    let customerId =  this.getUserInfo &&  this.getUserInfo.customerId
+    let customerId = this.getUserInfo && this.getUserInfo.customerId;
     login(this.state.loginForm)
       .then((res) => {
         localItemRoyal.set('rc-token', res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
-        getCustomerInfo({customerId})
+        getCustomerInfo({ customerId })
           .then((customerInfoRes) => {
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
             this.props.loginStore.setUserInfo(userinfo);
@@ -311,16 +311,16 @@ class Login extends React.Component {
                   type="image/svg+xml"
                 >
                   <LazyLoad>
-                  <img
-                    src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-9-5"
-                    width="150"
-                    height="100"
-                    alt="Royal Canin logo"
-                    style={{
-                      backgroundImage:
-                        'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.png?v=8-9-5)'
-                    }}
-                  />
+                    <img
+                      src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-9-5"
+                      width="150"
+                      height="100"
+                      alt="Royal Canin logo"
+                      style={{
+                        backgroundImage:
+                          'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.png?v=8-9-5)'
+                      }}
+                    />
                   </LazyLoad>
                 </object>
               </div>
@@ -331,15 +331,18 @@ class Login extends React.Component {
                 }}
               >
                 <div className="rc-column">
-                  <h1 className="rc-espilon imgBox">
+                  <div
+                    style={{ fontSize: '20px' }}
+                    className="rc-espilon imgBox"
+                  >
                     <LazyLoad>
-                    <img src={bg1} style={{ display: 'inline' }} alt="" />
+                      <img src={bg1} style={{ display: 'inline' }} alt="" />
                     </LazyLoad>
-                  </h1>
+                  </div>
                 </div>
 
                 <div className="rc-column loginForm">
-                  <h1 className="rc-espilon">
+                  <div style={{ fontSize: '20px' }} className="rc-espilon">
                     <h3 style={{ fontSize: '32px' }}>
                       <span style={{ color: '#666' }}>
                         <FormattedMessage id="welcomeTo" />
@@ -551,7 +554,7 @@ class Login extends React.Component {
                         {'>'}
                       </a>
                     </div>
-                  </h1>
+                  </div>
                 </div>
               </div>
               <div
@@ -614,17 +617,17 @@ class Login extends React.Component {
                     </aside>
                   </div>
                   <LazyLoad>
-                  <img
-                    src={bg2}
-                    className="registerImg"
-                    style={{
-                      width: '270px',
-                      position: 'absolute',
-                      bottom: '-120px',
-                      right: '-270px'
-                    }}
-                    alt=""
-                  />
+                    <img
+                      src={bg2}
+                      className="registerImg"
+                      style={{
+                        width: '270px',
+                        position: 'absolute',
+                        bottom: '-120px',
+                        right: '-270px'
+                      }}
+                      alt=""
+                    />
                   </LazyLoad>
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column">
@@ -938,17 +941,17 @@ class Login extends React.Component {
 
                 <div className="forgetBox" style={{ position: 'relative' }}>
                   <LazyLoad>
-                  <img
-                    src={bg2}
-                    className="registerImg"
-                    style={{
-                      width: '300px',
-                      position: 'absolute',
-                      bottom: '-120px',
-                      right: '-400px'
-                    }}
-                    alt=""
-                  />
+                    <img
+                      src={bg2}
+                      className="registerImg"
+                      style={{
+                        width: '300px',
+                        position: 'absolute',
+                        bottom: '-120px',
+                        right: '-400px'
+                      }}
+                      alt=""
+                    />
                   </LazyLoad>
                   <p>
                     <FormattedMessage id="forgetPassword.forgetPasswordTip" />
