@@ -345,7 +345,7 @@ class ImageMagnifier extends Component {
     // images = this.filterImage(images)
     // let imgCount = images.length;
     let imgCount = images.length;
-    let slideNum = imgCount < 3 ? imgCount : 3;//slik少于3个，展示有点问题，暂时这样处理
+    let slideNum = imgCount < 3 ? imgCount : 3; //slik少于3个，展示有点问题，暂时这样处理
     const settings = {
       slidesToShow: slideNum,
       slidesToScroll: slideNum
@@ -372,7 +372,7 @@ class ImageMagnifier extends Component {
             {taggingForImage ? (
               <div className="product-item-flag-image position-absolute">
                 <LazyLoad>
-                  <img src={taggingForImage.taggingImgUrl} />
+                  <img src={taggingForImage.taggingImgUrl} alt="" />
                 </LazyLoad>
               </div>
             ) : null}
@@ -481,9 +481,8 @@ class ImageMagnifier extends Component {
             >
               {images.filter((el) => el.goodsInfoImg).length ? (
                 <Slider {...settings}>
-                 
                   {images &&
-                   images.map((el, i) => (
+                    images.map((el, i) => (
                       <div>
                         <div
                           key={i}

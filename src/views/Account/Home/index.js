@@ -10,13 +10,13 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
 import { myAccountPushEvent } from '@/utils/GA';
-import accountSLogo from "@/assets/images/account_s_logo.png"
-import ApplePayImg from "@/assets/images/ApplePay.png" 
-import GooglePayImg from "@/assets/images/GooglePay.png" 
+import accountSLogo from '@/assets/images/account_s_logo.png';
+import ApplePayImg from '@/assets/images/ApplePay.png';
+import GooglePayImg from '@/assets/images/GooglePay.png';
 import './index.less';
 import { Helmet } from 'react-helmet';
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 const itemList = [
   {
@@ -94,7 +94,7 @@ const itemList = [
 @inject('loginStore', 'configStore')
 @observer
 class AccountHome extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       seoConfig: {
@@ -102,19 +102,19 @@ class AccountHome extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       }
-    }
+    };
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
   componentDidMount() {
-    myAccountPushEvent('Overview')
+    myAccountPushEvent('Overview');
 
     setSeoConfig({
       pageName: 'Account index'
-    }).then(res => {
-      this.setState({seoConfig: res})
-    });;
+    }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
   }
 
   render() {
@@ -125,7 +125,7 @@ class AccountHome extends React.Component {
         path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     return (
@@ -134,8 +134,11 @@ class AccountHome extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -186,21 +189,28 @@ class AccountHome extends React.Component {
               </div>
             </div>
           </div>
-          {
-            process.env.REACT_APP_HUB ? (<div className="accountHomeFooterLink">
-            <h2><img src={accountSLogo}></img></h2>
-            <p className="brandName">Royal Canin & Moi</p>
-            <p className="content">L'application qui vous accompagne tout <br/> au long de la vie de votre compagnon </p>
-            <div className="payBtn">
-              <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
-              <img src={GooglePayImg}></img>
-              </a>
-              <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
-              <img src={ApplePayImg}></img>
-              </a>
+          {process.env.REACT_APP_HUB ? (
+            <div className="accountHomeFooterLink">
+              <h2>
+                <img src={accountSLogo} alt="" />
+              </h2>
+              <p className="brandName">Royal Canin & Moi</p>
+              <p className="content">
+                L'application qui vous accompagne tout <br /> au long de la vie
+                de votre compagnon{' '}
+              </p>
+              <div className="payBtn">
+                <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
+                  <img src={GooglePayImg} alt="" />
+                </a>
+                <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
+                  <img src={ApplePayImg} alt="" />
+                </a>
+              </div>
             </div>
-          </div>) : <></>
-          }
+          ) : (
+            <></>
+          )}
         </main>
         <Footer />
       </div>

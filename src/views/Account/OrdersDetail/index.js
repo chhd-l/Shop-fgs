@@ -512,7 +512,7 @@ class AccountOrders extends React.Component {
     });
   }
   handleClickPayNow = async () => {
-    const { details:order, details } = this.state;
+    const { details: order, details } = this.state;
     const { consignee, invoice, tradePrice } = details;
     this.setState({ payNowLoading: true });
     const tradeItems = details.tradeItems.map((ele) => {
@@ -735,6 +735,7 @@ class AccountOrders extends React.Component {
                           <img
                             className="rc-bg-colour--brand4"
                             src={sItem.pic}
+                            alt=""
                           />
                         </LazyLoad>
                       </div>

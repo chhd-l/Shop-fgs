@@ -133,6 +133,7 @@ function ListItemH5ForGlobalStyle(props) {
                           height: 'auto',
                           margin: 'auto'
                         }}
+                        alt=""
                       />
                     </div>
                   </div>
@@ -592,7 +593,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImg} />
+                  <img src={pfRecoImg} alt="" />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -622,6 +623,7 @@ function ProductFinderAd({
                 >
                   <img
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
+                    alt=""
                   />
                 </LazyLoad>
               </div>
@@ -656,6 +658,7 @@ function ProductFinderAd({
                 >
                   <img
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
+                    alt=""
                   />
                 </LazyLoad>
               </div>
@@ -2336,6 +2339,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
+                                            alt=""
                                           />
                                         </div>
                                       ) : null
@@ -2380,6 +2384,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
+                                            alt=""
                                           />
                                         </div>
                                       ) : null
