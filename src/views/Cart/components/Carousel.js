@@ -147,8 +147,9 @@ class Carousel extends React.Component {
   };
 
   hanldeClick = (item) => {
-    const { history, location } = this.props;
-    sessionItemRoyal.set('recomment-preview', location.pathname);
+    const { history } = this.props;
+
+    sessionItemRoyal.set('recomment-preview', history.location.pathname);
 
     history.push('/details/' + item.goodsInfoIds[0]);
   };

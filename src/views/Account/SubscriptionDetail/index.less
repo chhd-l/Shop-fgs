@@ -84,6 +84,21 @@
   border-radius: 100%;
 }
 @media (max-width: 768.98px) {
+  .for-mobile-100{
+    width: 100%;
+  }
+  .product-detail-modal{
+    .modal-footer{
+      display: flex;
+      flex-direction: column;
+      button{
+        width: 100%;
+        &#modalFooterCancel{
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
   .add-pet-btn-wrap{
     flex-direction: column;
     text-align: center;

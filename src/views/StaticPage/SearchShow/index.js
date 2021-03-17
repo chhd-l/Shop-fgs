@@ -8,7 +8,7 @@ import { setSeoConfig, getParaByName } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 class SearchShow extends React.Component {
   constructor(props) {
     super(props);
@@ -112,6 +112,7 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
+                                alt=""
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>
@@ -137,6 +138,7 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
+                                alt=""
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>

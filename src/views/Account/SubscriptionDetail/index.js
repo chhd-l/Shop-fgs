@@ -351,7 +351,7 @@ class SubscriptionDetail extends React.Component {
           <p className="text-center">Please choose your options</p>
           <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm">
             <div className="d-flex for-pc-bettwen">
-              <div className="d-flex for-mobile-colum">
+              <div className="d-flex for-mobile-colum for-mobile-100">
                 <div className="d-flex rc-margin-right--xs">
                   <img src="" />
                   <div>
@@ -424,7 +424,7 @@ class SubscriptionDetail extends React.Component {
                   </div>
                 </div>
                 <p className="frequency rc-margin-right--xs">
-                  Frequency
+                  Frequency：
                   {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
                   <div>
                     <Selection
@@ -450,7 +450,7 @@ class SubscriptionDetail extends React.Component {
             </div>
             <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
               <span
-                className="rc-styled-link"
+                className="rc-styled-link rc-btn"
                 onClick={this.showChangeRecommendation}
               >
                 See other recommendation
@@ -1576,12 +1576,17 @@ class SubscriptionDetail extends React.Component {
                       //   this.GAProductClick(ele, i+1)
                       // }}
                     >
-                      <Link
+                      {/* <Link
                         to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
+                        className="rc-btn rc-btn--one rc-btn--sm"
+                      > */}
+                      <span
+                        onClick={this.showProdutctDetail}
                         className="rc-btn rc-btn--one rc-btn--sm"
                       >
                         <FormattedMessage id="seeTheProduct" />
-                      </Link>
+                      </span>
+                      {/* </Link> */}
                     </div>
                   </div>
                 </div>
@@ -1948,7 +1953,7 @@ class SubscriptionDetail extends React.Component {
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
                     <div className="d-flex align-items-center add-pet-btn-wrap">
-                      <img src={clubIcon} className="rc-md-up" />
+                      <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
                       <div
                         className="pet-img add-pet-btn text-center"
                         onClick={this.showAddNewPet}
@@ -1973,8 +1978,8 @@ class SubscriptionDetail extends React.Component {
                       className="rc-delta font-weight-normal mb-2"
                       style={{ color: '#666', display: 'none' }}
                     >
-                      {subDetail.subscribeId ? (
-                        <span>{`${subDetail.subscribeId}`}</span>
+                      {subDetail.externalSubscribeId ? (
+                        <span>{`${subDetail.externalSubscribeId}`}</span>
                       ) : null}
                       {this.statusText()}
                     </h4>
@@ -2006,12 +2011,20 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <div style={{ display: 'flex' }}>
-                                <LazyLoad>
-                                  <img
-                                    src={el.goodsPic}
-                                    style={{ width: '100px' }}
-                                  />
-                                </LazyLoad>
+                                <div>
+                                  <LazyLoad>
+                                    <img
+                                      src={el.goodsPic}
+                                      style={{ width: '100px' }}
+                                    />
+                                  </LazyLoad>
+                                  <span
+                                    className="rc-styled-link"
+                                    onClick={this.showChangeProduct}
+                                  >
+                                    change product
+                                  </span>
+                                </div>
                                 <div
                                   className="v-center"
                                   style={{ flex: '1', paddingLeft: '10px' }}
@@ -2214,9 +2227,10 @@ class SubscriptionDetail extends React.Component {
                                     <FormattedMessage id="subscription.frequency"></FormattedMessage>
                                     :
                                   </b>
-                                  <h1
+                                  <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
+                                      fontSize: '20px',
                                       marginTop: '10px',
                                       display: 'inline-block',
                                       marginLeft: '10px'
@@ -2236,7 +2250,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                       key={index + '_' + el.periodTypeId}
                                     />
-                                  </h1>
+                                  </div>
                                 </div>
                                 <div className="rc-card-content">
                                   <b
@@ -2248,16 +2262,17 @@ class SubscriptionDetail extends React.Component {
                                     {/* Shipping Method: */}
                                     <FormattedMessage id="autoShipStarted" />
                                   </b>
-                                  <h1
+                                  <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
                                       marginTop: '10px',
                                       display: 'inline-block',
-                                      marginLeft: '10px'
+                                      marginLeft: '10px',
+                                      fontSize: '20px'
                                     }}
                                   >
                                     {getFormatDate(el.createTime.split(' ')[0])}
-                                  </h1>
+                                  </div>
                                 </div>
                                 <div className="rc-card-content">
                                   <b
@@ -2280,12 +2295,13 @@ class SubscriptionDetail extends React.Component {
                                     <FormattedMessage id="nextShipment"></FormattedMessage>
                                     :
                                   </b>
-                                  <h1
+                                  <div
                                     className="rc-card__meta order-Id"
                                     style={{
                                       marginTop: '10px',
                                       display: 'inline-block',
-                                      marginLeft: '10px'
+                                      marginLeft: '10px',
+                                      fontSize: '20px'
                                     }}
                                   >
                                     <DatePicker
@@ -2308,7 +2324,7 @@ class SubscriptionDetail extends React.Component {
                                         this.onDateChange(date)
                                       }
                                     />
-                                  </h1>
+                                  </div>
                                 </div>
                               </div>
                               {isGift && subDetail.subscribeStatus != 2
@@ -2585,12 +2601,13 @@ class SubscriptionDetail extends React.Component {
                                       <FormattedMessage id="subscription.frequency"></FormattedMessage>
                                       :
                                     </b>
-                                    <h1
+                                    <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
                                         marginTop: '10px',
                                         display: 'inline-block',
-                                        marginLeft: '10px'
+                                        marginLeft: '10px',
+                                        fontSize: '20px'
                                       }}
                                     >
                                       <Selection
@@ -2610,7 +2627,7 @@ class SubscriptionDetail extends React.Component {
                                         key={index + '_' + el.periodTypeId}
                                         disabled={!isActive || isGift}
                                       />
-                                    </h1>
+                                    </div>
                                   </div>
                                   <div className="rc-card-content">
                                     <b
@@ -2622,19 +2639,20 @@ class SubscriptionDetail extends React.Component {
                                       {/* Shipping Method: */}
                                       <FormattedMessage id="autoShipStarted" />
                                     </b>
-                                    <h1
+                                    <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
                                         marginTop: '10px',
                                         display: 'inline-block',
-                                        marginLeft: '10px'
+                                        marginLeft: '10px',
+                                        fontSize: '20px'
                                       }}
                                     >
                                       {getFormatDate(
                                         el.createTime.split(' ')[0]
                                       )}
                                       {/* <FormattedDate value={el.createTime.split(' ')[0]}/> */}
-                                    </h1>
+                                    </div>
                                   </div>
                                   <div className="rc-card-content">
                                     <b
@@ -2657,12 +2675,13 @@ class SubscriptionDetail extends React.Component {
                                       <FormattedMessage id="nextShipment"></FormattedMessage>
                                       :
                                     </b>
-                                    <h1
+                                    <div
                                       className="rc-card__meta order-Id"
                                       style={{
                                         marginTop: '10px',
                                         display: 'inline-block',
-                                        marginLeft: '10px'
+                                        marginLeft: '10px',
+                                        fontSize: '20px'
                                       }}
                                     >
                                       <DatePicker
@@ -2686,7 +2705,7 @@ class SubscriptionDetail extends React.Component {
                                           this.onDateChange(date)
                                         }
                                       />
-                                    </h1>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

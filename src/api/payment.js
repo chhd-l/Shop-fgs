@@ -23,7 +23,7 @@ const api = {
   adyen3DSResult: `/${process.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
   Adyen3DSResult: '/Adyen3DSResult',
   //CYBER
-  usPaymentInfo:`/${process.env.REACT_APP_STOREID}/us-pay-payment-info` //CYBEr绑卡
+  usPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-pay-payment-info` //CYBEr绑卡
 };
 
 export default api;
@@ -35,7 +35,6 @@ export function usPaymentInfo(parameter) {
     data: parameter
   });
 }
-
 
 export function postVisitorRegisterAndLogin(parameter) {
   return axios({
@@ -134,6 +133,19 @@ export function adyenPaymentsDetails(parameter) {
 }
 
 export function getProductPetConfig(parameter) {
+  // parameter.goodsInfos.map((ele) => {
+  //   if (ele.goods) {
+  //     ele.goods.goodsDetail = '';
+  //   }
+  //   if (ele.goodsInfos) {
+  //     ele.goodsInfos.map((el) => {
+  //       el.goods = null;
+  //     });
+  //   }
+  //   return Object.assign(ele, {
+  //     goodsDetail: ''
+  //   });
+  // });
   return axios({
     url: api.getProductPetConfig,
     method: 'post',

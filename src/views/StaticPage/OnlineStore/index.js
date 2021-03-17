@@ -49,9 +49,9 @@ function OnlineStoreHeader() {
                 style={{ marginBottom: 0 }}
               >
                 <div className="rc-alpha inherit-fontsize">
-                  <h1>
+                  <div style={{ fontSize: '20px' }}>
                     <FormattedMessage id="onlineStore.header.title" />
-                  </h1>
+                  </div>
                 </div>
                 <div className="text-center rc-intro inherit-fontsize children-nomargin heading-block-content">
                   <p>
@@ -178,9 +178,9 @@ class OnlineStore extends React.Component {
                 <div className="experience-component experience-assets-headingBlock">
                   <div className="rc-max-width--md text-center rc-margin-y--md">
                     <div className="rc-alpha inherit-fontsize">
-                      <h1>
+                      <div style={{ fontSize: '20px' }}>
                         <FormattedMessage id="onlineStore.footer.title" />
-                      </h1>
+                      </div>
                     </div>
                     <div className="text-center rc-intro inherit-fontsize children-nomargin heading-block-content">
                       <p>
@@ -397,6 +397,7 @@ class OnlineStore extends React.Component {
                         >
                           <DistributeHubLinkOrATag
                             href="/about-us/faqs"
+                            to="/faq"
                             style={{
                               fontSize: '18px',
                               color: '#000',

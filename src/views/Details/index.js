@@ -35,6 +35,7 @@ import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import Carousel from './components/Carousel';
+
 import Help from './components/Help';
 import { Helmet } from 'react-helmet';
 
@@ -324,7 +325,8 @@ class Details extends React.Component {
       barcode: '',
       descContent: '',
       contactUs: '',
-      ccidBtnDisplay: false
+      ccidBtnDisplay: false,
+      relatedGoods: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -1470,6 +1472,7 @@ class Details extends React.Component {
       barcode,
       ccidBtnDisplay
     } = this.state;
+
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
@@ -2152,7 +2155,7 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {selectedSpecItem.promotions &&
+                              {selectedSpecItem?.promotions &&
                               selectedSpecItem.promotions.includes('club') ? (
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
@@ -2382,12 +2385,16 @@ class Details extends React.Component {
                     <img
                       className="good-contact-img mr-5"
                       src={details.goodsImg}
+                      alt=""
                     />
                   ) : null}
                   <div className="good-contact-dec">
-                    <h1 className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs">
+                    <div
+                      style={{ fontSize: '20px' }}
+                      className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
+                    >
                       <FormattedMessage id="detail.question" />
-                    </h1>
+                    </div>
                     <p>
                       <FormattedMessage id="detail.answer" />
                     </p>
@@ -2475,10 +2482,10 @@ class Details extends React.Component {
             <div className="split-line rc-bg-colour--brand4"></div>
             <div className="more-link">
               <LazyLoad height={200}>
-                <img src={loop} srcSet={loop} />
+                <img src={loop} srcSet={loop} alt="" />
               </LazyLoad>
               <LazyLoad height={200}>
-                <img src={vert} srcSet={vert} className="vert" />
+                <img src={vert} srcSet={vert} className="vert" alt="" />
               </LazyLoad>
               <p>
                 <FormattedMessage id="detail.packagingDesc" />

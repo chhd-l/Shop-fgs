@@ -413,7 +413,7 @@ class ImageMagnifier extends Component {
             {taggingForImage ? (
               <div className="product-item-flag-image position-absolute">
                 <LazyLoad>
-                  <img src={taggingForImage.taggingImgUrl} />
+                  <img src={taggingForImage.taggingImgUrl} alt="" />
                 </LazyLoad>
               </div>
             ) : null}

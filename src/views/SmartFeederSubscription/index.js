@@ -159,6 +159,7 @@ class Step1H5 extends Component {
                     src={item.goodsInfoImg || IMG_DEFAULT}
                     className="m-auto"
                     style={{ maxHeight: '12rem' }}
+                    alt=""
                   />
                   <div className="title">{item.goodsInfoName}</div>
                   <div className="des">{item.goodsCateName}</div>
@@ -227,7 +228,7 @@ const Step2 = (props) => {
         <div className="rc-layout-container rc-five-column">
           <div className="rc-column  rc-header__center d-flex">
             <LazyLoad>
-              <img src={foodPic2} />
+              <img src={foodPic2} alt="" />
             </LazyLoad>
           </div>
           <div className="rc-column rc-double-width">
@@ -369,6 +370,7 @@ const Step3 = (props) => {
                 className="height-for-mobile"
                 src={detailInfo.planGifts?.[0].goodsInfoImg || foodDispenserPic}
                 title={detailInfo.planGifts?.[0].goodsInfoName}
+                alt={detailInfo.planGifts?.[0].goodsInfoName}
               />
             </div>
             <div
@@ -388,7 +390,7 @@ const Step3 = (props) => {
           <div className="pad_2rem_pc">
             <div className="for_h5_img">
               <div style={{ flex: 1 }}>
-                <img src={foodPic2} />
+                <img src={foodPic2} alt="" />
               </div>
               <div className=" width12">
                 <h6

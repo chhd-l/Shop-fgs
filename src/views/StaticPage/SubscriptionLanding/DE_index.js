@@ -23,8 +23,7 @@ import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
-
-const pageLink = window.location.href
+const pageLink = window.location.href;
 @inject('configStore')
 @observer
 @injectIntl
@@ -44,8 +43,8 @@ class SubscriptionLanding extends React.Component {
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
-    }).then(res => {
-      this.setState({seoConfig: res})
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
   render(h) {
@@ -56,7 +55,7 @@ class SubscriptionLanding extends React.Component {
         path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     const tel = 'tel:' + this.props.configStore.storeContactPhoneNumber;
@@ -65,10 +64,13 @@ class SubscriptionLanding extends React.Component {
     return (
       <div className="recommendation">
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager additionalEvents={event} />
         <Header
@@ -88,7 +90,7 @@ class SubscriptionLanding extends React.Component {
                     <div className="rc-max-width--lg rc-padding-y--sm">
                       <div className="rc-max-width--md text-center rc-padding-x--sm">
                         <h2 className="rc-beta text-center">
-                            <FormattedMessage id="subscription.title" />
+                          <FormattedMessage id="subscription.title" />
                         </h2>
                         <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
                           <h2>
@@ -133,25 +135,25 @@ class SubscriptionLanding extends React.Component {
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">
                                 <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
-                                <FormattedMessage id="subscription.list.btn1" />
+                                  <FormattedMessage id="subscription.list.btn1" />
                                 </button>
                               </Link>
                               <Link to="/dogs">
                                 <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
-                                <FormattedMessage id="subscription.list.btn2" />
+                                  <FormattedMessage id="subscription.list.btn2" />
                                 </button>
                               </Link>
                             </div>
                           </div>
                         </div>
                         <div className="rc-column">
-                        <LazyLoad>
-                          <img
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cat1068.png`}
-                            alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
-                            className="w-100 lazyloaded"
-                          ></img>
-                        </LazyLoad>
+                          <LazyLoad>
+                            <img
+                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cat1068.png`}
+                              alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
+                              className="w-100 lazyloaded"
+                            ></img>
+                          </LazyLoad>
                         </div>
                       </div>
                     </div>
@@ -182,52 +184,52 @@ class SubscriptionLanding extends React.Component {
                           ></img>
                         </div>
                         <h7>
-                        <FormattedMessage id="subscription.ad.list1" />
+                          <FormattedMessage id="subscription.ad.list1" />
                         </h7>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
-                        <LazyLoad>
-                          <img
-                            className="m-auto w-auto lazyloaded"
-                            alt="image two"
-                            title="image two"
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon2.png`}
-                          ></img>
-                        </LazyLoad>
-                        </div>
-                        <h7>
-                        <FormattedMessage id="subscription.ad.list2" />
-                        </h7>
-                      </div>
-                      <div className="col-6 col-md-3 rc-column">
-                        <div className="rc-margin-bottom--sm">
-                        <LazyLoad>
-                          <img
-                            className="m-auto w-auto lazyloaded"
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon3.png`}
-                            alt="image three"
-                            title="image three"
-                          ></img>
-                        </LazyLoad>
-                        </div>
-                        <h7>
-                        <FormattedMessage id="subscription.ad.list3" />
-                        </h7>
-                      </div>
-                      <div className="col-6 col-md-3 rc-column">
-                        <div className="rc-margin-bottom--sm">
-                        <LazyLoad>
-                          <img
-                            className="m-auto w-auto lazyloaded"
-                            alt="image four"
-                            title="image four"
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon4.png`}
+                          <LazyLoad>
+                            <img
+                              className="m-auto w-auto lazyloaded"
+                              alt="image two"
+                              title="image two"
+                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon2.png`}
                             ></img>
-                        </LazyLoad>
+                          </LazyLoad>
                         </div>
                         <h7>
-                        <FormattedMessage id="subscription.ad.list4" />
+                          <FormattedMessage id="subscription.ad.list2" />
+                        </h7>
+                      </div>
+                      <div className="col-6 col-md-3 rc-column">
+                        <div className="rc-margin-bottom--sm">
+                          <LazyLoad>
+                            <img
+                              className="m-auto w-auto lazyloaded"
+                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon3.png`}
+                              alt="image three"
+                              title="image three"
+                            ></img>
+                          </LazyLoad>
+                        </div>
+                        <h7>
+                          <FormattedMessage id="subscription.ad.list3" />
+                        </h7>
+                      </div>
+                      <div className="col-6 col-md-3 rc-column">
+                        <div className="rc-margin-bottom--sm">
+                          <LazyLoad>
+                            <img
+                              className="m-auto w-auto lazyloaded"
+                              alt="image four"
+                              title="image four"
+                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon4.png`}
+                            ></img>
+                          </LazyLoad>
+                        </div>
+                        <h7>
+                          <FormattedMessage id="subscription.ad.list4" />
                         </h7>
                       </div>
                     </div>
@@ -247,9 +249,11 @@ class SubscriptionLanding extends React.Component {
                         <div className="col-12 col-md-4 order-1 order-md-0">
                           <div className="rc-column rc-padding--none">
                             <LazyLoad>
-                            <img className="mx-auto lazyloaded"
-                                 src={imagecat}>
-                            </img>
+                              <img
+                                className="mx-auto lazyloaded"
+                                alt=""
+                                src={imagecat}
+                              ></img>
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
@@ -267,7 +271,7 @@ class SubscriptionLanding extends React.Component {
                           </div>
                           <div className="rc-intro inherit-fontsize rc-text--center rc-padding-x--sm rc-margin-bottom--sm">
                             <p>
-                            <FormattedMessage id="subscription.banner.subTitle" />
+                              <FormattedMessage id="subscription.banner.subTitle" />
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
@@ -282,9 +286,11 @@ class SubscriptionLanding extends React.Component {
                         <div className="col-12 col-md-4 order-2 order-md-2">
                           <div className="rc-column rc-padding--none">
                             <LazyLoad>
-                            <img className="mx-auto lazyloaded"
-                                 src={imagedog}>
-                            </img>
+                              <img
+                                className="mx-auto lazyloaded"
+                                alt=""
+                                src={imagedog}
+                              ></img>
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
@@ -310,7 +316,7 @@ class SubscriptionLanding extends React.Component {
                 <FormattedMessage id="subscription.help.title" />
               </h2>
               <p>
-              <FormattedMessage id="subscription.help.subTitle" />
+                <FormattedMessage id="subscription.help.subTitle" />
               </p>
             </section>
             {process.env.REACT_APP_LANG == 'fr' ? (
@@ -365,12 +371,12 @@ class SubscriptionLanding extends React.Component {
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
                                       <LazyLoad>
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={callImg}
-                                        alt="By telephone"
-                                        title="By telephone"
-                                      />
+                                        <img
+                                          className="align-self-center widthAuto"
+                                          src={callImg}
+                                          alt="By telephone"
+                                          title="By telephone"
+                                        />
                                       </LazyLoad>
                                     </div>
                                   </div>
@@ -426,10 +432,11 @@ class SubscriptionLanding extends React.Component {
                                                 verticalAlign: 'inherit',
                                                 color: '#0087BD'
                                               }}
-                                            >{
-                                              this.props.configStore
-                                                .storeContactEmail
-                                            }
+                                            >
+                                              {
+                                                this.props.configStore
+                                                  .storeContactEmail
+                                              }
                                             </a>
                                           </p>
                                         </div>
@@ -437,12 +444,12 @@ class SubscriptionLanding extends React.Component {
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
                                       <LazyLoad>
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={emailImg}
-                                        alt="By email"
-                                        title="By email"
-                                      />
+                                        <img
+                                          className="align-self-center widthAuto"
+                                          src={emailImg}
+                                          alt="By email"
+                                          title="By email"
+                                        />
                                       </LazyLoad>
                                     </div>
                                   </div>
@@ -458,7 +465,7 @@ class SubscriptionLanding extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                  <img src={helpImg} alt=" " title=" " />
+                                    <img src={helpImg} alt=" " title=" " />
                                   </LazyLoad>
                                 </picture>
                               </div>
