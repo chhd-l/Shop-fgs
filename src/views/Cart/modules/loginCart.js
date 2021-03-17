@@ -45,6 +45,8 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
+import Carousel from '../components/Carousel';
+
 const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
@@ -93,7 +95,8 @@ class LoginCart extends React.Component {
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
-      activeToolTipIndex: 0
+      activeToolTipIndex: 0,
+      goodsIdArr: []
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -102,7 +105,12 @@ class LoginCart extends React.Component {
     this.subQuantity = this.subQuantity.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
   }
+  getGoodsIdArr = () => {
+    let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
+    this.setState({ goodsIdArr });
+  };
   async componentDidMount() {
+    this.getGoodsIdArr();
     const {
       history: {
         location: { search }
@@ -814,6 +822,7 @@ class LoginCart extends React.Component {
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
+                  alt=""
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -847,6 +856,7 @@ class LoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
+                    alt=""
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
@@ -1420,7 +1430,8 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const { productList, initLoading, errorMsg } = this.state;
+    const { productList, initLoading, errorMsg, goodsIdArr } = this.state;
+    const { history, location } = this.props;
     const List = this.getProducts(productList);
     const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
@@ -1571,6 +1582,14 @@ class LoginCart extends React.Component {
               </>
             )}
           </div>
+          {goodsIdArr.length > 0 ? (
+            <Carousel
+              location={location}
+              history={history}
+              goodsId={goodsIdArr}
+              key="cart-recommendation"
+            />
+          ) : null}
         </main>
         <Footer />
       </div>

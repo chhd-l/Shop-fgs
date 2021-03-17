@@ -37,6 +37,7 @@ import './index.less';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
+import Carousel from '../components/Carousel';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -84,7 +85,8 @@ class UnLoginCart extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       subscriptionDiscount: 0,
-      activeToolTipIndex: 0
+      activeToolTipIndex: 0,
+      goodsIdArr: []
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -150,8 +152,18 @@ class UnLoginCart extends React.Component {
       };
     });
   }
-
+  get loginCartData() {
+    return this.props.checkoutStore.loginCartData;
+  }
+  get unLoginCartData() {
+    return this.props.checkoutStore.cartData;
+  }
+  getGoodsIdArr = () => {
+    let goodsIdArr = this.unLoginCartData.map((item) => item.goodsId);
+    this.setState({ goodsIdArr });
+  };
   async componentDidMount() {
+    this.getGoodsIdArr();
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -887,12 +899,13 @@ class UnLoginCart extends React.Component {
               style={{ marginTop: '-24px' }}
             >
               <div className="name-info flex-column-gift d-flex">
-                <img className="img" src={foodDispenserPic} />
+                <img className="img" src={foodDispenserPic} alt="" />
               </div>
               <div className="text-center" style={{ width: '200px' }}>
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
+                  alt=""
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -926,6 +939,7 @@ class UnLoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
+                    alt=""
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
@@ -1479,8 +1493,8 @@ class UnLoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const { productList, errorMsg } = this.state;
-
+    const { productList, errorMsg, goodsIdArr } = this.state;
+    const { history, location } = this.props;
     const List = this.getProducts(this.state.productList);
 
     const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
@@ -1622,6 +1636,14 @@ class UnLoginCart extends React.Component {
               </>
             )}
           </div>
+          {goodsIdArr.length > 0 ? (
+            <Carousel
+              location={location}
+              history={history}
+              goodsId={goodsIdArr}
+              key="cart-recommendation"
+            />
+          ) : null}
         </main>
         <Footer />
       </div>

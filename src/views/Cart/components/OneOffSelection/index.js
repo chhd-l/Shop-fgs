@@ -39,7 +39,7 @@ const OneOffSelection = function (props) {
             }}
           >
             <LazyLoad>
-              <img src={cartImg} />
+              <img src={cartImg} alt="" />
             </LazyLoad>
             <span>
               <FormattedMessage id="singlePurchase" />

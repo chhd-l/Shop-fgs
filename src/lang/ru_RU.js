@@ -107,18 +107,25 @@ const ru_RU = {
   'recommendation.firstTitle':
     'Discover your personally-selected nutrition recommendation below.',
   'recommendation.firstTitle': 'Never run out of your pet’s food!',
-  'recommendation.helpContentText.title': "We're Here to Help",
+  'recommendation.helpContentText.title':
+    'Наши эксперты здесь, чтобы помочь Вам!',
   'recommendation.helpContentText.des':
-    "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
-  'recommendation.helpContentText.emailTitle': 'Email us',
+    'Как истинные любители домашних животных и эксперты в области питания кошек и собак, мы готовы поделиться нашим опытом и помочь Вам по любым вопросам.',
+  'recommendation.helpContentText.emailTitle': 'Напишите нам',
   'recommendation.helpContentText.emailDes':
-    'We will respond as soon as possible.',
+    'Мы сделаем все возможное, чтобы ответить вам как можно быстрее в течение 12 часов.',
   'recommendation.helpContentText.emailLink': '/help/contact',
-  'recommendation.helpContentText.phoneTitle': 'Call us',
-  'recommendation.helpContentText.phone': '1-844-673-3772',
+  'recommendation.helpContentText.phoneTitle': 'Свяжитесь с нами',
+  'recommendation.helpContentText.phone': '8-800-200-37-35',
   'recommendation.helpContentText.email': 'Send us an email',
-  'recommendation.helpContentText.phoneDes1': 'Monday to Friday:',
-  'recommendation.helpContentText.phoneDes2': '8:00 AM - 4:30  PM CT',
+  'recommendation.helpContentText.phoneDes1': '',
+  'recommendation.helpContentText.phoneDes2':
+    'Наши эксперты рады помочь Вам каждый день с 9 до 21 часов.',
+  'recommendation.plusTitle': 'Ветеринарные диеты ROYAL CANIN',
+  'recommendation.plusContent':
+    ' Мы в Royal Canin убеждены в том, что питание играет ключевую роль в поддержании здоровья и благополучия кошек и собак. Поэтому ветеринарные диеты ROYAL CANIN®, основанные на научном знании о питании, способствуют поддержанию здоровья при определенных заболеваниях. Следуйте рекомендациям ветеринарного врача',
+  'recommendation.plusBtn': 'Купить',
+  'recommendation.plusImg': 'vetcat.jpg',
   'recommendation.fiveContent':
     'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
   'recommendation.fourContent':
@@ -1006,7 +1013,13 @@ const ru_RU = {
   'club.joinsubscription.title': '',
   'club.joinsubscription.description': '',
   'club.joinsubscription.button': '',
-  'club.wheretohelp': ''
+  'club.wheretohelp.card.callus.title': '',
+  'club.wheretohelp.card.callus.description': '',
+  'club.wheretohelp.card.callus.number': '',
+  'club.wheretohelp.card.email.title': '',
+  'club.wheretohelp.card.email.description': '',
+  'club.wheretohelp.card.email.number': '',
+  'club.wheretohelp.card.faq': ''
 };
 
 export default ru_RU;

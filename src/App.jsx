@@ -38,6 +38,7 @@ import RegisterRequired from '@/views/Login/RegisterRequired';
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
+import Test from '@/views/Test';
 import List from '@/views/List';
 import ListSource from '@/views/List/source';
 import Login from '@/views/Login';
@@ -220,6 +221,7 @@ const App = () => (
                 component={OktaLogoutPage}
               />
               <Route exact path={'/home/'} component={Home} />
+              <Route exact path={'/test/'} component={Test} />
               <Route
                 exact
                 path="/implicit/callback"
