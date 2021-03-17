@@ -558,7 +558,6 @@ const en_US = {
   logisticsRating: 'Logistics rating',
   logisticsSingleNumber: 'Logistics single number',
   logOff: 'Logout',
-  logOff: 'Log off',
   mailAddress: 'Mail address',
   // mailAddress: 'Mail address',
   mailAddress: 'Email',

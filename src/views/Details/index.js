@@ -35,6 +35,7 @@ import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import Carousel from './components/Carousel';
+
 import Help from './components/Help';
 import { Helmet } from 'react-helmet';
 
@@ -324,7 +325,8 @@ class Details extends React.Component {
       barcode: '',
       descContent: '',
       contactUs: '',
-      ccidBtnDisplay: false
+      ccidBtnDisplay: false,
+      relatedGoods: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -1470,6 +1472,7 @@ class Details extends React.Component {
       barcode,
       ccidBtnDisplay
     } = this.state;
+
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
