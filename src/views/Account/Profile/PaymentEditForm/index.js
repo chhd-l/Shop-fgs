@@ -31,13 +31,13 @@ const cardTypeImg = {
   discover: discoverImg
 };
 
-const cardTypeArr = {
+const CardTypeArr = {
   cyberVisa: '001',
   cyberMastercard: '002',
   cyberAmex: '003',
   cyberDiscover: '004'
 };
-const cardTypeName = {
+const CardTypeName = {
   cyberVisa: 'Visa',
   cyberMastercard: 'Mastercard',
   cyberAmex: 'Amex',
@@ -553,8 +553,8 @@ class PaymentEditForm extends React.Component {
     }
 
     let params = Object.assign({}, paymentForm, {
-      cardType: cardTypeArr[this.state.cardTypeVal] || '001', //默认visa
-      paymentVendor: cardTypeName[this.state.cardTypeVal] || 'Visa'
+      cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
+      paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
     });
 
     try {
