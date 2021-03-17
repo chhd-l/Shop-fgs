@@ -1006,7 +1006,13 @@ const ru_RU = {
   'club.joinsubscription.title': '',
   'club.joinsubscription.description': '',
   'club.joinsubscription.button': '',
-  'club.wheretohelp': ''
+  'club.wheretohelp.card.callus.title': '',
+  'club.wheretohelp.card.callus.description': '',
+  'club.wheretohelp.card.callus.number': '',
+  'club.wheretohelp.card.email.title': '',
+  'club.wheretohelp.card.email.description': '',
+  'club.wheretohelp.card.email.number': '',
+  'club.wheretohelp.card.faq': ''
 };
 
 export default ru_RU;
