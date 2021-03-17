@@ -1948,7 +1948,7 @@ class SubscriptionDetail extends React.Component {
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
                     <div className="d-flex align-items-center add-pet-btn-wrap">
-                      <img src={clubIcon} className="rc-md-up" />
+                      <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
                       <div
                         className="pet-img add-pet-btn text-center"
                         onClick={this.showAddNewPet}

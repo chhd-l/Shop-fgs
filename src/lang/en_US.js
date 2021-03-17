@@ -930,6 +930,7 @@ const en_US = {
   'recommendation.helpContentText.email': 'Send us an email',
   'recommendation.helpContentText.phoneDes1': 'Monday to Friday:',
   'recommendation.helpContentText.phoneDes2': '8:00 AM - 4:30  PM CT',
+  'recommendation.petsImg': 'dog-and-cat.png',
   'recommendation.plusTitle':
     'Everything Your Pet Needs PLUS Royal Canin Pet Advisor Live',
   'recommendation.plusContent':

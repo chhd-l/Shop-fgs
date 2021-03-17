@@ -19,16 +19,16 @@ import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
 function QListAndPetJSX(props) {
   const { questionlist, petBaseInfo } = props;
-  let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
-  let sterilizedText = sterilized
-  if(sterilized.toLocaleLowerCase().includes('stérilisé')){
+  let sterilized = (petBaseInfo && petBaseInfo.sterilized) || '...';
+  let sterilizedText = sterilized;
+  if (sterilized.toLocaleLowerCase().includes('stérilisé')) {
     // 如果是法语
-    sterilizedText = sterilized.includes('Non')?'Non':'Oui'
+    sterilizedText = sterilized.includes('Non') ? 'Non' : 'Oui';
   }
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
@@ -119,9 +119,7 @@ function QListAndPetJSX(props) {
                   <div className="col-6 mb-2 mb-md-0">
                     <FormattedMessage id="sterilized" />
                     <br />
-                    <span className="font-weight-normal">
-                      {sterilizedText}
-                    </span>
+                    <span className="font-weight-normal">{sterilizedText}</span>
                   </div>
                 </div>
               </div>
@@ -187,8 +185,8 @@ class ProductFinderResult extends React.Component {
     if (res) {
       setSeoConfig({
         pageName: 'finder-recommendation'
-      }).then(res => {
-        this.setState({seoConfig: res})
+      }).then((res) => {
+        this.setState({ seoConfig: res });
       });
       const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
       const ageItem = parsedQuestionlist.filter(
@@ -222,11 +220,11 @@ class ProductFinderResult extends React.Component {
         },
         isLoading: false
       });
-      let allGoods = JSON.parse(res)
+      let allGoods = JSON.parse(res);
       // let goodsList = [allGoods.mainProduct,...allGoods.otherProducts]
       let goodsList = [allGoods.mainProduct];
       //(!isHubGA)&&this.GAProductImpression(goodsList)
-      this.GAProductImpression(goodsList)
+      this.GAProductImpression(goodsList);
     } else {
       this.props.history.push('/product-finder');
     }
@@ -234,8 +232,8 @@ class ProductFinderResult extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-   // 商品列表 埋点
-   GAProductImpression = (productList, totalElements={}, keywords='') => {
+  // 商品列表 埋点
+  GAProductImpression = (productList, totalElements = {}, keywords = '') => {
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName,
@@ -247,7 +245,7 @@ class ProductFinderResult extends React.Component {
         category: item.goodsCate.cateName,
         list: 'Related Items',
         position: index,
-        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
+        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
       };
     });
 
@@ -263,10 +261,10 @@ class ProductFinderResult extends React.Component {
         impressions: impressions
       }
     });
-  }
-   //点击商品 埋点
-   GAProductClick = (item, index) => {
-    console.info('test',item)
+  };
+  //点击商品 埋点
+  GAProductClick = (item, index) => {
+    console.info('test', item);
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
@@ -288,7 +286,7 @@ class ProductFinderResult extends React.Component {
         }
       }
     });
-  }
+  };
   toggleShowQList = () => {
     this.setState((curState) => ({ qListVisible: !curState.qListVisible }));
   };
@@ -325,12 +323,15 @@ class ProductFinderResult extends React.Component {
     } = this.state;
     return (
       <div>
-         <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -435,7 +436,10 @@ class ProductFinderResult extends React.Component {
                         {formatMoney(productDetail.mainProduct.fromPrice)}
                         {productDetail.mainProduct.toPrice ? (
                           <>
-                            <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                            <span
+                              className="ml-1 mr-1"
+                              style={{ fontSize: '.8em' }}
+                            >
                               <FormattedMessage id="startEnd" />
                             </span>
                             {formatMoney(productDetail.mainProduct.toPrice)}
@@ -450,9 +454,12 @@ class ProductFinderResult extends React.Component {
                           )
                         )} */}
                       </div>
-                      <div className="d-flex justify-content-center mt-3 testtest" onClick={()=>{
-                        this.GAProductClick(productDetail.mainProduct, 0)
-                      }}>
+                      <div
+                        className="d-flex justify-content-center mt-3 testtest"
+                        onClick={() => {
+                          this.GAProductClick(productDetail.mainProduct, 0);
+                        }}
+                      >
                         <Link
                           to={`/details/${productDetail.mainProduct.goodsInfos[0].goodsInfoId}`}
                           className="rc-btn rc-btn--one rc-btn--sm"
@@ -482,7 +489,7 @@ class ProductFinderResult extends React.Component {
                         key={ele.id}
                         style={{ flex: 1 }}
                       >
-                        <div className="mb-3 p-f-product-img">
+                        <div className="mb-3" style={{ minHeight: '12rem' }}>
                           <LazyLoad style={{ height: '100%', width: '100%' }}>
                             <img
                               src={
@@ -513,14 +520,20 @@ class ProductFinderResult extends React.Component {
                           </div>
                           <div className="text-center mt-2">
                             {productDetail.mainProduct.toPrice ? (
-                              <span className="mr-1" style={{ fontSize: '.8em' }}>
+                              <span
+                                className="mr-1"
+                                style={{ fontSize: '.8em' }}
+                              >
                                 <FormattedMessage id="startFrom" />
                               </span>
                             ) : null}
                             {formatMoney(productDetail.mainProduct.fromPrice)}
                             {productDetail.mainProduct.toPrice ? (
                               <>
-                                <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                                <span
+                                  className="ml-1 mr-1"
+                                  style={{ fontSize: '.8em' }}
+                                >
                                   <FormattedMessage id="startEnd" />
                                 </span>
                                 {formatMoney(productDetail.mainProduct.toPrice)}
@@ -533,10 +546,11 @@ class ProductFinderResult extends React.Component {
                               )
                             )} */}
                           </div>
-                          <div className="d-flex justify-content-center mt-3"  
-                          // onClick={()=>{
-                          //   this.GAProductClick(ele, i+1)
-                          // }}
+                          <div
+                            className="d-flex justify-content-center mt-3"
+                            // onClick={()=>{
+                            //   this.GAProductClick(ele, i+1)
+                            // }}
                           >
                             <Link
                               to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
@@ -569,17 +583,14 @@ class ProductFinderResult extends React.Component {
           <hr />
           <div className="rc-layout-container rc-one-column rc-max-width--md rc-padding-x--none--mobile rc-padding-top--md rc-padding-bottom--lg">
             <div className="rc-full-width rc-text--center rc-padding-x--sm rc-padding-x--lg--mobile">
-            <p
-                className="text-center pt-3"
-                style={{ fontSize: '1.3rem' }}
-              >
+              <p className="text-center pt-3" style={{ fontSize: '1.3rem' }}>
                 <FormattedMessage id="productFinder.helpTip1" />
               </p>
               <p className="rc-meta rc-margin-y--lg--mobile">
                 <FormattedMessage id="productFinder.helpTip2" />
               </p>
             </div>
-            
+
             <Help />
           </div>
         </main>

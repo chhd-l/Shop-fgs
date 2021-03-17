@@ -121,6 +121,7 @@ const ru_RU = {
   'recommendation.helpContentText.phoneDes1': '',
   'recommendation.helpContentText.phoneDes2':
     'Наши эксперты рады помочь Вам каждый день с 9 до 21 часов.',
+  'recommendation.petsImg': 'logovet@2x.jpg',
   'recommendation.plusTitle': 'Ветеринарные диеты ROYAL CANIN',
   'recommendation.plusContent':
     ' Мы в Royal Canin убеждены в том, что питание играет ключевую роль в поддержании здоровья и благополучия кошек и собак. Поэтому ветеринарные диеты ROYAL CANIN®, основанные на научном знании о питании, способствуют поддержанию здоровья при определенных заболеваниях. Следуйте рекомендациям ветеринарного врача',
@@ -145,11 +146,11 @@ const ru_RU = {
   'recommendation.viewDetail': 'View Detail',
   'recommendation.viewInCart': 'View In Cart',
   'recommendation.viewInCart': 'View in cart',
-  'recommendation.welcomeBtn': 'Buy now',
+  'recommendation.welcomeBtn': 'Купить',
   'recommendation.welcomeSubText':
-    'These recommendations were made based on your pet’s unique needs and have been automatically added to your cart. ',
-  'recommendation.welcomeText1': 'Welcome',
-  'recommendation.welcomeText2': 'To Your Customized Product Recommendations',
+    'Нажмите, чтобы начать покупки, или продолжите чтение, чтобы узнать больше о преимуществах ветеринарных диет',
+  'recommendation.welcomeText2': ' ',
+  'recommendation.welcomeText1': 'Ознакомьтесь с рекомендациями по диете',
   active: 'Активный',
   addANewPaymentMethod: 'Добавить новый способ оплаты',
   addNewCreditCard: 'Добавить новую кредитную карту',
