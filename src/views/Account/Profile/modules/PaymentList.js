@@ -71,7 +71,6 @@ class AddressList extends React.Component {
       creditCardList: [],
       fromPage: 'cover',
       paymentType: 'PAYU', //getway接口没配置美国支付CYBER，暂时这样
-      payWay: '',
       errorMsg: ''
     };
 
@@ -85,7 +84,7 @@ class AddressList extends React.Component {
     this.getPaymentMethodList();
     getWays().then((res) => {
       if (res.context && res.context && res.context.name) {
-        this.setState({ paymentType: res.context.name, payWay: res }); //PAYU,ADYEN,CYBER
+        this.setState({ paymentType: res.context.name }); //PAYU,ADYEN,CYBER
       }
     });
   }
@@ -401,7 +400,6 @@ class AddressList extends React.Component {
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getPaymentMethodList}
-                    payWay={this.state.payWay}
                     paymentType={this.state.paymentType}
                   />
                 )}

@@ -14,13 +14,18 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'email',
-    //regExp: EMAIL_REGEXP,
     require: true,
     errMsg: CURRENT_LANGFILE['contactUs.requiredField']
+  },
+  {
+    key: 'validEmail',
+    regExp: EMAIL_REGEXP,
+    require: true,
+    errMsg: CURRENT_LANGFILE['contactUs.validEmailField']
   },
   {
     key: 'request',
     require: true,
     errMsg: CURRENT_LANGFILE['contactUs.requiredField']
-  },
+  }
 ];

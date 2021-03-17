@@ -42,7 +42,11 @@ import PayProductInfo from '../../Payment/PayProductInfo';
 import BannerTip from '@/components/BannerTip';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
+import ClubSelection from '../components/ClubSelection';
 import { v4 as uuidv4 } from 'uuid';
+import Club_Logo from '@/assets/images/Logo_club.png';
+import Carousel from '../components/Carousel';
+
 const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
@@ -91,7 +95,8 @@ class LoginCart extends React.Component {
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
-      activeToolTipIndex: 0
+      activeToolTipIndex: 0,
+      goodsIdArr: []
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -100,7 +105,12 @@ class LoginCart extends React.Component {
     this.subQuantity = this.subQuantity.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
   }
+  getGoodsIdArr = () => {
+    let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
+    this.setState({ goodsIdArr });
+  };
   async componentDidMount() {
+    this.getGoodsIdArr();
     const {
       history: {
         location: { search }
@@ -750,7 +760,8 @@ class LoginCart extends React.Component {
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
               <div class="rc-column">
-                {pitem.subscriptionStatus ? (
+                {pitem.subscriptionStatus &&
+                (!pitem.promotions || !pitem.promotions.includes('club')) ? (
                   <SubscriptionSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -773,9 +784,70 @@ class LoginCart extends React.Component {
                     setState={this.setState.bind(this)}
                   />
                 ) : null}
+                {pitem.promotions && pitem.promotions.includes('club') ? (
+                  <ClubSelection
+                    isGift={isGift}
+                    pitem={pitem}
+                    activeToolTipIndex={this.state.activeToolTipIndex}
+                    index={index}
+                    toolTipVisible={this.state.toolTipVisible}
+                    computedList={this.computedList}
+                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                      this,
+                      {
+                        goodsInfoFlag: 2,
+                        periodTypeId: pitem.form.frequencyId,
+                        pitem
+                      }
+                    )}
+                    changeFrequency={(pitem, data) =>
+                      this.handleSelectedItemChange(pitem, data)
+                    }
+                    isLogin={true}
+                    setState={this.setState.bind(this)}
+                  />
+                ) : null}
               </div>
             </div>
           </div>
+          {pitem.promotions && pitem.promotions.includes('club') ? (
+            <div
+              className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
+              style={{ marginTop: '-24px' }}
+            >
+              <div className="name-info flex-column-gift d-flex">
+                <img className="img" src={foodDispenserPic} />
+              </div>
+              <div className="text-center" style={{ width: '200px' }}>
+                <img
+                  style={{ display: 'inline-block', width: '108px' }}
+                  src={Club_Logo}
+                />
+              </div>
+              <div className="tips-info mobile-text-center">
+                <ul>
+                  <li className="rc-list__item">
+                    <strong>Best-in-class nutrition</strong> for your pet
+                  </li>
+                  <li className="rc-list__item">
+                    <strong>Adapted tips</strong> to care for your pet
+                  </li>
+                  <li className="rc-list__item">
+                    Your personal <strong>Pet advisor</strong>
+                  </li>
+                  <li className="rc-list__item">
+                    Exclusive <strong>rewards & offers</strong>
+                  </li>
+                  <li className="rc-list__item">
+                    <strong>Free, automatic delivery</strong> on every refill
+                  </li>
+                </ul>
+                {/* You can cancel your subscription anytime, but you will have to
+                pay the remaining balance of the dispenser market price of 120
+                euros.* */}
+              </div>
+            </div>
+          ) : null}
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
               <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface">
@@ -1356,7 +1428,8 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const { productList, initLoading, errorMsg } = this.state;
+    const { productList, initLoading, errorMsg, goodsIdArr } = this.state;
+    const { history, location } = this.props;
     const List = this.getProducts(productList);
     const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
@@ -1507,6 +1580,14 @@ class LoginCart extends React.Component {
               </>
             )}
           </div>
+          {goodsIdArr.length > 0 ? (
+            <Carousel
+              location={location}
+              history={history}
+              goodsId={goodsIdArr}
+              key="cart-recommendation"
+            />
+          ) : null}
         </main>
         <Footer />
       </div>
