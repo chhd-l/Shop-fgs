@@ -139,6 +139,7 @@ class AccountOrders extends React.Component {
       orderNumber: '',
       totalTid: '',
       subNumber: '',
+      externalSubscribeId: '',
       details: null,
       payRecord: null,
       loading: true,
@@ -353,9 +354,9 @@ class AccountOrders extends React.Component {
           currentProgerssIndex: tmpIndex,
           progressList: curProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
-          subNumber:
-            resContext.subscriptionResponseVO &&
-            resContext.subscriptionResponseVO.subscribeId,
+          subNumber: resContext?.subscriptionResponseVO?.subscribeId,
+          externalSubscribeId:
+            resContext?.subscriptionResponseVO?.externalMainSubscriptionId,
           canPayNow:
             ((!resContext.isAuditOpen && tradeState.flowState === 'AUDIT') ||
               (resContext.isAuditOpen &&
@@ -512,7 +513,7 @@ class AccountOrders extends React.Component {
     });
   }
   handleClickPayNow = async () => {
-    const { details:order, details } = this.state;
+    const { details: order, details } = this.state;
     const { consignee, invoice, tradePrice } = details;
     this.setState({ payNowLoading: true });
     const tradeItems = details.tradeItems.map((ele) => {
@@ -735,6 +736,7 @@ class AccountOrders extends React.Component {
                           <img
                             className="rc-bg-colour--brand4"
                             src={sItem.pic}
+                            alt=""
                           />
                         </LazyLoad>
                       </div>
@@ -1164,7 +1166,9 @@ class AccountOrders extends React.Component {
                                 <div className="col-12 col-md-4 text-left mb-2">
                                   <FormattedMessage id="order.orderNumber" />:
                                   <br />
-                                  <span className="medium">{orderNumber}</span>
+                                  <span className="medium">
+                                    {details.toExternalOrderId}
+                                  </span>
                                 </div>
                                 {details.subscriptionResponseVO ? (
                                   <div className="col-12 col-md-4 text-left mb-2">
@@ -1174,7 +1178,7 @@ class AccountOrders extends React.Component {
                                       to={`/account/subscription/order/detail/${this.state.subNumber}`}
                                       className="rc-styled-link medium mb-0"
                                     >
-                                      {this.state.subNumber}
+                                      {this.state.externalSubscribeId}
                                     </Link>
                                   </div>
                                 ) : null}

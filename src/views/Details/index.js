@@ -2382,6 +2382,7 @@ class Details extends React.Component {
                     <img
                       className="good-contact-img mr-5"
                       src={details.goodsImg}
+                      alt=""
                     />
                   ) : null}
                   <div className="good-contact-dec">
@@ -2475,10 +2476,10 @@ class Details extends React.Component {
             <div className="split-line rc-bg-colour--brand4"></div>
             <div className="more-link">
               <LazyLoad height={200}>
-                <img src={loop} srcSet={loop} />
+                <img src={loop} srcSet={loop} alt="" />
               </LazyLoad>
               <LazyLoad height={200}>
-                <img src={vert} srcSet={vert} className="vert" />
+                <img src={vert} srcSet={vert} className="vert" alt="" />
               </LazyLoad>
               <p>
                 <FormattedMessage id="detail.packagingDesc" />

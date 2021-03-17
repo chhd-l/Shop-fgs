@@ -2091,6 +2091,7 @@ class Payment extends React.Component {
                       src={cardTypeImg[item.id]}
                       title={item.id}
                       style={{ width: '40px' }}
+                      alt=""
                     />
                   </label>
                 </div>

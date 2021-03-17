@@ -593,7 +593,11 @@ class AccountOrders extends React.Component {
                             <p>
                               <FormattedMessage id="account.orders.tips" />
                             </p>
-                            <DistributeHubLinkOrATag href="" to="/home" className="rc-btn rc-btn--one">
+                            <DistributeHubLinkOrATag
+                              href=""
+                              to="/home"
+                              className="rc-btn rc-btn--one"
+                            >
                               <FormattedMessage id="account.orders.btns" />
                             </DistributeHubLinkOrATag>
                           </div>
@@ -713,7 +717,7 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {order.id}
+                                            {order.toExternalOrderId}
                                           </span>
                                         </p>
                                       </div>

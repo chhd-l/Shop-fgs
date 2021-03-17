@@ -42,7 +42,7 @@ class Pet extends React.Component {
     };
   }
   componentDidMount() {
-    myAccountPushEvent('Pets')
+    myAccountPushEvent('Pets');
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
@@ -59,8 +59,8 @@ class Pet extends React.Component {
   }
 
   getPetList = async () => {
-    let customerId = this.userInfo && this.userInfo.customerId
-    let consumerAccount = this.userInfo && this.userInfo.consumerAccount
+    let customerId = this.userInfo && this.userInfo.customerId;
+    let consumerAccount = this.userInfo && this.userInfo.consumerAccount;
     if (!customerId) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
@@ -72,18 +72,18 @@ class Pet extends React.Component {
       customerId,
       consumerAccount
     })
-    .then((res) => {
-      let petList = res.context.context;
-      this.setState({
-        loading: false,
-        petList: petList
+      .then((res) => {
+        let petList = res.context.context;
+        this.setState({
+          loading: false,
+          petList: petList
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          loading: false
+        });
       });
-    })
-    .catch((err) => {
-      this.setState({
-        loading: false
-      });
-    });
   };
   render() {
     const event = {
@@ -206,6 +206,7 @@ class Pet extends React.Component {
                                         : null) ||
                                       (el.petsType === 'cat' ? Cat : Dog)
                                     }
+                                    alt=""
                                   />
                                 </LazyLoad>
                               </div>
@@ -216,6 +217,7 @@ class Pet extends React.Component {
                                     <img
                                       style={{ width: '20px' }}
                                       src={!el.petsSex ? Male : Female}
+                                      alt=""
                                     />
                                   </LazyLoad>
                                 </h1>
@@ -258,6 +260,7 @@ class Pet extends React.Component {
                                         : null) ||
                                       (el.petsType === 'cat' ? Cat : Dog)
                                     }
+                                    alt=""
                                   />
                                 </LazyLoad>
                               </div>
@@ -268,6 +271,7 @@ class Pet extends React.Component {
                                     <img
                                       style={{ width: '15px' }}
                                       src={!el.petsSex ? Male : Female}
+                                      alt=""
                                     />
                                   </LazyLoad>
                                 </h1>
@@ -305,7 +309,10 @@ class Pet extends React.Component {
                           display: 'block'
                         }}
                       >
-                        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1" style={{ fontSize: '42px' }} />{' '}
+                        <span
+                          className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1"
+                          style={{ fontSize: '42px' }}
+                        />{' '}
                         <span>
                           <FormattedMessage id="pet.addNewPet" />
                         </span>

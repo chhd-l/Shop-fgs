@@ -167,7 +167,7 @@ class ShelterPrescription extends React.Component {
             <div className=" row align-items-md-center rc-margin-x--none">
               <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
                 <lazyLoad>
-                  <img src={CATSPng} />
+                  <img src={CATSPng} alt="" />
                 </lazyLoad>
               </div>
               <div className="col-12 col-lg-7">
@@ -246,7 +246,7 @@ class ShelterPrescription extends React.Component {
                   </div>
                 </div>
                 <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                  <img src={catAndPhone} />
+                  <img src={catAndPhone} alt="" />
                 </div>
               </div>
             </div>

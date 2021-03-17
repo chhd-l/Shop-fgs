@@ -8,6 +8,25 @@ import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
+function ATagContainer({
+  children,
+  href,
+  to,
+  isOuterLink,
+  className,
+  onClick
+}) {
+  return isOuterLink ? (
+    <a href={href} className={className} onClick={onClick}>
+      {children}
+    </a>
+  ) : (
+    <Link to={to} className={className} onClick={onClick}>
+      {children}
+    </Link>
+  );
+}
+
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
@@ -58,7 +77,14 @@ class HeroCarousel extends React.Component {
   }
   componentDidMount() {
     getBanner().then((res) => {
-      this.setState({ banner: res.context });
+      this.setState({
+        banner: res.context.map((ele) => {
+          return Object.assign(ele, {
+            isOuterLinkForMobile: /^[http|https]/.test(ele.mobiSkipUrl),
+            isOuterLinkForPC: /^[http|https]/.test(ele.webSkipUrl)
+          });
+        })
+      });
     });
   }
   // 切换slider触发
@@ -128,13 +154,15 @@ class HeroCarousel extends React.Component {
               <source src={el.webUrl} type="video/mp4" />
             </video>
             {el.mobiSkipUrl ? (
-              <Link
+              <ATagContainer
                 className="h-100 mobileBanner"
                 onClick={this.GABannerClick.bind(this, i)}
                 to={el.mobiSkipUrl}
+                href={el.mobiSkipUrl}
+                isOuterLink={el.isOuterLinkForMobile}
               >
                 <img className="w-100 mh-100" src={el.mobiUrl} alt="" />
-              </Link>
+              </ATagContainer>
             ) : (
               <img className="w-100 mh-100" src={el.mobiUrl} alt="" />
             )}
@@ -149,13 +177,15 @@ class HeroCarousel extends React.Component {
               <FormattedMessage id="header.carouselInfo2" />
             </div>
             <div className="hero-carousel__slide__content__btn text-center">
-              <Link
+              <ATagContainer
                 className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
+                href={el.mobiSkipUrl}
                 to={el.mobiSkipUrl}
                 onClick={this.GABannerClick.bind(this, i)}
+                isOuterLink={el.isOuterLinkForMobile}
               >
                 <FormattedMessage id="header.toBegin" />
-              </Link>
+              </ATagContainer>
             </div>
           </div>
         </>
@@ -173,9 +203,11 @@ class HeroCarousel extends React.Component {
                 ) : (
                   <>
                     {el.webSkipUrl ? (
-                      <Link
+                      <ATagContainer
                         className="h-100"
                         to={el.webSkipUrl}
+                        href={el.webSkipUrl}
+                        isOuterLink={el.isOuterLinkForPC}
                         onClick={this.GABannerClick.bind(this, i)}
                       >
                         <img
@@ -183,15 +215,17 @@ class HeroCarousel extends React.Component {
                           src={el.webUrl}
                           alt=""
                         />
-                      </Link>
+                      </ATagContainer>
                     ) : (
                       <img className="rc-md-up mh-100" src={el.webUrl} alt="" />
                     )}
 
                     {el.mobiSkipUrl ? (
-                      <Link
+                      <ATagContainer
                         className="h-100"
                         to={el.mobiSkipUrl}
+                        href={el.mobiSkipUrl}
+                        isOuterLink={el.isOuterLinkForMobile}
                         onClick={this.GABannerClick.bind(this, i)}
                       >
                         <img
@@ -199,7 +233,7 @@ class HeroCarousel extends React.Component {
                           src={el.mobiUrl}
                           alt=""
                         />
-                      </Link>
+                      </ATagContainer>
                     ) : (
                       <img
                         className="rc-md-down w-100 mh-100"
