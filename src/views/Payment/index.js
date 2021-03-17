@@ -1944,7 +1944,9 @@ class Payment extends React.Component {
           const res = await this.cyberCardRef.current.usGuestPaymentInfoEvent(
             params
           );
-          console.log(res);
+          return new Promise((resolve) => {
+            resolve(res);
+          });
         }
       } catch (e) {
         throw new Error(e.message);
@@ -1958,7 +1960,9 @@ class Payment extends React.Component {
           const res = await this.cyberCardRef.current.usPaymentInfoEvent(
             params
           );
-          console.log(res);
+          return new Promise((resolve) => {
+            resolve(res);
+          });
         }
       } catch (e) {
         throw new Error(e.message);
@@ -1980,13 +1984,14 @@ class Payment extends React.Component {
           await handleClickSaveAdyenForm(this);
         }
         await handleClickSavePayUForm(this);
-        await loginCyberSaveCard(cyberParams);
+        const res = await loginCyberSaveCard(cyberParams);
       } else {
         // 1 save card form
         // 2 save billing addr, when billing checked status is false
         await handleClickSaveAdyenForm(this);
         await handleClickSavePayUForm(this);
         await unLoginCyberSaveCard(cyberParams);
+        const res = await loginCyberSaveCard(cyberParams);
         if (
           !billingChecked &&
           this.unLoginBillingAddrRef &&
