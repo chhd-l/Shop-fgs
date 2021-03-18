@@ -139,7 +139,6 @@ class AccountOrders extends React.Component {
       orderNumber: '',
       totalTid: '',
       subNumber: '',
-      externalSubscribeId: '',
       details: null,
       payRecord: null,
       loading: true,
@@ -355,8 +354,6 @@ class AccountOrders extends React.Component {
           progressList: curProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
-          externalSubscribeId:
-            resContext?.subscriptionResponseVO?.externalMainSubscriptionId,
           canPayNow:
             ((!resContext.isAuditOpen && tradeState.flowState === 'AUDIT') ||
               (resContext.isAuditOpen &&
@@ -1166,9 +1163,7 @@ class AccountOrders extends React.Component {
                                 <div className="col-12 col-md-4 text-left mb-2">
                                   <FormattedMessage id="order.orderNumber" />:
                                   <br />
-                                  <span className="medium">
-                                    {details.toExternalOrderId}
-                                  </span>
+                                  <span className="medium">{orderNumber}</span>
                                 </div>
                                 {details.subscriptionResponseVO ? (
                                   <div className="col-12 col-md-4 text-left mb-2">
@@ -1178,7 +1173,7 @@ class AccountOrders extends React.Component {
                                       to={`/account/subscription/order/detail/${this.state.subNumber}`}
                                       className="rc-styled-link medium mb-0"
                                     >
-                                      {this.state.externalSubscribeId}
+                                      {this.state.subNumber}
                                     </Link>
                                   </div>
                                 ) : null}
