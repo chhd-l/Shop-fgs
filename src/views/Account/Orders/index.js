@@ -717,7 +717,7 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {order.toExternalOrderId}
+                                            {order.id}
                                           </span>
                                         </p>
                                       </div>
