@@ -721,7 +721,7 @@ const tr_TR = {
   'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
   quantity: 'miktarda',
   quantityCannotExceed10: "Miktar 10'u geçemez",
-  quantityText: 'product',
+  quantityText: '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Sorgu Verisi Başarısız',
   ratingGrade1: 'En Yeniler',
   ratingGrade2: 'En Düşükten En Yüksek Dereceye',

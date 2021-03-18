@@ -922,7 +922,7 @@ const fr_FR = {
     'Engagement en faveur de la qualité et de la sécurité alimentaire',
   quantity: 'Quantité',
   quantityCannotExceed10: 'La quantité ne peut pas dépasser 10',
-  quantityText: 'Quantité',
+  quantityText: '{specText} - {buyCount} Quantité(s)',
   queryDataFailed: 'La requête des données a échoué',
   ratingGrade1: 'Le plus récent',
   ratingGrade2: 'Ratin du plus bas au plus élevég',
