@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const menuList = [
   {
@@ -45,8 +46,10 @@ const menuList = [
     catogery: 'Faq',
     icon: <span className="iconfont">&#xe696;</span>,
     langKey: 'footer.FAQ',
-    url: '/faq'
-  },
+    url: '/faq',
+    href: '/about-us/faqs',
+    isHubOuterLink: true
+  }
   // {
   //   catogery: 'Faq',
   //   icon: <span className="iconfont iconzhuanfa"></span>,
@@ -79,38 +82,56 @@ class SideMenu extends React.Component {
         {menuList.map((item, i) => (
           <h2
             key={i}
-            className={`nav_item medium ui-cursor-pointer mb-4 ${type === item.catogery ? 'active red' : ''
-              }`}
+            className={`nav_item medium ui-cursor-pointer mb-4 ${
+              type === item.catogery ? 'active red' : ''
+            }`}
           >
             <FormattedMessage id={item.langKey}>
               {(txt) => (
                 <>
                   {item.icon}
-                  <Link to={item.url} title={txt} alt={txt} className="ml-2">
-                    {txt}
-                  </Link>
+                  {item.isHubOuterLink ? (
+                    <DistributeHubLinkOrATag
+                      to={item.url}
+                      href={item.href}
+                      className="ml-2"
+                    >
+                      {txt}
+                    </DistributeHubLinkOrATag>
+                  ) : (
+                    <Link to={item.url} title={txt} alt={txt} className="ml-2">
+                      {txt}
+                    </Link>
+                  )}
                 </>
               )}
             </FormattedMessage>
           </h2>
         ))}
-        {
-          process.env.REACT_APP_HUB ? (<h2
-            style={{ borderTop: "1px solid #E9E9E9" }}
+        {+process.env.REACT_APP_HUB ? (
+          <h2
+            style={{ borderTop: '1px solid #E9E9E9' }}
             className={`nav_item medium ui-cursor-pointer mb-4 pt-4`}
           >
             <FormattedMessage id="account.monRoyalCanin">
               {(txt) => (
                 <>
-                  <span className="iconfont iconzhuanfa"></span>
-                  <a href="https://mon.royalcanin.fr/connexion/?_ga=2.78648916.173298844.1614564472-578005368.1614332396" title={txt} alt={txt} className="ml-2">
+                  <span className="iconfont iconzhuanfa" />
+                  <a
+                    href={process.env.REACT_APP_HUB_MONROYALCANIN}
+                    title={txt}
+                    alt={txt}
+                    className="ml-2"
+                  >
                     {txt}
                   </a>
                 </>
               )}
             </FormattedMessage>
-          </h2>) : <></>
-        }
+          </h2>
+        ) : (
+          <></>
+        )}
       </div>
     );
   }

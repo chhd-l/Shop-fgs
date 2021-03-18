@@ -133,6 +133,7 @@ function ListItemH5ForGlobalStyle(props) {
                           height: 'auto',
                           margin: 'auto'
                         }}
+                        alt=""
                       />
                     </div>
                   </div>
@@ -592,7 +593,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImg} />
+                  <img src={pfRecoImg} alt="" />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -616,12 +617,11 @@ function ProductFinderAd({
           {isRetailProducts ? (
             <div className="row align-items-center">
               <div className="col-12 col-md-6">
-                <LazyLoad
-                  style={{ width: '100%', height: '100%' }}
-                  height={200}
-                >
+                <LazyLoad style={{ width: '100%', height: '100%' }}>
                   <img
+                    style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
+                    alt=""
                   />
                 </LazyLoad>
               </div>
@@ -648,14 +648,13 @@ function ProductFinderAd({
                 <LazyLoad
                   style={{
                     width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    justifyContent: 'flex-end'
+                    height: '100%'
                   }}
-                  height={200}
                 >
                   <img
+                    style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
+                    alt=""
                   />
                 </LazyLoad>
               </div>
@@ -1679,7 +1678,8 @@ class List extends React.Component {
                 technologyOrBreedsAttr: isHub && attrs,
                 // 临时处理法国plp价格
                 fromPrice:
-                  process.env.REACT_APP_LANG === 'fr' ? 0 : ele.fromPrice
+                  process.env.REACT_APP_LANG === 'fr' ? 0 : ele.fromPrice,
+                toPrice: process.env.REACT_APP_LANG === 'fr' ? 0 : ele.toPrice
               });
               const tmpItem = find(
                 res.context.goodsList,
@@ -2336,6 +2336,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
+                                            alt=""
                                           />
                                         </div>
                                       ) : null
@@ -2380,6 +2381,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
+                                            alt=""
                                           />
                                         </div>
                                       ) : null

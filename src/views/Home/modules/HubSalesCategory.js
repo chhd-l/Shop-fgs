@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
 import './css/HubSalesCategory.less';
-import catsImg from '@/assets/images/salesCategory_cat.png' 
-import dogsImg from '@/assets/images/salesCategory_dog.png' 
+import catsImg from '@/assets/images/salesCategory_cat.png';
+import dogsImg from '@/assets/images/salesCategory_dog.png';
 
 export default class HubSalesCategory extends Component {
   static defaultProps = {};
@@ -28,7 +28,7 @@ export default class HubSalesCategory extends Component {
     let cateGoryList_cat = [];
     cateGoryList_dog = res
       .filter((item) => {
-        return item.cateType === 'dog';
+        return item.cateType === 'dog' && item.cateRouter.indexOf('vet') == -1; //排除vet产品
       })
       .map((item2) => {
         return {
@@ -44,7 +44,7 @@ export default class HubSalesCategory extends Component {
 
     cateGoryList_cat = res
       .filter((item) => {
-        return item.cateType === 'cat';
+        return item.cateType === 'cat' && item.cateRouter.indexOf('vet') == -1; //排除vet产品
       })
       .map((item2) => {
         return {
@@ -86,10 +86,10 @@ export default class HubSalesCategory extends Component {
           <div className="rc-layout-container rc-two-column">
             <div className="rc-column">
               <div className="header-title">
-                <h1 className="rc-espilon">
+                <div style={{ fontSize: '20px' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.cat" />
-                </h1>
-                <img src={catsImg} />
+                </div>
+                <img src={catsImg} alt="" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -131,10 +131,10 @@ export default class HubSalesCategory extends Component {
             </div>
             <div className="rc-column">
               <div className="header-title">
-                <h1 className="rc-espilon">
+                <div style={{ fontSize: '20px' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.dog" />
-                </h1>
-                <img src={dogsImg} />
+                </div>
+                <img src={dogsImg} alt="" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (

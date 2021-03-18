@@ -364,6 +364,7 @@ export default class Felin extends React.Component {
                       width: '50px',
                       marginLeft: '20px'
                     }}
+                    alt=""
                     src={FaceBook_Icon}
                   />
                 </a>
@@ -374,6 +375,7 @@ export default class Felin extends React.Component {
                       width: '50px',
                       marginLeft: '20px'
                     }}
+                    alt=""
                     src={Insgram_Icon}
                   />
                 </a>
@@ -386,6 +388,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/logoAtelier felin.png`}
+                        alt=""
                       />
                     </LazyLoad>
                     <div className="rc-gamma inherit-fontsize mt-2">
@@ -418,6 +421,7 @@ export default class Felin extends React.Component {
                       <img
                         loop="infinite"
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/felin_cat_sm.gif`}
+                        alt=""
                       />
                     </LazyLoad>
                   </h1>
@@ -461,6 +465,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x_1.jpeg`}
+                        alt=""
                       />
                     </LazyLoad>
                   </h1>
@@ -473,6 +478,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.png`}
+                        alt=""
                       />
                     </LazyLoad>
                   </h1>
@@ -544,6 +550,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
+                        alt=""
                       />
                     </LazyLoad>
                   </h1>
@@ -559,6 +566,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
+                        alt=""
                       />
                     </LazyLoad>
                   </h1>
@@ -966,7 +974,7 @@ export default class Felin extends React.Component {
                         </>
                       ) : null}
                       {this.state.step === 5 ? (
-                        <div style={{marginBottom: '20px'}}>
+                        <div style={{ marginBottom: '20px' }}>
                           <p
                             className="text-center"
                             style={{ fontWeight: '500', marginTop: '30px' }}
@@ -1018,7 +1026,9 @@ export default class Felin extends React.Component {
                           </button>
                         </div>
                       ) : null}
-                      {this.state.step === 1 || this.state.step === 2 || this.state.step === 5 ? (
+                      {this.state.step === 1 ||
+                      this.state.step === 2 ||
+                      this.state.step === 5 ? (
                         <p style={{ textAlign: 'center', fontSize: '14px' }}>
                           L'Atelier Félin est ouvert du 20 avril au 13 juin
                           2021, tous les jours de 10h à 18h en magasin, et de
@@ -1077,6 +1087,7 @@ export default class Felin extends React.Component {
                               marginTop: '12px'
                             }}
                             src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/qrcode.png`}
+                            alt=""
                           />
                         </>
                       ) : null}

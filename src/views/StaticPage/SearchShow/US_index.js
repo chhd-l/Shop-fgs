@@ -8,7 +8,7 @@ import { setSeoConfig, getParaByName } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 class SearchShow extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +21,7 @@ class SearchShow extends React.Component {
       searchWords: ''
     };
   }
-  componentWillUnmount() { }
+  componentWillUnmount() {}
   componentDidMount() {
     const { search } = this.props.history.location;
     const searchWords = decodeURI(getParaByName(search, 'q'));
@@ -72,17 +72,22 @@ class SearchShow extends React.Component {
             <section className="rc-bg-colour--brand3">
               <div className="noSearch-result">
                 <div className="rc-text--center rc-text--center rc-padding-top--sm--mobile">
-                  <h2 className="rc-alpha rc-margin-bottom--none">We're Sorry!</h2>
+                  <h2 className="rc-alpha rc-margin-bottom--none">
+                    We're Sorry!
+                  </h2>
                   <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">
                     We could not find any products matching :{' '}
-                    <br className="d-block d-md-none" />"<b>{this.state.searchWords}</b>"
+                    <br className="d-block d-md-none" />"
+                    <b>{this.state.searchWords}</b>"
                   </div>
                 </div>
                 <div className="content-asset">
                   <div className="rc-layout-container rc-one-column rc-max-width--md rc-padding-x--lg">
                     <div className="rc-full-width rc-text--center rc-padding-x--sm noSearch-desc">
                       <p>
-                        Please try a different search, or contact our expert pet advisors for help finding tailored nutrition for your pet.
+                        Please try a different search, or contact our expert pet
+                        advisors for help finding tailored nutrition for your
+                        pet.
                       </p>
                     </div>
                     <div className="rc-layout-container rc-two-column">
@@ -91,9 +96,7 @@ class SearchShow extends React.Component {
                           <div className="row rc-layout-container rc-three-column rc-margin--none rc-content-h-middle fullHeight">
                             <div className="col-8 rc-column rc-double-width rc-padding-top--md--mobile">
                               <div>
-                                <b style={{ color: '#00A4A6' }}>
-                                  Call Us
-                                </b>
+                                <b style={{ color: '#00A4A6' }}>Call Us</b>
                                 <p>
                                   Monday - Friday, 8:00 a.m. - 4:30 p.m. CDT.
                                 </p>
@@ -110,6 +113,7 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
+                                alt=""
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>
@@ -122,7 +126,7 @@ class SearchShow extends React.Component {
                           <div className="row rc-layout-container rc-three-column rc-margin--none rc-content-h-middle fullHeight">
                             <div className="col-8 rc-column rc-double-width rc-padding-top--md--mobile">
                               <div>
-                                <b style={{color:'#0087BD'}}>Email Us</b>
+                                <b style={{ color: '#0087BD' }}>Email Us</b>
                                 <div>
                                   <a
                                     href="/help/contact"
@@ -135,6 +139,7 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
+                                alt=""
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>

@@ -12,6 +12,7 @@ import expertisePng from './images/expertise.png';
 import qualityPng from './images/quality.png';
 import partnershipPng from './images/partnership.png';
 import { getList } from '@/api/list';
+import mockData from './mock.json';
 import { formatMoney, getParaByName } from '@/utils/utils';
 import './index.less';
 import Slider from 'react-slick';
@@ -62,9 +63,15 @@ class ShelterPrescription extends React.Component {
       '2c918085768f3a4101768f3f464b0084',
       '2c918085768f3a4101768f3f053e0071',
       '2c91808577417a280177419f2c790000',
-      '2c918085768f3a4101768f3f73c10093'
+      '2c918085768f3a4101768f3f73c10093',
+      '2c918085781fb64701781feace710003'
     ];
-    let res = await getList({ goodsIds });
+    let res = null;
+    try {
+      res = await getList({ goodsIds });
+    } catch (err) {
+      res = mockData;
+    }
     let list = res.context?.esGoodsPage.content;
     this.setState({ list });
     console.info('.....', list);
@@ -167,7 +174,7 @@ class ShelterPrescription extends React.Component {
             <div className=" row align-items-md-center rc-margin-x--none">
               <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
                 <lazyLoad>
-                  <img src={CATSPng} />
+                  <img src={CATSPng} alt="" />
                 </lazyLoad>
               </div>
               <div className="col-12 col-lg-7">
@@ -246,7 +253,7 @@ class ShelterPrescription extends React.Component {
                   </div>
                 </div>
                 <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                  <img src={catAndPhone} />
+                  <img src={catAndPhone} alt="" />
                 </div>
               </div>
             </div>

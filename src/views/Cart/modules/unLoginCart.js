@@ -899,12 +899,13 @@ class UnLoginCart extends React.Component {
               style={{ marginTop: '-24px' }}
             >
               <div className="name-info flex-column-gift d-flex">
-                <img className="img" src={foodDispenserPic} />
+                <img className="img" src={foodDispenserPic} alt="" />
               </div>
               <div className="text-center" style={{ width: '200px' }}>
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
+                  alt=""
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -938,6 +939,7 @@ class UnLoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
+                    alt=""
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>

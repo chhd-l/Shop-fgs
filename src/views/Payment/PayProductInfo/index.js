@@ -258,7 +258,7 @@ class PayProductInfo extends React.Component {
                   >
                     <span className="light">{el.goodsName}</span>
                     {el.promotions && el.promotions.includes('club') ? (
-                      <img className="clubLogo" src={Club_Logo} />
+                      <img className="clubLogo" src={Club_Logo} alt="" />
                     ) : null}
                   </div>
                 </div>
@@ -335,7 +335,7 @@ class PayProductInfo extends React.Component {
                       {el.goodsName || el.goods.goodsName}
                     </span>
                     {el.promotions && el.promotions.includes('club') ? (
-                      <img className="clubLogo" src={Club_Logo} />
+                      <img className="clubLogo" src={Club_Logo} alt="" />
                     ) : null}
                   </div>
                 </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { FormattedMessage } from 'react-intl';
 import '../css/user.less';
 
@@ -123,6 +124,8 @@ export const LoginUserBox = ({ self, className }) => {
     },
     {
       link: '/faq',
+      href: '/about-us/faqs',
+      isHubOuterLink: true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe696;</span>{' '}
@@ -150,9 +153,21 @@ export const LoginUserBox = ({ self, className }) => {
         </div>
       </div>
       {menuList.map((item, i) => (
-        <Link key={i} className="basicItem w-100" to={item.link}>
-          {item.text}
-        </Link>
+        <React.Fragment key={i}>
+          {item.isHubOuterLink ? (
+            <DistributeHubLinkOrATag
+              href={item.href}
+              to={item.link}
+              className="basicItem w-100"
+            >
+              {item.text}
+            </DistributeHubLinkOrATag>
+          ) : (
+            <Link className="basicItem w-100" to={item.link}>
+              {item.text}
+            </Link>
+          )}
+        </React.Fragment>
       ))}
       {process.env.REACT_APP_HUB_MONROYALCANIN ? (
         <a

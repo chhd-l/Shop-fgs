@@ -7,13 +7,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { Link } from 'react-router-dom';
 import './index.less';
-// import dog from '@/assets/images/animal-1.jpg';
-// import cat from '@/assets/images/animal-2.jpg';
-import success from '@/assets/images/check-success.svg';
-import edit from '@/assets/images/edit.svg';
 import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
 
@@ -117,6 +112,7 @@ class PetForm extends React.Component {
     this.selectWeight = this.selectWeight.bind(this);
     this.setSterilized = this.setSterilized.bind(this);
     this.inputBlur = this.inputBlur.bind(this);
+    this.delPets = this.delPets.bind(this);
   }
 
   componentWillUnmount() {
@@ -606,7 +602,7 @@ class PetForm extends React.Component {
     //   param.selectedSpecialNeedsObj = { value: 'none' };
     // }
     param.selectedSpecialNeedsObj = {
-      value: currentPet.customerPetsPropRelations[0].propName
+      value: currentPet.customerPetsPropRelations[0]?.propName
     };
     let params = {
       breedCode: param.isPurebred ? param.breed : 'mixed Breed',
@@ -1463,31 +1459,23 @@ class PetForm extends React.Component {
                           </button>
                           <br />
                           {this.props.match.params.id && (
-                            <a
+                            <span
                               className="rc-styled-link"
-                              href="#/"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                this.delPets(currentPet);
-                              }}
+                              onClick={this.delPets.bind(this, currentPet)}
                             >
                               <FormattedMessage id="pet.deletePet" />
-                            </a>
+                            </span>
                           )}
                         </p>
                       ) : (
                         <p style={{ textAlign: 'right' }}>
                           {this.props.match.params.id && (
-                            <a
+                            <span
                               className="rc-styled-link"
-                              href="#/"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                this.delPets(currentPet);
-                              }}
+                              onClick={this.delPets.bind(this, currentPet)}
                             >
                               <FormattedMessage id="pet.deletePet" />
-                            </a>
+                            </span>
                           )}
                           <button
                             className="rc-btn rc-btn--one"

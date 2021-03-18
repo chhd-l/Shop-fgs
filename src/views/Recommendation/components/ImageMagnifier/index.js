@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './index.less';
 import { FormattedMessage } from 'react-intl';
-import noPic from '@/assets/images/noPic.png'
+import noPic from '@/assets/images/noPic.png';
 // import noPic from './images/noPic1.png';
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
-import { getDeviceType } from '@/utils/utils.js'
+import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
 
 class ImageMagnifier extends Component {
@@ -367,7 +367,7 @@ class ImageMagnifier extends Component {
             {taggingForImage ? (
               <div className="product-item-flag-image position-absolute">
                 <LazyLoad>
-                <img src={taggingForImage.taggingImgUrl} />
+                  <img src={taggingForImage.taggingImgUrl} alt="" />
                 </LazyLoad>
               </div>
             ) : null}
@@ -381,24 +381,24 @@ class ImageMagnifier extends Component {
                 ? images.map((el, i) => (
                     <div key={i}>
                       <LazyLoad>
-                      <img
-                        id="J_detail_img"
-                        style={cssStyle.imgStyle}
-                        src={currentImg || noPic}
-                        alt=""
-                      />
+                        <img
+                          id="J_detail_img"
+                          style={cssStyle.imgStyle}
+                          src={currentImg || noPic}
+                          alt=""
+                        />
                       </LazyLoad>
                     </div>
                   ))
                 : images.map((el, i) => (
                     <div key={i}>
                       <LazyLoad>
-                      <img
-                        id="J_detail_img"
-                        style={cssStyle.imgStyle}
-                        src={currentImg || this.state.maxImg || noPic}
-                        alt=""
-                      />
+                        <img
+                          id="J_detail_img"
+                          style={cssStyle.imgStyle}
+                          src={currentImg || this.state.maxImg || noPic}
+                          alt=""
+                        />
                       </LazyLoad>
                     </div>
                   ))}
@@ -439,13 +439,13 @@ class ImageMagnifier extends Component {
           {magnifierOff && !videoShow && (
             <div style={cssStyle.magnifierContainer}>
               <LazyLoad>
-              <img
-                style={cssStyle.imgStyle2}
-                src={currentImg || this.state.maxImg || noPic}
-                onLoad={this.handleImageLoaded.bind(this)}
-                onError={this.handleImageErrored.bind(this)}
-                alt=""
-              />
+                <img
+                  style={cssStyle.imgStyle2}
+                  src={currentImg || this.state.maxImg || noPic}
+                  onLoad={this.handleImageLoaded.bind(this)}
+                  onError={this.handleImageErrored.bind(this)}
+                  alt=""
+                />
               </LazyLoad>
               {!imgLoad && 'failed to load'}
             </div>

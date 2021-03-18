@@ -52,7 +52,8 @@ import {
   rePay,
   customerCommitAndPayMix,
   getWays,
-  getProductPetConfig
+  getProductPetConfig,
+  usGuestPaymentInfo
 } from '@/api/payment';
 
 import PayUCreditCard from './PayUCreditCard';
@@ -85,6 +86,19 @@ const cardTypeImg = {
   mastercard: mastercardImg,
   amex: amexImg,
   discover: discoverImg
+};
+
+const CardTypeArr = {
+  cyberVisa: '001',
+  cyberMastercard: '002',
+  cyberAmex: '003',
+  cyberDiscover: '004'
+};
+const CardTypeName = {
+  cyberVisa: 'Visa',
+  cyberMastercard: 'Mastercard',
+  cyberAmex: 'Amex',
+  cyberDiscover: 'Discover'
 };
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -239,6 +253,7 @@ class Payment extends React.Component {
     this.loginBillingAddrRef = React.createRef();
     this.adyenCardRef = React.createRef();
     this.payUCreditCardRef = React.createRef();
+    this.cyberCardRef = React.createRef();
   }
   inputBlur = async (e) => {
     const { cyberErrMsgObj } = this.state;
@@ -1850,7 +1865,8 @@ class Payment extends React.Component {
         province,
         city,
         postCode,
-        email
+        email,
+        phoneNumber
       },
       cyberPaymentForm: {
         cardholderName,
@@ -1871,14 +1887,21 @@ class Payment extends React.Component {
     cyberPaymentParam.lastName = lastName;
     cyberPaymentParam.address1 = address1;
     cyberPaymentParam.address2 = address2;
-    cyberPaymentParam.country = countryId;
+    cyberPaymentParam.country = countryId; //?
     cyberPaymentParam.state = province;
     cyberPaymentParam.city = city;
     cyberPaymentParam.zipCode = postCode;
     cyberPaymentParam.email = email;
 
-    console.log(cyberPaymentParam);
-    debugger;
+    cyberPaymentParam.phone = phoneNumber;
+
+    let cyberParams = Object.assign({}, cyberPaymentParam, {
+      cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
+      paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
+    });
+
+    // console.log(cyberParams);
+    // debugger;
 
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
@@ -1914,6 +1937,38 @@ class Payment extends React.Component {
       }
     }
 
+    //cyber游客绑卡
+    const unLoginCyberSaveCard = async (params) => {
+      try {
+        if (this.state.paymentTypeVal == 'cyber') {
+          const res = await this.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
+          return new Promise((resolve) => {
+            resolve(res);
+          });
+        }
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    };
+
+    //cyber会员绑卡
+    const loginCyberSaveCard = async (params) => {
+      try {
+        if (this.state.paymentTypeVal == 'cyber') {
+          const res = await this.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
+          return new Promise((resolve) => {
+            resolve(res);
+          });
+        }
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    };
+
     try {
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false
@@ -1929,11 +1984,14 @@ class Payment extends React.Component {
           await handleClickSaveAdyenForm(this);
         }
         await handleClickSavePayUForm(this);
+        const res = await loginCyberSaveCard(cyberParams);
       } else {
         // 1 save card form
         // 2 save billing addr, when billing checked status is false
         await handleClickSaveAdyenForm(this);
         await handleClickSavePayUForm(this);
+        await unLoginCyberSaveCard(cyberParams);
+        const res = await loginCyberSaveCard(cyberParams);
         if (
           !billingChecked &&
           this.unLoginBillingAddrRef &&
@@ -1944,6 +2002,7 @@ class Payment extends React.Component {
       }
       this.setPaymentToCompleted();
     } catch (e) {
+      this.showErrorMsg(e.message);
     } finally {
       this.setState({ saveBillingLoading: false });
     }
@@ -2091,6 +2150,7 @@ class Payment extends React.Component {
                       src={cardTypeImg[item.id]}
                       title={item.id}
                       style={{ width: '40px' }}
+                      alt=""
                     />
                   </label>
                 </div>
@@ -2234,6 +2294,7 @@ class Payment extends React.Component {
               {paymentTypeVal === 'cyber' && (
                 <>
                   <CyberPaymentForm
+                    ref={this.cyberCardRef}
                     form={this.state.cyberPaymentForm}
                     errMsgObj={this.state.cyberErrMsgObj}
                     monthList={this.state.cyberMonthList}
@@ -2248,7 +2309,8 @@ class Payment extends React.Component {
                     })}
                   />
                   {payConfirmBtn({
-                    disabled: validForCyberPayment() || validForBilling
+                    disabled: validForCyberPayment() || validForBilling,
+                    loading: saveBillingLoading
                   })}
                 </>
               )}

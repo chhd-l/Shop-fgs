@@ -60,9 +60,6 @@ const es_ES = {
     ' ¡Crea tu perfil de mascota hoy! Complete la información y elija la dieta más adecuada',
   'account.noSubscription':
     '¿Aún no descubrió nuestros servicios de Autoenvío? AutoEnvío es una forma conveniente de recibir sus pedidos en un horario regular. Por lo tanto, ahorra tiempo y su mascota nunca se queda sin comida.',
-  'account.noSubscription':
-    '¿Aún no descubrió nuestros servicios de Autoenvío? AutoEnvío es una forma conveniente de recibir sus pedidos en un horario regular. Por lo tanto, ahorra tiempo y su mascota nunca se queda sin comida.',
-  'account.noSubscriptionTitle': '¡Empecemos!',
   'account.noSubscriptionTitle': '¡Empecemos!',
   'account.notRegistred': '¿Usted no está registrado?',
   'account.of': 'de',
@@ -87,7 +84,6 @@ const es_ES = {
   'account.requiredFields': 'Campos requeridos',
   'account.shippingAddressTip': 'Crea y edita tu dirección de envío.',
   'account.specialNeeds': 'Necesidades especiales',
-  'account.startAutoShipping': 'Iniciar envío automático',
   'account.startAutoShipping': 'Iniciar envío automático',
   'account.step': 'Paso',
   'account.sterilized': '¿Está esterilizado tu mascota?',
@@ -337,7 +333,6 @@ const es_ES = {
   filters: 'Filtros',
   findLocation: 'Buscar ubicación',
   findTheRightDiet: 'Encuentra la comida adecuada',
-  findTheRightDiet: 'Encuentra la comida adecuada',
   firstName: 'Nombre de pila *',
   'firstNameLastName50characters!':
     '¡El nombre o el apellido no pueden superar los 50 caracteres!',
@@ -528,7 +523,6 @@ const es_ES = {
   noDefaultClinic: 'Sin clínica predeterminada',
   NoPromotionDesc: 'No PromotionDesc',
   noSpecialNeeds: 'Sin necesidades especiales',
-  noStart: 'Sin comienzo',
   noStart: 'Sin comienzo',
   notate: ' ',
   notSterilized: 'No esterilizado',
@@ -788,7 +782,6 @@ const es_ES = {
   quantity: 'Cantidad',
   quantityCannotExceed10: 'La cantidad no puede exceder 10',
   quantityText: 'product',
-  quantityText: 'product',
   queryDataFailed: 'Datos de consulta fallidos',
   ratingGrade1: 'Más reciente',
   ratingGrade2: 'Calificación de menor a mayor',
@@ -993,7 +986,6 @@ const es_ES = {
   totalIncluIVA: 'Total (IVA incluido)',
   totalIncluMessage: '',
   trackDelivery: 'Seguimiento de la entrega',
-  transactionInfo: 'Información de la transacción',
   transactionInfo: 'Información de la transacción',
   transactionInfomation: 'Información de la transacción',
   twoPasswordsYouTypedDoNotMatch:
