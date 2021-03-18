@@ -27,7 +27,7 @@ class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [{}],
+      list: mockData.data,
       defalutList: Array(8).fill({})
       // list: [{}]
     };
@@ -78,9 +78,9 @@ class ShelterPrescription extends React.Component {
     this.props.clinicStore.setLinkClinicId(clinicId);
     this.props.clinicStore.setLinkClinicName('');
     this.props.clinicStore.setAuditAuthority(false);
-    this.getDefaultList();
+    // this.getDefaultList();
   }
-  async getDefaultList() {
+  getDefaultList() {
     let goodsIds = [
       '2c91808577d2c0dd0177d2ca8161016c',
       '2c91808577d2c0dd0177d2ca61580097',
@@ -315,7 +315,7 @@ class ShelterPrescription extends React.Component {
             </div>
             <div className="rc-md-down rc-padding-x--lg">
               <Slider {...settings}>
-                {this.state.defalutList.map((item, idx) => (
+                {this.state.list.map((item, idx) => (
                   <div
                     style={{
                       width: slideWidth
