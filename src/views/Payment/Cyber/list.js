@@ -9,6 +9,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { loadJS } from '@/utils/utils';
 import { scrollPaymentPanelIntoView } from '../modules/utils';
 import LazyLoad from 'react-lazyload';
+import { usPaymentInfo } from '@/api/payment';
 import './list.css';
 
 function CardItemCover({
@@ -78,6 +79,18 @@ class CyberCardList extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+
+  //会员绑卡
+  usPaymentInfoEvent = async (params) => {
+    try {
+      const res = await usPaymentInfo(params);
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
   currentCvvChange(el, e) {
     let { cardList } = this.state;
     const target = e.target;
@@ -518,6 +531,7 @@ class CyberCardList extends React.Component {
     scrollPaymentPanelIntoView();
   };
   render() {
+    const { billingJSX } = this.props;
     const {
       cardList,
       memberUnsavedCardList,
@@ -525,12 +539,16 @@ class CyberCardList extends React.Component {
       listLoading,
       saveLoading
     } = this.state;
+    const footerJSX = <>{billingJSX}</>;
     return (
       <>
         {listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
         ) : cardList.length ? (
-          <span>{this.renderList()}</span>
+          <span>
+            {this.renderList()}
+            {footerJSX}
+          </span>
         ) : null}
       </>
     );

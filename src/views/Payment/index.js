@@ -198,11 +198,11 @@ class Payment extends React.Component {
       pet: {},
       //cyber参数
       cyberPaymentForm: {
-        cardholderName: '', //Didier Valansot
-        cardNumber: '', //4111111111111111
+        cardholderName: 'Didier Valansot', //Didier Valansot
+        cardNumber: '4111111111111111', //4111111111111111
         expirationMonth: '',
         expirationYear: '',
-        securityCode: '', //000
+        securityCode: '000', //000
         firstName: '',
         lastName: '',
         address1: '',
@@ -248,7 +248,8 @@ class Payment extends React.Component {
       cardTypeArr: [],
       cyberPayParam: '',
       isShowCardList: false,
-      isShowCyberBindCardBtn: false
+      isShowCyberBindCardBtn: false,
+      cyberBindCardData: {}
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -258,12 +259,13 @@ class Payment extends React.Component {
     this.adyenCardRef = React.createRef();
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
+    this.cyberCardListRef = React.createRef();
   }
   updateSelectedCardInfo = (data) => {
-    console.log(999, data);
-    if (data.cardCvv) {
+    if (data?.cardCvv) {
       this.setState({
-        isShowCyberBindCardBtn: true
+        isShowCyberBindCardBtn: true,
+        cyberBindCardData: data
       });
     }
   };
@@ -894,9 +896,7 @@ class Payment extends React.Component {
         },
         cyber: () => {
           parameters = Object.assign({}, commonParameter, {
-            payPspItemEnum: 'CYBER'
-          });
-          parameters = Object.assign(parameters, {
+            payPspItemEnum: 'CYBER',
             paymentMethodId: this.state.cyberPayParam.id
           });
         }
@@ -1880,16 +1880,16 @@ class Payment extends React.Component {
     );
   };
 
-  clickConfirmPaymentPanel = async (e) => {
+  clickConfirmPaymentPanel = async (isRebind, e) => {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
     this.setState({ saveBillingLoading: true });
     setTimeout(() => {
-      this.confirmPaymentPanel();
+      this.confirmPaymentPanel(isRebind);
     }, 800);
   };
-  confirmPaymentPanel = async () => {
+  confirmPaymentPanel = async (isRebind) => {
     const { isLogin } = this;
     const { paymentStore } = this.props;
     const {
@@ -1917,29 +1917,41 @@ class Payment extends React.Component {
     } = this.state;
 
     let cyberPaymentParam = {};
-    cyberPaymentParam.cardholderName = cardholderName;
-    cyberPaymentParam.cardNumber = cardNumber;
-    cyberPaymentParam.expirationMonth = expirationMonth;
-    cyberPaymentParam.expirationYear = expirationYear;
-    cyberPaymentParam.securityCode = securityCode;
-    cyberPaymentParam.firstName = firstName;
-    cyberPaymentParam.lastName = lastName;
-    cyberPaymentParam.address1 = address1;
-    cyberPaymentParam.address2 = address2;
-    cyberPaymentParam.country = 'US';
-    cyberPaymentParam.state = province;
-    cyberPaymentParam.city = city;
-    cyberPaymentParam.zipCode = postCode;
-    cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
-    cyberPaymentParam.phone = phoneNumber;
+    let cyberParams = {};
+    if (paymentTypeVal == 'cyber') {
+      if (isRebind) {
+        cyberPaymentParam.securityCode = this.state.cyberBindCardData.cardCvv;
+        cyberPaymentParam.expirationMonth = this.state.cyberBindCardData.expirationDate.split(
+          '-'
+        )[0];
+        cyberPaymentParam.expirationYear = this.state.cyberBindCardData.expirationDate.split(
+          '-'
+        )[1];
+      } else {
+        cyberPaymentParam.securityCode = securityCode;
+        cyberPaymentParam.expirationMonth = expirationMonth;
+        cyberPaymentParam.expirationYear = expirationYear;
+      }
+      cyberPaymentParam.cardholderName = cardholderName;
+      cyberPaymentParam.cardNumber = cardNumber;
+      cyberPaymentParam.firstName = firstName;
+      cyberPaymentParam.lastName = lastName;
+      cyberPaymentParam.address1 = address1;
+      cyberPaymentParam.address2 = address2;
+      cyberPaymentParam.country = 'US';
+      cyberPaymentParam.state = province;
+      cyberPaymentParam.city = city;
+      cyberPaymentParam.zipCode = postCode;
+      cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
+      cyberPaymentParam.phone = phoneNumber;
+      cyberParams = Object.assign({}, cyberPaymentParam, {
+        cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
+        paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
+      });
+    }
 
-    let cyberParams = Object.assign({}, cyberPaymentParam, {
-      cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
-      paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
-    });
-
-    //console.log(cyberPaymentParam);
-    // debugger;
+    console.log(cyberParams);
+    debugger;
 
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
@@ -1994,14 +2006,24 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        if (this.state.paymentTypeVal == 'cyber') {
-          const res = await this.cyberCardRef.current.usPaymentInfoEvent(
-            params
-          );
-          return new Promise((resolve) => {
-            resolve(res);
-          });
-        }
+        const res = await this.cyberCardRef.current.usPaymentInfoEvent(params);
+        return new Promise((resolve) => {
+          resolve(res);
+        });
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    };
+
+    ////cyber会员绑卡2
+    const loginCyberBindSaveCard = async (params) => {
+      try {
+        const res = await this.cyberCardListRef.current.usPaymentInfoEvent(
+          params
+        );
+        return new Promise((resolve) => {
+          resolve(res);
+        });
       } catch (e) {
         throw new Error(e.message);
       }
@@ -2025,16 +2047,28 @@ class Payment extends React.Component {
         if (paymentTypeVal === 'adyenCard' && !adyenPayParam) {
           await handleClickSaveAdyenForm(this);
         }
+
         await handleClickSavePayUForm(this);
-        const res = await loginCyberSaveCard(cyberParams);
-        getBindCardInfo(res);
+
+        if (paymentTypeVal === 'cyber' && !isRebind) {
+          const res = await loginCyberSaveCard(cyberParams);
+          getBindCardInfo(res);
+        }
+        if (paymentTypeVal === 'cyber' && isRebind) {
+          const res = await loginCyberBindSaveCard(cyberParams);
+          getBindCardInfo(res);
+        }
       } else {
         // 1 save card form
         // 2 save billing addr, when billing checked status is false
         await handleClickSaveAdyenForm(this);
         await handleClickSavePayUForm(this);
-        const res = await unLoginCyberSaveCard(cyberParams);
-        getBindCardInfo(res);
+
+        if (paymentTypeVal === 'cyber') {
+          const res = await unLoginCyberSaveCard(cyberParams);
+          getBindCardInfo(res);
+        }
+
         if (
           !billingChecked &&
           this.unLoginBillingAddrRef &&
@@ -2120,13 +2154,13 @@ class Payment extends React.Component {
       }
       return !isValidForCyberPayment;
     };
-    const payConfirmBtn = ({ disabled, loading = false }) => {
+    const payConfirmBtn = ({ disabled, loading = false, isRebind = false }) => {
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
             className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
             disabled={disabled}
-            onClick={this.clickConfirmPaymentPanel}
+            onClick={this.clickConfirmPaymentPanel.bind(this, isRebind)}
           >
             <FormattedMessage id="yes2" />
           </button>
@@ -2362,12 +2396,17 @@ class Payment extends React.Component {
               {paymentTypeVal === 'cyber' && this.state.isShowCardList && (
                 <>
                   <CyberCardList
+                    ref={this.cyberCardListRef}
                     updateSelectedCardInfo={this.updateSelectedCardInfo}
                     showCyberForm={this.showCyberForm}
+                    billingJSX={this.renderBillingJSX({
+                      type: paymentTypeVal
+                    })}
                   />
                   {payConfirmBtn({
                     disabled: !this.state.isShowCyberBindCardBtn,
-                    loading: saveBillingLoading
+                    loading: saveBillingLoading,
+                    isRebind: true
                   })}
                 </>
               )}
