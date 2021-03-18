@@ -1,15 +1,20 @@
 const tr_TR = {
   aboutUs: 'Hakkımızda',
-  'aboutUs.description': 'Hayvan sağlığı, güzelliğinin ve refahının anahtarıdır. İhtiyaçlarının ne olduğunu anlamak ve onlara benzersiz bir bireysel beslenme sunmak için köpeklerin ve kedilerin en küçük fizyolojik özelliklerini dikkatle inceliyoruz.',
+  'aboutUs.description':
+    'Hayvan sağlığı, güzelliğinin ve refahının anahtarıdır. İhtiyaçlarının ne olduğunu anlamak ve onlara benzersiz bir bireysel beslenme sunmak için köpeklerin ve kedilerin en küçük fizyolojik özelliklerini dikkatle inceliyoruz.',
   'aboutUs.FoodQualityandSafety': 'Gıda Kalitesi ve Güvenliği',
-  'aboutUs.FoodQualityandSafetyDetail': 'Beslenme kalitesine ve ürün güvenliğine olan bağlılığımız dünya çapındaki operasyonlarımızın merkezinde yer almaktadır.',
+  'aboutUs.FoodQualityandSafetyDetail':
+    'Beslenme kalitesine ve ürün güvenliğine olan bağlılığımız dünya çapındaki operasyonlarımızın merkezinde yer almaktadır.',
   'aboutUs.history': 'Tarihimiz',
-  'aboutUs.historyDetail': 'Royal Canin, 1968 yılında veteriner hekim Jean Cathary tarafından kuruldu. Dr. Cathary’nin vizyonu bilime dayalı, kedi ve köpeklerin ilk ilacı olarak beslenme sağlayan ve her bir evcil hayvanın benzersiz ihtiyaçlarını karşılamak için kesin formüller oluşturan bir evcil hayvan maması şirketiydi.',
+  'aboutUs.historyDetail':
+    'Royal Canin, 1968 yılında veteriner hekim Jean Cathary tarafından kuruldu. Dr. Cathary’nin vizyonu bilime dayalı, kedi ve köpeklerin ilk ilacı olarak beslenme sağlayan ve her bir evcil hayvanın benzersiz ihtiyaçlarını karşılamak için kesin formüller oluşturan bir evcil hayvan maması şirketiydi.',
   'aboutUs.IncredibleDetail': 'Her Ayrıntıda İnanılmaz',
   'aboutUs.learnMore': 'Daha Fazla Bilgi Edinin',
   'aboutUs.ourValues': 'Değerlerimiz',
-  'aboutUs.ourValuesDetail': "Royal Canin'in dünyadaki rolünü şekillendiren fikirler ve değerler hakkında daha fazla bilgi edinin.",
-  'aboutUs.SeeHowWeDo': 'Yaptığımız her şeyin evcil hayvan sağlığına olan tutkumuz tarafından yönlendirildiğini görün.',
+  'aboutUs.ourValuesDetail':
+    "Royal Canin'in dünyadaki rolünü şekillendiren fikirler ve değerler hakkında daha fazla bilgi edinin.",
+  'aboutUs.SeeHowWeDo':
+    'Yaptığımız her şeyin evcil hayvan sağlığına olan tutkumuz tarafından yönlendirildiğini görün.',
   'aboutUs.shopCat': 'Kedi Formülleri Satın Alın',
   'aboutUs.shopDog': 'Köpek Formülleri Satın Alın',
   'aboutUs.shopTile': 'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
@@ -29,24 +34,31 @@ const tr_TR = {
   'account.female': 'Kadın',
   'account.fine': 'İnce!',
   'account.gender': 'Evcil hayvanınızın cinsiyeti nedir?',
-  'account.helpTip': 'Sorularınız varsa, size ve evcil hayvanınıza yardım etmeye her zaman hazırız.',
+  'account.helpTip':
+    'Sorularınız varsa, size ve evcil hayvanınıza yardım etmeye her zaman hazırız.',
   'account.male': 'Erkek',
   'account.monRoyalCanin': 'Mon Royal Canin',
   'account.myAccount': 'Hesabım',
-  'account.myCommunicationPreferencesContent1': 'Tercih edilen iletişim yöntemi',
+  'account.myCommunicationPreferencesContent1':
+    'Tercih edilen iletişim yöntemi',
   'account.myCommunicationPreferencesContent2': 'İletişim için verilen onaylar',
-  'account.myCommunicationPreferencesDesc': 'İletişimde Royal Canin bilgilerini takip edin',
+  'account.myCommunicationPreferencesDesc':
+    'İletişimde Royal Canin bilgilerini takip edin',
   'account.myCommunicationPreferencesTitle': 'İletişim tercihlerim',
   'account.nickname': 'Evcil hayvanınızın takma adı nedir?',
-  'account.noPet': 'Evcil hayvan profilinizi bugün oluşturun! Bilgileri doldurun ve en uygun diyeti seçin',
-  'account.noSubscription': 'Autoship hizmetlerimizi henüz keşfetmediniz mi? AutoShip, siparişlerinizi düzenli bir programa göre teslim etmenin uygun bir yoludur. Böylece zamandan tasarruf edersiniz ve evcil hayvanınızın yiyeceği asla bitmez.',
+  'account.noPet':
+    'Evcil hayvan profilinizi bugün oluşturun! Bilgileri doldurun ve en uygun diyeti seçin',
+  'account.noSubscription':
+    'Autoship hizmetlerimizi henüz keşfetmediniz mi? AutoShip, siparişlerinizi düzenli bir programa göre teslim etmenin uygun bir yoludur. Böylece zamandan tasarruf edersiniz ve evcil hayvanınızın yiyeceği asla bitmez.',
   'account.noSubscriptionTitle': 'Başlayalım!',
   'account.notRegistred': 'Kayıtlı değil misiniz?',
   'account.of': 'nın-nin',
   'account.orders': 'Emirler',
   'account.orders.btns': 'Alışverişe başla',
-  'account.orders.tips': 'Henüz sipariş vermediniz! Evcil hayvanınızın doğru beslenmesi için şimdi alışverişe başlayın.',
-  'account.ordersTip': 'Mevcut siparişlerin durumunu kontrol edin ve önceki siparişlerin geçmişini görün.',
+  'account.orders.tips':
+    'Henüz sipariş vermediniz! Evcil hayvanınızın doğru beslenmesi için şimdi alışverişe başlayın.',
+  'account.ordersTip':
+    'Mevcut siparişlerin durumunu kontrol edin ve önceki siparişlerin geçmişini görün.',
   'account.paymentMethodTip': 'Ödeme bilgilerini görüntüleyin ve güncelleyin',
   'account.personalArea': 'Profil',
   'account.personalData': 'Kişisel veri',
@@ -67,8 +79,10 @@ const tr_TR = {
   'account.TheAddressBook': 'Adres defteri',
   'account.toComeIn': 'İçeri gel',
   'account.unknownBreed': 'Bilinmeyen cins',
-  'account.warmNotice': 'Hoş geldiniz {val}, Bu alan hesabınızı yönetmeye ayrılmıştır. Profil bilgilerinizi kolayca değiştirebilir, evcil hayvan ihtiyaçlarınızı yönetebilir, siparişlerinizin durumunu ve Otomatik Gönderinizi kontrol edebilirsiniz.',
-  'account.weight': 'Sizin cinsiniz {val} olan yetişkin bir köpeğin ağırlığı nedir?',
+  'account.warmNotice':
+    'Hoş geldiniz {val}, Bu alan hesabınızı yönetmeye ayrılmıştır. Profil bilgilerinizi kolayca değiştirebilir, evcil hayvan ihtiyaçlarınızı yönetebilir, siparişlerinizin durumunu ve Otomatik Gönderinizi kontrol edebilirsiniz.',
+  'account.weight':
+    'Sizin cinsiniz {val} olan yetişkin bir köpeğin ağırlığı nedir?',
   'account.welcome': 'ROYAL CANIN® ailesine hoş geldiniz!',
   active: 'Aktif',
   addANewPaymentMethod: 'Yeni bir ödeme yöntemi ekleyin',
@@ -107,18 +121,21 @@ const tr_TR = {
   cardNumberIsInvalid: 'kart numaranız geçersiz',
   'cart.catDiet': 'Kediniz için bir diyet seçin',
   'cart.deletInfo': 'Ürün silinsin mi?',
-  'cart.deletInfo2': 'Bu ürünü sepetinizden çıkarmak istediğinizden emin misiniz?',
+  'cart.deletInfo2':
+    'Bu ürünü sepetinizden çıkarmak istediğinizden emin misiniz?',
   'cart.delivery': 'teslimat',
   'cart.dogDiet': 'Köpeğiniz için bir diyet seçin',
   'cart.errorInfo': "Sayı 1'den küçük olamaz",
   'cart.errorInfo2': 'Stokta olmayan ürün siparişinizi veremezsiniz',
-  'cart.errorInfo3': '* Sipariş tutarınız henüz ücretsiz gönderim için minimum tutara （{val} ulaşmadı',
+  'cart.errorInfo3':
+    '* Sipariş tutarınız henüz ücretsiz gönderim için minimum tutara （{val} ulaşmadı',
   'cart.errorInfo4': 'Siparişinizi veremezsiniz, kapalı raf ürünü',
   'cart.errorInfo5': 'Siparişinizi veremezsiniz, silinmiş ürün: {val}',
   'cart.errorMaxCate': 'Alışveriş sepeti {val} öğeyi aşamaz',
   'cart.errorMaxInfo': "Sayı {val}'u geçemez",
   'cart.fullPrice': 'PETİNİZ İÇİN TAM PİRİNÇ',
-  'cart.miniCartTitle': 'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
+  'cart.miniCartTitle':
+    'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün sepette',
   'cart.totalProduct_nounit': '{val} sepette',
   'cart.yourShoppingCart': 'Alışveriş sepetiniz',
@@ -135,7 +152,8 @@ const tr_TR = {
   choosePayment: 'Ödemeyi seçin',
   choosePrescriber: 'Lütfen doğru reçeteyi yazanı seçin',
   clickConfirmCardButton: 'Lütfen kartı onayla düğmesini tıklayın',
-  clickConfirmCvvButton: "Bu kredi kartını kullanmak istiyorsanız, lütfen CVV'yi girin ve Uygula düğmesini tıklayın",
+  clickConfirmCvvButton:
+    "Bu kredi kartını kullanmak istiyorsanız, lütfen CVV'yi girin ve Uygula düğmesini tıklayın",
   clickHere: 'Buraya Tıkla',
   'clinic.cancel': 'İptal etmek',
   'clinic.clinic': 'klinik',
@@ -149,23 +167,28 @@ const tr_TR = {
   close: 'Kapat',
   club: 'club',
   'comment.commentsTooLong': 'Ürün yorumları 500 karakterden fazla olamaz',
-  'comment.noLogisticsRatingTip': 'Lütfen lojistik hizmeti hakkında yorum yapın',
+  'comment.noLogisticsRatingTip':
+    'Lütfen lojistik hizmeti hakkında yorum yapın',
   'comment.noProductRatingTip': 'Lütfen ürünler hakkında yorum yapın',
-  'comment.noShoppingExperienceTip': 'Lütfen alışveriş deneyimi hakkında yorum yapın',
+  'comment.noShoppingExperienceTip':
+    'Lütfen alışveriş deneyimi hakkında yorum yapın',
   CompleteRequiredItems: 'Lütfen gerekli maddeleri tamamlayın',
   confirmation: 'Onayla',
   'confirmation.account': 'Go to my account',
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
-  'confirmation.info2': 'Yakın gelecekte, personelimiz siparişi onaylamak için sizinle iletişime geçecektir.',
-  'confirmation.info3': 'Adresler ve nakliye yöntemleri mallarınızın altında belirtilmiştir.',
+  'confirmation.info2':
+    'Yakın gelecekte, personelimiz siparişi onaylamak için sizinle iletişime geçecektir.',
+  'confirmation.info3':
+    'Adresler ve nakliye yöntemleri mallarınızın altında belirtilmiştir.',
   'confirmation.oneShoot': 'Go to my account',
   'confirmation.orderNumber': 'Sipariş numarası',
   'confirmation.rateTip': 'Alışveriş deneyiminizi nasıl değerlendirirsiniz?',
   'confirmation.rateTip2': 'İyileştirmek için ne yapabiliriz?',
   'confirmation.rateTip3': 'En fazla 50 karakter girin',
   'confirmation.rateTip4': 'Lütfen önce puan verin.',
-  'confirmation.subscriptionDiscountPriceDes': 'You saved {val1}  with the mark',
+  'confirmation.subscriptionDiscountPriceDes':
+    'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
   confirmDelete: 'Silmeyi onaylıyor musunuz?',
   confirmPassword: 'Şifreyi Onayla *',
@@ -183,18 +206,43 @@ const tr_TR = {
   creditCardTipMany: "10'a kadar {sayı} kredi kartı oluşturdunuz",
   customerReviews: 'Musteri degerlendirmeleri',
   cvvWarning: 'CVV yanlış',
-  'datePicker.months': ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+  'datePicker.months': [
+    'Ocak',
+    'Şubat',
+    'Mart',
+    'Nisan',
+    'Mayıs',
+    'Haziran',
+    'Temmuz',
+    'Ağustos',
+    'Eylül',
+    'Ekim',
+    'Kasım',
+    'Aralık'
+  ],
   'datePicker.nextMonth': 'gelecek ay',
   'datePicker.previousMonth': 'geçtiğimiz ay',
-  'datePicker.weekdays': ['Pazar Pazartesi Salı Çarşamba Perşembe Cuma Cumartesi'],
-  'datePicker.weekdaysShort': ['Paz', 'Pzt', 'Salı', 'Çar', 'Per', 'Cum', 'Cts'],
+  'datePicker.weekdays': [
+    'Pazar Pazartesi Salı Çarşamba Perşembe Cuma Cumartesi'
+  ],
+  'datePicker.weekdaysShort': [
+    'Paz',
+    'Pzt',
+    'Salı',
+    'Çar',
+    'Per',
+    'Cum',
+    'Cts'
+  ],
   default: 'Varsayılan',
   defaultAddress: 'varsayılan adres',
   delete: 'Sil',
   deleteAddressFailed: 'Adres Silinemedi',
   deleteAddressSuccess: 'Başarılı Adres Sil',
-  deleteAddressTip: 'Üzgünüz, bu adres zaten bir aboneliğe tabi olduğu için silinemez.',
-  deleteCardTip: 'Üzgünüz, bu kredi kartı zaten bir aboneliğe tabi olduğu için silinemez.',
+  deleteAddressTip:
+    'Üzgünüz, bu adres zaten bir aboneliğe tabi olduğu için silinemez.',
+  deleteCardTip:
+    'Üzgünüz, bu kredi kartı zaten bir aboneliğe tabi olduğu için silinemez.',
   delivery: 'teslimat',
   delivery2: 'Teslimat',
   deliveryAddress: 'Teslimat adresi',
@@ -203,9 +251,11 @@ const tr_TR = {
   'deliveryStatus.PART_SHIPPED': 'Kısmen gönderildi',
   'deliveryStatus.SHIPPED': 'Hepsi gönderildi',
   'deliveryStatus.VOID': 'Teslim edilecek',
-  'detail.answer': 'Danışmanlarımız gerçek uzmanlar ve tutkulu. Herhangi bir talebi cevaplamak için emrinizdedirler.',
+  'detail.answer':
+    'Danışmanlarımız gerçek uzmanlar ve tutkulu. Herhangi bir talebi cevaplamak için emrinizdedirler.',
   'detail.email': 'Eposta ile',
-  'detail.packagingDesc': 'Ambalajlarımız / ürünlerimiz bir sıralama talimatına tabi olabilir',
+  'detail.packagingDesc':
+    'Ambalajlarımız / ürünlerimiz bir sıralama talimatına tabi olabilir',
   //plp
   'detail.question': 'Hala bu ürünle ilgili sorularınız var?',
   'detail.telephone': 'Telefonla',
@@ -251,7 +301,8 @@ const tr_TR = {
   examplePostCode: '02860',
   expirationDateIsInvalid: 'kartınızın son kullanma tarihi geçersiz',
   'faq.frequentQuestions': 'Sık sorulan sorular',
-  'faq.title': 'Tienes alguna pregunta. Consulta nuestras preguntas daha çok frecuentes. Si no encuentras lo que estás buscando, haz clic {val1} para contactarnos. ',
+  'faq.title':
+    'Tienes alguna pregunta. Consulta nuestras preguntas daha çok frecuentes. Si no encuentras lo que estás buscando, haz clic {val1} para contactarnos. ',
   'faq.title2': 'Entrega del alimento',
   filters: 'Ürünleri filtrele',
   findLocation: 'Yer Bul',
@@ -266,7 +317,8 @@ const tr_TR = {
   'footer.contactUs': 'Bize Ulaşın',
   'footer.cookieCollectionPolicy': 'Çerez Toplama Politikası',
   'footer.cookies': 'Kurabiye',
-  'footer.copyrightInfo': "Telif hakkı © Mars 2021®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
+  'footer.copyrightInfo':
+    "Telif hakkı © Mars 2021®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
   'footer.FAQ': 'S.S.S',
   'footer.healthAndNutrition': 'Sağlık ve Beslenme',
   'footer.help': 'YARDIM',
@@ -284,26 +336,31 @@ const tr_TR = {
   forgetPassword: 'Şifreyi unut?',
   'forgetPassword.back': 'Giriş yapmak için geri dön',
   'forgetPassword.createNewPassword': 'Yeni şifre oluştur',
-  'forgetPassword.forgetPasswordTip': 'Şifreyi değiştirme talimatlarını içeren bir mektup alacaksınız.',
+  'forgetPassword.forgetPasswordTip':
+    'Şifreyi değiştirme talimatlarını içeren bir mektup alacaksınız.',
   freeShipping: 'Ücretsiz kargo',
   from: 'Kimden',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
   getDataFailed: 'Veri Alma Başarısız Oldu',
   getPetFailed: 'Hayvan Başarısız Olsun',
-  giveConsentPersonalData: 've sınır ötesi aktarım dahil olmak üzere kişisel verilerin işlenmesine izin veriyorum',
+  giveConsentPersonalData:
+    've sınır ötesi aktarım dahil olmak üzere kişisel verilerin işlenmesine izin veriyorum',
   goods: 'Mal',
   guestCheckout: 'Misafir olarak çıkış yap',
   'header.basketEmpty': 'Sepetinizde bir ürün yok.',
-  'header.carouselInfo1': 'Doğru beslenme ile evcil hayvanınızın sağlığını koruyun',
+  'header.carouselInfo1':
+    'Doğru beslenme ile evcil hayvanınızın sağlığını koruyun',
   'header.carouselInfo2': 'Evcil hayvanınız için doğru mamayı seçin',
   'header.carouselInfo3': 'Evcil Hayvan Beslenmesi',
   'header.carouselInfo4': 'Kişisel danışman',
   'header.carouselInfo5': 'ÜCRETSİZ veteriner muayeneleri',
   'header.carouselInfo6': 'Markalı aksesuarlar ve VIP hizmeti',
   'header.carouselInfo7': 'Evcil hayvanınızın sağlık ve esenlik programı',
-  'header.carouselInfo8': 'Uzmanlarımız size yardımcı olmak için her şeyi yapacak!',
-  'header.carouselInfo9': 'Kişisel danışmanınız her gün saat 9.00-21.00 arası sizinle iletişim halinde',
+  'header.carouselInfo8':
+    'Uzmanlarımız size yardımcı olmak için her şeyi yapacak!',
+  'header.carouselInfo9':
+    'Kişisel danışmanınız her gün saat 9.00-21.00 arası sizinle iletişim halinde',
   'header.carouselInfo10': 'Kişisel Danışman ROYAL CANIN® CLUB',
   'header.carouselInfo11': 'Kediler için ROYAL CANIN® CLUB',
   'header.startTypingToSearch': 'Aramak için yazmaya başlayın',
@@ -334,7 +391,8 @@ const tr_TR = {
   'help.needHelp': 'Yardıma mı ihtiyacınız var?',
   'help.tel': 'tel',
   'help.tip1': 'Müşteri hizmetleri ekibimiz profesyonel ve heveslidir.',
-  'help.tip2': 'Pazartesiden Cumaya, 08: 00-20: 00 arası Ücretsiz Arama (sabit hattan).',
+  'help.tip2':
+    'Pazartesiden Cumaya, 08: 00-20: 00 arası Ücretsiz Arama (sabit hattan).',
   'help.tip3': 'Size en fazla 12 saat içinde cevap vereceğiz.',
   'help.tip4': 'Herhangi bir soruna her an cevap verebilirler.',
   here: 'aquí',
@@ -348,7 +406,8 @@ const tr_TR = {
   'home.convenientTip2': "{Val} 'dan sipariş verirken hızlı ücretsiz gönderim.",
   'home.convenientTip3': 'Destek servisi',
   'home.convenientTitle': 'ROYAL CANIN® ile alışveriş yapmak neden uygun?',
-  'home.note1': 'Evcil hayvanlarımızın sağlığı için hizmet vermeye devam ediyoruz.',
+  'home.note1':
+    'Evcil hayvanlarımızın sağlığı için hizmet vermeye devam ediyoruz.',
   'home.note2': 'Tüm siparişlerinizde Ücretsiz kargo ve Hızlı teslimat.',
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
@@ -359,19 +418,22 @@ const tr_TR = {
   'home.point5': "1968'DEN BERİ KÖPEK VE KEDİLERİN SAĞLIĞINA BAKIM",
   'home.point6': 'SİZİNLE BİRLİKTE',
   'home.productsCategory': 'Ürün kategorilerimize göz atın',
-  'home.promotionTip': 'İlk satın almada% 10 indirim + her otomatik sevkiyat siparişinde% 5',
+  'home.promotionTip':
+    'İlk satın almada% 10 indirim + her otomatik sevkiyat siparişinde% 5',
   'home.specialAnimalNutrition': 'Özel hayvan beslenmesi',
   'home.specialInfo1': 'Her cinsin ihtişamı',
   'home.specialInfo2': 'benzersizliğinde.',
   'home.specialInfo3': 'Onları benzersiz kılan şeyin ne olduğunu bulun!',
-  'home.specialInfo4': '50 yılı aşkın süredir, Her şeyden önce köpekler ve kediler için esenlik ilkesini izliyoruz. Hayvanların özel ihtiyaçlarına göre uyarlanmış yemler üretiyoruz. ',
+  'home.specialInfo4':
+    '50 yılı aşkın süredir, Her şeyden önce köpekler ve kediler için esenlik ilkesini izliyoruz. Hayvanların özel ihtiyaçlarına göre uyarlanmış yemler üretiyoruz. ',
   'home.viewProducts': 'Ürünleri Görüntüle',
   homePage: 'Ana Sayfa',
   iHaveReadThe: 'Okudum',
   inactive: 'Pasif',
   information: 'Bilgi',
   inputSearchText: 'arama metni girin',
-  inputYourEmailReceivePayment: 'Ödeme kuponu ve sipariş durumu bildirimlerini almak için e-postanızı girin.',
+  inputYourEmailReceivePayment:
+    'Ödeme kuponu ve sipariş durumu bildirimlerini almak için e-postanızı girin.',
   inTheBasket: 'sepette',
   invoice: 'fatura',
   isContinue: 'Devam edelim mi?',
@@ -389,17 +451,21 @@ const tr_TR = {
   'lang.submit': 'Sunmak',
   lastName: 'Soyadı *',
   learnMore: 'Daha fazla bilgi edin',
-  'list.errMsg': 'Ürün bulunamadı, lütfen arama kriterlerini değiştirip tekrar deneyin.',
-  'list.errMsg2': 'Ürün bulunamadı, lütfen anahtar kelimeleri değiştirip tekrar deneyin.',
+  'list.errMsg':
+    'Ürün bulunamadı, lütfen arama kriterlerini değiştirip tekrar deneyin.',
+  'list.errMsg2':
+    'Ürün bulunamadı, lütfen anahtar kelimeleri değiştirip tekrar deneyin.',
   'list.errMsg3': 'Filtre bulunamadı, lütfen daha sonra tekrar deneyin.',
-  'list.errMsg4': 'Ürün bulunamadı. Lütfen arama teriminizi değiştirin ve tekrar deneyin.',
+  'list.errMsg4':
+    'Ürün bulunamadı. Lütfen arama teriminizi değiştirin ve tekrar deneyin.',
   'list.youSearchedFor': 'Aradınız',
   listPrice: 'Liste fiyatı',
   login: 'Oturum aç',
   'login.firstCheck': '',
   'login.forgetPassword': 'Şifreni mi unuttun?',
   'login.guestContinue': 'Bir misafirle devam et',
-  'login.loginTip': 'ROYAL CANIN® hizmetine bağlanmak için yetkilendirme gereklidir. Kişisel hesabınız yoksa hemen kayıt olabilirsiniz.',
+  'login.loginTip':
+    'ROYAL CANIN® hizmetine bağlanmak için yetkilendirme gereklidir. Kişisel hesabınız yoksa hemen kayıt olabilirsiniz.',
   'login.passwordTip': '8-20 karakter ve küçük harf, büyük harf, sayı dahil',
   'login.register': 'Kişisel bir hesap oluşturun',
   'login.secondCheck': '18 yaşından büyük olduğumu onaylıyorum',
@@ -413,21 +479,25 @@ const tr_TR = {
   menu: 'Menü',
   miniBasket: 'Mini sepet',
   MMYY: 'AA / YY',
-  modalCancelAllContent: 'Aşağıdaki tüm teslimatları iptal etmek istediğinizden emin misiniz?',
+  modalCancelAllContent:
+    'Aşağıdaki tüm teslimatları iptal etmek istediğinizden emin misiniz?',
   modalCancelAllTitle: 'TÜM SİPARİŞLER İPTAL EDİLSİN Mİ?',
   modalOrderNowContent: 'Bu siparişi şimdi vermek istediğinizden emin misiniz?',
   modalOrderNowTitle: 'ŞİMDİ SİPARİŞ VER?',
-  modalSkipContent: 'Bir sonraki teslimatı iptal etmek istediğinizden emin misiniz?',
+  modalSkipContent:
+    'Bir sonraki teslimatı iptal etmek istediğinizden emin misiniz?',
   modalSkipTitle: 'SONRAKİ TESLİMATI ATLA?',
   moreAddress: 'Daha Fazla Adres',
   moreChoicesAvailable: 'Daha Fazla Seçenek Mevcut',
-  mustChooseACommunicationMethodTip: 'Üzgünüz, iletişim onayını kontrol ettiniz, bu yüzden bir iletişim yöntemi seçmelisiniz',
+  mustChooseACommunicationMethodTip:
+    'Üzgünüz, iletişim onayını kontrol ettiniz, bu yüzden bir iletişim yöntemi seçmelisiniz',
   name: 'İsim',
   name2: 'İSİM',
   nameInvalid: 'Adın geçersiz',
   newAddress: 'Yeni adres',
   newPassword: 'Yeni Şifre',
-  noClinicTip: 'Öneri kodunuz geçerli değil. {val} ve geçerli bir kod için ortak kliniklerimizden kontrol edin.',
+  noClinicTip:
+    'Öneri kodunuz geçerli değil. {val} ve geçerli bir kod için ortak kliniklerimizden kontrol edin.',
   NoPromotionDesc: 'Promosyon Yok',
   noSpecialNeeds: 'Özel ihtiyaç yok',
   notate: '',
@@ -437,7 +507,8 @@ const tr_TR = {
   operateSuccessfully: 'Başarıyla çalıştırın!',
   or: 'veya',
   'order.cancelOrder': 'Siparişi iptal et',
-  'order.confirmCancelOrderInfo': 'Siparişi gerçekten iptal etmek istiyor musunuz?',
+  'order.confirmCancelOrderInfo':
+    'Siparişi gerçekten iptal etmek istiyor musunuz?',
   'order.dealDatePeriod': 'Fırsat Tarihi Dönemi',
   'order.deliveryComment': 'Teslimat yorumu',
   'order.exchange': 'Değiş tokuş',
@@ -466,7 +537,8 @@ const tr_TR = {
   'order.progress6': 'Bekleyen yorum',
   'order.progress7': 'İptal edildi',
   'order.rateModalTitle': 'Fikriniz önemlidir',
-  'order.refundErrorInfo': 'Bu sipariş, işlenmekte olan bir geri ödeme ile ilişkilendirilmiştir ve yeniden uygulanamaz.',
+  'order.refundErrorInfo':
+    'Bu sipariş, işlenmekte olan bir geri ödeme ile ilişkilendirilmiştir ve yeniden uygulanamaz.',
   'order.return': 'Dönüş',
   'order.returnDate': 'Dönüş tarihi',
   'order.returnDetails': 'İade Detayları',
@@ -475,8 +547,10 @@ const tr_TR = {
   'order.returnOrderDetails': 'İade Sipariş Ayrıntıları',
   'order.returnStatus': 'İade Durumu',
   'order.shippingStatus': 'Nakliye durumu',
-  'order.toBeDeliveredTip': 'Siparişiniz başarıyla ödendi ve kargoya hazırlanıyoruz.',
-  'order.toBePaidTip': 'Siparişiniz ödenmedi, lütfen en kısa sürede ödeyin. {val}',
+  'order.toBeDeliveredTip':
+    'Siparişiniz başarıyla ödendi ve kargoya hazırlanıyoruz.',
+  'order.toBePaidTip':
+    'Siparişiniz ödenmedi, lütfen en kısa sürede ödeyin. {val}',
   'order.viewOrder': 'Siparişi görüntüle',
   orders: 'Emirler',
   'orderStatus.AUDIT': 'Teslim edilecek',
@@ -489,8 +563,10 @@ const tr_TR = {
   'orderStatus.REMEDY': 'Teslim edilecek',
   'orderStatus.VOID': 'İptal edildi',
   orderSummary: 'Sipariş özeti',
-  outOfStockContent_cart: 'Şu anda tavsiye edilen ürünler arasında stokta kalmayan ürünler var',
-  outOfStockContent_pay: 'Şu anda tavsiye edilen ürünler arasında stokta kalmayan ürünler var',
+  outOfStockContent_cart:
+    'Şu anda tavsiye edilen ürünler arasında stokta kalmayan ürünler var',
+  outOfStockContent_pay:
+    'Şu anda tavsiye edilen ürünler arasında stokta kalmayan ürünler var',
   oxxo: 'OXXO',
   oxxoTransactionFee: '(OXXO işlem ücretini içermez)',
   password: 'Parola *',
@@ -514,9 +590,12 @@ const tr_TR = {
   'payment.commentOnDelivery': 'Teslimatla ilgili yorum',
   'payment.confirmCard': 'Kartı Onayla',
   'payment.confirmInfo1': '18 yaşından büyük olduğumu onaylıyorum',
-  'payment.confirmInfo2': 'Siteye kayıt olmak için 18 yaş ve üzerinde olmalısınız.',
-  'payment.confirmInfo3': 'O leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, includingida {val2}',
-  'payment.confirmInfo4': 'Kullanıcı Sözleşmesi ve Gizlilik Politikası hakkında bilgi sahibi olmanız ve sınır ötesi aktarım dahil olmak üzere kişisel verilerin işlenmesine onay vermeniz gerekir.',
+  'payment.confirmInfo2':
+    'Siteye kayıt olmak için 18 yaş ve üzerinde olmalısınız.',
+  'payment.confirmInfo3':
+    'O leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, includingida {val2}',
+  'payment.confirmInfo4':
+    'Kullanıcı Sözleşmesi ve Gizlilik Politikası hakkında bilgi sahibi olmanız ve sınır ötesi aktarım dahil olmak üzere kişisel verilerin işlenmesine onay vermeniz gerekir.',
   'payment.country': 'Ülke',
   'payment.DEBIT': 'BORÇ',
   'payment.deliveryFrequency': 'Teslimat Sıklığı',
@@ -527,7 +606,8 @@ const tr_TR = {
   'payment.errTip': 'lütfen cvv girin veya bir kart seçin',
   'payment.firstName': 'İsim',
   'payment.forFree': 'Bedava',
-  'payment.forFreeTip': 'Web sitesinde sipariş veren her tüketiciye, miktarı ne olursa olsun ücretsiz teslimat hizmeti verilebilmektedir.',
+  'payment.forFreeTip':
+    'Web sitesinde sipariş veren her tüketiciye, miktarı ne olursa olsun ücretsiz teslimat hizmeti verilebilmektedir.',
   'payment.frequencyTip1': 'Evet, hayatımı kolaylaştırın!',
   'payment.frequencyTip2': 'Hayır teşekkürler.',
   'payment.frequencyTip3': 'Öğeleriniz yalnızca bir kez gönderilecektir.',
@@ -546,14 +626,21 @@ const tr_TR = {
   'payment.postCode2': 'Posta kodu',
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
+  'payment.state': 'Durum',
+  'payment.region': 'bölge',
+  'payment.entrance': 'giriş',
+  'payment.apartment': 'daire',
+  'payment.comment': 'Şerh',
   'payment.subTip1': 'Bu siparişte ek bir {val} tasarruf edeceksiniz!',
-  'payment.subTip2': 'İlk {icon} Abonelik siparişinizi kaydedin ve bugün {val} ({val2}) tasarruf edin!',
+  'payment.subTip2':
+    'İlk {icon} Abonelik siparişinizi kaydedin ve bugün {val} ({val2}) tasarruf edin!',
   'payment.totalProduct': '{val} toplam ürün',
   'payment.yourOrder': 'Siparişiniz',
   paymentMethod: 'Ödeme şekli',
   'paymethods.btn': 'Ödeme Ekle',
   //account.paymethods:
-  'paymethods.info': 'Kaydedilmiş ödeme yönteminiz yok. Ödeme işlemini hızlandırmak için ödeme bilgilerinizi buraya ekleyin. Kolay, gizli ve güvenlidir!',
+  'paymethods.info':
+    'Kaydedilmiş ödeme yönteminiz yok. Ödeme işlemini hızlandırmak için ödeme bilgilerinizi buraya ekleyin. Kolay, gizli ve güvenlidir!',
   'payStatus.NOT_PAID': 'Ödenmemiş',
   'payStatus.PAID': 'Ücretli',
   'payStatus.PAID_IN': 'Ödenen',
@@ -569,30 +656,37 @@ const tr_TR = {
   pleaseEnterTheCorrectEmail: 'Lütfen doğru e-postayı girin',
   PleaseFillInstructions: 'Lütfen iade talimatlarını doldurun',
   'plp.retail.cat.button': 'Aralığı keşfedin',
-  'plp.retail.cat.detail': 'Sorunlu kedilerin sağlığını korumaya yardımcı olan diyet gıdaları',
+  'plp.retail.cat.detail':
+    'Sorunlu kedilerin sağlığını korumaya yardımcı olan diyet gıdaları',
   'plp.retail.cat.product.finder.button': 'Bir ürün bul',
   'plp.retail.cat.product.finder.detail': 'Ürün bulucumuzu deneyin',
-  'plp.retail.cat.product.finder.title': 'Doğru ürünü bulmak için yardıma mı ihtiyacınız var?',
+  'plp.retail.cat.product.finder.title':
+    'Doğru ürünü bulmak için yardıma mı ihtiyacınız var?',
   //PLP-Retail-Cat
   'plp.retail.cat.title': 'Veterinerlik ürünleri mi arıyorsunuz?',
   'plp.vet.cat.button': 'Aralığı keşfedin',
-  'plp.vet.cat.detail': 'Soslu veya jöleli kuru mamalar ve ısırıklardan oluşan eksiksiz yelpazemiz, her yaştan, büyüklükten ve cinsten kedi için en doğru beslenmeyi sağlar.',
+  'plp.vet.cat.detail':
+    'Soslu veya jöleli kuru mamalar ve ısırıklardan oluşan eksiksiz yelpazemiz, her yaştan, büyüklükten ve cinsten kedi için en doğru beslenmeyi sağlar.',
   //PLP-Vet-Cat
-  'plp.vet.cat.title': 'Özel satış noktalarında bulunan yiyecekleri mi arıyorsunuz?',
+  'plp.vet.cat.title':
+    'Özel satış noktalarında bulunan yiyecekleri mi arıyorsunuz?',
   plsFillEmailTip: 'E-postanız adres çubuğuna doldurulmamış',
   prescription: 'Reçete',
   prescriptionDeclined: 'Reçete reddedildi',
   price: 'Fiyat',
   printEbanx: 'Ebanx Yazdır',
   privacyPolicy: 'Gizlilik Politikası',
-  'productFinder.resultHlep': "Pazartesi saat 8.30'dan 12.30'dan ve sabah saat 2'den 5'ye kadar",
+  'productFinder.resultHlep':
+    "Pazartesi saat 8.30'dan 12.30'dan ve sabah saat 2'den 5'ye kadar",
   'productFinder.resultPage': 'Beslenme sur mesure',
   'productFinder.tip1': 'Evcil hayvanınız için doğru mamayı bulun',
-  'productFinder.tip2': 'Bu anket, evcil hayvanınız için önerilen mamayı seçmenize yardımcı olacaktır.',
+  'productFinder.tip2':
+    'Bu anket, evcil hayvanınız için önerilen mamayı seçmenize yardımcı olacaktır.',
   'productFinder.tip3': 'Evcil Hayvanınız ...',
   productRating: 'Ürün derecelendirmesi',
   produtctNumber: 'Ürün numarası',
-  'profile.emailChoose': "Evet, Royal Canin'den özel tasarruflar, ürün bilgileri, evcil hayvan bakım ipuçları ve daha fazlasını almak istiyorum.",
+  'profile.emailChoose':
+    "Evet, Royal Canin'den özel tasarruflar, ürün bilgileri, evcil hayvan bakım ipuçları ve daha fazlasını almak istiyorum.",
   promotion: 'Promosyon',
   'promotion.firstOrderDiscount': 'İlk Sipariş İndirimi',
   promotionalCode: 'Promosyon kodu',
@@ -600,22 +694,30 @@ const tr_TR = {
   puppy: 'Puppy (0-1 yaş)',
   purchaseRating: 'Satın alma deneyimi derecelendirmesi',
   qualitySafety: 'Kalite Güvenliği',
-  'qualitySafety.consistentDetail': 'Dünya çapında 1.800 gıda üretim operatörünün tamamı, tutarlılık ve kaliteyi sağlamak için aynı katı süreci takip eder. Üretimin her aşamasında sistematik kalite kontrolleri yapılır ve tüm ürün partilerine sevkiyat öncesi son bir test yapılır. Aslında, her yıl dünya çapında yarım milyon analiz yapıyoruz. Dünya çapındaki tüm distribütörlerimiz, güvenlik ve lojistik standartlarımıza uyduklarından emin olmak için depo ve nakliye denetimlerine tabidir. Bu prosedürler, ürünlerimizin optimum kalitesini, güvenliğini ve besin değerini garanti eder.',
+  'qualitySafety.consistentDetail':
+    'Dünya çapında 1.800 gıda üretim operatörünün tamamı, tutarlılık ve kaliteyi sağlamak için aynı katı süreci takip eder. Üretimin her aşamasında sistematik kalite kontrolleri yapılır ve tüm ürün partilerine sevkiyat öncesi son bir test yapılır. Aslında, her yıl dünya çapında yarım milyon analiz yapıyoruz. Dünya çapındaki tüm distribütörlerimiz, güvenlik ve lojistik standartlarımıza uyduklarından emin olmak için depo ve nakliye denetimlerine tabidir. Bu prosedürler, ürünlerimizin optimum kalitesini, güvenliğini ve besin değerini garanti eder.',
   'qualitySafety.consistentTitle': 'Tutarlı Kalite',
-  'qualitySafety.description': 'Son elli yılda Royal Canin, dünya çapındaki operasyonlarımızın merkezine beslenme kalitesi ve ürün güvenliğini koydu. En küçük ayrıntılara gösterilen bu özen, evcil hayvanlar için en doğru ve etkili sağlıklı beslenmeyi sunmamıza yardımcı oluyor. ',
-  'qualitySafety.foodDetail': "Altın standart üretim süreçlerimiz, Royal Canin'in dünya çapında güvenli ve yüksek kaliteli ürünler sunmasını sağlıyor. Uzmanlarımız, ham maddeler için dünya çapında aynı seçme ve satın alma süreçlerini kullanır ve tüm ürünlerimizin aynı yüksek besin standartlarını karşılamasını sağlar. Yerel tedarikçilerin derinlemesine denetimleri, dünya çapındaki tesislerimizde kullanılan tüm hammaddeler için kesin spesifikasyonların karşılanmasını sağlar. Üretim merkezlerimize girmeden önce her gönderi kontrol ediliyor ve her tesis, gıda güvenliği göstergelerini ve beslenme kalitesini analiz etmek için test laboratuvarlarıyla donatılıyor.",
+  'qualitySafety.description':
+    'Son elli yılda Royal Canin, dünya çapındaki operasyonlarımızın merkezine beslenme kalitesi ve ürün güvenliğini koydu. En küçük ayrıntılara gösterilen bu özen, evcil hayvanlar için en doğru ve etkili sağlıklı beslenmeyi sunmamıza yardımcı oluyor. ',
+  'qualitySafety.foodDetail':
+    "Altın standart üretim süreçlerimiz, Royal Canin'in dünya çapında güvenli ve yüksek kaliteli ürünler sunmasını sağlıyor. Uzmanlarımız, ham maddeler için dünya çapında aynı seçme ve satın alma süreçlerini kullanır ve tüm ürünlerimizin aynı yüksek besin standartlarını karşılamasını sağlar. Yerel tedarikçilerin derinlemesine denetimleri, dünya çapındaki tesislerimizde kullanılan tüm hammaddeler için kesin spesifikasyonların karşılanmasını sağlar. Üretim merkezlerimize girmeden önce her gönderi kontrol ediliyor ve her tesis, gıda güvenliği göstergelerini ve beslenme kalitesini analiz etmek için test laboratuvarlarıyla donatılıyor.",
   'qualitySafety.FoodQualityandSafety': 'Gıda Kalitesi ve Güvenliği',
-  'qualitySafety.foodQualityDetail': "Royal Canin'de gıda kalitesini ve ürün güvenliğini her zaman operasyonlarımızın ön saflarına koyduk. Ayrıntılara olan titiz dikkatimiz, her bir evcil hayvanın mümkün olan en sağlıklı yaşamını yaşamasına yardımcı olmak için en kesin ve etkili çözümleri sunmamızı sağlar. ",
+  'qualitySafety.foodQualityDetail':
+    "Royal Canin'de gıda kalitesini ve ürün güvenliğini her zaman operasyonlarımızın ön saflarına koyduk. Ayrıntılara olan titiz dikkatimiz, her bir evcil hayvanın mümkün olan en sağlıklı yaşamını yaşamasına yardımcı olmak için en kesin ve etkili çözümleri sunmamızı sağlar. ",
   'qualitySafety.foodTitle': 'Royal Canin Gıda ve Güvenlik Süreçleri',
-  'qualitySafety.ingredientsDetail': "Gelen hammaddelerin% 100'ü analiz edilir ve her birinin bir numunesi iki yıl süreyle saklanır. Bu, her ham maddeyi tüm süre boyunca kaynağına kadar izleyebilmemizi sağlar. ürünün raf ömrü ",
+  'qualitySafety.ingredientsDetail':
+    "Gelen hammaddelerin% 100'ü analiz edilir ve her birinin bir numunesi iki yıl süreyle saklanır. Bu, her ham maddeyi tüm süre boyunca kaynağına kadar izleyebilmemizi sağlar. ürünün raf ömrü ",
   'qualitySafety.ingredientsTitle': 'Tamamen İzlenebilir Malzemeler',
-  'qualitySafety.materialsDetail': 'İçerikleri, yüksek besin içeriklerine ve evcil hayvanlara sağladıkları sağlık yararlarına göre seçiyoruz. Hammaddelerimizi üretim merkezlerimize yakın akredite tedarikçilerden temin etmek için her türlü çaba gösteriliyor, bu yerel ekonomiyi destekliyor, tazelik sağlıyor ve karbon ayak izimizi azaltıyor. ',
+  'qualitySafety.materialsDetail':
+    'İçerikleri, yüksek besin içeriklerine ve evcil hayvanlara sağladıkları sağlık yararlarına göre seçiyoruz. Hammaddelerimizi üretim merkezlerimize yakın akredite tedarikçilerden temin etmek için her türlü çaba gösteriliyor, bu yerel ekonomiyi destekliyor, tazelik sağlıyor ve karbon ayak izimizi azaltıyor. ',
   'qualitySafety.materialsTitle': 'Kaliteli Hammaddeler',
-  'qualitySafety.rigorousDetail': 'Sınıfının en iyisi kalite ve güvenlik standartlarımızı sürdürmemize yardımcı olabilecek tedarikçileri belirlemek için katı seçim kriterleri kullanıyoruz. Bunun bir parçası olarak besin değerini, üretim kalitesini, izlenebilirliği ve sürdürülebilirliği belirlemek için derinlemesine denetimlerden geçiyoruz. ',
+  'qualitySafety.rigorousDetail':
+    'Sınıfının en iyisi kalite ve güvenlik standartlarımızı sürdürmemize yardımcı olabilecek tedarikçileri belirlemek için katı seçim kriterleri kullanıyoruz. Bunun bir parçası olarak besin değerini, üretim kalitesini, izlenebilirliği ve sürdürülebilirliği belirlemek için derinlemesine denetimlerden geçiyoruz. ',
   'qualitySafety.rigorousTitle': 'Titiz Tedarikçi Seçimi',
   'qualitySafety.shopCat': 'Kedi Formülleri Alışverişi',
   'qualitySafety.shopDog': 'Köpek Formülleri Satın Alın',
-  'qualitySafety.shopTile': 'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
+  'qualitySafety.shopTile':
+    'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
   'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
   quantity: 'miktarda',
   quantityCannotExceed10: "Miktar 10'u geçemez",
@@ -628,16 +730,20 @@ const tr_TR = {
   recommandedForyou: 'Sizin için önerilen',
   registerAname: 'Bir numara',
   registerCloud: 'Commerce Cloud Storefront referans mimarisi',
-  registerCompleteForm: 'Hesabınızı oluşturmak için lütfen aşağıdaki formu doldurunuz.',
-  RegisterContinuing: 'Devam ederek MARS gizlilik politikamızı kabul etmiş olursunuz. size kişiselleştirilmiş bir deneyim sunmak için adınızı, soyadınızı ve e-posta adresinizi toplayacak ve kullanacaktır. ',
+  registerCompleteForm:
+    'Hesabınızı oluşturmak için lütfen aşağıdaki formu doldurunuz.',
+  RegisterContinuing:
+    'Devam ederek MARS gizlilik politikamızı kabul etmiş olursunuz. size kişiselleştirilmiş bir deneyim sunmak için adınızı, soyadınızı ve e-posta adresinizi toplayacak ve kullanacaktır. ',
   registerCreateYourAccout: 'Royal Canin hesabınızı oluşturun',
   registerEmail: 'E-posta adresi',
   registerEmailFormate: 'E-posta adresi belirtilen formatla eşleşmiyor.',
-  registerErrorMessage: 'Hesabınızı oluştururken bir hata meydana geldi. Lütfen daha sonra tekrar deneyin veya farklı bir e-posta adresi kullanın. ',
+  registerErrorMessage:
+    'Hesabınızı oluştururken bir hata meydana geldi. Lütfen daha sonra tekrar deneyin veya farklı bir e-posta adresi kullanın. ',
   registerFailed: 'Kayıt başarısız',
   registerFeckbook: 'Facebook ile Bağlan',
   registerFillIn: 'Lütfen bu alanı doldurun',
-  registerFooter1: 'Bir form göndermek için 16 yaşında veya daha büyük olmalısınız. Bizimle Royal Canin France, Consumer Service - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES adresine yazarak veya e-posta yoluyla ',
+  registerFooter1:
+    'Bir form göndermek için 16 yaşında veya daha büyük olmalısınız. Bizimle Royal Canin France, Consumer Service - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES adresine yazarak veya e-posta yoluyla ',
   registerGoogle: 'Google ile Bağlan',
   registerHaveAccount: 'Zaten bir hesabınız var mı?',
   registerLength: '8 karakter',
@@ -653,7 +759,8 @@ const tr_TR = {
   registerTogglePassword: 'Şifre görünürlüğünü değiştir',
   registerUppercase: 'Bir büyük harf',
   registerWelcome: 'Hoş Geldiniz',
-  remember48Hours: "{Val} tarihinden önceki siparişin, ödemenin iki gün sonra {val} pm'den önce sona ereceğini veya {val} pm'den sonra, ödemenin üç gün sonra {val} pm'den önce sona ereceğini unutmayın.",
+  remember48Hours:
+    "{Val} tarihinden önceki siparişin, ödemenin iki gün sonra {val} pm'den önce sona ereceğini veya {val} pm'den sonra, ödemenin üç gün sonra {val} pm'den önce sona ereceğini unutmayın.",
   rememberMe: 'Beni Hatırla',
   removeAllFilters: 'Tüm filtreleri kaldır',
   replyComments: 'Yorumları yanıtla',
@@ -663,15 +770,18 @@ const tr_TR = {
   'required.continue': 'continue',
   'required.fields': 'required frields',
   'required.logoTitle': 'ROYALCANIN® online mağazasına hoş geldiniz',
-  requiredConsentCheckedTip: 'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',
+  requiredConsentCheckedTip:
+    'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',
   requiredFields: '* Zorunlu Alanlar',
-  resetPasswordEmail: 'Şifre sıfırlama e-postası posta kutunuza gönderildi, lütfen kontrol edin!',
+  resetPasswordEmail:
+    'Şifre sıfırlama e-postası posta kutunuza gönderildi, lütfen kontrol edin!',
   results: '{val} Sonuç',
   reviewisRequired: 'İnceleme gerekli.',
   reviews: 'Yorumlar',
   royalCanin: 'Royal Canin',
   'salesCategory.cat': 'Kedi için',
-  'salesCategory.content': 'Her formül, boyutları, ırkı, yaşı veya yaşam tarzı ne olursa olsun {val1} sağlık ihtiyaçlarına uygun beslenmeyi sağlamak için oluşturulmuştur.',
+  'salesCategory.content':
+    'Her formül, boyutları, ırkı, yaşı veya yaşam tarzı ne olursa olsun {val1} sağlık ihtiyaçlarına uygun beslenmeyi sağlamak için oluşturulmuştur.',
   'salesCategory.dog': 'Köpek için',
   //salesCategory
   'salesCategory.title': '{Val1} yiyecek çeşitlerimizi keşfedin',
@@ -723,8 +833,10 @@ const tr_TR = {
   'subscription.previousOrders': 'Önceki siparişler',
   'subscription.product': 'Ürün',
   'subscription.promotionTip': 'İlk abonelik siparişinizde {val}',
-  'subscription.promotionTip2': 'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
-  'subscription.promotionTip3': 'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
+  'subscription.promotionTip2':
+    'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
+  'subscription.promotionTip3':
+    'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
   'subscription.receiveDate': 'Sonraki alınma tarihi',
   'subscription.saveDiscount': 'Abonelik İndirim İndirimi',
   'subscription.shipping': 'Nakliye',
@@ -737,28 +849,39 @@ const tr_TR = {
   'subscription.total': 'Toplam',
   'subscription.totalInclu': 'Toplam (KDV Dahil)',
   'subscriptionLanding.catButton': 'Kedi Mamaları',
-  'subscriptionLanding.content1': 'Abonelik hizmetimiz ile, evcil hayvanınız için en uygun mama dilediğiniz zaman kapınıza gelsin, hayatınız kolaylaşsın!',
-  'subscriptionLanding.description1': 'Siparişler belirleyeceğiniz sıklıkta teslim edilir',
+  'subscriptionLanding.content1':
+    'Abonelik hizmetimiz ile, evcil hayvanınız için en uygun mama dilediğiniz zaman kapınıza gelsin, hayatınız kolaylaşsın!',
+  'subscriptionLanding.description1':
+    'Siparişler belirleyeceğiniz sıklıkta teslim edilir',
   'subscriptionLanding.description2': 'Ücretsiz kargo',
-  'subscriptionLanding.description3': 'Dilediğiniz zaman değişiklik yapma & iptal etme hakkı',
+  'subscriptionLanding.description3':
+    'Dilediğiniz zaman değişiklik yapma & iptal etme hakkı',
   'subscriptionLanding.description4': 'Ücretsiz beslenme danışma hattı',
   'subscriptionLanding.dogButton': 'Köpek Mamaları',
-  'subscriptionLanding.title1': 'Mama Abonelik hizmetimizle evcil hayvanınız asla mamasız kalmasın',
+  'subscriptionLanding.title1':
+    'Mama Abonelik hizmetimizle evcil hayvanınız asla mamasız kalmasın',
   systemError: 'Sistem hatası',
   tailorednutrition: 'Sağlık ve Beslenme',
-  'Tailorednutrition.description': 'Kedilerin ve köpeklerin benzersiz ihtiyaçlarına göstermiş olduğumuz dikkat bize, en küçük beslenme farkının bir evcil hayvanın sağlığı üzerinde büyük bir fark yaratabileceğini öğretti. Evcil hayvan sağlığı konusundaki bu saplantı, bizi hassas, etkili beslenme sağlamaya ve onların muhteşem en iyileri olmalarına yardımcı olmaya itiyor.',
-  'tailorednutrition.formulasDetail': 'Örneğin Alman Çobanlarını ele alalım: hepimiz onları cesaretleri, sadakatleri ve zekaları için seviyoruz. Ancak tüm vücut ve zihin güçlerine rağmen, herkesin bildiği gibi hassas midelere sahipler, bu yüzden içlerinin dış tarafları kadar güçlü olmasına yardımcı olmak için formüllerini yüksek oranda sindirilebilir proteinler ve özel liflerle yapıyoruz.',
+  'Tailorednutrition.description':
+    'Kedilerin ve köpeklerin benzersiz ihtiyaçlarına göstermiş olduğumuz dikkat bize, en küçük beslenme farkının bir evcil hayvanın sağlığı üzerinde büyük bir fark yaratabileceğini öğretti. Evcil hayvan sağlığı konusundaki bu saplantı, bizi hassas, etkili beslenme sağlamaya ve onların muhteşem en iyileri olmalarına yardımcı olmaya itiyor.',
+  'tailorednutrition.formulasDetail':
+    'Örneğin Alman Çobanlarını ele alalım: hepimiz onları cesaretleri, sadakatleri ve zekaları için seviyoruz. Ancak tüm vücut ve zihin güçlerine rağmen, herkesin bildiği gibi hassas midelere sahipler, bu yüzden içlerinin dış tarafları kadar güçlü olmasına yardımcı olmak için formüllerini yüksek oranda sindirilebilir proteinler ve özel liflerle yapıyoruz.',
   'tailorednutrition.formulasTitle': 'Hazırlanmış Formüller',
-  'tailorednutrition.natureDetail': 'Mükemmel sağlıktaki bir Jack Russell, kendi boyunun altı katına kadar sıçrayabilir. Ev kedileri ve dışarıdaki kedilerin çok farklı enerji ihtiyaçları vardır. İnanılmaz doğal potansiyellerini özel olarak seçilmiş proteinler ve antioksidanlarla besleyerek benzersiz ihtiyaçlarına cevap veriyor. ',
+  'tailorednutrition.natureDetail':
+    'Mükemmel sağlıktaki bir Jack Russell, kendi boyunun altı katına kadar sıçrayabilir. Ev kedileri ve dışarıdaki kedilerin çok farklı enerji ihtiyaçları vardır. İnanılmaz doğal potansiyellerini özel olarak seçilmiş proteinler ve antioksidanlarla besleyerek benzersiz ihtiyaçlarına cevap veriyor. ',
   'tailorednutrition.natureTitle': 'Doğalarını Beslemek',
-  'Tailorednutrition.nutritionDetail': 'Köpekler ve kedilerin benzersiz ihtiyaçları vardır ve bu ihtiyaçların her biri için mümkün olan en iyi sağlıklı beslenmeyi sağlamaya odaklanıyoruz. Her tarif, evcil hayvanınızın bireysel sağlık ihtiyaçları için gerekli olan besin maddelerini tam olarak sağlayacak şekilde formüle edilmiştir. ',
+  'Tailorednutrition.nutritionDetail':
+    'Köpekler ve kedilerin benzersiz ihtiyaçları vardır ve bu ihtiyaçların her biri için mümkün olan en iyi sağlıklı beslenmeyi sağlamaya odaklanıyoruz. Her tarif, evcil hayvanınızın bireysel sağlık ihtiyaçları için gerekli olan besin maddelerini tam olarak sağlayacak şekilde formüle edilmiştir. ',
   'tailorednutrition.nutritionTitle': 'Kişiye Özel Beslenme Nedir?',
   'tailorednutrition.result': 'Sonuç',
-  'tailorednutrition.resultDetail': 'Sonuç, belirli sağlık ihtiyaçlarını kesin bir doğrulukla ele almak için tasarlanmış beslenmedir. Evcil hayvanınız, güçlü kaslar inşa etmek, sağlıklı bir vücut sürdürmek ve güçlü bir bağışıklık sistemini desteklemek için ihtiyaç duyduğu eksiksiz ve dengeli besin ve amino asit yelpazesini alır. Mümkün olan en sağlıklı şekilde gelişmesi ve yaşaması için ihtiyaç duyduğu tüm enerjiyi ona veriyor. ',
+  'tailorednutrition.resultDetail':
+    'Sonuç, belirli sağlık ihtiyaçlarını kesin bir doğrulukla ele almak için tasarlanmış beslenmedir. Evcil hayvanınız, güçlü kaslar inşa etmek, sağlıklı bir vücut sürdürmek ve güçlü bir bağışıklık sistemini desteklemek için ihtiyaç duyduğu eksiksiz ve dengeli besin ve amino asit yelpazesini alır. Mümkün olan en sağlıklı şekilde gelişmesi ve yaşaması için ihtiyaç duyduğu tüm enerjiyi ona veriyor. ',
   'tailorednutrition.shopCat': 'Kedi Formülleri Satın Alın',
   'tailorednutrition.shopDog': 'Köpek Formülleri Alışverişi',
-  'tailorednutrition.shopTile': 'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
-  'tailorednutrition.uniqueDetail': 'Pek çok evcil hayvanın, nasıl yemek yediklerine meydan okuyan benzersiz şekilli çeneleri ve davranışları vardır. Bu nedenle, tariflerimizi sadece beslenme düzeyinde uyarlamakla kalmıyor, aynı zamanda her bir evcil hayvanın fiziksel beslenme ihtiyaçlarını daha iyi karşılamak için her bir mama mamasının şeklini ve yapısını tasarlıyoruz. ',
+  'tailorednutrition.shopTile':
+    'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
+  'tailorednutrition.uniqueDetail':
+    'Pek çok evcil hayvanın, nasıl yemek yediklerine meydan okuyan benzersiz şekilli çeneleri ve davranışları vardır. Bu nedenle, tariflerimizi sadece beslenme düzeyinde uyarlamakla kalmıyor, aynı zamanda her bir evcil hayvanın fiziksel beslenme ihtiyaçlarını daha iyi karşılamak için her bir mama mamasının şeklini ve yapısını tasarlıyoruz. ',
   'tailorednutrition.uniqueTitle': 'Eşsiz İhtiyaçlar İçin Eşsiz Formüller',
   taxLogo: 'IVA dahil',
   total: 'Toplam',
@@ -784,5 +907,5 @@ const tr_TR = {
   yes2: 'Evet',
   yourEmailNotVerified: 'E-posta doğrulanmadı!',
   yourPasswordNotVerified: 'Şifreniz doğrulanmadı'
-}
+};
 export default tr_TR;

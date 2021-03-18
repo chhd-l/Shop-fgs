@@ -214,7 +214,6 @@ class ShippingAddressFrom extends React.Component {
       validationAddress
     } = this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
-    console.log({ paymentForm, selectValidationOption, validationAddress });
     if (selectValidationOption == 'suggestedAddress') {
       addressForm.address1 = validationAddress.address1;
       addressForm.address2 = validationAddress.address2;

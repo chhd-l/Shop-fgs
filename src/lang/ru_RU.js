@@ -696,6 +696,11 @@ const ru_RU = {
   'payment.postCode2': 'Почтовый Код',
   'payment.rfc': 'Ссылка',
   'payment.socialId': 'Социальный идентификатор',
+  'payment.state': 'область',
+  'payment.region': 'район',
+  'payment.entrance': 'вход',
+  'payment.apartment': 'квартира',
+  'payment.comment': 'Замечания',
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',

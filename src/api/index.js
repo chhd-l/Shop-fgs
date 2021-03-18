@@ -5,12 +5,16 @@ const api = {
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id', //http://localhost:3000/account/information
   queryCityByName: `${process.env.REACT_APP_STOREID}/system/city`,
+  getRegionByCityId: `/systemRegion/queryByStoreId`, // 根据cityId查询region
   getProvincesList: `/systemState/queryByStoreId`, // 查询省份列表
+  getAddressBykeyWord: `/address-input-auto/list`, // DuData，根据输入的关键字返回详细地址信息
   addressValidation: `/addressValidation/validation`,
   buryPoint: '/fgs.gif',
   getConfig: `/config/store/${process.env.REACT_APP_STOREID}`,
-  navigations: '/navigations', //  查询二级菜单
-  seo: 'seo/setting'
+  navigations: '/navigations', // 查询二级菜单
+  seo: 'seo/setting',
+  getSystemConfig: '/system/config',
+  addressSetting: '/addressDisplaySetting/queryByStoreId' // 查询文本框设置
 };
 
 export default api;
@@ -53,11 +57,25 @@ export function queryCityByName(parameter) {
   });
 }
 
+export function getRegionByCityId(parameter) {
+  return axios({
+    url: `${api.getRegionByCityId}/${parameter.cityId}`,
+    method: 'get'
+  });
+}
+
 export function getProvincesList(parameter) {
   return axios({
     url: `${api.getProvincesList}`,
     method: 'post',
     data: parameter
+  });
+}
+
+export function getAddressBykeyWord(parameter) {
+  return axios({
+    url: `${api.getAddressBykeyWord}?keyword=${parameter.keyword}`,
+    method: 'get'
   });
 }
 
@@ -96,5 +114,17 @@ export function getSeoConfig(parameter) {
     url: `${api.seo}`,
     method: 'get',
     params: parameter
+  });
+}
+export function getSystemConfig(parameter) {
+  return axios({
+    url: `${api.getSystemConfig}/${parameter.configType}`,
+    method: 'get'
+  });
+}
+export function getAddressSetting(parameter) {
+  return axios({
+    url: `${api.addressSetting}/${parameter.addressApiType}`,
+    method: 'get'
   });
 }
