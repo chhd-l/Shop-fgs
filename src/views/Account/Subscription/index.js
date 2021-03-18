@@ -79,7 +79,7 @@ class Subscription extends React.Component {
           name: <FormattedMessage id="inactive" values={{ val: 2 }} />
         }
       ],
-      isMobile: false
+      isMobile: getDeviceType() !== 'PC'
     };
     this.pageSize = 6;
   }
@@ -95,12 +95,6 @@ class Subscription extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-    this.setState({ isMobile: getDeviceType() !== 'PC' });
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res.map((el) => {
@@ -263,48 +257,6 @@ class Subscription extends React.Component {
             </h4>
           </div>
         ) : null}
-        {/* <div className="row justify-content-around">
-      <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
-        <div className="col-md-4">
-          <FormattedMessage id="subscription.number" />
-        </div>
-        <div className="col-md-8">
-          <span className="rc-input rc-input--inline rc-full-width">
-            <FormattedMessage id="subscription.subscriptionNumberTip">
-              {(txt) => (
-                <input
-                  className="rc-input__control"
-                  id="id-text8"
-                  type="text"
-                  name="subscribeId"
-                  maxLength="20"
-                  value={this.state.form.subscribeId}
-                  onChange={(e) => this.handleInputChange(e)}
-                  placeholder={txt}
-                />
-              )}
-            </FormattedMessage>
-            <label className="rc-input__label" htmlFor="id-text8">
-            </label>
-          </span>
-        </div>
-      </div>
-      <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
-        <div className="col-md-4">
-          <FormattedMessage id="subscription.status" />
-        </div>
-        <div className="col-md-8">
-          <Selection
-            optionList={this.state.subStatus}
-            selectedItemChange={(el) => this.hanldeStatusChange(el)}
-            selectedItemData={{
-              value: this.state.form.subscribeStatus
-            }}
-            key={this.state.form.subscribeStatus}
-          />
-        </div>
-      </div>
-    </div> */}
         <div className="order__listing">
           <div className="order-list-container">
             {loading ? (
@@ -344,19 +296,6 @@ class Subscription extends React.Component {
                         <div className="col-4 col-md-2"></div>
                         <div className="col-4 col-md-2"></div>
                         <div className="col-4 col-md-2 pl-4"></div>
-                        {/* <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
-                      <img
-                        style={{
-                          display: 'inline-block',
-                          width: '20px',
-                          marginRight: '5px'
-                        }}
-                        src={cancelIcon}
-                      />
-                      <a className="rc-styled-link" href="#/">
-                        Cancel Autoship
-                      </a>
-                    </div> */}
                       </div>
                     </div>
                     <div
@@ -482,16 +421,11 @@ class Subscription extends React.Component {
                           <FormattedMessage id="manage" />
                         </button>
                       </div>
-                      {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
                     </div>
                   </div>
                 ))}
               </>
             ) : (
-              // <div className="text-center mt-5">
-              //   <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-              //   <FormattedMessage id="subscription.noDataTip" />
-              // </div>
               <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                 <div className="rc-column">
                   <LazyLoad>
@@ -598,10 +532,7 @@ class Subscription extends React.Component {
                 <SideMenu type="Subscription" />
               )}
               {}
-              <div className="rc-column  rc-quad-width">
-                {this.getPageBox()}
-                {/* {this.getPageBox(true)} */}
-              </div>
+              <div className="rc-column rc-quad-width">{this.getPageBox()}</div>
             </div>
           </div>
         </main>
