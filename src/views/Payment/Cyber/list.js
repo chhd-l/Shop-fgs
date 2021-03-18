@@ -100,6 +100,10 @@ class CyberCardList extends React.Component {
     try {
       let res = await getPaymentMethod();
       let cardList = res.context;
+      //清空cardList中的每项cardCvv
+      cardList.forEach((item) => {
+        item.cardCvv = '';
+      });
 
       // 初始化时，重置保存卡列表的isLoadCvv状态
       Array.from(cardList, (c) => {
@@ -336,7 +340,7 @@ class CyberCardList extends React.Component {
                     maxLength="4"
                     className="w-100"
                     autoComplete="new-password"
-                    // value={data.cardCvv}
+                    //value={data.cardCvv}
                   />
                 </div>
               </div>

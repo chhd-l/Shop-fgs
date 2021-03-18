@@ -247,7 +247,8 @@ class Payment extends React.Component {
       cardTypeVal: '',
       cardTypeArr: [],
       cyberPayParam: '',
-      isShowCardList: false
+      isShowCardList: false,
+      isShowCyberBindCardBtn: false
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -260,6 +261,11 @@ class Payment extends React.Component {
   }
   updateSelectedCardInfo = (data) => {
     console.log(999, data);
+    if (data.cardCvv) {
+      this.setState({
+        isShowCyberBindCardBtn: true
+      });
+    }
   };
   showCyberForm = () => {
     this.setState({
@@ -1925,7 +1931,6 @@ class Payment extends React.Component {
     cyberPaymentParam.city = city;
     cyberPaymentParam.zipCode = postCode;
     cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
-
     cyberPaymentParam.phone = phoneNumber;
 
     let cyberParams = Object.assign({}, cyberPaymentParam, {
@@ -2361,7 +2366,7 @@ class Payment extends React.Component {
                     showCyberForm={this.showCyberForm}
                   />
                   {payConfirmBtn({
-                    disabled: validForCyberPayment() || validForBilling,
+                    disabled: !this.state.isShowCyberBindCardBtn,
                     loading: saveBillingLoading
                   })}
                 </>
