@@ -1231,12 +1231,16 @@ class AccountOrders extends React.Component {
                                               {item.spuName}
                                             </span>
                                             <span className="ui-text-overflow-line2">
-                                              {item.specDetails}
+                                              <span className="rc-md-up">
+                                                {item.specDetails}
+                                              </span>
                                               <span className="rc-md-down">
-                                                -{' '}
                                                 <FormattedMessage
-                                                  id="xProduct"
-                                                  values={{ val: item.num }}
+                                                  id="quantityText"
+                                                  values={{
+                                                    specText: item.specDetails,
+                                                    buyCount: item.num
+                                                  }}
                                                 />
                                               </span>
                                             </span>
@@ -1632,10 +1636,12 @@ class AccountOrders extends React.Component {
                             <div className="font-weight-normal ui-text-overflow-line2">
                               {ele.itemName}
                             </div>
-                            {ele.specDetails} -{' '}
                             <FormattedMessage
-                              id="xProduct"
-                              values={{ val: ele.itemNum }}
+                              id="quantityText"
+                              values={{
+                                specText: ele.specDetails,
+                                buyCount: ele.itemNum
+                              }}
                             />
                           </div>
                         </div>

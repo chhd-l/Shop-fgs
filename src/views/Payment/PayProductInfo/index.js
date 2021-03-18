@@ -265,18 +265,13 @@ class PayProductInfo extends React.Component {
                 <div className="line-item-total-price justify-content-start pull-left">
                   <div className="item-attributes">
                     <p className="line-item-attributes">
-                      {selectedSizeItem.specText} -{' '}
-                      {el.quantity > 1 ? (
-                        <FormattedMessage
-                          id="items"
-                          values={{ val: el.quantity }}
-                        />
-                      ) : (
-                        <FormattedMessage
-                          id="item"
-                          values={{ val: el.quantity }}
-                        />
-                      )}
+                      <FormattedMessage
+                        id="quantityText"
+                        values={{
+                          specText: selectedSizeItem.specText,
+                          buyCount: el.quantity
+                        }}
+                      />
                     </p>
                   </div>
                 </div>
@@ -344,18 +339,13 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {el.specText} -{' '}
-                    {el.buyCount > 1 ? (
-                      <FormattedMessage
-                        id="items"
-                        values={{ val: el.buyCount }}
-                      />
-                    ) : (
-                      <FormattedMessage
-                        id="item"
-                        values={{ val: el.buyCount }}
-                      />
-                    )}
+                    <FormattedMessage
+                      id="quantityText"
+                      values={{
+                        specText: el.specText,
+                        buyCount: el.buyCount
+                      }}
+                    />
                     <br />
                     {el.goodsInfoFlag ? (
                       <>

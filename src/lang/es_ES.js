@@ -781,7 +781,7 @@ const es_ES = {
     'Comprometidos con la calidad y la seguridad alimentaria',
   quantity: 'Cantidad',
   quantityCannotExceed10: 'La cantidad no puede exceder 10',
-  quantityText: 'product',
+  quantityText: '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Datos de consulta fallidos',
   ratingGrade1: 'Más reciente',
   ratingGrade2: 'Calificación de menor a mayor',

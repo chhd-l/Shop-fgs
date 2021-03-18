@@ -7,18 +7,16 @@ import './index.less';
 import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import Sliderone from './ClubHeroCarouselImg/SliderOne.png'
-import Slidertwo from './ClubHeroCarouselImg/SliderTwo.png'
-import Sliderthree from './ClubHeroCarouselImg/SliderThree.png'
-import Sliderfive from './ClubHeroCarouselImg/SliderFive.png'
-import Sliderseven from './ClubHeroCarouselImg/SliderSeven.png'
-import Slidermobile1 from './ClubHeroCarouselImg/Slidermobile1.png'
-import Slidermobile2 from './ClubHeroCarouselImg/Slidermobile2.png'
-import Slidermobile3 from './ClubHeroCarouselImg/Slidermobile3.png'
-import Slidermobile5 from './ClubHeroCarouselImg/Slidermobile5.png'
-import Slidermobile7 from './ClubHeroCarouselImg/Slidermobile7.png'
-
-
+import Sliderone from './ClubHeroCarouselImg/SliderOne.png';
+import Slidertwo from './ClubHeroCarouselImg/SliderTwo.png';
+import Sliderthree from './ClubHeroCarouselImg/SliderThree.png';
+import Sliderfive from './ClubHeroCarouselImg/SliderFive.png';
+import Sliderseven from './ClubHeroCarouselImg/SliderSeven.png';
+import Slidermobile1 from './ClubHeroCarouselImg/Slidermobile1.png';
+import Slidermobile2 from './ClubHeroCarouselImg/Slidermobile2.png';
+import Slidermobile3 from './ClubHeroCarouselImg/Slidermobile3.png';
+import Slidermobile5 from './ClubHeroCarouselImg/Slidermobile5.png';
+import Slidermobile7 from './ClubHeroCarouselImg/Slidermobile7.png';
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -71,13 +69,215 @@ class ClubHeroCarousel extends React.Component {
   componentDidMount() {
     // getBanner().then((res) => {
     //   console.log(res.context,'🌙🌙🌙');
-      this.setState({ banner: [{"bannerId":"2c91808577d880600177d8837f730004","storeId":123457910,"bannerName":"us_002","webUrl":`${Sliderone}`,"webImgName":"WeChat Image_20210225172634.jpg","webSkipUrl":"/subscription-landing","webUuid":"rc-upload-1614234945878-9","mobiUrl":`${Slidermobile1}`,"mobiImgName":"WeChat Image_20210225172628.jpg","mobiSkipUrl":"/subscription-landing","mobiUuid":"rc-upload-1614234945878-11","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-26 07:05:24.000","updateTime":"2021-02-26 07:05:24.000","bannerNo":1,"sliderTitle":"GIVE YOUR PET A COMPLETE HEALTH SOLUTION, BY SUBSCRIPTION","sliderContent":""}
-      ,{"bannerId":"2c91808577d880600177d8837f730004","storeId":123457910,"bannerName":"us_002","webUrl":`${Slidertwo}`,"webImgName":"WeChat Image_20210225172634.jpg","webSkipUrl":"/subscription-landing","webUuid":"rc-upload-1614234945878-9","mobiUrl":`${Slidermobile2}`,"mobiImgName":"WeChat Image_20210225172628.jpg","mobiSkipUrl":"/subscription-landing","mobiUuid":"rc-upload-1614234945878-11","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-26 07:05:24.000","updateTime":"2021-02-26 07:05:24.000","bannerNo":2,"sliderTitle":"Tailor-made nutrition","sliderContent":"Get the right diet from 210 formulas with premium ingredients to fit your pet's unique health needs"},
-          {"bannerId":"2c918085751fa3ad01752099f30a0002","storeId":123457910,"bannerName":"us_003","webUrl":`${Sliderthree}`,"webImgName":"us_003_a.jpg","webSkipUrl":"/help","webUuid":"rc-upload-1602569663057-13","mobiUrl":`${Slidermobile3}`,"mobiImgName":"us_003_b.jpg","mobiSkipUrl":"/help","mobiUuid":"rc-upload-1602569663057-15","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-24 05:55:42.000","updateTime":"2021-02-24 05:55:42.000","bannerNo":3,"sliderTitle":"Trusted advice from science and experts","sliderContent":"Get the right diet from 210 formulas with premium ingredients to fit your pet's unique health needs"}
-          ,{"bannerId":"2c918085751fa3ad01752099f30a0002","storeId":123457910,"bannerName":"us_003","webUrl":`${Sliderfive}`,"webImgName":"us_003_a.jpg","webSkipUrl":"/help","webUuid":"rc-upload-1602569663057-13","mobiUrl":`${Slidermobile5}`,"mobiImgName":"us_003_b.jpg","mobiSkipUrl":"/help","mobiUuid":"rc-upload-1602569663057-15","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-24 05:55:42.000","updateTime":"2021-02-24 05:55:42.000","bannerNo":4,"sliderTitle":"Never run out of pet food","sliderContent":"Make your life easier with automatic refills to your door, and keep control of your delivery schedule to fit your needs."}
-          ,{"bannerId":"2c918085751fa3ad01752099f30a0002","storeId":123457910,"bannerName":"us_003","webUrl":`${Sliderseven}`,"webImgName":"us_003_a.jpg","webSkipUrl":"/help","webUuid":"rc-upload-1602569663057-13","mobiUrl":`${Slidermobile7}`,"mobiImgName":"us_003_b.jpg","mobiSkipUrl":"/help","mobiUuid":"rc-upload-1602569663057-15","isMobiVideo":"0","isVideo":"0","delFlag":0,"createTime":"2021-02-24 05:55:42.000","updateTime":"2021-02-24 05:55:42.000","bannerNo":5,"sliderTitle":"Exclusive rewards and services","sliderContent":"Receive gifts that support your pet's wellbeing and activity throughout your subscription, and have access to online consultations."}
-          ] });
-    }
+    process.env.REACT_APP_LANG == 'ru'
+      ? this.setState({
+          banner: [
+            {
+              bannerId: '2c91808577d880600177d8837f730004',
+              storeId: 123457910,
+              bannerName: 'us_002',
+              webUrl: `${Sliderone}`,
+              webImgName: 'WeChat Image_20210225172634.jpg',
+              webSkipUrl: '/subscription-landing',
+              webUuid: 'rc-upload-1614234945878-9',
+              mobiUrl: `${Slidermobile1}`,
+              mobiImgName: 'WeChat Image_20210225172628.jpg',
+              mobiSkipUrl: '/subscription-landing',
+              mobiUuid: 'rc-upload-1614234945878-11',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-26 07:05:24.000',
+              updateTime: '2021-02-26 07:05:24.000',
+              bannerNo: 1,
+              sliderTitle:
+                'Специализированное питание по подписке для поддержания здоровья',
+              sliderContent: ''
+            },
+            {
+              bannerId: '2c91808577d880600177d8837f730004',
+              storeId: 123457910,
+              bannerName: 'us_002',
+              webUrl: `${Slidertwo}`,
+              webImgName: 'WeChat Image_20210225172634.jpg',
+              webSkipUrl: '/subscription-landing',
+              webUuid: 'rc-upload-1614234945878-9',
+              mobiUrl: `${Slidermobile2}`,
+              mobiImgName: 'WeChat Image_20210225172628.jpg',
+              mobiSkipUrl: '/subscription-landing',
+              mobiUuid: 'rc-upload-1614234945878-11',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-26 07:05:24.000',
+              updateTime: '2021-02-26 07:05:24.000',
+              bannerNo: 2,
+              sliderTitle: 'Специализированное питание',
+              sliderContent:
+                'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей'
+            },
+            {
+              bannerId: '2c918085751fa3ad01752099f30a0002',
+              storeId: 123457910,
+              bannerName: 'us_003',
+              webUrl: `${Sliderthree}`,
+              webImgName: 'us_003_a.jpg',
+              webSkipUrl: '/help',
+              webUuid: 'rc-upload-1602569663057-13',
+              mobiUrl: `${Slidermobile3}`,
+              mobiImgName: 'us_003_b.jpg',
+              mobiSkipUrl: '/help',
+              mobiUuid: 'rc-upload-1602569663057-15',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-24 05:55:42.000',
+              updateTime: '2021-02-24 05:55:42.000',
+              bannerNo: 3,
+              sliderTitle:
+                'Советы научных сотрудников и экспертов в области питания',
+              sliderContent:
+                'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21'
+            },
+            {
+              bannerId: '2c918085751fa3ad01752099f30a0002',
+              storeId: 123457910,
+              bannerName: 'us_003',
+              webUrl: `${Sliderfive}`,
+              webImgName: 'us_003_a.jpg',
+              webSkipUrl: '/help',
+              webUuid: 'rc-upload-1602569663057-13',
+              mobiUrl: `${Slidermobile5}`,
+              mobiImgName: 'us_003_b.jpg',
+              mobiSkipUrl: '/help',
+              mobiUuid: 'rc-upload-1602569663057-15',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-24 05:55:42.000',
+              updateTime: '2021-02-24 05:55:42.000',
+              bannerNo: 4,
+              sliderTitle: 'Сделайте свою жизнь проще ',
+              sliderContent:
+                'С автоматической доставкой Вы забудете о том, что корм может закончиться.'
+            },
+            {
+              bannerId: '2c918085751fa3ad01752099f30a0002',
+              storeId: 123457910,
+              bannerName: 'us_003',
+              webUrl: `${Sliderseven}`,
+              webImgName: 'us_003_a.jpg',
+              webSkipUrl: '/help',
+              webUuid: 'rc-upload-1602569663057-13',
+              mobiUrl: `${Slidermobile7}`,
+              mobiImgName: 'us_003_b.jpg',
+              mobiSkipUrl: '/help',
+              mobiUuid: 'rc-upload-1602569663057-15',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-24 05:55:42.000',
+              updateTime: '2021-02-24 05:55:42.000',
+              bannerNo: 5,
+              sliderTitle: 'Эксклюзивные подарки и сервисы',
+              sliderContent:
+                'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory'
+            }
+          ]
+        })
+      : this.setState({
+          banner: [
+            {
+              bannerId: '2c91808577d880600177d8837f730004',
+              storeId: 123457910,
+              bannerName: 'us_002',
+              webUrl: `${Sliderone}`,
+              webImgName: 'WeChat Image_20210225172634.jpg',
+              webSkipUrl: '/subscription-landing',
+              webUuid: 'rc-upload-1614234945878-9',
+              mobiUrl: `${Slidermobile1}`,
+              mobiImgName: 'WeChat Image_20210225172628.jpg',
+              mobiSkipUrl: '/subscription-landing',
+              mobiUuid: 'rc-upload-1614234945878-11',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-26 07:05:24.000',
+              updateTime: '2021-02-26 07:05:24.000',
+              bannerNo: 1,
+              sliderTitle:
+                'GIVE YOUR PET A COMPLETE HEALTH SOLUTION, BY SUBSCRIPTION',
+              sliderContent: ''
+            },
+            {
+              bannerId: '2c918085751fa3ad01752099f30a0002',
+              storeId: 123457910,
+              bannerName: 'us_003',
+              webUrl: `${Sliderthree}`,
+              webImgName: 'us_003_a.jpg',
+              webSkipUrl: '/help',
+              webUuid: 'rc-upload-1602569663057-13',
+              mobiUrl: `${Slidermobile3}`,
+              mobiImgName: 'us_003_b.jpg',
+              mobiSkipUrl: '/help',
+              mobiUuid: 'rc-upload-1602569663057-15',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-24 05:55:42.000',
+              updateTime: '2021-02-24 05:55:42.000',
+              bannerNo: 3,
+              sliderTitle: 'Trusted advice from science and experts',
+              sliderContent:
+                "Get the right diet from 210 formulas with premium ingredients to fit your pet's unique health needs"
+            },
+            {
+              bannerId: '2c918085751fa3ad01752099f30a0002',
+              storeId: 123457910,
+              bannerName: 'us_003',
+              webUrl: `${Sliderfive}`,
+              webImgName: 'us_003_a.jpg',
+              webSkipUrl: '/help',
+              webUuid: 'rc-upload-1602569663057-13',
+              mobiUrl: `${Slidermobile5}`,
+              mobiImgName: 'us_003_b.jpg',
+              mobiSkipUrl: '/help',
+              mobiUuid: 'rc-upload-1602569663057-15',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-24 05:55:42.000',
+              updateTime: '2021-02-24 05:55:42.000',
+              bannerNo: 4,
+              sliderTitle: 'Never run out of pet food',
+              sliderContent:
+                'Make your life easier with automatic refills to your door, and keep control of your delivery schedule to fit your needs.'
+            },
+            {
+              bannerId: '2c918085751fa3ad01752099f30a0002',
+              storeId: 123457910,
+              bannerName: 'us_003',
+              webUrl: `${Sliderseven}`,
+              webImgName: 'us_003_a.jpg',
+              webSkipUrl: '/help',
+              webUuid: 'rc-upload-1602569663057-13',
+              mobiUrl: `${Slidermobile7}`,
+              mobiImgName: 'us_003_b.jpg',
+              mobiSkipUrl: '/help',
+              mobiUuid: 'rc-upload-1602569663057-15',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-24 05:55:42.000',
+              updateTime: '2021-02-24 05:55:42.000',
+              bannerNo: 5,
+              sliderTitle: 'Exclusive rewards and services',
+              sliderContent:
+                "Receive gifts that support your pet's wellbeing and activity throughout your subscription, and have access to online consultations."
+            }
+          ]
+        });
+  }
   //   );
   // }
   // 切换slider触发
@@ -184,70 +384,82 @@ class ClubHeroCarousel extends React.Component {
     return (
       banner.length > 0 && (
         <div>
-        <Slider {...settings}>
-          {banner.map((el, i) => (
-            <div className="hero-carousel__slide" key={i}>
-              <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                {el.isVideo && el.isVideo === '1' ? (
-                  videoJSX(el, i)
-                ) : (
-                  <>
-                    {el.webSkipUrl ? (
-                      <Link
-                        className="h-100"
-                        to={el.webSkipUrl}
-                        onClick={this.GABannerClick.bind(this, i)}
-                      >
+          <Slider {...settings}>
+            {banner.map((el, i) => (
+              <div className="hero-carousel__slide" key={i}>
+                <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                  {el.isVideo && el.isVideo === '1' ? (
+                    videoJSX(el, i)
+                  ) : (
+                    <>
+                      {el.webSkipUrl ? (
+                        <Link
+                          className="h-100"
+                          to={el.webSkipUrl}
+                          onClick={this.GABannerClick.bind(this, i)}
+                        >
+                          <img
+                            className="rc-md-up mh-100"
+                            src={el.webUrl}
+                            alt=""
+                          />
+                          <div>{el.bannerNo}</div>
+                        </Link>
+                      ) : (
                         <img
                           className="rc-md-up mh-100"
                           src={el.webUrl}
                           alt=""
                         />
-                        <div>{el.bannerNo}</div>
-                      </Link>
-                    ) : (
-                      <img className="rc-md-up mh-100" src={el.webUrl} alt="" />
-                    )}
+                      )}
 
-                    {el.mobiSkipUrl ? (
-                      <Link
-                        className="h-100"
-                        to={el.mobiSkipUrl}
-                        onClick={this.GABannerClick.bind(this, i)}
-                      >
+                      {el.mobiSkipUrl ? (
+                        <Link
+                          className="h-100"
+                          to={el.mobiSkipUrl}
+                          onClick={this.GABannerClick.bind(this, i)}
+                        >
+                          <img
+                            className="rc-md-down w-100 mh-100"
+                            src={el.mobiUrl}
+                            alt=""
+                          />
+                        </Link>
+                      ) : (
                         <img
                           className="rc-md-down w-100 mh-100"
                           src={el.mobiUrl}
                           alt=""
                         />
-                      </Link>
-                    ) : (
-                      <img
-                        className="rc-md-down w-100 mh-100"
-                        src={el.mobiUrl}
-                        alt=""
-                      />
-                    )}
-                  </>
-                )}
-              </div>
-              <div className='experience-component experience-layouts-1to2columnRatio indexmobile'>
-                <div className='rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile'>
-                  <div className="rc-max-width--md text-center rc-margin-y--md">
-                    <div className="rc-alpha inherit-fontsize"><h1>{el.sliderTitle}</h1></div>
-                    <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                      <p>{el.sliderContent}</p>
+                      )}
+                    </>
+                  )}
+                </div>
+                <div className="experience-component experience-layouts-1to2columnRatio indexmobile">
+                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                    <div className="rc-max-width--md text-center rc-margin-y--md">
+                      <div className="rc-alpha inherit-fontsize">
+                        <h1>{el.sliderTitle}</h1>
+                      </div>
+                      <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                        <p>{el.sliderContent}</p>
+                      </div>
+                      <br />
+                      {process.env.REACT_APP_LANG == 'ru' ? (
+                        <button className="rc-btn rc-btn--one">
+                          Узнать больше
+                        </button>
+                      ) : (
+                        <button className="rc-btn rc-btn--one">
+                          Learn more
+                        </button>
+                      )}
                     </div>
-                    <br/>
-                    <button className="rc-btn rc-btn--one">Learn more</button>
                   </div>
                 </div>
               </div>
-            </div>
-
-          ))}
-        </Slider>
-
+            ))}
+          </Slider>
         </div>
       )
     );
