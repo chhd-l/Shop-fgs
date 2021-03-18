@@ -523,7 +523,7 @@ class LoginCart extends React.Component {
   }
   getQuantityBox = (pitem) => {
     return (
-      <div className="rc-md-up">
+      <div className="cart-quantity-container">
         <div className="product-card-footer product-card-price d-flex">
           <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
             <div style={{ marginTop: '12px' }}>
@@ -1238,11 +1238,7 @@ class LoginCart extends React.Component {
                     }`}
                     aria-pressed="true"
                   >
-                    {process.env.REACT_APP_LANG === 'en' ? (
-                      <FormattedMessage id="loginText" />
-                    ) : (
-                      <FormattedMessage id="checkout" />
-                    )}{' '}
+                    <FormattedMessage id="checkout" />{' '}
                     {mobileCartVisibleKey === 'less'
                       ? formatMoney(this.tradePrice)
                       : null}
