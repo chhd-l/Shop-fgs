@@ -355,7 +355,7 @@ export default class Felin extends React.Component {
               <p>6 Rue des Coutures Saint-Gervais</p>
               <p className="mb-20">75003 Paris</p>
               <p>Horaires d’ouverture :</p>
-              <p className="mb-20">Mardi - Dimanche, 10h - 20h</p>
+              <p className="mb-20">Mardi - Dimanche, 10h - 18h</p>
               <p>
                 <a href="https://fr-fr.facebook.com/RoyalCaninFrance/">
                   <img
@@ -691,7 +691,7 @@ export default class Felin extends React.Component {
                           </div>
                           <div>
                             <Selection
-                              placeholder="Choisissez une fente horaire"
+                              placeholder="Choisissez une créneau horaire"
                               optionList={[
                                 { name: '10:00 – 10:20 AM', value: '111' },
                                 { name: '10:30 – 10:50 AM', value: '222' },
@@ -722,7 +722,7 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ fontWeight: '500' }}
                           >
-                            Mon redenz-vous
+                            Mon rendez-vous
                           </p>
                           <div
                             style={{ padding: '.5rem 0', margin: '30px 40px' }}
@@ -777,7 +777,7 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ fontWeight: '500', marginTop: '30px' }}
                           >
-                            Mon redenz-vous
+                            Mon rendez-vous
                           </p>
                           <p
                             className="text-center"
@@ -979,7 +979,7 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ fontWeight: '500', marginTop: '30px' }}
                           >
-                            Mon redenz-vous
+                            Mon rendez-vous
                           </p>
                           <p
                             className="text-center"
@@ -1022,7 +1022,7 @@ export default class Felin extends React.Component {
                               this.setState({ step: 1, nextBtnShow: true });
                             }}
                           >
-                            <FormattedMessage id="Go back for modification" />
+                            <FormattedMessage id="Modifier le rendez-vous" />
                           </button>
                         </div>
                       ) : null}
@@ -1050,7 +1050,7 @@ export default class Felin extends React.Component {
                               className="text-center"
                               style={{ fontWeight: '500' }}
                             >
-                              Mon redenz-vous
+                              Mon rendez-vous
                             </p>
                             <p
                               className="text-center"
