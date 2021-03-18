@@ -106,24 +106,13 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {[
-                      item.specDetails,
-                      item.num > 1
-                        ? this.props.intl.formatMessage(
-                            { id: 'items' },
-                            {
-                              val: item.num
-                            }
-                          )
-                        : this.props.intl.formatMessage(
-                            { id: 'item' },
-                            {
-                              val: item.num
-                            }
-                          )
-                    ]
-                      .filter((e) => e)
-                      .join(' - ')}
+                    <FormattedMessage
+                      id="quantityText"
+                      values={{
+                        specText: item.specDetails,
+                        buyCount: item.num
+                      }}
+                    />
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>

@@ -338,7 +338,7 @@ const GoodsDetailTabs = function (props) {
                           alt="CLUB BENEFITS PET ADVISOR"
                           class="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
                           <p style={{ textAlign: 'left' }}>
                             tailored and evolving premium nutrition
                           </p>
@@ -350,7 +350,7 @@ const GoodsDetailTabs = function (props) {
                           alt="CLUB BENEFITS DISCOUNT"
                           class="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
                           <p style={{ textAlign: 'left' }}>
                             A welcome box, rewards and services
                           </p>
@@ -362,7 +362,7 @@ const GoodsDetailTabs = function (props) {
                           alt="CLUB BENEFITS PET ADVISOR"
                           class="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
                           <p style={{ textAlign: 'left' }}>
                             A pet advisor and personalized newsletters
                           </p>
@@ -374,7 +374,7 @@ const GoodsDetailTabs = function (props) {
                           alt="CLUB BENEFITS PET ADVISOR"
                           class="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
                           <p style={{ textAlign: 'left' }}>
                             Automatic food reﬁlls with free shipping
                           </p>
@@ -386,7 +386,7 @@ const GoodsDetailTabs = function (props) {
                           alt="CLUB BENEFITS PET ADVISOR"
                           class="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
                           <p style={{ textAlign: 'left' }}>
                             Full control and free from engagement
                           </p>

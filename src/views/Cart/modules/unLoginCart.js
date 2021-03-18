@@ -525,10 +525,6 @@ class UnLoginCart extends React.Component {
       }
     );
   }
-  goBack = (e) => {
-    e.preventDefault();
-    this.props.history.goBack();
-  };
   async updateStock(fn) {
     const { productList } = this.state;
     this.setState({ checkoutLoading: true });
@@ -1522,20 +1518,16 @@ class UnLoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {(txt) => (
-                        <DistributeHubLinkOrATag href="" to="/home">
-                          {txt}
+                        <DistributeHubLinkOrATag
+                          href=""
+                          to="/home"
+                          className="ui-cursor-pointer-pure"
+                        >
+                          <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                            <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
+                            {txt}
+                          </span>
                         </DistributeHubLinkOrATag>
-                        // <a
-                        //   tabIndex="1"
-                        //   className="ui-cursor-pointer-pure"
-                        //   onClick={this.goBack}
-                        //   title={txt}
-                        // >
-                        //   <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                        //     <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
-                        //     {txt}
-                        //   </span>
-                        // </a>
                       )}
                     </FormattedMessage>
                   </div>

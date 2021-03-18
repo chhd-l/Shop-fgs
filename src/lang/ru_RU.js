@@ -799,7 +799,7 @@ const ru_RU = {
     'Наши обязательства в области качества и пищевой безопасности',
   quantity: 'количество',
   quantityCannotExceed10: 'Количество не может превышать 10',
-  quantityText: 'product',
+  quantityText: '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Ошибка данных запроса',
   ratingGrade1: 'Самые последние',
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',
