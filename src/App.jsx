@@ -35,6 +35,7 @@ import { Provider } from 'mobx-react';
 import stores from './store';
 
 import RegisterRequired from '@/views/Login/RegisterRequired';
+import demo from '@/views/demo';
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
@@ -252,6 +253,7 @@ const App = () => (
                 component={KittenNutrition}
               />
               <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
+              <Route exact path="/demo" component={demo} />
               <Route exact path="/prescription" component={Prescription} />
               <Route
                 exact

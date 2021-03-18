@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import BannerTip from '@/components/BannerTip';
 import noPic from '@/assets/images/noPic.png';
-import ImageMagnifier from '../Recommendation_FR/components/ImageMagnifier';
+import ImageMagnifier from './components/ImageMagnifier';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';

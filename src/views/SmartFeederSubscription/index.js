@@ -1991,7 +1991,7 @@ class SmartFeederSubscription extends Component {
                   bottom: '-1.5rem'
                 }}
               />
-              <FAQ planId={this.state.planId} />
+              <FAQ planId={this.state.planId} location={this.state.location} />
             </React.Fragment>
           ) : (
             <div className="text-center rc-padding-x--sm rc-padding-x--md--mobile">

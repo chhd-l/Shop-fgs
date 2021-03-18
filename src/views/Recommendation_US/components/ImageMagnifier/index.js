@@ -7,7 +7,7 @@ import noPic from '@/assets/images/noPic.png';
 //import RightImg from '@/assets/images/right.png'
 import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
-import Slider from 'react-slick';
+
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
@@ -86,7 +86,7 @@ class ImageMagnifier extends Component {
         // 图片样式
         imgStyle: {
           width: '240px',
-          height: '100%',
+          // height: '100%',
           margin: '0 auto',
           display: 'block'
         },
@@ -342,14 +342,9 @@ class ImageMagnifier extends Component {
       hoverIndex
     } = this.state;
     let { images, video, taggingForText, taggingForImage } = this.props;
+    console.log(images, 'images');
     // images = this.filterImage(images)
-    // let imgCount = images.length;
     let imgCount = images.length;
-    let slideNum = imgCount < 3 ? imgCount : 3; //slik少于3个，展示有点问题，暂时这样处理
-    const settings = {
-      slidesToShow: slideNum,
-      slidesToScroll: slideNum
-    };
     if (video) {
       imgCount = imgCount + 1;
     }
@@ -384,7 +379,7 @@ class ImageMagnifier extends Component {
             >
               {images.filter((el) => el.goodsInfoImg).length
                 ? images.map((el, i) => (
-                    <div key={i}>
+                    <div className="detail_img_box" key={i}>
                       <LazyLoad>
                         <img
                           id="J_detail_img"
@@ -468,8 +463,7 @@ class ImageMagnifier extends Component {
             }}
           />
           {/* <img className="moveImg" src={LeftImg} /> */}
-          <div className="imageOutBox  rc-md-up">
-            {/* us mobiel hide */}
+          <div className="imageOutBox">
             <div
               className="justify-content-center imageInnerBox"
               style={{
@@ -480,32 +474,24 @@ class ImageMagnifier extends Component {
               }}
             >
               {images.filter((el) => el.goodsInfoImg).length ? (
-                <Slider {...settings}>
-                  {images &&
-                    images.map((el, i) => (
-                      <div>
-                        <div
-                          key={i}
-                          className={`rc-img--square rc-img--square-custom ${
-                            hoverIndex === i ? 'hover' : ''
-                          }`}
-                          onMouseEnter={(e) =>
-                            this.imageChange(
-                              e,
-                              el.artworkUrl || el.goodsInfoImg,
-                              i
-                            )
-                          }
-                          style={{
-                            backgroundImage:
-                              'url(' +
-                              (el.artworkUrl || el.goodsInfoImg || noPic) +
-                              ')'
-                          }}
-                        ></div>
-                      </div>
-                    ))}
-                </Slider>
+                images &&
+                images.map((el, i) => (
+                  <div
+                    key={i}
+                    className={`rc-img--square rc-img--square-custom ${
+                      hoverIndex === i ? 'hover' : ''
+                    }`}
+                    onMouseEnter={(e) =>
+                      this.imageChange(e, el.artworkUrl || el.goodsInfoImg, i)
+                    }
+                    style={{
+                      backgroundImage:
+                        'url(' +
+                        (el.artworkUrl || el.goodsInfoImg || noPic) +
+                        ')'
+                    }}
+                  ></div>
+                ))
               ) : this.state.minImg ? (
                 <div
                   className={`rc-img--square rc-img--square-custom hover`}
