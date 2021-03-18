@@ -175,7 +175,7 @@ class LoginCart extends React.Component {
 
   clickBasket = () => {
     this.hubGA &&
-      dataLayer &&
+      window.dataLayer &&
       dataLayer.push({
         event: 'topPictosClick',
         topPictosClick: {

@@ -390,7 +390,7 @@ export default class Search extends React.Component {
             <button
               id="mainSearch"
               className={`rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography ${
-                showSearchInput ? 'rc-hidden' : ''
+                showSearchInput ? 'hidden-xxl-down' : ''
               }`}
               aria-label="Search"
               onClick={this.hanldeSearchClick}
