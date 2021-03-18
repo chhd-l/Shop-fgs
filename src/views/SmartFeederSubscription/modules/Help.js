@@ -281,7 +281,6 @@ class Help extends React.Component {
                                   >
                                     {isRecommendationPage ? (
                                       <Link
-                                        className="dkjdksjksjdks"
                                         to={emailLink}
                                         style={{
                                           fontSize: '16px',
