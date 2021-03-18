@@ -244,7 +244,8 @@ class Payment extends React.Component {
       cyberErrMsgObj: {},
 
       cardTypeVal: '',
-      cardTypeArr: []
+      cardTypeArr: [],
+      cyberPayParam: ''
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -859,6 +860,14 @@ class Payment extends React.Component {
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
+          });
+        },
+        cyber: () => {
+          parameters = Object.assign({}, commonParameter, {
+            payPspItemEnum: 'CYBER'
+          });
+          parameters = Object.assign(parameters, {
+            paymentMethodId: this.state.cyberPayParam.id
           });
         }
       };
@@ -1861,7 +1870,7 @@ class Payment extends React.Component {
         lastName,
         address1,
         address2,
-        countryId,
+        country,
         province,
         city,
         postCode,
@@ -1887,11 +1896,11 @@ class Payment extends React.Component {
     cyberPaymentParam.lastName = lastName;
     cyberPaymentParam.address1 = address1;
     cyberPaymentParam.address2 = address2;
-    cyberPaymentParam.country = countryId; //?
+    cyberPaymentParam.country = 'US';
     cyberPaymentParam.state = province;
     cyberPaymentParam.city = city;
     cyberPaymentParam.zipCode = postCode;
-    cyberPaymentParam.email = email;
+    cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
 
     cyberPaymentParam.phone = phoneNumber;
 
@@ -1900,8 +1909,8 @@ class Payment extends React.Component {
       paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
     });
 
-    // console.log(cyberParams);
-    // debugger;
+    console.log(cyberPaymentParam);
+    debugger;
 
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
@@ -1969,6 +1978,10 @@ class Payment extends React.Component {
       }
     };
 
+    const getBindCardInfo = (res) => {
+      this.setState({ cyberPayParam: res.context });
+    };
+
     try {
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false
@@ -1985,13 +1998,15 @@ class Payment extends React.Component {
         }
         await handleClickSavePayUForm(this);
         const res = await loginCyberSaveCard(cyberParams);
+        console.log(res);
       } else {
         // 1 save card form
         // 2 save billing addr, when billing checked status is false
         await handleClickSaveAdyenForm(this);
         await handleClickSavePayUForm(this);
-        await unLoginCyberSaveCard(cyberParams);
-        const res = await loginCyberSaveCard(cyberParams);
+        const res = await unLoginCyberSaveCard(cyberParams);
+        console.log(res);
+        getBindCardInfo(res);
         if (
           !billingChecked &&
           this.unLoginBillingAddrRef &&
@@ -2361,11 +2376,15 @@ class Payment extends React.Component {
       adyenPayParam,
       payosdata,
       selectedCardInfo,
-      tid
+      tid,
+      cyberPayParam
     } = this.state;
     let paymentMethod;
     if (adyenPayParam) {
       paymentMethod = adyenPayParam;
+    }
+    if (cyberPayParam) {
+      paymentMethod = cyberPayParam;
     }
     if (selectedCardInfo) {
       paymentMethod = selectedCardInfo;
@@ -2396,7 +2415,8 @@ class Payment extends React.Component {
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
           {paymentTypeVal === 'payUCreditCard' ||
-          paymentTypeVal === 'adyenCard' ? (
+          paymentTypeVal === 'adyenCard' ||
+          paymentTypeVal === 'cyber' ? (
             <div className="col-12 col-md-6">
               <span className="medium">
                 <FormattedMessage id="bankCard" />
