@@ -54,7 +54,7 @@ export function petsById(parameter) {
 export function delPets(parameter) {
   return axios({
     url: `${api.delPets}`,
-    method: 'delete',
+    method: 'post',
     data: addOktaTokenField(parameter)
   });
 }

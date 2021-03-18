@@ -1,0 +1,8 @@
+.more a.rc-styled-link {
+  color: #666;
+  border-bottom: 1px solid #aaa;
+}
+.more a.rc-styled-link:hover {
+  color: #666;
+  border-bottom-color: #aaa;
+}
