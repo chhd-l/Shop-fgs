@@ -549,7 +549,9 @@ class PaymentEditForm extends React.Component {
         paymentForm.state = validationAddress.provinceCode;
       }
     } else {
-      paymentForm = JSON.parse(JSON.stringify(oldPaymentForm));
+      this.setState({
+        paymentForm: JSON.parse(JSON.stringify(oldPaymentForm))
+      });
     }
 
     let params = Object.assign({}, paymentForm, {

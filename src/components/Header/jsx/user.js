@@ -24,7 +24,7 @@ const UserJSX = (props) => {
     <>
       {showUserIcon ? (
         <>
-          <span className="rc-md-up">
+          <span className="rc-md-up" style={{ marginRight: '-.8rem' }}>
             {self.userInfo && self.userInfo.firstName}
           </span>
           <span
