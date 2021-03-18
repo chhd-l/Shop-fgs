@@ -198,11 +198,11 @@ class Payment extends React.Component {
       pet: {},
       //cyber参数
       cyberPaymentForm: {
-        cardholderName: 'Didier Valansot',
-        cardNumber: '4111111111111111',
+        cardholderName: '', //Didier Valansot
+        cardNumber: '', //4111111111111111
         expirationMonth: '',
         expirationYear: '',
-        securityCode: '000', //000
+        securityCode: '', //000
         firstName: '',
         lastName: '',
         address1: '',
