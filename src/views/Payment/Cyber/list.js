@@ -250,7 +250,9 @@ class CyberCardList extends React.Component {
   handleClickAddBtn = () => {
     this.setState({ formVisible: true, selectedId: '' }, () => {
       this.hanldeUpdateSelectedCardInfo();
+      this.props.showCyberForm();
     });
+
     scrollPaymentPanelIntoView();
   };
   handleClickEditBtn = (e) => {

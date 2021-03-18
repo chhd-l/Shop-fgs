@@ -261,6 +261,11 @@ class Payment extends React.Component {
   updateSelectedCardInfo = (data) => {
     console.log(999, data);
   };
+  showCyberForm = () => {
+    this.setState({
+      isShowCardList: false
+    });
+  };
   inputBlur = async (e) => {
     const { cyberErrMsgObj } = this.state;
     const target = e.target;
@@ -2326,7 +2331,6 @@ class Payment extends React.Component {
               {/* CYBER Form输入 */}
               {paymentTypeVal === 'cyber' && !this.state.isShowCardList && (
                 <>
-                  (
                   <CyberPaymentForm
                     ref={this.cyberCardRef}
                     form={this.state.cyberPaymentForm}
@@ -2346,7 +2350,6 @@ class Payment extends React.Component {
                     disabled: validForCyberPayment() || validForBilling,
                     loading: saveBillingLoading
                   })}
-                  )
                 </>
               )}
 
@@ -2355,6 +2358,7 @@ class Payment extends React.Component {
                 <>
                   <CyberCardList
                     updateSelectedCardInfo={this.updateSelectedCardInfo}
+                    showCyberForm={this.showCyberForm}
                   />
                   {payConfirmBtn({
                     disabled: validForCyberPayment() || validForBilling,
