@@ -125,6 +125,7 @@ export const LoginUserBox = ({ self, className }) => {
     {
       link: '/faq',
       href: '/about-us/faqs',
+      isHubOuterLink: true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe696;</span>{' '}
@@ -153,7 +154,7 @@ export const LoginUserBox = ({ self, className }) => {
       </div>
       {menuList.map((item, i) => (
         <React.Fragment key={i}>
-          {item.href && item.link ? (
+          {item.isHubOuterLink ? (
             <DistributeHubLinkOrATag
               href={item.href}
               to={item.link}
