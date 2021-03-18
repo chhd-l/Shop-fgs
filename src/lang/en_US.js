@@ -905,7 +905,7 @@ const en_US = {
   'recommendation.helpContentText.phoneTitle': 'Call us',
   'recommendation.helpContentText.phone': '1-844-673-3772',
   'recommendation.helpContentText.email': 'Send us an email',
-  'recommendation.helpContentText.phoneDes1': 'Monday to Friday:',
+  'recommendation.helpContentText.phoneDes1': 'Monday through Friday:',
   'recommendation.helpContentText.phoneDes2': '8:00 AM - 4:30  PM CT',
   'recommendation.petsImg': 'dog-and-cat.png',
   'recommendation.plusTitle':
