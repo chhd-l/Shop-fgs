@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import CATSPng from './images/CATS2@2x.jpg';
 import catAndPhone from './images/catAndPhone.png';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -20,26 +21,49 @@ import Slider from 'react-slick';
 import Help from '../../SmartFeederSubscription/modules/Help';
 
 @inject('clinicStore')
+@injectIntl
 @observer
 class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [{}],
-      defalutList: Array(7).fill({})
+      list: mockData.data,
+      defalutList: Array(8).fill({})
       // list: [{}]
     };
     this.helpContentText = {
-      title: "We're Here to Help",
-      emailLink: '/help/contact',
-      des:
-        "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible",
-      emailTitle: 'Email us',
-      emailDes: ' We will respond as soon as possible.',
-      phoneTitle: 'Call us',
-      phone: 'tel:1-844-673-3772',
-      email: 'Send us an email',
-      phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
+      title: this.props.intl.messages['recommendation.helpContentText.title'],
+      des: this.props.intl.messages['recommendation.helpContentText.des'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ],
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
+      phone: this.props.intl.messages['recommendation.helpContentText.phone'],
+      email: this.props.intl.messages['recommendation.helpContentText.email'],
+      phoneDes1: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes1'
+      ],
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
+      ]
+      // title: "We're Here to Help",
+      // emailLink: '/help/contact',
+      // des:
+      //   "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible",
+      // emailTitle: 'Email us',
+      // emailDes: ' We will respond as soon as possible.',
+      // phoneTitle: 'Call us',
+      // phone: '1-844-673-3772',
+      // email: 'Send us an email',
+      // phoneDes: '<strong>Monday to Friday:</strong> 8:00 AM - 4:30  PM CT'
     };
   }
   toScroll = (anchorName) => {
@@ -54,9 +78,9 @@ class ShelterPrescription extends React.Component {
     this.props.clinicStore.setLinkClinicId(clinicId);
     this.props.clinicStore.setLinkClinicName('');
     this.props.clinicStore.setAuditAuthority(false);
-    this.getDefaultList();
+    // this.getDefaultList();
   }
-  async getDefaultList() {
+  getDefaultList() {
     let goodsIds = [
       '2c91808577d2c0dd0177d2ca8161016c',
       '2c91808577d2c0dd0177d2ca61580097',
@@ -66,13 +90,13 @@ class ShelterPrescription extends React.Component {
       '2c918085768f3a4101768f3f73c10093',
       '2c918085781fb64701781feace710003'
     ];
-    let res = null;
-    try {
-      res = await getList({ goodsIds });
-    } catch (err) {
-      res = mockData;
-    }
-    let list = res.context?.esGoodsPage.content;
+    // try {
+    // //   res = await getList({ goodsIds });
+    // // } catch (err) {
+    // //   res = mockData;
+    // }
+    let res = mockData;
+    let list = res.data;
     this.setState({ list });
     console.info('.....', list);
   }
@@ -83,8 +107,12 @@ class ShelterPrescription extends React.Component {
         to={{
           pathname: item
             ? `/${
-                item.lowGoodsName
-                  ? item.lowGoodsName.split(' ').join('-').replace('/', '')
+                item.name
+                  ? item.name
+                      .toLowerCase()
+                      .split(' ')
+                      .join('-')
+                      .replace('/', '')
                   : ''
               }-${item.goodsNo}`
             : ''
@@ -97,14 +125,8 @@ class ShelterPrescription extends React.Component {
               <img
                 className="m-auto"
                 style={{ maxHeight: '150px', maxWidth: '150px' }}
-                alt={item.goodsName}
-                src={
-                  item.goodsImg ||
-                  item.goodsInfos?.sort(
-                    (a, b) => a.marketPrice - b.marketPrice
-                  )[0].goodsInfoImg ||
-                  IMG_DEFAULT
-                }
+                alt={item.name}
+                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${item.goodsImg}`}
               />
             </picture>
             <div className="rc-card__body">
@@ -113,12 +135,12 @@ class ShelterPrescription extends React.Component {
                   className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
                   // style={{ height: '64px' }}
                 >
-                  {item.goodsName}
+                  {item.name}
                 </h3>
               </header>
               <div
                 className="ui-text-overflow-line2"
-                style={{ height: '48px' }}
+                // style={{ height: '48px' }}
               >
                 {item.goodsSubtitle}
               </div>
@@ -131,10 +153,12 @@ class ShelterPrescription extends React.Component {
                   (12)
                 </span>
               </div> */}
-              {/* <div>Start from</div> */}
-              <div className="price-item">
-                {formatMoney(item.minMarketPrice)}
-              </div>
+              {item.upperPrice ? (
+                <div>from</div>
+              ) : (
+                <div style={{ color: '#fff' }}>from</div>
+              )}
+              <div className="price-item">{formatMoney(item.lowPrice)}</div>
             </div>
           </article>
         </a>
@@ -282,14 +306,16 @@ class ShelterPrescription extends React.Component {
               >
                 <div className="rc-carousel__card-gal product-list">
                   {this.state.defalutList.map((item, idx) => (
-                    <div>{this.getListItem(idx)}</div>
+                    <div className="for-last-hidden">
+                      {this.getListItem(idx)}
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="rc-md-down rc-padding-x--lg">
               <Slider {...settings}>
-                {this.state.defalutList.map((item, idx) => (
+                {this.state.list.map((item, idx) => (
                   <div
                     style={{
                       width: slideWidth
@@ -308,7 +334,11 @@ class ShelterPrescription extends React.Component {
             </div>
           </div>
           <div className="rc-padding-top--lg text-center">
-            <Help contentText={this.helpContentText} needReverse={false} />
+            <Help
+              isRecommendationPage={true}
+              contentText={this.helpContentText}
+              needReverse={false}
+            />
           </div>
           <div className="experience-component experience-assets-divider">
             <div

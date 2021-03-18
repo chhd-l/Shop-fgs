@@ -2246,7 +2246,7 @@ class List extends React.Component {
                               <b style={{ textTransform: 'capitalize' }}>
                                 {lastBreadListName}
                               </b>
-                              l (
+                              (
                               <FormattedMessage
                                 id="results"
                                 values={{ val: results }}

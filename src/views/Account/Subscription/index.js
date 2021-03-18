@@ -442,11 +442,11 @@ class Subscription extends React.Component {
             ) : (
               <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                 <div className="rc-column">
-                  <LazyLoad>
+                  <LazyLoad style={{ width: '100%' }}>
                     <img
                       src={noSubscription}
                       alt="No Subscription"
-                      style={{ width: '100%' }}
+                      class="w-100"
                     />
                   </LazyLoad>
                 </div>

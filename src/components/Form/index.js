@@ -49,7 +49,7 @@ class Form extends React.Component {
       addressSettings: [],
       formList: [],
       countryList: [], // 国家列表
-      provinceList: [], // 省份列表
+      stateList: [], // 省份列表
       cityList: [], // city列表
       regionList: [], // region列表
       errMsgObj: {}
@@ -64,26 +64,31 @@ class Form extends React.Component {
     // 查询国家
     getDictionary({ type: 'country' }).then((res) => {
       console.log(' --------- getDictionary country: ', res);
-      this.setState({
-        countryList: res
-      });
-      form.countryName = res[0].name;
+      if (res) {
+        this.setState({
+          countryList: res
+        });
+        form.countryName = res[0].name;
+      }
     });
 
     // 查询州列表（美国 state）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
       console.log(' --------- getProvincesList state: ', res);
-      this.setState({
-        provinceList: res.context.systemStates
-      });
+      if (res?.context?.systemStates) {
+        this.setState({
+          stateList: res.context.systemStates
+        });
+      }
     });
+    this.getRegionDataByCityId();
+    this.getAddressBykeyWordDuData();
 
     // 查询form表单配置开关
     getSystemConfig({ configType: 'address_input_type' }).then((res) => {
       if (res?.context?.configVOList) {
         let manually = '',
           automatically = '';
-        let addSetArr = [];
         let robj = res.context.configVOList;
         robj.forEach((item) => {
           if (item.configKey == 'address_input_type_manually') {
@@ -137,8 +142,6 @@ class Form extends React.Component {
         });
       }
     });
-
-    this.getRegionDataByCityId();
   }
   // 格式化表单json
   formListByRow(array, fn) {
@@ -165,34 +168,45 @@ class Form extends React.Component {
   getRegionDataByCityId = async () => {
     try {
       const res = await getRegionByCityId({ cityId: 3 });
-      console.log(' --------- getRegionByCityId regin: ', res);
-
-      // cityId: 3
-      // cityName: "string1"
-      // createTime: "2021-03-17 08:24:00.000"
-      // delFlag: 0
-      // delTime: null
-      // id: 108
-      // regionName: "string1"
-      // regionNo: "string1"
-      // storeId: 123456858
-      // updateTime: "2021-03-17 08:25:56.000"
-
-      this.setState({
-        regionList: res.context.systemRegions
-      });
+      if (res?.context?.systemRegions) {
+        console.log(' --------- getRegionByCityId regin: ', res);
+        // cityId: 3
+        // cityName: "string1"
+        // createTime: "2021-03-17 08:24:00.000"
+        // delFlag: 0
+        // delTime: null
+        // id: 108
+        // regionName: "string1"
+        // regionNo: "string1"
+        // storeId: 123456858
+        // updateTime: "2021-03-17 08:25:56.000"
+        this.setState({
+          regionList: res.context.systemRegions
+        });
+      }
     } catch (err) {
       console.log(err);
     }
   };
+  // 根据cityId查询region
+  getAddressBykeyWordDuData = async () => {
+    try {
+      const res = await getAddressBykeyWord({ keyword: 'москва хабар' });
+      if (res?.context?.systemRegions) {
+        console.log(' --------- getAddressBykeyWordDuData res: ', res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 下拉框下拉选择
   handleSelectedItemChange(key, data) {
     const { form } = this.state;
     console.log(' --------- key: ', key);
     console.log(' --------- data: ', data);
-    return;
     if (key == 'province') {
       form.provinceName = data.name;
-      form.provinceNo = data.stateNo; // 省份简写
+      form.provinceNo = data.no; // 省份简写
     } else if (key == 'country') {
       form.countryName = data.name;
     }
@@ -202,25 +216,23 @@ class Form extends React.Component {
     });
   }
   computedList(key) {
-    console.log(' --------- key: ', key);
-    return;
+    console.log(
+      ' --------- computedList key: ',
+      key,
+      ' ---  list: ',
+      this.state[`${key}List`]
+    );
     let tmp = '';
+    tmp = this.state[`${key}List`].map((c) => {
+      return {
+        value: c.id,
+        name: c.name,
+        no: c.no
+      };
+    });
     if (key == 'province') {
-      tmp = this.state[`${key}List`].map((c) => {
-        return {
-          value: c.id.toString(),
-          name: c.stateName,
-          stateNo: c.stateNo
-        };
-      });
       tmp.unshift({ value: '', name: 'State' });
-    } else {
-      tmp = this.state[`${key}List`].map((c) => {
-        return {
-          value: c.id.toString(),
-          name: c.name
-        };
-      });
+    } else if (key != 'country') {
       tmp.unshift({ value: '', name: '' });
     }
     return tmp;
@@ -367,8 +379,7 @@ class Form extends React.Component {
                           : null}
 
                         {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                        {item.inputFreeTextFlag == 0 &&
-                        item.inputSearchBoxFlag == 1
+                        {item.inputSearchBoxFlag == 1
                           ? this.citySearchSelectiontJSX(item)
                           : null}
 

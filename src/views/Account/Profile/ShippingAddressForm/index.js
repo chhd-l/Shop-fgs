@@ -223,7 +223,9 @@ class ShippingAddressFrom extends React.Component {
         addressForm.provinceName = validationAddress.provinceCode;
       }
     } else {
-      addressForm = JSON.parse(JSON.stringify(oldAddressForm));
+      this.setState({
+        addressForm: JSON.parse(JSON.stringify(oldAddressForm))
+      });
     }
     this.showNextPanel();
   }
