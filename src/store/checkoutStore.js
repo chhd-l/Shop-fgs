@@ -89,6 +89,11 @@ class CheckoutStore {
       ? this.cartPrice.firstOrderOnThePlatformDiscountPrice
       : '';
   }
+  @computed get promotionVOList() {
+    return this.cartPrice && this.cartPrice.promotionVOList
+      ? this.cartPrice.promotionVOList
+      : [];
+  }
 
   @action.bound
   setPromotionCode(data) {

@@ -204,6 +204,9 @@ class LoginCart extends React.Component {
   get firstOrderOnThePlatformDiscountPrice() {
     return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
+  get promotionVOList() {
+    return this.props.checkoutStore.promotionVOList;
+  }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
@@ -761,7 +764,8 @@ class LoginCart extends React.Component {
               </div>
               <div class="rc-column">
                 {pitem.subscriptionStatus &&
-                (!pitem.promotions || !pitem.promotions.includes('club')) ? (
+                (!pitem.goods.promotions ||
+                  !pitem.goods.promotions.includes('club')) ? (
                   <SubscriptionSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -784,7 +788,8 @@ class LoginCart extends React.Component {
                     setState={this.setState.bind(this)}
                   />
                 ) : null}
-                {pitem.promotions && pitem.promotions.includes('club') ? (
+                {pitem.goods.promotions &&
+                pitem.goods.promotions.includes('club') ? (
                   <ClubSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -810,7 +815,7 @@ class LoginCart extends React.Component {
               </div>
             </div>
           </div>
-          {pitem.promotions && pitem.promotions.includes('club') ? (
+          {pitem.goods.promotions && pitem.goods.promotions.includes('club') ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-24px' }}
@@ -1075,24 +1080,27 @@ class LoginCart extends React.Component {
         )}
 
         {/* 显示 promotionCode */}
-        {!isShowValidCode && this.promotionDiscountPrice > 0 && (
-          <div className={`row leading-lines shipping-item green d-flex`}>
-            <div className="col-6">
-              <p>
-                {/* {this.promotionDesc || (
-                      <FormattedMessage id="NoPromotionDesc" />
-                    )} */}
-                <FormattedMessage id="promotion" />
-              </p>
+        {!isShowValidCode &&
+          this.promotionDiscountPrice > 0 &&
+          this.promotionVOList.map((el) => (
+            <div className={`row leading-lines shipping-item green d-flex`}>
+              <div className="col-6">
+                <p>
+                  {/* {this.promotionDesc || (
+                        <FormattedMessage id="NoPromotionDesc" />
+                      )} */}
+                  {/* <FormattedMessage id="promotion" /> */}
+                  {el.marketingName}
+                </p>
+              </div>
+              <div className="col-6">
+                <p className="text-right shipping-cost">
+                  {/* - {formatMoney(this.discountPrice)} */}
+                  <b>-{formatMoney(el.discountPrice)}</b>
+                </p>
+              </div>
             </div>
-            <div className="col-6">
-              <p className="text-right shipping-cost">
-                {/* - {formatMoney(this.discountPrice)} */}
-                <b>-{formatMoney(this.promotionDiscountPrice)}</b>
-              </p>
-            </div>
-          </div>
-        )}
+          ))}
 
         {/* <div
           className={`row red ${

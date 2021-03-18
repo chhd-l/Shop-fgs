@@ -233,6 +233,9 @@ class PayProductInfo extends React.Component {
   get firstOrderOnThePlatformDiscountPrice() {
     return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
+  get promotionVOList() {
+    return this.props.checkoutStore.promotionVOList;
+  }
   getProducts(plist) {
     const List = plist.map((el, i) => {
       let selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
@@ -334,7 +337,8 @@ class PayProductInfo extends React.Component {
                     <span className="light">
                       {el.goodsName || el.goods.goodsName}
                     </span>
-                    {el.promotions && el.promotions.includes('club') ? (
+                    {el.goods.promotions &&
+                    el.goods.promotions.includes('club') ? (
                       <img className="clubLogo" src={Club_Logo} alt="" />
                     ) : null}
                   </div>
@@ -733,28 +737,28 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 显示 promotionCode */}
-                {!isShowValidCode && this.promotionDiscountPrice > 0 ? (
-                  // &&
-                  //   this.props.checkoutStore.promotionCode
-                  <div className="row leading-lines shipping-item flex-layout green">
-                    <label className="saveDiscount font14" style={{ flex: 2 }}>
-                      {/* {this.promotionDesc || (
-                        <FormattedMessage id="NoPromotionDesc" />
-                      )} */}
-                      <FormattedMessage id="promotion" />
-                    </label>
-                    <div
-                      className="text-right"
-                      style={{
-                        position: 'relative',
-                        textAlign: 'right',
-                        flex: 1
-                      }}
-                    >
-                      <b>-{formatMoney(this.promotionDiscountPrice)}</b>
-                    </div>
-                  </div>
-                ) : null}
+                {!isShowValidCode && this.promotionDiscountPrice > 0
+                  ? this.promotionVOList.map((el) => (
+                      <div className="row leading-lines shipping-item flex-layout green">
+                        <label
+                          className="saveDiscount font14"
+                          style={{ flex: 2 }}
+                        >
+                          {el.marketingName}
+                        </label>
+                        <div
+                          className="text-right"
+                          style={{
+                            position: 'relative',
+                            textAlign: 'right',
+                            flex: 1
+                          }}
+                        >
+                          <b>-{formatMoney(el.discountPrice)}</b>
+                        </div>
+                      </div>
+                    ))
+                  : null}
                 {/* 显示 delivereyPrice */}
                 <div className="row leading-lines shipping-item">
                   <div className="col-7 start-lines">
