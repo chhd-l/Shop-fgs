@@ -76,7 +76,7 @@ const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-
+const isClub = false;
 @inject('checkoutStore', 'loginStore')
 @injectIntl
 class SubscriptionDetail extends React.Component {
@@ -88,6 +88,7 @@ class SubscriptionDetail extends React.Component {
       subShipping: 0,
       addNewPetVisible: false,
       changeRecommendationVisible: false,
+      editRecommendationVisible: false,
       produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -337,142 +338,128 @@ class SubscriptionDetail extends React.Component {
   };
   recommendationModal = () => {
     return (
-      <div>
-        <Modal
-          headerVisible={true}
-          footerVisible={false}
-          visible={this.state.changeRecommendationVisible}
-          modalTitle=""
-          close={this.closeAddNewPet}
-        >
-          <h4 className="red text-center mb-3 mt-3">
-            Your product recommendation
-          </h4>
-          <p className="text-center">Please choose your options</p>
-          <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm">
-            <div className="d-flex for-pc-bettwen">
-              <div className="d-flex for-mobile-colum for-mobile-100">
-                <div className="d-flex rc-margin-right--xs">
-                  <img src="" />
-                  <div>
-                    <div>name</div>
-                    <div>type</div>
-                  </div>
+      <React.Fragment>
+        <div className="d-flex for-pc-bettwen">
+          <div className="d-flex for-mobile-colum for-mobile-100">
+            <div className="d-flex rc-margin-right--xs rc-margin-left--xs">
+              <img src="" />
+              <div>
+                <div>name</div>
+                <div>type</div>
+              </div>
+            </div>
+            <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-margin-left--xs">
+              <div className="text-left ml-1 font_size12 pad_b_5">
+                <FormattedMessage id="quantityText" />:
+              </div>
+              <div className="d-flex rc-align-children--space-between">
+                <div className="rc-quantity d-flex">
+                  <span
+                    className=" rc-icon rc-minus--xs rc-iconography rc-quantity__btn js-qty-minus"
+                    style={{ transform: 'scale(0.8)' }}
+                    // onClick={() => this.subQuantity(pitem)}
+                  ></span>
+                  <input
+                    className="rc-quantity__input"
+                    value="1"
+                    min="1"
+                    max="10"
+                    disabled
+                    // onChange={(e) =>
+                    //   this.handleAmountChange(e.target.value, pitem)
+                    // }
+                  />
+                  <span
+                    className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn js-qty-plus"
+                    style={{ transform: 'scale(0.8)' }}
+                    // onClick={() => this.addQuantity(pitem)}
+                  ></span>
                 </div>
-                <div className="line-item-quantity text-lg-center rc-margin-right--xs">
-                  <div className="text-left ml-1 font_size12 pad_b_5">
-                    <FormattedMessage id="quantityText" />:
-                  </div>
-                  <div className="d-flex rc-align-children--space-between">
-                    <div className="rc-quantity d-flex">
-                      <span
-                        className=" rc-icon rc-minus--xs rc-iconography rc-quantity__btn js-qty-minus"
-                        style={{ transform: 'scale(0.8)' }}
-                        // onClick={() => this.subQuantity(pitem)}
-                      ></span>
-                      <input
-                        className="rc-quantity__input"
-                        value="1"
-                        min="1"
-                        max="10"
-                        disabled
-                        // onChange={(e) =>
-                        //   this.handleAmountChange(e.target.value, pitem)
-                        // }
-                      />
-                      <span
-                        className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn js-qty-plus"
-                        style={{ transform: 'scale(0.8)' }}
-                        // onClick={() => this.addQuantity(pitem)}
-                      ></span>
-                    </div>
-                    <strong className="rc-md-down">=$27</strong>
-                  </div>
-                </div>
-                <div
-                  className="cart-and-ipay rc-margin-right--xs"
-                  style={{ float: 'left' }}
-                >
-                  <div className="rc-swatch __select-size">
-                    {/* <div className="rc-swatch__item selected">
+                <strong className="rc-md-down">=$27</strong>
+              </div>
+            </div>
+            <div
+              className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs"
+              style={{ float: 'left' }}
+            >
+              <div className="rc-swatch __select-size">
+                {/* <div className="rc-swatch__item selected">
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
                               <i></i>
                             </span>
                           </div> */}
-                    <div className="overflow-hidden">
-                      <div className="text-left ml-1 font_size12 pad_b_5">
-                        {/* <FormattedMessage id={item.specName} />: */}
-                        <FormattedMessage id="size" />:
-                      </div>
-                      {/* {item.chidren.map((sdItem) => ( */}
-                      <div
-                        className={`rc-swatch__item`}
-                        // key={i2}
-                        // onClick={() =>
-                        //   this.handleChooseSize(sdItem, pitem, index)
-                        // }
-                      >
-                        <span>
-                          2kg
-                          {/* {sdItem.detailName} */}
-                          <i></i>
-                        </span>
-                      </div>
-                      {/* ))} */}
-                    </div>
+                <div className="overflow-hidden">
+                  <div className="text-left ml-1 font_size12 pad_b_5">
+                    {/* <FormattedMessage id={item.specName} />: */}
+                    <FormattedMessage id="size" />:
                   </div>
+                  {/* {item.chidren.map((sdItem) => ( */}
+                  <div
+                    className={`rc-swatch__item`}
+                    // key={i2}
+                    // onClick={() =>
+                    //   this.handleChooseSize(sdItem, pitem, index)
+                    // }
+                  >
+                    <span>
+                      2kg
+                      {/* {sdItem.detailName} */}
+                      <i></i>
+                    </span>
+                  </div>
+                  {/* ))} */}
                 </div>
-                <p className="frequency rc-margin-right--xs">
-                  Frequency：
-                  {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
-                  <div>
-                    <Selection
-                      optionList={this.frequencyListOptions}
-                      selectedItemChange={(el) => {
-                        if (el.periodTypeId !== data.id) {
-                          el.periodTypeId = data.id;
-                          // el.periodTypeValue = data.valueEn;
-                          this.setState({ isDataChange: true });
-                        }
-                      }}
-                      selectedItemData={{
-                        value: 5744
-                      }}
-                      customContainerStyle={{}}
-                      // selectedItemChange={(data) => handleSelectedItemChange(data)}
-                      customStyleType="select-one"
-                    />
-                  </div>
-                </p>
-              </div>
-              <strong className="rc-md-up">=$27</strong>
-            </div>
-            <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
-              <span
-                className="rc-styled-link rc-btn"
-                onClick={this.showChangeRecommendation}
-              >
-                See other recommendation
-              </span>
-              <div className="for-mobile-colum">
-                <button
-                  onClick={this.showProdutctDetail}
-                  className="rc-btn rc-btn--two rc-btn--sm"
-                >
-                  Product details
-                </button>
-                <button
-                  onClick={this.changePets}
-                  className="rc-btn rc-btn--one rc-btn--sm"
-                >
-                  Change now
-                </button>
               </div>
             </div>
+            <p className="frequency rc-margin-right--xs rc-margin-left--xs">
+              Frequency：
+              {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
+              <div>
+                <Selection
+                  optionList={this.frequencyListOptions}
+                  selectedItemChange={(el) => {
+                    if (el.periodTypeId !== data.id) {
+                      el.periodTypeId = data.id;
+                      // el.periodTypeValue = data.valueEn;
+                      this.setState({ isDataChange: true });
+                    }
+                  }}
+                  selectedItemData={{
+                    value: 5744
+                  }}
+                  customContainerStyle={{}}
+                  // selectedItemChange={(data) => handleSelectedItemChange(data)}
+                  customStyleType="select-one"
+                />
+              </div>
+            </p>
           </div>
-        </Modal>
-      </div>
+          <strong className="rc-md-up">=$27</strong>
+        </div>
+        <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
+          <span
+            className="rc-styled-link"
+            onClick={this.showChangeRecommendation}
+          >
+            See other recommendation
+          </span>
+          <div className="for-mobile-colum d-flex">
+            <button
+              onClick={this.showProdutctDetail}
+              className="rc-btn rc-btn--two rc-btn--sm"
+            >
+              Product details
+            </button>
+            <button
+              onClick={this.changePets}
+              className="rc-btn rc-btn--one rc-btn--sm"
+            >
+              Change now
+            </button>
+          </div>
+        </div>
+      </React.Fragment>
     );
   };
   addNewCatModal = () => {
@@ -1142,7 +1129,7 @@ class SubscriptionDetail extends React.Component {
         </div>
 
         <div className="rc-column d-flex">
-          <div className="subdeatial-button-mobile-pad">
+          <div className="subdeatial-button-mobile-pad pause-btn">
             <i
               className="iconfont"
               style={{
@@ -1157,11 +1144,12 @@ class SubscriptionDetail extends React.Component {
               style={{
                 position: 'relative',
                 top: '-0.3rem',
-                color: '#FBE8CD',
                 paddingRight: '0.5rem',
                 paddingLeft: '0.5rem'
               }}
-              className="rc-styled-link disabled"
+              className={`rc-styled-link ${
+                this.state.isGift ? 'disabled' : ''
+              }`}
             >
               {subDetail.subscribeStatus === '0' ? (
                 <FormattedMessage id="subscription.pause" />
@@ -1229,7 +1217,7 @@ class SubscriptionDetail extends React.Component {
         style={{ display: isNotInactive ? 'block' : 'none' }}
       >
         <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          {/* <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
+          {/* <div className="pause-btn" style={{ display: isMobile ? 'block' : 'inline-block' }}>
             <i
               className="iconfont"
               style={{
@@ -1243,7 +1231,6 @@ class SubscriptionDetail extends React.Component {
             </i>
             <a
               style={{
-                color: 'rgb(242,148,35)',
                 paddingRight: '0.5rem',
                 paddingLeft: '4px'
               }}
@@ -1347,8 +1334,16 @@ class SubscriptionDetail extends React.Component {
   closeRecommendation = () => {
     this.setState({ changeRecommendationVisible: false });
   };
+  closeChangePets = () => {
+    this.closeRecommendation();
+    this.closeEditRecommendation();
+  };
   changePets = () => {
     this.closeRecommendation();
+    this.closeEditRecommendation();
+  };
+  closeEditRecommendation = () => {
+    this.setState({ editRecommendationVisible: false });
   };
   showProdutctDetail = () => {
     this.closeChangeProduct();
@@ -1681,6 +1676,9 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
+  showEditRecommendation = () => {
+    this.setState({ editRecommendationVisible: true });
+  };
   statusText = () => {
     let { subDetail, isNotInactive } = this.state;
     return subDetail.subscribeId ? (
@@ -1711,6 +1709,63 @@ class SubscriptionDetail extends React.Component {
       )
     ) : null;
   };
+  ClubTitle = () => (
+    <div className="d-flex align-items-center add-pet-btn-wrap">
+      <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
+      {true ? (
+        <React.Fragment>
+          <div
+            className="pet-img text-center"
+            style={{ margin: ' 0 1rem' }}
+          ></div>
+          <div className="rc-padding-right--md">
+            <h4 style={{ color: '#e2001a', margin: 0 }}>CLUB for Merlin</h4>
+            <div>
+              Date of birth:<strong>18/01/2021</strong>
+            </div>
+          </div>
+          <div className="rc-padding-right--md">
+            <div
+              className="rc-styled-link"
+              onClick={this.showEditRecommendation}
+            >
+              Edit pet profile
+            </div>
+            <div>
+              Breed:<strong>European</strong>{' '}
+            </div>
+          </div>
+          <div className="rc-padding-right--md">
+            <div style={{ color: '#fff' }}> &nbsp:;</div>
+            <div>
+              Sterilized: <strong>yes</strong>
+            </div>
+          </div>
+          <div>
+            <div style={{ color: '#fff' }}> &nbsp:;</div>
+            <span>{this.statusText()}</span>
+          </div>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <div
+            className="pet-img add-pet-btn text-center"
+            onClick={this.showAddNewPet}
+          ></div>
+          <div>
+            For a better experience we recommend linking a pet profile to your
+            Club subscription
+            <div>
+              <span className="rc-styled-link" onClick={this.showAddNewPet}>
+                Link a profile
+              </span>
+              <span className="mobile-block">{this.statusText()}</span>
+            </div>
+          </div>
+        </React.Fragment>
+      )}
+    </div>
+  );
   render() {
     const event = {
       page: {
@@ -1952,37 +2007,29 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
-                    <div className="d-flex align-items-center add-pet-btn-wrap">
-                      <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
-                      <div
-                        className="pet-img add-pet-btn text-center"
-                        onClick={this.showAddNewPet}
-                      ></div>
-                      <div>
-                        For a better experience we recommend linking a pet
-                        profile to your Club subscription
-                        <div>
-                          <span
-                            className="rc-styled-link"
-                            onClick={this.showAddNewPet}
-                          >
-                            Link a profile
-                          </span>
-                          <span className="mobile-block">
-                            {this.statusText()}
-                          </span>
+                    {this.state.editRecommendationVisible && (
+                      <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
+                        <p className="recommendatio-wrap-title">
+                          New product recommendation
+                        </p>
+                        <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
+                          {this.recommendationModal()}
                         </div>
                       </div>
-                    </div>
-                    <h4
-                      className="rc-delta font-weight-normal mb-2"
-                      style={{ color: '#666', display: 'none' }}
-                    >
-                      {subDetail.externalSubscribeId ? (
-                        <span>{`${subDetail.externalSubscribeId}`}</span>
-                      ) : null}
-                      {this.statusText()}
-                    </h4>
+                    )}
+                    {isClub ? (
+                      this.ClubTitle()
+                    ) : (
+                      <h4
+                        className="rc-delta font-weight-normal mb-2"
+                        style={{ color: '#666' }}
+                      >
+                        {subDetail.externalSubscribeId ? (
+                          <span>{`${subDetail.externalSubscribeId}`}</span>
+                        ) : null}
+                        {this.statusText()}
+                      </h4>
+                    )}
                   </div>
                   {/* <hr className="rc-margin-top---none" /> */}
                   <div className="content-asset">
@@ -2018,12 +2065,14 @@ class SubscriptionDetail extends React.Component {
                                       style={{ width: '100px' }}
                                     />
                                   </LazyLoad>
-                                  <span
-                                    className="rc-styled-link"
-                                    onClick={this.showChangeProduct}
-                                  >
-                                    change product
-                                  </span>
+                                  {isClub && (
+                                    <span
+                                      className="rc-styled-link"
+                                      onClick={this.showChangeProduct}
+                                    >
+                                      change product
+                                    </span>
+                                  )}
                                 </div>
                                 <div
                                   className="v-center"
@@ -2368,12 +2417,14 @@ class SubscriptionDetail extends React.Component {
                                         <LazyLoad>
                                           <img src={el.goodsPic} alt="" />
                                         </LazyLoad>
-                                        <span
-                                          className="rc-styled-link"
-                                          onClick={this.showChangeProduct}
-                                        >
-                                          change product
-                                        </span>
+                                        {isClub && (
+                                          <span
+                                            className="rc-styled-link"
+                                            onClick={this.showChangeProduct}
+                                          >
+                                            change product
+                                          </span>
+                                        )}
                                       </div>
                                       <div
                                         className="v-center"
@@ -2709,13 +2760,14 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              {isGift && subDetail.subscribeStatus != 2
+                              {(isGift || isClub) &&
+                              subDetail.subscribeStatus != 2
                                 ? this.getButtonBoxGift(subDetail)
                                 : null}
                             </div>
                           ))}
                       </div>
-                      {!isGift && this.getButtonBox(subDetail)}
+                      {!isGift && !isClub && this.getButtonBox(subDetail)}
                       <h4 className="h4">
                         <FormattedMessage id="transactionInfo" />
                       </h4>
@@ -4082,7 +4134,22 @@ class SubscriptionDetail extends React.Component {
           <Footer />
           {this.addNewCatModal()}
           {this.changeProductModal()}
-          {this.recommendationModal()}
+
+          <Modal
+            headerVisible={true}
+            footerVisible={false}
+            visible={this.state.changeRecommendationVisible}
+            modalTitle=""
+            close={this.closeChangePets}
+          >
+            <h4 className="red text-center mb-3 mt-3">
+              Your product recommendation
+            </h4>
+            <p className="text-center">Please choose your options</p>
+            <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm">
+              {this.recommendationModal()}
+            </div>
+          </Modal>
           <div className="product-detail-modal">
             <Modal
               headerVisible={true}
@@ -4091,8 +4158,9 @@ class SubscriptionDetail extends React.Component {
               cancelBtnText="See other recommendation"
               confirmBtnText="Choose this product"
               modalTitle={''}
+              cancel={this.closeAndShowChangeProduct}
               hanldeClickConfirm={this.showChangeRecommendation}
-              close={this.closeAndShowChangeProduct}
+              close={this.closeProdutctDetail}
             >
               {this.getDetailModalInner()}
             </Modal>

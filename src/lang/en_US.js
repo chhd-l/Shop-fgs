@@ -738,6 +738,10 @@ const en_US = {
   'payment.saveFor': 'Save for next payment',
   'payment.socialId': 'Social id',
   'payment.state': 'State',
+  'payment.region': 'Region',
+  'payment.entrance': 'Entrance',
+  'payment.apartment': 'Apartment',
+  'payment.comment': 'Comment',
   'payment.subTip1': 'You will save an additional {val} on this order!',
   'payment.subTip2':
     'Save your first {icon} Subscription order and save {val} ({val2}) today!',

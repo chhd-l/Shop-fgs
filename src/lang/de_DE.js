@@ -710,6 +710,11 @@ const de_DE = {
   'payment.postCode2': 'Postleitzahl',
   'payment.rfc': 'Adressreferenz',
   'payment.socialId': 'Soziale ID',
+  'payment.state': 'Staat',
+  'payment.region': 'Region',
+  'payment.entrance': 'Eingang',
+  'payment.apartment': 'Wohnung',
+  'payment.comment': 'Kommentar',
   'payment.subTip1':
     'Sie sparen durch ein Abo zusätzliche {val} auf Ihre Bestellung.',
   'payment.subTip2':

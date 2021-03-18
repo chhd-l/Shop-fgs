@@ -626,6 +626,11 @@ const tr_TR = {
   'payment.postCode2': 'Posta kodu',
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
+  'payment.state': 'Durum',
+  'payment.region': 'bölge',
+  'payment.entrance': 'giriş',
+  'payment.apartment': 'daire',
+  'payment.comment': 'Şerh',
   'payment.subTip1': 'Bu siparişte ek bir {val} tasarruf edeceksiniz!',
   'payment.subTip2':
     'İlk {icon} Abonelik siparişinizi kaydedin ve bugün {val} ({val2}) tasarruf edin!',

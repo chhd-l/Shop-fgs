@@ -245,15 +245,22 @@ class Subscription extends React.Component {
       isGiftCurrentPage,
       isGiftTotalPage
     } = this.state;
-    let dataList = isGift ? subGiftList : this.state.subList;
-    let loading = isGift ? isGiftLoading : this.state.loading;
-    let errMsg = isGift ? isGiftErrMsg : this.state.errMsg;
-    let currentPage = isGift ? isGiftCurrentPage : this.state.currentPage;
-    let totalPage = isGift ? isGiftTotalPage : this.state.totalPage;
-    let subscription = isGift ? 'isGiftSubscription' : 'subscription';
-    let hanldePageNumChange = isGift
-      ? this.isGiftHanldePageNumChange
-      : this.hanldePageNumChange;
+    let dataList = this.state.subList;
+    let loading = this.state.loading;
+    let errMsg = this.state.errMsg;
+    let currentPage = this.state.currentPage;
+    let totalPage = this.state.totalPage;
+    let subscription = 'subscription';
+    let hanldePageNumChange = this.hanldePageNumChange;
+    if (isGift) {
+      dataList = subGiftList;
+      loading = isGiftLoading;
+      errMsg = isGiftErrMsg;
+      currentPage = isGiftCurrentPage;
+      totalPage = isGiftTotalPage;
+      subscription = 'isGiftSubscription';
+      hanldePageNumChange = this.isGiftHanldePageNumChange;
+    }
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
         {dataList.length ? (

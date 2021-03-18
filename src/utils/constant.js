@@ -108,7 +108,7 @@ export const ADDRESS_RULE = [
     require: process.env.REACT_APP_LANG === 'en' ? true : false,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
-      CURRENT_LANGFILE['payment.province']
+      CURRENT_LANGFILE['payment.state']
     )
   },
   {
@@ -116,7 +116,7 @@ export const ADDRESS_RULE = [
     require: process.env.REACT_APP_LANG === 'en' ? true : false,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
-      CURRENT_LANGFILE['payment.province']
+      CURRENT_LANGFILE['payment.state']
     )
   },
   // {
