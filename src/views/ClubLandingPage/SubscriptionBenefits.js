@@ -13,6 +13,7 @@ import gifticon from './ClubImage/pictogifts@4x.png';
 import spetadviser from './ClubImage/pictospetadviser@4x.png';
 import shippingicon from './ClubImage/pictoshipping@4x.png';
 import nutrition from './ClubImage/pictonutrition@4x.png';
+import iconsix from './ClubImage/iconsix.png';
 
 export function SubscriptionBenefits() {
   const defaultJSX = (
@@ -285,6 +286,28 @@ export function SubscriptionBenefits() {
               </div>
             </div>
           </div>
+          {process.env.REACT_APP_LANG === 'ru' ? (
+            <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+              <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <LazyLoad height={200}>
+                    <img
+                      className="value-proposition__img lazyloaded"
+                      style={{ width: '100px', height: '100px' }}
+                      alt="ideal formula"
+                      title="ideal formula"
+                      src={iconsix}
+                    />
+                  </LazyLoad>
+                </div>
+                <div className="pl-3 d-flex align-items-center value-proposition__text">
+                  <p className="rc-margin-bottom--none rc-intro">
+                    <FormattedMessage id="club.subscription.icon5" />
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : null}
         </>
       ),
       tr: (

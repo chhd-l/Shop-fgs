@@ -57,6 +57,7 @@ class ContactUs extends Component {
 
   deliveryInputChange = (e) => {
     const { address } = this.state;
+    const { errMsgObj } = this.state;
     const target = e.target;
     let value = target.value;
     const name = target.name;
@@ -65,23 +66,41 @@ class ContactUs extends Component {
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
-    const { errMsgObj } = this.state;
     const target = e.target;
+    const { errMsgObj } = this.state;
+    if (target.name === 'phoneNumber') {
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          phoneNumber: ''
+        })
+      });
+      return;
+    }
+    await this.checkRegexp(target);
+    if (target.name === 'email') {
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          validEmail: ''
+        })
+      });
+    }
+  };
+  //各字段验证方式
+  checkRegexp = async (target = { name: '', value: '' }) => {
+    const { errMsgObj } = this.state;
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.value;
     try {
       await validData(targetRule, { [target.name]: value });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: '',
-          validEmail: ''
+          [target.name]: ''
         })
       });
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: err.message,
-          validEmail: ''
+          [target.name]: err.message
         })
       });
     }
@@ -96,70 +115,70 @@ class ContactUs extends Component {
     if (firstName && lastName && email && request) return true;
   };
   //验证邮箱格式是否正确
-  emailFormatChecked = async () => {
-    const { errMsgObj } = this.state;
+  emailAndPhoneFormatChecked = async () => {
     const { email } = this.state.address;
-    const targetRule = ADDRESS_RULE.filter((e) => e.key === 'validEmail');
-    try {
-      await validData(targetRule, { validEmail: email });
-      this.setState({
-        errMsgObj: Object.assign({}, errMsgObj, {
-          validEmail: ''
-        })
+    const phoneNumber = this.textInput.current.value;
+    await this.checkRegexp({ name: 'validEmail', value: email }); //验证邮箱格式
+    if (phoneNumber !== '') {
+      //如果输入了电话号码，验证美国电话号码格式
+      await this.checkRegexp({
+        name: 'phoneNumber',
+        value: phoneNumber.split('-').join('')
       });
-      return true;
-    } catch (err) {
+    }
+    if (
+      this.state.errMsgObj.validEmail !== '' ||
+      this.state.errMsgObj.phoneNumber !== ''
+    ) {
       window.scrollTo(0, 100);
-      this.setState({
-        errMsgObj: Object.assign({}, errMsgObj, {
-          validEmail: err.message
-        })
-      });
       return false;
+    } else {
+      return true;
     }
   };
   submitEvent = async () => {
-    //点击提交按钮时先验证邮箱格式是否正确
-    const isValidEmail = await this.emailFormatChecked();
-    if (!isValidEmail) return;
-    this.setState({ isLoading: true });
-    const { address } = this.state;
-    address.phoneNumber = this.textInput.current.value;
-    //contact us请求接口调用
-    await submitContactUsInfo({
-      firstName: address.firstName,
-      lastName: address.lastName,
-      email: address.email,
-      phone: address.phoneNumber,
-      orderNumber: address.orderNumber,
-      myQuestion: this.state.questionList.find((item) => {
-        return item.value === address.question;
-      }).name,
-      requestContext: address.request
-    })
-      .then((res) => {
-        if (res.code == 'K-000000') {
-          //接口返回提交成功
-          this.setState({ mail: address.email });
-          this.setState({ isLoading: false, isFinished: true });
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        } else {
-          //接口返回提交失败状态及原因
-          this.setState({ isLoading: false, isFinished: false });
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        }
+    //点击提交按钮时先验证邮箱格式和电话号码是否正确
+    const isValidEmail = await this.emailAndPhoneFormatChecked();
+    if (isValidEmail) {
+      this.setState({ isLoading: true });
+      const { address } = this.state;
+      address.phoneNumber = this.textInput.current.value;
+      //contact us请求接口调用
+      await submitContactUsInfo({
+        firstName: address.firstName,
+        lastName: address.lastName,
+        email: address.email,
+        phone: address.phoneNumber,
+        orderNumber: address.orderNumber,
+        myQuestion: this.state.questionList.find((item) => {
+          return item.value === address.question;
+        }).name,
+        requestContext: address.request
       })
-      .catch((err) => {
-        console.log(err);
-        window.scrollTo(0, 0);
-        this.setState({ isLoading: false, isFinished: false });
-      });
+        .then((res) => {
+          if (res.code == 'K-000000') {
+            //接口返回提交成功
+            this.setState({ mail: address.email });
+            this.setState({ isLoading: false, isFinished: true });
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          } else {
+            //接口返回提交失败状态及原因
+            this.setState({ isLoading: false, isFinished: false });
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          window.scrollTo(0, 0);
+          this.setState({ isLoading: false, isFinished: false });
+        });
+    }
   };
 
   firstNameJSX = () => {
@@ -271,7 +290,7 @@ class ContactUs extends Component {
     );
   };
   phonePanelJSX = () => {
-    const { address, errMsgObj } = this.state;
+    const { errMsgObj } = this.state;
     return (
       <div className="form-group">
         {' '}
@@ -279,7 +298,9 @@ class ContactUs extends Component {
           <FormattedMessage id="payment.phoneNumber2" />
         </label>
         <span
-          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+          className={`rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width ${
+            errMsgObj.phoneNumber ? 'rc-input--invalid--email' : ''
+          }`}
           input-setup="true"
         >
           <input
@@ -289,7 +310,6 @@ class ContactUs extends Component {
             id="shippingPhoneNumber"
             //value={address.phoneNumber} //加了这个值输入的时候有bug，先去掉的
             onChange={this.deliveryInputChange}
-            onBlur={this.inputBlur}
             name="phoneNumber"
             maxLength="12"
             onKeyUp={backSpacerUP.bind(this)}
@@ -311,7 +331,7 @@ class ContactUs extends Component {
           <FormattedMessage id="contactUs.orderNumber" />
         </label>
         <span
-          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+          className={`"rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width" `}
           input-setup="true"
         >
           <input

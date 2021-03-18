@@ -4,10 +4,24 @@ import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary, validData } from '@/utils/utils';
 import { injectIntl } from 'react-intl';
-import { queryCityByName } from '@/api';
+import {
+  getSystemConfig,
+  getAddressSetting,
+  getProvincesList,
+  getRegionByCityId,
+  getAddressBykeyWord
+} from '@/api';
 import { FormattedMessage } from 'react-intl';
+import { ADDRESS_RULE } from '@/utils/constant';
+import './index.less';
 
 class Form extends React.Component {
+  static defaultProps = {
+    type: 'billing',
+    initData: null,
+    isLogin: false,
+    updateData: () => {}
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -19,357 +33,127 @@ class Form extends React.Component {
         address2: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
+        cityId: '',
         city: '',
-        cityName: '',
+        regionId: '',
+        region: '',
         provinceNo: '',
         provinceName: '',
         province: '',
         postCode: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        entrance: '',
+        apartment: '',
+        comment: ''
       },
-      adss: [
-        {
-          addressDisplaySettings: [
-            {
-              id: 3,
-              sequence: 1,
-              fieldName: 'First name',
-              filedType: 0,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 25,
-              requiredFlag: 1,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 1,
-              pageCol: 1,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 4,
-              sequence: 2,
-              fieldName: 'Last name',
-              filedType: 0,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 25,
-              requiredFlag: 1,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 1,
-              pageCol: 2,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 5,
-              sequence: 3,
-              fieldName: 'Address1',
-              filedType: 0,
-              inputFreeTextFlag: 0,
-              inputSearchBoxFlag: 1,
-              inputDropDownBoxFlag: 0,
-              maxLength: 25,
-              requiredFlag: 1,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 5,
-              pageCol: 1,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 6,
-              sequence: 4,
-              fieldName: 'Address2',
-              filedType: 0,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 25,
-              requiredFlag: 0,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 6,
-              pageCol: 1,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 7,
-              sequence: 5,
-              fieldName: 'City',
-              filedType: 0,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 1,
-              inputDropDownBoxFlag: 0,
-              maxLength: 8,
-              requiredFlag: 1,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 3,
-              pageCol: 2,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 8,
-              sequence: 6,
-              fieldName: 'State',
-              filedType: 0,
-              inputFreeTextFlag: 0,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 1,
-              maxLength: 10,
-              requiredFlag: 1,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 3,
-              pageCol: 1,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 9,
-              sequence: 7,
-              fieldName: 'Country',
-              filedType: 0,
-              inputFreeTextFlag: 0,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 1,
-              maxLength: 10,
-              requiredFlag: 1,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 2,
-              pageCol: 1,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 10,
-              sequence: 8,
-              fieldName: 'Region',
-              filedType: 0,
-              inputFreeTextFlag: 0,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 1,
-              maxLength: 10,
-              requiredFlag: 0,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 2,
-              pageCol: 2,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 11,
-              sequence: 9,
-              fieldName: 'Phone number',
-              filedType: 1,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 10,
-              requiredFlag: 1,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 4,
-              pageCol: 1,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 12,
-              sequence: 10,
-              fieldName: 'Post code',
-              filedType: 1,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 10,
-              requiredFlag: 1,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 4,
-              pageCol: 2,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 13,
-              sequence: 11,
-              fieldName: 'Entrance',
-              filedType: 0,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 10,
-              requiredFlag: 0,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 7,
-              pageCol: 1,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 14,
-              sequence: 12,
-              fieldName: 'Apartment',
-              filedType: 0,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 10,
-              requiredFlag: 0,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 7,
-              pageCol: 2,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 15,
-              sequence: 13,
-              fieldName: 'Comment',
-              filedType: 0,
-              inputFreeTextFlag: 1,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 25,
-              requiredFlag: 0,
-              enableFlag: 1,
-              dataSource: 0,
-              apiName: null,
-              pageRow: 8,
-              pageCol: 1,
-              storeId: 123456858,
-              createTime: '2021-03-08 08:26:06.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            },
-            {
-              id: 81,
-              sequence: 0,
-              fieldName: 'chacao',
-              filedType: 0,
-              inputFreeTextFlag: 0,
-              inputSearchBoxFlag: 0,
-              inputDropDownBoxFlag: 0,
-              maxLength: 0,
-              requiredFlag: 0,
-              enableFlag: 0,
-              dataSource: 0,
-              apiName: 'chacao',
-              pageRow: 0,
-              pageCol: 0,
-              storeId: 123456858,
-              createTime: '2021-03-10 07:22:04.000',
-              updateTime: '2021-03-11 10:47:23.000',
-              delFlag: 0,
-              delTime: null
-            }
-          ]
-        }
-      ],
-      formGroup: [],
-      countryList: [] // 国家列表
+      addressSettings: [],
+      formList: [],
+      countryList: [], // 国家列表
+      stateList: [], // 省份列表
+      cityList: [], // city列表
+      regionList: [], // region列表
+      errMsgObj: {}
     };
   }
   componentDidMount() {
-    console.log('★★★★★★★★★★★★★★★★★★★★★★★★★★★');
-    const { adss } = this.state;
+    const { form } = this.state;
     this.setState({
       formLoading: true
     });
-    // 过滤掉不可用的
-    let narr = adss[0].addressDisplaySettings.filter(
-      (item) => item.enableFlag == 1
-    );
-    let ress = this.formGroupByRow(narr, (item) => {
-      return [item.pageRow];
-    });
-    this.setState(
-      {
-        formGroup: ress
-      },
-      () => {
-        setTimeout(() => {
-          this.setState({
-            formLoading: false
-          });
-        }, 1000);
-      }
-    );
 
+    // 查询国家
     getDictionary({ type: 'country' }).then((res) => {
-      const { form } = this.state;
-      this.setState({
-        countryList: res
-      });
-      form.countryName = res[0].name;
+      console.log(' --------- getDictionary country: ', res);
+      if (res) {
+        this.setState({
+          countryList: res
+        });
+        form.countryName = res[0].name;
+      }
+    });
+
+    // 查询州列表（美国 state）
+    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
+      console.log(' --------- getProvincesList state: ', res);
+      if (res?.context?.systemStates) {
+        this.setState({
+          stateList: res.context.systemStates
+        });
+      }
+    });
+    this.getRegionDataByCityId();
+    this.getAddressBykeyWordDuData();
+
+    // 查询form表单配置开关
+    getSystemConfig({ configType: 'address_input_type' }).then((res) => {
+      if (res?.context?.configVOList) {
+        let manually = '',
+          automatically = '';
+        let robj = res.context.configVOList;
+        robj.forEach((item) => {
+          if (item.configKey == 'address_input_type_manually') {
+            manually = item.context;
+          } else if (item.configKey == 'address_input_type_automatically') {
+            automatically = item.context;
+          }
+        });
+        let addSetSwitch =
+          manually == 1 && automatically == 0 ? 'MANUALLY' : 'AUTOMATICALLY';
+        // 查询表单数据接口类型
+        // MANUALLY // 自己接口
+        // AUTOMATICALLY // 自动填充
+        getAddressSetting({ addressApiType: addSetSwitch }).then((res) => {
+          try {
+            if (res?.context?.addressDisplaySettings) {
+              this.setState(
+                {
+                  addressSettings: res.context.addressDisplaySettings
+                },
+                () => {
+                  // 过滤掉不可用的
+                  let narr = this.state.addressSettings.filter(
+                    (item) => item.enableFlag == 1
+                  );
+                  let ress = this.formListByRow(narr, (item) => {
+                    return [item.pageRow];
+                  });
+                  this.setState(
+                    {
+                      formList: ress
+                    },
+                    () => {
+                      this.setState({
+                        formLoading: false
+                      });
+                    }
+                  );
+                }
+              );
+            } else {
+              this.setState({
+                formLoading: false
+              });
+            }
+          } catch (err) {
+            this.setState({
+              formLoading: false
+            });
+          }
+        });
+      }
     });
   }
-  // filedType        tinyint(4)   '字段类型:0.text,1.number',
-  formGroupByRow(array, fn) {
+  // 格式化表单json
+  formListByRow(array, fn) {
     const groups = {};
     array.forEach((item) => {
+      // filedType '字段类型:0.text,1.number'
       item.filedType = item.filedType == 0 ? 'text' : 'number';
+      // regExp: RULE[key],
+      // errMsg: CURRENT_LANGFILE['enterCorrectPostCode'],
+      item.regExp = '';
+      item.errMsg = '';
+
       const group = JSON.stringify(fn(item));
       // 利用对象的key值唯一性的，创建数组
       groups[group] = groups[group] || [];
@@ -380,31 +164,116 @@ class Form extends React.Component {
       return groups[group];
     });
   }
-
-  computedList(key) {
-    let tmp = '';
+  // 根据cityId查询region
+  getRegionDataByCityId = async () => {
+    try {
+      const res = await getRegionByCityId({ cityId: 3 });
+      if (res?.context?.systemRegions) {
+        console.log(' --------- getRegionByCityId regin: ', res);
+        // cityId: 3
+        // cityName: "string1"
+        // createTime: "2021-03-17 08:24:00.000"
+        // delFlag: 0
+        // delTime: null
+        // id: 108
+        // regionName: "string1"
+        // regionNo: "string1"
+        // storeId: 123456858
+        // updateTime: "2021-03-17 08:25:56.000"
+        this.setState({
+          regionList: res.context.systemRegions
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 根据cityId查询region
+  getAddressBykeyWordDuData = async () => {
+    try {
+      const res = await getAddressBykeyWord({ keyword: 'москва хабар' });
+      if (res?.context?.systemRegions) {
+        console.log(' --------- getAddressBykeyWordDuData res: ', res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 下拉框下拉选择
+  handleSelectedItemChange(key, data) {
+    const { form } = this.state;
+    console.log(' --------- key: ', key);
+    console.log(' --------- data: ', data);
     if (key == 'province') {
-      tmp = this.state[`${key}List`].map((c) => {
-        return {
-          value: c.id.toString(),
-          name: c.stateName,
-          stateNo: c.stateNo
-        };
-      });
+      form.provinceName = data.name;
+      form.provinceNo = data.no; // 省份简写
+    } else if (key == 'country') {
+      form.countryName = data.name;
+    }
+    form[key] = data.value;
+    this.setState({ form }, () => {
+      this.props.updateData(this.state.form);
+    });
+  }
+  computedList(key) {
+    console.log(
+      ' --------- computedList key: ',
+      key,
+      ' ---  list: ',
+      this.state[`${key}List`]
+    );
+    let tmp = '';
+    tmp = this.state[`${key}List`].map((c) => {
+      return {
+        value: c.id,
+        name: c.name,
+        no: c.no
+      };
+    });
+    if (key == 'province') {
       tmp.unshift({ value: '', name: 'State' });
-    } else {
-      tmp = this.state[`${key}List`].map((c) => {
-        return {
-          value: c.id.toString(),
-          name: c.name
-        };
-      });
+    } else if (key != 'country') {
       tmp.unshift({ value: '', name: '' });
     }
     return tmp;
   }
-  deliveryInputChange = (e) => {};
-  inputBlur = async (e) => {};
+  deliveryInputChange = (e) => {
+    const { form } = this.state;
+    const target = e.target;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    if (name === 'postCode' || name === 'phoneNumber') {
+      value = value.replace(/\s+/g, '');
+    }
+    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+      value = value.replace(/^[0]/, '+(33)');
+    }
+    form[name] = value;
+    this.setState({ form }, () => {
+      this.props.updateData(this.state.form);
+    });
+    this.inputBlur(e);
+  };
+  inputBlur = async (e) => {
+    const { errMsgObj } = this.state;
+    const target = e.target;
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    try {
+      await validData(targetRule, { [target.name]: value });
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: ''
+        })
+      });
+    } catch (err) {
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: err.message
+        })
+      });
+    }
+  };
   handleCityInputChange = (data) => {
     const { form } = this.state;
     form.city = data.id;
@@ -413,95 +282,142 @@ class Form extends React.Component {
       this.props.updateData(this.state.form);
     });
   };
-  render() {
-    const { formLoading, form, formGroup } = this.state;
 
-    // inputType        tinyint(4)   '输入类型  0:手动输入,1:自动输入',
-    // inputFreeTextFlag        tinyint(4)   '是否允许自由输入:0.不允许,1.允许',
-    // inputSearchBoxFlag        tinyint(4)  '是否允许搜索框:0.不允许,1.允许',
-    // inputDropDownBoxFlag        tinyint(4)  '是否允许下拉框选择:0.不允许,1.允许',
+  // 文本框
+  inputJSX = (item) => {
+    const { form } = this.state;
     return (
-      <div style={{ padding: '30px' }}>
+      <>
+        <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+          <input
+            className={`rc-input__control shipping${item.fieldKey}`}
+            id={`shipping${item.fieldKey}`}
+            type={item.filedType}
+            value={form.firstName}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name={item.fieldKey}
+            maxLength={item.maxLength}
+          />
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
+      </>
+    );
+  };
+  // 城市搜索框
+  citySearchSelectiontJSX = (item) => {
+    const { form } = this.state;
+    return (
+      <>
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+          <CitySearchSelection
+            placeholder={true}
+            defaultValue={form.cityName}
+            key={form.cityName}
+            name={item.fieldKey}
+            freeText={item.inputFreeTextFlag == 1 ? true : false}
+            onChange={this.handleCityInputChange}
+          />
+        </span>
+      </>
+    );
+  };
+  // 下拉框
+  dropDownBoxJSX = (item) => {
+    const { form } = this.state;
+    return (
+      <>
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+          <Selection
+            selectedItemChange={(data) =>
+              this.handleSelectedItemChange(item.fieldKey, data)
+            }
+            optionList={this.computedList(item.fieldKey)}
+            selectedItemData={{
+              value: form[item.fieldKey]
+            }}
+            name={item.fieldKey}
+            key={form[item.fieldKey]}
+          />
+        </span>
+      </>
+    );
+  };
+
+  render() {
+    const { formLoading, form, formList, errMsgObj } = this.state;
+    return (
+      <>
         {formLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
-          <div className="row">
-            {formGroup &&
-              formGroup.map((fobj) => (
-                <>
+          <div className="row rc_form_box">
+            {formList &&
+              formList.map((fobj, idx) => (
+                <div className="rc_row_line" key={idx}>
                   {fobj.map((item, index) => (
                     <div
                       className={`col-md-${fobj.length > 1 ? 6 : 12}`}
                       key={index}
                     >
-                      <div className="form-group required">
+                      {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
+                      <div
+                        className={`form-group ${
+                          item.requiredFlag == 1 ? 'required' : ''
+                        }`}
+                      >
                         <label
                           className="form-control-label"
-                          htmlFor="shippingFirstName"
+                          htmlFor={`shipping${item.fieldKey}`}
                         >
-                          {/* <FormattedMessage id="payment.firstName" /> */}
-                          {item.fieldName}
+                          <FormattedMessage id={`payment.${item.fieldKey}`} />
                         </label>
-                        <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-                          {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
-                          {item.inputFreeTextFlag == 1 &&
-                          item.inputSearchBoxFlag == 0 ? (
-                            <input
-                              className="rc-input__control shippingFirstName"
-                              // id="shippingFirstName"
-                              type={item.filedType}
-                              // value={form.firstName}
-                              onChange={this.deliveryInputChange}
-                              onBlur={this.inputBlur}
-                              name={item.fieldName}
-                              maxLength={item.maxLength}
-                            />
-                          ) : null}
+                        {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
+                        {item.inputFreeTextFlag == 1 &&
+                        item.inputSearchBoxFlag == 0
+                          ? this.inputJSX(item)
+                          : null}
 
-                          {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                          {item.inputSearchBoxFlag == 1 ? (
-                            <CitySearchSelection
-                              placeholder={true}
-                              defaultValue={form.cityName}
-                              key={form.cityName}
-                              freeText={
-                                item.inputFreeTextFlag == 1 ? true : false
-                              }
-                              onChange={this.handleCityInputChange}
-                            />
-                          ) : null}
+                        {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
+                        {item.inputSearchBoxFlag == 1
+                          ? this.citySearchSelectiontJSX(item)
+                          : null}
 
-                          {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
-                          {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
-                          {item.inputDropDownBoxFlag == 1 ? (
-                            <Selection
-                              selectedItemChange={(data) =>
-                                this.handleSelectedItemChange('country', data)
-                              }
-                              optionList={this.computedList('country')}
-                              selectedItemData={{
-                                value: form.country
-                              }}
-                              key={form.country}
-                            />
-                          ) : null}
+                        {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
+                        {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
+                        {item.inputFreeTextFlag == 0 &&
+                        item.inputSearchBoxFlag == 0 &&
+                        item.inputDropDownBoxFlag == 1
+                          ? this.dropDownBoxJSX(item)
+                          : null}
 
-                          <label
-                            className="rc-input__label"
-                            htmlFor="id-text1"
-                          />
-                        </span>
-                        {/* {errMsgObj.firstName && (
-                          <div className="text-danger-2">{errMsgObj.firstName}</div>
-                        )} */}
+                        {/* 输入提示 */}
+                        {errMsgObj[item.fieldKey] && (
+                          <div className="text-danger-2">
+                            {errMsgObj[item.fieldKey]}
+                          </div>
+                        )}
+
+                        {item.fieldKey == 'phoneNumber' && (
+                          <span className="ui-lighter">
+                            <FormattedMessage id="example" />:{' '}
+                            <FormattedMessage id="examplePhone" />
+                          </span>
+                        )}
+                        {item.fieldKey == 'postCode' && (
+                          <span className="ui-lighter">
+                            <FormattedMessage id="example" />:{' '}
+                            <FormattedMessage id="examplePostCode" />
+                          </span>
+                        )}
                       </div>
                     </div>
                   ))}
-                </>
+                </div>
               ))}
           </div>
         )}
-      </div>
+      </>
     );
   }
 }
@@ -535,4 +451,11 @@ export default Form;
   ============自己需要处理后增加的字段
   regExp: RULE[key],
   errMsg: CURRENT_LANGFILE['enterCorrectPostCode'],
+
+
+  http://124.71.151.9:8090/addressDisplaySetting/queryByStoreId/MANUALLY
+  MANUALLY //
+  AUTOMATICALLY // 自动填充 DuData
+
+
 */
