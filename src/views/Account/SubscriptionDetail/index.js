@@ -76,7 +76,7 @@ const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-
+const isClub = false;
 @inject('checkoutStore', 'loginStore')
 @injectIntl
 class SubscriptionDetail extends React.Component {
@@ -1129,7 +1129,7 @@ class SubscriptionDetail extends React.Component {
         </div>
 
         <div className="rc-column d-flex">
-          <div className="subdeatial-button-mobile-pad">
+          <div className="subdeatial-button-mobile-pad pause-btn">
             <i
               className="iconfont"
               style={{
@@ -1144,11 +1144,12 @@ class SubscriptionDetail extends React.Component {
               style={{
                 position: 'relative',
                 top: '-0.3rem',
-                color: '#FBE8CD',
                 paddingRight: '0.5rem',
                 paddingLeft: '0.5rem'
               }}
-              className="rc-styled-link disabled"
+              className={`rc-styled-link ${
+                this.state.isGift ? 'disabled' : ''
+              }`}
             >
               {subDetail.subscribeStatus === '0' ? (
                 <FormattedMessage id="subscription.pause" />
@@ -1216,7 +1217,7 @@ class SubscriptionDetail extends React.Component {
         style={{ display: isNotInactive ? 'block' : 'none' }}
       >
         <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          {/* <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
+          {/* <div className="pause-btn" style={{ display: isMobile ? 'block' : 'inline-block' }}>
             <i
               className="iconfont"
               style={{
@@ -1230,7 +1231,6 @@ class SubscriptionDetail extends React.Component {
             </i>
             <a
               style={{
-                color: 'rgb(242,148,35)',
                 paddingRight: '0.5rem',
                 paddingLeft: '4px'
               }}
@@ -1709,6 +1709,63 @@ class SubscriptionDetail extends React.Component {
       )
     ) : null;
   };
+  ClubTitle = () => (
+    <div className="d-flex align-items-center add-pet-btn-wrap">
+      <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
+      {true ? (
+        <React.Fragment>
+          <div
+            className="pet-img text-center"
+            style={{ margin: ' 0 1rem' }}
+          ></div>
+          <div className="rc-padding-right--md">
+            <h4 style={{ color: '#e2001a', margin: 0 }}>CLUB for Merlin</h4>
+            <div>
+              Date of birth:<strong>18/01/2021</strong>
+            </div>
+          </div>
+          <div className="rc-padding-right--md">
+            <div
+              className="rc-styled-link"
+              onClick={this.showEditRecommendation}
+            >
+              Edit pet profile
+            </div>
+            <div>
+              Breed:<strong>European</strong>{' '}
+            </div>
+          </div>
+          <div className="rc-padding-right--md">
+            <div style={{ color: '#fff' }}> &nbsp:;</div>
+            <div>
+              Sterilized: <strong>yes</strong>
+            </div>
+          </div>
+          <div>
+            <div style={{ color: '#fff' }}> &nbsp:;</div>
+            <span>{this.statusText()}</span>
+          </div>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <div
+            className="pet-img add-pet-btn text-center"
+            onClick={this.showAddNewPet}
+          ></div>
+          <div>
+            For a better experience we recommend linking a pet profile to your
+            Club subscription
+            <div>
+              <span className="rc-styled-link" onClick={this.showAddNewPet}>
+                Link a profile
+              </span>
+              <span className="mobile-block">{this.statusText()}</span>
+            </div>
+          </div>
+        </React.Fragment>
+      )}
+    </div>
+  );
   render() {
     const event = {
       page: {
@@ -1960,77 +2017,19 @@ class SubscriptionDetail extends React.Component {
                         </div>
                       </div>
                     )}
-                    <div className="d-flex align-items-center add-pet-btn-wrap">
-                      <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
-                      {true ? (
-                        <React.Fragment>
-                          <div
-                            className="pet-img text-center"
-                            style={{ margin: ' 0 1rem' }}
-                          ></div>
-                          <div className="rc-padding-right--md">
-                            <h4 style={{ color: '#e2001a', margin: 0 }}>
-                              CLUB for Merlin
-                            </h4>
-                            <div>
-                              Date of birth:<strong>18/01/2021</strong>
-                            </div>
-                          </div>
-                          <div className="rc-padding-right--md">
-                            <div
-                              className="rc-styled-link"
-                              onClick={this.showEditRecommendation}
-                            >
-                              Edit pet profile
-                            </div>
-                            <div>
-                              Breed:<strong>European</strong>{' '}
-                            </div>
-                          </div>
-                          <div className="rc-padding-right--md">
-                            <div style={{ color: '#fff' }}> &nbsp:;</div>
-                            <div>
-                              Sterilized: <strong>yes</strong>
-                            </div>
-                          </div>
-                          <div>
-                            <div style={{ color: '#fff' }}> &nbsp:;</div>
-                            <span>{this.statusText()}</span>
-                          </div>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          <div
-                            className="pet-img add-pet-btn text-center"
-                            onClick={this.showAddNewPet}
-                          ></div>
-                          <div>
-                            For a better experience we recommend linking a pet
-                            profile to your Club subscription
-                            <div>
-                              <span
-                                className="rc-styled-link"
-                                onClick={this.showAddNewPet}
-                              >
-                                Link a profile
-                              </span>
-                              <span className="mobile-block">
-                                {this.statusText()}
-                              </span>
-                            </div>
-                          </div>
-                        </React.Fragment>
-                      )}
-                    </div>
-                    <h4
-                      className="rc-delta font-weight-normal mb-2"
-                      style={{ color: '#666', display: 'none' }}
-                    >
-                      {subDetail.externalSubscribeId ? (
-                        <span>{`${subDetail.externalSubscribeId}`}</span>
-                      ) : null}
-                      {this.statusText()}
-                    </h4>
+                    {isClub ? (
+                      this.ClubTitle()
+                    ) : (
+                      <h4
+                        className="rc-delta font-weight-normal mb-2"
+                        style={{ color: '#666' }}
+                      >
+                        {subDetail.externalSubscribeId ? (
+                          <span>{`${subDetail.externalSubscribeId}`}</span>
+                        ) : null}
+                        {this.statusText()}
+                      </h4>
+                    )}
                   </div>
                   {/* <hr className="rc-margin-top---none" /> */}
                   <div className="content-asset">
@@ -2066,12 +2065,14 @@ class SubscriptionDetail extends React.Component {
                                       style={{ width: '100px' }}
                                     />
                                   </LazyLoad>
-                                  <span
-                                    className="rc-styled-link"
-                                    onClick={this.showChangeProduct}
-                                  >
-                                    change product
-                                  </span>
+                                  {isClub && (
+                                    <span
+                                      className="rc-styled-link"
+                                      onClick={this.showChangeProduct}
+                                    >
+                                      change product
+                                    </span>
+                                  )}
                                 </div>
                                 <div
                                   className="v-center"
@@ -2416,12 +2417,14 @@ class SubscriptionDetail extends React.Component {
                                         <LazyLoad>
                                           <img src={el.goodsPic} alt="" />
                                         </LazyLoad>
-                                        <span
-                                          className="rc-styled-link"
-                                          onClick={this.showChangeProduct}
-                                        >
-                                          change product
-                                        </span>
+                                        {isClub && (
+                                          <span
+                                            className="rc-styled-link"
+                                            onClick={this.showChangeProduct}
+                                          >
+                                            change product
+                                          </span>
+                                        )}
                                       </div>
                                       <div
                                         className="v-center"
@@ -2757,13 +2760,14 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              {isGift && subDetail.subscribeStatus != 2
+                              {(isGift || isClub) &&
+                              subDetail.subscribeStatus != 2
                                 ? this.getButtonBoxGift(subDetail)
                                 : null}
                             </div>
                           ))}
                       </div>
-                      {!isGift && this.getButtonBox(subDetail)}
+                      {!isGift && !isClub && this.getButtonBox(subDetail)}
                       <h4 className="h4">
                         <FormattedMessage id="transactionInfo" />
                       </h4>
