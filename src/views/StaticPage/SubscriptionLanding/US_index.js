@@ -84,7 +84,7 @@ class SubscriptionLanding extends React.Component {
                 <div className="experience-component experience-assets-pawListBlock">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--lg--mobile">
                     <div className="rc-max-width--lg rc-padding-y--sm">
-                      <div className="rc-max-width--md text-center rc-padding-x--sm">
+                      <div className="rc-max-width--md text-center rc-margin-y--md rc-padding-x--sm">
                         <h2 className="rc-beta text-center">
                           IT’S MORE THAN FREE DELIVERY
                         </h2>
@@ -104,12 +104,22 @@ class SubscriptionLanding extends React.Component {
                           </p>
                           <p>&nbsp;</p>
                           <p>&nbsp;</p>
-                          <br />
-                          <br />
+                        </div>
+                        <div class="rc-btn-group d-block d-md-none rc-text--center">
+                          <Link to="/cats">
+                            <button class="rc-btn rc-btn--one rc-margin-right--xs">
+                              Shop Cat Formulas
+                            </button>
+                          </Link>
+                          <Link to="/dogs">
+                            <button class="rc-btn rc-btn--one">
+                              Shop Dog Formulas
+                            </button>
+                          </Link>
                         </div>
                       </div>
 
-                      <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
+                      <div className="rc-layout-container rc-two-column rc-content-h-middle">
                         <div className="rc-column">
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">

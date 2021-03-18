@@ -211,7 +211,7 @@ class VisitorAddress extends React.Component {
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
     const { form, selectValidationOption, validationAddress } = this.state;
-    // let oldForm = JSON.parse(JSON.stringify(form));
+    let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
       btnLoading: true
     });
@@ -224,7 +224,9 @@ class VisitorAddress extends React.Component {
         form.provinceName = validationAddress.provinceCode;
       }
     } else {
-      // form = JSON.parse(JSON.stringify(oldForm));
+      this.setState({
+        form: JSON.parse(JSON.stringify(oldForm))
+      });
     }
     // 进入下一步
     this.showNextPanel();
