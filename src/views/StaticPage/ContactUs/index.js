@@ -57,7 +57,6 @@ class ContactUs extends Component {
 
   deliveryInputChange = (e) => {
     const { address } = this.state;
-    const { errMsgObj } = this.state;
     const target = e.target;
     let value = target.value;
     const name = target.name;
