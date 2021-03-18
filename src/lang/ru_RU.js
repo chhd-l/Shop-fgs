@@ -988,16 +988,18 @@ const ru_RU = {
   'checkout.faq.FreeReturn': 'ВОЗВРАТ ТОВАРА',
 
   //Club新增
-  'club.subscription.titile':
-    'CLUB aboneliği ile sahip olacağınız ayrıcalıklar',
+  'club.subscription.titile': 'Что входит в программу ROYAL CANIN® КЛУБ',
   'club.subscription.icon1':
-    'İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri',
-  'club.subscription.icon2': 'Hoş geldin paketi, hediyeler ve özel hizmetler',
+    'Специализированное питание с учетом особенностей Вашего питомца',
+  'club.subscription.icon2': 'Приветственный подарок, вознаграждения и сервисы',
   'club.subscription.icon3':
-    'Evcil hayvan danışmanı ve kişiselleştirilmiş bültenler',
-  'club.subscription.icon4': 'Ücretsiz kargo ile otomatik mama gönderimi',
-  'club.subscription.icon5': 'Taahhüt yok, tüm kontrol sizde',
-  'club.subscription.button': 'Başla',
+    'Ваш персональный помощник Службы Заботы с 9 до 21',
+  'club.subscription.icon4':
+    'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
+  'club.subscription.icon5': 'Возможность изменения частоты доставок',
+  'club.subscription.icon6':
+    'Бесплатные онлайн консультации нутрициолога в PetStory',
+  'club.subscription.button': 'Начать',
   'club.video.detail.title':
     'ПОТРЕБНОСТИ КАЖДОГО ПИТОМЦА УНИКАЛЬНЫ, И ПИТАНИЕ ДОЛЖНО ИМ СООТВЕТСТВОВАТЬ ',
   'club.video.detail.description.one':

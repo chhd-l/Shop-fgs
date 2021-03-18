@@ -666,7 +666,7 @@ class ClubLandingPage extends React.Component {
               </div>
             </div>
           ) : null}
-          }
+
           <Divider />
           <br />
           <br />
