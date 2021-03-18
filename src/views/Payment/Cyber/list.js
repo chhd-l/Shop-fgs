@@ -78,6 +78,20 @@ class CyberCardList extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  currentCvvChange(el, e) {
+    let { cardList } = this.state;
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    el.cardCvv = value;
+    this.setState(
+      {
+        cardList
+      },
+      () => {
+        this.hanldeUpdateSelectedCardInfo();
+      }
+    );
+  }
   queryList = async ({
     currentCardEncryptedSecurityCode,
     showListLoading = true
@@ -198,28 +212,25 @@ class CyberCardList extends React.Component {
       );
     }
   }
+  //切换卡
   hanldeClickCardItem(el, e) {
     e.preventDefault();
     e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-    let { cardList, memberUnsavedCardList, selectedId } = this.state;
+    //e.nativeEvent.stopImmediatePropagation();
+    let { cardList, selectedId } = this.state;
     if (el.id === selectedId) return false;
     this.setState(
       {
         cardList,
-        memberUnsavedCardList,
         selectedId: el.id
       },
       () => this.hanldeUpdateSelectedCardInfo()
     );
   }
   hanldeUpdateSelectedCardInfo = () => {
-    const { cardList, memberUnsavedCardList, selectedId } = this.state;
-    const el =
-      find(
-        cardList.concat(memberUnsavedCardList),
-        (ele) => ele.id === selectedId
-      ) || null;
+    const { cardList, selectedId } = this.state;
+    const el = find(cardList, (ele) => ele.id === selectedId) || null;
+    //debugger
     this.props.updateSelectedCardInfo(el);
     this.updateFormValidStatus(el);
   };
@@ -309,6 +320,26 @@ class CyberCardList extends React.Component {
               </div>
             </div>
           )}
+          <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break mt-2">
+            <div className={`col-12 color-999 mb-1`}>
+              <div className="row align-items-center">
+                <div className={`col-4`} style={{ fontSize: '14px' }}>
+                  <FormattedMessage id="CVV" />
+                </div>
+                <div className={`col-4 color-999 text-left creditCompleteInfo`}>
+                  <input
+                    onChange={this.currentCvvChange.bind(this, data)}
+                    type="password"
+                    autoComplete="new-password"
+                    maxLength="4"
+                    className="w-100"
+                    autoComplete="new-password"
+                    // value={data.cardCvv}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="col-sm-4" />
         <div className="col-12 col-sm-8">
@@ -481,7 +512,6 @@ class CyberCardList extends React.Component {
     scrollPaymentPanelIntoView();
   };
   render() {
-    const { billingJSX } = this.props;
     const {
       cardList,
       memberUnsavedCardList,
@@ -489,16 +519,12 @@ class CyberCardList extends React.Component {
       listLoading,
       saveLoading
     } = this.state;
-    const footerJSX = <>{billingJSX}</>;
     return (
       <>
         {listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
         ) : cardList.length ? (
-          <span>
-            {this.renderList()}
-            {footerJSX}
-          </span>
+          <span>{this.renderList()}</span>
         ) : null}
       </>
     );

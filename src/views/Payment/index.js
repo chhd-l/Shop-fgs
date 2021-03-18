@@ -258,6 +258,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
   }
+  updateSelectedCardInfo = (data) => {
+    console.log(999, data);
+  };
   inputBlur = async (e) => {
     const { cyberErrMsgObj } = this.state;
     const target = e.target;
@@ -2349,7 +2352,15 @@ class Payment extends React.Component {
 
               {/* CYBER卡列表 */}
               {paymentTypeVal === 'cyber' && this.state.isShowCardList && (
-                <CyberCardList />
+                <>
+                  <CyberCardList
+                    updateSelectedCardInfo={this.updateSelectedCardInfo}
+                  />
+                  {payConfirmBtn({
+                    disabled: validForCyberPayment() || validForBilling,
+                    loading: saveBillingLoading
+                  })}
+                </>
               )}
 
               {/* ***********************支付选项卡的内容end******************************* */}
