@@ -90,6 +90,7 @@ class CheckoutStore {
       : '';
   }
   @computed get promotionVOList() {
+    console.log(this.cartPrice, 'this.cartPrice');
     return this.cartPrice && this.cartPrice.promotionVOList
       ? this.cartPrice.promotionVOList
       : [];
@@ -209,7 +210,8 @@ class CheckoutStore {
       subscriptionPrice: purchasesRes.subscriptionPrice,
       firstOrderOnThePlatformDiscountPrice:
         purchasesRes.firstOrderOnThePlatformDiscountPrice,
-      goodsInfos: purchasesRes.goodsInfos
+      goodsInfos: purchasesRes.goodsInfos,
+      promotionVOList: purchasesRes.promotionVOList
     });
   }
   // 游客
@@ -268,7 +270,8 @@ class CheckoutStore {
       subscriptionPrice: purchasesRes.subscriptionPrice,
       firstOrderOnThePlatformDiscountPrice:
         purchasesRes.firstOrderOnThePlatformDiscountPrice,
-      goodsInfos: purchasesRes.goodsInfos
+      goodsInfos: purchasesRes.goodsInfos,
+      promotionVOList: purchasesRes.promotionVOList
     };
     if (
       !promotionCode ||
@@ -418,7 +421,8 @@ class CheckoutStore {
           subscriptionPrice: sitePurchasesRes.subscriptionPrice,
           firstOrderOnThePlatformDiscountPrice:
             sitePurchasesRes.firstOrderOnThePlatformDiscountPrice,
-          goodsInfos: sitePurchasesRes.goodsInfos
+          goodsInfos: sitePurchasesRes.goodsInfos,
+          promotionVOList: sitePurchasesRes.promotionVOList
         };
 
         if (

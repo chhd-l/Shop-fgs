@@ -205,6 +205,10 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
   get promotionVOList() {
+    console.log(
+      this.props.checkoutStore.promotionVOList,
+      'this.props.checkoutStore'
+    );
     return this.props.checkoutStore.promotionVOList;
   }
   get computedList() {
