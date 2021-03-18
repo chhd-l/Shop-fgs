@@ -5,6 +5,7 @@ import howitworck2 from './ClubImage/howIt2.png';
 import howitworck3 from './ClubImage/howit3.png';
 import howitworck4 from './ClubImage/howit4.png';
 import workflowicon from './ClubImage/howitworkflow.png';
+import { FormattedMessage } from 'react-intl';
 
 const HowItWorks = () => {
   return (
@@ -15,7 +16,9 @@ const HowItWorks = () => {
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
               <br />
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                <h3 className="rc-beta">How it works</h3>
+                <h3 className="rc-beta">
+                  <FormattedMessage id="club.howitworks.title" />
+                </h3>
               </div>
               <div
                 style={{ display: 'flex' }}
@@ -25,20 +28,17 @@ const HowItWorks = () => {
                   <article>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
-                        <h5>GET THE RIGHT DIET AND RATION</h5>
+                        <h5>
+                          <FormattedMessage id="club.howitworks.img1.titile" />
+                        </h5>
                       </p>
                     </div>
                     <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={howitworck1}
-                        alt=""
-                      />
+                      <img className="w-90 lazyloaded" src={howitworck1} />
                     </LazyLoad>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
-                        Answer a few questions to get a tailor-made nutritional
-                        recommendation.
+                        <FormattedMessage id="club.howitworks.img1.description" />
                       </p>
                     </div>
                   </article>
@@ -59,20 +59,17 @@ const HowItWorks = () => {
                   <article>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
-                        <h5>SELECT THE CLUB SUBSCRIPTION</h5>
+                        <h5>
+                          <FormattedMessage id="club.howitworks.img2.titile" />
+                        </h5>
                       </p>
                     </div>
                     <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={howitworck2}
-                        alt=""
-                      />
+                      <img className="w-90 lazyloaded" src={howitworck2} />
                     </LazyLoad>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
-                        Proceed to check out to subscribe. You will receive a
-                        welcome pack with your first delivery.
+                        <FormattedMessage id="club.howitworks.img2.description" />
                       </p>
                     </div>
                   </article>
@@ -93,20 +90,17 @@ const HowItWorks = () => {
                   <article>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
-                        <h5>CONTROL YOUR SUBSCRIPTION</h5>
+                        <h5>
+                          <FormattedMessage id="club.howitworks.img3.titile" />
+                        </h5>
                       </p>
                     </div>
                     <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={howitworck3}
-                        alt=""
-                      />
+                      <img className="w-90 lazyloaded" src={howitworck3} />
                     </LazyLoad>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
-                        Manage your CLUB subscription in your account area and
-                        enjoy automatic refills.
+                        <FormattedMessage id="club.howitworks.img3.description" />
                       </p>
                     </div>
                   </article>
@@ -127,20 +121,17 @@ const HowItWorks = () => {
                   <article>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
-                        <h5>Enjoy EXCLUSIVE REWARDS AND SERVICES</h5>
+                        <h5>
+                          <FormattedMessage id="club.howitworks.img4.titile" />
+                        </h5>
                       </p>
                     </div>
                     <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={howitworck4}
-                        alt=""
-                      />
+                      <img className="w-90 lazyloaded" src={howitworck4} />
                     </LazyLoad>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
-                        Take advantage of subscription offers and services, like
-                        a personal pet advisor, vet consultations and more.
+                        <FormattedMessage id="club.howitworks.img4.description" />
                       </p>
                     </div>
                   </article>

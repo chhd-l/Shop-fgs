@@ -239,15 +239,22 @@ class Subscription extends React.Component {
       isGiftCurrentPage,
       isGiftTotalPage
     } = this.state;
-    let dataList = isGift ? subGiftList : this.state.subList;
-    let loading = isGift ? isGiftLoading : this.state.loading;
-    let errMsg = isGift ? isGiftErrMsg : this.state.errMsg;
-    let currentPage = isGift ? isGiftCurrentPage : this.state.currentPage;
-    let totalPage = isGift ? isGiftTotalPage : this.state.totalPage;
-    let subscription = isGift ? 'isGiftSubscription' : 'subscription';
-    let hanldePageNumChange = isGift
-      ? this.isGiftHanldePageNumChange
-      : this.hanldePageNumChange;
+    let dataList = this.state.subList;
+    let loading = this.state.loading;
+    let errMsg = this.state.errMsg;
+    let currentPage = this.state.currentPage;
+    let totalPage = this.state.totalPage;
+    let subscription = 'subscription';
+    let hanldePageNumChange = this.hanldePageNumChange;
+    if (isGift) {
+      dataList = subGiftList;
+      loading = isGiftLoading;
+      errMsg = isGiftErrMsg;
+      currentPage = isGiftCurrentPage;
+      totalPage = isGiftTotalPage;
+      subscription = 'isGiftSubscription';
+      hanldePageNumChange = this.isGiftHanldePageNumChange;
+    }
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
         {dataList.length ? (
@@ -277,10 +284,7 @@ class Subscription extends React.Component {
                     key={subItem.subscribeId}
                   >
                     <div className="card rc-margin-y--none ml-0">
-                      <div
-                        className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-                        style={{ padding: '1rem 0' }}
-                      >
+                      <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 pt-3 pb-3">
                         <div className="col-12 col-md-4">
                           <p
                             style={{
@@ -290,18 +294,28 @@ class Subscription extends React.Component {
                               paddingLeft: '20px'
                             }}
                           >
-                            {subItem.subscribeId}
+                            {subItem.externalSubscribeId}
                           </p>
                         </div>
-                        <div className="col-4 col-md-2"></div>
-                        <div className="col-4 col-md-2"></div>
-                        <div className="col-4 col-md-2 pl-4"></div>
+                        <div className="col-4 col-md-2" />
+                        <div className="col-4 col-md-2" />
+                        <div className="col-4 col-md-2 pl-4" />
+                        {/* <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
+                      <img
+                        style={{
+                          display: 'inline-block',
+                          width: '20px',
+                          marginRight: '5px'
+                        }}
+                        src={cancelIcon}
+                      />
+                      <a className="rc-styled-link" href="#/">
+                        Cancel Autoship
+                      </a>
+                    </div> */}
                       </div>
                     </div>
-                    <div
-                      className="row rc-margin-x--none row align-items-center 1111"
-                      style={{ padding: '1rem 0' }}
-                    >
+                    <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">
                       <div className="col-4 col-md-4 d-flex flex-wrap">
                         {subItem.goodsInfo &&
                           subItem.goodsInfo.map((item) => (
@@ -398,12 +412,12 @@ class Subscription extends React.Component {
                         {subItem.subscribeStatus === '0' ||
                         subItem.subscribeStatus === '1' ? (
                           <div>
-                            <i className="greenCircle"></i>
+                            <i className="greenCircle" />
                             <FormattedMessage id="active" />
                           </div>
                         ) : (
                           <div>
-                            <i className="yellowCircle"></i>
+                            <i className="yellowCircle" />
                             <FormattedMessage id="inactive" />
                           </div>
                         )}
@@ -442,7 +456,7 @@ class Subscription extends React.Component {
                       className="red"
                       style={{ fontSize: '20px', marginBottom: '20px' }}
                     >
-                      <FormattedMessage id="account.noSubscriptionTitle"></FormattedMessage>
+                      <FormattedMessage id="account.noSubscriptionTitle" />
                     </h4>
                     <div className="children-nomargin">
                       <p style={{ wordBreak: 'keep-all', width: '90%' }}>
@@ -459,7 +473,7 @@ class Subscription extends React.Component {
                         className="rc-btn rc-btn--one"
                         to="/subscription-landing"
                       >
-                        <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
+                        <FormattedMessage id="account.startAutoShipping" />
                       </Link>
                     </div>
                   </div>

@@ -27,6 +27,17 @@
   padding: 1rem;
 }
 .subscriptionDetail{
+  .recommendatio-wrap{
+    width: 100%;
+    border: 1px solid rgb(255,153,34);
+    background-color: rgb(255,248,240);
+    .recommendatio-wrap-title{
+      color: rgb(255,153,34)
+    }
+    .recommendatio-wrap-content{
+      background-color: #fff;
+    }
+  }
   .change-product-modal{
     .details-infos{
       max-width: 620px;
@@ -66,6 +77,14 @@
     }
   }
 }
+.pause-btn{
+  .rc-styled-link{
+    color: rgb(242,148,35);
+    &.disabled{
+      color: #FBE8CD;
+    }
+  }
+}
 
 .add-pet-btn{
   margin:0 1rem 0 2rem;
@@ -84,6 +103,21 @@
   border-radius: 100%;
 }
 @media (max-width: 768.98px) {
+  .for-mobile-100{
+    width: 100%;
+  }
+  .product-detail-modal{
+    .modal-footer{
+      display: flex;
+      flex-direction: column;
+      button{
+        width: 100%;
+        &#modalFooterCancel{
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
   .add-pet-btn-wrap{
     flex-direction: column;
     text-align: center;

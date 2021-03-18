@@ -23,7 +23,8 @@ const api = {
   adyen3DSResult: `/${process.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
   Adyen3DSResult: '/Adyen3DSResult',
   //CYBER
-  usPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-pay-payment-info` //CYBEr绑卡
+  usPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-pay-payment-info`, //CYBER绑卡
+  usGuestPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-guest-pay-payment-info` //CYBER游客绑卡
 };
 
 export default api;
@@ -31,6 +32,14 @@ export default api;
 export function usPaymentInfo(parameter) {
   return axios({
     url: api.usPaymentInfo,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function usGuestPaymentInfo(parameter) {
+  return axios({
+    url: api.usGuestPaymentInfo,
     method: 'post',
     data: parameter
   });

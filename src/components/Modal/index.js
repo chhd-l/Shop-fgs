@@ -12,7 +12,8 @@ export default class Modal extends React.Component {
     confirmBtnText: <FormattedMessage id="yes" />,
     cancelBtnVisible: true,
     footerVisible: true,
-    cancelBtnIsLink: false
+    cancelBtnIsLink: false,
+    cancel: null
   };
   close() {
     this.props.close();
@@ -81,7 +82,9 @@ export default class Modal extends React.Component {
                       type="button"
                       className="btn btn-outline-primary"
                       data-dismiss="modal"
-                      onClick={() => this.close()}
+                      onClick={() =>
+                        this.props.cancel ? this.props.cancel() : this.close()
+                      }
                     >
                       {this.props.cancelBtnText}
                     </button>
@@ -92,7 +95,9 @@ export default class Modal extends React.Component {
                       type="button"
                       className="rc-styled-link"
                       data-dismiss="modal"
-                      onClick={() => this.close()}
+                      onClick={() =>
+                        this.props.cancel ? this.props.cancel() : this.close()
+                      }
                     >
                       {this.props.cancelBtnText}
                     </a>

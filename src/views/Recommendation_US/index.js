@@ -6,21 +6,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import BannerTip from '@/components/BannerTip';
-import emailImg from '@/assets/images/emailus_icon@1x.jpg';
-import callImg from '@/assets/images/customer-service@2x.jpg';
-import helpImg from '@/assets/images/slider-img-help.jpg';
-import recommendation2 from './images/1xexpertise.jpg';
-import recommendation3 from './images/2xpartnership.jpg';
-import recommendation4 from './images/3xquality.jpg';
 import noPic from '@/assets/images/noPic.png';
-import storeLogo from '@/assets/images/storeLogo.png';
-import COHORTADVISOR from './images/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png';
-import CLUBSHIPPING from './images/CLUB-BENEFITS_FREE-SHIPPING.png';
-import CLUBRECOS from './images/CLUB-BENEFITS_PRODUCT-RECOS.png';
-// import ImageMagnifier from './components/ImageMagnifier';
 import ImageMagnifier from '../Recommendation_FR/components/ImageMagnifier';
 import { formatMoney, getDeviceType } from '@/utils/utils';
-// import paymentImg from "./img/payment.jpg";
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import Help from '../SmartFeederSubscription/modules/Help';
@@ -36,55 +24,35 @@ import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
-import catIconPng from './images/cat-icon.png';
-import dogIconPng from './images/dog-icon.png';
-import step1Hover from './images/Step1_Hover.png';
-import step1Normal from './images/Step1_Normal.png';
-import step2Hover from './images/Step2_Hover.png';
-import step2Normal from './images/Step2_Normal.png';
-import step3Hover from './images/Step3_Hover.png';
-import step3Normal from './images/Step3_Normal.png';
-import step4Hover from './images/Step4_Hover.png';
-import step4Normal from './images/Step4_Normal.png';
 import Modal from '../Recommendation_FR/components/Modal';
 import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import transparentImg from './images/transparent.svg';
 import { Helmet } from 'react-helmet';
-import catAndDog from './images/dog-and-cat.png';
-import HOWAUTOSHIP from './images/HOW-TO-JOIN-AUTOSHIP.png';
-import HOWENJOY from './images/HOW-TO-JOIN-ENJOY.png';
-import HOWSCHEDULE from './images/HOW-TO-JOIN-SCHEDULE.png';
-import HOWSHOP from './images/HOW-TO-JOIN-SHOP.png';
-import autoshipCatPng from './images/autoship_cat.png';
-const petsTypeImagArr = [
-  `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`,
-  autoshipCatPng
-];
+const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = process.env.REACT_APP_LANG === 'en';
 const isRu = process.env.REACT_APP_LANG === 'ru';
 const howImageArr = [
   {
-    img: HOWSHOP,
+    img: `${imgUrlPreFix}/HOW-TO-JOIN-SHOP.png`,
     title: 'GRAB YOUR PRODUCTS',
     des: 'Find your handpicked nutrition products in your cart.'
   },
   {
-    img: HOWAUTOSHIP,
+    img: `${imgUrlPreFix}/HOW-TO-JOIN-AUTOSHIP.png`,
     title: 'CHOOSE AUTOMATIC SHIPPING',
     des: 'Set your automatic shipping schedule  and input your payment method.'
   },
   {
-    img: HOWSCHEDULE,
+    img: `${imgUrlPreFix}/HOW-TO-JOIN-SCHEDULE.png`,
     title: 'GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT',
     des:
       'Receive your product automatically based on your schedule. Change or cancel at any time.'
   },
   {
-    img: HOWENJOY,
+    img: `${imgUrlPreFix}/HOW-TO-JOIN-ENJOY.png`,
     title: 'ENJOY YOUR PERKS',
     des:
       'Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.'
@@ -96,46 +64,53 @@ const LineModule = () => (
     style={{ borderBottomWidth: '4px' }}
   ></div>
 );
-const petsVideoArr = [];
-const petsiconArr = [dogIconPng, catIconPng];
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 const imagesArr = [
-  { img: COHORTADVISOR, text: 'Royal Canin Pet Advisor Live' },
-  { img: CLUBRECOS, text: 'Personalized Recommendations' },
-  { img: CLUBSHIPPING, text: 'Free Shipping & 5% Off Every Autoship Order' }
+  {
+    img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`,
+    text: 'Royal Canin Pet Advisor Live'
+  },
+  {
+    img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
+    text: 'Personalized Recommendations'
+  },
+  {
+    img: `${imgUrlPreFix}/CLUB-BENEFITS_FREE-SHIPPING.png`,
+    text: 'Free Shipping & 5% Off Every Autoship Order'
+  }
 ];
 const secondlistArr = [
   {
     altText: 'image one',
-    imgPath: step1Normal,
-    imgHover: step1Hover,
+    imgPath: `${imgUrlPreFix}/Step1_Normal.png`,
+    imgHover: `${imgUrlPreFix}/Step1_Hover.png`,
     isHover: false,
     text:
       'Find your <strong>personally-selected nutrition products</strong> in your cart.'
   },
   {
     altText: 'image two',
-    imgHover: step2Hover,
+    imgHover: `${imgUrlPreFix}/Step2_Hover.png`,
     isHover: false,
-    imgPath: step2Normal,
+    imgPath: `${imgUrlPreFix}/Step2_Normal.png`,
     text:
       'Select your <strong>shipment frequency, delivery </strong>and <strong>payment method.</strong>.'
   },
   {
-    imgHover: step3Hover,
+    imgHover: `${imgUrlPreFix}/Step3_Hover.png`,
     isHover: false,
     altText: 'image three',
-    imgPath: step3Normal,
+    imgPath: `${imgUrlPreFix}/Step3_Normal.png`,
     text:
       '<strong>Receive your product automatically </strong>,based on your own schedule'
   },
   {
-    imgHover: step4Hover,
+    imgHover: `${imgUrlPreFix}/Step4_Hover.png`,
     isHover: false,
     altText: 'image four',
-    imgPath: step4Normal,
+    imgPath: `${imgUrlPreFix}/Step4_Normal.png`,
     text: 'Change your schedule<strong>anytime you want.</strong>'
   }
 ];
@@ -160,7 +135,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      secondlist: secondlistArr,
+      // secondlist: secondlistArr,
       showMore: false,
       petType: 1, //0 dog;1 cat
       details: {
@@ -238,19 +213,19 @@ class Recommendation extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  hoverChange(e, idx) {
-    console.info('......', idx);
-    let { secondlist } = this.state;
-    secondlist.forEach((item, index) => {
-      if (index == idx) {
-        item.isHover = true;
-      } else {
-        item.isHover = false;
-      }
-    });
-    console.info('secondlist', secondlist);
-    this.setState({ secondlist });
-  }
+  // hoverChange(e, idx) {
+  //   console.info('......', idx);
+  //   let { secondlist } = this.state;
+  //   secondlist.forEach((item, index) => {
+  //     if (index == idx) {
+  //       item.isHover = true;
+  //     } else {
+  //       item.isHover = false;
+  //     }
+  //   });
+  //   console.info('secondlist', secondlist);
+  //   this.setState({ secondlist });
+  // }
   async componentDidMount() {
     let paramArr = this.props.location.search.split('&');
     let token = paramArr[paramArr.length - 1].split('=')[1];
@@ -721,8 +696,8 @@ class Recommendation extends React.Component {
   render(h) {
     const { loginStore, history, configStore } = this.props;
     console.info('this.helpContentText', this.helpContentText);
-    let PuppyJPG = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${this.props.intl.messages['recommendation.plusImg']}`;
-    console.info('PuppyJPG', PuppyJPG);
+    let PuppyJPG = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.plusImg']}`;
+    let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
       page: {
         type: 'Content',
@@ -768,9 +743,9 @@ class Recommendation extends React.Component {
         productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       );
     }
-    let cur_recommendation2 = recommendation2;
-    let cur_recommendation3 = recommendation3;
-    let cur_recommendation4 = recommendation4;
+    let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
+    let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
+    let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
     let tabDes =
       productList[activeIndex]?.goodsInfo.goods.goodsDescription ||
       productList[activeIndex]?.tabDescription ||
@@ -1035,7 +1010,7 @@ class Recommendation extends React.Component {
                           >
                             <img
                               className="type-icon"
-                              src={catAndDog}
+                              src={PetsImg}
                               alt=""
                               // src={petsiconArr[this.state.petType]}
                             />

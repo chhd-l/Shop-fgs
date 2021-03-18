@@ -86,20 +86,30 @@ class Footer extends React.Component {
                               <li className="rc-list__item" key={i}>
                                 {!!listItem.link ? (
                                   listItem.needLogin && !this.isLogin ? (
-                                    <LoginButton
-                                      beforeLoginCallback={async () => {
-                                        sessionItemRoyal.set(
-                                          'okta-redirectUrl',
-                                          listItem.link
-                                        );
-                                      }}
-                                      btnClass="rc-list__link text-decoration-none color-f6f6f6"
-                                      history={this.props.history}
-                                    >
-                                      <FormattedMessage
-                                        id={listItem.messageId}
-                                      />
-                                    </LoginButton>
+                                    <>
+                                      <Link
+                                        to="/account"
+                                        className="rc-list__link text-decoration-none color-f6f6f6"
+                                      >
+                                        <FormattedMessage
+                                          id={listItem.messageId}
+                                        />
+                                      </Link>
+                                      {/* <LoginButton
+                                        beforeLoginCallback={async () => {
+                                          sessionItemRoyal.set(
+                                            'okta-redirectUrl',
+                                            listItem.link
+                                          );
+                                        }}
+                                        btnClass="rc-list__link text-decoration-none color-f6f6f6"
+                                        history={this.props.history}
+                                      >
+                                        <FormattedMessage
+                                          id={listItem.messageId}
+                                        />
+                                      </LoginButton> */}
+                                    </>
                                   ) : (
                                     <Link
                                       className="rc-list__link text-decoration-none color-f6f6f6"

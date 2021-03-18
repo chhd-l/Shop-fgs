@@ -626,6 +626,11 @@ const tr_TR = {
   'payment.postCode2': 'Posta kodu',
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
+  'payment.state': 'Durum',
+  'payment.region': 'bölge',
+  'payment.entrance': 'giriş',
+  'payment.apartment': 'daire',
+  'payment.comment': 'Şerh',
   'payment.subTip1': 'Bu siparişte ek bir {val} tasarruf edeceksiniz!',
   'payment.subTip2':
     'İlk {icon} Abonelik siparişinizi kaydedin ve bugün {val} ({val2}) tasarruf edin!',
@@ -904,12 +909,15 @@ const tr_TR = {
   yourPasswordNotVerified: 'Şifreniz doğrulanmadı',
 
   //Club新增
-  'club.subscription.titile': '',
-  'club.subscription.icon1': '',
-  'club.subscription.icon2': '',
-  'club.subscription.icon3': '',
-  'club.subscription.icon4': '',
-  'club.subscription.icon5': '',
+  'club.subscription.titile':
+    'CLUB aboneliği ile sahip olacağınız ayrıcalıklar',
+  'club.subscription.icon1':
+    'İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri',
+  'club.subscription.icon2': 'Hoş geldin paketi, hediyeler ve özel hizmetler',
+  'club.subscription.icon3':
+    'Evcil hayvan danışmanı ve kişiselleştirilmiş bültenler',
+  'club.subscription.icon4': 'Ücretsiz kargo ile otomatik mama gönderimi',
+  'club.subscription.icon5': 'Taahhüt yok, tüm kontrol sizde',
   'club.subscription.button': '',
   'club.video.detail.title': '',
   'club.video.detail.description': '',

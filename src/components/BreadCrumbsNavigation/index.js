@@ -1,15 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 function BreadCrumbsNavigation({ list }) {
   // 首字母大写
-  if(list[0]?.name){
-    let lsname= list[0].name;
-    list[0].name= lsname.toLowerCase().charAt(0).toUpperCase() + lsname.toLowerCase().slice(1);
+  if (list[0]?.name) {
+    let lsname = list[0].name;
+    list[0].name =
+      lsname.toLowerCase().charAt(0).toUpperCase() +
+      lsname.toLowerCase().slice(1);
   }
   const decoList = [
-    { name: <FormattedMessage id="homePage" />, link: '/' },
+    {
+      name: <FormattedMessage id="homePage" />,
+      link: '/',
+      href: '',
+      isHubOuterLink: true
+    },
     ...list
   ];
   return (
@@ -31,18 +39,24 @@ function BreadCrumbsNavigation({ list }) {
                 itemType="https://schema.org/ListItem"
               >
                 {index === decoList.length - 1 || !item.link ? (
-                  <span itemProp="name">
-                    {item.name}
-                  </span>
+                  <span itemProp="name">{item.name}</span>
+                ) : item.isHubOuterLink ? (
+                  <>
+                    <DistributeHubLinkOrATag href={item.href} to={item.link}>
+                      {item.name}
+                    </DistributeHubLinkOrATag>
+                  </>
                 ) : (
-                  <Link
-                    className="rc-styled-link rc-progress__breadcrumb mr-0"
-                    itemType="https://schema.org/Thing"
-                    itemProp="item"
-                    to={item.link}
-                  >
-                    <span itemProp="name">{item.name}</span>
-                  </Link>
+                  <>
+                    <Link
+                      className="rc-styled-link rc-progress__breadcrumb mr-0"
+                      itemType="https://schema.org/Thing"
+                      itemProp="item"
+                      to={item.link}
+                    >
+                      <span itemProp="name">{item.name}</span>
+                    </Link>
+                  </>
                 )}
               </li>
               {index !== decoList.length - 1 && (
