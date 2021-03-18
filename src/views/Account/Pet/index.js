@@ -49,10 +49,6 @@ class Pet extends React.Component {
     });
     this.getPetList();
   }
-  isHavePet() {
-    const { history } = this.props;
-    // history.push('/account/pets/petForm');
-  }
 
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -68,7 +64,7 @@ class Pet extends React.Component {
       });
       return false;
     }
-    await getPetList({
+    getPetList({
       customerId,
       consumerAccount
     })
@@ -161,8 +157,8 @@ class Pet extends React.Component {
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">
                           <div className="children-nomargin">
-                            <p style={{ wordBreak: 'break-all' }}>
-                              <FormattedMessage id="account.noPet"></FormattedMessage>
+                            <p>
+                              <FormattedMessage id="account.noPet" />
                             </p>
                           </div>
                           <div

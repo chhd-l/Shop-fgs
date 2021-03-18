@@ -58,14 +58,14 @@ const en_US = {
   'account.noPet':
     'Create your pet profile today! Fill in the information and choose the most suitable diet',
   'account.noSubscription':
-    'You did not discover our Autoship services yet ? AutoShip is a convenient way for you to get your orders delivered on a regular schedule. So, you save time and your pet never run out of food.',
+    'When you choose automatic shipping at checkout, you automatically become a member. You’ll save on every order and receive perks like free delivery on a schedule of your choosing and other club-exclusive benefits.',
   'account.noSubscriptionTitle': 'Join Royal Canin Club today!',
   'account.notRegistred': 'New customer?',
   'account.of': 'of',
   'account.orders': 'Orders',
   'account.orders.btns': 'Buy now!',
   'account.orders.tips':
-    "You haven't placed any orders yet. Find the right food for your pet now!",
+    "You haven't placed any orders yet. Start shopping now for precise nutrition for your pet.",
   'account.ordersTip': 'Check the status of your order or see past orders',
   'account.ordersTitle': 'My Orders',
   'account.paymentMethod': 'Payment method',
@@ -83,7 +83,7 @@ const en_US = {
   'account.requiredFields': 'Required fields',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
-  'account.startAutoShipping': 'Start Autoshipping',
+  'account.startAutoShipping': 'Learn More',
   'account.step': 'Step',
   'account.sterilized': 'Is your pet sterilized?',
   'account.subscription': 'My Club Shipments',
@@ -163,7 +163,7 @@ const en_US = {
     'The 30% discount for your first order will be applied during checkout',
   'cart.fullPrice': 'FULL RICE FOR YOUR PET',
   'cart.miniCartTitle':
-    '30% off first purchase, plus 5% off every order with autoship',
+    '30% off first purchase, plus 5% off every order and additional perks with autoship',
   // 'cart.totalProduct': '{val} item(s) in the basket',
   'cart.totalProduct': '{val} item(s)',
   'cart.totalProduct_nounit': '{val} in the basket',
@@ -519,7 +519,7 @@ const en_US = {
   inTransit: 'In transit',
   invoice: 'invoice',
   isContinue: 'Whether to continue?',
-  isPurebred: 'Other Breed?',
+  isPurebred: 'Purebred dog?',
   item: '{val} item',
   items: '{val} items',
   itemsInCart: 'You have {val} item in your cart',

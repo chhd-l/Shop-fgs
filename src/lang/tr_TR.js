@@ -909,40 +909,52 @@ const tr_TR = {
   yourPasswordNotVerified: 'Şifreniz doğrulanmadı',
 
   //Club新增
-  'club.subscription.titile': '',
-  'club.subscription.icon1': '',
-  'club.subscription.icon2': '',
-  'club.subscription.icon3': '',
-  'club.subscription.icon4': '',
-  'club.subscription.icon5': '',
-  'club.subscription.button': '',
-  'club.video.detail.title': '',
-  'club.video.detail.description': '',
-  'club.video.detail.button': '',
-  'club.howitworks.title': '',
-  'club.howitworks.img1': '',
-  'club.howitworks.img1.titile': '',
-  'club.howitworks.img1.description': '',
-  'club.howitworks.img2': '',
-  'club.howitworks.img2.titile': '',
-  'club.howitworks.img2.description': '',
-  'club.howitworks.img3': '',
-  'club.howitworks.img3.titile': '',
-  'club.howitworks.img3.description': '',
-  'club.howitworks.img4': '',
-  'club.howitworks.img4.titile': '',
-  'club.howitworks.img4.description': '',
-  'club.joinsubscription.title': '',
-  'club.joinsubscription.description': '',
-  'club.joinsubscription.button': '',
-  'club.wheretohelp.title': '',
-  'club.wheretohelp.description': '',
-  'club.wheretohelp.card.callus.title': '',
-  'club.wheretohelp.card.callus.description': '',
-  'club.wheretohelp.card.callus.number': '',
-  'club.wheretohelp.card.email.title': '',
-  'club.wheretohelp.card.email.description': '',
-  'club.wheretohelp.card.email.number': '',
-  'club.wheretohelp.card.faq': ''
+  'club.subscription.titile':
+    'CLUB aboneliği ile sahip olacağınız ayrıcalıklar',
+  'club.subscription.icon1':
+    'İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri',
+  'club.subscription.icon2': 'Hoş geldin paketi, hediyeler ve özel hizmetler',
+  'club.subscription.icon3':
+    'Evcil hayvan danışmanı ve kişiselleştirilmiş bültenler',
+  'club.subscription.icon4': 'Ücretsiz kargo ile otomatik mama gönderimi',
+  'club.subscription.icon5': 'Taahhüt yok, tüm kontrol sizde',
+  'club.subscription.button': 'Başla',
+  'club.video.detail.title':
+    'HER EVCİL HAYVAN  EŞSİZDİR; BESLENME İHTİYAÇLARI BENZERSİZDİR',
+  'club.video.detail.description.one':
+    'Royal Canin olarak, evcil hayvanlar için en sağlıklı çözümleri üretebilmek adına onların ihtiyaçlarını anlamaya özen gösteriyoruz.',
+  'club.video.detail.description.two':
+    'Royal Canin CLUB abonelik programı, evcil hayvanınızın ihtiyaçlarına en uygun beslenme çözümlerini sunabilmek, sizin de onun sağlığı için gerekli desteği ve tavsiyeleri alabilmeniz için uzmanlar tarafından tasarlanmıştır.',
+  'club.video.detail.button': "CLUB'a Katılın!",
+  'club.howitworks.title': 'Nasıl Çalışıyor?',
+  'club.howitworks.img1.titile': 'UYGUN  MAMAYI VE ÖLÇÜLERİ BULUN',
+  'club.howitworks.img1.description':
+    'Evcil hayvanınızın ihtiyaçlarına uygun mama tavsiyesi alabilmek için birkaç basit soru cevaplayın',
+  'club.howitworks.img2.titile': 'CLUB ABONELİĞİ SEÇENEĞİNİ İŞARETLEYİN',
+  'club.howitworks.img2.description':
+    'Abone olmak için ödeme yapma adımına geçin. İlk teslimatınız ile birlikte bir hoş geldin paketi de alacaksınız!',
+  'club.howitworks.img3.titile': 'ABONELİĞİNİZİN KONTROLÜ SİZDE',
+  'club.howitworks.img3.description':
+    'Hesap sekmenizde CLUB aboneliğinizi yönetin, kargo ücreti ödemeden otomatik mama gönderiminin keyfini çıkarın!',
+  'club.howitworks.img4.titile': 'ÖZEL ÖDÜLLERİN KEYFİNİ ÇIKARIN',
+  'club.howitworks.img4.description':
+    'Abonelikle birlikte gelecek özel teklifler ve beslenme danışmanı gibi özel  hizmetlerden yararlanın',
+  'club.joinsubscription.title': 'CLUB abonesi olun!',
+  'club.joinsubscription.description':
+    'Ona en uygun beslenme önerilerini alabilmek için, bize evcil hayvanınızdan bahsedin.',
+  'club.joinsubscription.button': 'Başlayın',
+  'club.wheretohelp': 'Size yardımcı olmak için buradayız!',
+  'club.wheretohelp.description':
+    'Ekibimiz, sorularınızı yanıtlamak ve en iyi deneyimi yaşadığınızdan emin olmak için burada. Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz:',
+  'club.wheretohelp.card.callus.title': 'Bizi arayın',
+  'club.wheretohelp.card.callus.description':
+    'Evcil hayvan uzmanlarımız haftaiçi her gün 09:00 - 18:00 arasında sorularınızı yanıtlamaktan mutluluk duyacaktır.',
+  'club.wheretohelp.card.callus.number': '0874 657 890',
+  'club.wheretohelp.card.email.title': 'Bize e-posta gönderin',
+  'club.wheretohelp.card.email.description':
+    '12 saat içerisinde, size olabildiğince hızlı dönmek için elimizden geleni yapacağız.',
+  'club.wheretohelp.card.email.send': 'Bize e-posta gönderin',
+  'club.wheretohelp.card.faq':
+    'Sıkça Sorulan Sorular sayfamıza göz atarak, sorunuzun daha önce yanıtlanmış olup olmadığına bakabilirsiniz.'
 };
 export default tr_TR;

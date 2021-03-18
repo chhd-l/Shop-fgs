@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import './index.less';
 import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import LinkedSubs from './components/LinkedSubs';
+import LazyLoad from 'react-lazyload';
 
 import {
   getPetList,
@@ -39,7 +41,6 @@ import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
-import LazyLoad from 'react-lazyload';
 
 const selectedPet = {
   border: '3px solid #ec001a'
@@ -729,17 +730,6 @@ class PetForm extends React.Component {
       isCat: isCat,
       isDisabled: false
     });
-    // if (e.currentTarget.value === '0') {
-    //   this.setState({
-    //     isCat: true,
-    //     isDisabled: false
-    //   });
-    // } else if (e.currentTarget.value === '1') {
-    //   this.setState({
-    //     isCat: false,
-    //     isDisabled: false
-    //   });
-    // }
   }
   specialNeedsOptionsChange(data) {
     console.log(data);
@@ -765,6 +755,7 @@ class PetForm extends React.Component {
     this.setState({ imgUrl: data });
   }
   handleErrMessage = () => {};
+
   render() {
     const event = {
       page: {
@@ -1291,104 +1282,6 @@ class PetForm extends React.Component {
                         </div>
                       </div>
                     )}
-                    {/* <div className="form-group col-lg-6 pull-left"> */}
-                    {/* <div className="rc-input rc-input--inline">
-                      <input
-                        className="rc-input__checkbox"
-                        id="noSpecialNeeds"
-                        value="in necesidades especiales"
-                        type="checkbox"
-                        name="noSpecialNeeds"
-                        checked={this.state.specialNeedsDisable}
-                        onClick={(e) =>
-                          this.specialNeedsOptionsChange({
-                            name: 'Sin necesidades especiales'
-                          })
-                        }
-                      />
-                      <label
-                        className="rc-input__label--inline"
-                        htmlFor="noSpecialNeeds"
-                      >
-                        <FormattedMessage id="noSpecialNeeds" />
-                      </label>
-                    </div> */}
-                    {/* </div> */}
-                    {/* <div className="form-group col-lg-6 pull-left">
-                    <div className="rc-input rc-input--inline">
-                      {this.state.isMix ? (
-                        <input
-                          className="rc-input__checkbox"
-                          id="Mix breed"
-                          value="Mix breed"
-                          type="checkbox"
-                          name="breed"
-                          checked={this.state.isMix}
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      ) : (
-                        <input
-                          className="rc-input__checkbox"
-                          id="Mix breed"
-                          value="Mix breed"
-                          type="checkbox"
-                          name="breed"
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      )}
-                      <label className="rc-input__label--inline" htmlFor="Mix breed">
-                        Mix breed
-                      </label>
-                    </div>
-                    <div className="rc-input rc-input--inline">
-                      {this.state.isUnknown ? (
-                        <input
-                          className="rc-input__checkbox"
-                          id="Don't know"
-                          value="Don't know"
-                          type="checkbox"
-                          name="breed"
-                          checked={this.state.isUnknown}
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      ) : (
-                        <input
-                          className="rc-input__checkbox"
-                          id="Don't know"
-                          value="Don't know"
-                          type="checkbox"
-                          name="breed"
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      )}
-                      <label className="rc-input__label--inline" htmlFor="Don't know">
-                        Don't know
-                      </label>
-                    </div>
-                  </div> */}
-                    {/* <div className="form-group col-lg-6 pull-left">
-                    <div className="rc-input rc-input--inline">
-                      <input
-                        className="rc-input__checkbox"
-                        id="noSpecialNeeds"
-                        value="in necesidades especiales"
-                        type="checkbox"
-                        name="noSpecialNeeds"
-                        checked={this.state.specialNeedsDisable}
-                        onClick={(e) =>
-                          this.specialNeedsOptionsChange({
-                            name: 'Sin necesidades especiales'
-                          })
-                        }
-                      />
-                      <label
-                        className="rc-input__label--inline"
-                        htmlFor="noSpecialNeeds"
-                      >
-                        <FormattedMessage id="noSpecialNeeds" />
-                      </label>
-                    </Fdiv>
-                  </div> */}
                     <div className="form-group col-lg-6 pull-left required">
                       <label
                         className="form-control-label rc-full-width"
@@ -1505,6 +1398,11 @@ class PetForm extends React.Component {
                 />
               ) : null}
             </div>
+            <LinkedSubs
+              loading={this.state.loading}
+              setState={this.setState.bind(this)}
+              errorMsg={this.state.errorMsg}
+            />
           </div>
         </main>
         <Footer />
