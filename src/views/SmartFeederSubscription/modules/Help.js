@@ -273,46 +273,46 @@ class Help extends React.Component {
                                   </span>
                                 </p>
                                 <div className="rc-margin-top--xs">
-                                  <p
+                                  {/* <p
                                     className="rc-numeric text-nowrap"
                                     style={{
                                       color: 'rgb(0, 135, 189)'
                                     }}
-                                  >
-                                    {isRecommendationPage ? (
-                                      <Link
-                                        to={emailLink}
-                                        style={{
-                                          fontSize: '16px',
-                                          borderBottom: '1px solid transparent'
-                                        }}
-                                      >
-                                        {emailTitle ? (
-                                          emailTitle
-                                        ) : (
-                                          <FormattedMessage id="help.email" />
-                                        )}
-                                      </Link>
-                                    ) : (
-                                      <a
-                                        href={this.state.mailAddress}
-                                        style={{
-                                          fontSize: '16px',
-                                          borderBottom: '1px solid transparent',
-                                          textDecoration: isEmailUnderLine
-                                            ? 'underline'
-                                            : 'none'
-                                        }}
-                                        className="rc-styled-link 1111"
-                                      >
-                                        {email ? (
-                                          email
-                                        ) : (
-                                          <FormattedMessage id="help.email" />
-                                        )}
-                                      </a>
-                                    )}
-                                  </p>
+                                  > */}
+                                  {isRecommendationPage ? (
+                                    <Link
+                                      to={emailLink}
+                                      style={{
+                                        fontSize: '16px',
+                                        borderBottom: '1px solid transparent'
+                                      }}
+                                    >
+                                      {email ? (
+                                        email
+                                      ) : (
+                                        <FormattedMessage id="help.email" />
+                                      )}
+                                    </Link>
+                                  ) : (
+                                    <a
+                                      href={this.state.mailAddress}
+                                      style={{
+                                        fontSize: '16px',
+                                        borderBottom: '1px solid transparent',
+                                        textDecoration: isEmailUnderLine
+                                          ? 'underline'
+                                          : 'none'
+                                      }}
+                                      className="rc-styled-link 1111"
+                                    >
+                                      {email ? (
+                                        email
+                                      ) : (
+                                        <FormattedMessage id="help.email" />
+                                      )}
+                                    </a>
+                                  )}
+                                  {/* </p> */}
                                 </div>
                               </div>
                             </div>
