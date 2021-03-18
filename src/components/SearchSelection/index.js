@@ -4,19 +4,18 @@ import React from 'react';
  * 带有远程搜索功能的下拉选择组件
  */
 
-function throttle(fn, delay){
+function throttle(fn, delay) {
   let timer = null;
   let nextFlag = true; //用标志位来判断是否结束了一次执行
   return function () {
-      if (nextFlag){
-          nextFlag = false;
-          timer = setTimeout(function () {
-              fn();
-              nextFlag = true;
-          }, delay);
-      }
-
-  }
+    if (nextFlag) {
+      nextFlag = false;
+      timer = setTimeout(function () {
+        fn();
+        nextFlag = true;
+      }, delay);
+    }
+  };
 }
 class SearchSelection extends React.Component {
   static defaultProps = {
@@ -40,6 +39,11 @@ class SearchSelection extends React.Component {
     this.otherValue = '';
     this.searchText = React.createRef();
   }
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
+  };
   // freeText=true时设置参数
   handleSearchSelectionInput = (e) => {
     const target = e.target;
@@ -62,9 +66,9 @@ class SearchSelection extends React.Component {
       storeId: process.env.REACT_APP_STOREID,
       systemCityPostCodes: null,
       updateTime: null
-    }
+    };
     this.props.selectedItemChange(citem);
-  }
+  };
   handleInputChange = (e) => {
     e.nativeEvent.stopImmediatePropagation();
     const target = e.target;
@@ -79,14 +83,17 @@ class SearchSelection extends React.Component {
         return false;
       }
       form.pageNum = 0;
-      this.setState({
-        form: form,
-        optionList: []
-      }, () => {
-        if (this.props.freeText) {
-          // this.handleSetInputItem();
+      this.setState(
+        {
+          form: form,
+          optionList: []
+        },
+        () => {
+          if (this.props.freeText) {
+            // this.handleSetInputItem();
+          }
         }
-      });
+      );
 
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
@@ -144,14 +151,17 @@ class SearchSelection extends React.Component {
             storeId: process.env.REACT_APP_STOREID,
             systemCityPostCodes: null,
             updateTime: null
-          }
+          };
 
-          this.setState({
-            form: form,
-            optionPanelVisible: false,
-          }, () => {
-            this.props.selectedItemChange(citem);
-          });
+          this.setState(
+            {
+              form: form,
+              optionPanelVisible: false
+            },
+            () => {
+              this.props.selectedItemChange(citem);
+            }
+          );
         }, 500);
       } catch (error) {
         console.log(error);
@@ -226,10 +236,11 @@ class SearchSelection extends React.Component {
     return (
       <>
         <div
-          className={`${this.props.customCls} ${this.props.customStyle
-            ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
-            : 'rc-input rc-input--full-width rc-margin-y--xs'
-            } searchSelection`}
+          className={`${this.props.customCls} ${
+            this.props.customStyle
+              ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
+              : 'rc-input rc-input--full-width rc-margin-y--xs'
+          } searchSelection`}
           onBlur={() => {
             setTimeout(() => {
               this.setState({ optionList: [], optionPanelVisible: false });
@@ -240,8 +251,10 @@ class SearchSelection extends React.Component {
           <input
             type="text"
             placeholder={this.state.placeholder}
-            className={`${this.props.customStyle ? 'rc-input__control' : 'form-control'}`}
-            value={form.value}
+            className={`${
+              this.props.customStyle ? 'rc-input__control' : 'form-control'
+            }`}
+            value={form.value || ''}
             // onKeyUp={(e) => throttle(this.handleInputChange(e), 2000)}
             // onInput={(e)=>this.handleSearchSelectionInput(e)}
             onChange={(e) => this.handleInputChange(e)}
@@ -258,8 +271,9 @@ class SearchSelection extends React.Component {
               >
                 {optionList.map((item, idx) => (
                   <li
-                    className={`clinic-item pl-2 pr-2 ${idx !== optionList.length - 1 ? 'border-bottom' : ''
-                      }`}
+                    className={`clinic-item pl-2 pr-2 ${
+                      idx !== optionList.length - 1 ? 'border-bottom' : ''
+                    }`}
                     key={idx}
                     onClick={(e) => this.handleClickClinicItem(e, item)}
                   >

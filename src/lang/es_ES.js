@@ -660,6 +660,11 @@ const es_ES = {
   'payment.postCode2': 'código postal',
   'payment.rfc': 'Referencia',
   'payment.socialId': 'Identificación social',
+  'payment.state': 'Estado',
+  'payment.region': 'Región',
+  'payment.entrance': 'Entrada',
+  'payment.apartment': 'Apartamento',
+  'payment.comment': 'Comentario',
   'payment.subTip1': '¡Ahorrará un {val} adicional en este pedido!',
   'payment.subTip2':
     '¡Guarde su primer pedido de suscripción de {icon} y ahorre {val} ({val2}) hoy!',
