@@ -242,6 +242,7 @@ const en_US = {
   'contactUs.request': 'Request',
   'contactUs.requiredField': 'The field is required',
   'contactUs.validEmailField': 'Please enter a valid E-Mail address',
+  'contactUs.validUsPhoneField': 'Please enter a valid phone number',
   contactUsViaPhone: 'contáctenos por teléfono',
   continue: 'Continue',
   continueAsGuest: 'Continue as a guest',
@@ -1152,7 +1153,6 @@ const en_US = {
   yes: 'Yes',
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
-  yourPasswordNotVerified: 'Your password has not been verified',
   yourPasswordNotVerified: 'Your password has not been verified'
 };
 export default en_US;
