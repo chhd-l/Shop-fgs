@@ -530,7 +530,7 @@ class SubscriptionDetail extends React.Component {
         })
       );
       let noStartOption = new Set(
-        subDetail.noStartTradeList.map((el) => {
+        (subDetail.noStartTradeList || []).map((el) => {
           return el.tradeItems[0].nextDeliveryTime.split('-')[0];
         })
       );
@@ -544,11 +544,11 @@ class SubscriptionDetail extends React.Component {
         noStartYearOption.push({ name: el, value: el });
       });
       noStartYear = {
-        value: noStartYearOption[0]['value'],
-        name: noStartYearOption[0]['value']
+        value: noStartYearOption[0] && noStartYearOption[0]['value'],
+        name: noStartYearOption[0] && noStartYearOption[0]['value']
       };
 
-      subDetail.goodsInfo = subDetail.goodsInfo.map((el) => {
+      subDetail.goodsInfo = (subDetail.goodsInfo || []).map((el) => {
         let filterData =
           this.frequencyListOptions.filter(
             (item) => item.id === el.periodTypeId
@@ -2024,8 +2024,8 @@ class SubscriptionDetail extends React.Component {
                         className="rc-delta font-weight-normal mb-2"
                         style={{ color: '#666' }}
                       >
-                        {subDetail.externalSubscribeId ? (
-                          <span>{`${subDetail.externalSubscribeId}`}</span>
+                        {subDetail.subscribeId ? (
+                          <span>{`${subDetail.subscribeId}`}</span>
                         ) : null}
                         {this.statusText()}
                       </h4>

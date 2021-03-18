@@ -857,7 +857,7 @@ const de_DE = {
   'qualitySafety.title': 'Verpflichtung zu Qualität und Lebensmittelsicherheit',
   quantity: 'Menge',
   quantityCannotExceed10: 'Menge darf 10 nicht überschreiten',
-  quantityText: 'Anzahl',
+  quantityText: '{specText} Anzahl: {buyCount}',
   queryDataFailed: 'Abfragedaten fehlgeschlagen',
   ratingGrade1: 'Most Recent',
   ratingGrade2: 'Lowest to Highest Rating',

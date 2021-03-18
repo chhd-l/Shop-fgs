@@ -521,10 +521,6 @@ class LoginCart extends React.Component {
         event: 'removeFromCart'
       });
   }
-  goBack(e) {
-    e.preventDefault();
-    this.props.history.goBack();
-  }
   getQuantityBox = (pitem) => {
     return (
       <div className="rc-md-up">
@@ -1189,11 +1185,7 @@ class LoginCart extends React.Component {
                     }`}
                     aria-pressed="true"
                   >
-                    {process.env.REACT_APP_LANG === 'en' ? (
-                      <FormattedMessage id="loginText" />
-                    ) : (
-                      <FormattedMessage id="checkout" />
-                    )}{' '}
+                    <FormattedMessage id="checkout" />
                   </div>
                 </div>
               </a>
@@ -1463,20 +1455,16 @@ class LoginCart extends React.Component {
                       <div className="rc-column">
                         <FormattedMessage id="continueShopping">
                           {(txt) => (
-                            <DistributeHubLinkOrATag href="" to="/home">
-                              {txt}
+                            <DistributeHubLinkOrATag
+                              href=""
+                              to="/home"
+                              className="ui-cursor-pointer-pure"
+                            >
+                              <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
+                                {txt}
+                              </span>
                             </DistributeHubLinkOrATag>
-                            // <a
-                            //   tabIndex="1"
-                            //   className="ui-cursor-pointer-pure"
-                            //   onClick={(e) => this.goBack(e)}
-                            //   title={txt}
-                            // >
-                            //   <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                            //     <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
-                            //     {txt}
-                            //   </span>
-                            // </a>
                           )}
                         </FormattedMessage>
                       </div>
