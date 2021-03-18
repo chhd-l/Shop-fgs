@@ -4,6 +4,7 @@ const api = {
   visitorRegisterAndLogin: `/${process.env.REACT_APP_STOREID}/guest/register`,
   batchAdd: `/site/${process.env.REACT_APP_STOREID}/batch-add`,
   confirmAndCommit: `/${process.env.REACT_APP_STOREID}/guest/checkout`,
+  confirmAndCommitUs: `/us/${process.env.REACT_APP_STOREID}/guest/checkout`,
   addOrUpdatePaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
   getPaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
   deleteCard: '/pay-payment-info', // delete a card
@@ -63,7 +64,10 @@ export function batchAdd(parameter) {
 
 export function confirmAndCommit(parameter) {
   return axios({
-    url: api.confirmAndCommit,
+    url:
+      process.env.REACT_APP_Adyen_country == 'US'
+        ? api.confirmAndCommitUs
+        : api.confirmAndCommit,
     method: 'post',
     data: parameter
   });
