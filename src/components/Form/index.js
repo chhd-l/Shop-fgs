@@ -39,9 +39,9 @@ class Form extends React.Component {
         city: '',
         regionId: '',
         region: '',
-        stateNo: '',
-        stateName: '',
-        state: '',
+        provinceNo: '',
+        provinceId: '',
+        province: '',
         postCode: '',
         phoneNumber: '',
         entrance: '',
@@ -287,6 +287,7 @@ class Form extends React.Component {
     });
     this.inputBlur(e);
   };
+  // 文本框失去焦点
   inputBlur = async (e) => {
     const { errMsgObj } = this.state;
     const target = e.target;
