@@ -362,13 +362,14 @@ class ContactUs extends Component {
           <FormattedMessage id="contactUs.request" />
         </label>
         <span
-          class={['rc-input', errMsgObj.request ? 'rc-input--error' : ''].join(
-            ' '
-          )}
+          className={[
+            'rc-input',
+            errMsgObj.request ? 'rc-input--error' : ''
+          ].join(' ')}
           style={{ maxWidth: '480px' }}
         >
           <textarea
-            class="rc-input__textarea"
+            className="rc-input__textarea"
             id="id-textarea"
             value={address.request}
             onChange={this.deliveryInputChange}
@@ -399,7 +400,11 @@ class ContactUs extends Component {
 
   disabledBtn = () => {
     return (
-      <button class="rc-btn rc-btn--one" disabled style={{ width: '200px' }}>
+      <button
+        className="rc-btn rc-btn--one"
+        disabled
+        style={{ width: '200px' }}
+      >
         Submit
       </button>
     );

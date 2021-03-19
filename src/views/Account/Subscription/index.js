@@ -446,7 +446,7 @@ class Subscription extends React.Component {
                     <img
                       src={noSubscription}
                       alt="No Subscription"
-                      class="w-100"
+                      className="w-100"
                     />
                   </LazyLoad>
                 </div>

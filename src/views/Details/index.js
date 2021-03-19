@@ -1483,7 +1483,7 @@ class Details extends React.Component {
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
     }
-        class="rc-gamma ui-text-overflow-line2 text-break"
+        className="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${
@@ -1811,7 +1811,7 @@ class Details extends React.Component {
                                 <p>
                                   The recommended daily ration for your pet is{' '}
                                   <span className="strong">57g/day</span>
-                                  <a class="rc-styled-link backProductFinder">
+                                  <a className="rc-styled-link backProductFinder">
                                     Go back to recommendation
                                   </a>
                                 </p>
@@ -1819,7 +1819,9 @@ class Details extends React.Component {
                                 <p>
                                   Find the right product and calculate your pet
                                   ration using our{' '}
-                                  <a class="rc-styled-link">Product finder</a>
+                                  <a className="rc-styled-link">
+                                    Product finder
+                                  </a>
                                 </p>
                               )}
                             </div>
@@ -2225,7 +2227,9 @@ class Details extends React.Component {
                                       <FormattedMessage id="freeShipping" />
                                     </div>
                                     <div className="learnMore">
-                                      <a class="rc-styled-link">Learn more</a>
+                                      <a className="rc-styled-link">
+                                        Learn more
+                                      </a>
                                     </div>
                                   </div>
                                   <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">

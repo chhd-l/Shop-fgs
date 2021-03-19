@@ -57,15 +57,15 @@ const Details = ({ goodsDetailTabs, details }) => {
                       tempContent =
                         tempContent +
                         `<li>
-                        <div class="list_title">${
+                        <div className="list_title">${
                           Object.keys(JSON.parse(el))[0]
                         }</div>
-                        <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                        <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
                           Object.values(JSON.parse(el))[0]['Description']
                         }</div>
                       </li>`;
                     });
-                    tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                    tempContent = `<ul className="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                       ${tempContent}
                     </ul>`;
                   } else if (key === 'Composition') {
@@ -75,7 +75,7 @@ const Details = ({ goodsDetailTabs, details }) => {
                           tempContent +
                           `<p>
 
-                          <div class="content">${
+                          <div className="content">${
                             Object.values(JSON.parse(el))[0]
                           }</div>
                         </p>`;
@@ -93,10 +93,10 @@ const Details = ({ goodsDetailTabs, details }) => {
                         tempContent =
                           tempContent +
                           `
-                          <div class="title">
+                          <div className="title">
                             ${Object.keys(contentObj)[0]}
                           </div>
-                          <div class="content">${contentValue}</div>
+                          <div className="content">${contentValue}</div>
                         `;
                       });
                     }

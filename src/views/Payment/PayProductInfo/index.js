@@ -503,7 +503,7 @@ class PayProductInfo extends React.Component {
 
                   <label className="rc-input__label" htmlFor="id-text2" />
                 </span>
-                <div class="promo-code-submit">
+                <div className="promo-code-submit">
                   <button
                     ref="applyButtton"
                     id="promotionApply"

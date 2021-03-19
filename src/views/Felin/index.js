@@ -142,12 +142,12 @@ export default class Felin extends React.Component {
 
     document.querySelector(
       '.react-calendar__navigation__prev-button'
-    ).innerHTML = `<span class="icon iconfont">
+    ).innerHTML = `<span className="icon iconfont">
       &#xe6fa;
     </span>`;
     document.querySelector(
       '.react-calendar__navigation__next-button'
-    ).innerHTML = `<span class="icon iconfont">
+    ).innerHTML = `<span className="icon iconfont">
       &#xe6f9;
     </span>`;
 
@@ -382,9 +382,9 @@ export default class Felin extends React.Component {
               </p>
             </div>
             <div style={{ display: !isContactUs ? 'block' : 'none' }}>
-              <div class="rc-layout-container rc-two-column rc-content-h-middle">
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+              <div className="rc-layout-container rc-two-column rc-content-h-middle">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/logoAtelier felin.png`}
@@ -415,8 +415,8 @@ export default class Felin extends React.Component {
                     </p>
                   </h1>
                 </div>
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <LazyLoad>
                       <img
                         loop="infinite"
@@ -427,9 +427,9 @@ export default class Felin extends React.Component {
                   </h1>
                 </div>
               </div>
-              <div class="rc-layout-container rc-two-column rc-content-h-middle">
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+              <div className="rc-layout-container rc-two-column rc-content-h-middle">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
@@ -460,8 +460,8 @@ export default class Felin extends React.Component {
                     </div>
                   </h1>
                 </div>
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x_1.jpeg`}
@@ -472,9 +472,9 @@ export default class Felin extends React.Component {
                 </div>
               </div>
               <Divider />
-              <div class="rc-layout-container rc-two-column rc-content-h-middle">
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+              <div className="rc-layout-container rc-two-column rc-content-h-middle">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.png`}
@@ -483,8 +483,8 @@ export default class Felin extends React.Component {
                     </LazyLoad>
                   </h1>
                 </div>
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
@@ -515,9 +515,9 @@ export default class Felin extends React.Component {
                 </div>
               </div>
               <Divider />
-              <div class="rc-layout-container rc-two-column rc-content-h-middle">
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+              <div className="rc-layout-container rc-two-column rc-content-h-middle">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
@@ -545,8 +545,8 @@ export default class Felin extends React.Component {
                     </div>
                   </h1>
                 </div>
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
@@ -559,10 +559,10 @@ export default class Felin extends React.Component {
               <Divider />
               <div
                 id="section5"
-                class="rc-layout-container rc-two-column rc-content-h-middle"
+                className="rc-layout-container rc-two-column rc-content-h-middle"
               >
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
@@ -571,8 +571,8 @@ export default class Felin extends React.Component {
                     </LazyLoad>
                   </h1>
                 </div>
-                <div class="rc-column">
-                  <h1 class="rc-espilon">
+                <div className="rc-column">
+                  <h1 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>Découvrez l’Atelier Félin</h3>
@@ -670,7 +670,7 @@ export default class Felin extends React.Component {
                                 }}
                               /> */}
                             </h1>
-                            <span class="icon iconfont iconfont-date">
+                            <span className="icon iconfont iconfont-date">
                               &#xe6b3;
                             </span>
                             <Calendar
@@ -930,9 +930,9 @@ export default class Felin extends React.Component {
                               )}
                             </div>
                           </div>
-                          <div class="rc-input rc-input--stacked">
+                          <div className="rc-input rc-input--stacked">
                             <input
-                              class="rc-input__checkbox"
+                              className="rc-input__checkbox"
                               id="id-checkbox-cat-2"
                               value="Cat"
                               type="checkbox"
@@ -950,7 +950,7 @@ export default class Felin extends React.Component {
                               }}
                             />
                             <label
-                              class="rc-input__label--inline"
+                              className="rc-input__label--inline"
                               for="id-checkbox-cat-2"
                             >
                               Les données personnelles, que vous renseignez sont

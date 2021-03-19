@@ -13,7 +13,7 @@ class ValidationAddressModal extends React.Component {
       address1: '',
       address2: '',
       city: '',
-      provinceName: '',
+      provinceId: '',
       postCode: '',
       countryName: ''
     },
@@ -61,7 +61,7 @@ class ValidationAddressModal extends React.Component {
         countryId: Number(address.country),
         deliveryAddress: address.address1,
         postCode: address.postCode,
-        province: address.provinceName,
+        province: address.province,
         storeId: Number(process.env.REACT_APP_STOREID)
       };
       let res = await addressValidation(data);
@@ -174,9 +174,9 @@ class ValidationAddressModal extends React.Component {
                                 {address.address2}
                               </span>
                               <span className="city">{address.city},</span>
-                              {address.provinceName && (
+                              {address.province && (
                                 <span className="state">
-                                  {address.provinceName},
+                                  {address.province},
                                 </span>
                               )}
                               <span className="postalCode">
