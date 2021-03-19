@@ -1018,6 +1018,7 @@ const fr_FR = {
   saveFailed: "L'enregistrement a échoué!",
   saveSuccess: 'Sauver le succès',
   saveSuccessfullly: 'Sauvegarde réussie',
+  saveSuccessfullly2: 'Vos informations ont été correctement enregistrées',
   search: 'chercher',
   searchBreed: 'Rechercher une race',
   searchForAProductOrArtical: 'Rechercher un produit ou un article',
