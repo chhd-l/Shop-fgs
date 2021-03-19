@@ -26,7 +26,7 @@ class ImageMagnifier extends Component {
         // 组件宽
         width: (props.config && props.config.width) || '240',
         // 组件高
-        height: (props.config && props.config.height) || '340'
+        height: (props.config && props.config.height) || '240'
       },
       // 缩略图
       minImg: '',
@@ -77,7 +77,7 @@ class ImageMagnifier extends Component {
           left: '-240px',
           top: '0',
           width: '240px',
-          height: '340px',
+          height: '240px',
           border: '1px solid #ccc',
           overflow: 'hidden',
           zIndex: 98,
@@ -86,7 +86,7 @@ class ImageMagnifier extends Component {
         // 图片样式
         imgStyle: {
           width: '240px',
-          // height: '100%',
+          height: '100%',
           margin: '0 auto',
           display: 'block'
         },
@@ -465,7 +465,7 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
-              className="justify-content-center imageInnerBox"
+              className="text-center text-md-left imageInnerBox"
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',

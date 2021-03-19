@@ -38,7 +38,7 @@ export default class AddressPreview extends React.Component {
           </span>
 
           {process.env.REACT_APP_LANG === 'en' ? (
-            <span>{form.provinceName}, </span>
+            <span>{form.province}, </span>
           ) : (
             <></>
           )}

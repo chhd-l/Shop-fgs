@@ -120,8 +120,8 @@ const Test = () => {
   return (
     <div className="margin12" style={{ display: 'none' }}>
       <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
-        <div class="rc-grid">
-          <article class="rc-card rc-card--a">test</article>
+        <div className="rc-grid">
+          <article className="rc-card rc-card--a">test</article>
         </div>
       </div>
     </div>
@@ -260,21 +260,21 @@ class Recommendation extends React.Component {
                       if (key === 'Bénéfices') {
                         let tempContentMobile = '';
                         tmpGoodsDetail[key].map((ele, idx) => {
-                          // <div class="">${Object.keys(JSON.parse(ele))[0]}</div>
+                          // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
                           tempContent =
                             tempContent +
                             `<li>
-                            <div class="">${
+                            <div className="">${
                               Object.values(JSON.parse(ele))[0]['Description']
                             }</div>
                           </li>`;
                           tempContentMobile =
                             tempContentMobile +
                             `
-                          <div class="rc-list__accordion-item">
+                          <div className="rc-list__accordion-item">
                           <dt>
                             <button
-                              class="rc-list__header"
+                              className="rc-list__header"
                               id="heading-${idx}"
                               data-toggle="content-${idx}"
                             >
@@ -284,7 +284,7 @@ class Recommendation extends React.Component {
                             </button>
                           </dt>
                           <dd
-                            class="rc-list__content"
+                            className="rc-list__content"
                             id="content-${idx}"
                             aria-labelledby="heading-${idx}"
                             style="text-align:left"
@@ -294,14 +294,14 @@ class Recommendation extends React.Component {
                         </div>
                           `;
                         });
-                        tempContent = `<ul class=" rc-md-up">
+                        tempContent = `<ul className=" rc-md-up">
                           ${tempContent}
                         </ul>`;
-                        tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
+                        tempContentMobile = `<div className="fr-faq rc-md-down" style="padding:0">
                         <dl
                           data-toggle-group=""
                           data-toggle-effect="rc-expand--vertical"
-                          class=""
+                          className=""
                         >
                         ${tempContentMobile}
                         </dl>
@@ -708,7 +708,6 @@ class Recommendation extends React.Component {
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let { productList, activeIndex, currentModalObj, isMobile } = this.state;
-    console.log(productList, 'sdsajdkldsa');
     let MaxLinePrice,
       MinLinePrice,
       MaxMarketPrice,
@@ -741,16 +740,24 @@ class Recommendation extends React.Component {
         productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       );
     }
+    let isHasPromotion = true;
+    console.log(
+      'MaxLinePriceMaxLinePriceMaxLinePrice',
+      MaxLinePrice,
+      MinLinePrice,
+      MaxMarketPrice,
+      MinMarketPrice,
+      MaxSubPrice,
+      MinSubPrice
+    );
     let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
     let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
     let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
     let tabDes =
-      productList[activeIndex]?.goodsInfo.goods.goodsDescription ||
-      productList[activeIndex]?.tabDescription ||
-      '';
+      productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = this.get100Words(tabDes);
     return (
-      <div className="Recommendation_FR">
+      <div className="Recommendation_FR Recommendation_US">
         {/* <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -767,6 +774,7 @@ class Recommendation extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
+          showBannerTip={isUs ? true : false}
         />
         <Modal
           key="1"
@@ -808,7 +816,7 @@ class Recommendation extends React.Component {
             >
               <div className="rc-max-width--md text-center rc-margin-y--md">
                 <div className="rc-alpha inherit-fontsize">
-                  <h1>
+                  <h1 style={{ marginBottom: '0.67em' }}>
                     <FormattedMessage id="recommendation.welcomeText1" />
                   </h1>
                 </div>
@@ -936,7 +944,11 @@ class Recommendation extends React.Component {
                               />
                             </div>
                           </div>
-                          <div className="product-recommendation__desc text-center rc-padding-bottom--lg--mobile">
+                          <div
+                            className={`product-recommendation__desc text-center rc-padding-bottom--lg--mobile ${
+                              isRu ? 'has-promotion' : ''
+                            }`}
+                          >
                             <h3
                               title={
                                 productList[activeIndex].goodsInfo.goodsInfoName
@@ -949,39 +961,56 @@ class Recommendation extends React.Component {
                             {/* <h4>
                             From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
                           </h4> */}
-                            {false && MaxLinePrice > 0 && (
-                              <div className="product-pricing__card__head d-flex align-items-center">
-                                <div className="rc-input product-pricing__card__head__title">
-                                  <FormattedMessage id="listPrice" />
-                                </div>
-                                <div className="rc-large-body  m-auto">
-                                  {MaxLinePrice > 0 ? (
-                                    MaxLinePrice === MinLinePrice ? (
-                                      <span>{formatMoney(MaxLinePrice)}</span>
-                                    ) : (
-                                      <span>
-                                        <FormattedMessage id="from" />{' '}
-                                        {formatMoney(MinLinePrice)}{' '}
-                                        <FormattedMessage id="to" />{' '}
-                                        {formatMoney(MaxLinePrice)}
-                                      </span>
-                                    )
-                                  ) : null}
-                                </div>
-                              </div>
-                            )}
-                            {MaxSubPrice > 0 && (
+                            {MaxMarketPrice > 0 && (
                               <div className="product-pricing__card__head d-flex align-items-center">
                                 {/* <div className="rc-input product-pricing__card__head__title">
                                 <FormattedMessage id="autoship" />
                               </div> */}
                                 <div className="rc-large-body  m-auto">
-                                  <FormattedMessage id="from" />{' '}
-                                  {formatMoney(MinSubPrice)}{' '}
-                                  <FormattedMessage id="to" />{' '}
-                                  {formatMoney(MaxMarketPrice)}
+                                  {MaxMarketPrice === MinMarketPrice ? (
+                                    <React.Fragment>
+                                      <span className="text-throught-line">
+                                        {formatMoney(MaxMarketPrice)}
+                                      </span>
+                                      <span className="promotion-price">
+                                        {formatMoney(MaxMarketPrice)}123
+                                      </span>
+                                    </React.Fragment>
+                                  ) : (
+                                    <React.Fragment>
+                                      <span className="text-throught-line">
+                                        <FormattedMessage id="from" />{' '}
+                                        {formatMoney(MinMarketPrice)}{' '}
+                                        <FormattedMessage id="to" />{' '}
+                                        {formatMoney(MaxMarketPrice)}
+                                      </span>
+                                      <span className="promotion-price">
+                                        <FormattedMessage id="from" />{' '}
+                                        {formatMoney(MinMarketPrice)}123{' '}
+                                        <FormattedMessage id="to" />{' '}
+                                        {formatMoney(MaxMarketPrice)}123
+                                      </span>
+                                    </React.Fragment>
+                                  )}
                                 </div>
                               </div>
+                            )}
+                            {isRu && (
+                              <>
+                                <div style={{ marginBottom: '12px' }}>
+                                  <span className="promotion-code-title">
+                                    Promo code :
+                                  </span>
+                                  <span className="promotion-code promotion-code-title">
+                                    VET-WB5C-YR2Y-44{' '}
+                                  </span>
+                                </div>
+                                <p className="promotion-tips">
+                                  to apply the promotion, you must copy and
+                                  paste the code into the specified part of the
+                                  shopping cart
+                                </p>
+                              </>
                             )}
                             {this.state.showMore ? (
                               <p
@@ -1022,17 +1051,12 @@ class Recommendation extends React.Component {
                               <div className="">
                                 {productList[activeIndex]?.productMessage ||
                                   'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.'}
-                                {/* Recommended feeding amounts are located on the
-                              back of the bag. Make sure you transition food
-                              slowly over the course of the week to help prevent
-                              stomach upset. */}
                               </div>
                               {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
                             </div>
                             <div className="rc-margin-bottom--none rc-meta text-center w-100">
-                              Royal Canin's feeding guidelines can also be found
-                              on the product packaging.
+                              <FormattedMessage id="recommendation.guidelinesTips" />
                             </div>
                           </div>
 
@@ -1087,268 +1111,6 @@ class Recommendation extends React.Component {
                           </p>
                         </div>
                       </div>
-                      <div
-                        className="recommendProductInnerMobile"
-                        style={{
-                          // display: isMobile ? 'block' : 'none'
-                          display: 'none'
-                        }}
-                      >
-                        <div className="top">
-                          <div
-                            style={{
-                              padding: '32px 20px',
-                              textAlign: 'center',
-                              fontWeight: '500',
-                              float: 'left'
-                            }}
-                          >
-                            <FormattedMessage id="recommendation.recommendationPackage" />
-                          </div>
-                          <p
-                            ref="p"
-                            style={{ marginTop: '60px', textAlign: 'left' }}
-                          >
-                            {loginStore.isLogin ? (
-                              <button
-                                ref="loginButton"
-                                className={`rc-btn rc-btn--one ${
-                                  this.state.buttonLoading
-                                    ? 'ui-btn-loading'
-                                    : ''
-                                }`}
-                                onClick={() => this.buyNow()}
-                              >
-                                <FormattedMessage id="recommendation.buyNow" />
-                              </button>
-                            ) : (
-                              <LoginButton
-                                beforeLoginCallback={async () =>
-                                  this.buyNow(true)
-                                }
-                                btnClass={`rc-btn rc-btn--one ${
-                                  this.state.buttonLoading
-                                    ? 'ui-btn-loading'
-                                    : ''
-                                } ${
-                                  this.state.inStockProducts.length
-                                    ? ''
-                                    : 'rc-btn-solid-disabled'
-                                }`}
-                                history={history}
-                              >
-                                <FormattedMessage id="checkout" />
-                              </LoginButton>
-                            )}
-                            {!loginStore.isLogin && (
-                              <button
-                                className={`rc-styled-link color-999`}
-                                onClick={() => {
-                                  // this.hanldeUnloginAddToCart(
-                                  //   productList,
-                                  //   '/prescription'
-                                  // );
-                                  this.buyNow();
-                                }}
-                              >
-                                <FormattedMessage id="guestCheckout" />
-                              </button>
-                            )}
-                          </p>
-                          <ul
-                            style={{
-                              overflow: 'hidden',
-                              marginTop: '40px',
-                              display: 'inline-block'
-                            }}
-                          >
-                            {productList.map((el, i) => (
-                              <li
-                                onClick={() =>
-                                  this.setState({ activeIndex: i })
-                                }
-                                className={`${
-                                  i === activeIndex ? 'active' : ''
-                                }`}
-                              >
-                                <i></i>
-                                <LazyLoad>
-                                  <img
-                                    alt=""
-                                    style={{ height: '65px' }}
-                                    src={
-                                      el.goodsInfo.goodsInfoImg ||
-                                      el.goodsInfo.goods.goodsImg
-                                    }
-                                  />
-                                </LazyLoad>
-                                <span className="proName">
-                                  {el.goodsInfo.goodsInfoName}
-                                </span>
-                                <span className="proName">
-                                  {el.goodsInfo.specText}
-                                </span>
-                                <span>X {el.recommendationNumber}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="right">
-                          <div className="main">
-                            <div className="pic">
-                              <ImageMagnifier
-                                sizeList={[productList[activeIndex].goodsInfo]}
-                                // video={details.goodsVideo}
-                                images={[productList[activeIndex].goodsInfo]}
-                                minImg={
-                                  productList[activeIndex].goodsInfo
-                                    .goodsInfoImg
-                                }
-                                maxImg={
-                                  productList[activeIndex].goodsInfo
-                                    .goodsInfoImg
-                                }
-                                config={false}
-                              />
-                            </div>
-
-                            <div className="text">
-                              <h2
-                                title={
-                                  productList[activeIndex].goodsInfo
-                                    .goodsInfoName
-                                }
-                                className="rc-gamma ui-text-overflow-line2 text-break"
-                                style={{ color: '#E2001A', marginTop: '3rem' }}
-                              >
-                                {
-                                  productList[activeIndex].goodsInfo
-                                    .goodsInfoName
-                                }
-                              </h2>
-                              {MaxLinePrice > 0 && (
-                                <div
-                                  className="product-pricing__card__head d-flex align-items-center"
-                                  style={{ fontSize: '1.2rem' }}
-                                >
-                                  <div className="rc-input product-pricing__card__head__title">
-                                    <FormattedMessage id="listPrice" />
-                                  </div>
-                                  <b
-                                    className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
-                                    style={{
-                                      fontWeight: '200',
-                                      color: 'rgba(102,102,102,.7)'
-                                    }}
-                                  >
-                                    {MaxLinePrice > 0 ? (
-                                      MaxLinePrice === MinLinePrice ? (
-                                        <span>{formatMoney(MaxLinePrice)}</span>
-                                      ) : (
-                                        <span>
-                                          <FormattedMessage id="from" />{' '}
-                                          {formatMoney(MinLinePrice)}{' '}
-                                          <FormattedMessage id="à" />{' '}
-                                          {formatMoney(MaxLinePrice)}
-                                        </span>
-                                      )
-                                    ) : null}
-                                  </b>
-                                </div>
-                              )}
-                              <div
-                                className="product-pricing__card__head d-flex align-items-center"
-                                style={{ fontSize: '1.2rem' }}
-                              >
-                                <div className="rc-input product-pricing__card__head__title">
-                                  <FormattedMessage id="price" />
-                                </div>
-                                <b
-                                  className="rc-padding-y--none"
-                                  style={{
-                                    fontWeight: '200'
-                                    // color: 'rgba(102,102,102,.7)'
-                                  }}
-                                >
-                                  {MaxMarketPrice > 0 ? (
-                                    MaxMarketPrice === MinMarketPrice ? (
-                                      <span>{formatMoney(MaxMarketPrice)}</span>
-                                    ) : (
-                                      <span>
-                                        <FormattedMessage id="from" />{' '}
-                                        {formatMoney(MinMarketPrice)}{' '}
-                                        <FormattedMessage id="à" />{' '}
-                                        {formatMoney(MaxMarketPrice)}
-                                      </span>
-                                    )
-                                  ) : null}
-                                </b>
-                              </div>
-                              {MaxSubPrice > 0 && (
-                                <div
-                                  className="product-pricing__card__head d-flex align-items-center"
-                                  style={{ fontSize: '1.2rem' }}
-                                >
-                                  <div className="rc-input product-pricing__card__head__title">
-                                    <FormattedMessage id="autoship" />
-                                  </div>
-                                  <b
-                                    className="rc-padding-y--none"
-                                    style={{
-                                      fontWeight: '200'
-                                      // color: 'rgba(102,102,102,.7)'
-                                    }}
-                                  >
-                                    {MaxSubPrice > 0 ? (
-                                      MaxSubPrice === MinSubPrice ? (
-                                        <span>{formatMoney(MaxSubPrice)}</span>
-                                      ) : (
-                                        <span>
-                                          <FormattedMessage id="from" />{' '}
-                                          {formatMoney(MinSubPrice)}{' '}
-                                          <FormattedMessage id="à" />{' '}
-                                          {formatMoney(MaxSubPrice)}
-                                        </span>
-                                      )
-                                    ) : null}
-                                  </b>
-                                </div>
-                              )}
-
-                              <p>
-                                {productList[activeIndex].goodsInfo.goods
-                                  .goodsDescription || ''}
-                              </p>
-                              <p>
-                                <button
-                                  className="rc-btn rc-btn--two mb-3 mt-2"
-                                  onClick={() => {
-                                    history.push(
-                                      '/details/' +
-                                        productList[activeIndex].goodsInfo
-                                          .goodsInfoId
-                                    );
-                                  }}
-                                >
-                                  <FormattedMessage id="recommendation.viewDetail" />
-                                </button>
-                              </p>
-                            </div>
-                          </div>
-
-                          <p
-                            style={{
-                              textAlign: 'center',
-                              fontSize: '12px',
-                              color: '#ccc',
-                              marginBottom: '60px',
-                              letterSpacing: '0'
-                            }}
-                          >
-                            <FormattedMessage id="recommendation.productDescription" />
-                          </p>
-                        </div>
-                      </div>
                     </div>
                   )
                 )}
@@ -1383,7 +1145,7 @@ class Recommendation extends React.Component {
                   <h2 className="rc-beta markup-text">
                     <FormattedMessage id="recommendation.plusTitle" />
                   </h2>
-                  <p>
+                  <p style={{ color: 'rgb(23, 43, 77)' }}>
                     <FormattedMessage id="recommendation.plusContent" />
                   </p>
                   <button
@@ -1409,12 +1171,12 @@ class Recommendation extends React.Component {
           {isUs && (
             <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
               <div className="rc-margin-bottom--md">
-                <h2 classNam="rc-beta" style={{ color: '#e2001a' }}>
+                <h2 className="rc-beta" style={{ color: '#e2001a' }}>
                   How to Join Royal Canin Club
                 </h2>
               </div>
               <Test />
-              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle">
+              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle for-icon-size">
                 {howImageArr.map((item) => (
                   <div className="rc-grid">
                     <div>
@@ -1451,7 +1213,7 @@ class Recommendation extends React.Component {
               <LineModule />
               <section
                 style={{ textAlign: 'center' }}
-                className="rc-max-width--md text-center rc-margin-y--md"
+                className="rc-max-width--md text-center rc-margin-top--md"
               >
                 <h2 style={{ color: '#E2001A' }}>
                   <FormattedMessage id="recommendation.fourTitle" />
@@ -1477,14 +1239,14 @@ class Recommendation extends React.Component {
                     Place order
                   </button>
                 </p>
-                <div class="experience-component experience-assets-youtubeVideo">
-                  <div class="rc-max-width--md rc-padding-x--lg">
-                    <div class="rc-video-wrapper dog-video">
+                <div className="experience-component experience-assets-youtubeVideo">
+                  <div className="rc-max-width--md rc-padding-x--lg">
+                    <div className="rc-video-wrapper dog-video">
                       <iframe
                         allowfullscreen=""
                         frameborder="0"
                         id="video-dog"
-                        class="optanon-category-4 "
+                        className="optanon-category-4 "
                         src="https://www.youtube.com/embed/FYwO1fiYoa8"
                       ></iframe>
                     </div>

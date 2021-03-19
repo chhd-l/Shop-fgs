@@ -200,7 +200,7 @@ const LinkedSubs = (props) => {
                         <FormattedMessage id="Link" />
                       </button>
                     ) : (
-                      <a class="rc-styled-link" href="#/">
+                      <a className="rc-styled-link" href="#/">
                         Unlink
                       </a>
                     )}
@@ -213,7 +213,7 @@ const LinkedSubs = (props) => {
         {!isShowAll ? (
           <p className="more" style={{ marginTop: '1rem' }}>
             <a
-              class="rc-styled-link"
+              className="rc-styled-link"
               onClick={() => {
                 setIsShowAll(true);
               }}

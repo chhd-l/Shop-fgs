@@ -254,7 +254,7 @@ function Share() {
                   data-rows="4"
                   data-rc-prev="prev"
                   data-rc-next="next"
-                  className="rc-carousel rc-carousel--cards rc-match-heights js-card-carousel"
+                  className="rc-carousel rc-carousel--cards rc-match-heights js-card-carousel carousel-home-share"
                 >
                   <div className="rc-carousel__card-gal">
                     <div className="rc-padding-x--xs">
@@ -455,11 +455,6 @@ class Home extends React.Component {
     };
   }
   async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     setSeoConfig({ pageName: 'Home Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });

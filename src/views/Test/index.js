@@ -31,7 +31,7 @@ class Test extends React.Component {
         cityId: '',
         city: '',
         provinceNo: '',
-        provinceName: '',
+        provinceId: '',
         province: '',
         postCode: '',
         phoneNumber: ''

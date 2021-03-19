@@ -165,7 +165,7 @@ const GoodsDetailTabs = function (props) {
           BENEFITS_DISCOUNT +
           ' alt="CLUB BENEFITS DISCOUNT" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Special Savings + FREE Shipping </strong>- save 30% on your first order and another 5% on every autoship order.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Special Savings + FREE Shipping&nbsp;</strong>-&nbsp;save 30% on your first order and another 5% on every autoship order.</p></div></div><div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none"><img src=' +
           BENEFITS_PRODUCTPng +
-          ' alt="CLUB BENEFITS PRODUCT RECOS" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div></div></div><div class="col-12 col-md-6"><div class="rc-video-wrapper"><iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com" allowfullscreen="" frameborder="0"></iframe></div></div></div><div class="arrow-img-columns rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile rc-padding-x--md--mobile"><div class="rc-margin-bottom--md"><h2 class="rc-beta">How to Join Royal Canin Club</h2></div><div class="rc-card-grid11 rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle"><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>GRAB YOUR PRODUCTS</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN SHOP" src=' +
+          ' alt="CLUB BENEFITS PRODUCT RECOS" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div></div></div><div class="col-12 col-md-6"><div class="rc-video-wrapper"><iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com" allowfullscreen="" frameborder="0"></iframe></div></div></div><div class="arrow-img-columns rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile rc-padding-x--md--mobile"><div class="rc-margin-bottom--md"><h2 class="rc-beta">How to Join Royal Canin Club</h2></div><div class="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle"><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>GRAB YOUR PRODUCTS</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN SHOP" src=' +
           HOWTOJOINSHOPpng +
           '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Find your handpicked nutrition products in your cart.</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>CHOOSE AUTOMATIC SHIPPING</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN AUTOSHIP" src=' +
           HOWTOJOINAUTOSHIPpng +
@@ -330,71 +330,71 @@ const GoodsDetailTabs = function (props) {
                 }
               >
                 <div className="block">
-                  <div class="row rc-margin-x--none flex-column-reverse flex-md-row">
-                    <div class="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                  <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
+                    <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
+                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
                         <img
                           src={phoneicon}
                           alt="CLUB BENEFITS PET ADVISOR"
-                          class="m-auto rc-margin--none--desktop"
+                          className="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
+                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
                           <p style={{ textAlign: 'left' }}>
                             tailored and evolving premium nutrition
                           </p>
                         </div>
                       </div>
-                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
                         <img
                           src={gifticon}
                           alt="CLUB BENEFITS DISCOUNT"
-                          class="m-auto rc-margin--none--desktop"
+                          className="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
+                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
                           <p style={{ textAlign: 'left' }}>
                             A welcome box, rewards and services
                           </p>
                         </div>
                       </div>
-                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
                         <img
                           src={spetadviser}
                           alt="CLUB BENEFITS PET ADVISOR"
-                          class="m-auto rc-margin--none--desktop"
+                          className="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
+                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
                           <p style={{ textAlign: 'left' }}>
                             A pet advisor and personalized newsletters
                           </p>
                         </div>
                       </div>
-                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
                         <img
                           src={shippingicon}
                           alt="CLUB BENEFITS PET ADVISOR"
-                          class="m-auto rc-margin--none--desktop"
+                          className="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
+                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
                           <p style={{ textAlign: 'left' }}>
                             Automatic food reﬁlls with free shipping
                           </p>
                         </div>
                       </div>
-                      <div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
+                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
                         <img
                           src={nutrition}
                           alt="CLUB BENEFITS PET ADVISOR"
-                          class="m-auto rc-margin--none--desktop"
+                          className="m-auto rc-margin--none--desktop"
                         />
-                        <div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center desc-line-height--custom">
+                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
                           <p style={{ textAlign: 'left' }}>
                             Full control and free from engagement
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                      <div class="rc-video-wrapper">
+                    <div className="col-12 col-md-6">
+                      <div className="rc-video-wrapper">
                         <iframe
                           src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com"
                           allowfullscreen=""

@@ -44,7 +44,7 @@ class AddressList extends React.Component {
         city: '',
         cityName: '',
         provinceNo: '',
-        provinceName: '',
+        provinceId: '',
         province: '',
         postCode: '',
         phoneNumber: '',
@@ -236,7 +236,7 @@ class AddressList extends React.Component {
     };
     if (process.env.REACT_APP_LANG === 'en') {
       tmpDeliveryAddress.provinceNo = '';
-      tmpDeliveryAddress.provinceName = '';
+      tmpDeliveryAddress.provinceId = '';
       tmpDeliveryAddress.province = '';
     }
 
@@ -260,8 +260,8 @@ class AddressList extends React.Component {
       };
       if (process.env.REACT_APP_LANG === 'en') {
         tmpDeliveryAddress.provinceNo = tmp.provinceNo;
-        tmpDeliveryAddress.provinceName = tmp.province;
-        tmpDeliveryAddress.province = tmp.provinceId;
+        tmpDeliveryAddress.province = tmp.province;
+        tmpDeliveryAddress.provinceId = tmp.provinceId;
       }
     }
 
@@ -365,8 +365,8 @@ class AddressList extends React.Component {
         type: this.props.type.toUpperCase()
       };
       if (process.env.REACT_APP_LANG === 'en') {
-        params.provinceId = deliveryAddress.province;
-        params.province = deliveryAddress.provinceName;
+        params.provinceId = deliveryAddress.provinceId;
+        params.province = deliveryAddress.province;
         params.provinceNo = deliveryAddress.provinceNo;
       }
 
@@ -460,7 +460,7 @@ class AddressList extends React.Component {
       deliveryAddress.address2 = validationAddress.address2;
       deliveryAddress.city = validationAddress.city;
       deliveryAddress.cityName = validationAddress.city;
-      deliveryAddress.provinceName = validationAddress.provinceCode;
+      deliveryAddress.province = validationAddress.provinceCode;
     } else {
       // deliveryAddress = JSON.parse(JSON.stringify(oldDeliveryAddress));
     }

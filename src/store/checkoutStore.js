@@ -240,6 +240,7 @@ class CheckoutStore {
     if (!taxFeeData) {
       taxFeeData = nullTaxFeeData;
     }
+    const email = guestEmail || taxFeeData.customerAccount;
     // 获取总价
     let purchasesRes = await purchases({
       goodsInfoDTOList: param,
@@ -252,8 +253,8 @@ class CheckoutStore {
       city: taxFeeData.city,
       street: taxFeeData.street,
       postalCode: taxFeeData.postalCode,
-      customerAccount: taxFeeData.customerAccount,
-      guestEmail
+      customerAccount: email,
+      guestEmail: email
     });
 
     let backCode = purchasesRes.code;
