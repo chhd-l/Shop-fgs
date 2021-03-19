@@ -2179,7 +2179,7 @@ class Details extends React.Component {
                               details?.promotions &&
                               details.promotions.includes('club') ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3"
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0"
                                   key="987654321"
                                   style={{
                                     borderColor: parseInt(form.buyWay)

@@ -132,7 +132,7 @@ const fr_FR = {
   autoship: 'Abonnement',
   autoship_nos: 'Abonnement',
   autoShipOrderDetails: "Détails de la commande d'expédition automatique",
-  autoShipStarted: " Date de création de l'Abonnement",
+  autoShipStarted: "Date de création de l'Abonnement",
   autoshop: 'en abonnement',
   avecLabonnement: "avec l'abonnement",
   backToAuthorization: "Retour à l'autorisation",
