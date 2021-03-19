@@ -2,11 +2,11 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import './index.less';
 
-function formatMoney(price){
-  if(price.indexOf(".")>-1){
-   return price.replace(".",",")
+function formatMoney(price) {
+  if (price.indexOf('.') > -1) {
+    return price.replace('.', ',');
   }
-  return price
+  return price;
 }
 
 const Carouselem = withRouter((props) => {
@@ -38,7 +38,7 @@ const Carouselem = withRouter((props) => {
                       <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop">
                         <img
                           className="m-auto lazyloaded"
-                          srcset={`${
+                          srcSet={`${
                             item.imgUrl1 && item.imgUrl2
                               ? `${item.imgUrl1}, ${item.imgUrl2}`
                               : `${item.imageUrl}`
@@ -73,7 +73,9 @@ const Carouselem = withRouter((props) => {
                             <span>
                               <span className="sales">
                                 <span className="value" content={item.price}>
-                                  {item.price > 0 ? formatMoney(item.price) + ' €' : ''}
+                                  {item.price > 0
+                                    ? formatMoney(item.price) + ' €'
+                                    : ''}
                                 </span>
                               </span>
                             </span>
