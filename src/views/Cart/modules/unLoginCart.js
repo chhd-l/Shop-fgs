@@ -698,7 +698,7 @@ class UnLoginCart extends React.Component {
               >
                 <LazyLoad>
                   <img
-                    className="product-image"
+                    className="w-100"
                     src={
                       find(pitem.sizeList, (s) => s.selected).goodsInfoImg ||
                       pitem.goodsImg
@@ -817,7 +817,7 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
             <div class="buyMethodBox rc-layout-container rc-two-column">
-              <div class="rc-column">
+              <div class="rc-column pl-0 pr-0 pl-md-3 pr-md-3">
                 <OneOffSelection
                   isGift={isGift}
                   pitem={pitem}
@@ -831,7 +831,7 @@ class UnLoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              <div class="rc-column">
+              <div class="rc-column pl-0 pr-0 pl-md-3 pr-md-3">
                 {pitem.sizeList.filter((el) => el.selected)[0]
                   .subscriptionStatus &&
                 (!pitem.promotions || !pitem.promotions.includes('club')) ? (
@@ -1298,14 +1298,14 @@ class UnLoginCart extends React.Component {
           </div>
 
           <div className="group-total">
-            <div className="row">
+            <div className="row d-flex align-items-center">
               <div className="col-7 medium">
                 <strong>
                   <FormattedMessage id="totalIncluIVA" />
                 </strong>
               </div>
               <div className="col-5">
-                <p className="text-right grand-total-sum medium">
+                <p className="text-right grand-total-sum medium mb-0">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                     <b>{subtractionSign}</b>
                   ) : (

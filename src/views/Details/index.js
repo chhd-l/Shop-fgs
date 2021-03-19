@@ -1919,7 +1919,7 @@ class Details extends React.Component {
                             </div>
                             <div>
                               <div
-                                className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 1 ml-0 mr-0"
                                 key="123456789"
                                 aa="123456789"
                                 style={{
@@ -2014,7 +2014,7 @@ class Details extends React.Component {
                               (!details.promotions ||
                                 !details.promotions.includes('club')) ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 2  ml-0 mr-0"
                                   key="987654321"
                                   style={{
                                     borderColor: parseInt(form.buyWay)
@@ -2161,7 +2161,7 @@ class Details extends React.Component {
                               {details?.promotions &&
                               details.promotions.includes('club') ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3"
                                   key="987654321"
                                   style={{
                                     borderColor: parseInt(form.buyWay)

@@ -647,7 +647,7 @@ class LoginCart extends React.Component {
               >
                 <LazyLoad>
                   <img
-                    className="product-image"
+                    className="w-100"
                     src={pitem.goodsInfoImg}
                     alt={pitem.goodsName}
                     title={pitem.goodsName}
@@ -747,7 +747,7 @@ class LoginCart extends React.Component {
               </div>
             </div>
             <div class="buyMethodBox rc-layout-container rc-two-column">
-              <div class="rc-column">
+              <div class="rc-column pl-0 pr-0 pl-md-3 pr-md-3">
                 <OneOffSelection
                   isGift={isGift}
                   pitem={pitem}
@@ -761,7 +761,7 @@ class LoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              <div class="rc-column">
+              <div class="rc-column pl-0 pr-0 pl-md-3 pr-md-3">
                 {pitem.subscriptionStatus &&
                 (!pitem.goods.promotions ||
                   !pitem.goods.promotions.includes('club')) ? (
