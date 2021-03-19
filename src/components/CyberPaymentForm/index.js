@@ -7,6 +7,13 @@ import resolve from 'resolve';
 
 class CyberPaymentForm extends React.Component {
   static defaultProps = {
+    cyberFormTitle: {
+      cardHolderName: 'cyber.form.cardHolderName',
+      cardNumber: 'cyber.form.cardNumber',
+      EXPMonth: 'cyber.form.EXPMonth',
+      EXPYear: 'cyber.form.EXPYear',
+      secureCode: 'cyber.form.secureCode'
+    },
     billingJSX: null,
     form: {
       cardholderName: '',
@@ -49,11 +56,11 @@ class CyberPaymentForm extends React.Component {
   };
 
   nameOnCardJSX = () => {
-    const { form, errMsgObj } = this.props;
+    const { form, errMsgObj, cyberFormTitle } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
-          <FormattedMessage id="cyber.form.cardHolderName" />
+          <FormattedMessage id={cyberFormTitle.cardHolderName} />
         </label>
         <span className="rc-input rc-input--full-width" input-setup="true">
           <input
@@ -78,11 +85,11 @@ class CyberPaymentForm extends React.Component {
   };
 
   cardNumberJSX = () => {
-    const { form, errMsgObj } = this.props;
+    const { form, errMsgObj, cyberFormTitle } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
-          <FormattedMessage id="cyber.form.cardNumber" />
+          <FormattedMessage id={cyberFormTitle.cardNumber} />
         </label>
         <span className="rc-input rc-input--full-width" input-setup="true">
           <input
@@ -108,11 +115,11 @@ class CyberPaymentForm extends React.Component {
   };
 
   expirationMonthJSX = () => {
-    const { form, errMsgObj } = this.props;
+    const { form, errMsgObj, cyberFormTitle } = this.props;
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
         <label className="form-control-label" htmlFor="month">
-          <FormattedMessage id="cyber.form.EXPMonth" />
+          <FormattedMessage id={cyberFormTitle.EXPMonth} />
         </label>
         <span
           className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
@@ -139,11 +146,11 @@ class CyberPaymentForm extends React.Component {
   };
 
   expirationYearJSX = () => {
-    const { form, errMsgObj } = this.props;
+    const { form, errMsgObj, cyberFormTitle } = this.props;
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_province">
         <label className="form-control-label" htmlFor="year">
-          <FormattedMessage id="cyber.form.EXPYear" />
+          <FormattedMessage id={cyberFormTitle.EXPYear} />
         </label>
         <span
           className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
@@ -170,7 +177,7 @@ class CyberPaymentForm extends React.Component {
   };
 
   securityCodeJSX = () => {
-    const { form, errMsgObj } = this.props;
+    const { form, errMsgObj, cyberFormTitle } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label" htmlFor="month">
@@ -191,7 +198,7 @@ class CyberPaymentForm extends React.Component {
         </span>
         {errMsgObj.securityCode && (
           <div className="text-danger-2">
-            <FormattedMessage id="payment.errorInfo2" />
+            <FormattedMessage id={cyberFormTitle.secureCode} />
           </div>
         )}
       </div>

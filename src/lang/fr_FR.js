@@ -190,6 +190,7 @@ const fr_FR = {
   checkboxIsRequiredForSubscription:
     "cette case est obligatoire pour l'abonnement",
   checkout: 'Commander',
+  'payment.checkout': 'Commander',
   'checkout.faq.contactCustomer': 'Comment puis-je joindre le service client',
   'checkout.faq.freeDelivery': 'Proposez-vous la livraison gratuite',
   'checkout.faq.FreeReturn': 'Proposez-vous des retours gratuits',

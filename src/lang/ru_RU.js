@@ -94,7 +94,7 @@ const ru_RU = {
     'Добро пожаловать, {val}! Эта область предназначена для управления вашей учетной записью. Вы можете легко изменить информацию в своем профиле, управлять потребностями своего питомца, проверять статус своих заказов и свой автозаказ.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
-  'recommendation.buyNow': 'Buy now',
+  'recommendation.buyNow': 'Купить',
   'recommendation.firstBtnText': 'Sign up',
   'recommendation.firstContent':
     'Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.',
@@ -123,9 +123,11 @@ const ru_RU = {
     'Наши эксперты рады помочь Вам каждый день с 9 до 21 часов.',
   'recommendation.petsImg': 'logovet@2x.jpg',
   'recommendation.plusTitle': 'Ветеринарные диеты ROYAL CANIN',
+  'recommendation.guidelinesTips':
+    'Рекомендации ROYAL CANIN по кормлению расположены на упаковке.',
   'recommendation.plusContent':
-    ' Мы в Royal Canin убеждены в том, что питание играет ключевую роль в поддержании здоровья и благополучия кошек и собак. Поэтому ветеринарные диеты ROYAL CANIN®, основанные на научном знании о питании, способствуют поддержанию здоровья при определенных заболеваниях. Следуйте рекомендациям ветеринарного врача',
-  'recommendation.plusBtn': 'Купить',
+    'Мы в Royal Canin убеждены в том, что питание играет ключевую роль в поддержании здоровья и благополучия кошек и собак. Поэтому ветеринарные диеты ROYAL CANIN®, основанные на научном знании  о питании, способствуют поддержанию здоровья при определенных заболеваниях. Следуйте рекомендациям ветеринарного врача',
+  'recommendation.plusBtn': 'Корзина',
   'recommendation.plusImg': 'vetcat.jpg',
   'recommendation.fiveContent':
     'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
@@ -144,9 +146,8 @@ const ru_RU = {
     'We‘re pet lovers and experts in cat and dog nutrition and we’re ready to to help you with any questions you might have.',
   'recommendation.thirdTitle': 'Our pet experts are here to help you',
   'recommendation.viewDetail': 'View Detail',
-  'recommendation.viewInCart': 'View In Cart',
-  'recommendation.viewInCart': 'View in cart',
-  'recommendation.welcomeBtn': 'Купить',
+  'recommendation.viewInCart': 'Купить',
+  'recommendation.welcomeBtn': 'Корзина',
   'recommendation.welcomeSubText':
     'Нажмите, чтобы начать покупки, или продолжите чтение, чтобы узнать больше о преимуществах ветеринарных диет',
   'recommendation.welcomeText2': ' ',
@@ -216,6 +217,7 @@ const ru_RU = {
   changepic: 'Change picture',
   checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
   checkout: 'Оформление заказа',
+  'payment.checkout': 'Оформление заказа',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
   choosePrescriber:
@@ -519,7 +521,7 @@ const ru_RU = {
   //language-choose
   'lang.selectYourLocation': 'Выберите ваше местоположение',
   'lang.submit': 'Sunmak',
-  language: 'Russia/Россия',
+  language: 'Russia/русский',
   lastName: 'Фамилия *',
   learnMore: 'Узнать больше',
   'list.errMsg':

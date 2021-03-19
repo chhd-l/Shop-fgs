@@ -148,6 +148,7 @@ const tr_TR = {
   changepic: 'Change picture',
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   checkout: 'Ödeme',
+  'payment.checkout': 'Ödeme',
   checkoutTip: 'Lütfen detaylarınızı aşağıya giriniz.',
   choosePayment: 'Ödemeyi seçin',
   choosePrescriber: 'Lütfen doğru reçeteyi yazanı seçin',
