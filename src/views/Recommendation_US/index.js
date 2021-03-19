@@ -1427,7 +1427,7 @@ class Recommendation extends React.Component {
                 </h2>
               </div>
               <Test />
-              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle">
+              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle for-icon-size">
                 {howImageArr.map((item) => (
                   <div className="rc-grid">
                     <div>
