@@ -80,7 +80,6 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
-import { usPaymentInfo } from '@/api/payment';
 
 const cardTypeImg = {
   visa: visaImg,
