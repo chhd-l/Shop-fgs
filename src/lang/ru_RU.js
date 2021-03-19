@@ -519,7 +519,7 @@ const ru_RU = {
   //language-choose
   'lang.selectYourLocation': 'Выберите ваше местоположение',
   'lang.submit': 'Sunmak',
-  language: 'Russia/Россия',
+  language: 'Russia/русский',
   lastName: 'Фамилия *',
   learnMore: 'Узнать больше',
   'list.errMsg':

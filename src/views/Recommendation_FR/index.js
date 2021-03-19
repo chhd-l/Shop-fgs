@@ -143,12 +143,12 @@ class Help extends React.Component {
                           tempContent =
                             tempContent +
                             `<li>
-                            <div className="">${
+                            <div class="">${
                               Object.values(JSON.parse(ele))[0]['Description']
                             }</div>
                           </li>`;
                         });
-                        tempContent = `<ul className="">
+                        tempContent = `<ul class="">
                           ${tempContent}
                         </ul>`;
                         // this.setState({currentBenefit: tempContent})

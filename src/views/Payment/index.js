@@ -1754,8 +1754,8 @@ class Payment extends React.Component {
         billingAddress: data
       });
     }
-    // console.log('------------------ payment updateDeliveryAddrData data: ', data);
     try {
+      // console.log('------------------ payment updateDeliveryAddrData data: ', data);
       if (process.env.REACT_APP_LANG === 'en') {
         // 获取税额
         if (this.isLogin) {
@@ -2631,8 +2631,19 @@ class Payment extends React.Component {
     });
   };
   updateGuestEmail = ({ email: guestEmail }) => {
+    const { deliveryAddress } = this.state;
     this.setState({ guestEmail }, () => {
-      this.props.checkoutStore.updateUnloginCart({ guestEmail });
+      this.props.checkoutStore.updateUnloginCart({
+        guestEmail,
+        taxFeeData: {
+          country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+          region: deliveryAddress.provinceNo, // 省份简写
+          city: deliveryAddress.city,
+          street: deliveryAddress.address1,
+          postalCode: deliveryAddress.postCode,
+          customerAccount: guestEmail
+        }
+      });
     });
   };
   toggleMobileCart(name) {
