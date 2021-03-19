@@ -5,6 +5,7 @@ import { inject } from 'mobx-react';
 import { findUserConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
 import { toJS } from 'mobx';
+import { PDP_Regex } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -221,9 +222,17 @@ class RouteFilter extends Component {
       if (prevPath.includes('/prescription')) {
         sessionItemRoyal.remove('clinic-reselect');
       }
-      if (prevPath.includes('/product-finder/question/')) {
-        sessionItemRoyal.remove('product-finder-edit-order');
+      if (prevPath.includes('/product-finder-recommendation')) {
+        sessionItemRoyal.set('is-from-product-finder', '1');
       }
+    }
+
+    if (pathname === '/product-finder') {
+      sessionItemRoyal.remove('product-finder-edit-order');
+      sessionItemRoyal.remove('pf-result');
+    }
+    if (!PDP_Regex.test(pathname)) {
+      sessionItemRoyal.remove('is-from-product-finder');
     }
 
     sessionItemRoyal.set('prevPath', curPath);

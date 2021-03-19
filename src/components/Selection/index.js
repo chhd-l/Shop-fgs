@@ -85,7 +85,9 @@ export default class Selection extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
     e.stopPropagation();
     let keyword = e.target.value;
-    let resl = optionList.filter((item) => item.name.match(keyword));
+    let resl = optionList.filter((item) =>
+      item.name.match(new RegExp(keyword, 'i'))
+    );
     if (this.props.emptyFirstItem == 'State') {
       if (resl.length == 0) {
         this.setState({
