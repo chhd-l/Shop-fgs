@@ -675,7 +675,7 @@ class Header extends React.Component {
                         <Link
                           to="/subscription-landing"
                           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                          style={{ minWidth: '110px' }}
+                          style={{ minWidth: '110px', lineHeight: 'normal' }}
                         >
                           <FormattedMessage id="bannerTip.btnText" />
                         </Link>
