@@ -120,6 +120,11 @@ class CyberCardList extends React.Component {
     try {
       let res = await getPaymentMethod();
       let cardList = res.context;
+
+      if (cardList.length == 0) {
+        this.props.showCyberForm();
+      }
+
       //清空cardList中的每项cardCvv
       cardList.forEach((item) => {
         item.cardCvv = '';
@@ -289,7 +294,7 @@ class CyberCardList extends React.Component {
       this.hanldeUpdateSelectedCardInfo();
     });
   };
-  renderOneCard = ({ data, showLastFour = true }) => {
+  renderOneCard = ({ data, showLastFour = true, selectedSts }) => {
     let cvvId = data.id;
     return (
       <div className="row">
@@ -346,26 +351,30 @@ class CyberCardList extends React.Component {
               </div>
             </div>
           )}
-          <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break mt-2">
-            <div className={`col-12 color-999 mb-1`}>
-              <div className="row align-items-center">
-                <div className={`col-4`} style={{ fontSize: '14px' }}>
-                  <FormattedMessage id="CVV" />
-                </div>
-                <div className={`col-4 color-999 text-left creditCompleteInfo`}>
-                  <input
-                    onChange={this.currentCvvChange.bind(this, data)}
-                    type="password"
-                    autoComplete="new-password"
-                    maxLength="4"
-                    className="w-100"
-                    autoComplete="new-password"
-                    //value={data.cardCvv}
-                  />
+          {selectedSts ? (
+            <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break mt-2">
+              <div className={`col-12 color-999 mb-1`}>
+                <div className="row align-items-center">
+                  <div className={`col-4`} style={{ fontSize: '14px' }}>
+                    <FormattedMessage id="CVV" />
+                  </div>
+                  <div
+                    className={`col-4 color-999 text-left creditCompleteInfo`}
+                  >
+                    <input
+                      onChange={this.currentCvvChange.bind(this, data)}
+                      type="password"
+                      autoComplete="new-password"
+                      maxLength="4"
+                      className="w-100"
+                      autoComplete="new-password"
+                      //value={data.cardCvv}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
         <div className="col-sm-4" />
         <div className="col-12 col-sm-8">
@@ -419,7 +428,7 @@ class CyberCardList extends React.Component {
           el={el}
           savedToBackend={true}
         >
-          {this.renderOneCard({ data: el })}
+          {this.renderOneCard({ data: el, selectedSts: el.id === selectedId })}
           {this.renderCardDeleteBtnJSX({ el, idx })}
         </CardItemCover>
       );

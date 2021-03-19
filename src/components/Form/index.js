@@ -346,7 +346,10 @@ class Form extends React.Component {
     const { form } = this.state;
     return (
       <>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+        <span
+          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+          style={{ marginTop: '0' }}
+        >
           <CitySearchSelection
             placeholder={true}
             defaultValue={form.cityName}
@@ -396,18 +399,37 @@ class Form extends React.Component {
     const { form } = this.state;
     return (
       <>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed rc_first_noselect">
-          <Selection
-            selectedItemChange={(data) =>
-              this.handleSelectedItemChange(item.fieldKey, data)
-            }
-            optionList={this.computedList(item.fieldKey)}
-            selectedItemData={{
-              value: form[item.fieldKey]
-            }}
-            name={item.fieldKey}
-            key={form[item.fieldKey]}
-          />
+        <span
+          className="rc-select rc-full-width rc-input--full-width rc-select-processed rc_first_noselect"
+          style={{ marginTop: '0' }}
+        >
+          {item.fieldKey == 'state' ? (
+            <Selection
+              selectedItemChange={(data) =>
+                this.handleSelectedItemChange(item.fieldKey, data)
+              }
+              optionList={this.computedList(item.fieldKey)}
+              selectedItemData={{
+                value: form[item.fieldKey]
+              }}
+              choicesInput={true}
+              emptyFirstItem="State"
+              name={item.fieldKey}
+              key={form[item.fieldKey]}
+            />
+          ) : (
+            <Selection
+              selectedItemChange={(data) =>
+                this.handleSelectedItemChange(item.fieldKey, data)
+              }
+              optionList={this.computedList(item.fieldKey)}
+              selectedItemData={{
+                value: form[item.fieldKey]
+              }}
+              name={item.fieldKey}
+              key={form[item.fieldKey]}
+            />
+          )}
         </span>
       </>
     );

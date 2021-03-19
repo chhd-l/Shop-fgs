@@ -217,6 +217,7 @@ const ru_RU = {
   changepic: 'Change picture',
   checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
   checkout: 'Оформление заказа',
+  'payment.checkout': 'Оформление заказа',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
   choosePrescriber:
@@ -520,7 +521,7 @@ const ru_RU = {
   //language-choose
   'lang.selectYourLocation': 'Выберите ваше местоположение',
   'lang.submit': 'Sunmak',
-  language: 'Russia/Россия',
+  language: 'Russia/русский',
   lastName: 'Фамилия *',
   learnMore: 'Узнать больше',
   'list.errMsg':

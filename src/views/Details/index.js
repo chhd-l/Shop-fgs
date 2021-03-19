@@ -1485,7 +1485,7 @@ class Details extends React.Component {
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
     }
-        className="rc-gamma ui-text-overflow-line2 text-break"
+        class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${
@@ -1808,25 +1808,27 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="productFinderBox">
-                              {true ? (
-                                <p>
+                            {true ? (
+                              <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
+                                <div>
                                   The recommended daily ration for your pet is{' '}
                                   <span className="strong">57g/day</span>
-                                  <a className="rc-styled-link backProductFinder">
-                                    Go back to recommendation
-                                  </a>
-                                </p>
-                              ) : (
-                                <p>
+                                </div>
+                                <a className="rc-styled-link backProductFinder mt-0">
+                                  Go back to recommendation
+                                </a>
+                              </div>
+                            ) : (
+                              <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
+                                <div>
                                   Find the right product and calculate your pet
                                   ration using our{' '}
-                                  <a className="rc-styled-link">
-                                    Product finder
-                                  </a>
-                                </p>
-                              )}
-                            </div>
+                                </div>
+                                <a className="rc-styled-link mt-0">
+                                  Product finder
+                                </a>
+                              </div>
+                            )}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
@@ -2010,6 +2012,7 @@ class Details extends React.Component {
                                 </div>
                               </div>
                               {currentSubscriptionStatus &&
+                              currentSubscriptionPrice &&
                               (!details.promotions ||
                                 !details.promotions.includes('club')) ? (
                                 <div
@@ -2157,7 +2160,9 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {details?.promotions &&
+                              {currentSubscriptionStatus &&
+                              currentSubscriptionPrice &&
+                              details?.promotions &&
                               details.promotions.includes('club') ? (
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3"
