@@ -105,10 +105,6 @@ class LoginCart extends React.Component {
     this.subQuantity = this.subQuantity.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
   }
-  getGoodsIdArr = () => {
-    let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
-    this.setState({ goodsIdArr });
-  };
   async componentDidMount() {
     this.getGoodsIdArr();
     const {
@@ -116,11 +112,6 @@ class LoginCart extends React.Component {
         location: { search }
       }
     } = this.props;
-    // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
-    const tokenFromUrl = getParaByName(search, 'token');
-    if (tokenFromUrl) {
-      localItemRoyal.set('rc-token', tokenFromUrl);
-    }
 
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -158,6 +149,7 @@ class LoginCart extends React.Component {
     this.setData();
     if (localItemRoyal.get('rc-iframe-from-storepotal')) {
       this.handleCheckout();
+      localItemRoyal.remove('rc-iframe-from-storepotal');
     }
   }
   get loginCartData() {
@@ -220,6 +212,10 @@ class LoginCart extends React.Component {
       };
     });
   }
+  getGoodsIdArr = () => {
+    let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
+    this.setState({ goodsIdArr });
+  };
   handleSelectedItemChange(pitem, data) {
     pitem.form.frequencyVal = data.value;
     pitem.form.frequencyName = data.name;
@@ -372,8 +368,11 @@ class LoginCart extends React.Component {
         goodsInfos: checkoutStore.loginCartData
       });
       let handledData = checkoutStore.loginCartData.map((el, i) => {
-        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+        const tmpGoodsInfo = res.context.goodsInfos[i];
+        if (tmpGoodsInfo) {
+          el.auditCatFlag = tmpGoodsInfo['auditCatFlag'];
+          el.prescriberFlag = tmpGoodsInfo['prescriberFlag'];
+        }
         return el;
       });
       checkoutStore.setLoginCartData(handledData);
