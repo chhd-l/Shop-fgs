@@ -105,10 +105,6 @@ class LoginCart extends React.Component {
     this.subQuantity = this.subQuantity.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
   }
-  getGoodsIdArr = () => {
-    let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
-    this.setState({ goodsIdArr });
-  };
   async componentDidMount() {
     this.getGoodsIdArr();
     const {
@@ -116,11 +112,6 @@ class LoginCart extends React.Component {
         location: { search }
       }
     } = this.props;
-    // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
-    const tokenFromUrl = getParaByName(search, 'token');
-    if (tokenFromUrl) {
-      localItemRoyal.set('rc-token', tokenFromUrl);
-    }
 
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -158,6 +149,7 @@ class LoginCart extends React.Component {
     this.setData();
     if (localItemRoyal.get('rc-iframe-from-storepotal')) {
       this.handleCheckout();
+      localItemRoyal.remove('rc-iframe-from-storepotal');
     }
   }
   get loginCartData() {
@@ -204,6 +196,13 @@ class LoginCart extends React.Component {
   get firstOrderOnThePlatformDiscountPrice() {
     return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
+  get promotionVOList() {
+    console.log(
+      this.props.checkoutStore.promotionVOList,
+      'this.props.checkoutStore'
+    );
+    return this.props.checkoutStore.promotionVOList;
+  }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
@@ -213,6 +212,10 @@ class LoginCart extends React.Component {
       };
     });
   }
+  getGoodsIdArr = () => {
+    let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
+    this.setState({ goodsIdArr });
+  };
   handleSelectedItemChange(pitem, data) {
     pitem.form.frequencyVal = data.value;
     pitem.form.frequencyName = data.name;
@@ -365,8 +368,11 @@ class LoginCart extends React.Component {
         goodsInfos: checkoutStore.loginCartData
       });
       let handledData = checkoutStore.loginCartData.map((el, i) => {
-        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+        const tmpGoodsInfo = res.context.goodsInfos[i];
+        if (tmpGoodsInfo) {
+          el.auditCatFlag = tmpGoodsInfo['auditCatFlag'];
+          el.prescriberFlag = tmpGoodsInfo['prescriberFlag'];
+        }
         return el;
       });
       checkoutStore.setLoginCartData(handledData);
@@ -757,7 +763,8 @@ class LoginCart extends React.Component {
               </div>
               <div class="rc-column">
                 {pitem.subscriptionStatus &&
-                (!pitem.promotions || !pitem.promotions.includes('club')) ? (
+                (!pitem.goods.promotions ||
+                  !pitem.goods.promotions.includes('club')) ? (
                   <SubscriptionSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -780,7 +787,8 @@ class LoginCart extends React.Component {
                     setState={this.setState.bind(this)}
                   />
                 ) : null}
-                {pitem.promotions && pitem.promotions.includes('club') ? (
+                {pitem.goods.promotions &&
+                pitem.goods.promotions.includes('club') ? (
                   <ClubSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -806,7 +814,7 @@ class LoginCart extends React.Component {
               </div>
             </div>
           </div>
-          {pitem.promotions && pitem.promotions.includes('club') ? (
+          {pitem.goods.promotions && pitem.goods.promotions.includes('club') ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-24px' }}
@@ -1071,24 +1079,27 @@ class LoginCart extends React.Component {
         )}
 
         {/* 显示 promotionCode */}
-        {!isShowValidCode && this.promotionDiscountPrice > 0 && (
-          <div className={`row leading-lines shipping-item green d-flex`}>
-            <div className="col-6">
-              <p>
-                {/* {this.promotionDesc || (
-                      <FormattedMessage id="NoPromotionDesc" />
-                    )} */}
-                <FormattedMessage id="promotion" />
-              </p>
+        {!isShowValidCode &&
+          this.promotionDiscountPrice > 0 &&
+          this.promotionVOList.map((el) => (
+            <div className={`row leading-lines shipping-item green d-flex`}>
+              <div className="col-6">
+                <p>
+                  {/* {this.promotionDesc || (
+                        <FormattedMessage id="NoPromotionDesc" />
+                      )} */}
+                  {/* <FormattedMessage id="promotion" /> */}
+                  {el.marketingName}
+                </p>
+              </div>
+              <div className="col-6">
+                <p className="text-right shipping-cost">
+                  {/* - {formatMoney(this.discountPrice)} */}
+                  <b>-{formatMoney(el.discountPrice)}</b>
+                </p>
+              </div>
             </div>
-            <div className="col-6">
-              <p className="text-right shipping-cost">
-                {/* - {formatMoney(this.discountPrice)} */}
-                <b>-{formatMoney(this.promotionDiscountPrice)}</b>
-              </p>
-            </div>
-          </div>
-        )}
+          ))}
 
         {/* <div
           className={`row red ${
@@ -1342,7 +1353,10 @@ class LoginCart extends React.Component {
     await checkoutStore.removePromotionCode();
     // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
+      result = await checkoutStore.updateLoginCart({
+        promotionCode: '',
+        subscriptionFlag: buyWay === 'frequency'
+      });
     } else {
       result = await checkoutStore.updateUnloginCart();
     }
@@ -1351,6 +1365,7 @@ class LoginCart extends React.Component {
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
+    console.log(promotionInputValue, loginStore.isLogin, 'promotionCode');
     if (!promotionInputValue) return;
     let result = {};
     let lastPromotionInputValue = promotionInputValue;
@@ -1361,10 +1376,10 @@ class LoginCart extends React.Component {
       discount: []
     });
     if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart(
-        lastPromotionInputValue,
-        buyWay === 'frequency'
-      );
+      result = await checkoutStore.updateLoginCart({
+        promotionCode: lastPromotionInputValue,
+        subscriptionFlag: buyWay === 'frequency'
+      });
     } else {
       result = await checkoutStore.updateUnloginCart(
         '',
