@@ -2011,6 +2011,7 @@ class Details extends React.Component {
                                 </div>
                               </div>
                               {currentSubscriptionStatus &&
+                              currentSubscriptionPrice &&
                               (!details.promotions ||
                                 !details.promotions.includes('club')) ? (
                                 <div
@@ -2158,7 +2159,9 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {details?.promotions &&
+                              {currentSubscriptionStatus &&
+                              currentSubscriptionPrice &&
+                              details?.promotions &&
                               details.promotions.includes('club') ? (
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"

@@ -823,9 +823,9 @@ class LoginCart extends React.Component {
               <div className="name-info flex-column-gift d-flex">
                 <img className="img" src={foodDispenserPic} />
               </div>
-              <div className="text-center" style={{ width: '200px' }}>
+              <div className="logo-info text-center">
                 <img
-                  style={{ display: 'inline-block', width: '108px' }}
+                  style={{ display: 'inline-block' }}
                   src={Club_Logo}
                   alt=""
                 />
