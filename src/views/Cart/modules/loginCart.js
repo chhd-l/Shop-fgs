@@ -1358,7 +1358,10 @@ class LoginCart extends React.Component {
     await checkoutStore.removePromotionCode();
     // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
+      result = await checkoutStore.updateLoginCart({
+        promotionCode: '',
+        subscriptionFlag: buyWay === 'frequency'
+      });
     } else {
       result = await checkoutStore.updateUnloginCart();
     }
@@ -1367,6 +1370,7 @@ class LoginCart extends React.Component {
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
+    console.log(promotionInputValue, loginStore.isLogin, 'promotionCode');
     if (!promotionInputValue) return;
     let result = {};
     let lastPromotionInputValue = promotionInputValue;
@@ -1377,10 +1381,10 @@ class LoginCart extends React.Component {
       discount: []
     });
     if (loginStore.isLogin) {
-      result = await checkoutStore.updateLoginCart(
-        lastPromotionInputValue,
-        buyWay === 'frequency'
-      );
+      result = await checkoutStore.updateLoginCart({
+        promotionCode: lastPromotionInputValue,
+        subscriptionFlag: buyWay === 'frequency'
+      });
     } else {
       result = await checkoutStore.updateUnloginCart(
         '',
