@@ -501,7 +501,7 @@ class ImageMagnifier extends Component {
           </i>
           <div className="imageOutBox">
             <div
-              className="justify-content-center imageInnerBox"
+              className="justify-content-center imageInnerBox text-center text-md-left"
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
