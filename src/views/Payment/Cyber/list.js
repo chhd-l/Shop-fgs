@@ -341,7 +341,7 @@ class CyberCardList extends React.Component {
                 </span>
                 <br />
                 <span className="creditCompleteInfo fontFitSCreen">
-                  {data.cardType}
+                  {CardTypeDesc[data.cardType]}
                 </span>
               </div>
             </div>
