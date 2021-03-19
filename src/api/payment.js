@@ -12,8 +12,10 @@ const api = {
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
   customerCommitAndPay: '/trade-custom/checkout',
+  customerCommitAndPayUs: '/us/trade-custom/checkout',
   rePay: '/trade-custom/repay',
   customerCommitAndPayMix: '/trade-custom/mix/checkout',
+  customerCommitAndPayMixUs: 'us/trade-custom/mix/checkout',
   getMarketingDiscount: '/marketing/discount',
   // getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays: `/${process.env.REACT_APP_STOREID}/pay/getPayPspList`,
@@ -99,7 +101,10 @@ export function deleteCard(para) {
 
 export function customerCommitAndPay(parameter) {
   return axios({
-    url: api.customerCommitAndPay,
+    url:
+      process.env.REACT_APP_GA_COUNTRY == 'US'
+        ? api.customerCommitAndPayUs
+        : api.customerCommitAndPay,
     method: 'post',
     data: parameter
   });
@@ -107,7 +112,10 @@ export function customerCommitAndPay(parameter) {
 
 export function customerCommitAndPayMix(parameter) {
   return axios({
-    url: api.customerCommitAndPayMix,
+    url:
+      process.env.REACT_APP_GA_COUNTRY == 'US'
+        ? api.customerCommitAndPayMixUs
+        : api.customerCommitAndPayMix,
     method: 'post',
     data: parameter
   });

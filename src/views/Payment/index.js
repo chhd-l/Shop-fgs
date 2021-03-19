@@ -1945,7 +1945,7 @@ class Payment extends React.Component {
       cyberPaymentParam.address1 = address1;
       cyberPaymentParam.address2 = address2;
       cyberPaymentParam.country = 'US';
-      cyberPaymentParam.state = province;
+      cyberPaymentParam.state = province; // province
       cyberPaymentParam.city = city;
       cyberPaymentParam.zipCode = postCode;
       cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
@@ -2425,8 +2425,11 @@ class Payment extends React.Component {
   };
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
-    // console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
-    // console.log('------------- ★★ 222 Payment renderAddrPreview billingAddress: ', this.state.billingAddress);
+    //console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
+    console.log(
+      '------------- ★★ 222 Payment renderAddrPreview billingAddress: ',
+      this.state.billingAddress
+    );
     // this.setState({
     //   billingAddress: form
     // });
