@@ -174,6 +174,7 @@ const es_ES = {
   checkboxIsRequiredForSubscription:
     'esta casilla de verificación es necesaria para la suscripción',
   checkout: 'Comprar',
+  'payment.checkout': 'Comprar',
   checkoutTip: 'Introduzca sus datos a continuación.',
   choosePayment: 'Elija el pago',
   choosePrescriber: 'Por favor, elija el prescriptor correcto',

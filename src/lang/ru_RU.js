@@ -216,6 +216,7 @@ const ru_RU = {
   changepic: 'Change picture',
   checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
   checkout: 'Оформление заказа',
+  'payment.checkout': 'Оформление заказа',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
   choosePrescriber:
