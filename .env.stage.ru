@@ -103,3 +103,5 @@ REACT_APP_DOMAIN = '/ru/shop'
 
 #delete接口前缀
 REACT_APP_HUB_APIURL = https://uatwedding.royalcanin.com/ru/api
+
+REACT_APP_HUB_MONROYALCANIN = https://mon.royalcanin.fr/connexion/?_ga=2.267431690.500684309.1611668454-1487729967.1600939226
