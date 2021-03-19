@@ -708,7 +708,6 @@ class Recommendation extends React.Component {
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let { productList, activeIndex, currentModalObj, isMobile } = this.state;
-    console.log(productList, 'sdsajdkldsa');
     let MaxLinePrice,
       MinLinePrice,
       MaxMarketPrice,
@@ -741,13 +740,20 @@ class Recommendation extends React.Component {
         productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       );
     }
+    console.log(
+      'MaxLinePriceMaxLinePriceMaxLinePrice',
+      MaxLinePrice,
+      MinLinePrice,
+      MaxMarketPrice,
+      MinMarketPrice,
+      MaxSubPrice,
+      MinSubPrice
+    );
     let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
     let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
     let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
     let tabDes =
-      productList[activeIndex]?.goodsInfo.goods.goodsDescription ||
-      productList[activeIndex]?.tabDescription ||
-      '';
+      productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = this.get100Words(tabDes);
     return (
       <div className="Recommendation_FR Recommendation_US">
@@ -809,7 +815,7 @@ class Recommendation extends React.Component {
             >
               <div className="rc-max-width--md text-center rc-margin-y--md">
                 <div className="rc-alpha inherit-fontsize">
-                  <h1>
+                  <h1 style={{ marginBottom: '0.67em' }}>
                     <FormattedMessage id="recommendation.welcomeText1" />
                   </h1>
                 </div>
@@ -971,16 +977,22 @@ class Recommendation extends React.Component {
                                 </div>
                               </div>
                             )}
-                            {MaxSubPrice > 0 && (
+                            {MaxMarketPrice > 0 && (
                               <div className="product-pricing__card__head d-flex align-items-center">
                                 {/* <div className="rc-input product-pricing__card__head__title">
                                 <FormattedMessage id="autoship" />
                               </div> */}
                                 <div className="rc-large-body  m-auto">
-                                  <FormattedMessage id="from" />{' '}
-                                  {formatMoney(MinSubPrice)}{' '}
-                                  <FormattedMessage id="to" />{' '}
-                                  {formatMoney(MaxMarketPrice)}
+                                  {MaxMarketPrice === MinMarketPrice ? (
+                                    <span>{formatMoney(MaxMarketPrice)}</span>
+                                  ) : (
+                                    <span>
+                                      <FormattedMessage id="from" />{' '}
+                                      {formatMoney(MinMarketPrice)}{' '}
+                                      <FormattedMessage id="to" />{' '}
+                                      {formatMoney(MaxMarketPrice)}
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                             )}
