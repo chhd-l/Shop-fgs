@@ -450,6 +450,7 @@ const en_US = {
   goods: 'Goods',
   goToCart: 'Go to shopping cart',
   guestCheckout: 'Continue as a Guest',
+  'header.bannerTip': '30% off first purchase + 5% off autoship',
   'header.basketEmpty': 'Your cart is empty',
   'header.carouselInfo1': 'Tailored Nutrition For Your Pet',
   'header.carouselInfo2':

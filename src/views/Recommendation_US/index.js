@@ -750,7 +750,7 @@ class Recommendation extends React.Component {
       '';
     let tabDesText = this.get100Words(tabDes);
     return (
-      <div className="Recommendation_FR">
+      <div className="Recommendation_FR Recommendation_US">
         {/* <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -767,6 +767,7 @@ class Recommendation extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
+          showBannerTip={true}
         />
         <Modal
           key="1"
@@ -1383,7 +1384,7 @@ class Recommendation extends React.Component {
                   <h2 className="rc-beta markup-text">
                     <FormattedMessage id="recommendation.plusTitle" />
                   </h2>
-                  <p>
+                  <p style={{ color: 'rgb(23, 43, 77)' }}>
                     <FormattedMessage id="recommendation.plusContent" />
                   </p>
                   <button
@@ -1409,7 +1410,7 @@ class Recommendation extends React.Component {
           {isUs && (
             <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
               <div className="rc-margin-bottom--md">
-                <h2 classNam="rc-beta" style={{ color: '#e2001a' }}>
+                <h2 className="rc-beta" style={{ color: '#e2001a' }}>
                   How to Join Royal Canin Club
                 </h2>
               </div>
@@ -1451,7 +1452,7 @@ class Recommendation extends React.Component {
               <LineModule />
               <section
                 style={{ textAlign: 'center' }}
-                className="rc-max-width--md text-center rc-margin-y--md"
+                className="rc-max-width--md text-center rc-margin-top--md"
               >
                 <h2 style={{ color: '#E2001A' }}>
                   <FormattedMessage id="recommendation.fourTitle" />
