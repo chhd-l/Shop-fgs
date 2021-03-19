@@ -695,6 +695,7 @@ const en_US = {
   'payment.cardNumber2': 'CARD NUMBER',
   'payment.cardOwner': 'Cardowner',
   'payment.cardType': 'CARD TYPE',
+  'payment.checkout': 'Checkout',
   'payment.choosePayment': 'Choose a payment',
   'payment.city': 'City',
   'payment.clinicTitle': 'Selected clinic',
