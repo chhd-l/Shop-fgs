@@ -309,7 +309,9 @@ class Help extends React.Component {
         cartDataCopy.push(tmpData);
       }
       // console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart({cartData: cartDataCopy});
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: cartDataCopy
+      });
     }
     this.props.history.push(path);
   }
@@ -617,7 +619,7 @@ class Help extends React.Component {
                     <div className="rc-column d-flex rdt-left-box">
                       <div className="rc-column rc-double-width carousel-column imageBox">
                         <div className={`rc-full-width`}>
-                          <div className="d-flex justify-content-center ui-margin-top-1-md-down">
+                          <div className="d-flex ui-margin-top-1-md-down text-center text-md-left">
                             {
                               <div className="details-img-container">
                                 <ImageMagnifier

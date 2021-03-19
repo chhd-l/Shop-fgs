@@ -13,6 +13,15 @@
   /* .Recommendation_US .rc-beta{
     font-size: 1.875rem;
   } */
+  .Recommendation_US
+    .arrow-img-columns
+    .for-icon-size
+    .rc-grid:not(:last-child):after {
+    font-size: 72px;
+    height: 41.6px;
+    overflow: hidden;
+    line-height: 43px;
+  }
   .Recommendation_FR .rc-gamma {
     font-size: 1.625rem;
     line-height: 2.5rem;

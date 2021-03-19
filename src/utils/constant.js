@@ -240,3 +240,5 @@ export const PRESONAL_INFO_RULE = [
     )
   }
 ];
+
+export const PDP_Regex = /^(?!.*(\/).*\1).+[-].*[0-9]{1,}.*$/;
