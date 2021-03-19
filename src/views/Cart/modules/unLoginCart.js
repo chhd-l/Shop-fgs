@@ -559,7 +559,7 @@ class UnLoginCart extends React.Component {
   getQuantityBox = (pitem) => {
     return (
       <div
-        className="rc-md-up"
+        className="cart-quantity-container"
         // style={{
         //   display: `${isGift ? 'initial' : 'none'}`,
         //   position: 'relative',
@@ -1035,7 +1035,7 @@ class UnLoginCart extends React.Component {
               btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
               history={this.props.history}
             >
-              <FormattedMessage id="loginText" />
+              <FormattedMessage id="checkout" />
             </LoginButton>
           ) : (
             <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">

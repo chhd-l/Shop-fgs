@@ -1168,14 +1168,14 @@ class LoginCart extends React.Component {
         )}
 
         <div className="group-total">
-          <div className="row">
+          <div className="row d-flex align-items-center">
             <div className="col-7 medium">
               <strong>
                 <FormattedMessage id="totalIncluIVA" />
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium">
+              <p className="text-right grand-total-sum medium mb-0">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <b>{subtractionSign}</b>
                 ) : (

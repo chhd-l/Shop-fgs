@@ -571,7 +571,6 @@ const fr_FR = {
   'login.thirdCheck': "J'accepte de recevoir la newsletter marketing",
   'loginCart.totalProduct': 'Nombre:{}',
   loginFailed: 'Échec de la connexion',
-  loginText: 'Se connecter',
   logisticsRating: 'Évaluation logistique',
   logOff: 'Se déconnecter',
   mailAddress: 'Adresse mail',

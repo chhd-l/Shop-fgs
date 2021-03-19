@@ -543,7 +543,6 @@ const ru_RU = {
   'login.secondCheck': 'Подтверждаю, что мне больше 18 лет',
   'login.thirdCheck': 'Я согласен получать маркетинговую рассылку',
   loginFailed: 'Вход в систему не удался',
-  loginText: 'Оформить заказ',
   logisticsRating: 'Рейтинг логистики',
   logOff: 'Выйти',
   // mailAddress: 'Почта Адрес',
