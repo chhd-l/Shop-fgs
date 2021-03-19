@@ -403,7 +403,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
 }
 function ListItemBody({ item, headingTag }) {
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
-      className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
+      class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
       ${item.goodsName}
   </${headingTag ? headingTag : 'h2'}>`;
