@@ -881,6 +881,8 @@ const en_US = {
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
+  'recommendation.guidelinesTips':
+    "Royal Canin's feeding guidelines can also be found on the product packaging.",
   'recommendation.buyNow': 'Buy now',
   'recommendation.firstBtnText': 'Sign up',
   'recommendation.firstContent':
@@ -931,7 +933,6 @@ const en_US = {
   'recommendation.thirdTitle': 'Our pet experts are here to help you',
   'recommendation.viewDetail': 'View Detail',
   'recommendation.viewInCart': 'View In Cart',
-  'recommendation.viewInCart': 'View in cart',
   'recommendation.welcomeBtn': 'Buy now',
   'recommendation.welcomeSubText':
     'These recommendations were made based on your pet’s unique needs and have been automatically added to your cart. ',
