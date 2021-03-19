@@ -77,6 +77,7 @@ class AccountProfile extends React.Component {
       },
       originData: null, // 提交接口时，保留未修改参数用
       loading: true,
+      personalDataIsEdit: false,
       editOperationPaneName: ''
     };
   }
@@ -179,6 +180,12 @@ class AccountProfile extends React.Component {
       this.setState({ loading: false });
     }
   };
+  updateIsEditFlag = (data) => {
+    console.log(data);
+    this.setState({
+      personalDataIsEdit: data
+    });
+  };
   updateEditOperationPanelName = (name) => {
     this.setState({ editOperationPaneName: name });
   };
@@ -254,6 +261,8 @@ class AccountProfile extends React.Component {
                         data={personalData}
                         key={Object.keys(personalData || {})}
                         updateData={this.queryCustomerBaseInfo}
+                        updateIsEditFlag={(data) => this.updateIsEditFlag(data)}
+                        personalDataIsEdit={this.state.personalDataIsEdit}
                         updateEditOperationPanelName={
                           this.updateEditOperationPanelName
                         }

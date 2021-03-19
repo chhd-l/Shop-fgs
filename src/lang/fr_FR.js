@@ -190,6 +190,7 @@ const fr_FR = {
   checkboxIsRequiredForSubscription:
     "cette case est obligatoire pour l'abonnement",
   checkout: 'Commander',
+  'payment.checkout': 'Commander',
   'checkout.faq.contactCustomer': 'Comment puis-je joindre le service client',
   'checkout.faq.freeDelivery': 'Proposez-vous la livraison gratuite',
   'checkout.faq.FreeReturn': 'Proposez-vous des retours gratuits',
@@ -1018,6 +1019,7 @@ const fr_FR = {
   saveFailed: "L'enregistrement a échoué!",
   saveSuccess: 'Sauver le succès',
   saveSuccessfullly: 'Sauvegarde réussie',
+  saveSuccessfullly2: 'Vos informations ont été correctement enregistrées',
   search: 'chercher',
   searchBreed: 'Rechercher une race',
   searchForAProductOrArtical: 'Rechercher un produit ou un article',

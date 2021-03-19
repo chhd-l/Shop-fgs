@@ -183,6 +183,7 @@ const de_DE = {
   checkboxIsRequiredForSubscription:
     'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
   checkout: 'Anmelden',
+  'payment.checkout': 'Anmelden',
   checkoutTip:
     'Geben Sie Ihre Lieferadresse ein und wählen Sie Ihre gewünschte Zahlungsmethode aus.{val1}Bitte beachten Sie, dass eine Lieferung ausschließlich innerhalb Deutschlands angeboten wird.',
   'Choose your pet type': 'Bitte wählen Sie:',
@@ -949,6 +950,7 @@ const de_DE = {
   saveFailed: 'Speichern fehlgeschlagen!',
   saveSuccess: 'Erfolg speichern',
   saveSuccessfullly: 'Erfolgreich speichern',
+  saveSuccessfullly2: 'Ihre Daten wurden korrekt gespeichert',
   search: 'Suche',
   searchBreed: 'Rasse suchen',
   searchNoBreed: 'kein Rassetier',
