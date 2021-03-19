@@ -1,10 +1,12 @@
 #stage环境(德国)
 REACT_APP_ACCESS_PATH = https://shopstg.royalcanin.com/ru/
-REACT_APP_CLIENT_ID = 0oaq4l7mz80pZlTd00x6
+REACT_APP_CLIENT_ID = 0oagwbhnq0MA32zj30x6
 REACT_APP_ISSUER = https://accountpreview.royalcanin.com/oauth2/default
 REACT_APP_RedirectURL = https://shopstg.royalcanin.com/ru/implicit/callback
 REACT_APP_RegisterPrefix = https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=
 REACT_APP_RegisterCallback = https://shopstg.royalcanin.com/ru?origin=register
+REACT_APP_FaceBook_IDP = 0oarsmtlhd1q9NyPb0x6
+REACT_APP_Google_IDP = 0oarsoyvckBINudT70x6
 
 #接口配置
 REACT_APP_BASEURL = https://shopstg.royalcanin.com/api
@@ -101,3 +103,5 @@ REACT_APP_DOMAIN = '/ru/shop'
 
 #delete接口前缀
 REACT_APP_HUB_APIURL = https://uatwedding.royalcanin.com/ru/api
+
+REACT_APP_HUB_MONROYALCANIN = https://mon.royalcanin.fr/connexion/?_ga=2.267431690.500684309.1611668454-1487729967.1600939226

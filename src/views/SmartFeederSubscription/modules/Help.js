@@ -234,7 +234,8 @@ class Help extends React.Component {
                                   {isRecommendationPage ? (
                                     <span
                                       style={{
-                                        verticalAlign: 'inherit'
+                                        verticalAlign: 'inherit',
+                                        color: '#0087BD'
                                       }}
                                     >
                                       {emailTitle ? (
@@ -264,7 +265,7 @@ class Help extends React.Component {
                                   )}
                                 </b>
                                 <p>
-                                  <span style={{ color: 'rgb(0, 0, 0)' }}>
+                                  <span style={{ color: 'rgb(102, 102, 102)' }}>
                                     {emailDes ? (
                                       emailDes
                                     ) : (
@@ -282,10 +283,11 @@ class Help extends React.Component {
                                   {isRecommendationPage ? (
                                     <Link
                                       to={emailLink}
-                                      style={{
-                                        fontSize: '16px',
-                                        borderBottom: '1px solid transparent'
-                                      }}
+                                      // style={{
+                                      //   fontSize: '16px',
+                                      //   borderBottom: '1px solid transparent'
+                                      // }}
+                                      className="rc-styled-link"
                                     >
                                       {email ? (
                                         email

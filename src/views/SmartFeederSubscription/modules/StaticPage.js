@@ -126,14 +126,14 @@ const staticPage = (props) => {
               <FormattedMessage id="smartFeederSubscription.tabDes3" />
             </p>
             <button
-              class="button192 rc-btn rc-btn--two"
+              className="button192 rc-btn rc-btn--two"
               onClick={() => props.toScroll('learnMore')}
             >
               <FormattedMessage id="smartFeederSubscription.learnMore" />
             </button>
             <p></p>
             <button
-              class="button192 rc-btn rc-btn--one"
+              className="button192 rc-btn rc-btn--one"
               onClick={() => props.toScroll('step1')}
             >
               <FormattedMessage id="smartFeederSubscription.chooseYourProduct" />

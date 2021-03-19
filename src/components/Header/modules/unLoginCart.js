@@ -255,10 +255,16 @@ class UnloginCart extends React.Component {
                 </div>
                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                   <span className="rc-body rc-margin--none">
-                    <FormattedMessage id="total" />{' '}
-                    <span style={{ fontWeight: '500' }}>
-                      {formatMoney(this.tradePrice)}
-                    </span>
+                    <FormattedMessage
+                      id="miniBasket.total"
+                      values={{
+                        totalPrice: (
+                          <span style={{ fontWeight: '500' }}>
+                            {formatMoney(this.tradePrice)}
+                          </span>
+                        )
+                      }}
+                    />
                   </span>
 
                   <Link

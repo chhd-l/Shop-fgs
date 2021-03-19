@@ -44,7 +44,7 @@ class Consent extends Component {
         var textArray = text.split('</p>');
         if (textArray.length > 0) {
           textArray[0] =
-            textArray[0] + '<span class="rc-text-colour--brand1">*</span>';
+            textArray[0] + '<span className="rc-text-colour--brand1">*</span>';
           text = textArray.join('</p>');
         }
       }

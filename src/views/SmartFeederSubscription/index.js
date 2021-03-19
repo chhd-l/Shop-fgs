@@ -110,8 +110,8 @@ const Test = () => {
   return (
     <div className="margin12" style={{ display: 'none' }}>
       <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
-        <div class="rc-grid">
-          <article class="rc-card rc-card--a">test</article>
+        <div className="rc-grid">
+          <article className="rc-card rc-card--a">test</article>
         </div>
       </div>
     </div>
@@ -564,10 +564,10 @@ const Step3 = (props) => {
               </div>
             </div>
           </div>
-          {/* <button class="rc-btn rc-btn--one">
+          {/* <button className="rc-btn rc-btn--one">
               <FormattedMessage id="details.addToCart" />
           </button>
-            <button class="rc-btn rc-btn--two">
+            <button className="rc-btn rc-btn--two">
                   <FormattedMessage id="checkout" />
             </button>*/}
         </div>
@@ -955,15 +955,15 @@ class SmartFeederSubscription extends Component {
                             tempContent =
                               tempContent +
                               `<li>
-                            <div class="list_title">${
+                            <div className="list_title">${
                               Object.keys(JSON.parse(el))[0]
                             }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                            <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
                               Object.values(JSON.parse(el))[0]['Description']
                             }</div>
                           </li>`;
                           });
-                          tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          tempContent = `<ul className="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
                         </ul>`;
                         } else if (
@@ -975,7 +975,7 @@ class SmartFeederSubscription extends Component {
                               tempContent +
                               `<p>
                             
-                            <div class="content">${
+                            <div className="content">${
                               Object.values(JSON.parse(el))[0]
                             }</div> 
                           </p>`;
@@ -1111,15 +1111,15 @@ class SmartFeederSubscription extends Component {
                             tempContent =
                               tempContent +
                               `<li>
-                            <div class="list_title">${
+                            <div className="list_title">${
                               Object.keys(JSON.parse(el))[0]
                             }</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                            <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
                               Object.values(JSON.parse(el))[0]['Description']
                             }</div>
                           </li>`;
                           });
-                          tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          tempContent = `<ul className="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
                         </ul>`;
                         } else if (key === 'Composition') {
@@ -1129,7 +1129,7 @@ class SmartFeederSubscription extends Component {
                                 tempContent +
                                 `<p>
                               
-                              <div class="content">${
+                              <div className="content">${
                                 Object.values(JSON.parse(el))[0]
                               }</div> 
                             </p>`;
@@ -1147,10 +1147,10 @@ class SmartFeederSubscription extends Component {
                               tempContent =
                                 tempContent +
                                 `
-                              <div class="title">
+                              <div className="title">
                                 ${Object.keys(contentObj)[0]}
                               </div>
-                              <div class="content">${contentValue}</div> 
+                              <div className="content">${contentValue}</div> 
                             `;
                             });
                           }
@@ -1913,7 +1913,7 @@ class SmartFeederSubscription extends Component {
         )}
         <button
           ref="showModalButton"
-          class="rc-btn rc-btn--one"
+          className="rc-btn rc-btn--one"
           data-modal-trigger="modal-example"
           style={{ position: 'absolute', visibility: 'hidden' }}
         >

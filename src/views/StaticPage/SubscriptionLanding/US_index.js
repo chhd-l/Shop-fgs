@@ -105,14 +105,14 @@ class SubscriptionLanding extends React.Component {
                           <p>&nbsp;</p>
                           <p>&nbsp;</p>
                         </div>
-                        <div class="rc-btn-group d-block d-md-none rc-text--center">
+                        <div className="rc-btn-group d-block d-md-none rc-text--center">
                           <Link to="/cats">
-                            <button class="rc-btn rc-btn--one rc-margin-right--xs">
+                            <button className="rc-btn rc-btn--one rc-margin-right--xs">
                               Shop Cat Formulas
                             </button>
                           </Link>
                           <Link to="/dogs">
-                            <button class="rc-btn rc-btn--one">
+                            <button className="rc-btn rc-btn--one">
                               Shop Dog Formulas
                             </button>
                           </Link>

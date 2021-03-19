@@ -559,7 +559,7 @@ class UnLoginCart extends React.Component {
   getQuantityBox = (pitem) => {
     return (
       <div
-        className="rc-md-up"
+        className="cart-quantity-container"
         // style={{
         //   display: `${isGift ? 'initial' : 'none'}`,
         //   position: 'relative',
@@ -698,7 +698,7 @@ class UnLoginCart extends React.Component {
               >
                 <LazyLoad>
                   <img
-                    className="product-image"
+                    className="w-100"
                     src={
                       find(pitem.sizeList, (s) => s.selected).goodsInfoImg ||
                       pitem.goodsImg
@@ -816,8 +816,8 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             </div>
-            <div class="buyMethodBox rc-layout-container rc-two-column">
-              <div class="rc-column">
+            <div className="buyMethodBox rc-layout-container rc-two-column">
+              <div className="rc-column">
                 <OneOffSelection
                   isGift={isGift}
                   pitem={pitem}
@@ -831,7 +831,7 @@ class UnLoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              <div class="rc-column">
+              <div className="rc-column">
                 {pitem.sizeList.filter((el) => el.selected)[0]
                   .subscriptionStatus &&
                 (!pitem.promotions || !pitem.promotions.includes('club')) ? (
@@ -1035,7 +1035,7 @@ class UnLoginCart extends React.Component {
               btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
               history={this.props.history}
             >
-              <FormattedMessage id="loginText" />
+              <FormattedMessage id="checkout" />
             </LoginButton>
           ) : (
             <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
@@ -1288,8 +1288,8 @@ class UnLoginCart extends React.Component {
             </div>
           ) : null}
 
-          <div class="row rc-margin-bottom--xs">
-            <div class="col-12 greenColorText text-center">
+          <div className="row rc-margin-bottom--xs">
+            <div className="col-12 greenColorText text-center">
               <FormattedMessage
                 id="cart.firstOrderDiscountTip"
                 defaultMessage={' '}
@@ -1298,14 +1298,14 @@ class UnLoginCart extends React.Component {
           </div>
 
           <div className="group-total">
-            <div className="row">
+            <div className="row d-flex align-items-center">
               <div className="col-7 medium">
                 <strong>
                   <FormattedMessage id="totalIncluIVA" />
                 </strong>
               </div>
               <div className="col-5">
-                <p className="text-right grand-total-sum medium">
+                <p className="text-right grand-total-sum medium mb-0">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                     <b>{subtractionSign}</b>
                   ) : (
