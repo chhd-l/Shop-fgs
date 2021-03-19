@@ -202,9 +202,7 @@ class Recommendation extends React.Component {
       ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
-      phoneDes1: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes1'
-      ],
+      phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
       phoneDes2: this.props.intl.messages[
         'recommendation.helpContentText.phoneDes2'
       ]
@@ -815,7 +813,7 @@ class Recommendation extends React.Component {
                   </h1>
                 </div>
                 <div className="rc-beta inherit-fontsize">
-                  <p>
+                  <p style={{ marginBottom: '16px' }}>
                     <FormattedMessage id="recommendation.welcomeText2" />
                     {/* Merci pour votre visite en magasin, voici notre recommandation. */}
                   </p>
@@ -861,7 +859,8 @@ class Recommendation extends React.Component {
                       className="recommendProductInner"
                       style={{
                         background: '#fff',
-                        minHeight: '600px'
+                        minHeight: '600px',
+                        borderTop: 0
                       }}
                     >
                       <Skeleton
@@ -875,7 +874,12 @@ class Recommendation extends React.Component {
                 ) : (
                   productList.length > 0 && (
                     <div>
-                      <div className="recommendProductInner">
+                      <div
+                        className="recommendProductInner"
+                        style={{
+                          borderTop: 0
+                        }}
+                      >
                         <div className="imageTabBox">
                           {productList.map((el, i) => (
                             <span

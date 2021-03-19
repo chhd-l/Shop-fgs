@@ -2024,8 +2024,8 @@ class SubscriptionDetail extends React.Component {
                         className="rc-delta font-weight-normal mb-2"
                         style={{ color: '#666' }}
                       >
-                        {subDetail.externalSubscribeId ? (
-                          <span>{`${subDetail.externalSubscribeId}`}</span>
+                        {subDetail.subscribeId ? (
+                          <span>{`${subDetail.subscribeId}`}</span>
                         ) : null}
                         {this.statusText()}
                       </h4>

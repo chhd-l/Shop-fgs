@@ -48,9 +48,7 @@ class ShelterPrescription extends React.Component {
       ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
-      phoneDes1: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes1'
-      ],
+      phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
       phoneDes2: this.props.intl.messages[
         'recommendation.helpContentText.phoneDes2'
       ]
