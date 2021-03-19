@@ -120,6 +120,11 @@ class CyberCardList extends React.Component {
     try {
       let res = await getPaymentMethod();
       let cardList = res.context;
+
+      if (cardList.length == 0) {
+        this.props.showCyberForm();
+      }
+
       //清空cardList中的每项cardCvv
       cardList.forEach((item) => {
         item.cardCvv = '';
