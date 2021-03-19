@@ -883,6 +883,7 @@ const tr_TR = {
     'Pek çok evcil hayvanın, nasıl yemek yediklerine meydan okuyan benzersiz şekilli çeneleri ve davranışları vardır. Bu nedenle, tariflerimizi sadece beslenme düzeyinde uyarlamakla kalmıyor, aynı zamanda her bir evcil hayvanın fiziksel beslenme ihtiyaçlarını daha iyi karşılamak için her bir mama mamasının şeklini ve yapısını tasarlıyoruz. ',
   'tailorednutrition.uniqueTitle': 'Eşsiz İhtiyaçlar İçin Eşsiz Formüller',
   taxLogo: 'IVA dahil',
+  'miniBasket.total': 'Toplam {totalPrice}',
   total: 'Toplam',
   total2: 'Toplam',
   totalCost: 'Toplam tutar',

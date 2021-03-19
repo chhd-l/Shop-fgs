@@ -816,8 +816,8 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             </div>
-            <div class="buyMethodBox rc-layout-container rc-two-column">
-              <div class="rc-column pl-0 pr-0 pl-md-3 pr-md-3">
+            <div className="buyMethodBox rc-layout-container rc-two-column">
+              <div className="rc-column">
                 <OneOffSelection
                   isGift={isGift}
                   pitem={pitem}
@@ -831,7 +831,7 @@ class UnLoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              <div class="rc-column pl-0 pr-0 pl-md-3 pr-md-3">
+              <div className="rc-column">
                 {pitem.sizeList.filter((el) => el.selected)[0]
                   .subscriptionStatus &&
                 (!pitem.promotions || !pitem.promotions.includes('club')) ? (
@@ -1288,8 +1288,8 @@ class UnLoginCart extends React.Component {
             </div>
           ) : null}
 
-          <div class="row rc-margin-bottom--xs">
-            <div class="col-12 greenColorText text-center">
+          <div className="row rc-margin-bottom--xs">
+            <div className="col-12 greenColorText text-center">
               <FormattedMessage
                 id="cart.firstOrderDiscountTip"
                 defaultMessage={' '}

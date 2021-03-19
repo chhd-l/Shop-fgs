@@ -120,8 +120,8 @@ const Test = () => {
   return (
     <div className="margin12" style={{ display: 'none' }}>
       <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
-        <div class="rc-grid">
-          <article class="rc-card rc-card--a">test</article>
+        <div className="rc-grid">
+          <article className="rc-card rc-card--a">test</article>
         </div>
       </div>
     </div>
@@ -260,21 +260,21 @@ class Recommendation extends React.Component {
                       if (key === 'Bénéfices') {
                         let tempContentMobile = '';
                         tmpGoodsDetail[key].map((ele, idx) => {
-                          // <div class="">${Object.keys(JSON.parse(ele))[0]}</div>
+                          // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
                           tempContent =
                             tempContent +
                             `<li>
-                            <div class="">${
+                            <div className="">${
                               Object.values(JSON.parse(ele))[0]['Description']
                             }</div>
                           </li>`;
                           tempContentMobile =
                             tempContentMobile +
                             `
-                          <div class="rc-list__accordion-item">
+                          <div className="rc-list__accordion-item">
                           <dt>
                             <button
-                              class="rc-list__header"
+                              className="rc-list__header"
                               id="heading-${idx}"
                               data-toggle="content-${idx}"
                             >
@@ -284,7 +284,7 @@ class Recommendation extends React.Component {
                             </button>
                           </dt>
                           <dd
-                            class="rc-list__content"
+                            className="rc-list__content"
                             id="content-${idx}"
                             aria-labelledby="heading-${idx}"
                             style="text-align:left"
@@ -294,14 +294,14 @@ class Recommendation extends React.Component {
                         </div>
                           `;
                         });
-                        tempContent = `<ul class=" rc-md-up">
+                        tempContent = `<ul className=" rc-md-up">
                           ${tempContent}
                         </ul>`;
-                        tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
+                        tempContentMobile = `<div className="fr-faq rc-md-down" style="padding:0">
                         <dl
                           data-toggle-group=""
                           data-toggle-effect="rc-expand--vertical"
-                          class=""
+                          className=""
                         >
                         ${tempContentMobile}
                         </dl>
@@ -1490,14 +1490,14 @@ class Recommendation extends React.Component {
                     Place order
                   </button>
                 </p>
-                <div class="experience-component experience-assets-youtubeVideo">
-                  <div class="rc-max-width--md rc-padding-x--lg">
-                    <div class="rc-video-wrapper dog-video">
+                <div className="experience-component experience-assets-youtubeVideo">
+                  <div className="rc-max-width--md rc-padding-x--lg">
+                    <div className="rc-video-wrapper dog-video">
                       <iframe
                         allowfullscreen=""
                         frameborder="0"
                         id="video-dog"
-                        class="optanon-category-4 "
+                        className="optanon-category-4 "
                         src="https://www.youtube.com/embed/FYwO1fiYoa8"
                       ></iframe>
                     </div>

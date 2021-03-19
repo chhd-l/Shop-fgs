@@ -631,7 +631,7 @@ class PaymentEditForm extends React.Component {
     ValidationAddressData['country'] = paymentForm.countryId;
     ValidationAddressData['address1'] = paymentForm.address1;
     ValidationAddressData['postCode'] = paymentForm.zipCode;
-    ValidationAddressData['provinceName'] = paymentForm.state;
+    ValidationAddressData['province'] = paymentForm.state;
 
     this.setState({ ValidationAddressData });
 

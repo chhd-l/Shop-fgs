@@ -1184,6 +1184,7 @@ const de_DE = {
   title: 'Titel',
   to: 'Zu',
   total: 'Gesamt',
+  'miniBasket.total': 'Gesamt {totalPrice}',
   total2: 'Gesamt',
   totalCost: 'Gesamtkosten',
   totalIncluIVA: 'Gesamt',

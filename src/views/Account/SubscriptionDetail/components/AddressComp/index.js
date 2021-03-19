@@ -227,7 +227,7 @@ class AddressList extends React.Component {
       deliveryAddress.city = validationAddress.city;
       deliveryAddress.cityName = validationAddress.city;
       if (process.env.REACT_APP_LANG === 'en') {
-        deliveryAddress.provinceName = validationAddress.provinceCode;
+        deliveryAddress.province = validationAddress.provinceCode;
       }
     } else {
       this.setState({
@@ -314,8 +314,8 @@ class AddressList extends React.Component {
         isDefalt: tmp.isDefaltAddress === 1 ? true : false
       };
       if (process.env.REACT_APP_LANG === 'en') {
-        tmpDeliveryAddress.province = tmp.provinceName;
-        tmpDeliveryAddress.provinceId = tmp.province;
+        tmpDeliveryAddress.province = tmp.province;
+        tmpDeliveryAddress.provinceId = tmp.provinceId;
       }
       this.setState({
         deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
@@ -424,8 +424,8 @@ class AddressList extends React.Component {
       );
 
       if (process.env.REACT_APP_LANG === 'en') {
-        params.province = deliveryAddress.provinceName;
-        params.provinceId = deliveryAddress.province;
+        params.province = deliveryAddress.province;
+        params.provinceId = deliveryAddress.provinceId;
       }
 
       this.setState({ saveLoading: true });

@@ -403,7 +403,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
 }
 function ListItemBody({ item, headingTag }) {
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
-      class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
+      className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
       ${item.goodsName}
   </${headingTag ? headingTag : 'h2'}>`;
@@ -2019,11 +2019,11 @@ class List extends React.Component {
           >
             <div className="search-nav border-bottom-0">
               {keywords ? (
-                <div class="rc-padding-y--md--mobile rc-text--center">
-                  <div class="rc-intro">
+                <div className="rc-padding-y--md--mobile rc-text--center">
+                  <div className="rc-intro">
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
-                  <div class="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
+                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
                     <b>"{keywords}"</b>
                     {results > 0 && (
                       <>

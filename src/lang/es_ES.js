@@ -162,7 +162,7 @@ const es_ES = {
   'cart.miniCartTitle':
     '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
   'cart.totalProduct': '{val} artículo(s) en la canasta',
-  'cart.totalProduct_nounit': '{val} en la canasta',
+  'cart.totalProduct_nounit': '{num} producto(s) en total en la canasta',
   'cart.yourShoppingCart': 'Tu carrito de la compra',
   cats: 'GATOS',
   cats2: 'Gatos',
@@ -982,6 +982,7 @@ const es_ES = {
   total: 'Total',
   total2: 'Total',
   totalCost: 'Coste total',
+  'miniBasket.total': 'Total {totalPrice}',
   totalIncluIVA: 'Total (IVA incluido)',
   totalIncluMessage: '',
   trackDelivery: 'Seguimiento de la entrega',

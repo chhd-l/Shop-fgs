@@ -746,8 +746,8 @@ class LoginCart extends React.Component {
                 </div>
               </div>
             </div>
-            <div class="buyMethodBox rc-layout-container rc-two-column">
-              <div class="rc-column pl-0 pr-0 pl-md-3 pr-md-3">
+            <div className="buyMethodBox rc-layout-container rc-two-column">
+              <div className="rc-column">
                 <OneOffSelection
                   isGift={isGift}
                   pitem={pitem}
@@ -761,7 +761,7 @@ class LoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              <div class="rc-column pl-0 pr-0 pl-md-3 pr-md-3">
+              <div className="rc-column">
                 {pitem.subscriptionStatus &&
                 (!pitem.goods.promotions ||
                   !pitem.goods.promotions.includes('club')) ? (
