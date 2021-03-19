@@ -1485,7 +1485,7 @@ class Details extends React.Component {
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
     }
-        className="rc-gamma ui-text-overflow-line2 text-break"
+        class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${
