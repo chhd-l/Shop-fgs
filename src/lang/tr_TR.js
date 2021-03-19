@@ -471,7 +471,6 @@ const tr_TR = {
   'login.secondCheck': '18 yaşından büyük olduğumu onaylıyorum',
   'login.thirdCheck': 'Pazarlama bültenini almayı kabul ediyorum',
   loginFailed: 'giriş başarısız',
-  loginText: 'Ödeme',
   logisticsRating: 'Lojistik değerlendirme',
   logOff: 'Oturumu Kapat',
   mailAddress: 'Posta adresi',

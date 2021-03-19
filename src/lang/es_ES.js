@@ -483,7 +483,6 @@ const es_ES = {
   'login.secondCheck': 'i Confirmo que soy mayor de 18 años',
   'login.thirdCheck': ' Acepto recibir el boletín de marketing',
   loginFailed: 'error de inicio de sesion',
-  loginText: 'Comprar',
   logisticsCompany: 'Entreprise de logistique',
   logisticsRating: 'Calificación logística',
   logisticsSingleNumber: 'Numéro unique logistique',

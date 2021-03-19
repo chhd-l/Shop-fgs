@@ -450,6 +450,7 @@ const en_US = {
   goods: 'Goods',
   goToCart: 'Go to shopping cart',
   guestCheckout: 'Continue as a Guest',
+  'header.bannerTip': '30% off first purchase + 5% off autoship',
   'header.basketEmpty': 'Your cart is empty',
   'header.carouselInfo1': 'Tailored Nutrition For Your Pet',
   'header.carouselInfo2':
@@ -553,9 +554,6 @@ const en_US = {
   'login.secondCheck': ' I confirm that I am over 18 years old',
   'login.thirdCheck': ' I agree to receive the marketing newsletter',
   loginFailed: 'login failed',
-  // loginText: 'Login',
-  loginText: 'Buy now',
-  loginText: 'Checkout',
   logisticsCompany: 'Logistics company',
   logisticsRating: 'Logistics rating',
   logisticsSingleNumber: 'Logistics single number',
