@@ -455,11 +455,6 @@ class Home extends React.Component {
     };
   }
   async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     setSeoConfig({ pageName: 'Home Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });

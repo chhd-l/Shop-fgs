@@ -191,14 +191,6 @@ const LoginCallback = (props) => {
   return <div />;
 };
 
-window.addEventListener(
-  'popstate',
-  function (e) {
-    location.reload();
-  },
-  false
-);
-
 const App = () => (
   <Provider {...stores}>
     <IntlProvider locale={process.env.REACT_APP_LANG} messages={locales}>
