@@ -40,7 +40,7 @@ class PersonalDataEditForm extends React.Component {
         country: process.env.REACT_APP_DEFAULT_COUNTRYID,
         countryName: '',
         provinceNo: '',
-        provinceName: '',
+        provinceId: '',
         province: '',
         city: '',
         cityName: '',
@@ -204,7 +204,7 @@ class PersonalDataEditForm extends React.Component {
       form.city = validationAddress.city;
       form.cityName = validationAddress.city;
       if (process.env.REACT_APP_LANG === 'en') {
-        form.provinceName = validationAddress.provinceCode;
+        form.province = validationAddress.provinceCode;
       }
     } else {
       this.setState({
@@ -257,8 +257,8 @@ class PersonalDataEditForm extends React.Component {
         oktaToken: oktaToken
       };
       if (process.env.REACT_APP_LANG === 'en') {
-        mydata.province = form.provinceName;
-        mydata.provinceId = form.province;
+        mydata.province = form.province;
+        mydata.provinceId = form.provinceId;
       }
       let param = Object.assign({}, this.props.originData, mydata);
 
@@ -333,7 +333,7 @@ class PersonalDataEditForm extends React.Component {
   handleSelectedItemChange(key, data) {
     const { form } = this.state;
     if (key == 'province') {
-      form.provinceName = data.name;
+      form.province = data.name;
       form.provinceNo = data.stateNo; // 省份简写
     } else if (key == 'country') {
       form.countryName = data.name;
@@ -775,6 +775,8 @@ class PersonalDataEditForm extends React.Component {
                         selectedItemChange={(data) =>
                           this.handleSelectedItemChange('province', data)
                         }
+                        choicesInput={true}
+                        emptyFirstItem="State"
                         optionList={this.computedList('province')}
                         selectedItemData={{
                           value: form.province
@@ -791,29 +793,34 @@ class PersonalDataEditForm extends React.Component {
                 ) : null}
 
                 {/* country */}
-                <div className="form-group col-lg-6 required">
-                  <label className="form-control-label" htmlFor="country">
-                    <FormattedMessage id="payment.country" />
-                  </label>
-                  <span
-                    className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
-                    data-loc="countrySelect"
-                  >
-                    <Selection
-                      key={form.country}
-                      selectedItemChange={(data) =>
-                        this.handleSelectedItemChange('country', data)
-                      }
-                      optionList={this.computedList('country')}
-                      selectedItemData={{
-                        value: form.country
-                      }}
-                    />
-                  </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
+                {process.env.REACT_APP_LANG != 'en' ? (
+                  <div className="form-group col-lg-6 required">
+                    <label className="form-control-label" htmlFor="country">
+                      <FormattedMessage id="payment.country" />
+                    </label>
+                    <span
+                      className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                      data-loc="countrySelect"
+                    >
+                      <Selection
+                        key={form.country}
+                        selectedItemChange={(data) =>
+                          this.handleSelectedItemChange('country', data)
+                        }
+                        optionList={this.computedList('country')}
+                        selectedItemData={{
+                          value: form.country
+                        }}
+                      />
+                    </span>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage id="payment.errorInfo2" />
+                    </div>
                   </div>
-                </div>
+                ) : null}
 
                 {/* phoneNumber */}
                 <div

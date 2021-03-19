@@ -40,8 +40,8 @@ function PanleContainer(props) {
         {loading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={5} />
         ) : (
-            props.children
-          )}
+          props.children
+        )}
       </div>
     </div>
   );
@@ -120,7 +120,9 @@ class AccountProfile extends React.Component {
         firstName: context.firstName,
         lastName: context.lastName,
         email: context.email,
-        birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
+        birthdate: context.birthDay
+          ? context.birthDay.split('-').join('/')
+          : context.birthDay,
         country: context.countryId,
         city: context.cityId,
         cityName: context.city,
@@ -132,11 +134,11 @@ class AccountProfile extends React.Component {
         communicationEmail: context.communicationEmail,
         communicationPhone: context.communicationPhone
       };
-      
+
       if (process.env.REACT_APP_LANG === 'en') {
         mydata.provinceNo = context.provinceNo;
-        mydata.provinceName = context.province;
-        mydata.province = context.provinceId;
+        mydata.province = context.province;
+        mydata.provinceId = context.provinceId;
       }
 
       this.setState({
@@ -339,7 +341,6 @@ class AccountProfile extends React.Component {
                         <DeleteMyAccount />
                       </PanleContainer>
                     )}
-
                   </>
                 </div>
               </div>

@@ -139,16 +139,16 @@ class Help extends React.Component {
                       }
                       if (key === 'Bénéfices') {
                         tmpGoodsDetail[key].map((ele) => {
-                          // <div class="">${Object.keys(JSON.parse(ele))[0]}</div>
+                          // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
                           tempContent =
                             tempContent +
                             `<li>
-                            <div class="">${
+                            <div className="">${
                               Object.values(JSON.parse(ele))[0]['Description']
                             }</div>
                           </li>`;
                         });
-                        tempContent = `<ul class="">
+                        tempContent = `<ul className="">
                           ${tempContent}
                         </ul>`;
                         // this.setState({currentBenefit: tempContent})
@@ -1711,14 +1711,14 @@ class Help extends React.Component {
                 Commander
               </button>
             </p>
-            <div class="experience-component experience-assets-youtubeVideo">
-              <div class="rc-max-width--md rc-padding-x--lg">
-                <div class="rc-video-wrapper dog-video">
+            <div className="experience-component experience-assets-youtubeVideo">
+              <div className="rc-max-width--md rc-padding-x--lg">
+                <div className="rc-video-wrapper dog-video">
                   <iframe
                     allowfullscreen=""
                     frameborder="0"
                     id="video-dog"
-                    class="optanon-category-4 "
+                    className="optanon-category-4 "
                     src="https://www.youtube.com/embed/Vhl0Wvpt-KQ"
                   ></iframe>
                 </div>

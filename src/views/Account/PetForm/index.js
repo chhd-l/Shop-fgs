@@ -301,12 +301,12 @@ class PetForm extends React.Component {
         propId: propId,
         propName: selectedSpecialNeeds[i],
         relationId: '10086',
-        sort: 0
+        sort: 0,
+        propType: 'needsName'
       };
       customerPetsPropRelations.push(prop);
       propId += 1;
     }
-
     let pets = {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
@@ -318,11 +318,10 @@ class PetForm extends React.Component {
       petsSizeValueName: this.state.weight,
       petsType: this.state.isCat ? 'cat' : 'dog',
       sterilized: this.state.isSterilized ? '1' : '0',
-      storeId: process.env.REACT_APP_STOREID
+      storeId: process.env.REACT_APP_STOREID,
+      isPurebred: this.state.isPurebred ? '1' : '0'
     };
-    // if (this.state.isUnknown) {
-    //   pets.petsBreed = 'unknown Breed';
-    // }
+
     if (!this.state.isPurebred) {
       pets.petsBreed = 'mixed Breed';
     }

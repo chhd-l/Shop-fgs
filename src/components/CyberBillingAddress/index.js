@@ -185,6 +185,8 @@ class CyberBillingAddress extends React.Component {
                 this.props.handleSelectedItemChange('state', data);
               }
             }}
+            choicesInput={true}
+            emptyFirstItem="State"
             optionList={this.props.stateList}
             selectedItemData={{ value: form.state }}
             key={form.state}

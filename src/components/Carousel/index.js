@@ -34,23 +34,23 @@ class Carousel extends Component {
           <FormattedMessage id="recommandedForyou" />
         </div>
         <div
-          class="rc-carousel rc-carousel--cards rc-match-heights"
+          className="rc-carousel rc-carousel--cards rc-match-heights"
           data-js-carousel=""
           data-rc-cards="true"
           data-rows="6"
           data-rc-prev="prev"
           data-rc-next="next"
         >
-          <div class="rc-carousel__card-gal">
+          <div className="rc-carousel__card-gal">
             {relatedGoods.map((item, index) => {
               return (
                 <article
-                  class="rc-card rc-card--b"
+                  className="rc-card rc-card--b"
                   key={index}
                   style={{ border: '1px solid #E5E5E5', margin: '0 20px' }}
                 >
                   <picture
-                    class="rc-card__image"
+                    className="rc-card__image"
                     style={{
                       width: '150px',
                       height: '180px',
@@ -59,10 +59,10 @@ class Carousel extends Component {
                   >
                     <img src={item.goodsImg} alt="alt text" />
                   </picture>
-                  <div class="rc-card__body">
+                  <div className="rc-card__body">
                     <header>
-                      <p class="rc-card__meta">{item.goodsName}</p>
-                      <h1 class="rc-card__title">{item.minLinePrice}</h1>
+                      <p className="rc-card__meta">{item.goodsName}</p>
+                      <h1 className="rc-card__title">{item.minLinePrice}</h1>
                     </header>
                   </div>
                 </article>

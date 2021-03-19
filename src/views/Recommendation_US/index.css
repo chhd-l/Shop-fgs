@@ -10,6 +10,18 @@
   line-height: 2rem;
 }
 @media (min-width: 769px) {
+  /* .Recommendation_US .rc-beta{
+    font-size: 1.875rem;
+  } */
+  .Recommendation_US
+    .arrow-img-columns
+    .for-icon-size
+    .rc-grid:not(:last-child):after {
+    font-size: 72px;
+    height: 41.6px;
+    overflow: hidden;
+    line-height: 43px;
+  }
   .Recommendation_FR .rc-gamma {
     font-size: 1.625rem;
     line-height: 2.5rem;
@@ -23,6 +35,9 @@
   }
 }
 @media (max-width: 769px) {
+  .Recommendation_US .rc-beta {
+    font-size: 1.625rem;
+  }
   .Recommendation_FR .rc-meta {
     font-size: 0.75rem;
     line-height: 1rem;

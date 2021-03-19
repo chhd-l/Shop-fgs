@@ -321,6 +321,7 @@ class ProductFinderResult extends React.Component {
       questionlist,
       petBaseInfo
     } = this.state;
+    console.log(productDetail, 'productDetails');
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -461,7 +462,13 @@ class ProductFinderResult extends React.Component {
                         }}
                       >
                         <Link
-                          to={`/details/${productDetail.mainProduct.goodsInfos[0].goodsInfoId}`}
+                          to={`/${productDetail.mainProduct.lowGoodsName
+                            .toLowerCase()
+                            .split(' ')
+                            .join('-')
+                            .replace('/', '')}-${
+                            productDetail.mainProduct.spuCode
+                          }`}
                           className="rc-btn rc-btn--one rc-btn--sm"
                         >
                           <FormattedMessage id="seeTheProduct" />
@@ -519,7 +526,7 @@ class ProductFinderResult extends React.Component {
                             {ele.subTitle}
                           </div>
                           <div className="text-center mt-2">
-                            {productDetail.mainProduct.toPrice ? (
+                            {ele.fromPrice ? (
                               <span
                                 className="mr-1"
                                 style={{ fontSize: '.8em' }}
@@ -527,24 +534,16 @@ class ProductFinderResult extends React.Component {
                                 <FormattedMessage id="startFrom" />
                               </span>
                             ) : null}
-                            {formatMoney(productDetail.mainProduct.fromPrice)}
-                            {productDetail.mainProduct.toPrice ? (
-                              <>
-                                <span
-                                  className="ml-1 mr-1"
-                                  style={{ fontSize: '.8em' }}
-                                >
-                                  <FormattedMessage id="startEnd" />
-                                </span>
-                                {formatMoney(productDetail.mainProduct.toPrice)}
-                              </>
+                            {formatMoney(ele.fromPrice)}
+                            {ele.toPrice ? (
+                              <span
+                                className="ml-1 mr-1"
+                                style={{ fontSize: '.8em' }}
+                              >
+                                <FormattedMessage id="startEnd" />
+                              </span>
                             ) : null}
-                            {/* {formatMoney(
-                              Math.min.apply(
-                                null,
-                                ele.goodsInfos.map((g) => g.marketPrice || 0)
-                              )
-                            )} */}
+                            {formatMoney(ele.toPrice)}
                           </div>
                           <div
                             className="d-flex justify-content-center mt-3"
@@ -553,7 +552,11 @@ class ProductFinderResult extends React.Component {
                             // }}
                           >
                             <Link
-                              to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
+                              to={`/${ele.lowGoodsName
+                                .toLowerCase()
+                                .split(' ')
+                                .join('-')
+                                .replace('/', '')}-${ele.spuCode}`}
                               className="rc-btn rc-btn--one rc-btn--sm"
                             >
                               <FormattedMessage id="seeTheProduct" />

@@ -120,8 +120,8 @@ const Test = () => {
   return (
     <div className="margin12" style={{ display: 'none' }}>
       <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
-        <div class="rc-grid">
-          <article class="rc-card rc-card--a">test</article>
+        <div className="rc-grid">
+          <article className="rc-card rc-card--a">test</article>
         </div>
       </div>
     </div>
@@ -260,21 +260,21 @@ class Recommendation extends React.Component {
                       if (key === 'Bénéfices') {
                         let tempContentMobile = '';
                         tmpGoodsDetail[key].map((ele, idx) => {
-                          // <div class="">${Object.keys(JSON.parse(ele))[0]}</div>
+                          // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
                           tempContent =
                             tempContent +
                             `<li>
-                            <div class="">${
+                            <div className="">${
                               Object.values(JSON.parse(ele))[0]['Description']
                             }</div>
                           </li>`;
                           tempContentMobile =
                             tempContentMobile +
                             `
-                          <div class="rc-list__accordion-item">
+                          <div className="rc-list__accordion-item">
                           <dt>
                             <button
-                              class="rc-list__header"
+                              className="rc-list__header"
                               id="heading-${idx}"
                               data-toggle="content-${idx}"
                             >
@@ -284,7 +284,7 @@ class Recommendation extends React.Component {
                             </button>
                           </dt>
                           <dd
-                            class="rc-list__content"
+                            className="rc-list__content"
                             id="content-${idx}"
                             aria-labelledby="heading-${idx}"
                             style="text-align:left"
@@ -294,14 +294,14 @@ class Recommendation extends React.Component {
                         </div>
                           `;
                         });
-                        tempContent = `<ul class=" rc-md-up">
+                        tempContent = `<ul className=" rc-md-up">
                           ${tempContent}
                         </ul>`;
-                        tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
+                        tempContentMobile = `<div className="fr-faq rc-md-down" style="padding:0">
                         <dl
                           data-toggle-group=""
                           data-toggle-effect="rc-expand--vertical"
-                          class=""
+                          className=""
                         >
                         ${tempContentMobile}
                         </dl>
@@ -708,7 +708,6 @@ class Recommendation extends React.Component {
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let { productList, activeIndex, currentModalObj, isMobile } = this.state;
-    console.log(productList, 'sdsajdkldsa');
     let MaxLinePrice,
       MinLinePrice,
       MaxMarketPrice,
@@ -741,16 +740,23 @@ class Recommendation extends React.Component {
         productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       );
     }
+    console.log(
+      'MaxLinePriceMaxLinePriceMaxLinePrice',
+      MaxLinePrice,
+      MinLinePrice,
+      MaxMarketPrice,
+      MinMarketPrice,
+      MaxSubPrice,
+      MinSubPrice
+    );
     let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
     let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
     let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
     let tabDes =
-      productList[activeIndex]?.goodsInfo.goods.goodsDescription ||
-      productList[activeIndex]?.tabDescription ||
-      '';
+      productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = this.get100Words(tabDes);
     return (
-      <div className="Recommendation_FR">
+      <div className="Recommendation_FR Recommendation_US">
         {/* <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -767,6 +773,7 @@ class Recommendation extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
+          showBannerTip={true}
         />
         <Modal
           key="1"
@@ -808,7 +815,7 @@ class Recommendation extends React.Component {
             >
               <div className="rc-max-width--md text-center rc-margin-y--md">
                 <div className="rc-alpha inherit-fontsize">
-                  <h1>
+                  <h1 style={{ marginBottom: '0.67em' }}>
                     <FormattedMessage id="recommendation.welcomeText1" />
                   </h1>
                 </div>
@@ -970,16 +977,22 @@ class Recommendation extends React.Component {
                                 </div>
                               </div>
                             )}
-                            {MaxSubPrice > 0 && (
+                            {MaxMarketPrice > 0 && (
                               <div className="product-pricing__card__head d-flex align-items-center">
                                 {/* <div className="rc-input product-pricing__card__head__title">
                                 <FormattedMessage id="autoship" />
                               </div> */}
                                 <div className="rc-large-body  m-auto">
-                                  <FormattedMessage id="from" />{' '}
-                                  {formatMoney(MinSubPrice)}{' '}
-                                  <FormattedMessage id="to" />{' '}
-                                  {formatMoney(MaxMarketPrice)}
+                                  {MaxMarketPrice === MinMarketPrice ? (
+                                    <span>{formatMoney(MaxMarketPrice)}</span>
+                                  ) : (
+                                    <span>
+                                      <FormattedMessage id="from" />{' '}
+                                      {formatMoney(MinMarketPrice)}{' '}
+                                      <FormattedMessage id="to" />{' '}
+                                      {formatMoney(MaxMarketPrice)}
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                             )}
@@ -1383,7 +1396,7 @@ class Recommendation extends React.Component {
                   <h2 className="rc-beta markup-text">
                     <FormattedMessage id="recommendation.plusTitle" />
                   </h2>
-                  <p>
+                  <p style={{ color: 'rgb(23, 43, 77)' }}>
                     <FormattedMessage id="recommendation.plusContent" />
                   </p>
                   <button
@@ -1409,12 +1422,12 @@ class Recommendation extends React.Component {
           {isUs && (
             <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
               <div className="rc-margin-bottom--md">
-                <h2 classNam="rc-beta" style={{ color: '#e2001a' }}>
+                <h2 className="rc-beta" style={{ color: '#e2001a' }}>
                   How to Join Royal Canin Club
                 </h2>
               </div>
               <Test />
-              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle">
+              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle for-icon-size">
                 {howImageArr.map((item) => (
                   <div className="rc-grid">
                     <div>
@@ -1451,7 +1464,7 @@ class Recommendation extends React.Component {
               <LineModule />
               <section
                 style={{ textAlign: 'center' }}
-                className="rc-max-width--md text-center rc-margin-y--md"
+                className="rc-max-width--md text-center rc-margin-top--md"
               >
                 <h2 style={{ color: '#E2001A' }}>
                   <FormattedMessage id="recommendation.fourTitle" />
@@ -1477,14 +1490,14 @@ class Recommendation extends React.Component {
                     Place order
                   </button>
                 </p>
-                <div class="experience-component experience-assets-youtubeVideo">
-                  <div class="rc-max-width--md rc-padding-x--lg">
-                    <div class="rc-video-wrapper dog-video">
+                <div className="experience-component experience-assets-youtubeVideo">
+                  <div className="rc-max-width--md rc-padding-x--lg">
+                    <div className="rc-video-wrapper dog-video">
                       <iframe
                         allowfullscreen=""
                         frameborder="0"
                         id="video-dog"
-                        class="optanon-category-4 "
+                        className="optanon-category-4 "
                         src="https://www.youtube.com/embed/FYwO1fiYoa8"
                       ></iframe>
                     </div>

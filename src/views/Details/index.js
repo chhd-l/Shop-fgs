@@ -1485,7 +1485,7 @@ class Details extends React.Component {
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
     }
-        class="rc-gamma ui-text-overflow-line2 text-break"
+        className="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${
@@ -1808,26 +1808,27 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            {details.promotions &&
-                            details.promotions.includes('club') ? (
-                              <div className="productFinderBox">
-                                {true ? (
-                                  <p>
-                                    The recommended daily ration for your pet is{' '}
-                                    <span className="strong">57g/day</span>
-                                    <a class="rc-styled-link backProductFinder">
-                                      Go back to recommendation
-                                    </a>
-                                  </p>
-                                ) : (
-                                  <p>
-                                    Find the right product and calculate your
-                                    pet ration using our{' '}
-                                    <a class="rc-styled-link">Product finder</a>
-                                  </p>
-                                )}
+                            {true ? (
+                              <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
+                                <div>
+                                  The recommended daily ration for your pet is{' '}
+                                  <span className="strong">57g/day</span>
+                                </div>
+                                <a className="rc-styled-link backProductFinder mt-0">
+                                  Go back to recommendation
+                                </a>
                               </div>
-                            ) : null}
+                            ) : (
+                              <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
+                                <div>
+                                  Find the right product and calculate your pet
+                                  ration using our{' '}
+                                </div>
+                                <a className="rc-styled-link mt-0">
+                                  Product finder
+                                </a>
+                              </div>
+                            )}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
@@ -1919,7 +1920,7 @@ class Details extends React.Component {
                             </div>
                             <div>
                               <div
-                                className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 1 ml-0 mr-0"
                                 key="123456789"
                                 aa="123456789"
                                 style={{
@@ -2011,10 +2012,11 @@ class Details extends React.Component {
                                 </div>
                               </div>
                               {currentSubscriptionStatus &&
+                              currentSubscriptionPrice &&
                               (!details.promotions ||
                                 !details.promotions.includes('club')) ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 2  ml-0 mr-0"
                                   key="987654321"
                                   style={{
                                     borderColor: parseInt(form.buyWay)
@@ -2158,10 +2160,12 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {details?.promotions &&
+                              {currentSubscriptionStatus &&
+                              currentSubscriptionPrice &&
+                              details?.promotions &&
                               details.promotions.includes('club') ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3"
                                   key="987654321"
                                   style={{
                                     borderColor: parseInt(form.buyWay)
@@ -2228,7 +2232,9 @@ class Details extends React.Component {
                                       <FormattedMessage id="freeShipping" />
                                     </div>
                                     <div className="learnMore">
-                                      <a class="rc-styled-link">Learn more</a>
+                                      <a className="rc-styled-link">
+                                        Learn more
+                                      </a>
                                     </div>
                                   </div>
                                   <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">

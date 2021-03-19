@@ -263,10 +263,16 @@ class LoginCart extends React.Component {
                 </div>
                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                   <span className="rc-body rc-margin--none">
-                    <FormattedMessage id="total" />{' '}
-                    <span style={{ fontWeight: '500' }}>
-                      {formatMoney(this.tradePrice)}
-                    </span>
+                    <FormattedMessage
+                      id="miniBasket.total"
+                      values={{
+                        totalPrice: (
+                          <span style={{ fontWeight: '500' }}>
+                            {formatMoney(this.tradePrice)}
+                          </span>
+                        )
+                      }}
+                    />
                   </span>
                   <Link
                     to="/cart"
@@ -317,7 +323,7 @@ class LoginCart extends React.Component {
                     />
                   </span>
                 </div>
-                <div className="minicart-error cart-error"></div>
+                <div className="minicart-error cart-error" />
                 <div className="product-summary limit">
                   {!cartData.length && loading ? (
                     <div className="pt-2 pb-2">
@@ -331,10 +337,7 @@ class LoginCart extends React.Component {
                         // key={item.goodsInfoId}
                       >
                         <div>
-                          <div
-                            className="product-summary__products__item"
-                            style={{ paddingBottom: 0 }}
-                          >
+                          <div className="product-summary__products__item pb-0">
                             <div className="product-line-item">
                               <div className="product-line-item-details d-flex flex-row">
                                 <div className="item-image">

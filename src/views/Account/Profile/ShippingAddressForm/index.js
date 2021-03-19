@@ -58,7 +58,7 @@ class ShippingAddressFrom extends React.Component {
         city: '',
         cityName: '',
         provinceNo: '',
-        provinceName: '',
+        provinceId: '',
         province: '',
         postCode: '',
         phoneNumber: '',
@@ -136,8 +136,8 @@ class ShippingAddressFrom extends React.Component {
       };
       if (process.env.REACT_APP_LANG === 'en') {
         addressForm.provinceNo = data.provinceNo;
-        addressForm.provinceName = data.province;
-        addressForm.province = data.provinceId;
+        addressForm.province = data.province;
+        addressForm.provinceId = data.provinceId;
       }
       console.log(
         '------------------------ getAddressById addressForm: ',
@@ -220,7 +220,7 @@ class ShippingAddressFrom extends React.Component {
       addressForm.city = validationAddress.city;
       addressForm.cityName = validationAddress.city;
       if (process.env.REACT_APP_LANG === 'en') {
-        addressForm.provinceName = validationAddress.provinceCode;
+        addressForm.province = validationAddress.provinceCode;
       }
     } else {
       this.setState({
@@ -273,8 +273,8 @@ class ShippingAddressFrom extends React.Component {
       };
       if (process.env.REACT_APP_LANG === 'en') {
         // 手动输入的城市 id 设为 null
-        params.province = data.provinceName;
-        params.provinceId = data.province;
+        params.province = data.province;
+        params.provinceId = data.provinceId;
       }
       console.log('----------------------> handleSave params: ', params);
 
@@ -411,7 +411,7 @@ class ShippingAddressFrom extends React.Component {
   handleSelectedItemChange(key, data) {
     const { addressForm } = this.state;
     if (key == 'province') {
-      addressForm.provinceName = data.name;
+      addressForm.province = data.name;
       addressForm.provinceNo = data.stateNo; // 省份简写
     } else if (key == 'country') {
       addressForm.countryName = data.name;
@@ -638,31 +638,33 @@ class ShippingAddressFrom extends React.Component {
                 </div>
 
                 {/* 国家 */}
-                <div className="form-group col-lg-6 pull-left required">
-                  {/* <div className="form-group col-lg-12 pull-left no-padding required dwfrm_shipping_shippingAddress_addressFields_province"> */}
-                  <label
-                    className="form-control-label rc-full-width"
-                    htmlFor="country"
-                  >
-                    <FormattedMessage id="payment.country" />
-                  </label>
-                  <span
-                    className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                    data-loc="countrySelect"
-                  >
-                    <Selection
-                      key={addressForm.country}
-                      selectedItemChange={(data) =>
-                        this.handleSelectedItemChange('country', data)
-                      }
-                      optionList={this.computedList('country')}
-                      selectedItemData={{
-                        value: addressForm.country
-                      }}
-                    />
-                  </span>
-                  {/* </div> */}
-                </div>
+                {process.env.REACT_APP_LANG != 'en' ? (
+                  <div className="form-group col-lg-6 pull-left required">
+                    {/* <div className="form-group col-lg-12 pull-left no-padding required dwfrm_shipping_shippingAddress_addressFields_province"> */}
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="country"
+                    >
+                      <FormattedMessage id="payment.country" />
+                    </label>
+                    <span
+                      className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+                      data-loc="countrySelect"
+                    >
+                      <Selection
+                        key={addressForm.country}
+                        selectedItemChange={(data) =>
+                          this.handleSelectedItemChange('country', data)
+                        }
+                        optionList={this.computedList('country')}
+                        selectedItemData={{
+                          value: addressForm.country
+                        }}
+                      />
+                    </span>
+                    {/* </div> */}
+                  </div>
+                ) : null}
 
                 {/* 省份 */}
                 {process.env.REACT_APP_LANG === 'en' ? (
@@ -686,6 +688,8 @@ class ShippingAddressFrom extends React.Component {
                                 this.handleSelectedItemChange('province', data);
                               }
                             }}
+                            choicesInput={true}
+                            emptyFirstItem="State"
                             optionList={this.computedList('province')}
                             selectedItemData={{ value: addressForm.province }}
                           />
