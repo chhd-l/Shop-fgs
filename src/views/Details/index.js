@@ -1473,6 +1473,8 @@ class Details extends React.Component {
       ccidBtnDisplay
     } = this.state;
 
+    console.log(details, 'details');
+
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
@@ -1806,23 +1808,26 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="productFinderBox">
-                              {true ? (
-                                <p>
-                                  The recommended daily ration for your pet is{' '}
-                                  <span className="strong">57g/day</span>
-                                  <a class="rc-styled-link backProductFinder">
-                                    Go back to recommendation
-                                  </a>
-                                </p>
-                              ) : (
-                                <p>
-                                  Find the right product and calculate your pet
-                                  ration using our{' '}
-                                  <a class="rc-styled-link">Product finder</a>
-                                </p>
-                              )}
-                            </div>
+                            {details.promotions &&
+                            details.promotions.includes('club') ? (
+                              <div className="productFinderBox">
+                                {true ? (
+                                  <p>
+                                    The recommended daily ration for your pet is{' '}
+                                    <span className="strong">57g/day</span>
+                                    <a class="rc-styled-link backProductFinder">
+                                      Go back to recommendation
+                                    </a>
+                                  </p>
+                                ) : (
+                                  <p>
+                                    Find the right product and calculate your
+                                    pet ration using our{' '}
+                                    <a class="rc-styled-link">Product finder</a>
+                                  </p>
+                                )}
+                              </div>
+                            ) : null}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
@@ -2006,10 +2011,8 @@ class Details extends React.Component {
                                 </div>
                               </div>
                               {currentSubscriptionStatus &&
-                              (!selectedSpecItem.promotions ||
-                                !selectedSpecItem.promotions.includes(
-                                  'club'
-                                )) ? (
+                              (!details.promotions ||
+                                !details.promotions.includes('club')) ? (
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
                                   key="987654321"
@@ -2155,8 +2158,8 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {selectedSpecItem?.promotions &&
-                              selectedSpecItem.promotions.includes('club') ? (
+                              {details?.promotions &&
+                              details.promotions.includes('club') ? (
                                 <div
                                   className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
                                   key="987654321"
@@ -2368,7 +2371,9 @@ class Details extends React.Component {
                 saleableFlag={details.saleableFlag}
                 displayFlag={details.displayFlag}
                 setState={this.setState.bind(this)}
-                // isClub={selectedSpecItem.promotions && selectedSpecItem.promotions.includes('club')}
+                isClub={
+                  details.promotions && details.promotions.includes('club')
+                }
               />
             ) : null}
 

@@ -65,7 +65,7 @@ export function batchAdd(parameter) {
 export function confirmAndCommit(parameter) {
   return axios({
     url:
-      process.env.REACT_APP_Adyen_country == 'US'
+      process.env.REACT_APP_GA_COUNTRY == 'US'
         ? api.confirmAndCommitUs
         : api.confirmAndCommit,
     method: 'post',

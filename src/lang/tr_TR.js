@@ -471,7 +471,6 @@ const tr_TR = {
   'login.secondCheck': '18 yaşından büyük olduğumu onaylıyorum',
   'login.thirdCheck': 'Pazarlama bültenini almayı kabul ediyorum',
   loginFailed: 'giriş başarısız',
-  loginText: 'Ödeme',
   logisticsRating: 'Lojistik değerlendirme',
   logOff: 'Oturumu Kapat',
   mailAddress: 'Posta adresi',
@@ -955,6 +954,8 @@ const tr_TR = {
     '12 saat içerisinde, size olabildiğince hızlı dönmek için elimizden geleni yapacağız.',
   'club.wheretohelp.card.email.send': 'Bize e-posta gönderin',
   'club.wheretohelp.card.faq':
-    'Sıkça Sorulan Sorular sayfamıza göz atarak, sorunuzun daha önce yanıtlanmış olup olmadığına bakabilirsiniz.'
+    'Sıkça Sorulan Sorular sayfamıza göz atarak, sorunuzun daha önce yanıtlanmış olup olmadığına bakabilirsiniz.',
+  isPurebredDog: 'Safkan köpek?',
+  isPurebredCat: 'Safkan kedi?'
 };
 export default tr_TR;
