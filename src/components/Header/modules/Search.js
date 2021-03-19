@@ -274,10 +274,10 @@ export default class Search extends React.Component {
                 ) : null}
               </div>
               {isHub && result && result.attach ? (
-                <div class="col-12 col-md-5 rc-column rc-bg-colour--brand4">
+                <div className="col-12 col-md-5 rc-column rc-bg-colour--brand4">
                   {(result.attach.Items || []).map((item, i) => (
                     <a
-                      class="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
+                      className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                       alt={item.Title}
                       title={item.Title}
                       href={item.Url}
@@ -288,7 +288,7 @@ export default class Search extends React.Component {
                   ))}
                   {(result.attach.FeaturedItems || []).map((item, i) => (
                     <a
-                      class="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
+                      className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                       alt={item.Title}
                       title={item.Title}
                       href={item.Url}
@@ -347,7 +347,7 @@ export default class Search extends React.Component {
               </div>
             ) : null}
             {/* <div
-              class={`rc-shade searchbar ${showSearchInput ? '' : 'rc-hidden'}`}
+              className={`rc-shade searchbar ${showSearchInput ? '' : 'rc-hidden'}`}
             />
             <div
               className={`search-contaner__shadow rc-bg-colour--brand4 ${
@@ -390,7 +390,7 @@ export default class Search extends React.Component {
             <button
               id="mainSearch"
               className={`rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography ${
-                showSearchInput ? 'hidden-xxl-down' : ''
+                showSearchInput ? 'rc-hidden' : ''
               }`}
               aria-label="Search"
               onClick={this.hanldeSearchClick}

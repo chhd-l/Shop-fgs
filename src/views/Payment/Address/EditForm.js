@@ -32,7 +32,7 @@ class EditForm extends React.Component {
         city: '',
         cityName: '',
         provinceNo: '',
-        provinceName: '',
+        provinceId: '',
         province: '',
         postCode: '',
         phoneNumber: ''
@@ -131,13 +131,16 @@ class EditForm extends React.Component {
   };
   handleSelectedItemChange(key, data) {
     const { address } = this.state;
+    console.log('--------------------------★★★ EditForm data: ', data);
     if (key == 'province') {
-      address.provinceName = data.name;
+      address.provinceId = data.value;
+      address.province = data.name;
       address.provinceNo = data.stateNo; // 省份简写
     } else if (key == 'country') {
       address.countryName = data.name;
+    } else {
+      address[key] = data.value;
     }
-    address[key] = data.value;
     this.setState({ address }, () => {
       this.props.updateData(this.state.address);
     });
@@ -333,9 +336,11 @@ class EditForm extends React.Component {
                 this.handleSelectedItemChange('province', data);
               }
             }}
+            choicesInput={true}
+            emptyFirstItem="State"
             optionList={this.computedList('province')}
-            selectedItemData={{ value: address.province }}
-            key={address.province}
+            selectedItemData={{ value: address.provinceId }}
+            key={address.provinceId}
           />
         </span>
       </div>
@@ -472,7 +477,10 @@ class EditForm extends React.Component {
           <div className="col-12">{this.addressRequiredJSX()}</div>
           <div className="col-12">{this.addressOptionJSX()}</div>
 
-          <div className="col-12 col-md-6">{this.landJSX()}</div>
+          {process.env.REACT_APP_LANG != 'en' ? (
+            <div className="col-12 col-md-6">{this.landJSX()}</div>
+          ) : null}
+
           <div className="col-12 col-md-6">{this.cityJSX()}</div>
 
           {process.env.REACT_APP_LANG === 'en' ? (
