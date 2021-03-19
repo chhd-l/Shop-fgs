@@ -519,7 +519,8 @@ class Header extends React.Component {
       showUserIcon,
       loginStore,
       configStore,
-      history
+      history,
+      showBannerTip //是否展示固定的banbertip
     } = this.props;
     const {
       headerNavigationList,
@@ -656,6 +657,34 @@ class Header extends React.Component {
               showNav={this.props.showNav}
               showLoginBtn={this.props.showLoginBtn}
             />
+          )}
+          {showBannerTip && (
+            <div className="nav-slim-banner">
+              <div className="rc-bg-colour--brand4 text-center">
+                <div className="rc-layout-container rc-content-h-middle">
+                  <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
+                    <span className="rc-icon rc-refresh rc-brand1 rc-iconography"></span>
+                    <div className="d-flex align-items-center">
+                      <Link
+                        to="/subscription-landing"
+                        className="rc-margin-right--xs rc-margin-left--xs"
+                      >
+                        <FormattedMessage id="header.bannerTip" />
+                      </Link>
+                      <div>
+                        <Link
+                          to="/subscription-landing"
+                          className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          style={{ minWidth: '110px' }}
+                        >
+                          <FormattedMessage id="bannerTip.btnText" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </header>
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&

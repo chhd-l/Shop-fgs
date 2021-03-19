@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import BannerTip from '@/components/BannerTip';
 import noPic from '@/assets/images/noPic.png';
-import ImageMagnifier from '../Recommendation_FR/components/ImageMagnifier';
+import ImageMagnifier from './components/ImageMagnifier';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
@@ -202,9 +202,7 @@ class Recommendation extends React.Component {
       ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
-      phoneDes1: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes1'
-      ],
+      phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
       phoneDes2: this.props.intl.messages[
         'recommendation.helpContentText.phoneDes2'
       ]
@@ -752,7 +750,7 @@ class Recommendation extends React.Component {
       '';
     let tabDesText = this.get100Words(tabDes);
     return (
-      <div className="Recommendation_FR">
+      <div className="Recommendation_FR Recommendation_US">
         {/* <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -769,6 +767,7 @@ class Recommendation extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
+          showBannerTip={true}
         />
         <Modal
           key="1"
@@ -815,7 +814,7 @@ class Recommendation extends React.Component {
                   </h1>
                 </div>
                 <div className="rc-beta inherit-fontsize">
-                  <p>
+                  <p style={{ marginBottom: '16px' }}>
                     <FormattedMessage id="recommendation.welcomeText2" />
                     {/* Merci pour votre visite en magasin, voici notre recommandation. */}
                   </p>
@@ -861,7 +860,8 @@ class Recommendation extends React.Component {
                       className="recommendProductInner"
                       style={{
                         background: '#fff',
-                        minHeight: '600px'
+                        minHeight: '600px',
+                        borderTop: 0
                       }}
                     >
                       <Skeleton
@@ -875,7 +875,12 @@ class Recommendation extends React.Component {
                 ) : (
                   productList.length > 0 && (
                     <div>
-                      <div className="recommendProductInner">
+                      <div
+                        className="recommendProductInner"
+                        style={{
+                          borderTop: 0
+                        }}
+                      >
                         <div className="imageTabBox">
                           {productList.map((el, i) => (
                             <span
@@ -1379,7 +1384,7 @@ class Recommendation extends React.Component {
                   <h2 className="rc-beta markup-text">
                     <FormattedMessage id="recommendation.plusTitle" />
                   </h2>
-                  <p>
+                  <p style={{ color: 'rgb(23, 43, 77)' }}>
                     <FormattedMessage id="recommendation.plusContent" />
                   </p>
                   <button
@@ -1405,7 +1410,7 @@ class Recommendation extends React.Component {
           {isUs && (
             <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
               <div className="rc-margin-bottom--md">
-                <h2 classNam="rc-beta" style={{ color: '#e2001a' }}>
+                <h2 className="rc-beta" style={{ color: '#e2001a' }}>
                   How to Join Royal Canin Club
                 </h2>
               </div>
@@ -1447,7 +1452,7 @@ class Recommendation extends React.Component {
               <LineModule />
               <section
                 style={{ textAlign: 'center' }}
-                className="rc-max-width--md text-center rc-margin-y--md"
+                className="rc-max-width--md text-center rc-margin-top--md"
               >
                 <h2 style={{ color: '#E2001A' }}>
                   <FormattedMessage id="recommendation.fourTitle" />

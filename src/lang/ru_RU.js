@@ -543,7 +543,6 @@ const ru_RU = {
   'login.secondCheck': 'Подтверждаю, что мне больше 18 лет',
   'login.thirdCheck': 'Я согласен получать маркетинговую рассылку',
   loginFailed: 'Вход в систему не удался',
-  loginText: 'Оформить заказ',
   logisticsRating: 'Рейтинг логистики',
   logOff: 'Выйти',
   // mailAddress: 'Почта Адрес',
@@ -799,7 +798,7 @@ const ru_RU = {
     'Наши обязательства в области качества и пищевой безопасности',
   quantity: 'количество',
   quantityCannotExceed10: 'Количество не может превышать 10',
-  quantityText: 'product',
+  quantityText: '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Ошибка данных запроса',
   ratingGrade1: 'Самые последние',
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',
@@ -1039,7 +1038,9 @@ const ru_RU = {
     'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
   'club.wheretohelp.card.email.send': 'Отправьте нам e-mail',
   'club.wheretohelp.card.faq':
-    'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ'
+    'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ',
+  isPurebredDog: 'Чистокровная собака?',
+  isPurebredCat: 'Чистокровный кот?'
 };
 
 export default ru_RU;

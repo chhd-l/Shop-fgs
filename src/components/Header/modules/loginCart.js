@@ -154,31 +154,35 @@ class LoginCart extends React.Component {
       this.setState({ checkoutLoading: false });
     }
 
-    this.hubGA && dataLayer.push({
-      'event': 'cartHeaderClicks',
-      'cartHeaderClicks': {
-        'button': 'Buy now',
-      }
-    })
+    this.hubGA &&
+      dataLayer.push({
+        event: 'cartHeaderClicks',
+        cartHeaderClicks: {
+          button: 'Buy now'
+        }
+      });
   }
 
   EditToCart = () => {
-    this.hubGA && dataLayer.push({
-      'event': 'cartHeaderClicks',
-      'cartHeaderClicks': {
-        'button': 'Edit',
-      }
-    })
-  }
+    this.hubGA &&
+      dataLayer.push({
+        event: 'cartHeaderClicks',
+        cartHeaderClicks: {
+          button: 'Edit'
+        }
+      });
+  };
 
   clickBasket = () => {
-    this.hubGA && dataLayer.push({
-      'event': 'topPictosClick',
-      'topPictosClick': {
-        'itemName': 'Basket',
-      }
-    })
-  }
+    this.hubGA &&
+      window.dataLayer &&
+      dataLayer.push({
+        event: 'topPictosClick',
+        topPictosClick: {
+          itemName: 'Basket'
+        }
+      });
+  };
 
   render() {
     const { totalNum, cartData, loading } = this;
@@ -195,7 +199,8 @@ class LoginCart extends React.Component {
           headerCartStore.hide();
         }}
       >
-        <Link to="/cart"
+        <Link
+          to="/cart"
           className="minicart-link"
           data-loc="miniCartOrderBtn"
           onClick={this.clickBasket}
@@ -312,7 +317,7 @@ class LoginCart extends React.Component {
                     />
                   </span>
                 </div>
-                <div className="minicart-error cart-error"></div>
+                <div className="minicart-error cart-error" />
                 <div className="product-summary limit">
                   {!cartData.length && loading ? (
                     <div className="pt-2 pb-2">
@@ -326,10 +331,7 @@ class LoginCart extends React.Component {
                         // key={item.goodsInfoId}
                       >
                         <div>
-                          <div
-                            className="product-summary__products__item"
-                            style={{ paddingBottom: 0 }}
-                          >
+                          <div className="product-summary__products__item pb-0">
                             <div className="product-line-item">
                               <div className="product-line-item-details d-flex flex-row">
                                 <div className="item-image">
@@ -361,21 +363,15 @@ class LoginCart extends React.Component {
                                   >
                                     <div className="line-item-total-price justify-content-start pull-left">
                                       <div className="item-attributes">
-                                        {process.env.REACT_APP_LANG !== 'de' ? (
-                                          <p className="line-item-attributes">
-                                            {item.specText} -{' '}
-                                            {item.buyCount > 1
-                                              ? `${item.buyCount} `
-                                              : `${item.buyCount} `}
-                                            <FormattedMessage id="quantityText" />
-                                            (s)
-                                          </p>
-                                        ) : (
-                                          <p className="line-item-attributes">
-                                            {item.specText} -{' '}
-                                            {`Anzahl: ${item.buyCount}`}
-                                          </p>
-                                        )}
+                                        <p className="line-item-attributes">
+                                          <FormattedMessage
+                                            id="quantityText"
+                                            values={{
+                                              specText: item.specText,
+                                              buyCount: item.buyCount
+                                            }}
+                                          />
+                                        </p>
                                       </div>
                                     </div>
                                     <div className="line-item-total-price justify-content-end pull-right priceBox">

@@ -143,6 +143,9 @@ class UnLoginCart extends React.Component {
   get promotionDiscount() {
     return this.props.checkoutStore.promotionDiscount;
   }
+  get promotionVOList() {
+    return this.props.checkoutStore.promotionVOList;
+  }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
@@ -522,10 +525,6 @@ class UnLoginCart extends React.Component {
       }
     );
   }
-  goBack = (e) => {
-    e.preventDefault();
-    this.props.history.goBack();
-  };
   async updateStock(fn) {
     const { productList } = this.state;
     this.setState({ checkoutLoading: true });
@@ -560,7 +559,7 @@ class UnLoginCart extends React.Component {
   getQuantityBox = (pitem) => {
     return (
       <div
-        className="rc-md-up"
+        className="cart-quantity-container"
         // style={{
         //   display: `${isGift ? 'initial' : 'none'}`,
         //   position: 'relative',
@@ -699,7 +698,7 @@ class UnLoginCart extends React.Component {
               >
                 <LazyLoad>
                   <img
-                    className="product-image"
+                    className="w-100"
                     src={
                       find(pitem.sizeList, (s) => s.selected).goodsInfoImg ||
                       pitem.goodsImg
@@ -835,10 +834,7 @@ class UnLoginCart extends React.Component {
               <div className="rc-column">
                 {pitem.sizeList.filter((el) => el.selected)[0]
                   .subscriptionStatus &&
-                (!pitem.sizeList.filter((el) => el.selected)[0].promotions ||
-                  !pitem.sizeList
-                    .filter((el) => el.selected)[0]
-                    .promotions.includes('club')) ? (
+                (!pitem.promotions || !pitem.promotions.includes('club')) ? (
                   <SubscriptionSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -861,10 +857,7 @@ class UnLoginCart extends React.Component {
                     setState={this.setState.bind(this)}
                   />
                 ) : null}
-                {pitem.sizeList.filter((el) => el.selected)[0].promotions &&
-                pitem.sizeList
-                  .filter((el) => el.selected)[0]
-                  .promotions.includes('club') ? (
+                {pitem.promotions && pitem.promotions.includes('club') ? (
                   <ClubSelection
                     isGift={isGift}
                     pitem={pitem}
@@ -890,10 +883,7 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
           </div>
-          {pitem.sizeList.filter((el) => el.selected)[0].promotions &&
-          pitem.sizeList
-            .filter((el) => el.selected)[0]
-            .promotions.includes('club') ? (
+          {pitem.promotions && pitem.promotions.includes('club') ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-24px' }}
@@ -1045,7 +1035,7 @@ class UnLoginCart extends React.Component {
               btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
               history={this.props.history}
             >
-              <FormattedMessage id="loginText" />
+              <FormattedMessage id="checkout" />
             </LoginButton>
           ) : (
             <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
@@ -1243,21 +1233,27 @@ class UnLoginCart extends React.Component {
           )}
           {/* 显示 promotionCode */}
           <div>
-            {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 && (
-              <div className={`row leading-lines shipping-item green d-flex`}>
-                <div className="col-6">
-                  <p>
-                    <FormattedMessage id="promotion" />
-                  </p>
+            {!this.state.isShowValidCode &&
+              this.promotionDiscountPrice > 0 &&
+              this.promotionVOList.map((el) => (
+                <div className={`row leading-lines shipping-item green d-flex`}>
+                  <div className="col-6">
+                    <p>
+                      {/* {this.promotionDesc || (
+                            <FormattedMessage id="NoPromotionDesc" />
+                          )} */}
+                      {/* <FormattedMessage id="promotion" /> */}
+                      {el.marketingName}
+                    </p>
+                  </div>
+                  <div className="col-6">
+                    <p className="text-right shipping-cost">
+                      {/* - {formatMoney(this.discountPrice)} */}
+                      <b>-{formatMoney(el.discountPrice)}</b>
+                    </p>
+                  </div>
                 </div>
-                <div className="col-6">
-                  <p className="text-right shipping-cost">
-                    {/* - {formatMoney(this.discountPrice)} */}
-                    <b>-{formatMoney(this.promotionDiscountPrice)}</b>
-                  </p>
-                </div>
-              </div>
-            )}
+              ))}
           </div>
           <div className="row">
             <div className="col-8">
@@ -1302,14 +1298,14 @@ class UnLoginCart extends React.Component {
           </div>
 
           <div className="group-total">
-            <div className="row">
+            <div className="row d-flex align-items-center">
               <div className="col-7 medium">
                 <strong>
                   <FormattedMessage id="totalIncluIVA" />
                 </strong>
               </div>
               <div className="col-5">
-                <p className="text-right grand-total-sum medium">
+                <p className="text-right grand-total-sum medium mb-0">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                     <b>{subtractionSign}</b>
                   ) : (
@@ -1522,20 +1518,16 @@ class UnLoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {(txt) => (
-                        <DistributeHubLinkOrATag href="" to="/home">
-                          {txt}
+                        <DistributeHubLinkOrATag
+                          href=""
+                          to="/home"
+                          className="ui-cursor-pointer-pure"
+                        >
+                          <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                            <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
+                            {txt}
+                          </span>
                         </DistributeHubLinkOrATag>
-                        // <a
-                        //   tabIndex="1"
-                        //   className="ui-cursor-pointer-pure"
-                        //   onClick={this.goBack}
-                        //   title={txt}
-                        // >
-                        //   <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                        //     <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
-                        //     {txt}
-                        //   </span>
-                        // </a>
                       )}
                     </FormattedMessage>
                   </div>

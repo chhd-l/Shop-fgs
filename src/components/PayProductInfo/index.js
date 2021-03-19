@@ -106,24 +106,13 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {[
-                      item.specDetails,
-                      item.num > 1
-                        ? this.props.intl.formatMessage(
-                            { id: 'items' },
-                            {
-                              val: item.num
-                            }
-                          )
-                        : this.props.intl.formatMessage(
-                            { id: 'item' },
-                            {
-                              val: item.num
-                            }
-                          )
-                    ]
-                      .filter((e) => e)
-                      .join(' - ')}
+                    <FormattedMessage
+                      id="quantityText"
+                      values={{
+                        specText: item.specDetails,
+                        buyCount: item.num
+                      }}
+                    />
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
@@ -441,29 +430,26 @@ class PayProductInfo extends React.Component {
                         </div>
                       </div>
                     ) : null}
-                    {details.tradePrice.promotionDiscountPrice ? (
-                      <div className="row leading-lines shipping-item">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <span className="green">
-                              {/* {details.tradePrice.promotionDesc || ( */}
-                              <FormattedMessage id="promotion" />
-                              {/* )} */}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost green">
-                              -
-                              {formatMoney(
-                                details.tradePrice.promotionDiscountPrice
-                              )}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    ) : null}
+                    {details.tradePrice.promotionDiscountPrice
+                      ? details.tradePrice.promotionVOList.map((el) => {
+                          <div className="row leading-lines shipping-item">
+                            <div className="col-7 start-lines">
+                              <p className="order-receipt-label order-shipping-cost">
+                                <span className="green">
+                                  {el.marketingName}
+                                </span>
+                              </p>
+                            </div>
+                            <div className="col-5 end-lines">
+                              <p className="text-right">
+                                <span className="shipping-total-cost green">
+                                  -{formatMoney(el.discountPrice)}
+                                </span>
+                              </p>
+                            </div>
+                          </div>;
+                        })
+                      : null}
                     {/* {details.tradePrice.discountsPrice ? (
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">

@@ -773,7 +773,8 @@ class PetForm extends React.Component {
       selectedSizeObj,
       imgUrl,
       isMobile,
-      isChoosePetType
+      isChoosePetType,
+      isCat
     } = this.state;
     return (
       <div className="petForm">
@@ -899,7 +900,7 @@ class PetForm extends React.Component {
                         marginTop: '40px',
                         borderRadius: '50%'
                       }}
-                      src={imgUrl || (this.state.isCat ? Cat : Dog)}
+                      src={imgUrl || (isCat ? Cat : Dog)}
                       alt=""
                     />
                     {/* </LazyLoad> */}
@@ -1060,7 +1061,9 @@ class PetForm extends React.Component {
                         className="form-control-label rc-full-width"
                         htmlFor="Is Purebred"
                       >
-                        <FormattedMessage id="isPurebred" />
+                        <FormattedMessage
+                          id={`${isCat ? 'isPurebredCat' : 'isPurebredDog'}`}
+                        />
                       </label>
                       <div style={{ padding: '.5rem 0' }}>
                         <div className="rc-input rc-input--inline">

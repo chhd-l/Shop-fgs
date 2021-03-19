@@ -55,23 +55,24 @@ class UnloginCart extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   GAAccessToGuestCheck(type) {
-    this.hubGA ? dataLayer.push({
-      'event': 'cartHeaderClicks',
-      'cartHeaderClicks': {
-        'button': type== 'buyNow'?'Buy now':'Continue as a Guest',
-      }
-    }) :
-      dataLayer.push({
-        event: `${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
-        interaction: {
-          category: 'checkout',
-          action: 'guest checkout',
-          label: 'cart pop-in', //"cart page  "
-          value: 1
-        }
-      });
+    this.hubGA
+      ? dataLayer.push({
+          event: 'cartHeaderClicks',
+          cartHeaderClicks: {
+            button: type == 'buyNow' ? 'Buy now' : 'Continue as a Guest'
+          }
+        })
+      : dataLayer.push({
+          event: `${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
+          interaction: {
+            category: 'checkout',
+            action: 'guest checkout',
+            label: 'cart pop-in', //"cart page  "
+            value: 1
+          }
+        });
   }
-  async handleCheckout({type, needLogin = false } = {}) {
+  async handleCheckout({ type, needLogin = false } = {}) {
     this.GAAccessToGuestCheck(type);
     try {
       const {
@@ -171,13 +172,14 @@ class UnloginCart extends React.Component {
   }
 
   EditToCart = () => {
-    this.hubGA && dataLayer.push({
-      'event': 'cartHeaderClicks',
-      'cartHeaderClicks': {
-        'button': 'Edit',
-      }
-    })
-  }
+    this.hubGA &&
+      dataLayer.push({
+        event: 'cartHeaderClicks',
+        cartHeaderClicks: {
+          button: 'Edit'
+        }
+      });
+  };
 
   render() {
     const { headerCartStore } = this.props;
@@ -284,7 +286,7 @@ class UnloginCart extends React.Component {
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                   <LoginButton
                     beforeLoginCallback={async () =>
-                      this.handleCheckout({ type:'buyNow', needLogin: true })
+                      this.handleCheckout({ type: 'buyNow', needLogin: true })
                     }
                     btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       this.state.checkoutLoading ? 'ui-btn-loading' : ''
@@ -299,7 +301,7 @@ class UnloginCart extends React.Component {
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                     <span
                       id="unLoginCarCheckout"
-                      onClick={() => this.handleCheckout({type:'guest'})}
+                      onClick={() => this.handleCheckout({ type: 'guest' })}
                       className={`rc-styled-link color-999 ui-cursor-pointer ${
                         this.state.checkoutLoading
                           ? 'ui-btn-loading ui-btn-loading-border-red'
@@ -371,12 +373,16 @@ class UnloginCart extends React.Component {
                                   <div className="line-item-total-price justify-content-start pull-left">
                                     <div className="item-attributes">
                                       <p className="line-item-attributes">
-                                        {
-                                          find(item.sizeList, (s) => s.selected)
-                                            .specText
-                                        }{' '}
-                                        - <FormattedMessage id="quantityText" />
-                                        ：{item.quantity}
+                                        <FormattedMessage
+                                          id="quantityText"
+                                          values={{
+                                            specText: find(
+                                              item.sizeList,
+                                              (s) => s.selected
+                                            ).specText,
+                                            buyCount: item.quantity
+                                          }}
+                                        />
                                       </p>
                                     </div>
                                   </div>
@@ -472,48 +478,52 @@ class UnloginCart extends React.Component {
                             </div>
                             <div className="item-options" />
                           </div>
-                          {toJS(item.sizeList.filter(e=>e.selected)[0].planId)
-                            ? toJS(item.sizeList.filter(e=>e.selected)[0].planGifts).map(
-                                (gift) => (
-                                  <div className="product-line-item-details d-flex flex-row gift-box">
-                                    <div className="item-image">
-                                      {/* <LazyLoad> */}
-                                      <img
-                                        className="product-image"
-                                        src={
-                                          gift.goodsInfoImg || foodDispenserPic
-                                        }
-                                        alt={gift.goodsInfoName}
-                                        title={gift.goodsInfoName}
-                                      />
-                                      {/* </LazyLoad> */}
-                                    </div>
-                                    <div className="wrap-item-title">
-                                      <div className="item-title">
-                                        <div
-                                          style={{ color: '#333' }}
-                                          className="line-item-name ui-text-overflow-line2 text-break"
-                                          title={item.goodsName}
-                                        >
-                                          <span className="light">
-                                            {item.goodsName}
-                                          </span>
-                                        </div>
-                                      </div>
-
+                          {toJS(
+                            item.sizeList.filter((e) => e.selected)[0].planId
+                          )
+                            ? toJS(
+                                item.sizeList.filter((e) => e.selected)[0]
+                                  .planGifts
+                              ).map((gift) => (
+                                <div className="product-line-item-details d-flex flex-row gift-box">
+                                  <div className="item-image">
+                                    {/* <LazyLoad> */}
+                                    <img
+                                      className="product-image"
+                                      src={
+                                        gift.goodsInfoImg || foodDispenserPic
+                                      }
+                                      alt={gift.goodsInfoName}
+                                      title={gift.goodsInfoName}
+                                    />
+                                    {/* </LazyLoad> */}
+                                  </div>
+                                  <div className="wrap-item-title">
+                                    <div className="item-title">
                                       <div
-                                        style={{
-                                          width: '100%',
-                                          overflow: 'hidden',
-                                          fontSize: '12px'
-                                        }}
+                                        style={{ color: '#333' }}
+                                        className="line-item-name ui-text-overflow-line2 text-break"
+                                        title={item.goodsName}
                                       >
-                                        x1 <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
+                                        <span className="light">
+                                          {item.goodsName}
+                                        </span>
                                       </div>
+                                    </div>
+
+                                    <div
+                                      style={{
+                                        width: '100%',
+                                        overflow: 'hidden',
+                                        fontSize: '12px'
+                                      }}
+                                    >
+                                      x1{' '}
+                                      <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
                                     </div>
                                   </div>
-                                )
-                              )
+                                </div>
+                              ))
                             : null}
                         </div>
                       </div>
