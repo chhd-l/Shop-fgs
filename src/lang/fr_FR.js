@@ -1451,6 +1451,7 @@ const fr_FR = {
     "En cas de litige pouvant découler des présentes Conditions et de l'utilisation du Site, les dispositions des présentes Conditions seront applicables en priorité, et si les présentes Conditions ne contiennent aucune disposition pertinente, la législation française sera applicable. Tout litige découlant de ou en relation avec ces Conditions et l'utilisation du Site sera soumis aux tribunaux français compétents. ",
   title: 'Titre',
   to: 'À',
+  'miniBasket.total': 'Sous total {totalPrice}',
   total: 'Sous total',
   total2: 'Sous total',
   totalCost: 'coût total',
