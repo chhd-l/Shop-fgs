@@ -2070,7 +2070,8 @@ class Payment extends React.Component {
   };
 
   clickReInputCvvConfirm = () => {
-    console.log(999, this.state.cyberPayParam);
+    // console.log(999, this.state.cyberPayParam);
+    this.setPaymentToCompleted();
   };
 
   // 收起面板，显示preview
