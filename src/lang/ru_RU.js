@@ -1032,7 +1032,7 @@ const ru_RU = {
   'club.joinsubscription.description':
     'Расскажите нам о своем питомце, чтобы получить персональные рекомендации по питанию. ',
   'club.joinsubscription.button': 'Начать',
-  'club.loyal.customers': 'Our loyal customers',
+  'club.loyal.customers': 'Наши постоянные клиенты',
   'club.wheretohelp': 'Есть вопросы?',
   'club.wheretohelp.card.callus.title': 'Позвоните нам',
   'club.wheretohelp.card.callus.description':

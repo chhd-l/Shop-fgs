@@ -17,6 +17,11 @@ import Slidermobile2 from './ClubHeroCarouselImg/Slidermobile2.png';
 import Slidermobile3 from './ClubHeroCarouselImg/Slidermobile3.png';
 import Slidermobile5 from './ClubHeroCarouselImg/Slidermobile5.png';
 import Slidermobile7 from './ClubHeroCarouselImg/Slidermobile7.png';
+import trsliderone from './ClubHeroCarouselImg/trsliderone.png';
+import trslidertwo from './ClubHeroCarouselImg/trslidertwo.png';
+import trsliderthree from './ClubHeroCarouselImg/trsliderthree.png';
+import trsliderfive from './ClubHeroCarouselImg/trsliderfive.png';
+import trsliderseven from './ClubHeroCarouselImg/trsliderseven.png';
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -191,7 +196,7 @@ class ClubHeroCarousel extends React.Component {
               bannerId: '2c91808577d880600177d8837f730004',
               storeId: 123457910,
               bannerName: 'us_002',
-              webUrl: `${Sliderone}`,
+              webUrl: `${trsliderone}`,
               webImgName: 'WeChat Image_20210225172634.jpg',
               webSkipUrl: '/subscription-landing',
               webUuid: 'rc-upload-1614234945878-9',
@@ -206,14 +211,36 @@ class ClubHeroCarousel extends React.Component {
               updateTime: '2021-02-26 07:05:24.000',
               bannerNo: 1,
               sliderTitle:
-                'GIVE YOUR PET A COMPLETE HEALTH SOLUTION, BY SUBSCRIPTION',
+                'Evcil hayvanınıza tam bir sağlık çözümü sunabilmek için abone olun.',
               sliderContent: ''
+            },
+            {
+              bannerId: '2c91808577d880600177d8837f730004',
+              storeId: 123457910,
+              bannerName: 'us_002',
+              webUrl: `${trslidertwo}`,
+              webImgName: 'WeChat Image_20210225172634.jpg',
+              webSkipUrl: '/subscription-landing',
+              webUuid: 'rc-upload-1614234945878-9',
+              mobiUrl: `${Slidermobile2}`,
+              mobiImgName: 'WeChat Image_20210225172628.jpg',
+              mobiSkipUrl: '/subscription-landing',
+              mobiUuid: 'rc-upload-1614234945878-11',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-26 07:05:24.000',
+              updateTime: '2021-02-26 07:05:24.000',
+              bannerNo: 2,
+              sliderTitle: 'İhtiyaca göre beslenme',
+              sliderContent:
+                'Kaliteli besin içeriğine sahip 160 formül arasından evcil hayvanınızın özel ihtiyaçlarına en uygun beslenme çözümünü alın'
             },
             {
               bannerId: '2c918085751fa3ad01752099f30a0002',
               storeId: 123457910,
               bannerName: 'us_003',
-              webUrl: `${Sliderthree}`,
+              webUrl: `${trsliderthree}`,
               webImgName: 'us_003_a.jpg',
               webSkipUrl: '/help',
               webUuid: 'rc-upload-1602569663057-13',
@@ -227,15 +254,15 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-24 05:55:42.000',
               updateTime: '2021-02-24 05:55:42.000',
               bannerNo: 3,
-              sliderTitle: 'Trusted advice from science and experts',
+              sliderTitle: 'Uzmanlardan bilimsel kaynaklı güvenilir tavsiyeler',
               sliderContent:
-                "Get the right diet from 210 formulas with premium ingredients to fit your pet's unique health needs"
+                'Sağlıklı yaşam ve ideal bakım için beslenme danışmanınızdan destek alın'
             },
             {
               bannerId: '2c918085751fa3ad01752099f30a0002',
               storeId: 123457910,
               bannerName: 'us_003',
-              webUrl: `${Sliderfive}`,
+              webUrl: `${trsliderthree}`,
               webImgName: 'us_003_a.jpg',
               webSkipUrl: '/help',
               webUuid: 'rc-upload-1602569663057-13',
@@ -249,15 +276,15 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-24 05:55:42.000',
               updateTime: '2021-02-24 05:55:42.000',
               bannerNo: 4,
-              sliderTitle: 'Never run out of pet food',
+              sliderTitle: 'Mamanız asla bitmesin',
               sliderContent:
-                'Make your life easier with automatic refills to your door, and keep control of your delivery schedule to fit your needs.'
+                'Kapınıza otomatik gelecek mama gönderimiyle hayatınız kolaylaşsın; teslim takviminizi size en uygun olacak şekilde kendiniz belirleyin.'
             },
             {
               bannerId: '2c918085751fa3ad01752099f30a0002',
               storeId: 123457910,
               bannerName: 'us_003',
-              webUrl: `${Sliderseven}`,
+              webUrl: `${trsliderseven}`,
               webImgName: 'us_003_a.jpg',
               webSkipUrl: '/help',
               webUuid: 'rc-upload-1602569663057-13',
@@ -271,9 +298,9 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-24 05:55:42.000',
               updateTime: '2021-02-24 05:55:42.000',
               bannerNo: 5,
-              sliderTitle: 'Exclusive rewards and services',
+              sliderTitle: 'Özel hediyeler ve hizmetler',
               sliderContent:
-                "Receive gifts that support your pet's wellbeing and activity throughout your subscription, and have access to online consultations."
+                'Aboneliğiniz boyunca evcil hayvanınızın sağlığını ve aktivitelerini en iyi şekilde destekleyecek hediyeler alın, online danışmanlık hizmetlerine erişin.'
             }
           ]
         });
@@ -450,9 +477,7 @@ class ClubHeroCarousel extends React.Component {
                           Узнать больше
                         </button>
                       ) : (
-                        <button className="rc-btn rc-btn--one">
-                          Learn more
-                        </button>
+                        <button className="rc-btn rc-btn--one">Keşfet</button>
                       )}
                     </div>
                   </div>
