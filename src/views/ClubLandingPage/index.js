@@ -654,9 +654,11 @@ class ClubLandingPage extends React.Component {
                                 заболеваниями.
                               </span>
                             </p>
-                            <button className="rc-btn rc-btn--two">
-                              Посмотреть ассортимент
-                            </button>
+                            <Link to="vetlandingpage">
+                              <button className="rc-btn rc-btn--two">
+                                Посмотреть ассортимент
+                              </button>
+                            </Link>
                           </div>
                         </div>
                       </div>

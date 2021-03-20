@@ -13,9 +13,25 @@ import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import icon1 from '../../StaticPage/SubscriptionLanding/images/icon1.png';
+import icon2 from '../../StaticPage/SubscriptionLanding/images/icon2.png';
+import icon3 from '../../StaticPage/SubscriptionLanding/images/icon3.png';
+import icon4 from '../../StaticPage/SubscriptionLanding/images/icon4.png';
+import HelpComponents from '../../../components/HelpComponents/HelpComponents';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
+
+function Divider() {
+  return (
+    <div className="experience-component experience-assets-divider">
+      <div
+        className="rc-border-bottom rc-border-colour--brand4"
+        style={{ borderBottomWidth: '4px' }}
+      />
+    </div>
+  );
+}
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
@@ -113,14 +129,14 @@ class VetLandingPage extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--md text-center rc-margin-y--md">
                         <div className="rc-alpha inherit-fontsize">
-                          <h1>Never run out of your pet's food now</h1>
+                          <h1>У Вашего питомца никогда не закончится корм!</h1>
                         </div>
                         <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
                           <p>
-                            The health and wellbeing of every cat and dog is at
-                            the center of everything we do. The health and
-                            wellbeing of every cat and dog is at the center of
-                            everything we do.
+                            Наша услуга по подписке на корм разработана
+                            специально для того, чтобы упростить вашу жизнь и
+                            гарантировать, что Вы всегда будете получать питание
+                            для Вашего питомца, доставляемое прямо к порогу.
                           </p>
                         </div>
                       </div>
@@ -134,77 +150,50 @@ class VetLandingPage extends React.Component {
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                        <a
-                          id={this.state.intl['aboutUs.history']}
-                          name={this.state.intl['aboutUs.history']}
-                          className="page-section-anchor"
-                          aria-hidden="true"
-                        ></a>
-                        <div className="row align-items-md-center">
-                          <div className=" col-12 col-lg-6">
-                            <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                              <h2 className="rc-beta markup-text">
-                                <FormattedMessage id="aboutUs.history" />
-                              </h2>
-                              <p>
-                                <FormattedMessage id="aboutUs.historyDetail" />
-                              </p>
+                        <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
+                          <div className="rc-column">
+                            <div className="rc-padding-y--lg--mobile rc-full-width">
+                              <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                                <li className="rc-list__item">
+                                  <i className="wof rc-margin-right--xs"></i>Вы
+                                  экономите 10% с каждого заказа orders
+                                </li>
+                                <li className="rc-list__item">
+                                  <i className="wof rc-margin-right--xs"></i>
+                                  Автоматическое пополнение запасов корма с
+                                  бесплатной доставкой при подписке на сумму от
+                                  2500 руб. time
+                                </li>
+                                <li className="rc-list__item">
+                                  <i className="wof rc-margin-right--xs"></i>Вы
+                                  можете изменить или отменить подписку в любое
+                                  время
+                                </li>
+                              </ul>
+                              Ветеринарные диеты Royal Canin
+                              <br />
+                              <br />
+                              <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
+                                <a href="/fr/shop/cats">
+                                  <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
+                                    Корм для Кошки
+                                  </button>
+                                </a>
+                                <a href="/fr/shop/dogs">
+                                  <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
+                                    Корм для Собаки
+                                  </button>
+                                </a>
+                              </div>
                             </div>
                           </div>
-                          <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                            <picture data-rc-feature-objectfillpolyfill-setup="true">
+                          <div className="rc-column">
+                            <div className="lazyload-wrapper">
                               <img
-                                className="w-100 ls-is-cached lazyloaded"
-                                alt={this.state.intl['aboutUs.history']}
-                                title={this.state.intl['aboutUs.history']}
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg`}
+                                alt="With the Subscription, they will always have what they need"
+                                className="w-100 lazyloaded"
+                                src="https://fgs-cdn.azureedge.net/stg/img/autoship_dog.png"
                               />
-                            </picture>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="experience-component experience-layouts-1column">
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-contentBlock">
-                      <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                        <a
-                          id={this.state.intl['aboutUs.ourValues']}
-                          name={this.state.intl['aboutUs.ourValues']}
-                          className="page-section-anchor"
-                          aria-hidden="true"
-                        ></a>
-                        <div className="row align-items-md-center">
-                          <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                            <picture data-rc-feature-objectfillpolyfill-setup="true">
-                              <img
-                                className="w-100 ls-is-cached lazyloaded"
-                                alt={this.state.intl['aboutUs.ourValues']}
-                                title={this.state.intl['aboutUs.ourValues']}
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}
-                              />
-                            </picture>
-                          </div>
-                          <div className=" col-12 col-lg-6">
-                            <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                              <h2 className="rc-beta markup-text">
-                                <FormattedMessage id="aboutUs.ourValues" />
-                              </h2>
-                              <p>
-                                <FormattedMessage id="aboutUs.ourValuesDetail" />
-                              </p>
-                              <Link
-                                className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                to="/Tailorednutrition"
-                                title="En savoir plus"
-                              >
-                                <FormattedMessage id="aboutUs.learnMore" />
-                              </Link>
                             </div>
                           </div>
                         </div>
@@ -218,164 +207,114 @@ class VetLandingPage extends React.Component {
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
-                      <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                        <a
-                          id={this.state.intl['aboutUs.FoodQualityandSafety']}
-                          name={this.state.intl['aboutUs.FoodQualityandSafety']}
-                          className="page-section-anchor"
-                          aria-hidden="true"
-                        ></a>
-                        <div className="row align-items-md-center">
-                          <div className=" col-12 col-lg-6">
-                            <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                              <h2 className="rc-beta markup-text">
-                                <FormattedMessage id="aboutUs.FoodQualityandSafety" />
-                              </h2>
-                              <p>
-                                <FormattedMessage id="aboutUs.FoodQualityandSafetyDetail" />
-                              </p>
-                              <Link
-                                className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                to="/Quality-safety"
-                                title="En savoir plus"
-                              >
-                                <FormattedMessage id="aboutUs.learnMore" />
-                              </Link>
-                            </div>
-                          </div>
-                          <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                            <picture data-rc-feature-objectfillpolyfill-setup="true">
-                              <img
-                                className="w-100 ls-is-cached lazyloaded"
-                                alt={
-                                  this.state.intl[
-                                    'aboutUs.FoodQualityandSafety'
-                                  ]
-                                }
-                                title={
-                                  this.state.intl[
-                                    'aboutUs.FoodQualityandSafety'
-                                  ]
-                                }
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg`}
-                              />
-                            </picture>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="experience-component experience-layouts-1column">
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-textContent">
-                      <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
-                        <h2>
-                          <FormattedMessage id="aboutUs.IncredibleDetail" />
+                      <section
+                        style={{
+                          textAlign: 'center',
+                          width: '50%',
+                          margin: '0 auto'
+                        }}
+                      >
+                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                          Как работает подписка?
                         </h2>
-                        <p>
-                          <FormattedMessage id="aboutUs.SeeHowWeDo" />
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="experience-component experience-layouts-1column">
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-singleYoutubeVideo">
-                      <div className="rc-max-width--md rc-padding-x--lg">
-                        <div className="rc-video-wrapper">
-                          <iframe
-                            src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.fr"
-                            title="making a better world for pets"
-                            allowFullScreen=""
-                            frameBorder="0"
-                          ></iframe>
+                      </section>
+                      <div
+                        className="rc-layout-container rc-four-column"
+                        style={{ padding: '20px' }}
+                      >
+                        <div
+                          className="rc-column"
+                          style={{ textAlign: 'center' }}
+                        >
+                          <LazyLoad>
+                            <img
+                              alt=""
+                              src={icon1}
+                              style={{
+                                width: '100px',
+                                display: 'inline-block',
+                                marginBottom: '20px'
+                              }}
+                            />
+                          </LazyLoad>
+                          {/* <p>Выберите подходящий рацион питания для Вашего питомца</p> */}
+                          <p>
+                            Выберите&nbsp;<strong>подходящий рацион</strong>
+                            &nbsp;питания для Вашего питомца
+                          </p>
+                        </div>
+                        <div
+                          className="rc-column"
+                          style={{ textAlign: 'center' }}
+                        >
+                          <LazyLoad>
+                            <img
+                              alt=""
+                              src={icon2}
+                              style={{
+                                width: '100px',
+                                display: 'inline-block',
+                                marginBottom: '20px'
+                              }}
+                            />
+                          </LazyLoad>
+                          {/* <p>Выберите частоту отправки, адрес доставки и способ оплаты</p> */}
+                          <p>
+                            Выберите частоту отправки, адрес доставки и способ
+                            оплаты
+                          </p>
+                        </div>
+                        <div
+                          className="rc-column"
+                          style={{ textAlign: 'center' }}
+                        >
+                          <LazyLoad>
+                            <img
+                              alt=""
+                              src={icon3}
+                              style={{
+                                width: '100px',
+                                display: 'inline-block',
+                                marginBottom: '20px'
+                              }}
+                            />
+                          </LazyLoad>
+                          {/* <p>Получайте заказ автоматически по Вашему расписанию</p> */}
+                          <p>
+                            Получайте заказ автоматически&nbsp;
+                            <strong>по Вашему расписанию</strong>
+                          </p>
+                        </div>
+                        <div
+                          className="rc-column"
+                          style={{ textAlign: 'center' }}
+                        >
+                          <LazyLoad>
+                            <img
+                              alt=""
+                              src={icon4}
+                              style={{
+                                width: '100px',
+                                display: 'inline-block',
+                                marginBottom: '20px'
+                              }}
+                            />
+                          </LazyLoad>
+                          {/* <p>Меняйте график доставки в любое время, когда захотите</p> */}
+                          <p>
+                            Меняйте график доставки в любое время,&nbsp;
+                            <strong>когда захотите</strong>
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              {process.env.REACT_APP_LANG == 'en' ? (
-                <div className="experience-component experience-layouts-1column">
-                  <div className="row rc-margin-x--none">
-                    <div className="rc-full-width">
-                      <div className="experience-component experience-assets-twoCategories">
-                        <div className="rc-max-width--lg rc-padding-x--lg--mobile rc-margin-y--md">
-                          <div className=" rc-margin-top--lg">
-                            <div>
-                              <h2 className="rc-alpha inherit-fontsize">
-                                <FormattedMessage id="aboutUs.shopTile" />
-                              </h2>
-                              <p className="rc-large-intro rc-margin-bottom--sm"></p>
-                            </div>
-
-                            <div className="rc-card-grid rc-match-heights rc-four-column">
-                              <div className="rc-grid">
-                                <article className="rc-card rc-card--a">
-                                  <Link to="/dogs/">
-                                    <LazyLoad>
-                                      <img
-                                        src={dog}
-                                        style={{ width: '100%' }}
-                                        alt=""
-                                      />
-                                    </LazyLoad>
-                                  </Link>
-                                  <div className="rc-card__body">
-                                    <header>
-                                      <Link to="/dogs/">
-                                        <h4 className="rc-card__title">
-                                          <FormattedMessage id="aboutUs.shopDog" />
-                                        </h4>
-                                      </Link>
-                                      <p className="rc-margin--none"></p>
-                                    </header>
-                                  </div>
-                                </article>
-                              </div>
-
-                              <div className="rc-grid">
-                                <article className="rc-card rc-card--a">
-                                  <Link to="/cats/">
-                                    <LazyLoad>
-                                      <img
-                                        src={cat}
-                                        style={{ width: '100%' }}
-                                        alt=""
-                                      />
-                                    </LazyLoad>
-                                  </Link>
-                                  <div className="rc-card__body">
-                                    <header>
-                                      <Link to="/cats/">
-                                        <h4 className="rc-card__title">
-                                          <FormattedMessage id="aboutUs.shopCat" />
-                                        </h4>
-                                      </Link>
-                                      <p className="rc-margin--none"></p>
-                                    </header>
-                                  </div>
-                                </article>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <></>
-              )}
+              <br />
+              <Divider />
+              <br />
+              <HelpComponents />
             </div>
           </div>
         </main>
