@@ -717,7 +717,7 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {order.toExternalOrderId}
+                                            {order.id}
                                           </span>
                                         </p>
                                       </div>
@@ -865,21 +865,17 @@ class AccountOrders extends React.Component {
                                             <span className="medium color-444 ui-text-overflow-line2">
                                               {item.spuName}
                                             </span>
-                                            {[
-                                              item.specDetails,
-                                              this.props.intl.formatMessage(
-                                                { id: 'xProduct' },
-                                                {
-                                                  val: item.num
-                                                }
-                                              )
-                                            ]
-                                              .filter((e) => e)
-                                              .join(' - ')}
+                                            <FormattedMessage
+                                              id="quantityText"
+                                              values={{
+                                                specText: item.specDetails,
+                                                buyCount: item.num
+                                              }}
+                                            />
                                           </div>
                                           {item.subscriptionPlanId ? (
                                             <div className="align-items-center d-flex">
-                                              <i className="gift-icon"></i>
+                                              <i className="gift-icon" />
                                               <div>
                                                 <span className="medium color-444 ui-text-overflow-line2">
                                                   Cadeaux

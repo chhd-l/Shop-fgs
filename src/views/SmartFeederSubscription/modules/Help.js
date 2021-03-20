@@ -234,7 +234,8 @@ class Help extends React.Component {
                                   {isRecommendationPage ? (
                                     <span
                                       style={{
-                                        verticalAlign: 'inherit'
+                                        verticalAlign: 'inherit',
+                                        color: '#0087BD'
                                       }}
                                     >
                                       {emailTitle ? (
@@ -264,7 +265,7 @@ class Help extends React.Component {
                                   )}
                                 </b>
                                 <p>
-                                  <span style={{ color: 'rgb(0, 0, 0)' }}>
+                                  <span style={{ color: 'rgb(102, 102, 102)' }}>
                                     {emailDes ? (
                                       emailDes
                                     ) : (
@@ -273,46 +274,47 @@ class Help extends React.Component {
                                   </span>
                                 </p>
                                 <div className="rc-margin-top--xs">
-                                  <p
+                                  {/* <p
                                     className="rc-numeric text-nowrap"
                                     style={{
                                       color: 'rgb(0, 135, 189)'
                                     }}
-                                  >
-                                    {isRecommendationPage ? (
-                                      <Link
-                                        to={emailLink}
-                                        style={{
-                                          fontSize: '16px',
-                                          borderBottom: '1px solid transparent'
-                                        }}
-                                      >
-                                        {emailTitle ? (
-                                          emailTitle
-                                        ) : (
-                                          <FormattedMessage id="help.email" />
-                                        )}
-                                      </Link>
-                                    ) : (
-                                      <a
-                                        href={this.state.mailAddress}
-                                        style={{
-                                          fontSize: '16px',
-                                          borderBottom: '1px solid transparent',
-                                          textDecoration: isEmailUnderLine
-                                            ? 'underline'
-                                            : 'none'
-                                        }}
-                                        className="rc-styled-link 1111"
-                                      >
-                                        {email ? (
-                                          email
-                                        ) : (
-                                          <FormattedMessage id="help.email" />
-                                        )}
-                                      </a>
-                                    )}
-                                  </p>
+                                  > */}
+                                  {isRecommendationPage ? (
+                                    <Link
+                                      to={emailLink}
+                                      // style={{
+                                      //   fontSize: '16px',
+                                      //   borderBottom: '1px solid transparent'
+                                      // }}
+                                      className="rc-styled-link"
+                                    >
+                                      {email ? (
+                                        email
+                                      ) : (
+                                        <FormattedMessage id="help.email" />
+                                      )}
+                                    </Link>
+                                  ) : (
+                                    <a
+                                      href={this.state.mailAddress}
+                                      style={{
+                                        fontSize: '16px',
+                                        borderBottom: '1px solid transparent',
+                                        textDecoration: isEmailUnderLine
+                                          ? 'underline'
+                                          : 'none'
+                                      }}
+                                      className="rc-styled-link 1111"
+                                    >
+                                      {email ? (
+                                        email
+                                      ) : (
+                                        <FormattedMessage id="help.email" />
+                                      )}
+                                    </a>
+                                  )}
+                                  {/* </p> */}
                                 </div>
                               </div>
                             </div>

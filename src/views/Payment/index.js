@@ -53,11 +53,12 @@ import {
   customerCommitAndPayMix,
   getWays,
   getProductPetConfig,
-  usGuestPaymentInfo
+  getPaymentMethod
 } from '@/api/payment';
 
 import PayUCreditCard from './PayUCreditCard';
 import AdyenCreditCard from './Adyen';
+import CyberCardList from './Cyber/list';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
 
@@ -79,7 +80,6 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
-import { usPaymentInfo } from '@/api/payment';
 
 const cardTypeImg = {
   visa: visaImg,
@@ -99,6 +99,14 @@ const CardTypeName = {
   cyberMastercard: 'Mastercard',
   cyberAmex: 'Amex',
   cyberDiscover: 'Discover'
+};
+
+const cyberFormTitle = {
+  cardHolderName: 'cyber.form.cardHolderName2',
+  cardNumber: 'cyber.form.cardNumber2',
+  EXPMonth: 'cyber.form.EXPMonth2',
+  EXPYear: 'cyber.form.EXPYear2',
+  secureCode: 'cyber.form.secureCode2'
 };
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -197,11 +205,11 @@ class Payment extends React.Component {
       pet: {},
       //cyber参数
       cyberPaymentForm: {
-        cardholderName: 'Didier Valansot',
-        cardNumber: '4111111111111111',
+        cardholderName: '', //Didier Valansot
+        cardNumber: '', //4111111111111111
         expirationMonth: '',
         expirationYear: '',
-        securityCode: '000', //000
+        securityCode: '', //000
         firstName: '',
         lastName: '',
         address1: '',
@@ -245,7 +253,9 @@ class Payment extends React.Component {
 
       cardTypeVal: '',
       cardTypeArr: [],
-      cyberPayParam: ''
+      cyberPayParam: '',
+      isShowCardList: false,
+      isShowCyberBindCardBtn: false
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -255,7 +265,26 @@ class Payment extends React.Component {
     this.adyenCardRef = React.createRef();
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
+    this.cyberCardListRef = React.createRef();
   }
+  updateSelectedCardInfo = (data) => {
+    if (data?.cardCvv) {
+      this.setState({
+        isShowCyberBindCardBtn: true,
+        cyberPayParam: data
+      });
+    } else {
+      this.setState({
+        isShowCyberBindCardBtn: false,
+        cyberPayParam: data
+      });
+    }
+  };
+  showCyberForm = () => {
+    this.setState({
+      isShowCardList: false
+    });
+  };
   inputBlur = async (e) => {
     const { cyberErrMsgObj } = this.state;
     const target = e.target;
@@ -308,7 +337,21 @@ class Payment extends React.Component {
   componentWillMount() {
     isHubGA && this.getPetVal();
   }
+  queryList = async () => {
+    try {
+      let res = await getPaymentMethod();
+      let cardList = res.context;
+      if (cardList.length > 0) {
+        this.setState({ isShowCardList: true });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   async componentDidMount() {
+    if (this.isLogin) {
+      await this.queryList();
+    }
     if (!this.isLogin) {
       checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' });
     }
@@ -864,10 +907,10 @@ class Payment extends React.Component {
         },
         cyber: () => {
           parameters = Object.assign({}, commonParameter, {
-            payPspItemEnum: 'CYBER'
-          });
-          parameters = Object.assign(parameters, {
-            paymentMethodId: this.state.cyberPayParam.id
+            payPspItemEnum: 'CYBER',
+            paymentMethodId: this.state.cyberPayParam.id,
+            securityCode: this.state.cyberPayParam.cardCvv,
+            accessToken: this.state.cyberPayParam.accessToken
           });
         }
       };
@@ -1107,6 +1150,18 @@ class Payment extends React.Component {
           if (res.context.redirectUrl) {
             window.location.href = res.context.redirectUrl;
           }
+          break;
+        case 'cyber':
+          subOrderNumberList =
+            tidList.length && tidList[0]
+              ? tidList
+              : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
+          sessionItemRoyal.set(
+            'subOrderNumberList',
+            JSON.stringify(subOrderNumberList)
+          );
+          gotoConfirmationPage = true;
           break;
         default:
           break;
@@ -1699,8 +1754,8 @@ class Payment extends React.Component {
         billingAddress: data
       });
     }
-    // console.log('------------------ payment updateDeliveryAddrData data: ', data);
     try {
+      // console.log('------------------ payment updateDeliveryAddrData data: ', data);
       if (process.env.REACT_APP_LANG === 'en') {
         // 获取税额
         if (this.isLogin) {
@@ -1887,30 +1942,28 @@ class Payment extends React.Component {
     } = this.state;
 
     let cyberPaymentParam = {};
-    cyberPaymentParam.cardholderName = cardholderName;
-    cyberPaymentParam.cardNumber = cardNumber;
-    cyberPaymentParam.expirationMonth = expirationMonth;
-    cyberPaymentParam.expirationYear = expirationYear;
-    cyberPaymentParam.securityCode = securityCode;
-    cyberPaymentParam.firstName = firstName;
-    cyberPaymentParam.lastName = lastName;
-    cyberPaymentParam.address1 = address1;
-    cyberPaymentParam.address2 = address2;
-    cyberPaymentParam.country = 'US';
-    cyberPaymentParam.state = province;
-    cyberPaymentParam.city = city;
-    cyberPaymentParam.zipCode = postCode;
-    cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
-
-    cyberPaymentParam.phone = phoneNumber;
-
-    let cyberParams = Object.assign({}, cyberPaymentParam, {
-      cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
-      paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
-    });
-
-    console.log(cyberPaymentParam);
-    debugger;
+    let cyberParams = {};
+    if (paymentTypeVal == 'cyber') {
+      cyberPaymentParam.cardholderName = cardholderName;
+      cyberPaymentParam.cardNumber = cardNumber;
+      cyberPaymentParam.securityCode = securityCode;
+      cyberPaymentParam.expirationMonth = expirationMonth;
+      cyberPaymentParam.expirationYear = expirationYear;
+      cyberPaymentParam.firstName = firstName;
+      cyberPaymentParam.lastName = lastName;
+      cyberPaymentParam.address1 = address1;
+      cyberPaymentParam.address2 = address2;
+      cyberPaymentParam.country = 'US';
+      cyberPaymentParam.state = province; // province
+      cyberPaymentParam.city = city;
+      cyberPaymentParam.zipCode = postCode;
+      cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
+      cyberPaymentParam.phone = phoneNumber;
+      cyberParams = Object.assign({}, cyberPaymentParam, {
+        cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
+        paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
+      });
+    }
 
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
@@ -1949,14 +2002,12 @@ class Payment extends React.Component {
     //cyber游客绑卡
     const unLoginCyberSaveCard = async (params) => {
       try {
-        if (this.state.paymentTypeVal == 'cyber') {
-          const res = await this.cyberCardRef.current.usGuestPaymentInfoEvent(
-            params
-          );
-          return new Promise((resolve) => {
-            resolve(res);
-          });
-        }
+        const res = await this.cyberCardRef.current.usGuestPaymentInfoEvent(
+          params
+        );
+        return new Promise((resolve) => {
+          resolve(res);
+        });
       } catch (e) {
         throw new Error(e.message);
       }
@@ -1965,14 +2016,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        if (this.state.paymentTypeVal == 'cyber') {
-          const res = await this.cyberCardRef.current.usPaymentInfoEvent(
-            params
-          );
-          return new Promise((resolve) => {
-            resolve(res);
-          });
-        }
+        const res = await this.cyberCardRef.current.usPaymentInfoEvent(params);
+        return new Promise((resolve) => {
+          resolve(res);
+        });
       } catch (e) {
         throw new Error(e.message);
       }
@@ -1996,17 +2043,24 @@ class Payment extends React.Component {
         if (paymentTypeVal === 'adyenCard' && !adyenPayParam) {
           await handleClickSaveAdyenForm(this);
         }
+
         await handleClickSavePayUForm(this);
-        const res = await loginCyberSaveCard(cyberParams);
-        console.log(res);
+
+        if (paymentTypeVal === 'cyber') {
+          const res = await loginCyberSaveCard(cyberParams);
+          getBindCardInfo(res);
+        }
       } else {
         // 1 save card form
         // 2 save billing addr, when billing checked status is false
         await handleClickSaveAdyenForm(this);
         await handleClickSavePayUForm(this);
-        const res = await unLoginCyberSaveCard(cyberParams);
-        console.log(res);
-        getBindCardInfo(res);
+
+        if (paymentTypeVal === 'cyber') {
+          const res = await unLoginCyberSaveCard(cyberParams);
+          getBindCardInfo(res);
+        }
+
         if (
           !billingChecked &&
           this.unLoginBillingAddrRef &&
@@ -2022,6 +2076,12 @@ class Payment extends React.Component {
       this.setState({ saveBillingLoading: false });
     }
   };
+
+  clickReInputCvvConfirm = () => {
+    // console.log(999, this.state.cyberPayParam);
+    this.setPaymentToCompleted();
+  };
+
   // 收起面板，显示preview
   setPaymentToCompleted = () => {
     const { paymentStore } = this.props;
@@ -2092,6 +2152,7 @@ class Payment extends React.Component {
       }
       return !isValidForCyberPayment;
     };
+
     const payConfirmBtn = ({ disabled, loading = false }) => {
       return (
         <div className="d-flex justify-content-end mt-3">
@@ -2105,6 +2166,21 @@ class Payment extends React.Component {
         </div>
       );
     };
+
+    const reInputCVVBtn = ({ disabled, loading = false }) => {
+      return (
+        <div className="d-flex justify-content-end mt-3">
+          <button
+            className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
+            disabled={disabled}
+            onClick={this.clickReInputCvvConfirm}
+          >
+            <FormattedMessage id="yes2" />
+          </button>
+        </div>
+      );
+    };
+
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
         {/* *******************支付tab栏start************************************ */}
@@ -2142,38 +2218,7 @@ class Payment extends React.Component {
           </div>
         )}
         {/* ********************支付tab栏end********************************** */}
-        {/* cyber卡类型选择 start */}
-        {cardTypeArr.length > 1 && (
-          <div className={`ml-custom mr-custom`}>
-            {cardTypeArr.map((item, i) => {
-              return (
-                <div className={`rc-input rc-input--inline`} key={i}>
-                  <input
-                    className="rc-input__radio"
-                    id={`payment-info-${item.id}`}
-                    value={item.cardTypeVal}
-                    type="radio"
-                    name="payment-info"
-                    onChange={this.handleCardTypeChange}
-                    checked={cardTypeVal === item.cardTypeVal}
-                  />
-                  <label
-                    className="rc-input__label--inline"
-                    htmlFor={`payment-info-${item.id}`}
-                  >
-                    <img
-                      src={cardTypeImg[item.id]}
-                      title={item.id}
-                      style={{ width: '40px' }}
-                      alt=""
-                    />
-                  </label>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        {/* cyber卡类型选择 end */}
+
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
@@ -2305,10 +2350,47 @@ class Payment extends React.Component {
                 </>
               )}
 
-              {/* CYBER */}
-              {paymentTypeVal === 'cyber' && (
+              {/* CYBER Form输入 */}
+              {paymentTypeVal === 'cyber' && !this.state.isShowCardList && (
                 <>
+                  {/* cyber卡类型选择 start */}
+                  {cardTypeArr.length > 1 &&
+                    process.env.REACT_APP_GA_COUNTRY == 'US' && (
+                      <div>
+                        {cardTypeArr.map((item, i) => {
+                          return (
+                            <div
+                              className={`rc-input rc-input--inline`}
+                              key={i}
+                            >
+                              <input
+                                className="rc-input__radio"
+                                id={`payment-info-${item.id}`}
+                                value={item.cardTypeVal}
+                                type="radio"
+                                name="payment-info"
+                                onChange={this.handleCardTypeChange}
+                                checked={cardTypeVal === item.cardTypeVal}
+                              />
+                              <label
+                                className="rc-input__label--inline"
+                                htmlFor={`payment-info-${item.id}`}
+                              >
+                                <img
+                                  src={cardTypeImg[item.id]}
+                                  title={item.id}
+                                  style={{ width: '40px' }}
+                                  alt=""
+                                />
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  {/* cyber卡类型选择 end */}
                   <CyberPaymentForm
+                    cyberFormTitle={cyberFormTitle}
                     ref={this.cyberCardRef}
                     form={this.state.cyberPaymentForm}
                     errMsgObj={this.state.cyberErrMsgObj}
@@ -2330,6 +2412,24 @@ class Payment extends React.Component {
                 </>
               )}
 
+              {/* CYBER卡列表 */}
+              {paymentTypeVal === 'cyber' && this.state.isShowCardList && (
+                <>
+                  <CyberCardList
+                    ref={this.cyberCardListRef}
+                    updateSelectedCardInfo={this.updateSelectedCardInfo}
+                    showCyberForm={this.showCyberForm}
+                    billingJSX={this.renderBillingJSX({
+                      type: paymentTypeVal
+                    })}
+                  />
+                  {reInputCVVBtn({
+                    disabled: !this.state.isShowCyberBindCardBtn,
+                    loading: saveBillingLoading
+                  })}
+                </>
+              )}
+
               {/* ***********************支付选项卡的内容end******************************* */}
             </>
           )}
@@ -2340,8 +2440,11 @@ class Payment extends React.Component {
   };
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
-    // console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
-    // console.log('------------- ★★ 222 Payment renderAddrPreview billingAddress: ', this.state.billingAddress);
+    //console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
+    console.log(
+      '------------- ★★ 222 Payment renderAddrPreview billingAddress: ',
+      this.state.billingAddress
+    );
     // this.setState({
     //   billingAddress: form
     // });
@@ -2528,8 +2631,19 @@ class Payment extends React.Component {
     });
   };
   updateGuestEmail = ({ email: guestEmail }) => {
+    const { deliveryAddress } = this.state;
     this.setState({ guestEmail }, () => {
-      this.props.checkoutStore.updateUnloginCart({ guestEmail });
+      this.props.checkoutStore.updateUnloginCart({
+        guestEmail,
+        taxFeeData: {
+          country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+          region: deliveryAddress.provinceNo, // 省份简写
+          city: deliveryAddress.city,
+          street: deliveryAddress.address1,
+          postalCode: deliveryAddress.postCode,
+          customerAccount: guestEmail
+        }
+      });
     });
   };
   toggleMobileCart(name) {

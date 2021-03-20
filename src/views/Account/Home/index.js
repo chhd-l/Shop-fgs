@@ -176,7 +176,10 @@ class AccountHome extends React.Component {
                 <p className="mb-0">
                   <FormattedMessage
                     id="account.warmNotice"
-                    values={{ val: this.userInfo && this.userInfo.firstName }}
+                    values={{
+                      val: this.userInfo && this.userInfo.firstName,
+                      br: <br />
+                    }}
                   />
                 </p>
                 <div className="clearfix" />

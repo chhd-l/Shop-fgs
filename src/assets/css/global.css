@@ -22589,17 +22589,11 @@ h6 {
 }
 
 .value-proposition__content {
-  max-width: 286px;
+  max-width: 395px;
 }
 
 .value-proposition__text {
   flex: 1;
-}
-
-@media (min-width: 769px) {
-  .value-proposition__content {
-    max-width: 395px;
-  }
 }
 
 .centered-icon-list__icon {

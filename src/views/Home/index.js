@@ -31,7 +31,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
-let RCDrawPng= `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`
+let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -105,7 +105,7 @@ function HealthNutrition() {
                                   />
                                 </picture>
                               </LazyLoad>
-                              </div>
+                            </div>
                           </Link>
                         </div>
                       </div>
@@ -157,7 +157,7 @@ function HealthNutrition() {
                                   />
                                 </picture>
                               </LazyLoad>
-                              </div>
+                            </div>
                           </Link>
                         </div>
                       </div>
@@ -254,13 +254,13 @@ function Share() {
                   data-rows="4"
                   data-rc-prev="prev"
                   data-rc-next="next"
-                  className="rc-carousel rc-carousel--cards rc-match-heights js-card-carousel"
+                  className="rc-carousel rc-carousel--cards rc-match-heights js-card-carousel carousel-home-share"
                 >
                   <div className="rc-carousel__card-gal">
                     <div className="rc-padding-x--xs">
-                      <a
+                      <div
                         className="rc-full-width"
-                        href="https://www.instagram.com/royalcaninus/"
+                        // href="https://www.instagram.com/royalcaninus/"
                       >
                         <article className="rc-card rc-card--b rc-border--none">
                           <picture
@@ -278,12 +278,12 @@ function Share() {
                             </LazyLoad>
                           </picture>
                         </article>
-                      </a>
+                      </div>
                     </div>
                     <div className="rc-padding-x--xs">
-                      <a
+                      <div
                         className="rc-full-width"
-                        href="https://www.instagram.com/royalcaninus/"
+                        // href="https://www.instagram.com/royalcaninus/"
                       >
                         <article className="rc-card rc-card--b rc-border--none">
                           <picture
@@ -301,12 +301,12 @@ function Share() {
                             </LazyLoad>
                           </picture>
                         </article>
-                      </a>
+                      </div>
                     </div>
                     <div className="rc-padding-x--xs">
-                      <a
+                      <div
                         className="rc-full-width"
-                        href="https://www.instagram.com/royalcaninus/"
+                        // href="https://www.instagram.com/royalcaninus/"
                       >
                         <article className="rc-card rc-card--b rc-border--none">
                           <picture
@@ -324,12 +324,12 @@ function Share() {
                             </LazyLoad>
                           </picture>
                         </article>
-                      </a>
+                      </div>
                     </div>
                     <div className="rc-padding-x--xs">
-                      <a
+                      <div
                         className="rc-full-width"
-                        href="https://www.instagram.com/royalcaninus/"
+                        // href="https://www.instagram.com/royalcaninus/"
                       >
                         <article className="rc-card rc-card--b rc-border--none">
                           <picture
@@ -347,7 +347,7 @@ function Share() {
                             </LazyLoad>
                           </picture>
                         </article>
-                      </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -455,11 +455,6 @@ class Home extends React.Component {
     };
   }
   async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     setSeoConfig({ pageName: 'Home Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });

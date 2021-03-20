@@ -73,21 +73,37 @@ class PaymentEditForm extends React.Component {
 
       // 組件
       paymentForm: {
-        cardholderName: 'Didier Valansot',
-        cardNumber: '4111111111111111',
-        expirationMonth: 2,
-        expirationYear: '2022',
-        securityCode: '000', //000
-        firstName: 'Didier',
-        lastName: 'Valansot',
-        address1: 'add1',
-        address2: 'add2', //非必填
+        cardholderName: '', //Didier Valansot
+        cardNumber: '', //4111111111111111
+        expirationMonth: '', //2
+        expirationYear: '', //2022
+        securityCode: '', //000
+        firstName: '', //Didier
+        lastName: '', //Valansot
+        address1: '', //add1
+        address2: '', //add2非必填
         country: '',
         state: '', //Alabama
         city: '',
-        zipCode: '10036',
-        email: 'didier.valansot@publicissapient.com',
+        zipCode: '', //10036
+        email: '', //didier.valansot@publicissapient.com
         isSaveCard: true
+
+        // cardholderName: 'Didier Valansot', //Didier Valansot
+        // cardNumber: '4111111111111111', //4111111111111111
+        // expirationMonth: 2, //2
+        // expirationYear: '2022', //2022
+        // securityCode: '000', //000
+        // firstName: 'Didier', //Didier
+        // lastName: 'Didier', //Didier
+        // address1: 'add1', //add1
+        // address2: '', //add2非必填
+        // country: '',
+        // state: 'Alabama', //Alabama
+        // city: '',
+        // zipCode: '10036', //10036
+        // email: 'didier.valansot@publicissapient.com', //didier.valansot@publicissapient.com
+        // isSaveCard: true
       },
       monthList: [
         { name: 'month', value: '' },
@@ -615,7 +631,7 @@ class PaymentEditForm extends React.Component {
     ValidationAddressData['country'] = paymentForm.countryId;
     ValidationAddressData['address1'] = paymentForm.address1;
     ValidationAddressData['postCode'] = paymentForm.zipCode;
-    ValidationAddressData['provinceName'] = paymentForm.state;
+    ValidationAddressData['province'] = paymentForm.state;
 
     this.setState({ ValidationAddressData });
 

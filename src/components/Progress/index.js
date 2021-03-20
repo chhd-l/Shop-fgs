@@ -18,14 +18,15 @@ function Progress(props) {
         style={{ display: isPrescriberMap !== '1' ? 'block' : 'none' }}
       >
         <h4>
-          <FormattedMessage id="checkout" />
+          <FormattedMessage id="payment.checkout" />
         </h4>
         <p>
-          <FormattedMessage id="checkoutTip" values={{
-            val1:(
-              <br/>
-            )
-          }} />
+          <FormattedMessage
+            id="checkoutTip"
+            values={{
+              val1: <br />
+            }}
+          />
         </p>
       </div>
       <div

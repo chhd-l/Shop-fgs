@@ -4,74 +4,54 @@ import './index.less';
 export default class AsNavFor extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      nav1: null,
-      nav2: null
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    this.setState({
-      nav1: this.slider1,
-      nav2: this.slider2
-    });
+    this.setState({});
   }
+  navToSlide = (idx) => {
+    console.info('idx', idx);
+    this.slider.slickGoTo(idx);
+  };
 
   render() {
     return (
-      <div>
+      <div className="demo-css">
         <h2>Slider Syncing (AsNavFor)</h2>
         <h4>First Slider</h4>
         <Slider
-          asNavFor={this.state.nav2}
-          ref={(slider) => (this.slider1 = slider)}
+          ref={(slider) => (this.slider = slider)}
+          swipeToSlide={true}
+          arrows={false}
+          infinite={false}
         >
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
+          {Array(6)
+            .fill()
+            .map((item, idx) => (
+              <div>
+                <h3>{idx + 1}</h3>
+              </div>
+            ))}
         </Slider>
         <h4>Second Slider</h4>
         <Slider
-          asNavFor={this.state.nav1}
-          ref={(slider) => (this.slider2 = slider)}
           slidesToShow={3}
-          swipeToSlide={true}
-          focusOnSelect={true}
-          centerMode={true}
+          swipeToSlide={false}
+          arrows={true}
+          infinite={false}
         >
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
+          {Array(6)
+            .fill()
+            .map((item, idx) => (
+              <div
+                onClick={() => {
+                  this.navToSlide(idx);
+                }}
+              >
+                <h3>{idx + 1}</h3>
+              </div>
+            ))}
         </Slider>
       </div>
     );

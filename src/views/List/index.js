@@ -2019,11 +2019,11 @@ class List extends React.Component {
           >
             <div className="search-nav border-bottom-0">
               {keywords ? (
-                <div class="rc-padding-y--md--mobile rc-text--center">
-                  <div class="rc-intro">
+                <div className="rc-padding-y--md--mobile rc-text--center">
+                  <div className="rc-intro">
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
-                  <div class="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
+                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
                     <b>"{keywords}"</b>
                     {results > 0 && (
                       <>

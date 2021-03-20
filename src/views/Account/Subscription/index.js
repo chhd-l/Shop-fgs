@@ -294,7 +294,7 @@ class Subscription extends React.Component {
                               paddingLeft: '20px'
                             }}
                           >
-                            {subItem.externalSubscribeId}
+                            {subItem.subscribeId}
                           </p>
                         </div>
                         <div className="col-4 col-md-2" />
@@ -446,7 +446,7 @@ class Subscription extends React.Component {
                     <img
                       src={noSubscription}
                       alt="No Subscription"
-                      class="w-100"
+                      className="w-100"
                     />
                   </LazyLoad>
                 </div>

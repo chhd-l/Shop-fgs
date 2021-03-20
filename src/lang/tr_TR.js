@@ -148,6 +148,7 @@ const tr_TR = {
   changepic: 'Change picture',
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   checkout: 'Ödeme',
+  'payment.checkout': 'Ödeme',
   checkoutTip: 'Lütfen detaylarınızı aşağıya giriniz.',
   choosePayment: 'Ödemeyi seçin',
   choosePrescriber: 'Lütfen doğru reçeteyi yazanı seçin',
@@ -471,7 +472,6 @@ const tr_TR = {
   'login.secondCheck': '18 yaşından büyük olduğumu onaylıyorum',
   'login.thirdCheck': 'Pazarlama bültenini almayı kabul ediyorum',
   loginFailed: 'giriş başarısız',
-  loginText: 'Ödeme',
   logisticsRating: 'Lojistik değerlendirme',
   logOff: 'Oturumu Kapat',
   mailAddress: 'Posta adresi',
@@ -721,7 +721,7 @@ const tr_TR = {
   'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
   quantity: 'miktarda',
   quantityCannotExceed10: "Miktar 10'u geçemez",
-  quantityText: 'product',
+  quantityText: '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Sorgu Verisi Başarısız',
   ratingGrade1: 'En Yeniler',
   ratingGrade2: 'En Düşükten En Yüksek Dereceye',
@@ -789,6 +789,7 @@ const tr_TR = {
   saveFailed: 'Kayıt başarısız!',
   saveSuccess: 'Başarıyı Kaydet',
   saveSuccessfullly: 'Başarıyla kaydedin',
+  saveSuccessfullly2: 'Bilgileriniz doğru şekilde kaydedildi',
   search: 'Arama',
   searchForAProductOrArtical: 'Search for a product or article',
   searchNoBreed: 'soy ağacı değil',
@@ -884,6 +885,7 @@ const tr_TR = {
     'Pek çok evcil hayvanın, nasıl yemek yediklerine meydan okuyan benzersiz şekilli çeneleri ve davranışları vardır. Bu nedenle, tariflerimizi sadece beslenme düzeyinde uyarlamakla kalmıyor, aynı zamanda her bir evcil hayvanın fiziksel beslenme ihtiyaçlarını daha iyi karşılamak için her bir mama mamasının şeklini ve yapısını tasarlıyoruz. ',
   'tailorednutrition.uniqueTitle': 'Eşsiz İhtiyaçlar İçin Eşsiz Formüller',
   taxLogo: 'IVA dahil',
+  'miniBasket.total': 'Toplam {totalPrice}',
   total: 'Toplam',
   total2: 'Toplam',
   totalCost: 'Toplam tutar',
@@ -955,6 +957,8 @@ const tr_TR = {
     '12 saat içerisinde, size olabildiğince hızlı dönmek için elimizden geleni yapacağız.',
   'club.wheretohelp.card.email.send': 'Bize e-posta gönderin',
   'club.wheretohelp.card.faq':
-    'Sıkça Sorulan Sorular sayfamıza göz atarak, sorunuzun daha önce yanıtlanmış olup olmadığına bakabilirsiniz.'
+    'Sıkça Sorulan Sorular sayfamıza göz atarak, sorunuzun daha önce yanıtlanmış olup olmadığına bakabilirsiniz.',
+  isPurebredDog: 'Safkan köpek?',
+  isPurebredCat: 'Safkan kedi?'
 };
 export default tr_TR;

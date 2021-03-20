@@ -221,7 +221,7 @@ class VisitorAddress extends React.Component {
       form.city = validationAddress.city;
       form.cityName = validationAddress.city;
       if (process.env.REACT_APP_LANG === 'en') {
-        form.provinceName = validationAddress.provinceCode;
+        form.province = validationAddress.provinceCode;
       }
     } else {
       this.setState({

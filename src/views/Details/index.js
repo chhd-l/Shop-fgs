@@ -806,7 +806,10 @@ class Details extends React.Component {
           // this.setState({ specList });
           sizeList = goodsInfos.map((g, i) => {
             // g = Object.assign({}, g, { selected: false });
-            g = Object.assign({}, g, { selected: i === 0 });
+            g = Object.assign({}, g, {
+              selected: i === 0,
+              productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+            });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
               form.buyWay = 0;
@@ -860,7 +863,10 @@ class Details extends React.Component {
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
           sizeList = goodsInfos.map((g, i) => {
-            g = Object.assign({}, g, { selected: i === 0 });
+            g = Object.assign({}, g, {
+              selected: i === 0,
+              productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+            });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
               form.buyWay = 0;
@@ -1048,7 +1054,8 @@ class Details extends React.Component {
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsInfoFlag: parseInt(form.buyWay)
+        goodsInfoFlag: parseInt(form.buyWay),
+        productFinderFlag: currentSelectedSize.productFinderFlag
       };
       if (parseInt(form.buyWay)) {
         param.periodTypeId = form.frequencyId;
@@ -1473,6 +1480,8 @@ class Details extends React.Component {
       ccidBtnDisplay
     } = this.state;
 
+    console.log(details, 'details');
+
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
@@ -1806,23 +1815,34 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="productFinderBox">
-                              {true ? (
-                                <p>
-                                  The recommended daily ration for your pet is{' '}
-                                  <span className="strong">57g/day</span>
-                                  <a class="rc-styled-link backProductFinder">
-                                    Go back to recommendation
-                                  </a>
-                                </p>
-                              ) : (
-                                <p>
-                                  Find the right product and calculate your pet
-                                  ration using our{' '}
-                                  <a class="rc-styled-link">Product finder</a>
-                                </p>
-                              )}
-                            </div>
+                            {(details.promotions &&
+                              details.promotions.includes('club')) ||
+                            true ? (
+                              <div>
+                                {details.promotions &&
+                                details.promotions.includes('club') ? (
+                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
+                                    <div>
+                                      The recommended daily ration for your pet
+                                      is <span className="strong">57g/day</span>
+                                    </div>
+                                    <a className="rc-styled-link backProductFinder mt-0 pb-0">
+                                      Go back to recommendation
+                                    </a>
+                                  </div>
+                                ) : (
+                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
+                                    <div>
+                                      Find the right product and calculate your
+                                      pet ration using our{' '}
+                                    </div>
+                                    <a className="rc-styled-link mt-0 pb-0">
+                                      Product finder
+                                    </a>
+                                  </div>
+                                )}
+                              </div>
+                            ) : null}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
@@ -1914,7 +1934,7 @@ class Details extends React.Component {
                             </div>
                             <div>
                               <div
-                                className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 1 ml-0 mr-0"
                                 key="123456789"
                                 aa="123456789"
                                 style={{
@@ -2006,12 +2026,11 @@ class Details extends React.Component {
                                 </div>
                               </div>
                               {currentSubscriptionStatus &&
-                              (!selectedSpecItem.promotions ||
-                                !selectedSpecItem.promotions.includes(
-                                  'club'
-                                )) ? (
+                              currentSubscriptionPrice &&
+                              (!details.promotions ||
+                                !details.promotions.includes('club')) ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 2  ml-0 mr-0"
                                   key="987654321"
                                   style={{
                                     borderColor: parseInt(form.buyWay)
@@ -2155,10 +2174,12 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {selectedSpecItem?.promotions &&
-                              selectedSpecItem.promotions.includes('club') ? (
+                              {currentSubscriptionStatus &&
+                              currentSubscriptionPrice &&
+                              details?.promotions &&
+                              details.promotions.includes('club') ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center"
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0"
                                   key="987654321"
                                   style={{
                                     borderColor: parseInt(form.buyWay)
@@ -2225,7 +2246,9 @@ class Details extends React.Component {
                                       <FormattedMessage id="freeShipping" />
                                     </div>
                                     <div className="learnMore">
-                                      <a class="rc-styled-link">Learn more</a>
+                                      <a className="rc-styled-link">
+                                        Learn more
+                                      </a>
                                     </div>
                                   </div>
                                   <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
@@ -2368,7 +2391,9 @@ class Details extends React.Component {
                 saleableFlag={details.saleableFlag}
                 displayFlag={details.displayFlag}
                 setState={this.setState.bind(this)}
-                // isClub={selectedSpecItem.promotions && selectedSpecItem.promotions.includes('club')}
+                isClub={
+                  details.promotions && details.promotions.includes('club')
+                }
               />
             ) : null}
 

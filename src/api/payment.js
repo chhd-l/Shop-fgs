@@ -4,6 +4,7 @@ const api = {
   visitorRegisterAndLogin: `/${process.env.REACT_APP_STOREID}/guest/register`,
   batchAdd: `/site/${process.env.REACT_APP_STOREID}/batch-add`,
   confirmAndCommit: `/${process.env.REACT_APP_STOREID}/guest/checkout`,
+  confirmAndCommitUs: `/us/${process.env.REACT_APP_STOREID}/guest/checkout`,
   addOrUpdatePaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
   getPaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
   deleteCard: '/pay-payment-info', // delete a card
@@ -11,8 +12,10 @@ const api = {
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
   customerCommitAndPay: '/trade-custom/checkout',
+  customerCommitAndPayUs: '/us/trade-custom/checkout',
   rePay: '/trade-custom/repay',
   customerCommitAndPayMix: '/trade-custom/mix/checkout',
+  customerCommitAndPayMixUs: 'us/trade-custom/mix/checkout',
   getMarketingDiscount: '/marketing/discount',
   // getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays: `/${process.env.REACT_APP_STOREID}/pay/getPayPspList`,
@@ -63,7 +66,10 @@ export function batchAdd(parameter) {
 
 export function confirmAndCommit(parameter) {
   return axios({
-    url: api.confirmAndCommit,
+    url:
+      process.env.REACT_APP_GA_COUNTRY == 'US'
+        ? api.confirmAndCommitUs
+        : api.confirmAndCommit,
     method: 'post',
     data: parameter
   });
@@ -95,7 +101,10 @@ export function deleteCard(para) {
 
 export function customerCommitAndPay(parameter) {
   return axios({
-    url: api.customerCommitAndPay,
+    url:
+      process.env.REACT_APP_GA_COUNTRY == 'US'
+        ? api.customerCommitAndPayUs
+        : api.customerCommitAndPay,
     method: 'post',
     data: parameter
   });
@@ -103,7 +112,10 @@ export function customerCommitAndPay(parameter) {
 
 export function customerCommitAndPayMix(parameter) {
   return axios({
-    url: api.customerCommitAndPayMix,
+    url:
+      process.env.REACT_APP_GA_COUNTRY == 'US'
+        ? api.customerCommitAndPayMixUs
+        : api.customerCommitAndPayMix,
     method: 'post',
     data: parameter
   });

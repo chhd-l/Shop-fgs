@@ -33,6 +33,7 @@ import '@/utils/global';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import stores from './store';
+import { PDP_Regex } from '@/utils/constant'
 
 import RegisterRequired from '@/views/Login/RegisterRequired';
 import demo from '@/views/demo';
@@ -190,14 +191,6 @@ const LoginCallback = (props) => {
 
   return <div />;
 };
-
-window.addEventListener(
-  'popstate',
-  function (e) {
-    location.reload();
-  },
-  false
-);
 
 const App = () => (
   <Provider {...stores}>
@@ -650,7 +643,7 @@ const App = () => (
                     return <ListSource key={Math.random()} {...props} />;
 
                   // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
-                  if (/^(?!.*(\/).*\1).+[-].*[0-9]{1,}.*$/.test(pathname)) {
+                  if (PDP_Regex.test(pathname)) {
                     let redirectUrl = '';
                     const splitName = { fr: '_FR.html', en: '_US.html' }[
                       process.env.REACT_APP_LANG

@@ -9,14 +9,10 @@
   cursor: pointer;
   border-radius: 50px;
   z-index: 10;
-  background: url(../../../../assets/images/openVideo.png) center center no-repeat;
+  background: url(../../../../assets/images/openVideo.png) center center
+    no-repeat;
 }
 
-@media(max-width: 769px) {
-  .justify-content-center {
-    text-align: center;
-  }
-}
 .imageOutBox {
   width: 350px;
   height: 102px;
@@ -42,7 +38,8 @@
   width: 414px;
   position: relative;
 }
-.rightArrow,.leftArrow {
+.rightArrow,
+.leftArrow {
   position: relative;
   top: -30px;
   cursor: pointer;
@@ -56,14 +53,14 @@
   position: absolute;
   overflow: hidden;
   width: 9000px;
-  transition: all .2s linear !important;
+  transition: all 0.2s linear !important;
 }
 .bigImageInnerBox div {
   width: 250px;
   height: 354px;
   float: left;
 }
-@media(max-width: 769px) {
+@media (max-width: 769px) {
   .bigImageInnerBox div {
     width: 230px;
     height: 324px;
