@@ -55,7 +55,7 @@ class SameAsCheckbox extends React.Component {
             id={`id-checkbox-billing-${type}`}
             onChange={this.billingCheckedChange}
             type="checkbox"
-            value="true"
+            checked={this.state.billingChecked}
           />
           <label
             className="rc-input__label--inline text-break"
