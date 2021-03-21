@@ -2094,11 +2094,13 @@ class Payment extends React.Component {
   };
   // 编辑
   handleClickPaymentPanelEdit = () => {
+    if (this.state.paymentTypeVal == 'cyber') {
+      this.setState({ isShowCardList: true }); //只是为cyber用
+    }
     this.props.paymentStore.setStsToEdit({
       key: 'paymentMethod',
       hideOthers: true
     });
-    // debugger
     const { billingChecked } = this.state;
     if (!billingChecked) {
       this.props.paymentStore.setStsToEdit({
@@ -2441,10 +2443,10 @@ class Payment extends React.Component {
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
     //console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
-    console.log(
-      '------------- ★★ 222 Payment renderAddrPreview billingAddress: ',
-      this.state.billingAddress
-    );
+    // console.log(
+    //   '------------- ★★ 222 Payment renderAddrPreview billingAddress: ',
+    //   this.state.billingAddress
+    // );
     // this.setState({
     //   billingAddress: form
     // });
