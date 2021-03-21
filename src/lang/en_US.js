@@ -258,7 +258,7 @@ const en_US = {
   'cyber.form.address2': 'Address (line 2)',
   'cyber.form.cardHolderName': 'Name on Card',
   'cyber.form.cardHolderName2':
-    'cardholder Name (as it appears on your credit card)',
+    'Cardholder Name (as it appears on your credit card)',
   'cyber.form.cardNumber': 'Card number',
   'cyber.form.cardNumber2': 'Card Number',
   'cyber.form.city': 'City',
