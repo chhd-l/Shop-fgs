@@ -138,6 +138,7 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
+import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
 if (process.env.REACT_APP_LANG === 'fr') {
   registerLocale(process.env.REACT_APP_LANG, fr);
   setDefaultLocale('fr');
@@ -284,6 +285,13 @@ const App = () => (
                 component={
                   process.env.REACT_APP_LANG == 'ru'||process.env.REACT_APP_LANG == 'tr'?
                   ClubLandingPage:Exception}
+              />
+              <Route
+                exact
+                path="/vetlandingpage"
+                component={
+                  process.env.REACT_APP_LANG == 'ru'?
+                    VetLandingPage:Exception}
               />
               <Route
                 exact

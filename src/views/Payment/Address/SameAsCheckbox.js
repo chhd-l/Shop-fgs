@@ -33,18 +33,32 @@ class SameAsCheckbox extends React.Component {
   render() {
     const { type } = this.props;
     return (
-      <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap">
-        <div>
+      <div className="rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap">
+        {/* <div>
           <input
-            className="form-check-input"
+            className="rc-input rc-input--inline w-100 mw-100"
             id={`id-checkbox-billing-${type}`}
             type="checkbox"
             onChange={this.billingCheckedChange}
             checked={this.state.billingChecked}
-            style={{ width: '17px', height: '17px' }}
           />
           <label
             className="rc-input__label--inline"
+            htmlFor={`id-checkbox-billing-${type}`}
+          >
+            <FormattedMessage id="biliingAddressSameAs" />
+          </label>
+        </div> */}
+        <div className="rc-input rc-input--inline w-100 mw-100">
+          <input
+            className="rc-input__checkbox"
+            id={`id-checkbox-billing-${type}`}
+            onChange={this.billingCheckedChange}
+            type="checkbox"
+            checked={this.state.billingChecked}
+          />
+          <label
+            className="rc-input__label--inline text-break"
             htmlFor={`id-checkbox-billing-${type}`}
           >
             <FormattedMessage id="biliingAddressSameAs" />

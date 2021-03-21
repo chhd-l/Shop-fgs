@@ -258,7 +258,7 @@ const en_US = {
   'cyber.form.address2': 'Address (line 2)',
   'cyber.form.cardHolderName': 'Name on Card',
   'cyber.form.cardHolderName2':
-    'cardholder Name (as it appears on your credit card)',
+    'Cardholder Name (as it appears on your credit card)',
   'cyber.form.cardNumber': 'Card number',
   'cyber.form.cardNumber2': 'Card Number',
   'cyber.form.city': 'City',
@@ -1162,6 +1162,7 @@ const en_US = {
   yes: 'Yes',
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
-  yourPasswordNotVerified: 'Your password has not been verified'
+  yourPasswordNotVerified: 'Your password has not been verified',
+  cyberIsSaveCard: 'Save this card as my preferred payment method'
 };
 export default en_US;

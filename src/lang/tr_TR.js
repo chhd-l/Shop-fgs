@@ -945,6 +945,7 @@ const tr_TR = {
   'club.joinsubscription.description':
     'Ona en uygun beslenme önerilerini alabilmek için, bize evcil hayvanınızdan bahsedin.',
   'club.joinsubscription.button': 'Başlayın',
+  'club.loyal.customers': 'Sadık müşterilerimiz',
   'club.wheretohelp': 'Size yardımcı olmak için buradayız!',
   'club.wheretohelp.description':
     'Ekibimiz, sorularınızı yanıtlamak ve en iyi deneyimi yaşadığınızdan emin olmak için burada. Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz:',
