@@ -24,6 +24,7 @@ const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpack
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
+const CopyPlugin = require('copy-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 const { version } = require('os');
@@ -761,7 +762,9 @@ module.exports = function (webpackEnv) {
           silent: true,
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined
-        })
+        }),
+      // 打包不同国家的seo文件到build目录
+      new CopyPlugin([{ from: paths.appSEO, to: paths.appBuild }])
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.
