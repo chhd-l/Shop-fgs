@@ -2095,7 +2095,7 @@ class Payment extends React.Component {
   // 编辑
   handleClickPaymentPanelEdit = () => {
     if (this.state.paymentTypeVal == 'cyber') {
-      this.setState({ isShowCardList: true }); //只是为cyber用
+      this.setState({ isShowCardList: true }); //只是为cyber用,因为cyber的卡列表和卡表单是分开展示的
     }
     this.props.paymentStore.setStsToEdit({
       key: 'paymentMethod',
