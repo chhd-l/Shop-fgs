@@ -872,6 +872,7 @@ const es_ES = {
   saveFailed: '¡Error al guardar!',
   saveSuccess: 'Guardar el éxito',
   saveSuccessfullly: 'Guardado exitosamente',
+  saveSuccessfullly2: 'Tu información se ha guardado correctamente',
   search: 'Buscar',
   searchBreed: 'Buscar raza',
   searchNoBreed: 'no es un pedigrí',

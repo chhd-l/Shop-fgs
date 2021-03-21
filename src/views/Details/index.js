@@ -806,7 +806,10 @@ class Details extends React.Component {
           // this.setState({ specList });
           sizeList = goodsInfos.map((g, i) => {
             // g = Object.assign({}, g, { selected: false });
-            g = Object.assign({}, g, { selected: i === 0 });
+            g = Object.assign({}, g, {
+              selected: i === 0,
+              productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+            });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
               form.buyWay = 0;
@@ -860,7 +863,10 @@ class Details extends React.Component {
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
           sizeList = goodsInfos.map((g, i) => {
-            g = Object.assign({}, g, { selected: i === 0 });
+            g = Object.assign({}, g, {
+              selected: i === 0,
+              productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+            });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
               form.buyWay = 0;
@@ -1048,7 +1054,8 @@ class Details extends React.Component {
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsInfoFlag: parseInt(form.buyWay)
+        goodsInfoFlag: parseInt(form.buyWay),
+        productFinderFlag: currentSelectedSize.productFinderFlag
       };
       if (parseInt(form.buyWay)) {
         param.periodTypeId = form.frequencyId;
@@ -1808,27 +1815,34 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            {true ? (
-                              <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
-                                <div>
-                                  The recommended daily ration for your pet is{' '}
-                                  <span className="strong">57g/day</span>
-                                </div>
-                                <a className="rc-styled-link backProductFinder mt-0">
-                                  Go back to recommendation
-                                </a>
+                            {(details.promotions &&
+                              details.promotions.includes('club')) ||
+                            true ? (
+                              <div>
+                                {details.promotions &&
+                                details.promotions.includes('club') ? (
+                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
+                                    <div>
+                                      The recommended daily ration for your pet
+                                      is <span className="strong">57g/day</span>
+                                    </div>
+                                    <a className="rc-styled-link backProductFinder mt-0 pb-0">
+                                      Go back to recommendation
+                                    </a>
+                                  </div>
+                                ) : (
+                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
+                                    <div>
+                                      Find the right product and calculate your
+                                      pet ration using our{' '}
+                                    </div>
+                                    <a className="rc-styled-link mt-0 pb-0">
+                                      Product finder
+                                    </a>
+                                  </div>
+                                )}
                               </div>
-                            ) : (
-                              <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
-                                <div>
-                                  Find the right product and calculate your pet
-                                  ration using our{' '}
-                                </div>
-                                <a className="rc-styled-link mt-0">
-                                  Product finder
-                                </a>
-                              </div>
-                            )}
+                            ) : null}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
@@ -2165,7 +2179,7 @@ class Details extends React.Component {
                               details?.promotions &&
                               details.promotions.includes('club') ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3"
+                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0"
                                   key="987654321"
                                   style={{
                                     borderColor: parseInt(form.buyWay)

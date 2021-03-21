@@ -9,6 +9,32 @@
   font-size: 1.375rem;
   line-height: 2rem;
 }
+.Recommendation_FR .has-promotion .text-throught-line {
+  text-decoration: line-through;
+  color: #666;
+}
+.Recommendation_FR .promotion-tips {
+  font-size: 12px;
+  width: 313px;
+  margin: 0 auto 24px;
+}
+.Recommendation_FR .promotion-code {
+  padding: 4px 8px;
+  background-color: rgb(246, 246, 246);
+}
+.Recommendation_US .promotion-code-title {
+  font-size: 18px;
+  color: #666;
+}
+.Recommendation_FR .has-promotion .promotion-price {
+  font-size: 26px;
+  color: #e2001a;
+  display: inline;
+  padding-left: 1rem;
+}
+.Recommendation_FR .promotion-price {
+  display: none;
+}
 @media (min-width: 769px) {
   /* .Recommendation_US .rc-beta{
     font-size: 1.875rem;

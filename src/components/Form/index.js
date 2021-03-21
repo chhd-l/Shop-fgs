@@ -123,7 +123,7 @@ class Form extends React.Component {
               (item) => item.enableFlag == 1
             );
             let ress = this.formListByRow(narr, (item) => {
-              return [item.pageRow];
+              return [item.sequence];
             });
             this.setState(
               {
@@ -310,8 +310,8 @@ class Form extends React.Component {
   };
   handleCityInputChange = (data) => {
     const { form } = this.state;
-    form.city = data.id;
-    form.cityName = data.cityName;
+    form.cityId = data.id;
+    form.city = data.cityName;
     this.setState({ form }, () => {
       this.props.updateData(this.state.form);
     });
@@ -330,12 +330,30 @@ class Form extends React.Component {
             className={`rc-input__control shipping${item.fieldKey}`}
             id={`shipping${item.fieldKey}`}
             type={item.filedType}
-            value={form.firstName}
+            value={form[item.filedType]}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
           />
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
+      </>
+    );
+  };
+  // 文本域
+  textareaJSX = (item) => {
+    const { form } = this.state;
+    return (
+      <>
+        <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+          <textarea
+            className="rc_input_textarea"
+            maxLength={item.maxLength}
+            name={item.fieldKey}
+            value={form[item.filedType]}
+            id={`shipping${item.fieldKey}`}
+          ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
       </>
@@ -352,8 +370,8 @@ class Form extends React.Component {
         >
           <CitySearchSelection
             placeholder={true}
-            defaultValue={form.cityName}
-            key={form.cityName}
+            defaultValue={form[item.fieldKey]}
+            key={form[item.fieldKey]}
             name={item.fieldKey}
             freeText={item.inputFreeTextFlag == 1 ? true : false}
             onChange={this.handleCityInputChange}
@@ -380,8 +398,9 @@ class Form extends React.Component {
             );
           }}
           selectedItemChange={(data) => this.handleAddressInputChange(data)}
-          defaultValue={form.address1}
-          key={form.address1}
+          defaultValue={form[item.filedType]}
+          key={form[item.filedType]}
+          value={form[item.filedType]}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
           placeholder={
             this.props.placeholder
@@ -451,10 +470,10 @@ class Form extends React.Component {
           <div className="row rc_form_box">
             {formList &&
               formList.map((fobj, idx) => (
-                <div className="rc_row_line" key={idx}>
+                <>
                   {fobj.map((item, index) => (
                     <div
-                      className={`col-md-${fobj.length > 1 ? 6 : 12}`}
+                      className={`col-md-${item.occupancyNum == 1 ? 6 : 12}`}
                       key={index}
                     >
                       {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
@@ -470,32 +489,36 @@ class Form extends React.Component {
                           <FormattedMessage id={`payment.${item.fieldKey}`} />
                         </label>
 
-                        {/* DuData */}
-                        {formSettingSwitch == 'AUTOMATICALLY' &&
-                        item.fieldKey == 'address1' ? (
-                          this.addressSearchSelectionJSX(item)
-                        ) : (
+                        {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
+                        {item.inputFreeTextFlag == 1 &&
+                        item.inputSearchBoxFlag == 0 ? (
                           <>
-                            {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
-                            {item.inputFreeTextFlag == 1 &&
-                            item.inputSearchBoxFlag == 0
-                              ? this.inputJSX(item)
-                              : null}
+                            {item.fieldKey == 'comment'
+                              ? this.textareaJSX(item)
+                              : this.inputJSX(item)}
+                          </>
+                        ) : null}
 
-                            {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                            {item.inputSearchBoxFlag == 1
+                        {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
+                        {item.inputFreeTextFlag == 1 &&
+                        item.inputSearchBoxFlag == 1 ? (
+                          <>
+                            {item.fieldKey == 'address1'
+                              ? this.addressSearchSelectionJSX(item)
+                              : null}
+                            {item.fieldKey == 'city'
                               ? this.citySearchSelectiontJSX(item)
                               : null}
-
-                            {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
-                            {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
-                            {item.inputFreeTextFlag == 0 &&
-                            item.inputSearchBoxFlag == 0 &&
-                            item.inputDropDownBoxFlag == 1
-                              ? this.dropDownBoxJSX(item)
-                              : null}
                           </>
-                        )}
+                        ) : null}
+
+                        {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
+                        {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
+                        {item.inputFreeTextFlag == 0 &&
+                        item.inputSearchBoxFlag == 0 &&
+                        item.inputDropDownBoxFlag == 1
+                          ? this.dropDownBoxJSX(item)
+                          : null}
 
                         {/* 输入提示 */}
                         {errMsgObj[item.fieldKey] && (
@@ -520,7 +543,7 @@ class Form extends React.Component {
                       </div>
                     </div>
                   ))}
-                </div>
+                </>
               ))}
           </div>
         )}
@@ -530,39 +553,3 @@ class Form extends React.Component {
 }
 
 export default Form;
-
-/*
-  const RULE = {phoneNumber: process.env.REACT_APP_LANG === 'fr' ? /[+(33)|0]\d{9}$/ : '', postCode: /^\d{5}$/}
-
-  id        int(11)   '主键',
-  enableFlag       tinyint(4)  '需求flag:0.关闭,1.开启',
-  filedType        tinyint(4)   '字段类型:0.text,1.number',
-  inputType        tinyint(4)   '输入类型  0:手动输入,1:自动输入',
-  inputFreeTextFlag        tinyint(4)   '是否允许自由输入:0.不允许,1.允许',
-  inputSearchBoxFlag        tinyint(4)  '是否允许搜索框:0.不允许,1.允许',
-  inputDropDownBoxFlag        tinyint(4)  '是否允许下拉框选择:0.不允许,1.允许',
-  maxLength        int(1)  '字段最大长度',
-  requiredFlag     tinyint(4)  '是否必填flag:0.关闭,1.开启',
-  apiName        varchar(255)  'api名称',
-  pageRow        int(4)  '页面行',
-  pageCol        int(4)  '页面列',
-  dataSource     tinyint(4)  '数据来源:0.fgs,1.api',
-
-  key ?
-
-  fieldName        varchar(255)   '字段名',
-  storeId        bigint(20) DEFAULT '-1' COMMENT '商户id (平台默认值-1)',
-  delFlag        tinyint(4)  '删除标识,0:未删除1:已删除',
-
-
-  ============自己需要处理后增加的字段
-  regExp: RULE[key],
-  errMsg: CURRENT_LANGFILE['enterCorrectPostCode'],
-
-
-  http://124.71.151.9:8090/addressDisplaySetting/queryByStoreId/MANUALLY
-  MANUALLY //
-  AUTOMATICALLY // 自动填充 DuData
-
-
-*/

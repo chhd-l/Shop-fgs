@@ -23,7 +23,9 @@ import { getProvincesList } from '@/api/index';
 class PersonalDataEditForm extends React.Component {
   static defaultProps = {
     originData: null,
-    editFormVisible: false
+    editFormVisible: false,
+    personalDataIsEdit: false,
+    updateIsEditFlag: () => {}
   };
   constructor(props) {
     super(props);
@@ -32,6 +34,7 @@ class PersonalDataEditForm extends React.Component {
       loading: false,
       successTipVisible: false,
       errorMsg: '',
+      successMsg: '',
       form: {
         firstName: '',
         lastName: '',
@@ -66,7 +69,6 @@ class PersonalDataEditForm extends React.Component {
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
-    console.log(data, 'data');
     this.setState(
       {
         form: Object.assign({}, data),
@@ -89,6 +91,11 @@ class PersonalDataEditForm extends React.Component {
         provinceList: res.context.systemStates
       });
     });
+
+    // 如果是编辑成功后返回，显示成功提示
+    if (this.props.personalDataIsEdit) {
+      this.showSuccessMsg();
+    }
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -154,6 +161,7 @@ class PersonalDataEditForm extends React.Component {
       this.setState({
         successTipVisible: false
       });
+      this.props.updateIsEditFlag(false);
     }, 5000);
   }
   handleCancel = () => {
@@ -181,9 +189,6 @@ class PersonalDataEditForm extends React.Component {
   };
   // 获取地址验证查询到的数据
   getValidationData = async (data) => {
-    this.setState({
-      validationLoading: false
-    });
     if (data && data != null) {
       // 获取并设置地址校验返回的数据
       this.setState({
@@ -271,6 +276,7 @@ class PersonalDataEditForm extends React.Component {
 
       this.props.updateData();
       this.changeEditFormVisible(false);
+      this.props.updateIsEditFlag(true);
     } catch (err) {
       this.showErrMsg(err.message);
       this.setState({
@@ -460,11 +466,12 @@ class PersonalDataEditForm extends React.Component {
               role="alert"
             >
               <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                <FormattedMessage id="saveSuccessfullly" />
+                <FormattedMessage id="saveSuccessfullly2" />
               </p>
             </aside>
 
             {/* preview form */}
+            {/* {JSON.stringify(data)} */}
             {data ? (
               <div
                 className={`row userProfileInfo text-break ${
@@ -771,7 +778,7 @@ class PersonalDataEditForm extends React.Component {
                       data-loc="countrySelect"
                     >
                       <Selection
-                        key={form.province}
+                        key={form.provinceId}
                         selectedItemChange={(data) =>
                           this.handleSelectedItemChange('province', data)
                         }
@@ -779,7 +786,7 @@ class PersonalDataEditForm extends React.Component {
                         emptyFirstItem="State"
                         optionList={this.computedList('province')}
                         selectedItemData={{
-                          value: form.province
+                          value: form.provinceId
                         }}
                       />
                     </span>

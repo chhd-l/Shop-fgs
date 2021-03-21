@@ -888,6 +888,8 @@ const en_US = {
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
+  'recommendation.guidelinesTips':
+    "Royal Canin's feeding guidelines can also be found on the product packaging.",
   'recommendation.buyNow': 'Buy now',
   'recommendation.firstBtnText': 'Sign up',
   'recommendation.firstContent':
@@ -938,7 +940,6 @@ const en_US = {
   'recommendation.thirdTitle': 'Our pet experts are here to help you',
   'recommendation.viewDetail': 'View Detail',
   'recommendation.viewInCart': 'View In Cart',
-  'recommendation.viewInCart': 'View in cart',
   'recommendation.welcomeBtn': 'Buy now',
   'recommendation.welcomeSubText':
     'These recommendations were made based on your pet’s unique needs and have been automatically added to your cart. ',
@@ -1006,6 +1007,7 @@ const en_US = {
   saveFailed: 'Save Failed!',
   saveSuccess: 'Save Success',
   saveSuccessfullly: 'Save successfullly',
+  saveSuccessfullly2: 'Your information has been correctly saved',
   search: 'Search',
   searchBreed: 'Search breed',
   searchForAProductOrArtical: 'Search for a product or article',
@@ -1023,7 +1025,7 @@ const en_US = {
   setAsDefault: 'Set as default',
   setDefaltAddressFailed: 'Set Defalt Address Failed',
   setDefaltAddressSuccess: 'Set Defalt Address Success',
-  setDefaultAddress: 'Set as Default Address',
+  setDefaultAddress: 'Save address to my address book',
   setDefaultPaymentMethod: 'Set as Default Payment method',
   shipmentOn: 'Shipment on',
   shipmentTrackingFalse: 'Please check this box if you wish to continue.',

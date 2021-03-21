@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class Help extends React.Component {
   constructor(props) {
@@ -37,8 +37,8 @@ class Help extends React.Component {
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
-    }).then(res => {
-      this.setState({seoConfig: res})
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
   componentWillUnmount() {
@@ -56,10 +56,13 @@ class Help extends React.Component {
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -242,7 +245,7 @@ class Help extends React.Component {
                                         <p>
                                           {
                                             this.props.configStore
-                                              .contactTimePeriod
+                                              ?.contactTimePeriod
                                           }
                                         </p>
                                         <div className="rc-margin-top--xs">
@@ -252,7 +255,7 @@ class Help extends React.Component {
                                           >
                                             {
                                               this.props.configStore
-                                                .storeContactPhoneNumber
+                                                ?.storeContactPhoneNumber
                                             }
                                           </p>
                                         </div>
@@ -263,7 +266,7 @@ class Help extends React.Component {
                                           >
                                             {
                                               this.props.configStore
-                                                .storeContactPhoneNumber
+                                                ?.storeContactPhoneNumber
                                             }
                                           </p>
                                         </div>
@@ -328,7 +331,7 @@ class Help extends React.Component {
                                           >
                                             {
                                               this.props.configStore
-                                                .storeContactEmail
+                                                ?.storeContactEmail
                                             }
                                           </p>
                                         </div>

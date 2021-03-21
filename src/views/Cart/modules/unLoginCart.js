@@ -831,56 +831,59 @@ class UnLoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              <div className="rc-column">
-                {pitem.sizeList.filter((el) => el.selected)[0]
-                  .subscriptionStatus &&
-                (!pitem.promotions || !pitem.promotions.includes('club')) ? (
-                  <SubscriptionSelection
-                    isGift={isGift}
-                    pitem={pitem}
-                    activeToolTipIndex={this.state.activeToolTipIndex}
-                    index={index}
-                    toolTipVisible={this.state.toolTipVisible}
-                    computedList={this.computedList}
-                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
-                      this,
-                      {
-                        goodsInfoFlag: 1,
-                        periodTypeId: pitem.form.frequencyId,
-                        pitem
+              {pitem.sizeList.filter((el) => el.selected)[0]
+                .subscriptionStatus &&
+              pitem.sizeList.filter((el) => el.selected)[0]
+                .subscriptionPrice ? (
+                <div className="rc-column">
+                  {!pitem.promotions || !pitem.promotions.includes('club') ? (
+                    <SubscriptionSelection
+                      isGift={isGift}
+                      pitem={pitem}
+                      activeToolTipIndex={this.state.activeToolTipIndex}
+                      index={index}
+                      toolTipVisible={this.state.toolTipVisible}
+                      computedList={this.computedList}
+                      chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                        this,
+                        {
+                          goodsInfoFlag: 1,
+                          periodTypeId: pitem.form.frequencyId,
+                          pitem
+                        }
+                      )}
+                      changeFrequency={(pitem, data) =>
+                        this.handleSelectedItemChange(pitem, data)
                       }
-                    )}
-                    changeFrequency={(pitem, data) =>
-                      this.handleSelectedItemChange(pitem, data)
-                    }
-                    isLogin={false}
-                    setState={this.setState.bind(this)}
-                  />
-                ) : null}
-                {pitem.promotions && pitem.promotions.includes('club') ? (
-                  <ClubSelection
-                    isGift={isGift}
-                    pitem={pitem}
-                    activeToolTipIndex={this.state.activeToolTipIndex}
-                    index={index}
-                    toolTipVisible={this.state.toolTipVisible}
-                    computedList={this.computedList}
-                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
-                      this,
-                      {
-                        goodsInfoFlag: 2,
-                        periodTypeId: pitem.form.frequencyId,
-                        pitem
+                      isLogin={false}
+                      setState={this.setState.bind(this)}
+                    />
+                  ) : null}
+                  {pitem.promotions && pitem.promotions.includes('club') ? (
+                    <ClubSelection
+                      isGift={isGift}
+                      pitem={pitem}
+                      activeToolTipIndex={this.state.activeToolTipIndex}
+                      index={index}
+                      toolTipVisible={this.state.toolTipVisible}
+                      computedList={this.computedList}
+                      chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                        this,
+                        {
+                          goodsInfoFlag: 2,
+                          periodTypeId: pitem.form.frequencyId,
+                          pitem
+                        }
+                      )}
+                      changeFrequency={(pitem, data) =>
+                        this.handleSelectedItemChange(pitem, data)
                       }
-                    )}
-                    changeFrequency={(pitem, data) =>
-                      this.handleSelectedItemChange(pitem, data)
-                    }
-                    isLogin={false}
-                    setState={this.setState.bind(this)}
-                  />
-                ) : null}
-              </div>
+                      isLogin={false}
+                      setState={this.setState.bind(this)}
+                    />
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </div>
           {pitem.promotions && pitem.promotions.includes('club') ? (
