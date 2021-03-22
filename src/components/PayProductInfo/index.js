@@ -299,10 +299,10 @@ class PayProductInfo extends React.Component {
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { details } = this.props;
     let List = details ? this.getProductList(details.tradeItems) : null;
-    console.log(
-      'details.tradePrice.promotionDiscountPrice',
-      details.tradePrice.promotionDiscountPrice
-    );
+    // console.log(
+    //   'details.tradePrice.promotionDiscountPrice',
+    //   details.tradePrice.promotionDiscountPrice
+    // );
     return (
       <div
         className={`product-summary__inner ${className}`}
