@@ -1815,9 +1815,8 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            {(details.promotions &&
-                              details.promotions.includes('club')) ||
-                            true ? (
+                            {details.promotions &&
+                            details.promotions.includes('club') ? (
                               <div>
                                 {details.promotions &&
                                 details.promotions.includes('club') ? (

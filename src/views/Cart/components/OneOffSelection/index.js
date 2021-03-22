@@ -18,7 +18,7 @@ const OneOffSelection = function (props) {
   } = props;
   return (
     <div
-      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs"
+      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs--desktop"
       style={{
         borderColor: !parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
         cursor: 'pointer',

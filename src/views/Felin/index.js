@@ -99,6 +99,7 @@ export default class Felin extends React.Component {
       currentTabIndex: 0,
       topVal: '159px',
       currentDate: new Date(),
+      calendarInitObserver: null,
       timeOption: []
     };
   }
@@ -106,16 +107,33 @@ export default class Felin extends React.Component {
     let timeOption = [];
     let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     arr.map((el) => {
-      timeOption.push({
-        name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
-        value: `${el}:00-${el}:20`,
-        disabled: false
-      });
-      timeOption.push({
-        name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
-        value: `${el}:30-${el}:50`,
-        disabled: false
-      });
+      if (el <= 18) {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 1
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 1
+        });
+      } else {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 0
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 0
+        });
+      }
     });
     this.setState({ timeOption: timeOption });
     this.getTimeOptions();
@@ -133,18 +151,18 @@ export default class Felin extends React.Component {
     //     this.setState({ topVal: '120px' });
     //   }
     // }, 1400)
-
-    document.querySelector(
-      '.react-calendar__navigation__prev-button'
-    ).innerHTML = `<span className="icon iconfont">
+    setTimeout(() => {
+      document.querySelector(
+        '.react-calendar__navigation__prev-button'
+      ).innerHTML = `<span className="icon iconfont">
       &#xe6fa;
     </span>`;
-    document.querySelector(
-      '.react-calendar__navigation__next-button'
-    ).innerHTML = `<span className="icon iconfont">
+      document.querySelector(
+        '.react-calendar__navigation__next-button'
+      ).innerHTML = `<span className="icon iconfont">
       &#xe6f9;
     </span>`;
-
+    }, 5000);
     // document.querySelector('.iconfont.font-weight-bold.icon-arrow').innerHTML = `&#xe601;`
     let iconDom = document.querySelector(
       '.iconfont.font-weight-bold.icon-arrow '
@@ -154,6 +172,44 @@ export default class Felin extends React.Component {
     needIconDom.classList.add('icon', 'iconfont');
     needIconDom.innerHTML = `&#xe601;`;
     document.querySelector('#Selection').appendChild(needIconDom);
+    // setTimeout(() => {
+    //   const datePickerOptions = {
+    //     i18n: {
+    //       previousMonth: 'Poprzedni miesiąc',
+    //       nextMonth: 'Następny miesiąc',
+    //       months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+    //       weekdays: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwaretk', 'Piątek', 'Sobota'],
+    //       weekdaysShort: ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb']
+    //     },
+    //     disableWeekends: true,
+    //     minDate: new Date()
+    //   };
+    //   console.log(window.RCDL.features.Datepickers)
+    //   window.RCDL.features.Datepickers.init('.rc-input__date.rc-js-custom', null,datePickerOptions);
+    // }, 3000)
+
+    // 日历出现在视口中发送ga埋点
+    const calendarDom = document.querySelector('#appointment-calendar');
+    let calendarInitObserver = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio <= 0) return;
+      window.dataLayer && this.bookingStepsGA('Calendar');
+    });
+    this.setState(
+      {
+        calendarDom,
+        calendarInitObserver
+      },
+      () => {
+        this.state.calendarInitObserver.observe(calendarDom);
+      }
+    );
+  }
+  get virtualAppointmentFlag() {
+    let { currentDate } = this.state;
+    return (
+      +format(currentDate, 'yyyyMMdd') >= 20210420 &&
+      +format(currentDate, 'yyyyMMdd') <= 20210502
+    );
   }
   getTimeOptions() {
     getTimeOptions({
@@ -172,6 +228,15 @@ export default class Felin extends React.Component {
       });
     });
   }
+
+  componentWillUnmount() {
+    this.state.calendarInitObserver &&
+      this.state.calendarInitObserver.disconnect(this.state.calendarDom);
+    this.setState({
+      calendarInitObserver: null
+    });
+  }
+
   handleInputChange = (e) => {
     const target = e.target;
     const name = target.name;
@@ -226,6 +291,15 @@ export default class Felin extends React.Component {
       // let felinForm = {
       //   selectedDate:
       // }
+      let obj = {
+        2: 'Appointment type',
+        3: 'Login',
+        4: 'Customer info',
+        5: 'Recap',
+        6: 'Confirmation'
+      };
+      this.bookingStepsGA(obj[this.state.step]);
+
       this.updateButtonState();
     });
   }
@@ -257,6 +331,13 @@ export default class Felin extends React.Component {
     dataLayer.push({
       event: 'atelierFelinButtonClick',
       atelierFelinButtonClickName: btnName
+    });
+  }
+
+  bookingStepsGA(stepName) {
+    dataLayer.push({
+      event: 'atelierFelinBookingSteps',
+      atelierFelinBookingStepsName: stepName
     });
   }
 
@@ -633,7 +714,7 @@ export default class Felin extends React.Component {
                       }}
                     >
                       {this.state.step === 1 ? (
-                        <>
+                        <div id="appointment-calendar">
                           <p style={{ fontWeight: '500' }}>
                             Choisissez un rendez-vous
                           </p>
@@ -706,7 +787,7 @@ export default class Felin extends React.Component {
                               enableBlur={false}
                             />
                           </div>
-                        </>
+                        </div>
                       ) : null}
                       {this.state.step === 2 ? (
                         <>
@@ -724,9 +805,16 @@ export default class Felin extends React.Component {
                                 className="rc-input__radio"
                                 id="female"
                                 value="1"
-                                checked={this.state.felinType}
+                                checked={
+                                  this.virtualAppointmentFlag ||
+                                  this.state.selectedTimeObj.type === 0
+                                }
                                 type="radio"
                                 name="gender"
+                                disabled={
+                                  !this.virtualAppointmentFlag &&
+                                  this.state.selectedTimeObj.type === 1
+                                }
                                 onChange={(e) => {
                                   this.setState({ felinType: 1 });
                                 }}
@@ -744,9 +832,16 @@ export default class Felin extends React.Component {
                                 className="rc-input__radio"
                                 id="male"
                                 value="0"
-                                checked={!this.state.felinType}
+                                checked={
+                                  !this.virtualAppointmentFlag &&
+                                  this.state.selectedTimeObj.type === 1
+                                }
                                 type="radio"
                                 name="gender"
+                                disabled={
+                                  this.virtualAppointmentFlag ||
+                                  this.state.selectedTimeObj.type === 0
+                                }
                                 onChange={(e) => {
                                   this.setState({ felinType: 0 });
                                 }}

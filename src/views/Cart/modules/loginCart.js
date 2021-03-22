@@ -545,10 +545,15 @@ class LoginCart extends React.Component {
       });
   }
   getQuantityBox = (pitem) => {
+    let isGift = !!pitem.subscriptionPlanGiftList;
     return (
       <div className="cart-quantity-container">
         <div className="product-card-footer product-card-price d-flex">
-          <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+          <div
+            className={`line-item-quantity text-lg-center rc-margin-right--xs mr-auto ${
+              isGift ? 'rc-padding-right--xs' : ''
+            }`}
+          >
             <div style={{ marginTop: '12px' }}>
               <FormattedMessage id="quantity" />:{' '}
             </div>
@@ -641,9 +646,8 @@ class LoginCart extends React.Component {
       return (
         <div className="product-info ">
           <div
-            className={`rc-border-all rc-border-colour--interface product-info p-3 ${
-              isGift ? 'no-margin-bottom' : 'has-margin-bottom'
-            }`}
+            className={`rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile
+            ${isGift ? 'no-margin-bottom' : 'has-margin-bottom'}`}
             key={index}
           >
             <div
@@ -763,7 +767,10 @@ class LoginCart extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="buyMethodBox rc-layout-container rc-two-column">
+            <div
+              className="buyMethodBox rc-two-column"
+              style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
+            >
               <div className="rc-column">
                 <OneOffSelection
                   isGift={isGift}
@@ -779,7 +786,7 @@ class LoginCart extends React.Component {
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
               {pitem.subscriptionStatus && pitem.subscriptionPrice ? (
-                <div className="rc-column">
+                <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.goods.promotions ||
                   !pitem.goods.promotions.includes('club') ? (
                     <SubscriptionSelection
@@ -1471,7 +1478,7 @@ class LoginCart extends React.Component {
           }`}
         >
           <BannerTip />
-          <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
+          <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0 rc-padding-x--none--mobile">
             {initLoading ? (
               <div className="mt-4">
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
