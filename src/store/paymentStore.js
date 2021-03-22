@@ -336,7 +336,6 @@ class PaymentStore {
     const panelStatusJS = toJS(this.panelStatus);
     for (let tmpKey in panelStatusJS) {
       const tmpSts = this.panelStatus[tmpKey].status;
-      debugger;
       if (tmpSts.isPrepare && tmpSts.isCompleted) {
         tmpSts.isPrepare = false;
       }
