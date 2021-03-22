@@ -1783,7 +1783,7 @@ class Payment extends React.Component {
             purchaseFlag: false,
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-              region: data.provinceNo, // 省份简写
+              region: data.state.stateNo, // 省份简写
               city: data.city,
               street: data.address1,
               postalCode: data.postCode,
@@ -2157,6 +2157,7 @@ class Payment extends React.Component {
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
+    debugger;
     setTimeout(() => {
       scrollPaymentPanelIntoView();
     });

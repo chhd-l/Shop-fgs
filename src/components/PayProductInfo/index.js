@@ -299,6 +299,10 @@ class PayProductInfo extends React.Component {
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { details } = this.props;
     let List = details ? this.getProductList(details.tradeItems) : null;
+    console.log(
+      'details.tradePrice.promotionDiscountPrice',
+      details.tradePrice.promotionDiscountPrice
+    );
     return (
       <div
         className={`product-summary__inner ${className}`}
@@ -431,7 +435,7 @@ class PayProductInfo extends React.Component {
                       </div>
                     ) : null}
                     {details.tradePrice.promotionDiscountPrice
-                      ? details.tradePrice.promotionVOList.map((el) => {
+                      ? details.tradePrice.promotionVOList.map((el) => (
                           <div className="row leading-lines shipping-item">
                             <div className="col-7 start-lines">
                               <p className="order-receipt-label order-shipping-cost">
@@ -447,8 +451,8 @@ class PayProductInfo extends React.Component {
                                 </span>
                               </p>
                             </div>
-                          </div>;
-                        })
+                          </div>
+                        ))
                       : null}
                     {/* {details.tradePrice.discountsPrice ? (
                       <div className="row leading-lines shipping-item">

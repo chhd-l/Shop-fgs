@@ -125,8 +125,8 @@ class AccountProfile extends React.Component {
           ? context.birthDay.split('-').join('/')
           : context.birthDay,
         country: context.countryId,
-        city: context.cityId,
-        cityName: context.city,
+        cityId: context.cityId,
+        city: context.city,
         phoneNumber: context.contactPhone,
         rfc: context.reference,
         address1: context.address1,
@@ -162,19 +162,6 @@ class AccountProfile extends React.Component {
           clinicId: prescriberId
         }
       });
-
-      // queryCityNameById({
-      //   id: [context.cityId]
-      // }).then((cityRes) => {
-      //   const cityVORes = cityRes.context.systemCityVO || [];
-      //   this.setState({
-      //     personalData: Object.assign(this.state.personalData, {
-      //       cityName: cityVORes.filter((c) => c.id === context.cityId).length
-      //         ? cityVORes.filter((c) => c.id === context.cityId)[0].cityName
-      //         : ''
-      //     })
-      //   });
-      // });
     } catch (err) {
     } finally {
       this.setState({ loading: false });

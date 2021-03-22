@@ -12,7 +12,7 @@ import {
 import { queryCityNameById, addressValidation } from '@/api';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
-import AddressForm from './form';
+import EditForm from '@/components/Form';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import classNames from 'classnames';
@@ -50,7 +50,7 @@ function CardItem(props) {
         <p className="mb-0">{data.consigneeNumber}</p>
         <p className="mb-0">{props.countryName}</p>
         <p className="mb-0">{data.city}</p>
-        {process.env.REACT_APP_LANG === 'en' ? (
+        {data.province && data.province != null ? (
           <p className="mb-0">{data.province}</p>
         ) : null}
         <p className="mb-0">{data.address1}</p>
@@ -77,13 +77,17 @@ class AddressList extends React.Component {
         rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         city: '',
-        cityId: 0,
+        cityId: '',
+        provinceNo: '',
+        provinceId: '',
+        province: '',
         postCode: '',
         phoneNumber: '',
         isDefalt: false
       },
       errMsg: '',
       loading: true,
+      isValid: false,
       saveLoading: false,
       deleteLoading: false,
       addOrEdit: false,
@@ -282,7 +286,7 @@ class AddressList extends React.Component {
       rfc: '',
       country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
       city: '',
-      cityId: 0,
+      cityId: '',
       postCode: '',
       phoneNumber: '',
       isDefalt: false
@@ -292,12 +296,6 @@ class AddressList extends React.Component {
     });
     if (itemIdx > -1) {
       const tmp = addressList[itemIdx];
-
-      console.log(
-        '------------------ ★ SubscriptionDetail showNextPanel: ',
-        tmp
-      );
-
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
         lastName: tmp.lastName,
@@ -313,10 +311,15 @@ class AddressList extends React.Component {
         email: tmp.email,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false
       };
-      if (process.env.REACT_APP_LANG === 'en') {
+      if (process.env.REACT_APP_LANG == 'en') {
         tmpDeliveryAddress.province = tmp.province;
         tmpDeliveryAddress.provinceId = tmp.provinceId;
       }
+      console.log(
+        '------------------ ★ SubscriptionDetail showNextPanel tmpDeliveryAddress: ',
+        tmpDeliveryAddress
+      );
+
       this.setState({
         deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
       });
@@ -347,11 +350,27 @@ class AddressList extends React.Component {
       deliveryAddress: data
     });
   }
+  // 表单验证
+  validFormData = async () => {
+    const { deliveryAddress } = this.state;
+    try {
+      // console.log('★★★★★★★★★ valiFormData: ', deliveryAddress);
+      await validData(PRESONAL_INFO_RULE, deliveryAddress);
+      this.setState({ isValid: true });
+    } catch (err) {
+      this.setState({ isValid: false });
+    }
+  };
   updateDeliveryAddress(data) {
-    this.setState({
-      deliveryAddress: data,
-      saveErrorMsg: ''
-    });
+    this.setState(
+      {
+        deliveryAddress: data,
+        saveErrorMsg: ''
+      },
+      () => {
+        this.validFormData();
+      }
+    );
   }
   scrollToTitle() {
     const widget = document.querySelector(`#J-address-title-${this.props.id}`);
@@ -400,7 +419,6 @@ class AddressList extends React.Component {
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         countryId: +deliveryAddress.country,
-        // cityId: deliveryAddress.cityName == deliveryAddress.city ? null : deliveryAddress.city,
         cityId: deliveryAddress.cityId,
         city: deliveryAddress.city,
         cityName: deliveryAddress.cityName,
@@ -423,7 +441,7 @@ class AddressList extends React.Component {
         params
       );
 
-      if (process.env.REACT_APP_LANG === 'en') {
+      if (process.env.REACT_APP_LANG == 'en') {
         params.province = deliveryAddress.province;
         params.provinceId = deliveryAddress.provinceId;
       }
@@ -594,6 +612,7 @@ class AddressList extends React.Component {
       deliveryAddress,
       addOrEdit,
       loading,
+      isValid,
       foledMore,
       addressList,
       isBillSame,
@@ -822,13 +841,18 @@ class AddressList extends React.Component {
                   addOrEdit || loading ? '' : 'hidden'
                 }`}
               >
-                <AddressForm
-                  data={deliveryAddress}
-                  updateData={(data) => this.updateDeliveryAddress(data)}
-                />
+                {addOrEdit && (
+                  <EditForm
+                    initData={deliveryAddress}
+                    isLogin={true}
+                    updateData={(data) => this.updateDeliveryAddress(data)}
+                  />
+                )}
+
                 {this.state.saveLoading ? (
                   <Loading positionAbsolute="true" />
                 ) : null}
+
                 <div className="rc-layout-container">
                   <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center">
                     <div>
@@ -881,6 +905,7 @@ class AddressList extends React.Component {
                             className="rc-btn rc-btn--one submitBtn"
                             name="contactPreference"
                             type="submit"
+                            disabled={!isValid}
                             onClick={() => this.handleSave()}
                           >
                             <FormattedMessage id="save" />
