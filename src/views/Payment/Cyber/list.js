@@ -123,6 +123,7 @@ class CyberCardList extends React.Component {
 
       if (cardList.length == 0) {
         this.props.showCyberForm();
+        this.props.setCardListToEmpty();
       }
 
       //清空cardList中的每项cardCvv

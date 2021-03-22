@@ -220,7 +220,7 @@ class Payment extends React.Component {
         city: '',
         zipCode: '',
         email: '',
-        isSaveCard: true
+        isSaveCard: false
       },
       cyberMonthList: [
         { name: 'month', value: '' },
@@ -256,7 +256,8 @@ class Payment extends React.Component {
       cardTypeArr: [],
       cyberPayParam: '',
       isShowCardList: false,
-      isShowCyberBindCardBtn: false
+      isShowCyberBindCardBtn: false,
+      cardListLength: 0
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -269,7 +270,12 @@ class Payment extends React.Component {
     this.cyberCardListRef = React.createRef();
   }
   updateSelectedCardInfo = (data) => {
+    let cyberMd5Cvv;
     if (data?.cardCvv) {
+      if (this.state.paymentTypeVal == 'cyber') {
+        cyberMd5Cvv = md5(data.lastFourDigits + data.cardCvv);
+        data = Object.assign({}, data, { cardCvv: cyberMd5Cvv });
+      }
       this.setState({
         isShowCyberBindCardBtn: true,
         cyberPayParam: data
@@ -289,6 +295,11 @@ class Payment extends React.Component {
   showCyberForm = () => {
     this.setState({
       isShowCardList: false
+    });
+  };
+  setCardListToEmpty = () => {
+    this.setState({
+      cardListLength: 0
     });
   };
   inputBlur = async (e) => {
@@ -347,6 +358,7 @@ class Payment extends React.Component {
     try {
       let res = await getPaymentMethod();
       let cardList = res.context;
+      this.setState({ cardListLength: cardList.length });
       if (cardList.length > 0) {
         this.setState({ isShowCardList: true });
       }
@@ -1940,13 +1952,19 @@ class Payment extends React.Component {
 
   renderBackToSavedPaymentsJSX = () => {
     return (
-      <div className="backToSavedPayments text-right">
+      <div
+        className={[
+          'backToSavedPayments',
+          'text-right',
+          this.isLogin && this.state.cardListLength > 0 ? '' : 'rc-hidden'
+        ].join(' ')}
+      >
         <a
           class="rc-styled-link"
           href="javascript:;"
           onClick={this.showCyberList}
         >
-          Back to Saved Payments
+          Back to Saved Payments{this.state.cardListLength}
         </a>
       </div>
     );
@@ -2189,6 +2207,9 @@ class Payment extends React.Component {
     const validForCyberPayment = () => {
       let isValidForCyberPayment = false;
       let errMsgObj = {};
+      let isCheckSaveCard = this.state.cyberPaymentForm.isSaveCard;
+      console.log(666, isCheckSaveCard);
+      console.log(subForm.buyWay);
       ADDRESS_RULE.forEach((item) => {
         if (
           Object.keys(cyberPaymentForm).indexOf(item.key) &&
@@ -2198,7 +2219,17 @@ class Payment extends React.Component {
           errMsgObj[item.key] = true;
         }
       });
+
       if (Object.keys(errMsgObj).length > 0) {
+        // if(subForm.buyWay == 'frequency'){
+        //   if(isCheckSaveCard){
+        //     isValidForCyberPayment = false; //有订阅商品，必须勾上保存卡checkbox框
+        //   } else{
+        //     isValidForCyberPayment = true;
+        //   }
+        // }else{
+        //   isValidForCyberPayment = false;
+        // }
         isValidForCyberPayment = false;
       } else {
         isValidForCyberPayment = true;
@@ -2475,6 +2506,7 @@ class Payment extends React.Component {
                     ref={this.cyberCardListRef}
                     updateSelectedCardInfo={this.updateSelectedCardInfo}
                     showCyberForm={this.showCyberForm}
+                    setCardListToEmpty={this.setCardListToEmpty}
                     billingJSX={this.renderBillingJSX({
                       type: paymentTypeVal
                     })}
