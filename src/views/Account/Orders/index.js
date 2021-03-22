@@ -698,7 +698,7 @@ class AccountOrders extends React.Component {
                                 >
                                   <div className="card rc-margin-y--none ml-0">
                                     <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up">
-                                      <div className="col-12 col-md-3">
+                                      <div className="col-12 col-md-2">
                                         <p>
                                           <FormattedMessage id="order.orderPlacedOn" />
                                           <br className="d-none d-md-block" />
@@ -712,12 +712,21 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-3 mb-2 mb-md-0">
+                                      <div className="col-12 col-md-2 mb-2 mb-md-0">
                                         <p className="text-nowrap">
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
                                             {order.id}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p className="text-nowrap">
+                                          <FormattedMessage id="order.orderStatus" />
+                                          <br className="d-none d-md-block" />
+                                          <span className="medium orderHeaderTextColor">
+                                            {order.tradeState.flowState}
                                           </span>
                                         </p>
                                       </div>
@@ -732,6 +741,7 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
+
                                       <div className="col-12 col-md-2">
                                         {order.tradeState.deliverStatus ===
                                           'SHIPPED' && (
@@ -861,7 +871,7 @@ class AccountOrders extends React.Component {
                                               />
                                             </LazyLoad>
                                           </div>
-                                          <div className="col-8 col-md-4">
+                                          <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
                                               {item.spuName}
                                             </span>

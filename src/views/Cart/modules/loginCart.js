@@ -196,6 +196,23 @@ class LoginCart extends React.Component {
   get firstOrderOnThePlatformDiscountPrice() {
     return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
+
+  get btnStatus() {
+    const { productList } = this.state;
+    let autoShipFlag = false,
+      clubFlag = false;
+    productList.map((el) => {
+      if (el.goods.promotions && el.goods.promotions.includes('club')) {
+        clubFlag = true;
+      } else if (
+        el.goods.promotions &&
+        el.goods.promotions.includes('autoship')
+      ) {
+        autoShipFlag = true;
+      }
+    });
+    return !(clubFlag && autoShipFlag);
+  }
   get promotionVOList() {
     console.log(
       this.props.checkoutStore.promotionVOList,
@@ -1193,8 +1210,8 @@ class LoginCart extends React.Component {
                   <div
                     data-oauthlogintargetendpoint="2"
                     className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
-                      checkoutLoading ? 'ui-btn-loading' : ''
-                    }`}
+                      this.btnStatus ? '' : 'rc-btn-solid-disabled'
+                    } ${checkoutLoading ? 'ui-btn-loading' : ''}`}
                     aria-pressed="true"
                   >
                     <FormattedMessage id="checkout" />
@@ -1246,8 +1263,8 @@ class LoginCart extends React.Component {
                   <div
                     data-oauthlogintargetendpoint="2"
                     className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
-                      checkoutLoading ? 'ui-btn-loading' : ''
-                    }`}
+                      this.btnStatus ? '' : 'rc-btn-solid-disabled'
+                    } ${checkoutLoading ? 'ui-btn-loading' : ''}`}
                     aria-pressed="true"
                   >
                     <FormattedMessage id="checkout" />{' '}
