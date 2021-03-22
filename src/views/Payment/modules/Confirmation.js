@@ -59,6 +59,7 @@ class Confirmation extends React.Component {
       });
     }
   };
+
   clickPay = () => {
     if (!this.state.isValid) {
       return false;

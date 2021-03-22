@@ -1159,15 +1159,26 @@ class AccountOrders extends React.Component {
                           <div className="row m-0 ml-2 mr-2 ml-md-0 mr-md-0">
                             <div className="col-12 border table-header rounded mt-3 mt-md-0">
                               <div className="row align-items-center pt-3 pb-2 pl-1 pr-1 pl-md-4 pr-md-4 pt-md-4 pb-md-3">
-                                <div className="col-12 col-md-4 text-left mb-2">
-                                  <FormattedMessage id="order.orderNumber" />:
+                                {/* 订单号 */}
+                                <div className="col-12 col-md-3 text-left mb-2">
+                                  <FormattedMessage id="order.orderNumber" />
                                   <br />
                                   <span className="medium">{orderNumber}</span>
                                 </div>
+                                {/* 订单状态 */}
+                                <div className="col-12 col-md-3 text-left mb-2">
+                                  <FormattedMessage id="order.orderStatus" />
+                                  <br />
+                                  <span className="medium">
+                                    {details.tradeState.flowState}
+                                  </span>
+                                </div>
+
+                                {/* 订阅订单号 */}
                                 {details.subscriptionResponseVO ? (
-                                  <div className="col-12 col-md-4 text-left mb-2">
+                                  <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="subscription.numberFirstWordUpperCase" />
-                                    :<br />
+                                    <br />
                                     <Link
                                       to={`/account/subscription/order/detail/${this.state.subNumber}`}
                                       className="rc-styled-link medium mb-0"
@@ -1177,9 +1188,10 @@ class AccountOrders extends React.Component {
                                   </div>
                                 ) : null}
 
+                                {/* clinic信息 */}
                                 {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
                                   'true' && (
-                                  <div className="col-12 col-md-4 text-left mb-2">
+                                  <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="payment.clinicTitle3" />
                                     <br />
                                     <span className="medium">

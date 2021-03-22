@@ -15,6 +15,8 @@ class CyberPaymentForm extends React.Component {
       secureCode: 'cyber.form.secureCode'
     },
     billingJSX: null,
+    securityCodeTipsJSX: null,
+    backToSavedPaymentsJSX: null,
     form: {
       cardholderName: '',
       cardNumber: '',
@@ -177,7 +179,7 @@ class CyberPaymentForm extends React.Component {
   };
 
   securityCodeJSX = () => {
-    const { form, errMsgObj, cyberFormTitle } = this.props;
+    const { form, errMsgObj, cyberFormTitle, securityCodeTipsJSX } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label" htmlFor="month">
@@ -197,16 +199,19 @@ class CyberPaymentForm extends React.Component {
           <label className="rc-input__label" htmlFor="securityCode" />
         </span>
         {errMsgObj.securityCode && (
-          <div className="text-danger-2">
-            <FormattedMessage id={cyberFormTitle.secureCode} />
-          </div>
+          <>
+            <div className="text-danger-2">
+              <FormattedMessage id="payment.errorInfo2" />
+            </div>
+          </>
         )}
+        {securityCodeTipsJSX}
       </div>
     );
   };
 
   render() {
-    const { billingJSX } = this.props;
+    const { billingJSX, backToSavedPaymentsJSX } = this.props;
     return (
       <div>
         {/* Name on Card */}
@@ -226,6 +231,7 @@ class CyberPaymentForm extends React.Component {
           {/* Security Code */}
           <div className="col-sm-4">{this.securityCodeJSX()}</div>
         </div>
+        {backToSavedPaymentsJSX}
         {billingJSX}
       </div>
     );

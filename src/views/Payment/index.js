@@ -23,6 +23,7 @@ import PetModal from './PetModal';
 import RepayAddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
+import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
 import {
   searchNextConfirmPanel,
@@ -219,7 +220,7 @@ class Payment extends React.Component {
         city: '',
         zipCode: '',
         email: '',
-        isSaveCard: true
+        isSaveCard: false
       },
       cyberMonthList: [
         { name: 'month', value: '' },
@@ -255,7 +256,8 @@ class Payment extends React.Component {
       cardTypeArr: [],
       cyberPayParam: '',
       isShowCardList: false,
-      isShowCyberBindCardBtn: false
+      isShowCyberBindCardBtn: false,
+      cardListLength: 0
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -268,7 +270,12 @@ class Payment extends React.Component {
     this.cyberCardListRef = React.createRef();
   }
   updateSelectedCardInfo = (data) => {
+    let cyberMd5Cvv;
     if (data?.cardCvv) {
+      if (this.state.paymentTypeVal == 'cyber') {
+        cyberMd5Cvv = md5(data.lastFourDigits + data.cardCvv);
+        data = Object.assign({}, data, { cardCvv: cyberMd5Cvv });
+      }
       this.setState({
         isShowCyberBindCardBtn: true,
         cyberPayParam: data
@@ -280,9 +287,19 @@ class Payment extends React.Component {
       });
     }
   };
+  showCyberList = () => {
+    this.setState({
+      isShowCardList: true
+    });
+  };
   showCyberForm = () => {
     this.setState({
       isShowCardList: false
+    });
+  };
+  setCardListToEmpty = () => {
+    this.setState({
+      cardListLength: 0
     });
   };
   inputBlur = async (e) => {
@@ -341,6 +358,7 @@ class Payment extends React.Component {
     try {
       let res = await getPaymentMethod();
       let cardList = res.context;
+      this.setState({ cardListLength: cardList.length });
       if (cardList.length > 0) {
         this.setState({ isShowCardList: true });
       }
@@ -1838,6 +1856,15 @@ class Payment extends React.Component {
     );
   };
 
+  changeCyberPaymentFormIsSaveCard = (isSaveCard) => {
+    isSaveCard = !isSaveCard;
+    let cyberPaymentForm = this.state.cyberPaymentForm;
+    cyberPaymentForm = Object.assign({}, cyberPaymentForm, { isSaveCard });
+    this.setState({
+      cyberPaymentForm
+    });
+  };
+
   renderBillingJSX = ({ type }) => {
     const {
       billingChecked,
@@ -1845,13 +1872,22 @@ class Payment extends React.Component {
       deliveryAddress,
       adyenPayParam,
       tid,
-      guestEmail
+      guestEmail,
+      cyberPaymentForm: { isSaveCard }
     } = this.state;
 
     if (tid) return null;
 
     return (
       <>
+        {this.state.paymentTypeVal == 'cyber' && this.isLogin ? (
+          <CyberSaveCardCheckbox
+            isChecked={isSaveCard}
+            changeCyberPaymentFormIsSaveCard={
+              this.changeCyberPaymentFormIsSaveCard
+            }
+          />
+        ) : null}
         <SameAsCheckbox
           initVal={billingChecked}
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
@@ -1902,6 +1938,35 @@ class Payment extends React.Component {
           </>
         )}
       </>
+    );
+  };
+
+  renderSecurityCodeTipsJSX = () => {
+    return (
+      <div className="securityCodeTips">
+        <span className="icon icon1"></span>
+        <div className="desc">100% secure payment</div>
+      </div>
+    );
+  };
+
+  renderBackToSavedPaymentsJSX = () => {
+    return (
+      <div
+        className={[
+          'backToSavedPayments',
+          'text-right',
+          this.isLogin && this.state.cardListLength > 0 ? '' : 'rc-hidden'
+        ].join(' ')}
+      >
+        <a
+          class="rc-styled-link"
+          href="javascript:;"
+          onClick={this.showCyberList}
+        >
+          Back to Saved Payments
+        </a>
+      </div>
     );
   };
 
@@ -2047,6 +2112,9 @@ class Payment extends React.Component {
         await handleClickSavePayUForm(this);
 
         if (paymentTypeVal === 'cyber') {
+          this.state.cyberPaymentForm.isSaveCard
+            ? (cyberParams.isSaveCard = true)
+            : (cyberParams.isSaveCard = false);
           const res = await loginCyberSaveCard(cyberParams);
           getBindCardInfo(res);
         }
@@ -2057,6 +2125,7 @@ class Payment extends React.Component {
         await handleClickSavePayUForm(this);
 
         if (paymentTypeVal === 'cyber') {
+          cyberParams.isSaveCard = true;
           const res = await unLoginCyberSaveCard(cyberParams);
           getBindCardInfo(res);
         }
@@ -2094,7 +2163,10 @@ class Payment extends React.Component {
     });
   };
   // 编辑
-  handleClickPaymentPanelEdit = () => {
+  handleClickPaymentPanelEdit = async () => {
+    if (this.state.paymentTypeVal == 'cyber' && this.isLogin) {
+      await this.queryList();
+    }
     this.props.paymentStore.setStsToEdit({
       key: 'paymentMethod',
       hideOthers: true
@@ -2136,6 +2208,8 @@ class Payment extends React.Component {
     const validForCyberPayment = () => {
       let isValidForCyberPayment = false;
       let errMsgObj = {};
+      let isCheckSaveCard = this.state.cyberPaymentForm.isSaveCard;
+
       ADDRESS_RULE.forEach((item) => {
         if (
           Object.keys(cyberPaymentForm).indexOf(item.key) &&
@@ -2145,10 +2219,20 @@ class Payment extends React.Component {
           errMsgObj[item.key] = true;
         }
       });
+
       if (Object.keys(errMsgObj).length > 0) {
         isValidForCyberPayment = false;
       } else {
-        isValidForCyberPayment = true;
+        if (subForm.buyWay == 'frequency') {
+          if (isCheckSaveCard) {
+            isValidForCyberPayment = true; //有订阅商品，必须勾上保存卡checkbox框
+          } else {
+            isValidForCyberPayment = false;
+          }
+        } else {
+          isValidForCyberPayment = true;
+        }
+        //isValidForCyberPayment = true;
       }
       return !isValidForCyberPayment;
     };
@@ -2350,10 +2434,10 @@ class Payment extends React.Component {
                 </>
               )}
 
-              {/* CYBER Form输入 */}
+              {/* CYBER */}
               {paymentTypeVal === 'cyber' && !this.state.isShowCardList && (
                 <>
-                  {/* cyber卡类型选择 start */}
+                  {/* 1.cyber卡类型 */}
                   {cardTypeArr.length > 1 &&
                     process.env.REACT_APP_GA_COUNTRY == 'US' && (
                       <div>
@@ -2388,7 +2472,8 @@ class Payment extends React.Component {
                         })}
                       </div>
                     )}
-                  {/* cyber卡类型选择 end */}
+
+                  {/* 2.cyber form */}
                   <CyberPaymentForm
                     cyberFormTitle={cyberFormTitle}
                     ref={this.cyberCardRef}
@@ -2404,6 +2489,8 @@ class Payment extends React.Component {
                     billingJSX={this.renderBillingJSX({
                       type: paymentTypeVal
                     })}
+                    securityCodeTipsJSX={this.renderSecurityCodeTipsJSX()}
+                    backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
                   />
                   {payConfirmBtn({
                     disabled: validForCyberPayment() || validForBilling,
@@ -2412,13 +2499,14 @@ class Payment extends React.Component {
                 </>
               )}
 
-              {/* CYBER卡列表 */}
+              {/* 2.CYBER卡列表 */}
               {paymentTypeVal === 'cyber' && this.state.isShowCardList && (
                 <>
                   <CyberCardList
                     ref={this.cyberCardListRef}
                     updateSelectedCardInfo={this.updateSelectedCardInfo}
                     showCyberForm={this.showCyberForm}
+                    setCardListToEmpty={this.setCardListToEmpty}
                     billingJSX={this.renderBillingJSX({
                       type: paymentTypeVal
                     })}
@@ -2440,11 +2528,11 @@ class Payment extends React.Component {
   };
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
-    console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
-    console.log(
-      '------------- ★★ 222 Payment renderAddrPreview billingAddress: ',
-      this.state.billingAddress
-    );
+    //console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
+    // console.log(
+    //   '------------- ★★ 222 Payment renderAddrPreview billingAddress: ',
+    //   this.state.billingAddress
+    // );
     // this.setState({
     //   billingAddress: form
     // });

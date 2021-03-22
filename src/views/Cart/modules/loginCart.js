@@ -196,6 +196,23 @@ class LoginCart extends React.Component {
   get firstOrderOnThePlatformDiscountPrice() {
     return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
+
+  get btnStatus() {
+    const { productList } = this.state;
+    let autoShipFlag = false,
+      clubFlag = false;
+    productList.map((el) => {
+      if (el.goods.promotions && el.goods.promotions.includes('club')) {
+        clubFlag = true;
+      } else if (
+        el.goods.promotions &&
+        el.goods.promotions.includes('autoship')
+      ) {
+        autoShipFlag = true;
+      }
+    });
+    return !(clubFlag && autoShipFlag);
+  }
   get promotionVOList() {
     console.log(
       this.props.checkoutStore.promotionVOList,
@@ -761,57 +778,58 @@ class LoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              <div className="rc-column">
-                {pitem.subscriptionStatus &&
-                (!pitem.goods.promotions ||
-                  !pitem.goods.promotions.includes('club')) ? (
-                  <SubscriptionSelection
-                    isGift={isGift}
-                    pitem={pitem}
-                    activeToolTipIndex={this.state.activeToolTipIndex}
-                    index={index}
-                    toolTipVisible={this.state.toolTipVisible}
-                    computedList={this.computedList}
-                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
-                      this,
-                      {
-                        goodsInfoFlag: 1,
-                        periodTypeId: pitem.form.frequencyId,
-                        pitem
+              {pitem.subscriptionStatus && pitem.subscriptionPrice ? (
+                <div className="rc-column">
+                  {!pitem.goods.promotions ||
+                  !pitem.goods.promotions.includes('club') ? (
+                    <SubscriptionSelection
+                      isGift={isGift}
+                      pitem={pitem}
+                      activeToolTipIndex={this.state.activeToolTipIndex}
+                      index={index}
+                      toolTipVisible={this.state.toolTipVisible}
+                      computedList={this.computedList}
+                      chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                        this,
+                        {
+                          goodsInfoFlag: 1,
+                          periodTypeId: pitem.form.frequencyId,
+                          pitem
+                        }
+                      )}
+                      changeFrequency={(pitem, data) =>
+                        this.handleSelectedItemChange(pitem, data)
                       }
-                    )}
-                    changeFrequency={(pitem, data) =>
-                      this.handleSelectedItemChange(pitem, data)
-                    }
-                    isLogin={true}
-                    setState={this.setState.bind(this)}
-                  />
-                ) : null}
-                {pitem.goods.promotions &&
-                pitem.goods.promotions.includes('club') ? (
-                  <ClubSelection
-                    isGift={isGift}
-                    pitem={pitem}
-                    activeToolTipIndex={this.state.activeToolTipIndex}
-                    index={index}
-                    toolTipVisible={this.state.toolTipVisible}
-                    computedList={this.computedList}
-                    chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
-                      this,
-                      {
-                        goodsInfoFlag: 2,
-                        periodTypeId: pitem.form.frequencyId,
-                        pitem
+                      isLogin={true}
+                      setState={this.setState.bind(this)}
+                    />
+                  ) : null}
+                  {pitem.goods.promotions &&
+                  pitem.goods.promotions.includes('club') ? (
+                    <ClubSelection
+                      isGift={isGift}
+                      pitem={pitem}
+                      activeToolTipIndex={this.state.activeToolTipIndex}
+                      index={index}
+                      toolTipVisible={this.state.toolTipVisible}
+                      computedList={this.computedList}
+                      chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
+                        this,
+                        {
+                          goodsInfoFlag: 2,
+                          periodTypeId: pitem.form.frequencyId,
+                          pitem
+                        }
+                      )}
+                      changeFrequency={(pitem, data) =>
+                        this.handleSelectedItemChange(pitem, data)
                       }
-                    )}
-                    changeFrequency={(pitem, data) =>
-                      this.handleSelectedItemChange(pitem, data)
-                    }
-                    isLogin={true}
-                    setState={this.setState.bind(this)}
-                  />
-                ) : null}
-              </div>
+                      isLogin={true}
+                      setState={this.setState.bind(this)}
+                    />
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </div>
           {pitem.goods.promotions && pitem.goods.promotions.includes('club') ? (
@@ -1192,8 +1210,8 @@ class LoginCart extends React.Component {
                   <div
                     data-oauthlogintargetendpoint="2"
                     className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
-                      checkoutLoading ? 'ui-btn-loading' : ''
-                    }`}
+                      this.btnStatus ? '' : 'rc-btn-solid-disabled'
+                    } ${checkoutLoading ? 'ui-btn-loading' : ''}`}
                     aria-pressed="true"
                   >
                     <FormattedMessage id="checkout" />
@@ -1245,8 +1263,8 @@ class LoginCart extends React.Component {
                   <div
                     data-oauthlogintargetendpoint="2"
                     className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
-                      checkoutLoading ? 'ui-btn-loading' : ''
-                    }`}
+                      this.btnStatus ? '' : 'rc-btn-solid-disabled'
+                    } ${checkoutLoading ? 'ui-btn-loading' : ''}`}
                     aria-pressed="true"
                   >
                     <FormattedMessage id="checkout" />{' '}

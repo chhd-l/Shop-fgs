@@ -747,7 +747,8 @@ class List extends React.Component {
       retailProductLink,
       vetProductLink,
       pageLink: '',
-      listLazyLoadSection: 1
+      listLazyLoadSection: 1,
+      prefv1: ''
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -816,8 +817,13 @@ class List extends React.Component {
       ).split('|');
       tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
     }
+
+    const prefv1 = decodeURI(getParaByName(search, 'prefv1'));
+    const animalType = this.state.isDogPage ? 'dog' : 'cat';
     this.setState({
-      pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`
+      pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`,
+      prefv1,
+      animalType
     });
   }
   componentWillUnmount() {
@@ -1962,16 +1968,33 @@ class List extends React.Component {
           </span>
         </ListItemForDefault>
       ));
-
+    const filterSeoTitle =
+      this.state.prefv1 +
+      ' ' +
+      this.state.animalType +
+      ' ' +
+      this.state.seoConfig.title;
+    const filterSeoDesc =
+      this.state.prefv1 +
+      ' ' +
+      this.state.animalType +
+      ' ' +
+      this.state.seoConfig.metaDescription;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
+          <title>
+            {this.state.prefv1 ? filterSeoTitle : this.state.seoConfig.title}
+          </title>
           <meta
             name="description"
-            content={this.state.seoConfig.metaDescription}
+            content={
+              this.state.prefv1
+                ? filterSeoDesc
+                : this.state.seoConfig.metaDescription
+            }
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
