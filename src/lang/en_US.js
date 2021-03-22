@@ -718,6 +718,7 @@ const en_US = {
   'payment.email': 'Email',
   'payment.errorInfo': '*{val} must be filled',
   'payment.errorInfo2': 'This field is required.',
+  'payment.errorInfo3': 'This field is required for subscriptions.',
   'payment.errTip': 'please enter cvv or select a card',
   'payment.EXPMonth': 'EXP. Month',
   'payment.EXPYear': 'EXP. Year',
@@ -1163,6 +1164,6 @@ const en_US = {
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
-  cyberIsSaveCard: 'Save this card as my preferred payment method'
+  securePaymentProcessing: 'Secure payment processing'
 };
 export default en_US;
