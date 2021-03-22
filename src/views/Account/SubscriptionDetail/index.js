@@ -613,6 +613,7 @@ class SubscriptionDetail extends React.Component {
       : cityId;
   }
   async doGetPromotionPrice(promotionCode = '') {
+    const { currentDeliveryAddress } = this.state;
     try {
       //计算Tota
       let goodsInfo = this.state.subDetail.goodsInfo;
@@ -627,12 +628,14 @@ class SubscriptionDetail extends React.Component {
           buyCount: ele.subscribeNum
         };
       });
+      // console.log('--------------- ★★★★ currentDeliveryAddress: ',this.state.currentDeliveryAddress);
       //根据参数查询促销的金额与订单运费
       const res = await getPromotionPrice({
         totalPrice: subTotal,
         goodsInfoList,
         promotionCode,
-        isAutoSub: true
+        isAutoSub: true,
+        deliveryAddressId: currentDeliveryAddress.deliveryAddressId
       });
       //拼装订阅购物车参数
       if (!res.context.promotionFlag) {
@@ -2843,11 +2846,12 @@ class SubscriptionDetail extends React.Component {
                                       el.id === currentDeliveryAddress.countryId
                                   )[0].valueEn
                                 : currentDeliveryAddress.countryId}
-                              , {currentDeliveryAddress.city}
-                              {/* 省份 */}
-                              {process.env.REACT_APP_LANG === 'en' ? (
-                                <>{currentDeliveryAddress.province},</>
-                              ) : null}
+                              ,{/* 省份 / State */}
+                              {currentDeliveryAddress?.province &&
+                              currentDeliveryAddress?.province != null
+                                ? currentDeliveryAddress.province + ', '
+                                : null}
+                              {currentDeliveryAddress.city}
                               <br />
                               {currentDeliveryAddress.address1}
                               <br />
@@ -2921,11 +2925,12 @@ class SubscriptionDetail extends React.Component {
                                       el.id === currentBillingAddress.countryId
                                   )[0].valueEn
                                 : currentBillingAddress.countryId}
-                              , {currentBillingAddress.city}
-                              {/* 省份 */}
-                              {process.env.REACT_APP_LANG === 'en' ? (
-                                <>{currentDeliveryAddress.province},</>
-                              ) : null}
+                              ,{/* 省份 / State */}
+                              {currentBillingAddress?.province &&
+                              currentBillingAddress?.province != null
+                                ? currentBillingAddress.province + ', '
+                                : null}
+                              {currentBillingAddress.city}
                               <br />
                               {currentBillingAddress.address1}
                               <br />
@@ -3587,24 +3592,26 @@ class SubscriptionDetail extends React.Component {
                                                 </div>
                                               ) : null}
                                               {el.tradePrice
-                                                .promotionDiscountPrice ? (
-                                                <div className="row">
-                                                  <div className="col-1 col-md-3" />
-                                                  <label className="green col-5 text-left">
-                                                    <FormattedMessage id="promotion" />
-                                                    :
-                                                  </label>
-                                                  <div className="col-5 col-md-3 text-right green">
-                                                    <b>
-                                                      -
-                                                      {formatMoney(
-                                                        el.tradePrice
-                                                          .promotionDiscountPrice
-                                                      )}
-                                                    </b>
-                                                  </div>
-                                                </div>
-                                              ) : null}
+                                                .promotionDiscountPrice
+                                                ? el.tradePrice.promotionVOList.map(
+                                                    (el) => (
+                                                      <div className="row">
+                                                        <div className="col-1 col-md-3" />
+                                                        <label className="green col-5 text-left">
+                                                          {el.marketingName}:
+                                                        </label>
+                                                        <div className="col-5 col-md-3 text-right green">
+                                                          <b>
+                                                            -
+                                                            {formatMoney(
+                                                              el.discountPrice
+                                                            )}
+                                                          </b>
+                                                        </div>
+                                                      </div>
+                                                    )
+                                                  )
+                                                : null}
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el, i) => (
                                                   <div className="row" key={i}>

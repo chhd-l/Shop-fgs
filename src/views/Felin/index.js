@@ -17,6 +17,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import FaceBook_Icon from '@/assets/images/facebookIcon.png';
 import Insgram_Icon from '@/assets/images/insgramIcon.png';
+import { getTimeOptions, apptSave } from '@/api/appointment';
 
 function Divider() {
   return (
@@ -97,60 +98,71 @@ export default class Felin extends React.Component {
       isContactUs: false,
       currentTabIndex: 0,
       topVal: '159px',
-      currentDate: new Date()
+      currentDate: new Date(),
+      calendarInitObserver: null,
+      timeOption: []
     };
   }
   componentDidMount() {
+    let timeOption = [];
+    let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    arr.map((el) => {
+      if (el <= 18) {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 1
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 1
+        });
+      } else {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 0
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 0
+        });
+      }
+    });
+    this.setState({ timeOption: timeOption });
+    this.getTimeOptions();
     window.addEventListener('scroll', (e) => {
       if (document.querySelector('.rc-header--scrolled')) {
         this.setState({ topVal: '54px' });
       } else {
         this.setState({ topVal: '120px' });
       }
-      // let topVal = document.documentElement.scrollTop
-      // document.querySelector('.tabs').style.top = topVal + 'px'
     });
     // setTimeout(() => {
-    //   var picker = new Pikaday({
-    //     field: document.getElementById('datepicker'),
-    //     minDate: new Date(),
-    //     disableDayFn: (date) => {
-    //       return new Date(date).getDay() === 1;
-    //     },
-    //     format: 'DD/MM/YYYY',
-    //     toString(date, format) {
-    //       let day = date.getDate();
-    //       let month = date.getMonth() + 1;
-    //       const year = date.getFullYear();
-    //       if (day < 10) {
-    //         day = '0' + day;
-    //       }
-    //       if (month < 10) {
-    //         month = '0' + month;
-    //       }
-    //       return `${day}/${month}/${year}`;
-    //     },
-    //     parse(dateString, format) {
-    //       const parts = dateString.split('/');
-    //       const day = parseInt(parts[0], 10);
-    //       const month = parseInt(parts[1], 10) - 1;
-    //       const year = parseInt(parts[2], 10);
-    //       return new Date(year, month, day);
-    //     }
-    //   });
-    // }, 3000);
-
-    document.querySelector(
-      '.react-calendar__navigation__prev-button'
-    ).innerHTML = `<span className="icon iconfont">
+    //   if (document.querySelector('.rc-header--scrolled')) {
+    //     this.setState({ topVal: '54px' });
+    //   } else {
+    //     this.setState({ topVal: '120px' });
+    //   }
+    // }, 1400)
+    setTimeout(() => {
+      document.querySelector(
+        '.react-calendar__navigation__prev-button'
+      ).innerHTML = `<span className="icon iconfont">
       &#xe6fa;
     </span>`;
-    document.querySelector(
-      '.react-calendar__navigation__next-button'
-    ).innerHTML = `<span className="icon iconfont">
+      document.querySelector(
+        '.react-calendar__navigation__next-button'
+      ).innerHTML = `<span className="icon iconfont">
       &#xe6f9;
     </span>`;
-
+    }, 5000);
     // document.querySelector('.iconfont.font-weight-bold.icon-arrow').innerHTML = `&#xe601;`
     let iconDom = document.querySelector(
       '.iconfont.font-weight-bold.icon-arrow '
@@ -175,7 +187,56 @@ export default class Felin extends React.Component {
     //   console.log(window.RCDL.features.Datepickers)
     //   window.RCDL.features.Datepickers.init('.rc-input__date.rc-js-custom', null,datePickerOptions);
     // }, 3000)
+
+    // 日历出现在视口中发送ga埋点
+    const calendarDom = document.querySelector('#appointment-calendar');
+    let calendarInitObserver = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio <= 0) return;
+      window.dataLayer && this.bookingStepsGA('Calendar');
+    });
+    this.setState(
+      {
+        calendarDom,
+        calendarInitObserver
+      },
+      () => {
+        this.state.calendarInitObserver.observe(calendarDom);
+      }
+    );
   }
+  get virtualAppointmentFlag() {
+    let { currentDate } = this.state;
+    return (
+      +format(currentDate, 'yyyyMMdd') >= 20210420 &&
+      +format(currentDate, 'yyyyMMdd') <= 20210502
+    );
+  }
+  getTimeOptions() {
+    getTimeOptions({
+      apptDate: format(this.state.currentDate, 'yyyyMMdd')
+    }).then((res) => {
+      let { timeOption } = this.state;
+      let { appointmentVOList } = res.context;
+      timeOption.map((timeItem) => {
+        if (
+          appointmentVOList.filter(
+            (apptItem) => apptItem.apptTime === timeItem.value
+          ).length
+        ) {
+          timeItem.disabled = true;
+        }
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.state.calendarInitObserver &&
+      this.state.calendarInitObserver.disconnect(this.state.calendarDom);
+    this.setState({
+      calendarInitObserver: null
+    });
+  }
+
   handleInputChange = (e) => {
     const target = e.target;
     const name = target.name;
@@ -230,6 +291,15 @@ export default class Felin extends React.Component {
       // let felinForm = {
       //   selectedDate:
       // }
+      let obj = {
+        2: 'Appointment type',
+        3: 'Login',
+        4: 'Customer info',
+        5: 'Recap',
+        6: 'Confirmation'
+      };
+      this.bookingStepsGA(obj[this.state.step]);
+
       this.updateButtonState();
     });
   }
@@ -255,6 +325,22 @@ export default class Felin extends React.Component {
       this.setState({ nextBtnEnable: false });
     }
   }
+
+  handleClickBtn(type, btnName) {
+    scrollPaymentPanelIntoView(type);
+    dataLayer.push({
+      event: 'atelierFelinButtonClick',
+      atelierFelinButtonClickName: btnName
+    });
+  }
+
+  bookingStepsGA(stepName) {
+    dataLayer.push({
+      event: 'atelierFelinBookingSteps',
+      atelierFelinBookingStepsName: stepName
+    });
+  }
+
   render() {
     let {
       userInfo,
@@ -335,9 +421,6 @@ export default class Felin extends React.Component {
               </span>
               {/* </Link> */}
             </div>
-            <br />
-            <br />
-            <br />
             <br />
             <div
               className="contactUs"
@@ -452,7 +535,10 @@ export default class Felin extends React.Component {
                       <button
                         className="rc-btn rc-btn--two"
                         onClick={() => {
-                          scrollPaymentPanelIntoView('felinFooter');
+                          this.handleClickBtn(
+                            'felinFooter',
+                            'Meet our experts'
+                          );
                         }}
                       >
                         Venez rencontrer nos experts
@@ -505,7 +591,10 @@ export default class Felin extends React.Component {
                       <button
                         className="rc-btn rc-btn--two"
                         onClick={() => {
-                          scrollPaymentPanelIntoView('section5');
+                          this.handleClickBtn(
+                            'section5',
+                            'discover the world of cats in our store'
+                          );
                         }}
                       >
                         Venez découvrir l’univers du chat dans notre magasin
@@ -537,7 +626,10 @@ export default class Felin extends React.Component {
                       <button
                         className="rc-btn rc-btn--two"
                         onClick={() => {
-                          scrollPaymentPanelIntoView('section5');
+                          this.handleClickBtn(
+                            'section5',
+                            'discover the world of cats in our store'
+                          );
                         }}
                       >
                         Venez découvrir l’univers du chat dans notre magasin
@@ -622,7 +714,7 @@ export default class Felin extends React.Component {
                       }}
                     >
                       {this.state.step === 1 ? (
-                        <>
+                        <div id="appointment-calendar">
                           <p style={{ fontWeight: '500' }}>
                             Choisissez un rendez-vous
                           </p>
@@ -652,23 +744,6 @@ export default class Felin extends React.Component {
                                   'fr'
                                 )}
                               />
-                              {/* <DatePicker
-                                className="receiveDate"
-                                placeholder="Select Date"
-                                dateFormat={datePickerConfig.format}
-                                locale={datePickerConfig.locale}
-                                minDate={new Date()}
-                                selected={this.state.selectedDate}
-                                // selected={new Date()}
-                                onChange={(date) => {
-                                  this.setState(
-                                    { selectedDate: new Date(date) },
-                                    () => {
-                                      this.updateButtonState();
-                                    }
-                                  );
-                                }}
-                              /> */}
                             </h1>
                             <span className="icon iconfont iconfont-date">
                               &#xe6b3;
@@ -683,8 +758,15 @@ export default class Felin extends React.Component {
                               }}
                               minDate={new Date()}
                               onChange={(date) => {
-                                console.log(date);
-                                this.setState({ currentDate: date });
+                                if (
+                                  format(date, 'yyyy-MM-dd') ===
+                                  format(this.state.currentDate, 'yyyy-MM-dd')
+                                ) {
+                                  return false;
+                                }
+                                this.setState({ currentDate: date }, () => {
+                                  this.getTimeOptions();
+                                });
                               }}
                               // navigationLabel={() => `ahahahax`}
                             />
@@ -692,16 +774,7 @@ export default class Felin extends React.Component {
                           <div>
                             <Selection
                               placeholder="Choisissez une créneau horaire"
-                              optionList={[
-                                { name: '10:00 – 10:20 AM', value: '111' },
-                                { name: '10:30 – 10:50 AM', value: '222' },
-                                {
-                                  name: '11:00 – 11:20 AM',
-                                  value: '333',
-                                  disabled: true
-                                },
-                                { name: '11:30 – 11:50 AM', value: '444' }
-                              ]}
+                              optionList={this.state.timeOption}
                               selectedItemChange={(data) => {
                                 console.log(data);
                                 this.setState({ selectedTimeObj: data }, () => {
@@ -714,7 +787,7 @@ export default class Felin extends React.Component {
                               enableBlur={false}
                             />
                           </div>
-                        </>
+                        </div>
                       ) : null}
                       {this.state.step === 2 ? (
                         <>
@@ -732,9 +805,16 @@ export default class Felin extends React.Component {
                                 className="rc-input__radio"
                                 id="female"
                                 value="1"
-                                checked={this.state.felinType}
+                                checked={
+                                  this.virtualAppointmentFlag ||
+                                  this.state.selectedTimeObj.type === 0
+                                }
                                 type="radio"
                                 name="gender"
+                                disabled={
+                                  !this.virtualAppointmentFlag &&
+                                  this.state.selectedTimeObj.type === 1
+                                }
                                 onChange={(e) => {
                                   this.setState({ felinType: 1 });
                                 }}
@@ -752,9 +832,16 @@ export default class Felin extends React.Component {
                                 className="rc-input__radio"
                                 id="male"
                                 value="0"
-                                checked={!this.state.felinType}
+                                checked={
+                                  !this.virtualAppointmentFlag &&
+                                  this.state.selectedTimeObj.type === 1
+                                }
                                 type="radio"
                                 name="gender"
+                                disabled={
+                                  this.virtualAppointmentFlag ||
+                                  this.state.selectedTimeObj.type === 0
+                                }
                                 onChange={(e) => {
                                   this.setState({ felinType: 0 });
                                 }}

@@ -41,12 +41,11 @@ const pageLink = window.location.href;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: on, 1: off
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
+const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 // 买入价格开关 0：Inclusive of tax，1：Exclusive of tax
 const enterPriceType =
-  (storeInfo?.systemTaxSetting?.configVOList &&
-    storeInfo?.systemTaxSetting?.configVOList[1]?.context) ||
-  1;
+  storeInfo?.systemTaxSetting?.configVOList &&
+  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 function HeadTip(props) {
   console.log(props, 'props');
@@ -1368,23 +1367,23 @@ class AccountOrders extends React.Component {
                                       </div>
                                     </>
                                   ) : null}
-                                  {details.tradePrice.promotionDiscountPrice ? (
-                                    <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                        &nbsp;
-                                      </div>
-                                      <div className="col-6 col-md-2 mb-2 green">
-                                        <FormattedMessage id="promotion" />
-                                      </div>
-                                      <div className="col-6 col-md-3 text-right green text-nowrap">
-                                        -
-                                        {formatMoney(
-                                          details.tradePrice
-                                            .promotionDiscountPrice
-                                        )}
-                                      </div>
-                                    </>
-                                  ) : null}
+                                  {details.tradePrice.promotionDiscountPrice
+                                    ? details.tradePrice.promotionVOList.map(
+                                        (el) => (
+                                          <>
+                                            <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                              &nbsp;
+                                            </div>
+                                            <div className="col-6 col-md-2 mb-2 green">
+                                              {el.marketingName}
+                                            </div>
+                                            <div className="col-6 col-md-3 text-right green text-nowrap">
+                                              -{formatMoney(el.discountPrice)}
+                                            </div>
+                                          </>
+                                        )
+                                      )
+                                    : null}
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>

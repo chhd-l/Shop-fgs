@@ -1783,7 +1783,7 @@ class Payment extends React.Component {
             purchaseFlag: false,
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-              region: data.provinceNo, // 省份简写
+              region: data.state.stateNo, // 省份简写
               city: data.city,
               street: data.address1,
               postalCode: data.postCode,
@@ -1964,7 +1964,7 @@ class Payment extends React.Component {
           href="javascript:;"
           onClick={this.showCyberList}
         >
-          Back to Saved Payments{this.state.cardListLength}
+          Back to Saved Payments
         </a>
       </div>
     );
@@ -2162,9 +2162,9 @@ class Payment extends React.Component {
     });
   };
   // 编辑
-  handleClickPaymentPanelEdit = () => {
+  handleClickPaymentPanelEdit = async () => {
     if (this.state.paymentTypeVal == 'cyber' && this.isLogin) {
-      this.setState({ isShowCardList: true }); //只是为cyber用,因为cyber的卡列表和卡表单是分开展示的
+      await this.queryList();
     }
     this.props.paymentStore.setStsToEdit({
       key: 'paymentMethod',
@@ -2208,8 +2208,7 @@ class Payment extends React.Component {
       let isValidForCyberPayment = false;
       let errMsgObj = {};
       let isCheckSaveCard = this.state.cyberPaymentForm.isSaveCard;
-      console.log(666, isCheckSaveCard);
-      console.log(subForm.buyWay);
+
       ADDRESS_RULE.forEach((item) => {
         if (
           Object.keys(cyberPaymentForm).indexOf(item.key) &&
@@ -2221,18 +2220,18 @@ class Payment extends React.Component {
       });
 
       if (Object.keys(errMsgObj).length > 0) {
-        // if(subForm.buyWay == 'frequency'){
-        //   if(isCheckSaveCard){
-        //     isValidForCyberPayment = false; //有订阅商品，必须勾上保存卡checkbox框
-        //   } else{
-        //     isValidForCyberPayment = true;
-        //   }
-        // }else{
-        //   isValidForCyberPayment = false;
-        // }
         isValidForCyberPayment = false;
       } else {
-        isValidForCyberPayment = true;
+        if (subForm.buyWay == 'frequency') {
+          if (isCheckSaveCard) {
+            isValidForCyberPayment = true; //有订阅商品，必须勾上保存卡checkbox框
+          } else {
+            isValidForCyberPayment = false;
+          }
+        } else {
+          isValidForCyberPayment = true;
+        }
+        //isValidForCyberPayment = true;
       }
       return !isValidForCyberPayment;
     };
