@@ -229,12 +229,13 @@ class PaymentStore {
           }
 
           if (isFirstLoad) {
-            const result = find(
-              dataLayer,
-              (ele) =>
-                ele.event ===
-                process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
-            )||{};
+            const result =
+              find(
+                dataLayer,
+                (ele) =>
+                  ele.event ===
+                  process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+              ) || {};
             result.checkout = {
               step: 3,
               option: 'shippingMethod'
@@ -335,6 +336,7 @@ class PaymentStore {
     const panelStatusJS = toJS(this.panelStatus);
     for (let tmpKey in panelStatusJS) {
       const tmpSts = this.panelStatus[tmpKey].status;
+      debugger;
       if (tmpSts.isPrepare && tmpSts.isCompleted) {
         tmpSts.isPrepare = false;
       }
