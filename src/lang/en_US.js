@@ -1163,6 +1163,7 @@ const en_US = {
   yes: 'Yes',
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
-  yourPasswordNotVerified: 'Your password has not been verified'
+  yourPasswordNotVerified: 'Your password has not been verified',
+  securePaymentProcessing: 'Secure payment processing'
 };
 export default en_US;
