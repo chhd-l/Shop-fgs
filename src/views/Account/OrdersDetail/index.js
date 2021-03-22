@@ -41,12 +41,11 @@ const pageLink = window.location.href;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: on, 1: off
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag || 1;
+const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 // 买入价格开关 0：Inclusive of tax，1：Exclusive of tax
 const enterPriceType =
-  (storeInfo?.systemTaxSetting?.configVOList &&
-    storeInfo?.systemTaxSetting?.configVOList[1]?.context) ||
-  1;
+  storeInfo?.systemTaxSetting?.configVOList &&
+  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 function HeadTip(props) {
   console.log(props, 'props');
