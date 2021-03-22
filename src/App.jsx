@@ -632,7 +632,6 @@ const App = () => (
                       '/persan-bouchÃ©es-spÃ©cial-2030':
                         '/persan-bouchees-special-2030',
                     };
-                    debugger
                     if (productNameMappping[pathname]) {
                       redirectUrl = productNameMappping[pathname];
                     } else if (pathname.split('--').length > 1) {

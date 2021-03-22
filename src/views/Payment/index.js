@@ -2157,7 +2157,6 @@ class Payment extends React.Component {
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
-    debugger;
     setTimeout(() => {
       scrollPaymentPanelIntoView();
     });
