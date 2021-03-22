@@ -42,7 +42,7 @@ export default class DropDownMenuForHub extends React.Component {
     }
     this.props.updateActiveTopParentId(tmpId);
     this.setState({ currentClickedParentItemId: item.id });
-    !item.expanded && this.menuItemEvent(item);
+    !item.expanded && this.menuItemEvent({ item });
   }
   onListItemBlur = (e) => {
     this.timeOutId = setTimeout(() => {
@@ -66,7 +66,7 @@ export default class DropDownMenuForHub extends React.Component {
 
   menuItemEvent({ item, cItem, type }) {
     const Level1 = item?.Link?.Text;
-    const Level2 = type ? cItem : cItem?.Link?.Text;
+    const Level2 = type ? cItem?.Title : cItem?.Link?.Text;
     dataLayer.push({
       event: 'navTopClick',
       navTopClick: {
