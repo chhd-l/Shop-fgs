@@ -106,16 +106,33 @@ export default class Felin extends React.Component {
     let timeOption = [];
     let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     arr.map((el) => {
-      timeOption.push({
-        name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
-        value: `${el}:00-${el}:20`,
-        disabled: false
-      });
-      timeOption.push({
-        name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
-        value: `${el}:30-${el}:50`,
-        disabled: false
-      });
+      if (el <= 18) {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 1
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 1
+        });
+      } else {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 0
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 0
+        });
+      }
     });
     this.setState({ timeOption: timeOption });
     this.getTimeOptions();
@@ -133,18 +150,18 @@ export default class Felin extends React.Component {
     //     this.setState({ topVal: '120px' });
     //   }
     // }, 1400)
-
-    document.querySelector(
-      '.react-calendar__navigation__prev-button'
-    ).innerHTML = `<span className="icon iconfont">
+    setTimeout(() => {
+      document.querySelector(
+        '.react-calendar__navigation__prev-button'
+      ).innerHTML = `<span className="icon iconfont">
       &#xe6fa;
     </span>`;
-    document.querySelector(
-      '.react-calendar__navigation__next-button'
-    ).innerHTML = `<span className="icon iconfont">
+      document.querySelector(
+        '.react-calendar__navigation__next-button'
+      ).innerHTML = `<span className="icon iconfont">
       &#xe6f9;
     </span>`;
-
+    }, 5000);
     // document.querySelector('.iconfont.font-weight-bold.icon-arrow').innerHTML = `&#xe601;`
     let iconDom = document.querySelector(
       '.iconfont.font-weight-bold.icon-arrow '
@@ -154,6 +171,13 @@ export default class Felin extends React.Component {
     needIconDom.classList.add('icon', 'iconfont');
     needIconDom.innerHTML = `&#xe601;`;
     document.querySelector('#Selection').appendChild(needIconDom);
+  }
+  get virtualAppointmentFlag() {
+    let { currentDate } = this.state;
+    return (
+      +format(currentDate, 'yyyyMMdd') >= 20210420 &&
+      +format(currentDate, 'yyyyMMdd') <= 20210502
+    );
   }
   getTimeOptions() {
     getTimeOptions({
@@ -724,9 +748,16 @@ export default class Felin extends React.Component {
                                 className="rc-input__radio"
                                 id="female"
                                 value="1"
-                                checked={this.state.felinType}
+                                checked={
+                                  this.virtualAppointmentFlag ||
+                                  this.state.selectedTimeObj.type === 0
+                                }
                                 type="radio"
                                 name="gender"
+                                disabled={
+                                  !this.virtualAppointmentFlag &&
+                                  this.state.selectedTimeObj.type === 1
+                                }
                                 onChange={(e) => {
                                   this.setState({ felinType: 1 });
                                 }}
@@ -744,9 +775,16 @@ export default class Felin extends React.Component {
                                 className="rc-input__radio"
                                 id="male"
                                 value="0"
-                                checked={!this.state.felinType}
+                                checked={
+                                  !this.virtualAppointmentFlag &&
+                                  this.state.selectedTimeObj.type === 1
+                                }
                                 type="radio"
                                 name="gender"
+                                disabled={
+                                  this.virtualAppointmentFlag ||
+                                  this.state.selectedTimeObj.type === 0
+                                }
                                 onChange={(e) => {
                                   this.setState({ felinType: 0 });
                                 }}
