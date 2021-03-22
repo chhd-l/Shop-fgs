@@ -262,7 +262,7 @@ class ClubHeroCarousel extends React.Component {
               bannerId: '2c918085751fa3ad01752099f30a0002',
               storeId: 123457910,
               bannerName: 'us_003',
-              webUrl: `${trsliderthree}`,
+              webUrl: `${trsliderfive}`,
               webImgName: 'us_003_a.jpg',
               webSkipUrl: '/help',
               webUuid: 'rc-upload-1602569663057-13',
