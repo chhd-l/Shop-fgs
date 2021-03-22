@@ -161,6 +161,19 @@ class UnLoginCart extends React.Component {
   get unLoginCartData() {
     return this.props.checkoutStore.cartData;
   }
+  get btnStatus() {
+    const { productList } = this.state;
+    let autoShipFlag = false,
+      clubFlag = false;
+    productList.map((el) => {
+      if (el.promotions && el.promotions.includes('club')) {
+        clubFlag = true;
+      } else if (el.promotions && el.promotions.includes('autoship')) {
+        autoShipFlag = true;
+      }
+    });
+    return !(clubFlag && autoShipFlag);
+  }
   getGoodsIdArr = () => {
     let goodsIdArr = this.unLoginCartData.map((item) => item.goodsId);
     this.setState({ goodsIdArr });
@@ -1035,13 +1048,19 @@ class UnLoginCart extends React.Component {
               beforeLoginCallback={async () =>
                 this.handleCheckout({ needLogin: true })
               }
-              btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+              btnClass={`${
+                this.btnStatus ? '' : 'rc-btn-solid-disabled'
+              } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width`}
               history={this.props.history}
             >
               <FormattedMessage id="checkout" />
             </LoginButton>
           ) : (
-            <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
+            <div
+              className={`${
+                this.btnStatus ? '' : 'rc-btn-solid-disabled'
+              } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled`}
+            >
               <FormattedMessage id="checkout" />
             </div>
           )}
