@@ -220,7 +220,7 @@ const en_US = {
     'In the near future, our staff will contact you to comfirm the order.',
   'confirmation.info3':
     ' Addresses and shipping methods are indicated under your goods.',
-  'confirmation.oneShoot': 'Go to my account',
+  'confirmation.oneShoot': 'Continue shopping',
   'confirmation.orderNumber': 'Order number',
   'confirmation.rateTip': 'How would you rate your shopping experience?',
   'confirmation.rateTip2': 'What can we do to improve?',
