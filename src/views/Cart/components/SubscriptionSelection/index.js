@@ -66,7 +66,7 @@ const SubscriptionSelection = function (props) {
               cancelBtnVisible={false}
               confirmBtnVisible={false}
               updateChildDisplay={(status) =>
-                this.setState({
+                props.setState({
                   toolTipVisible: status
                 })
               }
