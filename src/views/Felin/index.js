@@ -676,16 +676,6 @@ export default class Felin extends React.Component {
                             <Selection
                               placeholder="Choisissez une créneau horaire"
                               optionList={this.state.timeOption}
-                              // optionList={[
-                              //   { name: '10:00 – 10:20 AM', value: '111' },
-                              //   { name: '10:30 – 10:50 AM', value: '222' },
-                              //   {
-                              //     name: '11:00 – 11:20 AM',
-                              //     value: '333',
-                              //     disabled: true
-                              //   },
-                              //   { name: '11:30 – 11:50 AM', value: '444' }
-                              // ]}
                               selectedItemChange={(data) => {
                                 console.log(data);
                                 this.setState({ selectedTimeObj: data }, () => {
