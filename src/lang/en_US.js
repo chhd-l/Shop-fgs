@@ -271,7 +271,7 @@ const en_US = {
   'cyber.form.firstName': 'First Name',
   'cyber.form.lastName': 'LastName Name',
   'cyber.form.saveFor': 'Save this card as my preferred payment method',
-  'cyber.form.secureCode': 'Security Code',
+  'cyber.form.secureCode': 'Code Security',
   'cyber.form.secureCode2': 'Code Secure',
   'cyber.form.state': 'State',
   'cyber.form.theBox': 'This box is required for subscription',

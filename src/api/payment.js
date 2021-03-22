@@ -14,6 +14,7 @@ const api = {
   customerCommitAndPay: '/trade-custom/checkout',
   customerCommitAndPayUs: '/us/trade-custom/checkout',
   rePay: '/trade-custom/repay',
+  rePayUs: '/us/trade-custom/repay',
   customerCommitAndPayMix: '/trade-custom/mix/checkout',
   customerCommitAndPayMixUs: 'us/trade-custom/mix/checkout',
   getMarketingDiscount: '/marketing/discount',
@@ -123,7 +124,7 @@ export function customerCommitAndPayMix(parameter) {
 
 export function rePay(parameter) {
   return axios({
-    url: api.rePay,
+    url: process.env.REACT_APP_GA_COUNTRY == 'US' ? api.rePayUs : api.rePay,
     method: 'post',
     data: parameter
   });

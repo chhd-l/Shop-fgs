@@ -14,6 +14,7 @@ class CyberPaymentForm extends React.Component {
       EXPYear: 'cyber.form.EXPYear',
       secureCode: 'cyber.form.secureCode'
     },
+    CyberSaveCardCheckboxJSX: null,
     billingJSX: null,
     securityCodeTipsJSX: null,
     backToSavedPaymentsJSX: null,
@@ -211,7 +212,11 @@ class CyberPaymentForm extends React.Component {
   };
 
   render() {
-    const { billingJSX, backToSavedPaymentsJSX } = this.props;
+    const {
+      CyberSaveCardCheckboxJSX,
+      billingJSX,
+      backToSavedPaymentsJSX
+    } = this.props;
     return (
       <div>
         {/* Name on Card */}
@@ -232,6 +237,7 @@ class CyberPaymentForm extends React.Component {
           <div className="col-sm-4">{this.securityCodeJSX()}</div>
         </div>
         {backToSavedPaymentsJSX}
+        {CyberSaveCardCheckboxJSX}
         {billingJSX}
       </div>
     );
