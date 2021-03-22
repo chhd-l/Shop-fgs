@@ -99,6 +99,7 @@ export default class Felin extends React.Component {
       currentTabIndex: 0,
       topVal: '159px',
       currentDate: new Date(),
+      calendarInitObserver: null,
       timeOption: []
     };
   }
@@ -171,6 +172,37 @@ export default class Felin extends React.Component {
     needIconDom.classList.add('icon', 'iconfont');
     needIconDom.innerHTML = `&#xe601;`;
     document.querySelector('#Selection').appendChild(needIconDom);
+    // setTimeout(() => {
+    //   const datePickerOptions = {
+    //     i18n: {
+    //       previousMonth: 'Poprzedni miesiąc',
+    //       nextMonth: 'Następny miesiąc',
+    //       months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+    //       weekdays: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwaretk', 'Piątek', 'Sobota'],
+    //       weekdaysShort: ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb']
+    //     },
+    //     disableWeekends: true,
+    //     minDate: new Date()
+    //   };
+    //   console.log(window.RCDL.features.Datepickers)
+    //   window.RCDL.features.Datepickers.init('.rc-input__date.rc-js-custom', null,datePickerOptions);
+    // }, 3000)
+
+    // 日历出现在视口中发送ga埋点
+    const calendarDom = document.querySelector('#appointment-calendar');
+    let calendarInitObserver = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio <= 0) return;
+      window.dataLayer && this.bookingStepsGA('Calendar');
+    });
+    this.setState(
+      {
+        calendarDom,
+        calendarInitObserver
+      },
+      () => {
+        this.state.calendarInitObserver.observe(calendarDom);
+      }
+    );
   }
   get virtualAppointmentFlag() {
     let { currentDate } = this.state;
@@ -196,6 +228,15 @@ export default class Felin extends React.Component {
       });
     });
   }
+
+  componentWillUnmount() {
+    this.state.calendarInitObserver &&
+      this.state.calendarInitObserver.disconnect(this.state.calendarDom);
+    this.setState({
+      calendarInitObserver: null
+    });
+  }
+
   handleInputChange = (e) => {
     const target = e.target;
     const name = target.name;
@@ -250,6 +291,15 @@ export default class Felin extends React.Component {
       // let felinForm = {
       //   selectedDate:
       // }
+      let obj = {
+        2: 'Appointment type',
+        3: 'Login',
+        4: 'Customer info',
+        5: 'Recap',
+        6: 'Confirmation'
+      };
+      this.bookingStepsGA(obj[this.state.step]);
+
       this.updateButtonState();
     });
   }
@@ -281,6 +331,13 @@ export default class Felin extends React.Component {
     dataLayer.push({
       event: 'atelierFelinButtonClick',
       atelierFelinButtonClickName: btnName
+    });
+  }
+
+  bookingStepsGA(stepName) {
+    dataLayer.push({
+      event: 'atelierFelinBookingSteps',
+      atelierFelinBookingStepsName: stepName
     });
   }
 
@@ -657,7 +714,7 @@ export default class Felin extends React.Component {
                       }}
                     >
                       {this.state.step === 1 ? (
-                        <>
+                        <div id="appointment-calendar">
                           <p style={{ fontWeight: '500' }}>
                             Choisissez un rendez-vous
                           </p>
@@ -730,7 +787,7 @@ export default class Felin extends React.Component {
                               enableBlur={false}
                             />
                           </div>
-                        </>
+                        </div>
                       ) : null}
                       {this.state.step === 2 ? (
                         <>
