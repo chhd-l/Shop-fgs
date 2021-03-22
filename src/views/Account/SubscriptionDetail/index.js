@@ -613,6 +613,7 @@ class SubscriptionDetail extends React.Component {
       : cityId;
   }
   async doGetPromotionPrice(promotionCode = '') {
+    const { currentDeliveryAddress } = this.state;
     try {
       //计算Tota
       let goodsInfo = this.state.subDetail.goodsInfo;
@@ -627,12 +628,14 @@ class SubscriptionDetail extends React.Component {
           buyCount: ele.subscribeNum
         };
       });
+      // console.log('--------------- ★★★★ currentDeliveryAddress: ',this.state.currentDeliveryAddress);
       //根据参数查询促销的金额与订单运费
       const res = await getPromotionPrice({
         totalPrice: subTotal,
         goodsInfoList,
         promotionCode,
-        isAutoSub: true
+        isAutoSub: true,
+        deliveryAddressId: currentDeliveryAddress.deliveryAddressId
       });
       //拼装订阅购物车参数
       if (!res.context.promotionFlag) {
@@ -1217,7 +1220,10 @@ class SubscriptionDetail extends React.Component {
         style={{ display: isNotInactive ? 'block' : 'none' }}
       >
         <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          {/* <div className="pause-btn" style={{ display: isMobile ? 'block' : 'inline-block' }}>
+          <div
+            className="pause-btn"
+            style={{ display: isMobile ? 'block' : 'inline-block' }}
+          >
             <i
               className="iconfont"
               style={{
@@ -1244,7 +1250,7 @@ class SubscriptionDetail extends React.Component {
               )}
             </a>
           </div>
-          &nbsp;&nbsp;&nbsp;&nbsp; */}
+          &nbsp;&nbsp;&nbsp;&nbsp;
           <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
             <LazyLoad>
               <img
@@ -2840,11 +2846,12 @@ class SubscriptionDetail extends React.Component {
                                       el.id === currentDeliveryAddress.countryId
                                   )[0].valueEn
                                 : currentDeliveryAddress.countryId}
-                              , {currentDeliveryAddress.city}
-                              {/* 省份 */}
-                              {process.env.REACT_APP_LANG === 'en' ? (
-                                <>{currentDeliveryAddress.province},</>
-                              ) : null}
+                              ,{/* 省份 / State */}
+                              {currentDeliveryAddress?.province &&
+                              currentDeliveryAddress?.province != null
+                                ? currentDeliveryAddress.province + ', '
+                                : null}
+                              {currentDeliveryAddress.city}
                               <br />
                               {currentDeliveryAddress.address1}
                               <br />
@@ -2918,11 +2925,12 @@ class SubscriptionDetail extends React.Component {
                                       el.id === currentBillingAddress.countryId
                                   )[0].valueEn
                                 : currentBillingAddress.countryId}
-                              , {currentBillingAddress.city}
-                              {/* 省份 */}
-                              {process.env.REACT_APP_LANG === 'en' ? (
-                                <>{currentDeliveryAddress.province},</>
-                              ) : null}
+                              ,{/* 省份 / State */}
+                              {currentBillingAddress?.province &&
+                              currentBillingAddress?.province != null
+                                ? currentBillingAddress.province + ', '
+                                : null}
+                              {currentBillingAddress.city}
                               <br />
                               {currentBillingAddress.address1}
                               <br />

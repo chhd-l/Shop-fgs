@@ -220,7 +220,7 @@ const en_US = {
     'In the near future, our staff will contact you to comfirm the order.',
   'confirmation.info3':
     ' Addresses and shipping methods are indicated under your goods.',
-  'confirmation.oneShoot': 'Go to my account',
+  'confirmation.oneShoot': 'Continue shopping',
   'confirmation.orderNumber': 'Order number',
   'confirmation.rateTip': 'How would you rate your shopping experience?',
   'confirmation.rateTip2': 'What can we do to improve?',
@@ -718,6 +718,7 @@ const en_US = {
   'payment.email': 'Email',
   'payment.errorInfo': '*{val} must be filled',
   'payment.errorInfo2': 'This field is required.',
+  'payment.errorInfo3': 'This field is required for subscriptions.',
   'payment.errTip': 'please enter cvv or select a card',
   'payment.EXPMonth': 'EXP. Month',
   'payment.EXPYear': 'EXP. Year',
@@ -1163,6 +1164,6 @@ const en_US = {
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
-  cyberIsSaveCard: 'Save this card as my preferred payment method'
+  securePaymentProcessing: 'Secure payment processing'
 };
 export default en_US;

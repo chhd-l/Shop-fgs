@@ -45,7 +45,7 @@ const ru_RU = {
   'account.male': 'Мужчина',
   'account.monRoyalCanin': 'Мой Royal Canin',
   'account.myAccount': 'Персональные данные',
-  'account.myAddresses': 'мой адреса',
+  'account.myAddresses': 'Мои адреса',
   'account.myCommunicationPreferencesContent1': 'Предпочитаемый способ связи',
   'account.myCommunicationPreferencesContent2': 'Согласие на общение',
   'account.myCommunicationPreferencesDesc':
@@ -90,7 +90,7 @@ const ru_RU = {
   'account.toComeIn': 'Войти',
   'account.unknownBreed': 'Неизвестная порода',
   'account.warmNotice':
-    'Добро пожаловать, {val}! Здесь вы можете управлять своим профилем, редактировать информацию о питомцах, проверять статус по заказам и подписке.',
+    'Добро пожаловать, {val}, Здесь вы можете управлять своим профилем, редактировать информацию о питомцах, проверять статус по заказам и подписке.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
   'recommendation.buyNow': 'Купить',
@@ -182,7 +182,7 @@ const ru_RU = {
   billingAddress: 'Адрес доставки',
   birthday: 'Дата рождения',
   breed: 'Порода',
-  cancel: 'Отменить',
+  cancel: 'Отмена',
   cardCvvIsInvalid: 'CVV вашей карты недействителен',
   cardNumber: 'Номер карты',
   cardNumberIsInvalid: 'номер вашей карты недействителен',
@@ -1073,7 +1073,7 @@ const ru_RU = {
   autoShipOrderDetails: 'Детали Вашей подписки',
   transactionInfomation: 'Информация о транзакции',
   manage: 'Изменить',
-  'payment.saveFor': 'Сохранить данные карты в учетной записи',
+  'cyber.form.saveFor': 'Сохранить данные карты в учетной записи',
   'pet.petListTitle': 'Здесь Вы можете создать профили для Ваших питомцев'
 };
 

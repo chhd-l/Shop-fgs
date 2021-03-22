@@ -3,7 +3,9 @@ import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import SearchSelection from '@/components/SearchSelection';
-import { getDictionary, validData } from '@/utils/utils';
+import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
+import DatePicker from 'react-datepicker';
+import { format } from 'date-fns';
 import { injectIntl } from 'react-intl';
 import {
   getSystemConfig,
@@ -20,6 +22,7 @@ class Form extends React.Component {
   static defaultProps = {
     type: 'billing',
     initData: null,
+    personalData: false,
     isLogin: false,
     updateData: () => {}
   };
@@ -28,9 +31,11 @@ class Form extends React.Component {
     this.state = {
       formLoading: false,
       formSettingSwitch: '',
-      form: {
+      caninForm: {
         firstName: '',
         lastName: '',
+        email: '',
+        birthdate: '',
         address1: '',
         address2: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
@@ -42,6 +47,7 @@ class Form extends React.Component {
         provinceNo: '',
         provinceId: '',
         province: '',
+        stateId: '',
         postCode: '',
         phoneNumber: '',
         entrance: '',
@@ -58,9 +64,17 @@ class Form extends React.Component {
     };
   }
   componentDidMount() {
-    const { form } = this.state;
+    const { initData = {} } = this.props;
+    const { caninForm } = this.state;
     this.setState({
       formLoading: true
+    });
+    // 美国 state 字段统一为 province
+    caninForm.stateId = initData.provinceId;
+    console.log('-------------★ EditForm initData: ', initData);
+    console.log('-------------★ EditForm caninForm: ', caninForm);
+    this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
+      this.props.updateData(this.state.caninForm);
     });
 
     // 1、查询form表单配置开关
@@ -68,6 +82,7 @@ class Form extends React.Component {
   }
   // 1、查询form表单配置开关
   getSystemFormConfig = async () => {
+    const { caninForm } = this.state;
     try {
       const res = await getSystemConfig({ configType: 'address_input_type' });
       if (res?.context?.configVOList) {
@@ -87,27 +102,15 @@ class Form extends React.Component {
           formSettingSwitch: fromSetSwitch
         });
         // 根据接口类型查询表单数据
-        this.getAddressSettingByApi();
-
-        if (manually == 1) {
-          // 查询国家
-          this.getCountryList();
-          // 查询州列表（美国 state）
-          this.getUsStateList();
-          // 根据cityId查询region
-          this.getRegionDataByCityId();
-        } else if (automatically == 1) {
-          // 俄罗斯DuData，根据关键字查询地址信息
-          this.getAddressBykeyWordDuData();
-        }
+        this.getAddressSettingByApi(manually, automatically);
       }
     } catch (err) {
       console.log(err);
     }
   };
   // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据
-  getAddressSettingByApi = async () => {
-    const { formSettingSwitch } = this.state;
+  getAddressSettingByApi = async (manually, automatically) => {
+    const { formSettingSwitch, caninForm } = this.state;
     try {
       const res = await getAddressSetting({
         addressApiType: formSettingSwitch
@@ -133,6 +136,16 @@ class Form extends React.Component {
                 this.setState({
                   formLoading: false
                 });
+                if (manually == 1) {
+                  // 查询国家
+                  this.getCountryList();
+                  // 查询州列表（美国 state）
+                  this.getUsStateList();
+                }
+                if (automatically == 1) {
+                  // 俄罗斯DuData，根据关键字查询地址信息
+                  this.getAddressBykeyWordDuData();
+                }
               }
             );
           }
@@ -150,6 +163,7 @@ class Form extends React.Component {
   };
   // 3、格式化表单json
   formListByRow(array, fn) {
+    const { caninForm } = this.state;
     const groups = {};
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
@@ -171,13 +185,14 @@ class Form extends React.Component {
   }
   // 4、查询国家
   getCountryList = async () => {
+    const { caninForm } = this.state;
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
         this.setState({
           countryList: res
         });
-        form.countryName = res[0].name;
+        caninForm.countryName = res[0].name;
       }
     } catch (err) {
       console.log(err);
@@ -197,7 +212,9 @@ class Form extends React.Component {
   // 5-2、查询州列表（美国 state）
   getUsStateList = async () => {
     try {
-      const res = getProvincesList({ storeId: process.env.REACT_APP_STOREID });
+      const res = await getProvincesList({
+        storeId: process.env.REACT_APP_STOREID
+      });
       if (res?.context?.systemStates) {
         let starr = [];
         let obj = res.context.systemStates;
@@ -219,6 +236,7 @@ class Form extends React.Component {
   };
   // 6、根据cityId查询region
   getRegionDataByCityId = async () => {
+    const { caninForm } = this.state;
     try {
       const res = await getRegionByCityId({ cityId: 3 });
       if (res?.context?.systemRegions) {
@@ -242,19 +260,21 @@ class Form extends React.Component {
   };
   // 下拉框选择
   handleSelectedItemChange(key, data) {
-    const { form } = this.state;
+    const { caninForm } = this.state;
+    caninForm[key + 'Id'] = data.value;
     if (key == 'state') {
-      form.stateName = data.name;
-      form.stateNo = data.no; // 省份简写
+      caninForm.provinceId = data.value;
+      caninForm.province = data.name;
+      caninForm.provinceNo = data.no; // 省份简写
     } else if (key == 'country') {
-      form.countryName = data.name;
+      caninForm.countryName = data.name;
     }
-    form[key] = data.value;
-    this.setState({ form }, () => {
-      this.props.updateData(this.state.form);
+    this.setState({ caninForm }, () => {
+      this.props.updateData(this.state.caninForm);
     });
   }
   computedList(key) {
+    const { caninForm } = this.state;
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -270,8 +290,9 @@ class Form extends React.Component {
     }
     return tmp;
   }
+  // 文本框输入改变
   deliveryInputChange = (e) => {
-    const { form } = this.state;
+    const { caninForm } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -281,9 +302,9 @@ class Form extends React.Component {
     if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
       value = value.replace(/^[0]/, '+(33)');
     }
-    form[name] = value;
-    this.setState({ form }, () => {
-      this.props.updateData(this.state.form);
+    caninForm[name] = value;
+    this.setState({ caninForm }, () => {
+      this.props.updateData(this.state.caninForm);
     });
     this.inputBlur(e);
   };
@@ -308,29 +329,31 @@ class Form extends React.Component {
       });
     }
   };
+  // 城市搜索选择
   handleCityInputChange = (data) => {
-    const { form } = this.state;
-    form.cityId = data.id;
-    form.city = data.cityName;
-    this.setState({ form }, () => {
-      this.props.updateData(this.state.form);
+    const { caninForm } = this.state;
+    caninForm.cityId = data.id;
+    caninForm.city = data.cityName;
+    this.setState({ caninForm }, () => {
+      this.props.updateData(this.state.caninForm);
     });
   };
+  // DuData地址搜索选择
   handleAddressInputChange = (data) => {
-    const { form } = this.state;
+    const { caninForm } = this.state;
   };
 
   // 文本框
   inputJSX = (item) => {
-    const { form } = this.state;
+    const { caninForm } = this.state;
     return (
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <input
             className={`rc-input__control shipping${item.fieldKey}`}
             id={`shipping${item.fieldKey}`}
-            type={item.filedType}
-            value={form[item.filedType]}
+            type={item.fieldKey}
+            value={caninForm[item.fieldKey]}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
             name={item.fieldKey}
@@ -343,7 +366,7 @@ class Form extends React.Component {
   };
   // 文本域
   textareaJSX = (item) => {
-    const { form } = this.state;
+    const { caninForm } = this.state;
     return (
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
@@ -351,7 +374,7 @@ class Form extends React.Component {
             className="rc_input_textarea"
             maxLength={item.maxLength}
             name={item.fieldKey}
-            value={form[item.filedType]}
+            value={caninForm[item.fieldKey]}
             id={`shipping${item.fieldKey}`}
           ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
@@ -361,17 +384,18 @@ class Form extends React.Component {
   };
   // 城市搜索框
   citySearchSelectiontJSX = (item) => {
-    const { form } = this.state;
+    const { caninForm } = this.state;
     return (
       <>
         <span
           className="rc-select rc-full-width rc-input--full-width rc-select-processed"
           style={{ marginTop: '0' }}
         >
+          {/* 城市搜索框 value = fieldkey */}
           <CitySearchSelection
             placeholder={true}
-            defaultValue={form[item.fieldKey]}
-            key={form[item.fieldKey]}
+            defaultValue={caninForm[item.fieldKey]}
+            key={caninForm[item.fieldKey]}
             name={item.fieldKey}
             freeText={item.inputFreeTextFlag == 1 ? true : false}
             onChange={this.handleCityInputChange}
@@ -382,7 +406,7 @@ class Form extends React.Component {
   };
   // 地址搜索框
   addressSearchSelectionJSX = (item) => {
-    const { form } = this.state;
+    const { caninForm } = this.state;
     return (
       <>
         <SearchSelection
@@ -398,9 +422,9 @@ class Form extends React.Component {
             );
           }}
           selectedItemChange={(data) => this.handleAddressInputChange(data)}
-          defaultValue={form[item.filedType]}
-          key={form[item.filedType]}
-          value={form[item.filedType]}
+          key={caninForm[item.fieldKey]}
+          defaultValue={caninForm[item.fieldKey]}
+          value={caninForm[item.fieldKey]}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
           placeholder={
             this.props.placeholder
@@ -415,26 +439,25 @@ class Form extends React.Component {
   };
   // 下拉框
   dropDownBoxJSX = (item) => {
-    const { form } = this.state;
+    const { caninForm } = this.state;
     return (
       <>
         <span
           className="rc-select rc-full-width rc-input--full-width rc-select-processed rc_first_noselect"
           style={{ marginTop: '0' }}
         >
+          {/* 下拉框 key 和 value 为 id , fieldKey+'Id' */}
           {item.fieldKey == 'state' ? (
             <Selection
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
               optionList={this.computedList(item.fieldKey)}
-              selectedItemData={{
-                value: form[item.fieldKey]
-              }}
               choicesInput={true}
               emptyFirstItem="State"
               name={item.fieldKey}
-              key={form[item.fieldKey]}
+              selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
+              key={caninForm[item.fieldKey + 'Id']}
             />
           ) : (
             <Selection
@@ -442,26 +465,79 @@ class Form extends React.Component {
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
               optionList={this.computedList(item.fieldKey)}
-              selectedItemData={{
-                value: form[item.fieldKey]
-              }}
               name={item.fieldKey}
-              key={form[item.fieldKey]}
+              selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
+              key={caninForm[item.fieldKey + 'Id']}
             />
           )}
         </span>
       </>
     );
   };
-
+  // birthData onchange
+  onDateChange(date) {
+    const { caninForm } = this.state;
+    caninForm['birthdate'] = format(date, 'yyyy-MM-dd');
+    this.setState({ caninForm }, () => {
+      this.props.updateData(this.state.caninForm);
+    });
+  }
+  // email and birthData
+  emailAndBirthDataJSX = () => {
+    const { caninForm } = this.state;
+    return (
+      <>
+        {/* email */}
+        <div className="col-md-6">
+          <div className="form-group require">
+            <label className="form-control-label" htmlFor="shippingEmail">
+              <FormattedMessage id="account.Email" />
+            </label>
+            <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+              <input
+                type="email"
+                className="rc-input__control shippingEmail"
+                id="email"
+                data-name="profile_personalInfo"
+                alt="E-mail"
+                name="email"
+                value={caninForm.email}
+                maxLength="50"
+                disabled
+              />
+              <label className="rc-input__label" htmlFor="id-text1" />
+            </span>
+          </div>
+        </div>
+        {/* birthData */}
+        <div className="col-md-6">
+          <div className="form-group">
+            <label className="form-control-label" htmlFor="shippingEmail">
+              <FormattedMessage id="account.birthDate" />
+            </label>
+            <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+              <DatePicker
+                className="receiveDate"
+                style={{ padding: '.95rem 0' }}
+                placeholder="Select Date"
+                dateFormat={datePickerConfig.format}
+                locale={datePickerConfig.locale}
+                maxDate={new Date()}
+                selected={
+                  caninForm.birthdate
+                    ? new Date(caninForm.birthdate)
+                    : new Date()
+                }
+                onChange={(date) => this.onDateChange(date)}
+              />
+            </span>
+          </div>
+        </div>
+      </>
+    );
+  };
   render() {
-    const {
-      formLoading,
-      form,
-      formList,
-      formSettingSwitch,
-      errMsgObj
-    } = this.state;
+    const { formLoading, caninForm, formList, errMsgObj } = this.state;
     return (
       <>
         {formLoading ? (
@@ -472,76 +548,82 @@ class Form extends React.Component {
               formList.map((fobj, idx) => (
                 <>
                   {fobj.map((item, index) => (
-                    <div
-                      className={`col-md-${item.occupancyNum == 1 ? 6 : 12}`}
-                      key={index}
-                    >
-                      {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
+                    <>
                       <div
-                        className={`form-group ${
-                          item.requiredFlag == 1 ? 'required' : ''
-                        }`}
+                        className={`col-md-${item.occupancyNum == 1 ? 6 : 12}`}
+                        key={index}
                       >
-                        <label
-                          className="form-control-label"
-                          htmlFor={`shipping${item.fieldKey}`}
+                        {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
+                        <div
+                          className={`form-group ${
+                            item.requiredFlag == 1 ? 'required' : ''
+                          }`}
                         >
-                          <FormattedMessage id={`payment.${item.fieldKey}`} />
-                        </label>
+                          <label
+                            className="form-control-label"
+                            htmlFor={`shipping${item.fieldKey}`}
+                          >
+                            <FormattedMessage id={`payment.${item.fieldKey}`} />
+                          </label>
 
-                        {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
-                        {item.inputFreeTextFlag == 1 &&
-                        item.inputSearchBoxFlag == 0 ? (
-                          <>
-                            {item.fieldKey == 'comment'
-                              ? this.textareaJSX(item)
-                              : this.inputJSX(item)}
-                          </>
-                        ) : null}
+                          {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
+                          {item.inputFreeTextFlag == 1 &&
+                          item.inputSearchBoxFlag == 0 ? (
+                            <>
+                              {item.fieldKey == 'comment'
+                                ? this.textareaJSX(item)
+                                : this.inputJSX(item)}
+                            </>
+                          ) : null}
 
-                        {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                        {item.inputFreeTextFlag == 1 &&
-                        item.inputSearchBoxFlag == 1 ? (
-                          <>
-                            {item.fieldKey == 'address1'
-                              ? this.addressSearchSelectionJSX(item)
-                              : null}
-                            {item.fieldKey == 'city'
-                              ? this.citySearchSelectiontJSX(item)
-                              : null}
-                          </>
-                        ) : null}
+                          {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
+                          {item.inputFreeTextFlag == 1 &&
+                          item.inputSearchBoxFlag == 1 ? (
+                            <>
+                              {item.fieldKey == 'address1'
+                                ? this.addressSearchSelectionJSX(item)
+                                : null}
+                              {item.fieldKey == 'city'
+                                ? this.citySearchSelectiontJSX(item)
+                                : null}
+                            </>
+                          ) : null}
 
-                        {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
-                        {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
-                        {item.inputFreeTextFlag == 0 &&
-                        item.inputSearchBoxFlag == 0 &&
-                        item.inputDropDownBoxFlag == 1
-                          ? this.dropDownBoxJSX(item)
-                          : null}
+                          {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
+                          {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
+                          {item.inputFreeTextFlag == 0 &&
+                          item.inputSearchBoxFlag == 0 &&
+                          item.inputDropDownBoxFlag == 1
+                            ? this.dropDownBoxJSX(item)
+                            : null}
 
-                        {/* 输入提示 */}
-                        {errMsgObj[item.fieldKey] && (
-                          <div className="text-danger-2">
-                            {errMsgObj[item.fieldKey]}
-                          </div>
-                        )}
-                        {/* 输入电话号码提示 */}
-                        {item.fieldKey == 'phoneNumber' && (
-                          <span className="ui-lighter">
-                            <FormattedMessage id="example" />:{' '}
-                            <FormattedMessage id="examplePhone" />
-                          </span>
-                        )}
-                        {/* 输入邮编提示 */}
-                        {item.fieldKey == 'postCode' && (
-                          <span className="ui-lighter">
-                            <FormattedMessage id="example" />:{' '}
-                            <FormattedMessage id="examplePostCode" />
-                          </span>
-                        )}
+                          {/* 输入提示 */}
+                          {errMsgObj[item.fieldKey] && (
+                            <div className="text-danger-2">
+                              {errMsgObj[item.fieldKey]}
+                            </div>
+                          )}
+                          {/* 输入电话号码提示 */}
+                          {item.fieldKey == 'phoneNumber' && (
+                            <span className="ui-lighter">
+                              <FormattedMessage id="example" />:{' '}
+                              <FormattedMessage id="examplePhone" />
+                            </span>
+                          )}
+                          {/* 输入邮编提示 */}
+                          {item.fieldKey == 'postCode' && (
+                            <span className="ui-lighter">
+                              <FormattedMessage id="example" />:{' '}
+                              <FormattedMessage id="examplePostCode" />
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                      {/* 个人中心添加 email 和 birthData */}
+                      {this.props.personalData &&
+                        item.fieldKey == 'lastName' &&
+                        this.emailAndBirthDataJSX()}
+                    </>
                   ))}
                 </>
               ))}

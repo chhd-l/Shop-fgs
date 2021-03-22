@@ -48,7 +48,9 @@ function CardItem(props) {
         <p className="mb-0">{data.address1}</p>
         {data.address2 ? <p className="mb-0">{data.address2}</p> : null}
         <p className="mb-0">
-          {data.postCode}, {data.city}, {props.countryName}
+          {data.postCode}, {data.city},
+          {process.env.REACT_APP_LANG == 'en' ? data.province + ', ' : null}
+          {props.countryName}
         </p>
       </div>
     </div>

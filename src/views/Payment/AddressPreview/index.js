@@ -72,10 +72,23 @@ class InfosPreview extends React.Component {
                         <div className="col-md-6">
                           &nbsp;
                           {matchNamefromDict(
-                          this.state.countryList,
-                          details.consignee.countryId
-                        )}
+                            this.state.countryList,
+                            details.consignee.countryId
+                          )}
                         </div>
+                        <>
+                          {details.consignee?.province &&
+                            details.consignee?.province != null && (
+                              <>
+                                <div className="col-md-6">
+                                  <FormattedMessage id="payment.state" />
+                                </div>
+                                <div className="col-md-6">
+                                  &nbsp;{details.consignee.province}
+                                </div>
+                              </>
+                            )}
+                        </>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.city" />
                         </div>
@@ -151,10 +164,23 @@ class InfosPreview extends React.Component {
                         <div className="col-md-6">
                           &nbsp;
                           {matchNamefromDict(
-                          this.state.countryList,
-                          details.invoice.countryId
-                        )}
+                            this.state.countryList,
+                            details.invoice.countryId
+                          )}
                         </div>
+                        <>
+                          {details.invoice?.province &&
+                            details.invoice?.province != null && (
+                              <>
+                                <div className="col-md-6">
+                                  <FormattedMessage id="payment.state" />
+                                </div>
+                                <div className="col-md-6">
+                                  &nbsp;{details.invoice.province}
+                                </div>
+                              </>
+                            )}
+                        </>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.city" />
                         </div>
@@ -201,10 +227,10 @@ class InfosPreview extends React.Component {
             </div>
           </div>
         ) : (
-            <span className="ml-3 mr-3">
-              <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
-            </span>
-          )}
+          <span className="ml-3 mr-3">
+            <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
+          </span>
+        )}
       </div>
     );
   }
