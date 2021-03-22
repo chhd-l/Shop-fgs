@@ -17,6 +17,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import FaceBook_Icon from '@/assets/images/facebookIcon.png';
 import Insgram_Icon from '@/assets/images/insgramIcon.png';
+import { getTimeOptions, apptSave } from '@/api/appointment';
 
 function Divider() {
   return (
@@ -98,48 +99,41 @@ export default class Felin extends React.Component {
       currentTabIndex: 0,
       topVal: '159px',
       currentDate: new Date(),
-      calendarInitObserver: null
+      calendarInitObserver: null,
+      timeOption: []
     };
   }
   componentDidMount() {
+    let timeOption = [];
+    let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    arr.map((el) => {
+      timeOption.push({
+        name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+        value: `${el}:00-${el}:20`,
+        disabled: false
+      });
+      timeOption.push({
+        name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+        value: `${el}:30-${el}:50`,
+        disabled: false
+      });
+    });
+    this.setState({ timeOption: timeOption });
+    this.getTimeOptions();
     window.addEventListener('scroll', (e) => {
       if (document.querySelector('.rc-header--scrolled')) {
         this.setState({ topVal: '54px' });
       } else {
         this.setState({ topVal: '120px' });
       }
-      // let topVal = document.documentElement.scrollTop
-      // document.querySelector('.tabs').style.top = topVal + 'px'
     });
     // setTimeout(() => {
-    //   var picker = new Pikaday({
-    //     field: document.getElementById('datepicker'),
-    //     minDate: new Date(),
-    //     disableDayFn: (date) => {
-    //       return new Date(date).getDay() === 1;
-    //     },
-    //     format: 'DD/MM/YYYY',
-    //     toString(date, format) {
-    //       let day = date.getDate();
-    //       let month = date.getMonth() + 1;
-    //       const year = date.getFullYear();
-    //       if (day < 10) {
-    //         day = '0' + day;
-    //       }
-    //       if (month < 10) {
-    //         month = '0' + month;
-    //       }
-    //       return `${day}/${month}/${year}`;
-    //     },
-    //     parse(dateString, format) {
-    //       const parts = dateString.split('/');
-    //       const day = parseInt(parts[0], 10);
-    //       const month = parseInt(parts[1], 10) - 1;
-    //       const year = parseInt(parts[2], 10);
-    //       return new Date(year, month, day);
-    //     }
-    //   });
-    // }, 3000);
+    //   if (document.querySelector('.rc-header--scrolled')) {
+    //     this.setState({ topVal: '54px' });
+    //   } else {
+    //     this.setState({ topVal: '120px' });
+    //   }
+    // }, 1400)
 
     document.querySelector(
       '.react-calendar__navigation__prev-button'
@@ -192,6 +186,23 @@ export default class Felin extends React.Component {
         this.state.calendarInitObserver.observe(calendarDom);
       }
     );
+  }
+  getTimeOptions() {
+    getTimeOptions({
+      apptDate: format(this.state.currentDate, 'yyyyMMdd')
+    }).then((res) => {
+      let { timeOption } = this.state;
+      let { appointmentVOList } = res.context;
+      timeOption.map((timeItem) => {
+        if (
+          appointmentVOList.filter(
+            (apptItem) => apptItem.apptTime === timeItem.value
+          ).length
+        ) {
+          timeItem.disabled = true;
+        }
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -386,9 +397,6 @@ export default class Felin extends React.Component {
               </span>
               {/* </Link> */}
             </div>
-            <br />
-            <br />
-            <br />
             <br />
             <div
               className="contactUs"
@@ -712,23 +720,6 @@ export default class Felin extends React.Component {
                                   'fr'
                                 )}
                               />
-                              {/* <DatePicker
-                                className="receiveDate"
-                                placeholder="Select Date"
-                                dateFormat={datePickerConfig.format}
-                                locale={datePickerConfig.locale}
-                                minDate={new Date()}
-                                selected={this.state.selectedDate}
-                                // selected={new Date()}
-                                onChange={(date) => {
-                                  this.setState(
-                                    { selectedDate: new Date(date) },
-                                    () => {
-                                      this.updateButtonState();
-                                    }
-                                  );
-                                }}
-                              /> */}
                             </h1>
                             <span className="icon iconfont iconfont-date">
                               &#xe6b3;
@@ -743,8 +734,15 @@ export default class Felin extends React.Component {
                               }}
                               minDate={new Date()}
                               onChange={(date) => {
-                                console.log(date);
-                                this.setState({ currentDate: date });
+                                if (
+                                  format(date, 'yyyy-MM-dd') ===
+                                  format(this.state.currentDate, 'yyyy-MM-dd')
+                                ) {
+                                  return false;
+                                }
+                                this.setState({ currentDate: date }, () => {
+                                  this.getTimeOptions();
+                                });
                               }}
                               // navigationLabel={() => `ahahahax`}
                             />
@@ -752,16 +750,7 @@ export default class Felin extends React.Component {
                           <div>
                             <Selection
                               placeholder="Choisissez une créneau horaire"
-                              optionList={[
-                                { name: '10:00 – 10:20 AM', value: '111' },
-                                { name: '10:30 – 10:50 AM', value: '222' },
-                                {
-                                  name: '11:00 – 11:20 AM',
-                                  value: '333',
-                                  disabled: true
-                                },
-                                { name: '11:30 – 11:50 AM', value: '444' }
-                              ]}
+                              optionList={this.state.timeOption}
                               selectedItemChange={(data) => {
                                 console.log(data);
                                 this.setState({ selectedTimeObj: data }, () => {

@@ -4,7 +4,8 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
-import EditForm from './EditForm';
+import EditForm from '@/components/Form';
+// import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import {
