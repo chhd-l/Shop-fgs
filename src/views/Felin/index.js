@@ -255,6 +255,15 @@ export default class Felin extends React.Component {
       this.setState({ nextBtnEnable: false });
     }
   }
+
+  handleClickBtn(type, btnName) {
+    scrollPaymentPanelIntoView(type);
+    dataLayer.push({
+      event: 'atelierFelinButtonClick',
+      atelierFelinButtonClickName: btnName
+    });
+  }
+
   render() {
     let {
       userInfo,
@@ -452,7 +461,10 @@ export default class Felin extends React.Component {
                       <button
                         className="rc-btn rc-btn--two"
                         onClick={() => {
-                          scrollPaymentPanelIntoView('felinFooter');
+                          this.handleClickBtn(
+                            'felinFooter',
+                            'Meet our experts'
+                          );
                         }}
                       >
                         Venez rencontrer nos experts
@@ -505,7 +517,10 @@ export default class Felin extends React.Component {
                       <button
                         className="rc-btn rc-btn--two"
                         onClick={() => {
-                          scrollPaymentPanelIntoView('section5');
+                          this.handleClickBtn(
+                            'section5',
+                            'discover the world of cats in our store'
+                          );
                         }}
                       >
                         Venez découvrir l’univers du chat dans notre magasin
@@ -537,7 +552,10 @@ export default class Felin extends React.Component {
                       <button
                         className="rc-btn rc-btn--two"
                         onClick={() => {
-                          scrollPaymentPanelIntoView('section5');
+                          this.handleClickBtn(
+                            'section5',
+                            'discover the world of cats in our store'
+                          );
                         }}
                       >
                         Venez découvrir l’univers du chat dans notre magasin
