@@ -1382,9 +1382,9 @@ class Payment extends React.Component {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
-      city: deliveryAddress.cityId, // 后端 city 为long 类型
-      cityId: deliveryAddress.cityId,
-      cityName: deliveryAddress.city,
+      city: deliveryAddress.city, // 后端 city 为long 类型
+      cityId: deliveryAddress.city,
+      cityName: deliveryAddress.cityName,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,

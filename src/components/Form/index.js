@@ -147,10 +147,6 @@ class Form extends React.Component {
                   // 查询城市列表
                   this.getAllCityList();
                 }
-                if (automatically == 1) {
-                  // 俄罗斯DuData，根据关键字查询地址信息
-                  this.getAddressBykeyWordDuData();
-                }
               }
             );
           }
@@ -203,18 +199,7 @@ class Form extends React.Component {
       console.log(err);
     }
   };
-  // 5-1、俄罗斯DuData，根据关键字查询地址信息
-  getAddressBykeyWordDuData = async () => {
-    try {
-      const res = await getAddressBykeyWord({ keyword: 'москва хабар' });
-      if (res?.context?.systemRegions) {
-        console.log(' ★★★--------- getAddressBykeyWordDuData res: ', res);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  // 5-2、查询州列表（美国 state）
+  // 5-1、查询州列表（美国 state）
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
@@ -263,10 +248,9 @@ class Form extends React.Component {
     }
   };
   // 6-2、根据cityId查询region
-  getRegionDataByCityId = async () => {
-    const { caninForm } = this.state;
+  getRegionDataByCityId = async (cityId) => {
     try {
-      const res = await getRegionByCityId({ cityId: 3 });
+      const res = await getRegionByCityId({ cityId: cityId });
       if (res?.context?.systemRegions) {
         let regarr = [];
         let obj = res.context.systemRegions;
@@ -296,13 +280,18 @@ class Form extends React.Component {
       caninForm.provinceNo = data.no; // 省份简写
     } else if (key == 'country') {
       caninForm.countryName = data.name;
+    } else if (key == 'city') {
+      caninForm.city = data.name;
+      this.getRegionDataByCityId(data.value);
+    } else if (key == 'region') {
+      caninForm.region = data.name;
     }
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });
   }
+  // 处理数组
   computedList(key) {
-    const { caninForm } = this.state;
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -327,8 +316,14 @@ class Form extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
-      value = value.replace(/^[0]/, '+(33)');
+    if (name === 'phoneNumber') {
+      // 格式化电话号码
+      if (process.env.REACT_APP_LANG === 'fr') {
+        value = value.replace(/^[0]/, '+(33)');
+      }
+      if (process.env.REACT_APP_LANG === 'en') {
+        value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+      }
     }
     caninForm[name] = value;
     this.setState({ caninForm }, () => {
@@ -369,7 +364,8 @@ class Form extends React.Component {
   // DuData地址搜索选择
   handleAddressInputChange = (data) => {
     const { caninForm } = this.state;
-    caninForm.address1 = data.unrestrictedValue;
+    let keyword = data.unrestrictedValue;
+    caninForm.address1 = keyword;
     caninForm.DaData = data;
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);

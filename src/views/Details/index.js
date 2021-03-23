@@ -798,6 +798,10 @@ class Details extends React.Component {
                     break;
                   }
                 }
+                // 如果所有sku都没有库存 取第一个规格
+                if (sItem.chidren.filter((el) => el.selected).length === 0) {
+                  sItem.chidren[0].selected = true;
+                }
               }
             }
 

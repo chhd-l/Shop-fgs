@@ -265,6 +265,9 @@ class AccountProfile extends React.Component {
                       })}
                     >
                       <AddressList
+                        hideBillingAddr={
+                          +process.env.REACT_APP_HIDE_ACCOUNT_BILLING_ADDR
+                        }
                         updateEditOperationPanelName={
                           this.updateEditOperationPanelName
                         }

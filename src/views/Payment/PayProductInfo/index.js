@@ -10,7 +10,6 @@ import {
 } from '@/utils/utils';
 import { GAInitUnLogin, GAInitLogin } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
-import { toJS } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import './index.css';

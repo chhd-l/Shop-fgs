@@ -1075,7 +1075,12 @@ const ru_RU = {
   manage: 'Изменить',
   'cyber.form.saveFor': 'Сохранить данные карты в учетной записи',
   //'cyber.form.theBox':'при подписке на корм данное поле является обязательным для заполнения',
-  'pet.petListTitle': 'Здесь Вы можете создать профили для Ваших питомцев'
+  'pet.petListTitle': 'Здесь Вы можете создать профили для Ваших питомцев',
+  'payment.returnToCardList': 'Вярнуцца да спісу картак',
+  'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
+  'payment.saveThisPaymentMethodAsPreferred':
+    'Сохранить этот способ оплаты как предпочтительный',
+  bankCard: 'банковская карта'
 };
 
 export default ru_RU;

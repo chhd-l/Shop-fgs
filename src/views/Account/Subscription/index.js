@@ -18,7 +18,6 @@ import {
   setSeoConfig,
   getFormatDate
 } from '@/utils/utils';
-import { IMG_DEFAULT } from '@/utils/constant';
 import subscriptionIcon from './images/subscription.png';
 import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
@@ -26,6 +25,8 @@ import noSubscription from '@/assets/images/noSubscription.jpg';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { myAccountPushEvent } from '@/utils/GA';
+import AutoshipItem from './components/AutoshipItem';
+import ClubItem from './components/ClubItem';
 
 import './index.css';
 
@@ -57,11 +58,6 @@ class Subscription extends React.Component {
         subscribeId: '',
         subscribeStatus: '0'
       },
-      subGiftList: [],
-      isGiftLoading: true,
-      isGiftErrMsg: '',
-      isGiftCurrentPage: 1,
-      isGiftTotalPage: 1,
       loading: true,
       currentPage: 1,
       totalPage: 1,
@@ -79,6 +75,7 @@ class Subscription extends React.Component {
           name: <FormattedMessage id="inactive" values={{ val: 2 }} />
         }
       ],
+      subscriptionType: 'All',
       isMobile: getDeviceType() !== 'PC'
     };
     this.pageSize = 6;
@@ -107,7 +104,6 @@ class Subscription extends React.Component {
       });
     });
     this.getSubList();
-    this.getGiftSubList();
   }
 
   handleInputChange(e) {
@@ -132,48 +128,9 @@ class Subscription extends React.Component {
       () => this.getSubList()
     );
   }
-  getGiftSubList() {
-    const { form, isGiftIniting, isGiftCurrentPage } = this.state;
-    if (!isGiftIniting) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      }, 0);
-    }
-
-    this.setState({ isGiftLoading: true });
-    let param = {
-      pageNum: isGiftCurrentPage - 1,
-      pageSize: this.pageSize,
-      subscribeId: form.subscribeId,
-      // subscribeStatus: form.subscribeStatus,
-      customerAccount: localItemRoyal.get('rc-userinfo')
-        ? localItemRoyal.get('rc-userinfo')['customerAccount']
-        : ''
-    };
-    getSubList(param)
-      .then((res) => {
-        this.setState({
-          subGiftList: res.context.subscriptionResponses,
-          isGiftLoading: false,
-          isGiftIniting: false,
-          isGiftCurrentPage: res.context.currentPage + 1,
-          isGiftTotalPage: Math.ceil(res.context.total / this.pageSize)
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          isGiftLoading: false,
-          isGiftIniting: false
-        });
-      });
-  }
 
   getSubList() {
-    const { form, initing, currentPage } = this.state;
+    const { form, initing, currentPage, subscriptionType } = this.state;
     if (!initing) {
       setTimeout(() => {
         window.scrollTo({
@@ -193,6 +150,9 @@ class Subscription extends React.Component {
         ? localItemRoyal.get('rc-userinfo')['customerAccount']
         : ''
     };
+    if (subscriptionType !== 'All') {
+      param.subscriptionType = subscriptionType;
+    }
     getSubList(param)
       .then((res) => {
         this.setState({
@@ -211,14 +171,6 @@ class Subscription extends React.Component {
         });
       });
   }
-  isGiftHanldePageNumChange = (params) => {
-    this.setState(
-      {
-        isGiftCurrentPage: params.isGiftCurrentPage
-      },
-      () => this.getGiftSubList()
-    );
-  };
 
   hanldePageNumChange = (params) => {
     this.setState(
@@ -233,35 +185,43 @@ class Subscription extends React.Component {
     let {
       frequencyList,
       isMobile,
-      subGiftList,
-      isGiftErrMsg,
-      isGiftLoading,
-      isGiftCurrentPage,
-      isGiftTotalPage
+      subList,
+      loading,
+      errMsg,
+      currentPage,
+      totalPage
     } = this.state;
-    let dataList = this.state.subList;
-    let loading = this.state.loading;
-    let errMsg = this.state.errMsg;
-    let currentPage = this.state.currentPage;
-    let totalPage = this.state.totalPage;
     let subscription = 'subscription';
-    let hanldePageNumChange = this.hanldePageNumChange;
-    if (isGift) {
-      dataList = subGiftList;
-      loading = isGiftLoading;
-      errMsg = isGiftErrMsg;
-      currentPage = isGiftCurrentPage;
-      totalPage = isGiftTotalPage;
-      subscription = 'isGiftSubscription';
-      hanldePageNumChange = this.isGiftHanldePageNumChange;
-    }
+
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-        {dataList.length ? (
-          <div>
+        {subList.length ? (
+          <div className="d-flex justify-content-between align-items-center">
             <h4 className="rc-delta rc-margin--none pb-2">
               <FormattedMessage id={subscription} />
             </h4>
+            <div style={{ width: '200px' }}>
+              <Selection
+                optionList={[
+                  { name: 'All', value: 'All' },
+                  { name: 'Autoship', value: 'Autoship' },
+                  { name: 'Club', value: 'Club' },
+                  { name: 'Contract Product', value: 'Contract Product' }
+                ]}
+                selectedItemChange={(el) => {
+                  this.setState(
+                    { subscriptionType: el.value, currentPage: 1 },
+                    () => {
+                      this.getSubList();
+                    }
+                  );
+                }}
+                selectedItemData={{
+                  value: this.state.subscriptionType
+                }}
+                customStyleType="select-one"
+              />
+            </div>
           </div>
         ) : null}
         <div className="order__listing">
@@ -275,169 +235,29 @@ class Subscription extends React.Component {
                 <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                 {errMsg}
               </div>
-            ) : dataList.length ? (
+            ) : subList.length ? (
               <>
-                {dataList.map((subItem, i) => (
-                  <div
-                    className="card-container"
-                    style={{ marginTop: '0', marginBottom: '20px' }}
-                    key={subItem.subscribeId}
-                  >
-                    <div className="card rc-margin-y--none ml-0">
-                      <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 pt-3 pb-3">
-                        <div className="col-12 col-md-4">
-                          <p
-                            style={{
-                              fontSize: '16px',
-                              fontWeight: '400',
-                              color: '#333',
-                              paddingLeft: '20px'
-                            }}
-                          >
-                            {subItem.subscribeId}
-                          </p>
-                        </div>
-                        <div className="col-4 col-md-2" />
-                        <div className="col-4 col-md-2" />
-                        <div className="col-4 col-md-2 pl-4" />
-                        {/* <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
-                      <img
-                        style={{
-                          display: 'inline-block',
-                          width: '20px',
-                          marginRight: '5px'
-                        }}
-                        src={cancelIcon}
+                {subList.map((subItem, i) => {
+                  let subItemComp = null;
+                  if (subItem.subscriptionType === 'Club') {
+                    subItemComp = <ClubItem subItem={subItem} />;
+                  } else if (subItem.subscriptionType === 'Autoship') {
+                    subItemComp = (
+                      <AutoshipItem
+                        subItem={subItem}
+                        frequencyList={frequencyList}
                       />
-                      <a className="rc-styled-link" href="#/">
-                        Cancel Autoship
-                      </a>
-                    </div> */}
-                      </div>
-                    </div>
-                    <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">
-                      <div className="col-4 col-md-4 d-flex flex-wrap">
-                        {subItem.goodsInfo &&
-                          subItem.goodsInfo.map((item) => (
-                            <div style={{ marginLeft: '20px' }}>
-                              <LazyLoad>
-                                <img
-                                  style={{
-                                    width: '70px',
-                                    display: 'inline-block'
-                                  }}
-                                  key={item.spuId}
-                                  src={item.goodsPic || IMG_DEFAULT}
-                                  alt={item.goodsName}
-                                  title={item.goodsName}
-                                />
-                              </LazyLoad>
-                              <span
-                                style={{
-                                  display: 'inline-block',
-                                  verticalAlign: 'middle',
-                                  fontSize: '12px',
-                                  marginLeft: '10px',
-                                  width: isMobile ? 'auto' : '250px'
-                                }}
-                              >
-                                <p
-                                  style={{
-                                    fontSize: '16px',
-                                    fontWeight: '400',
-                                    color: '#333',
-                                    marginBottom: '5px'
-                                  }}
-                                >
-                                  {item.goodsName}
-                                </p>
-                                <p>
-                                  {item.specText} - {item.subscribeNum}{' '}
-                                  <FormattedMessage id="units" />
-                                </p>
-                                <p>
-                                  <FormattedMessage id="subscription.frequency" />
-                                  :{' '}
-                                  {frequencyList.filter(
-                                    (el) => el.id === item.periodTypeId
-                                  )[0]
-                                    ? frequencyList.filter(
-                                        (el) => el.id === item.periodTypeId
-                                      )[0].value
-                                    : ''}
-                                </p>
-                              </span>
-                            </div>
-                          ))}
-                      </div>
-                      <div className="col-4 col-md-2 text-nowrap">
-                        <LazyLoad>
-                          <img
-                            src={autoshipIcon}
-                            style={{
-                              width: '40px',
-                              display: 'inline-block'
-                            }}
-                            alt=""
-                          />
-                        </LazyLoad>
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            verticalAlign: 'middle',
-                            fontSize: '12px',
-                            marginLeft: '10px'
-                          }}
-                        >
-                          <p
-                            style={{
-                              width: isMobile ? '120px' : 'auto',
-                              textOverflow: 'ellipsis',
-                              overflow: 'hidden'
-                            }}
-                          >
-                            <FormattedMessage id="autoShipStarted" />
-                          </p>
-                          <p style={{ color: '#666', fontSize: '16px' }}>
-                            {getFormatDate(subItem.createTime.split(' ')[0])}
-                            {/* <FormattedDate value={subItem.createTime.split(' ')[0]}/> */}
-                            {/* {subItem.createTime.split(' ')[0]} */}
-                          </p>
-                        </span>
-                      </div>
-                      <div className="col-4 col-md-2">
-                        {/* {subItem.frequency} */}
-                      </div>
-                      <div className="col-4 col-md-2">
-                        {subItem.subscribeStatus === '0' ||
-                        subItem.subscribeStatus === '1' ? (
-                          <div>
-                            <i className="greenCircle" />
-                            <FormattedMessage id="active" />
-                          </div>
-                        ) : (
-                          <div>
-                            <i className="yellowCircle" />
-                            <FormattedMessage id="inactive" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-4 col-md-2">
-                        <button
-                          className="rc-btn rc-btn--two rc-btn--sm"
-                          onClick={() => {
-                            localItemRoyal.set('subDetail', subItem);
-                            this.props.history.push(
-                              `/account/subscription/order/detail/${subItem.subscribeId}`
-                            );
-                          }}
-                        >
-                          <FormattedMessage id="manage" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    );
+                  } else {
+                    subItemComp = (
+                      <AutoshipItem
+                        subItem={subItem}
+                        frequencyList={frequencyList}
+                      />
+                    );
+                  }
+                  return subItemComp;
+                })}
               </>
             ) : (
               <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
@@ -480,14 +300,14 @@ class Subscription extends React.Component {
                 </div>
               </div>
             )}
-            {!errMsg && dataList.length ? (
+            {!errMsg && subList.length ? (
               <div className="grid-footer rc-full-width mt-2">
                 <Pagination
                   loading={loading}
                   totalPage={totalPage}
                   defaultCurrentPage={currentPage}
                   key={currentPage}
-                  onPageNumChange={hanldePageNumChange}
+                  onPageNumChange={this.hanldePageNumChange}
                 />
               </div>
             ) : null}

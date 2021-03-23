@@ -231,9 +231,9 @@ class RouteFilter extends Component {
       sessionItemRoyal.remove('product-finder-edit-order');
       sessionItemRoyal.remove('pf-result');
     }
-    // if (!PDP_Regex.test(pathname)) {
-    //   sessionItemRoyal.remove('is-from-product-finder');
-    // }
+    if (!PDP_Regex.test(pathname)) {
+      sessionItemRoyal.remove('is-from-product-finder');
+    }
 
     sessionItemRoyal.set('prevPath', curPath);
 
