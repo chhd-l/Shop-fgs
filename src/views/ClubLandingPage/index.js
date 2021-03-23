@@ -465,7 +465,7 @@ class ClubLandingPage extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
+    setSeoConfig({ pageName: 'Club Subscription Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });
   }
