@@ -269,7 +269,7 @@ const en_US = {
   'cyber.form.EXPYear': 'Expiration Year',
   'cyber.form.EXPYear2': 'Exp.Year',
   'cyber.form.firstName': 'First Name',
-  'cyber.form.lastName': 'LastName Name',
+  'cyber.form.lastName': 'Last Name',
   'cyber.form.saveFor': 'Save this card as my preferred payment method',
   'cyber.form.secureCode': 'Code Security',
   'cyber.form.secureCode2': 'Code Secure',
