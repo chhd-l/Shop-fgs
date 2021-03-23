@@ -271,7 +271,7 @@ const en_US = {
   'cyber.form.firstName': 'First Name',
   'cyber.form.lastName': 'LastName Name',
   'cyber.form.saveFor': 'Save this card as my preferred payment method',
-  'cyber.form.secureCode': 'Security Code',
+  'cyber.form.secureCode': 'Code Security',
   'cyber.form.secureCode2': 'Code Secure',
   'cyber.form.state': 'State',
   'cyber.form.theBox': 'This box is required for subscription',
@@ -1164,6 +1164,8 @@ const en_US = {
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
-  securePaymentProcessing: 'Secure payment processing'
+  securePaymentProcessing: 'Secure payment processing',
+  'Vous avez économisé': 'You saved',
+  avecLabonnement: 'with autoship'
 };
 export default en_US;

@@ -17,6 +17,9 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import FaceBook_Icon from '@/assets/images/facebookIcon.png';
 import Insgram_Icon from '@/assets/images/insgramIcon.png';
+import { getTimeOptions, apptSave } from '@/api/appointment';
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 function Divider() {
   return (
@@ -97,60 +100,70 @@ export default class Felin extends React.Component {
       isContactUs: false,
       currentTabIndex: 0,
       topVal: '159px',
-      currentDate: new Date()
+      currentDate: new Date(),
+      calendarInitObserver: null,
+      timeOption: [],
+      qrCode1: ''
     };
   }
   componentDidMount() {
+    let timeOption = [];
+    let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    arr.map((el) => {
+      if (el <= 18) {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 1
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 1
+        });
+      } else {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 0
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 0
+        });
+      }
+    });
+    this.setState({ timeOption: timeOption });
+    this.getTimeOptions();
     window.addEventListener('scroll', (e) => {
       if (document.querySelector('.rc-header--scrolled')) {
         this.setState({ topVal: '54px' });
       } else {
         this.setState({ topVal: '120px' });
       }
-      // let topVal = document.documentElement.scrollTop
-      // document.querySelector('.tabs').style.top = topVal + 'px'
     });
-    // setTimeout(() => {
-    //   var picker = new Pikaday({
-    //     field: document.getElementById('datepicker'),
-    //     minDate: new Date(),
-    //     disableDayFn: (date) => {
-    //       return new Date(date).getDay() === 1;
-    //     },
-    //     format: 'DD/MM/YYYY',
-    //     toString(date, format) {
-    //       let day = date.getDate();
-    //       let month = date.getMonth() + 1;
-    //       const year = date.getFullYear();
-    //       if (day < 10) {
-    //         day = '0' + day;
-    //       }
-    //       if (month < 10) {
-    //         month = '0' + month;
-    //       }
-    //       return `${day}/${month}/${year}`;
-    //     },
-    //     parse(dateString, format) {
-    //       const parts = dateString.split('/');
-    //       const day = parseInt(parts[0], 10);
-    //       const month = parseInt(parts[1], 10) - 1;
-    //       const year = parseInt(parts[2], 10);
-    //       return new Date(year, month, day);
-    //     }
-    //   });
-    // }, 3000);
-
+    let timer = setInterval(() => {
+      if (document.querySelector('.rc-header--scrolled')) {
+        this.setState({ topVal: '54px' });
+      } else {
+        this.setState({ topVal: '120px' });
+      }
+    }, 100);
     document.querySelector(
       '.react-calendar__navigation__prev-button'
-    ).innerHTML = `<span className="icon iconfont">
+    ).innerHTML = `<span class="icon iconfont">
       &#xe6fa;
     </span>`;
     document.querySelector(
       '.react-calendar__navigation__next-button'
-    ).innerHTML = `<span className="icon iconfont">
+    ).innerHTML = `<span class="icon iconfont">
       &#xe6f9;
     </span>`;
-
     // document.querySelector('.iconfont.font-weight-bold.icon-arrow').innerHTML = `&#xe601;`
     let iconDom = document.querySelector(
       '.iconfont.font-weight-bold.icon-arrow '
@@ -160,22 +173,82 @@ export default class Felin extends React.Component {
     needIconDom.classList.add('icon', 'iconfont');
     needIconDom.innerHTML = `&#xe601;`;
     document.querySelector('#Selection').appendChild(needIconDom);
-    // setTimeout(() => {
-    //   const datePickerOptions = {
-    //     i18n: {
-    //       previousMonth: 'Poprzedni miesiąc',
-    //       nextMonth: 'Następny miesiąc',
-    //       months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
-    //       weekdays: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwaretk', 'Piątek', 'Sobota'],
-    //       weekdaysShort: ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb']
-    //     },
-    //     disableWeekends: true,
-    //     minDate: new Date()
-    //   };
-    //   console.log(window.RCDL.features.Datepickers)
-    //   window.RCDL.features.Datepickers.init('.rc-input__date.rc-js-custom', null,datePickerOptions);
-    // }, 3000)
+
+    // 日历出现在视口中发送ga埋点
+    const calendarDom = document.querySelector('#appointment-calendar');
+    let calendarInitObserver = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio <= 0) return;
+      window.dataLayer && this.bookingStepsGA('Calendar');
+    });
+    if (localItemRoyal.get('rc-userinfo')) {
+      let userInfo = localItemRoyal.get('rc-userinfo');
+      this.setState({
+        userInfo: {
+          username: userInfo.customerName,
+          email: userInfo.email,
+          phoneNumber: userInfo.contactPhone
+        }
+      });
+      if (sessionItemRoyal.get('from-felin')) {
+        let felinInfo = JSON.parse(sessionItemRoyal.get('felin-info'));
+        this.setState(
+          {
+            step: 4,
+            currentDate: new Date(felinInfo.currentDate),
+            felinType: felinInfo.felinType,
+            selectedTimeObj: felinInfo.selectedTimeObj,
+            nextBtnShow: false
+          },
+          () => {
+            sessionItemRoyal.remove('from-felin');
+            sessionItemRoyal.remove('felin-info');
+          }
+        );
+      }
+    }
+    this.setState(
+      {
+        calendarDom,
+        calendarInitObserver
+      },
+      () => {
+        this.state.calendarInitObserver.observe(calendarDom);
+      }
+    );
   }
+  get virtualAppointmentFlag() {
+    let { currentDate } = this.state;
+    return (
+      +format(currentDate, 'yyyyMMdd') >= 20210420 &&
+      +format(currentDate, 'yyyyMMdd') <= 20210502
+    );
+  }
+  getTimeOptions() {
+    getTimeOptions({
+      apptDate: format(this.state.currentDate, 'yyyyMMdd')
+    }).then((res) => {
+      let { timeOption } = this.state;
+      let { appointmentVOList } = res.context;
+      timeOption.map((timeItem) => {
+        if (
+          appointmentVOList.filter(
+            (apptItem) => apptItem.apptTime === timeItem.value
+          ).length
+        ) {
+          timeItem.disabled = true;
+        }
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.state.calendarInitObserver &&
+      this.state.calendarInitObserver.disconnect(this.state.calendarDom);
+    this.setState({
+      calendarInitObserver: null
+    });
+  }
+
   handleInputChange = (e) => {
     const target = e.target;
     const name = target.name;
@@ -222,14 +295,43 @@ export default class Felin extends React.Component {
     }
   };
   goNextStep() {
-    let { step, selectedTimeObj, selectedDate } = this.state;
+    let {
+      step,
+      selectedTimeObj,
+      selectedDate,
+      felinType,
+      currentDate,
+      userInfo,
+      qrCode1
+    } = this.state;
     this.setState({ step: step + 1 }, () => {
       if (step === 2) {
+        // console.log(step, 'step')
         this.setState({ nextBtnShow: false });
       }
+      sessionItemRoyal.set(
+        'felin-info',
+        JSON.stringify({
+          userInfo,
+          currentDate: +currentDate,
+          felinType,
+          qrCode1,
+          step,
+          selectedTimeObj
+        })
+      );
       // let felinForm = {
       //   selectedDate:
       // }
+      let obj = {
+        2: 'Appointment type',
+        3: 'Login',
+        4: 'Customer info',
+        5: 'Recap',
+        6: 'Confirmation'
+      };
+      this.bookingStepsGA(obj[this.state.step]);
+
       this.updateButtonState();
     });
   }
@@ -261,6 +363,13 @@ export default class Felin extends React.Component {
     dataLayer.push({
       event: 'atelierFelinButtonClick',
       atelierFelinButtonClickName: btnName
+    });
+  }
+
+  bookingStepsGA(stepName) {
+    dataLayer.push({
+      event: 'atelierFelinBookingSteps',
+      atelierFelinBookingStepsName: stepName
     });
   }
 
@@ -345,9 +454,6 @@ export default class Felin extends React.Component {
               {/* </Link> */}
             </div>
             <br />
-            <br />
-            <br />
-            <br />
             <div
               className="contactUs"
               style={{ display: isContactUs ? 'block' : 'none' }}
@@ -393,7 +499,7 @@ export default class Felin extends React.Component {
             <div style={{ display: !isContactUs ? 'block' : 'none' }}>
               <div className="rc-layout-container rc-two-column rc-content-h-middle">
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/logoAtelier felin.png`}
@@ -422,10 +528,10 @@ export default class Felin extends React.Component {
                       L'Atelier Félin est ouvert uniquement du 20 avril au 13
                       juin 2021
                     </p>
-                  </h1>
+                  </h4>
                 </div>
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
                         loop="infinite"
@@ -433,12 +539,12 @@ export default class Felin extends React.Component {
                         alt=""
                       />
                     </LazyLoad>
-                  </h1>
+                  </h4>
                 </div>
               </div>
               <div className="rc-layout-container rc-two-column rc-content-h-middle">
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
@@ -470,36 +576,36 @@ export default class Felin extends React.Component {
                         Venez rencontrer nos experts
                       </button>
                     </div>
-                  </h1>
+                  </h4>
                 </div>
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x_1.jpeg`}
                         alt=""
                       />
                     </LazyLoad>
-                  </h1>
+                  </h4>
                 </div>
               </div>
               <Divider />
               <div className="rc-layout-container rc-two-column rc-content-h-middle">
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.png`}
                         alt=""
                       />
                     </LazyLoad>
-                  </h1>
+                  </h4>
                 </div>
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
-                        <h3>
+                        <h3 className="hahaha">
                           Obtenez une recommandation personnalisée pour son
                           alimentation
                         </h3>
@@ -526,13 +632,13 @@ export default class Felin extends React.Component {
                         Venez découvrir l’univers du chat dans notre magasin
                       </button>
                     </div>
-                  </h1>
+                  </h4>
                 </div>
               </div>
               <Divider />
               <div className="rc-layout-container rc-two-column rc-content-h-middle">
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>
@@ -561,17 +667,17 @@ export default class Felin extends React.Component {
                         Venez découvrir l’univers du chat dans notre magasin
                       </button>
                     </div>
-                  </h1>
+                  </h4>
                 </div>
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
                         alt=""
                       />
                     </LazyLoad>
-                  </h1>
+                  </h4>
                 </div>
               </div>
               <Divider />
@@ -580,17 +686,17 @@ export default class Felin extends React.Component {
                 className="rc-layout-container rc-two-column rc-content-h-middle"
               >
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
                         alt=""
                       />
                     </LazyLoad>
-                  </h1>
+                  </h4>
                 </div>
                 <div className="rc-column">
-                  <h1 className="rc-espilon">
+                  <h4 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
                         <h3>Découvrez l’Atelier Félin</h3>
@@ -608,7 +714,7 @@ export default class Felin extends React.Component {
                         adopter des chats (le weekend exclusivement).
                       </p>
                     </div>
-                  </h1>
+                  </h4>
                 </div>
               </div>
               <Divider />
@@ -640,12 +746,12 @@ export default class Felin extends React.Component {
                       }}
                     >
                       {this.state.step === 1 ? (
-                        <>
+                        <div id="appointment-calendar">
                           <p style={{ fontWeight: '500' }}>
                             Choisissez un rendez-vous
                           </p>
                           <div>
-                            <h1
+                            <h4
                               className="rc-card__meta order-Id"
                               style={{
                                 marginTop: '10px',
@@ -670,24 +776,7 @@ export default class Felin extends React.Component {
                                   'fr'
                                 )}
                               />
-                              {/* <DatePicker
-                                className="receiveDate"
-                                placeholder="Select Date"
-                                dateFormat={datePickerConfig.format}
-                                locale={datePickerConfig.locale}
-                                minDate={new Date()}
-                                selected={this.state.selectedDate}
-                                // selected={new Date()}
-                                onChange={(date) => {
-                                  this.setState(
-                                    { selectedDate: new Date(date) },
-                                    () => {
-                                      this.updateButtonState();
-                                    }
-                                  );
-                                }}
-                              /> */}
-                            </h1>
+                            </h4>
                             <span className="icon iconfont iconfont-date">
                               &#xe6b3;
                             </span>
@@ -701,8 +790,15 @@ export default class Felin extends React.Component {
                               }}
                               minDate={new Date()}
                               onChange={(date) => {
-                                console.log(date);
-                                this.setState({ currentDate: date });
+                                if (
+                                  format(date, 'yyyy-MM-dd') ===
+                                  format(this.state.currentDate, 'yyyy-MM-dd')
+                                ) {
+                                  return false;
+                                }
+                                this.setState({ currentDate: date }, () => {
+                                  this.getTimeOptions();
+                                });
                               }}
                               // navigationLabel={() => `ahahahax`}
                             />
@@ -710,16 +806,7 @@ export default class Felin extends React.Component {
                           <div>
                             <Selection
                               placeholder="Choisissez une créneau horaire"
-                              optionList={[
-                                { name: '10:00 – 10:20 AM', value: '111' },
-                                { name: '10:30 – 10:50 AM', value: '222' },
-                                {
-                                  name: '11:00 – 11:20 AM',
-                                  value: '333',
-                                  disabled: true
-                                },
-                                { name: '11:30 – 11:50 AM', value: '444' }
-                              ]}
+                              optionList={this.state.timeOption}
                               selectedItemChange={(data) => {
                                 console.log(data);
                                 this.setState({ selectedTimeObj: data }, () => {
@@ -732,7 +819,7 @@ export default class Felin extends React.Component {
                               enableBlur={false}
                             />
                           </div>
-                        </>
+                        </div>
                       ) : null}
                       {this.state.step === 2 ? (
                         <>
@@ -749,12 +836,19 @@ export default class Felin extends React.Component {
                               <input
                                 className="rc-input__radio"
                                 id="female"
-                                value="1"
-                                checked={this.state.felinType}
+                                value="0"
+                                checked={
+                                  this.virtualAppointmentFlag ||
+                                  this.state.selectedTimeObj.type === 0
+                                }
                                 type="radio"
                                 name="gender"
+                                disabled={
+                                  !this.virtualAppointmentFlag &&
+                                  this.state.selectedTimeObj.type === 1
+                                }
                                 onChange={(e) => {
-                                  this.setState({ felinType: 1 });
+                                  this.setState({ felinType: 0 });
                                 }}
                               />
                               <label
@@ -769,12 +863,19 @@ export default class Felin extends React.Component {
                               <input
                                 className="rc-input__radio"
                                 id="male"
-                                value="0"
-                                checked={!this.state.felinType}
+                                value="1"
+                                checked={
+                                  !this.virtualAppointmentFlag &&
+                                  this.state.selectedTimeObj.type === 1
+                                }
                                 type="radio"
                                 name="gender"
+                                disabled={
+                                  this.virtualAppointmentFlag ||
+                                  this.state.selectedTimeObj.type === 0
+                                }
                                 onChange={(e) => {
-                                  this.setState({ felinType: 0 });
+                                  this.setState({ felinType: 1 });
                                 }}
                                 // onChange={(e) => this.genderChange(e)}
                               />
@@ -831,6 +932,9 @@ export default class Felin extends React.Component {
                             className="rc-btn rc-btn--two"
                             btnStyle={{ margin: '5px 0', width: '100%' }}
                             history={this.props.history}
+                            beforeLoginCallback={async () => {
+                              sessionItemRoyal.set('from-felin', true);
+                            }}
                           >
                             Se connecter
                           </LoginButton>
@@ -984,7 +1088,50 @@ export default class Felin extends React.Component {
                             style={{ width: '100%' }}
                             disabled={!nextBtnEnable}
                             onClick={() => {
-                              this.setState({ step: this.state.step + 1 });
+                              let userInfo = localItemRoyal.get('rc-userinfo');
+                              try {
+                                apptSave({
+                                  customerDetailVO: null,
+                                  id: null,
+                                  apptNo:
+                                    'AP' + Math.ceil(Math.random() * 10000000),
+                                  storeId: process.env.REACT_APP_STOREID,
+                                  customerId: userInfo
+                                    ? userInfo.customerId
+                                    : null,
+                                  type: this.state.felinType,
+                                  apptDate: format(
+                                    this.state.currentDate,
+                                    'yyyyMMdd'
+                                  ),
+                                  apptTime: this.state.selectedTimeObj.value,
+                                  status: 0,
+                                  qrCode1: null,
+                                  qrCode2: null,
+                                  qrCode3: null,
+                                  createTime: null,
+                                  updateTime: null,
+                                  delFlag: 0,
+                                  delTime: null,
+                                  consumerName: this.state.userInfo.username,
+                                  consumerEmail: this.state.userInfo.email,
+                                  consumerPhone: this.state.userInfo.phoneNumber
+                                }).then((res) => {
+                                  console.log(res, 'res');
+                                  this.setState(
+                                    { qrCode1: res.context.settingVO.qrCode1 },
+                                    () => {
+                                      if (res.context.settingVO.qrCode1) {
+                                        this.setState({
+                                          step: this.state.step + 1
+                                        });
+                                      }
+                                    }
+                                  );
+                                });
+                              } catch (e) {
+                                console.log(e);
+                              }
                             }}
                           >
                             <FormattedMessage id="Confirmer mes informations" />
@@ -1104,7 +1251,8 @@ export default class Felin extends React.Component {
                               float: 'right',
                               marginTop: '12px'
                             }}
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/qrcode.png`}
+                            // src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/qrcode.png`}
+                            src={`${this.state.qrCode1}`}
                             alt=""
                           />
                         </>

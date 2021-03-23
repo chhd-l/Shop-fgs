@@ -24,6 +24,7 @@ import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
 import locales from '@/lang'; // ENUM_LANGFILE[process.env.REACT_APP_LANG]
 
+
 // const locales = {
 //   'en-US': require('./locales/en-US.js'),
 //   'zh-CN': require('./locales/zh-CN.js')
@@ -139,6 +140,9 @@ import fr from 'date-fns/locale/fr';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
+
+import RedirectUrlJSON from "./redirectUrl"
+
 if (process.env.REACT_APP_LANG === 'fr') {
   registerLocale(process.env.REACT_APP_LANG, fr);
   setDefaultLocale('fr');
@@ -283,15 +287,15 @@ const App = () => (
                 exact
                 path="/club-subscription"
                 component={
-                  process.env.REACT_APP_LANG == 'ru'||process.env.REACT_APP_LANG == 'tr'?
-                  ClubLandingPage:Exception}
+                  process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr' ?
+                    ClubLandingPage : Exception}
               />
               <Route
                 exact
                 path="/vetlandingpage"
                 component={
-                  process.env.REACT_APP_LANG == 'ru'?
-                    VetLandingPage:Exception}
+                  process.env.REACT_APP_LANG == 'ru' ?
+                    VetLandingPage : Exception}
               />
               <Route
                 exact
@@ -333,7 +337,7 @@ const App = () => (
               <Route
                 exact
                 path="/breeder/recommendation"
-                render={(props) => <Redirect to={{pathname: '/recommendation', search: props.location.search}} {...props}/>
+                render={(props) => <Redirect to={{ pathname: '/recommendation', search: props.location.search }} {...props} />
                 }
               />
               <Route
@@ -369,7 +373,7 @@ const App = () => (
                 render={(props) => (
                   <AccountPetForm key={props.match.params.id} {...props} />
                 )}
-                // component={AccountPetForm}
+              // component={AccountPetForm}
               />
               <Route
                 path="/account/pets/petForm/"
@@ -505,7 +509,7 @@ const App = () => (
                 path="/Values"
                 component={
                   { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                    process.env.REACT_APP_LANG
+                  process.env.REACT_APP_LANG
                   ] || Values
                 }
               />
@@ -608,40 +612,6 @@ const App = () => (
                   if (/^\/refuge/.test(pathname))
                     return <RefugeSource key={Math.random()} {...props} />;
 
-                  //为了匹配/boxer01，boxer02等
-                  if (/^\/boxer[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-                  //为了匹配/bulldog01，bulldog02等
-                  if (/^\/bulldog[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/chihuahua[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/bergerallemand[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/golden[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/labrador[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/shihtzu[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/yorkshire[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/british[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/mainecoon[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/persan[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
                   // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
                   if (PDP_Regex.test(pathname)) {
                     let redirectUrl = '';
@@ -660,7 +630,7 @@ const App = () => (
                       '/maine-coon-bouchÃ©es-spÃ©cial-2031':
                         '/maine-coon-bouchees-special-2031',
                       '/persan-bouchÃ©es-spÃ©cial-2030':
-                        '/persan-bouchees-special-2030'
+                        '/persan-bouchees-special-2030',
                     };
                     if (productNameMappping[pathname]) {
                       redirectUrl = productNameMappping[pathname];
@@ -677,31 +647,28 @@ const App = () => (
                       return <Details key={props.match.params.id} {...props} />;
                     }
                   } else {
+                    let newObj = {}
+
+                    if(!process.env.REACT_APP_HUB){
+                      const RedirectUrl = RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item2 => {
+                        return {
+                          [item2.shortUrl]: item2.redirectUrl
+                        }
+                      })
+                      //把数组对象合并成一个对象
+                     
+                      RedirectUrl.forEach((item) => {
+                        newObj = { ...newObj, ...item }
+                      })
+                    }
+
                     let redirectUrl = '';
                     const specailPlpUrlMapping = {
-                      '/dogs?prefn1=breeds&prefv1=Boxer':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Boxer',
-                      '/dogs?prefn1=breeds&prefv1=Bulldog%20Anglais':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Bulldog-Anglais',
-                      '/dogs?prefn1=breeds&prefv1=Chihuahua':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Chihuahua',
-                      '/dogs?prefn1=breeds&prefv1=Berger%20Allemand':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Berger-Allemand',
-                      '/dogs?prefn1=breeds&prefv1=Golden%20Retriever':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Golden-Retriever',
-                      '/dogs?prefn1=breeds&prefv1=Labrador%20Retriever':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Labrador-Retriever',
-                      '/dogs?prefn1=breeds&prefv1=Shih%20Tzu':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Shih-Tzu',
-                      '/dogs?prefn1=breeds&prefv1=Yorkshire%20Terrier':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Yorkshire-Terrier',
-                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=British%20shorthair':
-                        '/cats/retail-products?prefn1=breeds&prefv1=British-shorthair',
-                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=Maine%20Coon':
-                        '/cats/retail-products?prefn1=breeds&prefv1=Maine-Coon',
-                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=Persan':
-                        '/cats/retail-products?prefn1=breeds&prefv1=Persan'
+                      ...newObj
                     };
+
+
+
                     if (pathname.split('.html').length > 1) {
                       redirectUrl = pathname.split('.html')[0];
                     } else if (specailPlpUrlMapping[pathname + search]) {

@@ -1813,6 +1813,7 @@ class Payment extends React.Component {
   };
 
   updateBillingAddrData = (data) => {
+    console.log(456, data);
     if (!this.state.billingChecked) {
       this.setState({ billingAddress: data });
     }
@@ -1867,6 +1868,23 @@ class Payment extends React.Component {
     });
   };
 
+  CyberSaveCardCheckboxJSX = () => {
+    const {
+      cyberPaymentForm: { isSaveCard }
+    } = this.state;
+
+    const moduleJsx =
+      this.state.paymentTypeVal == 'cyber' && this.isLogin ? (
+        <CyberSaveCardCheckbox
+          isChecked={isSaveCard}
+          changeCyberPaymentFormIsSaveCard={
+            this.changeCyberPaymentFormIsSaveCard
+          }
+        />
+      ) : null;
+    return moduleJsx;
+  };
+
   renderBillingJSX = ({ type }) => {
     const {
       billingChecked,
@@ -1882,14 +1900,14 @@ class Payment extends React.Component {
 
     return (
       <>
-        {this.state.paymentTypeVal == 'cyber' && this.isLogin ? (
+        {/* {this.state.paymentTypeVal == 'cyber' && this.isLogin ? (
           <CyberSaveCardCheckbox
             isChecked={isSaveCard}
             changeCyberPaymentFormIsSaveCard={
               this.changeCyberPaymentFormIsSaveCard
             }
           />
-        ) : null}
+        ) : null} */}
         <SameAsCheckbox
           initVal={billingChecked}
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
@@ -2210,7 +2228,7 @@ class Payment extends React.Component {
       let isValidForCyberPayment = false;
       let errMsgObj = {};
       let isCheckSaveCard = this.state.cyberPaymentForm.isSaveCard;
-
+      console.log(789, isCheckSaveCard);
       ADDRESS_RULE.forEach((item) => {
         if (
           Object.keys(cyberPaymentForm).indexOf(item.key) &&
@@ -2487,6 +2505,7 @@ class Payment extends React.Component {
                       this.handleCyberSelectedItemChange
                     }
                     inputBlur={this.inputBlur}
+                    CyberSaveCardCheckboxJSX={this.CyberSaveCardCheckboxJSX()}
                     billingJSX={this.renderBillingJSX({
                       type: paymentTypeVal
                     })}

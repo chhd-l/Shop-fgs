@@ -18,7 +18,7 @@ const OneOffSelection = function (props) {
   } = props;
   return (
     <div
-      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs"
+      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs--desktop"
       style={{
         borderColor: !parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
         cursor: 'pointer',
@@ -26,7 +26,7 @@ const OneOffSelection = function (props) {
       }}
       onClick={props.chooseOneOff}
     >
-      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break">
+      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break flex-wrap">
         <div className="radioBox mr-2">
           <span
             className="font15"

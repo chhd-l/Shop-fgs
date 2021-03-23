@@ -570,6 +570,7 @@ class UnLoginCart extends React.Component {
     );
   }
   getQuantityBox = (pitem) => {
+    let isGift = !!pitem.subscriptionPlanGiftList;
     return (
       <div
         className="cart-quantity-container"
@@ -681,7 +682,7 @@ class UnLoginCart extends React.Component {
       return (
         <div>
           <div
-            className={`rc-border-all rc-border-colour--interface product-info p-3 ${
+            className={`rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile ${
               isGift ? 'no-margin-bottom' : 'has-margin-bottom'
             }`}
             key={index}
@@ -829,7 +830,10 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="buyMethodBox rc-layout-container rc-two-column">
+            <div
+              className="buyMethodBox rc-two-column"
+              style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
+            >
               <div className="rc-column">
                 <OneOffSelection
                   isGift={isGift}
@@ -848,7 +852,7 @@ class UnLoginCart extends React.Component {
                 .subscriptionStatus &&
               pitem.sizeList.filter((el) => el.selected)[0]
                 .subscriptionPrice ? (
-                <div className="rc-column">
+                <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.promotions || !pitem.promotions.includes('club') ? (
                     <SubscriptionSelection
                       isGift={isGift}
@@ -1533,7 +1537,7 @@ class UnLoginCart extends React.Component {
           ].join(' ')}
         >
           <BannerTip />
-          <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
+          <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0 rc-padding-x--none--mobile">
             {productList.length ? (
               <>
                 <div className="rc-layout-container rc-one-column pt-1">
