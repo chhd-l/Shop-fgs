@@ -389,11 +389,12 @@ export default class Search extends React.Component {
           <>
             <button
               id="mainSearch"
-              className={`rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography ${
-                showSearchInput ? 'rc-hidden' : ''
-              }`}
+              className={`rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography `}
               aria-label="Search"
               onClick={this.hanldeSearchClick}
+              style={
+                showSearchInput ? { display: 'none' } : { display: 'block' }
+              }
             >
               <span className="rc-screen-reader-text">
                 <FormattedMessage id="search" />
