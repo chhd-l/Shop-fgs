@@ -3133,6 +3133,7 @@ class Payment extends React.Component {
                     operateBtnVisible={!tid}
                     currentPage="checkout"
                     guestEmail={guestEmail}
+                    isCheckOut={true}
                   />
                 )}
                 <Faq />
@@ -3178,6 +3179,7 @@ class Payment extends React.Component {
               headerIcon={
                 <span className="rc-icon rc-down--xs rc-iconography" />
               }
+              isCheckOut={true}
             />
           </div>
         </main>
