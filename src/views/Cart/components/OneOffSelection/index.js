@@ -26,7 +26,7 @@ const OneOffSelection = function (props) {
       }}
       onClick={props.chooseOneOff}
     >
-      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break">
+      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break flex-wrap">
         <div className="radioBox mr-2">
           <span
             className="font15"

@@ -9,7 +9,8 @@ import { myAccountActionPushEvent } from '@/utils/GA';
 
 class CommunicationDataEditForm extends React.Component {
   static defaultProps = {
-    originData: null
+    originData: null,
+    needPhone: true
   };
   constructor(props) {
     super(props);
@@ -114,7 +115,7 @@ class CommunicationDataEditForm extends React.Component {
   }
   //保存
   handleSave = async () => {
-    const { userInfo } = this.props;
+    const { userInfo, needPhone } = this.props;
     const { form, list } = this.state;
     let errMsg = null;
     const theConset = list.filter((l) =>
@@ -132,13 +133,13 @@ class CommunicationDataEditForm extends React.Component {
     // 2 勾选了phone/email，必须勾选某条特殊consent
     if (
       hasCheckedTheConsent &&
-      !+form.communicationPhone &&
-      !+form.communicationEmail
+      !+form.communicationEmail &&
+      (!needPhone || !+form.communicationPhone)
     ) {
       errMsg = <FormattedMessage id="mustChooseACommunicationMethodTip" />;
     } else if (
       theConset &&
-      (+form.communicationPhone || +form.communicationEmail) &&
+      (+form.communicationEmail || (needPhone && +form.communicationPhone)) &&
       !hasCheckedTheConsent
     ) {
       errMsg = <FormattedMessage id="mustChooseTheConsentTip" />;
@@ -255,7 +256,7 @@ class CommunicationDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  style={{ minWidth: '52px' }}
+                  // style={{ minWidth: '52px' }}
                   className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
@@ -315,28 +316,38 @@ class CommunicationDataEditForm extends React.Component {
                   <FormattedMessage id="account.preferredMethodOfCommunication" />
                 </label>
                 {[
-                  { type: 'communicationPhone', langKey: 'phone' },
-                  { type: 'communicationEmail', langKey: 'email' }
-                ].map((ele, idx) => (
-                  <div className="rc-input rc-input--inline" key={idx}>
-                    <input
-                      type="checkbox"
-                      className="rc-input__checkbox"
-                      id={`basicinfo-communication-checkbox-${ele.type}`}
-                      onChange={this.handleCommunicationCheckBoxChange.bind(
-                        this,
-                        ele
-                      )}
-                      checked={+form[ele.type] || false}
-                    />
-                    <label
-                      className="rc-input__label--inline text-break"
-                      htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
-                    >
-                      <FormattedMessage id={ele.langKey} />
-                    </label>
-                  </div>
-                ))}
+                  {
+                    type: 'communicationPhone',
+                    langKey: 'phone',
+                    visible: this.props.needPhone
+                  },
+                  {
+                    type: 'communicationEmail',
+                    langKey: 'email',
+                    visible: true
+                  }
+                ]
+                  .filter((c) => c.visible)
+                  .map((ele, idx) => (
+                    <div className="rc-input rc-input--inline" key={idx}>
+                      <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        id={`basicinfo-communication-checkbox-${ele.type}`}
+                        onChange={this.handleCommunicationCheckBoxChange.bind(
+                          this,
+                          ele
+                        )}
+                        checked={+form[ele.type] || false}
+                      />
+                      <label
+                        className="rc-input__label--inline text-break"
+                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                      >
+                        <FormattedMessage id={ele.langKey} />
+                      </label>
+                    </div>
+                  ))}
               </div>
 
               <span className={`rc-meta`}>
