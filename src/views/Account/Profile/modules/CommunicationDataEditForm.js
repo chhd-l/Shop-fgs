@@ -7,6 +7,19 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 
+const SPECAIL_CONSENT_ENUM =
+  {
+    en: [
+      'RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL',
+      'RC_DF_US_PREF_CENTER_PRODUCTS_OPT_MAIL',
+      'RC_DF_US_PREF_CENTER_NL_OPT_MAIL',
+      'RC_DF_HQ_MARS_PRIVACY_POLICY'
+    ],
+    fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
+    ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
+    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
+  }[process.env.REACT_APP_LANG] || [];
+
 class CommunicationDataEditForm extends React.Component {
   static defaultProps = {
     originData: null,
@@ -119,15 +132,10 @@ class CommunicationDataEditForm extends React.Component {
     const { form, list } = this.state;
     let errMsg = null;
     const theConset = list.filter((l) =>
-      ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'].includes(
-        l.consentDesc
-      )
+      SPECAIL_CONSENT_ENUM.includes(l.consentDesc)
     ).length;
     const hasCheckedTheConsent = list.filter(
-      (l) =>
-        ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'].includes(
-          l.consentDesc
-        ) && l.isChecked
+      (l) => SPECAIL_CONSENT_ENUM.includes(l.consentDesc) && l.isChecked
     ).length;
     // 1 勾选了某条特殊consent情况下，phone/email不能同时取消
     // 2 勾选了phone/email，必须勾选某条特殊consent
