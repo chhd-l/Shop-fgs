@@ -304,7 +304,7 @@ class AddressList extends React.Component {
 
       if (process.env.REACT_APP_LANG == 'ru') {
         let dada = data.DaData;
-        // 计算运费
+        // 俄罗斯计算运费
         let calcres = await shippingCalculation({
           sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
           sourceAreaFias: null,

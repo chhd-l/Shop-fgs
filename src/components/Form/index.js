@@ -147,10 +147,6 @@ class Form extends React.Component {
                   // 查询城市列表
                   this.getAllCityList();
                 }
-                if (automatically == 1) {
-                  // 俄罗斯DuData，根据关键字查询地址信息
-                  this.getAddressBykeyWordDuData();
-                }
               }
             );
           }
@@ -203,18 +199,7 @@ class Form extends React.Component {
       console.log(err);
     }
   };
-  // 5-1、俄罗斯DuData，根据关键字查询地址信息
-  getAddressBykeyWordDuData = async () => {
-    try {
-      const res = await getAddressBykeyWord({ keyword: 'москва хабар' });
-      if (res?.context?.systemRegions) {
-        console.log(' ★★★--------- getAddressBykeyWordDuData res: ', res);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  // 5-2、查询州列表（美国 state）
+  // 5-1、查询州列表（美国 state）
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
@@ -379,7 +364,8 @@ class Form extends React.Component {
   // DuData地址搜索选择
   handleAddressInputChange = (data) => {
     const { caninForm } = this.state;
-    caninForm.address1 = data.unrestrictedValue;
+    let keyword = data.unrestrictedValue;
+    caninForm.address1 = keyword;
     caninForm.DaData = data;
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
