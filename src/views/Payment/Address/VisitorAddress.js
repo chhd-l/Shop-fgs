@@ -13,6 +13,7 @@ import {
   scrollPaymentPanelIntoView
 } from '../modules/utils';
 import { addressValidation } from '@/api/index';
+import { shippingCalculation } from '@/api/cart';
 import AddressPreview from './Preview';
 import './VisitorAddress.css';
 
@@ -71,6 +72,31 @@ class VisitorAddress extends React.Component {
       this.setState({ isValid: true, form: data }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
+      if (process.env.REACT_APP_LANG == 'ru') {
+        let dada = data.DaData;
+        // 计算运费
+        let calcres = await shippingCalculation({
+          sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+          sourceAreaFias: null,
+          sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+          sourceSettlementFias: null,
+          sourcePostalCode: null,
+          regionFias: dada.provinceId,
+          areaFias: dada.areaId,
+          cityFias: dada.cityId,
+          settlementFias: dada.settlementId,
+          postalCode: dada.postCode,
+          weight: '1',
+          insuranceSum: 0,
+          codSum: 0,
+          dimensions: {
+            height: '1',
+            width: '1',
+            depth: '1'
+          }
+        });
+        // debugger
+      }
     } catch (err) {
       this.setState({ isValid: false, validationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);

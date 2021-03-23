@@ -291,9 +291,6 @@ class AddressList extends React.Component {
       phoneNumber: '',
       isDefalt: false
     };
-    this.setState({
-      addOrEdit: true
-    });
     if (itemIdx > -1) {
       const tmp = addressList[itemIdx];
       tmpDeliveryAddress = {
@@ -315,14 +312,20 @@ class AddressList extends React.Component {
         tmpDeliveryAddress.province = tmp.province;
         tmpDeliveryAddress.provinceId = tmp.provinceId;
       }
-      console.log(
-        '------------------ ★ SubscriptionDetail showNextPanel tmpDeliveryAddress: ',
-        tmpDeliveryAddress
+      this.setState(
+        {
+          deliveryAddress: Object.assign(
+            {},
+            deliveryAddress,
+            tmpDeliveryAddress
+          )
+        },
+        () => {
+          this.setState({
+            addOrEdit: true
+          });
+        }
       );
-
-      this.setState({
-        deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
-      });
     } else {
       this.setState({
         deliveryAddress: {
@@ -354,8 +357,8 @@ class AddressList extends React.Component {
   validFormData = async () => {
     const { deliveryAddress } = this.state;
     try {
-      // console.log('★★★★★★★★★ valiFormData: ', deliveryAddress);
-      await validData(PRESONAL_INFO_RULE, deliveryAddress);
+      // console.log(' ---------- ★★★★★★★★★ valiFormData: ', deliveryAddress);
+      await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
@@ -409,10 +412,6 @@ class AddressList extends React.Component {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       await validData(ADDRESS_RULE, deliveryAddress);
-      console.log(
-        '----------------------- ★ AddressComp handleSave deliveryAddress: ',
-        deliveryAddress
-      );
       let params = {
         address1: deliveryAddress.address1,
         address2: deliveryAddress.address2,
@@ -435,11 +434,6 @@ class AddressList extends React.Component {
         email: deliveryAddress.email,
         type: this.props.type.toUpperCase()
       };
-
-      console.log(
-        '----------------------- ★ AddressComp handleSave params: ',
-        params
-      );
 
       if (process.env.REACT_APP_LANG == 'en') {
         params.province = deliveryAddress.province;
@@ -613,7 +607,6 @@ class AddressList extends React.Component {
       addOrEdit,
       loading,
       isValid,
-      foledMore,
       addressList,
       isBillSame,
       countryList,

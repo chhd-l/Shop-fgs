@@ -5,6 +5,7 @@ const api = {
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id', //http://localhost:3000/account/information
   queryCityByName: `${process.env.REACT_APP_STOREID}/system/city`,
+  getCityList: `/system/city`,
   getRegionByCityId: `/systemRegion/queryByStoreId`, // 根据cityId查询region
   getProvincesList: `/systemState/queryByStoreId`, // 查询省份列表
   getAddressBykeyWord: `/address-input-auto/list`, // DuData，根据输入的关键字返回详细地址信息
@@ -52,6 +53,14 @@ export function queryCityNameById(parameter) {
 export function queryCityByName(parameter) {
   return axios({
     url: `${api.queryCityByName}`,
+    method: 'get',
+    params: parameter
+  });
+}
+
+export function getCityList(parameter) {
+  return axios({
+    url: `${api.getCityList}`,
     method: 'get',
     params: parameter
   });

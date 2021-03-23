@@ -6,6 +6,7 @@ import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
+import { shippingCalculation } from '@/api/cart';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
@@ -100,7 +101,7 @@ class AddressList extends React.Component {
         (ele) => ele.type === this.props.type.toUpperCase()
       );
       const defaultAddressItem = find(addressList, (ele) => {
-        console.log(ele, 'defaultAddressItem');
+        // console.log(ele, 'defaultAddressItem');
         return ele.isDefaltAddress === 1;
       });
 
@@ -300,6 +301,32 @@ class AddressList extends React.Component {
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
+
+      if (process.env.REACT_APP_LANG == 'ru') {
+        let dada = data.DaData;
+        // 计算运费
+        let calcres = await shippingCalculation({
+          sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+          sourceAreaFias: null,
+          sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+          sourceSettlementFias: null,
+          sourcePostalCode: null,
+          regionFias: dada.provinceId,
+          areaFias: dada.areaId,
+          cityFias: dada.cityId,
+          settlementFias: dada.settlementId,
+          postalCode: dada.postCode,
+          weight: '1',
+          insuranceSum: 0,
+          codSum: 0,
+          dimensions: {
+            height: '1',
+            width: '1',
+            depth: '1'
+          }
+        });
+        // debugger
+      }
     } catch (err) {
       this.setState({ isValid: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
