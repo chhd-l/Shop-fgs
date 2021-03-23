@@ -15,11 +15,8 @@ class DeleteMyAccount extends React.Component {
       editFormVisible: false,
       errorMsg: ''
     };
-
   }
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   // 注销账户
   handelDeleteMyAccount = () => {
@@ -35,16 +32,19 @@ class DeleteMyAccount extends React.Component {
 
     return (
       <div className={classNames({ border: curPageAtCover })}>
-
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             {curPageAtCover ? (
               <h5 className="mb-0">
-                <div className="svg-icon account-info-icon align-middle mr-3 ml-1" style={{ width: '1.2em', height: '1.2em', display: 'inline-table' }} >
-                  <img
-                    src={deleteMyAccountImg}
-                    alt=""
-                  />
+                <div
+                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                  style={{
+                    width: '1.2em',
+                    height: '1.2em',
+                    display: 'inline-table'
+                  }}
+                >
+                  <img src={deleteMyAccountImg} alt="" />
                 </div>
                 <FormattedMessage id="account.deleteMyaccountTitle" />
               </h5>
@@ -72,7 +72,10 @@ class DeleteMyAccount extends React.Component {
                 // </button>
                 <a
                   className="editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0"
-                  style={{ minWidth: '52px',lineHeight: 'inherit' }}
+                  style={{
+                    // minWidth: '52px',
+                    lineHeight: 'inherit'
+                  }}
                   href={process.env.REACT_APP_DELETE_My_ACCOUNT_URL}
                 >
                   {txt}
@@ -85,8 +88,15 @@ class DeleteMyAccount extends React.Component {
 
           <div className="pl-3 pr-3 pb-3">
             {/* 错误提示 */}
-            <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${errorMsg ? '' : 'hidden'}`}>
-              <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+            <div
+              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                errorMsg ? '' : 'hidden'
+              }`}
+            >
+              <aside
+                className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                role="alert"
+              >
                 <span className="pl-0">{errorMsg}</span>
                 <button
                   className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
@@ -109,7 +119,6 @@ class DeleteMyAccount extends React.Component {
             </span>
             <div className="row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer" />
           </div>
-
         </div>
       </div>
     );

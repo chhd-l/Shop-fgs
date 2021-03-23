@@ -317,6 +317,12 @@ class AccountProfile extends React.Component {
                         originData={originData}
                         data={personalData}
                         userInfo={this.userInfo}
+                        needPhone={
+                          !Boolean(
+                            +process.env
+                              .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_EMAIL
+                          )
+                        }
                         key={Object.keys(personalData || {})}
                         updateData={this.queryCustomerBaseInfo}
                         updateEditOperationPanelName={
