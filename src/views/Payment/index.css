@@ -300,7 +300,6 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    padding-left: 1.5rem;
   }
 
   .fit-mobile-icon-left {
@@ -310,6 +309,7 @@
 
   .fit-mobile-normalDelivery {
     position: relative;
+    margin-left: 1.6rem;
   }
 }
 

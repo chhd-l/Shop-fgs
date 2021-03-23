@@ -28,7 +28,9 @@ const api = {
   Adyen3DSResult: '/Adyen3DSResult',
   //CYBER
   usPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-pay-payment-info`, //CYBER绑卡
-  usGuestPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-guest-pay-payment-info` //CYBER游客绑卡
+  usGuestPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-guest-pay-payment-info`, //CYBER游客绑卡
+
+  installments: '/payment-method/installments'
 };
 
 export default api;
@@ -194,5 +196,13 @@ export function Adyen3DSResultParam() {
   return axios({
     url: api.Adyen3DSResult,
     method: 'post'
+  });
+}
+
+export function queryIsSupportInstallMents(parameter) {
+  return axios({
+    url: api.installments,
+    method: 'post',
+    data: parameter
   });
 }

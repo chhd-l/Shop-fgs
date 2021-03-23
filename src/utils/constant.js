@@ -161,13 +161,14 @@ export const ADDRESS_RULE = [
 export const PAYMENT_METHOD_RULE = [
   {
     key: 'phoneNumber',
-    regExp:
-      process.env.REACT_APP_LANG === 'fr'
+    regExp: +process.env.REACT_APP_PAYU_PHONE
+      ? process.env.REACT_APP_LANG === 'fr'
         ? /[+(33)|0]\d{9}$/
         : process.env.REACT_APP_LANG === 'en'
         ? usTelephoneCheck
-        : '',
-    require: true,
+        : ''
+      : '',
+    require: +process.env.REACT_APP_PAYU_PHONE ? true : false,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.phoneNumber']
@@ -183,8 +184,8 @@ export const PAYMENT_METHOD_RULE = [
   },
   {
     key: 'email',
-    regExp: EMAIL_REGEXP,
-    require: true,
+    regExp: +process.env.REACT_APP_PAYU_EMAIL ? EMAIL_REGEXP : '',
+    require: +process.env.REACT_APP_PAYU_EMAIL ? true : false,
     errMsg: CURRENT_LANGFILE['enterCorrectValue'].replace(
       /{.+}/,
       CURRENT_LANGFILE['email']
