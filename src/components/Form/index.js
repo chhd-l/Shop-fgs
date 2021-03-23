@@ -598,7 +598,14 @@ class Form extends React.Component {
                             className="form-control-label"
                             htmlFor={`shipping${item.fieldKey}`}
                           >
-                            <FormattedMessage id={`payment.${item.fieldKey}`} />
+                            {process.env.REACT_APP_LANG == 'en' &&
+                            item.fieldKey == 'postCode' ? (
+                              <FormattedMessage id="payment.ZIPCode" />
+                            ) : (
+                              <FormattedMessage
+                                id={`payment.${item.fieldKey}`}
+                              />
+                            )}
                           </label>
 
                           {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
@@ -637,25 +644,24 @@ class Form extends React.Component {
                             ? this.dropDownBoxJSX(item)
                             : null}
 
-                          {/* 输入提示 */}
-                          {errMsgObj[item.fieldKey] && (
-                            <div className="text-danger-2">
-                              {errMsgObj[item.fieldKey]}
-                            </div>
-                          )}
-                          {/* 输入电话号码提示 */}
-                          {item.fieldKey == 'phoneNumber' && (
-                            <span className="ui-lighter">
-                              <FormattedMessage id="example" />:{' '}
-                              <FormattedMessage id="examplePhone" />
-                            </span>
-                          )}
                           {/* 输入邮编提示 */}
                           {item.fieldKey == 'postCode' && (
                             <span className="ui-lighter">
                               <FormattedMessage id="example" />:{' '}
                               <FormattedMessage id="examplePostCode" />
                             </span>
+                          )}
+                          {/* 输入电话号码提示 */}
+                          {item.fieldKey == 'phoneNumber' && (
+                            <span className="ui-lighter">
+                              <FormattedMessage id="examplePhone" />
+                            </span>
+                          )}
+                          {/* 输入提示 */}
+                          {errMsgObj[item.fieldKey] && (
+                            <div className="text-danger-2">
+                              {errMsgObj[item.fieldKey]}
+                            </div>
                           )}
                         </div>
                       </div>
