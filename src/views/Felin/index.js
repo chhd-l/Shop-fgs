@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import LazyLoad from 'react-lazyload';
 import dateIcon from '@/assets/images/date.png';
 import { getFormatDate, datePickerConfig, validData } from '@/utils/utils';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
@@ -382,8 +383,16 @@ export default class Felin extends React.Component {
       isContactUs,
       currentTabIndex
     } = this.state;
+    const event = {
+      page: {
+        type: 'Club',
+        theme: '',
+        path: this.props.location.pathname
+      }
+    };
     return (
       <div className="Felin">
+        <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
           showUserIcon={true}
