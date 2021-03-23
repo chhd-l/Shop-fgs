@@ -663,28 +663,6 @@ const App = () => (
 
                     let redirectUrl = '';
                     const specailPlpUrlMapping = {
-                      // '/dogs?prefn1=breeds&prefv1=Boxer':
-                      //   '/dogs/retail-products?prefn1=breeds&prefv1=Boxer',
-                      // '/dogs?prefn1=breeds&prefv1=Bulldog%20Anglais':
-                      //   '/dogs/retail-products?prefn1=breeds&prefv1=Bulldog-Anglais',
-                      // '/dogs?prefn1=breeds&prefv1=Chihuahua':
-                      //   '/dogs/retail-products?prefn1=breeds&prefv1=Chihuahua',
-                      // '/dogs?prefn1=breeds&prefv1=Berger%20Allemand':
-                      //   '/dogs/retail-products?prefn1=breeds&prefv1=Berger-Allemand',
-                      // '/dogs?prefn1=breeds&prefv1=Golden%20Retriever':
-                      //   '/dogs/retail-products?prefn1=breeds&prefv1=Golden-Retriever',
-                      // '/dogs?prefn1=breeds&prefv1=Labrador%20Retriever':
-                      //   '/dogs/retail-products?prefn1=breeds&prefv1=Labrador-Retriever',
-                      // '/dogs?prefn1=breeds&prefv1=Shih%20Tzu':
-                      //   '/dogs/retail-products?prefn1=breeds&prefv1=Shih-Tzu',
-                      // '/dogs?prefn1=breeds&prefv1=Yorkshire%20Terrier':
-                      //   '/dogs/retail-products?prefn1=breeds&prefv1=Yorkshire-Terrier',
-                      // 'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=British%20shorthair':
-                      //   '/cats/retail-products?prefn1=breeds&prefv1=British-shorthair',
-                      // 'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=Maine%20Coon':
-                      //   '/cats/retail-products?prefn1=breeds&prefv1=Maine-Coon',
-                      // 'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=Persan':
-                      //   '/cats/retail-products?prefn1=breeds&prefv1=Persan',
                       ...newObj
                     };
 
@@ -695,8 +673,6 @@ const App = () => (
                     } else if (specailPlpUrlMapping[pathname + search]) {
                       redirectUrl = specailPlpUrlMapping[pathname + search];
                     }
-debugger
-                    console.log(9999, { redirectUrl, pathname, search })
 
                     if (redirectUrl) {
                       return <Redirect to={redirectUrl} />;
