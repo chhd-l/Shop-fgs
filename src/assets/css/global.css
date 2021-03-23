@@ -9876,6 +9876,13 @@ button.bg-dark:hover {
   margin-top: 1.5rem !important;
 }
 
+@media (max-width: 768.98px) {
+  .mt-4,
+  .my-4 {
+    margin-top: 0 !important;
+  }
+}
+
 .mr-4,
 .mx-4 {
   margin-right: 1.5rem !important;
