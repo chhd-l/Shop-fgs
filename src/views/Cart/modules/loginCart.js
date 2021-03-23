@@ -612,7 +612,7 @@ class LoginCart extends React.Component {
                             }}
                             className={`rc-swatch__item ${
                               sdItem.selected ? 'selected' : ''
-                            }`}
+                            } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
                             key={i2}
                             onClick={this.handleChooseSize.bind(
                               this,
@@ -1307,6 +1307,9 @@ class LoginCart extends React.Component {
     );
   }
   async handleChooseSize(sdItem, pitem) {
+    if (sdItem.isEmpty) {
+      return false;
+    }
     if (this.state.checkoutLoading) {
       return false;
     }
