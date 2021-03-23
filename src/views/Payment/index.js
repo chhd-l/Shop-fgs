@@ -441,16 +441,16 @@ class Payment extends React.Component {
       );
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
-          // history.push('/cart');
-          // return false;
+          history.push('/cart');
+          return false;
         }
         if (
           !this.isLogin &&
           (!this.cartData.length ||
             !this.cartData.filter((ele) => ele.selected).length)
         ) {
-          // history.push('/cart');
-          // return false;
+          history.push('/cart');
+          return false;
         }
       }
     } catch (err) {
