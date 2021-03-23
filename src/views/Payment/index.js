@@ -788,12 +788,12 @@ class Payment extends React.Component {
       });
     }, 5000);
   };
-  // 支付公共初始化方法
+  // 4、支付公共初始化方法
   initCommonPay = ({ email = '', type }) => {
     if (this.props.checkoutStore.AuditData.length) {
       let petFlag = true;
       let data = this.props.checkoutStore.AuditData;
-      console.log(toJS(this.props.checkoutStore.AuditData));
+      // console.log(toJS(this.props.checkoutStore.AuditData));
       for (let i = 0; i < data.length; i++) {
         if (this.isLogin) {
           if (!data[i].petsId) {
@@ -823,7 +823,7 @@ class Payment extends React.Component {
 
   /**************支付公共方法start*****************/
 
-  //组装支付共同的参数
+  // 6、组装支付共同的参数
   async getAdyenPayParam(type) {
     try {
       let obj = await this.getPayCommonParam();
@@ -976,8 +976,7 @@ class Payment extends React.Component {
       throw new Error(err.message);
     }
   }
-
-  //获取参数
+  // 5、获取参数
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
@@ -1286,9 +1285,6 @@ class Payment extends React.Component {
         guestEmail
       } = this.state;
 
-      // console.log('----------- ★ Payment visitorLoginAndAddToCart deliveryAddress: ', deliveryAddress);
-      // console.log('----------- ★★ Payment visitorLoginAndAddToCart billingAddress: ', billingAddress);
-
       const cartData = this.cartData.filter((ele) => ele.selected);
 
       let param = Object.assign(
@@ -1298,8 +1294,8 @@ class Payment extends React.Component {
         {
           billAddress1: billingAddress.address1,
           billAddress2: billingAddress.address2,
-          billCity: billingAddress.city,
-          billCityName: billingAddress.cityName,
+          billCity: billingAddress.cityId,
+          billCityName: billingAddress.city,
           billCountry: billingAddress.country,
           billFirstName: billingAddress.firstName,
           billLastName: billingAddress.lastName,
@@ -1311,10 +1307,6 @@ class Payment extends React.Component {
           consigneeEmail: deliveryAddress.email
         }
       );
-      param.city = param.city == param.cityName ? null : param.city;
-      param.billCity =
-        param.billCity == param.billCityName ? null : param.billCity;
-
       console.log(
         '----------- 游客注册并登录&批量添加后台购物车 param 222 : ',
         param
@@ -1390,12 +1382,9 @@ class Payment extends React.Component {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
+      city: deliveryAddress.city, // 后端 city 为long 类型
+      cityId: deliveryAddress.city,
       cityName: deliveryAddress.cityName,
-      // city: deliveryAddress.cityName,
-      city:
-        deliveryAddress.city == deliveryAddress.cityName
-          ? null
-          : deliveryAddress.city,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1610,8 +1599,7 @@ class Payment extends React.Component {
             : '',
           cityId: deliveryAddress.cityId,
           cityName: deliveryAddress.cityName,
-          // city: deliveryAddress.city == deliveryAddress.cityName ? null : deliveryAddress.city,
-          city: deliveryAddress.city,
+          city: deliveryAddress.cityId,
           postCode: deliveryAddress.postCode,
           phoneNumber: deliveryAddress.consigneeNumber,
           email: deliveryAddress.email,
@@ -1628,9 +1616,9 @@ class Payment extends React.Component {
             country: billingAddress.countryId
               ? billingAddress.countryId.toString()
               : '',
-            cityName: billingAddress.cityName,
-            // city: billingAddress.city == billingAddress.cityName ? null : billingAddress.city,
-            city: billingAddress.city,
+            cityName: billingAddress.city,
+            city: billingAddress.cityId,
+            cityId: billingAddress.cityId,
             postCode: billingAddress.postCode,
             phoneNumber: billingAddress.consigneeNumber,
             addressId:
@@ -1765,7 +1753,21 @@ class Payment extends React.Component {
 
   updateDeliveryAddrData = async (data) => {
     this.setState({
-      deliveryAddress: data
+      deliveryAddress: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address1: data.address1,
+        address2: data.address2,
+        country: data.country,
+        countryName: data.countryName,
+        cityId: data.cityId,
+        city: data.cityId,
+        cityName: data.city,
+        postCode: data.postCode,
+        phoneNumber: data.phoneNumber,
+        rfc: data.rfc,
+        email: data.email
+      }
     });
     if (this.state.billingChecked) {
       this.setState({
@@ -1773,17 +1775,17 @@ class Payment extends React.Component {
       });
     }
     try {
-      // console.log('------------------ payment updateDeliveryAddrData data: ', data);
-      if (process.env.REACT_APP_LANG === 'en') {
+      if (process.env.REACT_APP_LANG == 'en') {
         // 获取税额
         if (this.isLogin) {
+          let stateNo = data?.state?.stateNo;
           await this.props.checkoutStore.updateLoginCart({
             promotionCode: '',
             subscriptionFlag: false,
             purchaseFlag: false,
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-              region: data.state.stateNo, // 省份简写
+              region: stateNo, // 省份简写
               city: data.city,
               street: data.address1,
               postalCode: data.postCode,
@@ -2763,6 +2765,7 @@ class Payment extends React.Component {
   updateEmail = (email) => {
     this.setState({ email });
   };
+  // 1、点击支付
   clickPay = () => {
     if (this.isLogin) {
       this.userBindConsentFun();
@@ -2772,6 +2775,7 @@ class Payment extends React.Component {
       type: paymentTypeVal
     });
   };
+  // 2、
   userBindConsentFun() {
     const oktaTokenString =
       this.props.authState && this.props.authState.accessToken
@@ -2786,6 +2790,7 @@ class Payment extends React.Component {
       customerId: (this.userInfo && this.userInfo.customerId) || ''
     });
   }
+  // 3、
   bindSubmitParam = (list) => {
     let obj = { optionalList: [], requiredList: [] };
     list
@@ -3128,6 +3133,7 @@ class Payment extends React.Component {
                     operateBtnVisible={!tid}
                     currentPage="checkout"
                     guestEmail={guestEmail}
+                    isCheckOut={true}
                   />
                 )}
                 <Faq />
@@ -3173,6 +3179,7 @@ class Payment extends React.Component {
               headerIcon={
                 <span className="rc-icon rc-down--xs rc-iconography" />
               }
+              isCheckOut={true}
             />
           </div>
         </main>

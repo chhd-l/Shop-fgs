@@ -39,7 +39,9 @@ class PayProductInfo extends React.Component {
     onClickHeader: () => {},
     headerIcon: null,
     currentPage: '',
-    guestEmail: ''
+    guestEmail: '',
+    isGuestCart: false,
+    isCheckOut: false
   };
   constructor(props) {
     super(props);
@@ -433,15 +435,27 @@ class PayProductInfo extends React.Component {
       >
         {headerIcon}
         <span className="medium">
-          <FormattedMessage
-            id="payment.totalProduct"
-            values={{
-              val: productList.reduce(
-                (total, item) => total + item[quantityKeyName],
-                0
-              )
-            }}
-          />
+          {process.env.REACT_APP_LANG == 'en' && this.props.isCheckOut ? (
+            <FormattedMessage
+              id="payment.totalProduct2"
+              values={{
+                val: productList.reduce(
+                  (total, item) => total + item[quantityKeyName],
+                  0
+                )
+              }}
+            />
+          ) : (
+            <FormattedMessage
+              id="payment.totalProduct"
+              values={{
+                val: productList.reduce(
+                  (total, item) => total + item[quantityKeyName],
+                  0
+                )
+              }}
+            />
+          )}
         </span>
         {this.props.operateBtnVisible && (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
@@ -463,6 +477,7 @@ class PayProductInfo extends React.Component {
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
         : this.getProducts(productList);
+    const subtractionSign = '-';
     return (
       <div
         className={`product-summary__inner ${className}`}
@@ -473,6 +488,7 @@ class PayProductInfo extends React.Component {
           {this.getTotalItems()}
           <div className="product-summary__recap__content">
             <div className="checkout--padding">
+              {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
               {/* 支付新增promotionCode(选填) */}
               <div className="mb-3 d-flex justify-content-between">
@@ -800,11 +816,45 @@ class PayProductInfo extends React.Component {
                     <div className="col-5 end-lines">
                       <p className="text-right">
                         <span className="shipping-total-cost">
-                          {formatMoney(this.taxFeePrice)}
+                          {!this.isLogin && this.props.isGuestCart ? (
+                            <>
+                              {customTaxSettingOpenFlag == 0 &&
+                              enterPriceType == 1 ? (
+                                <b>{subtractionSign}</b>
+                              ) : (
+                                formatMoney(this.taxFeePrice)
+                              )}
+                            </>
+                          ) : (
+                            <>{formatMoney(this.taxFeePrice)}</>
+                          )}
                         </span>
                       </p>
                     </div>
                   </div>
+                ) : null}
+
+                {!this.isLogin &&
+                this.props.isGuestCart &&
+                process.env.REACT_APP_LANG == 'en' ? (
+                  <>
+                    <div
+                      class="row rc-margin-bottom--xs"
+                      style={{ marginBottom: '0', marginTop: '1rem' }}
+                    >
+                      <div
+                        class="col-12 greenColorText text-center"
+                        style={{ padding: '0' }}
+                      >
+                        <span>
+                          <FormattedMessage
+                            id="cart.firstOrderDiscountTip"
+                            defaultMessage={' '}
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </>
                 ) : null}
               </div>
             </div>
@@ -817,7 +867,17 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                {formatMoney(this.tradePrice)}
+                {!this.isLogin && this.props.isGuestCart ? (
+                  <>
+                    {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                      <b>{subtractionSign}</b>
+                    ) : (
+                      formatMoney(this.tradePrice)
+                    )}
+                  </>
+                ) : (
+                  <>{formatMoney(this.tradePrice)}</>
+                )}
               </span>
             </div>
           </div>

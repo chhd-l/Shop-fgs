@@ -1968,33 +1968,28 @@ class List extends React.Component {
           </span>
         </ListItemForDefault>
       ));
+
+    const { title, metaDescription } = this.state.seoConfig;
+    const titleSeo = title && title.replace(/{H1}/, titleData.title);
+    const metaDescriptionSeo =
+      metaDescription && metaDescription.replace(/{H1}/, titleData.title);
     const filterSeoTitle =
-      this.state.prefv1 +
-      ' ' +
-      this.state.animalType +
-      ' ' +
-      this.state.seoConfig.title;
+      this.state.prefv1 + ' ' + this.state.animalType + ' ' + titleSeo;
     const filterSeoDesc =
       this.state.prefv1 +
       ' ' +
       this.state.animalType +
       ' ' +
-      this.state.seoConfig.metaDescription;
+      metaDescriptionSeo;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>
-            {this.state.prefv1 ? filterSeoTitle : this.state.seoConfig.title}
-          </title>
+          <title>{this.state.prefv1 ? filterSeoTitle : titleSeo}</title>
           <meta
             name="description"
-            content={
-              this.state.prefv1
-                ? filterSeoDesc
-                : this.state.seoConfig.metaDescription
-            }
+            content={this.state.prefv1 ? filterSeoDesc : metaDescriptionSeo}
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>

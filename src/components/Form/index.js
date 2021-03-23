@@ -12,7 +12,8 @@ import {
   getAddressSetting,
   getProvincesList,
   getRegionByCityId,
-  getAddressBykeyWord
+  getAddressBykeyWord,
+  getCityList
 } from '@/api';
 import { FormattedMessage } from 'react-intl';
 import { ADDRESS_RULE } from '@/utils/constant';
@@ -37,6 +38,7 @@ class Form extends React.Component {
         email: '',
         birthdate: '',
         address1: '',
+        DaData: null,
         address2: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
@@ -71,8 +73,9 @@ class Form extends React.Component {
     });
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
-    console.log('-------------★ EditForm initData: ', initData);
-    console.log('-------------★ EditForm caninForm: ', caninForm);
+    initData.stateId = initData.provinceId;
+    // console.log('-------------★ EditForm initData: ', initData);
+    // console.log('-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -141,10 +144,8 @@ class Form extends React.Component {
                   this.getCountryList();
                   // 查询州列表（美国 state）
                   this.getUsStateList();
-                }
-                if (automatically == 1) {
-                  // 俄罗斯DuData，根据关键字查询地址信息
-                  this.getAddressBykeyWordDuData();
+                  // 查询城市列表
+                  this.getAllCityList();
                 }
               }
             );
@@ -198,18 +199,7 @@ class Form extends React.Component {
       console.log(err);
     }
   };
-  // 5-1、俄罗斯DuData，根据关键字查询地址信息
-  getAddressBykeyWordDuData = async () => {
-    try {
-      const res = await getAddressBykeyWord({ keyword: 'москва хабар' });
-      if (res?.context?.systemRegions) {
-        console.log(' ★★★--------- getAddressBykeyWordDuData res: ', res);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  // 5-2、查询州列表（美国 state）
+  // 5-1、查询州列表（美国 state）
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
@@ -234,11 +224,33 @@ class Form extends React.Component {
       console.log(err);
     }
   };
-  // 6、根据cityId查询region
-  getRegionDataByCityId = async () => {
-    const { caninForm } = this.state;
+  // 6-1、查询city list
+  getAllCityList = async () => {
     try {
-      const res = await getRegionByCityId({ cityId: 3 });
+      const res = await getCityList();
+      if (res?.context?.systemCityVO) {
+        let starr = [];
+        let obj = res.context.systemCityVO;
+        obj.forEach((item) => {
+          let res = {
+            id: item.id,
+            name: item.cityName,
+            no: item.cityNo
+          };
+          starr.push(res);
+        });
+        this.setState({
+          cityList: Object.assign(obj, starr)
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 6-2、根据cityId查询region
+  getRegionDataByCityId = async (cityId) => {
+    try {
+      const res = await getRegionByCityId({ cityId: cityId });
       if (res?.context?.systemRegions) {
         let regarr = [];
         let obj = res.context.systemRegions;
@@ -268,13 +280,18 @@ class Form extends React.Component {
       caninForm.provinceNo = data.no; // 省份简写
     } else if (key == 'country') {
       caninForm.countryName = data.name;
+    } else if (key == 'city') {
+      caninForm.city = data.name;
+      this.getRegionDataByCityId(data.value);
+    } else if (key == 'region') {
+      caninForm.region = data.name;
     }
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });
   }
+  // 处理数组
   computedList(key) {
-    const { caninForm } = this.state;
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -299,8 +316,14 @@ class Form extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
-      value = value.replace(/^[0]/, '+(33)');
+    if (name === 'phoneNumber') {
+      // 格式化电话号码
+      if (process.env.REACT_APP_LANG === 'fr') {
+        value = value.replace(/^[0]/, '+(33)');
+      }
+      if (process.env.REACT_APP_LANG === 'en') {
+        value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+      }
     }
     caninForm[name] = value;
     this.setState({ caninForm }, () => {
@@ -341,6 +364,12 @@ class Form extends React.Component {
   // DuData地址搜索选择
   handleAddressInputChange = (data) => {
     const { caninForm } = this.state;
+    let keyword = data.unrestrictedValue;
+    caninForm.address1 = keyword;
+    caninForm.DaData = data;
+    this.setState({ caninForm }, () => {
+      this.props.updateData(this.state.caninForm);
+    });
   };
 
   // 文本框
@@ -372,10 +401,12 @@ class Form extends React.Component {
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <textarea
             className="rc_input_textarea"
-            maxLength={item.maxLength}
-            name={item.fieldKey}
-            value={caninForm[item.fieldKey]}
             id={`shipping${item.fieldKey}`}
+            value={caninForm[item.fieldKey]}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name={item.fieldKey}
+            maxLength={item.maxLength}
           ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -563,7 +594,14 @@ class Form extends React.Component {
                             className="form-control-label"
                             htmlFor={`shipping${item.fieldKey}`}
                           >
-                            <FormattedMessage id={`payment.${item.fieldKey}`} />
+                            {process.env.REACT_APP_LANG == 'en' &&
+                            item.fieldKey == 'postCode' ? (
+                              <FormattedMessage id="payment.ZIPCode" />
+                            ) : (
+                              <FormattedMessage
+                                id={`payment.${item.fieldKey}`}
+                              />
+                            )}
                           </label>
 
                           {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
@@ -577,12 +615,17 @@ class Form extends React.Component {
                           ) : null}
 
                           {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                          {item.inputFreeTextFlag == 1 &&
+                          {item.inputFreeTextFlag == 0 &&
                           item.inputSearchBoxFlag == 1 ? (
                             <>
                               {item.fieldKey == 'address1'
                                 ? this.addressSearchSelectionJSX(item)
                                 : null}
+                            </>
+                          ) : null}
+                          {item.inputFreeTextFlag == 1 &&
+                          item.inputSearchBoxFlag == 1 ? (
+                            <>
                               {item.fieldKey == 'city'
                                 ? this.citySearchSelectiontJSX(item)
                                 : null}
@@ -597,25 +640,24 @@ class Form extends React.Component {
                             ? this.dropDownBoxJSX(item)
                             : null}
 
-                          {/* 输入提示 */}
-                          {errMsgObj[item.fieldKey] && (
-                            <div className="text-danger-2">
-                              {errMsgObj[item.fieldKey]}
-                            </div>
-                          )}
-                          {/* 输入电话号码提示 */}
-                          {item.fieldKey == 'phoneNumber' && (
-                            <span className="ui-lighter">
-                              <FormattedMessage id="example" />:{' '}
-                              <FormattedMessage id="examplePhone" />
-                            </span>
-                          )}
                           {/* 输入邮编提示 */}
                           {item.fieldKey == 'postCode' && (
                             <span className="ui-lighter">
                               <FormattedMessage id="example" />:{' '}
                               <FormattedMessage id="examplePostCode" />
                             </span>
+                          )}
+                          {/* 输入电话号码提示 */}
+                          {item.fieldKey == 'phoneNumber' && (
+                            <span className="ui-lighter">
+                              <FormattedMessage id="examplePhone" />
+                            </span>
+                          )}
+                          {/* 输入提示 */}
+                          {errMsgObj[item.fieldKey] && (
+                            <div className="text-danger-2">
+                              {errMsgObj[item.fieldKey]}
+                            </div>
                           )}
                         </div>
                       </div>
