@@ -87,6 +87,9 @@
   .ui-border-bottom-none-md-down {
     border-bottom: none !important;
   }
+  .product-summary__total {
+    padding: 0 1.25rem;
+  }
 }
 
 .cardImage {
@@ -223,11 +226,11 @@
   color: red;
 }
 
-/* 
+/*
 .shippingPhoneNumber {
   -moz-user-select:none;
     -webkit-user-select:none;
-    -ms-user-select:none; 
+    -ms-user-select:none;
     -khtml-user-select:none;
     user-select:none;
 }

@@ -648,19 +648,16 @@ const App = () => (
                     }
                   } else {
                     let newObj = {}
-
-                    if(!process.env.REACT_APP_HUB){
-                      const RedirectUrl = RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item2 => {
-                        return {
-                          [item2.shortUrl]: item2.redirectUrl
-                        }
-                      })
-                      //把数组对象合并成一个对象
-                     
-                      RedirectUrl.forEach((item) => {
-                        newObj = { ...newObj, ...item }
-                      })
-                    }
+                    const RedirectUrl = RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item2 => {
+                      return {
+                        [item2.shortUrl]: item2.redirectUrl
+                      }
+                    })
+                    //把数组对象合并成一个对象
+                   
+                    RedirectUrl.forEach((item) => {
+                      newObj = { ...newObj, ...item }
+                    })
 
                     let redirectUrl = '';
                     const specailPlpUrlMapping = {
