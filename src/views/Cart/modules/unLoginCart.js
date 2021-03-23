@@ -1368,6 +1368,7 @@ class UnLoginCart extends React.Component {
                   background: '#fff',
                   maxHeight: '80vh'
                 }}
+                isGuestCart={true}
                 className={`${mobileCartVisibleKey === 'more' ? '' : 'hidden'}`}
                 ref="payProductInfo"
                 location={this.props.location}
