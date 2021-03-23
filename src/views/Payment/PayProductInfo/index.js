@@ -463,6 +463,7 @@ class PayProductInfo extends React.Component {
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
         : this.getProducts(productList);
+    const subtractionSign = '-';
     return (
       <div
         className={`product-summary__inner ${className}`}
@@ -473,6 +474,7 @@ class PayProductInfo extends React.Component {
           {this.getTotalItems()}
           <div className="product-summary__recap__content">
             <div className="checkout--padding">
+              {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
               {/* 支付新增promotionCode(选填) */}
               <div className="mb-3 d-flex justify-content-between">
@@ -800,7 +802,18 @@ class PayProductInfo extends React.Component {
                     <div className="col-5 end-lines">
                       <p className="text-right">
                         <span className="shipping-total-cost">
-                          {formatMoney(this.taxFeePrice)}
+                          {!this.isLogin ? (
+                            <>
+                              {customTaxSettingOpenFlag == 0 &&
+                              enterPriceType == 1 ? (
+                                <b>{subtractionSign}</b>
+                              ) : (
+                                formatMoney(this.taxFeePrice)
+                              )}
+                            </>
+                          ) : (
+                            <>{formatMoney(this.taxFeePrice)}</>
+                          )}
                         </span>
                       </p>
                     </div>
@@ -817,7 +830,17 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                {formatMoney(this.tradePrice)}
+                {!this.isLogin ? (
+                  <>
+                    {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                      <b>{subtractionSign}</b>
+                    ) : (
+                      formatMoney(this.tradePrice)
+                    )}
+                  </>
+                ) : (
+                  <>{formatMoney(this.tradePrice)}</>
+                )}
               </span>
             </div>
           </div>

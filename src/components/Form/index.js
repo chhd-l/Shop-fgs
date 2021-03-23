@@ -12,7 +12,8 @@ import {
   getAddressSetting,
   getProvincesList,
   getRegionByCityId,
-  getAddressBykeyWord
+  getAddressBykeyWord,
+  getCityList
 } from '@/api';
 import { FormattedMessage } from 'react-intl';
 import { ADDRESS_RULE } from '@/utils/constant';
@@ -37,6 +38,7 @@ class Form extends React.Component {
         email: '',
         birthdate: '',
         address1: '',
+        DaData: null,
         address2: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
@@ -71,8 +73,9 @@ class Form extends React.Component {
     });
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
-    console.log('-------------★ EditForm initData: ', initData);
-    console.log('-------------★ EditForm caninForm: ', caninForm);
+    initData.stateId = initData.provinceId;
+    // console.log('-------------★ EditForm initData: ', initData);
+    // console.log('-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -141,6 +144,8 @@ class Form extends React.Component {
                   this.getCountryList();
                   // 查询州列表（美国 state）
                   this.getUsStateList();
+                  // 查询城市列表
+                  this.getAllCityList();
                 }
                 if (automatically == 1) {
                   // 俄罗斯DuData，根据关键字查询地址信息
@@ -234,7 +239,30 @@ class Form extends React.Component {
       console.log(err);
     }
   };
-  // 6、根据cityId查询region
+  // 6-1、查询city list
+  getAllCityList = async () => {
+    try {
+      const res = await getCityList();
+      if (res?.context?.systemCityVO) {
+        let starr = [];
+        let obj = res.context.systemCityVO;
+        obj.forEach((item) => {
+          let res = {
+            id: item.id,
+            name: item.cityName,
+            no: item.cityNo
+          };
+          starr.push(res);
+        });
+        this.setState({
+          cityList: Object.assign(obj, starr)
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 6-2、根据cityId查询region
   getRegionDataByCityId = async () => {
     const { caninForm } = this.state;
     try {
@@ -341,6 +369,11 @@ class Form extends React.Component {
   // DuData地址搜索选择
   handleAddressInputChange = (data) => {
     const { caninForm } = this.state;
+    caninForm.address1 = data.unrestrictedValue;
+    caninForm.DaData = data;
+    this.setState({ caninForm }, () => {
+      this.props.updateData(this.state.caninForm);
+    });
   };
 
   // 文本框
@@ -372,10 +405,12 @@ class Form extends React.Component {
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <textarea
             className="rc_input_textarea"
-            maxLength={item.maxLength}
-            name={item.fieldKey}
-            value={caninForm[item.fieldKey]}
             id={`shipping${item.fieldKey}`}
+            value={caninForm[item.fieldKey]}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name={item.fieldKey}
+            maxLength={item.maxLength}
           ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -577,12 +612,17 @@ class Form extends React.Component {
                           ) : null}
 
                           {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                          {item.inputFreeTextFlag == 1 &&
+                          {item.inputFreeTextFlag == 0 &&
                           item.inputSearchBoxFlag == 1 ? (
                             <>
                               {item.fieldKey == 'address1'
                                 ? this.addressSearchSelectionJSX(item)
                                 : null}
+                            </>
+                          ) : null}
+                          {item.inputFreeTextFlag == 1 &&
+                          item.inputSearchBoxFlag == 1 ? (
+                            <>
                               {item.fieldKey == 'city'
                                 ? this.citySearchSelectiontJSX(item)
                                 : null}

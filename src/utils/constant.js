@@ -87,6 +87,14 @@ export const ADDRESS_RULE = [
       CURRENT_LANGFILE['payment.address1']
     )
   },
+  // {
+  //   key: 'address2',
+  //   require: true,
+  //   errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+  //     /{.+}/,
+  //     CURRENT_LANGFILE['payment.address2']
+  //   )
+  // },
   {
     key: 'country',
     require: true,
