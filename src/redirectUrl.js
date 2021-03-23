@@ -1,5414 +1,6 @@
 export default {
   RECORDS: [
     {
-      shortUrl: '/',
-      rediretUrl: '/'
-    },
-    {
-      shortUrl: '/About-Us',
-      rediretUrl: '/about-us'
-    },
-    {
-      shortUrl: '/ageing-12+-en-gelÃ©e-4153',
-      rediretUrl: '/ageing-12+-en-gelee-4153'
-    },
-    {
-      shortUrl: '/ageing-12+-en-sauce-4082',
-      rediretUrl: '/ageing-12+-en-sauce-4082'
-    },
-    {
-      shortUrl: '/appetite-control-care-2563',
-      rediretUrl: '/appetite-control-care-2563'
-    },
-    {
-      shortUrl: '/appetite-control-care-en-mousse-1468',
-      rediretUrl: '/appetite-control-care-en-mousse-1468'
-    },
-    {
-      shortUrl: '/aroma-exigent-2543',
-      rediretUrl: '/aroma-exigent-2543'
-    },
-    {
-      shortUrl: '/babycat-milk-2553',
-      rediretUrl: '/babycat-milk-2553'
-    },
-    {
-      shortUrl: '/babydog-milk-2300',
-      rediretUrl: '/babydog-milk-2300'
-    },
-    {
-      shortUrl: '/beagle-adulte-2106',
-      rediretUrl: '/beagle-adulte-2106'
-    },
-    {
-      shortUrl: '/bengal-adulte-4370',
-      rediretUrl: '/bengal-adulte-4370'
-    },
-    {
-      shortUrl: '/berger-allemand-adulte-2518',
-      rediretUrl: '/berger-allemand-adulte-2518'
-    },
-    {
-      shortUrl: '/berger-allemand-adulte-5+-1340',
-      rediretUrl: '/berger-allemand-adulte-5+-1340'
-    },
-    {
-      shortUrl: '/bichon-maltais-adulte-3995',
-      rediretUrl: '/bichon-maltais-adulte-3995'
-    },
-    {
-      shortUrl: '/bouledogue-francais-adulte-3991',
-      rediretUrl: '/bouledogue-francais-adulte-3991'
-    },
-    {
-      shortUrl: '/boxer-adulte-2588',
-      rediretUrl: '/boxer-adulte-2588'
-    },
-    {
-      shortUrl: '/british-shorthair-adulte-2557',
-      rediretUrl: '/british-shorthair-adulte-2557'
-    },
-    {
-      shortUrl: '/british-shorthair-bouchÃ©es-spÃ©cial-2032',
-      rediretUrl: '/british-shorthair-bouchees-special-2032'
-    },
-    {
-      shortUrl: '/bulldog-adulte-2590',
-      rediretUrl: '/bulldog-adulte-2590'
-    },
-    {
-      shortUrl: '/caniche-adulte-3057',
-      rediretUrl: '/caniche-adulte-3057'
-    },
-    {
-      shortUrl: '/caniche-mousse-2043',
-      rediretUrl: '/caniche-mousse-2043'
-    },
-    {
-      shortUrl: '/carlin-adulte-3985',
-      rediretUrl: '/carlin-adulte-3985'
-    },
-    {
-      shortUrl: '/cat-age/adult',
-      rediretUrl: '/cats/retail-products/cat-age/adult'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Bengal',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=Bengal'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=British-shorthair'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=Maine-Coon'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=Norvegien'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Persan',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=Persan'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=Ragdoll'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Siamois',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=Siamois'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=Sphynx'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=breeds&prefv1=Tous-les-chats'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Lifestages&prefv1=Adulte-(1-7-ans)'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Lifestages&prefv1=Mature-(7-12-ans)'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Lifestages&prefv1=Senior-(+12-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Specific-needs&prefv1=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Specific-needs&prefv1=Boules-de-poils'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Specific-needs&prefv1=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Specific-needs&prefv1=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Specific-needs&prefv1=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Specific-needs&prefv1=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Specific-needs&prefv1=Sensibilite-urinaire'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Specific-needs&prefv1=Tendance-a-quemander'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/cats/retail-products/cat-age/adult?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products/cat-age/adult'
-    },
-    {
-      shortUrl:
-        '/cat-age/adult?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products/cat-age/adult'
-    },
-    {
-      shortUrl: '/cat-age/adult?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products/cat-age/adult'
-    },
-    {
-      shortUrl: '/cat-age/babycat',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cat-age/babycat?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl:
-        '/cat-age/babycat?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl:
-        '/cat-age/babycat?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cat-age/babycat?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cat-age/babycat?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl:
-        '/cat-age/babycat?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cat-age/babycat?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cat-age/kitten',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cat-age/kitten/',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cat-age/kitten?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl:
-        '/cats/retail-products/cat-age/kitten?prefn1=breeds&prefv1=British-shorthair'
-    },
-    {
-      shortUrl: '/cat-age/kitten?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl:
-        '/cats/retail-products/cat-age/kitten?prefn1=breeds&prefv1=Maine-Coon'
-    },
-    {
-      shortUrl: '/cat-age/kitten?prefn1=breeds&prefv1=Persan',
-      rediretUrl:
-        '/cats/retail-products/cat-age/kitten?prefn1=breeds&prefv1=Persan'
-    },
-    {
-      shortUrl: '/cat-age/kitten?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl:
-        '/cats/retail-products/cat-age/kitten?prefn1=breeds&prefv1=Tous-les-chats'
-    },
-    {
-      shortUrl:
-        '/cat-age/kitten?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/kitten?prefn1=Lifestages&prefv1=Chaton-(5-mois1-an)'
-    },
-    {
-      shortUrl: '/cat-age/kitten?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/cats/retail-products/cat-age/kitten?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/cat-age/kitten?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/cats/retail-products/cat-age/kitten?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/cat-age/kitten?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl:
-        '/cat-age/kitten?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cat-age/mature',
-      rediretUrl: '/cats/retail-products/cat-age/mature'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Bengal',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=Bengal'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=British-shorthair'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=Maine-Coon'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=Norvegien'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Persan',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=Persan'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=Ragdoll'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Siamois',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=Siamois'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=Sphynx'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=breeds&prefv1=Tous-les-chats'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Lifestages&prefv1=Adulte-(1-7-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Lifestages&prefv1=Mature-(7-12-ans)'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Lifestages&prefv1=Senior-(+12-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Specific-needs&prefv1=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Specific-needs&prefv1=Boules-de-poils'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Specific-needs&prefv1=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Specific-needs&prefv1=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Specific-needs&prefv1=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Specific-needs&prefv1=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Specific-needs&prefv1=Sensibilite-urinaire'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/cats/retail-products/cat-age/mature?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products/cat-age/mature'
-    },
-    {
-      shortUrl:
-        '/cat-age/mature?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products/cat-age/mature'
-    },
-    {
-      shortUrl: '/cat-age/mature?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products/cat-age/mature'
-    },
-    {
-      shortUrl: '/cat-age/senior',
-      rediretUrl: '/cats/retail-products/cat-age/senior'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Bengal',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=Bengal'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=British-shorthair'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=Maine-Coon'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=Norvegien'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Persan',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=Persan'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=Ragdoll'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Siamois',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=Siamois'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=Sphynx'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=breeds&prefv1=Tous-les-chats'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=Lifestages&prefv1=Adulte-(1-7-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-age/senior?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=Lifestages&prefv1=Mature-(7-12-ans)'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=Lifestages&prefv1=Senior-(+12-ans)'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/cats/retail-products/cat-age/senior?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products/cat-age/senior'
-    },
-    {
-      shortUrl:
-        '/cat-age/senior?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products/cat-age/senior'
-    },
-    {
-      shortUrl: '/cat-age/senior?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products/cat-age/senior'
-    },
-    {
-      shortUrl: '/cat-nutrition',
-      rediretUrl: '/cat-nutrition'
-    },
-    {
-      shortUrl: '/cat-range/dry-products',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Dry'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Bengal',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Bengal'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=British-Shorthair'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Maine-Coon'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Norvegien'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Persan',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Persan'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Ragdoll'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Siamois',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Siamois'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Sphynx'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Tous-les-chats'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Adulte(1-7-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Chaton-0(0-4-mois)'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Chaton(5-mois-1an)'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Mature-(7-12-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Senior(+12-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Boules-de-poils'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Chatte-en-gestation'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Sensibilite-urinaire'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Tendance-a-quemander'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Sterilized&prefv2=NON'
-    },
-    {
-      shortUrl: '/cat-range/dry-products?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Sterilized&prefv2=OUI'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Dry'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Dry'
-    },
-    {
-      shortUrl:
-        '/cat-range/dry-products?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Dry'
-    },
-    {
-      shortUrl: '/cat-range/feline-breed-nutrition',
-      rediretUrl: '/cats/products/feline-breed-nutrition'
-    },
-    {
-      shortUrl: '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Bengal',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=Bengal'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=British-shorthair'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=Maine-Coon'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=Norvegien'
-    },
-    {
-      shortUrl: '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Persan',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=Persan'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=Ragdoll'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Siamois',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=Siamois'
-    },
-    {
-      shortUrl: '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=Sphynx'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/cats/retail-products?prefn1=breed&prefv1=Tous-les-chats'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=Lifestages&prefv1=Adulte(1-7-ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Adulte(1-7-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=Lifestages&prefv1=Chaton-(5-mois-1-an)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Chaton-(5-mois-1-an)'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=Lifestages&prefv1=Mature-(7-12-ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Mature-(7-12-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Senior-(+12-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/cats/retail-products?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-breed-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/feline-care-nutrition',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/feline-care-nutrition?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/feline-care-nutrition?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-care-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/feline-health-nutrition',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cat-range/feline-health-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/wet-products',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl: '/cat-range/wet-products/',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=British-shorthair'
-    },
-    {
-      shortUrl: '/cat-range/wet-products?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=Maine-Coon'
-    },
-    {
-      shortUrl: '/cat-range/wet-products?prefn1=breeds&prefv1=Persan',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=Persan'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=Tous-les-chats'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Adulte(1-7-ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv1=Adulte(1-7-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv1=Chaton-(0-4-mois)'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Chaton-(5-mois-1-an)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv1=Chaton-(5-mois-1-an)'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Mature-(7-12-ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv1=Mature-(7-12-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv1=Lifestages&prefv1=Senior-(+12-ans)'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Boules-de-poils'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Chatte-en-gestation'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Sensibilite-urinaire'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Tendance-a-quemander'
-    },
-    {
-      shortUrl: '/cat-range/wet-products?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/cat-range/wet-products?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/cats/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl:
-        '/cat-range/wet-products?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl: '/cats',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats/',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats/?prefn1=ages&prefv1=Chaton%20%280-12%20mois%29',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl:
-        '/cats/?prefn1=ages&prefv1=Chaton%20%280-12%20mois%29&prefn2=type&prefv2=Humide',
-      rediretUrl: '/cats/retail-products/cat-age/kitten'
-    },
-    {
-      shortUrl: '/cats/?prefn1=specialNeeds&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats/?prefn1=specialNeeds&prefv1=Boules%20de%20poils',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=Bengal',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=Bengal'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=British-shorthair'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=Maine-Coon'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=Norvegien'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=Persan',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=Persan'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=Ragdoll'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=Siamois',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=Siamois'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=Sphynx'
-    },
-    {
-      shortUrl: '/cats?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/cats/retail-products?prefn1=breeds&prefv1=Tous-les-chats'
-    },
-    {
-      shortUrl: '/cats?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Adulte-(1-7-ans)'
-    },
-    {
-      shortUrl:
-        '/cats?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)%7CMature%20(7-12%20ans)%7CSenior%20(+12%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Adulte-(1-7-ans)-Mature-(7-12-ans)-Senior-(+12-ans)'
-    },
-    {
-      shortUrl: '/cats?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Chaton-(0-4-mois)'
-    },
-    {
-      shortUrl:
-        '/cats?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)%7CChaton%20(5%20mois-1%20an)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Chaton-(0-4-mois)-Chaton-(5-mois-1-an)'
-    },
-    {
-      shortUrl: '/cats?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Chaton-(5-mois1-an)'
-    },
-    {
-      shortUrl: '/cats?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Mature-(7-12-ans)'
-    },
-    {
-      shortUrl: '/cats?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Lifestages&prefv1=Senior-(+12-ans)'
-    },
-    {
-      shortUrl: '/cats?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Appetit-difficile'
-    },
-    {
-      shortUrl: '/cats?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Boules-de-poils'
-    },
-    {
-      shortUrl: '/cats?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Chatte-en-gestation'
-    },
-    {
-      shortUrl: '/cats?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/cats?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl:
-        '/cats?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/cats?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/cats?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Sensibilite-urinaire'
-    },
-    {
-      shortUrl:
-        '/cats?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl:
-        '/cats/retail-products?prefn1=Specific-needs&prefv1=Tendance-a-quemander'
-    },
-    {
-      shortUrl: '/cats?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/cats/retail-products?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/cats?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/cats/retail-products?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/cats?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl:
-        '/cats?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cavalier-king-charles-adulte-3968',
-      rediretUrl: '/cavalier-king-charles-adulte-3968'
-    },
-    {
-      shortUrl: '/chaton-british-shorthair-2566',
-      rediretUrl: '/chaton-british-shorthair-2566'
-    },
-    {
-      shortUrl: '/chaton-british-shorthair--2566',
-      rediretUrl: '/chaton-british-shorthair-2566'
-    },
-    {
-      shortUrl: '/chaton-maine-coon-2558',
-      rediretUrl: '/chaton-maine-coon-2558'
-    },
-    {
-      shortUrl: '/chaton-persan-2554',
-      rediretUrl: '/chaton-persan-2554'
-    },
-    {
-      shortUrl: '/chihuahua-adulte-2210',
-      rediretUrl: '/chihuahua-adulte-2210'
-    },
-    {
-      shortUrl: '/chiot-berger-allemand-2519',
-      rediretUrl: '/chiot-berger-allemand-2519'
-    },
-    {
-      shortUrl: '/chiot-bouledogue-fran???ais-3990',
-      rediretUrl: '/chiot-bouledogue-francais-3990'
-    },
-    {
-      shortUrl: '/chiot-bouledogue-francais-3990',
-      rediretUrl: '/chiot-bouledogue-francais-3990'
-    },
-    {
-      shortUrl: '/chiot-boxer-3966',
-      rediretUrl: '/chiot-boxer-3966'
-    },
-    {
-      shortUrl: '/chiot-boxer--3966',
-      rediretUrl: '/chiot-boxer-3966'
-    },
-    {
-      shortUrl: '/chiot-bulldog-3967',
-      rediretUrl: '/chiot-bulldog-3967'
-    },
-    {
-      shortUrl: '/chiot-bulldog--3967',
-      rediretUrl: '/chiot-bulldog-3967'
-    },
-    {
-      shortUrl: '/chiot-caniche-3080',
-      rediretUrl: '/chiot-caniche-3080'
-    },
-    {
-      shortUrl: '/chiot-caniche--3080',
-      rediretUrl: '/chiot-caniche-3080'
-    },
-    {
-      shortUrl: '/chiot-carlin-4130',
-      rediretUrl: '/chiot-carlin-4130'
-    },
-    {
-      shortUrl: '/chiot-cavalier-king-charles--4132',
-      rediretUrl: '/chiot-cavalier-king-charles-4132'
-    },
-    {
-      shortUrl: '/chiot-chihuahua-2438',
-      rediretUrl: '/chiot-chihuahua-2438'
-    },
-    {
-      shortUrl: '/chiot-chihuahua--2438',
-      rediretUrl: '/chiot-chihuahua-2438'
-    },
-    {
-      shortUrl: '/chiot-cocker--4133',
-      rediretUrl: '/chiot-cocker--4133'
-    },
-    {
-      shortUrl: '/chiot-golden-retriever-3979',
-      rediretUrl: '/chiot-golden-retriever-3979'
-    },
-    {
-      shortUrl: '/chiot-golden-retriever--3979',
-      rediretUrl: '/chiot-golden-retriever-3979'
-    },
-    {
-      shortUrl: '/chiot-jack-russell-terrier--2101',
-      rediretUrl: '/chiot-jack-russell-terrier--2101'
-    },
-    {
-      shortUrl: '/chiot-labrador-retriever-2491',
-      rediretUrl: '/chiot-labrador-retriever-2491'
-    },
-    {
-      shortUrl: '/chiot-rottweiler--3987',
-      rediretUrl: '/chiot-rottweiler--3987'
-    },
-    {
-      shortUrl: '/chiot-teckel-2437',
-      rediretUrl: '/chiot-teckel-2437'
-    },
-    {
-      shortUrl: '/chiot-yorkshire-terrier-3972',
-      rediretUrl: '/chiot-yorkshire-terrier-3972'
-    },
-    {
-      shortUrl: '/chiot-yorkshire-terrier--3972',
-      rediretUrl: '/chiot-yorkshire-terrier-3972'
-    },
-    {
-      shortUrl: '/coat-care-en-mousse-1184',
-      rediretUrl: '/coat-care-en-mousse-1184'
-    },
-    {
-      shortUrl: '/cocker-adulte-3969',
-      rediretUrl: '/cocker-adulte-3969'
-    },
-    {
-      shortUrl: '/dalmatien-adulte-2598',
-      rediretUrl: '/dalmatien-adulte-2598'
-    },
-    {
-      shortUrl: '/dermacomfort-en-mousse-1181',
-      rediretUrl: '/dermacomfort-en-mousse-1181'
-    },
-    {
-      shortUrl: '/digestive-care-en-mousse-1180',
-      rediretUrl: '/digestive-care-en-mousse-1180'
-    },
-    {
-      shortUrl: '/digest-sensitive-en-sauce-4076',
-      rediretUrl: '/digest-sensitive-en-sauce-4076'
-    },
-    {
-      shortUrl: '/dog-age/adult',
-      rediretUrl: '/dogs/retail-products/dog-age/adult'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Beagle',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Beagle'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Berger-Allemand'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Bichon-frise'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Bichon-Maltais'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Bouledogue-Francais'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Boxer',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Boxer'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Bulldog-Anglais'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Caniche',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Caniche'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Carlin',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Carlin'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Cavalier-King-Charles'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Chihuahua'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Cocker-Anglais-Cocker-Americain'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Dalmatien'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Dogue-Allemand'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Golden-Retriever'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Jack-Russell-Terrier'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Labrador-Retriever'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Rottweiler'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Shih-Tzu'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Spitz-Nain'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Teckel',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Teckel'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Tous-les-chiens'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Westie',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Westie'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=breeds&prefv1=Yorkshire-Terrier'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Lifestages&prefv1=Adulte'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Lifestages&prefv1=Chiot-de-plus-de-2-mois'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Lifestages&prefv1=Senior'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Size&prefv1=Entre-11kg-et-25kg'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Size&prefv1=Entre-26kg-et-44kg'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Size&prefv1=Entre-5kg-et-10kg'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Size&prefv1=Moins-de-4kg'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Size&prefv1=Plus-de-45kg'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Specific-needs&prefv1=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Specific-needs&prefv1=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Specific-needs&prefv1=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Specific-needs&prefv1=Nervosite'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Specific-needs&prefv1=Sensibilite-articulaire'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Specific-needs&prefv1=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Specific-needs&prefv1=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Specific-needs&prefv1=Sensibilite-urinaire'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/adult?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products/dog-age/adult'
-    },
-    {
-      shortUrl:
-        '/dog-age/adult?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products/dog-age/adult'
-    },
-    {
-      shortUrl: '/dog-age/adult?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products/dog-age/adult'
-    },
-    {
-      shortUrl: '/dog-age/babydog',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/babydog?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl:
-        '/dog-age/babydog?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl:
-        '/dog-age/babydog?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/babydog?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/babydog?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/babydog?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/babydog?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl:
-        '/dog-age/babydog?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/babydog?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/babydog?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl:
-        '/dog-age/babydog?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/babydog?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/puppy',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Beagle',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Beagle'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bengal',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Bengal'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Berger-Allemand'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Bichon-frise'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Bichon-Maltais'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Bouledogue-Francais'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Boxer',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Boxer'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=British-shorthair'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Bulldog-Anglais'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Caniche',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Caniche'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Carlin',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Carlin'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Cavalier-King-Charles'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Chihuahua'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Cocker-Anglais-Cocker-Americain'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Dalmatien'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Dogue-Allemand'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Golden-Retriever'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Jack-Russell-Terrier'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Labrador-Retriever'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Maine-Coon'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Norvegien'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Persan',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Persan'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Ragdoll'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Rottweiler'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Shih-Tzu'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Siamois',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Siamois'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Sphynx'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Spitz-Nain'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Teckel',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Teckel'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Tous-les-chats'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Tous-les-chiens'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Westie',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Westie'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=breeds&prefv1=Yorkshire-Terrier'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Adulte'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Adulte-(1-7-ans)'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Chaton-(0-4-mois)'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Chaton-(5-mois1-an)'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Chiot-de-0-a-2-mois'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Chiot-de-plus-de-2-mois'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Mature-(7-12-ans)'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Senior'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Lifestages&prefv1=Senior-(+12-ans)'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Size&prefv1=Entre-11kg-et-25kg'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Size&prefv1=Entre-26kg-et-44kg'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Size&prefv1=Entre-5kg-et-10kg'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Size&prefv1=Moins-de-4kg'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Size&prefv1=Plus-de-45kg'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Boules-de-poils'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Chatte-en-gestation'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Chienne-en-gestation'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Nervosite'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Sensibilite-articulaire'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Sensibilite-urinaire'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Specific-needs&prefv1=Tendance-a-quemander'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/dogs/retail-products/dog-age/puppy?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl:
-        '/dog-age/puppy?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-age/puppy?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products/dog-age/puppy'
-    },
-    {
-      shortUrl: '/dog-range/breed-health-nutrition',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Beagle',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Beagle'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Berger-Allemand'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Bichon-frise'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Bichon-Maltais'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=breed&prefv1=Bouledogue-Francais'
-    },
-    {
-      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Boxer',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Boxer'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Bulldog-Anglais'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Caniche',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Caniche'
-    },
-    {
-      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Carlin',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Carlin'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=breed&prefv1=Cavalier-King-Charles'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Chihuahua'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=breed&prefv1=Cocker-Anglais-Cocker-Americain'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Dalmatien'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Dogue-Allemand'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Golden-Retriever'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=breed&prefv1=Jack-Russell-Terrier'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Labrador-Retriever'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Rottweiler'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Shih-Tzu'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Spitz-Nain'
-    },
-    {
-      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Teckel',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Teckel'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Tous-les-chiens'
-    },
-    {
-      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Westie',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Westie'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl: '/dogs/retail-products?prefn1=breed&prefv1=Yorkshire-Terrier'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products?prefn1=Lifestages&prefv1=Adulte'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=Lifestages&prefv1=Chiot-de-plus-de-2-mois'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products?prefn1=Lifestages&prefv1=Senior'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products?prefn1=Size&prefv1=Entre-11kg-et-25kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products?prefn1=Size&prefv1=Entre-26kg-et-44kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products?prefn1=Size&prefv1=Entre-5kg-et-10kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products?prefn1=Size&prefv1=Moins-de-4kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products?prefn1=Size&prefv1=Plus-de-45kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/breed-health-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/canine-care-nutrition',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/canine-care-nutrition?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/canine-care-nutrition?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/canine-care-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/dry-products',
-      rediretUrl: '/dogs/retail-products?prefn1=producttypes&prefv1=Dry'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Beagle',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Beagle'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Berger-Allemand'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Bichon-frise'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Bichon-Maltais'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Bouledogue-Francais'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Boxer',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Boxer'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Bulldog-Anglais'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Caniche',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Caniche'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Carlin',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Carlin'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Cavalier-King-Charles'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Chihuahua'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Cocker-Anglais-Cocker-Americain'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Dalmatien'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Dogue-Allemand'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Golden-Retriever'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Jack-Russell-Terrier'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Labrador-Retriever'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Rottweiler'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Shih-Tzu'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Spitz-Nain'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Teckel',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Teckel'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Tous-les-chiens'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Westie',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Westie'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=breeds&prefv2=Yorkshire-Terrier'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Adulte'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Chiot-de-0-a-2-mois'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Chiot-de-plus-de-2-mois'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Lifestages&prefv2=Senior'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Size&prefv2=Entre-11kg-et-25kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Size&prefv2=Entre-26kg-et-44kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Size&prefv2=Entre-5kg-et-10kg'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Size&prefv2=Moins-de-4kg'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Size&prefv2=Plus-de-45kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Chienne-en-gestation'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Nervosite'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Sensibilite-articulaire'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Specific-needs&prefv2=Sensibilite-urinaire'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/dog-range/dry-products?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Dry&prefn2=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products?prefn1=producttypes&prefv1=Dry'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products?prefn1=producttypes&prefv1=Dry'
-    },
-    {
-      shortUrl:
-        '/dog-range/dry-products?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products?prefn1=producttypes&prefv1=Dry'
-    },
-    {
-      shortUrl: '/dog-range/senior',
-      rediretUrl: '/dogs/retail-products/dog-range/senior'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Beagle',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Beagle'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Berger-Allemand'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Bichon-frise'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Bichon-Maltais'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Bouledogue-Francais'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Boxer',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Boxer'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Bulldog-Anglais'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Caniche',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Caniche'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Carlin',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Carlin'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Cavalier-King-Charles'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Chihuahua'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Cocker-Anglais-Cocker-Americain'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Golden-Retriever'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Jack-Russell-Terrier'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Labrador-Retriever'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Shih-Tzu'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Teckel',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Teckel'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Tous-les-chiens'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Westie',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Westie'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=breeds&prefv1=Yorkshire-Terrier'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Lifestages&prefv1=Adulte'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Lifestages&prefv1=Senior'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Size&prefv1=Entre-11kg-et-25kg'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Size&prefv1=Entre-26kg-et-44kg'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Size&prefv1=Entre-5kg-et-10kg'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Size&prefv1=Moins-de-4kg'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Size&prefv1=Plus-de-45kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Specific-needs&prefv1=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Specific-needs&prefv1=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Specific-needs&prefv1=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Specific-needs&prefv1=Nervosite'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Specific-needs&prefv1=Sensibilite-articulaire'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Specific-needs&prefv1=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Specific-needs&prefv1=Sensibilite-digestive'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/senior?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/dog-range/senior?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products/dog-range/senior'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products/dog-range/senior'
-    },
-    {
-      shortUrl:
-        '/dog-range/senior?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products/dog-range/senior'
-    },
-    {
-      shortUrl: '/dog-range/size-health-nutrition',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/size-health-nutrition?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-range/size-health-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/wet-products',
-      rediretUrl: '/dogs/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=breeds&prefv1=Caniche',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=Caniche'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=Chihuahua'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=breeds&prefv1=Teckel',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=Teckel'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=Tous-les-chiens'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=breeds&prefv2=Yorkshire-Terrier'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv2=Adulte'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv2=Chiot-de-0-a-2-mois'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv2=Chiot-de-plus-de-2-mois'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Lifestages&prefv2=Senior'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Size&prefv2=Entre-11kg-et-25kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Size&prefv2=Entre-26kg-et-44kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Size&prefv2=Entre-5kg-et-10kg'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Size&prefv2=Moins-de-4kg'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Size&prefv2=Plus-de-45kg'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Chienne-en-gestation'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Nervosite'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Specific-needs&prefv2=Sensibilite-urinaire'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Sterilized&prefv2=NON'
-    },
-    {
-      shortUrl: '/dog-range/wet-products?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=producttypes&prefv1=Wet&prefn2=Sterilized&prefv2=OUI'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl:
-        '/dog-range/wet-products?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products?prefn1=producttypes&prefv1=Wet'
-    },
-    {
-      shortUrl: '/dogs',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dogs/',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dogs/?prefn1=ages&prefv1=Adulte%7CSenior&prefn2=breeds&prefv2=Berger%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=ages&prefv1=Adulte-Senior&prefn2=breeds&prefv2=Berger-Allemand'
-    },
-    {
-      shortUrl: '/dogs/?prefn1=ages&prefv1=Adulte&prefn2=breeds&prefv2=Carlin',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=ages&prefv1=Adulte&prefn2=breeds&prefv2=Carlin'
-    },
-    {
-      shortUrl:
-        '/dogs/?prefn1=ages&prefv1=Adulte&prefn2=breeds&prefv2=Cavalier%20King%20Charles',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=ages&prefv1=Adulte&prefn2=breeds&prefv2=Cavalier-King-Charles'
-    },
-    {
-      shortUrl:
-        '/dogs/?prefn1=ages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois%7CChiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dogs/?prefn1=ages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=ages&prefv1=Chiot-de-plus-de-2-mois'
-    },
-    {
-      shortUrl:
-        '/dogs/?prefn1=ages&prefv1=Chiot%20de%20plus%20de%202%20mois&prefn2=type&prefv2=Humide',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=ages&prefv1=Chiot-de-plus-de-2-mois&prefn2=type&prefv2=Humide'
-    },
-    {
-      shortUrl: '/dogs/?prefn1=type&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products?prefn1=type&prefv1=Aliment-sec'
-    },
-    {
-      shortUrl:
-        '/dogs/?prefn1=type&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=type&prefv1=Bouchees-en-sauce-ou-en-gelee'
-    },
-    {
-      shortUrl: '/dogs/?prefn1=type&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products?prefn1=type&prefv1=Packs-et-autres'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Beagle',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Beagle'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Berger-Allemand'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Bichon-frise'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Bichon-Maltais'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Bouledogue-Francais'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Boxer',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Boxer'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Bulldog-Anglais'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Caniche',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Caniche'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Carlin',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Carlin'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Cavalier-King-Charles'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Chihuahua'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Cocker-Anglais-Cocker-Americain'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Dalmatien'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Dogue-Allemand'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Golden-Retriever'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Jack-Russell-Terrier'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Labrador-Retriever'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Rottweiler'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Shih-Tzu'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Spitz-Nain'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Teckel',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Teckel'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Tous-les-chiens'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Westie',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Westie'
-    },
-    {
-      shortUrl: '/dogs?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=breeds&prefv1=Yorkshire-Terrier'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-productss?prefn1=Lifestages&prefv1=Adulte'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Lifestages&prefv1=Adulte%7CS%C3%A9nior',
-      rediretUrl: '/dogs/retail-products?prefn1=Lifestages&prefv1=Adulte-Senior'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=Lifestages&prefv1=Chiot-de-0-a-2-mois'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois%7CChiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois|Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=Lifestages&prefv1=Chiot-de-plus-de-2-mois'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products?prefn1=Lifestages&prefv1=Senior'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Size&prefv1=Entre-11kg-et-25kg'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Size&prefv1=Entre-26kg-et-44kg'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Size&prefv1=Entre-5kg-et-10kg'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Size&prefv1=Moins-de-4kg'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Size&prefv1=Plus-de-45kg'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Appetit-difficile'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Chienne-en-gestation'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Nervosite'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Sensibilite-articulaire'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Specific-needs&prefv1=Sensibilite-urinaire'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/dogs/retail-products/dog-range/breeds?prefn1=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products/dog-range/breeds'
-    },
-    {
-      shortUrl:
-        '/dogs?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products/dog-range/breeds'
-    },
-    {
-      shortUrl: '/dogs?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products/dog-range/breeds'
-    },
-    {
-      shortUrl: '/dog-size/giant',
-      rediretUrl: '/dogs/retail-products?prefn1=size&prefv1=Giant'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=breeds&prefv2=Dogue-Allemand'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=breeds&prefv2=Rottweiler'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=breeds&prefv2=Tous-les-chiens'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Lifestages&prefv2=Adulte'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Lifestages&prefv2=Chiot-de-0-a-2-mois'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Lifestages&prefv2=Chiot-de-plus-de-2-mois'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Lifestages&prefv2=Senior'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Size&prefv2=Entre-11kg-et-25kg'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Size&prefv2=Entre-26kg-et-44kg'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Size&prefv2=Entre-5kg-et-10kg'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Size&prefv2=Moins-de-4kg'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Size&prefv2=Plus-de-45kg'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Appetit-difficile'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Chienne-en-gestation'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Gestion-du-poids'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Hygiene-bucco-dentaire'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Nervosite'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Sensibilite-articulaire'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Sensibilite-de-la-peau-et-du-pelage'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Sensibilite-digestive'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Specific-needs&prefv2=Sensibilite-urinaire'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Sterilized&prefv1=NON',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Sterilized&prefv1=NON'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl:
-        '/dogs/retail-products?prefn1=size&prefv1=Giant&prefn2=Sterilized&prefv1=OUI'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products?prefn1=size&prefv1=Giant'
-    },
-    {
-      shortUrl:
-        '/dog-size/giant?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products?prefn1=size&prefv1=Giant'
-    },
-    {
-      shortUrl: '/dog-size/giant?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products?prefn1=size&prefv1=Giant'
-    },
-    {
-      shortUrl: '/dog-size/maxi',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Boxer',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/maxi?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/maxi?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Beagle',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bengal',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Boxer',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Caniche',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Carlin',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Persan',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Siamois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Teckel',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Westie',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/medium?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/medium?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Caniche',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Carlin',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Teckel',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Westie',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/mini?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/mini?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/x-small?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/dog-size/x-small?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dogue-allemand-adulte-2592',
-      rediretUrl: '/dogue-allemand-adulte-2592'
-    },
-    {
-      shortUrl: '/educ-3100',
-      rediretUrl: '/educ-3100'
-    },
-    {
-      shortUrl: '/energy-3064',
-      rediretUrl: '/energy-3064'
-    },
-    {
-      shortUrl: '/exigent-en-mousse-1185',
-      rediretUrl: '/exigent-en-mousse-1185'
-    },
-    {
-      shortUrl: '/faq',
-      rediretUrl: '/uk/about-us/faqs'
-    },
-    {
-      shortUrl: '/FAQ/all',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Beagle',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bengal',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Boxer',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Caniche',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Carlin',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Persan',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Siamois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Teckel',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Westie',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/FAQ/all?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/FAQ/all?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fit-32-2520',
-      rediretUrl: '/fit-32-2520'
-    },
-    {
-      shortUrl: '/fr',
-      rediretUrl: '/'
-    },
-    {
-      shortUrl: '/fr/help',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Beagle',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bengal',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Boxer',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Caniche',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Carlin',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Persan',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Siamois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Teckel',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Westie',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr/help?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr/help?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Beagle',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Bengal',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Berger%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Bichon%20Maltais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Bouledogue%20Francais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Boxer',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=British%20shorthair',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Bulldog%20Anglais',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Caniche',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Carlin',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Chihuahua',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Dalmatien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Dogue%20Allemand',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Golden%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Labrador%20Retriever',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Maine%20Coon',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Norv%C3%A9gien',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Persan',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Ragdoll',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Rottweiler',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Shih%20Tzu',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Siamois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Sphynx',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Spitz%20Nain',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Teckel',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Tous%20les%20chats',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Tous%20les%20chiens',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Westie',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=breeds&prefv1=Yorkshire%20Terrier',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Lifestages&prefv1=Adulte',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Lifestages&prefv1=S%C3%A9nior',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Size&prefv1=Moins%20de%204kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Size&prefv1=Plus%20de%2045kg',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Sterilized&prefv1=NON',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Sterilized&prefv1=OUI',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Technology&prefv1=Aliment%20sec',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl:
-        '/fr?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/fr?prefn1=Technology&prefv1=Packs%20et%20autres',
-      rediretUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/general-terms-conditions',
-      rediretUrl: '/general-terms-conditions'
-    },
-    {
-      shortUrl: '/general-terms-conditions.html',
-      rediretUrl: '/general-terms-conditions'
-    },
-    {
-      shortUrl: '/giant-adult-3009',
-      rediretUrl: '/giant-adult-3009'
-    },
-    {
-      shortUrl: '/giant-junior-3031',
-      rediretUrl: '/giant-junior-3031'
-    },
-    {
-      shortUrl: '/giant-puppy-3030',
-      rediretUrl: '/giant-puppy-3030'
-    },
-    {
-      shortUrl: '/giant-starter-2996',
-      rediretUrl: '/giant-starter-2996'
-    },
-    {
-      shortUrl: '/golden-retriever-adulte-3970',
-      rediretUrl: '/golden-retriever-adulte-3970'
-    },
-    {
-      shortUrl: '/hair-&-skin-care-2526',
-      rediretUrl: '/hair-&-skin-care-2526'
-    },
-    {
-      shortUrl: '/hairball-care-en-sauce-4158',
-      rediretUrl: '/hairball-care-en-sauce-4158'
-    },
-    {
-      shortUrl: '/help',
-      rediretUrl: '/contact-us'
-    },
-    {
-      shortUrl: '/home',
-      rediretUrl: '/'
-    },
-    {
-      shortUrl: '/indoor-27-2529',
-      rediretUrl: '/indoor-27-2529'
-    },
-    {
-      shortUrl: '/indoor-7-2548',
-      rediretUrl: '/indoor-7-2548'
-    },
-    {
-      shortUrl: '/indoor-appetite-control-2568',
-      rediretUrl: '/indoor-appetite-control-2568'
-    },
-    {
-      shortUrl: '/indoor-long-hair-2549',
-      rediretUrl: '/indoor-long-hair-2549'
-    },
-    {
-      shortUrl: '/indoor-sterilised-7+-en-sauce-1305',
-      rediretUrl: '/indoor-sterilised-7+-en-sauce-1305'
-    },
-    {
-      shortUrl: '/indoor-sterilised-en-mousse-1293',
-      rediretUrl: '/indoor-sterilised-en-mousse-1293'
-    },
-    {
-      shortUrl: '/indoor-sterilised-en-sauce-1278',
-      rediretUrl: '/indoor-sterilised-en-sauce-1278'
-    },
-    {
-      shortUrl: '/instinctive-7+-en-sauce-4083',
-      rediretUrl: '/instinctive-7+-en-sauce-4083'
-    },
-    {
-      shortUrl: '/instinctive-en-mousse-4146',
-      rediretUrl: '/instinctive-en-mousse-4146'
-    },
-    {
-      shortUrl: '/instinctive-en-sauce-4059',
-      rediretUrl: '/instinctive-en-sauce-4059'
-    },
-    {
-      shortUrl: '/intense-beauty-en-gel??e-4151',
-      rediretUrl: '/intense-beauty-en-gelee-4151'
-    },
-    {
-      shortUrl: '/intense-beauty-en-sauce-4071',
-      rediretUrl: '/intense-beauty-en-sauce-4071'
-    },
-    {
-      shortUrl: '/jack-russell-adulte-2100',
-      rediretUrl: '/jack-russell-adulte-2100'
-    },
-    {
-      shortUrl: '/kitten-2522',
-      rediretUrl: '/kitten-2522'
-    },
-    {
-      shortUrl: '/kitten-en-gel??e-4150',
-      rediretUrl: '/kitten-en-gelee-4150'
-    },
-    {
-      shortUrl: '/kitten-en-mousse-4145',
-      rediretUrl: '/kitten-en-mousse-4145'
-    },
-    {
-      shortUrl: '/kitten-en-sauce-4058',
-      rediretUrl: '/kitten-en-sauce-4058'
-    },
-    {
-      shortUrl: '/kitten-nutrition',
-      rediretUrl: '/kitten-nutrition'
-    },
-    {
-      shortUrl: '/kitten-sterilised-2562',
-      rediretUrl: '/kitten-sterilised-2562'
-    },
-    {
-      shortUrl: '/kitten-sterilised-en-gel??e-1072',
-      rediretUrl: '/kitten-sterilised-en-gelee-1072'
-    },
-    {
-      shortUrl: '/kitten-sterilised-en-sauce-1071',
-      rediretUrl: '/kitten-sterilised-en-sauce-1071'
-    },
-    {
-      shortUrl: '/labrador-retriever-adulte-2487',
-      rediretUrl: '/labrador-retriever-adulte-2487'
-    },
-    {
-      shortUrl: '/light-weight-care-en-mousse-1178',
-      rediretUrl: '/light-weight-care-en-mousse-1178'
-    },
-    {
-      shortUrl: '/light-weight-care-en-sauce-4070',
-      rediretUrl: '/light-weight-care-en-sauce-4070'
-    },
-    {
-      shortUrl: '/maine-coon-adulte-2550',
-      rediretUrl: '/maine-coon-adulte-2550'
-    },
-    {
-      shortUrl: '/maine-coon-bouch??es-sp??cial-2031',
-      rediretUrl: '/maine-coon-bouchees-special-2031'
-    },
-    {
-      shortUrl: '/maxi-adult-3007',
-      rediretUrl: '/maxi-adult-3007'
-    },
-    {
-      shortUrl: '/maxi-ageing-8+-2454',
-      rediretUrl: '/maxi-ageing-8+-2454'
-    },
-    {
-      shortUrl: '/maxi-dermacomfort-2444',
-      rediretUrl: '/maxi-dermacomfort-2444'
-    },
-    {
-      shortUrl: '/maxi-light-weight-care-2446',
-      rediretUrl: '/maxi-light-weight-care-2446'
-    },
-    {
-      shortUrl: '/maxi-puppy-3006',
-      rediretUrl: '/maxi-puppy-3006'
-    },
-    {
-      shortUrl: '/maxi-starter-2994',
-      rediretUrl: '/maxi-starter-2994'
-    },
-    {
-      shortUrl: '/medium-adult-3004',
-      rediretUrl: '/medium-adult-3004'
-    },
-    {
-      shortUrl: '/medium-dermacomfort-2442',
-      rediretUrl: '/medium-dermacomfort-2442'
-    },
-    {
-      shortUrl: '/medium-puppy-3003',
-      rediretUrl: '/medium-puppy-3003'
-    },
-    {
-      shortUrl: '/medium-relax-care-1225',
-      rediretUrl: '/medium-relax-care-1225'
-    },
-    {
-      shortUrl: '/medium-starter-2993',
-      rediretUrl: '/medium-starter-2993'
-    },
-    {
-      shortUrl: '/medium-starter-mother-&-babydog-2993',
-      rediretUrl: '/medium-starter-mother-&-babydog-2993'
-    },
-    {
-      shortUrl: '/mini-adult-3001',
-      rediretUrl: '/mini-adult-3001'
-    },
-    {
-      shortUrl: '/mini-adult-en-sauce-1096',
-      rediretUrl: '/mini-adult-en-sauce-1096'
-    },
-    {
-      shortUrl: '/mini-coat-care-1220',
-      rediretUrl: '/mini-coat-care-1220'
-    },
-    {
-      shortUrl: '/mini-dental-care-1221',
-      rediretUrl: '/mini-dental-care-1221'
-    },
-    {
-      shortUrl: '/mini-dermacomfort-2441',
-      rediretUrl: '/mini-dermacomfort-2441'
-    },
-    {
-      shortUrl: '/mini-puppy-3000',
-      rediretUrl: '/mini-puppy-3000'
-    },
-    {
-      shortUrl: '/mini-relax-care-1224',
-      rediretUrl: '/mini-relax-care-1224'
-    },
-    {
-      shortUrl: '/mini-starter-2990',
-      rediretUrl: '/mini-starter-2990'
-    },
-    {
-      shortUrl: '/mother-&-babycat-2544',
-      rediretUrl: '/mother-&-babycat-2544'
-    },
-    {
-      shortUrl: '/mother-&-babycat-en-mousse-4098',
-      rediretUrl: '/mother-&-babycat-en-mousse-4098'
-    },
-    {
-      shortUrl: '/mother-and-babycat-2544',
-      rediretUrl: '/mother-and-babycat-2544'
-    },
-    {
-      shortUrl: '/norv%C3%A9gien-adulte-2516',
-      rediretUrl: '/norvegien-adulte-2516'
-    },
-    {
-      shortUrl: '/oral-care-2532',
-      rediretUrl: '/oral-care-2532'
-    },
-    {
-      shortUrl: '/outdoor-2546',
-      rediretUrl: '/outdoor-2546'
-    },
-    {
-      shortUrl: '/outdoor-7-2523',
-      rediretUrl: '/outdoor-7-2523'
-    },
-    {
-      shortUrl: '/pack-appetite-control-care-MKT30001',
-      rediretUrl: '/pack-appetite-control-care-MKT30001'
-    },
-    {
-      shortUrl: '/pack-british-shorthair-adulte-MKT20001',
-      rediretUrl: '/pack-british-shorthair-adulte-MKT20001'
-    },
-    {
-      shortUrl: '/pack-chihuahua-adult-MKT60001',
-      rediretUrl: '/pack-chihuahua-adult-MKT60001'
-    },
-    {
-      shortUrl: '/pack-maine-coon-adulte-MKT00001',
-      rediretUrl: '/pack-maine-coon-adulte-MKT00001'
-    },
-    {
-      shortUrl: '/pack-mini-adult-MKT50001',
-      rediretUrl: '/pack-mini-adult-MKT50001'
-    },
-    {
-      shortUrl: '/pack-mini-puppy-MKT40001',
-      rediretUrl: '/pack-mini-puppy-MKT40001'
-    },
-    {
-      shortUrl: '/pack-mix-feeding-wet-dry',
-      rediretUrl: '/pack-mix-feeding-wet-dry'
-    },
-    {
-      shortUrl: '/pack-persan-adulte-MKT10001',
-      rediretUrl: '/pack-persan-adulte-MKT10001'
-    },
-    {
-      shortUrl: '/persan-adult-2552',
-      rediretUrl: '/persan-adult-2552'
-    },
-    {
-      shortUrl: '/persan-adulte-2552',
-      rediretUrl: '/persan-adulte-2552'
-    },
-    {
-      shortUrl: '/persan-bouch??es-sp??cial-2030',
-      rediretUrl: '/persan-bouchees-special-2030'
-    },
-    {
-      shortUrl: '/product-finder',
-      rediretUrl: '/product-finder'
-    },
-    {
-      shortUrl: '/protein-exigent-2542',
-      rediretUrl: '/protein-exigent-2542'
-    },
-    {
-      shortUrl: '/Quality-safety',
-      rediretUrl: '/about-us/quality-and-food-safety'
-    },
-    {
-      shortUrl: '/ragdoll-adulte-2515',
-      rediretUrl: '/ragdoll-adulte-2515'
-    },
-    {
-      shortUrl: '/relax-care-en-mousse-1182',
-      rediretUrl: '/relax-care-en-mousse-1182'
-    },
-    {
-      shortUrl: '/rottweiler-adulte-3971',
-      rediretUrl: '/rottweiler-adulte-3971'
-    },
-    {
-      shortUrl: '/savour-exigent-2531',
-      rediretUrl: '/savour-exigent-2531'
-    },
-    {
-      shortUrl: '/setter-adulte-3980',
-      rediretUrl: '/setter-adulte-3980'
-    },
-    {
-      shortUrl: '/shih-tzu-adulte-2200',
-      rediretUrl: '/shih-tzu-adulte-2200'
-    },
-    {
-      shortUrl: '/siamois-adulte-2551',
-      rediretUrl: '/siamois-adulte-2551'
-    },
-    {
-      shortUrl: '/sphynx-adulte-2556',
-      rediretUrl: '/sphynx-adulte-2556'
-    },
-    {
-      shortUrl: '/spitz-nain-adult-1255',
-      rediretUrl: '/spitz-nain-adult-1255'
-    },
-    {
-      shortUrl: '/starter-mother-&-babydog-en-mousse-4077',
-      rediretUrl: '/starter-mother-&-babydog-en-mousse-4077'
-    },
-    {
-      shortUrl: '/starter-mother-&-babydog-giant-2996',
-      rediretUrl: '/starter-mother-&-babydog-giant-2996'
-    },
-    {
-      shortUrl: '/starter-mother-&-babydog-mini-2990',
-      rediretUrl: '/starter-mother-&-babydog-mini-2990'
-    },
-    {
-      shortUrl: '/sterilised-ageing-12+-2565',
-      rediretUrl: '/sterilised-ageing-12+-2565'
-    },
-    {
-      shortUrl: '/sterilised-en-mousse-1179',
-      rediretUrl: '/sterilised-en-mousse-1179'
-    },
-    {
-      shortUrl: '/sterilised-en-mousse-4147',
-      rediretUrl: '/sterilised-en-mousse-4147'
-    },
-    {
-      shortUrl: '/sterilised-en-sauce-4095',
-      rediretUrl: '/sterilised-en-sauce-4095'
-    },
-    {
-      shortUrl: '/subscription-landing',
-      rediretUrl: '/subscription-landing'
-    },
-    {
-      shortUrl: '/Tailorednutrition',
-      rediretUrl: '/tailored-nutrition'
-    },
-    {
-      shortUrl: '/teckel-adulte-3059',
-      rediretUrl: '/teckel-adulte-3059'
-    },
-    {
-      shortUrl: '/teckel-mousse-2042',
-      rediretUrl: '/teckel-mousse-2042'
-    },
-    {
-      shortUrl: '/urinary-care-1800',
-      rediretUrl: '/urinary-care-1800'
-    },
-    {
-      shortUrl: '/urinary-care-en-mousse-1183',
-      rediretUrl: '/urinary-care-en-mousse-1183'
-    },
-    {
-      shortUrl: '/Values',
-      rediretUrl: '/about-us/our-values'
-    },
-    {
-      shortUrl: '/westie-adulte-3981',
-      rediretUrl: '/westie-adulte-3981'
-    },
-    {
-      shortUrl: '/x-small-adult-1003',
-      rediretUrl: '/x-small-adult-1003'
-    },
-    {
-      shortUrl: '/x-small-ageing-12+-1005',
-      rediretUrl: '/x-small-ageing-12+-1005'
-    },
-    {
-      shortUrl: '/yorkshire-terrier-adulte-3051',
-      rediretUrl: '/yorkshire-terrier-adulte-3051'
-    },
-    {
-      shortUrl: '/yorkshire-terrier-mousse-2040',
-      rediretUrl: '/yorkshire-terrier-mousse-2040'
-    },
-    {
       shortUrl: '/boxer01',
       rediretUrl:
         '/dogs/retail-products?prefn1=breeds&prefv1=Boxer&utm_source=vanityURL&utm_medium=leaflet&utm_campaign=BREED01'
@@ -7229,6 +1821,5004 @@ export default {
     {
       shortUrl: '/dogs/products/vet-products/urinary-uc-dry',
       rediretUrl: '/urinary-uc-3942'
+    },
+    {
+      shortUrl: '/',
+      redirectUrl: '/'
+    },
+    {
+      shortUrl: '/cat-age/adult',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/adult?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/adult?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/babycat',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/babycat?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/babycat?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/babycat?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/babycat?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/babycat?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/babycat?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/babycat?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten/',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/kitten?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/kitten?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/kitten?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/mature?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/mature?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/senior?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/feline-breed-nutrition',
+      redirectUrl: '/cats/products/feline-breed-nutrition'
+    },
+    {
+      shortUrl: '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=Lifestages&prefv1=Adulte(1-7-ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=Lifestages&prefv1=Chaton-(5-mois-1-an)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=Lifestages&prefv1=Mature-(7-12-ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/wet-products',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/wet-products/',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/wet-products?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/wet-products?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Adulte(1-7-ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Chaton-(5-mois-1-an)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Mature-(7-12-ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/wet-products?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/wet-products?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/wet-products?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats/?prefn1=ages&prefv1=Chaton%20%280-12%20mois%29',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats/?prefn1=ages&prefv1=Chaton%20%280-12%20mois%29&prefn2=type&prefv2=Humide',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/chaton-british-shorthair--2566',
+      redirectUrl: '/shop/chaton-british-shorthair-2566'
+    },
+    {
+      shortUrl: '/chiot-bouledogue-fran?��ais-3990',
+      redirectUrl: '/shop/chiot-bouledogue-francais-3990'
+    },
+    {
+      shortUrl: '/chiot-boxer--3966',
+      redirectUrl: '/shop/chiot-boxer-3966'
+    },
+    {
+      shortUrl: '/chiot-bulldog--3967',
+      redirectUrl: '/shop/chiot-bulldog-3967'
+    },
+    {
+      shortUrl: '/chiot-caniche--3080',
+      redirectUrl: '/shop/chiot-caniche-3080'
+    },
+    {
+      shortUrl: '/chiot-cavalier-king-charles--4132',
+      redirectUrl: '/shop/chiot-cavalier-king-charles-4132'
+    },
+    {
+      shortUrl: '/chiot-chihuahua--2438',
+      redirectUrl: '/shop/chiot-chihuahua-2438'
+    },
+    {
+      shortUrl: '/chiot-golden-retriever--3979',
+      redirectUrl: '/shop/chiot-golden-retriever-3979'
+    },
+    {
+      shortUrl: '/chiot-yorkshire-terrier--3972',
+      redirectUrl: '/shop/chiot-yorkshire-terrier-3972'
+    },
+    {
+      shortUrl: '/dog-age/adult',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/adult?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/adult?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/babydog?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/babydog?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/babydog?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/babydog?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/babydog?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-age/puppy?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/puppy?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/dry-products?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/dry-products?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/senior?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/senior?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/wet-products?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/wet-products?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs/?prefn1=ages&prefv1=Adulte%7CSenior&prefn2=breeds&prefv2=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/?prefn1=ages&prefv1=Adulte&prefn2=breeds&prefv2=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs/?prefn1=ages&prefv1=Adulte&prefn2=breeds&prefv2=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/?prefn1=ages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs/?prefn1=ages&prefv1=Chiot%20de%20plus%20de%202%20mois&prefn2=type&prefv2=Humide',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/?prefn1=type&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs/?prefn1=type&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/?prefn1=type&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Lifestages&prefv1=Adulte%7CS%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/giant?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/help',
+      redirectUrl: '/contact-us'
+    },
+    {
+      shortUrl: '/faq',
+      redirectUrl: '/about-us/faqs'
+    },
+    {
+      shortUrl: '/fr',
+      redirectUrl: ''
+    },
+    {
+      shortUrl: '/fr/help',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/general-terms-conditions.html',
+      redirectUrl: '/shop/general-terms-conditions'
+    },
+    {
+      shortUrl: '/home',
+      redirectUrl: ''
+    },
+    {
+      shortUrl: '/Quality-safety',
+      redirectUrl: '/about-us/quality-and-food-safety'
+    },
+    {
+      shortUrl: '/Tailorednutrition',
+      redirectUrl: '/tailored-nutrition'
+    },
+    {
+      shortUrl: '/Values',
+      redirectUrl: '/about-us/our-values'
+    },
+    {
+      shortUrl: '/cat-age/senior?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-age/senior?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/dry-products?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/dry-products?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)%7CMature%20(7-12%20ans)%7CSenior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)%7CChaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr/help?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr/help?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/fr?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/fr?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/norv%C3%A9gien-adulte-2516',
+      redirectUrl: '/shop/norvegien-adulte-2516'
+    },
+    {
+      shortUrl: '/About-Us',
+      redirectUrl: '/about-us'
+    },
+    {
+      shortUrl: '/product-finder',
+      redirectUrl: '/product-finder'
+    },
+    {
+      shortUrl: '/ageing-12+-en-gel??e-4153',
+      redirectUrl: '/shop/ageing-12+-en-gel??e-4153'
+    },
+    {
+      shortUrl: '/ageing-12+-en-sauce-4082',
+      redirectUrl: '/shop/ageing-12+-en-sauce-4082'
+    },
+    {
+      shortUrl: '/appetite-control-care-2563',
+      redirectUrl: '/shop/appetite-control-care-2563'
+    },
+    {
+      shortUrl: '/appetite-control-care-en-mousse-1468',
+      redirectUrl: '/shop/appetite-control-care-en-mousse-1468'
+    },
+    {
+      shortUrl: '/aroma-exigent-2543',
+      redirectUrl: '/shop/aroma-exigent-2543'
+    },
+    {
+      shortUrl: '/babycat-milk-2553',
+      redirectUrl: '/shop/babycat-milk-2553'
+    },
+    {
+      shortUrl: '/babydog-milk-2300',
+      redirectUrl: '/shop/babydog-milk-2300'
+    },
+    {
+      shortUrl: '/beagle-adulte-2106',
+      redirectUrl: '/shop/beagle-adulte-2106'
+    },
+    {
+      shortUrl: '/bengal-adulte-4370',
+      redirectUrl: '/shop/bengal-adulte-4370'
+    },
+    {
+      shortUrl: '/berger-allemand-adulte-2518',
+      redirectUrl: '/shop/berger-allemand-adulte-2518'
+    },
+    {
+      shortUrl: '/berger-allemand-adulte-5+-1340',
+      redirectUrl: '/shop/berger-allemand-adulte-5+-1340'
+    },
+    {
+      shortUrl: '/bichon-maltais-adulte-3995',
+      redirectUrl: '/shop/bichon-maltais-adulte-3995'
+    },
+    {
+      shortUrl: '/bouledogue-francais-adulte-3991',
+      redirectUrl: '/shop/bouledogue-francais-adulte-3991'
+    },
+    {
+      shortUrl: '/boxer-adulte-2588',
+      redirectUrl: '/shop/boxer-adulte-2588'
+    },
+    {
+      shortUrl: '/british-shorthair-adulte-2557',
+      redirectUrl: '/shop/british-shorthair-adulte-2557'
+    },
+    {
+      shortUrl: '/british-shorthair-bouch??es-sp??cial-2032',
+      redirectUrl: '/shop/british-shorthair-bouch??es-sp??cial-2032'
+    },
+    {
+      shortUrl: '/bulldog-adulte-2590',
+      redirectUrl: '/shop/bulldog-adulte-2590'
+    },
+    {
+      shortUrl: '/caniche-adulte-3057',
+      redirectUrl: '/shop/caniche-adulte-3057'
+    },
+    {
+      shortUrl: '/caniche-mousse-2043',
+      redirectUrl: '/shop/caniche-mousse-2043'
+    },
+    {
+      shortUrl: '/carlin-adulte-3985',
+      redirectUrl: '/shop/carlin-adulte-3985'
+    },
+    {
+      shortUrl: '/cat-nutrition',
+      redirectUrl: '/shop/cat-nutrition'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-breed-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/feline-care-nutrition',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/feline-care-nutrition?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/feline-care-nutrition?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-care-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/feline-health-nutrition',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cat-range/feline-health-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats/',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats/?prefn1=specialNeeds&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cavalier-king-charles-adulte-3968',
+      redirectUrl: '/shop/cavalier-king-charles-adulte-3968'
+    },
+    {
+      shortUrl: '/chaton-british-shorthair-2566',
+      redirectUrl: '/shop/chaton-british-shorthair-2566'
+    },
+    {
+      shortUrl: '/chaton-maine-coon-2558',
+      redirectUrl: '/shop/chaton-maine-coon-2558'
+    },
+    {
+      shortUrl: '/chaton-persan-2554',
+      redirectUrl: '/shop/chaton-persan-2554'
+    },
+    {
+      shortUrl: '/chihuahua-adulte-2210',
+      redirectUrl: '/shop/chihuahua-adulte-2210'
+    },
+    {
+      shortUrl: '/chiot-berger-allemand-2519',
+      redirectUrl: '/shop/chiot-berger-allemand-2519'
+    },
+    {
+      shortUrl: '/chiot-bouledogue-francais-3990',
+      redirectUrl: '/shop/chiot-bouledogue-francais-3990'
+    },
+    {
+      shortUrl: '/chiot-boxer-3966',
+      redirectUrl: '/shop/chiot-boxer-3966'
+    },
+    {
+      shortUrl: '/chiot-bulldog-3967',
+      redirectUrl: '/shop/chiot-bulldog-3967'
+    },
+    {
+      shortUrl: '/chiot-caniche-3080',
+      redirectUrl: '/shop/chiot-caniche-3080'
+    },
+    {
+      shortUrl: '/chiot-carlin-4130',
+      redirectUrl: '/shop/chiot-carlin-4130'
+    },
+    {
+      shortUrl: '/chiot-chihuahua-2438',
+      redirectUrl: '/shop/chiot-chihuahua-2438'
+    },
+    {
+      shortUrl: '/chiot-cocker--4133',
+      redirectUrl: '/shop/chiot-cocker--4133'
+    },
+    {
+      shortUrl: '/chiot-golden-retriever-3979',
+      redirectUrl: '/shop/chiot-golden-retriever-3979'
+    },
+    {
+      shortUrl: '/chiot-jack-russell-terrier--2101',
+      redirectUrl: '/shop/chiot-jack-russell-terrier--2101'
+    },
+    {
+      shortUrl: '/chiot-labrador-retriever-2491',
+      redirectUrl: '/shop/chiot-labrador-retriever-2491'
+    },
+    {
+      shortUrl: '/chiot-rottweiler--3987',
+      redirectUrl: '/shop/chiot-rottweiler--3987'
+    },
+    {
+      shortUrl: '/chiot-teckel-2437',
+      redirectUrl: '/shop/chiot-teckel-2437'
+    },
+    {
+      shortUrl: '/chiot-yorkshire-terrier-3972',
+      redirectUrl: '/shop/chiot-yorkshire-terrier-3972'
+    },
+    {
+      shortUrl: '/coat-care-en-mousse-1184',
+      redirectUrl: '/shop/coat-care-en-mousse-1184'
+    },
+    {
+      shortUrl: '/cocker-adulte-3969',
+      redirectUrl: '/shop/cocker-adulte-3969'
+    },
+    {
+      shortUrl: '/dalmatien-adulte-2598',
+      redirectUrl: '/shop/dalmatien-adulte-2598'
+    },
+    {
+      shortUrl: '/dermacomfort-en-mousse-1181',
+      redirectUrl: '/shop/dermacomfort-en-mousse-1181'
+    },
+    {
+      shortUrl: '/digestive-care-en-mousse-1180',
+      redirectUrl: '/shop/digestive-care-en-mousse-1180'
+    },
+    {
+      shortUrl: '/digest-sensitive-en-sauce-4076',
+      redirectUrl: '/shop/digest-sensitive-en-sauce-4076'
+    },
+    {
+      shortUrl: '/dog-range/breed-health-nutrition',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/breed-health-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/canine-care-nutrition',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/canine-care-nutrition?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/canine-care-nutrition?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/canine-care-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/size-health-nutrition',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/size-health-nutrition?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-range/size-health-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs/?prefn1=ages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois%7CChiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois%7CChiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois|Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/maxi?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/medium?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/mini?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dog-size/x-small?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Beagle',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bengal',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Berger%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bichon%20fris%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bichon%20Maltais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bouledogue%20Francais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Boxer',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=British%20shorthair',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Bulldog%20Anglais',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Caniche',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Carlin',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Cavalier%20King%20Charles',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Chihuahua',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=breeds&prefv1=Cocker%20Anglais,%20Cocker%20Am%C3%A9ricain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Dalmatien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Dogue%20Allemand',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Golden%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Jack%20Russell%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Labrador%20Retriever',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Maine%20Coon',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Norv%C3%A9gien',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Persan',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Ragdoll',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Rottweiler',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Shih%20Tzu',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Siamois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Sphynx',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Spitz%20Nain',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Teckel',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Tous%20les%20chats',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Tous%20les%20chiens',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Westie',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=breeds&prefv1=Yorkshire%20Terrier',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Adulte',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Adulte%20(1-7%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Chaton%20(0-4%20mois)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Chaton%20(5%20mois-1%20an)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Lifestages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Lifestages&prefv1=Chiot%20de%20plus%20de%202%20mois',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Mature%20(7-12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=S%C3%A9nior',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Lifestages&prefv1=Senior%20(+12%20ans)',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Entre%2011kg%20et%2025%20kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Entre%2026kg%20et%2044kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Entre%205kg%20et%2010kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Moins%20de%204kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Size&prefv1=Plus%20de%2045kg',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Specific%20needs&prefv1=Boules%20de%20poils',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=Chatte%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=Chienne%20en%20gestation',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Specific%20needs&prefv1=Gestion%20du%20poids',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=Hygi%C3%A8ne%20bucco-dentaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Specific%20needs&prefv1=Nervosit%C3%A9',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20articulaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20de%20la%20peau%20et%20du%20pelage',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20digestive',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=Sensibilit%C3%A9%20urinaire',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Specific%20needs&prefv1=Tendance%20%C3%A0%20qu%C3%A9mander',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Sterilized&prefv1=NON',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Sterilized&prefv1=OUI',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Technology&prefv1=Aliment%20sec',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/FAQ/all?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/FAQ/all?prefn1=Technology&prefv1=Packs%20et%20autres',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogue-allemand-adulte-2592',
+      redirectUrl: '/shop/dogue-allemand-adulte-2592'
+    },
+    {
+      shortUrl: '/educ-3100',
+      redirectUrl: '/shop/educ-3100'
+    },
+    {
+      shortUrl: '/energy-3064',
+      redirectUrl: '/shop/energy-3064'
+    },
+    {
+      shortUrl: '/exigent-en-mousse-1185',
+      redirectUrl: '/shop/exigent-en-mousse-1185'
+    },
+    {
+      shortUrl: '/fit-32-2520',
+      redirectUrl: '/shop/fit-32-2520'
+    },
+    {
+      shortUrl: '/general-terms-conditions',
+      redirectUrl: '/shop/general-terms-conditions'
+    },
+    {
+      shortUrl: '/giant-adult-3009',
+      redirectUrl: '/shop/giant-adult-3009'
+    },
+    {
+      shortUrl: '/giant-junior-3031',
+      redirectUrl: '/shop/giant-junior-3031'
+    },
+    {
+      shortUrl: '/giant-puppy-3030',
+      redirectUrl: '/shop/giant-puppy-3030'
+    },
+    {
+      shortUrl: '/giant-starter-2996',
+      redirectUrl: '/shop/giant-starter-2996'
+    },
+    {
+      shortUrl: '/golden-retriever-adulte-3970',
+      redirectUrl: '/shop/golden-retriever-adulte-3970'
+    },
+    {
+      shortUrl: '/hair-&-skin-care-2526',
+      redirectUrl: '/shop/hair-&-skin-care-2526'
+    },
+    {
+      shortUrl: '/hairball-care-en-sauce-4158',
+      redirectUrl: '/shop/hairball-care-en-sauce-4158'
+    },
+    {
+      shortUrl: '/indoor-27-2529',
+      redirectUrl: '/shop/indoor-27-2529'
+    },
+    {
+      shortUrl: '/indoor-7-2548',
+      redirectUrl: '/shop/indoor-7-2548'
+    },
+    {
+      shortUrl: '/indoor-appetite-control-2568',
+      redirectUrl: '/shop/indoor-appetite-control-2568'
+    },
+    {
+      shortUrl: '/indoor-long-hair-2549',
+      redirectUrl: '/shop/indoor-long-hair-2549'
+    },
+    {
+      shortUrl: '/indoor-sterilised-7+-en-sauce-1305',
+      redirectUrl: '/shop/indoor-sterilised-7+-en-sauce-1305'
+    },
+    {
+      shortUrl: '/indoor-sterilised-en-mousse-1293',
+      redirectUrl: '/shop/indoor-sterilised-en-mousse-1293'
+    },
+    {
+      shortUrl: '/indoor-sterilised-en-sauce-1278',
+      redirectUrl: '/shop/indoor-sterilised-en-sauce-1278'
+    },
+    {
+      shortUrl: '/instinctive-7+-en-sauce-4083',
+      redirectUrl: '/shop/instinctive-7+-en-sauce-4083'
+    },
+    {
+      shortUrl: '/instinctive-en-mousse-4146',
+      redirectUrl: '/shop/instinctive-en-mousse-4146'
+    },
+    {
+      shortUrl: '/instinctive-en-sauce-4059',
+      redirectUrl: '/shop/instinctive-en-sauce-4059'
+    },
+    {
+      shortUrl: '/intense-beauty-en-gel??e-4151',
+      redirectUrl: '/shop/intense-beauty-en-gel??e-4151'
+    },
+    {
+      shortUrl: '/intense-beauty-en-sauce-4071',
+      redirectUrl: '/shop/intense-beauty-en-sauce-4071'
+    },
+    {
+      shortUrl: '/jack-russell-adulte-2100',
+      redirectUrl: '/shop/jack-russell-adulte-2100'
+    },
+    {
+      shortUrl: '/kitten-2522',
+      redirectUrl: '/shop/kitten-2522'
+    },
+    {
+      shortUrl: '/kitten-en-gel??e-4150',
+      redirectUrl: '/shop/kitten-en-gel??e-4150'
+    },
+    {
+      shortUrl: '/kitten-en-mousse-4145',
+      redirectUrl: '/shop/kitten-en-mousse-4145'
+    },
+    {
+      shortUrl: '/kitten-en-sauce-4058',
+      redirectUrl: '/shop/kitten-en-sauce-4058'
+    },
+    {
+      shortUrl: '/kitten-nutrition',
+      redirectUrl: '/shop/kitten-nutrition'
+    },
+    {
+      shortUrl: '/kitten-sterilised-2562',
+      redirectUrl: '/shop/kitten-sterilised-2562'
+    },
+    {
+      shortUrl: '/kitten-sterilised-en-gel??e-1072',
+      redirectUrl: '/shop/kitten-sterilised-en-gel??e-1072'
+    },
+    {
+      shortUrl: '/kitten-sterilised-en-sauce-1071',
+      redirectUrl: '/shop/kitten-sterilised-en-sauce-1071'
+    },
+    {
+      shortUrl: '/labrador-retriever-adulte-2487',
+      redirectUrl: '/shop/labrador-retriever-adulte-2487'
+    },
+    {
+      shortUrl: '/light-weight-care-en-mousse-1178',
+      redirectUrl: '/shop/light-weight-care-en-mousse-1178'
+    },
+    {
+      shortUrl: '/light-weight-care-en-sauce-4070',
+      redirectUrl: '/shop/light-weight-care-en-sauce-4070'
+    },
+    {
+      shortUrl: '/maine-coon-adulte-2550',
+      redirectUrl: '/shop/maine-coon-adulte-2550'
+    },
+    {
+      shortUrl: '/maine-coon-bouch??es-sp??cial-2031',
+      redirectUrl: '/shop/maine-coon-bouch??es-sp??cial-2031'
+    },
+    {
+      shortUrl: '/maxi-adult-3007',
+      redirectUrl: '/shop/maxi-adult-3007'
+    },
+    {
+      shortUrl: '/maxi-ageing-8+-2454',
+      redirectUrl: '/shop/maxi-ageing-8+-2454'
+    },
+    {
+      shortUrl: '/maxi-dermacomfort-2444',
+      redirectUrl: '/shop/maxi-dermacomfort-2444'
+    },
+    {
+      shortUrl: '/maxi-light-weight-care-2446',
+      redirectUrl: '/shop/maxi-light-weight-care-2446'
+    },
+    {
+      shortUrl: '/maxi-puppy-3006',
+      redirectUrl: '/shop/maxi-puppy-3006'
+    },
+    {
+      shortUrl: '/maxi-starter-2994',
+      redirectUrl: '/shop/maxi-starter-2994'
+    },
+    {
+      shortUrl: '/medium-adult-3004',
+      redirectUrl: '/shop/medium-adult-3004'
+    },
+    {
+      shortUrl: '/medium-dermacomfort-2442',
+      redirectUrl: '/shop/medium-dermacomfort-2442'
+    },
+    {
+      shortUrl: '/medium-puppy-3003',
+      redirectUrl: '/shop/medium-puppy-3003'
+    },
+    {
+      shortUrl: '/medium-relax-care-1225',
+      redirectUrl: '/shop/medium-relax-care-1225'
+    },
+    {
+      shortUrl: '/medium-starter-2993',
+      redirectUrl: '/shop/medium-starter-2993'
+    },
+    {
+      shortUrl: '/medium-starter-mother-&-babydog-2993',
+      redirectUrl: '/shop/medium-starter-mother-&-babydog-2993'
+    },
+    {
+      shortUrl: '/mini-adult-3001',
+      redirectUrl: '/shop/mini-adult-3001'
+    },
+    {
+      shortUrl: '/mini-adult-en-sauce-1096',
+      redirectUrl: '/shop/mini-adult-en-sauce-1096'
+    },
+    {
+      shortUrl: '/mini-coat-care-1220',
+      redirectUrl: '/shop/mini-coat-care-1220'
+    },
+    {
+      shortUrl: '/mini-dental-care-1221',
+      redirectUrl: '/shop/mini-dental-care-1221'
+    },
+    {
+      shortUrl: '/mini-dermacomfort-2441',
+      redirectUrl: '/shop/mini-dermacomfort-2441'
+    },
+    {
+      shortUrl: '/mini-puppy-3000',
+      redirectUrl: '/shop/mini-puppy-3000'
+    },
+    {
+      shortUrl: '/mini-relax-care-1224',
+      redirectUrl: '/shop/mini-relax-care-1224'
+    },
+    {
+      shortUrl: '/mini-starter-2990',
+      redirectUrl: '/shop/mini-starter-2990'
+    },
+    {
+      shortUrl: '/mother-&-babycat-2544',
+      redirectUrl: '/shop/mother-&-babycat-2544'
+    },
+    {
+      shortUrl: '/mother-&-babycat-en-mousse-4098',
+      redirectUrl: '/shop/mother-&-babycat-en-mousse-4098'
+    },
+    {
+      shortUrl: '/mother-and-babycat-2544',
+      redirectUrl: '/shop/mother-and-babycat-2544'
+    },
+    {
+      shortUrl: '/oral-care-2532',
+      redirectUrl: '/shop/oral-care-2532'
+    },
+    {
+      shortUrl: '/outdoor-2546',
+      redirectUrl: '/shop/outdoor-2546'
+    },
+    {
+      shortUrl: '/outdoor-7-2523',
+      redirectUrl: '/shop/outdoor-7-2523'
+    },
+    {
+      shortUrl: '/pack-appetite-control-care-MKT30001',
+      redirectUrl: '/shop/pack-appetite-control-care-MKT30001'
+    },
+    {
+      shortUrl: '/pack-british-shorthair-adulte-MKT20001',
+      redirectUrl: '/shop/pack-british-shorthair-adulte-MKT20001'
+    },
+    {
+      shortUrl: '/pack-chihuahua-adult-MKT60001',
+      redirectUrl: '/shop/pack-chihuahua-adult-MKT60001'
+    },
+    {
+      shortUrl: '/pack-maine-coon-adulte-MKT00001',
+      redirectUrl: '/shop/pack-maine-coon-adulte-MKT00001'
+    },
+    {
+      shortUrl: '/pack-mini-adult-MKT50001',
+      redirectUrl: '/shop/pack-mini-adult-MKT50001'
+    },
+    {
+      shortUrl: '/pack-mini-puppy-MKT40001',
+      redirectUrl: '/shop/pack-mini-puppy-MKT40001'
+    },
+    {
+      shortUrl: '/pack-mix-feeding-wet-dry',
+      redirectUrl: '/shop/pack-mix-feeding-wet-dry'
+    },
+    {
+      shortUrl: '/pack-persan-adulte-MKT10001',
+      redirectUrl: '/shop/pack-persan-adulte-MKT10001'
+    },
+    {
+      shortUrl: '/persan-adult-2552',
+      redirectUrl: '/shop/persan-adult-2552'
+    },
+    {
+      shortUrl: '/persan-adulte-2552',
+      redirectUrl: '/shop/persan-adulte-2552'
+    },
+    {
+      shortUrl: '/persan-bouch??es-sp??cial-2030',
+      redirectUrl: '/shop/persan-bouch??es-sp??cial-2030'
+    },
+    {
+      shortUrl: '/protein-exigent-2542',
+      redirectUrl: '/shop/protein-exigent-2542'
+    },
+    {
+      shortUrl: '/ragdoll-adulte-2515',
+      redirectUrl: '/shop/ragdoll-adulte-2515'
+    },
+    {
+      shortUrl: '/relax-care-en-mousse-1182',
+      redirectUrl: '/shop/relax-care-en-mousse-1182'
+    },
+    {
+      shortUrl: '/rottweiler-adulte-3971',
+      redirectUrl: '/shop/rottweiler-adulte-3971'
+    },
+    {
+      shortUrl: '/savour-exigent-2531',
+      redirectUrl: '/shop/savour-exigent-2531'
+    },
+    {
+      shortUrl: '/setter-adulte-3980',
+      redirectUrl: '/shop/setter-adulte-3980'
+    },
+    {
+      shortUrl: '/shih-tzu-adulte-2200',
+      redirectUrl: '/shop/shih-tzu-adulte-2200'
+    },
+    {
+      shortUrl: '/siamois-adulte-2551',
+      redirectUrl: '/shop/siamois-adulte-2551'
+    },
+    {
+      shortUrl: '/sphynx-adulte-2556',
+      redirectUrl: '/shop/sphynx-adulte-2556'
+    },
+    {
+      shortUrl: '/spitz-nain-adult-1255',
+      redirectUrl: '/shop/spitz-nain-adult-1255'
+    },
+    {
+      shortUrl: '/starter-mother-&-babydog-en-mousse-4077',
+      redirectUrl: '/shop/starter-mother-&-babydog-en-mousse-4077'
+    },
+    {
+      shortUrl: '/starter-mother-&-babydog-giant-2996',
+      redirectUrl: '/shop/starter-mother-&-babydog-giant-2996'
+    },
+    {
+      shortUrl: '/starter-mother-&-babydog-mini-2990',
+      redirectUrl: '/shop/starter-mother-&-babydog-mini-2990'
+    },
+    {
+      shortUrl: '/sterilised-ageing-12+-2565',
+      redirectUrl: '/shop/sterilised-ageing-12+-2565'
+    },
+    {
+      shortUrl: '/sterilised-en-mousse-1179',
+      redirectUrl: '/shop/sterilised-en-mousse-1179'
+    },
+    {
+      shortUrl: '/sterilised-en-mousse-4147',
+      redirectUrl: '/shop/sterilised-en-mousse-4147'
+    },
+    {
+      shortUrl: '/sterilised-en-sauce-4095',
+      redirectUrl: '/shop/sterilised-en-sauce-4095'
+    },
+    {
+      shortUrl: '/subscription-landing',
+      redirectUrl: '/shop/subscription-landing'
+    },
+    {
+      shortUrl: '/teckel-adulte-3059',
+      redirectUrl: '/shop/teckel-adulte-3059'
+    },
+    {
+      shortUrl: '/teckel-mousse-2042',
+      redirectUrl: '/shop/teckel-mousse-2042'
+    },
+    {
+      shortUrl: '/urinary-care-1800',
+      redirectUrl: '/shop/urinary-care-1800'
+    },
+    {
+      shortUrl: '/urinary-care-en-mousse-1183',
+      redirectUrl: '/shop/urinary-care-en-mousse-1183'
+    },
+    {
+      shortUrl: '/westie-adulte-3981',
+      redirectUrl: '/shop/westie-adulte-3981'
+    },
+    {
+      shortUrl: '/x-small-adult-1003',
+      redirectUrl: '/shop/x-small-adult-1003'
+    },
+    {
+      shortUrl: '/x-small-ageing-12+-1005',
+      redirectUrl: '/shop/x-small-ageing-12+-1005'
+    },
+    {
+      shortUrl: '/yorkshire-terrier-adulte-3051',
+      redirectUrl: '/shop/yorkshire-terrier-adulte-3051'
+    },
+    {
+      shortUrl: '/yorkshire-terrier-mousse-2040',
+      redirectUrl: '/shop/yorkshire-terrier-mousse-2040'
+    },
+    {
+      shortUrl: '/cats/?prefn1=specialNeeds&prefv1=App%C3%A9tit%20difficile',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/cats?prefn1=Technology&prefv1=Bouch%C3%A9es%20en%20sauce%20ou%20en%20gel%C3%A9e',
+      redirectUrl: '/shop/cats/retail-products'
     }
   ]
 };
