@@ -263,10 +263,9 @@ class Form extends React.Component {
     }
   };
   // 6-2、根据cityId查询region
-  getRegionDataByCityId = async () => {
-    const { caninForm } = this.state;
+  getRegionDataByCityId = async (cityId) => {
     try {
-      const res = await getRegionByCityId({ cityId: 3 });
+      const res = await getRegionByCityId({ cityId: cityId });
       if (res?.context?.systemRegions) {
         let regarr = [];
         let obj = res.context.systemRegions;
@@ -296,13 +295,18 @@ class Form extends React.Component {
       caninForm.provinceNo = data.no; // 省份简写
     } else if (key == 'country') {
       caninForm.countryName = data.name;
+    } else if (key == 'city') {
+      caninForm.city = data.name;
+      this.getRegionDataByCityId(data.value);
+    } else if (key == 'region') {
+      caninForm.region = data.name;
     }
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });
   }
+  // 处理数组
   computedList(key) {
-    const { caninForm } = this.state;
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -327,8 +331,14 @@ class Form extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
-      value = value.replace(/^[0]/, '+(33)');
+    if (name === 'phoneNumber') {
+      // 格式化电话号码
+      if (process.env.REACT_APP_LANG === 'fr') {
+        value = value.replace(/^[0]/, '+(33)');
+      }
+      if (process.env.REACT_APP_LANG === 'en') {
+        value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+      }
     }
     caninForm[name] = value;
     this.setState({ caninForm }, () => {
