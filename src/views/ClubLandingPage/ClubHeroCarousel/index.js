@@ -97,7 +97,8 @@ class ClubHeroCarousel extends React.Component {
               bannerNo: 1,
               sliderTitle:
                 'Специализированное питание по подписке для поддержания здоровья',
-              sliderContent: ''
+              sliderContent: '',
+              alt: 'Клуб Royal Canin'
             },
             {
               bannerId: '2c91808577d880600177d8837f730004',
@@ -119,7 +120,8 @@ class ClubHeroCarousel extends React.Component {
               bannerNo: 2,
               sliderTitle: 'Специализированное питание',
               sliderContent:
-                'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей'
+                'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей',
+              alt: 'Специализированное питание Royal Canin'
             },
             {
               bannerId: '2c918085751fa3ad01752099f30a0002',
@@ -142,7 +144,8 @@ class ClubHeroCarousel extends React.Component {
               sliderTitle:
                 'Советы научных сотрудников и экспертов в области питания',
               sliderContent:
-                'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21'
+                'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
+              alt: 'Эксперт в области питания животных'
             },
             {
               bannerId: '2c918085751fa3ad01752099f30a0002',
@@ -164,7 +167,8 @@ class ClubHeroCarousel extends React.Component {
               bannerNo: 4,
               sliderTitle: 'Сделайте свою жизнь проще ',
               sliderContent:
-                'С автоматической доставкой Вы забудете о том, что корм может закончиться.'
+                'С автоматической доставкой Вы забудете о том, что корм может закончиться.',
+              alt: 'Доставка корма'
             },
             {
               bannerId: '2c918085751fa3ad01752099f30a0002',
@@ -186,7 +190,8 @@ class ClubHeroCarousel extends React.Component {
               bannerNo: 5,
               sliderTitle: 'Эксклюзивные подарки и сервисы',
               sliderContent:
-                'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory'
+                'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory',
+              alt: 'Подарки для питомцев'
             }
           ]
         })
@@ -428,7 +433,7 @@ class ClubHeroCarousel extends React.Component {
                           <img
                             className="rc-md-up mh-100"
                             src={el.webUrl}
-                            alt=""
+                            alt={el.alt}
                           />
                           <div>{el.bannerNo}</div>
                         </Link>
@@ -436,7 +441,7 @@ class ClubHeroCarousel extends React.Component {
                         <img
                           className="rc-md-up mh-100"
                           src={el.webUrl}
-                          alt=""
+                          alt={el.alt}
                         />
                       )}
 
@@ -449,14 +454,14 @@ class ClubHeroCarousel extends React.Component {
                           <img
                             className="rc-md-down w-100 mh-100"
                             src={el.mobiUrl}
-                            alt=""
+                            alt={el.alt}
                           />
                         </Link>
                       ) : (
                         <img
                           className="rc-md-down w-100 mh-100"
                           src={el.mobiUrl}
-                          alt=""
+                          alt={el.alt}
                         />
                       )}
                     </>
