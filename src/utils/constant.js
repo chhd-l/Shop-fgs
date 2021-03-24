@@ -63,7 +63,7 @@ export const ADYEN_CREDIT_CARD_BRANDS = {
 export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 
 // 美国电话正则
-export const usTelephoneCheck = /^(((1(\s)|)|)[1-9]{3}(\s|-|)[1-9]{3}(\s|-|)[1-9]{4})$/;
+export const usTelephoneCheck = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
 
 export const ADDRESS_RULE = [
   {

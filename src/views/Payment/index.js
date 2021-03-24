@@ -1752,23 +1752,27 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
+    // this.setState({
+    //   deliveryAddress: {
+    //     firstName: data.firstName,
+    //     lastName: data.lastName,
+    //     address1: data.address1,
+    //     address2: data.address2,
+    //     country: data.country,
+    //     countryName: data.countryName,
+    //     cityId: data.cityId,
+    //     city: data.cityId,
+    //     cityName: data.city,
+    //     postCode: data.postCode,
+    //     phoneNumber: data.phoneNumber,
+    //     rfc: data.rfc,
+    //     email: data.email
+    //   }
+    // });
     this.setState({
-      deliveryAddress: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        address1: data.address1,
-        address2: data.address2,
-        country: data.country,
-        countryName: data.countryName,
-        cityId: data.cityId,
-        city: data.cityId,
-        cityName: data.city,
-        postCode: data.postCode,
-        phoneNumber: data.phoneNumber,
-        rfc: data.rfc,
-        email: data.email
-      }
+      deliveryAddress: data
     });
+    debugger;
     if (this.state.billingChecked) {
       this.setState({
         billingAddress: data
