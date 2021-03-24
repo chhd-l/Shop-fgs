@@ -8,7 +8,7 @@ import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
 const localItemRoyal = window.__.localItemRoyal;
-const AutoshipItem = ({ subItem, frequencyList }) => {
+const AutoshipItem = ({ subItem, frequencyList, history }) => {
   const isMobile = getDeviceType() !== 'PC';
   return (
     <div
@@ -144,7 +144,7 @@ const AutoshipItem = ({ subItem, frequencyList }) => {
             className="rc-btn rc-btn--two rc-btn--sm"
             onClick={() => {
               localItemRoyal.set('subDetail', subItem);
-              this.props.history.push(
+              history.push(
                 `/account/subscription/order/detail/${subItem.subscribeId}`
               );
             }}

@@ -101,46 +101,36 @@ export default class Felin extends React.Component {
       isContactUs: false,
       currentTabIndex: 0,
       topVal: '159px',
-      currentDate: new Date(),
+      currentDate: '',
       calendarInitObserver: null,
       timeOption: [],
       qrCode1: ''
     };
   }
   componentDidMount() {
-    let timeOption = [];
-    let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-    arr.map((el) => {
-      if (el < 18) {
-        timeOption.push({
-          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
-          value: `${el}:00-${el}:20`,
-          disabled: false,
-          type: 1
-        });
-        timeOption.push({
-          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
-          value: `${el}:30-${el}:50`,
-          disabled: false,
-          type: 1
-        });
-      } else {
-        timeOption.push({
-          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
-          value: `${el}:00-${el}:20`,
-          disabled: false,
-          type: 0
-        });
-        timeOption.push({
-          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
-          value: `${el}:30-${el}:50`,
-          disabled: false,
-          type: 0
-        });
-      }
-    });
-    this.setState({ timeOption: timeOption });
-    this.getTimeOptions();
+    let currentDate = new Date();
+    if (
+      +currentDate > +new Date('2021-04-20') &&
+      +currentDate < +new Date('2021-06-30')
+    ) {
+      this.setState(
+        (prev) => {
+          return { currentDate };
+        },
+        () => {
+          this.buildTimeOption();
+        }
+      );
+    } else {
+      this.setState(
+        (prev) => {
+          return { currentDate: new Date('2021-04-20') };
+        },
+        () => {
+          this.buildTimeOption();
+        }
+      );
+    }
     window.addEventListener('scroll', (e) => {
       if (document.querySelector('.rc-header--scrolled')) {
         this.setState({ topVal: '54px' });
@@ -219,6 +209,41 @@ export default class Felin extends React.Component {
         this.state.calendarInitObserver.observe(calendarDom);
       }
     );
+  }
+  buildTimeOption() {
+    let timeOption = [];
+    let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    arr.map((el) => {
+      if (el < 18) {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 1
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 1
+        });
+      } else {
+        timeOption.push({
+          name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:00-${el}:20`,
+          disabled: false,
+          type: 0
+        });
+        timeOption.push({
+          name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
+          value: `${el}:30-${el}:50`,
+          disabled: false,
+          type: 0
+        });
+      }
+    });
+    this.setState({ timeOption: timeOption });
+    this.getTimeOptions();
   }
   get virtualAppointmentFlag() {
     let { currentDate } = this.state;
@@ -812,7 +837,8 @@ export default class Felin extends React.Component {
                               tileDisabled={({ activeStartDate, date, view }) =>
                                 date.getDay() === 0
                               }
-                              minDate={new Date()}
+                              minDate={new Date('2021-04-20')}
+                              maxDate={new Date('2021-06-30')}
                               onChange={(date) => {
                                 if (
                                   format(date, 'yyyy-MM-dd') ===
