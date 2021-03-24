@@ -111,7 +111,7 @@ export default class Felin extends React.Component {
     let timeOption = [];
     let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     arr.map((el) => {
-      if (el <= 18) {
+      if (el < 18) {
         timeOption.push({
           name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
           value: `${el}:00-${el}:20`,
@@ -165,7 +165,7 @@ export default class Felin extends React.Component {
     ).innerHTML = `<span class="icon iconfont">
       &#xe6f9;
     </span>`;
-    // document.querySelector('.iconfont.font-weight-bold.icon-arrow').innerHTML = `&#xe601;`
+
     let iconDom = document.querySelector(
       '.iconfont.font-weight-bold.icon-arrow '
     );
@@ -174,6 +174,9 @@ export default class Felin extends React.Component {
     needIconDom.classList.add('icon', 'iconfont');
     needIconDom.innerHTML = `&#xe601;`;
     document.querySelector('#Selection').appendChild(needIconDom);
+    document
+      .querySelector('.react-calendar__navigation__label__labelText')
+      .addEventListener('click', (e) => e.stopImmediatePropagation(), true);
 
     // 日历出现在视口中发送ga埋点
     const calendarDom = document.querySelector('#appointment-calendar');
@@ -223,6 +226,14 @@ export default class Felin extends React.Component {
       +format(currentDate, 'yyyyMMdd') >= 20210420 &&
       +format(currentDate, 'yyyyMMdd') <= 20210502
     );
+  }
+  get virtualDisabledFlag() {
+    return (
+      !this.virtualAppointmentFlag && this.state.selectedTimeObj.type === 1
+    );
+  }
+  get facetofaceDisabledFlag() {
+    return this.virtualAppointmentFlag || this.state.selectedTimeObj.type === 0;
   }
   getTimeOptions() {
     getTimeOptions({
@@ -794,9 +805,13 @@ export default class Felin extends React.Component {
                               calendarType="US"
                               locale={process.env.REACT_APP_Adyen_locale}
                               view="month"
-                              onClickYear={() => {
+                              onViewChange={() => {
+                                console.log(111);
                                 return;
                               }}
+                              tileDisabled={({ activeStartDate, date, view }) =>
+                                date.getDay() === 0
+                              }
                               minDate={new Date()}
                               onChange={(date) => {
                                 if (
@@ -841,7 +856,12 @@ export default class Felin extends React.Component {
                           <div
                             style={{ padding: '.5rem 0', margin: '30px 40px' }}
                           >
-                            <div style={{ position: 'relative' }}>
+                            <div
+                              style={{
+                                position: 'relative',
+                                opacity: this.virtualDisabledFlag ? '.4' : '1'
+                              }}
+                            >
                               <input
                                 className="rc-input__radio"
                                 id="female"
@@ -852,10 +872,7 @@ export default class Felin extends React.Component {
                                 }
                                 type="radio"
                                 name="gender"
-                                disabled={
-                                  !this.virtualAppointmentFlag &&
-                                  this.state.selectedTimeObj.type === 1
-                                }
+                                disabled={this.virtualDisabledFlag}
                                 onChange={(e) => {
                                   this.setState({ felinType: 0 });
                                 }}
@@ -868,7 +885,14 @@ export default class Felin extends React.Component {
                                 <FormattedMessage id="Rendez-vous virtuel" />
                               </label>
                             </div>
-                            <div style={{ position: 'relative' }}>
+                            <div
+                              style={{
+                                position: 'relative',
+                                opacity: this.facetofaceDisabledFlag
+                                  ? '.4'
+                                  : '1'
+                              }}
+                            >
                               <input
                                 className="rc-input__radio"
                                 id="male"
@@ -879,10 +903,7 @@ export default class Felin extends React.Component {
                                 }
                                 type="radio"
                                 name="gender"
-                                disabled={
-                                  this.virtualAppointmentFlag ||
-                                  this.state.selectedTimeObj.type === 0
-                                }
+                                disabled={this.facetofaceDisabledFlag}
                                 onChange={(e) => {
                                   this.setState({ felinType: 1 });
                                 }}
