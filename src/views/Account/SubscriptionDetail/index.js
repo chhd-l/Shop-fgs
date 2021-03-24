@@ -3711,7 +3711,7 @@ class SubscriptionDetail extends React.Component {
                                                   >
                                                     <FormattedMessage
                                                       id="order.iVAIncluido"
-                                                      defaultMessage=""
+                                                      defaultMessage=" "
                                                     />
                                                   </span>
                                                 </label>

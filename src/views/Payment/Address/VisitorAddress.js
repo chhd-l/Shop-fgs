@@ -6,7 +6,6 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 // import EditForm from './EditForm';
-import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import {
   searchNextConfirmPanel,
@@ -68,12 +67,8 @@ class VisitorAddress extends React.Component {
   }
   validData = async ({ data }) => {
     try {
-      await validData(ADDRESS_RULE, data);
-      this.setState({ isValid: true, form: data }, () => {
-        this.props.updateFormValidStatus(this.state.isValid);
-      });
-      if (process.env.REACT_APP_LANG == 'ru') {
-        let dada = data.DaData;
+      if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
+        let dda = data.DaData;
         // 俄罗斯计算运费
         let calcres = await shippingCalculation({
           sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
@@ -81,11 +76,11 @@ class VisitorAddress extends React.Component {
           sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
           sourceSettlementFias: null,
           sourcePostalCode: null,
-          regionFias: dada.provinceId,
-          areaFias: dada.areaId,
-          cityFias: dada.cityId,
-          settlementFias: dada.settlementId,
-          postalCode: dada.postCode,
+          regionFias: dda.provinceId,
+          areaFias: dda.areaId,
+          cityFias: dda.cityId,
+          settlementFias: dda.settlementId,
+          postalCode: dda.postCode,
           weight: '1',
           insuranceSum: 0,
           codSum: 0,
@@ -97,7 +92,15 @@ class VisitorAddress extends React.Component {
         });
         // debugger
       }
+      if (!data?.formRule || (data?.formRule).length <= 0) {
+        return;
+      }
+      await validData(data.formRule, data); // 数据验证
+      this.setState({ isValid: true, form: data }, () => {
+        this.props.updateFormValidStatus(this.state.isValid);
+      });
     } catch (err) {
+      console.error(' err msg: ', err);
       this.setState({ isValid: false, validationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });

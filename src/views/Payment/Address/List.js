@@ -9,7 +9,7 @@ import { queryCityNameById } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
-import { ADDRESS_RULE } from '@/utils/constant';
+// import { ADDRESS_RULE } from '@/utils/constant';
 // import EditForm from './EditForm';
 import EditForm from '@/components/Form';
 import Loading from '@/components/Loading';
@@ -295,15 +295,10 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------------------- List 数据验证 data: ', data);
     try {
-      await validData(ADDRESS_RULE, data); // 数据验证
-      this.setState({ isValid: true, saveErrorMsg: '' }, () => {
-        this.props.updateFormValidStatus(this.state.isValid);
-      });
-
-      if (process.env.REACT_APP_LANG == 'ru') {
-        let dada = data.DaData;
+      if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
+        let dda = data.DaData;
+        console.log('--------- ★★★★★★ DaData: ', dda);
         // 俄罗斯计算运费
         let calcres = await shippingCalculation({
           sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
@@ -311,11 +306,11 @@ class AddressList extends React.Component {
           sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
           sourceSettlementFias: null,
           sourcePostalCode: null,
-          regionFias: dada.provinceId,
-          areaFias: dada.areaId,
-          cityFias: dada.cityId,
-          settlementFias: dada.settlementId,
-          postalCode: dada.postCode,
+          regionFias: dda.provinceId,
+          areaFias: dda.areaId,
+          cityFias: dda.cityId,
+          settlementFias: dda.settlementId,
+          postalCode: dda.postCode,
           weight: '1',
           insuranceSum: 0,
           codSum: 0,
@@ -325,9 +320,17 @@ class AddressList extends React.Component {
             depth: '1'
           }
         });
-        // debugger
+        console.log('---------- ★★★★★★ 计算运费： ', calcres);
       }
+      if (!data?.formRule || (data?.formRule).length <= 0) {
+        return;
+      }
+      await validData(data.formRule, data); // 数据验证
+      this.setState({ isValid: true, saveErrorMsg: '' }, () => {
+        this.props.updateFormValidStatus(this.state.isValid);
+      });
     } catch (err) {
+      console.error(' err msg: ', err);
       this.setState({ isValid: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });

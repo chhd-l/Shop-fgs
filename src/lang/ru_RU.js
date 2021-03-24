@@ -644,7 +644,7 @@ const ru_RU = {
   passwordHide: 'Пароль',
   payAtOxxO: 'Плати наличными в любом OXXO в Мексике',
   'payment.acceptCards': 'Мы принимаем кредитные карты.',
-  'payment.address1': 'Адрес',
+  'payment.address1': 'Полный адрес',
   'payment.address2': 'Дополнительный адрес',
   'payment.addressTitle': 'Адрес и способ доставки',
   'payment.apply': 'Подтвердить',
