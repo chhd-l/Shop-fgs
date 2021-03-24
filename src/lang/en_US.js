@@ -1127,7 +1127,7 @@ const en_US = {
   taxLogo: '',
   title: 'Title',
   to: 'To',
-  total: 'Total',
+  total: 'Subtotal',
   'miniBasket.total': 'Cart subtotal {totalPrice}',
   total2: 'Subtotal',
   totalCost: 'Total cost',
