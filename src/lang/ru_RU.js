@@ -1044,6 +1044,13 @@ const ru_RU = {
   'club.wheretohelp.card.email.send': 'Отправьте нам e-mail',
   'club.wheretohelp.card.faq':
     'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ',
+  'club.howitworks.alt1': 'UYGUN  MAMAYI VE ÖLÇÜLERİ BULUN',
+  'club.howitworks.alt2': 'CLUB ABONELİĞİ SEÇENEĞİNİ İŞARETLEYİN',
+  'club.howitworks.alt3': 'ABONELİĞİNİZİN KONTROLÜ SİZDE',
+  'club.howitworks.alt4': 'ÖZEL ÖDÜLLERİN KEYFİNİ ÇIKARIN',
+  'club.wheretohelp.alt1': 'Телефон горячей линии',
+  'club.wheretohelp.alt2': 'Контактный e-mail',
+  'club.wheretohelp.alt3': 'Блок FAQ',
   autoShipStarted: 'Дата создания подписки',
   nextShipment: 'Следующая доставка',
   transactionInfo: 'Информация',
