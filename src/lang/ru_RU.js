@@ -246,14 +246,14 @@ const ru_RU = {
     'Прокомментируйте, пожалуйста, опыт покупок',
   CompleteRequiredItems: 'Пожалуйста, заполните необходимые пункты',
   confirmation: 'Подтверждение',
-  'confirmation.account': 'Go to my account',
+  'confirmation.account': 'Зайти в мой аккаунт',
   'confirmation.customerInformation': 'Информация для клиентов',
   'confirmation.info1': 'Спасибо за ваш заказ.',
   'confirmation.info2':
     'В ближайшее время с вами свяжутся наши сотрудники для подтверждения заказа.',
   'confirmation.info3':
     'Адреса и способы доставки указаны под вашими товарами.',
-  'confirmation.oneShoot': 'Go to my account',
+  'confirmation.oneShoot': 'Продолжить покупки',
   'confirmation.orderNumber': 'Номер заказа',
   'confirmation.rateTip': 'Как бы вы оценили свой шоппинг?',
   'confirmation.rateTip2': 'Что мы можем сделать, чтобы улучшить?',

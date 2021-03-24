@@ -1401,6 +1401,7 @@ class PetForm extends React.Component {
               ) : null}
             </div>
             <LinkedSubs
+              petsId={this.props.match.params.id}
               loading={this.state.loading}
               setState={this.setState.bind(this)}
               errorMsg={this.state.errorMsg}

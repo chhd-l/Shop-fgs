@@ -153,6 +153,7 @@ class LoginCart extends React.Component {
       GACartScreenLoad();
     }
     this.setData();
+
     if (localItemRoyal.get('rc-iframe-from-storepotal')) {
       this.handleCheckout();
     }
@@ -778,7 +779,11 @@ class LoginCart extends React.Component {
               </div>
             </div>
             <div
-              className="buyMethodBox rc-two-column"
+              className={`buyMethodBox ${
+                pitem.subscriptionStatus && pitem.subscriptionPrice
+                  ? 'rc-two-column'
+                  : ''
+              }`}
               style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
             >
               <div className="rc-column">
