@@ -1444,7 +1444,10 @@ class AccountOrders extends React.Component {
                                       <FormattedMessage id="order.total" />
                                     </span>{' '}
                                     <span style={{ fontSize: '.8em' }}>
-                                      <FormattedMessage id="order.iVAIncluido" />
+                                      <FormattedMessage
+                                        id="order.iVAIncluido"
+                                        defaultMessage=" "
+                                      />
                                     </span>
                                   </div>
                                   <div className="col-6 col-md-3 text-right medium text-nowrap color-444">
@@ -1485,6 +1488,14 @@ class AccountOrders extends React.Component {
                                         this.state.countryList,
                                         details.consignee.countryId
                                       )}{' '}
+                                      {details?.consignee?.province &&
+                                      details?.consignee?.province != null ? (
+                                        <>
+                                          <br />
+                                          {details?.consignee?.province}
+                                          <br />
+                                        </>
+                                      ) : null}
                                       {details.consignee.city}
                                       <br />
                                       {details.consignee.detailAddress1}
@@ -1524,6 +1535,14 @@ class AccountOrders extends React.Component {
                                         this.state.countryList,
                                         details.invoice.countryId
                                       )}{' '}
+                                      {details?.invoice?.province &&
+                                      details?.invoice?.province != null ? (
+                                        <>
+                                          <br />
+                                          {details?.invoice?.province}
+                                          <br />
+                                        </>
+                                      ) : null}
                                       {details.invoice.city}
                                       <br />
                                       {details.invoice.address1}

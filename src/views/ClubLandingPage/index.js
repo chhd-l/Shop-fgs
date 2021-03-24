@@ -459,7 +459,7 @@ class ClubLandingPage extends React.Component {
       searchEvent: {}
     };
   }
-  async componentDidMount() {
+  componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -468,6 +468,27 @@ class ClubLandingPage extends React.Component {
     setSeoConfig({ pageName: 'Club Subscription Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });
+
+    // 根据hash判断锚点定位
+    setTimeout(() => {
+      const worksHash = this.props.location?.hash == '#how-it-works';
+      const benefitsHash =
+        this.props.location?.hash == '#your-club-subscription-benefits';
+      const howItWorks = document.querySelector('#how-it-works-box');
+      const benefitsBox = document.querySelector('#benefits-box');
+      worksHash &&
+        howItWorks.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest'
+        });
+      benefitsHash &&
+        benefitsBox.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest'
+        });
+    }, 2000);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -536,10 +557,12 @@ class ClubLandingPage extends React.Component {
             </div>
           </div>
           <BreadCrumbs />
-          {/*猫猫狗狗*/}
-          {console.log(innerWidth, '🌙')}
           <section>
-            <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
+            <div
+              className="rc-bg-colour--brand3"
+              id="benefits-box"
+              style={{ padding: '1px 0' }}
+            >
               <div className="rc-full-width">
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
@@ -614,7 +637,7 @@ class ClubLandingPage extends React.Component {
             </div>
           </div>
           <Divider />
-          <HowItWorks />
+          <HowItWorks id="how-it-works-box" />
           <JoinToday />
           <br />
           <CommentCarousel />

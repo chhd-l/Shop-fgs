@@ -748,7 +748,8 @@ class List extends React.Component {
       vetProductLink,
       pageLink: '',
       listLazyLoadSection: 1,
-      prefv1: ''
+      prefv1: '',
+      keywordsSearch: ''
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -769,7 +770,7 @@ class List extends React.Component {
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
     if (keywordsSearch) {
       //表示从搜索来的
-      dataLayer[0].page.type = 'Search Results';
+      // dataLayer[0].page.type = 'Search Results';
     }
     this.setState(
       {
@@ -783,7 +784,8 @@ class List extends React.Component {
             ? keywordsSearch
             : '',
         cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
-        cateId
+        cateId,
+        keywordsSearch
       },
       () => {
         this.initData();
@@ -1265,7 +1267,7 @@ class List extends React.Component {
       );
     let filterList = tmpList.concat(customFilter);
 
-    // isVetProducts 过滤掉'breeds' 'Sterilized''Specific needs'
+    // isVetProducts 过滤掉'breeds' 'Sterilized'
     const vetFilterList = filterList.filter(
       (item) =>
         item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
@@ -1918,7 +1920,8 @@ class List extends React.Component {
       breadList,
       eEvents,
       GAListParam,
-      isDogPage
+      isDogPage,
+      keywordsSearch
     } = this.state;
     let event;
     if (pathname) {
@@ -1943,7 +1946,7 @@ class List extends React.Component {
 
       event = {
         page: {
-          type,
+          type: keywordsSearch ? 'Search Results' : type,
           theme,
           path: pathname,
           error: '',
