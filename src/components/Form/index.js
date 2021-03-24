@@ -1,4 +1,5 @@
 import React from 'react';
+import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -19,6 +20,7 @@ import { FormattedMessage } from 'react-intl';
 import { ADDRESS_RULE } from '@/utils/constant';
 import './index.less';
 
+const CURRENT_LANGFILE = locales;
 class Form extends React.Component {
   static defaultProps = {
     type: 'billing',
@@ -169,10 +171,32 @@ class Form extends React.Component {
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
       item.filedType = item.filedType == 0 ? 'text' : 'number';
-      // regExp: RULE[key],
-      // errMsg: CURRENT_LANGFILE['enterCorrectPostCode'],
-      item.regExp = '';
-      item.errMsg = '';
+      let regExp = '';
+      let errMsg = '';
+      switch (item.fieldKey) {
+        case 'postCode':
+          regExp = /^\d{5}$/;
+          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          break;
+        case 'phoneNumber':
+          if (process.env.REACT_APP_LANG == 'fr') {
+            regExp = /[+(33)|0]\d{9}$/;
+          } else if (process.env.REACT_APP_LANG == 'en') {
+            regExp = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
+          } else {
+            regExp = /[+(33)|0]\d{9}$/;
+          }
+          errMsg = CURRENT_LANGFILE['enterCorrectPhoneNumber'];
+          break;
+        default:
+          regExp = /{.+}/;
+          errMsg = CURRENT_LANGFILE['payment.errorInfo'].replace(
+            /{.+}/,
+            CURRENT_LANGFILE[`payment.${item.fieldKey}`]
+          );
+      }
+      item.regExp = regExp;
+      item.errMsg = errMsg;
 
       const group = JSON.stringify(fn(item));
       // 利用对象的key值唯一性的，创建数组
@@ -199,7 +223,7 @@ class Form extends React.Component {
       console.log(err);
     }
   };
-  // 5-1、查询州列表（美国 state）
+  // 5、查询州列表（美国 state）
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
@@ -323,6 +347,9 @@ class Form extends React.Component {
       }
       if (process.env.REACT_APP_LANG === 'en') {
         value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+      }
+      if (process.env.REACT_APP_LANG === 'ru') {
+        value = value.replace(/^[0]/, '+(7)');
       }
     }
     caninForm[name] = value;

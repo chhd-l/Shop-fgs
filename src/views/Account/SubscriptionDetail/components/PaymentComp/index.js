@@ -423,6 +423,7 @@ class PaymentComp extends React.Component {
         paymentCustomerId: creditCardInfoForm.paymentCustomerId,
         paymentTransactionId: creditCardInfoForm.paymentTransactionId,
         paymentCvv: res ? res.data.encrypted_cvv : '',
+        binNumber: res ? res.data.bin_number : '',
         paymentType: 'PAYU'
       };
 

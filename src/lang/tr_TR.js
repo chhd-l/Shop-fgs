@@ -204,7 +204,7 @@ const tr_TR = {
   createAnAccount: 'Hesap oluştur',
   creditCard: 'Kredi kartı',
   creditCardTip: '10 adede kadar {number} kredi kartı oluşturdunuz',
-  creditCardTipMany: "10'a kadar {sayı} kredi kartı oluşturdunuz",
+  creditCardTipMany: "10'a kadar {number} kredi kartı oluşturdunuz",
   customerReviews: 'Musteri degerlendirmeleri',
   cvvWarning: 'CVV yanlış',
   'datePicker.months': [
@@ -960,6 +960,12 @@ const tr_TR = {
   'club.wheretohelp.card.faq':
     'Sıkça Sorulan Sorular sayfamıza göz atarak, sorunuzun daha önce yanıtlanmış olup olmadığına bakabilirsiniz.',
   isPurebredDog: 'Safkan köpek?',
-  isPurebredCat: 'Safkan kedi?'
+  isPurebredCat: 'Safkan kedi?',
+  'payment.returnToCardList': 'Kart listesine dön',
+  'payment.saveCardToAccount': 'Kart ayrıntılarını hesabıma kaydet',
+  'payment.saveThisPaymentMethodAsPreferred':
+    'Bu ödeme yöntemini tercih edilen şekilde kaydedin',
+  'payment.installment': 'Installment',
+  bankCard: 'banka kartı'
 };
 export default tr_TR;

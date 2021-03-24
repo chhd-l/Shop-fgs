@@ -65,7 +65,7 @@ class PayProductInfo extends React.Component {
   }
   getProductList(plist) {
     const { details } = this.props;
-    console.log(plist, details, 'hahaha');
+    // console.log(plist, details, 'hahaha');
     const List = plist.map((item, i) => {
       let isGift =
         item.subscriptionPlanGiftList && item.subscriptionPlanGiftList.length;

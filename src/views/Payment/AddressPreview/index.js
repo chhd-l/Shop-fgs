@@ -125,102 +125,104 @@ class InfosPreview extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-12 address-summary-left">
-                      <h5 className="center">
-                        <FormattedMessage id="payment.billTitle" />
-                      </h5>
-                      <div className="row">
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.firstName" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;{details.invoice.firstName}
-                        </div>
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.lastName" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;{details.invoice.lastName}
-                        </div>
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.address1" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;{details.invoice.address1}
-                        </div>
-                        {details.invoice.address2 ? (
-                          <>
-                            <div className="col-md-6">
-                              <FormattedMessage id="payment.address2" />
-                            </div>
-                            <div className="col-md-6">
-                              &nbsp;{details.invoice.address2}
-                            </div>
-                          </>
-                        ) : null}
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.country" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;
-                          {matchNamefromDict(
-                            this.state.countryList,
-                            details.invoice.countryId
-                          )}
-                        </div>
-                        <>
-                          {details.invoice?.province &&
-                            details.invoice?.province != null && (
-                              <>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.state" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{details.invoice.province}
-                                </div>
-                              </>
+                    {details.invoice ? (
+                      <div className="col-md-12 address-summary-left">
+                        <h5 className="center">
+                          <FormattedMessage id="payment.billTitle" />
+                        </h5>
+                        <div className="row">
+                          <div className="col-md-6">
+                            <FormattedMessage id="payment.firstName" />
+                          </div>
+                          <div className="col-md-6">
+                            &nbsp;{details.invoice.firstName}
+                          </div>
+                          <div className="col-md-6">
+                            <FormattedMessage id="payment.lastName" />
+                          </div>
+                          <div className="col-md-6">
+                            &nbsp;{details.invoice.lastName}
+                          </div>
+                          <div className="col-md-6">
+                            <FormattedMessage id="payment.address1" />
+                          </div>
+                          <div className="col-md-6">
+                            &nbsp;{details.invoice.address1}
+                          </div>
+                          {details.invoice.address2 ? (
+                            <>
+                              <div className="col-md-6">
+                                <FormattedMessage id="payment.address2" />
+                              </div>
+                              <div className="col-md-6">
+                                &nbsp;{details.invoice.address2}
+                              </div>
+                            </>
+                          ) : null}
+                          <div className="col-md-6">
+                            <FormattedMessage id="payment.country" />
+                          </div>
+                          <div className="col-md-6">
+                            &nbsp;
+                            {matchNamefromDict(
+                              this.state.countryList,
+                              details.invoice.countryId
                             )}
-                        </>
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.city" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;{details.invoice.city}
-                        </div>
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.postCode" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;{details.invoice.postCode}
-                        </div>
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.phoneNumber" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;{details.invoice.phone}
-                        </div>
-                        {details.invoice.rfc ? (
+                          </div>
                           <>
-                            <div className="col-md-6">
-                              <FormattedMessage id="payment.rfc" />
-                            </div>
-                            <div className="col-md-6">
-                              &nbsp;{details.invoice.rfc}
-                            </div>
+                            {details.invoice?.province &&
+                              details.invoice?.province != null && (
+                                <>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.state" />
+                                  </div>
+                                  <div className="col-md-6">
+                                    &nbsp;{details.invoice.province}
+                                  </div>
+                                </>
+                              )}
                           </>
-                        ) : null}
-                        {details.buyerRemark ? (
-                          <>
-                            <div className="col-md-6">
-                              <FormattedMessage id="payment.commentOnDelivery" />
-                            </div>
-                            <div className="col-md-6">
-                              &nbsp;{details.buyerRemark}
-                            </div>
-                          </>
-                        ) : null}
+                          <div className="col-md-6">
+                            <FormattedMessage id="payment.city" />
+                          </div>
+                          <div className="col-md-6">
+                            &nbsp;{details.invoice.city}
+                          </div>
+                          <div className="col-md-6">
+                            <FormattedMessage id="payment.postCode" />
+                          </div>
+                          <div className="col-md-6">
+                            &nbsp;{details.invoice.postCode}
+                          </div>
+                          <div className="col-md-6">
+                            <FormattedMessage id="payment.phoneNumber" />
+                          </div>
+                          <div className="col-md-6">
+                            &nbsp;{details.invoice.phone}
+                          </div>
+                          {details.invoice.rfc ? (
+                            <>
+                              <div className="col-md-6">
+                                <FormattedMessage id="payment.rfc" />
+                              </div>
+                              <div className="col-md-6">
+                                &nbsp;{details.invoice.rfc}
+                              </div>
+                            </>
+                          ) : null}
+                          {details.buyerRemark ? (
+                            <>
+                              <div className="col-md-6">
+                                <FormattedMessage id="payment.commentOnDelivery" />
+                              </div>
+                              <div className="col-md-6">
+                                &nbsp;{details.buyerRemark}
+                              </div>
+                            </>
+                          ) : null}
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
