@@ -440,7 +440,11 @@ class Payment extends React.Component {
         }
       );
 
-      console.log(123, { loginCartData: this.loginCartData });
+      console.log(123, {
+        login: this.isLogin,
+        loginCartData: this.loginCartData,
+        tid
+      });
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
           // history.push('/cart');
