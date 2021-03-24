@@ -11,7 +11,7 @@ import {
 } from '@/api/address';
 import { queryCityNameById, addressValidation } from '@/api';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
-import { ADDRESS_RULE } from '@/utils/constant';
+// import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from '@/components/Form';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
@@ -357,8 +357,14 @@ class AddressList extends React.Component {
   validFormData = async () => {
     const { deliveryAddress } = this.state;
     try {
-      // console.log(' ---------- ★★★★★★★★★ valiFormData: ', deliveryAddress);
-      await validData(ADDRESS_RULE, deliveryAddress);
+      if (
+        !deliveryAddress?.formRule ||
+        (deliveryAddress?.formRule).length <= 0
+      ) {
+        return;
+      }
+      await validData(deliveryAddress.formRule, deliveryAddress); // 数据验证
+      // await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
@@ -411,7 +417,13 @@ class AddressList extends React.Component {
     try {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
-      await validData(ADDRESS_RULE, deliveryAddress);
+
+      // if (!deliveryAddress?.formRule || (deliveryAddress?.formRule).length <= 0) {
+      //   return;
+      // }
+      await validData(deliveryAddress.formRule, deliveryAddress); // 数据验证
+      // await validData(ADDRESS_RULE, deliveryAddress);
+
       let params = {
         address1: deliveryAddress.address1,
         address2: deliveryAddress.address2,
