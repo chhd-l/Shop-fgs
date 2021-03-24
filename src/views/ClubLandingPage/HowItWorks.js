@@ -7,7 +7,7 @@ import howitworck4 from './ClubImage/howit4.png';
 import workflowicon from './ClubImage/howitworkflow.png';
 import { FormattedMessage } from 'react-intl';
 
-const HowItWorks = () => {
+const HowItWorks = (props) => {
   return (
     <div
       className="experience-component experience-layouts-1column"
