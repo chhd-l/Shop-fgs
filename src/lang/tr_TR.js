@@ -178,14 +178,14 @@ const tr_TR = {
     'Lütfen alışveriş deneyimi hakkında yorum yapın',
   CompleteRequiredItems: 'Lütfen gerekli maddeleri tamamlayın',
   confirmation: 'Onayla',
-  'confirmation.account': 'Go to my account',
+  'confirmation.account': 'Hesabıma git',
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
   'confirmation.info2':
     'Yakın gelecekte, personelimiz siparişi onaylamak için sizinle iletişime geçecektir.',
   'confirmation.info3':
     'Adresler ve nakliye yöntemleri mallarınızın altında belirtilmiştir.',
-  'confirmation.oneShoot': 'Go to my account',
+  'confirmation.oneShoot': 'Alışverişe devam',
   'confirmation.orderNumber': 'Sipariş numarası',
   'confirmation.rateTip': 'Alışveriş deneyiminizi nasıl değerlendirirsiniz?',
   'confirmation.rateTip2': 'İyileştirmek için ne yapabiliriz?',
@@ -240,7 +240,7 @@ const tr_TR = {
   ],
   default: 'Varsayılan',
   defaultAddress: 'varsayılan adres',
-  delete: 'kaldır',
+  delete: 'Kartı Düzenle',
   deleteAddressFailed: 'Adres Silinemedi',
   deleteAddressSuccess: 'Başarılı Adres Sil',
   deleteAddressTip:
@@ -976,7 +976,6 @@ const tr_TR = {
   'payment.saveThisPaymentMethodAsPreferred':
     'Bu ödeme yöntemini tercih edilen şekilde kaydedin',
   'payment.installment': 'Installment',
-  bankCard: 'banka kartı',
   'footer.email': 'Bize Ulaşın',
   home: 'Ana Sayfa',
   'account.ordersTitle': 'Siparişlerim',
@@ -1011,6 +1010,15 @@ const tr_TR = {
   'order.iVAIncluido': 'KDV Dahil Toplam',
   units: 'adet',
   autoShipStarted: 'Abonelik yaratılma tarihi',
-  nextShipment: 'Gelecek gönderi'
+  nextShipment: 'Gelecek gönderi',
+  'payment.installment': 'Taksit',
+  bankCard: 'banka kartı',
+  'installMent.payment': 'Ödeme',
+  'installMent.rate': 'Oran',
+  'installMent.percent': 'Yüzde',
+  'installMent.total': 'Toplam',
+  'installMent.oneShot': 'Tek Çekim',
+  'installMent.xInstallMents': '{num} Taksit',
+  'installMent.additionalFee': 'Taksit ilave bedeli'
 };
 export default tr_TR;
