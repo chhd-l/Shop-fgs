@@ -395,7 +395,10 @@ export default class Felin extends React.Component {
       Object.values(this.state.errMsgObj).every((el) => el === '') &&
       consentChecked
     ) {
-      this.setState({ nextBtnEnable: true });
+      // 所有信息必须有值
+      if (!Object.values(this.state.userInfo).some((el) => !el)) {
+        this.setState({ nextBtnEnable: true });
+      }
     } else {
       this.setState({ nextBtnEnable: false });
     }
