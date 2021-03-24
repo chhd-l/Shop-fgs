@@ -850,7 +850,7 @@ const en_US = {
   produtctNumber: 'Product number',
   'profile.emailChoose':
     'Yes, I would like to receive exclusive savings, product information, pet care tips & more from Royal Canin.',
-  promotion: 'Promotion',
+  promotion: 'Autoship Discount',
   'promotion.firstOrderDiscount': 'First Order Discount',
   promotionalCode: 'Promotional Code',
   promotionCode: 'Promotional code',
