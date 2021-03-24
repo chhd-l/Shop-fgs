@@ -761,7 +761,7 @@ const tr_TR = {
   registerSpecial: 'Özel bir karakter',
   registerTogglePassword: 'Şifre görünürlüğünü değiştir',
   registerUppercase: 'Bir büyük harf',
-  registerWelcome: 'Hoş Geldiniz',
+  registerWelcome: "'e Hoş Geldiniz",
   remember48Hours:
     "{Val} tarihinden önceki siparişin, ödemenin iki gün sonra {val} pm'den önce sona ereceğini veya {val} pm'den sonra, ödemenin üç gün sonra {val} pm'den önce sona ereceğini unutmayın.",
   rememberMe: 'Beni Hatırla',

@@ -353,6 +353,7 @@ class Register extends Component {
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
     const isHub = process.env.REACT_APP_HUB == '1';
+    const isTr = process.env.REACT_APP_LANG === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -421,7 +422,11 @@ class Register extends Component {
                         <span className="rc-screen-reader-text"></span>
                       </button>
                     </aside>
-                    <h2 className="text-center rc-margin-bottom--sm">
+                    <h2
+                      className={`text-center rc-margin-bottom--sm ${
+                        isTr ? 'trWelcome' : ''
+                      }`}
+                    >
                       <FormattedMessage id="registerWelcome" />{' '}
                       <span className="rc-text-colour--brand1">
                         Royal Canin
