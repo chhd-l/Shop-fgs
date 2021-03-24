@@ -246,6 +246,7 @@ class Subscription extends React.Component {
                       <AutoshipItem
                         subItem={subItem}
                         frequencyList={frequencyList}
+                        history={this.props.history}
                       />
                     );
                   } else {
@@ -253,6 +254,7 @@ class Subscription extends React.Component {
                       <AutoshipItem
                         subItem={subItem}
                         frequencyList={frequencyList}
+                        history={this.props.history}
                       />
                     );
                   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -16,9 +17,9 @@ import {
   getCityList
 } from '@/api';
 import { FormattedMessage } from 'react-intl';
-import { ADDRESS_RULE } from '@/utils/constant';
 import './index.less';
 
+const CURRENT_LANGFILE = locales;
 class Form extends React.Component {
   static defaultProps = {
     type: 'billing',
@@ -38,7 +39,6 @@ class Form extends React.Component {
         email: '',
         birthdate: '',
         address1: '',
-        DaData: null,
         address2: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
@@ -54,7 +54,9 @@ class Form extends React.Component {
         phoneNumber: '',
         entrance: '',
         apartment: '',
-        comment: ''
+        comment: '',
+        DaData: null, // 俄罗斯DaData
+        formRule: [] // form表单校验规则
       },
       addressSettings: [],
       formList: [],
@@ -71,6 +73,10 @@ class Form extends React.Component {
     this.setState({
       formLoading: true
     });
+
+    // 查询国家
+    this.getCountryList();
+
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
     initData.stateId = initData.provinceId;
@@ -136,17 +142,20 @@ class Form extends React.Component {
                 formList: ress
               },
               () => {
-                this.setState({
-                  formLoading: false
-                });
                 if (manually == 1) {
-                  // 查询国家
-                  this.getCountryList();
                   // 查询州列表（美国 state）
                   this.getUsStateList();
                   // 查询城市列表
                   this.getAllCityList();
                 }
+                this.setState(
+                  {
+                    formLoading: false
+                  },
+                  () => {
+                    this.props.updateData(caninForm);
+                  }
+                );
               }
             );
           }
@@ -166,18 +175,62 @@ class Form extends React.Component {
   formListByRow(array, fn) {
     const { caninForm } = this.state;
     const groups = {};
+    let rule = [];
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
       item.filedType = item.filedType == 0 ? 'text' : 'number';
-      // regExp: RULE[key],
-      // errMsg: CURRENT_LANGFILE['enterCorrectPostCode'],
-      item.regExp = '';
-      item.errMsg = '';
+      let regExp = '';
+      let errMsg = '';
+      switch (item.fieldKey) {
+        case 'postCode':
+          regExp = /^\d{5}$/;
+          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          break;
+        case 'phoneNumber':
+          if (process.env.REACT_APP_LANG == 'fr') {
+            regExp = /[+(33)|0]\d{9}$/;
+          } else if (process.env.REACT_APP_LANG == 'en') {
+            regExp = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
+          } else {
+            regExp = /\S/;
+          }
+          errMsg = CURRENT_LANGFILE['enterCorrectPhoneNumber'];
+          break;
+        default:
+          regExp = /\S/;
+          errMsg = CURRENT_LANGFILE['payment.errorInfo'].replace(
+            /{.+}/,
+            CURRENT_LANGFILE[`payment.${item.fieldKey}`]
+          );
+      }
+      item.regExp = regExp;
+      item.errMsg = errMsg;
+      // 组装rule
+      let ruleItem = {};
+      if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
+        ruleItem = {
+          regExp: regExp,
+          errMsg: errMsg,
+          key: item.fieldKey,
+          require: item.requiredFlag == 1 ? true : false
+        };
+      } else {
+        ruleItem = {
+          errMsg: errMsg,
+          key: item.fieldKey,
+          require: item.requiredFlag == 1 ? true : false
+        };
+      }
+      rule.push(ruleItem);
 
-      const group = JSON.stringify(fn(item));
       // 利用对象的key值唯一性的，创建数组
+      const group = JSON.stringify(fn(item));
       groups[group] = groups[group] || [];
       groups[group].push(item);
+    });
+    caninForm.formRule = rule;
+    this.setState({
+      caninForm
     });
     // 最后再利用map循环处理分组出来
     return Object.keys(groups).map((group) => {
@@ -194,12 +247,15 @@ class Form extends React.Component {
           countryList: res
         });
         caninForm.countryName = res[0].name;
+        this.setState({
+          caninForm
+        });
       }
     } catch (err) {
       console.log(err);
     }
   };
-  // 5-1、查询州列表（美国 state）
+  // 5、查询州列表（美国 state）
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
@@ -308,7 +364,7 @@ class Form extends React.Component {
     return tmp;
   }
   // 文本框输入改变
-  deliveryInputChange = (e) => {
+  inputChange = (e) => {
     const { caninForm } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
@@ -324,6 +380,9 @@ class Form extends React.Component {
       if (process.env.REACT_APP_LANG === 'en') {
         value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
       }
+      if (process.env.REACT_APP_LANG === 'ru') {
+        // value = value.replace(/^[0]/, '+(7)');
+      }
     }
     caninForm[name] = value;
     this.setState({ caninForm }, () => {
@@ -333,9 +392,9 @@ class Form extends React.Component {
   };
   // 文本框失去焦点
   inputBlur = async (e) => {
-    const { errMsgObj } = this.state;
+    const { errMsgObj, caninForm } = this.state;
     const target = e.target;
-    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const targetRule = caninForm.formRule.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
       await validData(targetRule, { [target.name]: value });
@@ -364,9 +423,11 @@ class Form extends React.Component {
   // DuData地址搜索选择
   handleAddressInputChange = (data) => {
     const { caninForm } = this.state;
-    let keyword = data.unrestrictedValue;
-    caninForm.address1 = keyword;
+    caninForm.address1 = data.unrestrictedValue;
+    caninForm.city = data.city;
+    caninForm.postCode = data.postCode;
     caninForm.DaData = data;
+    console.log('--- updateData 111111');
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -383,7 +444,7 @@ class Form extends React.Component {
             id={`shipping${item.fieldKey}`}
             type={item.fieldKey}
             value={caninForm[item.fieldKey]}
-            onChange={this.deliveryInputChange}
+            onChange={this.inputChange}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
@@ -403,7 +464,7 @@ class Form extends React.Component {
             className="rc_input_textarea"
             id={`shipping${item.fieldKey}`}
             value={caninForm[item.fieldKey]}
-            onChange={this.deliveryInputChange}
+            onChange={this.inputChange}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
@@ -615,17 +676,12 @@ class Form extends React.Component {
                           ) : null}
 
                           {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                          {item.inputFreeTextFlag == 0 &&
+                          {item.inputFreeTextFlag == 1 &&
                           item.inputSearchBoxFlag == 1 ? (
                             <>
                               {item.fieldKey == 'address1'
                                 ? this.addressSearchSelectionJSX(item)
                                 : null}
-                            </>
-                          ) : null}
-                          {item.inputFreeTextFlag == 1 &&
-                          item.inputSearchBoxFlag == 1 ? (
-                            <>
                               {item.fieldKey == 'city'
                                 ? this.citySearchSelectiontJSX(item)
                                 : null}
@@ -654,11 +710,12 @@ class Form extends React.Component {
                             </span>
                           )}
                           {/* 输入提示 */}
-                          {errMsgObj[item.fieldKey] && (
-                            <div className="text-danger-2">
-                              {errMsgObj[item.fieldKey]}
-                            </div>
-                          )}
+                          {errMsgObj[item.fieldKey] &&
+                            item.requiredFlag == 1 && (
+                              <div className="text-danger-2">
+                                {errMsgObj[item.fieldKey]}
+                              </div>
+                            )}
                         </div>
                       </div>
                       {/* 个人中心添加 email 和 birthData */}
