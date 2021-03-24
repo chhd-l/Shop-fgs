@@ -298,9 +298,9 @@ class AddressList extends React.Component {
     try {
       if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
         let dda = data.DaData;
-        console.log('--------- ★★★★★★ DaData: ', dda);
+        // console.log('--------- ★★★★★★ DaData: ', dda);
         // 俄罗斯计算运费
-        let calcres = await shippingCalculation({
+        let ddres = await shippingCalculation({
           sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
           sourceAreaFias: null,
           sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
@@ -320,7 +320,8 @@ class AddressList extends React.Component {
             depth: '1'
           }
         });
-        console.log('---------- ★★★★★★ 计算运费： ', calcres);
+        data.calculation = ddres?.context?.tariffs[0];
+        console.log('---------- ★★★★★★ 计算运费： ', ddres);
       }
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;

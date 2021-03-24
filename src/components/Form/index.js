@@ -439,7 +439,7 @@ class Form extends React.Component {
     caninForm.city = data.city;
     caninForm.postCode = data.postCode;
     caninForm.DaData = data;
-    console.log('--- updateData 111111');
+    console.log('--- ****** DuData handleAddressInputChange data: ', data);
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });

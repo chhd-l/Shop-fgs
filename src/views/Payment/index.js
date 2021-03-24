@@ -363,7 +363,7 @@ class Payment extends React.Component {
         this.setState({ isShowCardList: true });
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
   };
   async componentDidMount() {
@@ -440,15 +440,10 @@ class Payment extends React.Component {
         }
       );
 
-      console.log(123, {
-        login: this.isLogin,
-        loginCartData: this.loginCartData,
-        tid
-      });
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
-          // history.push('/cart');
-          // return false;
+          history.push('/cart');
+          return false;
         }
         if (
           !this.isLogin &&
@@ -460,7 +455,7 @@ class Payment extends React.Component {
         }
       }
     } catch (err) {
-      console.log(111, err);
+      console.warn(111, err);
     }
 
     this.getConsentList();
@@ -963,7 +958,7 @@ class Payment extends React.Component {
       });
       return finalParam;
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       throw new Error(err.message);
     }
   }
@@ -978,7 +973,7 @@ class Payment extends React.Component {
         resolve({ commonParameter, phone });
       });
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       throw new Error(err.message);
     }
   }
@@ -988,7 +983,7 @@ class Payment extends React.Component {
       let parameters = await this.getAdyenPayParam(type);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       if (err.message !== 'agreement failed') {
         this.showErrorMsg(
           err.message ? err.message.toString() : err.toString()
@@ -1227,7 +1222,7 @@ class Payment extends React.Component {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
       }
@@ -1360,7 +1355,7 @@ class Payment extends React.Component {
         });
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       throw new Error(err.message);
     }
   }
@@ -1655,7 +1650,7 @@ class Payment extends React.Component {
         billingChecked: param.billingChecked
       });
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       throw new Error(err.message);
     }
   }
@@ -1723,7 +1718,7 @@ class Payment extends React.Component {
         }
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       throw new Error(err.message);
     }
   }
@@ -1818,7 +1813,7 @@ class Payment extends React.Component {
         }
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
   };
 
