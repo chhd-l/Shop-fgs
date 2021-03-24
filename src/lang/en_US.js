@@ -1143,7 +1143,7 @@ const en_US = {
   uNeedHelp: 'You need help?',
   unfoldAddress: 'Unfold Address',
   unkown: 'Unkown',
-  unLoginSubscriptionTips: 'Autoship is possible only after registration',
+  unLoginSubscriptionTips: 'Autoship subscription requires an account',
   userAgreement: 'User Agreement',
   validPromotionCode: 'Unable to add the discount voucher to your cart',
   values: 'values',
