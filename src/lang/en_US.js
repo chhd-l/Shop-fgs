@@ -1168,6 +1168,7 @@ const en_US = {
   yourPasswordNotVerified: 'Your password has not been verified',
   securePaymentProcessing: 'Secure payment processing',
   'Vous avez économisé': 'You saved',
-  avecLabonnement: 'with autoship'
+  avecLabonnement: 'with autoship',
+  'payment.returnToCardList': 'Return to card list'
 };
 export default en_US;

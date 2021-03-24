@@ -10,10 +10,10 @@ REACT_APP_RegisterCallback = https://shopuat.466920.com/ru?origin=register
 REACT_APP_BASEURL = https://shopuat.466920.com/api
 
 REACT_APP_PaymentENV = test
-REACT_APP_PaymentKEY_MEMBER = fd931719-5733-4b77-b146-2fd22f9ad2e3
-REACT_APP_PaymentAPPID_MEMBER = com.razorfish.dev_mexico
-REACT_APP_PaymentKEY_VISITOR = fd931719-5733-4b77-b146-2fd22f9ad2e3
-REACT_APP_PaymentAPPID_VISITOR = com.razorfish.dev_mexico
+REACT_APP_PaymentKEY_MEMBER = f2346509-9c34-4299-8c07-9719dc4574e9
+REACT_APP_PaymentAPPID_MEMBER = com.razorfish.dev_ru_ms
+REACT_APP_PaymentKEY_VISITOR = f2346509-9c34-4299-8c07-9719dc4574e9
+REACT_APP_PaymentAPPID_VISITOR = com.razorfish.dev_ru_ms
 
 #GA环境配置
 REACT_APP_GA_GTMID = 'GTM-MH74J3M'
@@ -76,3 +76,12 @@ REACT_APP_PDP_RATING_VISIBLE = 0
 
 #HUB_GA
 REACT_APP_HUB_GA = 1
+
+#是否显示billing addr(account页)
+REACT_APP_HIDE_ACCOUNT_BILLING_ADDR = 1
+#是否显示billing addr(checkout页)
+REACT_APP_HIDE_CHECKOUT_BILLING_ADDR = 1
+
+#payu表单字段控制
+REACT_APP_PAYU_EMAIL = 0
+REACT_APP_PAYU_PHONE = 0

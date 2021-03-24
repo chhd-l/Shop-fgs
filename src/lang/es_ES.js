@@ -1017,6 +1017,11 @@ const es_ES = {
   yes: 'sí',
   yes2: 'sí',
   yourEmailNotVerified: '¡Tu email no se ha verificado!',
-  yourPasswordNotVerified: 'Tu contraseña no ha sido verificada'
+  yourPasswordNotVerified: 'Tu contraseña no ha sido verificada',
+  'payment.returnToCardList': 'Regresar a la lista de tarjetas',
+  'payment.saveCardToAccount':
+    'Guardar los detalles de la tarjeta en mi cuenta',
+  'payment.saveThisPaymentMethodAsPreferred':
+    'Guarde este método de pago como preferido'
 };
 export default es_ES;

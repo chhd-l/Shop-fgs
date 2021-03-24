@@ -33,7 +33,7 @@ class SameAsCheckbox extends React.Component {
   render() {
     const { type } = this.props;
     return (
-      <div className="rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap">
+      <div className="rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap justify-content-between">
         {/* <div>
           <input
             className="rc-input rc-input--inline w-100 mw-100"
@@ -49,7 +49,7 @@ class SameAsCheckbox extends React.Component {
             <FormattedMessage id="biliingAddressSameAs" />
           </label>
         </div> */}
-        <div className="rc-input rc-input--inline w-100 mw-100">
+        <div className="rc-input rc-input--inline mw-100">
           <input
             className="rc-input__checkbox"
             id={`id-checkbox-billing-${type}`}

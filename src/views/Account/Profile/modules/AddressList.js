@@ -59,6 +59,9 @@ function CardItem(props) {
 
 @injectIntl
 class AddressList extends React.Component {
+  static defaultProps = {
+    hideBillingAddr: false
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -90,12 +93,13 @@ class AddressList extends React.Component {
     });
   }
   getAddressList = async ({ showLoading = false } = {}) => {
-    showLoading && this.setState({ listLoading: true });
     try {
+      const { hideBillingAddr } = this.props;
+      showLoading && this.setState({ listLoading: true });
       let res = await getAddressList();
       let addressList = res.context;
-      if (process.env.REACT_APP_GA_COUNTRY == 'US') {
-        //美国不显示billing address
+      //不显示billing address
+      if (hideBillingAddr) {
         addressList = res.context.filter((item) => item.type === 'DELIVERY');
       }
       let cityRes = await queryCityNameById({
@@ -460,6 +464,7 @@ class AddressList extends React.Component {
                 {/* edit form panel  */}
                 {editFormVisible && (
                   <AddressEditForm
+                    hideBillingAddr={this.props.hideBillingAddr}
                     addressId={this.state.curAddressId}
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}

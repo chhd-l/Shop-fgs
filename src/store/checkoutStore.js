@@ -386,10 +386,12 @@ class CheckoutStore {
           good.goodsInfoImg = good.goodsInfoImg
             ? good.goodsInfoImg
             : good.goods.goodsImg;
-          const selectdSkuInfo = find(
-            good.goodsInfos || [],
-            (g) => g.goodsInfoId === good.goodsInfoId
-          );
+          const selectdSkuInfo = good.goodsInfos.filter((g) => {
+            if (good.buyCount > g.stock) {
+              g.isEmpty = true;
+            }
+            return g.goodsInfoId === good.goodsInfoId;
+          })[0];
           let specList = good.goodsSpecs;
           let specDetailList = good.goodsSpecDetails;
           (specList || []).map((sItem) => {
@@ -405,6 +407,19 @@ class CheckoutStore {
               ) {
                 sdItem.selected = true;
               }
+              good.goodsInfos.map((el) => {
+                if (
+                  el.mockSpecDetailIds &&
+                  el.mockSpecIds &&
+                  el.mockSpecDetailIds.includes(sdItem.specDetailId) &&
+                  el.mockSpecIds.includes(sdItem.specId)
+                ) {
+                  if (el.isEmpty) {
+                    sdItem.isEmpty = true;
+                  }
+                }
+              });
+
               return sdItem.specId === sItem.specId;
             });
             return sItem;

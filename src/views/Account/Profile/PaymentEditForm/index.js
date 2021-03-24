@@ -403,6 +403,7 @@ class PaymentEditForm extends React.Component {
         isDefault: creditCardInfoForm.isDefault ? '1' : '0',
         paymentToken: res ? res.data.token : '',
         paymentVendor: res ? res.data.vendor : '',
+        binNumber: res ? res.data.bin_number : '',
         pspName: 'PAYU'
       });
       this.handleCancel();

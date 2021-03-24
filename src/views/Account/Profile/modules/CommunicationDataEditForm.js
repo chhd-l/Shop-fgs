@@ -180,7 +180,7 @@ class CommunicationDataEditForm extends React.Component {
         ...{ oktaToken },
         customerId: (userInfo && userInfo.customerId) || '',
         communicationEmail: form.communicationEmail,
-        communicationPhone: form.communicationPhone
+        communicationPhone: needPhone ? form.communicationPhone : null
       })
     ])
       .then(async (res) => {
