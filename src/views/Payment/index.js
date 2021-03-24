@@ -439,22 +439,18 @@ class Payment extends React.Component {
           }
         }
       );
+
+      console.log(123, { loginCartData: this.loginCartData });
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
-          console.log(123, {
-            isLogin: this.isLogin,
-            loginCartData: this.loginCartData,
-            tid: tid
-          });
-          history.push('/cart');
-          return false;
+          // history.push('/cart');
+          // return false;
         }
         if (
           !this.isLogin &&
           (!this.cartData.length ||
             !this.cartData.filter((ele) => ele.selected).length)
         ) {
-          console.log(456, { isLogin: this.isLogin, cartData: this.cartData });
           history.push('/cart');
           return false;
         }
