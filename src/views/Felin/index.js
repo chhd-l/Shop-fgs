@@ -106,7 +106,8 @@ export default class Felin extends React.Component {
       calendarInitObserver: null,
       timeOption: [],
       qrCode1: '',
-      languageHeight: 0
+      languageHeight: 0,
+      errMsg: ''
     };
   }
   componentDidMount() {
@@ -394,20 +395,35 @@ export default class Felin extends React.Component {
         consumerName: this.state.userInfo.username,
         consumerEmail: this.state.userInfo.email,
         consumerPhone: this.state.userInfo.phoneNumber
-      }).then((res) => {
-        this.setState({ qrCode1: res.context.settingVO.qrCode1 }, () => {
-          if (res.context.settingVO.qrCode1) {
-            this.setState(
-              {
-                step: this.state.step + 1
-              },
-              () => {
-                this.currentStep();
-              }
-            );
-          }
+      })
+        .then((res) => {
+          this.setState({ qrCode1: res.context.settingVO.qrCode1 }, () => {
+            if (res.context.settingVO.qrCode1) {
+              this.setState(
+                {
+                  step: this.state.step + 1
+                },
+                () => {
+                  this.currentStep();
+                }
+              );
+            }
+          });
+        })
+        .catch((err) => {
+          this.setState(
+            {
+              step: 1,
+              nextBtnShow: 1
+            },
+            () => {
+              this.setState({ errMsg: err.message });
+              setTimeout(() => {
+                this.setState({ errMsg: '' });
+              }, 5000);
+            }
+          );
         });
-      });
     } catch (e) {
       console.log(e);
     }
@@ -478,7 +494,8 @@ export default class Felin extends React.Component {
       nextBtnEnable,
       nextBtnShow,
       isContactUs,
-      currentTabIndex
+      currentTabIndex,
+      errMsg
     } = this.state;
     const event = {
       page: {
@@ -832,6 +849,19 @@ export default class Felin extends React.Component {
                     className="col-12 text-center"
                     style={{ paddingTop: '50px' }}
                   >
+                    <div
+                      className={`text-break mt-2 mb-2 ${
+                        errMsg ? '' : 'hidden'
+                      }`}
+                      style={{ width: '500px', margin: '0 auto' }}
+                    >
+                      <aside
+                        className="rc-alert rc-alert--error rc-alert--with-close"
+                        role="alert"
+                      >
+                        <span className="pl-0">{errMsg}</span>
+                      </aside>
+                    </div>
                     <div className="rc-gamma inherit-fontsize">
                       {this.state.step < 6 ? (
                         <h3 style={{ display: 'inline-block' }}>
