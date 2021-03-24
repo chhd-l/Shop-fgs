@@ -1772,7 +1772,7 @@ class Payment extends React.Component {
     this.setState({
       deliveryAddress: data
     });
-    debugger;
+    // debugger;
     if (this.state.billingChecked) {
       this.setState({
         billingAddress: data
