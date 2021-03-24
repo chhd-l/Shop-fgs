@@ -9,7 +9,10 @@ import { FormattedMessage } from 'react-intl';
 
 const HowItWorks = () => {
   return (
-    <div className="experience-component experience-layouts-1column">
+    <div
+      className="experience-component experience-layouts-1column"
+      id={props.id}
+    >
       <div className="row rc-margin-x--none">
         <div className="rc-full-width">
           <div className="experience-component experience-assets-contentBlock">
