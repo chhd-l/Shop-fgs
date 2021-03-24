@@ -7,6 +7,7 @@ import SearchSelection from '@/components/SearchSelection';
 import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
+import Loading from '@/components/Loading';
 import { injectIntl } from 'react-intl';
 import {
   getSystemConfig,
@@ -31,6 +32,7 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dataLoading: false,
       formLoading: false,
       formSettingSwitch: '',
       caninForm: {
@@ -322,8 +324,14 @@ class Form extends React.Component {
           regionList: Object.assign(obj, regarr)
         });
       }
+      this.setState({
+        dataLoading: false
+      });
     } catch (err) {
-      console.log(err);
+      console.warn(err);
+      this.setState({
+        dataLoading: false
+      });
     }
   };
   // 下拉框选择
@@ -338,6 +346,10 @@ class Form extends React.Component {
       caninForm.countryName = data.name;
     } else if (key == 'city') {
       caninForm.city = data.name;
+      this.setState({
+        regionList: [],
+        dataLoading: true
+      });
       this.getRegionDataByCityId(data.value);
     } else if (key == 'region') {
       caninForm.region = data.name;
@@ -535,7 +547,9 @@ class Form extends React.Component {
     return (
       <>
         <span
-          className="rc-select rc-full-width rc-input--full-width rc-select-processed rc_first_noselect"
+          className={`rc-select rc-full-width rc-input--full-width rc-select-processed ${
+            item.fieldKey == 'state' ? 'rc_first_noselect' : ''
+          }`}
           style={{ marginTop: '0' }}
         >
           {/* 下拉框 key 和 value 为 id , fieldKey+'Id' */}
@@ -557,6 +571,7 @@ class Form extends React.Component {
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
               optionList={this.computedList(item.fieldKey)}
+              choicesInput={true}
               name={item.fieldKey}
               selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
               key={caninForm[item.fieldKey + 'Id']}
@@ -629,7 +644,13 @@ class Form extends React.Component {
     );
   };
   render() {
-    const { formLoading, caninForm, formList, errMsgObj } = this.state;
+    const {
+      dataLoading,
+      formLoading,
+      caninForm,
+      formList,
+      errMsgObj
+    } = this.state;
     return (
       <>
         {formLoading ? (
@@ -728,6 +749,8 @@ class Form extends React.Component {
               ))}
           </div>
         )}
+
+        {dataLoading ? <Loading /> : null}
       </>
     );
   }

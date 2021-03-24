@@ -831,7 +831,13 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
             <div
-              className="buyMethodBox rc-two-column"
+              className={`buyMethodBox ${
+                pitem.sizeList.filter((el) => el.selected)[0]
+                  .subscriptionStatus &&
+                pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice
+                  ? 'rc-two-column'
+                  : ''
+              }`}
               style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
             >
               <div className="rc-column">

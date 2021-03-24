@@ -21,7 +21,8 @@ class SearchSelection extends React.Component {
   static defaultProps = {
     customStyle: false,
     customCls: '',
-    isBottomPaging: false // 滑倒底部翻页
+    isBottomPaging: false, // 滑倒底部翻页
+    freeText: false
   };
   constructor(props) {
     super(props);
