@@ -9,7 +9,7 @@ import './index.less';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById, getProvincesList } from '@/api';
 import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
-import { ADDRESS_RULE } from '@/utils/constant';
+// import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
@@ -317,8 +317,13 @@ class ShippingAddressFrom extends React.Component {
   };
 
   validFormData = async () => {
+    const { addressForm } = this.state;
     try {
-      await validData(ADDRESS_RULE, this.state.addressForm);
+      if (!addressForm?.formRule || (addressForm?.formRule).length <= 0) {
+        return;
+      }
+      await validData(addressForm.formRule, addressForm); // 数据验证
+      // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
