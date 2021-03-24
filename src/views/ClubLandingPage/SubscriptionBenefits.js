@@ -193,7 +193,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Питание с учетом потребностей Вашего котенка"
                     title="ideal formula"
                     src={nutrition}
                   />
@@ -213,7 +213,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Брендированный подарок при каждой доставке"
                     title="ideal formula"
                     src={gifticon}
                   />
@@ -233,7 +233,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Ваш персональный эксперт по уходу за питомцем на связи ежедневно с 9 до 21"
                     title="ideal formula"
                     src={spetadviser}
                   />
@@ -253,7 +253,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Бесплатная доставка корма на протяжении всего участия в программе "
                     title="ideal formula"
                     src={shippingicon}
                   />
@@ -273,7 +273,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Возможность изменения частоты доставок"
                     title="ideal formula"
                     src={phoneicon}
                   />
@@ -294,7 +294,7 @@ export function SubscriptionBenefits() {
                     <img
                       className="value-proposition__img lazyloaded"
                       style={{ width: '100px', height: '100px' }}
-                      alt="ideal formula"
+                      alt="Два бесплатных ветеринарных осмотра в клинике"
                       title="ideal formula"
                       src={iconsix}
                     />
@@ -319,7 +319,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri"
                     title="ideal formula"
                     src={nutrition}
                   />
@@ -339,7 +339,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Hoş geldin paketi, hediyeler ve özel hizmetler"
                     title="ideal formula"
                     src={gifticon}
                   />
@@ -359,7 +359,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Evcil hayvan danışmanı ve kişiselleştirilmiş bültenler"
                     title="ideal formula"
                     src={spetadviser}
                   />
@@ -379,7 +379,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Ücretsiz kargo ile otomatik mama gönderimi"
                     title="ideal formula"
                     src={shippingicon}
                   />
@@ -399,7 +399,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="ideal formula"
+                    alt="Taahhüt yok, tüm kontrol sizde"
                     title="ideal formula"
                     src={phoneicon}
                   />
