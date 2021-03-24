@@ -1267,7 +1267,7 @@ class List extends React.Component {
       );
     let filterList = tmpList.concat(customFilter);
 
-    // isVetProducts 过滤掉'breeds' 'Sterilized''Specific needs'
+    // isVetProducts 过滤掉'breeds' 'Sterilized'
     const vetFilterList = filterList.filter(
       (item) =>
         item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
