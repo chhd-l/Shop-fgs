@@ -360,18 +360,70 @@ export default class Felin extends React.Component {
       // let felinForm = {
       //   selectedDate:
       // }
-      let obj = {
-        2: 'Appointment type',
-        3: 'Login',
-        4: 'Customer info',
-        5: 'Recap',
-        6: 'Confirmation'
-      };
-      this.bookingStepsGA(obj[this.state.step]);
-
+      this.currentStep();
       this.updateButtonState();
     });
   }
+
+  ConfirmInfo() {
+    let userInfo = localItemRoyal.get('rc-userinfo');
+    try {
+      apptSave({
+        customerDetailVO: null,
+        id: null,
+        apptNo: 'AP' + Math.ceil(Math.random() * 10000000),
+        storeId: process.env.REACT_APP_STOREID,
+        customerId: userInfo ? userInfo.customerId : null,
+        type: this.state.felinType,
+        apptDate: format(this.state.currentDate, 'yyyyMMdd'),
+        apptTime: this.state.selectedTimeObj.value,
+        status: 0,
+        qrCode1: null,
+        qrCode2: null,
+        qrCode3: null,
+        createTime: null,
+        updateTime: null,
+        delFlag: 0,
+        delTime: null,
+        consumerName: this.state.userInfo.username,
+        consumerEmail: this.state.userInfo.email,
+        consumerPhone: this.state.userInfo.phoneNumber
+      }).then((res) => {
+        this.setState({ qrCode1: res.context.settingVO.qrCode1 }, () => {
+          if (res.context.settingVO.qrCode1) {
+            this.setState(
+              {
+                step: this.state.step + 1
+              },
+              () => {
+                this.currentStep();
+              }
+            );
+          }
+        });
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  handleNextStepBtn() {
+    this.setState({ step: this.state.step + 1 }, () => {
+      this.currentStep();
+    });
+  }
+
+  currentStep() {
+    let obj = {
+      2: 'Appointment type',
+      3: 'Login',
+      4: 'Customer info',
+      5: 'Recap',
+      6: 'Confirmation'
+    };
+    this.bookingStepsGA(obj[this.state.step]);
+  }
+
   updateButtonState() {
     let {
       step,
@@ -972,9 +1024,7 @@ export default class Felin extends React.Component {
                           <button
                             className="rc-btn rc-btn--one"
                             style={{ width: '100%' }}
-                            onClick={() => {
-                              this.setState({ step: this.state.step + 1 });
-                            }}
+                            onClick={() => this.handleNextStepBtn()}
                           >
                             <FormattedMessage id="Continuer en tant qu'invité" />
                           </button>
@@ -1143,52 +1193,7 @@ export default class Felin extends React.Component {
                             className="rc-btn rc-btn--two"
                             style={{ width: '100%' }}
                             disabled={!nextBtnEnable}
-                            onClick={() => {
-                              let userInfo = localItemRoyal.get('rc-userinfo');
-                              try {
-                                apptSave({
-                                  customerDetailVO: null,
-                                  id: null,
-                                  apptNo:
-                                    'AP' + Math.ceil(Math.random() * 10000000),
-                                  storeId: process.env.REACT_APP_STOREID,
-                                  customerId: userInfo
-                                    ? userInfo.customerId
-                                    : null,
-                                  type: this.state.felinType,
-                                  apptDate: format(
-                                    this.state.currentDate,
-                                    'yyyyMMdd'
-                                  ),
-                                  apptTime: this.state.selectedTimeObj.value,
-                                  status: 0,
-                                  qrCode1: null,
-                                  qrCode2: null,
-                                  qrCode3: null,
-                                  createTime: null,
-                                  updateTime: null,
-                                  delFlag: 0,
-                                  delTime: null,
-                                  consumerName: this.state.userInfo.username,
-                                  consumerEmail: this.state.userInfo.email,
-                                  consumerPhone: this.state.userInfo.phoneNumber
-                                }).then((res) => {
-                                  console.log(res, 'res');
-                                  this.setState(
-                                    { qrCode1: res.context.settingVO.qrCode1 },
-                                    () => {
-                                      if (res.context.settingVO.qrCode1) {
-                                        this.setState({
-                                          step: this.state.step + 1
-                                        });
-                                      }
-                                    }
-                                  );
-                                });
-                              } catch (e) {
-                                console.log(e);
-                              }
-                            }}
+                            onClick={() => this.ConfirmInfo()}
                           >
                             <FormattedMessage id="Confirmer mes informations" />
                           </button>
@@ -1230,9 +1235,7 @@ export default class Felin extends React.Component {
                           <button
                             className="rc-btn rc-btn--one"
                             style={{ width: '100%' }}
-                            onClick={() => {
-                              this.setState({ step: this.state.step + 1 });
-                            }}
+                            onClick={() => this.handleNextStepBtn()}
                           >
                             <FormattedMessage id="Confirmer le rendez-vous" />
                           </button>
