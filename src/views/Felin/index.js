@@ -844,7 +844,7 @@ export default class Felin extends React.Component {
                                 return;
                               }}
                               tileDisabled={({ activeStartDate, date, view }) =>
-                                date.getDay() === 0
+                                date.getDay() === 1
                               }
                               minDate={new Date('2021-04-20')}
                               maxDate={new Date('2021-06-13')}
