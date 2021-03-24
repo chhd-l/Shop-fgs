@@ -441,6 +441,11 @@ class Payment extends React.Component {
       );
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
+          console.log(123, {
+            isLogin: this.isLogin,
+            loginCartData: this.loginCartData,
+            tid: tid
+          });
           history.push('/cart');
           return false;
         }
@@ -449,6 +454,7 @@ class Payment extends React.Component {
           (!this.cartData.length ||
             !this.cartData.filter((ele) => ele.selected).length)
         ) {
+          console.log(456, { isLogin: this.isLogin, cartData: this.cartData });
           history.push('/cart');
           return false;
         }
