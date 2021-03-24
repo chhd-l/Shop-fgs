@@ -5,7 +5,7 @@ import howitworck2 from './ClubImage/howIt2.png';
 import howitworck3 from './ClubImage/howit3.png';
 import howitworck4 from './ClubImage/howit4.png';
 import workflowicon from './ClubImage/howitworkflow.png';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 const HowItWorks = (props) => {
   return (
@@ -37,7 +37,13 @@ const HowItWorks = (props) => {
                       </p>
                     </div>
                     <LazyLoad height={180}>
-                      <img className="w-90 lazyloaded" src={howitworck1} />
+                      <img
+                        className="w-90 lazyloaded"
+                        src={howitworck1}
+                        alt={props.intl.formatMessage({
+                          id: 'club.howitworks.alt1'
+                        })}
+                      />
                     </LazyLoad>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
@@ -54,9 +60,8 @@ const HowItWorks = (props) => {
                   }}
                 >
                   <article>
-                    {' '}
-                    <img className="imagetransform" src={workflowicon} />{' '}
-                  </article>{' '}
+                    <img className="imagetransform" src={workflowicon} />
+                  </article>
                 </div>
                 <div>
                   <article>
@@ -68,7 +73,13 @@ const HowItWorks = (props) => {
                       </p>
                     </div>
                     <LazyLoad height={180}>
-                      <img className="w-90 lazyloaded" src={howitworck2} />
+                      <img
+                        className="w-90 lazyloaded"
+                        src={howitworck2}
+                        alt={props.intl.formatMessage({
+                          id: 'club.howitworks.alt2'
+                        })}
+                      />
                     </LazyLoad>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
@@ -99,7 +110,13 @@ const HowItWorks = (props) => {
                       </p>
                     </div>
                     <LazyLoad height={180}>
-                      <img className="w-90 lazyloaded" src={howitworck3} />
+                      <img
+                        className="w-90 lazyloaded"
+                        src={howitworck3}
+                        alt={props.intl.formatMessage({
+                          id: 'club.howitworks.alt3'
+                        })}
+                      />
                     </LazyLoad>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
@@ -130,7 +147,13 @@ const HowItWorks = (props) => {
                       </p>
                     </div>
                     <LazyLoad height={180}>
-                      <img className="w-90 lazyloaded" src={howitworck4} />
+                      <img
+                        className="w-90 lazyloaded"
+                        src={howitworck4}
+                        alt={props.intl.formatMessage({
+                          id: 'club.howitworks.alt4'
+                        })}
+                      />
                     </LazyLoad>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
@@ -148,4 +171,4 @@ const HowItWorks = (props) => {
   );
 };
 
-export default HowItWorks;
+export default injectIntl(HowItWorks);

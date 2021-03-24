@@ -3,11 +3,11 @@ import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import pictofaq from './img/pictofaq.png';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 
-const HelpComponents = () => {
+const HelpComponents = (props) => {
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -82,7 +82,9 @@ const HelpComponents = () => {
                                 <img
                                   className="align-self-center widthAuto"
                                   src={callImg}
-                                  alt="By telephone"
+                                  alt={props.intl.formatMessage({
+                                    id: 'club.wheretohelp.alt1'
+                                  })}
                                   title="By telephone"
                                 />
                               </LazyLoad>
@@ -151,7 +153,9 @@ const HelpComponents = () => {
                                 <img
                                   className="align-self-center widthAuto"
                                   src={emailImg}
-                                  alt="By telephone"
+                                  alt={props.intl.formatMessage({
+                                    id: 'club.wheretohelp.alt2'
+                                  })}
                                   title="By telephone"
                                 />
                               </LazyLoad>
@@ -214,7 +218,9 @@ const HelpComponents = () => {
                                 <img
                                   className="align-self-center widthAuto"
                                   src={pictofaq}
-                                  alt="By telephone"
+                                  alt={props.intl.formatMessage({
+                                    id: 'club.wheretohelp.alt3'
+                                  })}
                                   title="By telephone"
                                 />
                               </LazyLoad>
@@ -234,4 +240,4 @@ const HelpComponents = () => {
   );
 };
 
-export default HelpComponents;
+export default injectIntl(HelpComponents);

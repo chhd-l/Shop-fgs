@@ -6,9 +6,9 @@ import catanddog from './ClubImage/catanddog.PNG';
 import howitworck4 from './ClubImage/howit4.png';
 import LazyLoad from 'react-lazyload';
 import './index.css';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
-const JoinToday = () => {
+const JoinToday = (props) => {
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none ">
@@ -28,6 +28,9 @@ const JoinToday = () => {
                               maxHeight: '85%',
                               marginTop: '30px'
                             }}
+                            alt={props.intl.formatMessage({
+                              id: 'club.jointodayalt'
+                            })}
                             src={Landingpagecat}
                           />
                         </LazyLoad>
@@ -61,7 +64,12 @@ const JoinToday = () => {
                     </div>
                     <div className="col-12 col-md-4 order-2 order-md-2 indexdesktop ">
                       <div className="rc-column rc-padding--none">
-                        <img src={Landingpagedog} alt="Dog image" />
+                        <img
+                          src={Landingpagedog}
+                          alt={props.intl.formatMessage({
+                            id: 'club.jointodayalt'
+                          })}
+                        />
                       </div>
                     </div>
                     <div className="col-12 col-md-4 order-2 order-md-2 indexmobile">
@@ -79,4 +87,4 @@ const JoinToday = () => {
     </div>
   );
 };
-export default JoinToday;
+export default injectIntl(JoinToday);
