@@ -16,7 +16,7 @@ import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 export default class OrdersAfterSaleSuccess extends React.Component {
   constructor(props) {
@@ -42,8 +42,8 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       },
       () => this.queryReturnDetails()
     );
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
   queryReturnDetails() {
@@ -70,7 +70,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     return (
@@ -79,10 +79,13 @@ export default class OrdersAfterSaleSuccess extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        
+
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header">
           <BannerTip />
@@ -99,11 +102,11 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                 ) : details ? (
                   <React.Fragment>
                     <LazyLoad>
-                    <img
-                      src={successImg}
-                      alt=""
-                      style={{ display: 'inline-block' }}
-                    />
+                      <img
+                        src={successImg}
+                        alt=""
+                        style={{ display: 'inline-block' }}
+                      />
                     </LazyLoad>
                     <h4>
                       <b>
@@ -141,13 +144,13 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                         {details.returnItems.map((item) => (
                           <div className="d-flex mb-1" key={item.skuId}>
                             <LazyLoad>
-                            <img
-                              className="img-fluid border"
-                              src={item.pic || IMG_DEFAULT}
-                              alt={item.skuName}
-                              title={item.skuName}
-                              style={{ width: '20%' }}
-                            />
+                              <img
+                                className="img-fluid border"
+                                src={item.pic || IMG_DEFAULT}
+                                alt={item.skuName}
+                                title={item.skuName}
+                                style={{ width: '20%' }}
+                              />
                             </LazyLoad>
                             <span className="ml-2">
                               {item.skuName}
@@ -169,8 +172,8 @@ export default class OrdersAfterSaleSuccess extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

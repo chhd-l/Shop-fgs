@@ -258,10 +258,6 @@ const fr_FR = {
   country: 'Pays *',
   createAnAccount: 'Créer un compte',
   creditCard: 'Carte de crédit',
-  creditCardTip:
-    "Vous avez créé une carte de crédit de {number}, vous pouvez ajouter jusqu'à 10 cartes de crédit",
-  creditCardTipMany:
-    "Vous avez créé {number} cartes de crédit, vous pouvez ajouter jusqu'à 10 cartes de crédit",
   customerReviews: 'Évaluations des clients',
   cvvWarning: 'CVV est faux',
   dataProtection: 'Politique de confidentialité',

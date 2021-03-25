@@ -19,7 +19,7 @@ import './index.css';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 @inject('configStore')
 @observer
@@ -39,8 +39,8 @@ class Help extends React.Component {
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
-    }).then(res => {
-      this.setState({seoConfig: res})
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
   componentWillUnmount() {
@@ -59,10 +59,13 @@ class Help extends React.Component {
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -549,9 +552,8 @@ class Help extends React.Component {
               </div>
             </div> */}
           </div>
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }

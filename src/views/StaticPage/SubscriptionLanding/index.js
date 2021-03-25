@@ -500,9 +500,8 @@ class SubscriptionLanding extends React.Component {
               </div>
             )}
           </div>
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }
