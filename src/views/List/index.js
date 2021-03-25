@@ -1973,9 +1973,12 @@ class List extends React.Component {
       ));
 
     const { title, metaDescription } = this.state.seoConfig;
-    const titleSeo = title && title.replace(/{H1}/, titleData.title);
+    const titleSeo =
+      title && titleData && title.replace(/{H1}/, titleData.title);
     const metaDescriptionSeo =
-      metaDescription && metaDescription.replace(/{H1}/, titleData.title);
+      metaDescription &&
+      titleData &&
+      metaDescription.replace(/{H1}/, titleData.title);
     const filterSeoTitle =
       this.state.prefv1 + ' ' + this.state.animalType + ' ' + titleSeo;
     const filterSeoDesc =
