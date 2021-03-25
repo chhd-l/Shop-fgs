@@ -2145,9 +2145,15 @@ class Payment extends React.Component {
         expirationMonth,
         expirationYear,
         securityCode
-      }
+      },
+      tid,
+      orderDetails
     } = this.state;
-
+    let newBillingAddress = Object.assign({}, billingAddress);
+    if (tid && tid != null) {
+      newBillingAddress = orderDetails?.invoice;
+      newBillingAddress.phoneNumber = orderDetails?.invoice?.phone;
+    }
     let cyberPaymentParam = {};
     let cyberParams = {};
     if (paymentTypeVal == 'cyber') {
@@ -2156,16 +2162,16 @@ class Payment extends React.Component {
       cyberPaymentParam.securityCode = securityCode;
       cyberPaymentParam.expirationMonth = expirationMonth;
       cyberPaymentParam.expirationYear = expirationYear;
-      cyberPaymentParam.firstName = firstName;
-      cyberPaymentParam.lastName = lastName;
-      cyberPaymentParam.address1 = address1;
-      cyberPaymentParam.address2 = address2;
+      cyberPaymentParam.firstName = newBillingAddress.firstName;
+      cyberPaymentParam.lastName = newBillingAddress.lastName;
+      cyberPaymentParam.address1 = newBillingAddress.address1;
+      cyberPaymentParam.address2 = newBillingAddress.address2;
       cyberPaymentParam.country = 'US';
-      cyberPaymentParam.state = province; // province
-      cyberPaymentParam.city = city;
-      cyberPaymentParam.zipCode = postCode;
+      cyberPaymentParam.state = newBillingAddress.province;
+      cyberPaymentParam.city = newBillingAddress.city;
+      cyberPaymentParam.zipCode = newBillingAddress.postCode;
+      cyberPaymentParam.phone = newBillingAddress.phoneNumber;
       cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
-      cyberPaymentParam.phone = phoneNumber;
       cyberParams = Object.assign({}, cyberPaymentParam, {
         cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
         paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
