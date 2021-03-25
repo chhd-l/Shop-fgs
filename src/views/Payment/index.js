@@ -1245,16 +1245,6 @@ class Payment extends React.Component {
           gotoConfirmationPage = true;
           break;
         case 'payUCreditCardRU':
-          subOrderNumberList = tidList.length
-            ? tidList
-            : res.context && res.context.tidList;
-          if (res.context.tid) {
-            sessionItemRoyal.set('orderNumber', res.context.tid);
-          }
-          if (res.context.redirectUrl) {
-            window.location.href = res.context.redirectUrl;
-          }
-          break;
         case 'payUCreditCardTU':
         case 'payUCreditCard':
         case 'cod':
@@ -1262,7 +1252,11 @@ class Payment extends React.Component {
             ? tidList
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
-          gotoConfirmationPage = true;
+          if (res.context.redirectUrl) {
+            window.location.href = res.context.redirectUrl;
+          } else {
+            gotoConfirmationPage = true;
+          }
           break;
         case 'adyenCard':
           subOrderNumberList =
