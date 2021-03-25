@@ -8,7 +8,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import BannerTip from '@/components/BannerTip';
 import noPic from '@/assets/images/noPic.png';
 import ImageMagnifier from './components/ImageMagnifier';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import Help from '../SmartFeederSubscription/modules/Help';
@@ -225,8 +225,11 @@ class Recommendation extends React.Component {
   //   this.setState({ secondlist });
   // }
   async componentDidMount() {
-    let paramArr = this.props.location.search.split('&');
-    let token = paramArr[paramArr.length - 1].split('=')[1];
+    // let paramArr = this.props.location.search.split('&');
+    // let token = paramArr[paramArr.length - 1].split('=')[1];
+    let { search } = this.props.history.location;
+    let token = getParaByName(search, 'token');
+
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {

@@ -6,6 +6,7 @@ import LazyLoad from 'react-lazyload';
 import { getSubList, getSubListForPet } from '@/api/subscription';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
