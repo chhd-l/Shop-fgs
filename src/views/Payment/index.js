@@ -475,6 +475,7 @@ class Payment extends React.Component {
 
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
+          localItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
         }
@@ -483,6 +484,7 @@ class Payment extends React.Component {
           (!this.cartData.length ||
             !this.cartData.filter((ele) => ele.selected).length)
         ) {
+          localItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
         }
@@ -620,7 +622,7 @@ class Payment extends React.Component {
     try {
       const payWay = await getWays();
       // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
-      const payMethodsObj = {
+      let payMethodsObj = {
         PAYU: {
           name: 'payu',
           id: 'creditCard',
@@ -668,6 +670,18 @@ class Payment extends React.Component {
           paymentTypeVal: 'cyber'
         }
       };
+      if (
+        process.env.REACT_APP_LANG === 'ru' &&
+        localItemRoyal.get('rc-iframe-from-storepotal')
+      ) {
+        payMethodsObj = {
+          COD: {
+            name: 'payu_cod',
+            id: 'cod',
+            paymentTypeVal: 'cod'
+          }
+        };
+      }
       let payWayNameArr = [];
       if (payWay.context) {
         payWayNameArr = (payWay.context.payPspItemVOList || [])
@@ -2482,7 +2496,13 @@ class Payment extends React.Component {
                 </>
               )}
               {/* oxxo */}
-              {paymentTypeVal === 'oxxo' && (
+              {paymentTypeVal === 'oxxo' &&
+              !loginCartData.filter(
+                (ele) =>
+                  ele.subscriptionStatus &&
+                  (ele.subscriptionPrice > 0 || ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
+                  ele.goodsInfoFlag
+              ).length ? (
                 <>
                   <OxxoConfirm
                     type={'oxxo'}
@@ -2493,7 +2513,7 @@ class Payment extends React.Component {
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
                   })}
                 </>
-              )}
+              ) : null}
               {/* payu creditCard */}
               {this.isPayUPaymentTypeVal && (
                 <>
