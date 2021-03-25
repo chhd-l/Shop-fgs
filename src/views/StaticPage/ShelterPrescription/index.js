@@ -102,6 +102,7 @@ class ShelterPrescription extends React.Component {
     let item = this.state.list[idx] || {};
     return (
       <Link
+        target="_blank"
         to={{
           pathname: item
             ? `/${

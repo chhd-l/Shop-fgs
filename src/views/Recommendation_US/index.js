@@ -757,6 +757,9 @@ class Recommendation extends React.Component {
         null,
         productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
       );
+      if (isRu) {
+        MaxMarketPrice = MinMarketPrice; // 俄罗斯只展示最低价格
+      }
       // MaxSubPrice = Math.min.apply(
       //   null,
       //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
@@ -766,6 +769,10 @@ class Recommendation extends React.Component {
       //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       // );
     }
+    let showBannerTip = true;
+    let bannerHight = showBannerTip
+      ? document.querySelector('.nav-slim-banner')?.offsetHeight
+      : 0;
 
     let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
     let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
@@ -797,7 +804,7 @@ class Recommendation extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
-          showBannerTip={true}
+          showBannerTip={showBannerTip}
           // showBannerTip={isUs ? true : false}
           bannerTipShowBtn={isUs ? true : false}
         />
@@ -834,7 +841,7 @@ class Recommendation extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <div>
+          <div style={{ paddingTop: bannerHight }}>
             <section
               className="text-center"
               style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
@@ -998,7 +1005,7 @@ class Recommendation extends React.Component {
                                 <FormattedMessage id="autoship" />
                               </div> */}
                                 <div className="rc-large-body  m-auto">
-                                  {MaxMarketPrice === MinMarketPrice || isRu ? (
+                                  {MaxMarketPrice === MinMarketPrice ? (
                                     <React.Fragment>
                                       <span className="text-throught-line">
                                         {formatMoney(MaxMarketPrice)}
@@ -1184,7 +1191,7 @@ class Recommendation extends React.Component {
                     } ${
                       this.state.inStockProducts.length ? '' : 'rc-btn-disabled'
                     }`}
-                    onClick={this.AddCart}
+                    onClick={this.addCart}
                   >
                     <FormattedMessage id="recommendation.plusBtn" />
                   </button>
