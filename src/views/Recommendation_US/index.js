@@ -779,7 +779,7 @@ class Recommendation extends React.Component {
     let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
-    let tabDesText = this.get100Words(tabDes);
+    let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
     let grayBoxInnerText = {
       en:
         productList[activeIndex]?.productMessage ||
@@ -969,7 +969,7 @@ class Recommendation extends React.Component {
                             <div className="pic">
                               <ImageMagnifier
                                 sizeList={[productList[activeIndex].goodsInfo]}
-                                images={[productList[activeIndex].goodsInfo]}
+                                images={productList[activeIndex].images}
                                 minImg={
                                   productList[activeIndex].goodsInfo
                                     .goodsInfoImg
@@ -1059,7 +1059,9 @@ class Recommendation extends React.Component {
                               <p
                                 className="product_info"
                                 style={{
-                                  display: `${tabDesText ? '' : 'none'}`
+                                  display: `${
+                                    tabDes.length > 101 ? '' : 'none'
+                                  }`
                                 }}
                               >
                                 {tabDesText}

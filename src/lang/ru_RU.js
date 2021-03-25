@@ -118,7 +118,7 @@ const ru_RU = {
   'recommendation.helpContentText.emailLink': '/help/contact',
   'recommendation.helpContentText.phoneTitle': 'Свяжитесь с нами',
   'recommendation.helpContentText.phone': '8-800-200-37-35',
-  'recommendation.helpContentText.email': 'Send us an email',
+  'recommendation.helpContentText.email': 'Отправьте нам Email',
   'recommendation.helpContentText.phoneDes1': '',
   'recommendation.helpContentText.phoneDes2':
     'Наши эксперты рады помочь Вам каждый день с 9 до 21 часов.',

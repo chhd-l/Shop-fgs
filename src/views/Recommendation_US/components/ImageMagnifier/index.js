@@ -473,7 +473,7 @@ class ImageMagnifier extends Component {
                 left: this.state.positionLeft + 'px'
               }}
             >
-              {images.filter((el) => el.goodsInfoImg).length ? (
+              {images.filter((el) => el.artworkUrl).length ? (
                 images &&
                 images.map((el, i) => (
                   <div
