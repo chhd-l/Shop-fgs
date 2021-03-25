@@ -2,15 +2,10 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import AdyenEditForm from '@/components/Adyen/form';
-import {
-  CREDIT_CARD_IMG_ENUM,
-  CREDIT_CARD_IMGURL_ENUM,
-  PAYMENT_METHOD_RULE
-} from '@/utils/constant';
+import { CREDIT_CARD_IMG_ENUM, PAYMENT_METHOD_RULE } from '@/utils/constant';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
-import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';
 import CyberPaymentForm from '@/components/CyberPaymentForm';
 import CyberBillingAddress from '@/components/CyberBillingAddress';
@@ -49,7 +44,8 @@ const CardTypeName = {
 @observer
 class PaymentEditForm extends React.Component {
   static defaultProps = {
-    paymentType: 'PAYU' // PAYU ADYEN CYBER(美国支付)
+    paymentType: 'PAYU', // PAYU ADYEN CYBER(美国支付)
+    supportPaymentMethods: []
   };
   constructor(props) {
     super(props);
@@ -657,6 +653,7 @@ class PaymentEditForm extends React.Component {
   };
 
   render() {
+    const { supportPaymentMethods, needEmail, needPhone } = this.props;
     const {
       creditCardInfoForm,
       errorMsg,
@@ -675,9 +672,9 @@ class PaymentEditForm extends React.Component {
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
-        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+        {supportPaymentMethods.map((el, idx) => (
           <LazyLoad key={idx}>
-            <img key={idx} className="logo-payment-card" src={el} alt="" />
+            <img key={idx} className="logo-payment-card" src={el.img} alt="" />
           </LazyLoad>
         ))}
       </span>
@@ -915,68 +912,75 @@ class PaymentEditForm extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-sm-6">
-                  <div className="form-group required">
-                    <label className="form-control-label">
-                      <FormattedMessage id="payment.email" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--full-width"
-                      input-setup="true"
-                    >
-                      <input
-                        type="email"
-                        className="rc-input__control email"
-                        id="email"
-                        value={creditCardInfoForm.email}
-                        onChange={this.cardInfoInputChange}
-                        onBlur={this.inputBlur}
-                        name="email"
-                        maxLength="254"
-                      />
-                      <label className="rc-input__label" htmlFor="email" />
-                    </span>
-                    <div className="invalid-feedback">
-                      <FormattedMessage id="payment.errorInfo2" />
+                {needEmail ? (
+                  <div className="col-sm-6">
+                    <div className="form-group required">
+                      <label className="form-control-label">
+                        <FormattedMessage id="payment.email" />
+                      </label>
+                      <span
+                        className="rc-input rc-input--full-width"
+                        input-setup="true"
+                      >
+                        <input
+                          type="email"
+                          className="rc-input__control email"
+                          id="email"
+                          value={creditCardInfoForm.email}
+                          onChange={this.cardInfoInputChange}
+                          onBlur={this.inputBlur}
+                          name="email"
+                          maxLength="254"
+                        />
+                        <label className="rc-input__label" htmlFor="email" />
+                      </span>
+                      <div className="invalid-feedback">
+                        <FormattedMessage id="payment.errorInfo2" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-sm-6">
-                  <div className="form-group required">
-                    <label className="form-control-label" htmlFor="phoneNumber">
-                      <FormattedMessage id="payment.phoneNumber" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--full-width"
-                      input-setup="true"
-                      data-js-validate=""
-                      data-js-warning-message="*Phone Number isn’t valid"
-                    >
-                      <input
-                        type="number"
-                        className="rc-input__control input__phoneField shippingPhoneNumber"
-                        min-lenght="18"
-                        max-length="18"
-                        data-phonelength="18"
-                        // data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                        data-js-pattern="(^\d{10}$)"
-                        data-range-error="The phone number should contain 10 digits"
-                        value={creditCardInfoForm.phoneNumber}
-                        onChange={this.cardInfoInputChange}
-                        onBlur={this.inputBlur}
-                        name="phoneNumber"
-                        maxLength="2147483647"
-                      />
+                ) : null}
+                {needPhone ? (
+                  <div className="col-sm-6">
+                    <div className="form-group required">
                       <label
-                        className="rc-input__label"
+                        className="form-control-label"
                         htmlFor="phoneNumber"
-                      />
-                    </span>
-                    <div className="invalid-feedback">
-                      <FormattedMessage id="payment.errorInfo2" />
+                      >
+                        <FormattedMessage id="payment.phoneNumber" />
+                      </label>
+                      <span
+                        className="rc-input rc-input--full-width"
+                        input-setup="true"
+                        data-js-validate=""
+                        data-js-warning-message="*Phone Number isn’t valid"
+                      >
+                        <input
+                          type="number"
+                          className="rc-input__control input__phoneField shippingPhoneNumber"
+                          min-lenght="18"
+                          max-length="18"
+                          data-phonelength="18"
+                          // data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                          data-js-pattern="(^\d{10}$)"
+                          data-range-error="The phone number should contain 10 digits"
+                          value={creditCardInfoForm.phoneNumber}
+                          onChange={this.cardInfoInputChange}
+                          onBlur={this.inputBlur}
+                          name="phoneNumber"
+                          maxLength="2147483647"
+                        />
+                        <label
+                          className="rc-input__label"
+                          htmlFor="phoneNumber"
+                        />
+                      </span>
+                      <div className="invalid-feedback">
+                        <FormattedMessage id="payment.errorInfo2" />
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : null}
               </div>
               <div className="overflow-hidden">
                 <div className="text-right">
@@ -993,22 +997,12 @@ class PaymentEditForm extends React.Component {
                       this.setState({ creditCardInfoForm });
                     }}
                   >
-                    {creditCardInfoForm.isDefault ? (
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        value={creditCardInfoForm.isDefault}
-                        key="1"
-                        checked
-                      />
-                    ) : (
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        value={creditCardInfoForm.isDefault}
-                        key="2"
-                      />
-                    )}
+                    <input
+                      type="checkbox"
+                      className="rc-input__checkbox"
+                      // value={creditCardInfoForm.isDefault}
+                      checked={creditCardInfoForm.isDefault}
+                    />
                     <label className="rc-input__label--inline text-break">
                       <FormattedMessage id="setDefaultPaymentMethod" />
                     </label>
