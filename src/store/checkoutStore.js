@@ -48,6 +48,16 @@ class CheckoutStore {
       ? this.cartPrice.taxFeePrice
       : 0;
   }
+  @computed get freeShippingFlag() {
+    return this.cartPrice && this.cartPrice.freeShippingFlag
+      ? this.cartPrice.freeShippingFlag
+      : 0;
+  }
+  @computed get freeShippingDiscountPrice() {
+    return this.cartPrice && this.cartPrice.freeShippingDiscountPrice
+      ? this.cartPrice.freeShippingDiscountPrice
+      : 0;
+  }
   @computed get discountPrice() {
     return this.cartPrice && this.cartPrice.discountPrice
       ? this.cartPrice.discountPrice
@@ -200,6 +210,8 @@ class CheckoutStore {
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
       taxFeePrice: purchasesRes.taxFeePrice,
+      freeShippingFlag: purchasesRes.freeShippingFlag,
+      freeShippingDiscountPrice: purchasesRes.freeShippingDiscountPrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
       promotionDiscountPrice: purchasesRes.promotionDiscountPrice,
@@ -264,6 +276,8 @@ class CheckoutStore {
     let params = {
       totalPrice: purchasesRes.totalPrice,
       taxFeePrice: purchasesRes.taxFeePrice,
+      freeShippingFlag: purchasesRes.freeShippingFlag,
+      freeShippingDiscountPrice: purchasesRes.freeShippingDiscountPrice,
       tradePrice: purchasesRes.tradePrice,
       deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
@@ -429,6 +443,8 @@ class CheckoutStore {
         let params = {
           totalPrice: sitePurchasesRes.totalPrice,
           taxFeePrice: sitePurchasesRes.taxFeePrice,
+          freeShippingFlag: sitePurchasesRes.freeShippingFlag,
+          freeShippingDiscountPrice: sitePurchasesRes.freeShippingDiscountPrice,
           tradePrice: sitePurchasesRes.tradePrice,
           // discountPrice: sitePurchasesRes.discountPrice,
           deliveryPrice: sitePurchasesRes.deliveryPrice,
