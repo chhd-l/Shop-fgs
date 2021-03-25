@@ -1015,7 +1015,8 @@ class Payment extends React.Component {
             adyenCard: Adyen3DSUrl,
             adyenKlarnaPayLater: payResultUrl,
             adyenKlarnaPayNow: payResultUrl,
-            directEbanking: payResultUrl
+            directEbanking: payResultUrl,
+            payUCreditCardRU: payResultUrl
           }[type] || defaultUrl
         );
       };
@@ -1462,12 +1463,14 @@ class Payment extends React.Component {
       promotionCode
     } = this.state;
 
+    console.log(deliveryAddress, billingAddress, 'billingAddress');
     let param = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
       city: deliveryAddress.cityId, // 后端 city 为long 类型
       // cityId: deliveryAddress.cityId,
+      region: deliveryAddress.provinceNo,
       cityName: deliveryAddress.cityName,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
@@ -1665,6 +1668,7 @@ class Payment extends React.Component {
       delete param.tradeItems;
       delete param.tradeMarketingList;
     }
+    console.log(param, 'billingAddress');
     return param;
   }
 
