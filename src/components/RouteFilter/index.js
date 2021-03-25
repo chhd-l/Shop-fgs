@@ -255,7 +255,11 @@ class RouteFilter extends Component {
     ) {
       sessionItemRoyal.set(
         'okta-redirectUrl-hub',
-        process.env.REACT_APP_ACCESS_PATH + '/account'
+        process.env.REACT_APP_ACCESS_PATH[
+          process.env.REACT_APP_ACCESS_PATH.length - 1
+        ] === '/'
+          ? process.env.REACT_APP_ACCESS_PATH + 'account'
+          : process.env.REACT_APP_ACCESS_PATH + '/account'
       );
       history.push('/okta-login-page');
     }

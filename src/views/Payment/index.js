@@ -1864,7 +1864,7 @@ class Payment extends React.Component {
         if (this.isLogin) {
           let stateNo = data?.state?.stateNo;
           await this.props.checkoutStore.updateLoginCart({
-            promotionCode: '',
+            promotionCode: this.state.promotionCode,
             subscriptionFlag: false,
             purchaseFlag: false,
             taxFeeData: {
@@ -1878,7 +1878,7 @@ class Payment extends React.Component {
           });
         } else {
           await this.props.checkoutStore.updateUnloginCart({
-            promotionCode: '',
+            promotionCode: this.state.promotionCode,
             purchaseFlag: false,
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
@@ -1901,6 +1901,7 @@ class Payment extends React.Component {
     data.cityId = newData.cityId;
     data.city = newData.cityId; // 接口参数 city => long
     data.cityName = newData.city; // 接口参数 cityName => string
+    console.log(data, 'data1111111');
     if (!this.state.billingChecked) {
       this.setState({ billingAddress: data });
     }
@@ -2502,7 +2503,9 @@ class Payment extends React.Component {
                   2 billing校验 */}
                   {payConfirmBtn({
                     disabled: !validSts.adyenCard || validForBilling,
-                    loading: saveBillingLoading
+                    loading: saveBillingLoading,
+                    aaa: validSts,
+                    bbb: validForBilling
                   })}
                 </>
               )}
