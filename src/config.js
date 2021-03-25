@@ -1,22 +1,32 @@
 import { OktaAuth } from '@okta/okta-auth-js';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '0oar7ofrk3EJ4SYPT0h7';
-const ISSUER = process.env.REACT_APP_ISSUER || 'https://accountdev.royalcanin.com/oauth2/default';
-const OKTA_TESTING_DISABLEHTTPSCHECK = process.env.OKTA_TESTING_DISABLEHTTPSCHECK || false;
+const ISSUER =
+  process.env.REACT_APP_ISSUER ||
+  'https://accountdev.royalcanin.com/oauth2/default';
+const OKTA_TESTING_DISABLEHTTPSCHECK =
+  process.env.OKTA_TESTING_DISABLEHTTPSCHECK || false;
 
 const oktaAuth = new OktaAuth({
   clientId: CLIENT_ID,
   issuer: ISSUER,
   // redirectUri: 'https://shopuat.466920.com/implicit/callback',
   // redirectUri: process.env.REACT_APP_RedirectURL,
-  redirectUri: process.env.NODE_ENV === 'development'? 'http://localhost:3000/implicit/callback': process.env.REACT_APP_RedirectURL,
-  scopes: ['openid', 'profile', 'email','user.consent:read','user.profile:write','user.consent:delete','user.consent:collect'],
+  redirectUri: process.env.REACT_APP_RedirectURL,
+  scopes: [
+    'openid',
+    'profile',
+    'email',
+    'user.consent:read',
+    'user.profile:write',
+    'user.consent:delete',
+    'user.consent:collect'
+  ],
   pkce: true,
-  disableHttpsCheck: OKTA_TESTING_DISABLEHTTPSCHECK,
+  disableHttpsCheck: OKTA_TESTING_DISABLEHTTPSCHECK
 });
 
-export default oktaAuth
-
+export default oktaAuth;
 
 // export default {
 //   oidc: {
