@@ -24,6 +24,8 @@ import { inject, observer } from 'mobx-react';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
+
 function Divider() {
   return (
     <div
