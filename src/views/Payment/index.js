@@ -1010,13 +1010,15 @@ class Payment extends React.Component {
         const defaultUrl = '',
           Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
           payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult';
+        payu3dsResultUrl =
+          process.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
         return (
           {
             adyenCard: Adyen3DSUrl,
             adyenKlarnaPayLater: payResultUrl,
             adyenKlarnaPayNow: payResultUrl,
             directEbanking: payResultUrl,
-            payUCreditCardRU: payResultUrl
+            payUCreditCardRU: payu3dsResultUrl
           }[type] || defaultUrl
         );
       };
