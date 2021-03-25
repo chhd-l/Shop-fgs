@@ -648,7 +648,7 @@ const App = () => (
                     }
                   } else {
                     let RedirectUrlObj = {};
-                    if(process.env.REACT_APP_HUB){
+                    if(process.env.REACT_APP_LANG == 'fr'){
                       RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item => ({
                         [item.shortUrl]: item.redirectUrl
                       })).forEach((item) => {
@@ -656,7 +656,7 @@ const App = () => (
                       })
                     }
                     
-
+                    
                    
                     const specailPlpUrlMapping = {
                       ...RedirectUrlObj
