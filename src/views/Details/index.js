@@ -2332,7 +2332,7 @@ class Details extends React.Component {
                               <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
                                 <button
                                   style={{ padding: '2px 30px' }}
-                                  className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                                  className={`add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
                                     btnStatus ? '' : 'rc-btn-solid-disabled'

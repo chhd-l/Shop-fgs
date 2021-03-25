@@ -177,7 +177,7 @@ const tr_TR = {
   'comment.noShoppingExperienceTip':
     'Lütfen alışveriş deneyimi hakkında yorum yapın',
   CompleteRequiredItems: 'Lütfen gerekli maddeleri tamamlayın',
-  confirmation: 'Onayla',
+  confirmation: 'Onay',
   'confirmation.account': 'Hesabıma git',
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
@@ -206,8 +206,6 @@ const tr_TR = {
   country: 'Ülke *',
   createAnAccount: 'Hesap oluştur',
   creditCard: 'Kredi kartı',
-  creditCardTip: '10 adede kadar {number} kredi kartı oluşturdunuz',
-  creditCardTipMany: "10'a kadar {number} kredi kartı oluşturdunuz",
   customerReviews: 'Musteri degerlendirmeleri',
   cvvWarning: 'CVV yanlış',
   'datePicker.months': [
@@ -622,7 +620,7 @@ const tr_TR = {
   'payment.normalDelivery2': 'Normal teslimat',
   'payment.normalDelivery3': '(1-4 gün)',
   'payment.payment': 'Ödeme yöntemim',
-  'payment.paymentInformation': 'Ödeme bilgileri',
+  'payment.paymentInformation': 'Ödeme Bilgileriniz',
   'payment.phoneNumber': 'Cep telefonu',
   'payment.phoneNumber2': 'Telefon numarası',
   'payment.postCode': 'Posta Kodu',
@@ -1021,6 +1019,7 @@ const tr_TR = {
   'installMent.additionalFee': 'Taksit ilave bedeli',
   deliveryOneTimeOnly: 'Yalnızca 1 kez teslimat',
   singlePurchase: 'Tek satın alma',
-  subscribe: 'Sepete ekle'
+  subscribe: 'Sepete ekle',
+  saveExtraMoney: 'Bu abonelikte {val} tasarruf edin'
 };
 export default tr_TR;

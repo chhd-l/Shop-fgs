@@ -247,8 +247,6 @@ const de_DE = {
   country: 'Land *',
   createAnAccount: 'Ein Konto erstellen',
   creditCard: 'Kreditkarte',
-  creditCardTip: 'Sie haben eine {number} Kreditkarte erstellt, bis zu 10',
-  creditCardTipMany: 'Sie haben {number} Kreditkarten erstellt, bis zu 10',
   customerReviews: 'Kundenbewertungen',
   cvvWarning: 'CVV ist falsch',
   dataProtection: 'Datenschutzerklärung',

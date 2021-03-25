@@ -617,19 +617,6 @@ class PaymentComp extends React.Component {
               : 'hidden-xxl-down'
           }`}
         >
-          <span className="t-gray">
-            {creditCardList.length > 1 ? (
-              <FormattedMessage
-                id="creditCardTipMany"
-                values={{ number: <b>{creditCardList.length}</b> }}
-              />
-            ) : (
-              <FormattedMessage
-                id="creditCardTip"
-                values={{ number: <b>{creditCardList.length}</b> }}
-              />
-            )}
-          </span>
           {/* <span
             className="red font-weight-normal ui-cursor-pointer d-flex align-items-center"
             onClick={() => {

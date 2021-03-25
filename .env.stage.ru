@@ -29,7 +29,7 @@ REACT_APP_AdyenOriginKEY = 'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFs
 REACT_APP_Adyen_ENV = 'test'
 REACT_APP_Adyen_locale = 'ru-RU'
 REACT_APP_Adyen_country = 'RU'
-REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/fr'
+REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/ru'
 
 #onetrust
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
@@ -114,3 +114,5 @@ REACT_APP_HIDE_CHECKOUT_BILLING_ADDR = 1
 #payu表单字段控制
 REACT_APP_PAYU_EMAIL = 0
 REACT_APP_PAYU_PHONE = 0
+
+REACT_APP_HUBPAGE_PREFIX = https://www.royalcanin.com/ru
