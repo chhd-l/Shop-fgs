@@ -206,6 +206,8 @@ const tr_TR = {
   country: 'Ülke *',
   createAnAccount: 'Hesap oluştur',
   creditCard: 'Kredi kartı',
+  creditCardTip: '10 adede kadar {number} kredi kartı oluşturdunuz',
+  creditCardTipMany: "10'a kadar {number} kredi kartı oluşturdunuz",
   customerReviews: 'Musteri degerlendirmeleri',
   cvvWarning: 'CVV yanlış',
   'datePicker.months': [
