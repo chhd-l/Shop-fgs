@@ -1070,7 +1070,7 @@ class Recommendation extends React.Component {
                                   }}
                                   onClick={this.seeMore}
                                 >
-                                  see more
+                                  <FormattedMessage id="seeMoreText" />
                                 </strong>
                               </p>
                             )}
