@@ -10,7 +10,7 @@ import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 export default class PetForm extends React.Component {
   constructor(props) {
     super(props);
@@ -22,9 +22,9 @@ export default class PetForm extends React.Component {
       }
     };
   }
-  componentDidMount(){
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+  componentDidMount() {
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
 
@@ -34,8 +34,11 @@ export default class PetForm extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -107,7 +110,7 @@ export default class PetForm extends React.Component {
                     <div className="edit js-edit-pet">
                       <a href="#" className="tab--img" data-toggle="">
                         <LazyLoad>
-                        <img src={edit} className="img-success" alt="" />
+                          <img src={edit} className="img-success" alt="" />
                         </LazyLoad>
                       </a>
                     </div>
@@ -119,8 +122,8 @@ export default class PetForm extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

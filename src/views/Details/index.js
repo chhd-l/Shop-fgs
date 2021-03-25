@@ -2332,7 +2332,7 @@ class Details extends React.Component {
                               <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
                                 <button
                                   style={{ padding: '2px 30px' }}
-                                  className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                                  className={`add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
                                     btnStatus ? '' : 'rc-btn-solid-disabled'
@@ -2506,36 +2506,36 @@ class Details extends React.Component {
                 ) : null}
               </div>
             </div>
+            {/* 最下方跳转更多板块 */}
+            {isHub ? (
+              <>
+                <div className="split-line rc-bg-colour--brand4 rc-content--fixed-header "></div>
+                <div className="more-link rc-content--fixed-header ">
+                  <LazyLoad height={200}>
+                    <img src={loop} srcSet={loop} alt="" />
+                  </LazyLoad>
+                  <LazyLoad height={200}>
+                    <img src={vert} srcSet={vert} className="vert" alt="" />
+                  </LazyLoad>
+                  <p>
+                    <FormattedMessage id="detail.packagingDesc" />
+                  </p>
+                  <div>
+                    <a
+                      href="https://www.consignesdetri.fr/"
+                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                      style={{ minWidth: '110px' }}
+                    >
+                      <FormattedMessage id="learnMore" />
+                    </a>
+                  </div>
+                </div>
+              </>
+            ) : null}
+            <Help />
+            <Footer />
           </main>
         )}
-        {/* 最下方跳转更多板块 */}
-        {isHub ? (
-          <>
-            <div className="split-line rc-bg-colour--brand4"></div>
-            <div className="more-link">
-              <LazyLoad height={200}>
-                <img src={loop} srcSet={loop} alt="" />
-              </LazyLoad>
-              <LazyLoad height={200}>
-                <img src={vert} srcSet={vert} className="vert" alt="" />
-              </LazyLoad>
-              <p>
-                <FormattedMessage id="detail.packagingDesc" />
-              </p>
-              <div>
-                <a
-                  href="https://www.consignesdetri.fr/"
-                  className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                  style={{ minWidth: '110px' }}
-                >
-                  <FormattedMessage id="learnMore" />
-                </a>
-              </div>
-            </div>
-          </>
-        ) : null}
-        <Help />
-        <Footer />
       </div>
     );
   }

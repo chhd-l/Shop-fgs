@@ -27,6 +27,8 @@ const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
 class PayProductInfo extends React.Component {

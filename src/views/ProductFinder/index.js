@@ -9,7 +9,7 @@ import Question from './modules/Question';
 import LazyLoad from 'react-lazyload';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
-import {productFinderPushEvent} from "@/utils/GA"
+import { productFinderPushEvent } from '@/utils/GA';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -17,10 +17,19 @@ import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
-const GAStep = ['age','breedCode','sterilized','genderCode','weight','sensitivity','petActivityCode','lifestyle']
+const GAStep = [
+  'age',
+  'breedCode',
+  'sterilized',
+  'genderCode',
+  'weight',
+  'sensitivity',
+  'petActivityCode',
+  'lifestyle'
+];
 
 class ProductFinder extends React.Component {
   constructor(props) {
@@ -64,8 +73,8 @@ class ProductFinder extends React.Component {
     return stepVirtualPageURLObj[stepCurrent];
   };
 
-  GAHandle = (stepName,stepOrder,answerdQuestionList) => {
-    if(!dataLayer) return
+  GAHandle = (stepName, stepOrder, answerdQuestionList) => {
+    if (!dataLayer) return;
     dataLayer.push({
       event: 'virtualPageView',
       page: {
@@ -154,7 +163,7 @@ class ProductFinder extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -183,8 +192,8 @@ class ProductFinder extends React.Component {
               homeJSX
             )}
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

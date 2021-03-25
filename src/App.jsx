@@ -52,6 +52,7 @@ import Payment from '@/views/Payment';
 import Confirmation from '@/views/Confirmation';
 import Adyen3DSFail from '@/views/Payment/modules/Adyen3DSFail';
 import PayResult from '@/views/Payment/modules/PayResult';
+import Payu3dsPayResult from '@/views/Payment/modules/Payu3dsPayResult';
 import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
 import FAQ from '@/views/FAQ';
@@ -245,6 +246,7 @@ const App = () => (
               />
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
+              <Route exact path="/Payu3dsPayResult" component={Payu3dsPayResult} />
               <Route
                 exact
                 path="/kitten-nutrition"
@@ -648,7 +650,7 @@ const App = () => (
                     }
                   } else {
                     let RedirectUrlObj = {};
-                    if(process.env.REACT_APP_HUB){
+                    if(process.env.REACT_APP_LANG == 'fr'){
                       RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item => ({
                         [item.shortUrl]: item.redirectUrl
                       })).forEach((item) => {
@@ -656,7 +658,7 @@ const App = () => (
                       })
                     }
                     
-
+                    
                    
                     const specailPlpUrlMapping = {
                       ...RedirectUrlObj

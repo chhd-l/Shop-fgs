@@ -141,11 +141,11 @@ const en_US = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'smartFeederSubscription.pause': 'Pause',
+  'subscription.pause': 'Pause',
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
-  'smartFeederSubscription.restart': 'Restart',
+  'subscription.restart': 'Restart',
   //restart
   //Smart feeder subscription
   //Delivered at the first shipment
@@ -981,6 +981,7 @@ const en_US = {
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
+  seeMoreText: 'see more',
   'recommendation.guidelinesTips':
     "Royal Canin's feeding guidelines can also be found on the product packaging.",
   'recommendation.buyNow': 'Buy now',
@@ -1175,7 +1176,7 @@ const en_US = {
   'subscription.subscriptionNumberTip': 'Please enter subscription number',
   'subscription.toBeDelivered': 'To be Delivered',
   'subscription.total': 'Total',
-  'subscription.totalInclu': 'Total',
+  'subscription.totalInclu': 'Subtotal',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
   'subscriptionLanding.content1':
     'Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the Royal Canin Club at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with new pet gifts, exclusive offers and more.',
@@ -1259,6 +1260,8 @@ const en_US = {
   securePaymentProcessing: 'Secure payment processing',
   'Vous avez économisé': 'You saved',
   avecLabonnement: 'with autoship',
-  'payment.returnToCardList': 'Return to card list'
+  'payment.returnToCardList': 'Return to card list',
+  'payment.codTip': 'I want to pay by cash or card upon receipt',
+  'payment.codConfirmTip': 'Payment upon receipt'
 };
 export default en_US;

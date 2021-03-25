@@ -6,7 +6,7 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import { getPrescriberByKeyWord, getPrescriberByCode } from '@/api/clinic';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
-import { withOktaAuth } from '@okta/okta-react';
+import { withOktaAuth } from '@okta/okta-react';
 
 @inject('configStore')
 @injectIntl
@@ -69,7 +69,10 @@ class ClinicEditForm extends React.Component {
     const { form } = this.state;
     this.setState({ loading: true });
     try {
-      const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+      const oktaTokenString =
+        this.props.authState && this.props.authState.accessToken
+          ? this.props.authState.accessToken.value
+          : '';
       let oktaToken = 'Bearer ' + oktaTokenString;
       await updateCustomerBaseInfo(
         Object.assign({}, this.props.originData, {
@@ -156,26 +159,27 @@ class ClinicEditForm extends React.Component {
         {/* {this.state.loading ? <Loading positionAbsolute="true" /> : null} */}
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            {curPageAtCover ? (
-              <h5 className="mb-0">
-                <svg
-                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
-                  style={{ width: '1.3em', height: '1.3em' }}
-                >
-                  <use xlinkHref="#iconclinic"></use>
-                </svg>
-                <FormattedMessage id="payment.clinicTitle2" />
-              </h5>
-            ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
+            <h5
+              className="mb-0"
+              style={{ display: curPageAtCover ? 'block' : 'none' }}
+            >
+              <svg
+                className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                aria-hidden="true"
+                style={{ width: '1.3em', height: '1.3em' }}
               >
-                <span>&larr; </span>
-                <FormattedMessage id="payment.clinicTitle2" />
-              </h5>
-            )}
+                <use xlinkHref="#iconclinic" />
+              </svg>
+              <FormattedMessage id="account.clinicTitle2" />
+            </h5>
+            <h5
+              className="ui-cursor-pointer"
+              style={{ display: curPageAtCover ? 'none' : 'block' }}
+              onClick={this.handleClickGoBack}
+            >
+              <span>&larr; </span>
+              <FormattedMessage id="account.clinicTitle2" />
+            </h5>
 
             <FormattedMessage id="edit">
               {(txt) => (

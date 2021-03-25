@@ -14,7 +14,8 @@ import { inject, observer } from 'mobx-react';
 import Help from '../SmartFeederSubscription/modules/Help';
 import {
   getRecommendationList,
-  getRecommendationList_fr
+  getRecommendationList_fr,
+  getPrescriberByPrescriberIdAndStoreId
 } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
@@ -135,6 +136,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      promotionCode: '',
       // secondlist: secondlistArr,
       showMore: false,
       petType: 1, //0 dog;1 cat
@@ -224,12 +226,22 @@ class Recommendation extends React.Component {
   //   console.info('secondlist', secondlist);
   //   this.setState({ secondlist });
   // }
+  getPrescriberByPrescriberIdAndStoreId = (prescriberId) => {
+    let storeId = process.env.REACT_APP_STOREID;
+    getPrescriberByPrescriberIdAndStoreId({ prescriberId, storeId }).then(
+      (res) => {
+        console.info('resstoreIdstoreId', res);
+        let locationPath = res.context.location;
+        this.setState({ locationPath });
+      }
+    );
+  };
   async componentDidMount() {
     // let paramArr = this.props.location.search.split('&');
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
+    search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
-
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
@@ -241,6 +253,10 @@ class Recommendation extends React.Component {
       .then((res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
+        let prescriberId = res.context.prescriberId;
+        prescriberId &&
+          isRu &&
+          this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
         productList.map((el) => {
           let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
           if (tmpGoodsDetail) {
@@ -365,8 +381,8 @@ class Recommendation extends React.Component {
           el.goodsInfo.goods.goodsSpecs = specList;
           return el;
         });
-
-        this.setState({ productList, petType }, () => {
+        let promotionCode = res.context.promotionCode || '';
+        this.setState({ productList, petType, promotionCode }, () => {
           this.checkoutStock();
         });
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
@@ -380,6 +396,7 @@ class Recommendation extends React.Component {
         console.log(err, 'err');
         // this.props.history.push('/home');
       });
+
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -710,7 +727,13 @@ class Recommendation extends React.Component {
     console.log('props', this.props);
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
-    let { productList, activeIndex, currentModalObj, isMobile } = this.state;
+    let {
+      productList,
+      activeIndex,
+      currentModalObj,
+      isMobile,
+      promotionCode
+    } = this.state;
     let MaxLinePrice,
       MinLinePrice,
       MaxMarketPrice,
@@ -718,14 +741,14 @@ class Recommendation extends React.Component {
       MaxSubPrice,
       MinSubPrice;
     if (productList.length) {
-      MaxLinePrice = Math.max.apply(
-        null,
-        productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
-      );
-      MinLinePrice = Math.min.apply(
-        null,
-        productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
-      );
+      // MaxLinePrice = Math.max.apply(
+      //   null,
+      //   productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
+      // );
+      // MinLinePrice = Math.min.apply(
+      //   null,
+      //   productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
+      // );
       MaxMarketPrice = Math.max.apply(
         null,
         productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
@@ -734,31 +757,28 @@ class Recommendation extends React.Component {
         null,
         productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
       );
-      MaxSubPrice = Math.min.apply(
-        null,
-        productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
-      );
-      MinSubPrice = Math.min.apply(
-        null,
-        productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
-      );
+      // MaxSubPrice = Math.min.apply(
+      //   null,
+      //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
+      // );
+      // MinSubPrice = Math.min.apply(
+      //   null,
+      //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
+      // );
     }
-    let isHasPromotion = true;
-    console.log(
-      'MaxLinePriceMaxLinePriceMaxLinePrice',
-      MaxLinePrice,
-      MinLinePrice,
-      MaxMarketPrice,
-      MinMarketPrice,
-      MaxSubPrice,
-      MinSubPrice
-    );
+
     let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
     let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
     let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = this.get100Words(tabDes);
+    let grayBoxInnerText = {
+      en:
+        productList[activeIndex]?.productMessage ||
+        'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
+      ru: this.state.locationPath
+    };
     return (
       <div className="Recommendation_FR Recommendation_US">
         {/* <GoogleTagManager additionalEvents={event} />
@@ -777,7 +797,9 @@ class Recommendation extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
-          showBannerTip={isUs ? true : false}
+          showBannerTip={true}
+          // showBannerTip={isUs ? true : false}
+          bannerTipShowBtn={isUs ? true : false}
         />
         <Modal
           key="1"
@@ -891,44 +913,50 @@ class Recommendation extends React.Component {
                           borderTop: 0
                         }}
                       >
-                        <div className="imageTabBox">
-                          {productList.map((el, i) => (
-                            <span
-                              className={`${i === activeIndex ? 'active' : ''}`}
-                              style={{
-                                display: 'inline-block',
-                                width: '80px',
-                                textAlign: 'center',
-                                cursor: 'pointer'
-                              }}
-                              onClick={() => this.setState({ activeIndex: i })}
-                            >
-                              <img
-                                src={el.goodsInfo.goodsInfoImg}
+                        {productList.length > 1 && (
+                          <div className="imageTabBox">
+                            {productList.map((el, i) => (
+                              <span
+                                className={`${
+                                  i === activeIndex ? 'active' : ''
+                                }`}
                                 style={{
-                                  width: '40px',
                                   display: 'inline-block',
-                                  margin: '10px 0'
-                                }}
-                                alt=""
-                              />
-                              {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
-                              <p
-                                style={{
+                                  width: '80px',
                                   textAlign: 'center',
-                                  fontSize: '12px',
-                                  marginBottom: '5px',
-                                  width: '100%',
-                                  overflow: 'hidden',
-                                  whiteSpace: 'nowrap',
-                                  textOverflow: 'ellipsis'
+                                  cursor: 'pointer'
                                 }}
+                                onClick={() =>
+                                  this.setState({ activeIndex: i })
+                                }
                               >
-                                {el.goodsInfo.goodsInfoName}
-                              </p>
-                            </span>
-                          ))}
-                        </div>
+                                <img
+                                  src={el.goodsInfo.goodsInfoImg}
+                                  style={{
+                                    width: '40px',
+                                    display: 'inline-block',
+                                    margin: '10px 0'
+                                  }}
+                                  alt=""
+                                />
+                                {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
+                                <p
+                                  style={{
+                                    textAlign: 'center',
+                                    fontSize: '12px',
+                                    marginBottom: '5px',
+                                    width: '100%',
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis'
+                                  }}
+                                >
+                                  {el.goodsInfo.goodsInfoName}
+                                </p>
+                              </span>
+                            ))}
+                          </div>
+                        )}
                         <div className="right rc-padding-x--lg ">
                           <div className="main">
                             <div className="pic">
@@ -949,7 +977,7 @@ class Recommendation extends React.Component {
                           </div>
                           <div
                             className={`product-recommendation__desc text-center rc-padding-bottom--lg--mobile ${
-                              isRu ? 'has-promotion' : ''
+                              isRu && promotionCode ? 'has-promotion' : ''
                             }`}
                           >
                             <h3
@@ -970,13 +998,13 @@ class Recommendation extends React.Component {
                                 <FormattedMessage id="autoship" />
                               </div> */}
                                 <div className="rc-large-body  m-auto">
-                                  {MaxMarketPrice === MinMarketPrice ? (
+                                  {MaxMarketPrice === MinMarketPrice || isRu ? (
                                     <React.Fragment>
                                       <span className="text-throught-line">
                                         {formatMoney(MaxMarketPrice)}
                                       </span>
                                       <span className="promotion-price">
-                                        {formatMoney(MaxMarketPrice)}123
+                                        {formatMoney(MaxMarketPrice * 0.8)}
                                       </span>
                                     </React.Fragment>
                                   ) : (
@@ -989,23 +1017,23 @@ class Recommendation extends React.Component {
                                       </span>
                                       <span className="promotion-price">
                                         <FormattedMessage id="from" />{' '}
-                                        {formatMoney(MinMarketPrice)}123{' '}
+                                        {formatMoney(MinMarketPrice)}
                                         <FormattedMessage id="to" />{' '}
-                                        {formatMoney(MaxMarketPrice)}123
+                                        {formatMoney(MaxMarketPrice)}
                                       </span>
                                     </React.Fragment>
                                   )}
                                 </div>
                               </div>
                             )}
-                            {isRu && (
+                            {isRu && promotionCode ? (
                               <>
                                 <div style={{ marginBottom: '12px' }}>
                                   <span className="promotion-code-title">
                                     Promo code :
                                   </span>
                                   <span className="promotion-code promotion-code-title">
-                                    VET-WB5C-YR2Y-44{' '}
+                                    {promotionCode}
                                   </span>
                                 </div>
                                 <p className="promotion-tips">
@@ -1014,7 +1042,7 @@ class Recommendation extends React.Component {
                                   shopping cart
                                 </p>
                               </>
-                            )}
+                            ) : null}
                             {this.state.showMore ? (
                               <p
                                 className="product_info"
@@ -1052,8 +1080,7 @@ class Recommendation extends React.Component {
                             />
                             <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
                               <div className="">
-                                {productList[activeIndex]?.productMessage ||
-                                  'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.'}
+                                {grayBoxInnerText[process.env.REACT_APP_LANG]}
                               </div>
                               {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
@@ -1250,7 +1277,7 @@ class Recommendation extends React.Component {
                         frameborder="0"
                         id="video-dog"
                         className="optanon-category-4 "
-                        src="https://www.youtube.com/embed/FYwO1fiYoa8"
+                        src="https://www.youtube.com/embed/ICmjePIyMkI"
                       ></iframe>
                     </div>
                   </div>
@@ -1277,8 +1304,8 @@ class Recommendation extends React.Component {
               </div>
             </React.Fragment>
           )}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -339,25 +339,27 @@ class PersonalDataEditForm extends React.Component {
       <div className={classNames({ border: curPageAtCover })}>
         <div className="personalInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            {curPageAtCover ? (
-              <h5 className="mb-0">
-                <svg
-                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
-                >
-                  <use xlinkHref="#iconaccount"></use>
-                </svg>
-                <FormattedMessage id="account.myAccount" />
-              </h5>
-            ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
+            <h5
+              className="mb-0"
+              style={{ display: curPageAtCover ? 'block' : 'none' }}
+            >
+              <svg
+                className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                aria-hidden="true"
+                style={{ width: '1.4em', height: '1.4em' }}
               >
-                <span>&larr; </span>
-                <FormattedMessage id="account.myAccount" />
-              </h5>
-            )}
+                <use xlinkHref="#iconaccount"></use>
+              </svg>
+              <FormattedMessage id="account.myAccount" />
+            </h5>
+            <h5
+              className="ui-cursor-pointer"
+              style={{ display: curPageAtCover ? 'none' : 'block' }}
+              onClick={this.handleClickGoBack}
+            >
+              <span>&larr; </span>
+              <FormattedMessage id="account.myAccount" />
+            </h5>
             <FormattedMessage id="edit">
               {(txt) => (
                 <button

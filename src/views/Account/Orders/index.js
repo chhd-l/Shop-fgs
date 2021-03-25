@@ -744,7 +744,8 @@ class AccountOrders extends React.Component {
 
                                       <div className="col-12 col-md-2">
                                         {order.tradeState.deliverStatus ===
-                                          'SHIPPED' && (
+                                          'SHIPPED' &&
+                                        process.env.REACT_APP_LANG !== 'en' ? (
                                           <div
                                             onClick={this.handleDownInvoice.bind(
                                               this,
@@ -764,7 +765,7 @@ class AccountOrders extends React.Component {
                                               )}
                                             </FormattedMessage>
                                           </div>
-                                        )}
+                                        ) : null}
                                       </div>
                                       <div className="col-12 col-md-2 text-nowrap padding0">
                                         <FormattedMessage id="order.orderDetails">
@@ -799,7 +800,8 @@ class AccountOrders extends React.Component {
                                       }}
                                     >
                                       {order.tradeState.deliverStatus ===
-                                        'SHIPPED' && (
+                                        'SHIPPED' &&
+                                      process.env.REACT_APP_LANG !== 'en' ? (
                                         <span
                                           className="rc-styled-link"
                                           onClick={this.handleDownInvoice.bind(
@@ -809,7 +811,7 @@ class AccountOrders extends React.Component {
                                         >
                                           <FormattedMessage id="invoice" />
                                         </span>
-                                      )}
+                                      ) : null}
                                     </div>
                                     {/* 订单发货tip */}
                                     {((order.tradeState.payState === 'PAID' &&
@@ -1039,8 +1041,8 @@ class AccountOrders extends React.Component {
               )}
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

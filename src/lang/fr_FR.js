@@ -258,10 +258,6 @@ const fr_FR = {
   country: 'Pays *',
   createAnAccount: 'Créer un compte',
   creditCard: 'Carte de crédit',
-  creditCardTip:
-    "Vous avez créé une carte de crédit de {number}, vous pouvez ajouter jusqu'à 10 cartes de crédit",
-  creditCardTipMany:
-    "Vous avez créé {number} cartes de crédit, vous pouvez ajouter jusqu'à 10 cartes de crédit",
   customerReviews: 'Évaluations des clients',
   cvvWarning: 'CVV est faux',
   dataProtection: 'Politique de confidentialité',
@@ -1098,11 +1094,11 @@ const fr_FR = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'smartFeederSubscription.pause': 'pause',
+  'subscription.pause': 'pause',
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
-  'smartFeederSubscription.restart': 'redémarrage',
+  'subscription.restart': 'redémarrage',
   //restart
   //Smart feeder subscription
   //Delivered at the first shipment

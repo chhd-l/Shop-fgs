@@ -4757,8 +4757,8 @@ class SubscriptionDetail extends React.Component {
                 confoirm
               </button>
             </div>
+            <Footer />
           </main>
-          <Footer />
           {this.addNewCatModal()}
           {this.changeProductModal()}
 
