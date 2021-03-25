@@ -794,7 +794,7 @@ const tr_TR = {
   saveSuccessfullly: 'Başarıyla kaydedin',
   saveSuccessfullly2: 'Bilgileriniz doğru şekilde kaydedildi',
   search: 'Arama',
-  searchForAProductOrArtical: 'Search for a product or article',
+  searchForAProductOrArtical: 'Bir ürün veya makale arayın',
   searchNoBreed: 'soy ağacı değil',
   searchPrescriber: 'Bir klinik ara',
   securityQuestion: 'Güvenlik Sorusu',
@@ -975,7 +975,6 @@ const tr_TR = {
   'payment.saveCardToAccount': 'Kart ayrıntılarını hesabıma kaydet',
   'payment.saveThisPaymentMethodAsPreferred':
     'Bu ödeme yöntemini tercih edilen şekilde kaydedin',
-  'payment.installment': 'Installment',
   'footer.email': 'Bize Ulaşın',
   home: 'Ana Sayfa',
   'account.ordersTitle': 'Siparişlerim',
@@ -1019,6 +1018,9 @@ const tr_TR = {
   'installMent.total': 'Toplam',
   'installMent.oneShot': 'Tek Çekim',
   'installMent.xInstallMents': '{num} Taksit',
-  'installMent.additionalFee': 'Taksit ilave bedeli'
+  'installMent.additionalFee': 'Taksit ilave bedeli',
+  deliveryOneTimeOnly: 'Yalnızca 1 kez teslimat',
+  singlePurchase: 'Tek satın alma',
+  subscribe: 'Sepete ekle'
 };
 export default tr_TR;
