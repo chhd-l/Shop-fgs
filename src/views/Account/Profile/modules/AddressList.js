@@ -102,16 +102,16 @@ class AddressList extends React.Component {
       if (hideBillingAddr) {
         addressList = res.context.filter((item) => item.type === 'DELIVERY');
       }
-      let cityRes = await queryCityNameById({
-        id: addressList.map((ele) => ele.cityId)
-      });
-      cityRes = cityRes.context.systemCityVO || [];
-      Array.from(addressList, (ele) => {
-        ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
-          ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
-          : ele.cityId;
-        return ele;
-      });
+      // let cityRes = await queryCityNameById({
+      //   id: addressList.map((ele) => ele.cityId)
+      // });
+      // cityRes = cityRes.context.systemCityVO || [];
+      // Array.from(addressList, (ele) => {
+      //   ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
+      //     ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
+      //     : ele.cityId;
+      //   return ele;
+      // });
       this.setState({
         addressList,
         listLoading: false

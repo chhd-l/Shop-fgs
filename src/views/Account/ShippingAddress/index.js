@@ -21,7 +21,7 @@ import { getDictionary, setSeoConfig, matchNamefromDict } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class ShippingAddress extends React.Component {
   constructor(props) {
@@ -64,8 +64,8 @@ class ShippingAddress extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -91,16 +91,16 @@ class ShippingAddress extends React.Component {
       let res = await getAddressList();
       let addressList = res.context;
       let total = addressList.length;
-      let cityRes = await queryCityNameById({
-        id: addressList.map((ele) => ele.cityId)
-      });
-      cityRes = cityRes.context.systemCityVO || [];
-      Array.from(addressList, (ele) => {
-        ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
-          ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
-          : ele.cityId;
-        return ele;
-      });
+      // let cityRes = await queryCityNameById({
+      //   id: addressList.map((ele) => ele.cityId)
+      // });
+      // cityRes = cityRes.context.systemCityVO || [];
+      // Array.from(addressList, (ele) => {
+      //   ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
+      //     ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
+      //     : ele.cityId;
+      //   return ele;
+      // });
       this.setState({
         addressList: addressList,
         total: total
@@ -277,10 +277,13 @@ class ShippingAddress extends React.Component {
     return (
       <div>
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}

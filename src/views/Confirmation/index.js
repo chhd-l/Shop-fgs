@@ -95,18 +95,18 @@ class Confirmation extends React.Component {
     Promise.all(subOrderNumberList.map((ele) => getOrderDetails(ele)))
       .then(async (res) => {
         let resContext = res[0].context;
-        let cityRes = await queryCityNameById({
-          id: [resContext.consignee.cityId, resContext.invoice.cityId]
-        });
-        cityRes = cityRes.context.systemCityVO || [];
-        resContext.consignee.cityName = this.matchCityName(
-          cityRes,
-          resContext.consignee.cityId
-        );
-        resContext.invoice.cityName = this.matchCityName(
-          cityRes,
-          resContext.invoice.cityId
-        );
+        // let cityRes = await queryCityNameById({
+        //   id: [resContext.consignee.cityId, resContext.invoice.cityId]
+        // });
+        // cityRes = cityRes.context.systemCityVO || [];
+        // resContext.consignee.cityName = this.matchCityName(
+        //   cityRes,
+        //   resContext.consignee.cityId
+        // );
+        // resContext.invoice.cityName = this.matchCityName(
+        //   cityRes,
+        //   resContext.invoice.cityId
+        // );
         this.setState({
           email: resContext.consignee.email
         });

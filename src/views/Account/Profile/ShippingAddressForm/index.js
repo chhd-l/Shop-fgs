@@ -119,14 +119,14 @@ class ShippingAddressFrom extends React.Component {
         addressForm.provinceId = data.provinceId;
       }
 
-      let cityRes = await queryCityNameById({ id: [data.cityId] });
-      // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
-      addressForm.city = cityRes?.context?.systemCityVO[0]?.cityName
-        ? cityRes?.context?.systemCityVO[0]?.cityName
-        : data.city;
-      addressForm.cityId = cityRes?.context?.systemCityVO[0]?.id
-        ? cityRes?.context?.systemCityVO[0]?.id
-        : data.cityId;
+      // let cityRes = await queryCityNameById({ id: [data.cityId] });
+      // // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
+      // addressForm.city = cityRes?.context?.systemCityVO[0]?.cityName
+      //   ? cityRes?.context?.systemCityVO[0]?.cityName
+      //   : data.city;
+      // addressForm.cityId = cityRes?.context?.systemCityVO[0]?.id
+      //   ? cityRes?.context?.systemCityVO[0]?.id
+      //   : data.cityId;
 
       this.setState(
         {
@@ -191,7 +191,6 @@ class ShippingAddressFrom extends React.Component {
       addressForm.address1 = validationAddress.address1;
       addressForm.address2 = validationAddress.address2;
       addressForm.city = validationAddress.city;
-      addressForm.cityName = validationAddress.city;
       if (process.env.REACT_APP_LANG === 'en') {
         addressForm.province = validationAddress.provinceCode;
       }
