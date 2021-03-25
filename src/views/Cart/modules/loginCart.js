@@ -154,9 +154,14 @@ class LoginCart extends React.Component {
     }
     this.setData();
 
-    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
-      this.handleCheckout();
-    }
+    setInterval(() => {
+      if (
+        localItemRoyal.get('rc-iframe-from-storepotal') &&
+        this.props.checkoutStore.loginCartData.length
+      ) {
+        this.handleCheckout();
+      }
+    }, 1000);
   }
   componentWillUnmount() {}
   get loginCartData() {
@@ -414,7 +419,6 @@ class LoginCart extends React.Component {
 
       if (localItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: false });
-        localItemRoyal.remove('rc-iframe-from-storepotal');
       }
 
       url && history.push(url);

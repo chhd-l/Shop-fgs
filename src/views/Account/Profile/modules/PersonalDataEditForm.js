@@ -173,7 +173,7 @@ class PersonalDataEditForm extends React.Component {
   };
   // 获取地址验证查询到的数据
   getValidationData = async (data) => {
-    if (data && data != null) {
+    if (data && data?.address1 != null) {
       // 获取并设置地址校验返回的数据
       this.setState({
         validationAddress: data
@@ -182,6 +182,7 @@ class PersonalDataEditForm extends React.Component {
       // 不校验地址，进入下一步
       this.showNextPanel();
     }
+    debugger;
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
@@ -280,10 +281,12 @@ class PersonalDataEditForm extends React.Component {
   validFormData = async () => {
     const { form } = this.state;
     try {
-      // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
-      // form.city = form?.city || form.cityName;
       console.log('★★★★★★★★★ valiFormData: ', form);
-      await validData(PRESONAL_INFO_RULE, form);
+      if (!form?.formRule || (form?.formRule).length <= 0) {
+        return;
+      }
+      await validData(form.formRule, form); // 数据验证
+      // await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });

@@ -475,6 +475,7 @@ class Payment extends React.Component {
 
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
+          localItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
         }
@@ -483,6 +484,7 @@ class Payment extends React.Component {
           (!this.cartData.length ||
             !this.cartData.filter((ele) => ele.selected).length)
         ) {
+          localItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
         }
@@ -620,7 +622,7 @@ class Payment extends React.Component {
     try {
       const payWay = await getWays();
       // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
-      const payMethodsObj = {
+      let payMethodsObj = {
         PAYU: {
           name: 'payu',
           id: 'creditCard',
@@ -668,6 +670,18 @@ class Payment extends React.Component {
           paymentTypeVal: 'cyber'
         }
       };
+      if (
+        process.env.REACT_APP_LANG === 'ru' &&
+        localItemRoyal.get('rc-iframe-from-storepotal')
+      ) {
+        payMethodsObj = {
+          COD: {
+            name: 'payu_cod',
+            id: 'cod',
+            paymentTypeVal: 'cod'
+          }
+        };
+      }
       let payWayNameArr = [];
       if (payWay.context) {
         payWayNameArr = (payWay.context.payPspItemVOList || [])
@@ -1046,9 +1060,9 @@ class Payment extends React.Component {
       const successUrlFun = (type) => {
         const defaultUrl = '',
           Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
-          payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult';
-        payu3dsResultUrl =
-          process.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
+          payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult',
+          payu3dsResultUrl =
+            process.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
         return (
           {
             adyenCard: Adyen3DSUrl,
@@ -2145,9 +2159,15 @@ class Payment extends React.Component {
         expirationMonth,
         expirationYear,
         securityCode
-      }
+      },
+      tid,
+      orderDetails
     } = this.state;
-
+    let newBillingAddress = Object.assign({}, this.state.billingAddress);
+    if (tid && tid != null) {
+      newBillingAddress = orderDetails?.invoice;
+      newBillingAddress.phoneNumber = orderDetails?.invoice?.phone;
+    }
     let cyberPaymentParam = {};
     let cyberParams = {};
     if (paymentTypeVal == 'cyber') {
@@ -2156,16 +2176,16 @@ class Payment extends React.Component {
       cyberPaymentParam.securityCode = securityCode;
       cyberPaymentParam.expirationMonth = expirationMonth;
       cyberPaymentParam.expirationYear = expirationYear;
-      cyberPaymentParam.firstName = firstName;
-      cyberPaymentParam.lastName = lastName;
-      cyberPaymentParam.address1 = address1;
-      cyberPaymentParam.address2 = address2;
+      cyberPaymentParam.firstName = newBillingAddress.firstName;
+      cyberPaymentParam.lastName = newBillingAddress.lastName;
+      cyberPaymentParam.address1 = newBillingAddress.address1;
+      cyberPaymentParam.address2 = newBillingAddress.address2;
       cyberPaymentParam.country = 'US';
-      cyberPaymentParam.state = province; // province
-      cyberPaymentParam.city = city;
-      cyberPaymentParam.zipCode = postCode;
+      cyberPaymentParam.state = newBillingAddress.province;
+      cyberPaymentParam.city = newBillingAddress.city;
+      cyberPaymentParam.zipCode = newBillingAddress.postCode;
+      cyberPaymentParam.phone = newBillingAddress.phoneNumber;
       cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
-      cyberPaymentParam.phone = phoneNumber;
       cyberParams = Object.assign({}, cyberPaymentParam, {
         cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
         paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
@@ -2476,7 +2496,13 @@ class Payment extends React.Component {
                 </>
               )}
               {/* oxxo */}
-              {paymentTypeVal === 'oxxo' && (
+              {paymentTypeVal === 'oxxo' &&
+              !loginCartData.filter(
+                (ele) =>
+                  ele.subscriptionStatus &&
+                  (ele.subscriptionPrice > 0 || ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
+                  ele.goodsInfoFlag
+              ).length ? (
                 <>
                   <OxxoConfirm
                     type={'oxxo'}
@@ -2487,7 +2513,7 @@ class Payment extends React.Component {
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
                   })}
                 </>
-              )}
+              ) : null}
               {/* payu creditCard */}
               {this.isPayUPaymentTypeVal && (
                 <>
@@ -2665,6 +2691,7 @@ class Payment extends React.Component {
                     })}
                     securityCodeTipsJSX={this.renderSecurityCodeTipsJSX()}
                     backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
+                    showErrorMsg={this.showErrorMsg}
                   />
                   {payConfirmBtn({
                     disabled: validForCyberPayment() || validForBilling,
@@ -2684,6 +2711,7 @@ class Payment extends React.Component {
                     billingJSX={this.renderBillingJSX({
                       type: paymentTypeVal
                     })}
+                    showErrorMsg={this.showErrorMsg}
                   />
                   {reInputCVVBtn({
                     disabled: !this.state.isShowCyberBindCardBtn,
