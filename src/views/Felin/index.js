@@ -523,7 +523,7 @@ export default class Felin extends React.Component {
     } = this.state;
     const event = {
       page: {
-        type: 'Club',
+        type: 'Felin',
         theme: '',
         path: this.props.location.pathname
       }

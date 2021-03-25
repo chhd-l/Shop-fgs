@@ -34,29 +34,30 @@ class DeleteMyAccount extends React.Component {
       <div className={classNames({ border: curPageAtCover })}>
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            {curPageAtCover ? (
-              <h5 className="mb-0">
-                <div
-                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                  style={{
-                    width: '1.2em',
-                    height: '1.2em',
-                    display: 'inline-table'
-                  }}
-                >
-                  <img src={deleteMyAccountImg} alt="" />
-                </div>
-                <FormattedMessage id="account.deleteMyaccountTitle" />
-              </h5>
-            ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handelDeleteMyAccount}
+            <h5
+              className="mb-0"
+              style={{ display: curPageAtCover ? 'block' : 'none' }}
+            >
+              <div
+                className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                style={{
+                  width: '1.2em',
+                  height: '1.2em',
+                  display: 'inline-table'
+                }}
               >
-                <span>&larr; </span>
-                <FormattedMessage id="account.deleteMyaccountTitle" />
-              </h5>
-            )}
+                <img src={deleteMyAccountImg} alt="" />
+              </div>
+              <FormattedMessage id="account.deleteMyaccountTitle" />
+            </h5>
+            <h5
+              className="ui-cursor-pointer"
+              style={{ display: curPageAtCover ? 'none' : 'block' }}
+              onClick={this.handleClickGoBack}
+            >
+              <span>&larr; </span>
+              <FormattedMessage id="account.deleteMyaccountTitle" />
+            </h5>
 
             {/* delete my account 按钮 */}
             <FormattedMessage id="proceedToTheDeletion">

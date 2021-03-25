@@ -338,7 +338,7 @@ class Payment extends React.Component {
     const { cyberPaymentForm } = this.state;
     cyberPaymentForm[name] = item.value;
 
-    let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，幼稚了，就清空没填提示
+    let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，就清空没填提示
 
     this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });
   };
@@ -1168,7 +1168,7 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
-      debugger;
+
       switch (type) {
         case 'oxxo':
           const oxxoContent = res.context;
@@ -1186,6 +1186,16 @@ class Payment extends React.Component {
           gotoConfirmationPage = true;
           break;
         case 'payUCreditCardRU':
+          subOrderNumberList = tidList.length
+            ? tidList
+            : res.context && res.context.tidList;
+          if (res.context.tid) {
+            sessionItemRoyal.set('orderNumber', res.context.tid);
+          }
+          if (res.context.redirectUrl) {
+            window.location.href = res.context.redirectUrl;
+          }
+          break;
         case 'payUCreditCardTU':
         case 'payUCreditCard':
           subOrderNumberList = tidList.length
