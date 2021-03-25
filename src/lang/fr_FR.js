@@ -1098,7 +1098,7 @@ const fr_FR = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'smartFeederSubscription.pause': 'pause',
+  'subscription.pause': 'pause',
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
