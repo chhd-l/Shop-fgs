@@ -87,6 +87,14 @@ class ConfigStore {
     );
   }
 
+  // 获取是否显示询问绑定prescriber弹框
+  @computed get showPrescriberModal() {
+    return (
+      //TODO:将prescriberMap字段改成后端传的showPrescriberModal字段
+      this.info && this.info.storeVO && this.info.storeVO.prescriberMap === '1'
+    );
+  }
+
   // 显示onePageCheckout样式
   @computed get isOnePageCheckout() {
     return (
@@ -114,7 +122,7 @@ class ConfigStore {
     if (!res) {
       res = await getConfig();
       res = res.context;
-      console.log(' ----------- queryConfig: ',res);
+      console.log(' ----------- queryConfig: ', res);
     }
     this.info = res;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));

@@ -80,15 +80,15 @@ class Form extends React.Component {
     // 查询国家
     this.getCountryList();
 
-    let newData = Object.assign({}, initData);
-    initData.cityId = newData.cityId;
-    initData.city = newData.cityName; // 接口参数 city => long
-    initData.cityName = newData.cityName; // 接口参数 cityName => string
+    // let newData = Object.assign({}, initData);
+    // initData.cityId = newData.cityId;
+    // initData.city = newData.cityName; // 接口参数 city => long
+    // initData.cityName = newData.cityName; // 接口参数 cityName => string
 
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
     initData.stateId = initData.provinceId;
-    console.log('-------------★ EditForm initData: ', initData);
+    console.log('91 -------------★ EditForm initData: ', initData);
     // console.log('-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);

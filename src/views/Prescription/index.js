@@ -15,6 +15,7 @@ import meImg from '@/assets/images/map-default-marker.png';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import Modal from './components/Modal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -58,7 +59,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   }
 };
 
-@inject('clinicStore', 'checkoutStore')
+@inject('clinicStore', 'checkoutStore', 'configStore')
 @observer
 class Prescription extends React.Component {
   constructor(props) {
@@ -108,13 +109,18 @@ class Prescription extends React.Component {
         lat: 0,
         lng: 0
       },
-      loading: true
+      loading: true,
+      modalShow: false //是否显示询问绑定prescriber弹框
     };
   }
   componentDidMount() {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
+    //与后台联调发测试版之前，先不显示弹框
+    // const showPrescriberModal=this.props.configStore.showPrescriberModal;
+    // this.setState({modalShow:showPrescriberModal});
+    //
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -196,6 +202,15 @@ class Prescription extends React.Component {
     this.setState({
       clinicArr
     });
+  }
+  //不需要绑定prescriber，关闭弹框直接跳转checkout页面
+  closeModal() {
+    this.setState({ modalShow: false });
+    this.props.history.push('/checkout');
+  }
+  //需要绑定prescriber，直接关闭弹框显示当前页面
+  handleClickSubmit() {
+    this.setState({ modalShow: false });
   }
   handleSearch = () => {
     const { params } = this.state;
@@ -311,6 +326,11 @@ class Prescription extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
+        />
+        <Modal
+          visible={this.state.modalShow}
+          close={() => this.closeModal()}
+          handleClickConfirm={() => this.handleClickSubmit()}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

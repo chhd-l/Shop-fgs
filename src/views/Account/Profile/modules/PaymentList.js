@@ -15,7 +15,7 @@ import {
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import PaymentEditForm from '../PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import find from 'lodash/find';
+import { computedSupportPaymentMethods } from '@/utils/utils';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 
 function CardItem(props) {
@@ -71,7 +71,8 @@ class AddressList extends React.Component {
       creditCardList: [],
       fromPage: 'cover',
       paymentType: 'PAYU', //getway接口没配置美国支付CYBER，暂时这样
-      errorMsg: ''
+      errorMsg: '',
+      supportPaymentMethods: []
     };
 
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
@@ -83,9 +84,12 @@ class AddressList extends React.Component {
   componentDidMount() {
     this.getPaymentMethodList();
     getWays().then((res) => {
-      if (res.context && res.context && res.context.name) {
-        this.setState({ paymentType: res.context.name }); //PAYU,ADYEN,CYBER
-      }
+      this.setState({
+        paymentType: res?.context?.name,
+        supportPaymentMethods: computedSupportPaymentMethods(
+          res?.context?.supportPaymentMethods || []
+        )
+      }); //PAYU,ADYEN,CYBER
     });
   }
   get isLogin() {
@@ -133,7 +137,7 @@ class AddressList extends React.Component {
           this.setState({
             errorMsg: ''
           });
-        }, 2000);
+        }, 3000);
       });
   }
   changeEditFormVisible = (status) => {
@@ -401,6 +405,9 @@ class AddressList extends React.Component {
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getPaymentMethodList}
                     paymentType={this.state.paymentType}
+                    supportPaymentMethods={this.state.supportPaymentMethods}
+                    needEmail={this.props.needEmail}
+                    needPhone={this.props.needPhone}
                   />
                 )}
               </div>

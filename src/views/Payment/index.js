@@ -34,10 +34,10 @@ import {
   generatePayUScript,
   getFormatDate,
   setSeoConfig,
-  validData
+  validData,
+  computedSupportPaymentMethods
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 import {
   findUserConsentList,
   getStoreOpenConsentList,
@@ -180,8 +180,8 @@ class Payment extends React.Component {
         address2: '',
         rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        cityId: '',
         city: '',
-        cityName: '',
         postCode: '',
         phoneNumber: ''
       },
@@ -192,8 +192,8 @@ class Payment extends React.Component {
         address2: '',
         rfc: '',
         country: 'Mexico',
+        cityId: '',
         city: '',
-        cityName: '',
         postCode: '',
         phoneNumber: ''
       },
@@ -558,14 +558,8 @@ class Payment extends React.Component {
     //1.会员调用consense接口
     //2.游客调用consense接口
     const { isLogin } = this;
-    const customerId = this.userInfo && this.userInfo.customerId;
-    // let action = getStoreOpenConsentList;
+    const customerId = this.userInfo?.customerId;
     let params = {};
-    // if (isLogin) {
-    //   action = findUserConsentList;
-    //   params = { customerId };
-    // }
-    // let res = await action(params);
     // add subscriptionPlan consent
     let subscriptionPlanIds = this.props.checkoutStore.loginCartData?.filter(
       (item) => item.subscriptionPlanId?.length > 0
@@ -734,12 +728,9 @@ class Payment extends React.Component {
       this.setState(
         {
           payWayNameArr,
-          supportPaymentMethods: (payWay?.context?.supportPaymentMethods || [])
-            .map((el) => ({
-              name: el,
-              img: CREDIT_CARD_IMGURL_ENUM[el.toUpperCase()]
-            }))
-            .filter((el) => el.img)
+          supportPaymentMethods: computedSupportPaymentMethods(
+            payWay?.context?.supportPaymentMethods || []
+          )
         },
         () => {
           initPaymentWay[payMethod] && initPaymentWay[payMethod]();
@@ -811,7 +802,7 @@ class Payment extends React.Component {
     const jsessionid =
       Cookies.get('jsessionid') ||
       sessionItemRoyal.get('jsessionid') ||
-      `${this.userInfo.customerId}${new Date().getTime()}`;
+      `${this.userInfo?.customerId}${new Date().getTime()}`;
     if (jsessionid) {
       const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
       generatePayUScript(fingerprint);
@@ -822,28 +813,28 @@ class Payment extends React.Component {
   queryOrderDetails() {
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
       let resContext = res.context;
-      let cityRes = await queryCityNameById({
-        id: [resContext.consignee.cityId, resContext.invoice.cityId]
-      });
-      cityRes = cityRes.context.systemCityVO || [];
-      resContext.consignee.cityName = this.matchCityName(
-        cityRes,
-        resContext.consignee.cityId
-      );
-      resContext.invoice.cityName = this.matchCityName(
-        cityRes,
-        resContext.invoice.cityId
-      );
+      // let cityRes = await queryCityNameById({
+      //   id: [resContext.consignee.cityId, resContext.invoice.cityId]
+      // });
+      // cityRes = cityRes.context.systemCityVO || [];
+      // resContext.consignee.cityName = this.matchCityName(
+      //   cityRes,
+      //   resContext.consignee.cityId
+      // );
+      // resContext.invoice.cityName = this.matchCityName(
+      //   cityRes,
+      //   resContext.invoice.cityId
+      // );
       this.setState({
         orderDetails: resContext
       });
     });
   }
-  matchCityName(dict, cityId) {
-    return dict.filter((c) => c.id === cityId).length
-      ? dict.filter((c) => c.id === cityId)[0].cityName
-      : cityId;
-  }
+  // matchCityName(dict, cityId) {
+  //   return dict.filter((c) => c.id === cityId).length
+  //     ? dict.filter((c) => c.id === cityId)[0].cityName
+  //     : cityId;
+  // }
   showErrorMsg = (msg) => {
     this.setState({
       errorMsg: msg,
@@ -1056,13 +1047,15 @@ class Payment extends React.Component {
         const defaultUrl = '',
           Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
           payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult';
+        payu3dsResultUrl =
+          process.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
         return (
           {
             adyenCard: Adyen3DSUrl,
             adyenKlarnaPayLater: payResultUrl,
             adyenKlarnaPayNow: payResultUrl,
             directEbanking: payResultUrl,
-            payUCreditCardRU: payResultUrl
+            payUCreditCardRU: payu3dsResultUrl
           }[type] || defaultUrl
         );
       };
@@ -1428,7 +1421,7 @@ class Payment extends React.Component {
           billAddress1: billingAddress.address1,
           billAddress2: billingAddress.address2,
           billCity: billingAddress.city,
-          billCityName: billingAddress.cityName,
+          billCityId: billingAddress.cityId,
           billCountry: billingAddress.country,
           billFirstName: billingAddress.firstName,
           billLastName: billingAddress.lastName,
@@ -1515,10 +1508,8 @@ class Payment extends React.Component {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
-      city: deliveryAddress.cityId, // 后端 city 为long 类型
-      // cityId: deliveryAddress.cityId,
-      region: deliveryAddress.provinceNo,
-      cityName: deliveryAddress.cityName,
+      city: deliveryAddress.city,
+      cityId: deliveryAddress.cityId,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1734,9 +1725,8 @@ class Payment extends React.Component {
           country: deliveryAddress.countryId
             ? deliveryAddress.countryId.toString()
             : '',
-          // cityId: deliveryAddress.cityId,
-          city: deliveryAddress.cityId,
-          cityName: deliveryAddress.cityName,
+          city: deliveryAddress.city,
+          cityId: deliveryAddress.cityId,
           postCode: deliveryAddress.postCode,
           phoneNumber: deliveryAddress.consigneeNumber,
           email: deliveryAddress.email,
@@ -1753,9 +1743,8 @@ class Payment extends React.Component {
             country: billingAddress.countryId
               ? billingAddress.countryId.toString()
               : '',
-            // cityId: billingAddress.cityId,
-            city: billingAddress.cityId,
-            cityName: billingAddress.city,
+            city: billingAddress.city,
+            cityId: billingAddress.cityId,
             postCode: billingAddress.postCode,
             phoneNumber: billingAddress.consigneeNumber,
             addressId:
@@ -1889,10 +1878,11 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
-    let newData = Object.assign({}, data);
-    data.cityId = newData.cityId;
-    data.city = newData.cityId; // 接口参数 city => long
-    data.cityName = newData.city; // 接口参数 cityName => string
+    // let newData = Object.assign({}, data);
+    // data.cityId = newData.cityId;
+    // data.city = newData.cityId;
+    // data.cityName = newData.city;
+    // debugger
     this.setState({
       deliveryAddress: data
     });
@@ -1913,7 +1903,7 @@ class Payment extends React.Component {
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: stateNo, // 省份简写
-              city: data.cityName,
+              city: data.city,
               street: data.address1,
               postalCode: data.postCode,
               customerAccount: this.state.email
@@ -1926,7 +1916,7 @@ class Payment extends React.Component {
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: data.provinceNo, // 省份简写
-              city: data.cityName,
+              city: data.city,
               street: data.address1,
               postalCode: data.postCode,
               customerAccount: this.state.guestEmail
@@ -1940,11 +1930,10 @@ class Payment extends React.Component {
   };
 
   updateBillingAddrData = (data) => {
-    let newData = Object.assign({}, data);
-    data.cityId = newData.cityId;
-    data.city = newData.cityId; // 接口参数 city => long
-    data.cityName = newData.city; // 接口参数 cityName => string
-    console.log(data, 'data1111111');
+    // let newData = Object.assign({}, data);
+    // data.cityId = newData.cityId;
+    // data.city = newData.cityId; // 接口参数 city => long
+    // data.cityName = newData.city; // 接口参数 cityName => string
     if (!this.state.billingChecked) {
       this.setState({ billingAddress: data });
     }
@@ -2144,7 +2133,7 @@ class Payment extends React.Component {
         address2,
         country,
         province,
-        cityName,
+        cityId,
         city,
         postCode,
         email,
@@ -2173,7 +2162,7 @@ class Payment extends React.Component {
       cyberPaymentParam.address2 = address2;
       cyberPaymentParam.country = 'US';
       cyberPaymentParam.state = province; // province
-      cyberPaymentParam.city = cityName;
+      cyberPaymentParam.city = city;
       cyberPaymentParam.zipCode = postCode;
       cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
       cyberPaymentParam.phone = phoneNumber;
@@ -2900,7 +2889,7 @@ class Payment extends React.Component {
         taxFeeData: {
           country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
           region: deliveryAddress.provinceNo, // 省份简写
-          city: deliveryAddress.cityName,
+          city: deliveryAddress.city,
           street: deliveryAddress.address1,
           postalCode: deliveryAddress.postCode,
           customerAccount: guestEmail
@@ -2941,7 +2930,7 @@ class Payment extends React.Component {
       ...submitParam,
       ...{ oktaToken },
       consentPage: 'check out',
-      customerId: (this.userInfo && this.userInfo.customerId) || ''
+      customerId: this.userInfo?.customerId || ''
     });
   }
   // 3、
