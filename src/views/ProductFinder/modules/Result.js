@@ -596,8 +596,8 @@ class ProductFinderResult extends React.Component {
 
             <Help />
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -16,7 +16,7 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 export default class ReturnOrder extends React.Component {
   constructor(props) {
@@ -45,8 +45,8 @@ export default class ReturnOrder extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -136,10 +136,13 @@ export default class ReturnOrder extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -283,13 +286,13 @@ export default class ReturnOrder extends React.Component {
                               <div className="col-12 col-md-6 d-flex flex-wrap">
                                 {order.returnItems.map((item) => (
                                   <LazyLoad>
-                                  <img
-                                    className="img-fluid"
-                                    key={item.oid}
-                                    src={item.pic || IMG_DEFAULT}
-                                    alt={item.spuName}
-                                    title={item.spuName}
-                                  />
+                                    <img
+                                      className="img-fluid"
+                                      key={item.oid}
+                                      src={item.pic || IMG_DEFAULT}
+                                      alt={item.spuName}
+                                      title={item.spuName}
+                                    />
                                   </LazyLoad>
                                 ))}
                               </div>
@@ -321,8 +324,8 @@ export default class ReturnOrder extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -1753,9 +1753,8 @@ class Help extends React.Component {
               <FormattedMessage id="recommendation.fiveContent" />
             </p>
           </section> */}
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }

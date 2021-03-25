@@ -1637,8 +1637,8 @@ class LoginCart extends React.Component {
               key="cart-recommendation"
             />
           ) : null}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

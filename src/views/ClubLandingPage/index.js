@@ -696,8 +696,8 @@ class ClubLandingPage extends React.Component {
           <br />
           <br />
           <HelpComponents />
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

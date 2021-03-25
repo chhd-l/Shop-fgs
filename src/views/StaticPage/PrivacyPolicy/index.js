@@ -7,7 +7,7 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class PrivacyPolicy extends React.Component {
   constructor(props) {
@@ -24,8 +24,8 @@ class PrivacyPolicy extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -37,10 +37,13 @@ class PrivacyPolicy extends React.Component {
     return (
       <div>
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -377,10 +380,10 @@ class PrivacyPolicy extends React.Component {
                 </p>
                 <p>
                   <LazyLoad>
-                  <img
-                    alt="logo"
-                    src="https://www.mars.com/sites/g/files/jydpyr121/files/styles/thumbnail/public/advertising-option-icon_0.png?itok=r-ki3CVH"
-                  />
+                    <img
+                      alt="logo"
+                      src="https://www.mars.com/sites/g/files/jydpyr121/files/styles/thumbnail/public/advertising-option-icon_0.png?itok=r-ki3CVH"
+                    />
                   </LazyLoad>
                 </p>
                 <p>
@@ -1085,8 +1088,8 @@ class PrivacyPolicy extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

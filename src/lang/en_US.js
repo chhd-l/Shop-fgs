@@ -981,6 +981,7 @@ const en_US = {
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
+  seeMoreText: 'see more',
   'recommendation.guidelinesTips':
     "Royal Canin's feeding guidelines can also be found on the product packaging.",
   'recommendation.buyNow': 'Buy now',
@@ -1259,6 +1260,8 @@ const en_US = {
   securePaymentProcessing: 'Secure payment processing',
   'Vous avez économisé': 'You saved',
   avecLabonnement: 'with autoship',
-  'payment.returnToCardList': 'Return to card list'
+  'payment.returnToCardList': 'Return to card list',
+  'payment.codTip': 'I want to pay by cash or card upon receipt',
+  'payment.codConfirmTip': 'Payment upon receipt'
 };
 export default en_US;

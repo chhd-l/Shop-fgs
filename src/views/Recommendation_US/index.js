@@ -14,7 +14,8 @@ import { inject, observer } from 'mobx-react';
 import Help from '../SmartFeederSubscription/modules/Help';
 import {
   getRecommendationList,
-  getRecommendationList_fr
+  getRecommendationList_fr,
+  getPrescriberByPrescriberIdAndStoreId
 } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
@@ -225,12 +226,22 @@ class Recommendation extends React.Component {
   //   console.info('secondlist', secondlist);
   //   this.setState({ secondlist });
   // }
+  getPrescriberByPrescriberIdAndStoreId = (prescriberId) => {
+    let storeId = process.env.REACT_APP_STOREID;
+    getPrescriberByPrescriberIdAndStoreId({ prescriberId, storeId }).then(
+      (res) => {
+        console.info('resstoreIdstoreId', res);
+        let locationPath = res.context.location;
+        this.setState({ locationPath });
+      }
+    );
+  };
   async componentDidMount() {
     // let paramArr = this.props.location.search.split('&');
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
+    search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
-
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
@@ -242,6 +253,10 @@ class Recommendation extends React.Component {
       .then((res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
+        let prescriberId = res.context.prescriberId;
+        prescriberId &&
+          isRu &&
+          this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
         productList.map((el) => {
           let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
           if (tmpGoodsDetail) {
@@ -381,6 +396,7 @@ class Recommendation extends React.Component {
         console.log(err, 'err');
         // this.props.history.push('/home');
       });
+
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -757,6 +773,12 @@ class Recommendation extends React.Component {
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = this.get100Words(tabDes);
+    let grayBoxInnerText = {
+      en:
+        productList[activeIndex]?.productMessage ||
+        'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
+      ru: this.state.locationPath
+    };
     return (
       <div className="Recommendation_FR Recommendation_US">
         {/* <GoogleTagManager additionalEvents={event} />
@@ -775,7 +797,9 @@ class Recommendation extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
-          showBannerTip={isUs ? true : false}
+          showBannerTip={true}
+          // showBannerTip={isUs ? true : false}
+          bannerTipShowBtn={isUs ? true : false}
         />
         <Modal
           key="1"
@@ -1056,8 +1080,7 @@ class Recommendation extends React.Component {
                             />
                             <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
                               <div className="">
-                                {productList[activeIndex]?.productMessage ||
-                                  'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.'}
+                                {grayBoxInnerText[process.env.REACT_APP_LANG]}
                               </div>
                               {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
@@ -1254,7 +1277,7 @@ class Recommendation extends React.Component {
                         frameborder="0"
                         id="video-dog"
                         className="optanon-category-4 "
-                        src="https://www.youtube.com/embed/FYwO1fiYoa8"
+                        src="https://www.youtube.com/embed/ICmjePIyMkI"
                       ></iframe>
                     </div>
                   </div>
@@ -1281,8 +1304,8 @@ class Recommendation extends React.Component {
               </div>
             </React.Fragment>
           )}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }
