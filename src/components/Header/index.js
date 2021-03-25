@@ -54,6 +54,7 @@ class Header extends React.Component {
     showUserIcon: false,
     showNav: true,
     showLoginBtn: true,
+    bannerTipShowBtn: true, //是否展示固定的banbertip的按钮
     //User组件跳转用
     personInformationRouter: '/account/information',
     petsRouter: '/account/pets',
@@ -520,6 +521,7 @@ class Header extends React.Component {
       loginStore,
       configStore,
       history,
+      bannerTipShowBtn, //是否展示固定的banbertip的按钮
       showBannerTip //是否展示固定的banbertip
     } = this.props;
     const {
@@ -672,13 +674,15 @@ class Header extends React.Component {
                         <FormattedMessage id="header.bannerTip" />
                       </Link>
                       <div>
-                        <Link
-                          to="/subscription-landing"
-                          className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                          style={{ minWidth: '110px', lineHeight: 'normal' }}
-                        >
-                          <FormattedMessage id="bannerTip.btnText" />
-                        </Link>
+                        {bannerTipShowBtn && (
+                          <Link
+                            to="/subscription-landing"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                            style={{ minWidth: '110px', lineHeight: 'normal' }}
+                          >
+                            <FormattedMessage id="bannerTip.btnText" />
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>
