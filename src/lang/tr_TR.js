@@ -1022,6 +1022,7 @@ const tr_TR = {
   deliveryOneTimeOnly: 'Yalnızca 1 kez teslimat',
   singlePurchase: 'Tek satın alma',
   subscribe: 'Sepete ekle',
-  saveExtraMoney: 'Bu abonelikte {val} tasarruf edin'
+  saveExtraMoney: 'Bu abonelikte {val} tasarruf edin',
+  'subscription.pause': 'Duraklat'
 };
 export default tr_TR;
