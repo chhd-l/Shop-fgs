@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from '_react-intl@5.6.8@react-intl';
+import { FormattedMessage } from 'react-intl';
 
 export default class InstallmentTable extends React.Component {
   static defaultProps = {
