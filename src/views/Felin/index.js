@@ -20,6 +20,7 @@ import FaceBook_Icon from '@/assets/images/facebookIcon.png';
 import Insgram_Icon from '@/assets/images/insgramIcon.png';
 import qrcode_border from '@/assets/images/qrcode_border.jpg';
 import { getTimeOptions, apptSave } from '@/api/appointment';
+import { inject, observer } from 'mobx-react';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -44,27 +45,29 @@ function getElementTop(element) {
   return actualTop;
 }
 
-function scrollIntoView(element) {
+function scrollIntoView(element, additionalHeight) {
   const headerElement = document.querySelector(`.Felin`);
   if (element && headerElement) {
     // console.log(getElementTop(element) headerElement.offsetHeight)
-    let headerHeight = 54;
+    let headerHeight = 54 + additionalHeight;
     if (getElementTop(element) > document.documentElement.scrollTop) {
-      headerHeight = 54;
+      headerHeight = 54 + additionalHeight;
     } else {
-      headerHeight = 120;
+      headerHeight = 120 + additionalHeight;
     }
     window.scroll({
-      top: getElementTop(element) - headerHeight - 60,
+      top: getElementTop(element) - headerHeight - additionalHeight - 60,
       behavior: 'smooth'
     });
   }
 }
 
-function scrollPaymentPanelIntoView(id) {
-  scrollIntoView(document.querySelector(`#${id}`));
+function scrollPaymentPanelIntoView(id, additionalHeight = 0) {
+  scrollIntoView(document.querySelector(`#${id}`), additionalHeight);
 }
 
+@inject('loginStore')
+@observer
 export default class Felin extends React.Component {
   constructor(props) {
     super(props);
@@ -219,7 +222,7 @@ export default class Felin extends React.Component {
   }
   buildTimeOption() {
     let timeOption = [];
-    let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
     arr.map((el) => {
       if (el < 18) {
         timeOption.push({
@@ -268,21 +271,35 @@ export default class Felin extends React.Component {
     return this.virtualAppointmentFlag || this.state.selectedTimeObj.type === 0;
   }
   getTimeOptions() {
+    this.setState({ loading: true });
     getTimeOptions({
       apptDate: format(this.state.currentDate, 'yyyyMMdd')
-    }).then((res) => {
-      let { timeOption } = this.state;
-      let { appointmentVOList } = res.context;
-      timeOption.map((timeItem) => {
-        if (
-          appointmentVOList.filter(
-            (apptItem) => apptItem.apptTime === timeItem.value
-          ).length
-        ) {
-          timeItem.disabled = true;
-        }
+    })
+      .then((res) => {
+        let { timeOption } = this.state;
+        let { appointmentVOList } = res.context;
+        timeOption.map((timeItem) => {
+          timeItem.disabled = false;
+          if (
+            appointmentVOList.filter(
+              (apptItem) => apptItem.apptTime === timeItem.value
+            ).length
+          ) {
+            timeItem.disabled = true;
+          }
+        });
+        this.setState({ loading: false });
+      })
+      .catch((err) => {
+        scrollPaymentPanelIntoView('felinFooter', this.state.languageHeight);
+        this.setState({
+          loading: false,
+          errMsg: "Impossible d'obtenir le temps"
+        });
+        setTimeout(() => {
+          this.setState({ errMsg: '' });
+        }, 5000);
       });
-    });
   }
 
   componentWillUnmount() {
@@ -411,6 +428,7 @@ export default class Felin extends React.Component {
           });
         })
         .catch((err) => {
+          scrollPaymentPanelIntoView('felinFooter', this.state.languageHeight);
           this.setState(
             {
               step: 1,
@@ -539,7 +557,10 @@ export default class Felin extends React.Component {
                   this.setState(
                     { isContactUs: false, currentTabIndex: 0 },
                     () => {
-                      scrollPaymentPanelIntoView('section5');
+                      scrollPaymentPanelIntoView(
+                        'section5',
+                        this.state.languageHeight
+                      );
                     }
                   );
                 }}
@@ -554,14 +575,16 @@ export default class Felin extends React.Component {
                   this.setState(
                     { isContactUs: false, currentTabIndex: 1 },
                     () => {
-                      scrollPaymentPanelIntoView('felinFooter');
+                      scrollPaymentPanelIntoView(
+                        'felinFooter',
+                        this.state.languageHeight
+                      );
                     }
                   );
                 }}
               >
                 Réserver un rendez-vous
               </span>
-              {/* <Link to="/help/contact"> */}
               <span
                 className={`ui-cursor-pointer ${
                   currentTabIndex === 2 ? 'active' : ''
@@ -574,12 +597,14 @@ export default class Felin extends React.Component {
               >
                 Contacter L'Atelier Félin
               </span>
-              {/* </Link> */}
             </div>
             <br />
             <div
               className="contactUs"
-              style={{ display: isContactUs ? 'block' : 'none' }}
+              style={{
+                display: isContactUs ? 'block' : 'none',
+                marginTop: '60px'
+              }}
             >
               <div className="rc-gamma inherit-fontsize">
                 <h3>Contacter l’Atelier Félin</h3>
@@ -639,7 +664,10 @@ export default class Felin extends React.Component {
                     <button
                       className="rc-btn rc-btn--one"
                       onClick={() => {
-                        scrollPaymentPanelIntoView('felinFooter');
+                        scrollPaymentPanelIntoView(
+                          'felinFooter',
+                          this.state.languageHeight
+                        );
                       }}
                     >
                       Venez rencontrer nos comportementalistes félins
@@ -957,6 +985,10 @@ export default class Felin extends React.Component {
                               selectedItemData={{
                                 value: this.state.selectedTimeObj.value
                               }}
+                              customContainerStyle={{
+                                opacity: this.state.loading ? '.6' : '1'
+                              }}
+                              disabled={this.state.loading}
                               enableBlur={false}
                             />
                           </div>
@@ -1060,29 +1092,35 @@ export default class Felin extends React.Component {
                           >
                             {this.state.selectedTimeObj.name}
                           </p>
-                          <button
-                            className="rc-btn rc-btn--one"
-                            style={{ width: '100%' }}
-                            onClick={() => this.handleNextStepBtn()}
-                          >
-                            <FormattedMessage id="Continuer en tant qu'invité" />
-                          </button>
-                          {/* <button
-                          className="rc-btn rc-btn--two"
-                          style={{ margin: '5px 0', width: '100%' }}
-                        >
-                          <FormattedMessage id="Se connecter" />
-                        </button> */}
-                          <LoginButton
-                            className="rc-btn rc-btn--two"
-                            btnStyle={{ margin: '5px 0', width: '100%' }}
-                            history={this.props.history}
-                            beforeLoginCallback={async () => {
-                              sessionItemRoyal.set('from-felin', true);
-                            }}
-                          >
-                            Se connecter
-                          </LoginButton>
+                          {!this.props.loginStore.isLogin ? (
+                            <button
+                              className="rc-btn rc-btn--one"
+                              style={{ width: '100%' }}
+                              onClick={() => this.handleNextStepBtn()}
+                            >
+                              <FormattedMessage id="Continuer en tant qu'invité" />
+                            </button>
+                          ) : null}
+                          {!this.props.loginStore.isLogin ? (
+                            <LoginButton
+                              className="rc-btn rc-btn--two"
+                              btnStyle={{ margin: '5px 0', width: '100%' }}
+                              history={this.props.history}
+                              beforeLoginCallback={async () => {
+                                sessionItemRoyal.set('from-felin', true);
+                              }}
+                            >
+                              Se connecter
+                            </LoginButton>
+                          ) : (
+                            <button
+                              className="rc-btn rc-btn--two"
+                              style={{ margin: '5px 0', width: '100%' }}
+                              onClick={() => this.handleNextStepBtn()}
+                            >
+                              <FormattedMessage id="Se connecter" />
+                            </button>
+                          )}
                         </>
                       ) : null}
                       {this.state.step === 4 ? (
