@@ -147,8 +147,6 @@ class Form extends React.Component {
                 if (manually == 1) {
                   // 查询州列表（美国 state）
                   this.getUsStateList();
-                  // 查询城市列表
-                  this.getAllCityList();
                 }
                 this.setState(
                   {
@@ -229,6 +227,11 @@ class Form extends React.Component {
       const group = JSON.stringify(fn(item));
       groups[group] = groups[group] || [];
       groups[group].push(item);
+
+      // 查询城市列表
+      if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
+        this.getAllCityList();
+      }
     });
     caninForm.formRule = rule;
     this.setState({

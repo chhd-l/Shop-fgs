@@ -975,7 +975,6 @@ const tr_TR = {
   'payment.saveCardToAccount': 'Kart ayrıntılarını hesabıma kaydet',
   'payment.saveThisPaymentMethodAsPreferred':
     'Bu ödeme yöntemini tercih edilen şekilde kaydedin',
-  'payment.installment': 'Installment',
   'footer.email': 'Bize Ulaşın',
   home: 'Ana Sayfa',
   'account.ordersTitle': 'Siparişlerim',

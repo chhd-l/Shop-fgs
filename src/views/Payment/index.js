@@ -329,9 +329,7 @@ class Payment extends React.Component {
     let value = '';
     value = target.value;
     cyberPaymentForm[name] = value;
-    this.setState({ cyberPaymentForm }, () => {
-      console.log(cyberPaymentForm, '--------handleInputChange');
-    });
+    this.setState({ cyberPaymentForm });
     this.inputBlur(e);
   };
   //select事件
@@ -342,9 +340,7 @@ class Payment extends React.Component {
 
     let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，幼稚了，就清空没填提示
 
-    this.setState({ cyberPaymentForm, cyberErrMsgObj: obj }, () => {
-      console.log(cyberPaymentForm, '--------handleSelectedItemChange');
-    });
+    this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });
   };
   getPetVal() {
     let obj = doGetGAVal(this.props);
@@ -825,7 +821,6 @@ class Payment extends React.Component {
     if (this.props.checkoutStore.AuditData.length) {
       let petFlag = true;
       let data = this.props.checkoutStore.AuditData;
-      // console.log(toJS(this.props.checkoutStore.AuditData));
       for (let i = 0; i < data.length; i++) {
         if (this.isLogin) {
           if (!data[i].petsId) {
@@ -1374,8 +1369,8 @@ class Payment extends React.Component {
         {
           billAddress1: billingAddress.address1,
           billAddress2: billingAddress.address2,
-          billCity: billingAddress.cityId,
-          billCityName: billingAddress.city,
+          billCity: billingAddress.city,
+          billCityName: billingAddress.cityName,
           billCountry: billingAddress.country,
           billFirstName: billingAddress.firstName,
           billLastName: billingAddress.lastName,
@@ -1461,8 +1456,8 @@ class Payment extends React.Component {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
-      city: deliveryAddress.city, // 后端 city 为long 类型
-      cityId: deliveryAddress.city,
+      city: deliveryAddress.cityId, // 后端 city 为long 类型
+      // cityId: deliveryAddress.cityId,
       cityName: deliveryAddress.cityName,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
@@ -1669,7 +1664,6 @@ class Payment extends React.Component {
       const { deliveryAddress, billingAddress, billingChecked } = this.state;
       let tmpDeliveryAddress = { ...deliveryAddress };
       let tmpBillingAddress = { ...billingAddress };
-      // console.log('-------------------------- ★★★ Payment deliveryAddress deliveryAddress: ', deliveryAddress);
       if (this.isLogin) {
         tmpDeliveryAddress = {
           firstName: deliveryAddress.firstName,
@@ -1680,9 +1674,9 @@ class Payment extends React.Component {
           country: deliveryAddress.countryId
             ? deliveryAddress.countryId.toString()
             : '',
-          cityId: deliveryAddress.cityId,
-          cityName: deliveryAddress.cityName,
+          // cityId: deliveryAddress.cityId,
           city: deliveryAddress.cityId,
+          cityName: deliveryAddress.cityName,
           postCode: deliveryAddress.postCode,
           phoneNumber: deliveryAddress.consigneeNumber,
           email: deliveryAddress.email,
@@ -1699,9 +1693,9 @@ class Payment extends React.Component {
             country: billingAddress.countryId
               ? billingAddress.countryId.toString()
               : '',
-            cityName: billingAddress.city,
+            // cityId: billingAddress.cityId,
             city: billingAddress.cityId,
-            cityId: billingAddress.cityId,
+            cityName: billingAddress.city,
             postCode: billingAddress.postCode,
             phoneNumber: billingAddress.consigneeNumber,
             addressId:
@@ -1826,6 +1820,7 @@ class Payment extends React.Component {
       });
     }
     this.setState({ billingChecked: val });
+    // 勾选，则 billingAddress = deliveryAddress
     if (val) {
       this.setState({
         billingAddress: this.state.deliveryAddress
@@ -1834,27 +1829,13 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
-    // this.setState({
-    //   deliveryAddress: {
-    //     firstName: data.firstName,
-    //     lastName: data.lastName,
-    //     address1: data.address1,
-    //     address2: data.address2,
-    //     country: data.country,
-    //     countryName: data.countryName,
-    //     cityId: data.cityId,
-    //     city: data.cityId,
-    //     cityName: data.city,
-    //     postCode: data.postCode,
-    //     phoneNumber: data.phoneNumber,
-    //     rfc: data.rfc,
-    //     email: data.email
-    //   }
-    // });
+    let newData = Object.assign({}, data);
+    data.cityId = newData.cityId;
+    data.city = newData.cityId; // 接口参数 city => long
+    data.cityName = newData.city; // 接口参数 cityName => string
     this.setState({
       deliveryAddress: data
     });
-    // debugger;
     if (this.state.billingChecked) {
       this.setState({
         billingAddress: data
@@ -1872,7 +1853,7 @@ class Payment extends React.Component {
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: stateNo, // 省份简写
-              city: data.city,
+              city: data.cityName,
               street: data.address1,
               postalCode: data.postCode,
               customerAccount: this.state.email
@@ -1885,7 +1866,7 @@ class Payment extends React.Component {
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: data.provinceNo, // 省份简写
-              city: data.city,
+              city: data.cityName,
               street: data.address1,
               postalCode: data.postCode,
               customerAccount: this.state.guestEmail
@@ -1899,7 +1880,10 @@ class Payment extends React.Component {
   };
 
   updateBillingAddrData = (data) => {
-    console.log(456, data);
+    let newData = Object.assign({}, data);
+    data.cityId = newData.cityId;
+    data.city = newData.cityId; // 接口参数 city => long
+    data.cityName = newData.city; // 接口参数 cityName => string
     if (!this.state.billingChecked) {
       this.setState({ billingAddress: data });
     }
@@ -2099,6 +2083,7 @@ class Payment extends React.Component {
         address2,
         country,
         province,
+        cityName,
         city,
         postCode,
         email,
@@ -2127,7 +2112,7 @@ class Payment extends React.Component {
       cyberPaymentParam.address2 = address2;
       cyberPaymentParam.country = 'US';
       cyberPaymentParam.state = province; // province
-      cyberPaymentParam.city = city;
+      cyberPaymentParam.city = cityName;
       cyberPaymentParam.zipCode = postCode;
       cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
       cyberPaymentParam.phone = phoneNumber;
@@ -2173,8 +2158,9 @@ class Payment extends React.Component {
       }
     }
 
-    //cyber游客绑卡
+    // cyber游客绑卡
     const unLoginCyberSaveCard = async (params) => {
+      console.log('2080 params: ', params);
       try {
         const res = await this.cyberCardRef.current.usGuestPaymentInfoEvent(
           params
@@ -2256,7 +2242,6 @@ class Payment extends React.Component {
   };
 
   clickReInputCvvConfirm = () => {
-    // console.log(999, this.state.cyberPayParam);
     this.setPaymentToCompleted();
   };
 
@@ -2319,22 +2304,20 @@ class Payment extends React.Component {
 
     // 未勾选same as billing时，校验billing addr
     const validForBilling = !billingChecked && !validSts.billingAddr;
-
+    console.log(' 2215 validForBilling: ', validForBilling);
     const validForCyberPayment = () => {
       let isValidForCyberPayment = false;
       let errMsgObj = {};
       let isCheckSaveCard = this.state.cyberPaymentForm.isSaveCard;
-      console.log(789, isCheckSaveCard);
       ADDRESS_RULE.forEach((item) => {
         if (
           Object.keys(cyberPaymentForm).indexOf(item.key) &&
           !cyberPaymentForm[item.key] &&
-          item.require //必填项没值
+          item.require
         ) {
           errMsgObj[item.key] = true;
         }
       });
-
       if (Object.keys(errMsgObj).length > 0) {
         isValidForCyberPayment = false;
       } else {
@@ -2347,12 +2330,13 @@ class Payment extends React.Component {
         } else {
           isValidForCyberPayment = true;
         }
-        //isValidForCyberPayment = true;
       }
+      console.log('2256 !isValidForCyberPayment: ', !isValidForCyberPayment);
       return !isValidForCyberPayment;
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
+      console.log('2248 payConfirmBtn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2367,6 +2351,7 @@ class Payment extends React.Component {
     };
 
     const reInputCVVBtn = ({ disabled, loading = false }) => {
+      console.log('2263 reInputCVVBtn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2648,14 +2633,6 @@ class Payment extends React.Component {
   };
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
-    //console.log('------------- ★★ 111 Payment renderAddrPreview form: ', form);
-    // console.log(
-    //   '------------- ★★ 222 Payment renderAddrPreview billingAddress: ',
-    //   this.state.billingAddress
-    // );
-    // this.setState({
-    //   billingAddress: form
-    // });
     return form ? (
       <>
         {titleVisible && (
@@ -2714,7 +2691,6 @@ class Payment extends React.Component {
         curExpirationDate.pop();
         expirationDate = curExpirationDate.join('-');
       }
-      console.log(expirationDate, 'expirationDate');
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
@@ -2846,7 +2822,7 @@ class Payment extends React.Component {
         taxFeeData: {
           country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
           region: deliveryAddress.provinceNo, // 省份简写
-          city: deliveryAddress.city,
+          city: deliveryAddress.cityName,
           street: deliveryAddress.address1,
           postalCode: deliveryAddress.postCode,
           customerAccount: guestEmail
