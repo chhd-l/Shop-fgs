@@ -1095,11 +1095,7 @@ const ru_RU = {
     'Сохранить этот способ оплаты как предпочтительный',
   bankCard: 'банковская карта',
   deliveryOneTimeOnly: 'Доставка только 1 раз',
-  subscribe: 'Добавить в корзину',
-  cod: 'Оплата при получении',
-  'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
-  'payment.codConfirmTip': 'Оплата при получении',
-  saveExtraMoney: 'Сэкономьте {val} на этой подписке'
+  subscribe: 'Добавить в корзину'
 };
 
 export default ru_RU;

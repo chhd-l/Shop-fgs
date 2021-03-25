@@ -12,6 +12,7 @@ import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
 import { registerLocale } from 'react-datepicker';
+import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -729,4 +730,18 @@ export function filterObjectValueDeep(obj) {
 
 export function isCountriesContainer(countries) {
   return countries.indexOf(process.env.REACT_APP_LANG) > -1;
+}
+
+/**
+ *
+ * @param {Array} list
+ * @returns 为所支持的支付方式，拼接img
+ */
+export function computedSupportPaymentMethods(list = []) {
+  return list
+    .map((el) => ({
+      name: el,
+      img: CREDIT_CARD_IMGURL_ENUM[el.toUpperCase()]
+    }))
+    .filter((el) => el.img);
 }

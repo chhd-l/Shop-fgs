@@ -168,7 +168,7 @@ class ClinicEditForm extends React.Component {
                 aria-hidden="true"
                 style={{ width: '1.3em', height: '1.3em' }}
               >
-                <use xlinkHref="#iconclinic"></use>
+                <use xlinkHref="#iconclinic" />
               </svg>
               <FormattedMessage id="account.clinicTitle2" />
             </h5>

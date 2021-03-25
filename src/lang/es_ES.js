@@ -453,7 +453,6 @@ const es_ES = {
   inTheBasket: 'en la canasta',
   inTransit: 'En tránsito',
   invoice: 'factura',
-  invoice: 'factura',
   isContinue: '¿Continuar?',
   item: '{val} artículo',
   items: '{val} artículos',
@@ -885,7 +884,6 @@ const es_ES = {
   selectProduct: 'Por favor seleccione producto',
   sendUsAnEmail: 'Envianos un email',
   setAsDefault: 'Establecer por defecto',
-  setAsDefault: 'Establecer por defecto',
   setDefaltAddressFailed: 'Establecer dirección predeterminada fallida',
   setDefaltAddressSuccess: 'Establecer dirección predeterminada correcta',
   setDefaultAddress: 'Establecer como dirección predeterminada',
@@ -1022,6 +1020,13 @@ const es_ES = {
   'payment.saveCardToAccount':
     'Guardar los detalles de la tarjeta en mi cuenta',
   'payment.saveThisPaymentMethodAsPreferred':
-    'Guarde este método de pago como preferido'
+    'Guarde este método de pago como preferido',
+  'bindPrescriber.modal.title':
+    'Есть ли у вас рекомендация от ветеринарного врача?',
+  'bindPrescriber.modal.content':
+    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
+  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
+  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
+  'bindPrescriber.modal.or': 'или'
 };
 export default es_ES;
