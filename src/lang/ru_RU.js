@@ -1091,7 +1091,9 @@ const ru_RU = {
   'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
   'payment.saveThisPaymentMethodAsPreferred':
     'Сохранить этот способ оплаты как предпочтительный',
-  bankCard: 'банковская карта'
+  bankCard: 'банковская карта',
+  deliveryOneTimeOnly: 'Доставка только 1 раз',
+  subscribe: 'Добавить в корзину'
 };
 
 export default ru_RU;

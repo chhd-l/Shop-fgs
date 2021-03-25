@@ -43,7 +43,6 @@ import {
   userBindConsent
 } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
-import { isNewAccount } from '@/api/user';
 import LazyLoad from 'react-lazyload';
 import {
   postVisitorRegisterAndLogin,
@@ -53,7 +52,6 @@ import {
   rePay,
   customerCommitAndPayMix,
   getWays,
-  getProductPetConfig,
   getPaymentMethod
 } from '@/api/payment';
 
@@ -204,6 +202,7 @@ class Payment extends React.Component {
       saveBillingLoading: false,
       payWayErr: '',
       pet: {},
+      installMentParam: null, // 分期参数
       //cyber参数
       cyberPaymentForm: {
         cardholderName: '', //Didier Valansot
@@ -509,6 +508,11 @@ class Payment extends React.Component {
   get defaultCardDataFromAddr() {
     return this.props.paymentStore.defaultCardDataFromAddr;
   }
+  get isPayUPaymentTypeVal() {
+    return ['payUCreditCard', 'payUCreditCardRU', 'payUCreditCardTU'].includes(
+      this.state.paymentTypeVal
+    );
+  }
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
     this.setState({
@@ -594,6 +598,21 @@ class Payment extends React.Component {
           id: 'creditCard',
           paymentTypeVal: 'payUCreditCard'
         },
+        PAYU_RU: {
+          name: 'payu_ru',
+          id: 'creditCard',
+          paymentTypeVal: 'payUCreditCardRU'
+        },
+        PAYU_TU: {
+          name: 'payu_tu',
+          id: 'creditCard',
+          paymentTypeVal: 'payUCreditCardTU'
+        },
+        COD: {
+          name: 'payu_cod',
+          id: 'cod',
+          paymentTypeVal: 'cod'
+        },
         PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
         adyen_credit_card: {
           name: 'adyen_credit_card',
@@ -653,6 +672,18 @@ class Payment extends React.Component {
         payu: () => {
           this.setState({ paymentTypeVal: 'payUCreditCard' });
         },
+        payu_ru: () => {
+          this.setState({
+            paymentTypeVal: 'payUCreditCardRU',
+            pspItemCode: ''
+          });
+        },
+        payu_tu: () => {
+          this.setState({
+            paymentTypeVal: 'payUCreditCardTU',
+            pspItemCode: ''
+          });
+        },
         payuoxxo: () => {
           this.setState({ paymentTypeVal: 'oxxo' });
         },
@@ -671,7 +702,7 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
-          initPaymentWay[payMethod]();
+          initPaymentWay[payMethod] && initPaymentWay[payMethod]();
         }
       );
     } catch (e) {
@@ -824,14 +855,61 @@ class Payment extends React.Component {
 
   /**************支付公共方法start*****************/
 
+  async hanldePAYUCheckoutParams({
+    commonParameter,
+    parameters,
+    payPspItemEnum,
+    country,
+    installments
+  }) {
+    const { selectedCardInfo } = this.state;
+    parameters = Object.assign({}, commonParameter, {
+      payPspItemEnum,
+      country,
+      installments
+    });
+    // debugger;
+    // todo 会员不保存卡参数错误了
+    if (selectedCardInfo && selectedCardInfo.paymentToken) {
+      try {
+        // 获取token，避免传给接口明文cvv
+        this.startLoading();
+        let cvvResult = await new Promise((resolve) => {
+          window.POS.tokenize(
+            {
+              token_type: 'card_cvv_code',
+              credit_card_cvv: selectedCardInfo.cardCvv,
+              payment_method_token: selectedCardInfo.paymentToken
+            },
+            function (result) {
+              console.log('result obtained' + result);
+              resolve(result);
+            }
+          );
+        });
+        cvvResult = JSON.parse(cvvResult);
+        parameters = Object.assign(parameters, {
+          paymentMethodId: selectedCardInfo.id,
+          creditDardCvv: cvvResult && cvvResult.token
+        });
+      } catch (err) {
+        this.endLoading();
+        throw new Error(err.message);
+      }
+    }
+    return parameters;
+  }
+
   // 6、组装支付共同的参数
   async getAdyenPayParam(type) {
     try {
+      const { email } = this.state;
+      const { isLogin } = this;
       let obj = await this.getPayCommonParam();
       let commonParameter = obj.commonParameter;
       let phone = obj.phone;
       let parameters;
-      const { email } = this.state;
+
       /* 组装支付需要的参数 */
       const actions = {
         oxxo: () => {
@@ -842,37 +920,35 @@ class Payment extends React.Component {
           });
         },
         payUCreditCard: async () => {
-          const { selectedCardInfo } = this.state;
-          parameters = Object.assign({}, commonParameter, {
-            payPspItemEnum: 'PAYU_CREDIT_CARD'
+          parameters = this.hanldePAYUCheckoutParams({
+            commonParameter,
+            parameters,
+            payPspItemEnum: 'PAYU_CREDIT_CARD',
+            country: 'MEX'
           });
-          if (this.isLogin) {
-            try {
-              // 获取token，避免传给接口明文cvv
-              this.startLoading();
-              let cvvResult = await new Promise((resolve) => {
-                window.POS.tokenize(
-                  {
-                    token_type: 'card_cvv_code',
-                    credit_card_cvv: selectedCardInfo.cardCvv,
-                    payment_method_token: selectedCardInfo.paymentToken
-                  },
-                  function (result) {
-                    console.log('result obtained' + result);
-                    resolve(result);
-                  }
-                );
-              });
-              cvvResult = JSON.parse(cvvResult);
-              parameters = Object.assign(parameters, {
-                paymentMethodId: selectedCardInfo.id,
-                creditDardCvv: cvvResult && cvvResult.token
-              });
-            } catch (err) {
-              this.endLoading();
-              throw new Error(err.message);
-            }
+        },
+        payUCreditCardRU: async () => {
+          parameters = this.hanldePAYUCheckoutParams({
+            commonParameter,
+            parameters,
+            payPspItemEnum: isLogin ? 'PAYU_RUSSIA_AUTOSHIP2' : 'PAYU_RUSSIA',
+            // todo cod传这个 PAYU_RUSSIA_COD
+            country: 'RUS'
+          });
+        },
+        payUCreditCardTU: async () => {
+          let installments;
+          const { installMentParam } = this.state;
+          if (installMentParam) {
+            installments = installMentParam.installmentNumber;
           }
+          parameters = this.hanldePAYUCheckoutParams({
+            commonParameter,
+            parameters,
+            payPspItemEnum: isLogin ? 'PAYU_TURKEY_AUTOSHIP2' : 'PAYU_TURKEY',
+            country: 'TUR',
+            installments
+          });
         },
         adyenCard: () => {
           const { adyenPayParam } = this.state;
@@ -1076,7 +1152,7 @@ class Payment extends React.Component {
         }
       }
 
-      if (paymentTypeVal === 'payUCreditCard') {
+      if (this.isPayUPaymentTypeVal) {
         this.generatePayUParam();
       }
       if (this.jsessionid && this.fingerprint) {
@@ -1097,6 +1173,7 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
+      debugger;
       switch (type) {
         case 'oxxo':
           const oxxoContent = res.context;
@@ -1113,6 +1190,8 @@ class Payment extends React.Component {
             : oxxoContent && oxxoContent.tidList;
           gotoConfirmationPage = true;
           break;
+        case 'payUCreditCardRU':
+        case 'payUCreditCardTU':
         case 'payUCreditCard':
           subOrderNumberList = tidList.length
             ? tidList
@@ -1378,8 +1457,7 @@ class Payment extends React.Component {
       promotionCode
     } = this.state;
 
-    let param = {};
-    param = {
+    let param = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
@@ -1399,8 +1477,12 @@ class Payment extends React.Component {
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
       petsId: '1231',
-      deliveryAddressId: deliveryAddress.addressId,
-      billAddressId: billingAddress.addressId,
+      deliveryAddressId:
+        // '7ffffe87f29fd9175e355887ba7c4908' ||
+        deliveryAddress.addressId,
+      billAddressId:
+        // 'ff8080817366a54701736a4e149c0058' ||
+        billingAddress.addressId,
       promotionCode,
       guestEmail
     };
@@ -1662,8 +1744,8 @@ class Payment extends React.Component {
   };
   // 校验邮箱/地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule() {
-    const { checkoutStore } = this.props;
-    const { guestEmail, tid, intl } = this.state;
+    const { checkoutStore, intl } = this.props;
+    const { guestEmail, tid } = this.state;
     try {
       if (!tid) {
         if (!this.isLogin && !guestEmail) {
@@ -1677,7 +1759,6 @@ class Payment extends React.Component {
           );
         }
         await this.saveAddressAndCommentPromise();
-
         // 价格未达到底限，不能下单
         if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           throw new Error(
@@ -1901,6 +1982,8 @@ class Payment extends React.Component {
       cyberPaymentForm: { isSaveCard }
     } = this.state;
 
+    if (+process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR) return null;
+
     if (tid) return null;
 
     return (
@@ -2006,7 +2089,6 @@ class Payment extends React.Component {
   };
   confirmPaymentPanel = async () => {
     const { isLogin } = this;
-    const { paymentStore } = this.props;
     const {
       adyenPayParam,
       paymentTypeVal,
@@ -2075,12 +2157,14 @@ class Payment extends React.Component {
     async function handleClickSavePayUForm(_this) {
       try {
         if (_this.payUCreditCardRef && _this.payUCreditCardRef.current) {
+          // 会员
           if (
             _this.payUCreditCardRef.current.paymentCompRef &&
             _this.payUCreditCardRef.current.paymentCompRef.current
           ) {
             await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
           } else {
+            // 游客
             await _this.payUCreditCardRef.current.handleClickCardConfirm();
           }
         }
@@ -2188,16 +2272,19 @@ class Payment extends React.Component {
   };
   // 编辑
   handleClickPaymentPanelEdit = async () => {
-    if (this.state.paymentTypeVal == 'cyber' && this.isLogin) {
+    const { paymentStore } = this.props;
+    const { billingChecked, paymentTypeVal } = this.state;
+    if (paymentTypeVal == 'cyber' && this.isLogin) {
       await this.queryList();
     }
-    this.props.paymentStore.setStsToEdit({
+    this.setState({ installMentParam: null });
+    paymentStore.setStsToEdit({
       key: 'paymentMethod',
       hideOthers: true
     });
-    const { billingChecked } = this.state;
+
     if (!billingChecked) {
-      this.props.paymentStore.setStsToEdit({
+      paymentStore.setStsToEdit({
         key: 'billingAddr'
       });
     }
@@ -2207,6 +2294,10 @@ class Payment extends React.Component {
       validSts: Object.assign(this.state.validSts, { [key]: status })
     });
   }
+
+  onInstallMentParamChange = (data) => {
+    this.setState({ installMentParam: data });
+  };
 
   /**
    * 渲染支付方式
@@ -2348,16 +2439,19 @@ class Payment extends React.Component {
                 </>
               )}
               {/* payu creditCard */}
-              {paymentTypeVal === 'payUCreditCard' && (
+              {this.isPayUPaymentTypeVal && (
                 <>
                   <PayUCreditCard
-                    // todo
-                    // key={Object.values(this.defaultCardDataFromAddr || {}).join(
-                    //   '|'
-                    // )}
                     ref={this.payUCreditCardRef}
                     type={'PayUCreditCard'}
                     isLogin={this.isLogin}
+                    isSupportInstallMent={Boolean(
+                      +process.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
+                    )}
+                    needEmail={+process.env.REACT_APP_PAYU_EMAIL}
+                    needPhone={+process.env.REACT_APP_PAYU_PHONE}
+                    // todo 动态
+                    // pspItemCode={payWayNameArr.filter((c) => c)}
                     showErrorMsg={this.showErrorMsg}
                     onVisitorPayosDataConfirm={(data) => {
                       this.setState({ payosdata: data });
@@ -2368,6 +2462,7 @@ class Payment extends React.Component {
                     onPaymentCompDataChange={(data) => {
                       this.setState({ selectedCardInfo: data });
                     }}
+                    onInstallMentParamChange={this.onInstallMentParamChange}
                     isApplyCvv={false}
                     needReConfirmCVV={true}
                     updateFormValidStatus={this.updateValidStatus.bind(this, {
@@ -2630,7 +2725,7 @@ class Payment extends React.Component {
     return (
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
-          {paymentTypeVal === 'payUCreditCard' ||
+          {this.isPayUPaymentTypeVal ||
           paymentTypeVal === 'adyenCard' ||
           paymentTypeVal === 'cyber' ? (
             <div className="col-12 col-md-6">
@@ -2826,7 +2921,8 @@ class Payment extends React.Component {
       petModalVisible,
       isAdd,
       mobileCartVisibleKey,
-      guestEmail
+      guestEmail,
+      installMentParam
     } = this.state;
     const event = {
       page: {
@@ -3141,6 +3237,20 @@ class Payment extends React.Component {
                     isCheckOut={true}
                   />
                 )}
+                {/* 分期手续费 */}
+                {installMentParam ? (
+                  <div className="pl-3 pr-3 pt-1 pb-0 red">
+                    <div className="row">
+                      <div className="col-9">
+                        <FormattedMessage id="installMent.additionalFee" />
+                      </div>
+                      <div className="col-3 text-right">
+                        {formatMoney(installMentParam.additionalFee)}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
                 <Faq />
               </div>
             </div>
