@@ -49,8 +49,8 @@ const tr_TR = {
   'account.noPet':
     'Evcil hayvan profilinizi bugün oluşturun! Bilgileri doldurun ve en uygun diyeti seçin',
   'account.noSubscription':
-    'You do not yet know the Subscription?\n' +
-    "The Subscription allows you to receive your pet's favorite foods regularly and easily. Just tell us where and when to ship it, and we'll make sure everything it needs arrives right at your doorstep.",
+    '"Abonelik programımızı keşfetmek ister misiniz?\n' +
+    'Abonelik programımız, evcil hayvanınıza en uygun mamayı, düzenli ve kolay bir şekilde almanızı sağlar. Bize sadece nereye ve ne zaman göndereceğimizi söyleyin, biz de ihtiyaç duyduğu her şeyin kapınıza gelmesini sağlayalım. "',
   'account.noSubscriptionTitle': 'Aboneliği Keşfedin',
   'account.notRegistred': 'Yeni kullanıcı?',
   'account.of': 'nın-nin',
@@ -177,7 +177,7 @@ const tr_TR = {
   'comment.noShoppingExperienceTip':
     'Lütfen alışveriş deneyimi hakkında yorum yapın',
   CompleteRequiredItems: 'Lütfen gerekli maddeleri tamamlayın',
-  confirmation: 'Onayla',
+  confirmation: 'Onay',
   'confirmation.account': 'Hesabıma git',
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
@@ -194,7 +194,7 @@ const tr_TR = {
   'confirmation.subscriptionDiscountPriceDes':
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
-  confirmDelete: 'Adresi silmek istiyor musunuz?',
+  confirmDelete: 'Silmek istiyor musunuz?',
   confirmPassword: 'Şifreyi Onayla *',
   consent: 'Razı olmak',
   consignee: 'Alıcı',
@@ -622,7 +622,7 @@ const tr_TR = {
   'payment.normalDelivery2': 'Normal teslimat',
   'payment.normalDelivery3': '(1-4 gün)',
   'payment.payment': 'Ödeme yöntemim',
-  'payment.paymentInformation': 'Ödeme bilgileri',
+  'payment.paymentInformation': 'Ödeme Bilgileriniz',
   'payment.phoneNumber': 'Cep telefonu',
   'payment.phoneNumber2': 'Telefon numarası',
   'payment.postCode': 'Posta Kodu',
@@ -1021,6 +1021,7 @@ const tr_TR = {
   'installMent.additionalFee': 'Taksit ilave bedeli',
   deliveryOneTimeOnly: 'Yalnızca 1 kez teslimat',
   singlePurchase: 'Tek satın alma',
-  subscribe: 'Sepete ekle'
+  subscribe: 'Sepete ekle',
+  saveExtraMoney: 'Bu abonelikte {val} tasarruf edin'
 };
 export default tr_TR;
