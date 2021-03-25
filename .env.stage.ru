@@ -1,6 +1,6 @@
 #stage环境(德国)
 REACT_APP_ACCESS_PATH = https://shopstg.royalcanin.com/ru/
-REACT_APP_CLIENT_ID = 0oagwbhnq0MA32zj30x6
+REACT_APP_CLIENT_ID = 0oaq4l7mz80pZlTd00x6
 REACT_APP_ISSUER = https://accountpreview.royalcanin.com/oauth2/default
 REACT_APP_RedirectURL = https://shopstg.royalcanin.com/ru/implicit/callback
 REACT_APP_RegisterPrefix = https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=
@@ -29,7 +29,7 @@ REACT_APP_AdyenOriginKEY = 'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFs
 REACT_APP_Adyen_ENV = 'test'
 REACT_APP_Adyen_locale = 'ru-RU'
 REACT_APP_Adyen_country = 'RU'
-REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/fr'
+REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/ru'
 
 #onetrust
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'

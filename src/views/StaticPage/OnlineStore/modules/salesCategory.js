@@ -28,7 +28,7 @@ export default class OnlineStoreSalesCategory extends Component {
     let cateGoryList_cat = [];
     cateGoryList_dog = res
       .filter((item) => {
-        return item.cateType === 'dog' && item.cateRouter.indexOf('vet') == -1; //排除vet产品
+        return item.cateType === 'dog';
       })
       .map((item2) => {
         return {
@@ -44,7 +44,8 @@ export default class OnlineStoreSalesCategory extends Component {
 
     cateGoryList_cat = res
       .filter((item) => {
-        return item.cateType === 'cat' && item.cateRouter.indexOf('vet') == -1; //排除vet产品
+        return item.cateType === 'cat';
+        //return item.cateType === 'cat' && item.cateRouter.indexOf('vet') == -1; //排除vet产品
       })
       .map((item2) => {
         return {

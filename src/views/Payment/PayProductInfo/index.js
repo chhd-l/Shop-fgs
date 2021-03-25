@@ -27,6 +27,8 @@ const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
 class PayProductInfo extends React.Component {
@@ -222,6 +224,12 @@ class PayProductInfo extends React.Component {
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
   }
+  get freeShippingDiscountPrice() {
+    return this.props.checkoutStore.freeShippingDiscountPrice;
+  }
+  get freeShippingFlag() {
+    return this.props.checkoutStore.freeShippingFlag;
+  }
   get taxFeePrice() {
     return this.props.checkoutStore.taxFeePrice;
   }
@@ -333,7 +341,7 @@ class PayProductInfo extends React.Component {
                     <span className="light">
                       {el.goodsName || el.goods.goodsName}
                     </span>
-                    {el.goods.promotions &&
+                    {el?.goods?.promotions &&
                     el.goods.promotions.includes('club') ? (
                       <img className="clubLogo" src={Club_Logo} alt="" />
                     ) : null}
@@ -764,6 +772,7 @@ class PayProductInfo extends React.Component {
                       </div>
                     ))
                   : null}
+
                 {/* 显示 delivereyPrice */}
                 <div className="row leading-lines shipping-item">
                   <div className="col-7 start-lines">
@@ -781,6 +790,28 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
+                {/* 运费折扣 */}
+                {process.env.REACT_APP_LANG == 'ru' &&
+                this.props.isCheckOut &&
+                this.freeShippingFlag &&
+                this.freeShippingDiscountPrice ? (
+                  <div className="row leading-lines shipping-item green">
+                    <div className="col-7 start-lines">
+                      <p className="order-receipt-label order-shipping-cost">
+                        <span>
+                          <FormattedMessage id="payment.shippingDiscount" />
+                        </span>
+                      </p>
+                    </div>
+                    <div className="col-5 end-lines">
+                      <p className="text-right">
+                        <span className="shipping-total-cost">
+                          {formatMoney(this.freeShippingDiscountPrice)}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
 
                 {this.firstOrderOnThePlatformDiscountPrice > 0 && (
                   <div className="row leading-lines shipping-item flex-layout green">

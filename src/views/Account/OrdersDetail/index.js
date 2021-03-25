@@ -1408,6 +1408,7 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="promotion.firstOrderDiscount" />
                                       </div>
                                       <div className="col-6 col-md-3 text-right text-nowrap green">
+                                        -
                                         {formatMoney(
                                           details.tradePrice
                                             .firstOrderOnThePlatformDiscountPrice

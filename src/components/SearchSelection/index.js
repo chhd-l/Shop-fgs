@@ -21,7 +21,8 @@ class SearchSelection extends React.Component {
   static defaultProps = {
     customStyle: false,
     customCls: '',
-    isBottomPaging: false // 滑倒底部翻页
+    isBottomPaging: false, // 滑倒底部翻页
+    freeText: false
   };
   constructor(props) {
     super(props);
@@ -234,7 +235,7 @@ class SearchSelection extends React.Component {
   render() {
     const { optionList, form } = this.state;
     return (
-      <>
+      <div>
         <div
           className={`${this.props.customCls} ${
             this.props.customStyle
@@ -292,7 +293,7 @@ class SearchSelection extends React.Component {
         {!this.state.searchForNoResult &&
           optionList.length === 0 &&
           this.props.nodataTipSlot}
-      </>
+      </div>
     );
   }
 }

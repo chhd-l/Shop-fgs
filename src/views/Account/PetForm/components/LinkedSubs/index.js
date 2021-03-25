@@ -3,9 +3,10 @@ import autoshipIcon from '@/assets/images/autoship.png';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import { getFormatDate, getFrequencyDict, getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { getSubList } from '@/api/subscription';
+import { getSubList, getSubListForPet } from '@/api/subscription';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -18,16 +19,16 @@ const LinkedSubs = (props) => {
   const isMobile = getDeviceType() !== 'PC';
   const querySubList = () => {
     props.setState({ loading: true });
-    let param = {
-      pageNum: 0,
-      pageSize: 10,
-      subscribeId: '',
-      // subscribeStatus: form.subscribeStatus,
-      customerAccount: localItemRoyal.get('rc-userinfo')
-        ? localItemRoyal.get('rc-userinfo')['customerAccount']
-        : ''
-    };
-    getSubList(param)
+    // let param = {
+    //   pageNum: 0,
+    //   pageSize: 10,
+    //   subscribeId: '',
+    //   // subscribeStatus: form.subscribeStatus,
+    //   customerAccount: localItemRoyal.get('rc-userinfo')
+    //     ? localItemRoyal.get('rc-userinfo')['customerAccount']
+    //     : ''
+    // };
+    getSubListForPet({ petsId: props.petsId })
       .then((res) => {
         setSubList(res.context.subscriptionResponses);
         props.setState({

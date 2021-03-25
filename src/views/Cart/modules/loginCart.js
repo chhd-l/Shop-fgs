@@ -153,8 +153,15 @@ class LoginCart extends React.Component {
       GACartScreenLoad();
     }
     this.setData();
+
     if (localItemRoyal.get('rc-iframe-from-storepotal')) {
       this.handleCheckout();
+    }
+  }
+  componentWillUnmount() {
+    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+      this.setState({ circleLoading: false });
+      localItemRoyal.remove('rc-iframe-from-storepotal');
     }
   }
   get loginCartData() {
@@ -410,16 +417,12 @@ class LoginCart extends React.Component {
         isLogin: true
       });
 
-      if (localItemRoyal.get('rc-iframe-from-storepotal')) {
-        this.setState({ circleLoading: false });
-        localItemRoyal.remove('rc-iframe-from-storepotal');
-      }
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
       this.showErrMsg(err.message);
     } finally {
-      this.setState({ checkoutLoading: false });
+      this.setState({ checkoutLoading: false, circleLoading: false });
     }
   };
   showErrMsg(msg) {
@@ -778,7 +781,11 @@ class LoginCart extends React.Component {
               </div>
             </div>
             <div
-              className="buyMethodBox rc-two-column"
+              className={`buyMethodBox ${
+                pitem.subscriptionStatus && pitem.subscriptionPrice
+                  ? 'rc-two-column'
+                  : ''
+              }`}
               style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
             >
               <div className="rc-column">
@@ -1478,7 +1485,9 @@ class LoginCart extends React.Component {
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
-        {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
+        {this.state.circleLoading ? (
+          <Loading bgColor={'#fff'} opacity={1} />
+        ) : null}
         <Header
           showMiniIcons={true}
           showUserIcon={true}

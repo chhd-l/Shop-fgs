@@ -8,7 +8,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import BannerTip from '@/components/BannerTip';
 import noPic from '@/assets/images/noPic.png';
 import ImageMagnifier from './components/ImageMagnifier';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import Help from '../SmartFeederSubscription/modules/Help';
@@ -135,6 +135,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      promotionCode: '',
       // secondlist: secondlistArr,
       showMore: false,
       petType: 1, //0 dog;1 cat
@@ -225,8 +226,11 @@ class Recommendation extends React.Component {
   //   this.setState({ secondlist });
   // }
   async componentDidMount() {
-    let paramArr = this.props.location.search.split('&');
-    let token = paramArr[paramArr.length - 1].split('=')[1];
+    // let paramArr = this.props.location.search.split('&');
+    // let token = paramArr[paramArr.length - 1].split('=')[1];
+    let { search } = this.props.history.location;
+    let token = getParaByName(search, 'token');
+
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
@@ -362,8 +366,8 @@ class Recommendation extends React.Component {
           el.goodsInfo.goods.goodsSpecs = specList;
           return el;
         });
-
-        this.setState({ productList, petType }, () => {
+        let promotionCode = res.context.promotionCode || '';
+        this.setState({ productList, petType, promotionCode }, () => {
           this.checkoutStock();
         });
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
@@ -707,7 +711,13 @@ class Recommendation extends React.Component {
     console.log('props', this.props);
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
-    let { productList, activeIndex, currentModalObj, isMobile } = this.state;
+    let {
+      productList,
+      activeIndex,
+      currentModalObj,
+      isMobile,
+      promotionCode
+    } = this.state;
     let MaxLinePrice,
       MinLinePrice,
       MaxMarketPrice,
@@ -715,14 +725,14 @@ class Recommendation extends React.Component {
       MaxSubPrice,
       MinSubPrice;
     if (productList.length) {
-      MaxLinePrice = Math.max.apply(
-        null,
-        productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
-      );
-      MinLinePrice = Math.min.apply(
-        null,
-        productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
-      );
+      // MaxLinePrice = Math.max.apply(
+      //   null,
+      //   productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
+      // );
+      // MinLinePrice = Math.min.apply(
+      //   null,
+      //   productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
+      // );
       MaxMarketPrice = Math.max.apply(
         null,
         productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
@@ -731,25 +741,16 @@ class Recommendation extends React.Component {
         null,
         productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
       );
-      MaxSubPrice = Math.min.apply(
-        null,
-        productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
-      );
-      MinSubPrice = Math.min.apply(
-        null,
-        productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
-      );
+      // MaxSubPrice = Math.min.apply(
+      //   null,
+      //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
+      // );
+      // MinSubPrice = Math.min.apply(
+      //   null,
+      //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
+      // );
     }
-    let isHasPromotion = true;
-    console.log(
-      'MaxLinePriceMaxLinePriceMaxLinePrice',
-      MaxLinePrice,
-      MinLinePrice,
-      MaxMarketPrice,
-      MinMarketPrice,
-      MaxSubPrice,
-      MinSubPrice
-    );
+
     let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
     let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
     let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
@@ -888,44 +889,50 @@ class Recommendation extends React.Component {
                           borderTop: 0
                         }}
                       >
-                        <div className="imageTabBox">
-                          {productList.map((el, i) => (
-                            <span
-                              className={`${i === activeIndex ? 'active' : ''}`}
-                              style={{
-                                display: 'inline-block',
-                                width: '80px',
-                                textAlign: 'center',
-                                cursor: 'pointer'
-                              }}
-                              onClick={() => this.setState({ activeIndex: i })}
-                            >
-                              <img
-                                src={el.goodsInfo.goodsInfoImg}
+                        {productList.length > 1 && (
+                          <div className="imageTabBox">
+                            {productList.map((el, i) => (
+                              <span
+                                className={`${
+                                  i === activeIndex ? 'active' : ''
+                                }`}
                                 style={{
-                                  width: '40px',
                                   display: 'inline-block',
-                                  margin: '10px 0'
-                                }}
-                                alt=""
-                              />
-                              {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
-                              <p
-                                style={{
+                                  width: '80px',
                                   textAlign: 'center',
-                                  fontSize: '12px',
-                                  marginBottom: '5px',
-                                  width: '100%',
-                                  overflow: 'hidden',
-                                  whiteSpace: 'nowrap',
-                                  textOverflow: 'ellipsis'
+                                  cursor: 'pointer'
                                 }}
+                                onClick={() =>
+                                  this.setState({ activeIndex: i })
+                                }
                               >
-                                {el.goodsInfo.goodsInfoName}
-                              </p>
-                            </span>
-                          ))}
-                        </div>
+                                <img
+                                  src={el.goodsInfo.goodsInfoImg}
+                                  style={{
+                                    width: '40px',
+                                    display: 'inline-block',
+                                    margin: '10px 0'
+                                  }}
+                                  alt=""
+                                />
+                                {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
+                                <p
+                                  style={{
+                                    textAlign: 'center',
+                                    fontSize: '12px',
+                                    marginBottom: '5px',
+                                    width: '100%',
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis'
+                                  }}
+                                >
+                                  {el.goodsInfo.goodsInfoName}
+                                </p>
+                              </span>
+                            ))}
+                          </div>
+                        )}
                         <div className="right rc-padding-x--lg ">
                           <div className="main">
                             <div className="pic">
@@ -946,7 +953,7 @@ class Recommendation extends React.Component {
                           </div>
                           <div
                             className={`product-recommendation__desc text-center rc-padding-bottom--lg--mobile ${
-                              isRu ? 'has-promotion' : ''
+                              isRu && promotionCode ? 'has-promotion' : ''
                             }`}
                           >
                             <h3
@@ -967,13 +974,13 @@ class Recommendation extends React.Component {
                                 <FormattedMessage id="autoship" />
                               </div> */}
                                 <div className="rc-large-body  m-auto">
-                                  {MaxMarketPrice === MinMarketPrice ? (
+                                  {MaxMarketPrice === MinMarketPrice || isRu ? (
                                     <React.Fragment>
                                       <span className="text-throught-line">
                                         {formatMoney(MaxMarketPrice)}
                                       </span>
                                       <span className="promotion-price">
-                                        {formatMoney(MaxMarketPrice)}123
+                                        {formatMoney(MaxMarketPrice * 0.8)}
                                       </span>
                                     </React.Fragment>
                                   ) : (
@@ -986,23 +993,23 @@ class Recommendation extends React.Component {
                                       </span>
                                       <span className="promotion-price">
                                         <FormattedMessage id="from" />{' '}
-                                        {formatMoney(MinMarketPrice)}123{' '}
+                                        {formatMoney(MinMarketPrice)}
                                         <FormattedMessage id="to" />{' '}
-                                        {formatMoney(MaxMarketPrice)}123
+                                        {formatMoney(MaxMarketPrice)}
                                       </span>
                                     </React.Fragment>
                                   )}
                                 </div>
                               </div>
                             )}
-                            {isRu && (
+                            {isRu && promotionCode ? (
                               <>
                                 <div style={{ marginBottom: '12px' }}>
                                   <span className="promotion-code-title">
                                     Promo code :
                                   </span>
                                   <span className="promotion-code promotion-code-title">
-                                    VET-WB5C-YR2Y-44{' '}
+                                    {promotionCode}
                                   </span>
                                 </div>
                                 <p className="promotion-tips">
@@ -1011,7 +1018,7 @@ class Recommendation extends React.Component {
                                   shopping cart
                                 </p>
                               </>
-                            )}
+                            ) : null}
                             {this.state.showMore ? (
                               <p
                                 className="product_info"

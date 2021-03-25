@@ -176,10 +176,10 @@ class AdyenCreditCardForm extends React.Component {
         this.props.updateAdyenPayParam(decoAdyenFormData);
         setTimeout(() => this.props.updateSelectedId(tmpSelectedId), 200);
       }
-      myAccountActionPushEvent('Add payment Method')
+      myAccountActionPushEvent('Add payment Method');
       this.isLogin && this.props.updateFormVisible(false);
     } catch (err) {
-      this.props.showErrorMsg(err.message)
+      this.props.showErrorMsg(err.message);
       throw new Error(err.message);
     }
   };
@@ -206,7 +206,7 @@ class AdyenCreditCardForm extends React.Component {
     } = this.props;
     const { saveLoading, isValid } = this.state;
     return (
-      <>
+      <div>
         {/* 支持卡的类型 Visa和master */}
         <p className="mb-2">
           <span className="logo-payment-card-list logo-credit-card ml-0">
@@ -252,7 +252,7 @@ class AdyenCreditCardForm extends React.Component {
           {showCancelBtn || showSaveBtn ? (
             <div className="text-right col-12 col-md-6">
               {showCancelBtn && (
-                <>
+                <div>
                   <span
                     className="rc-styled-link editPersonalInfoBtn"
                     name="contactInformation"
@@ -263,7 +263,7 @@ class AdyenCreditCardForm extends React.Component {
                   <span>
                     <FormattedMessage id="or" />{' '}
                   </span>
-                </>
+                </div>
               )}
               {showSaveBtn && (
                 <button
@@ -282,7 +282,7 @@ class AdyenCreditCardForm extends React.Component {
             </div>
           ) : null}
         </div>
-      </>
+      </div>
     );
   }
 }
