@@ -235,7 +235,7 @@ class SearchSelection extends React.Component {
   render() {
     const { optionList, form } = this.state;
     return (
-      <>
+      <div>
         <div
           className={`${this.props.customCls} ${
             this.props.customStyle
@@ -293,7 +293,7 @@ class SearchSelection extends React.Component {
         {!this.state.searchForNoResult &&
           optionList.length === 0 &&
           this.props.nodataTipSlot}
-      </>
+      </div>
     );
   }
 }

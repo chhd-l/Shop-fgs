@@ -240,26 +240,27 @@ class CommunicationDataEditForm extends React.Component {
       <div className={classNames({ border: curPageAtCover })}>
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            {curPageAtCover ? (
-              <h5 className="mb-0">
-                <svg
-                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
-                  style={{ width: '1.2em', height: '1.2em' }}
-                >
-                  <use xlinkHref="#iconcommunication" />
-                </svg>
-                <FormattedMessage id="account.myCommunicationPreferencesTitle" />
-              </h5>
-            ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
+            <h5
+              className="mb-0"
+              style={{ display: curPageAtCover ? 'block' : 'none' }}
+            >
+              <svg
+                className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                aria-hidden="true"
+                style={{ width: '1.3em', height: '1.3em' }}
               >
-                <span>&larr; </span>
-                <FormattedMessage id="account.myCommunicationPreferencesTitle" />
-              </h5>
-            )}
+                <use xlinkHref="#iconcommunication"></use>
+              </svg>
+              <FormattedMessage id="account.myCommunicationPreferencesTitle" />
+            </h5>
+            <h5
+              className="ui-cursor-pointer"
+              style={{ display: curPageAtCover ? 'none' : 'block' }}
+              onClick={this.handleClickGoBack}
+            >
+              <span>&larr; </span>
+              <FormattedMessage id="account.myCommunicationPreferencesTitle" />
+            </h5>
 
             <FormattedMessage id="edit">
               {(txt) => (

@@ -220,8 +220,7 @@ class AddressList extends React.Component {
     } = this.state;
     const curPageAtCover = !listVisible && !editFormVisible;
     return (
-      <>
-        {' '}
+      <div>
         {listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
@@ -229,26 +228,27 @@ class AddressList extends React.Component {
             {loading ? <Loading positionAbsolute="true" /> : null}
             <div className="personalInfo">
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-                {curPageAtCover ? (
-                  <h5 className="mb-0">
-                    <svg
-                      className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                      aria-hidden="true"
-                      style={{ width: '1.4em', height: '1.4em' }}
-                    >
-                      <use xlinkHref="#iconpayments"></use>
-                    </svg>
-                    <FormattedMessage id="account.myPayments" />
-                  </h5>
-                ) : (
-                  <h5
-                    className="ui-cursor-pointer"
-                    onClick={this.handleClickGoBack}
+                <h5
+                  className="mb-0"
+                  style={{ display: curPageAtCover ? 'block' : 'none' }}
+                >
+                  <svg
+                    className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                    aria-hidden="true"
+                    style={{ width: '1.4em', height: '1.4em' }}
                   >
-                    <span>&larr; </span>
-                    <FormattedMessage id="account.myPayments" />
-                  </h5>
-                )}
+                    <use xlinkHref="#iconpayments"></use>
+                  </svg>
+                  <FormattedMessage id="account.myPayments" />
+                </h5>
+                <h5
+                  className="ui-cursor-pointer"
+                  style={{ display: curPageAtCover ? 'none' : 'block' }}
+                  onClick={this.handleClickGoBack}
+                >
+                  <span>&larr; </span>
+                  <FormattedMessage id="account.myPayments" />
+                </h5>
 
                 <FormattedMessage id="edit">
                   {(txt) => (
@@ -407,7 +407,7 @@ class AddressList extends React.Component {
             </div>
           </div>
         )}
-      </>
+      </div>
     );
   }
 }
