@@ -158,12 +158,7 @@ class LoginCart extends React.Component {
       this.handleCheckout();
     }
   }
-  componentWillUnmount() {
-    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
-      this.setState({ circleLoading: false });
-      localItemRoyal.remove('rc-iframe-from-storepotal');
-    }
-  }
+  componentWillUnmount() {}
   get loginCartData() {
     return this.props.checkoutStore.loginCartData;
   }
@@ -416,6 +411,11 @@ class LoginCart extends React.Component {
         clinicStore,
         isLogin: true
       });
+
+      if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+        this.setState({ circleLoading: false });
+        localItemRoyal.remove('rc-iframe-from-storepotal');
+      }
 
       url && history.push(url);
       // history.push('/prescription');
