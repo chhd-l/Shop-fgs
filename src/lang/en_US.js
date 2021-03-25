@@ -981,6 +981,7 @@ const en_US = {
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
+  seeMoreText: 'see more',
   'recommendation.guidelinesTips':
     "Royal Canin's feeding guidelines can also be found on the product packaging.",
   'recommendation.buyNow': 'Buy now',
