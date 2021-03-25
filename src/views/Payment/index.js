@@ -1060,9 +1060,9 @@ class Payment extends React.Component {
       const successUrlFun = (type) => {
         const defaultUrl = '',
           Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
-          payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult';
-        payu3dsResultUrl =
-          process.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
+          payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult',
+          payu3dsResultUrl =
+            process.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
         return (
           {
             adyenCard: Adyen3DSUrl,
@@ -2163,7 +2163,7 @@ class Payment extends React.Component {
       tid,
       orderDetails
     } = this.state;
-    let newBillingAddress = Object.assign({}, billingAddress);
+    let newBillingAddress = Object.assign({}, this.state.billingAddress);
     if (tid && tid != null) {
       newBillingAddress = orderDetails?.invoice;
       newBillingAddress.phoneNumber = orderDetails?.invoice?.phone;
@@ -2691,6 +2691,7 @@ class Payment extends React.Component {
                     })}
                     securityCodeTipsJSX={this.renderSecurityCodeTipsJSX()}
                     backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
+                    showErrorMsg={this.showErrorMsg}
                   />
                   {payConfirmBtn({
                     disabled: validForCyberPayment() || validForBilling,
@@ -2710,6 +2711,7 @@ class Payment extends React.Component {
                     billingJSX={this.renderBillingJSX({
                       type: paymentTypeVal
                     })}
+                    showErrorMsg={this.showErrorMsg}
                   />
                   {reInputCVVBtn({
                     disabled: !this.state.isShowCyberBindCardBtn,
