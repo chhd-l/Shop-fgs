@@ -240,7 +240,7 @@ const tr_TR = {
   ],
   default: 'Varsayılan',
   defaultAddress: 'varsayılan adres',
-  delete: 'Kartı Düzenle',
+  delete: 'kaldır',
   deleteAddressFailed: 'Adres Silinemedi',
   deleteAddressSuccess: 'Başarılı Adres Sil',
   deleteAddressTip:

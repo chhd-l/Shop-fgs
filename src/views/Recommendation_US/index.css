@@ -12,6 +12,7 @@
 .Recommendation_FR .has-promotion .text-throught-line {
   text-decoration: line-through;
   color: #666;
+  display: block;
 }
 .Recommendation_FR .promotion-tips {
   font-size: 12px;
