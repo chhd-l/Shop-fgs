@@ -222,6 +222,12 @@ class PayProductInfo extends React.Component {
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
   }
+  get freeShippingDiscountPrice() {
+    return this.props.checkoutStore.freeShippingDiscountPrice;
+  }
+  get freeShippingFlag() {
+    return this.props.checkoutStore.freeShippingFlag;
+  }
   get taxFeePrice() {
     return this.props.checkoutStore.taxFeePrice;
   }
@@ -764,6 +770,7 @@ class PayProductInfo extends React.Component {
                       </div>
                     ))
                   : null}
+
                 {/* 显示 delivereyPrice */}
                 <div className="row leading-lines shipping-item">
                   <div className="col-7 start-lines">
@@ -781,6 +788,28 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
+                {/* 运费折扣 */}
+                {process.env.REACT_APP_LANG == 'ru' &&
+                this.props.isCheckOut &&
+                this.freeShippingFlag &&
+                this.freeShippingDiscountPrice ? (
+                  <div className="row leading-lines shipping-item green">
+                    <div className="col-7 start-lines">
+                      <p className="order-receipt-label order-shipping-cost">
+                        <span>
+                          <FormattedMessage id="payment.shippingDiscount" />
+                        </span>
+                      </p>
+                    </div>
+                    <div className="col-5 end-lines">
+                      <p className="text-right">
+                        <span className="shipping-total-cost">
+                          {formatMoney(this.freeShippingDiscountPrice)}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
 
                 {this.firstOrderOnThePlatformDiscountPrice > 0 && (
                   <div className="row leading-lines shipping-item flex-layout green">
@@ -832,28 +861,6 @@ class PayProductInfo extends React.Component {
                     </div>
                   </div>
                 ) : null}
-
-                {/* 运费折扣 */}
-                {/* {(process.env.REACT_APP_LANG == 'ru' && this.props.isCheckOut) ? (
-                  <div className="row leading-lines shipping-item green">
-                    <div className="col-7 start-lines">
-                      <p className="order-receipt-label order-shipping-cost">
-                        <span>
-                          <FormattedMessage id="payment.shippingDiscount" />
-                        </span>
-                      </p>
-                    </div>
-                    <div className="col-5 end-lines">
-                      <p className="text-right">
-                        <span className="shipping-total-cost">
-                          {formatMoney(this.taxFeePrice)}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  null
-                )} */}
 
                 {!this.isLogin &&
                 this.props.isGuestCart &&
