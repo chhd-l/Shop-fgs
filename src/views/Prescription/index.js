@@ -15,10 +15,11 @@ import meImg from '@/assets/images/map-default-marker.png';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import Modal from './components/Modal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
@@ -35,30 +36,30 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
     return (
       <div>
         <LazyLoad>
-        <img
-          alt=""
-          src={meImg}
-          draggable="false"
-          style={{
-            position: 'absolute',
-            left: '0px',
-            top: '0px',
-            width: '1.5rem',
-            height: '1.5rem',
-            userSelect: 'none',
-            border: '0px',
-            padding: '0px',
-            margin: '0px',
-            maxWidth: 'none'
-          }}
-        />
+          <img
+            alt=""
+            src={meImg}
+            draggable="false"
+            style={{
+              position: 'absolute',
+              left: '0px',
+              top: '0px',
+              width: '1.5rem',
+              height: '1.5rem',
+              userSelect: 'none',
+              border: '0px',
+              padding: '0px',
+              margin: '0px',
+              maxWidth: 'none'
+            }}
+          />
         </LazyLoad>
       </div>
     );
   }
 };
 
-@inject('clinicStore', 'checkoutStore')
+@inject('clinicStore', 'checkoutStore', 'configStore')
 @observer
 class Prescription extends React.Component {
   constructor(props) {
@@ -108,13 +109,18 @@ class Prescription extends React.Component {
         lat: 0,
         lng: 0
       },
-      loading: true
+      loading: true,
+      modalShow: false //是否显示询问绑定prescriber弹框
     };
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
+    //与后台联调发测试版之前，先不显示弹框
+    // const showPrescriberModal=this.props.configStore.showPrescriberModal;
+    // this.setState({modalShow:showPrescriberModal});
+    //
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -161,7 +167,7 @@ class Prescription extends React.Component {
   };
 
   async getPrescription(params) {
-    params.auditAuthority = this.props.checkoutStore.autoAuditFlag
+    params.auditAuthority = this.props.checkoutStore.autoAuditFlag;
     this.setState({ loading: true });
     const res = await getPrescription(params);
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
@@ -196,6 +202,15 @@ class Prescription extends React.Component {
     this.setState({
       clinicArr
     });
+  }
+  //不需要绑定prescriber，关闭弹框直接跳转checkout页面
+  closeModal() {
+    this.setState({ modalShow: false });
+    this.props.history.push('/checkout');
+  }
+  //需要绑定prescriber，直接关闭弹框显示当前页面
+  handleClickSubmit() {
+    this.setState({ modalShow: false });
   }
   handleSearch = () => {
     const { params } = this.state;
@@ -297,10 +312,13 @@ class Prescription extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -308,6 +326,11 @@ class Prescription extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
+        />
+        <Modal
+          visible={this.state.modalShow}
+          close={() => this.closeModal()}
+          handleClickConfirm={() => this.handleClickSubmit()}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
