@@ -229,8 +229,8 @@ class Recommendation extends React.Component {
     // let paramArr = this.props.location.search.split('&');
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
+    search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
-
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
@@ -776,6 +776,7 @@ class Recommendation extends React.Component {
           history={this.props.history}
           match={this.props.match}
           showBannerTip={isUs ? true : false}
+          bannerTipShowBtn={!isUs ? true : false}
         />
         <Modal
           key="1"
@@ -1254,7 +1255,7 @@ class Recommendation extends React.Component {
                         frameborder="0"
                         id="video-dog"
                         className="optanon-category-4 "
-                        src="https://www.youtube.com/embed/FYwO1fiYoa8"
+                        src="https://www.youtube.com/embed/ICmjePIyMkI"
                       ></iframe>
                     </div>
                   </div>
