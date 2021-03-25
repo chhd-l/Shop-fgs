@@ -413,7 +413,7 @@ class LoginCart extends React.Component {
 
       if (localItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: false });
-        localItemRoyal.remove('rc-iframe-from-storepotal');
+        //localItemRoyal.remove('rc-iframe-from-storepotal');
       }
       url && history.push(url);
       // history.push('/prescription');
@@ -1483,7 +1483,9 @@ class LoginCart extends React.Component {
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
-        {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
+        {this.state.circleLoading ? (
+          <Loading bgColor={'#fff'} opacity={1} />
+        ) : null}
         <Header
           showMiniIcons={true}
           showUserIcon={true}

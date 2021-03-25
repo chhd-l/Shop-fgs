@@ -5,7 +5,8 @@ class Loading extends React.Component {
     positionAbsolute: false,
     bgColor: 'rgba(0,0,0,.25)',
     customCls: '',
-    customStyle: {}
+    customStyle: {},
+    opacity: 0.5
   };
   render() {
     const {
@@ -13,7 +14,8 @@ class Loading extends React.Component {
       positionAbsolute,
       bgColor,
       customStyle,
-      customCls
+      customCls,
+      opacity
     } = this.props;
     return (
       <div
@@ -25,7 +27,7 @@ class Loading extends React.Component {
       >
         <div
           className={`underlay ${positionAbsolute ? 'absolute' : ''}`}
-          style={{ backgroundColor: bgColor }}
+          style={{ backgroundColor: bgColor, opacity }}
         />
 
         <div
