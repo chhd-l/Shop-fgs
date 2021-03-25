@@ -8,6 +8,12 @@
 .color-light-gray{
   color: rgb(226,226,226);
 }
+.pets-list-wrap{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
 .width50 {
   width: 50%;
   display: inline-block;
@@ -74,6 +80,14 @@
     }
     .border-solid{
       border: 1px solid rgb(211,211,211);
+    }
+    .pets-list-item{
+      padding-left: 2rem;
+      cursor: pointer; 
+      height: 100px;
+      &:hover{
+        border-color: #e2001a;
+      }
     }
   }
 }
@@ -310,11 +324,22 @@
   }
 }
 
+
+@media (max-width: 769px) {
+  .pets-list-wrap{
+    grid-template-columns: 1fr;
+  }
+}
 @media (min-width: 769px) {
   .for-pc-bettwen{
     justify-content: space-between;
   }
   .subscriptionDetail{
+    .choose-product-modal-wrap{
+      .modal-dialog{
+        max-width: 730px;
+      }
+    }
     .change-product-modal{
       .modal-dialog{
         max-width: 700px;

@@ -1188,7 +1188,7 @@ class Payment extends React.Component {
       //   sessionItemRoyal.set('orderNumber', orderNumber);
       // }
       this.removeLocalCartData();
-      if (subOrderNumberList.length) {
+      if (subOrderNumberList?.length) {
         sessionItemRoyal.set(
           'subOrderNumberList',
           JSON.stringify(subOrderNumberList)
@@ -1533,11 +1533,14 @@ class Payment extends React.Component {
             utmCampaign: g.utmCampaign || '',
             prefixFn: g.prefixFn || '',
             prefixBreed: g.prefixBreed || '',
+            goodsInfoFlag:
+              parseInt(g.goodsInfoFlag) && g.promotions?.includes('club')
+                ? 2
+                : parseInt(g.goodsInfoFlag),
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
             petsName: g.petsName,
-            goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId,
             recommendationId: clinicStore.linkClinicId,
             recommendationName: clinicStore.linkClinicName

@@ -647,7 +647,6 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
-
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -656,6 +655,7 @@ class Details extends React.Component {
               minMarketPrice: goodsRes.minMarketPrice,
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
+                promotions: this.state.details?.promotions?.toLowerCase(),
                 taggingForText: (taggingList || []).filter(
                   (e) =>
                     e.taggingType === 'Text' &&
@@ -784,7 +784,7 @@ class Details extends React.Component {
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty
               ) {
-                sItem.chidren[0].selected = true;
+                sItem.chidren[1].selected = true;
               } else if (
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty
@@ -835,6 +835,7 @@ class Details extends React.Component {
                 this.state.details,
                 res.context.goods,
                 {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
@@ -884,6 +885,7 @@ class Details extends React.Component {
                 this.state.details,
                 res.context.goods,
                 {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
@@ -1050,14 +1052,16 @@ class Details extends React.Component {
       } else {
         currentSelectedSize = sizeList[0];
       }
-
+      let buyWay = parseInt(form.buyWay);
+      let goodsInfoFlag =
+        buyWay && details.promotions?.includes('club') ? 2 : buyWay;
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsInfoFlag: parseInt(form.buyWay),
+        goodsInfoFlag,
         productFinderFlag: currentSelectedSize.productFinderFlag
       };
-      if (parseInt(form.buyWay)) {
+      if (buyWay) {
         param.periodTypeId = form.frequencyId;
       }
 

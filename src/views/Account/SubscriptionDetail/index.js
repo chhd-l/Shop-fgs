@@ -3,6 +3,7 @@ import './index.less';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
+import find from 'lodash/find';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -14,7 +15,13 @@ import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
 import clubIcon from '@/assets/images/club-icon.png';
 import productDetail from './productDetail.json';
+import { unique } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import Female from '@/assets/images/female.png';
+import Male from '@/assets/images/male.png';
+import Cat from '@/assets/images/cat.png';
+import Dog from '@/assets/images/dog.png';
+import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import {
   getDictionary,
@@ -26,6 +33,8 @@ import {
   formatMoney,
   setSeoConfig
 } from '@/utils/utils';
+import { getDetailsBySpuNo } from '@/api/details';
+import { getPetList } from '@/api/pet';
 import foodPic2 from '../../SmartFeederSubscription/img/step2_food.png';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 // import ModalFr from '@/components/Recommendation_FR';
@@ -52,7 +61,8 @@ import {
   getPromotionPrice,
   updateNextDeliveryTime,
   startSubscription,
-  pauseSubscription
+  pauseSubscription,
+  changeSubscriptionGoods
 } from '@/api/subscription';
 import goodsDetailTabJSON from './goodsDetailTab.json';
 import { getRemainings } from '@/api/dispenser';
@@ -76,13 +86,17 @@ const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-const isClub = false;
 @inject('checkoutStore', 'loginStore')
 @injectIntl
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      stock: 0,
+      currentSubscriptionPrice: null,
+      quantityMinLimit: 1,
+      foodFllType: '',
+      quantity: 1,
       //订阅购物车参数
       subTotal: 0,
       subShipping: 0,
@@ -93,6 +107,13 @@ class SubscriptionDetail extends React.Component {
       promotionDiscount: 0,
       promotionDesc: '',
       changeProductVisible: false,
+      petList: [],
+      form: {
+        buyWay: 1, //0 - once/ 1 - frequency
+        frequencyVal: '',
+        frequencyName: '',
+        frequencyId: -1
+      },
       seoConfig: {
         title: '',
         metaKeywords: '',
@@ -217,11 +238,337 @@ class SubscriptionDetail extends React.Component {
       },
       isActive: false,
       isNotInactive: false,
-      isDataChange: false
+      isDataChange: false,
+      details: {},
+      images: [],
+      specList: [],
+      barcode: ''
     };
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
+  }
+  async queryProductDetails(id) {
+    let res = goodsDetailTabJSON;
+    // getDetailsBySpuNo(id)
+    //   .then((res) => {
+    const goodsRes = res && res.context && res.context.goods;
+    this.setState({
+      form: Object.assign(this.state.form, {
+        frequencyId:
+          goodsRes.defaultFrequencyId ||
+          configStore.defaultSubscriptionFrequencyId ||
+          (frequencyDictRes[0] && frequencyDictRes[0].id) ||
+          ''
+      })
+    });
+    let petType = 'Cat';
+    let foodType = 'Dry';
+    if (res && res.context?.goodsAttributesValueRelList) {
+      res.context.goodsAttributesValueRelList.forEach((item, idx) => {
+        if (item.goodsAttributeName == 'Lifestages') {
+          petType =
+            item.goodsAttributeValue.split('_') &&
+            item.goodsAttributeValue.split('_')[1];
+        }
+        if (item.goodsAttributeName == 'Technology') {
+          foodType = item.goodsAttributeValue;
+        }
+      });
+    }
+    let sizeList = [];
+    let goodsInfos = res.context.goodsInfos || [];
+    if (res && res.context && res.context.goodsSpecDetails) {
+      let specList = res.context.goodsSpecs;
+      let foodFllType = `${foodType} ${petType} Food`;
+
+      let specDetailList = res.context.goodsSpecDetails;
+      specList.map((sItem, index) => {
+        sItem.chidren = specDetailList.filter((sdItem, i) => {
+          if (index === 0) {
+            let filterproducts = goodsInfos.filter((goodEl) =>
+              goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+            );
+            sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
+            sdItem.isEmpty = filterproducts.every((item) => item.stock === 0);
+            console.info('sdItem.isEmpty', sdItem.isEmpty);
+
+            // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
+          }
+          return sdItem.specId === sItem.specId;
+        });
+        let defaultSelcetdSku = -1;
+        if (defaultSelcetdSku > -1) {
+          // 默认选择该sku
+          if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
+            // 如果是sku进来的，需要默认当前sku被选择
+            sItem.chidren[defaultSelcetdSku].selected = true;
+          }
+        } else {
+          if (
+            process.env.REACT_APP_LANG === 'de' &&
+            sItem.chidren.length > 1 &&
+            !sItem.chidren[1].isEmpty
+          ) {
+            sItem.chidren[1].selected = true;
+          } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+            sItem.chidren[1].selected = true;
+          } else {
+            for (let i = 0; i < sItem.chidren.length; i++) {
+              if (sItem.chidren[i].isEmpty) {
+              } else {
+                sItem.chidren[i].selected = true;
+                break;
+              }
+            }
+          }
+        }
+
+        return sItem;
+      });
+      // this.setState({ specList });
+      sizeList = goodsInfos.map((g, i) => {
+        // g = Object.assign({}, g, { selected: false });
+        g = Object.assign({}, g, {
+          selected: i === 0,
+          productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+        });
+        if (g.selected && !g.subscriptionStatus) {
+          let { form } = this.state;
+          form.buyWay = 0;
+          this.setState({ form });
+        }
+        return g;
+      });
+
+      const goodSize = specList.map((item) =>
+        item.chidren.find((good) => good.selected)
+      )?.[0]?.detailName;
+      const goodsInfoBarcode =
+        goodsInfos.find((item) => item.packSize === goodSize)
+          ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
+      const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+
+      let images = [];
+      images = res.context.goodsInfos;
+      this.setState(
+        {
+          foodFllType,
+          details: Object.assign({}, this.state.details, res.context.goods, {
+            promotions: res.context.goods?.promotions?.toLowerCase(),
+            sizeList,
+            goodsInfos: res.context.goodsInfos,
+            goodsSpecDetails: res.context.goodsSpecDetails,
+            goodsSpecs: res.context.goodsSpecs,
+            goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
+          }),
+          images,
+          specList,
+          barcode
+        },
+        () => {
+          console.info('detiasdsdsdsd', this.state.details);
+          this.matchGoods();
+          //Product Detail Page view 埋点start
+          // this.hubGA
+          //   ? this.hubGAProductDetailPageView(
+          //       res.context.goodsAttributesValueRelList,
+          //       this.state.details
+          //     )
+          //   : this.GAProductDetailPageView(this.state.details);
+          //Product Detail Page view 埋点end
+        }
+      );
+    } else {
+      let sizeList = [];
+      let foodFllType = `${foodType} ${petType} Food`;
+      let goodsInfos = res.context.goodsInfos || [];
+      sizeList = goodsInfos.map((g, i) => {
+        g = Object.assign({}, g, {
+          selected: i === 0,
+          productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+        });
+        if (g.selected && !g.subscriptionStatus) {
+          let { form } = this.state;
+          form.buyWay = 0;
+          this.setState({ form });
+        }
+        return g;
+      });
+
+      let images = [];
+      images = res.context.goodsInfos;
+      this.setState(
+        {
+          foodFllType,
+          details: Object.assign({}, this.state.details, res.context.goods, {
+            promotions: res.context.goods?.promotions?.toLowerCase(),
+            sizeList,
+            goodsInfos: res.context.goodsInfos,
+            goodsSpecDetails: res.context.goodsSpecDetails,
+            goodsSpecs: res.context.goodsSpecs,
+            goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
+          }),
+          images
+        },
+        () => {
+          this.bundleMatchGoods();
+          //Product Detail Page view 埋点start
+          // this.hubGA
+          //   ? this.hubGAProductDetailPageView(
+          //       res.context.goodsAttributesValueRelList,
+          //       this.state.details
+          //     )
+          //   : this.GAProductDetailPageView(this.state.details);
+          //Product Detail Page view 埋点end
+        }
+      );
+      // 没有规格的情况
+      // this.setState({
+      //   errMsg: <FormattedMessage id="details.errMsg" />
+      // });
+    }
+    // })
+    // .catch((e) => {
+    //   console.log(e);
+    //   this.setState({
+    //     errMsg: e.message || <FormattedMessage id="details.errMsg2" />
+    //   });
+    // })
+    // .finally(() => {
+    //   this.setState({
+    //     loading: false,
+    //     initing: false
+    //   });
+    // });
+  }
+
+  handleChooseSize(sId, sdId, isSelected) {
+    if (isSelected) {
+      return;
+    }
+    let { specList, images } = this.state;
+    specList
+      .filter((item) => item.specId === sId)[0]
+      .chidren.map((item) => {
+        if (item.specDetailId === sdId) {
+          item.selected = true;
+        } else {
+          item.selected = false;
+        }
+        return item;
+      });
+    const goodSize = specList.map((item) =>
+      item.chidren.find((good) => good.specDetailId === sdId)
+    )?.[0]?.detailName;
+    const barcode = images.find((item) => item.packSize === goodSize)
+      ?.goodsInfoBarcode;
+    this.setState(
+      {
+        specList,
+        barcode
+      },
+      () => {
+        this.matchGoods();
+      }
+    );
+  }
+  updateInstockStatus() {
+    this.setState({
+      instockStatus: this.state.quantity <= this.state.stock
+    });
+  }
+  matchGoods() {
+    let {
+      specList,
+      details,
+      currentUnitPrice,
+      currentLinePrice,
+      currentSubscriptionPrice,
+      currentSubscriptionStatus,
+      stock
+    } = this.state;
+    let selectedArr = [];
+    let idArr = [];
+    specList.map((el) => {
+      if (el.chidren.filter((item) => item.selected).length) {
+        selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
+      }
+      return el;
+    });
+    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
+    idArr = selectedArr.map((el) => el.specDetailId);
+    //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
+    currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
+
+    details.sizeList.map((item, i) => {
+      let specTextArr = [];
+      for (let specItem of specList) {
+        for (let specDetailItem of specItem.chidren) {
+          if (
+            item.mockSpecIds.includes(specDetailItem.specId) &&
+            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
+          ) {
+            specTextArr.push(specDetailItem.detailName);
+          }
+        }
+      }
+      item.specText = specTextArr.join(' ');
+      if (unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')) {
+        item.selected = true;
+        currentUnitPrice = item.salePrice;
+        currentLinePrice = item.linePrice;
+        currentSubscriptionPrice = item.subscriptionPrice;
+        currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
+        stock = item.stock;
+      } else {
+        item.selected = false;
+      }
+
+      return item;
+    });
+    this.setState(
+      {
+        details,
+        currentUnitPrice,
+        currentLinePrice,
+        currentSubscriptionPrice,
+        currentSubscriptionStatus,
+        stock
+      },
+      () => {
+        this.updateInstockStatus();
+        // setTimeout(() => this.setGoogleProductStructuredDataMarkup());
+      }
+    );
+  }
+  bundleMatchGoods() {
+    let {
+      details,
+      currentUnitPrice,
+      currentSubscriptionPrice,
+      currentSubscriptionStatus,
+      stock
+    } = this.state;
+
+    currentUnitPrice = details.goodsInfos[0].salePrice;
+    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
+    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
+    stock = details.goodsInfos[0].stock;
+    details.sizeList[0].selected = true;
+    this.setState(
+      {
+        details,
+        currentUnitPrice,
+        currentSubscriptionPrice,
+        currentSubscriptionStatus,
+        stock
+      },
+      () => {
+        this.updateInstockStatus();
+        // setTimeout(() => this.setGoogleProductStructuredDataMarkup());
+      }
+    );
   }
 
   async componentDidMount() {
@@ -265,6 +612,39 @@ class SubscriptionDetail extends React.Component {
       };
     });
   }
+
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
+  getPetList = async () => {
+    if (!this.userInfo.customerAccount) {
+      // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
+      this.setState({
+        loading: false
+      });
+      return false;
+    }
+    await getPetList({
+      customerId: this.userInfo.customerId,
+      consumerAccount: this.userInfo.customerAccount
+    })
+      .then((res) => {
+        let petList = res.context.context || [];
+        this.setState({
+          loading: false,
+          petList,
+          addNewPetVisible: true //展示petList
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          loading: false
+        });
+        // this.showErrorMsg(
+        //   err.message || this.props.intl.messages.getDataFailed
+        // );
+      });
+  };
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
   }
@@ -290,6 +670,33 @@ class SubscriptionDetail extends React.Component {
       .catch((err) => {
         this.setState({ loading: false });
       });
+  }
+
+  hanldeAmountChange(type) {
+    this.setState({ checkOutErrMsg: '' });
+    if (!type) return;
+    const { quantity } = this.state;
+    let res;
+    if (type === 'minus') {
+      if (quantity <= 1) {
+        res = 1;
+      } else {
+        res = quantity - 1;
+      }
+    } else {
+      res = (quantity || 0) + 1;
+      if (quantity >= process.env.REACT_APP_LIMITED_NUM) {
+        res = process.env.REACT_APP_LIMITED_NUM;
+      }
+    }
+    this.setState(
+      {
+        quantity: res
+      },
+      () => {
+        this.updateInstockStatus();
+      }
+    );
   }
   //订阅数量更改
   async onQtyChange() {
@@ -330,30 +737,82 @@ class SubscriptionDetail extends React.Component {
       new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
     );
   }
+  handleSelectedItemChange = (data) => {
+    const { form } = this.state;
+    form.frequencyVal = data.value;
+    form.frequencyName = data.name;
+    form.frequencyId = data.id;
+    this.setState({ form }, () => {
+      // this.props.updateSelectedData(this.state.form);
+    });
+  };
   closeAddNewPet = () => {
     this.setState({ addNewPetVisible: false });
   };
   showAddNewPet = () => {
-    this.setState({ addNewPetVisible: true });
+    this.getPetList();
   };
   recommendationModal = () => {
+    const {
+      details,
+      specList,
+      quantity,
+      quantityMinLimit,
+      stock,
+      form,
+      currentSubscriptionPrice
+    } = this.state;
     return (
       <React.Fragment>
         <div className="d-flex for-pc-bettwen">
           <div className="d-flex for-mobile-colum for-mobile-100">
-            <div className="d-flex rc-margin-right--xs rc-margin-left--xs">
-              <img src="" />
+            <div className="d-flex rc-margin-right--xs">
+              <img
+                src={details.goodsImg}
+                style={{ height: '4rem' }}
+                alt={details.goodsName}
+              />
               <div>
-                <div>name</div>
+                <div>{details.goodsName}</div>
                 <div>type</div>
               </div>
             </div>
             <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-margin-left--xs">
               <div className="text-left ml-1 font_size12 pad_b_5">
-                <FormattedMessage id="quantityText" />:
+                <FormattedMessage id="amount" />:
               </div>
               <div className="d-flex rc-align-children--space-between">
-                <div className="rc-quantity d-flex">
+                <div className="Quantity">
+                  <div className="quantity d-flex justify-content-between align-items-center">
+                    <input
+                      type="hidden"
+                      id="invalid-quantity"
+                      value="Пожалуйста, введите правильный номер."
+                    />
+                    <div className="rc-quantity text-right d-flex justify-content-end">
+                      <span
+                        className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                        onClick={() => this.hanldeAmountChange('minus')}
+                      ></span>
+                      <input
+                        className="rc-quantity__input"
+                        id="quantity"
+                        name="quantity"
+                        value={quantity}
+                        min={quantityMinLimit}
+                        max={stock}
+                        onChange={this.handleAmountInput}
+                        maxLength="5"
+                      />
+                      <span
+                        className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                        onClick={() => this.hanldeAmountChange('plus')}
+                      ></span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* <div className="rc-quantity d-flex">
                   <span
                     className=" rc-icon rc-minus--xs rc-iconography rc-quantity__btn js-qty-minus"
                     style={{ transform: 'scale(0.8)' }}
@@ -374,49 +833,120 @@ class SubscriptionDetail extends React.Component {
                     style={{ transform: 'scale(0.8)' }}
                     // onClick={() => this.addQuantity(pitem)}
                   ></span>
-                </div>
-                <strong className="rc-md-down">=$27</strong>
+                </div> */}
+                <strong className="rc-md-down">
+                  ={formatMoney(currentSubscriptionPrice * quantity)}
+                </strong>
               </div>
             </div>
             <div
               className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs"
               style={{ float: 'left' }}
             >
-              <div className="rc-swatch __select-size">
-                {/* <div className="rc-swatch__item selected">
-                            <span>
-                              {find(pitem.sizeList, s => s.selected).specText}
-                              <i></i>
-                            </span>
-                          </div> */}
-                <div className="overflow-hidden">
-                  <div className="text-left ml-1 font_size12 pad_b_5">
-                    {/* <FormattedMessage id={item.specName} />: */}
-                    <FormattedMessage id="size" />:
+              <div className="specAndQuantity rc-margin-bottom--xs ">
+                <div className="spec">
+                  {specList.map((sItem, i) => (
+                    <div id="choose-select" key={i}>
+                      <div className="rc-margin-bottom--xs">
+                        <FormattedMessage id={sItem.specName} />:
+                      </div>
+                      <div data-attr="size">
+                        <div
+                          className="rc-swatch __select-size"
+                          id="id-single-select-size"
+                        >
+                          {sItem.chidren.map((sdItem, i) => (
+                            <div
+                              key={i}
+                              className={`rc-swatch__item ${
+                                sdItem.selected ? 'selected' : ''
+                              } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
+                              onClick={() => {
+                                if (sdItem.isEmpty) {
+                                  return false;
+                                } else {
+                                  this.handleChooseSize(
+                                    sItem.specId,
+                                    sdItem.specDetailId,
+                                    sdItem.selected
+                                  );
+                                }
+                              }}
+                            >
+                              <span
+                                style={{
+                                  backgroundColor: sdItem.isEmpty
+                                    ? '#ccc'
+                                    : '#fff',
+                                  cursor: sdItem.isEmpty
+                                    ? 'not-allowed'
+                                    : 'pointer'
+                                }}
+                              >
+                                {/* {parseFloat(sdItem.detailName)}{' '} */}
+                                {sdItem.detailName}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'none' }} className="Quantity">
+                  <span className="amount">
+                    <FormattedMessage id="amount" />:
+                  </span>
+                  <div className="quantity d-flex justify-content-between align-items-center">
+                    <input
+                      type="hidden"
+                      id="invalid-quantity"
+                      value="Пожалуйста, введите правильный номер."
+                    />
+                    <div className="rc-quantity text-right d-flex justify-content-end">
+                      <span
+                        className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                        onClick={() => this.hanldeAmountChange('minus')}
+                      ></span>
+                      <input
+                        className="rc-quantity__input"
+                        id="quantity"
+                        name="quantity"
+                        value={quantity}
+                        min={quantityMinLimit}
+                        max={stock}
+                        onChange={this.handleAmountInput}
+                        maxLength="5"
+                      />
+                      <span
+                        className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                        onClick={() => this.hanldeAmountChange('plus')}
+                      ></span>
+                    </div>
                   </div>
-                  {/* {item.chidren.map((sdItem) => ( */}
-                  <div
-                    className={`rc-swatch__item`}
-                    // key={i2}
-                    // onClick={() =>
-                    //   this.handleChooseSize(sdItem, pitem, index)
-                    // }
-                  >
-                    <span>
-                      2kg
-                      {/* {sdItem.detailName} */}
-                      <i></i>
-                    </span>
-                  </div>
-                  {/* ))} */}
                 </div>
               </div>
             </div>
             <p className="frequency rc-margin-right--xs rc-margin-left--xs">
-              Frequency：
+              <span>
+                <FormattedMessage id="subscription.frequency" />:
+              </span>
               {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
               <div>
                 <Selection
+                  customContainerStyle={{
+                    display: 'inline-block',
+                    marginLeft: isMobile ? '50px' : '1.5rem',
+                    height: isMobile ? '70px' : 'auto'
+                  }}
+                  selectedItemChange={this.handleSelectedItemChange}
+                  optionList={this.frequencyListOptions}
+                  selectedItemData={{
+                    value: form.frequencyId
+                  }}
+                  key={form.frequencyId}
+                />
+                {/* <Selection
                   optionList={this.frequencyListOptions}
                   selectedItemChange={(el) => {
                     if (el.periodTypeId !== data.id) {
@@ -431,17 +961,16 @@ class SubscriptionDetail extends React.Component {
                   customContainerStyle={{}}
                   // selectedItemChange={(data) => handleSelectedItemChange(data)}
                   customStyleType="select-one"
-                />
+                /> */}
               </div>
             </p>
           </div>
-          <strong className="rc-md-up">=$27</strong>
+          <strong className="rc-md-up">
+            ={formatMoney(currentSubscriptionPrice * quantity)}
+          </strong>
         </div>
         <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
-          <span
-            className="rc-styled-link"
-            onClick={this.showChangeRecommendation}
-          >
+          <span className="rc-styled-link" onClick={this.showChangeProduct}>
             See other recommendation
           </span>
           <div className="for-mobile-colum d-flex">
@@ -475,39 +1004,55 @@ class SubscriptionDetail extends React.Component {
           // modalText={this.getModalBox()}
         >
           <div className="rc-padding-x--md">
-            <div className="rc-layout-container rc-two-column add-new-cat-modal">
-              <div className="rc-column">
+            <div className="pets-list-wrap">
+              {this.state.petList.map((el) => (
                 <div
-                  style={{ paddingLeft: '2rem', height: '100px' }}
-                  className=" border-solid d-flex height100 align-items-center"
+                  onClick={(e) => {
+                    this.linkPets(el.petsId);
+                  }}
+                  className=" border-solid d-flex pets-list-item align-items-center"
                 >
-                  {false ? (
-                    <img src="" className="pet-img" />
-                  ) : (
-                    <div className="pet-img"></div>
-                  )}
+                  <div style={{ position: 'relative' }}>
+                    <img
+                      alt={el.petsName}
+                      src={
+                        (el.petsImg && el.petsImg.includes('https')
+                          ? el.petsImg
+                          : null) || (el.petsType === 'cat' ? Cat : Dog)
+                      }
+                      className="pet-img"
+                    />
+                    <img
+                      style={{
+                        width: '20px',
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0
+                      }}
+                      src={!el.petsSex ? Male : Female}
+                      alt=""
+                    />
+                  </div>
                   <div style={{ paddingLeft: '1rem' }}>
-                    <div style={{ color: '#e2001a' }}>Merlot</div>
-                    <div>persian</div>
+                    <div style={{ color: '#e2001a' }}>{el.petsName}</div>
+                    <div>{el.birthOfPets}</div>
                   </div>
                 </div>
-              </div>
-              <div className="rc-column">
-                <div
+              ))}
+              <div
+                style={{ paddingLeft: '2rem' }}
+                className="border-dot height100 align-items-center d-flex"
+              >
+                <div>
+                  <Link to="/account/pets/petForm">
+                    + <strong>a new cat</strong>
+                  </Link>
+                </div>
+                <img
                   style={{ paddingLeft: '2rem' }}
-                  className="border-dot height100 align-items-center d-flex"
-                >
-                  <div>
-                    <Link to="/account/pets/petForm">
-                      + <strong>a new cat</strong>
-                    </Link>
-                  </div>
-                  <img
-                    style={{ paddingLeft: '2rem' }}
-                    className="pet-icon"
-                    src={Banner_Cat}
-                  />
-                </div>
+                  className="pet-icon"
+                  src={Banner_Cat}
+                />
               </div>
             </div>
           </div>
@@ -1344,14 +1889,42 @@ class SubscriptionDetail extends React.Component {
     this.closeRecommendation();
     this.closeEditRecommendation();
   };
-  changePets = () => {
+  changeSubscriptionGoods = async () => {
+    const { quantity, form, details } = this.state;
+    const { sizeList } = details;
+    let currentSelectedSize = sizeList[0];
+
+    if (details.goodsSpecDetails) {
+      currentSelectedSize = find(sizeList, (s) => s.selected);
+    }
+    let buyWay = parseInt(form.buyWay);
+    let goodsInfoFlag =
+      buyWay && details.promotions?.includes('club') ? 2 : buyWay;
+    let addGoodsItems = {
+      skuId: currentSelectedSize.goodsInfoId,
+      goodsNum: quantity,
+      goodsInfoFlag
+      // productFinderFlag: currentSelectedSize.productFinderFlag
+    };
+    if (buyWay) {
+      addGoodsItems.periodTypeId = form.frequencyId;
+    }
+    let params = {
+      subscribeId: this.state.subDetail.subscribeId,
+      addGoodsItems
+    };
+    changeSubscriptionGoods(params).then((res) => {});
+  };
+  changePets = async () => {
+    await this.changeSubscriptionGoods();
     this.closeRecommendation();
     this.closeEditRecommendation();
   };
   closeEditRecommendation = () => {
     this.setState({ editRecommendationVisible: false });
   };
-  showProdutctDetail = () => {
+  showProdutctDetail = async (id) => {
+    await this.queryProductDetails(id);
     this.closeChangeProduct();
     this.closeRecommendation();
     this.setState({ produtctDetailVisible: true });
@@ -1363,10 +1936,14 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeProductVisible: false });
   };
   showChangeProduct = () => {
+    this.closeProdutctDetail();
+    this.closeRecommendation();
     this.setState({ changeProductVisible: true });
   };
   getDetailModalInner = () => {
     const createMarkup = (text) => ({ __html: text });
+    const { details, foodFllType } = this.state;
+    console.info('details', details);
     // console.info('detailsdetailsdetails', props.details);
     return (
       <div className="margin12 product_detail rc-padding-x--md">
@@ -1378,31 +1955,30 @@ class SubscriptionDetail extends React.Component {
               </LazyLoad>
             </div>
             <div className="rc-column rc-double-width">
-              <div className="title">details.goodsInfoName</div>
-              <div className="sub_title">foodFllType</div>
+              <div className="title">{details.goodsInfoName}</div>
+              <div className="sub_title">{foodFllType}</div>
               <div>
-                {/* <div className="block">
+                <div className="block">
                   <p
                     className="content rc-scroll--x"
                     style={{ marginBottom: '4rem' }}
-                    dangerouslySetInnerHTML={createMarkup(
-                      props.goodsDetailTab?.tabContent[0]
-                    )}
-                  />
-                </div> */}
-                Royal Canin Jack Russell Terrier Adult dry dog food is designed
+                  >
+                    {details.goodsSubtitle}
+                  </p>
+                </div>
+                {/* Royal Canin Jack Russell Terrier Adult dry dog food is designed
                 to meet the nutritional needs of purebred Jack Russell Terriers
                 10 months and older Royal Canin knows what makes your Jack
                 Russell Terrier magnificent is in the details. Small but mighty,
                 the Jack Russell is an energetic dog that requires a ton of
                 activity. They can benefit from the right diet to help maintain
                 muscle mass, protect their skin and coat, and help with dental
-                care, especially as your good-looking little pal becomes older.
+                care, especially as your good-looking little pal becomes older. */}
               </div>
             </div>
           </div>
         </div>
-        <GoodsDetailTabs detailRes={goodsDetailTabJSON.context} />
+        <GoodsDetailTabs detailRes={details} />
         {/* <Details goodsDetailTab={goodsDetailTab} details={props.details} /> */}
       </div>
     );
@@ -1494,7 +2070,11 @@ class SubscriptionDetail extends React.Component {
                   // }}
                 >
                   <span
-                    onClick={this.showProdutctDetail}
+                    onClick={() => {
+                      this.showProdutctDetail(
+                        productDetail.mainProduct.spuCode
+                      );
+                    }}
                     className="rc-btn rc-btn--one rc-btn--sm"
                   >
                     <FormattedMessage id="seeTheProduct" />
@@ -1632,6 +2212,22 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   };
+  linkPets = async (petsId) => {
+    let { subscribeId } = this.state.subDetail;
+    try {
+      let param = {
+        subscribeId,
+        petsId
+      };
+      await this.doUpdateDetail(param);
+      await this.getDetail();
+      this.closeAddNewPet();
+    } catch (err) {
+      this.showErrMsg(err.message);
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
   async handleSaveChange(subDetail) {
     if (!this.state.isDataChange) {
       return false;
@@ -1683,6 +2279,7 @@ class SubscriptionDetail extends React.Component {
     }
   }
   showEditRecommendation = () => {
+    // this.queryProductDetails()
     this.setState({ editRecommendationVisible: true });
   };
   statusText = () => {
@@ -1715,64 +2312,76 @@ class SubscriptionDetail extends React.Component {
       )
     ) : null;
   };
-  ClubTitle = () => (
-    <div className="d-flex align-items-center add-pet-btn-wrap">
-      <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
-      {true ? (
-        <React.Fragment>
-          <div
-            className="pet-img text-center"
-            style={{ margin: ' 0 1rem' }}
-          ></div>
-          <div className="rc-padding-right--md">
-            <h4 style={{ color: '#e2001a', margin: 0 }}>CLUB for Merlin</h4>
-            <div>
-              Date of birth:<strong>18/01/2021</strong>
+  ClubTitle = () => {
+    let { petsId, petsInfo } = this.state.subDetail;
+    return (
+      <div className="d-flex align-items-center add-pet-btn-wrap">
+        <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
+        {petsId ? (
+          <React.Fragment>
+            <img
+              style={{ margin: ' 0 1rem' }}
+              className="pet-img text-center"
+              src={
+                (petsInfo.petsImg && petsInfo.petsImg.includes('https')
+                  ? petsInfo.petsImg
+                  : null) || (petsInfo.petsType === 'cat' ? Cat : Dog)
+              }
+            />
+            <div className="rc-padding-right--md">
+              <h4 style={{ color: '#e2001a', margin: 0 }}>
+                CLUB for {petsInfo.petsName}
+              </h4>
+              <div>
+                Date of birth:<strong> {petsInfo.birthOfPets}</strong>
+              </div>
             </div>
-          </div>
-          <div className="rc-padding-right--md">
+            <div className="rc-padding-right--md">
+              <div
+                className="rc-styled-link"
+                onClick={this.showEditRecommendation}
+              >
+                Edit pet profile
+              </div>
+              <div>
+                Breed:<strong>{petsInfo.petsBreed}</strong>{' '}
+              </div>
+            </div>
+            <div className="rc-padding-right--md">
+              <div style={{ color: '#fff' }}> &nbsp:;</div>
+              <div>
+                Sterilized:{' '}
+                <strong> {petsInfo.sterilized ? 'yes' : 'no'}</strong>
+              </div>
+            </div>
+            <div>
+              <div style={{ color: '#fff' }}> &nbsp:;</div>
+              <span>{this.statusText()}</span>
+            </div>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
             <div
-              className="rc-styled-link"
-              onClick={this.showEditRecommendation}
-            >
-              Edit pet profile
-            </div>
+              className="pet-img add-pet-btn text-center"
+              onClick={this.showAddNewPet}
+            ></div>
             <div>
-              Breed:<strong>European</strong>{' '}
+              For a better experience we recommend linking a pet profile to your
+              Club subscription
+              <div>
+                <span className="rc-styled-link" onClick={this.showAddNewPet}>
+                  Link a profile
+                </span>
+                <span className="mobile-block">{this.statusText()}</span>
+              </div>
             </div>
-          </div>
-          <div className="rc-padding-right--md">
-            <div style={{ color: '#fff' }}> &nbsp:;</div>
-            <div>
-              Sterilized: <strong>yes</strong>
-            </div>
-          </div>
-          <div>
-            <div style={{ color: '#fff' }}> &nbsp:;</div>
-            <span>{this.statusText()}</span>
-          </div>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <div
-            className="pet-img add-pet-btn text-center"
-            onClick={this.showAddNewPet}
-          ></div>
-          <div>
-            For a better experience we recommend linking a pet profile to your
-            Club subscription
-            <div>
-              <span className="rc-styled-link" onClick={this.showAddNewPet}>
-                Link a profile
-              </span>
-              <span className="mobile-block">{this.statusText()}</span>
-            </div>
-          </div>
-        </React.Fragment>
-      )}
-    </div>
-  );
+          </React.Fragment>
+        )}
+      </div>
+    );
+  };
   render() {
+    console.info('frequencyListOptions', this.frequencyListOptions);
     const event = {
       page: {
         type: 'Account',
@@ -1805,6 +2414,7 @@ class SubscriptionDetail extends React.Component {
       isGift,
       remainingsVisible
     } = this.state;
+    let isClub = subDetail.subscriptionType?.toLowerCase().includes('club');
     // console.log(noStartYear, currentCardInfo, 'hahaha');
     return (
       <div className="subscriptionDetail">
@@ -2067,8 +2677,9 @@ class SubscriptionDetail extends React.Component {
                                 <div>
                                   <LazyLoad>
                                     <img
-                                      src={el.goodsPic}
+                                      src={el.goodsPic || IMG_DEFAULT}
                                       style={{ width: '100px' }}
+                                      alt={el.goodsName}
                                     />
                                   </LazyLoad>
                                   {isClub && (
@@ -2421,7 +3032,10 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       <div className="img-container">
                                         <LazyLoad>
-                                          <img src={el.goodsPic} alt="" />
+                                          <img
+                                            src={el.goodsPic || IMG_DEFAULT}
+                                            alt={el.goodsName}
+                                          />
                                         </LazyLoad>
                                         {isClub && (
                                           <span
@@ -4145,21 +4759,27 @@ class SubscriptionDetail extends React.Component {
           {this.addNewCatModal()}
           {this.changeProductModal()}
 
-          <Modal
-            headerVisible={true}
-            footerVisible={false}
-            visible={this.state.changeRecommendationVisible}
-            modalTitle=""
-            close={this.closeChangePets}
-          >
-            <h4 className="red text-center mb-3 mt-3">
-              Your product recommendation
-            </h4>
-            <p className="text-center">Please choose your options</p>
-            <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm">
-              {this.recommendationModal()}
-            </div>
-          </Modal>
+          <div className="choose-product-modal-wrap">
+            <Modal
+              headerVisible={true}
+              footerVisible={false}
+              visible={this.state.changeRecommendationVisible}
+              modalTitle=""
+              close={this.closeChangePets}
+            >
+              <h4 className="red text-center mb-3 mt-3">
+                Your product recommendation
+              </h4>
+              <p className="text-center">Please choose your options</p>
+              <div
+                style={{ padding: '15px' }}
+                className="rc-outline-light rc-padding-y--sm"
+              >
+                {/* <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm"> */}
+                {this.recommendationModal()}
+              </div>
+            </Modal>
+          </div>
           <div className="product-detail-modal">
             <Modal
               headerVisible={true}
