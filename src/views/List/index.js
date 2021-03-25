@@ -2446,32 +2446,32 @@ class List extends React.Component {
             </section>
             <ProductFinderAd {...this.state} />
           </div>
-        </main>
-        {process.env.REACT_APP_LANG == 'de' ? (
-          <div className="notate ml-2 mb-2">
-            <FormattedMessage
-              id="notate"
-              values={{
-                val: (
-                  <Link
-                    className="rc-styled-link"
-                    to={{
-                      pathname: '/faq',
-                      state: {
-                        catogery: 'catogery-1'
-                      }
-                    }}
-                  >
-                    Versandkosten
-                  </Link>
-                )
-              }}
-              defaultMessage={' '}
-            />
-          </div>
-        ) : null}
+          {process.env.REACT_APP_LANG == 'de' ? (
+            <div className="notate ml-2 mb-2">
+              <FormattedMessage
+                id="notate"
+                values={{
+                  val: (
+                    <Link
+                      className="rc-styled-link"
+                      to={{
+                        pathname: '/faq',
+                        state: {
+                          catogery: 'catogery-1'
+                        }
+                      }}
+                    >
+                      Versandkosten
+                    </Link>
+                  )
+                }}
+                defaultMessage={' '}
+              />
+            </div>
+          ) : null}
 
-        <Footer />
+          <Footer />
+        </main>
       </div>
     );
   }

@@ -454,7 +454,9 @@ class PromotionRefuge extends React.Component {
                                         }}
                                         to="/faq"
                                         href="/about-us/faqs"
-                                      >FAQ</DistributeHubLinkOrATag>
+                                      >
+                                        FAQ
+                                      </DistributeHubLinkOrATag>
                                       qui vous apportera de nombreuses réponses.
                                     </p>
                                   </div>
@@ -480,8 +482,8 @@ class PromotionRefuge extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

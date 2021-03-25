@@ -18,7 +18,7 @@ import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
@@ -35,23 +35,23 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
     return (
       <div>
         <LazyLoad>
-        <img
-          alt=""
-          src={meImg}
-          draggable="false"
-          style={{
-            position: 'absolute',
-            left: '0px',
-            top: '0px',
-            width: '1.5rem',
-            height: '1.5rem',
-            userSelect: 'none',
-            border: '0px',
-            padding: '0px',
-            margin: '0px',
-            maxWidth: 'none'
-          }}
-        />
+          <img
+            alt=""
+            src={meImg}
+            draggable="false"
+            style={{
+              position: 'absolute',
+              left: '0px',
+              top: '0px',
+              width: '1.5rem',
+              height: '1.5rem',
+              userSelect: 'none',
+              border: '0px',
+              padding: '0px',
+              margin: '0px',
+              maxWidth: 'none'
+            }}
+          />
         </LazyLoad>
       </div>
     );
@@ -112,8 +112,8 @@ class Prescription extends React.Component {
     };
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -161,7 +161,7 @@ class Prescription extends React.Component {
   };
 
   async getPrescription(params) {
-    params.auditAuthority = this.props.checkoutStore.autoAuditFlag
+    params.auditAuthority = this.props.checkoutStore.autoAuditFlag;
     this.setState({ loading: true });
     const res = await getPrescription(params);
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
@@ -297,10 +297,13 @@ class Prescription extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -460,8 +463,8 @@ class Prescription extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

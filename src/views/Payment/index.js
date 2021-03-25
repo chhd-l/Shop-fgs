@@ -3293,8 +3293,8 @@ class Payment extends React.Component {
               isCheckOut={true}
             />
           </div>
+          <Footer />
         </main>
-        <Footer />
         <PetModal
           visible={petModalVisible}
           isAdd={isAdd}

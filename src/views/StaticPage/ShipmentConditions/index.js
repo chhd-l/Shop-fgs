@@ -18,7 +18,7 @@ import image7 from './images/image7.jpeg';
 import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 class Help extends React.Component {
   constructor(props) {
     super(props);
@@ -34,8 +34,8 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
   render(h) {
@@ -50,10 +50,13 @@ class Help extends React.Component {
       <div className="shipmentConditions">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -74,7 +77,7 @@ class Help extends React.Component {
             >
               <div className="rc-column rc-double-width">
                 <LazyLoad>
-                <img src={image1} alt="" />
+                  <img src={image1} alt="" />
                 </LazyLoad>
               </div>
               <div className="rc-column">
@@ -231,7 +234,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                <img src={image2} alt="" />
+                  <img src={image2} alt="" />
                 </LazyLoad>
               </div>
             </div>
@@ -252,7 +255,7 @@ class Help extends React.Component {
                     Вы можете изменить адрес доставки в пределах одного города.
                   </span>
                   <LazyLoad>
-                  <img style={{ marginTop: '20px' }} src={image3} alt="" />
+                    <img style={{ marginTop: '20px' }} src={image3} alt="" />
                   </LazyLoad>
                 </div>
               </div>
@@ -270,7 +273,7 @@ class Help extends React.Component {
                   каждого пункта.
                 </span>
                 <LazyLoad>
-                <img style={{ marginTop: '20px' }} src={image4} alt="" />
+                  <img style={{ marginTop: '20px' }} src={image4} alt="" />
                 </LazyLoad>
               </div>
             </div>
@@ -295,7 +298,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                <img src={image5} alt="" />
+                  <img src={image5} alt="" />
                 </LazyLoad>
               </div>
             </div>
@@ -320,7 +323,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                <img src={image6} alt="" />
+                  <img src={image6} alt="" />
                 </LazyLoad>
               </div>
             </div>
@@ -331,7 +334,7 @@ class Help extends React.Component {
             <div className="rc-layout-container" style={{ padding: '20px' }}>
               <div className="rc-column">
                 <LazyLoad>
-                <img style={{ width: '80%' }} src={image7} alt="" />
+                  <img style={{ width: '80%' }} src={image7} alt="" />
                 </LazyLoad>
               </div>
               <div className="rc-column">
@@ -373,9 +376,8 @@ class Help extends React.Component {
               Контактного центра.
             </p>
           </section>
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }
