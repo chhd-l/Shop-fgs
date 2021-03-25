@@ -1418,8 +1418,8 @@ class PetForm extends React.Component {
             />: null
             } */}
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

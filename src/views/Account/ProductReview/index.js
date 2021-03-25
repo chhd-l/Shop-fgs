@@ -16,9 +16,9 @@ import Skeleton from 'react-skeleton-loader';
 //import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
-import {myAccountActionPushEvent} from "@/utils/GA"
+import { myAccountActionPushEvent } from '@/utils/GA';
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 @injectIntl
 class ProductReview extends React.Component {
@@ -58,8 +58,8 @@ class ProductReview extends React.Component {
         this.getGoodsList(this.state.orderId);
       }
     );
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
   showErrMsg(msg) {
@@ -265,7 +265,7 @@ class ProductReview extends React.Component {
     });
   }
   handleImgChange(imgRef, product) {
-    myAccountActionPushEvent('Add picture')
+    myAccountActionPushEvent('Add picture');
     const list = this.state.reviewList;
     if (list.length > 0) {
       let imgsParam = [];
@@ -301,8 +301,11 @@ class ProductReview extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -449,24 +452,24 @@ class ProductReview extends React.Component {
                       </div>
                     </div>
                     {this.state.productList.length > 0 ? (
-                          <div className="rc-padding-top--sm">
-                            <button
-                              className="rc-btn rc-btn--sm rc-btn--two"
-                              name="contactPreference"
-                              type="submit"
-                              onClick={this.handleSubmit}
-                            >
-                              <FormattedMessage id="submit" />
-                            </button>
-                          </div>
-                        ) : null}
+                      <div className="rc-padding-top--sm">
+                        <button
+                          className="rc-btn rc-btn--sm rc-btn--two"
+                          name="contactPreference"
+                          type="submit"
+                          onClick={this.handleSubmit}
+                        >
+                          <FormattedMessage id="submit" />
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
                 )}
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

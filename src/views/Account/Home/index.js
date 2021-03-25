@@ -231,8 +231,8 @@ class AccountHome extends React.Component {
               </div>
             </div>
           ) : null}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -49,8 +49,8 @@ const tr_TR = {
   'account.noPet':
     'Evcil hayvan profilinizi bugün oluşturun! Bilgileri doldurun ve en uygun diyeti seçin',
   'account.noSubscription':
-    'You do not yet know the Subscription?\n' +
-    "The Subscription allows you to receive your pet's favorite foods regularly and easily. Just tell us where and when to ship it, and we'll make sure everything it needs arrives right at your doorstep.",
+    '"Abonelik programımızı keşfetmek ister misiniz?\n' +
+    'Abonelik programımız, evcil hayvanınıza en uygun mamayı, düzenli ve kolay bir şekilde almanızı sağlar. Bize sadece nereye ve ne zaman göndereceğimizi söyleyin, biz de ihtiyaç duyduğu her şeyin kapınıza gelmesini sağlayalım. "',
   'account.noSubscriptionTitle': 'Aboneliği Keşfedin',
   'account.notRegistred': 'Yeni kullanıcı?',
   'account.of': 'nın-nin',
@@ -206,6 +206,8 @@ const tr_TR = {
   country: 'Ülke *',
   createAnAccount: 'Hesap oluştur',
   creditCard: 'Kredi kartı',
+  creditCardTip: '10 adede kadar {number} kredi kartı oluşturdunuz',
+  creditCardTipMany: "10'a kadar {number} kredi kartı oluşturdunuz",
   customerReviews: 'Musteri degerlendirmeleri',
   cvvWarning: 'CVV yanlış',
   'datePicker.months': [

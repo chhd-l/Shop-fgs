@@ -1780,8 +1780,8 @@ class AccountOrders extends React.Component {
               this.setState({ returnOrExchangeModalVisible: false });
             }}
           />
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }
