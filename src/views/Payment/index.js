@@ -939,7 +939,9 @@ class Payment extends React.Component {
         throw new Error(err.message);
       }
     }
-    return parameters;
+    return new Promise((resolve) => {
+      resolve(parameters);
+    });
   }
 
   // 6、组装支付共同的参数
@@ -962,7 +964,7 @@ class Payment extends React.Component {
           });
         },
         payUCreditCard: async () => {
-          parameters = this.hanldePAYUCheckoutParams({
+          parameters = await this.hanldePAYUCheckoutParams({
             commonParameter,
             parameters,
             payPspItemEnum: 'PAYU_CREDIT_CARD',
@@ -970,7 +972,7 @@ class Payment extends React.Component {
           });
         },
         payUCreditCardRU: async () => {
-          parameters = this.hanldePAYUCheckoutParams({
+          parameters = await this.hanldePAYUCheckoutParams({
             commonParameter,
             parameters,
             payPspItemEnum: isLogin ? 'PAYU_RUSSIA_AUTOSHIP2' : 'PAYU_RUSSIA',
@@ -983,7 +985,7 @@ class Payment extends React.Component {
           if (installMentParam) {
             installments = installMentParam.installmentNumber;
           }
-          parameters = this.hanldePAYUCheckoutParams({
+          parameters = await this.hanldePAYUCheckoutParams({
             commonParameter,
             parameters,
             payPspItemEnum: isLogin ? 'PAYU_TURKEY_AUTOSHIP2' : 'PAYU_TURKEY',
@@ -1073,9 +1075,10 @@ class Payment extends React.Component {
           }[type] || defaultUrl
         );
       };
+      let successUrl = successUrlFun(type);
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
-        successUrl: successUrlFun(type),
+        successUrl,
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         domainName: process.env.REACT_APP_DOMAIN || '',
@@ -1216,6 +1219,8 @@ class Payment extends React.Component {
       payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
       /* 4)调用支付 */
       const res = await action(parameters);
+      console.log(parameters);
+      debugger;
       const { tidList } = this.state;
       let orderNumber; // 主订单号
       let subOrderNumberList = []; // 拆单时，子订单号
@@ -1240,16 +1245,6 @@ class Payment extends React.Component {
           gotoConfirmationPage = true;
           break;
         case 'payUCreditCardRU':
-          subOrderNumberList = tidList.length
-            ? tidList
-            : res.context && res.context.tidList;
-          if (res.context.tid) {
-            sessionItemRoyal.set('orderNumber', res.context.tid);
-          }
-          if (res.context.redirectUrl) {
-            window.location.href = res.context.redirectUrl;
-          }
-          break;
         case 'payUCreditCardTU':
         case 'payUCreditCard':
         case 'cod':
@@ -1257,7 +1252,11 @@ class Payment extends React.Component {
             ? tidList
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
-          gotoConfirmationPage = true;
+          if (res.context.redirectUrl) {
+            window.location.href = res.context.redirectUrl;
+          } else {
+            gotoConfirmationPage = true;
+          }
           break;
         case 'adyenCard':
           subOrderNumberList =
@@ -1314,6 +1313,9 @@ class Payment extends React.Component {
               ? tidList
               : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
+
+          console.log(subOrderNumberList);
+          debugger;
           sessionItemRoyal.set(
             'subOrderNumberList',
             JSON.stringify(subOrderNumberList)
