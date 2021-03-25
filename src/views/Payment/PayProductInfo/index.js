@@ -59,12 +59,9 @@ class PayProductInfo extends React.Component {
     this.handleClickProName = this.handleClickProName.bind(this);
   }
   get isFromStorePortal() {
-    let fromStorePortal = false;
-    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
-      fromStorePortal = true;
-    } else {
-      fromStorePortal = false;
-    }
+    let fromStorePortal = localItemRoyal.get('rc-iframe-from-storepotal')
+      ? true
+      : false;
     return fromStorePortal;
   }
   get isLogin() {
@@ -476,11 +473,15 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {this.props.operateBtnVisible && !this.isFromStorePortal && (
-          <Link to="/cart" className="product-summary__cartlink rc-styled-link">
-            <FormattedMessage id="edit2" />
-          </Link>
-        )}
+        {this.props.operateBtnVisible &&
+          !this.isFromStorePortal && ( //来自store portal不能编辑
+            <Link
+              to="/cart"
+              className="product-summary__cartlink rc-styled-link"
+            >
+              <FormattedMessage id="edit2" />
+            </Link>
+          )}
       </div>
     );
   }
