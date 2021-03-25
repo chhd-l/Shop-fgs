@@ -6,7 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class TermUse extends React.Component {
   constructor(props) {
@@ -23,8 +23,8 @@ class TermUse extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -36,10 +36,13 @@ class TermUse extends React.Component {
     return (
       <div>
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -170,8 +173,8 @@ class TermUse extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

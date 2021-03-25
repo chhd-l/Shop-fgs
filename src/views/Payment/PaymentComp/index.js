@@ -11,11 +11,7 @@ import {
   queryIsSupportInstallMents
 } from '@/api/payment';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import {
-  CREDIT_CARD_IMG_ENUM,
-  CREDIT_CARD_IMGURL_ENUM,
-  PAYMENT_METHOD_RULE
-} from '@/utils/constant';
+import { CREDIT_CARD_IMG_ENUM, PAYMENT_METHOD_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { scrollPaymentPanelIntoView } from '../modules/utils';
@@ -33,7 +29,9 @@ class PaymentComp extends React.Component {
     needEmail: true,
     needPhone: true,
     isSupportInstallMent: false,
+    mustSaveForFutherPayments: false,
     defaultCardDataFromAddr: null,
+    isSupportInstallMent: [],
     getSelectedValue: () => {},
     updateFormValidStatus: () => {},
     onInstallMentParamChange: () => {}
@@ -286,7 +284,15 @@ class PaymentComp extends React.Component {
     });
   };
   async validFormData() {
+    const { mustSaveForFutherPayments } = this.props;
+    const {
+      creditCardInfoForm: { savedCardChecked }
+    } = this.state;
     try {
+      // 必须保存卡时，没有勾选保存卡按钮时，校验不通过
+      if (mustSaveForFutherPayments && !savedCardChecked) {
+        throw new Error('must checked the saved card checkbox');
+      }
       await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
       this.setState({ isValid: true });
     } catch (err) {
@@ -308,7 +314,6 @@ class PaymentComp extends React.Component {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
   };
-  // todo 土耳其需throw error，因为需要返回卡列表
   // save card form， 保存卡
   handleSave = async (e) => {
     try {
@@ -536,26 +541,16 @@ class PaymentComp extends React.Component {
 
       s.hasQueryInstallMent = true;
 
-      this.setState(
-        {
-          installMentTableData:
-            (res.context &&
-              res.context.installments &&
-              res.context.installments[0] &&
-              res.context.installments[0].installmentPrices) ||
-            [],
-          creditCardList,
-          memberUnsavedCardList
-        },
-        () => {
-          // todo delete...
-          this.setState({
-            installMentTableData: this.state.installMentTableData.concat(
-              this.state.installMentTableData
-            )
-          });
-        }
-      );
+      this.setState({
+        installMentTableData:
+          (res.context &&
+            res.context.installments &&
+            res.context.installments[0] &&
+            res.context.installments[0].installmentPrices) ||
+          [],
+        creditCardList,
+        memberUnsavedCardList
+      });
     }
   };
   handleClickCardItem(el) {
@@ -574,11 +569,16 @@ class PaymentComp extends React.Component {
   }
   onCheckboxChange(item) {
     const { key } = item;
-    this.setState((curState) => ({
-      creditCardInfoForm: Object.assign(curState.creditCardInfoForm, {
-        [key]: !curState.creditCardInfoForm[key]
-      })
-    }));
+    this.setState(
+      (curState) => ({
+        creditCardInfoForm: Object.assign(curState.creditCardInfoForm, {
+          [key]: !curState.creditCardInfoForm[key]
+        })
+      }),
+      () => {
+        this.validFormData();
+      }
+    );
   }
   hanldeClickReturnToCardList = () => {
     this.handleClickCancel();
@@ -588,7 +588,12 @@ class PaymentComp extends React.Component {
   };
   render() {
     const { creditCardListMerged } = this;
-    const { needEmail, needPhone, isSupportInstallMent } = this.props;
+    const {
+      needEmail,
+      needPhone,
+      isSupportInstallMent,
+      supportPaymentMethods
+    } = this.props;
     const {
       creditCardInfoForm,
       isEdit,
@@ -604,16 +609,16 @@ class PaymentComp extends React.Component {
     const showInstallMentCheckout =
       isSupportInstallMent && installMentTableData.length > 0 && !isEdit;
 
-    const CreditCardImg = (
+    const CreditCardImg = supportPaymentMethods.length > 0 && (
       <span className="logo-payment-card-list logo-credit-card ml-0">
-        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+        {supportPaymentMethods.map((el, idx) => (
           <LazyLoad key={idx}>
             <img
               alt=""
               key={idx}
               style={{ width: '50px' }}
               className="logo-payment-card mr-1"
-              src={el}
+              src={el.img}
             />
           </LazyLoad>
         ))}
@@ -689,18 +694,6 @@ class PaymentComp extends React.Component {
 
     return (
       <div id="PaymentComp" className={`loginCardBox`}>
-        <div
-          className={`table-toolbar d-flex flex-wrap justify-content-between p-0 ${
-            listVisible ? '' : 'hidden-xxl-down'
-          }`}
-        >
-          <span className="t-gray">
-            <FormattedMessage
-              id="creditCardTipMany"
-              values={{ number: <b>{creditCardListMerged.length}</b> }}
-            />
-          </span>
-        </div>
         {listLoading ? (
           <div className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />

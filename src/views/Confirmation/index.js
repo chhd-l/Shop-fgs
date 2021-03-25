@@ -457,8 +457,8 @@ class Confirmation extends React.Component {
               )}
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
         <Modal
           key="2"
           visible={this.state.operateSuccessModalVisible}

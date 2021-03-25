@@ -1304,8 +1304,8 @@ class Recommendation extends React.Component {
               </div>
             </React.Fragment>
           )}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

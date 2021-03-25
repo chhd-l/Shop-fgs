@@ -37,6 +37,7 @@ import {
   validData
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
+import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 import {
   findUserConsentList,
   getStoreOpenConsentList,
@@ -58,6 +59,7 @@ import {
 import PayUCreditCard from './PayUCreditCard';
 import AdyenCreditCard from './Adyen';
 import CyberCardList from './Cyber/list';
+import Cod from './Cod';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
 
@@ -113,6 +115,41 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA;
+const hideBillingAddr = Boolean(
+  +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+);
+
+function CreditCardInfoPreview({
+  data: { holderNameDeco, brandDeco, lastFourDeco, expirationDate }
+}) {
+  return (
+    <div className="col-12 col-md-6">
+      <span className="medium">
+        <FormattedMessage id="bankCard" />
+      </span>
+      <br />
+      <span>{holderNameDeco}</span>
+      <br />
+      <span>{brandDeco}</span>
+      <br />
+      <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
+      {expirationDate ? (
+        <>
+          <br />
+          <span>
+            {getFormatDate(expirationDate, (date) => {
+              if (process.env.REACT_APP_LANG === 'fr') {
+                return date.slice(3);
+              } else {
+                return date;
+              }
+            })}
+          </span>
+        </>
+      ) : null}
+    </div>
+  );
+}
 
 @inject(
   'loginStore',
@@ -203,6 +240,7 @@ class Payment extends React.Component {
       payWayErr: '',
       pet: {},
       installMentParam: null, // 分期参数
+      supportPaymentMethods: [], // 当前支付方式所支持的卡列表
       //cyber参数
       cyberPaymentForm: {
         cardholderName: '', //Didier Valansot
@@ -695,7 +733,13 @@ class Payment extends React.Component {
       //默认第一个,如没有支付方式,就不初始化方法
       this.setState(
         {
-          payWayNameArr
+          payWayNameArr,
+          supportPaymentMethods: (payWay?.context?.supportPaymentMethods || [])
+            .map((el) => ({
+              name: el,
+              img: CREDIT_CARD_IMGURL_ENUM[el.toUpperCase()]
+            }))
+            .filter((el) => el.img)
         },
         () => {
           initPaymentWay[payMethod] && initPaymentWay[payMethod]();
@@ -863,8 +907,6 @@ class Payment extends React.Component {
       country,
       installments
     });
-    // debugger;
-    // todo 会员不保存卡参数错误了
     if (selectedCardInfo && selectedCardInfo.paymentToken) {
       try {
         // 获取token，避免传给接口明文cvv
@@ -927,7 +969,6 @@ class Payment extends React.Component {
             commonParameter,
             parameters,
             payPspItemEnum: isLogin ? 'PAYU_RUSSIA_AUTOSHIP2' : 'PAYU_RUSSIA',
-            // todo cod传这个 PAYU_RUSSIA_COD
             country: 'RUS'
           });
         },
@@ -943,6 +984,11 @@ class Payment extends React.Component {
             payPspItemEnum: isLogin ? 'PAYU_TURKEY_AUTOSHIP2' : 'PAYU_TURKEY',
             country: 'TUR',
             installments
+          });
+        },
+        cod: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'PAYU_RUSSIA_COD'
           });
         },
         adyenCard: () => {
@@ -1199,6 +1245,7 @@ class Payment extends React.Component {
           break;
         case 'payUCreditCardTU':
         case 'payUCreditCard':
+        case 'cod':
           subOrderNumberList = tidList.length
             ? tidList
             : res.context && res.context.tidList;
@@ -1485,12 +1532,8 @@ class Payment extends React.Component {
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
       petsId: '1231',
-      deliveryAddressId:
-        // '7ffffe87f29fd9175e355887ba7c4908' ||
-        deliveryAddress.addressId,
-      billAddressId:
-        // 'ff8080817366a54701736a4e149c0058' ||
-        billingAddress.addressId,
+      deliveryAddressId: deliveryAddress.addressId,
+      billAddressId: billingAddress.addressId,
       promotionCode,
       guestEmail
     };
@@ -1984,7 +2027,7 @@ class Payment extends React.Component {
       cyberPaymentForm: { isSaveCard }
     } = this.state;
 
-    if (+process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR) return null;
+    if (hideBillingAddr) return null;
 
     if (tid) return null;
 
@@ -2317,7 +2360,8 @@ class Payment extends React.Component {
       validSts,
       saveBillingLoading,
       payWayNameArr,
-      cyberPaymentForm
+      cyberPaymentForm,
+      supportPaymentMethods
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -2427,7 +2471,21 @@ class Payment extends React.Component {
             payWayErr
           ) : (
             <>
-              {/* ***********************支付选项卡的内容start******************************* */}
+              {/* cod 货到付款 */}
+              {paymentTypeVal === 'cod' && (
+                <>
+                  <Cod
+                    type={'cod'}
+                    billingJSX={this.renderBillingJSX({ type: 'cod' })}
+                    updateFormValidStatus={this.updateValidStatus.bind(this, {
+                      key: 'cod'
+                    })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !validSts.cod || validForBilling
+                  })}
+                </>
+              )}
               {/* oxxo */}
               {paymentTypeVal === 'oxxo' && (
                 <>
@@ -2448,6 +2506,7 @@ class Payment extends React.Component {
                     ref={this.payUCreditCardRef}
                     type={'PayUCreditCard'}
                     isLogin={this.isLogin}
+                    mustSaveForFutherPayments={subForm.buyWay === 'frequency'}
                     isSupportInstallMent={Boolean(
                       +process.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
                     )}
@@ -2475,6 +2534,7 @@ class Payment extends React.Component {
                       type: 'payUCreditCard'
                     })}
                     defaultCardDataFromAddr={this.defaultCardDataFromAddr}
+                    supportPaymentMethods={supportPaymentMethods}
                   />
                   {payConfirmBtn({
                     disabled: !validSts.payUCreditCard || validForBilling,
@@ -2716,43 +2776,41 @@ class Payment extends React.Component {
       brandDeco = payosdata.vendor;
       holderNameDeco = payosdata.holder_name;
     }
-    // todo merge getFormatDate方法只格式化了法国，其他国家substr有问题
 
+    let ret = null;
+    switch (paymentTypeVal) {
+      case 'payUCreditCard':
+      case 'payUCreditCardRU':
+      case 'payUCreditCardTU':
+      case 'adyenCard':
+      case 'cyber':
+        ret = (
+          <CreditCardInfoPreview
+            data={{
+              holderNameDeco,
+              brandDeco,
+              lastFourDeco,
+              expirationDate
+            }}
+          />
+        );
+        break;
+      case 'cod':
+        ret = (
+          <div className="col-12 col-md-6">
+            <FormattedMessage id="payment.codConfirmTip" />
+          </div>
+        );
+        break;
+      default:
+        ret = <div className="col-12 col-md-6">{email}</div>;
+        break;
+    }
     return (
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
-          {this.isPayUPaymentTypeVal ||
-          paymentTypeVal === 'adyenCard' ||
-          paymentTypeVal === 'cyber' ? (
-            <div className="col-12 col-md-6">
-              <span className="medium">
-                <FormattedMessage id="bankCard" />
-              </span>
-              <br />
-              <span>{holderNameDeco}</span>
-              <br />
-              <span>{brandDeco}</span>
-              <br />
-              <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
-              {expirationDate ? (
-                <>
-                  <br />
-                  <span>
-                    {getFormatDate(expirationDate, (date) => {
-                      if (process.env.REACT_APP_LANG === 'fr') {
-                        return date.slice(3);
-                      } else {
-                        return date;
-                      }
-                    })}
-                  </span>
-                </>
-              ) : null}
-            </div>
-          ) : (
-            <div className="col-12 col-md-6">{email}</div>
-          )}
-          {!tid && (
+          {ret}
+          {!tid && !hideBillingAddr && (
             <div className="col-12 col-md-6 mt-2 mt-md-0">
               {this.renderAddrPreview({
                 form,
@@ -3293,8 +3351,8 @@ class Payment extends React.Component {
               isCheckOut={true}
             />
           </div>
+          <Footer />
         </main>
-        <Footer />
         <PetModal
           visible={petModalVisible}
           isAdd={isAdd}
