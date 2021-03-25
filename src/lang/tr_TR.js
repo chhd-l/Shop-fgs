@@ -476,7 +476,7 @@ const tr_TR = {
   'login.thirdCheck': 'Pazarlama bültenini almayı kabul ediyorum',
   loginFailed: 'giriş başarısız',
   logisticsRating: 'Lojistik değerlendirme',
-  logOff: 'Oturumu Kapat',
+  logOff: 'Çıkış',
   mailAddress: 'Posta adresi',
   mandatoryFieldsError: 'Doldurulmamış zorunlu alanlarınız var!',
   menu: 'Menü',
