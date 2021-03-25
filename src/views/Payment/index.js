@@ -2490,7 +2490,13 @@ class Payment extends React.Component {
                 </>
               )}
               {/* oxxo */}
-              {paymentTypeVal === 'oxxo' && (
+              {paymentTypeVal === 'oxxo' &&
+              !loginCartData.filter(
+                (ele) =>
+                  ele.subscriptionStatus &&
+                  (ele.subscriptionPrice > 0 || ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
+                  ele.goodsInfoFlag
+              ).length ? (
                 <>
                   <OxxoConfirm
                     type={'oxxo'}
@@ -2501,7 +2507,7 @@ class Payment extends React.Component {
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
                   })}
                 </>
-              )}
+              ) : null}
               {/* payu creditCard */}
               {this.isPayUPaymentTypeVal && (
                 <>
