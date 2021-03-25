@@ -98,6 +98,97 @@ const en_US = {
   'account.weight': 'What is the weight of an adult dog of your breed {val}?',
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
   'account.yes': 'Yes',
+  //view product details
+  'smartFeederSubscription.backToProduct': 'retourner au produit',
+  //go back to product
+  'smartFeederSubscription.backToProductTitle':
+    'Faites livrer vos recharges de croquettes automatiquement, sélectionnez simplement la fréquence de livraison souhaitée et ajoutez-les au panier',
+  //Finalise your order
+  'smartFeederSubscription.chooseProduct': 'choisir le produit',
+  //Learn more
+  'smartFeederSubscription.chooseYourProduct': 'Choisissez votre produit',
+  //select another product
+  'smartFeederSubscription.conﬁrmThisProduct': 'Con ﬁ rmez ce produit',
+  //Easy Maintenance
+  'smartFeederSubscription.dispenser1Des':
+    "Un anneau d'étanchéité en silicone souple de qualité alimentaire et une boîte déshydratante garantissent que la nourriture de votre animal reste fraîche.",
+  // The PetKit Dispenser
+  'smartFeederSubscription.dispenser1Title': 'Un double système «Fresh Lock»',
+  //A food-grade Soft Silicone Sealing Ring and a desiccant box ensures your pet’s food stays fresh.
+  'smartFeederSubscription.dispenser2Des':
+    'Votre mangeoire ne restera jamais coincé en distribuant des aliments grâce à un système auto-adaptatif.',
+  //A Double “Fresh Lock” System
+  'smartFeederSubscription.dispenser2Title': 'Mécanisme de distribution',
+  //Your feeder will never get stuck dispensing food thanks to a self-adapting system.
+  'smartFeederSubscription.dispenser3Des':
+    'Détachez et fixez facilement la machine pour la nettoyer avec un chiffon humide.',
+  //Dispensing Mechanism
+  'smartFeederSubscription.dispenser3Title': 'Entretien facile',
+  //Control the Petkit Dispenser Remotely from your Phone
+  'smartFeederSubscription.dispenserWithPhoneDes':
+    "Avec la technologie de contrôle des applications, vous pouvez définir des heures d'alimentation pour nourrir automatiquement votre animal ou choisir de le nourrir manuellement. Téléchargez simplement l'application, ajoutez votre appareil et le tour est joué!",
+  //how the Smart Feeder Subscription works?
+  'smartFeederSubscription.dispenserWithPhoneTitle':
+    'Contrôlez le distributeur Petkit à distance depuis votre téléphone',
+  //Receive the PetKit Dispenser for just 1.50 € more/refill compared to our standard Autoship price
+  'smartFeederSubscription.feederDes':
+    "{val}est un distributeur automatique conçu pour que votre animal reçoive la bonne quantité de nourriture au bon moment, même lorsque vous n'êtes pas à la maison.",
+  //Select your product
+  'smartFeederSubscription.finaliseYourOrder': 'Finalisez votre commande',
+  //choose product
+  'smartFeederSubscription.helpSubTitle':
+    "Nous sommes prêts à vous aider pour toute autre question que vous pourriez avoir à propos de l'abonnement Smart Feeder.",
+  // *12 shipments engagement
+  'smartFeederSubscription.learnMore': 'Apprendre encore plus',
+  //times
+  'smartFeederSubscription.pause': 'Pause',
+  //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
+  'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
+  //pause
+  'smartFeederSubscription.restart': 'Restart',
+  //restart
+  //Smart feeder subscription
+  //Delivered at the first shipment
+  'smartFeederSubscription.selectAnotherProduct':
+    'sélectionnez un autre produit',
+  // With app control technology, you can set feeding times to automatically feed your pet or choose to feed them manually. Simply download the app, add your device and you’re set!
+  'smartFeederSubscription.selectYourProduct': 'Sélectionnez votre produit',
+  //Get your kibble refills delivered automatically, just select your desired delivery frequency and add to cart
+  'smartFeederSubscription.shopmentTimes': 'Livré lors du premier envoi',
+  //select your frequency
+  'smartFeederSubscription.smartFeederSubscription': 'Abonnement Smart Feeder',
+  //Feed your dog with precision
+  'smartFeederSubscription.stepDes1':
+    'Grâce au distributeur PetKit, votre animal recevra toujours la bonne quantité de nourriture au bon moment',
+  //Free automatic delivery
+  'smartFeederSubscription.stepDes2':
+    'Simplifiez-vous la vie avec la livraison automatique gratuite à votre porte',
+  //PetKit Dispenser for 1.50 € more/refill
+  'smartFeederSubscription.stepDes3':
+    'Recevez le distributeur PetKit pour seulement 1,50 € de plus / recharge par rapport à notre prix standard de livraison automatique',
+  //Why choose the Smart Feeder Subscription?
+  'smartFeederSubscription.stepTitl1': 'Nourrissez votre chien avec précision',
+  //Thanks to the PetKit Dispenser your pet will always get the right amount of food at the right time
+  'smartFeederSubscription.stepTitl2': 'Livraison automatique gratuite',
+  //Make your life easier with free automatic delivery to your door
+  'smartFeederSubscription.stepTitl3':
+    'Distributeur PetKit pour 1,50 € de plus / recharge',
+  'smartFeederSubscription.tabDes1':
+    'Avec expédition automatique à votre porte',
+  //With automatic shipment to your door
+  'smartFeederSubscription.tabDes2': 'pour 26,50 € la recharge *',
+  //for 26,50 € per refill*
+  'smartFeederSubscription.tabDes3': '* Engagement de 12 envois',
+  // Conﬁrm this product
+  'smartFeederSubscription.times': 'fois',
+  //Easily detach and attach the machine to clean it with a damp cloth.
+  'smartFeederSubscription.titleHow':
+    "comment fonctionne l'abonnement Smart Feeder?",
+  //Choose your product
+  'smartFeederSubscription.titleWhy':
+    "Pourquoi choisir l'abonnement Smart Feeder?",
+  //We’re ready to help you with any further questions you might have about the Smart Feeder Subscription.
+  'smartFeederSubscription.viewProductDetails': 'voir les détails du produit',
   active: 'Active',
   addANewAddress: 'Add a new Address',
   addANewPaymentMethod: 'Add a new payment method',

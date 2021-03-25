@@ -15,6 +15,7 @@ const api = {
   getPromotionPrice: '/sub/getPromotionPrice',
   // updateNextDeliveryTime: '/sub/updateNextDeliveryTime',
   updateNextDeliveryTime: `/${process.env.REACT_APP_STOREID}/sub/next-deliver/`,
+  changeSubscriptionGoods: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`,
   getListForPet: `/${process.env.REACT_APP_STOREID}/subs`
 };
 
@@ -108,6 +109,14 @@ export function pauseSubscription(parameter) {
   return axios({
     url: `${api.pauseSubscription}`,
     method: 'post',
+    data: parameter
+  });
+}
+
+export function changeSubscriptionGoods(parameter) {
+  return axios({
+    url: `${api.changeSubscriptionGoods}`,
+    method: 'put',
     data: parameter
   });
 }

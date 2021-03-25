@@ -452,9 +452,15 @@ export default class Felin extends React.Component {
       this.currentStep();
     });
   }
+  modifyAppointment() {
+    this.setState({ step: 1, nextBtnShow: true }, () => {
+      this.currentStep();
+    });
+  }
 
   currentStep() {
     let obj = {
+      1: 'Calendar',
       2: 'Appointment type',
       3: 'Login',
       4: 'Customer info',
@@ -1319,9 +1325,7 @@ export default class Felin extends React.Component {
                           <button
                             className="rc-btn rc-btn--two"
                             style={{ margin: '5px 0', width: '100%' }}
-                            onClick={() => {
-                              this.setState({ step: 1, nextBtnShow: true });
-                            }}
+                            onClick={() => this.modifyAppointment()}
                           >
                             <FormattedMessage id="Modifier le rendez-vous" />
                           </button>
