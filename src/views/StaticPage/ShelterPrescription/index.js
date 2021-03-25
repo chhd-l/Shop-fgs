@@ -398,8 +398,8 @@ class ShelterPrescription extends React.Component {
               <img src={qualityPng} />
             </div>
           </div> */}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

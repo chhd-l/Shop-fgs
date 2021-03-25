@@ -15,7 +15,6 @@ import ClinicEditForm from './modules/ClinicEditForm';
 import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
-import { queryCityNameById } from '@/api';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
 import { myAccountPushEvent } from '@/utils/GA';
@@ -305,6 +304,8 @@ class AccountProfile extends React.Component {
                       updateEditOperationPanelName={
                         this.updateEditOperationPanelName
                       }
+                      needEmail={+process.env.REACT_APP_PAYU_EMAIL}
+                      needPhone={+process.env.REACT_APP_PAYU_PHONE}
                     />
                   </PanleContainer>
 
@@ -349,8 +350,8 @@ class AccountProfile extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

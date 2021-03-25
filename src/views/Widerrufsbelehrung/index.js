@@ -166,7 +166,10 @@ class Widerrufsbelehrung extends React.Component {
                     Sie könenn dafür das Muster-Wiederrufsformular unten
                     verwenden, das jedoch nicht vorgeschrieben ist. Alternativ
                     gehen Sie bitte vor wie in Ziffer 8.3 der{` `}
-                    <Link className="rc-styled-link" to="/Terms-And-Conditions">{` allgemeinen Geschäftsbedingungen `}</Link>
+                    <Link
+                      className="rc-styled-link"
+                      to="/Terms-And-Conditions"
+                    >{` allgemeinen Geschäftsbedingungen `}</Link>
                     {` `}
                     beschrieben.{' '}
                   </p>
@@ -293,8 +296,8 @@ class Widerrufsbelehrung extends React.Component {
               </div>
             </dl>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

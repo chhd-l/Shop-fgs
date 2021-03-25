@@ -317,7 +317,6 @@ class VetLandingPage extends React.Component {
               <HelpComponents />
             </div>
           </div>
-
           <Footer />
         </main>
       </div>

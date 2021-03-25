@@ -34,10 +34,10 @@ import {
   generatePayUScript,
   getFormatDate,
   setSeoConfig,
-  validData
+  validData,
+  computedSupportPaymentMethods
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 import {
   findUserConsentList,
   getStoreOpenConsentList,
@@ -558,14 +558,8 @@ class Payment extends React.Component {
     //1.会员调用consense接口
     //2.游客调用consense接口
     const { isLogin } = this;
-    const customerId = this.userInfo && this.userInfo.customerId;
-    // let action = getStoreOpenConsentList;
+    const customerId = this.userInfo?.customerId;
     let params = {};
-    // if (isLogin) {
-    //   action = findUserConsentList;
-    //   params = { customerId };
-    // }
-    // let res = await action(params);
     // add subscriptionPlan consent
     let subscriptionPlanIds = this.props.checkoutStore.loginCartData?.filter(
       (item) => item.subscriptionPlanId?.length > 0
@@ -734,12 +728,9 @@ class Payment extends React.Component {
       this.setState(
         {
           payWayNameArr,
-          supportPaymentMethods: (payWay?.context?.supportPaymentMethods || [])
-            .map((el) => ({
-              name: el,
-              img: CREDIT_CARD_IMGURL_ENUM[el.toUpperCase()]
-            }))
-            .filter((el) => el.img)
+          supportPaymentMethods: computedSupportPaymentMethods(
+            payWay?.context?.supportPaymentMethods || []
+          )
         },
         () => {
           initPaymentWay[payMethod] && initPaymentWay[payMethod]();
@@ -811,7 +802,7 @@ class Payment extends React.Component {
     const jsessionid =
       Cookies.get('jsessionid') ||
       sessionItemRoyal.get('jsessionid') ||
-      `${this.userInfo.customerId}${new Date().getTime()}`;
+      `${this.userInfo?.customerId}${new Date().getTime()}`;
     if (jsessionid) {
       const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
       generatePayUScript(fingerprint);
@@ -1056,13 +1047,15 @@ class Payment extends React.Component {
         const defaultUrl = '',
           Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
           payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult';
+        payu3dsResultUrl =
+          process.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
         return (
           {
             adyenCard: Adyen3DSUrl,
             adyenKlarnaPayLater: payResultUrl,
             adyenKlarnaPayNow: payResultUrl,
             directEbanking: payResultUrl,
-            payUCreditCardRU: payResultUrl
+            payUCreditCardRU: payu3dsResultUrl
           }[type] || defaultUrl
         );
       };
@@ -2941,7 +2934,7 @@ class Payment extends React.Component {
       ...submitParam,
       ...{ oktaToken },
       consentPage: 'check out',
-      customerId: (this.userInfo && this.userInfo.customerId) || ''
+      customerId: this.userInfo?.customerId || ''
     });
   }
   // 3、
@@ -3351,8 +3344,8 @@ class Payment extends React.Component {
               isCheckOut={true}
             />
           </div>
+          <Footer />
         </main>
-        <Footer />
         <PetModal
           visible={petModalVisible}
           isAdd={isAdd}

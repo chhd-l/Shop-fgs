@@ -477,8 +477,8 @@ class OnlineStore extends React.Component {
           <Divider />
           {/* <BottomInfo /> */}
           {this.BottomInfo()}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

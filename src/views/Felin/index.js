@@ -3,7 +3,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import LazyLoad from 'react-lazyload';
 import dateIcon from '@/assets/images/date.png';
-import { getFormatDate, datePickerConfig, validData } from '@/utils/utils';
+import {
+  getFormatDate,
+  datePickerConfig,
+  validData,
+  getDeviceType
+} from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
@@ -25,6 +30,8 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
+
+const isMobile = getDeviceType() === 'H5';
 
 function Divider() {
   return (
@@ -51,11 +58,17 @@ function scrollIntoView(element, additionalHeight) {
   const headerElement = document.querySelector(`.Felin`);
   if (element && headerElement) {
     // console.log(getElementTop(element) headerElement.offsetHeight)
-    let headerHeight = 54 + additionalHeight;
+    let height =
+      Array.from(
+        document.querySelectorAll(
+          '.rc-header__nav, .search-full-input-container'
+        )
+      ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
+    let headerHeight = height + additionalHeight;
     if (getElementTop(element) > document.documentElement.scrollTop) {
-      headerHeight = 54 + additionalHeight;
+      headerHeight = height + additionalHeight;
     } else {
-      headerHeight = 120 + additionalHeight;
+      headerHeight = height + additionalHeight;
     }
     window.scroll({
       top: getElementTop(element) - headerHeight - additionalHeight - 60,
@@ -65,7 +78,10 @@ function scrollIntoView(element, additionalHeight) {
 }
 
 function scrollPaymentPanelIntoView(id, additionalHeight = 0) {
-  scrollIntoView(document.querySelector(`#${id}`), additionalHeight);
+  scrollIntoView(
+    document.querySelector(`#${id}`),
+    isMobile ? 0 : additionalHeight
+  );
 }
 
 @inject('loginStore')
@@ -144,17 +160,38 @@ export default class Felin extends React.Component {
     }
 
     window.addEventListener('scroll', (e) => {
+      let height =
+        Array.from(
+          document.querySelectorAll(
+            '.rc-header__nav, .search-full-input-container'
+          )
+        ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
+      console.log(height, 'height');
       if (document.querySelector('.rc-header--scrolled')) {
-        this.setState({ topVal: 54 + this.state.languageHeight + 'px' });
+        this.setState({
+          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+        });
       } else {
-        this.setState({ topVal: 120 + this.state.languageHeight + 'px' });
+        this.setState({
+          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+        });
       }
     });
     let timer = setInterval(() => {
+      let height =
+        Array.from(
+          document.querySelectorAll(
+            '.rc-header__nav, .search-full-input-container'
+          )
+        ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
       if (document.querySelector('.rc-header--scrolled')) {
-        this.setState({ topVal: 54 + this.state.languageHeight + 'px' });
+        this.setState({
+          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+        });
       } else {
-        this.setState({ topVal: 120 + this.state.languageHeight + 'px' });
+        this.setState({
+          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+        });
       }
     }, 100);
     document.querySelector(
@@ -551,7 +588,7 @@ export default class Felin extends React.Component {
                 position: 'fixed',
                 top: this.state.topVal,
                 width: '100%',
-                height: '60px',
+                minHeight: '60px',
                 paddingTop: '24px',
                 background: '#fff',
                 zIndex: '10'
@@ -1427,8 +1464,8 @@ export default class Felin extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }
