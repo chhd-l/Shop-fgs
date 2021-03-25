@@ -8,7 +8,7 @@ const api = {
   skipNextSub: `/${process.env.REACT_APP_STOREID}/sub/cancel-next`,
   cancelAllSub: '/sub/cancel',
   orderNowSub: '/sub/order-now',
-  startSubscription: '/sub/startSubscription',
+  startSubscription: '/sub/reStartSubscription',
   pauseSubscription: '/sub/pauseSubscription',
   // orderNowSub: '/sub/createOrderNow',
   // getPromotionPrice: `/${process.env.REACT_APP_STOREID}/sub/prom-price`,
