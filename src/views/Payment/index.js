@@ -180,8 +180,8 @@ class Payment extends React.Component {
         address2: '',
         rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        cityId: '',
         city: '',
-        cityName: '',
         postCode: '',
         phoneNumber: ''
       },
@@ -192,8 +192,8 @@ class Payment extends React.Component {
         address2: '',
         rfc: '',
         country: 'Mexico',
+        cityId: '',
         city: '',
-        cityName: '',
         postCode: '',
         phoneNumber: ''
       },
@@ -813,28 +813,28 @@ class Payment extends React.Component {
   queryOrderDetails() {
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
       let resContext = res.context;
-      let cityRes = await queryCityNameById({
-        id: [resContext.consignee.cityId, resContext.invoice.cityId]
-      });
-      cityRes = cityRes.context.systemCityVO || [];
-      resContext.consignee.cityName = this.matchCityName(
-        cityRes,
-        resContext.consignee.cityId
-      );
-      resContext.invoice.cityName = this.matchCityName(
-        cityRes,
-        resContext.invoice.cityId
-      );
+      // let cityRes = await queryCityNameById({
+      //   id: [resContext.consignee.cityId, resContext.invoice.cityId]
+      // });
+      // cityRes = cityRes.context.systemCityVO || [];
+      // resContext.consignee.cityName = this.matchCityName(
+      //   cityRes,
+      //   resContext.consignee.cityId
+      // );
+      // resContext.invoice.cityName = this.matchCityName(
+      //   cityRes,
+      //   resContext.invoice.cityId
+      // );
       this.setState({
         orderDetails: resContext
       });
     });
   }
-  matchCityName(dict, cityId) {
-    return dict.filter((c) => c.id === cityId).length
-      ? dict.filter((c) => c.id === cityId)[0].cityName
-      : cityId;
-  }
+  // matchCityName(dict, cityId) {
+  //   return dict.filter((c) => c.id === cityId).length
+  //     ? dict.filter((c) => c.id === cityId)[0].cityName
+  //     : cityId;
+  // }
   showErrorMsg = (msg) => {
     this.setState({
       errorMsg: msg,
@@ -1421,7 +1421,7 @@ class Payment extends React.Component {
           billAddress1: billingAddress.address1,
           billAddress2: billingAddress.address2,
           billCity: billingAddress.city,
-          billCityName: billingAddress.cityName,
+          billCityId: billingAddress.cityId,
           billCountry: billingAddress.country,
           billFirstName: billingAddress.firstName,
           billLastName: billingAddress.lastName,
@@ -1508,10 +1508,8 @@ class Payment extends React.Component {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
-      city: deliveryAddress.cityId, // 后端 city 为long 类型
-      // cityId: deliveryAddress.cityId,
-      region: deliveryAddress.provinceNo,
-      cityName: deliveryAddress.cityName,
+      city: deliveryAddress.city,
+      cityId: deliveryAddress.cityId,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1727,9 +1725,8 @@ class Payment extends React.Component {
           country: deliveryAddress.countryId
             ? deliveryAddress.countryId.toString()
             : '',
-          // cityId: deliveryAddress.cityId,
-          city: deliveryAddress.cityId,
-          cityName: deliveryAddress.cityName,
+          city: deliveryAddress.city,
+          cityId: deliveryAddress.cityId,
           postCode: deliveryAddress.postCode,
           phoneNumber: deliveryAddress.consigneeNumber,
           email: deliveryAddress.email,
@@ -1746,9 +1743,8 @@ class Payment extends React.Component {
             country: billingAddress.countryId
               ? billingAddress.countryId.toString()
               : '',
-            // cityId: billingAddress.cityId,
-            city: billingAddress.cityId,
-            cityName: billingAddress.city,
+            city: billingAddress.city,
+            cityId: billingAddress.cityId,
             postCode: billingAddress.postCode,
             phoneNumber: billingAddress.consigneeNumber,
             addressId:
@@ -1882,10 +1878,11 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
-    let newData = Object.assign({}, data);
-    data.cityId = newData.cityId;
-    data.city = newData.cityId; // 接口参数 city => long
-    data.cityName = newData.city; // 接口参数 cityName => string
+    // let newData = Object.assign({}, data);
+    // data.cityId = newData.cityId;
+    // data.city = newData.cityId;
+    // data.cityName = newData.city;
+    // debugger
     this.setState({
       deliveryAddress: data
     });
@@ -1906,7 +1903,7 @@ class Payment extends React.Component {
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: stateNo, // 省份简写
-              city: data.cityName,
+              city: data.city,
               street: data.address1,
               postalCode: data.postCode,
               customerAccount: this.state.email
@@ -1919,7 +1916,7 @@ class Payment extends React.Component {
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: data.provinceNo, // 省份简写
-              city: data.cityName,
+              city: data.city,
               street: data.address1,
               postalCode: data.postCode,
               customerAccount: this.state.guestEmail
@@ -1933,11 +1930,10 @@ class Payment extends React.Component {
   };
 
   updateBillingAddrData = (data) => {
-    let newData = Object.assign({}, data);
-    data.cityId = newData.cityId;
-    data.city = newData.cityId; // 接口参数 city => long
-    data.cityName = newData.city; // 接口参数 cityName => string
-    console.log(data, 'data1111111');
+    // let newData = Object.assign({}, data);
+    // data.cityId = newData.cityId;
+    // data.city = newData.cityId; // 接口参数 city => long
+    // data.cityName = newData.city; // 接口参数 cityName => string
     if (!this.state.billingChecked) {
       this.setState({ billingAddress: data });
     }
@@ -2137,7 +2133,7 @@ class Payment extends React.Component {
         address2,
         country,
         province,
-        cityName,
+        cityId,
         city,
         postCode,
         email,
@@ -2166,7 +2162,7 @@ class Payment extends React.Component {
       cyberPaymentParam.address2 = address2;
       cyberPaymentParam.country = 'US';
       cyberPaymentParam.state = province; // province
-      cyberPaymentParam.city = cityName;
+      cyberPaymentParam.city = city;
       cyberPaymentParam.zipCode = postCode;
       cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
       cyberPaymentParam.phone = phoneNumber;
@@ -2893,7 +2889,7 @@ class Payment extends React.Component {
         taxFeeData: {
           country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
           region: deliveryAddress.provinceNo, // 省份简写
-          city: deliveryAddress.cityName,
+          city: deliveryAddress.city,
           street: deliveryAddress.address1,
           postalCode: deliveryAddress.postCode,
           customerAccount: guestEmail

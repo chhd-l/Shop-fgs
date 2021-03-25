@@ -191,7 +191,6 @@ class PersonalDataEditForm extends React.Component {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
       form.city = validationAddress.city;
-      form.cityName = validationAddress.city;
       if (process.env.REACT_APP_LANG === 'en') {
         form.province = validationAddress.provinceCode;
       }

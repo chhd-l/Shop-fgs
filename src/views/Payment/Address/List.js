@@ -43,8 +43,8 @@ class AddressList extends React.Component {
         rfc: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
+        cityId: '',
         city: '',
-        cityName: '',
         provinceNo: '',
         provinceId: '',
         province: '',
@@ -92,16 +92,17 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
   }
+  // 查询地址列表
   async queryAddressList({ init = false } = {}) {
     try {
       const { selectedId } = this.state;
       this.setState({ loading: true });
       let res = await getAddressList();
+      console.log('101 res: ', res);
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
       );
       const defaultAddressItem = find(addressList, (ele) => {
-        // console.log(ele, 'defaultAddressItem');
         return ele.isDefaltAddress === 1;
       });
 
@@ -121,21 +122,6 @@ class AddressList extends React.Component {
       this.props.updateData(tmpObj);
       this.isDeliverAddress &&
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
-
-      let cityRes = [];
-      if (addressList.length) {
-        cityRes = await queryCityNameById({
-          id: addressList.map((ele) => ele.cityId)
-        });
-        cityRes = cityRes.context.systemCityVO || [];
-      }
-
-      Array.from(addressList, (ele) => {
-        ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
-          ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
-          : ele.cityId;
-        return ele;
-      });
 
       this.setState(
         {
@@ -160,6 +146,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    // debugger
     this.props.updateData(tmpObj);
     this.isDeliverAddress &&
       this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
@@ -230,8 +217,8 @@ class AddressList extends React.Component {
       rfc: '',
       country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
       countryName: '',
+      cityId: '',
       city: '',
-      cityName: '',
       postCode: '',
       phoneNumber: '',
       isDefalt: false
@@ -244,7 +231,10 @@ class AddressList extends React.Component {
 
     if (idx > -1) {
       const tmp = addressList[idx];
-      // console.log('--------------------- ★★★ List add Or EditAddress data: ', tmp);
+      console.log(
+        '--------------------- ★★★ List add Or EditAddress data: ',
+        tmp
+      );
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
         lastName: tmp.lastName,
@@ -253,8 +243,8 @@ class AddressList extends React.Component {
         rfc: tmp.rfc,
         country: tmp.countryId ? tmp.countryId.toString() : '',
         countryName: tmp.countryName,
-        city: tmp.cityId ? tmp.cityId : tmp.city,
-        cityName: tmp.city,
+        cityId: tmp.cityId,
+        city: tmp.city,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
@@ -377,12 +367,8 @@ class AddressList extends React.Component {
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         countryId: deliveryAddress.country,
-        cityId:
-          deliveryAddress.cityName == deliveryAddress.city
-            ? null
-            : deliveryAddress.city,
-        city: deliveryAddress.cityName,
-        cityName: deliveryAddress.cityName,
+        cityId: deliveryAddress.cityId,
+        city: deliveryAddress.city,
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
@@ -486,15 +472,16 @@ class AddressList extends React.Component {
       selectValidationOption,
       validationAddress
     } = this.state;
-    // let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
+    let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.address2 = validationAddress.address2;
       deliveryAddress.city = validationAddress.city;
-      deliveryAddress.cityName = validationAddress.city;
       deliveryAddress.province = validationAddress.provinceCode;
     } else {
-      // deliveryAddress = JSON.parse(JSON.stringify(oldDeliveryAddress));
+      this.setState({
+        deliveryAddress: JSON.parse(JSON.stringify(oldDeliveryAddress))
+      });
     }
     // 下一步
     this.showNextPanel();
@@ -649,7 +636,6 @@ class AddressList extends React.Component {
                 />
               </svg>
             )}
-            {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
           </div>
           <div
             className="col-10 col-md-9 pl-1 pr-1"

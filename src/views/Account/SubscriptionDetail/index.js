@@ -1111,18 +1111,18 @@ class SubscriptionDetail extends React.Component {
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
-      let cityRes = await queryCityNameById({
-        id: [subDetail.consignee.cityId, subDetail.invoice.cityId]
-      });
-      cityRes = cityRes.context.systemCityVO || [];
-      subDetail.consignee.cityName = this.matchCityName(
-        cityRes,
-        subDetail.consignee.cityId
-      );
-      subDetail.invoice.cityName = this.matchCityName(
-        cityRes,
-        subDetail.invoice.cityId
-      );
+      // let cityRes = await queryCityNameById({
+      //   id: [subDetail.consignee.cityId, subDetail.invoice.cityId]
+      // });
+      // cityRes = cityRes.context.systemCityVO || [];
+      // subDetail.consignee.cityName = this.matchCityName(
+      //   cityRes,
+      //   subDetail.consignee.cityId
+      // );
+      // subDetail.invoice.cityName = this.matchCityName(
+      //   cityRes,
+      //   subDetail.invoice.cityId
+      // );
       this.setState(
         {
           isGift: isGift,
