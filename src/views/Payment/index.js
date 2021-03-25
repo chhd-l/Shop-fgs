@@ -2691,6 +2691,7 @@ class Payment extends React.Component {
                     })}
                     securityCodeTipsJSX={this.renderSecurityCodeTipsJSX()}
                     backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
+                    showErrorMsg={this.showErrorMsg}
                   />
                   {payConfirmBtn({
                     disabled: validForCyberPayment() || validForBilling,
@@ -2710,6 +2711,7 @@ class Payment extends React.Component {
                     billingJSX={this.renderBillingJSX({
                       type: paymentTypeVal
                     })}
+                    showErrorMsg={this.showErrorMsg}
                   />
                   {reInputCVVBtn({
                     disabled: !this.state.isShowCyberBindCardBtn,
