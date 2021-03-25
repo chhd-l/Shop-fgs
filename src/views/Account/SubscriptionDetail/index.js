@@ -4323,7 +4323,10 @@ class SubscriptionDetail extends React.Component {
                                                   <span
                                                     style={{ fontSize: '12px' }}
                                                   >
-                                                    <FormattedMessage id="order.iVAIncluido" />
+                                                    <FormattedMessage
+                                                      id="order.iVAIncluido"
+                                                      defaultMessage=" "
+                                                    />
                                                   </span>
                                                 </label>
                                                 <div className="text-right col-5 col-md-3">

@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { Link } from 'react-router-dom';
+import Loading from '@/components/Loading';
 import {
   formatMoney,
   mergeUnloginCartData,
@@ -96,7 +97,8 @@ class LoginCart extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       activeToolTipIndex: 0,
-      goodsIdArr: []
+      goodsIdArr: [],
+      circleLoading: false
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -106,6 +108,10 @@ class LoginCart extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
+    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+      this.setState({ circleLoading: true });
+    }
+
     this.getGoodsIdArr();
     const {
       history: {
@@ -147,9 +153,9 @@ class LoginCart extends React.Component {
       GACartScreenLoad();
     }
     this.setData();
+
     if (localItemRoyal.get('rc-iframe-from-storepotal')) {
       this.handleCheckout();
-      localItemRoyal.remove('rc-iframe-from-storepotal');
     }
   }
   get loginCartData() {
@@ -404,6 +410,11 @@ class LoginCart extends React.Component {
         clinicStore,
         isLogin: true
       });
+
+      if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+        this.setState({ circleLoading: false });
+        localItemRoyal.remove('rc-iframe-from-storepotal');
+      }
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
@@ -612,7 +623,7 @@ class LoginCart extends React.Component {
                             }}
                             className={`rc-swatch__item ${
                               sdItem.selected ? 'selected' : ''
-                            }`}
+                            } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
                             key={i2}
                             onClick={this.handleChooseSize.bind(
                               this,
@@ -768,7 +779,11 @@ class LoginCart extends React.Component {
               </div>
             </div>
             <div
-              className="buyMethodBox rc-two-column"
+              className={`buyMethodBox ${
+                pitem.subscriptionStatus && pitem.subscriptionPrice
+                  ? 'rc-two-column'
+                  : ''
+              }`}
               style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
             >
               <div className="rc-column">
@@ -1307,6 +1322,9 @@ class LoginCart extends React.Component {
     );
   }
   async handleChooseSize(sdItem, pitem) {
+    if (sdItem.isEmpty) {
+      return false;
+    }
     if (this.state.checkoutLoading) {
       return false;
     }
@@ -1465,6 +1483,7 @@ class LoginCart extends React.Component {
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
+        {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
         <Header
           showMiniIcons={true}
           showUserIcon={true}

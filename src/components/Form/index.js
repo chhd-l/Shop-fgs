@@ -1,4 +1,5 @@
 import React from 'react';
+import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -6,18 +7,20 @@ import SearchSelection from '@/components/SearchSelection';
 import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
+import Loading from '@/components/Loading';
 import { injectIntl } from 'react-intl';
 import {
   getSystemConfig,
   getAddressSetting,
   getProvincesList,
   getRegionByCityId,
-  getAddressBykeyWord
+  getAddressBykeyWord,
+  getCityList
 } from '@/api';
 import { FormattedMessage } from 'react-intl';
-import { ADDRESS_RULE } from '@/utils/constant';
 import './index.less';
 
+const CURRENT_LANGFILE = locales;
 class Form extends React.Component {
   static defaultProps = {
     type: 'billing',
@@ -29,6 +32,7 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dataLoading: false,
       formLoading: false,
       formSettingSwitch: '',
       caninForm: {
@@ -52,7 +56,9 @@ class Form extends React.Component {
         phoneNumber: '',
         entrance: '',
         apartment: '',
-        comment: ''
+        comment: '',
+        DaData: null, // 俄罗斯DaData
+        formRule: [] // form表单校验规则
       },
       addressSettings: [],
       formList: [],
@@ -69,10 +75,15 @@ class Form extends React.Component {
     this.setState({
       formLoading: true
     });
+
+    // 查询国家
+    this.getCountryList();
+
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
-    console.log('-------------★ EditForm initData: ', initData);
-    console.log('-------------★ EditForm caninForm: ', caninForm);
+    initData.stateId = initData.provinceId;
+    // console.log('-------------★ EditForm initData: ', initData);
+    // console.log('-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -133,19 +144,18 @@ class Form extends React.Component {
                 formList: ress
               },
               () => {
-                this.setState({
-                  formLoading: false
-                });
                 if (manually == 1) {
-                  // 查询国家
-                  this.getCountryList();
                   // 查询州列表（美国 state）
                   this.getUsStateList();
                 }
-                if (automatically == 1) {
-                  // 俄罗斯DuData，根据关键字查询地址信息
-                  this.getAddressBykeyWordDuData();
-                }
+                this.setState(
+                  {
+                    formLoading: false
+                  },
+                  () => {
+                    this.props.updateData(caninForm);
+                  }
+                );
               }
             );
           }
@@ -165,18 +175,67 @@ class Form extends React.Component {
   formListByRow(array, fn) {
     const { caninForm } = this.state;
     const groups = {};
+    let rule = [];
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
       item.filedType = item.filedType == 0 ? 'text' : 'number';
-      // regExp: RULE[key],
-      // errMsg: CURRENT_LANGFILE['enterCorrectPostCode'],
-      item.regExp = '';
-      item.errMsg = '';
+      let regExp = '';
+      let errMsg = '';
+      switch (item.fieldKey) {
+        case 'postCode':
+          regExp = /^\d{5}$/;
+          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          break;
+        case 'phoneNumber':
+          if (process.env.REACT_APP_LANG == 'fr') {
+            regExp = /[+(33)|0]\d{9}$/;
+          } else if (process.env.REACT_APP_LANG == 'en') {
+            regExp = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
+          } else {
+            regExp = /\S/;
+          }
+          errMsg = CURRENT_LANGFILE['enterCorrectPhoneNumber'];
+          break;
+        default:
+          regExp = /\S/;
+          errMsg = CURRENT_LANGFILE['payment.errorInfo'].replace(
+            /{.+}/,
+            CURRENT_LANGFILE[`payment.${item.fieldKey}`]
+          );
+      }
+      item.regExp = regExp;
+      item.errMsg = errMsg;
+      // 组装rule
+      let ruleItem = {};
+      if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
+        ruleItem = {
+          regExp: regExp,
+          errMsg: errMsg,
+          key: item.fieldKey,
+          require: item.requiredFlag == 1 ? true : false
+        };
+      } else {
+        ruleItem = {
+          errMsg: errMsg,
+          key: item.fieldKey,
+          require: item.requiredFlag == 1 ? true : false
+        };
+      }
+      rule.push(ruleItem);
 
-      const group = JSON.stringify(fn(item));
       // 利用对象的key值唯一性的，创建数组
+      const group = JSON.stringify(fn(item));
       groups[group] = groups[group] || [];
       groups[group].push(item);
+
+      // 查询城市列表
+      if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
+        this.getAllCityList();
+      }
+    });
+    caninForm.formRule = rule;
+    this.setState({
+      caninForm
     });
     // 最后再利用map循环处理分组出来
     return Object.keys(groups).map((group) => {
@@ -193,23 +252,15 @@ class Form extends React.Component {
           countryList: res
         });
         caninForm.countryName = res[0].name;
+        this.setState({
+          caninForm
+        });
       }
     } catch (err) {
       console.log(err);
     }
   };
-  // 5-1、俄罗斯DuData，根据关键字查询地址信息
-  getAddressBykeyWordDuData = async () => {
-    try {
-      const res = await getAddressBykeyWord({ keyword: 'москва хабар' });
-      if (res?.context?.systemRegions) {
-        console.log(' ★★★--------- getAddressBykeyWordDuData res: ', res);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  // 5-2、查询州列表（美国 state）
+  // 5、查询州列表（美国 state）
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
@@ -234,11 +285,33 @@ class Form extends React.Component {
       console.log(err);
     }
   };
-  // 6、根据cityId查询region
-  getRegionDataByCityId = async () => {
-    const { caninForm } = this.state;
+  // 6-1、查询city list
+  getAllCityList = async () => {
     try {
-      const res = await getRegionByCityId({ cityId: 3 });
+      const res = await getCityList();
+      if (res?.context?.systemCityVO) {
+        let starr = [];
+        let obj = res.context.systemCityVO;
+        obj.forEach((item) => {
+          let res = {
+            id: item.id,
+            name: item.cityName,
+            no: item.cityNo
+          };
+          starr.push(res);
+        });
+        this.setState({
+          cityList: Object.assign(obj, starr)
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 6-2、根据cityId查询region
+  getRegionDataByCityId = async (cityId) => {
+    try {
+      const res = await getRegionByCityId({ cityId: cityId });
       if (res?.context?.systemRegions) {
         let regarr = [];
         let obj = res.context.systemRegions;
@@ -254,8 +327,14 @@ class Form extends React.Component {
           regionList: Object.assign(obj, regarr)
         });
       }
+      this.setState({
+        dataLoading: false
+      });
     } catch (err) {
-      console.log(err);
+      console.warn(err);
+      this.setState({
+        dataLoading: false
+      });
     }
   };
   // 下拉框选择
@@ -268,13 +347,22 @@ class Form extends React.Component {
       caninForm.provinceNo = data.no; // 省份简写
     } else if (key == 'country') {
       caninForm.countryName = data.name;
+    } else if (key == 'city') {
+      caninForm.city = data.name;
+      this.setState({
+        regionList: [],
+        dataLoading: true
+      });
+      this.getRegionDataByCityId(data.value);
+    } else if (key == 'region') {
+      caninForm.region = data.name;
     }
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });
   }
+  // 处理数组
   computedList(key) {
-    const { caninForm } = this.state;
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -291,7 +379,7 @@ class Form extends React.Component {
     return tmp;
   }
   // 文本框输入改变
-  deliveryInputChange = (e) => {
+  inputChange = (e) => {
     const { caninForm } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
@@ -299,8 +387,17 @@ class Form extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
-      value = value.replace(/^[0]/, '+(33)');
+    if (name === 'phoneNumber') {
+      // 格式化电话号码
+      if (process.env.REACT_APP_LANG === 'fr') {
+        value = value.replace(/^[0]/, '+(33)');
+      }
+      if (process.env.REACT_APP_LANG === 'en') {
+        value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+      }
+      if (process.env.REACT_APP_LANG === 'ru') {
+        // value = value.replace(/^[0]/, '+(7)');
+      }
     }
     caninForm[name] = value;
     this.setState({ caninForm }, () => {
@@ -310,9 +407,9 @@ class Form extends React.Component {
   };
   // 文本框失去焦点
   inputBlur = async (e) => {
-    const { errMsgObj } = this.state;
+    const { errMsgObj, caninForm } = this.state;
     const target = e.target;
-    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const targetRule = caninForm.formRule.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
       await validData(targetRule, { [target.name]: value });
@@ -341,6 +438,14 @@ class Form extends React.Component {
   // DuData地址搜索选择
   handleAddressInputChange = (data) => {
     const { caninForm } = this.state;
+    caninForm.address1 = data.unrestrictedValue;
+    caninForm.city = data.city;
+    caninForm.postCode = data.postCode;
+    caninForm.DaData = data;
+    console.log('--- ****** DuData handleAddressInputChange data: ', data);
+    this.setState({ caninForm }, () => {
+      this.props.updateData(this.state.caninForm);
+    });
   };
 
   // 文本框
@@ -354,7 +459,7 @@ class Form extends React.Component {
             id={`shipping${item.fieldKey}`}
             type={item.fieldKey}
             value={caninForm[item.fieldKey]}
-            onChange={this.deliveryInputChange}
+            onChange={this.inputChange}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
@@ -372,10 +477,12 @@ class Form extends React.Component {
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <textarea
             className="rc_input_textarea"
-            maxLength={item.maxLength}
-            name={item.fieldKey}
-            value={caninForm[item.fieldKey]}
             id={`shipping${item.fieldKey}`}
+            value={caninForm[item.fieldKey]}
+            onChange={this.inputChange}
+            onBlur={this.inputBlur}
+            name={item.fieldKey}
+            maxLength={item.maxLength}
           ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -443,7 +550,9 @@ class Form extends React.Component {
     return (
       <>
         <span
-          className="rc-select rc-full-width rc-input--full-width rc-select-processed rc_first_noselect"
+          className={`rc-select rc-full-width rc-input--full-width rc-select-processed ${
+            item.fieldKey == 'state' ? 'rc_first_noselect' : ''
+          }`}
           style={{ marginTop: '0' }}
         >
           {/* 下拉框 key 和 value 为 id , fieldKey+'Id' */}
@@ -465,6 +574,7 @@ class Form extends React.Component {
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
               optionList={this.computedList(item.fieldKey)}
+              choicesInput={true}
               name={item.fieldKey}
               selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
               key={caninForm[item.fieldKey + 'Id']}
@@ -537,7 +647,13 @@ class Form extends React.Component {
     );
   };
   render() {
-    const { formLoading, caninForm, formList, errMsgObj } = this.state;
+    const {
+      dataLoading,
+      formLoading,
+      caninForm,
+      formList,
+      errMsgObj
+    } = this.state;
     return (
       <>
         {formLoading ? (
@@ -563,7 +679,14 @@ class Form extends React.Component {
                             className="form-control-label"
                             htmlFor={`shipping${item.fieldKey}`}
                           >
-                            <FormattedMessage id={`payment.${item.fieldKey}`} />
+                            {process.env.REACT_APP_LANG == 'en' &&
+                            item.fieldKey == 'postCode' ? (
+                              <FormattedMessage id="payment.ZIPCode" />
+                            ) : (
+                              <FormattedMessage
+                                id={`payment.${item.fieldKey}`}
+                              />
+                            )}
                           </label>
 
                           {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
@@ -597,19 +720,6 @@ class Form extends React.Component {
                             ? this.dropDownBoxJSX(item)
                             : null}
 
-                          {/* 输入提示 */}
-                          {errMsgObj[item.fieldKey] && (
-                            <div className="text-danger-2">
-                              {errMsgObj[item.fieldKey]}
-                            </div>
-                          )}
-                          {/* 输入电话号码提示 */}
-                          {item.fieldKey == 'phoneNumber' && (
-                            <span className="ui-lighter">
-                              <FormattedMessage id="example" />:{' '}
-                              <FormattedMessage id="examplePhone" />
-                            </span>
-                          )}
                           {/* 输入邮编提示 */}
                           {item.fieldKey == 'postCode' && (
                             <span className="ui-lighter">
@@ -617,6 +727,19 @@ class Form extends React.Component {
                               <FormattedMessage id="examplePostCode" />
                             </span>
                           )}
+                          {/* 输入电话号码提示 */}
+                          {item.fieldKey == 'phoneNumber' && (
+                            <span className="ui-lighter">
+                              <FormattedMessage id="examplePhone" />
+                            </span>
+                          )}
+                          {/* 输入提示 */}
+                          {errMsgObj[item.fieldKey] &&
+                            item.requiredFlag == 1 && (
+                              <div className="text-danger-2">
+                                {errMsgObj[item.fieldKey]}
+                              </div>
+                            )}
                         </div>
                       </div>
                       {/* 个人中心添加 email 和 birthData */}
@@ -629,6 +752,8 @@ class Form extends React.Component {
               ))}
           </div>
         )}
+
+        {dataLoading ? <Loading /> : null}
       </>
     );
   }

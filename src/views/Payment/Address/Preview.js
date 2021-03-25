@@ -1,5 +1,6 @@
 import React from 'react';
-import { matchNamefromDict, getDictionary } from '@/utils/utils';
+import { formatMoney, matchNamefromDict, getDictionary } from '@/utils/utils';
+import { FormattedMessage } from 'react-intl';
 export default class AddressPreview extends React.Component {
   static defaultProps = { form: null, countryListDict: [], boldName: true };
   constructor(props) {
@@ -26,30 +27,50 @@ export default class AddressPreview extends React.Component {
         <p>{form.phoneNumber || form.consigneeNumber}</p>
         <p>{form.address1}</p>
         {form.address2 ? <p>{form.address2}</p> : null}
-        <p>
-          <span>
-            {[
-              form.postCode,
-              form.cityName == 0 || form.cityName == null
-                ? form.city
-                : form.cityName,
-              ' '
-            ].join(',')}
-          </span>
+        {process.env.REACT_APP_LANG == 'ru' ? (
+          <>
+            {form.city && form.city != null ? (
+              <>
+                {form.city} и {form.city}
+                <br />
+                <FormattedMessage
+                  id="payment.deliveryDate"
+                  values={{
+                    min: form?.calculation?.minDeliveryTime,
+                    max: form?.calculation?.maxDeliveryTime
+                  }}
+                />
+                <p>
+                  <FormattedMessage id="payment.deliveryFee" />:{' '}
+                  {formatMoney(form?.calculation?.deliveryPrice)}
+                </p>
+              </>
+            ) : null}
+          </>
+        ) : (
+          <p>
+            <span>
+              {[
+                form.postCode,
+                form.cityName == 0 || form.cityName == null
+                  ? form.city
+                  : form.cityName,
+                ' '
+              ].join(',')}
+            </span>
 
-          {process.env.REACT_APP_LANG === 'en' ? (
-            <span>{form.province}, </span>
-          ) : (
-            <></>
-          )}
-
-          <span>
-            {matchNamefromDict(
-              this.state.countryList,
-              form.country || form.countryId
+            {form.province && form.province != null && (
+              <span>{form.province}, </span>
             )}
-          </span>
-        </p>
+
+            <span>
+              {matchNamefromDict(
+                this.state.countryList,
+                form.country || form.countryId
+              )}
+            </span>
+          </p>
+        )}
       </div>
     ) : null;
   }

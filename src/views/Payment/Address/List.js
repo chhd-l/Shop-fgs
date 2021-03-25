@@ -6,9 +6,10 @@ import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
+import { shippingCalculation } from '@/api/cart';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
-import { ADDRESS_RULE } from '@/utils/constant';
+// import { ADDRESS_RULE } from '@/utils/constant';
 // import EditForm from './EditForm';
 import EditForm from '@/components/Form';
 import Loading from '@/components/Loading';
@@ -100,7 +101,7 @@ class AddressList extends React.Component {
         (ele) => ele.type === this.props.type.toUpperCase()
       );
       const defaultAddressItem = find(addressList, (ele) => {
-        console.log(ele, 'defaultAddressItem');
+        // console.log(ele, 'defaultAddressItem');
         return ele.isDefaltAddress === 1;
       });
 
@@ -294,13 +295,43 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------------------- List 数据验证 data: ', data);
     try {
-      await validData(ADDRESS_RULE, data); // 数据验证
+      if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
+        let dda = data.DaData;
+        // console.log('--------- ★★★★★★ DaData: ', dda);
+        // 俄罗斯计算运费
+        let ddres = await shippingCalculation({
+          sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+          sourceAreaFias: null,
+          sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+          sourceSettlementFias: null,
+          sourcePostalCode: null,
+          regionFias: dda.provinceId,
+          areaFias: dda.areaId,
+          cityFias: dda.cityId,
+          settlementFias: dda.settlementId,
+          postalCode: dda.postCode,
+          weight: '1',
+          insuranceSum: 0,
+          codSum: 0,
+          dimensions: {
+            height: '1',
+            width: '1',
+            depth: '1'
+          }
+        });
+        data.calculation = ddres?.context?.tariffs[0];
+        console.log('---------- ★★★★★★ 计算运费： ', ddres);
+      }
+      if (!data?.formRule || (data?.formRule).length <= 0) {
+        return;
+      }
+      await validData(data.formRule, data); // 数据验证
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     } catch (err) {
+      console.error(' err msg: ', err);
       this.setState({ isValid: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });

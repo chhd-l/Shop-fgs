@@ -87,6 +87,9 @@
   .ui-border-bottom-none-md-down {
     border-bottom: none !important;
   }
+  .product-summary__total {
+    padding: 0 1.25rem;
+  }
 }
 
 .cardImage {
@@ -223,11 +226,11 @@
   color: red;
 }
 
-/* 
+/*
 .shippingPhoneNumber {
   -moz-user-select:none;
     -webkit-user-select:none;
-    -ms-user-select:none; 
+    -ms-user-select:none;
     -khtml-user-select:none;
     user-select:none;
 }
@@ -297,7 +300,6 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    padding-left: 1.5rem;
   }
 
   .fit-mobile-icon-left {
@@ -307,6 +309,7 @@
 
   .fit-mobile-normalDelivery {
     position: relative;
+    margin-left: 1.6rem;
   }
 }
 

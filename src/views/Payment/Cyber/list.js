@@ -169,7 +169,7 @@ class CyberCardList extends React.Component {
       );
     } catch (err) {
       console.log(err);
-      this.props.showErrorMsg(err.message);
+      //this.props.showErrorMsg(err.message);
     } finally {
       this.setState({
         listLoading: false

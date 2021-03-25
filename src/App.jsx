@@ -647,27 +647,23 @@ const App = () => (
                       return <Details key={props.match.params.id} {...props} />;
                     }
                   } else {
-                    const RedirectUrl = RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item2 => {
-                      return {
-                        [item2.shortUrl]: item2.redirectUrl
-                      }
-                    })
-
+                    let RedirectUrlObj = {};
+                    if(process.env.REACT_APP_HUB){
+                      RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item => ({
+                        [item.shortUrl]: item.redirectUrl
+                      })).forEach((item) => {
+                        RedirectUrlObj = { ...RedirectUrlObj, ...item } //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
+                      })
+                    }
                     
-                    //把数组对象合并成一个对象
-                    let newObj = {}
-                    RedirectUrl.forEach((item) => {
-                      newObj = { ...newObj, ...item }
-                    })
 
-
-                    let redirectUrl = '';
+                   
                     const specailPlpUrlMapping = {
-                      ...newObj
+                      ...RedirectUrlObj
                     };
 
 
-
+                    let redirectUrl = ''
                     if (pathname.split('.html').length > 1) {
                       redirectUrl = pathname.split('.html')[0];
                     } else if (specailPlpUrlMapping[pathname + search]) {

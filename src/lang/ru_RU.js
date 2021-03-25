@@ -246,14 +246,14 @@ const ru_RU = {
     'Прокомментируйте, пожалуйста, опыт покупок',
   CompleteRequiredItems: 'Пожалуйста, заполните необходимые пункты',
   confirmation: 'Подтверждение',
-  'confirmation.account': 'Go to my account',
+  'confirmation.account': 'Зайти в мой аккаунт',
   'confirmation.customerInformation': 'Информация для клиентов',
   'confirmation.info1': 'Спасибо за ваш заказ.',
   'confirmation.info2':
     'В ближайшее время с вами свяжутся наши сотрудники для подтверждения заказа.',
   'confirmation.info3':
     'Адреса и способы доставки указаны под вашими товарами.',
-  'confirmation.oneShoot': 'Go to my account',
+  'confirmation.oneShoot': 'Продолжить покупки',
   'confirmation.orderNumber': 'Номер заказа',
   'confirmation.rateTip': 'Как бы вы оценили свой шоппинг?',
   'confirmation.rateTip2': 'Что мы можем сделать, чтобы улучшить?',
@@ -644,7 +644,7 @@ const ru_RU = {
   passwordHide: 'Пароль',
   payAtOxxO: 'Плати наличными в любом OXXO в Мексике',
   'payment.acceptCards': 'Мы принимаем кредитные карты.',
-  'payment.address1': 'Адрес',
+  'payment.address1': 'Полный адрес',
   'payment.address2': 'Дополнительный адрес',
   'payment.addressTitle': 'Адрес и способ доставки',
   'payment.apply': 'Подтвердить',
@@ -708,6 +708,9 @@ const ru_RU = {
   // 'payment.totalProduct': '{val} total product (s)',
   'payment.totalProduct': '{val} товар (а/ов)',
   'payment.yourOrder': 'Твоя очередь',
+  'payment.deliveryDate': 'срок поставки - {min} - {max} рабочих дня.',
+  'payment.shippingDiscount': 'скидка с фрахта',
+  'payment.deliveryFee': 'плата за доставку',
   securePaymentProcessing: 'Безопасная обработка платежа',
   paymentMethod: 'Способ оплаты',
   'paymethods.btn': 'Добавить платеж',
@@ -1044,6 +1047,14 @@ const ru_RU = {
   'club.wheretohelp.card.email.send': 'Отправьте нам e-mail',
   'club.wheretohelp.card.faq':
     'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ',
+  'club.howitworks.alt1': 'Оптимальный рацион для питомца',
+  'club.howitworks.alt2': 'Опции клубной программы',
+  'club.howitworks.alt3': 'Управление подпиской',
+  'club.howitworks.alt4': 'Сервисы Клуба Royal Canin',
+  'club.wheretohelp.alt1': 'Телефон горячей линии',
+  'club.wheretohelp.alt2': 'Контактный e-mail',
+  'club.wheretohelp.alt3': 'Блок FAQ',
+  'club.jointodayalt': 'Присоединитесь к Клубу Royal Canin',
   autoShipStarted: 'Дата создания подписки',
   nextShipment: 'Следующая доставка',
   transactionInfo: 'Информация',
@@ -1075,7 +1086,14 @@ const ru_RU = {
   manage: 'Изменить',
   'cyber.form.saveFor': 'Сохранить данные карты в учетной записи',
   //'cyber.form.theBox':'при подписке на корм данное поле является обязательным для заполнения',
-  'pet.petListTitle': 'Здесь Вы можете создать профили для Ваших питомцев'
+  'pet.petListTitle': 'Здесь Вы можете создать профили для Ваших питомцев',
+  'payment.returnToCardList': 'Вярнуцца да спісу картак',
+  'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
+  'payment.saveThisPaymentMethodAsPreferred':
+    'Сохранить этот способ оплаты как предпочтительный',
+  bankCard: 'банковская карта',
+  deliveryOneTimeOnly: 'Доставка только 1 раз',
+  subscribe: 'Добавить в корзину'
 };
 
 export default ru_RU;

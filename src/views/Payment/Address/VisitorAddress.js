@@ -6,13 +6,13 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 // import EditForm from './EditForm';
-import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
 } from '../modules/utils';
 import { addressValidation } from '@/api/index';
+import { shippingCalculation } from '@/api/cart';
 import AddressPreview from './Preview';
 import './VisitorAddress.css';
 
@@ -67,11 +67,41 @@ class VisitorAddress extends React.Component {
   }
   validData = async ({ data }) => {
     try {
-      await validData(ADDRESS_RULE, data);
+      if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
+        let dda = data.DaData;
+        // 俄罗斯计算运费
+        let ddres = await shippingCalculation({
+          sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+          sourceAreaFias: null,
+          sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+          sourceSettlementFias: null,
+          sourcePostalCode: null,
+          regionFias: dda.provinceId,
+          areaFias: dda.areaId,
+          cityFias: dda.cityId,
+          settlementFias: dda.settlementId,
+          postalCode: dda.postCode,
+          weight: '1',
+          insuranceSum: 0,
+          codSum: 0,
+          dimensions: {
+            height: '1',
+            width: '1',
+            depth: '1'
+          }
+        });
+        data.calculation = ddres?.context?.tariffs[0];
+        console.log('---------- ★★★★★★ 计算运费： ', ddres);
+      }
+      if (!data?.formRule || (data?.formRule).length <= 0) {
+        return;
+      }
+      await validData(data.formRule, data); // 数据验证
       this.setState({ isValid: true, form: data }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     } catch (err) {
+      console.error(' err msg: ', err);
       this.setState({ isValid: false, validationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });

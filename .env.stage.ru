@@ -1,6 +1,6 @@
 #stage环境(德国)
 REACT_APP_ACCESS_PATH = https://shopstg.royalcanin.com/ru/
-REACT_APP_CLIENT_ID = 0oagwbhnq0MA32zj30x6
+REACT_APP_CLIENT_ID = 0oa1dlcrg4I8ilKNY0x7
 REACT_APP_ISSUER = https://accountpreview.royalcanin.com/oauth2/default
 REACT_APP_RedirectURL = https://shopstg.royalcanin.com/ru/implicit/callback
 REACT_APP_RegisterPrefix = https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=
@@ -11,11 +11,11 @@ REACT_APP_Google_IDP = 0oarsoyvckBINudT70x6
 #接口配置
 REACT_APP_BASEURL = https://shopstg.royalcanin.com/api
 
-REACT_APP_PaymentENV = test1
-REACT_APP_PaymentKEY_MEMBER = fd931719-5733-4b77-b146-2fd22f9ad2e3
-REACT_APP_PaymentAPPID_MEMBER = com.razorfish.dev_mexico
-REACT_APP_PaymentKEY_VISITOR = fd931719-5733-4b77-b146-2fd22f9ad2e3
-REACT_APP_PaymentAPPID_VISITOR = com.razorfish.dev_mexico
+REACT_APP_PaymentENV = test
+REACT_APP_PaymentKEY_MEMBER = f2346509-9c34-4299-8c07-9719dc4574e9
+REACT_APP_PaymentAPPID_MEMBER = com.razorfish.dev_ru_ms
+REACT_APP_PaymentKEY_VISITOR = f2346509-9c34-4299-8c07-9719dc4574e9
+REACT_APP_PaymentAPPID_VISITOR = com.razorfish.dev_ru_ms
 
 #GA环境配置
 REACT_APP_GA_GTMID = 'GTM-MH74J3M'
@@ -105,3 +105,12 @@ REACT_APP_DOMAIN = '/ru/shop'
 REACT_APP_HUB_APIURL = https://uatwedding.royalcanin.com/ru/api
 
 REACT_APP_HUB_MONROYALCANIN = https://mon.royalcanin.fr/connexion/?_ga=2.267431690.500684309.1611668454-1487729967.1600939226
+
+#是否显示billing addr(account页)
+REACT_APP_HIDE_ACCOUNT_BILLING_ADDR = 1
+#是否显示billing addr(checkout页)
+REACT_APP_HIDE_CHECKOUT_BILLING_ADDR = 1
+
+#payu表单字段控制
+REACT_APP_PAYU_EMAIL = 0
+REACT_APP_PAYU_PHONE = 0

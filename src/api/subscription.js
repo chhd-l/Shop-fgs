@@ -15,7 +15,8 @@ const api = {
   getPromotionPrice: '/sub/getPromotionPrice',
   // updateNextDeliveryTime: '/sub/updateNextDeliveryTime',
   updateNextDeliveryTime: `/${process.env.REACT_APP_STOREID}/sub/next-deliver/`,
-  changeSubscriptionGoods: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`
+  changeSubscriptionGoods: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`,
+  getListForPet: `/${process.env.REACT_APP_STOREID}/subs`
 };
 
 export default api;
@@ -25,6 +26,13 @@ export function getSubList(parameter) {
     url: `${api.getList}`,
     method: 'get',
     params: parameter
+  });
+}
+
+export function getSubListForPet(parameter) {
+  return axios({
+    url: `${api.getListForPet}/${parameter.petsId}`,
+    method: 'get'
   });
 }
 

@@ -650,7 +650,7 @@ class UnLoginCart extends React.Component {
                             }}
                             className={`rc-swatch__item ${
                               sdItem.selected ? 'selected' : ''
-                            }`}
+                            } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
                             key={i2}
                             onClick={() =>
                               this.handleChooseSize(sdItem, pitem, index)
@@ -831,7 +831,13 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
             <div
-              className="buyMethodBox rc-two-column"
+              className={`buyMethodBox ${
+                pitem.sizeList.filter((el) => el.selected)[0]
+                  .subscriptionStatus &&
+                pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice
+                  ? 'rc-two-column'
+                  : ''
+              }`}
               style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
             >
               <div className="rc-column">
@@ -978,6 +984,9 @@ class UnLoginCart extends React.Component {
    * @param {*} index 当前product的索引
    */
   async handleChooseSize(sdItem, pitem, index) {
+    if (sdItem.isEmpty) {
+      return false;
+    }
     pitem.goodsSpecs
       .filter((item) => item.specId === sdItem.specId)[0]
       .chidren.map((item) => {
@@ -1368,6 +1377,7 @@ class UnLoginCart extends React.Component {
                   background: '#fff',
                   maxHeight: '80vh'
                 }}
+                isGuestCart={true}
                 className={`${mobileCartVisibleKey === 'more' ? '' : 'hidden'}`}
                 ref="payProductInfo"
                 location={this.props.location}

@@ -9,7 +9,7 @@ import './index.less';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById, getProvincesList } from '@/api';
 import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
-import { ADDRESS_RULE } from '@/utils/constant';
+// import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
@@ -18,22 +18,19 @@ import { myAccountActionPushEvent } from '@/utils/GA';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const addressType = () => {
-  const defaultAddressType = [
-    { type: 'delivery', langKey: 'deliveryAddress' },
-    { type: 'billing', langKey: 'billingAddress' }
-  ];
-  return (
-    {
-      US: [{ type: 'delivery', langKey: 'deliveryAddress' }]
-    }[process.env.REACT_APP_GA_COUNTRY] || defaultAddressType
-  );
+const addressType = ({ hideBillingAddr }) => {
+  const defaultAddressType = [{ type: 'delivery', langKey: 'deliveryAddress' }];
+  if (!hideBillingAddr) {
+    defaultAddressType.push({ type: 'billing', langKey: 'billingAddress' });
+  }
+  return defaultAddressType;
 };
 
 @injectIntl
 class ShippingAddressFrom extends React.Component {
   static defaultProps = {
-    addressId: ''
+    addressId: '',
+    hideBillingAddr: false
   };
   constructor(props) {
     super(props);
@@ -320,8 +317,13 @@ class ShippingAddressFrom extends React.Component {
   };
 
   validFormData = async () => {
+    const { addressForm } = this.state;
     try {
-      await validData(ADDRESS_RULE, this.state.addressForm);
+      if (!addressForm?.formRule || (addressForm?.formRule).length <= 0) {
+        return;
+      }
+      await validData(addressForm.formRule, addressForm); // 数据验证
+      // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
@@ -342,6 +344,7 @@ class ShippingAddressFrom extends React.Component {
     );
   };
   render() {
+    const { hideBillingAddr } = this.props;
     const {
       addressForm,
       isValid,
@@ -403,7 +406,7 @@ class ShippingAddressFrom extends React.Component {
           ) : (
             <div className={`userContactInfoEdit`}>
               <div className="row">
-                {addressType().map((item, i) => (
+                {addressType({ hideBillingAddr }).map((item, i) => (
                   <div className="col-12 col-md-4" key={i}>
                     <div className="rc-input rc-input--inline">
                       <input

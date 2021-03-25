@@ -1,0 +1,133 @@
+import React, { useState, useEffect } from 'react';
+import autoshipIcon from '@/assets/images/autoship.png';
+import Club_Logo from '@/assets/images/Logo_club.png';
+import { getFormatDate, getFrequencyDict, getDeviceType } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
+import { getSubList } from '@/api/subscription';
+import Skeleton from 'react-skeleton-loader';
+import { injectIntl, FormattedMessage } from 'react-intl';
+const localItemRoyal = window.__.localItemRoyal;
+const ClubItem = ({ subItem }) => {
+  const isMobile = getDeviceType() !== 'PC';
+  return (
+    <div
+      className="row rc-margin-x--none row align-items-center card-container"
+      style={{
+        padding: '1rem 0',
+        marginTop: '1rem',
+        display: i < 2 || isShowAll ? 'flex' : 'none'
+      }}
+      key={subItem.subscribeId}
+    >
+      <div className="col-4 col-md-4 d-flex flex-wrap">
+        {subItem.goodsInfo &&
+          subItem.goodsInfo.map((item) => (
+            <div style={{ marginLeft: '20px' }}>
+              <LazyLoad>
+                <img
+                  style={{
+                    width: '70px',
+                    display: 'inline-block'
+                  }}
+                  key={item.spuId}
+                  src={item.goodsPic || IMG_DEFAULT}
+                  alt={item.goodsName}
+                  title={item.goodsName}
+                />
+              </LazyLoad>
+              <span
+                style={{
+                  display: 'inline-block',
+                  verticalAlign: 'middle',
+                  fontSize: '12px',
+                  marginLeft: '10px',
+                  width: isMobile ? 'auto' : '250px'
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '400',
+                    color: '#333',
+                    marginBottom: '5px'
+                  }}
+                >
+                  {item.goodsName}
+                </p>
+                <p>
+                  {item.specText} - {item.subscribeNum}{' '}
+                  <FormattedMessage id="units" />
+                </p>
+                <p>
+                  <FormattedMessage id="subscription.frequency" />:{' '}
+                  {frequencyList.filter((el) => el.id === item.periodTypeId)[0]
+                    ? frequencyList.filter(
+                        (el) => el.id === item.periodTypeId
+                      )[0].value
+                    : ''}
+                </p>
+              </span>
+            </div>
+          ))}
+      </div>
+      <div className="col-4 col-md-2 text-nowrap">
+        <LazyLoad>
+          <img
+            src={Club_Logo}
+            style={{
+              width: '75px',
+              display: 'inline-block',
+              marginRight: '30px'
+            }}
+            alt=""
+          />
+        </LazyLoad>
+        <LazyLoad>
+          <img
+            src={autoshipIcon}
+            style={{
+              width: '40px',
+              display: 'inline-block'
+            }}
+            alt=""
+          />
+        </LazyLoad>
+        <span
+          style={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            fontSize: '12px',
+            marginLeft: '10px'
+          }}
+        >
+          <p
+            style={{
+              width: isMobile ? '120px' : 'auto',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden'
+            }}
+          >
+            <FormattedMessage id="autoShipStarted" />
+          </p>
+          <p style={{ color: '#666', fontSize: '16px' }}>
+            {getFormatDate(subItem.createTime.split(' ')[0])}
+          </p>
+        </span>
+      </div>
+      <div className="col-4 col-md-2"></div>
+      <div className="col-4 col-md-2"></div>
+      <div className="col-4 col-md-2" style={{ textAlign: 'center' }}>
+        {i % 2 === 0 ? (
+          <button className="rc-btn rc-btn--two rc-btn--sm" onClick={() => {}}>
+            <FormattedMessage id="Link" />
+          </button>
+        ) : (
+          <a className="rc-styled-link" href="#/">
+            Unlink
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+export default ClubItem;
