@@ -90,7 +90,7 @@ class ValidationAddressModal extends React.Component {
     const { address, selectValidationOption } = this.props;
     const { modalVisible, validationAddress } = this.state;
     return (
-      <>
+      <div>
         {modalVisible ? (
           <div
             className={`modal validation_modal fade ${
@@ -166,7 +166,7 @@ class ValidationAddressModal extends React.Component {
                           <br />
                           <span className="name"></span>
                           {address ? (
-                            <>
+                            <div>
                               <span className="address-one">
                                 {address.address1},
                               </span>
@@ -193,7 +193,7 @@ class ValidationAddressModal extends React.Component {
                               >
                                 <b>Edit</b>
                               </a>
-                            </>
+                            </div>
                           ) : null}
                         </label>
                       </div>
@@ -233,7 +233,7 @@ class ValidationAddressModal extends React.Component {
                           <br />
                           <span className="name"></span>
                           {validationAddress ? (
-                            <>
+                            <div>
                               <span className="address-one">
                                 {validationAddress.address1},
                               </span>
@@ -254,7 +254,7 @@ class ValidationAddressModal extends React.Component {
                               <span className="countryCode">
                                 {validationAddress.countryCode}
                               </span>
-                            </>
+                            </div>
                           ) : null}
                         </label>
                       </div>
@@ -285,7 +285,7 @@ class ValidationAddressModal extends React.Component {
             </div>
           </div>
         ) : null}{' '}
-      </>
+      </div>
     );
   }
 }

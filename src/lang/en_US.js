@@ -1175,7 +1175,7 @@ const en_US = {
   'subscription.subscriptionNumberTip': 'Please enter subscription number',
   'subscription.toBeDelivered': 'To be Delivered',
   'subscription.total': 'Total',
-  'subscription.totalInclu': 'Total',
+  'subscription.totalInclu': 'Subtotal',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
   'subscriptionLanding.content1':
     'Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the Royal Canin Club at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with new pet gifts, exclusive offers and more.',

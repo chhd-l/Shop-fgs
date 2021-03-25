@@ -1,6 +1,6 @@
 #stage环境(德国)
 REACT_APP_ACCESS_PATH = https://shopstg.royalcanin.com/ru/
-REACT_APP_CLIENT_ID = 0oa1dlcrg4I8ilKNY0x7
+REACT_APP_CLIENT_ID = 0oaq4l7mz80pZlTd00x6
 REACT_APP_ISSUER = https://accountpreview.royalcanin.com/oauth2/default
 REACT_APP_RedirectURL = https://shopstg.royalcanin.com/ru/implicit/callback
 REACT_APP_RegisterPrefix = https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=

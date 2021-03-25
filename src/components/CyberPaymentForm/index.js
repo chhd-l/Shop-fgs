@@ -200,11 +200,9 @@ class CyberPaymentForm extends React.Component {
           <label className="rc-input__label" htmlFor="securityCode" />
         </span>
         {errMsgObj.securityCode && (
-          <>
-            <div className="text-danger-2">
-              <FormattedMessage id="payment.errorInfo2" />
-            </div>
-          </>
+          <div className="text-danger-2">
+            <FormattedMessage id="payment.errorInfo2" />
+          </div>
         )}
         {securityCodeTipsJSX}
       </div>

@@ -27,6 +27,8 @@ const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
 class PayProductInfo extends React.Component {
@@ -55,6 +57,12 @@ class PayProductInfo extends React.Component {
       frequencyList: []
     };
     this.handleClickProName = this.handleClickProName.bind(this);
+  }
+  get isFromStorePortal() {
+    let fromStorePortal = localItemRoyal.get('rc-iframe-from-storepotal')
+      ? true
+      : false;
+    return fromStorePortal;
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -203,6 +211,9 @@ class PayProductInfo extends React.Component {
 
     !isHubGA && this.GACheck(productList);
     isHubGA && this.GAInitialProductArray(productList);
+  }
+  componentWillUnmount() {
+    localItemRoyal.remove('rc-iframe-from-storepotal');
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
@@ -462,11 +473,15 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {this.props.operateBtnVisible && (
-          <Link to="/cart" className="product-summary__cartlink rc-styled-link">
-            <FormattedMessage id="edit2" />
-          </Link>
-        )}
+        {this.props.operateBtnVisible &&
+          !this.isFromStorePortal && ( //来自store portal不能编辑
+            <Link
+              to="/cart"
+              className="product-summary__cartlink rc-styled-link"
+            >
+              <FormattedMessage id="edit2" />
+            </Link>
+          )}
       </div>
     );
   }
