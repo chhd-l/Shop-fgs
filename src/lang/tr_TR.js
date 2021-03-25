@@ -194,7 +194,7 @@ const tr_TR = {
   'confirmation.subscriptionDiscountPriceDes':
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
-  confirmDelete: 'Adresi silmek istiyor musunuz?',
+  confirmDelete: 'Silmek istiyor musunuz?',
   confirmPassword: 'Şifreyi Onayla *',
   consent: 'Razı olmak',
   consignee: 'Alıcı',
