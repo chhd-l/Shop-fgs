@@ -58,7 +58,12 @@ function scrollIntoView(element, additionalHeight) {
   const headerElement = document.querySelector(`.Felin`);
   if (element && headerElement) {
     // console.log(getElementTop(element) headerElement.offsetHeight)
-    let height = document.querySelector('.rc-header').offsetHeight - 1;
+    let height =
+      Array.from(
+        document.querySelectorAll(
+          '.rc-header__nav, .search-full-input-container'
+        )
+      ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
     let headerHeight = height + additionalHeight;
     if (getElementTop(element) > document.documentElement.scrollTop) {
       headerHeight = height + additionalHeight;
@@ -155,7 +160,13 @@ export default class Felin extends React.Component {
     }
 
     window.addEventListener('scroll', (e) => {
-      let height = document.querySelector('.rc-header').offsetHeight - 1;
+      let height =
+        Array.from(
+          document.querySelectorAll(
+            '.rc-header__nav, .search-full-input-container'
+          )
+        ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
+      console.log(height, 'height');
       if (document.querySelector('.rc-header--scrolled')) {
         this.setState({
           topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
@@ -167,7 +178,12 @@ export default class Felin extends React.Component {
       }
     });
     let timer = setInterval(() => {
-      let height = document.querySelector('.rc-header').offsetHeight - 1;
+      let height =
+        Array.from(
+          document.querySelectorAll(
+            '.rc-header__nav, .search-full-input-container'
+          )
+        ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
       if (document.querySelector('.rc-header--scrolled')) {
         this.setState({
           topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
