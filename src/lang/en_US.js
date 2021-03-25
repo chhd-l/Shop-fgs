@@ -145,7 +145,7 @@ const en_US = {
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
-  'smartFeederSubscription.restart': 'Restart',
+  'subscription.restart': 'Restart',
   //restart
   //Smart feeder subscription
   //Delivered at the first shipment
