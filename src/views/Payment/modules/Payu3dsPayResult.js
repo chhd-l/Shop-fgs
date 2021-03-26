@@ -31,7 +31,7 @@ class Payu3dsResult extends Component {
         ...getRequest()
         //businessId: sessionItemRoyal.get('orderNumber')
       });
-      if (res.context.status === 'SUCCEED') {
+      if (res.context.status === 'Succeed') {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
