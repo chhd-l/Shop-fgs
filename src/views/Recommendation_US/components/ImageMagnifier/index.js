@@ -7,7 +7,8 @@ import noPic from '@/assets/images/noPic.png';
 //import RightImg from '@/assets/images/right.png'
 import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
-
+let H5Maxcount = 3;
+let PCMaxcount = 5;
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
@@ -348,10 +349,12 @@ class ImageMagnifier extends Component {
     if (video) {
       imgCount = imgCount + 1;
     }
+    const isMobile = getDeviceType() === 'H5';
+    let MAXCOUNT = isMobile ? H5Maxcount : PCMaxcount;
+    console.info('MAXCOUNT', MAXCOUNT);
     return (
       <div>
         <div className="position-relative">
-          {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
             {taggingForText ? (
               <div
@@ -377,31 +380,37 @@ class ImageMagnifier extends Component {
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
-              {images.filter((el) => el.goodsInfoImg).length
-                ? images.map((el, i) => (
-                    <div className="detail_img_box" key={i}>
-                      <LazyLoad>
-                        <img
-                          id="J_detail_img"
-                          style={cssStyle.imgStyle}
-                          src={currentImg || noPic}
-                          alt=""
-                        />
-                      </LazyLoad>
-                    </div>
-                  ))
-                : images.map((el, i) => (
-                    <div key={i}>
-                      <LazyLoad>
-                        <img
-                          id="J_detail_img"
-                          style={cssStyle.imgStyle}
-                          src={currentImg || this.state.maxImg || noPic}
-                          alt=""
-                        />
-                      </LazyLoad>
-                    </div>
-                  ))}
+              {console.info(
+                'images.filter((el) => el.artworkUrl)',
+                images.filter((el) => el.artworkUrl)
+              )}
+              {console.info('images', images)}
+              {console.info('---------------')}
+              {images.filter((el) => el.artworkUrl).length ? (
+                images.map((el, i) => (
+                  <div className="detail_img_box" key={i}>
+                    <LazyLoad>
+                      <img
+                        id="J_detail_img"
+                        style={cssStyle.imgStyle}
+                        src={currentImg || noPic}
+                        alt=""
+                      />
+                    </LazyLoad>
+                  </div>
+                ))
+              ) : (
+                <div>
+                  <LazyLoad>
+                    <img
+                      id="J_detail_img"
+                      style={cssStyle.imgStyle}
+                      src={currentImg || this.state.maxImg || noPic}
+                      alt=""
+                    />
+                  </LazyLoad>
+                </div>
+              )}
               {videoShow && video && (
                 <div>
                   <video
@@ -454,9 +463,11 @@ class ImageMagnifier extends Component {
         <div className="scrollOutBox m-auto">
           <i
             className={`rc-icon rc-left leftArrow rc-iconography ${
-              this.state.positionLeft === 0 ? '' : 'rc-brand1'
+              this.state.positionLeft === 0
+                ? 'hide-visible'
+                : 'rc-brand1 show-visible'
             }`}
-            style={{ display: imgCount > 5 ? 'block' : 'none' }}
+            style={{ display: imgCount > MAXCOUNT ? 'inline-block' : 'none' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
               this.setState({ positionLeft: this.state.positionLeft + 69 });
@@ -468,8 +479,10 @@ class ImageMagnifier extends Component {
               className="text-center imageInnerBox"
               style={{
                 marginTop: '2rem',
-                textAlign: imgCount <= 5 ? 'center' : 'left',
-                width: imgCount <= 5 ? '100%' : '1000px',
+                // textAlign: 'center',
+                // width: '100%',
+                textAlign: imgCount <= MAXCOUNT && isMobile ? 'center' : 'left',
+                width: imgCount <= MAXCOUNT && isMobile ? '100%' : '1000px',
                 left: this.state.positionLeft + 'px'
               }}
             >
@@ -533,13 +546,14 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={RightImg} /> */}
           <i
             className={`rc-icon rc-right rightArrow rc-iconography ${
-              this.state.positionLeft === (imgCount - 5) * -69
-                ? ''
-                : 'rc-brand1'
+              this.state.positionLeft === (imgCount - MAXCOUNT) * -69
+                ? 'hide-visible'
+                : 'rc-brand1 show-visible'
             }`}
-            style={{ display: imgCount > 5 ? 'block' : 'none' }}
+            style={{ display: imgCount > MAXCOUNT ? 'inline-block' : 'none' }}
             onClick={() => {
-              if (this.state.positionLeft === (imgCount - 5) * -69) return;
+              if (this.state.positionLeft === (imgCount - MAXCOUNT) * -69)
+                return;
               this.setState({ positionLeft: this.state.positionLeft - 69 });
             }}
           />
