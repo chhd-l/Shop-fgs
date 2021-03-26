@@ -1220,7 +1220,6 @@ class Payment extends React.Component {
       /* 4)调用支付 */
       const res = await action(parameters);
       console.log(parameters);
-      debugger;
       const { tidList } = this.state;
       let orderNumber; // 主订单号
       let subOrderNumberList = []; // 拆单时，子订单号
@@ -1315,7 +1314,6 @@ class Payment extends React.Component {
           subNumber = (res.context && res.context.subscribeId) || '';
 
           console.log(subOrderNumberList);
-          debugger;
           sessionItemRoyal.set(
             'subOrderNumberList',
             JSON.stringify(subOrderNumberList)

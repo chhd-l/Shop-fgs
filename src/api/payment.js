@@ -160,7 +160,7 @@ export function adyenPaymentsDetails(parameter) {
 export function payu3dsPaymentsDetails(parameter) {
   return axios({
     url: api.payu3dsPaymentsDetails,
-    method: 'get',
+    method: 'post',
     params: parameter
   });
 }
