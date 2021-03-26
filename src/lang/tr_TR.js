@@ -1026,6 +1026,9 @@ const tr_TR = {
   saveExtraMoney: 'Bu abonelikte {val} tasarruf edin',
   'subscription.pause': 'Duraklat',
   'payment.shippingDiscount': 'Mal teslimatı',
-  myAutoshipOrder: 'Aboneliklerim'
+  myAutoshipOrder: 'Aboneliklerim',
+  noStart: 'Gelecek siparişlerim',
+  completed: 'Tamamlandı',
+  transactionInfo: 'Bilgilerim'
 };
 export default tr_TR;
