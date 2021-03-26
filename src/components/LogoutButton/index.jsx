@@ -38,11 +38,13 @@ const LogoutButton = (props) => {
           //   idToken ? idToken.value : ''
           // }&post_logout_redirect_uri=${redirectUri}`;
           oktaAuth.revokeAccessToken()
-          oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+          // oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+          oktaAuth.signOut();
         }else {
           localItemRoyal.set('logout-redirect-url', location.href)
           oktaAuth.revokeAccessToken()
-          oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+          oktaAuth.signOut();
+          // oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
         }
       } else {
         loginStore.changeLoginModal(false);
