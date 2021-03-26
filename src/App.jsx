@@ -26,7 +26,6 @@ import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
 import locales from '@/lang'; // ENUM_LANGFILE[process.env.REACT_APP_LANG]
 
-
 // const locales = {
 //   'en-US': require('./locales/en-US.js'),
 //   'zh-CN': require('./locales/zh-CN.js')
@@ -36,7 +35,7 @@ import '@/utils/global';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import stores from './store';
-import { PDP_Regex } from '@/utils/constant'
+import { PDP_Regex } from '@/utils/constant';
 
 import RegisterRequired from '@/views/Login/RegisterRequired';
 import demo from '@/views/demo';
@@ -144,7 +143,7 @@ import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
 
-import RedirectUrlJSON from "./redirectUrl"
+import RedirectUrlJSON from './redirectUrl';
 
 if (process.env.REACT_APP_LANG === 'fr') {
   registerLocale(process.env.REACT_APP_LANG, fr);
@@ -221,8 +220,11 @@ const App = () => {
         >
           <RouteFilter />
           <ScrollToTop>
-            <Security oktaAuth={config} onAuthRequired={customAuthHandler}
-      restoreOriginalUri={restoreOriginalUri}>
+            <Security
+              oktaAuth={config}
+              onAuthRequired={customAuthHandler}
+              restoreOriginalUri={restoreOriginalUri}
+            >
               <Switch>
                 <Route exact path={'/'} component={Home} />
                 <Route
@@ -261,7 +263,11 @@ const App = () => {
                 />
                 <Route exact path="/confirmation" component={Confirmation} />
                 <Route exact path="/PayResult" component={PayResult} />
-                <Route exact path="/Payu3dsPayResult" component={Payu3dsPayResult} />
+                <Route
+                  exact
+                  path="/Payu3dsPayResult"
+                  component={Payu3dsPayResult}
+                />
                 <Route
                   exact
                   path="/kitten-nutrition"
@@ -304,15 +310,20 @@ const App = () => {
                   exact
                   path="/club-subscription"
                   component={
-                    process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr' ?
-                      ClubLandingPage : Exception}
+                    process.env.REACT_APP_LANG == 'ru' ||
+                    process.env.REACT_APP_LANG == 'tr'
+                      ? ClubLandingPage
+                      : Exception
+                  }
                 />
                 <Route
                   exact
                   path="/vetlandingpage"
                   component={
-                    process.env.REACT_APP_LANG == 'ru' ?
-                      VetLandingPage : Exception}
+                    process.env.REACT_APP_LANG == 'ru'
+                      ? VetLandingPage
+                      : Exception
+                  }
                 />
                 <Route
                   exact
@@ -354,15 +365,22 @@ const App = () => {
                 <Route
                   exact
                   path="/breeder/recommendation"
-                  render={(props) => <Redirect to={{ pathname: '/recommendation', search: props.location.search }} {...props} />
-                  }
+                  render={(props) => (
+                    <Redirect
+                      to={{
+                        pathname: '/recommendation',
+                        search: props.location.search
+                      }}
+                      {...props}
+                    />
+                  )}
                 />
                 <Route
                   exact
                   path="/recommendation"
                   render={(props) => <Recommendation_FR {...props} />}
                 />
-  
+
                 <Route exact path="/termuse" component={TermUse} />
                 <Route
                   exact
@@ -370,7 +388,7 @@ const App = () => {
                   component={TermsAndConditions}
                 />
                 <Route exact path="/privacypolicy" component={PrivacyPolicy} />
-  
+
                 <Route path="/account" exact component={AccountHome} />
                 <Route
                   path="/account/information"
@@ -390,7 +408,7 @@ const App = () => {
                   render={(props) => (
                     <AccountPetForm key={props.match.params.id} {...props} />
                   )}
-                // component={AccountPetForm}
+                  // component={AccountPetForm}
                 />
                 <Route
                   path="/account/pets/petForm/"
@@ -446,7 +464,7 @@ const App = () => {
                     token ? <required {...props} /> : <Redirect to="/home" />
                   }
                 /> */}
-  
+
                 <Route
                   path="/conoce-mas-de-evet"
                   exact
@@ -463,7 +481,7 @@ const App = () => {
                   path="/product-finder-noresult"
                   component={ProductFinderNoResult}
                 />
-  
+
                 <Route
                   exact
                   path="/subscription-landing"
@@ -488,7 +506,7 @@ const App = () => {
                     return sublanding;
                   })()}
                 />
-  
+
                 <Route
                   path="/general-conditions"
                   exact
@@ -517,7 +535,7 @@ const App = () => {
                   path="/promotion-refuge"
                   component={PromotionRefuge}
                 />
-  
+
                 {/* <Route path="/Values-ru" exact component={RU_Values} />
                 <Route path="/Values-us" exact component={US_Values} />
                 <Route path="/Values" exact component={FR_Values} /> */}
@@ -526,11 +544,11 @@ const App = () => {
                   path="/Values"
                   component={
                     { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                    process.env.REACT_APP_LANG
+                      process.env.REACT_APP_LANG
                     ] || Values
                   }
                 />
-  
+
                 <Route
                   sensitive
                   path="/Tailorednutrition"
@@ -556,17 +574,21 @@ const App = () => {
                   exact
                   component={ShipmentConditions}
                 />
-                <Route exact path="/forgetPassword" component={ForgetPassword} />
+                <Route
+                  exact
+                  path="/forgetPassword"
+                  component={ForgetPassword}
+                />
                 <Route path="/404" component={Exception} />
                 <Route path="/403" component={Page403} />
                 <Route path="/500" component={Page500} />
-  
+
                 <Route path="/mentionslegales" component={Mentionslegales} />
-  
+
                 <Route path="/consent1-tr" component={Consent1TR} />
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
-  
+
                 <Route
                   path="/smart-feeder-subscription"
                   component={smartFeederSubscription}
@@ -579,13 +601,14 @@ const App = () => {
                   render={(props) => (
                     <List
                       key={
-                        props.match.params.category + props.match.params.keywords
+                        props.match.params.category +
+                        props.match.params.keywords
                       }
                       {...props}
                     />
                   )}
                 />
-  
+
                 <Route
                   exact
                   // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
@@ -624,11 +647,11 @@ const App = () => {
                   render={(props) => {
                     const { location } = props;
                     const { pathname, search } = location;
-  
+
                     //为了匹配/refuge108785 这种数字动态的短链接
                     if (/^\/refuge/.test(pathname))
                       return <RefugeSource key={Math.random()} {...props} />;
-  
+
                     // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
                     if (PDP_Regex.test(pathname)) {
                       let redirectUrl = '';
@@ -636,7 +659,8 @@ const App = () => {
                         process.env.REACT_APP_LANG
                       ];
                       const productNameMappping = {
-                        '/ageing-12+-en-gelÃ©e-4153': '/ageing-12+-en-gelee-4153',
+                        '/ageing-12+-en-gelÃ©e-4153':
+                          '/ageing-12+-en-gelee-4153',
                         '/british-shorthair-bouchÃ©es-spÃ©cial-2032':
                           '/british-shorthair-bouchees-special-2032',
                         '/intense-beauty-en-gelÃ©e-4151':
@@ -647,7 +671,7 @@ const App = () => {
                         '/maine-coon-bouchÃ©es-spÃ©cial-2031':
                           '/maine-coon-bouchees-special-2031',
                         '/persan-bouchÃ©es-spÃ©cial-2030':
-                          '/persan-bouchees-special-2030',
+                          '/persan-bouchees-special-2030'
                       };
                       if (productNameMappping[pathname]) {
                         redirectUrl = productNameMappping[pathname];
@@ -661,39 +685,43 @@ const App = () => {
                       if (redirectUrl) {
                         return <Redirect to={redirectUrl} />;
                       } else {
-                        return <Details key={props.match.params.id} {...props} />;
+                        return (
+                          <Details key={props.match.params.id} {...props} />
+                        );
                       }
                     } else {
                       let RedirectUrlObj = {};
-                      if(process.env.REACT_APP_LANG == 'fr'){
-                        RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item => ({
-                          [item.shortUrl]: item.redirectUrl
-                        })).forEach((item) => {
-                          RedirectUrlObj = { ...RedirectUrlObj, ...item } //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
-                        })
+                      if (process.env.REACT_APP_LANG == 'fr') {
+                        RedirectUrlJSON.RECORDS.filter(
+                          (item) => item.shortUrl !== item.redirectUrl
+                        )
+                          .map((item) => ({
+                            [item.shortUrl]: item.redirectUrl
+                          }))
+                          .forEach((item) => {
+                            RedirectUrlObj = { ...RedirectUrlObj, ...item }; //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
+                          });
                       }
-                      
-                      
-                     
+
                       const specailPlpUrlMapping = {
                         ...RedirectUrlObj
                       };
-  
-  
-                      let redirectUrl = ''
+
+                      let redirectUrl = '';
                       if (pathname.split('.html').length > 1) {
                         redirectUrl = pathname.split('.html')[0];
                       } else if (specailPlpUrlMapping[pathname + search]) {
                         redirectUrl = specailPlpUrlMapping[pathname + search];
                       }
-  
+
                       if (redirectUrl) {
                         return <Redirect to={redirectUrl} />;
                       } else {
                         return (
                           <List
                             key={
-                              props.match.params.category + props.location.search
+                              props.match.params.category +
+                              props.location.search
                             }
                             {...props}
                           />
@@ -710,6 +738,6 @@ const App = () => {
       </IntlProvider>
     </Provider>
   );
-}
+};
 
 export default App;
