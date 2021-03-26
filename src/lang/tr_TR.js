@@ -1025,6 +1025,7 @@ const tr_TR = {
   startEnd: '-e',
   transactionInfo: 'Bilgilerim',
   noStart: 'Gelecek siparişlerim',
-  completed: 'Tamamlandı'
+  completed: 'Tamamlandı',
+  skip: 'Sipariş atla'
 };
 export default tr_TR;
