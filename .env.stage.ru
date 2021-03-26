@@ -1,6 +1,6 @@
 #stage环境(德国)
 REACT_APP_ACCESS_PATH = https://shopstg.royalcanin.com/ru/
-REACT_APP_CLIENT_ID = 0oaq4l7mz80pZlTd00x6
+REACT_APP_CLIENT_ID = 0oa1dlcrg4I8ilKNY0x7
 REACT_APP_ISSUER = https://accountpreview.royalcanin.com/oauth2/default
 REACT_APP_RedirectURL = https://shopstg.royalcanin.com/ru/implicit/callback
 REACT_APP_RegisterPrefix = https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=
@@ -11,6 +11,7 @@ REACT_APP_Google_IDP = 0oarsoyvckBINudT70x6
 #接口配置
 REACT_APP_BASEURL = https://shopstg.royalcanin.com/api
 
+#payu
 REACT_APP_PaymentENV = test
 REACT_APP_PaymentKEY_MEMBER = f2346509-9c34-4299-8c07-9719dc4574e9
 REACT_APP_PaymentAPPID_MEMBER = com.razorfish.dev_ru_ms
@@ -24,19 +25,14 @@ REACT_APP_GTM_SITE_ID = 'RCDEPCO1'
 REACT_APP_GA_COUNTRY = 'RU'
 REACT_APP_GA_CURRENCY_CODE = 'RUB'
 
-#Adyen
-REACT_APP_AdyenOriginKEY = 'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ'
-REACT_APP_Adyen_ENV = 'test'
-REACT_APP_Adyen_locale = 'ru-RU'
-REACT_APP_Adyen_country = 'RU'
-REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/ru'
-
 #onetrust
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
 REACT_APP_ONTRUST_DOMAIN_SCRIPT = '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test'
 
 #mars global footer
-REACT_APP_MARS_FOOTER = https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru
+REACT_APP_MARS_FOOTER = 'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru'
+
+REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/ru'
 
 #language
 REACT_APP_LANG = 'ru'

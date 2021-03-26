@@ -1431,7 +1431,7 @@ class SubscriptionDetail extends React.Component {
                       {el.tradeItems &&
                         el.tradeItems.map((tradeItem, index) => (
                           <div
-                            className="row rc-margin-x--none row align-items-center"
+                            className="row rc-margin-x--none row align-items-center 1"
                             style={{
                               padding: '1rem 0',
                               borderBottom: '1px solid #d7d7d7'
@@ -2475,6 +2475,8 @@ class SubscriptionDetail extends React.Component {
                 >
                   {currentCardInfo && (
                     <PaymentComp
+                      needEmail={+process.env.REACT_APP_PAYU_EMAIL}
+                      needPhone={+process.env.REACT_APP_PAYU_PHONE}
                       history={this.props.history}
                       paymentId={currentCardInfo.id}
                       type={type}
@@ -3932,7 +3934,7 @@ class SubscriptionDetail extends React.Component {
                                           el.tradeItems.map(
                                             (tradeItem, index) => (
                                               <div
-                                                className="row rc-margin-x--none row align-items-center"
+                                                className="row rc-margin-x--none row align-items-center 2"
                                                 style={{
                                                   padding: '1rem 0',
                                                   borderBottom:
@@ -4063,10 +4065,10 @@ class SubscriptionDetail extends React.Component {
                                             )
                                           )}
                                         <div
-                                          className="row rc-margin-x--none row align-items-center"
+                                          className="row rc-margin-x--none row align-items-center 3"
                                           style={{
-                                            padding: '1rem 0',
-                                            borderBottom: '1px solid #d7d7d7'
+                                            padding: '1rem 0'
+                                            // borderBottom: '1px solid #d7d7d7'
                                           }}
                                         >
                                           <div className={`col-12 col-md-6`}>
@@ -4507,7 +4509,7 @@ class SubscriptionDetail extends React.Component {
                                       {/* {subDetail.goodsInfo &&
                                     subDetail.goodsInfo.map((el, index) => ( */}
                                       <div
-                                        className="row rc-margin-x--none row align-items-center"
+                                        className="row rc-margin-x--none row align-items-center 4"
                                         style={{
                                           padding: '1rem 0',
                                           borderBottom: '1px solid #d7d7d7'
