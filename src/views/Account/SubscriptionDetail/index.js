@@ -1167,7 +1167,7 @@ class SubscriptionDetail extends React.Component {
         subTotal += Number(goods.originalPrice) * goods.subscribeNum;
       }
       //拼装goodsInfoList参数
-      let goodsInfoList = this.state.subDetail.goodsInfo.map((ele) => {
+      let goodsInfoList = this.state.subDetail.goodsInfo?.map((ele) => {
         return {
           goodsInfoId: ele.skuId,
           buyCount: ele.subscribeNum
@@ -1291,7 +1291,7 @@ class SubscriptionDetail extends React.Component {
       currentModalObj: this.state.modalList.filter(
         (el) => el.type === 'skipNext'
       )[0],
-      skipNextGoods: el.tradeItems.map((el) => {
+      skipNextGoods: el.tradeItems?.map((el) => {
         return {
           skuId: el.skuId
         };
@@ -1326,7 +1326,7 @@ class SubscriptionDetail extends React.Component {
               Remaining price
             </span>
           </li>
-          {remainingsList.map((item) => (
+          {remainingsList?.map((item) => (
             <li
               key={item.id}
               className="d-flex"
@@ -1384,7 +1384,7 @@ class SubscriptionDetail extends React.Component {
                 className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
                 role="tablist"
               >
-                {this.state.tabName.map((ele, index) => (
+                {this.state.tabName?.map((ele, index) => (
                   <li key={index}>
                     <button
                       className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
@@ -1412,7 +1412,7 @@ class SubscriptionDetail extends React.Component {
                     el.tradeItems[0].nextDeliveryTime.split('-')[0] ===
                       noStartYear.value
                 )
-                .map((el) => (
+                ?.map((el) => (
                   <>
                     <div className="card-container" style={{ borderBottom: 0 }}>
                       <div className="card rc-margin-y--none ml-0">
@@ -1429,7 +1429,7 @@ class SubscriptionDetail extends React.Component {
                         </div>
                       </div>
                       {el.tradeItems &&
-                        el.tradeItems.map((tradeItem, index) => (
+                        el.tradeItems?.map((tradeItem, index) => (
                           <div
                             className="row rc-margin-x--none row align-items-center 1"
                             style={{
@@ -2086,7 +2086,7 @@ class SubscriptionDetail extends React.Component {
           <p className="text-center">other products to consider</p>
           <div className="rc-scroll--x pb-4 rc-padding-x--xl">
             <div className="d-flex">
-              {productDetail?.otherProducts.map((ele, i) => (
+              {productDetail?.otherProducts?.map((ele, i) => (
                 <div
                   className={`border rounded pt-3 pb-3 pl-2 pr-2 pl-md-0 pr-md-0 ${
                     i ? 'ml-2' : ''
@@ -2244,7 +2244,7 @@ class SubscriptionDetail extends React.Component {
       Object.assign(
         param,
         {
-          goodsItems: subDetail.goodsInfo.map((el) => {
+          goodsItems: subDetail.goodsInfo?.map((el) => {
             return {
               skuId: el.skuId,
               subscribeNum: el.subscribeNum,
@@ -2323,17 +2323,17 @@ class SubscriptionDetail extends React.Component {
               style={{ margin: ' 0 1rem' }}
               className="pet-img text-center"
               src={
-                (petsInfo.petsImg && petsInfo.petsImg.includes('https')
+                (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
                   ? petsInfo.petsImg
-                  : null) || (petsInfo.petsType === 'cat' ? Cat : Dog)
+                  : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
               }
             />
             <div className="rc-padding-right--md">
               <h4 style={{ color: '#e2001a', margin: 0 }}>
-                CLUB for {petsInfo.petsName}
+                CLUB for {petsInfo?.petsName}
               </h4>
               <div>
-                Date of birth:<strong> {petsInfo.birthOfPets}</strong>
+                Date of birth:<strong> {petsInfo?.birthOfPets}</strong>
               </div>
             </div>
             <div className="rc-padding-right--md">
@@ -2344,14 +2344,14 @@ class SubscriptionDetail extends React.Component {
                 Edit pet profile
               </div>
               <div>
-                Breed:<strong>{petsInfo.petsBreed}</strong>{' '}
+                Breed:<strong>{petsInfo?.petsBreed}</strong>{' '}
               </div>
             </div>
             <div className="rc-padding-right--md">
               <div style={{ color: '#fff' }}> &nbsp:;</div>
               <div>
                 Sterilized:{' '}
-                <strong> {petsInfo.sterilized ? 'yes' : 'no'}</strong>
+                <strong> {petsInfo?.sterilized ? 'yes' : 'no'}</strong>
               </div>
             </div>
             <div>
@@ -2414,6 +2414,7 @@ class SubscriptionDetail extends React.Component {
       isGift,
       remainingsVisible
     } = this.state;
+    // let isClub = true;
     let isClub = subDetail.subscriptionType?.toLowerCase().includes('club');
     // console.log(noStartYear, currentCardInfo, 'hahaha');
     return (
@@ -2485,7 +2486,7 @@ class SubscriptionDetail extends React.Component {
                         let param = {
                           subscribeId: subDetail.subscribeId,
                           paymentId: el.id,
-                          goodsItems: subDetail.goodsInfo.map((el) => {
+                          goodsItems: subDetail.goodsInfo?.map((el) => {
                             return {
                               skuId: el.skuId,
                               subscribeNum: el.subscribeNum,
@@ -3382,14 +3383,13 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              {(isGift || isClub) &&
-                              subDetail.subscribeStatus != 2
+                              {isGift && subDetail.subscribeStatus != 2
                                 ? this.getButtonBoxGift(subDetail)
                                 : null}
                             </div>
                           ))}
                       </div>
-                      {!isGift && !isClub && this.getButtonBox(subDetail)}
+                      {!isGift && this.getButtonBox(subDetail)}
                       <h4 className="h4">
                         <FormattedMessage id="transactionInfo" />
                       </h4>
@@ -4208,7 +4208,7 @@ class SubscriptionDetail extends React.Component {
                                               ) : null}
                                               {el.tradePrice
                                                 .promotionDiscountPrice
-                                                ? el.tradePrice.promotionVOList.map(
+                                                ? el.tradePrice.promotionVOList?.map(
                                                     (el) => (
                                                       <div className="row">
                                                         <div className="col-1 col-md-3" />
