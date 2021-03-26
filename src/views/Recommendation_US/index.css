@@ -64,6 +64,9 @@
     line-height: 1.125rem;
   }
 }
+.Recommendation_US .benefit ul > li {
+  padding-bottom: 10px;
+}
 .Recommendation_US .imageInnerBox .rc-img--square {
   margin-left: 0;
   margin-right: 5px;
