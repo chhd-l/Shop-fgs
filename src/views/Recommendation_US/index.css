@@ -64,7 +64,29 @@
     line-height: 1.125rem;
   }
 }
+.Recommendation_US .imageInnerBox .rc-img--square {
+  margin-left: 0;
+  margin-right: 5px;
+}
 @media (max-width: 769px) {
+  .Recommendation_US .scrollOutBox {
+    width: 264px;
+  }
+  .Recommendation_US .leftArrow {
+    display: inline-block;
+    position: absolute;
+    top: 44px;
+    left: 0;
+  }
+  .Recommendation_US .rightArrow {
+    display: inline-block;
+    position: absolute;
+    top: 44px;
+    right: 0;
+  }
+  .Recommendation_US .imageOutBox {
+    width: 180px;
+  }
   .Recommendation_US p.list_item {
     text-align: left;
   }
