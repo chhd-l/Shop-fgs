@@ -1667,6 +1667,7 @@ class Payment extends React.Component {
               parseInt(g.goodsInfoFlag) && g.promotions?.includes('club')
                 ? 2
                 : parseInt(g.goodsInfoFlag),
+            questionParams: g.questionParams ? g.questionParams : undefined,
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
