@@ -153,10 +153,17 @@ class LoginCart extends React.Component {
       GACartScreenLoad();
     }
     this.setData();
-    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
-      this.handleCheckout();
-    }
+
+    setInterval(() => {
+      if (
+        localItemRoyal.get('rc-iframe-from-storepotal') &&
+        this.props.checkoutStore.loginCartData.length
+      ) {
+        this.handleCheckout();
+      }
+    }, 1000);
   }
+  componentWillUnmount() {}
   get loginCartData() {
     return this.props.checkoutStore.loginCartData;
   }
@@ -197,9 +204,6 @@ class LoginCart extends React.Component {
   }
   get promotionDiscount() {
     return this.props.checkoutStore.promotionDiscount;
-  }
-  get firstOrderOnThePlatformDiscountPrice() {
-    return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
 
   get btnStatus() {
@@ -412,14 +416,14 @@ class LoginCart extends React.Component {
 
       if (localItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: false });
-        localItemRoyal.remove('rc-iframe-from-storepotal');
       }
+
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
       this.showErrMsg(err.message);
     } finally {
-      this.setState({ checkoutLoading: false });
+      this.setState({ checkoutLoading: false, circleLoading: false });
     }
   };
   showErrMsg(msg) {
@@ -1169,21 +1173,6 @@ class LoginCart extends React.Component {
           </div>
         </div>
 
-        {this.firstOrderOnThePlatformDiscountPrice > 0 && (
-          <div className={`row green`}>
-            <div className="col-6">
-              <p>
-                <FormattedMessage id="promotion.firstOrderDiscount" />
-              </p>
-            </div>
-            <div className="col-6 text-right">
-              <p>
-                <b>-{formatMoney(this.firstOrderOnThePlatformDiscountPrice)}</b>
-              </p>
-            </div>
-          </div>
-        )}
-
         {/* 税额 */}
         {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
           <div className="row">
@@ -1482,7 +1471,9 @@ class LoginCart extends React.Component {
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
-        {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
+        {this.state.circleLoading ? (
+          <Loading bgColor={'#fff'} opacity={1} />
+        ) : null}
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -1632,8 +1623,8 @@ class LoginCart extends React.Component {
               key="cart-recommendation"
             />
           ) : null}
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

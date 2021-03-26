@@ -2010,8 +2010,8 @@ class SmartFeederSubscription extends Component {
           )}
           <Help isEmailUnderLine={true} />
           <AddCartSuccessMobile />
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -222,17 +222,21 @@ class RouteFilter extends Component {
       if (prevPath.includes('/prescription')) {
         sessionItemRoyal.remove('clinic-reselect');
       }
-      if (prevPath.includes('/product-finder-recommendation')) {
-        sessionItemRoyal.set('is-from-product-finder', '1');
-      }
+      // if (prevPath.includes('/product-finder-recommendation')) {
+      //   sessionItemRoyal.set('is-from-product-finder', '1');
+      // }
     }
 
     if (pathname === '/product-finder') {
       sessionItemRoyal.remove('product-finder-edit-order');
       sessionItemRoyal.remove('pf-result');
     }
-    if (!PDP_Regex.test(pathname)) {
-      sessionItemRoyal.remove('is-from-product-finder');
+    if (
+      !PDP_Regex.test(pathname) &&
+      pathname !== '/product-finder' &&
+      pathname !== '/product-finder-recommendation'
+    ) {
+      sessionItemRoyal.remove('pr-question-params');
     }
 
     sessionItemRoyal.set('prevPath', curPath);
@@ -255,7 +259,11 @@ class RouteFilter extends Component {
     ) {
       sessionItemRoyal.set(
         'okta-redirectUrl-hub',
-        process.env.REACT_APP_ACCESS_PATH + '/account'
+        process.env.REACT_APP_ACCESS_PATH[
+          process.env.REACT_APP_ACCESS_PATH.length - 1
+        ] === '/'
+          ? process.env.REACT_APP_ACCESS_PATH + 'account'
+          : process.env.REACT_APP_ACCESS_PATH + '/account'
       );
       history.push('/okta-login-page');
     }

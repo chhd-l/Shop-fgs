@@ -9,7 +9,7 @@ import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class Help extends React.Component {
   constructor(props) {
@@ -22,9 +22,9 @@ class Help extends React.Component {
       }
     };
   }
-  componentDidMount(){
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+  componentDidMount() {
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
   componentWillUnmount() {
@@ -42,10 +42,13 @@ class Help extends React.Component {
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -1048,9 +1051,8 @@ class Help extends React.Component {
               нахождения Администрации Сайта.
             </p>
           </div>
+          <Footer />
         </main>
-
-        <Footer />
       </div>
     );
   }

@@ -11,6 +11,7 @@ REACT_APP_Google_IDP = 0oarsoyvckBINudT70x6
 #接口配置
 REACT_APP_BASEURL = https://shopstg.royalcanin.com/api
 
+#payu
 REACT_APP_PaymentENV = test
 REACT_APP_PaymentKEY_MEMBER = f2346509-9c34-4299-8c07-9719dc4574e9
 REACT_APP_PaymentAPPID_MEMBER = com.razorfish.dev_ru_ms
@@ -24,19 +25,14 @@ REACT_APP_GTM_SITE_ID = 'RCDEPCO1'
 REACT_APP_GA_COUNTRY = 'RU'
 REACT_APP_GA_CURRENCY_CODE = 'RUB'
 
-#Adyen
-REACT_APP_AdyenOriginKEY = 'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ'
-REACT_APP_Adyen_ENV = 'test'
-REACT_APP_Adyen_locale = 'ru-RU'
-REACT_APP_Adyen_country = 'RU'
-REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/fr'
-
 #onetrust
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
 REACT_APP_ONTRUST_DOMAIN_SCRIPT = '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test'
 
 #mars global footer
-REACT_APP_MARS_FOOTER = https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru
+REACT_APP_MARS_FOOTER = 'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru'
+
+REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/ru'
 
 #language
 REACT_APP_LANG = 'ru'
@@ -104,8 +100,6 @@ REACT_APP_DOMAIN = '/ru/shop'
 #delete接口前缀
 REACT_APP_HUB_APIURL = https://uatwedding.royalcanin.com/ru/api
 
-REACT_APP_HUB_MONROYALCANIN = https://mon.royalcanin.fr/connexion/?_ga=2.267431690.500684309.1611668454-1487729967.1600939226
-
 #是否显示billing addr(account页)
 REACT_APP_HIDE_ACCOUNT_BILLING_ADDR = 1
 #是否显示billing addr(checkout页)
@@ -114,3 +108,5 @@ REACT_APP_HIDE_CHECKOUT_BILLING_ADDR = 1
 #payu表单字段控制
 REACT_APP_PAYU_EMAIL = 0
 REACT_APP_PAYU_PHONE = 0
+
+REACT_APP_HUBPAGE_PREFIX = https://www.royalcanin.com/ru

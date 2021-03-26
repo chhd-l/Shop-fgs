@@ -163,16 +163,16 @@ class AddressList extends React.Component {
         // Array.from(addressList, (ele, i) => (ele.selected = !i));
         // tmpId = addressList[0].deliveryAddressId;
       }
-      let cityRes = await queryCityNameById({
-        id: addressList.map((ele) => ele.cityId)
-      });
-      cityRes = cityRes.context.systemCityVO || [];
-      Array.from(addressList, (ele) => {
-        ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
-          ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
-          : ele.cityId;
-        return ele;
-      });
+      // let cityRes = await queryCityNameById({
+      //   id: addressList.map((ele) => ele.cityId)
+      // });
+      // cityRes = cityRes.context.systemCityVO || [];
+      // Array.from(addressList, (ele) => {
+      //   ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
+      //     ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
+      //     : ele.cityId;
+      //   return ele;
+      // });
       this.setState({
         addressList: addressList,
         addOrEdit: !addressList.length,
@@ -229,7 +229,6 @@ class AddressList extends React.Component {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.address2 = validationAddress.address2;
       deliveryAddress.city = validationAddress.city;
-      deliveryAddress.cityName = validationAddress.city;
       if (process.env.REACT_APP_LANG === 'en') {
         deliveryAddress.province = validationAddress.provinceCode;
       }
@@ -582,16 +581,16 @@ class AddressList extends React.Component {
 
       // console.log('----------------------- ★ AddressComp addressList: ',addressList);
 
-      let cityRes = await queryCityNameById({
-        id: addressList.map((ele) => ele.cityId)
-      });
-      cityRes = cityRes.context.systemCityVO || [];
-      Array.from(addressList, (ele) => {
-        ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
-          ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
-          : ele.cityId;
-        return ele;
-      });
+      // let cityRes = await queryCityNameById({
+      //   id: addressList.map((ele) => ele.cityId)
+      // });
+      // cityRes = cityRes.context.systemCityVO || [];
+      // Array.from(addressList, (ele) => {
+      //   ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
+      //     ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
+      //     : ele.cityId;
+      //   return ele;
+      // });
       this.setState({
         addressList,
         listLoading: false

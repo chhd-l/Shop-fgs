@@ -436,16 +436,14 @@ class ProductFinderResult extends React.Component {
                         ) : null}
                         {formatMoney(productDetail.mainProduct.fromPrice)}
                         {productDetail.mainProduct.toPrice ? (
-                          <>
-                            <span
-                              className="ml-1 mr-1"
-                              style={{ fontSize: '.8em' }}
-                            >
-                              <FormattedMessage id="startEnd" />
-                            </span>
-                            {formatMoney(productDetail.mainProduct.toPrice)}
-                          </>
+                          <span
+                            className="ml-1 mr-1"
+                            style={{ fontSize: '.8em' }}
+                          >
+                            <FormattedMessage id="startEnd" />
+                          </span>
                         ) : null}
+                        {formatMoney(productDetail.mainProduct.toPrice)}
                         {/* {formatMoney(
                           Math.min.apply(
                             null,
@@ -596,8 +594,8 @@ class ProductFinderResult extends React.Component {
 
             <Help />
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

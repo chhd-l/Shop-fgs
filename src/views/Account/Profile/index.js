@@ -15,7 +15,6 @@ import ClinicEditForm from './modules/ClinicEditForm';
 import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
-import { queryCityNameById } from '@/api';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
 import { myAccountPushEvent } from '@/utils/GA';
@@ -234,81 +233,109 @@ class AccountProfile extends React.Component {
                 )}
 
                 <div className="card-body_">
-                  <>
+                  <PanleContainer
+                    loading={loading}
+                    customCls={classNames({
+                      hidden:
+                        editOperationPaneName &&
+                        editOperationPaneName !== 'My account'
+                    })}
+                  >
+                    <PersonalDataEditForm
+                      originData={originData}
+                      data={personalData}
+                      key={Object.keys(personalData || {})}
+                      updateData={this.queryCustomerBaseInfo}
+                      updateIsEditFlag={(data) => this.updateIsEditFlag(data)}
+                      personalDataIsEdit={this.state.personalDataIsEdit}
+                      updateEditOperationPanelName={
+                        this.updateEditOperationPanelName
+                      }
+                      editFormVisible={editOperationPaneName === 'My account'}
+                    />
+                  </PanleContainer>
+
+                  <PanleContainer
+                    customCls={classNames({
+                      hidden:
+                        editOperationPaneName &&
+                        editOperationPaneName !== 'My addresses'
+                    })}
+                  >
+                    <AddressList
+                      hideBillingAddr={
+                        +process.env.REACT_APP_HIDE_ACCOUNT_BILLING_ADDR
+                      }
+                      updateEditOperationPanelName={
+                        this.updateEditOperationPanelName
+                      }
+                    />
+                  </PanleContainer>
+
+                  {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
                     <PanleContainer
                       loading={loading}
                       customCls={classNames({
                         hidden:
                           editOperationPaneName &&
-                          editOperationPaneName !== 'My account'
+                          editOperationPaneName !== 'Clinic'
                       })}
                     >
-                      <PersonalDataEditForm
+                      <ClinicEditForm
                         originData={originData}
-                        data={personalData}
-                        key={Object.keys(personalData || {})}
+                        data={this.state.clinicData}
                         updateData={this.queryCustomerBaseInfo}
-                        updateIsEditFlag={(data) => this.updateIsEditFlag(data)}
-                        personalDataIsEdit={this.state.personalDataIsEdit}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                        editFormVisible={editOperationPaneName === 'My account'}
-                      />
-                    </PanleContainer>
-
-                    <PanleContainer
-                      customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'My addresses'
-                      })}
-                    >
-                      <AddressList
-                        hideBillingAddr={
-                          +process.env.REACT_APP_HIDE_ACCOUNT_BILLING_ADDR
-                        }
                         updateEditOperationPanelName={
                           this.updateEditOperationPanelName
                         }
                       />
                     </PanleContainer>
+                  )}
 
-                    {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-                      <PanleContainer
-                        loading={loading}
-                        customCls={classNames({
-                          hidden:
-                            editOperationPaneName &&
-                            editOperationPaneName !== 'Clinic'
-                        })}
-                      >
-                        <ClinicEditForm
-                          originData={originData}
-                          data={this.state.clinicData}
-                          updateData={this.queryCustomerBaseInfo}
-                          updateEditOperationPanelName={
-                            this.updateEditOperationPanelName
-                          }
-                        />
-                      </PanleContainer>
-                    )}
+                  <PanleContainer
+                    customCls={classNames({
+                      hidden:
+                        editOperationPaneName &&
+                        editOperationPaneName !== 'My payments'
+                    })}
+                  >
+                    <PaymentList
+                      history={this.props.history}
+                      updateEditOperationPanelName={
+                        this.updateEditOperationPanelName
+                      }
+                      needEmail={+process.env.REACT_APP_PAYU_EMAIL}
+                      needPhone={+process.env.REACT_APP_PAYU_PHONE}
+                    />
+                  </PanleContainer>
 
-                    <PanleContainer
-                      customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'My payments'
-                      })}
-                    >
-                      <PaymentList
-                        history={this.props.history}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
-                    </PanleContainer>
+                  <PanleContainer
+                    customCls={classNames({
+                      hidden:
+                        editOperationPaneName &&
+                        editOperationPaneName !== 'Communication'
+                    })}
+                  >
+                    <CommunicationDataEditForm
+                      originData={originData}
+                      data={personalData}
+                      userInfo={this.userInfo}
+                      needPhone={
+                        !Boolean(
+                          +process.env
+                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_EMAIL
+                        )
+                      }
+                      key={Object.keys(personalData || {})}
+                      updateData={this.queryCustomerBaseInfo}
+                      updateEditOperationPanelName={
+                        this.updateEditOperationPanelName
+                      }
+                    />
+                  </PanleContainer>
 
+                  {/* 俄罗斯增加 Delete my account 模块，先做接口，后期跳转到okta */}
+                  {process.env.REACT_APP_DELETE_My_ACCOUNT_URL && (
                     <PanleContainer
                       customCls={classNames({
                         hidden:
@@ -316,43 +343,15 @@ class AccountProfile extends React.Component {
                           editOperationPaneName !== 'Communication'
                       })}
                     >
-                      <CommunicationDataEditForm
-                        originData={originData}
-                        data={personalData}
-                        userInfo={this.userInfo}
-                        needPhone={
-                          !Boolean(
-                            +process.env
-                              .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_EMAIL
-                          )
-                        }
-                        key={Object.keys(personalData || {})}
-                        updateData={this.queryCustomerBaseInfo}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
+                      <DeleteMyAccount />
                     </PanleContainer>
-
-                    {/* 俄罗斯增加 Delete my account 模块，先做接口，后期跳转到okta */}
-                    {process.env.REACT_APP_DELETE_My_ACCOUNT_URL && (
-                      <PanleContainer
-                        customCls={classNames({
-                          hidden:
-                            editOperationPaneName &&
-                            editOperationPaneName !== 'Communication'
-                        })}
-                      >
-                        <DeleteMyAccount />
-                      </PanleContainer>
-                    )}
-                  </>
+                  )}
                 </div>
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

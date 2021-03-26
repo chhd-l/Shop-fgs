@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class TermUse extends React.Component {
   constructor(props) {
@@ -24,8 +24,8 @@ class TermUse extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -36,12 +36,15 @@ class TermUse extends React.Component {
   render(h) {
     return (
       <div className="TermsAndConditions">
-      <Helmet>
-      <link rel="canonical" href={pageLink} />
-        <title>{this.state.seoConfig.title}</title>
-        <meta name="description" content={this.state.seoConfig.metaDescription}/>
-        <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
-      </Helmet>
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -477,8 +480,8 @@ class TermUse extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

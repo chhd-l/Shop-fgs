@@ -14,13 +14,11 @@ import {
 import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import AdyenEditForm from '@/components/Adyen/form';
-import {
-  CREDIT_CARD_IMG_ENUM,
-  CREDIT_CARD_IMGURL_ENUM
-} from '@/utils/constant';
+import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
+import { computedSupportPaymentMethods } from '@/utils/utils';
 
 import { myAccountActionPushEvent } from '@/utils/GA';
 
@@ -106,7 +104,8 @@ class PaymentComp extends React.Component {
       currentCardInfo: {},
       completeCardShow: false,
       currentEditOriginCardInfo: null,
-      paymentType: 'PAYU' // PAYU ADYEN
+      paymentType: 'PAYU', // PAYU ADYEN
+      supportPaymentMethods: []
     };
   }
   async componentDidMount() {
@@ -122,11 +121,18 @@ class PaymentComp extends React.Component {
     this.setState({ creditCardList: this.state.creditCardList });
     const waysRes = await getWays();
     if (waysRes.context && waysRes.context.name === 'ADYEN') {
-      this.setState({ paymentType: 'ADYEN' });
+      this.setState({
+        paymentType: 'ADYEN'
+      });
     }
     if (this.state.paymentType === 'PAYU') {
       this.updateInitStatus(true);
     }
+    this.setState({
+      supportPaymentMethods: computedSupportPaymentMethods(
+        waysRes?.context?.supportPaymentMethods || []
+      )
+    });
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -585,12 +591,18 @@ class PaymentComp extends React.Component {
     );
   };
   render() {
-    const { creditCardInfoForm, creditCardList, currentCardInfo } = this.state;
+    const { needEmail, needPhone } = this.props;
+    const {
+      creditCardInfoForm,
+      creditCardList,
+      currentCardInfo,
+      supportPaymentMethods
+    } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
-        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+        {supportPaymentMethods.map((el, idx) => (
           <LazyLoad>
-            <img key={idx} className="logo-payment-card" src={el} alt="" />
+            <img key={idx} className="logo-payment-card" src={el.img} alt="" />
           </LazyLoad>
         ))}
       </span>
@@ -617,19 +629,6 @@ class PaymentComp extends React.Component {
               : 'hidden-xxl-down'
           }`}
         >
-          <span className="t-gray">
-            {creditCardList.length > 1 ? (
-              <FormattedMessage
-                id="creditCardTipMany"
-                values={{ number: <b>{creditCardList.length}</b> }}
-              />
-            ) : (
-              <FormattedMessage
-                id="creditCardTip"
-                values={{ number: <b>{creditCardList.length}</b> }}
-              />
-            )}
-          </span>
           {/* <span
             className="red font-weight-normal ui-cursor-pointer d-flex align-items-center"
             onClick={() => {
@@ -1172,11 +1171,11 @@ class PaymentComp extends React.Component {
                     <div className="col-sm-12">
                       <div className="form-group">
                         <label
-                          className="form-control-label"
+                          className="form-control-label w-100"
                           htmlFor="cardNumber"
                         >
                           <FormattedMessage id="payment.cardNumber" />
-                          <span style={{ color: 'red' }}>*</span>
+                          <span className="red">*</span>
                           <div className="cardFormBox">
                             <span className="cardImage">
                               <LazyLoad>
@@ -1332,74 +1331,78 @@ class PaymentComp extends React.Component {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-sm-6">
-                      <div className="form-group required">
-                        <label className="form-control-label">
-                          <FormattedMessage id="payment.email" />
-                        </label>
-                        <span
-                          className="rc-input rc-input--full-width"
-                          input-setup="true"
-                        >
-                          <input
-                            type="email"
-                            className="rc-input__control email"
-                            id="email"
-                            value={creditCardInfoForm.email}
-                            onChange={(e) => this.cardInfoInputChange(e)}
-                            onBlur={(e) => this.inputBlur(e)}
-                            name="email"
-                            maxLength="254"
-                          />
-                          <label
-                            className="rc-input__label"
-                            htmlFor="email"
-                          ></label>
-                        </span>
-                        <div className="invalid-feedback">
-                          <FormattedMessage id="payment.errorInfo2" />
+                    {needEmail ? (
+                      <div className="col-sm-6">
+                        <div className="form-group required">
+                          <label className="form-control-label">
+                            <FormattedMessage id="payment.email" />
+                          </label>
+                          <span
+                            className="rc-input rc-input--full-width"
+                            input-setup="true"
+                          >
+                            <input
+                              type="email"
+                              className="rc-input__control email"
+                              id="email"
+                              value={creditCardInfoForm.email}
+                              onChange={(e) => this.cardInfoInputChange(e)}
+                              onBlur={(e) => this.inputBlur(e)}
+                              name="email"
+                              maxLength="254"
+                            />
+                            <label
+                              className="rc-input__label"
+                              htmlFor="email"
+                            ></label>
+                          </span>
+                          <div className="invalid-feedback">
+                            <FormattedMessage id="payment.errorInfo2" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-sm-6">
-                      <div className="form-group required">
-                        <label
-                          className="form-control-label"
-                          htmlFor="phoneNumber"
-                        >
-                          <FormattedMessage id="payment.phoneNumber" />
-                        </label>
-                        <span
-                          className="rc-input rc-input--full-width"
-                          input-setup="true"
-                          data-js-validate=""
-                          data-js-warning-message="*Phone Number isn’t valid"
-                        >
-                          <input
-                            type="number"
-                            className="rc-input__control input__phoneField shippingPhoneNumber"
-                            min-lenght="18"
-                            max-length="18"
-                            data-phonelength="18"
-                            // data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                            data-js-pattern="(^\d{10}$)"
-                            data-range-error="The phone number should contain 10 digits"
-                            value={creditCardInfoForm.phoneNumber}
-                            onChange={(e) => this.cardInfoInputChange(e)}
-                            onBlur={(e) => this.inputBlur(e)}
-                            name="phoneNumber"
-                            maxLength="2147483647"
-                          />
+                    ) : null}
+                    {needPhone ? (
+                      <div className="col-sm-6">
+                        <div className="form-group required">
                           <label
-                            className="rc-input__label"
+                            className="form-control-label"
                             htmlFor="phoneNumber"
-                          ></label>
-                        </span>
-                        <div className="invalid-feedback">
-                          <FormattedMessage id="payment.errorInfo2" />
+                          >
+                            <FormattedMessage id="payment.phoneNumber" />
+                          </label>
+                          <span
+                            className="rc-input rc-input--full-width"
+                            input-setup="true"
+                            data-js-validate=""
+                            data-js-warning-message="*Phone Number isn’t valid"
+                          >
+                            <input
+                              type="number"
+                              className="rc-input__control input__phoneField shippingPhoneNumber"
+                              min-lenght="18"
+                              max-length="18"
+                              data-phonelength="18"
+                              // data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                              data-js-pattern="(^\d{10}$)"
+                              data-range-error="The phone number should contain 10 digits"
+                              value={creditCardInfoForm.phoneNumber}
+                              onChange={(e) => this.cardInfoInputChange(e)}
+                              onBlur={(e) => this.inputBlur(e)}
+                              name="phoneNumber"
+                              maxLength="2147483647"
+                            />
+                            <label
+                              className="rc-input__label"
+                              htmlFor="phoneNumber"
+                            ></label>
+                          </span>
+                          <div className="invalid-feedback">
+                            <FormattedMessage id="payment.errorInfo2" />
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ) : null}
                   </div>
                   <div className="text-right">
                     <div

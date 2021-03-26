@@ -48,6 +48,16 @@ class CheckoutStore {
       ? this.cartPrice.taxFeePrice
       : 0;
   }
+  @computed get freeShippingFlag() {
+    return this.cartPrice && this.cartPrice.freeShippingFlag
+      ? this.cartPrice.freeShippingFlag
+      : 0;
+  }
+  @computed get freeShippingDiscountPrice() {
+    return this.cartPrice && this.cartPrice.freeShippingDiscountPrice
+      ? this.cartPrice.freeShippingDiscountPrice
+      : 0;
+  }
   @computed get discountPrice() {
     return this.cartPrice && this.cartPrice.discountPrice
       ? this.cartPrice.discountPrice
@@ -81,12 +91,6 @@ class CheckoutStore {
   @computed get promotionDiscount() {
     return this.cartPrice && this.cartPrice.promotionDiscount
       ? this.cartPrice.promotionDiscount
-      : '';
-  }
-  // 首单优惠
-  @computed get firstOrderOnThePlatformDiscountPrice() {
-    return this.cartPrice && this.cartPrice.firstOrderOnThePlatformDiscountPrice
-      ? this.cartPrice.firstOrderOnThePlatformDiscountPrice
       : '';
   }
   @computed get promotionVOList() {
@@ -200,6 +204,8 @@ class CheckoutStore {
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
       taxFeePrice: purchasesRes.taxFeePrice,
+      freeShippingFlag: purchasesRes.freeShippingFlag,
+      freeShippingDiscountPrice: purchasesRes.freeShippingDiscountPrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
       promotionDiscountPrice: purchasesRes.promotionDiscountPrice,
@@ -208,8 +214,6 @@ class CheckoutStore {
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice,
-      firstOrderOnThePlatformDiscountPrice:
-        purchasesRes.firstOrderOnThePlatformDiscountPrice,
       goodsInfos: purchasesRes.goodsInfos,
       promotionVOList: purchasesRes.promotionVOList
     });
@@ -256,7 +260,6 @@ class CheckoutStore {
       customerAccount: email,
       guestEmail: email
     });
-
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
     this.setPromotionCode(promotionCode);
@@ -264,13 +267,13 @@ class CheckoutStore {
     let params = {
       totalPrice: purchasesRes.totalPrice,
       taxFeePrice: purchasesRes.taxFeePrice,
+      freeShippingFlag: purchasesRes.freeShippingFlag,
+      freeShippingDiscountPrice: purchasesRes.freeShippingDiscountPrice,
       tradePrice: purchasesRes.tradePrice,
       deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice,
-      firstOrderOnThePlatformDiscountPrice:
-        purchasesRes.firstOrderOnThePlatformDiscountPrice,
       goodsInfos: purchasesRes.goodsInfos,
       promotionVOList: purchasesRes.promotionVOList
     };
@@ -429,14 +432,14 @@ class CheckoutStore {
         let params = {
           totalPrice: sitePurchasesRes.totalPrice,
           taxFeePrice: sitePurchasesRes.taxFeePrice,
+          freeShippingFlag: sitePurchasesRes.freeShippingFlag,
+          freeShippingDiscountPrice: sitePurchasesRes.freeShippingDiscountPrice,
           tradePrice: sitePurchasesRes.tradePrice,
           // discountPrice: sitePurchasesRes.discountPrice,
           deliveryPrice: sitePurchasesRes.deliveryPrice,
           promotionDesc: sitePurchasesRes.promotionDesc,
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice,
-          firstOrderOnThePlatformDiscountPrice:
-            sitePurchasesRes.firstOrderOnThePlatformDiscountPrice,
           goodsInfos: sitePurchasesRes.goodsInfos,
           promotionVOList: sitePurchasesRes.promotionVOList
         };

@@ -27,6 +27,8 @@ const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
 class PayProductInfo extends React.Component {
@@ -40,7 +42,8 @@ class PayProductInfo extends React.Component {
     currentPage: '',
     guestEmail: '',
     isGuestCart: false,
-    isCheckOut: false
+    isCheckOut: false,
+    deliveryAddress: []
   };
   constructor(props) {
     super(props);
@@ -222,6 +225,12 @@ class PayProductInfo extends React.Component {
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
   }
+  get freeShippingDiscountPrice() {
+    return this.props.checkoutStore.freeShippingDiscountPrice;
+  }
+  get freeShippingFlag() {
+    return this.props.checkoutStore.freeShippingFlag;
+  }
   get taxFeePrice() {
     return this.props.checkoutStore.taxFeePrice;
   }
@@ -230,9 +239,6 @@ class PayProductInfo extends React.Component {
   }
   get promotionDesc() {
     return this.props.checkoutStore.promotionDesc;
-  }
-  get firstOrderOnThePlatformDiscountPrice() {
-    return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
   }
   get promotionVOList() {
     return this.props.checkoutStore.promotionVOList;
@@ -333,7 +339,7 @@ class PayProductInfo extends React.Component {
                     <span className="light">
                       {el.goodsName || el.goods.goodsName}
                     </span>
-                    {el.goods.promotions &&
+                    {el?.goods?.promotions &&
                     el.goods.promotions.includes('club') ? (
                       <img className="clubLogo" src={Club_Logo} alt="" />
                     ) : null}
@@ -456,11 +462,12 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {this.props.operateBtnVisible && (
+        {this.props.operateBtnVisible &&
+        !localItemRoyal.get('rc-iframe-from-storepotal') ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
           </Link>
-        )}
+        ) : null}
       </div>
     );
   }
@@ -764,6 +771,7 @@ class PayProductInfo extends React.Component {
                       </div>
                     ))
                   : null}
+
                 {/* 显示 delivereyPrice */}
                 <div className="row leading-lines shipping-item">
                   <div className="col-7 start-lines">
@@ -782,25 +790,25 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
 
-                {this.firstOrderOnThePlatformDiscountPrice > 0 && (
-                  <div className="row leading-lines shipping-item flex-layout green">
-                    <label className="saveDiscount font14" style={{ flex: 2 }}>
-                      <FormattedMessage id="promotion.firstOrderDiscount" />
-                    </label>
-                    <div
-                      className="text-right"
-                      style={{
-                        position: 'relative',
-                        flex: 1
-                      }}
-                    >
-                      <b>
-                        -
-                        {formatMoney(this.firstOrderOnThePlatformDiscountPrice)}
-                      </b>
+                {/* 运费折扣 俄罗斯 */}
+                {this.freeShippingFlag && this.props.isCheckOut ? (
+                  <div className="row leading-lines shipping-item green">
+                    <div className="col-7 start-lines">
+                      <p className="order-receipt-label order-shipping-cost">
+                        <span>
+                          <FormattedMessage id="payment.shippingDiscount" />
+                        </span>
+                      </p>
+                    </div>
+                    <div className="col-5 end-lines">
+                      <p className="text-right">
+                        <span className="shipping-total-cost">
+                          {formatMoney(this.freeShippingDiscountPrice)}
+                        </span>
+                      </p>
                     </div>
                   </div>
-                )}
+                ) : null}
 
                 {/* 税额 */}
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
@@ -815,13 +823,19 @@ class PayProductInfo extends React.Component {
                     <div className="col-5 end-lines">
                       <p className="text-right">
                         <span className="shipping-total-cost">
-                          {!this.isLogin && this.props.isGuestCart ? (
+                          {!this.isLogin &&
+                          process.env.REACT_APP_LANG == 'en' ? (
                             <>
-                              {customTaxSettingOpenFlag == 0 &&
-                              enterPriceType == 1 ? (
-                                <b>{subtractionSign}</b>
+                              {/* 是否在cart页面 */}
+                              {this.props.isGuestCart && subtractionSign}
+                              {/* 是否在checkout页面 */}
+                              {this.props.isCheckOut &&
+                              this.props.deliveryAddress?.address1 == '' ? (
+                                <>
+                                  <b>{subtractionSign}</b>
+                                </>
                               ) : (
-                                formatMoney(this.taxFeePrice)
+                                <>{formatMoney(this.taxFeePrice)}</>
                               )}
                             </>
                           ) : (
@@ -858,6 +872,7 @@ class PayProductInfo extends React.Component {
               </div>
             </div>
           </div>
+          {/* {JSON.stringify(this.props.deliveryAddress)} */}
           <div className="product-summary__total grand-total row leading-lines border-top pl-md-3 pr-md-3 pt-2 pb-2 pt-md-3 pb-md-3">
             <div className="col-6 start-lines">
               <span>
@@ -866,12 +881,28 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                {!this.isLogin && this.props.isGuestCart ? (
+                {/* 是否登录 */}
+                {!this.isLogin && process.env.REACT_APP_LANG == 'en' ? (
                   <>
-                    {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                      <b>{subtractionSign}</b>
+                    {/* 是否在cart页面 */}
+                    {this.props.isGuestCart && (
+                      <>
+                        {customTaxSettingOpenFlag == 0 &&
+                        enterPriceType == 1 ? (
+                          <b>{subtractionSign}</b>
+                        ) : (
+                          formatMoney(this.tradePrice)
+                        )}
+                      </>
+                    )}
+                    {/* 是否在checkout页面 */}
+                    {this.props.isCheckOut &&
+                    this.props.deliveryAddress?.address1 == '' ? (
+                      <>
+                        <b>{subtractionSign}</b>
+                      </>
                     ) : (
-                      formatMoney(this.tradePrice)
+                      <>{formatMoney(this.tradePrice)}</>
                     )}
                   </>
                 ) : (
@@ -880,6 +911,7 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
           </div>
+
           {process.env.REACT_APP_LANG == 'de' ? (
             <div
               style={{

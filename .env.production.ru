@@ -14,6 +14,9 @@ REACT_APP_PaymentKEY_MEMBER = fd931719-5733-4b77-b146-2fd22f9ad2e3
 REACT_APP_PaymentAPPID_MEMBER = com.razorfish.dev_mexico
 REACT_APP_PaymentKEY_VISITOR = fd931719-5733-4b77-b146-2fd22f9ad2e3
 REACT_APP_PaymentAPPID_VISITOR = com.razorfish.dev_mexico
+#payu表单字段控制
+REACT_APP_PAYU_EMAIL = 0
+REACT_APP_PAYU_PHONE = 0
 
 #GA环境配置
 REACT_APP_GA_GTMID = 'GTM-MH74J3M'
@@ -21,13 +24,6 @@ REACT_APP_GA_ENV = 'stg'
 REACT_APP_GTM_SITE_ID = 'RCDEPCO1'
 REACT_APP_GA_COUNTRY = 'RU'
 REACT_APP_GA_CURRENCY_CODE = 'RUB'
-
-#Adyen
-REACT_APP_AdyenOriginKEY = 'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ'
-REACT_APP_Adyen_ENV = 'test'
-REACT_APP_Adyen_locale = 'ru-RU'
-REACT_APP_Adyen_country = 'RU'
-REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/fr'
 
 #onetrust
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
@@ -100,7 +96,3 @@ REACT_APP_PDP_RATING_VISIBLE = 0
 REACT_APP_HIDE_ACCOUNT_BILLING_ADDR = 1
 #是否显示billing addr(checkout页)
 REACT_APP_HIDE_CHECKOUT_BILLING_ADDR = 1
-
-#payu表单字段控制
-REACT_APP_PAYU_EMAIL = 0
-REACT_APP_PAYU_PHONE = 0

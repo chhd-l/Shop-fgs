@@ -198,7 +198,7 @@ export default {
     {
       shortUrl: '/bergerallemand10',
       redirectUrl:
-        'https://https://shopstg.royalcanin.com/fr/dogs/?prefn1=breeds&prefv1=Berger%20Allemand&utm_source=vanityURL&utm_medium=leaflet&utm_campaign=BREED10'
+        '/dogs/retail-products?prefn1=breeds&prefv1=Berger-Allemand&utm_source=vanityURL&utm_medium=leaflet&utm_campaign=BREED10'
     },
     {
       shortUrl: '/golden01',

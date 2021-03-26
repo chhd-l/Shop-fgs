@@ -9,17 +9,21 @@ import { validData, loadJS } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
+import { queryIsSupportInstallMents } from '@/api/payment';
 import { scrollPaymentPanelIntoView } from '../modules/utils';
 import PaymentComp from '../PaymentComp';
+import CardItemCover from '../PaymentComp/modules/CardItemCover';
+import InstallmentTable from '../PaymentComp/modules/InstallmentTable';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function VisitorEditForm({
   creditCardInfoForm,
   onChange,
-  onInputBlur
+  onInputBlur,
+  needEmail,
+  needPhone
 }) {
-
   return (
     <>
       <div className="row overflow_visible">
@@ -47,73 +51,86 @@ function VisitorEditForm({
         </div>
       </div>
       <div className="row">
-        <div className="col-sm-6">
-          <div className="form-group required">
-            <label className="form-control-label">
-              <FormattedMessage id="payment.email" />
-            </label>
-            <span className="rc-input rc-input--full-width" input-setup="true">
-              <input
-                type="email"
-                className="rc-input__control email"
-                id="email"
-                value={creditCardInfoForm.email}
-                onChange={onChange}
-                onBlur={onInputBlur}
-                name="email"
-                maxLength="254"
-              />
-              <label className="rc-input__label" htmlFor="email" />
-            </span>
-            <div className="invalid-feedback">
-              <FormattedMessage id="payment.errorInfo2" />
+        {needEmail ? (
+          <div className="col-sm-6">
+            <div className="form-group required">
+              <label className="form-control-label">
+                <FormattedMessage id="payment.email" />
+              </label>
+              <span
+                className="rc-input rc-input--full-width"
+                input-setup="true"
+              >
+                <input
+                  type="email"
+                  className="rc-input__control email"
+                  id="email"
+                  value={creditCardInfoForm.email}
+                  onChange={onChange}
+                  onBlur={onInputBlur}
+                  name="email"
+                  maxLength="254"
+                />
+                <label className="rc-input__label" htmlFor="email" />
+              </span>
+              <div className="invalid-feedback">
+                <FormattedMessage id="payment.errorInfo2" />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-sm-6">
-          <div className="form-group required">
-            <label className="form-control-label" htmlFor="phoneNumber">
-              <FormattedMessage id="payment.phoneNumber" />
-            </label>
-            <span
-              className="rc-input rc-input--full-width"
-              input-setup="true"
-              data-js-validate=""
-              data-js-warning-message="*Phone Number isn’t valid"
-            >
-              <input
-                type="text"
-                className="rc-input__control input__phoneField shippingPhoneNumber"
-                min-lenght="18"
-                max-length="18"
-                data-phonelength="18"
-                data-js-pattern="(^\d{10}$)"
-                data-range-error="The phone number should contain 10 digits"
-                value={creditCardInfoForm.phoneNumber}
-                onChange={onChange}
-                onBlur={onInputBlur}
-                name="phoneNumber"
-                maxLength="2147483647"
-              />
-              <label className="rc-input__label" htmlFor="phoneNumber" />
-            </span>
-            <div className="invalid-feedback">
-              <FormattedMessage id="payment.errorInfo2" />
+        ) : null}
+        {needPhone ? (
+          <div className="col-sm-6">
+            <div className="form-group required">
+              <label className="form-control-label" htmlFor="phoneNumber">
+                <FormattedMessage id="payment.phoneNumber" />
+              </label>
+              <span
+                className="rc-input rc-input--full-width"
+                input-setup="true"
+                data-js-validate=""
+                data-js-warning-message="*Phone Number isn’t valid"
+              >
+                <input
+                  type="text"
+                  className="rc-input__control input__phoneField shippingPhoneNumber"
+                  min-lenght="18"
+                  max-length="18"
+                  data-phonelength="18"
+                  data-js-pattern="(^\d{10}$)"
+                  data-range-error="The phone number should contain 10 digits"
+                  value={creditCardInfoForm.phoneNumber}
+                  onChange={onChange}
+                  onBlur={onInputBlur}
+                  name="phoneNumber"
+                  maxLength="2147483647"
+                />
+                <label className="rc-input__label" htmlFor="phoneNumber" />
+              </span>
+              <div className="invalid-feedback">
+                <FormattedMessage id="payment.errorInfo2" />
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </>
   );
 }
-@inject('paymentStore')
+@inject('paymentStore', 'checkoutStore')
 @observer
 class PayOs extends React.Component {
   static defaultProps = {
     isLogin: false,
+    needEmail: true,
+    needPhone: true,
+    isSupportInstallMent: false,
+    mustSaveForFutherPayments: false, // 是否将卡保存到后台
     billingJSX: null,
+    supportPaymentMethods: [],
     updateFormValidStatus: () => {},
-    onVisitorPayosDataConfirm: () => {}
+    onVisitorPayosDataConfirm: () => {},
+    onInstallMentParamChange: () => {}
   };
   constructor(props) {
     super(props);
@@ -126,13 +143,17 @@ class PayOs extends React.Component {
         email: '',
         phoneNumber: '',
         identifyNumber: '111',
-        creditDardCvv: ''
+        creditDardCvv: '',
+        installmentChecked: false
       },
-      payosdata: {},
+      payosdata: null,
       selectedCardInfo: null,
       inited: false,
       isValid: false,
-      saveLoading: false
+      saveLoading: false,
+      isEdit: true,
+      installMentTableData: [], // 分期详情table data
+      installMentParam: null // 所选择的分期详情
     };
     this.paymentCompRef = React.createRef();
   }
@@ -189,6 +210,9 @@ class PayOs extends React.Component {
       });
     }
     this.initForm();
+  }
+  get tradePrice() {
+    return this.props.checkoutStore.tradePrice;
   }
   initForm() {
     const {
@@ -250,37 +274,60 @@ class PayOs extends React.Component {
 
   handleClickCardConfirm = async () => {
     try {
-      const { creditCardInfoForm, isValid } = this.state;
+      const { isSupportInstallMent } = this.props;
+      const { creditCardInfoForm, isValid, isEdit, payosdata } = this.state;
       if (!isValid) {
         return false;
       }
       this.setState({ saveLoading: true });
-
-      const tokenResult = await new Promise((resolve) => {
-        window.POS.createToken(
-          {
-            holder_name: creditCardInfoForm.cardOwner // This field is mandatory
-          },
-          function (result) {
-            console.log(result, 'result');
-            // Grab the token here
-            resolve(result);
-          }
-        );
-      });
-      const payosdata = JSON.parse(tokenResult);
-      if (payosdata) {
-        this.setState({
-          payosdata
+      if (!payosdata) {
+        const tokenResult = await new Promise((resolve) => {
+          window.POS.createToken(
+            {
+              holder_name: creditCardInfoForm.cardOwner // This field is mandatory
+            },
+            function (result) {
+              console.log(result, 'result');
+              // Grab the token here
+              resolve(result);
+            }
+          );
         });
-        if (payosdata.category === 'client_validation_error') {
-          sessionItemRoyal.remove('payosdata');
-          throw new Error(payosdata.more_info)
-        } else {
-          this.props.onVisitorPayosDataConfirm(payosdata);
-          scrollPaymentPanelIntoView();
+        const payosdataRes = JSON.parse(tokenResult);
+        if (payosdataRes) {
+          this.setState({
+            payosdata: payosdataRes
+          });
+          if (payosdataRes.category === 'client_validation_error') {
+            sessionItemRoyal.remove('payosdata');
+            throw new Error(payosdataRes.more_info);
+          } else {
+            // 如果分期，则不直接返回封面，需要返回卡列表，进行分期查询
+            if (isSupportInstallMent && isEdit) {
+              this.setState({ isEdit: false });
+              const res = await queryIsSupportInstallMents({
+                platformName: 'PAYU',
+                pspItemCode: 'payu_tu',
+                binNumber: payosdataRes.bin_number, // 卡前6位
+                payAmount: this.tradePrice,
+                storeId: process.env.REACT_APP_STOREID
+              });
+              this.setState({
+                installMentTableData:
+                  (res.context &&
+                    res.context.installments &&
+                    res.context.installments[0] &&
+                    res.context.installments[0].installmentPrices) ||
+                  []
+              });
+              throw new Error();
+            }
+          }
         }
       }
+      this.props.onVisitorPayosDataConfirm(this.state.payosdata);
+      this.props.onInstallMentParamChange(this.state.installMentParam);
+      scrollPaymentPanelIntoView();
     } catch (err) {
       this.props.showErrorMsg(err.message);
       throw new Error();
@@ -293,24 +340,58 @@ class PayOs extends React.Component {
       this.props.onPaymentCompDataChange(data);
     });
   };
+  onCheckboxChange(item) {
+    const { key } = item;
+    this.setState((curState) => ({
+      creditCardInfoForm: Object.assign(curState.creditCardInfoForm, {
+        [key]: !curState.creditCardInfoForm[key]
+      })
+    }));
+  }
+  installmentTableChanger = (data) => {
+    this.setState({ installMentParam: data });
+  };
+  handleClickEditBtn = () => {
+    this.setState({ isEdit: true, payosdata: null });
+  };
   render() {
-    const { isLogin, billingJSX, defaultCardDataFromAddr } = this.props;
+    const {
+      isLogin,
+      billingJSX,
+      defaultCardDataFromAddr,
+      needEmail,
+      needPhone,
+      supportPaymentMethods
+    } = this.props;
     const {
       creditCardInfoForm,
+      isEdit,
       isValid,
-      isCompleteCredit,
-      saveLoading
+      saveLoading,
+      payosdata,
+      installMentTableData
     } = this.state;
-
-    const CreditCardImg = (
+    const CreditCardImg = supportPaymentMethods.length > 0 && (
       <span className="logo-payment-card-list logo-credit-card">
-        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+        {supportPaymentMethods.map((el, idx) => (
           <LazyLoad key={idx}>
-            <img className="logo-payment-card" src={el} alt="" />
+            <img className="logo-payment-card" src={el.img} alt="" />
           </LazyLoad>
         ))}
       </span>
     );
+
+    // 分期按钮显示控制
+    const checkboxList = [
+      {
+        key: 'installmentChecked',
+        id: 'id-payu-installment',
+        langKey: 'payment.installment',
+        value: creditCardInfoForm.installmentChecked,
+        visible: installMentTableData.length > 0,
+        showInstallMentTable: creditCardInfoForm.installmentChecked
+      }
+    ].filter((c) => c.visible);
 
     return (
       <>
@@ -331,8 +412,21 @@ class PayOs extends React.Component {
                           '|'
                         )}
                         ref={this.paymentCompRef}
+                        mustSaveForFutherPayments={
+                          this.props.mustSaveForFutherPayments
+                        }
+                        isSupportInstallMent={this.props.isSupportInstallMent}
+                        supportPaymentMethods={supportPaymentMethods}
+                        needEmail={needEmail}
+                        needPhone={needPhone}
                         billingJSX={billingJSX}
                         getSelectedValue={this.onPaymentCompDataChange}
+                        onInstallMentParamChange={
+                          this.props.onInstallMentParamChange
+                        }
+                        onVisitorPayosDataConfirm={
+                          this.props.onVisitorPayosDataConfirm
+                        }
                         needReConfirmCVV={this.props.needReConfirmCVV}
                         defaultCardDataFromAddr={defaultCardDataFromAddr}
                         updateFormValidStatus={this.props.updateFormValidStatus}
@@ -341,7 +435,11 @@ class PayOs extends React.Component {
                   ) : (
                     <>
                       {/* edit form */}
-                      <div className="credit-card-content">
+                      <div
+                        className={`credit-card-content ${
+                          isEdit ? '' : 'hidden'
+                        }`}
+                      >
                         <div className="credit-card-form ">
                           <div className="rc-margin-bottom--xs">
                             <div className="content-asset">
@@ -378,7 +476,10 @@ class PayOs extends React.Component {
                                 </div>
                               </div>
                             </div>
+
                             <VisitorEditForm
+                              needEmail={needEmail}
+                              needPhone={needPhone}
                               creditCardInfoForm={creditCardInfoForm}
                               onChange={this.cardInfoInputChange}
                               onInputBlur={this.inputBlur}
@@ -386,6 +487,55 @@ class PayOs extends React.Component {
                           </div>
                         </div>
                       </div>
+                      {!isEdit && (
+                        <>
+                          <CardItemCover
+                            el={{
+                              paymentVendor: payosdata?.vendor,
+                              holderName: payosdata?.holder_name,
+                              lastFourDigits: payosdata?.last_4_digits,
+                              cardType: payosdata?.card_type
+                            }}
+                            canEdit={true}
+                            selectedSts={true}
+                            lastItem={true}
+                            needReConfirmCVV={false}
+                            handleClickEditBtn={this.handleClickEditBtn}
+                          />
+                          {checkboxList.map((item, i) => (
+                            <div className="row mt-3" key={i}>
+                              <div className="col-12">
+                                <div className="rc-input rc-input--inline w-100 mw-100">
+                                  <input
+                                    className="rc-input__checkbox"
+                                    id={`id-payu-${item.key}`}
+                                    onChange={this.onCheckboxChange.bind(
+                                      this,
+                                      item
+                                    )}
+                                    type="checkbox"
+                                    checked={item.value}
+                                  />
+                                  <label
+                                    className="rc-input__label--inline text-break"
+                                    htmlFor={`id-payu-${item.key}`}
+                                  >
+                                    <FormattedMessage id={item.langKey} />
+                                  </label>
+                                </div>
+                              </div>
+                              {item.showInstallMentTable ? (
+                                <div className="col-12 mb-2">
+                                  <InstallmentTable
+                                    list={installMentTableData}
+                                    onChange={this.installmentTableChanger}
+                                  />
+                                </div>
+                              ) : null}
+                            </div>
+                          ))}
+                        </>
+                      )}
                     </>
                   )}
                 </div>

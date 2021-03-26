@@ -334,18 +334,18 @@ class AccountOrders extends React.Component {
             return item;
           });
         }
-        let cityRes = await queryCityNameById({
-          id: [resContext.consignee.cityId, resContext.invoice.cityId]
-        });
-        cityRes = cityRes.context.systemCityVO || [];
-        resContext.consignee.cityName = this.matchCityName(
-          cityRes,
-          resContext.consignee.cityId
-        );
-        resContext.invoice.cityName = this.matchCityName(
-          cityRes,
-          resContext.invoice.cityId
-        );
+        // let cityRes = await queryCityNameById({
+        //   id: [resContext.consignee.cityId, resContext.invoice.cityId]
+        // });
+        // cityRes = cityRes.context.systemCityVO || [];
+        // resContext.consignee.cityName = this.matchCityName(
+        //   cityRes,
+        //   resContext.consignee.cityId
+        // );
+        // resContext.invoice.cityName = this.matchCityName(
+        //   cityRes,
+        //   resContext.invoice.cityId
+        // );
         this.setState({
           details: resContext,
           loading: false,
@@ -372,11 +372,11 @@ class AccountOrders extends React.Component {
         });
       });
   }
-  matchCityName(dict, cityId) {
-    return dict.filter((c) => c.id === cityId).length
-      ? dict.filter((c) => c.id === cityId)[0].cityName
-      : cityId;
-  }
+  // matchCityName(dict, cityId) {
+  //   return dict.filter((c) => c.id === cityId).length
+  //     ? dict.filter((c) => c.id === cityId)[0].cityName
+  //     : cityId;
+  // }
   async hanldeItemClick(afterSaleType) {
     // 退单都完成了，才可继续退单
     this.setState({ returnOrExchangeLoading: true });
@@ -1396,26 +1396,6 @@ class AccountOrders extends React.Component {
                                     )}
                                   </div>
 
-                                  {/* first order discount */}
-                                  {details.tradePrice
-                                    .firstOrderOnThePlatformDiscountPrice >
-                                    0 && (
-                                    <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                        &nbsp;
-                                      </div>
-                                      <div className="col-6 col-md-2 mb-2 green">
-                                        <FormattedMessage id="promotion.firstOrderDiscount" />
-                                      </div>
-                                      <div className="col-6 col-md-3 text-right text-nowrap green">
-                                        {formatMoney(
-                                          details.tradePrice
-                                            .firstOrderOnThePlatformDiscountPrice
-                                        )}
-                                      </div>
-                                    </>
-                                  )}
-
                                   {/* 税额 */}
                                   {customTaxSettingOpenFlag == 0 &&
                                   enterPriceType == 1 ? (
@@ -1779,8 +1759,8 @@ class AccountOrders extends React.Component {
               this.setState({ returnOrExchangeModalVisible: false });
             }}
           />
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

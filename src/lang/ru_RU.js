@@ -89,6 +89,8 @@ const ru_RU = {
   'account.TheAddressBook': 'Адресная книга',
   'account.toComeIn': 'Войти',
   'account.unknownBreed': 'Неизвестная порода',
+  'header.bannerTip':
+    'Сэкономьте 20% при покупке, применив промокод из письма-рекомендации ветеринарного врача',
   'account.warmNotice':
     'Добро пожаловать, {val}, Здесь вы можете управлять своим профилем, редактировать информацию о питомцах, проверять статус по заказам и подписке.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
@@ -116,14 +118,16 @@ const ru_RU = {
   'recommendation.helpContentText.emailLink': '/help/contact',
   'recommendation.helpContentText.phoneTitle': 'Свяжитесь с нами',
   'recommendation.helpContentText.phone': '8-800-200-37-35',
-  'recommendation.helpContentText.email': 'Send us an email',
+  'recommendation.helpContentText.email': 'Отправьте нам Email',
   'recommendation.helpContentText.phoneDes1': '',
   'recommendation.helpContentText.phoneDes2':
     'Наши эксперты рады помочь Вам каждый день с 9 до 21 часов.',
   'recommendation.petsImg': 'logovet@2x.jpg',
+  seeMoreText: 'Узнать больше',
   'recommendation.plusTitle': 'Ветеринарные диеты ROYAL CANIN',
   'recommendation.guidelinesTips':
-    'Рекомендации ROYAL CANIN по кормлению расположены на упаковке.',
+    'Рекомендации по кормлению ROYAL CANIN® также можно найти на упаковке продукта.',
+  // 'Рекомендации ROYAL CANIN по кормлению расположены на упаковке.',
   'recommendation.plusContent':
     'Мы в Royal Canin убеждены в том, что питание играет ключевую роль в поддержании здоровья и благополучия кошек и собак. Поэтому ветеринарные диеты ROYAL CANIN®, основанные на научном знании  о питании, способствуют поддержанию здоровья при определенных заболеваниях. Следуйте рекомендациям ветеринарного врача',
   'recommendation.plusBtn': 'Корзина',
@@ -274,8 +278,6 @@ const ru_RU = {
   country: 'Страна *',
   createAnAccount: 'Завести аккаунт',
   creditCard: 'Кредитная карта',
-  creditCardTip: 'Вы создали кредитную карту {number}, до 10',
-  creditCardTipMany: 'Вы создали кредитные карты: {number}, до 10',
   customerReviews: 'Отзывы клиентов',
   cvvWarning: 'CVV неправильный',
   'datePicker.months': [
@@ -708,6 +710,9 @@ const ru_RU = {
   // 'payment.totalProduct': '{val} total product (s)',
   'payment.totalProduct': '{val} товар (а/ов)',
   'payment.yourOrder': 'Твоя очередь',
+  'payment.deliveryDate': 'срок поставки - {min} - {max} рабочих дня.',
+  'payment.shippingDiscount': 'скидка с фрахта',
+  'payment.deliveryFee': 'плата за доставку',
   securePaymentProcessing: 'Безопасная обработка платежа',
   paymentMethod: 'Способ оплаты',
   'paymethods.btn': 'Добавить платеж',
@@ -763,7 +768,6 @@ const ru_RU = {
   'profile.emailChoose':
     'Да, я хотел бы получать эксклюзивные скидки, информацию о продуктах, советы по уходу за домашними животными и многое другое от Royal Canin',
   promotion: 'Скидка',
-  'promotion.firstOrderDiscount': 'Скидка при первом заказе',
   promotionalCode: 'Промо код',
   promotionCode: 'Промокод',
   puppy: 'Щенок (0-1 год)',
@@ -1088,7 +1092,14 @@ const ru_RU = {
   'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
   'payment.saveThisPaymentMethodAsPreferred':
     'Сохранить этот способ оплаты как предпочтительный',
-  bankCard: 'банковская карта'
+  bankCard: 'банковская карта',
+  deliveryOneTimeOnly: 'Доставка только 1 раз',
+  subscribe: 'Добавить в корзину',
+  cod: 'Оплата при получении',
+  'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
+  'payment.codConfirmTip': 'Оплата при получении',
+  saveExtraMoney: 'Сэкономьте {val} на этой подписке',
+  'subscription.pause': 'Пауза'
 };
 
 export default ru_RU;

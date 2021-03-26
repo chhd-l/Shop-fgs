@@ -49,8 +49,8 @@ const tr_TR = {
   'account.noPet':
     'Evcil hayvan profilinizi bugün oluşturun! Bilgileri doldurun ve en uygun diyeti seçin',
   'account.noSubscription':
-    'You do not yet know the Subscription?\n' +
-    "The Subscription allows you to receive your pet's favorite foods regularly and easily. Just tell us where and when to ship it, and we'll make sure everything it needs arrives right at your doorstep.",
+    '"Abonelik programımızı keşfetmek ister misiniz?\n' +
+    'Abonelik programımız, evcil hayvanınıza en uygun mamayı, düzenli ve kolay bir şekilde almanızı sağlar. Bize sadece nereye ve ne zaman göndereceğimizi söyleyin, biz de ihtiyaç duyduğu her şeyin kapınıza gelmesini sağlayalım. "',
   'account.noSubscriptionTitle': 'Aboneliği Keşfedin',
   'account.notRegistred': 'Yeni kullanıcı?',
   'account.of': 'nın-nin',
@@ -177,7 +177,7 @@ const tr_TR = {
   'comment.noShoppingExperienceTip':
     'Lütfen alışveriş deneyimi hakkında yorum yapın',
   CompleteRequiredItems: 'Lütfen gerekli maddeleri tamamlayın',
-  confirmation: 'Onayla',
+  confirmation: 'Onay',
   'confirmation.account': 'Hesabıma git',
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
@@ -194,7 +194,7 @@ const tr_TR = {
   'confirmation.subscriptionDiscountPriceDes':
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
-  confirmDelete: 'Adresi silmek istiyor musunuz?',
+  confirmDelete: 'Silmek istiyor musunuz?',
   confirmPassword: 'Şifreyi Onayla *',
   consent: 'Razı olmak',
   consignee: 'Alıcı',
@@ -240,7 +240,7 @@ const tr_TR = {
   ],
   default: 'Varsayılan',
   defaultAddress: 'varsayılan adres',
-  delete: 'Kartı Düzenle',
+  delete: 'kaldır',
   deleteAddressFailed: 'Adres Silinemedi',
   deleteAddressSuccess: 'Başarılı Adres Sil',
   deleteAddressTip:
@@ -371,19 +371,19 @@ const tr_TR = {
   'header.toBegin': 'Başlamak',
   'header.toLearnMore': 'Daha fazla öğrenmek için',
   //header.User  unLogin
-  'header.User.alreadyRegistered': 'Zaten kayıtlı?',
+  'header.User.alreadyRegistered': 'Üye değil misiniz?',
   'header.User.breederPortal': 'Breeder portal',
-  'header.User.faq': 'FAQ',
-  'header.User.home': 'Ev',
+  'header.User.faq': 'SSS',
+  'header.User.home': 'Ana Sayfa',
   //header.User  login
-  'header.User.logOut': 'oturumu Kapat',
+  'header.User.logOut': 'Çıkış',
   'header.User.monRoyalCanin': 'Mon Royal Canin',
-  'header.User.myOrders': 'Evcil Hayvanlar',
-  'header.User.myPersonalInformation': 'kişisel bilgilerim',
+  'header.User.myOrders': 'Siparişlerim',
+  'header.User.myPersonalInformation': 'Kişisel Bilgilerim',
   'header.User.mySubscriptions': 'Aboneliklerim',
   'header.User.newUser': 'Yeni kullanıcı?',
   'header.User.or': 'or',
-  'header.User.pets': 'Animaux domestiques',
+  'header.User.pets': 'Evcil hayvanlarım',
   'header.User.registerNow': 'Şimdi üye Ol',
   'header.User.royalCaninPartner': 'Royal Canin partner?',
   'header.User.vetPortal': 'Vet portal',
@@ -450,6 +450,7 @@ const tr_TR = {
   'lang.close': 'Kapatmak',
   'lang.country': 'Ülke',
   'lang.language': 'dil',
+  language: 'Turkey/Türkçe',
   //language-choose
   'lang.selectYourLocation': 'Konumunuzu seçin',
   'lang.submit': 'Sunmak',
@@ -476,7 +477,7 @@ const tr_TR = {
   'login.thirdCheck': 'Pazarlama bültenini almayı kabul ediyorum',
   loginFailed: 'giriş başarısız',
   logisticsRating: 'Lojistik değerlendirme',
-  logOff: 'Oturumu Kapat',
+  logOff: 'Çıkış',
   mailAddress: 'Posta adresi',
   mandatoryFieldsError: 'Doldurulmamış zorunlu alanlarınız var!',
   menu: 'Menü',
@@ -622,7 +623,7 @@ const tr_TR = {
   'payment.normalDelivery2': 'Normal teslimat',
   'payment.normalDelivery3': '(1-4 gün)',
   'payment.payment': 'Ödeme yöntemim',
-  'payment.paymentInformation': 'Ödeme bilgileri',
+  'payment.paymentInformation': 'Ödeme Bilgileriniz',
   'payment.phoneNumber': 'Cep telefonu',
   'payment.phoneNumber2': 'Telefon numarası',
   'payment.postCode': 'Posta Kodu',
@@ -691,7 +692,6 @@ const tr_TR = {
   'profile.emailChoose':
     "Evet, Royal Canin'den özel tasarruflar, ürün bilgileri, evcil hayvan bakım ipuçları ve daha fazlasını almak istiyorum.",
   promotion: 'İndirim',
-  'promotion.firstOrderDiscount': 'İlk Sipariş İndirimi',
   promotionalCode: 'Promosyon kodu',
   promotionCode: 'Promosyon kodu',
   puppy: 'Puppy (0-1 yaş)',
@@ -761,7 +761,7 @@ const tr_TR = {
   registerSpecial: 'Özel bir karakter',
   registerTogglePassword: 'Şifre görünürlüğünü değiştir',
   registerUppercase: 'Bir büyük harf',
-  registerWelcome: 'Hoş Geldiniz',
+  registerWelcome: "'e Hoş Geldiniz",
   remember48Hours:
     "{Val} tarihinden önceki siparişin, ödemenin iki gün sonra {val} pm'den önce sona ereceğini veya {val} pm'den sonra, ödemenin üç gün sonra {val} pm'den önce sona ereceğini unutmayın.",
   rememberMe: 'Beni Hatırla',
@@ -794,7 +794,7 @@ const tr_TR = {
   saveSuccessfullly: 'Başarıyla kaydedin',
   saveSuccessfullly2: 'Bilgileriniz doğru şekilde kaydedildi',
   search: 'Arama',
-  searchForAProductOrArtical: 'Search for a product or article',
+  searchForAProductOrArtical: 'Bir ürün veya makale arayın',
   searchNoBreed: 'soy ağacı değil',
   searchPrescriber: 'Bir klinik ara',
   securityQuestion: 'Güvenlik Sorusu',
@@ -975,7 +975,6 @@ const tr_TR = {
   'payment.saveCardToAccount': 'Kart ayrıntılarını hesabıma kaydet',
   'payment.saveThisPaymentMethodAsPreferred':
     'Bu ödeme yöntemini tercih edilen şekilde kaydedin',
-  'payment.installment': 'Installment',
   'footer.email': 'Bize Ulaşın',
   home: 'Ana Sayfa',
   'account.ordersTitle': 'Siparişlerim',
@@ -1019,6 +1018,11 @@ const tr_TR = {
   'installMent.total': 'Toplam',
   'installMent.oneShot': 'Tek Çekim',
   'installMent.xInstallMents': '{num} Taksit',
-  'installMent.additionalFee': 'Taksit ilave bedeli'
+  'installMent.additionalFee': 'Taksit ilave bedeli',
+  deliveryOneTimeOnly: 'Yalnızca 1 kez teslimat',
+  singlePurchase: 'Tek satın alma',
+  subscribe: 'Sepete ekle',
+  saveExtraMoney: 'Bu abonelikte {val} tasarruf edin',
+  'subscription.pause': 'Duraklat'
 };
 export default tr_TR;

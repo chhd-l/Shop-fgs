@@ -451,7 +451,7 @@ class ImageMagnifier extends Component {
             </div>
           )}
         </div>
-        <div className="scrollOutBox">
+        <div className="scrollOutBox m-auto">
           <i
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
@@ -465,7 +465,7 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
-              className="text-center text-md-left imageInnerBox"
+              className="text-center imageInnerBox"
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
@@ -473,7 +473,7 @@ class ImageMagnifier extends Component {
                 left: this.state.positionLeft + 'px'
               }}
             >
-              {images.filter((el) => el.goodsInfoImg).length ? (
+              {images.filter((el) => el.artworkUrl).length ? (
                 images &&
                 images.map((el, i) => (
                   <div
@@ -485,6 +485,7 @@ class ImageMagnifier extends Component {
                       this.imageChange(e, el.artworkUrl || el.goodsInfoImg, i)
                     }
                     style={{
+                      display: 'inline-block',
                       backgroundImage:
                         'url(' +
                         (el.artworkUrl || el.goodsInfoImg || noPic) +

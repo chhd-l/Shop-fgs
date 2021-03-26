@@ -43,6 +43,7 @@ class Form extends React.Component {
         address1: '',
         address2: '',
         country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
         cityId: '',
         city: '',
@@ -79,10 +80,15 @@ class Form extends React.Component {
     // 查询国家
     this.getCountryList();
 
+    // let newData = Object.assign({}, initData);
+    // initData.cityId = newData.cityId;
+    // initData.city = newData.cityName; // 接口参数 city => long
+    // initData.cityName = newData.cityName; // 接口参数 cityName => string
+
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
     initData.stateId = initData.provinceId;
-    // console.log('-------------★ EditForm initData: ', initData);
+    console.log('91 -------------★ EditForm initData: ', initData);
     // console.log('-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
@@ -147,8 +153,6 @@ class Form extends React.Component {
                 if (manually == 1) {
                   // 查询州列表（美国 state）
                   this.getUsStateList();
-                  // 查询城市列表
-                  this.getAllCityList();
                 }
                 this.setState(
                   {
@@ -184,6 +188,10 @@ class Form extends React.Component {
       let regExp = '';
       let errMsg = '';
       switch (item.fieldKey) {
+        case 'address1':
+          regExp = /^\d{5}$/;
+          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          break;
         case 'postCode':
           regExp = /^\d{5}$/;
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
@@ -229,6 +237,11 @@ class Form extends React.Component {
       const group = JSON.stringify(fn(item));
       groups[group] = groups[group] || [];
       groups[group].push(item);
+
+      // 查询城市列表
+      if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
+        this.getAllCityList();
+      }
     });
     caninForm.formRule = rule;
     this.setState({
@@ -439,7 +452,7 @@ class Form extends React.Component {
     caninForm.city = data.city;
     caninForm.postCode = data.postCode;
     caninForm.DaData = data;
-    console.log('--- updateData 111111');
+    console.log('--- ****** DuData handleAddressInputChange data: ', data);
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });

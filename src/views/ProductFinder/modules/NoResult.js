@@ -19,11 +19,11 @@ const localItemRoyal = window.__.localItemRoyal;
 
 function PetJSX(props) {
   const { petBaseInfo } = props;
-  let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
-  let sterilizedText = sterilized
-  if(sterilized.toLocaleLowerCase().includes('stérilisé')){
+  let sterilized = (petBaseInfo && petBaseInfo.sterilized) || '...';
+  let sterilizedText = sterilized;
+  if (sterilized.toLocaleLowerCase().includes('stérilisé')) {
     // 如果是法语
-    sterilizedText = sterilized.includes('Non')?'Non':'Oui'
+    sterilizedText = sterilized.includes('Non') ? 'Non' : 'Oui';
   }
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
@@ -259,10 +259,7 @@ class ProductFinderNoResult extends React.Component {
           <hr className="rc-md-down" />
           <div className="col-12 order-1 order-md-0 rc-padding-bottom--lg">
             <div className="p-f-help-box mt-4">
-              <p
-                className="text-center pt-3"
-                style={{ fontSize: '1.3rem' }}
-              >
+              <p className="text-center pt-3" style={{ fontSize: '1.3rem' }}>
                 <FormattedMessage id="productFinder.helpTip1" />
               </p>
               <p className="text-center">
@@ -271,8 +268,8 @@ class ProductFinderNoResult extends React.Component {
               <Help />
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

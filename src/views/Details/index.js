@@ -647,7 +647,6 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
-
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -656,6 +655,7 @@ class Details extends React.Component {
               minMarketPrice: goodsRes.minMarketPrice,
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
+                promotions: this.state.details?.promotions?.toLowerCase(),
                 taggingForText: (taggingList || []).filter(
                   (e) =>
                     e.taggingType === 'Text' &&
@@ -784,7 +784,7 @@ class Details extends React.Component {
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty
               ) {
-                sItem.chidren[0].selected = true;
+                sItem.chidren[1].selected = true;
               } else if (
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty
@@ -812,7 +812,9 @@ class Details extends React.Component {
             // g = Object.assign({}, g, { selected: false });
             g = Object.assign({}, g, {
               selected: i === 0,
-              productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+              questionParams:
+                sessionItemRoyal.get('pr-question-params') &&
+                JSON.parse(sessionItemRoyal.get('pr-question-params'))
             });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
@@ -839,6 +841,7 @@ class Details extends React.Component {
                 this.state.details,
                 res.context.goods,
                 {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
@@ -869,7 +872,9 @@ class Details extends React.Component {
           sizeList = goodsInfos.map((g, i) => {
             g = Object.assign({}, g, {
               selected: i === 0,
-              productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+              questionParams:
+                sessionItemRoyal.get('pr-question-params') &&
+                JSON.parse(sessionItemRoyal.get('pr-question-params'))
             });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
@@ -888,6 +893,7 @@ class Details extends React.Component {
                 this.state.details,
                 res.context.goods,
                 {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
@@ -1054,14 +1060,16 @@ class Details extends React.Component {
       } else {
         currentSelectedSize = sizeList[0];
       }
-
+      let buyWay = parseInt(form.buyWay);
+      let goodsInfoFlag =
+        buyWay && details.promotions?.includes('club') ? 2 : buyWay;
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsInfoFlag: parseInt(form.buyWay),
+        goodsInfoFlag,
         productFinderFlag: currentSelectedSize.productFinderFlag
       };
-      if (parseInt(form.buyWay)) {
+      if (buyWay) {
         param.periodTypeId = form.frequencyId;
       }
 
@@ -2328,7 +2336,7 @@ class Details extends React.Component {
                               <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
                                 <button
                                   style={{ padding: '2px 30px' }}
-                                  className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                                  className={`add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
                                     btnStatus ? '' : 'rc-btn-solid-disabled'
@@ -2502,36 +2510,36 @@ class Details extends React.Component {
                 ) : null}
               </div>
             </div>
+            {/* 最下方跳转更多板块 */}
+            {isHub ? (
+              <>
+                <div className="split-line rc-bg-colour--brand4 rc-content--fixed-header "></div>
+                <div className="more-link rc-content--fixed-header ">
+                  <LazyLoad height={200}>
+                    <img src={loop} srcSet={loop} alt="" />
+                  </LazyLoad>
+                  <LazyLoad height={200}>
+                    <img src={vert} srcSet={vert} className="vert" alt="" />
+                  </LazyLoad>
+                  <p>
+                    <FormattedMessage id="detail.packagingDesc" />
+                  </p>
+                  <div>
+                    <a
+                      href="https://www.consignesdetri.fr/"
+                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                      style={{ minWidth: '110px' }}
+                    >
+                      <FormattedMessage id="learnMore" />
+                    </a>
+                  </div>
+                </div>
+              </>
+            ) : null}
+            <Help />
+            <Footer />
           </main>
         )}
-        {/* 最下方跳转更多板块 */}
-        {isHub ? (
-          <>
-            <div className="split-line rc-bg-colour--brand4"></div>
-            <div className="more-link">
-              <LazyLoad height={200}>
-                <img src={loop} srcSet={loop} alt="" />
-              </LazyLoad>
-              <LazyLoad height={200}>
-                <img src={vert} srcSet={vert} className="vert" alt="" />
-              </LazyLoad>
-              <p>
-                <FormattedMessage id="detail.packagingDesc" />
-              </p>
-              <div>
-                <a
-                  href="https://www.consignesdetri.fr/"
-                  className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                  style={{ minWidth: '110px' }}
-                >
-                  <FormattedMessage id="learnMore" />
-                </a>
-              </div>
-            </div>
-          </>
-        ) : null}
-        <Help />
-        <Footer />
       </div>
     );
   }

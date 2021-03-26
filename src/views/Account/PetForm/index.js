@@ -202,9 +202,10 @@ class PetForm extends React.Component {
             this.setState({
               currentPetId: currentPet.petsId,
               currentPet: currentPet,
-              imgUrl: currentPet.petsImg.includes('http')
-                ? currentPet.petsImg
-                : ''
+              imgUrl:
+                currentPet.petsImg && currentPet.petsImg.includes('http')
+                  ? currentPet.petsImg
+                  : ''
             });
           }
         } else {
@@ -1400,14 +1401,25 @@ class PetForm extends React.Component {
                 />
               ) : null}
             </div>
-            <LinkedSubs
+            {/* 土耳其、俄罗斯club绑定订阅 */}
+            {/* <LinkedSubs
+              petsId={this.props.match.params.id}
               loading={this.state.loading}
               setState={this.setState.bind(this)}
               errorMsg={this.state.errorMsg}
-            />
+            /> */}
+            {/* {
+            ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1?
+            <LinkedSubs
+              petsId={this.props.match.params.id}
+              loading={this.state.loading}
+              setState={this.setState.bind(this)}
+              errorMsg={this.state.errorMsg}
+            />: null
+            } */}
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -173,7 +173,7 @@ class PersonalDataEditForm extends React.Component {
   };
   // 获取地址验证查询到的数据
   getValidationData = async (data) => {
-    if (data && data != null) {
+    if (data && data?.address1 != null) {
       // 获取并设置地址校验返回的数据
       this.setState({
         validationAddress: data
@@ -182,6 +182,7 @@ class PersonalDataEditForm extends React.Component {
       // 不校验地址，进入下一步
       this.showNextPanel();
     }
+    debugger;
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
@@ -191,7 +192,6 @@ class PersonalDataEditForm extends React.Component {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
       form.city = validationAddress.city;
-      form.cityName = validationAddress.city;
       if (process.env.REACT_APP_LANG === 'en') {
         form.province = validationAddress.provinceCode;
       }
@@ -281,10 +281,12 @@ class PersonalDataEditForm extends React.Component {
   validFormData = async () => {
     const { form } = this.state;
     try {
-      // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
-      // form.city = form?.city || form.cityName;
       console.log('★★★★★★★★★ valiFormData: ', form);
-      await validData(PRESONAL_INFO_RULE, form);
+      if (!form?.formRule || (form?.formRule).length <= 0) {
+        return;
+      }
+      await validData(form.formRule, form); // 数据验证
+      // await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
@@ -340,25 +342,27 @@ class PersonalDataEditForm extends React.Component {
       <div className={classNames({ border: curPageAtCover })}>
         <div className="personalInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            {curPageAtCover ? (
-              <h5 className="mb-0">
-                <svg
-                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
-                >
-                  <use xlinkHref="#iconaccount"></use>
-                </svg>
-                <FormattedMessage id="account.myAccount" />
-              </h5>
-            ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
+            <h5
+              className="mb-0"
+              style={{ display: curPageAtCover ? 'block' : 'none' }}
+            >
+              <svg
+                className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                aria-hidden="true"
+                style={{ width: '1.4em', height: '1.4em' }}
               >
-                <span>&larr; </span>
-                <FormattedMessage id="account.myAccount" />
-              </h5>
-            )}
+                <use xlinkHref="#iconaccount"></use>
+              </svg>
+              <FormattedMessage id="account.myAccount" />
+            </h5>
+            <h5
+              className="ui-cursor-pointer"
+              style={{ display: curPageAtCover ? 'none' : 'block' }}
+              onClick={this.handleClickGoBack}
+            >
+              <span>&larr; </span>
+              <FormattedMessage id="account.myAccount" />
+            </h5>
             <FormattedMessage id="edit">
               {(txt) => (
                 <button

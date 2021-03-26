@@ -153,8 +153,8 @@ class SearchShow extends React.Component {
               </div>
             </section>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

@@ -247,8 +247,6 @@ const de_DE = {
   country: 'Land *',
   createAnAccount: 'Ein Konto erstellen',
   creditCard: 'Kreditkarte',
-  creditCardTip: 'Sie haben eine {number} Kreditkarte erstellt, bis zu 10',
-  creditCardTipMany: 'Sie haben {number} Kreditkarten erstellt, bis zu 10',
   customerReviews: 'Kundenbewertungen',
   cvvWarning: 'CVV ist falsch',
   dataProtection: 'Datenschutzerklärung',
@@ -824,7 +822,6 @@ const de_DE = {
   'profile.emailChoose':
     'Ich willige darin ein, dass ROYAL CANIN meine E-Mail-Adresse zum Zwecke der Versendung von Newslettern verwenden darf. Der Newsletter beinhaltet u.a. News über ROYAL CANIN, über seine Produkte und Gutscheine. Die Einwilligung kann ich jederzeit und kostenlos gegenüber ROYAL CANIN durch Anklicken des Abmeldelinks am Ende jeder Newsletter-E-Mail, per E-Mail an {val1} oder schriftlich an ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Köln widerrufen. Bis zum Widerruf der Einwilligung ist die Datenverarbeitung rechtmäßig. Weitere Informationen, z.B. zu eingesetzten Dienstleistern, Auswertung der Newsletterperformance und Speicherdauer finden Sie in unserer Datenschutzerklärung.',
   promotion: 'Abo-Rabatt',
-  'promotion.firstOrderDiscount': 'Rabatt erster Bestellung',
   promotionalCode: 'Gutscheincode',
   promotionCode: 'Gutscheincode',
   puppy: 'Welpe (0-1 Jahre alt)',
@@ -1022,11 +1019,11 @@ const de_DE = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'smartFeederSubscription.pause': 'pause',
+  'subscription.pause': 'pause',
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
-  'smartFeederSubscription.restart': 'redémarrage',
+  'subscription.restart': 'redémarrage',
   //Smart feeder subscription
   'smartFeederSubscription.selectAnotherProduct':
     'sélectionnez un autre produit',

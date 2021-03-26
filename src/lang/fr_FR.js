@@ -258,10 +258,6 @@ const fr_FR = {
   country: 'Pays *',
   createAnAccount: 'Créer un compte',
   creditCard: 'Carte de crédit',
-  creditCardTip:
-    "Vous avez créé une carte de crédit de {number}, vous pouvez ajouter jusqu'à 10 cartes de crédit",
-  creditCardTipMany:
-    "Vous avez créé {number} cartes de crédit, vous pouvez ajouter jusqu'à 10 cartes de crédit",
   customerReviews: 'Évaluations des clients',
   cvvWarning: 'CVV est faux',
   dataProtection: 'Politique de confidentialité',
@@ -887,7 +883,6 @@ const fr_FR = {
   'profile.emailChoose':
     "J'accepte que ROYAL CANIN utilise mon adresse e-mail pour l'envoi de newsletters. La newsletter comprend, entre autres Des actualités sur ROYAL CANIN, ses produits et ses bons. Je peux révoquer mon consentement à ROYAL CANIN à tout moment et gratuitement en cliquant sur le lien de désinscription à la fin de chaque e-mail de newsletter, par e-mail à {val1} ou par écrit à ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Cologne. Le traitement des données est licite jusqu'au retrait du consentement. Informations complémentaires, par ex. Vous pouvez trouver des informations sur les prestataires de services utilisés, l'évaluation des performances de la newsletter et la durée de stockage dans notre déclaration de protection des données.",
   promotion: 'Promotion',
-  'promotion.firstOrderDiscount': 'Remise de première commande',
   promotionalCode: 'Code promotionnel',
   promotionCode: 'Code promotionnel',
   puppy: 'Chiot (0-1 ans)',
@@ -1098,11 +1093,11 @@ const fr_FR = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'smartFeederSubscription.pause': 'pause',
+  'subscription.pause': 'pause',
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
-  'smartFeederSubscription.restart': 'redémarrage',
+  'subscription.restart': 'redémarrage',
   //restart
   //Smart feeder subscription
   //Delivered at the first shipment

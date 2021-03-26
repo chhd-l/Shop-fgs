@@ -24,7 +24,7 @@ import './index.css';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class OrdersAfterSale extends React.Component {
   constructor(props) {
@@ -55,8 +55,8 @@ class OrdersAfterSale extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -243,7 +243,7 @@ class OrdersAfterSale extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     const { afterSaleType, details, form } = this.state;
@@ -253,8 +253,11 @@ class OrdersAfterSale extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -264,7 +267,7 @@ class OrdersAfterSale extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-        <BannerTip />
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
@@ -397,12 +400,12 @@ class OrdersAfterSale extends React.Component {
                                         </div>
                                         <div className="col-12 col-md-10 d-flex">
                                           <LazyLoad>
-                                          <img
-                                            className="img-fluid border"
-                                            src={item.pic || IMG_DEFAULT}
-                                            alt={item.spuName}
-                                            title={item.spuName}
-                                          />
+                                            <img
+                                              className="img-fluid border"
+                                              src={item.pic || IMG_DEFAULT}
+                                              alt={item.spuName}
+                                              title={item.spuName}
+                                            />
                                           </LazyLoad>
                                           <div className="m-1 color-999">
                                             <span>{item.spuName}</span>
@@ -644,8 +647,8 @@ class OrdersAfterSale extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

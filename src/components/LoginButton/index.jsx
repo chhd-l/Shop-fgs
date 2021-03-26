@@ -53,7 +53,6 @@ const LoginButton = (props) => {
         .getUser()
         .then((info) => {
           setUserInfo(info);
-          localItemRoyal.set('hahaha', JSON.stringify(authState))
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
             : '';
