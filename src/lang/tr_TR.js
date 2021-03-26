@@ -807,7 +807,7 @@ const tr_TR = {
   setDefaltAddressSuccess: 'Defalt Adres Başarısını Ayarla',
   setDefaultAddress: 'Varsayılan adres olarak ayarla',
   setDefaultPaymentMethod: 'Varsayılan Ödeme yöntemi olarak ayarla',
-  shipping: 'Nakliye',
+  shipping: 'İndirim',
   shippingAddress: 'Adres Yönetimi',
   signUp: 'Şimdi Üye Ol',
   sortBy: 'Göre sırala',
@@ -1006,7 +1006,8 @@ const tr_TR = {
     'Birkaç basit adımda evcil hayvanınız için bir profil oluşturun ve ona en uygun beslenme seçeneklerini keşfedin!',
   'pet.addNewPet': 'Yeni bir evcil hayvan ekleyin',
   xProduct: '{val} adet',
-  'order.iVAIncluido': 'KDV Dahil Toplam',
+  'order.total': ' Toplam',
+  'order.iVAIncluido': 'KDV Dahil ',
   units: 'adet',
   autoShipStarted: 'Abonelik yaratılma tarihi',
   nextShipment: 'Gelecek gönderi',
@@ -1024,6 +1025,7 @@ const tr_TR = {
   subscribe: 'Sepete ekle',
   saveExtraMoney: 'Bu abonelikte {val} tasarruf edin',
   'subscription.pause': 'Duraklat',
-  'payment.shippingDiscount': 'Mal teslimatı'
+  'payment.shippingDiscount': 'Mal teslimatı',
+  myAutoshipOrder: 'Aboneliklerim'
 };
 export default tr_TR;
