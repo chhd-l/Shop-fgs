@@ -42,7 +42,8 @@ class PayProductInfo extends React.Component {
     currentPage: '',
     guestEmail: '',
     isGuestCart: false,
-    isCheckOut: false
+    isCheckOut: false,
+    deliveryAddress: []
   };
   constructor(props) {
     super(props);
@@ -791,7 +792,7 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-                {/* 运费折扣 */}
+                {/* 运费折扣 俄罗斯 */}
                 {process.env.REACT_APP_LANG == 'ru' &&
                 this.props.isCheckOut &&
                 this.freeShippingFlag &&
@@ -814,7 +815,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 ) : null}
 
-                {this.firstOrderOnThePlatformDiscountPrice > 0 && (
+                {/* {this.firstOrderOnThePlatformDiscountPrice > 0 && (
                   <div className="row leading-lines shipping-item flex-layout green">
                     <label className="saveDiscount font14" style={{ flex: 2 }}>
                       <FormattedMessage id="promotion.firstOrderDiscount" />
@@ -832,7 +833,7 @@ class PayProductInfo extends React.Component {
                       </b>
                     </div>
                   </div>
-                )}
+                )} */}
 
                 {/* 税额 */}
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
@@ -847,13 +848,19 @@ class PayProductInfo extends React.Component {
                     <div className="col-5 end-lines">
                       <p className="text-right">
                         <span className="shipping-total-cost">
-                          {!this.isLogin && this.props.isGuestCart ? (
+                          {!this.isLogin &&
+                          process.env.REACT_APP_LANG == 'en' ? (
                             <>
-                              {customTaxSettingOpenFlag == 0 &&
-                              enterPriceType == 1 ? (
-                                <b>{subtractionSign}</b>
+                              {/* 是否在cart页面 */}
+                              {this.props.isGuestCart && subtractionSign}
+                              {/* 是否在checkout页面 */}
+                              {this.props.isCheckOut &&
+                              this.props.deliveryAddress?.address1 == '' ? (
+                                <>
+                                  <b>{subtractionSign}</b>
+                                </>
                               ) : (
-                                formatMoney(this.taxFeePrice)
+                                <>{formatMoney(this.taxFeePrice)}</>
                               )}
                             </>
                           ) : (
@@ -890,6 +897,7 @@ class PayProductInfo extends React.Component {
               </div>
             </div>
           </div>
+          {/* {JSON.stringify(this.props.deliveryAddress)} */}
           <div className="product-summary__total grand-total row leading-lines border-top pl-md-3 pr-md-3 pt-2 pb-2 pt-md-3 pb-md-3">
             <div className="col-6 start-lines">
               <span>
@@ -898,12 +906,28 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                {!this.isLogin && this.props.isGuestCart ? (
+                {/* 是否登录 */}
+                {!this.isLogin && process.env.REACT_APP_LANG == 'en' ? (
                   <>
-                    {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                      <b>{subtractionSign}</b>
+                    {/* 是否在cart页面 */}
+                    {this.props.isGuestCart && (
+                      <>
+                        {customTaxSettingOpenFlag == 0 &&
+                        enterPriceType == 1 ? (
+                          <b>{subtractionSign}</b>
+                        ) : (
+                          formatMoney(this.tradePrice)
+                        )}
+                      </>
+                    )}
+                    {/* 是否在checkout页面 */}
+                    {this.props.isCheckOut &&
+                    this.props.deliveryAddress?.address1 == '' ? (
+                      <>
+                        <b>{subtractionSign}</b>
+                      </>
                     ) : (
-                      formatMoney(this.tradePrice)
+                      <>{formatMoney(this.tradePrice)}</>
                     )}
                   </>
                 ) : (
@@ -912,6 +936,7 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
           </div>
+
           {process.env.REACT_APP_LANG == 'de' ? (
             <div
               style={{

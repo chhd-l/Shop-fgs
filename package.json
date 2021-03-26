@@ -132,7 +132,7 @@
     "build:stg_tr": "dotenv -e .env.stage.tr node scripts/build.js",
     "build:uatwedding_tr": "dotenv -e .env.uatwedding.tr node scripts/build.js",
     "build:stgwedding_fr": "dotenv -e .env.stgwedding.fr node scripts/build.js",
-    "build:stgwedding_ru": "dotenv -e stgwedding_ru node scripts/build.js",
+    "build:stgwedding_ru": "dotenv -e .env.stgwedding.ru node scripts/build.js",
     "build:stgwedding_tr": "dotenv -e .env.stgwedding.tr node scripts/build.js",
     "build:shopsite_fr": "dotenv -e .env.shopsite.fr node scripts/build.js",
     "build:shopsite_fr2": "dotenv -e .env.shopsite.fr2 node scripts/build.js",
