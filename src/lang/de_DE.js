@@ -1224,7 +1224,8 @@ const de_DE = {
   'Your Pet is a…': 'Mein Tier ist ein(e)…',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
-  BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen'
+  BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen',
+  'payment.shippingDiscount': 'Lieferung von Waren'
 };
 
 export default de_DE;

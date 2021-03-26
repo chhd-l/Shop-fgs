@@ -1,34 +1,34 @@
-const isHubGA = process.env.REACT_APP_HUB_GA
+const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const localItemRoyal = window.__.localItemRoyal;
 
-
-
-const getPromotionInfo = ()=>{
+const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
-  return promotionInfo?.goodsInfos?.map(item=>{
+  return promotionInfo?.goodsInfos?.map((item) => {
     return {
-      promoCodeName: item.marketingCode || "",
+      promoCodeName: item.marketingCode || '',
       promoCodeAmount: item.promotionDiscountPrice || ''
-    }
-  })
-}
-
+    };
+  });
+};
 
 // //删除对象中空属性
-export function deleteObjEmptyAttr (obj) {
-  for(var key in obj){
-    if(obj[key] ===null||obj[key] ===''||(Array.isArray(obj[key])&&obj[key].length==0)){
-       delete obj[key]
+export function deleteObjEmptyAttr(obj) {
+  for (var key in obj) {
+    if (
+      obj[key] === null ||
+      obj[key] === '' ||
+      (Array.isArray(obj[key]) && obj[key].length == 0)
+    ) {
+      delete obj[key];
     }
   }
-  return obj
+  return obj;
 }
-
 
 //天-0周  周-value*1 月-value*4
 export const getComputedWeeks = (frequencyList) => {
-  let calculatedWeeks = {}; 
+  let calculatedWeeks = {};
 
   frequencyList.forEach((item) => {
     switch (item.type) {
@@ -44,123 +44,139 @@ export const getComputedWeeks = (frequencyList) => {
     }
   });
 
-  return calculatedWeeks
-}
-
+  return calculatedWeeks;
+};
 
 //myAccountScreen
 export const myAccountPushEvent = (myAccountScreenName) => {
-  if (!isHubGA) return
+  if (!isHubGA) return;
   dataLayer.push({
-    'event': 'myAccountScreen',
-    myAccountScreenName, //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
-  })
+    event: 'myAccountScreen',
+    myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
+  });
   // console.log(myAccountScreenName)
   // debugger
-}
+};
 
 //myAccountAction
 export const myAccountActionPushEvent = (myAccountActionName) => {
-  if (!isHubGA) return
+  if (!isHubGA) return;
   dataLayer.push({
-    'event': 'myAccountAction',
-    myAccountActionName,
+    event: 'myAccountAction',
+    myAccountActionName
     //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change email', 'Change password', 'Delete Account'
-  })
+  });
   // console.log(myAccountActionName)
   // debugger
-}
+};
 
 //faqClick
 export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
-  if (!isHubGA) return
+  if (!isHubGA) return;
   dataLayer.push({
-    'event': 'faqClick',
-    'faqClick': {
+    event: 'faqClick',
+    faqClick: {
       item, //Generic name in English for each item
       clickType //'Expand' or 'Collapse'
     }
   });
-}
+};
 
 //cartScreenLoad
 export const GACartScreenLoad = () => {
-  if (!isHubGA) return
+  if (!isHubGA) return;
   dataLayer.push({
     event: 'cartScreenLoad'
   });
-}
-
+};
 
 //init 游客(cart+checkout都使用)
 export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
-  let promotionInfo = getPromotionInfo()
-  if (!isHubGA) return
-  let breed = []
-  productList?.[0]?.goodsAttributesValueRelList?.filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
-      breed.push(item2.goodsAttributeValue)
-  })
-  const calculatedWeeks = getComputedWeeks(frequencyList)
+  let promotionInfo = getPromotionInfo();
+  if (!isHubGA) return;
+  let breed = [];
+  productList?.[0]?.goodsAttributesValueRelList
+    ?.filter((item) => item.goodsAttributeName == 'breeds')
+    .forEach((item2) => {
+      breed.push(item2.goodsAttributeValue);
+    });
+  const calculatedWeeks = getComputedWeeks(frequencyList);
   let arr = [];
-  const mapProductList = new Map(productList.map((item,i)=>[i,item])) //换成map格式的目的 就是为了for of循环获取index
-  for (let [index,item] of mapProductList) {
+  const mapProductList = new Map(productList.map((item, i) => [i, item])); //换成map格式的目的 就是为了for of循环获取index
+  for (let [index, item] of mapProductList) {
     let cur_selected_size = item.sizeList.filter((item2) => {
       return item2.selected == true;
     });
     let variant = cur_selected_size[0]?.specText;
     let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
-    let price = item.goodsInfoFlag ? cur_selected_size[0]?.subscriptionPrice : cur_selected_size[0]?.marketPrice
-    let subscriptionFrequency = item.form ? calculatedWeeks[item.form.frequencyId] : ''
-    let range = item.goodsCateName?.split("/")[1] || ""
-    let technology = item.goodsCateName?.split("/")[2] || ""
-    
+    let price = item.goodsInfoFlag
+      ? cur_selected_size[0]?.subscriptionPrice
+      : cur_selected_size[0]?.marketPrice;
+    let subscriptionFrequency = item.form
+      ? calculatedWeeks[item.form.frequencyId]
+      : '';
+    let range = item.goodsCateName?.split('/')[1] || '';
+    let technology = item.goodsCateName?.split('/')[2] || '';
+
     let obj = deleteObjEmptyAttr({
-      'price': price, //Product Price, including discount if promo code activated for this product
-      'specie': item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
-      'range': range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
-      'name': item.goodsName, //WeShare product name, always in English
-      'mainItemCode': item.goodsNo, //Main item code
-      'SKU': goodsInfoNo, //product SKU
-      'subscription': item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
-      'technology': technology, //'Dry', 'Wet', 'Pack'
-      'brand': 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-      'size': variant || "", //Same wording as displayed on the site, with units depending on the country (oz, grams…)
-      'quantity': item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
-      'subscriptionFrequency': item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription' 
+      price: price, //Product Price, including discount if promo code activated for this product
+      specie: item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
+      range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+      name: item.goodsName, //WeShare product name, always in English
+      mainItemCode: item.goodsNo, //Main item code
+      SKU: goodsInfoNo, //product SKU
+      subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
+      technology: technology, //'Dry', 'Wet', 'Pack'
+      brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+      size: variant || '', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
+      quantity: item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
+      subscriptionFrequency:
+        item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
-      promoCodeName:promotionInfo&&promotionInfo[index]&&promotionInfo[index].promoCodeName||"", //Promo code name, only if promo activated
-      promoCodeAmount: promotionInfo&&promotionInfo[index]&&promotionInfo[index].promoCodeAmount||"" //Promo code amount, only if promo activated
-    })
+      promoCodeName:
+        (promotionInfo &&
+          promotionInfo[index] &&
+          promotionInfo[index].promoCodeName) ||
+        '', //Promo code name, only if promo activated
+      promoCodeAmount:
+        (promotionInfo &&
+          promotionInfo[index] &&
+          promotionInfo[index].promoCodeAmount) ||
+        '' //Promo code amount, only if promo activated
+    });
 
     arr.push(obj);
   }
   dataLayer.push({
     products: arr
   });
-  props.checkoutStore.saveGAProduct({products: arr})
-}
+  props.checkoutStore.saveGAProduct({ products: arr });
+};
 
 //init 会员(cart+checkout都使用)
-export const GAInitLogin = ({productList,frequencyList,props}) => {
-  let promotionInfo = getPromotionInfo()
-  if (!isHubGA) return
-  const calculatedWeeks = getComputedWeeks(frequencyList)
+export const GAInitLogin = ({ productList, frequencyList, props }) => {
+  let promotionInfo = getPromotionInfo();
+  if (!isHubGA) return;
+  const calculatedWeeks = getComputedWeeks(frequencyList);
   let arr = [];
-  const mapProductList = new Map(productList.map((item,i)=>[i,item])) //换成map格式的目的 就是为了for of循环获取index
-  for (let [index,item] of mapProductList) {
-    let subscriptionFrequency = item.periodTypeId ? calculatedWeeks[item.periodTypeId] : ''
-    let range = item.goods.goodsCateName?.split("/")[1] || "";
-    let technology = item.goods.goodsCateName?.split("/")[2] || ""
-    let breed = []
-    item?.goodsAttributesValueRelVOList?.filter(item=>item.goodsAttributeName == 'breeds').forEach(item2=>{
-      breed.push(item2.goodsAttributeValue)
-    })
+  const mapProductList = new Map(productList.map((item, i) => [i, item])); //换成map格式的目的 就是为了for of循环获取index
+  for (let [index, item] of mapProductList) {
+    let subscriptionFrequency = item.periodTypeId
+      ? calculatedWeeks[item.periodTypeId]
+      : '';
+    let range = item.goods.goodsCateName?.split('/')[1] || '';
+    let technology = item.goods.goodsCateName?.split('/')[2] || '';
+    let breed = [];
+    item?.goodsAttributesValueRelVOList
+      ?.filter((item) => item.goodsAttributeName == 'breeds')
+      .forEach((item2) => {
+        breed.push(item2.goodsAttributeValue);
+      });
 
     let obj = deleteObjEmptyAttr({
-      price:
-        item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
+      price: item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
       specie: item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
@@ -177,76 +193,89 @@ export const GAInitLogin = ({productList,frequencyList,props}) => {
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
 
-
-      promoCodeName:promotionInfo&&promotionInfo[index]&&promotionInfo[index].promoCodeName||"", //Promo code name, only if promo activated
-      promoCodeAmount: promotionInfo&&promotionInfo[index]&&promotionInfo[index].promoCodeAmount||"" //Promo code amount, only if promo activated
-    })
+      promoCodeName:
+        (promotionInfo &&
+          promotionInfo[index] &&
+          promotionInfo[index].promoCodeName) ||
+        '', //Promo code name, only if promo activated
+      promoCodeAmount:
+        (promotionInfo &&
+          promotionInfo[index] &&
+          promotionInfo[index].promoCodeAmount) ||
+        '' //Promo code amount, only if promo activated
+    });
 
     arr.push(obj);
   }
   dataLayer.push({
     products: arr
   });
-  props.checkoutStore.saveGAProduct({products: arr})
-}
+  props.checkoutStore.saveGAProduct({ products: arr });
+};
 
 //cart cartChangeSubscription
 export const GACartChangeSubscription = (btnContent) => {
-  if (!isHubGA) return
+  if (!isHubGA) return;
   dataLayer.push({
     event: 'cartChangeSubscription',
     cartChangeSubscription: {
       button: btnContent //Values : 'Single purchase', 'Autoship'
     }
   });
-}
-
+};
 
 //GA pet 全局获取
 export const doGetGAVal = (props) => {
-  if (!isHubGA) return
+  if (!isHubGA) return;
   let breed = [],
-           id = [],
-          obj = {
+    id = [],
+    obj = {
       specieId: [],
       breedName: []
-    }
-    const { loginStore:{isLogin},checkoutStore: { cartData, loginCartData } } = props
-    
-    if (isLogin) {
-      for (let item of loginCartData) {
-        item?.goodsAttributesValueRelVOList?.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
-          breed.push(item2.goodsAttributeValue)
-        })
-        if (item.cateId == '1134') {
-          id.push(1)
-        } else {
-          id.push(2)
-        }
-      }
-    } else {
-        cartData.forEach(item=>{
-          if (item.cateId == '1134') {
-            id.push(1)
-          } else {
-            id.push(2)
-          }
-        })
+    };
+  const {
+    loginStore: { isLogin },
+    checkoutStore: { cartData, loginCartData }
+  } = props;
 
-        let arr = cartData[0]&&cartData[0].goodsAttributesValueRelList||[]
-  
-        arr.filter(item => item.goodsAttributeName == 'breeds').forEach(item2 => {
-          breed.push(item2.goodsAttributeValue)
-        })
+  if (isLogin) {
+    for (let item of loginCartData) {
+      item?.goodsAttributesValueRelVOList
+        ?.filter((item) => item.goodsAttributeName == 'breeds')
+        .forEach((item2) => {
+          breed.push(item2.goodsAttributeValue);
+        });
+      if (item.cateId == '1134') {
+        id.push(1);
+      } else {
+        id.push(2);
+      }
     }
-    obj.specieId = id
-    obj.breedName = breed
-    return deleteObjEmptyAttr(obj)
-}
+  } else {
+    cartData.forEach((item) => {
+      if (item.cateId == '1134') {
+        id.push(1);
+      } else {
+        id.push(2);
+      }
+    });
+
+    let arr = (cartData[0] && cartData[0].goodsAttributesValueRelList) || [];
+
+    arr
+      .filter((item) => item.goodsAttributeName == 'breeds')
+      .forEach((item2) => {
+        breed.push(item2.goodsAttributeValue);
+      });
+  }
+  obj.specieId = id;
+  obj.breedName = breed;
+  return deleteObjEmptyAttr(obj);
+};
 
 //checkout step
 export const checkoutDataLayerPushEvent = ({ name, options }) => {
-  if (!isHubGA) return
+  if (!isHubGA) return;
   dataLayer.push({
     event: 'checkoutStep',
     checkoutStep: {
@@ -257,27 +286,25 @@ export const checkoutDataLayerPushEvent = ({ name, options }) => {
 };
 
 //Order confirmation
-export const orderConfirmationPushEvent = (details)=>{
-  if (!isHubGA) return
+export const orderConfirmationPushEvent = (details) => {
+  if (!isHubGA) return;
   let obj = {
-    'event': 'orderConfirmation',
-    'orderConfirmation': deleteObjEmptyAttr({
-      'id': details.transactionId || "", //Transaction ID, same as backend system
-      'currency': process.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
-      'amount': details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
-      'taxes': details.tradePrice.taxFreePrice || '', //Taxes amount, US number format, local currency
-      'shipping': details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
-      'paymentMethod': 'Credit Card' //'Credit Card' currently only payment method in use
+    event: 'orderConfirmation',
+    orderConfirmation: deleteObjEmptyAttr({
+      id: details.totalTid || '', //Transaction ID, same as backend system
+      currency: process.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
+      amount: details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
+      taxes: details.tradePrice.taxFreePrice || '', //Taxes amount, US number format, local currency
+      shipping: details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
+      paymentMethod: 'Credit Card' //'Credit Card' currently only payment method in use
     })
-  }
+  };
   dataLayer.push(obj);
-}
-
-
+};
 
 //product finder  productFinderScreen:{name}
-const getStepCurrentName = ({type,stepName})=>{
-  let stepVirtualPageURLObj = { 
+const getStepCurrentName = ({ type, stepName }) => {
+  let stepVirtualPageURLObj = {
     age: 'productfinder/' + type + '/age',
     breed: 'productfinder/' + type + '/breed',
     sterilized: 'productfinder/' + type + '/sterilization_status',
@@ -285,28 +312,38 @@ const getStepCurrentName = ({type,stepName})=>{
     weight: 'productfinder/' + type + '/weight',
     sensitivity: 'productfinder/' + type + '/sensitivity',
     petActivityCode: 'productfinder/' + type + '/activity',
-    lifestyle: 'productfinder/' + type + '/lifestyle',
+    lifestyle: 'productfinder/' + type + '/lifestyle'
   };
   return stepVirtualPageURLObj[stepName];
-}
+};
 
 //product finder  productFinderScreen:{previousAnswer}
-const getStepCurrentPreviousAnswer = (answerList)=>{
-  if (answerList.length==0) return
-  if (answerList[answerList.length-1].productFinderAnswerDetailsVO){
-    let productFinderAnswerDetailsVO = answerList[answerList.length-1].productFinderAnswerDetailsVO
-    return productFinderAnswerDetailsVO.prefix + " " + productFinderAnswerDetailsVO.suffix
+const getStepCurrentPreviousAnswer = (answerList) => {
+  if (answerList.length == 0) return;
+  if (answerList[answerList.length - 1].productFinderAnswerDetailsVO) {
+    let productFinderAnswerDetailsVO =
+      answerList[answerList.length - 1].productFinderAnswerDetailsVO;
+    return (
+      productFinderAnswerDetailsVO.prefix +
+      ' ' +
+      productFinderAnswerDetailsVO.suffix
+    );
   }
-}
+};
 
-//product finder 
-export const productFinderPushEvent = ({type,stepName,stepOrder,answerdQuestionList}) => {
+//product finder
+export const productFinderPushEvent = ({
+  type,
+  stepName,
+  stepOrder,
+  answerdQuestionList
+}) => {
   dataLayer.push({
-    'event' : 'productFinderScreen',
-    'productFinderScreen' : {
-      'name' : getStepCurrentName({type,stepName}), //Pattern : productfinder/pet/step, see full list below
-      'number' : stepOrder, //Step number
-      'previousAnswer' :getStepCurrentPreviousAnswer(answerdQuestionList)  //Answer to previous question, generic name, in English
-      }
-    });
-}
+    event: 'productFinderScreen',
+    productFinderScreen: {
+      name: getStepCurrentName({ type, stepName }), //Pattern : productfinder/pet/step, see full list below
+      number: stepOrder, //Step number
+      previousAnswer: getStepCurrentPreviousAnswer(answerdQuestionList) //Answer to previous question, generic name, in English
+    }
+  });
+};
