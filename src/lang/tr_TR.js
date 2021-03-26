@@ -450,6 +450,7 @@ const tr_TR = {
   'lang.close': 'Kapatmak',
   'lang.country': 'Ülke',
   'lang.language': 'dil',
+  language: 'Turkey/Türkçe',
   //language-choose
   'lang.selectYourLocation': 'Konumunuzu seçin',
   'lang.submit': 'Sunmak',
@@ -691,7 +692,6 @@ const tr_TR = {
   'profile.emailChoose':
     "Evet, Royal Canin'den özel tasarruflar, ürün bilgileri, evcil hayvan bakım ipuçları ve daha fazlasını almak istiyorum.",
   promotion: 'İndirim',
-  'promotion.firstOrderDiscount': 'İlk Sipariş İndirimi',
   promotionalCode: 'Promosyon kodu',
   promotionCode: 'Promosyon kodu',
   puppy: 'Puppy (0-1 yaş)',

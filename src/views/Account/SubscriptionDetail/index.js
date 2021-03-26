@@ -330,8 +330,7 @@ class SubscriptionDetail extends React.Component {
       sizeList = goodsInfos.map((g, i) => {
         // g = Object.assign({}, g, { selected: false });
         g = Object.assign({}, g, {
-          selected: i === 0,
-          productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+          selected: i === 0
         });
         if (g.selected && !g.subscriptionStatus) {
           let { form } = this.state;
@@ -385,8 +384,7 @@ class SubscriptionDetail extends React.Component {
       let goodsInfos = res.context.goodsInfos || [];
       sizeList = goodsInfos.map((g, i) => {
         g = Object.assign({}, g, {
-          selected: i === 0,
-          productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+          selected: i === 0
         });
         if (g.selected && !g.subscriptionStatus) {
           let { form } = this.state;
@@ -4397,14 +4395,6 @@ class SubscriptionDetail extends React.Component {
                                                   ),
                                                   price:
                                                     el.tradePrice.discountsPrice
-                                                },
-                                                {
-                                                  text: (
-                                                    <FormattedMessage id="promotion.firstOrderDiscount" />
-                                                  ),
-                                                  price:
-                                                    el.tradePrice
-                                                      .firstOrderOnThePlatformDiscountPrice
                                                 }
                                               ]
                                                 .filter((ele) => ele.price > 0)

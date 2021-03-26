@@ -31,6 +31,10 @@ const LogoutButton = (props) => {
       if (idToken) {
         const redirectUri =
           window.location.origin + process.env.REACT_APP_HOMEPAGE;
+          if(!location.pathname.includes('/account')) {
+            oktaAuth.signOut(location.pathname)
+            return
+          }
         // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
         window.location.href = `${
           process.env.REACT_APP_ISSUER

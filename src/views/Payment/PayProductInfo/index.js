@@ -240,9 +240,6 @@ class PayProductInfo extends React.Component {
   get promotionDesc() {
     return this.props.checkoutStore.promotionDesc;
   }
-  get firstOrderOnThePlatformDiscountPrice() {
-    return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
-  }
   get promotionVOList() {
     return this.props.checkoutStore.promotionVOList;
   }
@@ -814,26 +811,6 @@ class PayProductInfo extends React.Component {
                     </div>
                   </div>
                 ) : null}
-
-                {/* {this.firstOrderOnThePlatformDiscountPrice > 0 && (
-                  <div className="row leading-lines shipping-item flex-layout green">
-                    <label className="saveDiscount font14" style={{ flex: 2 }}>
-                      <FormattedMessage id="promotion.firstOrderDiscount" />
-                    </label>
-                    <div
-                      className="text-right"
-                      style={{
-                        position: 'relative',
-                        flex: 1
-                      }}
-                    >
-                      <b>
-                        -
-                        {formatMoney(this.firstOrderOnThePlatformDiscountPrice)}
-                      </b>
-                    </div>
-                  </div>
-                )} */}
 
                 {/* 税额 */}
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
