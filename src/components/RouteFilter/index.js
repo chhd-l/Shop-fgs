@@ -281,20 +281,20 @@ class RouteFilter extends Component {
     }
 
     if (pathname !== '/login') {
-      loadJS({
-        url: process.env.REACT_APP_ONTRUST_SRC,
-        dataSets: {
-          domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-          documentLanguage: 'true'
-        }
-      });
+      // loadJS({
+      //   url: process.env.REACT_APP_ONTRUST_SRC,
+      //   dataSets: {
+      //     domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
+      //     documentLanguage: 'true'
+      //   }
+      // });
     }
-    if (process.env.REACT_APP_CONSENT_SCRIPT) {
-      loadJS({
-        url: process.env.REACT_APP_CONSENT_SCRIPT,
-        id: 'global-script'
-      });
-    }
+    // if (process.env.REACT_APP_CONSENT_SCRIPT) {
+    //   loadJS({
+    //     url: process.env.REACT_APP_CONSENT_SCRIPT,
+    //     id: 'global-script'
+    //   });
+    // }
 
     if (
       process.env.REACT_APP_MARS_FOOTER &&
