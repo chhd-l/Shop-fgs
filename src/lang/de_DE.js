@@ -1223,7 +1223,8 @@ const de_DE = {
   yes2: 'Weiter',
   'Your Pet is a…': 'Mein Tier ist ein(e)…',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
-  yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert'
+  yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
+  BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen'
 };
 
 export default de_DE;
