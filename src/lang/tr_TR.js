@@ -1022,6 +1022,7 @@ const tr_TR = {
   'payment.shippingDiscount': 'Mal teslimatı',
   myAutoshipOrder: 'Aboneliklerim',
   signInAndRegisterNow: 'Giriş yap / Şimdi kayıt ol',
-  startEnd: '-e'
+  startEnd: '-e',
+  transactionInfo: 'Bilgilerim'
 };
 export default tr_TR;
