@@ -290,12 +290,13 @@ class Form extends React.Component {
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
+        let cfm = caninForm;
+        cfm.country = res[0].value;
+        cfm.countryId = res[0].id;
+        cfm.countryName = res[0].name;
         this.setState({
-          countryList: res
-        });
-        caninForm.countryName = res[0].name;
-        this.setState({
-          caninForm
+          countryList: res,
+          caninForm: Object.assign(this.state.caninForm, cfm)
         });
       }
     } catch (err) {

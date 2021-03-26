@@ -130,7 +130,7 @@ class PaymentEditForm extends React.Component {
         { name: '2029', value: 2029 },
         { name: '2030', value: 2030 }
       ],
-      countryList: [],
+      // countryList: [],
       stateList: [],
 
       validationLoading: false, // 地址校验loading
@@ -175,15 +175,15 @@ class PaymentEditForm extends React.Component {
   }
   componentDidMount() {
     //查询国家
-    getDictionary({ type: 'country' }).then((res) => {
-      const { paymentForm } = this.state;
-      let clist = [{ value: res[0]?.description, name: res[0]?.name }];
-      this.setState({
-        countryList: clist
-      });
-      paymentForm.country = res[0]?.description;
-      paymentForm.countryId = res[0]?.id;
-    });
+    // getDictionary({ type: 'country' }).then((res) => {
+    //   const { paymentForm } = this.state;
+    //   let clist = [{ value: res[0]?.description, name: res[0]?.name }];
+    //   this.setState({
+    //     countryList: clist
+    //   });
+    //   paymentForm.country = res[0]?.description;
+    //   paymentForm.countryId = res[0]?.id;
+    // });
 
     // 查询省份列表（美国：州）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
@@ -540,7 +540,6 @@ class PaymentEditForm extends React.Component {
       paymentForm.address2 = validationAddress.address2;
       paymentForm.city = validationAddress.city;
       paymentForm.country = validationAddress.countryCode;
-      paymentForm.countryName = validationAddress.countryCode;
       paymentForm.zipCode = validationAddress.postalCode;
       if (process.env.REACT_APP_Adyen_country === 'US') {
         paymentForm.state = validationAddress.provinceCode;
@@ -612,14 +611,14 @@ class PaymentEditForm extends React.Component {
       validationLoading: true
     });
 
-    let ValidationAddressData = {};
-    ValidationAddressData['cityName'] = paymentForm.city;
-    ValidationAddressData['country'] = paymentForm.countryId;
-    ValidationAddressData['address1'] = paymentForm.address1;
-    ValidationAddressData['postCode'] = paymentForm.zipCode;
-    ValidationAddressData['province'] = paymentForm.state;
+    // let ValidationAddressData = {};
+    // ValidationAddressData['cityName'] = paymentForm.city;
+    // ValidationAddressData['country'] = paymentForm.countryId;
+    // ValidationAddressData['address1'] = paymentForm.address1;
+    // ValidationAddressData['postCode'] = paymentForm.zipCode;
+    // ValidationAddressData['province'] = paymentForm.state;
 
-    this.setState({ ValidationAddressData });
+    // this.setState({ ValidationAddressData });
 
     setTimeout(() => {
       this.setState({
