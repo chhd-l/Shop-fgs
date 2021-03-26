@@ -746,7 +746,6 @@ const es_ES = {
   'profile.emailChoose':
     'Sí, me gustaría recibir ahorros exclusivos, información de productos, consejos para el cuidado de mascotas y más de Royal Canin.',
   promotion: 'Promoción',
-  'promotion.firstOrderDiscount': 'Descuento de primer pedido',
   promotionalCode: 'Codigo promocional',
   promotionCode: 'código de promoción',
   puppy: 'Cachorro (0-1 años)',

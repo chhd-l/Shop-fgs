@@ -1396,27 +1396,6 @@ class AccountOrders extends React.Component {
                                     )}
                                   </div>
 
-                                  {/* first order discount */}
-                                  {details.tradePrice
-                                    .firstOrderOnThePlatformDiscountPrice >
-                                    0 && (
-                                    <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                        &nbsp;
-                                      </div>
-                                      <div className="col-6 col-md-2 mb-2 green">
-                                        <FormattedMessage id="promotion.firstOrderDiscount" />
-                                      </div>
-                                      <div className="col-6 col-md-3 text-right text-nowrap green">
-                                        -
-                                        {formatMoney(
-                                          details.tradePrice
-                                            .firstOrderOnThePlatformDiscountPrice
-                                        )}
-                                      </div>
-                                    </>
-                                  )}
-
                                   {/* 税额 */}
                                   {customTaxSettingOpenFlag == 0 &&
                                   enterPriceType == 1 ? (
