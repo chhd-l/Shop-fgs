@@ -182,7 +182,6 @@ class PersonalDataEditForm extends React.Component {
       // 不校验地址，进入下一步
       this.showNextPanel();
     }
-    // debugger;
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {

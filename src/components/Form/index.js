@@ -26,6 +26,7 @@ class Form extends React.Component {
     type: 'billing',
     initData: null,
     personalData: false,
+    isCyberBillingAddress: false,
     isLogin: false,
     updateData: () => {}
   };
@@ -79,11 +80,6 @@ class Form extends React.Component {
 
     // 查询国家
     this.getCountryList();
-
-    // let newData = Object.assign({}, initData);
-    // initData.cityId = newData.cityId;
-    // initData.city = newData.cityName; // 接口参数 city => long
-    // initData.cityName = newData.cityName; // 接口参数 cityName => string
 
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
@@ -186,19 +182,51 @@ class Form extends React.Component {
     const { caninForm } = this.state;
     const groups = {};
     let rule = [];
+
+    // 绑卡页面添加 email
+    let emailObj = {
+      id: 99999999,
+      sequence: 99999999,
+      inputType: 0,
+      fieldKey: 'email',
+      fieldName: 'email',
+      filedType: 'text',
+      inputFreeTextFlag: 1,
+      inputSearchBoxFlag: 0,
+      inputDropDownBoxFlag: 0,
+      maxLength: 50,
+      requiredFlag: 1,
+      enableFlag: 1,
+      dataSource: 0,
+      apiName: null,
+      pageRow: 0,
+      pageCol: 0,
+      occupancyNum: 2,
+      storeId: null,
+      createTime: '',
+      updateTime: '',
+      delFlag: 0,
+      delTime: null,
+      regExp: {},
+      errMsg: ''
+    };
+    if (this.props.isCyberBillingAddress) {
+      array.push(emailObj);
+    }
+
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
       item.filedType = item.filedType == 0 ? 'text' : 'number';
       let regExp = '';
       let errMsg = '';
       switch (item.fieldKey) {
-        case 'address1':
-          regExp = /^\d{5}$/;
-          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
-          break;
         case 'postCode':
           regExp = /^\d{5}$/;
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          break;
+        case 'email':
+          regExp = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
+          errMsg = CURRENT_LANGFILE['pleaseEnterTheCorrectEmail'];
           break;
         case 'phoneNumber':
           if (process.env.REACT_APP_LANG == 'fr') {
@@ -262,12 +290,13 @@ class Form extends React.Component {
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
+        let cfm = caninForm;
+        cfm.country = res[0].value;
+        cfm.countryId = res[0].id;
+        cfm.countryName = res[0].name;
         this.setState({
-          countryList: res
-        });
-        caninForm.countryName = res[0].name;
-        this.setState({
-          caninForm
+          countryList: res,
+          caninForm: Object.assign(this.state.caninForm, cfm)
         });
       }
     } catch (err) {
@@ -678,6 +707,7 @@ class Form extends React.Component {
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
           <div className="row rc_form_box">
+            {/* {JSON.stringify(formList)} */}
             {formList &&
               formList.map((fobj, idx) => (
                 <>

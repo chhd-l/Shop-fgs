@@ -1882,11 +1882,6 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
-    // let newData = Object.assign({}, data);
-    // data.cityId = newData.cityId;
-    // data.city = newData.cityId;
-    // data.cityName = newData.city;
-    debugger;
     this.setState({
       deliveryAddress: data
     });
@@ -1896,38 +1891,38 @@ class Payment extends React.Component {
       });
     }
     try {
-      if (process.env.REACT_APP_LANG == 'en') {
-        // 获取税额
-        if (this.isLogin) {
-          let stateNo = data?.state?.stateNo;
-          await this.props.checkoutStore.updateLoginCart({
-            promotionCode: this.state.promotionCode,
-            subscriptionFlag: false,
-            purchaseFlag: false, // 购物车: true，checkout: false
-            taxFeeData: {
-              country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-              region: stateNo, // 省份简写
-              city: data.city,
-              street: data.address1,
-              postalCode: data.postCode,
-              customerAccount: this.state.email
-            }
-          });
-        } else {
-          await this.props.checkoutStore.updateUnloginCart({
-            promotionCode: this.state.promotionCode,
-            purchaseFlag: false, // 购物车: true，checkout: false
-            taxFeeData: {
-              country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-              region: data.provinceNo, // 省份简写
-              city: data.city,
-              street: data.address1,
-              postalCode: data.postCode,
-              customerAccount: this.state.guestEmail
-            }
-          });
-        }
+      // if (process.env.REACT_APP_LANG == 'en') {
+      // 获取税额
+      if (this.isLogin) {
+        let stateNo = data?.state?.stateNo;
+        await this.props.checkoutStore.updateLoginCart({
+          promotionCode: this.state.promotionCode,
+          subscriptionFlag: false,
+          purchaseFlag: false, // 购物车: true，checkout: false
+          taxFeeData: {
+            country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+            region: stateNo, // 省份简写
+            city: data.city,
+            street: data.address1,
+            postalCode: data.postCode,
+            customerAccount: this.state.email
+          }
+        });
+      } else {
+        await this.props.checkoutStore.updateUnloginCart({
+          promotionCode: this.state.promotionCode,
+          purchaseFlag: false, // 购物车: true，checkout: false
+          taxFeeData: {
+            country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+            region: data.provinceNo, // 省份简写
+            city: data.city,
+            street: data.address1,
+            postalCode: data.postCode,
+            customerAccount: this.state.guestEmail
+          }
+        });
       }
+      // }
     } catch (err) {
       console.warn(err);
     }

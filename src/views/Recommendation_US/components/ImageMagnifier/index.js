@@ -9,6 +9,8 @@ import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
 let H5Maxcount = 3;
 let PCMaxcount = 5;
+let PcImgSquare = 69;
+let H5ImgSquare = 60;
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
@@ -351,6 +353,7 @@ class ImageMagnifier extends Component {
     }
     const isMobile = getDeviceType() === 'H5';
     let MAXCOUNT = isMobile ? H5Maxcount : PCMaxcount;
+    let MOVELENGTH = isMobile ? H5ImgSquare : PcImgSquare;
     console.info('MAXCOUNT', MAXCOUNT);
     return (
       <div>
@@ -470,19 +473,21 @@ class ImageMagnifier extends Component {
             style={{ display: imgCount > MAXCOUNT ? 'inline-block' : 'none' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
-              this.setState({ positionLeft: this.state.positionLeft + 69 });
+              this.setState({
+                positionLeft: this.state.positionLeft + MOVELENGTH
+              });
             }}
           />
           {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
-              className="text-center imageInnerBox"
+              className="imageInnerBox"
               style={{
                 marginTop: '2rem',
                 // textAlign: 'center',
                 // width: '100%',
-                textAlign: imgCount <= MAXCOUNT && isMobile ? 'center' : 'left',
-                width: imgCount <= MAXCOUNT && isMobile ? '100%' : '1000px',
+                textAlign: imgCount <= MAXCOUNT ? 'center' : 'left',
+                width: imgCount <= MAXCOUNT && isMobile ? '100%' : '100000px',
                 left: this.state.positionLeft + 'px'
               }}
             >
@@ -546,15 +551,20 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={RightImg} /> */}
           <i
             className={`rc-icon rc-right rightArrow rc-iconography ${
-              this.state.positionLeft === (imgCount - MAXCOUNT) * -69
+              this.state.positionLeft === (imgCount - MAXCOUNT) * -MOVELENGTH
                 ? 'hide-visible'
                 : 'rc-brand1 show-visible'
             }`}
             style={{ display: imgCount > MAXCOUNT ? 'inline-block' : 'none' }}
             onClick={() => {
-              if (this.state.positionLeft === (imgCount - MAXCOUNT) * -69)
+              if (
+                this.state.positionLeft ===
+                (imgCount - MAXCOUNT) * -MOVELENGTH
+              )
                 return;
-              this.setState({ positionLeft: this.state.positionLeft - 69 });
+              this.setState({
+                positionLeft: this.state.positionLeft - MOVELENGTH
+              });
             }}
           />
         </div>
