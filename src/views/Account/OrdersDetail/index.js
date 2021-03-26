@@ -1427,13 +1427,14 @@ class AccountOrders extends React.Component {
                                   >
                                     <span className="medium color-444">
                                       <FormattedMessage id="order.total" />
-                                    </span>{' '}
+                                    </span>
+                                    <span>&nbsp;</span>
                                     <span style={{ fontSize: '.8em' }}>
                                       <FormattedMessage
                                         id="order.iVAIncluido"
                                         defaultMessage=" "
                                       />
-                                    </span>
+                                    </span>{' '}
                                   </div>
                                   <div className="col-6 col-md-3 text-right medium text-nowrap color-444">
                                     {formatMoney(details.tradePrice.totalPrice)}

@@ -1006,7 +1006,7 @@ const tr_TR = {
     'Birkaç basit adımda evcil hayvanınız için bir profil oluşturun ve ona en uygun beslenme seçeneklerini keşfedin!',
   'pet.addNewPet': 'Yeni bir evcil hayvan ekleyin',
   xProduct: '{val} adet',
-  'order.total': 'Toplam',
+  'order.total': ' Toplam',
   'order.iVAIncluido': 'KDV Dahil ',
   units: 'adet',
   autoShipStarted: 'Abonelik yaratılma tarihi',
@@ -1025,6 +1025,7 @@ const tr_TR = {
   subscribe: 'Sepete ekle',
   saveExtraMoney: 'Bu abonelikte {val} tasarruf edin',
   'subscription.pause': 'Duraklat',
-  'payment.shippingDiscount': 'Mal teslimatı'
+  'payment.shippingDiscount': 'Mal teslimatı',
+  myAutoshipOrder: 'Aboneliklerim'
 };
 export default tr_TR;
