@@ -1023,6 +1023,7 @@ const tr_TR = {
   singlePurchase: 'Tek satın alma',
   subscribe: 'Sepete ekle',
   saveExtraMoney: 'Bu abonelikte {val} tasarruf edin',
-  'subscription.pause': 'Duraklat'
+  'subscription.pause': 'Duraklat',
+  'payment.shippingDiscount': 'Mal teslimatı'
 };
 export default tr_TR;

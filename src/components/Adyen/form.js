@@ -202,7 +202,8 @@ class AdyenCreditCardForm extends React.Component {
       showCancelBtn,
       showSaveBtn,
       paymentStore,
-      mustSaveForFutherPayments
+      mustSaveForFutherPayments,
+      cardList
     } = this.props;
     const { saveLoading, isValid } = this.state;
     return (
@@ -282,7 +283,7 @@ class AdyenCreditCardForm extends React.Component {
             </div>
           ) : null}
         </div>
-        {this.isLogin ? (
+        {this.isLogin && cardList.length ? (
           <div className="text-right">
             <a
               href="javascript:;"

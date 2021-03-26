@@ -1495,6 +1495,7 @@ const fr_FR = {
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
   'contactUs.requiredField': 'The field is required',
-  BacktoSavedPayments: 'Retour au paiement enregistré'
+  BacktoSavedPayments: 'Retour au paiement enregistré',
+  'payment.shippingDiscount': 'Remise de fret'
 };
 export default fr_FR;
