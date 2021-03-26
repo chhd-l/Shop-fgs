@@ -260,7 +260,6 @@ class CheckoutStore {
       customerAccount: email,
       guestEmail: email
     });
-
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
     this.setPromotionCode(promotionCode);

@@ -289,7 +289,7 @@ class AddressList extends React.Component {
       if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
         let dda = data.DaData;
         // console.log('--------- ★★★★★★ DaData: ', dda);
-        // 俄罗斯计算运费
+        // 计算运费
         let ddres = await shippingCalculation({
           sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
           sourceAreaFias: null,
@@ -312,6 +312,9 @@ class AddressList extends React.Component {
         });
         data.calculation = ddres?.context?.tariffs[0];
         console.log('---------- ★★★★★★ 计算运费： ', ddres);
+        if (!data.calculation) {
+          return;
+        }
       }
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
