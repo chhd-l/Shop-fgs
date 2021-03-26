@@ -49,7 +49,7 @@ class EmailForm extends React.Component {
   validData = () => {
     const { form } = this.state;
     let tmpStatus = true;
-    if (form.email && !EMAIL_REGEXP.test(form.email)) {
+    if (!EMAIL_REGEXP.test(form.email)) {
       tmpStatus = false;
     }
     this.setState({ isValid: tmpStatus });

@@ -726,6 +726,11 @@ class Payment extends React.Component {
             pspItemCode: ''
           });
         },
+        payu_cod: () => {
+          this.setState({
+            paymentTypeVal: 'cod'
+          });
+        },
         payuoxxo: () => {
           this.setState({ paymentTypeVal: 'oxxo' });
         },
