@@ -726,6 +726,11 @@ class Payment extends React.Component {
             pspItemCode: ''
           });
         },
+        payu_cod: () => {
+          this.setState({
+            paymentTypeVal: 'cod'
+          });
+        },
         payuoxxo: () => {
           this.setState({ paymentTypeVal: 'oxxo' });
         },
@@ -1880,7 +1885,7 @@ class Payment extends React.Component {
     // data.cityId = newData.cityId;
     // data.city = newData.cityId;
     // data.cityName = newData.city;
-    // debugger
+    debugger;
     this.setState({
       deliveryAddress: data
     });
@@ -1897,7 +1902,7 @@ class Payment extends React.Component {
           await this.props.checkoutStore.updateLoginCart({
             promotionCode: this.state.promotionCode,
             subscriptionFlag: false,
-            purchaseFlag: false,
+            purchaseFlag: false, // 购物车: true，checkout: false
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: stateNo, // 省份简写
@@ -1910,7 +1915,7 @@ class Payment extends React.Component {
         } else {
           await this.props.checkoutStore.updateUnloginCart({
             promotionCode: this.state.promotionCode,
-            purchaseFlag: false,
+            purchaseFlag: false, // 购物车: true，checkout: false
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: data.provinceNo, // 省份简写
@@ -2898,6 +2903,7 @@ class Payment extends React.Component {
     this.setState({ guestEmail }, () => {
       this.props.checkoutStore.updateUnloginCart({
         guestEmail,
+        purchaseFlag: false, // 购物车: true，checkout: false
         taxFeeData: {
           country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
           region: deliveryAddress.provinceNo, // 省份简写

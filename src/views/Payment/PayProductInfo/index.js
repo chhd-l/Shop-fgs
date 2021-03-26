@@ -543,7 +543,7 @@ class PayProductInfo extends React.Component {
                           //游客
                           result = await checkoutStore.updateUnloginCart({
                             promotionCode: this.state.promotionInputValue,
-                            purchaseFlag: false,
+                            purchaseFlag: false, // 购物车: true，checkout: false
                             guestEmail: this.props.guestEmail
                           });
                         } else {
@@ -551,7 +551,7 @@ class PayProductInfo extends React.Component {
                           result = await checkoutStore.updateLoginCart({
                             promotionCode: this.state.promotionInputValue,
                             subscriptionFlag: this.props.buyWay === 'frequency',
-                            purchaseFlag: false
+                            purchaseFlag: false // 购物车: true，checkout: false
                           });
                         }
 
