@@ -801,7 +801,7 @@ export default class Felin extends React.Component {
                   <h4 className="rc-espilon">
                     <div className="content">
                       <div className="rc-gamma inherit-fontsize">
-                        <h3 className="hahaha">
+                        <h3>
                           Obtenez une recommandation personnalisée pour son
                           alimentation
                         </h3>
