@@ -837,14 +837,14 @@ const tr_TR = {
     'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
   'subscription.receiveDate': 'Sonraki alınma tarihi',
   'subscription.saveDiscount': 'Abonelik İndirim İndirimi',
-  'subscription.shipping': 'Nakliye',
+  'subscription.shipping': 'Kargo ücreti',
   'subscription.shippingAddress': 'Teslimat adresi',
   'subscription.skip': 'SONRAKİ TESLİMATA ATLA',
   'subscription.status': 'Abonelik durumu',
   'subscription.sub': 'Alt-',
   'subscription.subscriptionNumberTip': 'Lütfen abonelik numarasını girin',
   'subscription.toBeDelivered': 'Hazırlanıyor',
-  'subscription.total': 'Toplam',
+  'subscription.total': 'Ara toplam',
   'subscription.totalInclu': 'Toplam (KDV Dahil)',
   'subscriptionLanding.catButton': 'Kedi Mamaları',
   'subscriptionLanding.content1':
@@ -1025,6 +1025,7 @@ const tr_TR = {
   startEnd: '-e',
   transactionInfo: 'Bilgilerim',
   noStart: 'Gelecek siparişlerim',
-  completed: 'Tamamlandı'
+  completed: 'Tamamlandı',
+  skip: 'Sipariş atla'
 };
 export default tr_TR;
