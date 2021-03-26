@@ -125,7 +125,11 @@ class Question extends React.Component {
       }
       return item;
     });
-    this.props.GAHandle(targetItem.questionName,editStopOrder,answerdQuestionList);
+    this.props.GAHandle(
+      targetItem.questionName,
+      editStopOrder,
+      answerdQuestionList
+    );
     this.setDefaultDataFromCache({
       questionName: targetItem.questionName,
       answerList: targetItem.answerList,
@@ -381,7 +385,11 @@ class Question extends React.Component {
           questionType: qRes.questionType,
           configSizeAttach: sizeStep
         });
-        this.props.GAHandle(resContext.step.name,resContext.stepOrder,resContext.answerdQuestionList);
+        this.props.GAHandle(
+          resContext.step.name,
+          resContext.stepOrder,
+          resContext.answerdQuestionList
+        );
         this.setState(
           {
             questionCfg: {
@@ -425,6 +433,10 @@ class Question extends React.Component {
           finderNumber,
           questionParams: tmpQuestionParams
         });
+        sessionItemRoyal.set(
+          'pr-question-params',
+          JSON.stringify(tmpQuestionParams)
+        );
         this.setState({ questionCfg: null, questionType: '', progress: 100 });
         localItemRoyal.remove(`pf-cache-${type}-question`);
         sessionItemRoyal.set(

@@ -222,17 +222,21 @@ class RouteFilter extends Component {
       if (prevPath.includes('/prescription')) {
         sessionItemRoyal.remove('clinic-reselect');
       }
-      if (prevPath.includes('/product-finder-recommendation')) {
-        sessionItemRoyal.set('is-from-product-finder', '1');
-      }
+      // if (prevPath.includes('/product-finder-recommendation')) {
+      //   sessionItemRoyal.set('is-from-product-finder', '1');
+      // }
     }
 
     if (pathname === '/product-finder') {
       sessionItemRoyal.remove('product-finder-edit-order');
       sessionItemRoyal.remove('pf-result');
     }
-    if (!PDP_Regex.test(pathname)) {
-      sessionItemRoyal.remove('is-from-product-finder');
+    if (
+      !PDP_Regex.test(pathname) &&
+      pathname !== '/product-finder' &&
+      pathname !== '/product-finder-recommendation'
+    ) {
+      sessionItemRoyal.remove('pr-question-params');
     }
 
     sessionItemRoyal.set('prevPath', curPath);
@@ -281,20 +285,20 @@ class RouteFilter extends Component {
     }
 
     if (pathname !== '/login') {
-      loadJS({
-        url: process.env.REACT_APP_ONTRUST_SRC,
-        dataSets: {
-          domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-          documentLanguage: 'true'
-        }
-      });
+      // loadJS({
+      //   url: process.env.REACT_APP_ONTRUST_SRC,
+      //   dataSets: {
+      //     domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
+      //     documentLanguage: 'true'
+      //   }
+      // });
     }
-    if (process.env.REACT_APP_CONSENT_SCRIPT) {
-      loadJS({
-        url: process.env.REACT_APP_CONSENT_SCRIPT,
-        id: 'global-script'
-      });
-    }
+    // if (process.env.REACT_APP_CONSENT_SCRIPT) {
+    //   loadJS({
+    //     url: process.env.REACT_APP_CONSENT_SCRIPT,
+    //     id: 'global-script'
+    //   });
+    // }
 
     if (
       process.env.REACT_APP_MARS_FOOTER &&
