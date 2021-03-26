@@ -789,11 +789,9 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
+
                 {/* 运费折扣 俄罗斯 */}
-                {process.env.REACT_APP_LANG == 'ru' &&
-                this.props.isCheckOut &&
-                this.freeShippingFlag &&
-                this.freeShippingDiscountPrice ? (
+                {this.freeShippingFlag && this.props.isCheckOut ? (
                   <div className="row leading-lines shipping-item green">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">

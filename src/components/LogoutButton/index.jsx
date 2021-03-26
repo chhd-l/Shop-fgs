@@ -29,22 +29,27 @@ const LogoutButton = (props) => {
       const idToken = authState.idToken;
       console.log(idToken, authState, 'idToken')
       if (idToken) {
-        // const redirectUri =
-        //   window.location.origin + process.env.REACT_APP_HOMEPAGE;
-        // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
-        // window.location.href = `${
-        //   process.env.REACT_APP_ISSUER
-        // }/v1/logout?id_token_hint=${
-        //   idToken ? idToken.value : ''
-        // }&post_logout_redirect_uri=${redirectUri}`;
-        try {
-          if(window.location.pathname.includes('/account')) {
-            await oktaAuth.signOut(process.env.REACT_APP_HOMEPAGE);  
-          }else {
-            await oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+        
+        if(window.location.origin.includes('http://')) {
+          const redirectUri =
+          window.location.origin + process.env.REACT_APP_HOMEPAGE;
+          await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
+          window.location.href = `${
+            process.env.REACT_APP_ISSUER
+          }/v1/logout?id_token_hint=${
+            idToken ? idToken.value : ''
+          }&post_logout_redirect_uri=${redirectUri}`;
+        }else {
+          try {
+            await oktaAuth.tokenManager.remove()
+            if(window.location.pathname.includes('/account')) {
+              oktaAuth.signOut(process.env.REACT_APP_HOMEPAGE);  
+            }else {
+              oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+            }
+          }catch(e) {
+            window.location.reload();
           }
-        }catch(e) {
-          window.location.reload();
         }
       } else {
         loginStore.changeLoginModal(false);
