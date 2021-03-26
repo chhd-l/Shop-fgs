@@ -66,6 +66,7 @@ class PaymentEditForm extends React.Component {
       },
       currentVendor: '1',
       isValid: false,
+      isValidForm: false,
 
       // 組件
       paymentForm: {
@@ -291,39 +292,6 @@ class PaymentEditForm extends React.Component {
       this.validFormData();
     });
   };
-  // inputBlur = (e) => {
-  //   let validDom = Array.from(
-  //     e.target.parentElement.parentElement.children
-  //   ).filter((el) => {
-  //     let i = findIndex(Array.from(el.classList), (classItem) => {
-  //       return classItem === 'invalid-feedback';
-  //     });
-  //     return i > -1;
-  //   })[0];
-  //   if (validDom) {
-  //     validDom.style.display = e.target.value ? 'none' : 'block';
-  //   }
-  // };
-  inputBlur = async (e) => {
-    const { errMsgObj } = this.state;
-    const target = e.target;
-    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
-    const value = target.value;
-    try {
-      await validData(targetRule, { [target.name]: value });
-      this.setState({
-        errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: ''
-        })
-      });
-    } catch (err) {
-      this.setState({
-        errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: err.message
-        })
-      });
-    }
-  };
   // 实时获取卡类型
   cardNumberChange = async (e) => {
     const target = e.target;
@@ -456,7 +424,6 @@ class PaymentEditForm extends React.Component {
     this.props.hideMyself({ closeListPage: this.props.backPage === 'cover' });
     this.toTop();
   };
-
   //input输入事件
   handleInputChange = (e) => {
     const target = e.target;
@@ -470,14 +437,32 @@ class PaymentEditForm extends React.Component {
     });
     this.inputBlur(e);
   };
+  inputBlur = async (e) => {
+    const { errMsgObj } = this.state;
+    const target = e.target;
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const value = target.value;
+    try {
+      await validData(targetRule, { [target.name]: value });
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: ''
+        })
+      });
+    } catch (err) {
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: err.message
+        })
+      });
+    }
+  };
   //select事件
   handleSelectedItemChange = (name, item) => {
     let errMsgObj = this.state.errMsgObj;
     const { paymentForm } = this.state;
     paymentForm[name] = item.value;
-
     let obj = Object.assign({}, errMsgObj, { [name]: '' }); //选择有值了，就清空没填提示
-
     this.setState({ paymentForm, errMsgObj: obj }, () => {
       console.log(paymentForm, '--------handleSelectedItemChange');
     });
@@ -487,9 +472,7 @@ class PaymentEditForm extends React.Component {
     let errMsgObj = this.state.errMsgObj;
     const { paymentForm } = this.state;
     paymentForm.city = data.cityName;
-
     let obj = Object.assign({}, errMsgObj, { city: '' }); //选择有值了，就清空没填提示
-
     this.setState({ paymentForm, errMsgObj: obj }, () => {
       console.log(paymentForm, '--------handleSelectedCityChange');
     });
@@ -557,6 +540,7 @@ class PaymentEditForm extends React.Component {
       paymentForm.address2 = validationAddress.address2;
       paymentForm.city = validationAddress.city;
       paymentForm.country = validationAddress.countryCode;
+      paymentForm.countryName = validationAddress.countryCode;
       paymentForm.zipCode = validationAddress.postalCode;
       if (process.env.REACT_APP_Adyen_country === 'US') {
         paymentForm.state = validationAddress.provinceCode;
@@ -590,6 +574,11 @@ class PaymentEditForm extends React.Component {
   cyberSaveIsAllRequiredFinished = () => {
     let errMsgObj = {};
     const paymentForm = this.state.paymentForm;
+    // 表单验证是否通过
+    if (!this.state.isValidForm) {
+      this.toTop();
+      return;
+    }
     ADDRESS_RULE.forEach((item) => {
       if (
         Object.keys(paymentForm).indexOf(item.key) &&
@@ -652,6 +641,21 @@ class PaymentEditForm extends React.Component {
     });
   };
 
+  updateCyberBillingAddress = async (data) => {
+    const { paymentForm } = this.state;
+    try {
+      if (!data?.formRule || (data?.formRule).length <= 0) {
+        return;
+      }
+      await validData(data.formRule, data); // 数据验证
+      this.setState({
+        isValidForm: true,
+        paymentForm: Object.assign(paymentForm, data)
+      });
+    } catch (err) {
+      console.error(' err msg: ', err);
+    }
+  };
   render() {
     const { supportPaymentMethods, needEmail, needPhone } = this.props;
     const {
@@ -660,6 +664,7 @@ class PaymentEditForm extends React.Component {
       successMsg,
       currentVendor,
       saveLoading,
+      paymentForm,
       ValidationAddressData,
       validationLoading,
       validationModalVisible,
@@ -1116,7 +1121,7 @@ class PaymentEditForm extends React.Component {
               handleSelectedItemChange={this.handleSelectedItemChange}
               inputBlur={this.inputBlur}
             />
-            <CyberBillingAddress
+            {/* <CyberBillingAddress
               form={this.state.paymentForm}
               errMsgObj={errMsgObj}
               countryList={this.state.countryList}
@@ -1124,7 +1129,11 @@ class PaymentEditForm extends React.Component {
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
               handleSelectedCityChange={this.handleSelectedCityChange}
-              inputBlur={this.inputBlur}
+              updateCyberBillingAddress={this.updateCyberBillingAddress}
+            /> */}
+            <CyberBillingAddress
+              form={this.state.paymentForm}
+              updateCyberBillingAddress={this.updateCyberBillingAddress}
             />
             {/* saveCard checkbox */}
             <div className="row">
@@ -1191,7 +1200,7 @@ class PaymentEditForm extends React.Component {
         {validationModalVisible && (
           <ValidationAddressModal
             btnLoading={this.state.btnLoading}
-            address={ValidationAddressData}
+            address={paymentForm}
             updateValidationData={(res) => this.getValidationData(res)}
             selectValidationOption={selectValidationOption}
             handleChooseValidationAddress={(e) =>

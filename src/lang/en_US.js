@@ -1118,7 +1118,7 @@ const en_US = {
   setAsDefault: 'Set as default',
   setDefaltAddressFailed: 'Set Defalt Address Failed',
   setDefaltAddressSuccess: 'Set Defalt Address Success',
-  setDefaultAddress: 'Save address to my address book',
+  setDefaultAddress: 'Set as default address',
   setDefaultPaymentMethod: 'Set as Default Payment method',
   shipmentOn: 'Shipment on',
   shipmentTrackingFalse: 'Please check this box if you wish to continue.',
