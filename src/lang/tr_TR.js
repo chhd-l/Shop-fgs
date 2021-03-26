@@ -450,6 +450,7 @@ const tr_TR = {
   'lang.close': 'Kapatmak',
   'lang.country': 'Ülke',
   'lang.language': 'dil',
+  language: 'Turkey/Türkçe',
   //language-choose
   'lang.selectYourLocation': 'Konumunuzu seçin',
   'lang.submit': 'Sunmak',
