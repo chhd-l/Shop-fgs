@@ -400,12 +400,6 @@ const tr_TR = {
   'help.tip3': 'Size en fazla 12 saat içinde cevap vereceğiz.',
   'help.tip4': 'Herhangi bir soruna her an cevap verebilirler.',
   here: 'aquí',
-  'home.catogery1': 'Dietas Veterinerler Perros',
-  'home.catogery2': 'Dietas Veterinarias Gatos',
-  'home.catogery3': 'Dietas de Prescripción Veterinaria Perros',
-  'home.catogery4': 'Dietas de Prescripción Veterinaria Gatos',
-  'home.catogery5': 'Gatos',
-  'home.catogery6': 'Perros',
   'home.convenientTip1': 'Evcil hayvanınızın ihtiyacına göre diyet seçimi',
   'home.convenientTip2': "{Val} 'dan sipariş verirken hızlı ücretsiz gönderim.",
   'home.convenientTip3': 'Destek servisi',
@@ -450,6 +444,7 @@ const tr_TR = {
   'lang.close': 'Kapatmak',
   'lang.country': 'Ülke',
   'lang.language': 'dil',
+  language: 'Turkey/Türkçe',
   //language-choose
   'lang.selectYourLocation': 'Konumunuzu seçin',
   'lang.submit': 'Sunmak',
@@ -691,7 +686,6 @@ const tr_TR = {
   'profile.emailChoose':
     "Evet, Royal Canin'den özel tasarruflar, ürün bilgileri, evcil hayvan bakım ipuçları ve daha fazlasını almak istiyorum.",
   promotion: 'İndirim',
-  'promotion.firstOrderDiscount': 'İlk Sipariş İndirimi',
   promotionalCode: 'Promosyon kodu',
   promotionCode: 'Promosyon kodu',
   puppy: 'Puppy (0-1 yaş)',
@@ -807,7 +801,7 @@ const tr_TR = {
   setDefaltAddressSuccess: 'Defalt Adres Başarısını Ayarla',
   setDefaultAddress: 'Varsayılan adres olarak ayarla',
   setDefaultPaymentMethod: 'Varsayılan Ödeme yöntemi olarak ayarla',
-  shipping: 'Nakliye',
+  shipping: 'İndirim',
   shippingAddress: 'Adres Yönetimi',
   signUp: 'Şimdi Üye Ol',
   sortBy: 'Göre sırala',
@@ -1006,7 +1000,8 @@ const tr_TR = {
     'Birkaç basit adımda evcil hayvanınız için bir profil oluşturun ve ona en uygun beslenme seçeneklerini keşfedin!',
   'pet.addNewPet': 'Yeni bir evcil hayvan ekleyin',
   xProduct: '{val} adet',
-  'order.iVAIncluido': 'KDV Dahil Toplam',
+  'order.total': ' Toplam',
+  'order.iVAIncluido': 'KDV Dahil ',
   units: 'adet',
   autoShipStarted: 'Abonelik yaratılma tarihi',
   nextShipment: 'Gelecek gönderi',
@@ -1023,6 +1018,10 @@ const tr_TR = {
   singlePurchase: 'Tek satın alma',
   subscribe: 'Sepete ekle',
   saveExtraMoney: 'Bu abonelikte {val} tasarruf edin',
-  'subscription.pause': 'Duraklat'
+  'subscription.pause': 'Duraklat',
+  'payment.shippingDiscount': 'Mal teslimatı',
+  myAutoshipOrder: 'Aboneliklerim',
+  signInAndRegisterNow: 'Giriş yap / Şimdi kayıt ol',
+  startEnd: '-e'
 };
 export default tr_TR;

@@ -746,7 +746,6 @@ const es_ES = {
   'profile.emailChoose':
     'Sí, me gustaría recibir ahorros exclusivos, información de productos, consejos para el cuidado de mascotas y más de Royal Canin.',
   promotion: 'Promoción',
-  'promotion.firstOrderDiscount': 'Descuento de primer pedido',
   promotionalCode: 'Codigo promocional',
   promotionCode: 'código de promoción',
   puppy: 'Cachorro (0-1 años)',
@@ -1028,6 +1027,7 @@ const es_ES = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.pause': 'pausa'
+  'subscription.pause': 'pausa',
+  'payment.shippingDiscount': 'Reabastecimiento'
 };
 export default es_ES;

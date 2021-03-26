@@ -1,38 +1,45 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { adyenPaymentsDetails } from '@/api/payment';
-import url from 'url';
+import { payu3dsPaymentsDetails } from '@/api/payment';
+import { getRequest } from '@/utils/utils';
+import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 class Payu3dsResult extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      circleLoading: false
+    };
   }
   render() {
-    return <div className="checkout--padding"></div>;
+    return (
+      <div className="checkout--padding">
+        {this.state.circleLoading ? (
+          <Loading bgColor={'#fff'} opacity={1} />
+        ) : null}
+      </div>
+    );
   }
   async UNSAFE_componentWillMount() {
-    console.log('Payu3dsResult');
-    // let commonResult = this.props.location.search.split('=')[1];//adyen_credit_card、paylater，paynow
-    // let payloadResult = url.parse(this.props.location.search, true).query.payload //sofort取的方式有点不一样
-    // let redirectResult
-    // if (payloadResult) {
-    //   redirectResult = payloadResult
-    // }else{
-    //   redirectResult = commonResult
-    // }
+    this.setState({
+      circleLoading: true
+    });
     try {
-      //   const res = await adyenPaymentsDetails({
-      //     redirectResult,
-      //     businessId: sessionItemRoyal.get('orderNumber')
-      //   });
-      if (res.context.status === 'SUCCEED') {
+      const res = await payu3dsPaymentsDetails({
+        ...getRequest()
+        //businessId: sessionItemRoyal.get('orderNumber')
+      });
+      if (res.context.status === 'Succeed') {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      this.setState({
+        circleLoading: false
+      });
     }
   }
 }

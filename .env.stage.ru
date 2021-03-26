@@ -32,6 +32,7 @@ REACT_APP_ONTRUST_DOMAIN_SCRIPT = '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test'
 #mars global footer
 REACT_APP_MARS_FOOTER = 'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru'
 
+#支付成功跳转的地址
 REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/ru'
 
 #language
@@ -99,8 +100,6 @@ REACT_APP_DOMAIN = '/ru/shop'
 
 #delete接口前缀
 REACT_APP_HUB_APIURL = https://uatwedding.royalcanin.com/ru/api
-
-REACT_APP_HUB_MONROYALCANIN = https://mon.royalcanin.fr/connexion/?_ga=2.267431690.500684309.1611668454-1487729967.1600939226
 
 #是否显示billing addr(account页)
 REACT_APP_HIDE_ACCOUNT_BILLING_ADDR = 1

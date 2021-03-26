@@ -87,7 +87,11 @@ class Form extends React.Component {
 
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
+    caninForm.stateNo = initData.provinceNo;
+    caninForm.state = initData.province;
     initData.stateId = initData.provinceId;
+    initData.stateNo = initData.provinceNo;
+    initData.state = initData.province;
     console.log('91 -------------★ EditForm initData: ', initData);
     // console.log('-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
@@ -188,6 +192,10 @@ class Form extends React.Component {
       let regExp = '';
       let errMsg = '';
       switch (item.fieldKey) {
+        case 'address1':
+          regExp = /^\d{5}$/;
+          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          break;
         case 'postCode':
           regExp = /^\d{5}$/;
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
@@ -351,6 +359,10 @@ class Form extends React.Component {
       caninForm.provinceId = data.value;
       caninForm.province = data.name;
       caninForm.provinceNo = data.no; // 省份简写
+
+      caninForm.stateId = data.value;
+      caninForm.state = data.name;
+      caninForm.stateNo = data.no; // 省份简写
     } else if (key == 'country') {
       caninForm.countryName = data.name;
     } else if (key == 'city') {

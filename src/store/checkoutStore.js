@@ -93,12 +93,6 @@ class CheckoutStore {
       ? this.cartPrice.promotionDiscount
       : '';
   }
-  // 首单优惠
-  @computed get firstOrderOnThePlatformDiscountPrice() {
-    return this.cartPrice && this.cartPrice.firstOrderOnThePlatformDiscountPrice
-      ? this.cartPrice.firstOrderOnThePlatformDiscountPrice
-      : '';
-  }
   @computed get promotionVOList() {
     console.log(this.cartPrice, 'this.cartPrice');
     return this.cartPrice && this.cartPrice.promotionVOList
@@ -220,8 +214,6 @@ class CheckoutStore {
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice,
-      firstOrderOnThePlatformDiscountPrice:
-        purchasesRes.firstOrderOnThePlatformDiscountPrice,
       goodsInfos: purchasesRes.goodsInfos,
       promotionVOList: purchasesRes.promotionVOList
     });
@@ -268,7 +260,6 @@ class CheckoutStore {
       customerAccount: email,
       guestEmail: email
     });
-
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
     this.setPromotionCode(promotionCode);
@@ -283,8 +274,6 @@ class CheckoutStore {
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice,
-      firstOrderOnThePlatformDiscountPrice:
-        purchasesRes.firstOrderOnThePlatformDiscountPrice,
       goodsInfos: purchasesRes.goodsInfos,
       promotionVOList: purchasesRes.promotionVOList
     };
@@ -451,8 +440,6 @@ class CheckoutStore {
           promotionDesc: sitePurchasesRes.promotionDesc,
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice,
-          firstOrderOnThePlatformDiscountPrice:
-            sitePurchasesRes.firstOrderOnThePlatformDiscountPrice,
           goodsInfos: sitePurchasesRes.goodsInfos,
           promotionVOList: sitePurchasesRes.promotionVOList
         };

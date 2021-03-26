@@ -132,6 +132,11 @@ export default class Felin extends React.Component {
     };
   }
   componentDidMount() {
+    console.log(this.props, 'this.props');
+    if (this.props.location.search === '?type=contact') {
+      this.setState({ isContactUs: true, currentTabIndex: 2 });
+      window.scroll({ top: 0 });
+    }
     let currentDate = new Date();
     if (
       +currentDate > +new Date('2021-04-20') &&

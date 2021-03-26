@@ -348,6 +348,7 @@ class AccountOrders extends React.Component {
       });
 
       this.props.history.push('/checkout');
+      order.payNowLoading = false;
     } catch (err) {
       console.log(err);
     } finally {

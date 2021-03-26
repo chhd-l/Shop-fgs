@@ -35,12 +35,12 @@
   <!-- Cookies Consent Notice, DO NOT REMOVE, contact: analytics@royalcanin.zendesk.com -->
   <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-document-language="true"
     type="text/javascript" charset="UTF-8" data-domain-script="<%= process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT %>"></script>
-  <script type="text/javascript">function OptanonWrapper() { }</script>
+  <!-- <script type="text/javascript">function OptanonWrapper() { }</script> -->
   <!-- End Cookies Consent Notice -->
   
   <script type="text/javascript">
-    if ("<%= process.env.REACT_APP_LANG %>" == 'fr' && window.Optanon) {
-      setTimeout(function () { Optanon.Close(); }, 30000);
+    if ("<%= process.env.REACT_APP_LANG %>" == 'fr') {
+      function OptanonWrapper() { setTimeout(function () {Optanon.Close(); }, 30000);}
     }
   </script>
 

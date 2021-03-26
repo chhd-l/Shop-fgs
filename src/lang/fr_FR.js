@@ -482,12 +482,6 @@ const fr_FR = {
   'help.title': "Besoin d'aide ?",
   here: 'ici',
   home: 'Accueil',
-  'home.catogery1': 'urine',
-  'home.catogery2': 'dermatologie',
-  'home.catogery3': 'Gestion du poids',
-  'home.catogery4': 'Tube digestif',
-  'home.catogery5': 'Chats',
-  'home.catogery6': 'chiens',
   'home.catogery7': 'Tube digestif',
   'home.catogery8': 'gestion de la santé',
   'home.convenientTip1': "Trouvez l'alimentation adaptée à votre animal",
@@ -883,7 +877,6 @@ const fr_FR = {
   'profile.emailChoose':
     "J'accepte que ROYAL CANIN utilise mon adresse e-mail pour l'envoi de newsletters. La newsletter comprend, entre autres Des actualités sur ROYAL CANIN, ses produits et ses bons. Je peux révoquer mon consentement à ROYAL CANIN à tout moment et gratuitement en cliquant sur le lien de désinscription à la fin de chaque e-mail de newsletter, par e-mail à {val1} ou par écrit à ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Cologne. Le traitement des données est licite jusqu'au retrait du consentement. Informations complémentaires, par ex. Vous pouvez trouver des informations sur les prestataires de services utilisés, l'évaluation des performances de la newsletter et la durée de stockage dans notre déclaration de protection des données.",
   promotion: 'Promotion',
-  'promotion.firstOrderDiscount': 'Remise de première commande',
   promotionalCode: 'Code promotionnel',
   promotionCode: 'Code promotionnel',
   puppy: 'Chiot (0-1 ans)',
@@ -1495,6 +1488,8 @@ const fr_FR = {
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
-  'contactUs.requiredField': 'The field is required'
+  'contactUs.requiredField': 'The field is required',
+  BacktoSavedPayments: 'Retour au paiement enregistré',
+  'payment.shippingDiscount': 'Remise de fret'
 };
 export default fr_FR;

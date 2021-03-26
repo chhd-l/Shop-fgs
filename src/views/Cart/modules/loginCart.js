@@ -205,9 +205,6 @@ class LoginCart extends React.Component {
   get promotionDiscount() {
     return this.props.checkoutStore.promotionDiscount;
   }
-  get firstOrderOnThePlatformDiscountPrice() {
-    return this.props.checkoutStore.firstOrderOnThePlatformDiscountPrice;
-  }
 
   get btnStatus() {
     const { productList } = this.state;
@@ -1175,21 +1172,6 @@ class LoginCart extends React.Component {
             </p>
           </div>
         </div>
-
-        {this.firstOrderOnThePlatformDiscountPrice > 0 && (
-          <div className={`row green`}>
-            <div className="col-6">
-              <p>
-                <FormattedMessage id="promotion.firstOrderDiscount" />
-              </p>
-            </div>
-            <div className="col-6 text-right">
-              <p>
-                <b>-{formatMoney(this.firstOrderOnThePlatformDiscountPrice)}</b>
-              </p>
-            </div>
-          </div>
-        )}
 
         {/* 税额 */}
         {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (

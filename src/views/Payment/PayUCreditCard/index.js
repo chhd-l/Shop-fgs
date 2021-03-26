@@ -308,7 +308,7 @@ class PayOs extends React.Component {
               const res = await queryIsSupportInstallMents({
                 platformName: 'PAYU',
                 pspItemCode: 'payu_tu',
-                binNumber: payosdata.bin_number, // 卡前6位
+                binNumber: payosdataRes.bin_number, // 卡前6位
                 payAmount: this.tradePrice,
                 storeId: process.env.REACT_APP_STOREID
               });

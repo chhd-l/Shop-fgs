@@ -726,6 +726,11 @@ class Payment extends React.Component {
             pspItemCode: ''
           });
         },
+        payu_cod: () => {
+          this.setState({
+            paymentTypeVal: 'cod'
+          });
+        },
         payuoxxo: () => {
           this.setState({ paymentTypeVal: 'oxxo' });
         },
@@ -827,28 +832,11 @@ class Payment extends React.Component {
   queryOrderDetails() {
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
       let resContext = res.context;
-      // let cityRes = await queryCityNameById({
-      //   id: [resContext.consignee.cityId, resContext.invoice.cityId]
-      // });
-      // cityRes = cityRes.context.systemCityVO || [];
-      // resContext.consignee.cityName = this.matchCityName(
-      //   cityRes,
-      //   resContext.consignee.cityId
-      // );
-      // resContext.invoice.cityName = this.matchCityName(
-      //   cityRes,
-      //   resContext.invoice.cityId
-      // );
       this.setState({
         orderDetails: resContext
       });
     });
   }
-  // matchCityName(dict, cityId) {
-  //   return dict.filter((c) => c.id === cityId).length
-  //     ? dict.filter((c) => c.id === cityId)[0].cityName
-  //     : cityId;
-  // }
   showErrorMsg = (msg) => {
     this.setState({
       errorMsg: msg,
@@ -1220,7 +1208,6 @@ class Payment extends React.Component {
       /* 4)调用支付 */
       const res = await action(parameters);
       console.log(parameters);
-      debugger;
       const { tidList } = this.state;
       let orderNumber; // 主订单号
       let subOrderNumberList = []; // 拆单时，子订单号
@@ -1252,6 +1239,7 @@ class Payment extends React.Component {
             ? tidList
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
+
           if (res.context.redirectUrl) {
             window.location.href = res.context.redirectUrl;
           } else {
@@ -1314,8 +1302,6 @@ class Payment extends React.Component {
               : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
 
-          console.log(subOrderNumberList);
-          debugger;
           sessionItemRoyal.set(
             'subOrderNumberList',
             JSON.stringify(subOrderNumberList)
@@ -1667,6 +1653,7 @@ class Payment extends React.Component {
               parseInt(g.goodsInfoFlag) && g.promotions?.includes('club')
                 ? 2
                 : parseInt(g.goodsInfoFlag),
+            questionParams: g.questionParams ? g.questionParams : undefined,
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
@@ -1898,7 +1885,7 @@ class Payment extends React.Component {
     // data.cityId = newData.cityId;
     // data.city = newData.cityId;
     // data.cityName = newData.city;
-    // debugger
+    debugger;
     this.setState({
       deliveryAddress: data
     });
@@ -1915,7 +1902,7 @@ class Payment extends React.Component {
           await this.props.checkoutStore.updateLoginCart({
             promotionCode: this.state.promotionCode,
             subscriptionFlag: false,
-            purchaseFlag: false,
+            purchaseFlag: false, // 购物车: true，checkout: false
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: stateNo, // 省份简写
@@ -1928,7 +1915,7 @@ class Payment extends React.Component {
         } else {
           await this.props.checkoutStore.updateUnloginCart({
             promotionCode: this.state.promotionCode,
-            purchaseFlag: false,
+            purchaseFlag: false, // 购物车: true，checkout: false
             taxFeeData: {
               country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
               region: data.provinceNo, // 省份简写
@@ -2916,6 +2903,7 @@ class Payment extends React.Component {
     this.setState({ guestEmail }, () => {
       this.props.checkoutStore.updateUnloginCart({
         guestEmail,
+        purchaseFlag: false, // 购物车: true，checkout: false
         taxFeeData: {
           country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
           region: deliveryAddress.provinceNo, // 省份简写
@@ -2995,7 +2983,8 @@ class Payment extends React.Component {
       isAdd,
       mobileCartVisibleKey,
       guestEmail,
-      installMentParam
+      installMentParam,
+      deliveryAddress
     } = this.state;
     const event = {
       page: {
@@ -3308,6 +3297,7 @@ class Payment extends React.Component {
                     currentPage="checkout"
                     guestEmail={guestEmail}
                     isCheckOut={true}
+                    deliveryAddress={deliveryAddress}
                   />
                 )}
                 {/* 分期手续费 */}

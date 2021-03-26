@@ -224,7 +224,7 @@ const en_US = {
   bankCard: 'Bank card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
-  biliingAddressSameAs: 'My biliing address is the same as my address',
+  biliingAddressSameAs: 'My billing address is the same as my address',
   billing: 'BILLING',
   billing2: 'Billing Address',
   billingAddress: 'Billing Address',
@@ -942,7 +942,6 @@ const en_US = {
   'profile.emailChoose':
     'Yes, I would like to receive exclusive savings, product information, pet care tips & more from Royal Canin.',
   promotion: 'Autoship Discount',
-  'promotion.firstOrderDiscount': 'First Order Discount',
   promotionalCode: 'Promotional Code',
   promotionCode: 'Promotional code',
   puppy: 'Puppy (0-1 year old)',

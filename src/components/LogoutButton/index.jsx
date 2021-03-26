@@ -23,21 +23,27 @@ const checkoutStore = stores.checkoutStore;
 const LogoutButton = (props) => {
   const [userInfo, setUserInfo] = useState(null);
   const { authState, oktaAuth } = useOktaAuth();
-
   const logout = async () => {
     try {
       const idToken = authState.idToken;
-      console.log(idToken, authState, 'idToken')
       if (idToken) {
-        const redirectUri =
-          window.location.origin + process.env.REACT_APP_HOMEPAGE;
-        // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
-        window.location.href = `${
-          process.env.REACT_APP_ISSUER
-        }/v1/logout?id_token_hint=${
-          idToken ? idToken.value : ''
-        }&post_logout_redirect_uri=${redirectUri}`;
-        await oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+        
+        if(location.pathname.includes('/account')) {
+          // const redirectUri = 
+          // window.location.origin + process.env.REACT_APP_HOMEPAGE;
+          // // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
+          // window.location.href = `${
+          //   process.env.REACT_APP_ISSUER
+          // }/v1/logout?id_token_hint=${
+          //   idToken ? idToken.value : ''
+          // }&post_logout_redirect_uri=${redirectUri}`;
+          oktaAuth.revokeAccessToken()
+          oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+        }else {
+          localItemRoyal.set('logout-redirect-url', location.href)
+          oktaAuth.revokeAccessToken()
+          oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+        }
       } else {
         loginStore.changeLoginModal(false);
         window.location.reload();
@@ -57,6 +63,7 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('rc-token');
       localItemRoyal.remove('rc-register');
       localItemRoyal.remove('rc-consent-list');
+      localItemRoyal.remove('rc-userinfo')
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
       // await logout(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);

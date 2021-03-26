@@ -73,6 +73,9 @@ REACT_APP_CHECKOUT_WITH_CLINIC = true
 REACT_APP_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/ru/
 REACT_APP_RC_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/
 
+#支付成功跳转的地址
+REACT_APP_SUCCESSFUL_URL = 'https://uatwedding.royalcanin.com/ru/shop'
+
 #根节点自定义样式名
 REACT_APP_ROOT_CLS = 'ui-custom-hub'
 
@@ -103,8 +106,6 @@ REACT_APP_PDP_RATING_VISIBLE = 0
 REACT_APP_DOMAIN = '/ru/shop'
 
 REACT_APP_HUBPAGE_PREFIX = https://uatwedding.royalcanin.com/ru
-
-REACT_APP_HUB_MONROYALCANIN = https://mon.royalcanin.fr/connexion/?_ga=2.267431690.500684309.1611668454-1487729967.1600939226
 
 #STG 不被搜索
 REACT_APP_NO_INDEX = 1
