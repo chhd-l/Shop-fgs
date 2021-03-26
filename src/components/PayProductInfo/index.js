@@ -410,26 +410,6 @@ class PayProductInfo extends React.Component {
                       </div>
                     </div>
 
-                    {details.tradePrice.firstOrderOnThePlatformDiscountPrice >
-                      0 && (
-                      <div className="row leading-lines shipping-item green">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <FormattedMessage id="promotion.firstOrderDiscount" />
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            -
-                            {formatMoney(
-                              details.tradePrice
-                                .firstOrderOnThePlatformDiscountPrice
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
                     {/* 税额 */}
                     {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                       <div className="row leading-lines shipping-item">

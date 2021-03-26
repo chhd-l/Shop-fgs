@@ -768,7 +768,6 @@ const ru_RU = {
   'profile.emailChoose':
     'Да, я хотел бы получать эксклюзивные скидки, информацию о продуктах, советы по уходу за домашними животными и многое другое от Royal Canin',
   promotion: 'Скидка',
-  'promotion.firstOrderDiscount': 'Скидка при первом заказе',
   promotionalCode: 'Промо код',
   promotionCode: 'Промокод',
   puppy: 'Щенок (0-1 год)',

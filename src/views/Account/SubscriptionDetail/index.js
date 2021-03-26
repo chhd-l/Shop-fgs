@@ -4395,14 +4395,6 @@ class SubscriptionDetail extends React.Component {
                                                   ),
                                                   price:
                                                     el.tradePrice.discountsPrice
-                                                },
-                                                {
-                                                  text: (
-                                                    <FormattedMessage id="promotion.firstOrderDiscount" />
-                                                  ),
-                                                  price:
-                                                    el.tradePrice
-                                                      .firstOrderOnThePlatformDiscountPrice
                                                 }
                                               ]
                                                 .filter((ele) => ele.price > 0)

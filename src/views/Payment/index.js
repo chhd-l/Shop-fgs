@@ -827,28 +827,11 @@ class Payment extends React.Component {
   queryOrderDetails() {
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
       let resContext = res.context;
-      // let cityRes = await queryCityNameById({
-      //   id: [resContext.consignee.cityId, resContext.invoice.cityId]
-      // });
-      // cityRes = cityRes.context.systemCityVO || [];
-      // resContext.consignee.cityName = this.matchCityName(
-      //   cityRes,
-      //   resContext.consignee.cityId
-      // );
-      // resContext.invoice.cityName = this.matchCityName(
-      //   cityRes,
-      //   resContext.invoice.cityId
-      // );
       this.setState({
         orderDetails: resContext
       });
     });
   }
-  // matchCityName(dict, cityId) {
-  //   return dict.filter((c) => c.id === cityId).length
-  //     ? dict.filter((c) => c.id === cityId)[0].cityName
-  //     : cityId;
-  // }
   showErrorMsg = (msg) => {
     this.setState({
       errorMsg: msg,
@@ -1220,7 +1203,6 @@ class Payment extends React.Component {
       /* 4)调用支付 */
       const res = await action(parameters);
       console.log(parameters);
-      debugger;
       const { tidList } = this.state;
       let orderNumber; // 主订单号
       let subOrderNumberList = []; // 拆单时，子订单号
@@ -1252,6 +1234,7 @@ class Payment extends React.Component {
             ? tidList
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
+
           if (res.context.redirectUrl) {
             window.location.href = res.context.redirectUrl;
           } else {
@@ -1314,8 +1297,6 @@ class Payment extends React.Component {
               : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
 
-          console.log(subOrderNumberList);
-          debugger;
           sessionItemRoyal.set(
             'subOrderNumberList',
             JSON.stringify(subOrderNumberList)
@@ -2996,7 +2977,8 @@ class Payment extends React.Component {
       isAdd,
       mobileCartVisibleKey,
       guestEmail,
-      installMentParam
+      installMentParam,
+      deliveryAddress
     } = this.state;
     const event = {
       page: {
@@ -3309,6 +3291,7 @@ class Payment extends React.Component {
                     currentPage="checkout"
                     guestEmail={guestEmail}
                     isCheckOut={true}
+                    deliveryAddress={deliveryAddress}
                   />
                 )}
                 {/* 分期手续费 */}

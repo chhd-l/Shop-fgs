@@ -21,6 +21,7 @@ const api = {
   // getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays: `/${process.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${process.env.REACT_APP_STOREID}/adyen/payment`,
+  payu3dsPaymentsDetails: `/tradeCallback/v2/${process.env.REACT_APP_STOREID}/payu/${process.env.REACT_APP_LANG}/athorization`,
   // adyenPaymentsDetails: '/adyenPay/payments/details',
   getProductPetConfig: '/order/config/findPet',
   // getProductPetConfig: '/order/config/findPet'
@@ -152,6 +153,14 @@ export function adyenPaymentsDetails(parameter) {
   return axios({
     url: api.adyenPaymentsDetails,
     method: 'get',
+    params: parameter
+  });
+}
+
+export function payu3dsPaymentsDetails(parameter) {
+  return axios({
+    url: api.payu3dsPaymentsDetails,
+    method: 'post',
     params: parameter
   });
 }
