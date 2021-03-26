@@ -1023,6 +1023,8 @@ const tr_TR = {
   myAutoshipOrder: 'Aboneliklerim',
   signInAndRegisterNow: 'Giriş yap / Şimdi kayıt ol',
   startEnd: '-e',
-  transactionInfo: 'Bilgilerim'
+  transactionInfo: 'Bilgilerim',
+  noStart: 'Gelecek siparişlerim',
+  completed: 'Tamamlandı'
 };
 export default tr_TR;
