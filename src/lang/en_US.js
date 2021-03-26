@@ -981,6 +981,7 @@ const en_US = {
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
   seeMoreText: 'see more',
+  'recommendation.benefit': 'The benefits',
   'recommendation.guidelinesTips':
     "Royal Canin's feeding guidelines can also be found on the product packaging.",
   'recommendation.buyNow': 'Buy now',

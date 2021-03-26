@@ -23,8 +23,6 @@ const checkoutStore = stores.checkoutStore;
 const LogoutButton = (props) => {
   const [userInfo, setUserInfo] = useState(null);
   const { authState, oktaAuth } = useOktaAuth();
-  console.log(oktaAuth, 'oktaAuth')
-  window.oktaAuth = oktaAuth
   const logout = async () => {
     try {
       const idToken = authState.idToken;

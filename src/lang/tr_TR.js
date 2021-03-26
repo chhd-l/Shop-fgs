@@ -400,12 +400,6 @@ const tr_TR = {
   'help.tip3': 'Size en fazla 12 saat içinde cevap vereceğiz.',
   'help.tip4': 'Herhangi bir soruna her an cevap verebilirler.',
   here: 'aquí',
-  'home.catogery1': 'Dietas Veterinerler Perros',
-  'home.catogery2': 'Dietas Veterinarias Gatos',
-  'home.catogery3': 'Dietas de Prescripción Veterinaria Perros',
-  'home.catogery4': 'Dietas de Prescripción Veterinaria Gatos',
-  'home.catogery5': 'Gatos',
-  'home.catogery6': 'Perros',
   'home.convenientTip1': 'Evcil hayvanınızın ihtiyacına göre diyet seçimi',
   'home.convenientTip2': "{Val} 'dan sipariş verirken hızlı ücretsiz gönderim.",
   'home.convenientTip3': 'Destek servisi',
@@ -1027,8 +1021,7 @@ const tr_TR = {
   'subscription.pause': 'Duraklat',
   'payment.shippingDiscount': 'Mal teslimatı',
   myAutoshipOrder: 'Aboneliklerim',
-  noStart: 'Gelecek siparişlerim',
-  completed: 'Tamamlandı',
-  transactionInfo: 'Bilgilerim'
+  signInAndRegisterNow: 'Giriş yap / Şimdi kayıt ol',
+  startEnd: '-e'
 };
 export default tr_TR;
