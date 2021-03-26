@@ -32,6 +32,10 @@ export default class AddressPreview extends React.Component {
               <>
                 {form.city} и {form.city}
                 <br />
+                <p>
+                  <FormattedMessage id="payment.deliveryFee" />:{' '}
+                  {formatMoney(form?.calculation?.deliveryPrice)}
+                </p>
                 <FormattedMessage
                   id="payment.deliveryDate"
                   values={{
@@ -39,10 +43,6 @@ export default class AddressPreview extends React.Component {
                     max: form?.calculation?.maxDeliveryTime
                   }}
                 />
-                <p>
-                  <FormattedMessage id="payment.deliveryFee" />:{' '}
-                  {formatMoney(form?.calculation?.deliveryPrice)}
-                </p>
               </>
             ) : null}
           </>
