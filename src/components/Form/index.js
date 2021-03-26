@@ -188,6 +188,10 @@ class Form extends React.Component {
       let regExp = '';
       let errMsg = '';
       switch (item.fieldKey) {
+        case 'address1':
+          regExp = /^\d{5}$/;
+          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          break;
         case 'postCode':
           regExp = /^\d{5}$/;
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
