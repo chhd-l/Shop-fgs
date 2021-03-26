@@ -1234,6 +1234,7 @@ class Payment extends React.Component {
             ? tidList
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
+
           if (res.context.redirectUrl) {
             window.location.href = res.context.redirectUrl;
           } else {
@@ -1296,7 +1297,6 @@ class Payment extends React.Component {
               : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
 
-          console.log(subOrderNumberList);
           sessionItemRoyal.set(
             'subOrderNumberList',
             JSON.stringify(subOrderNumberList)
