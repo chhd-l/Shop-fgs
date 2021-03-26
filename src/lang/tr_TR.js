@@ -437,10 +437,7 @@ const tr_TR = {
   isContinue: 'Devam edelim mi?',
   item: '{val} öğe',
   items: '{val} öğe',
-  itemsInCart: 'Sepetinizde {val} öğe var',
-  itemsInCart2: 'Sepetinizde {val} ürün var',
   just: 'Sadece',
-  kitten: 'Yavru kedi (0-1 yaş)',
   'lang.close': 'Kapatmak',
   'lang.country': 'Ülke',
   'lang.language': 'dil',
@@ -781,7 +778,7 @@ const tr_TR = {
     'Her formül, boyutları, ırkı, yaşı veya yaşam tarzı ne olursa olsun {val1} sağlık ihtiyaçlarına uygun beslenmeyi sağlamak için oluşturulmuştur.',
   'salesCategory.dog': 'Köpek için',
   //salesCategory
-  'salesCategory.title': '{Val1} yiyecek çeşitlerimizi keşfedin',
+  'salesCategory.title': '{val1} yiyecek çeşitlerimizi keşfedin',
   save: 'Kaydet',
   saveFailed: 'Kayıt başarısız!',
   saveSuccess: 'Başarıyı Kaydet',
@@ -1022,6 +1019,7 @@ const tr_TR = {
   'payment.shippingDiscount': 'Mal teslimatı',
   myAutoshipOrder: 'Aboneliklerim',
   signInAndRegisterNow: 'Giriş yap / Şimdi kayıt ol',
-  startEnd: '-e'
+  startEnd: '-e',
+  transactionInfo: 'Benim bilgim'
 };
 export default tr_TR;
