@@ -974,6 +974,7 @@ class AccountOrders extends React.Component {
       showLogisticsDetail,
       curLogisticInfo
     } = this.state;
+    const isTr = process.env.REACT_APP_LANG === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -1419,7 +1420,11 @@ class AccountOrders extends React.Component {
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
-                                  <div className="col-6 col-md-2 mb-2">
+                                  <div
+                                    className={`col-6 col-md-2 mb-2 ${
+                                      isTr ? 'tr-total-iVAIncluido' : ''
+                                    }`}
+                                  >
                                     <span className="medium color-444">
                                       <FormattedMessage id="order.total" />
                                     </span>{' '}
