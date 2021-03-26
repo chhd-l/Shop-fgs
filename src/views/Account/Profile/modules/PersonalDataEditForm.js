@@ -182,7 +182,7 @@ class PersonalDataEditForm extends React.Component {
       // 不校验地址，进入下一步
       this.showNextPanel();
     }
-    debugger;
+    // debugger;
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
@@ -251,7 +251,6 @@ class PersonalDataEditForm extends React.Component {
         mydata.provinceId = form.provinceId;
       }
       let param = Object.assign({}, this.props.originData, mydata);
-
       await updateCustomerBaseInfo(param);
 
       const customerId = this.userInfo && this.userInfo.customerId;
