@@ -456,11 +456,8 @@ const es_ES = {
   isContinue: '¿Continuar?',
   item: '{val} artículo',
   items: '{val} artículos',
-  itemsInCart: 'Usted tiene {val} artículo en su carro',
-  itemsInCart2: 'Usted tiene {val} artículos en su carro',
   IVAIncluido: '(IVA incluido)',
   just: 'sólo',
-  kitten: 'Gatito (0-1 años)',
   lastName: 'Apellido *',
   'list.errMsg':
     'No se encontraron productos, cambie los criterios de búsqueda e intente nuevamente.',

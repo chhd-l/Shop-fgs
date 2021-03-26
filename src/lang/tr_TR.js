@@ -437,10 +437,7 @@ const tr_TR = {
   isContinue: 'Devam edelim mi?',
   item: '{val} öğe',
   items: '{val} öğe',
-  itemsInCart: 'Sepetinizde {val} öğe var',
-  itemsInCart2: 'Sepetinizde {val} ürün var',
   just: 'Sadece',
-  kitten: 'Yavru kedi (0-1 yaş)',
   'lang.close': 'Kapatmak',
   'lang.country': 'Ülke',
   'lang.language': 'dil',
@@ -781,7 +778,7 @@ const tr_TR = {
     'Her formül, boyutları, ırkı, yaşı veya yaşam tarzı ne olursa olsun {val1} sağlık ihtiyaçlarına uygun beslenmeyi sağlamak için oluşturulmuştur.',
   'salesCategory.dog': 'Köpek için',
   //salesCategory
-  'salesCategory.title': '{Val1} yiyecek çeşitlerimizi keşfedin',
+  'salesCategory.title': '{val1} yiyecek çeşitlerimizi keşfedin',
   save: 'Kaydet',
   saveFailed: 'Kayıt başarısız!',
   saveSuccess: 'Başarıyı Kaydet',
@@ -837,14 +834,14 @@ const tr_TR = {
     'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
   'subscription.receiveDate': 'Sonraki alınma tarihi',
   'subscription.saveDiscount': 'Abonelik İndirim İndirimi',
-  'subscription.shipping': 'Nakliye',
+  'subscription.shipping': 'Kargo ücreti',
   'subscription.shippingAddress': 'Teslimat adresi',
   'subscription.skip': 'SONRAKİ TESLİMATA ATLA',
   'subscription.status': 'Abonelik durumu',
   'subscription.sub': 'Alt-',
   'subscription.subscriptionNumberTip': 'Lütfen abonelik numarasını girin',
   'subscription.toBeDelivered': 'Hazırlanıyor',
-  'subscription.total': 'Toplam',
+  'subscription.total': 'Ara toplam',
   'subscription.totalInclu': 'Toplam (KDV Dahil)',
   'subscriptionLanding.catButton': 'Kedi Mamaları',
   'subscriptionLanding.content1':
@@ -1022,6 +1019,10 @@ const tr_TR = {
   'payment.shippingDiscount': 'Mal teslimatı',
   myAutoshipOrder: 'Aboneliklerim',
   signInAndRegisterNow: 'Giriş yap / Şimdi kayıt ol',
-  startEnd: '-e'
+  startEnd: '-e',
+  transactionInfo: 'Bilgilerim',
+  noStart: 'Gelecek siparişlerim',
+  completed: 'Tamamlandı',
+  skip: 'Sipariş atla'
 };
 export default tr_TR;

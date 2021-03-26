@@ -622,12 +622,9 @@ const en_US = {
   isPurebredCat: 'Purebred cat?',
   item: '{val} item',
   items: '{val} items',
-  itemsInCart: 'You have {val} item in your cart',
-  itemsInCart2: 'You have {val} items in your cart',
   IVAIncluido: '',
   joinTheClub: 'Join the Club',
   just: 'Just',
-  kitten: 'Kitten (0-1 year old)',
   lastName: 'Last Name *',
   learnMore: 'learn more',
   'list.errMsg':
