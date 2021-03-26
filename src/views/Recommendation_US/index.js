@@ -138,7 +138,7 @@ class Recommendation extends React.Component {
     this.state = {
       promotionCode: '',
       // secondlist: secondlistArr,
-      showMore: false,
+      showMore: true,
       petType: 1, //0 dog;1 cat
       details: {
         id: '',
@@ -249,6 +249,7 @@ class Recommendation extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
+
     getRecommendationList_fr(token)
       .then((res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
@@ -258,38 +259,32 @@ class Recommendation extends React.Component {
           isRu &&
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
         productList.map((el) => {
-          let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
-          if (tmpGoodsDetail) {
-            try {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  if (process.env.REACT_APP_LANG === 'fr') {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (key === 'Description') {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>${Object.values(JSON.parse(el))[0]}</p>`;
-                        });
-                        el.tabDescription = tempContent;
-                      }
-                      if (key === 'Bénéfices') {
-                        let tempContentMobile = '';
-                        tmpGoodsDetail[key].map((ele, idx) => {
-                          // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
-                          tempContent =
-                            tempContent +
-                            `<li>
+          debugger;
+          el?.goodsDescriptionDetailList?.forEach((g) => {
+            let ret = g.content;
+            debugger;
+            if (g.content && g.contentType === 'json') {
+              try {
+                const parsedContent = JSON.parse(g.content).map((el) => {
+                  el = JSON.parse(el);
+                  return el;
+                });
+                let tempContentMobile = '';
+                let tempContent = '';
+                switch (g.descriptionName) {
+                  case 'Benefits':
+                    parsedContent.map((ele, idx) => {
+                      // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
+                      tempContent =
+                        tempContent +
+                        `<li>
                             <div className="">${
                               Object.values(JSON.parse(ele))[0]['Description']
                             }</div>
                           </li>`;
-                          tempContentMobile =
-                            tempContentMobile +
-                            `
+                      tempContentMobile =
+                        tempContentMobile +
+                        `
                           <div className="rc-list__accordion-item">
                           <dt>
                             <button
@@ -312,11 +307,11 @@ class Recommendation extends React.Component {
                           </dd>
                         </div>
                           `;
-                        });
-                        tempContent = `<ul className=" rc-md-up">
+                    });
+                    tempContent = `<ul className=" rc-md-up">
                           ${tempContent}
                         </ul>`;
-                        tempContentMobile = `<div className="fr-faq rc-md-down" style="padding:0">
+                    tempContentMobile = `<div className="fr-faq rc-md-down" style="padding:0">
                         <dl
                           data-toggle-group=""
                           data-toggle-effect="rc-expand--vertical"
@@ -325,23 +320,33 @@ class Recommendation extends React.Component {
                         ${tempContentMobile}
                         </dl>
                       </div>`;
-                        // this.setState({currentBenefit: tempContent})
-                        el.benefit = tempContent;
-                        el.benefitMobile = tempContentMobile;
-                      }
-                      // console.log(tempContent, 'tempContent')
-                      // el.goodsInfo.benefit = tempContent
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                  }
+                    el.benefit = tempContent;
+                    el.benefitMobile = tempContentMobile;
+                    break;
                 }
+              } catch (err) {
+                console.log(111, err);
               }
-            } catch (e) {
-              console.log(e);
+            } else {
+              switch (g.descriptionName) {
+                case 'Benefits':
+                  let content = g.content.replace(
+                    'ui-star-list rc_proudct_html_tab2 list-paddingleft-2',
+                    ''
+                  );
+                  el.benefit = `<div className=" rc-md-up"> ${content}</div>`;
+                  el.benefitMobile = `<div className="fr-faq rc-md-down" style="padding:0">
+                  <dl
+                    data-toggle-group=""
+                    data-toggle-effect="rc-expand--vertical"
+                    className=""
+                  >
+                  ${content}
+                  </dl>
+                </div>`;
+              }
             }
-          }
+          });
           if (!el.goodsInfo.goodsInfoImg) {
             el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
           }
@@ -929,9 +934,10 @@ class Recommendation extends React.Component {
                                 }`}
                                 style={{
                                   display: 'inline-block',
-                                  width: '80px',
+                                  width: i === activeIndex ? 'auto' : '80px',
                                   textAlign: 'center',
-                                  cursor: 'pointer'
+                                  cursor: 'pointer',
+                                  margin: '0 4px'
                                 }}
                                 onClick={() =>
                                   this.setState({ activeIndex: i })
@@ -969,7 +975,7 @@ class Recommendation extends React.Component {
                             <div className="pic">
                               <ImageMagnifier
                                 sizeList={[productList[activeIndex].goodsInfo]}
-                                images={productList[activeIndex].images}
+                                images={productList[activeIndex].images || []}
                                 minImg={
                                   productList[activeIndex].goodsInfo
                                     .goodsInfoImg
@@ -1050,7 +1056,7 @@ class Recommendation extends React.Component {
                                 </p>
                               </>
                             ) : null}
-                            {this.state.showMore ? (
+                            {this.state.showMore || tabDes.length <= 101 ? (
                               <p
                                 className="product_info"
                                 dangerouslySetInnerHTML={createMarkup(tabDes)}
@@ -1101,7 +1107,7 @@ class Recommendation extends React.Component {
 
                           {productList[activeIndex].benefit ? (
                             <React.Fragment>
-                              <p className="benefit product_info">
+                              <p className="benefit">
                                 <h5
                                   className="red"
                                   style={{
@@ -1109,7 +1115,7 @@ class Recommendation extends React.Component {
                                     fontSize: isMobile ? '18px' : 'auto'
                                   }}
                                 >
-                                  Les bénéfices
+                                  <FormattedMessage id="recommendation.benefit" />
                                 </h5>
                                 <p
                                   style={{ fontSize: 'auto' }}
