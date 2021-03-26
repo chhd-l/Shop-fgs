@@ -3704,7 +3704,6 @@ class SubscriptionDetail extends React.Component {
                                     optionList={noStartYearOption}
                                     selectedItemData={noStartYear}
                                     selectedItemChange={(el) => {
-                                      console.log(el, 'hahaha');
                                       if (this.state.activeTabIdx === 0) {
                                         this.setState({ noStartYear: el });
                                       } else {

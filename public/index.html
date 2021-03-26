@@ -39,9 +39,8 @@
   <!-- End Cookies Consent Notice -->
   
   <script type="text/javascript">
-    function OptanonWrapper() { }
     if ("<%= process.env.REACT_APP_LANG %>" == 'fr' && window.Optanon) {
-      setTimeout(function () { window.Optanon && window.Optanon.Close(); }, 300000);
+      setTimeout(function () { Optanon.Close(); }, 30000);
     }
   </script>
 
