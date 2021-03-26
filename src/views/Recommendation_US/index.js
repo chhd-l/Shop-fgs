@@ -259,10 +259,8 @@ class Recommendation extends React.Component {
           isRu &&
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
         productList.map((el) => {
-          debugger;
           el?.goodsDescriptionDetailList?.forEach((g) => {
             let ret = g.content;
-            debugger;
             if (g.content && g.contentType === 'json') {
               try {
                 const parsedContent = JSON.parse(g.content).map((el) => {
