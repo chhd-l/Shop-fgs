@@ -117,7 +117,7 @@ class ClinicForm extends React.Component {
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
           <h5 className="mb-0">
-            <i className="rc-icon rc-vet--xs rc-iconography rc-margin-right--xs" />{' '}
+            <i className="rc-icon rc-vet--xs rc-iconography" />{' '}
             {this.isLogin ? (
               <FormattedMessage id="payment.clinicTitle2" />
             ) : (

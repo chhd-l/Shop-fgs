@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { adyenPaymentsDetails } from '@/api/payment';
+import { payu3dsPaymentsDetails } from '@/api/payment';
 import url from 'url';
+import { getRequest } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -15,6 +16,9 @@ class Payu3dsResult extends Component {
   }
   async UNSAFE_componentWillMount() {
     console.log('Payu3dsResult');
+    console.log(this.props.location.search);
+    console.log(url.parse(this.props.location.search, true));
+    console.log(getRequest());
     // let commonResult = this.props.location.search.split('=')[1];//adyen_credit_card、paylater，paynow
     // let payloadResult = url.parse(this.props.location.search, true).query.payload //sofort取的方式有点不一样
     // let redirectResult
@@ -24,10 +28,10 @@ class Payu3dsResult extends Component {
     //   redirectResult = commonResult
     // }
     try {
-      //   const res = await adyenPaymentsDetails({
-      //     redirectResult,
-      //     businessId: sessionItemRoyal.get('orderNumber')
-      //   });
+      const res = await payu3dsPaymentsDetails({
+        ...getRequest()
+        //businessId: sessionItemRoyal.get('orderNumber')
+      });
       if (res.context.status === 'SUCCEED') {
         this.props.history.push('/confirmation');
       }
