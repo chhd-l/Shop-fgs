@@ -812,7 +812,9 @@ class Details extends React.Component {
             // g = Object.assign({}, g, { selected: false });
             g = Object.assign({}, g, {
               selected: i === 0,
-              productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+              questionParams:
+                sessionItemRoyal.get('pr-question-params') &&
+                JSON.parse(sessionItemRoyal.get('pr-question-params'))
             });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
@@ -870,7 +872,9 @@ class Details extends React.Component {
           sizeList = goodsInfos.map((g, i) => {
             g = Object.assign({}, g, {
               selected: i === 0,
-              productFinderFlag: sessionItemRoyal.get('is-from-product-finder')
+              questionParams:
+                sessionItemRoyal.get('pr-question-params') &&
+                JSON.parse(sessionItemRoyal.get('pr-question-params'))
             });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;

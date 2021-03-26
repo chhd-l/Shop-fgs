@@ -21,7 +21,7 @@ const api = {
   // getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays: `/${process.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${process.env.REACT_APP_STOREID}/adyen/payment`,
-  payu3dsPaymentsDetails: `/tradeCallback/v2/${process.env.REACT_APP_STOREID}/payu/${process.env.REACT_APP_LANG}/athorization`,
+  payu3dsPaymentsDetails: `/payCallback/${process.env.REACT_APP_STOREID}/payu/${process.env.REACT_APP_LANG}/authorization`,
   // adyenPaymentsDetails: '/adyenPay/payments/details',
   getProductPetConfig: '/order/config/findPet',
   // getProductPetConfig: '/order/config/findPet'
