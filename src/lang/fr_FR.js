@@ -1494,6 +1494,7 @@ const fr_FR = {
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
-  'contactUs.requiredField': 'The field is required'
+  'contactUs.requiredField': 'The field is required',
+  BacktoSavedPayments: 'Retour au paiement enregistré'
 };
 export default fr_FR;

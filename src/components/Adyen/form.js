@@ -282,6 +282,17 @@ class AdyenCreditCardForm extends React.Component {
             </div>
           ) : null}
         </div>
+        {this.isLogin ? (
+          <div className="text-right">
+            <a
+              href="javascript:;"
+              className="rc-styled-link"
+              onClick={this.handleClickCancel}
+            >
+              <FormattedMessage id="BacktoSavedPayments" />
+            </a>
+          </div>
+        ) : null}
       </div>
     );
   }
