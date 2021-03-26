@@ -15,9 +15,11 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
+  useHistory
 } from 'react-router-dom';
 import { Security, useOktaAuth } from '@okta/okta-react';
+
 import config from './config';
 
 import '@/assets/iconfont/iconfont.css';
@@ -197,502 +199,517 @@ const LoginCallback = (props) => {
   return <div />;
 };
 
-const App = () => (
-  <Provider {...stores}>
-    <IntlProvider locale={process.env.REACT_APP_LANG} messages={locales}>
-      <Router
-        basename={process.env.REACT_APP_HOMEPAGE}
-        path={'/'}
-        forceRefresh={true}
-      >
-        <RouteFilter />
-        <ScrollToTop>
-          <Security oktaAuth={config}>
-            <Switch>
-              <Route exact path={'/'} component={Home} />
-              <Route
-                exact
-                path={'/okta-login-page'}
-                component={OktaLoginPage}
-              />
-              <Route
-                exact
-                path={'/okta-logout-page'}
-                component={OktaLogoutPage}
-              />
-              <Route exact path={'/home/'} component={Home} />
-              <Route exact path={'/test/'} component={Test} />
-              <Route
-                exact
-                path="/implicit/callback"
-                render={(props) => <LoginCallback {...props} />}
-              />
-              {/* <Route exact path="/login" component={Login} /> */}
-              <Route
-                exact
-                path="/login"
-                render={(props) =>
-                  token ? <Redirect to="/account/" /> : <Login {...props} />
-                }
-              />
-              <Route path="/requestinvoice" component={RequestInvoices} />
-              <Route exact path="/cart" component={Cart} />
-              <Route
-                exact
-                path="/checkout"
-                render={(props) => (
-                  <Payment key={props.match.params.type} {...props} />
-                )}
-              />
-              <Route exact path="/confirmation" component={Confirmation} />
-              <Route exact path="/PayResult" component={PayResult} />
-              <Route exact path="/Payu3dsPayResult" component={Payu3dsPayResult} />
-              <Route
-                exact
-                path="/kitten-nutrition"
-                component={KittenNutrition}
-              />
-              <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
-              <Route exact path="/demo" component={demo} />
-              <Route exact path="/prescription" component={Prescription} />
-              <Route
-                exact
-                path="/prescriptionNavigate"
-                component={PrescriptionNavigate}
-              />
-              <Route exact path="/help/contact" component={ContactUs} />
-              <Route exact path="/help" component={Help} />
-              <Route
-                path="/shelter-landing-page"
-                component={ShelterPrescription}
-              />
-              <Route
-                exact
-                path="/general-terms-conditions"
-                component={TermsConditions}
-              />
-              <Route
-                exact
-                path="/pack-mix-feeding-wet-dry"
-                component={Packfeed}
-              />
-              <Route
-                exact
-                path="/termsandconditions"
-                component={
-                  process.env.REACT_APP_LANG == 'fr'
-                    ? TermsConditions
-                    : TermsConditionsUs
-                }
-              />
-              <Route
-                exact
-                path="/club-subscription"
-                component={
-                  process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr' ?
-                    ClubLandingPage : Exception}
-              />
-              <Route
-                exact
-                path="/vetlandingpage"
-                component={
-                  process.env.REACT_APP_LANG == 'ru' ?
-                    VetLandingPage : Exception}
-              />
-              <Route
-                exact
-                sensitive
-                path="/faq"
-                render={(props) => (
-                  <FAQ key={props.match.params.catogery} {...props} />
-                )}
-              />
-              <Route
-                exact
-                path="/Widerrufsbelehrung"
-                component={Widerrufsbelehrung}
-              />
-              <Route
-                exact
-                path="/recommendation/:id"
-                render={(props) => {
-                  return (
-                    <Recommendation key={props.match.params.id} {...props} />
-                  );
-                }}
-              />
-              <Route
-                exact
-                path="/recommendation"
-                render={(props) => {
-                  let sublanding = '';
-                  switch (process.env.REACT_APP_LANG) {
-                    case 'fr':
-                      sublanding = <Recommendation_FR {...props} />;
-                      break;
-                    default:
-                      sublanding = <Recommendation_US {...props} />;
+const App = () => {
+  const history = useHistory();
+
+  const customAuthHandler = (oktaAuth) => {
+    // Redirect to the /login page that has a CustomLoginComponent
+    // This example is specific to React-Router
+    history.push('/login');
+  };
+
+  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
+    history.replace(toRelativeUrl(originalUri, window.location.origin));
+  };
+  return (
+    <Provider {...stores}>
+      <IntlProvider locale={process.env.REACT_APP_LANG} messages={locales}>
+        <Router
+          basename={process.env.REACT_APP_HOMEPAGE}
+          path={'/'}
+          forceRefresh={true}
+        >
+          <RouteFilter />
+          <ScrollToTop>
+            <Security oktaAuth={config} onAuthRequired={customAuthHandler}
+      restoreOriginalUri={restoreOriginalUri}>
+              <Switch>
+                <Route exact path={'/'} component={Home} />
+                <Route
+                  exact
+                  path={'/okta-login-page'}
+                  component={OktaLoginPage}
+                />
+                <Route
+                  exact
+                  path={'/okta-logout-page'}
+                  component={OktaLogoutPage}
+                />
+                <Route exact path={'/home/'} component={Home} />
+                <Route exact path={'/test/'} component={Test} />
+                <Route
+                  exact
+                  path="/implicit/callback"
+                  render={(props) => <LoginCallback {...props} />}
+                />
+                {/* <Route exact path="/login" component={Login} /> */}
+                <Route
+                  exact
+                  path="/login"
+                  render={(props) =>
+                    token ? <Redirect to="/account/" /> : <Login {...props} />
                   }
-                  return sublanding;
-                }}
-              />
-              <Route
-                exact
-                path="/breeder/recommendation"
-                render={(props) => <Redirect to={{ pathname: '/recommendation', search: props.location.search }} {...props} />
-                }
-              />
-              <Route
-                exact
-                path="/recommendation"
-                render={(props) => <Recommendation_FR {...props} />}
-              />
-
-              <Route exact path="/termuse" component={TermUse} />
-              <Route
-                exact
-                path="/Terms-And-Conditions"
-                component={TermsAndConditions}
-              />
-              <Route exact path="/privacypolicy" component={PrivacyPolicy} />
-
-              <Route path="/account" exact component={AccountHome} />
-              <Route
-                path="/account/information"
-                exact
-                component={AccountProfile}
-              />
-              <Route path="/account/pets" exact component={AccountPets} />
-              <Route path="/account/orders" exact component={AccountOrders} />
-              <Route
-                path="/account/orders/detail/:orderNumber"
-                exact
-                component={AccountOrdersDetail}
-              />
-              <Route
-                path="/account/pets/petForm/:id"
-                exact
-                render={(props) => (
-                  <AccountPetForm key={props.match.params.id} {...props} />
-                )}
-              // component={AccountPetForm}
-              />
-              <Route
-                path="/account/pets/petForm/"
-                exact
-                component={AccountPetForm}
-              />
-              <Route
-                path="/account/pets/petList"
-                exact
-                component={AccountPetList}
-              />
-              <Route
-                path="/account/return-order"
-                exact
-                component={AccountReturnOrder}
-              />
-              <Route
-                path="/account/subscription"
-                exact
-                component={AccountSubscription}
-              />
-              <Route
-                path="/account/subscription/order/detail/:subscriptionNumber"
-                exact
-                component={AccountSubscriptionDetail}
-              />
-              <Route
-                path="/account/orders-aftersale/:orderNumber"
-                exact
-                component={AccountOrdersAfterSale}
-              />
-              <Route
-                path="/account/orders-aftersale/success/:returnNumber"
-                exact
-                component={AccountOrdersAfterSaleSuccess}
-              />
-              <Route
-                path="/account/return-order-detail/:returnNumber"
-                exact
-                component={AccountOrdersAfterSaleDetail}
-              />
-              <Route
-                path="/account/productReview/:tid"
-                exact
-                component={ProductReview}
-              />
-              {/* <Route path="/required" exact component={RegisterRequired} /> */}
-              <Route path="/required" exact component={RegisterRequired} />
-              {/* <Route
-                exact
-                path="/required"
-                render={(props) =>
-                  token ? <required {...props} /> : <Redirect to="/home" />
-                }
-              /> */}
-
-              <Route
-                path="/conoce-mas-de-evet"
-                exact
-                component={ConoceMasDeEvet}
-              />
-              <Route path="/product-finder" exact component={ProductFinder} />
-              <Route
-                exact
-                path="/product-finder-recommendation"
-                component={ProductFinderResult}
-              />
-              <Route
-                exact
-                path="/product-finder-noresult"
-                component={ProductFinderNoResult}
-              />
-
-              <Route
-                exact
-                path="/subscription-landing"
-                component={(() => {
-                  let sublanding = '';
-                  switch (process.env.REACT_APP_LANG) {
-                    case 'de':
-                      sublanding = DE_SubscriptionLanding;
-                      break;
-                    case 'en':
-                      sublanding = US_SubscriptionLanding;
-                      break;
-                    case 'ru':
-                      sublanding = RU_SubscriptionLanding;
-                      break;
-                    case 'tr':
-                      sublanding = TR_SubscriptionLanding;
-                      break;
-                    default:
-                      sublanding = SubscriptionLanding;
+                />
+                <Route path="/requestinvoice" component={RequestInvoices} />
+                <Route exact path="/cart" component={Cart} />
+                <Route
+                  exact
+                  path="/checkout"
+                  render={(props) => (
+                    <Payment key={props.match.params.type} {...props} />
+                  )}
+                />
+                <Route exact path="/confirmation" component={Confirmation} />
+                <Route exact path="/PayResult" component={PayResult} />
+                <Route exact path="/Payu3dsPayResult" component={Payu3dsPayResult} />
+                <Route
+                  exact
+                  path="/kitten-nutrition"
+                  component={KittenNutrition}
+                />
+                <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
+                <Route exact path="/demo" component={demo} />
+                <Route exact path="/prescription" component={Prescription} />
+                <Route
+                  exact
+                  path="/prescriptionNavigate"
+                  component={PrescriptionNavigate}
+                />
+                <Route exact path="/help/contact" component={ContactUs} />
+                <Route exact path="/help" component={Help} />
+                <Route
+                  path="/shelter-landing-page"
+                  component={ShelterPrescription}
+                />
+                <Route
+                  exact
+                  path="/general-terms-conditions"
+                  component={TermsConditions}
+                />
+                <Route
+                  exact
+                  path="/pack-mix-feeding-wet-dry"
+                  component={Packfeed}
+                />
+                <Route
+                  exact
+                  path="/termsandconditions"
+                  component={
+                    process.env.REACT_APP_LANG == 'fr'
+                      ? TermsConditions
+                      : TermsConditionsUs
                   }
-                  return sublanding;
-                })()}
-              />
-
-              <Route
-                path="/general-conditions"
-                exact
-                component={generalConditions}
-              />
-              <Route
-                path="/general-conditions-tr"
-                exact
-                component={TR_GeneralConditions}
-              />
-              <Route
-                path="/About-Us"
-                exact
-                component={
-                  process.env.REACT_APP_LANG == 'de' ? AboutUsDe : AboutUs
-                }
-              />
-              <Route path="/cat-nutrition" exact component={CatNutrition} />
-              <Route
-                path="/cadeau-coussin-chat"
-                exact
-                component={CadeauCoussinChat}
-              />
-              <Route
-                exact
-                path="/promotion-refuge"
-                component={PromotionRefuge}
-              />
-
-              {/* <Route path="/Values-ru" exact component={RU_Values} />
-              <Route path="/Values-us" exact component={US_Values} />
-              <Route path="/Values" exact component={FR_Values} /> */}
-              <Route
-                exact
-                path="/Values"
-                component={
-                  { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                  process.env.REACT_APP_LANG
-                  ] || Values
-                }
-              />
-
-              <Route
-                sensitive
-                path="/Tailorednutrition"
-                exact
-                component={
-                  process.env.REACT_APP_LANG == 'en'
-                    ? US_Tailorednutrition
-                    : Tailorednutrition
-                }
-              />
-              <Route exact path="/retail-products" component={OnlineStore} />
-              <Route
-                path="/Quality-safety"
-                exact
-                component={
-                  process.env.REACT_APP_LANG == 'en'
-                    ? US_QualitySafety
-                    : QualitySafety
-                }
-              />
-              <Route
-                path="/shipmentConditions"
-                exact
-                component={ShipmentConditions}
-              />
-              <Route exact path="/forgetPassword" component={ForgetPassword} />
-              <Route path="/404" component={Exception} />
-              <Route path="/403" component={Page403} />
-              <Route path="/500" component={Page500} />
-
-              <Route path="/mentionslegales" component={Mentionslegales} />
-
-              <Route path="/consent1-tr" component={Consent1TR} />
-              <Route path="/consent2-tr" component={Consent2TR} />
-              <Route path="/register" component={register} />
-
-              <Route
-                path="/smart-feeder-subscription"
-                component={smartFeederSubscription}
-              />
-              <Route path="/laterlier/felin" component={Felin} />
-              {/* 特殊处理匹配PLP/PDP页面 */}
-              <Route
-                exact
-                path="/list/:category/:keywords"
-                render={(props) => (
-                  <List
-                    key={
-                      props.match.params.category + props.match.params.keywords
+                />
+                <Route
+                  exact
+                  path="/club-subscription"
+                  component={
+                    process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr' ?
+                      ClubLandingPage : Exception}
+                />
+                <Route
+                  exact
+                  path="/vetlandingpage"
+                  component={
+                    process.env.REACT_APP_LANG == 'ru' ?
+                      VetLandingPage : Exception}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/faq"
+                  render={(props) => (
+                    <FAQ key={props.match.params.catogery} {...props} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/Widerrufsbelehrung"
+                  component={Widerrufsbelehrung}
+                />
+                <Route
+                  exact
+                  path="/recommendation/:id"
+                  render={(props) => {
+                    return (
+                      <Recommendation key={props.match.params.id} {...props} />
+                    );
+                  }}
+                />
+                <Route
+                  exact
+                  path="/recommendation"
+                  render={(props) => {
+                    let sublanding = '';
+                    switch (process.env.REACT_APP_LANG) {
+                      case 'fr':
+                        sublanding = <Recommendation_FR {...props} />;
+                        break;
+                      default:
+                        sublanding = <Recommendation_US {...props} />;
                     }
-                    {...props}
-                  />
-                )}
-              />
-
-              <Route
-                exact
-                // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
-                path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
-                render={(props) => {
-                  if (props.location.state && props.location.state.noresult) {
-                    if (process.env.REACT_APP_LANG == 'en') {
-                      return <US_SearchShow {...props} />;
+                    return sublanding;
+                  }}
+                />
+                <Route
+                  exact
+                  path="/breeder/recommendation"
+                  render={(props) => <Redirect to={{ pathname: '/recommendation', search: props.location.search }} {...props} />
+                  }
+                />
+                <Route
+                  exact
+                  path="/recommendation"
+                  render={(props) => <Recommendation_FR {...props} />}
+                />
+  
+                <Route exact path="/termuse" component={TermUse} />
+                <Route
+                  exact
+                  path="/Terms-And-Conditions"
+                  component={TermsAndConditions}
+                />
+                <Route exact path="/privacypolicy" component={PrivacyPolicy} />
+  
+                <Route path="/account" exact component={AccountHome} />
+                <Route
+                  path="/account/information"
+                  exact
+                  component={AccountProfile}
+                />
+                <Route path="/account/pets" exact component={AccountPets} />
+                <Route path="/account/orders" exact component={AccountOrders} />
+                <Route
+                  path="/account/orders/detail/:orderNumber"
+                  exact
+                  component={AccountOrdersDetail}
+                />
+                <Route
+                  path="/account/pets/petForm/:id"
+                  exact
+                  render={(props) => (
+                    <AccountPetForm key={props.match.params.id} {...props} />
+                  )}
+                // component={AccountPetForm}
+                />
+                <Route
+                  path="/account/pets/petForm/"
+                  exact
+                  component={AccountPetForm}
+                />
+                <Route
+                  path="/account/pets/petList"
+                  exact
+                  component={AccountPetList}
+                />
+                <Route
+                  path="/account/return-order"
+                  exact
+                  component={AccountReturnOrder}
+                />
+                <Route
+                  path="/account/subscription"
+                  exact
+                  component={AccountSubscription}
+                />
+                <Route
+                  path="/account/subscription/order/detail/:subscriptionNumber"
+                  exact
+                  component={AccountSubscriptionDetail}
+                />
+                <Route
+                  path="/account/orders-aftersale/:orderNumber"
+                  exact
+                  component={AccountOrdersAfterSale}
+                />
+                <Route
+                  path="/account/orders-aftersale/success/:returnNumber"
+                  exact
+                  component={AccountOrdersAfterSaleSuccess}
+                />
+                <Route
+                  path="/account/return-order-detail/:returnNumber"
+                  exact
+                  component={AccountOrdersAfterSaleDetail}
+                />
+                <Route
+                  path="/account/productReview/:tid"
+                  exact
+                  component={ProductReview}
+                />
+                {/* <Route path="/required" exact component={RegisterRequired} /> */}
+                <Route path="/required" exact component={RegisterRequired} />
+                {/* <Route
+                  exact
+                  path="/required"
+                  render={(props) =>
+                    token ? <required {...props} /> : <Redirect to="/home" />
+                  }
+                /> */}
+  
+                <Route
+                  path="/conoce-mas-de-evet"
+                  exact
+                  component={ConoceMasDeEvet}
+                />
+                <Route path="/product-finder" exact component={ProductFinder} />
+                <Route
+                  exact
+                  path="/product-finder-recommendation"
+                  component={ProductFinderResult}
+                />
+                <Route
+                  exact
+                  path="/product-finder-noresult"
+                  component={ProductFinderNoResult}
+                />
+  
+                <Route
+                  exact
+                  path="/subscription-landing"
+                  component={(() => {
+                    let sublanding = '';
+                    switch (process.env.REACT_APP_LANG) {
+                      case 'de':
+                        sublanding = DE_SubscriptionLanding;
+                        break;
+                      case 'en':
+                        sublanding = US_SubscriptionLanding;
+                        break;
+                      case 'ru':
+                        sublanding = RU_SubscriptionLanding;
+                        break;
+                      case 'tr':
+                        sublanding = TR_SubscriptionLanding;
+                        break;
+                      default:
+                        sublanding = SubscriptionLanding;
+                    }
+                    return sublanding;
+                  })()}
+                />
+  
+                <Route
+                  path="/general-conditions"
+                  exact
+                  component={generalConditions}
+                />
+                <Route
+                  path="/general-conditions-tr"
+                  exact
+                  component={TR_GeneralConditions}
+                />
+                <Route
+                  path="/About-Us"
+                  exact
+                  component={
+                    process.env.REACT_APP_LANG == 'de' ? AboutUsDe : AboutUs
+                  }
+                />
+                <Route path="/cat-nutrition" exact component={CatNutrition} />
+                <Route
+                  path="/cadeau-coussin-chat"
+                  exact
+                  component={CadeauCoussinChat}
+                />
+                <Route
+                  exact
+                  path="/promotion-refuge"
+                  component={PromotionRefuge}
+                />
+  
+                {/* <Route path="/Values-ru" exact component={RU_Values} />
+                <Route path="/Values-us" exact component={US_Values} />
+                <Route path="/Values" exact component={FR_Values} /> */}
+                <Route
+                  exact
+                  path="/Values"
+                  component={
+                    { fr: FR_Values, en: US_Values, ru: RU_Values }[
+                    process.env.REACT_APP_LANG
+                    ] || Values
+                  }
+                />
+  
+                <Route
+                  sensitive
+                  path="/Tailorednutrition"
+                  exact
+                  component={
+                    process.env.REACT_APP_LANG == 'en'
+                      ? US_Tailorednutrition
+                      : Tailorednutrition
+                  }
+                />
+                <Route exact path="/retail-products" component={OnlineStore} />
+                <Route
+                  path="/Quality-safety"
+                  exact
+                  component={
+                    process.env.REACT_APP_LANG == 'en'
+                      ? US_QualitySafety
+                      : QualitySafety
+                  }
+                />
+                <Route
+                  path="/shipmentConditions"
+                  exact
+                  component={ShipmentConditions}
+                />
+                <Route exact path="/forgetPassword" component={ForgetPassword} />
+                <Route path="/404" component={Exception} />
+                <Route path="/403" component={Page403} />
+                <Route path="/500" component={Page500} />
+  
+                <Route path="/mentionslegales" component={Mentionslegales} />
+  
+                <Route path="/consent1-tr" component={Consent1TR} />
+                <Route path="/consent2-tr" component={Consent2TR} />
+                <Route path="/register" component={register} />
+  
+                <Route
+                  path="/smart-feeder-subscription"
+                  component={smartFeederSubscription}
+                />
+                <Route path="/laterlier/felin" component={Felin} />
+                {/* 特殊处理匹配PLP/PDP页面 */}
+                <Route
+                  exact
+                  path="/list/:category/:keywords"
+                  render={(props) => (
+                    <List
+                      key={
+                        props.match.params.category + props.match.params.keywords
+                      }
+                      {...props}
+                    />
+                  )}
+                />
+  
+                <Route
+                  exact
+                  // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
+                  path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
+                  render={(props) => {
+                    if (props.location.state && props.location.state.noresult) {
+                      if (process.env.REACT_APP_LANG == 'en') {
+                        return <US_SearchShow {...props} />;
+                      } else {
+                        return <SearchShow {...props} />;
+                      }
                     } else {
-                      return <SearchShow {...props} />;
+                      return <List key={props.location.search} {...props} />;
                     }
-                  } else {
-                    return <List key={props.location.search} {...props} />;
-                  }
-                }}
-              />
-              <Route
-                exact
-                path="/details/:id"
-                render={(props) => (
-                  <Details key={props.match.params.id} {...props} />
-                )}
-              />
-              <Route
-                path="/list/:category"
-                render={(props) => (
-                  <List
-                    key={props.match.params.category + props.location.search}
-                    {...props}
-                  />
-                )}
-              />
-              <Route exact sensitive path="/FAQ" component={Exception} />
-              <Route
-                path="/"
-                render={(props) => {
-                  const { location } = props;
-                  const { pathname, search } = location;
-
-                  //为了匹配/refuge108785 这种数字动态的短链接
-                  if (/^\/refuge/.test(pathname))
-                    return <RefugeSource key={Math.random()} {...props} />;
-
-                  // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
-                  if (PDP_Regex.test(pathname)) {
-                    let redirectUrl = '';
-                    const splitName = { fr: '_FR.html', en: '_US.html' }[
-                      process.env.REACT_APP_LANG
-                    ];
-                    const productNameMappping = {
-                      '/ageing-12+-en-gelÃ©e-4153': '/ageing-12+-en-gelee-4153',
-                      '/british-shorthair-bouchÃ©es-spÃ©cial-2032':
-                        '/british-shorthair-bouchees-special-2032',
-                      '/intense-beauty-en-gelÃ©e-4151':
-                        '/intense-beauty-en-gelee-4151',
-                      '/kitten-en-gelÃ©e-4150': '/kitten-en-gelee-4150',
-                      '/kitten-sterilised-en-gelÃ©e-1072':
-                        '/kitten-sterilised-en-gelee-1072',
-                      '/maine-coon-bouchÃ©es-spÃ©cial-2031':
-                        '/maine-coon-bouchees-special-2031',
-                      '/persan-bouchÃ©es-spÃ©cial-2030':
-                        '/persan-bouchees-special-2030',
-                    };
-                    if (productNameMappping[pathname]) {
-                      redirectUrl = productNameMappping[pathname];
-                    } else if (pathname.split('--').length > 1) {
-                      redirectUrl = pathname.split('--').join('-');
-                    } else if (pathname.split(splitName).length > 1) {
-                      redirectUrl = pathname.split(splitName)[0];
-                    } else if (pathname.split('.html').length > 1) {
-                      redirectUrl = pathname.split('.html')[0];
-                    }
-                    if (redirectUrl) {
-                      return <Redirect to={redirectUrl} />;
+                  }}
+                />
+                <Route
+                  exact
+                  path="/details/:id"
+                  render={(props) => (
+                    <Details key={props.match.params.id} {...props} />
+                  )}
+                />
+                <Route
+                  path="/list/:category"
+                  render={(props) => (
+                    <List
+                      key={props.match.params.category + props.location.search}
+                      {...props}
+                    />
+                  )}
+                />
+                <Route exact sensitive path="/FAQ" component={Exception} />
+                <Route
+                  path="/"
+                  render={(props) => {
+                    const { location } = props;
+                    const { pathname, search } = location;
+  
+                    //为了匹配/refuge108785 这种数字动态的短链接
+                    if (/^\/refuge/.test(pathname))
+                      return <RefugeSource key={Math.random()} {...props} />;
+  
+                    // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
+                    if (PDP_Regex.test(pathname)) {
+                      let redirectUrl = '';
+                      const splitName = { fr: '_FR.html', en: '_US.html' }[
+                        process.env.REACT_APP_LANG
+                      ];
+                      const productNameMappping = {
+                        '/ageing-12+-en-gelÃ©e-4153': '/ageing-12+-en-gelee-4153',
+                        '/british-shorthair-bouchÃ©es-spÃ©cial-2032':
+                          '/british-shorthair-bouchees-special-2032',
+                        '/intense-beauty-en-gelÃ©e-4151':
+                          '/intense-beauty-en-gelee-4151',
+                        '/kitten-en-gelÃ©e-4150': '/kitten-en-gelee-4150',
+                        '/kitten-sterilised-en-gelÃ©e-1072':
+                          '/kitten-sterilised-en-gelee-1072',
+                        '/maine-coon-bouchÃ©es-spÃ©cial-2031':
+                          '/maine-coon-bouchees-special-2031',
+                        '/persan-bouchÃ©es-spÃ©cial-2030':
+                          '/persan-bouchees-special-2030',
+                      };
+                      if (productNameMappping[pathname]) {
+                        redirectUrl = productNameMappping[pathname];
+                      } else if (pathname.split('--').length > 1) {
+                        redirectUrl = pathname.split('--').join('-');
+                      } else if (pathname.split(splitName).length > 1) {
+                        redirectUrl = pathname.split(splitName)[0];
+                      } else if (pathname.split('.html').length > 1) {
+                        redirectUrl = pathname.split('.html')[0];
+                      }
+                      if (redirectUrl) {
+                        return <Redirect to={redirectUrl} />;
+                      } else {
+                        return <Details key={props.match.params.id} {...props} />;
+                      }
                     } else {
-                      return <Details key={props.match.params.id} {...props} />;
+                      let RedirectUrlObj = {};
+                      if(process.env.REACT_APP_LANG == 'fr'){
+                        RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item => ({
+                          [item.shortUrl]: item.redirectUrl
+                        })).forEach((item) => {
+                          RedirectUrlObj = { ...RedirectUrlObj, ...item } //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
+                        })
+                      }
+                      
+                      
+                     
+                      const specailPlpUrlMapping = {
+                        ...RedirectUrlObj
+                      };
+  
+  
+                      let redirectUrl = ''
+                      if (pathname.split('.html').length > 1) {
+                        redirectUrl = pathname.split('.html')[0];
+                      } else if (specailPlpUrlMapping[pathname + search]) {
+                        redirectUrl = specailPlpUrlMapping[pathname + search];
+                      }
+  
+                      if (redirectUrl) {
+                        return <Redirect to={redirectUrl} />;
+                      } else {
+                        return (
+                          <List
+                            key={
+                              props.match.params.category + props.location.search
+                            }
+                            {...props}
+                          />
+                        );
+                      }
                     }
-                  } else {
-                    let RedirectUrlObj = {};
-                    if(process.env.REACT_APP_LANG == 'fr'){
-                      RedirectUrlJSON.RECORDS.filter(item => item.shortUrl !== item.redirectUrl).map(item => ({
-                        [item.shortUrl]: item.redirectUrl
-                      })).forEach((item) => {
-                        RedirectUrlObj = { ...RedirectUrlObj, ...item } //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
-                      })
-                    }
-                    
-                    
-                   
-                    const specailPlpUrlMapping = {
-                      ...RedirectUrlObj
-                    };
+                  }}
+                />
+                <Route path="*" component={Exception} />
+              </Switch>
+            </Security>
+          </ScrollToTop>
+        </Router>
+      </IntlProvider>
+    </Provider>
+  );
+}
 
-
-                    let redirectUrl = ''
-                    if (pathname.split('.html').length > 1) {
-                      redirectUrl = pathname.split('.html')[0];
-                    } else if (specailPlpUrlMapping[pathname + search]) {
-                      redirectUrl = specailPlpUrlMapping[pathname + search];
-                    }
-
-                    if (redirectUrl) {
-                      return <Redirect to={redirectUrl} />;
-                    } else {
-                      return (
-                        <List
-                          key={
-                            props.match.params.category + props.location.search
-                          }
-                          {...props}
-                        />
-                      );
-                    }
-                  }
-                }}
-              />
-              <Route path="*" component={Exception} />
-            </Switch>
-          </Security>
-        </ScrollToTop>
-      </Router>
-    </IntlProvider>
-  </Provider>
-);
 export default App;
