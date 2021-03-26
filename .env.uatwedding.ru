@@ -73,6 +73,8 @@ REACT_APP_CHECKOUT_WITH_CLINIC = true
 REACT_APP_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/ru/
 REACT_APP_RC_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/
 
+REACT_APP_SUCCESSFUL_URL = 'https://uatwedding.royalcanin.com/ru/shop'
+
 #根节点自定义样式名
 REACT_APP_ROOT_CLS = 'ui-custom-hub'
 
