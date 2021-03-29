@@ -1434,7 +1434,8 @@ class Details extends React.Component {
 
   ccidBtnRef(el) {
     const self = this;
-    if (el) {
+    const nodeBtn = document.querySelector('.other-buy-btn');
+    if (el && nodeBtn) {
       const config = { attributes: true, childList: true, subtree: true };
       // 当观察到变动时执行的回调函数
       const callback = function (mutationsList, observer) {
@@ -1457,7 +1458,6 @@ class Details extends React.Component {
         }
       };
       const observer = new MutationObserver(callback);
-      const nodeBtn = document.querySelector('.other-buy-btn');
       observer.observe(nodeBtn, config);
     }
   }
@@ -1495,8 +1495,6 @@ class Details extends React.Component {
       ccidBtnDisplay
     } = this.state;
 
-    console.log(details, 'details');
-
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
@@ -1504,6 +1502,7 @@ class Details extends React.Component {
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
     const De = process.env.REACT_APP_LANG === 'de';
+    const Ru = process.env.REACT_APP_LANG === 'ru';
     let goodHeading = `<${
       this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
     }
@@ -1771,7 +1770,11 @@ class Details extends React.Component {
                               }}
                             ></div>
                             {/*这种情况时，eancode 在法国固定，其他国家待定  */}
-                            {!this.state.loading && !bundle && isHub && PC ? (
+                            {!this.state.loading &&
+                            !bundle &&
+                            isHub &&
+                            PC &&
+                            !Ru ? (
                               <BuyFromRetailerBtn
                                 ccidBtnDisplay={ccidBtnDisplay}
                                 barcode={barcode}
@@ -2009,8 +2012,7 @@ class Details extends React.Component {
                                       />
                                     </span>
                                   </div>
-                                  {process.env.REACT_APP_LANG === 'de' &&
-                                  selectedSpecItem ? (
+                                  {De && selectedSpecItem ? (
                                     <div
                                       style={{
                                         fontSize: '14px',
@@ -2158,8 +2160,7 @@ class Details extends React.Component {
                                         />
                                       </span>
                                     </div>
-                                    {process.env.REACT_APP_LANG === 'de' &&
-                                    selectedSpecItem ? (
+                                    {De && selectedSpecItem ? (
                                       <div
                                         style={{
                                           fontSize: '14px',
@@ -2293,8 +2294,7 @@ class Details extends React.Component {
                                         />
                                       </span>
                                     </div>
-                                    {process.env.REACT_APP_LANG === 'de' &&
-                                    selectedSpecItem ? (
+                                    {De && selectedSpecItem ? (
                                       <div
                                         style={{
                                           fontSize: '14px',
@@ -2350,7 +2350,10 @@ class Details extends React.Component {
                                     />
                                   </span>
                                 </button>
-                                {!this.state.loading && !bundle && isHub ? (
+                                {!this.state.loading &&
+                                !bundle &&
+                                isHub &&
+                                !Ru ? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -2475,7 +2478,7 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle && isHub ? (
+                {!this.state.loading && !bundle && isHub && !Ru ? (
                   <BuyFromRetailerBtn
                     ccidBtnDisplay={ccidBtnDisplay}
                     barcode={barcode}
