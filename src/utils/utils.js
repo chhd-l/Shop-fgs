@@ -170,6 +170,7 @@ export async function validData(rule, data) {
     const targetRule = find(rule, (ele) => ele.key === key);
     if (targetRule) {
       if (targetRule.require && !val) {
+        console.log('111 errMsg: ', targetRule.errMsg);
         throw new Error(targetRule.errMsg);
       }
       if (
@@ -178,6 +179,7 @@ export async function validData(rule, data) {
         val &&
         !targetRule.regExp.test(val)
       ) {
+        console.log('222 errMsg: ', targetRule.errMsg);
         throw new Error(targetRule.errMsg);
       }
     }

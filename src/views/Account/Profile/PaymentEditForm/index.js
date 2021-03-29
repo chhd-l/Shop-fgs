@@ -83,6 +83,7 @@ class PaymentEditForm extends React.Component {
         state: '', //Alabama
         city: '',
         zipCode: '', //10036
+        postCode: '', //10036
         email: '', //didier.valansot@publicissapient.com
         isSaveCard: true
 
@@ -175,15 +176,15 @@ class PaymentEditForm extends React.Component {
   }
   componentDidMount() {
     //查询国家
-    // getDictionary({ type: 'country' }).then((res) => {
-    //   const { paymentForm } = this.state;
-    //   let clist = [{ value: res[0]?.description, name: res[0]?.name }];
-    //   this.setState({
-    //     countryList: clist
-    //   });
-    //   paymentForm.country = res[0]?.description;
-    //   paymentForm.countryId = res[0]?.id;
-    // });
+    getDictionary({ type: 'country' }).then((res) => {
+      const { paymentForm } = this.state;
+      let clist = [{ value: res[0]?.description, name: res[0]?.name }];
+      this.setState({
+        countryList: clist
+      });
+      paymentForm.countryId = res[0]?.id;
+      paymentForm.country = res[0]?.description;
+    });
 
     // 查询省份列表（美国：州）
     getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
@@ -541,6 +542,7 @@ class PaymentEditForm extends React.Component {
       paymentForm.city = validationAddress.city;
       paymentForm.country = validationAddress.countryCode;
       paymentForm.zipCode = validationAddress.postalCode;
+      paymentForm.postCode = validationAddress.postalCode;
       if (process.env.REACT_APP_Adyen_country === 'US') {
         paymentForm.state = validationAddress.provinceCode;
       }
@@ -647,6 +649,7 @@ class PaymentEditForm extends React.Component {
         return;
       }
       await validData(data.formRule, data); // 数据验证
+      data.zipCode = data.postCode;
       this.setState({
         isValidForm: true,
         paymentForm: Object.assign(paymentForm, data)

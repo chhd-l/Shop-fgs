@@ -972,7 +972,8 @@ class Recommendation extends React.Component {
                           <div className="main">
                             <div className="pic">
                               <ImageMagnifier
-                                sizeList={[productList[activeIndex].goodsInfo]}
+                                // sizeList={[productList[activeIndex].goodsInfo]}
+                                sizeList={productList[activeIndex].images || []}
                                 images={productList[activeIndex].images || []}
                                 minImg={
                                   productList[activeIndex].goodsInfo
@@ -1041,16 +1042,20 @@ class Recommendation extends React.Component {
                               <>
                                 <div style={{ marginBottom: '12px' }}>
                                   <span className="promotion-code-title">
-                                    Promo code :
+                                    {/* Promo code : */}
+                                    Промо Код:
                                   </span>
                                   <span className="promotion-code promotion-code-title">
                                     {promotionCode}
                                   </span>
                                 </div>
                                 <p className="promotion-tips">
-                                  to apply the promotion, you must copy and
+                                  Для применения скидки,  необходимо скопировать
+                                  и вставить промо код в соответствующее поле
+                                  при оформлении заказа в корзине
+                                  {/* to apply the promotion, you must copy and
                                   paste the code into the specified part of the
-                                  shopping cart
+                                  shopping cart */}
                                 </p>
                               </>
                             ) : null}
