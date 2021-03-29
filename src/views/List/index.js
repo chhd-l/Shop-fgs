@@ -2033,7 +2033,7 @@ class List extends React.Component {
               <FormattedMessage id="homePage" />
             </DistributeHubLinkOrATag>
           </div>
-          {titleData ? (
+          {titleData && titleData.title && titleData.description ? (
             <div className="rc-max-width--lg rc-padding-x--sm">
               <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                 <div className="rc-column rc-double-width text-center text-md-left">

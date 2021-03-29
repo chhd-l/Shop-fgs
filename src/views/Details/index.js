@@ -11,6 +11,7 @@ import Selection from '@/components/Selection';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
+import AddCartSuccessMobile from './components/AddCartSuccessMobile';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
@@ -1542,6 +1543,14 @@ class Details extends React.Component {
 
     return (
       <div id="Details">
+        <button
+          ref="showModalButton"
+          className="rc-btn rc-btn--one"
+          data-modal-trigger="modal-mobile-cart-confirm"
+          style={{ position: 'absolute', visibility: 'hidden' }}
+        >
+          Open standard modal
+        </button>
         {Object.keys(event).length ? (
           <GoogleTagManager
             additionalEvents={event}
@@ -2476,6 +2485,9 @@ class Details extends React.Component {
                 ) : null}
               </div>
             </div>
+
+            <AddCartSuccessMobile target="modal-mobile-cart-confirm" />
+
             {/* 最下方跳转更多板块 */}
             {isHub ? (
               <>
