@@ -1305,7 +1305,7 @@ export default class Felin extends React.Component {
                               }}
                             />
                             <label
-                              className="rc-input__label--inline"
+                              className="rc-input__label--inline consent"
                               for="id-checkbox-cat-2"
                             >
                               Les données personnelles, que vous renseignez sont
@@ -1313,7 +1313,13 @@ export default class Felin extends React.Component {
                               du rendez-vous Elles seront conservées en accord
                               avec les règles de gestion des données privées que
                               vous pourrez retrouver en ligne sur
-                              https://www.mars.com/privacy-policy-france
+                              <br />
+                              <a
+                                href="https://www.mars.com/privacy-policy-france"
+                                target="_blank"
+                              >
+                                https://www.mars.com/privacy-policy-france
+                              </a>
                             </label>
                           </div>
                           <button
