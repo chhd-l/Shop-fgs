@@ -58,7 +58,7 @@ class ValidationAddressModal extends React.Component {
     try {
       let data = {
         city: address.city,
-        countryId: Number(address.country),
+        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID,
         deliveryAddress: address.address1,
         postCode: address.postCode,
         province: address.province,

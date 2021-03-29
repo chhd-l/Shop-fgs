@@ -9,6 +9,8 @@ import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
 let H5Maxcount = 3;
 let PCMaxcount = 5;
+let PcImgSquare = 69;
+let H5ImgSquare = 60;
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
@@ -159,6 +161,7 @@ class ImageMagnifier extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     console.log(nextProps, 'nextProps');
     let { currentImg } = this.state;
+    let positionLeft = this.state.positionLeft;
     let { images } = this.props;
     if (!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl;
@@ -171,17 +174,22 @@ class ImageMagnifier extends Component {
     let selectedSizeInfo = sizeList.filter((item) => item.selected);
     if (!selectedSizeInfo.length) {
       selectedSizeInfo = [sizeList[0]];
+      positionLeft = 0;
     }
     if (selectedSizeInfo.length) {
       let hoverIndex = 0;
-      images.map((el, i) => {
-        if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
-          hoverIndex = i;
-        }
-        return el;
-      });
+      // images.map((el, i) => {
+      //   if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
+      //     hoverIndex = i;
+      //   }
+      //   return el;
+      // });
+      console.info('hoverIndex', hoverIndex);
+
       this.setState({
-        currentImg: selectedSizeInfo[0].goodsInfoImg,
+        positionLeft: positionLeft,
+        currentImg:
+          selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
         videoShow: false,
         hoverIndex,
         offsetX: hoverIndex * 240
@@ -285,6 +293,13 @@ class ImageMagnifier extends Component {
     console.log(i);
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     // cssStyle.imgContainer.cursor = 'move';
+    // this.props.images.forEach((item, index) => {
+    //   if (index !== i) {
+    //     item.selected = false;
+    //   } else {
+    //     item.selected = true;
+    //   }
+    // });
     this.setState({
       currentImg: image,
       videoShow: false,
@@ -344,6 +359,7 @@ class ImageMagnifier extends Component {
     } = this.state;
     let { images, video, taggingForText, taggingForImage } = this.props;
     console.log(images, 'images');
+    console.info('offsetX', this.state.offsetX);
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {
@@ -351,6 +367,7 @@ class ImageMagnifier extends Component {
     }
     const isMobile = getDeviceType() === 'H5';
     let MAXCOUNT = isMobile ? H5Maxcount : PCMaxcount;
+    let MOVELENGTH = isMobile ? H5ImgSquare : PcImgSquare;
     console.info('MAXCOUNT', MAXCOUNT);
     return (
       <div>
@@ -470,19 +487,21 @@ class ImageMagnifier extends Component {
             style={{ display: imgCount > MAXCOUNT ? 'inline-block' : 'none' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
-              this.setState({ positionLeft: this.state.positionLeft + 69 });
+              this.setState({
+                positionLeft: this.state.positionLeft + MOVELENGTH
+              });
             }}
           />
           {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
-              className="text-center imageInnerBox"
+              className="imageInnerBox"
               style={{
                 marginTop: '2rem',
                 // textAlign: 'center',
                 // width: '100%',
-                textAlign: imgCount <= MAXCOUNT && isMobile ? 'center' : 'left',
-                width: imgCount <= MAXCOUNT && isMobile ? '100%' : '1000px',
+                textAlign: imgCount <= MAXCOUNT ? 'center' : 'left',
+                width: imgCount <= MAXCOUNT && isMobile ? '100%' : '100000px',
                 left: this.state.positionLeft + 'px'
               }}
             >
@@ -546,15 +565,20 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={RightImg} /> */}
           <i
             className={`rc-icon rc-right rightArrow rc-iconography ${
-              this.state.positionLeft === (imgCount - MAXCOUNT) * -69
+              this.state.positionLeft === (imgCount - MAXCOUNT) * -MOVELENGTH
                 ? 'hide-visible'
                 : 'rc-brand1 show-visible'
             }`}
             style={{ display: imgCount > MAXCOUNT ? 'inline-block' : 'none' }}
             onClick={() => {
-              if (this.state.positionLeft === (imgCount - MAXCOUNT) * -69)
+              if (
+                this.state.positionLeft ===
+                (imgCount - MAXCOUNT) * -MOVELENGTH
+              )
                 return;
-              this.setState({ positionLeft: this.state.positionLeft - 69 });
+              this.setState({
+                positionLeft: this.state.positionLeft - MOVELENGTH
+              });
             }}
           />
         </div>

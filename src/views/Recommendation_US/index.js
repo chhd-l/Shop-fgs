@@ -259,10 +259,8 @@ class Recommendation extends React.Component {
           isRu &&
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
         productList.map((el) => {
-          debugger;
           el?.goodsDescriptionDetailList?.forEach((g) => {
             let ret = g.content;
-            debugger;
             if (g.content && g.contentType === 'json') {
               try {
                 const parsedContent = JSON.parse(g.content).map((el) => {
@@ -278,17 +276,17 @@ class Recommendation extends React.Component {
                       tempContent =
                         tempContent +
                         `<li>
-                            <div className="">${
+                            <div class="">${
                               Object.values(JSON.parse(ele))[0]['Description']
                             }</div>
                           </li>`;
                       tempContentMobile =
                         tempContentMobile +
                         `
-                          <div className="rc-list__accordion-item">
+                          <div class="rc-list__accordion-item">
                           <dt>
                             <button
-                              className="rc-list__header"
+                              class="rc-list__header"
                               id="heading-${idx}"
                               data-toggle="content-${idx}"
                             >
@@ -298,7 +296,7 @@ class Recommendation extends React.Component {
                             </button>
                           </dt>
                           <dd
-                            className="rc-list__content"
+                            class="rc-list__content"
                             id="content-${idx}"
                             aria-labelledby="heading-${idx}"
                             style="text-align:left"
@@ -308,14 +306,14 @@ class Recommendation extends React.Component {
                         </div>
                           `;
                     });
-                    tempContent = `<ul className=" rc-md-up">
+                    tempContent = `<ul class=" rc-md-up">
                           ${tempContent}
                         </ul>`;
-                    tempContentMobile = `<div className="fr-faq rc-md-down" style="padding:0">
+                    tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
                         <dl
                           data-toggle-group=""
                           data-toggle-effect="rc-expand--vertical"
-                          className=""
+                          class=""
                         >
                         ${tempContentMobile}
                         </dl>
@@ -334,12 +332,12 @@ class Recommendation extends React.Component {
                     'ui-star-list rc_proudct_html_tab2 list-paddingleft-2',
                     ''
                   );
-                  el.benefit = `<div className=" rc-md-up"> ${content}</div>`;
-                  el.benefitMobile = `<div className="fr-faq rc-md-down" style="padding:0">
+                  el.benefit = `<div class=" rc-md-up"> ${content}</div>`;
+                  el.benefitMobile = `<div class="fr-faq rc-md-down" style="padding:0">
                   <dl
                     data-toggle-group=""
                     data-toggle-effect="rc-expand--vertical"
-                    className=""
+                    class=""
                   >
                   ${content}
                   </dl>
@@ -934,7 +932,7 @@ class Recommendation extends React.Component {
                                 }`}
                                 style={{
                                   display: 'inline-block',
-                                  width: i === activeIndex ? 'auto' : '80px',
+                                  width: '80px',
                                   textAlign: 'center',
                                   cursor: 'pointer',
                                   margin: '0 4px'
@@ -974,7 +972,8 @@ class Recommendation extends React.Component {
                           <div className="main">
                             <div className="pic">
                               <ImageMagnifier
-                                sizeList={[productList[activeIndex].goodsInfo]}
+                                // sizeList={[productList[activeIndex].goodsInfo]}
+                                sizeList={productList[activeIndex].images || []}
                                 images={productList[activeIndex].images || []}
                                 minImg={
                                   productList[activeIndex].goodsInfo
@@ -1043,16 +1042,20 @@ class Recommendation extends React.Component {
                               <>
                                 <div style={{ marginBottom: '12px' }}>
                                   <span className="promotion-code-title">
-                                    Promo code :
+                                    {/* Promo code : */}
+                                    Промо Код:
                                   </span>
                                   <span className="promotion-code promotion-code-title">
                                     {promotionCode}
                                   </span>
                                 </div>
                                 <p className="promotion-tips">
-                                  to apply the promotion, you must copy and
+                                  Для применения скидки,  необходимо скопировать
+                                  и вставить промо код в соответствующее поле
+                                  при оформлении заказа в корзине
+                                  {/* to apply the promotion, you must copy and
                                   paste the code into the specified part of the
-                                  shopping cart
+                                  shopping cart */}
                                 </p>
                               </>
                             ) : null}
