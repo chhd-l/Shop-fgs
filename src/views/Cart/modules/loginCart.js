@@ -158,6 +158,7 @@ class LoginCart extends React.Component {
       let timer = null;
       timer = setInterval(() => {
         if (this.props.checkoutStore.loginCartData.length) {
+          //alert(this.props.checkoutStore.loginCartData.length)
           this.props.checkoutStore.removeLoginCartData();
           clearInterval(timer);
           this.handleCheckout();
