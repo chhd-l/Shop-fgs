@@ -35,6 +35,7 @@ import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import Carousel from './components/Carousel';
+import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
 import Help from './components/Help';
 import { Helmet } from 'react-helmet';
@@ -1455,7 +1456,8 @@ class Details extends React.Component {
         }
       };
       const observer = new MutationObserver(callback);
-      observer.observe(el, config);
+      const nodeBtn = document.querySelector('.other-buy-btn');
+      observer.observe(nodeBtn, config);
     }
   }
 
@@ -1761,29 +1763,12 @@ class Details extends React.Component {
                             ></div>
                             {/*这种情况时，eancode 在法国固定，其他国家待定  */}
                             {!this.state.loading && !bundle && isHub && PC ? (
-                              <div
-                                className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${
-                                  !ccidBtnDisplay && 'rc-btn-solid-disabled'
-                                }`}
-                                ref={(el) => this.ccidBtnRef(el)}
-                                data-ccid="wtb-target"
-                                data-ean={
-                                  process.env.REACT_APP_LANG === 'fr'
-                                    ? '3182550751148'
-                                    : barcode
-                                }
+                              <BuyFromRetailerBtn
+                                ccidBtnDisplay={ccidBtnDisplay}
+                                barcode={barcode}
                                 onClick={this.handleBuyFromRetailer}
-                                style={{
-                                  marginTop: '20px'
-                                }}
-                              >
-                                <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
-                                {!ccidBtnDisplay ? (
-                                  <span className="default-txt">
-                                    Acheter via nos revendeurs
-                                  </span>
-                                ) : null}
-                              </div>
+                                ref={(el) => this.ccidBtnRef(el)}
+                              />
                             ) : null}
                           </div>
                         ) : (
@@ -2359,23 +2344,12 @@ class Details extends React.Component {
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
                                     &nbsp;&nbsp;
-                                    <div
-                                      ref={(el) => this.ccidBtnRef(el)}
-                                      className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${
-                                        !ccidBtnDisplay &&
-                                        'rc-btn-solid-disabled'
-                                      }`}
-                                      data-ccid="wtb-target"
-                                      data-ean={barcode}
+                                    <BuyFromRetailerBtn
+                                      ccidBtnDisplay={ccidBtnDisplay}
+                                      barcode={barcode}
                                       onClick={this.handleBuyFromRetailer}
-                                    >
-                                      <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
-                                      {!ccidBtnDisplay ? (
-                                        <span className="default-txt">
-                                          Acheter via nos revendeurs
-                                        </span>
-                                      ) : null}
-                                    </div>
+                                      ref={(el) => this.ccidBtnRef(el)}
+                                    />
                                   </>
                                 ) : null}
                               </div>
@@ -2491,22 +2465,12 @@ class Details extends React.Component {
                   </button>
                 ) : null}
                 {!this.state.loading && !bundle && isHub ? (
-                  <div
-                    ref={(el) => this.ccidBtnRef(el)}
-                    className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${
-                      !ccidBtnDisplay && 'rc-btn-solid-disabled'
-                    }`}
-                    data-ccid="wtb-target"
-                    data-ean={barcode}
+                  <BuyFromRetailerBtn
+                    ccidBtnDisplay={ccidBtnDisplay}
+                    barcode={barcode}
                     onClick={this.handleBuyFromRetailer}
-                  >
-                    <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
-                    {!ccidBtnDisplay ? (
-                      <span className="default-txt">
-                        Acheter via nos revendeurs
-                      </span>
-                    ) : null}
-                  </div>
+                    ref={(el) => this.ccidBtnRef(el)}
+                  />
                 ) : null}
               </div>
             </div>
