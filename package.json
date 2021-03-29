@@ -107,6 +107,7 @@
     "start:stg_fr2": "dotenv -e .env.development.local -e .env.stage -e .env.stage.fr2 node scripts/start.js",
     "start:stg_ru": "dotenv -e .env.development.local -e .env.stage -e .env.stage.ru node scripts/start.js",
     "start:stg_tr": "dotenv -e .env.development.local -e .env.stage -e .env.stage.tr node scripts/start.js",
+    "start:shopsite_mx": "dotenv -e .env.development.local -e .env.stage -e .env.shopsite.mx node scripts/start.js",
     "start:uat_fr2": "dotenv -e .env.development.local -e .env.uat.fr2 node scripts/start.js",
     "start:prod_fr": "dotenv -e .env.development.local -e .env.production.fr node scripts/start.js",
     "start:prod_fr2": "dotenv -e .env.development.local -e .env.production.fr2 node scripts/start.js",
@@ -150,8 +151,8 @@
   },
   "lint-staged": {
     "src/**/*.{js,json,css,vue}": [
-     "prettier --write",
-     "git add"
+      "prettier --write",
+      "git add"
     ]
   },
   "eslintConfig": {
