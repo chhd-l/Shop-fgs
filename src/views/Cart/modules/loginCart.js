@@ -154,14 +154,16 @@ class LoginCart extends React.Component {
     }
     this.setData();
 
-    setInterval(() => {
-      if (
-        localItemRoyal.get('rc-iframe-from-storepotal') &&
-        this.props.checkoutStore.loginCartData.length
-      ) {
-        this.handleCheckout();
-      }
-    }, 1000);
+    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+      let timer = null;
+      timer = setInterval(() => {
+        if (this.props.checkoutStore.loginCartData.length) {
+          alert(this.props.checkoutStore.loginCartData.length);
+          clearInterval(timer);
+          this.handleCheckout();
+        }
+      }, 1000);
+    }
   }
   componentWillUnmount() {}
   get loginCartData() {
