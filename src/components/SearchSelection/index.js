@@ -53,7 +53,6 @@ class SearchSelection extends React.Component {
     let citem = {
       cityName: form.value,
       cityNo: null,
-      countryName: null,
       createTime: null,
       delFlag: 0,
       delTime: null,
@@ -138,7 +137,6 @@ class SearchSelection extends React.Component {
           let citem = {
             cityName: form.value,
             cityNo: null,
-            countryName: null,
             createTime: null,
             delFlag: 0,
             delTime: null,
