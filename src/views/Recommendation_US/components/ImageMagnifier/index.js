@@ -161,6 +161,7 @@ class ImageMagnifier extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     console.log(nextProps, 'nextProps');
     let { currentImg } = this.state;
+    let positionLeft = this.state.positionLeft;
     let { images } = this.props;
     if (!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl;
@@ -173,17 +174,22 @@ class ImageMagnifier extends Component {
     let selectedSizeInfo = sizeList.filter((item) => item.selected);
     if (!selectedSizeInfo.length) {
       selectedSizeInfo = [sizeList[0]];
+      positionLeft = 0;
     }
     if (selectedSizeInfo.length) {
       let hoverIndex = 0;
-      images.map((el, i) => {
-        if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
-          hoverIndex = i;
-        }
-        return el;
-      });
+      // images.map((el, i) => {
+      //   if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
+      //     hoverIndex = i;
+      //   }
+      //   return el;
+      // });
+      console.info('hoverIndex', hoverIndex);
+
       this.setState({
-        currentImg: selectedSizeInfo[0].goodsInfoImg,
+        positionLeft: positionLeft,
+        currentImg:
+          selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
         videoShow: false,
         hoverIndex,
         offsetX: hoverIndex * 240
@@ -287,6 +293,13 @@ class ImageMagnifier extends Component {
     console.log(i);
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     // cssStyle.imgContainer.cursor = 'move';
+    // this.props.images.forEach((item, index) => {
+    //   if (index !== i) {
+    //     item.selected = false;
+    //   } else {
+    //     item.selected = true;
+    //   }
+    // });
     this.setState({
       currentImg: image,
       videoShow: false,
@@ -346,6 +359,7 @@ class ImageMagnifier extends Component {
     } = this.state;
     let { images, video, taggingForText, taggingForImage } = this.props;
     console.log(images, 'images');
+    console.info('offsetX', this.state.offsetX);
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {
@@ -383,20 +397,15 @@ class ImageMagnifier extends Component {
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
-              {console.info(
-                'images.filter((el) => el.artworkUrl)',
-                images.filter((el) => el.artworkUrl)
-              )}
-              {console.info('images', images)}
-              {console.info('---------------')}
               {images.filter((el) => el.artworkUrl).length ? (
                 images.map((el, i) => (
                   <div className="detail_img_box" key={i}>
                     <LazyLoad>
                       <img
-                        id="J_detail_img"
+                        // id="J_detail_img"
                         style={cssStyle.imgStyle}
-                        src={currentImg || noPic}
+                        // src={currentImg || noPic}
+                        src={el.artworkUrl || noPic}
                         alt=""
                       />
                     </LazyLoad>
@@ -406,7 +415,7 @@ class ImageMagnifier extends Component {
                 <div>
                   <LazyLoad>
                     <img
-                      id="J_detail_img"
+                      // id="J_detail_img"
                       style={cssStyle.imgStyle}
                       src={currentImg || this.state.maxImg || noPic}
                       alt=""
