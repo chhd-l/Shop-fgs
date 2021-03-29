@@ -3,18 +3,18 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
-const AddCartSuccessMobile = () => {
+const AddCartSuccessMobile = ({ target }) => {
   return (
     <aside
       role="modal"
       className="rc-modal rc-hidden"
-      data-modal-target="modal-example"
+      data-modal-target={target}
     >
       <div className="rc-modal__container">
         <header className="rc-modal__header">
           <button
             className="rc-btn rc-icon rc-btn--icon-label rc-modal__close rc-close--xs rc-iconography"
-            data-modal-trigger="modal-example"
+            data-modal-trigger={target}
           >
             <FormattedMessage id="close" />
           </button>

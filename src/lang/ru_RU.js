@@ -343,6 +343,7 @@ const ru_RU = {
   'details.theSize': 'Размер',
   'details.unitPrice': 'Цена за единицу',
   'details.youCanSave': 'Можно сэкономить',
+  'details.buyFromRetailer': 'Bayilerimiz aracılığıyla satın alın',
   dogs: 'СОБАКИ',
   dogs2: 'Собаки',
   dogs3: 'Собаки',

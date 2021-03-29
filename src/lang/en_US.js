@@ -1136,7 +1136,7 @@ const en_US = {
   startTypingToSearch: 'Start typing to search',
   sterilized: 'Spayed/neutered?',
   submit: 'Submit',
-  subscribe: 'Add to Cart',
+  subscribe: 'Subscribe',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.BillingAddress': 'Billing address',

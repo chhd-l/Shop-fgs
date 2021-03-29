@@ -330,6 +330,7 @@ const fr_FR = {
   'details.theSize': 'La taille',
   'details.unitPrice': 'Prix ​​unitaire',
   'details.youCanSave': 'Vous pouvez économiser',
+  'details.buyFromRetailer': 'Acheter via nos revendeurs',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',
