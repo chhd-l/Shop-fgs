@@ -156,11 +156,12 @@ class LoginCart extends React.Component {
 
     if (localItemRoyal.get('rc-iframe-from-storepotal')) {
       let timer = null;
-      timer = setInterval(() => {
+      timer = setInterval(async () => {
         if (this.props.checkoutStore.loginCartData.length) {
           //alert(this.props.checkoutStore.loginCartData.length)
-          this.props.checkoutStore.removeLoginCartData();
+          //this.props.checkoutStore.removeLoginCartData();
           clearInterval(timer);
+          await this.updateCartCache();
           this.handleCheckout();
         }
       }, 1000);
