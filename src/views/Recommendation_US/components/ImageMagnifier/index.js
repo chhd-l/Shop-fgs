@@ -397,20 +397,15 @@ class ImageMagnifier extends Component {
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
-              {console.info(
-                'images.filter((el) => el.artworkUrl)',
-                images.filter((el) => el.artworkUrl)
-              )}
-              {console.info('images', images)}
-              {console.info('---------------')}
               {images.filter((el) => el.artworkUrl).length ? (
                 images.map((el, i) => (
                   <div className="detail_img_box" key={i}>
                     <LazyLoad>
                       <img
-                        id="J_detail_img"
+                        // id="J_detail_img"
                         style={cssStyle.imgStyle}
-                        src={currentImg || noPic}
+                        // src={currentImg || noPic}
+                        src={el.artworkUrl || noPic}
                         alt=""
                       />
                     </LazyLoad>
@@ -420,7 +415,7 @@ class ImageMagnifier extends Component {
                 <div>
                   <LazyLoad>
                     <img
-                      id="J_detail_img"
+                      // id="J_detail_img"
                       style={cssStyle.imgStyle}
                       src={currentImg || this.state.maxImg || noPic}
                       alt=""
