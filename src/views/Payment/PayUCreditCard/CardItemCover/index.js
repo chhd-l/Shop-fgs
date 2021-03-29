@@ -9,10 +9,14 @@ export default class CardItemCover extends React.Component {
     canEdit: false,
     canDelete: false,
     selectedSts: false,
+    needReConfirmCVV: false,
+    lastItem: false,
     handleClickCardItem: () => {},
     deleteCard: () => {},
     currentCvvChange: () => {},
-    handleClickEditBtn: () => {}
+    handleClickEditBtn: () => {},
+    handleClickDeleteBtn: () => {},
+    updateConfirmTooltipVisible: () => {}
   };
   render() {
     const {
@@ -22,6 +26,8 @@ export default class CardItemCover extends React.Component {
       lastItem,
       handleClickCardItem,
       handleClickEditBtn,
+      handleClickDeleteBtn,
+      updateConfirmTooltipVisible,
       deleteCard,
       currentCvvChange,
       canEdit,
@@ -70,13 +76,7 @@ export default class CardItemCover extends React.Component {
               style={{ right: '1%', top: '2%', zIndex: 50 }}
             >
               <span className="pull-right position-relative pl-2 ui-cursor-pointer-pure">
-                <span
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   e.stopPropagation();
-                //   this.updateConfirmTooltipVisible(el, true);
-                // }}
-                >
+                <span onClick={handleClickDeleteBtn}>
                   <FormattedMessage id="delete" />
                 </span>
                 <ConfirmTooltip
@@ -86,9 +86,7 @@ export default class CardItemCover extends React.Component {
                   arrowStyle={{ left: '89%' }}
                   display={el.confirmTooltipVisible}
                   confirm={deleteCard}
-                  // updateChildDisplay={(status) =>
-                  //   this.updateConfirmTooltipVisible(el, status)
-                  // }
+                  updateChildDisplay={updateConfirmTooltipVisible}
                 />
               </span>
             </div>
@@ -99,7 +97,7 @@ export default class CardItemCover extends React.Component {
                 <img
                   className="PayCardImgFitScreen"
                   src={
-                    CREDIT_CARD_IMG_ENUM[el.paymentVendor.toUpperCase()] ||
+                    CREDIT_CARD_IMG_ENUM[el?.paymentVendor?.toUpperCase()] ||
                     'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                   }
                   alt=""

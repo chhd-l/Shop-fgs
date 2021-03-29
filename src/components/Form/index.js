@@ -438,7 +438,12 @@ class Form extends React.Component {
         value = value.replace(/^[0]/, '+(33)');
       }
       if (process.env.REACT_APP_LANG === 'en') {
-        value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+        value = value.replace(/-/g, '');
+        if (value.length > 3 && value.length < 8) {
+          value = value.replace(/(\d{3})(?!\-)/g, '$1-');
+        } else {
+          value = value.replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
+        }
       }
       if (process.env.REACT_APP_LANG === 'ru') {
         // value = value.replace(/^[0]/, '+(7)');
@@ -781,11 +786,11 @@ class Form extends React.Component {
                           )}
                           {/* 输入提示 */}
                           {errMsgObj[item.fieldKey] &&
-                            item.requiredFlag == 1 && (
-                              <div className="text-danger-2">
-                                {errMsgObj[item.fieldKey]}
-                              </div>
-                            )}
+                          item.requiredFlag == 1 ? (
+                            <div className="text-danger-2">
+                              {errMsgObj[item.fieldKey]}
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                       {/* 个人中心添加 email 和 birthData */}
