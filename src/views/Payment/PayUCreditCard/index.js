@@ -11,9 +11,9 @@ import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { queryIsSupportInstallMents } from '@/api/payment';
 import { scrollPaymentPanelIntoView } from '../modules/utils';
-import PaymentComp from '../PaymentComp';
-import CardItemCover from '../PaymentComp/modules/CardItemCover';
-import InstallmentTable from '../PaymentComp/modules/InstallmentTable';
+import MemberCardList from './MemberCardList';
+import CardItemCover from './CardItemCover';
+import InstallmentTable from './InstallmentTable';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -407,7 +407,7 @@ class PayOs extends React.Component {
                 <div className={`rc-list__accordion-item border-0`}>
                   {isLogin ? (
                     <div className="rc-border-colour--interface">
-                      <PaymentComp
+                      <MemberCardList
                         key={Object.values(defaultCardDataFromAddr || {}).join(
                           '|'
                         )}

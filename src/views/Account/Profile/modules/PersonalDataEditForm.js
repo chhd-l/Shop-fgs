@@ -34,8 +34,8 @@ class PersonalDataEditForm extends React.Component {
         lastName: '',
         birthdate: '',
         email: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID,
-        countryName: '',
+        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID,
+        country: '',
         provinceNo: '',
         provinceId: '',
         province: '',
@@ -233,7 +233,8 @@ class PersonalDataEditForm extends React.Component {
         birthDay: form.birthdate
           ? form.birthdate.split('/').join('-')
           : form.birthdate,
-        countryId: form.country,
+        countryId: form.countryId,
+        country: form.country,
         contactPhone: form.phoneNumber,
         reference: form.rfc,
         address1: form.address1,

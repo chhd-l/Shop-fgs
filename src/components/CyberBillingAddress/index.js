@@ -8,6 +8,7 @@ class CyberBillingAddress extends React.Component {
       lastName: '',
       address1: '',
       address2: '',
+      countryId: '',
       country: '',
       state: '',
       city: '',

@@ -43,9 +43,8 @@ class Form extends React.Component {
         birthdate: '',
         address1: '',
         address2: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        country: '',
         countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
-        countryName: '',
         cityId: '',
         city: '',
         regionId: '',
@@ -293,7 +292,6 @@ class Form extends React.Component {
         let cfm = caninForm;
         cfm.country = res[0].value;
         cfm.countryId = res[0].id;
-        cfm.countryName = res[0].name;
         this.setState({
           countryList: res,
           caninForm: Object.assign(this.state.caninForm, cfm)
@@ -393,7 +391,7 @@ class Form extends React.Component {
       caninForm.state = data.name;
       caninForm.stateNo = data.no; // 省份简写
     } else if (key == 'country') {
-      caninForm.countryName = data.name;
+      caninForm.country = data.name;
     } else if (key == 'city') {
       caninForm.city = data.name;
       this.setState({
@@ -440,7 +438,12 @@ class Form extends React.Component {
         value = value.replace(/^[0]/, '+(33)');
       }
       if (process.env.REACT_APP_LANG === 'en') {
-        value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+        value = value.replace(/-/g, '');
+        if (value.length > 3 && value.length < 8) {
+          value = value.replace(/(\d{3})(?!\-)/g, '$1-');
+        } else {
+          value = value.replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
+        }
       }
       if (process.env.REACT_APP_LANG === 'ru') {
         // value = value.replace(/^[0]/, '+(7)');
@@ -783,11 +786,11 @@ class Form extends React.Component {
                           )}
                           {/* 输入提示 */}
                           {errMsgObj[item.fieldKey] &&
-                            item.requiredFlag == 1 && (
-                              <div className="text-danger-2">
-                                {errMsgObj[item.fieldKey]}
-                              </div>
-                            )}
+                          item.requiredFlag == 1 ? (
+                            <div className="text-danger-2">
+                              {errMsgObj[item.fieldKey]}
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                       {/* 个人中心添加 email 和 birthData */}

@@ -401,7 +401,7 @@ const tr_TR = {
   'help.tip4': 'Herhangi bir soruna her an cevap verebilirler.',
   here: 'aquí',
   'home.convenientTip1': 'Evcil hayvanınızın ihtiyacına göre diyet seçimi',
-  'home.convenientTip2': "{Val} 'dan sipariş verirken hızlı ücretsiz gönderim.",
+  'home.convenientTip2': "{val} 'dan sipariş verirken hızlı ücretsiz gönderim.",
   'home.convenientTip3': 'Destek servisi',
   'home.convenientTitle': 'ROYAL CANIN® ile alışveriş yapmak neden uygun?',
   'home.note1':
@@ -754,7 +754,7 @@ const tr_TR = {
   registerUppercase: 'Bir büyük harf',
   registerWelcome: "'e Hoş Geldiniz",
   remember48Hours:
-    "{Val} tarihinden önceki siparişin, ödemenin iki gün sonra {val} pm'den önce sona ereceğini veya {val} pm'den sonra, ödemenin üç gün sonra {val} pm'den önce sona ereceğini unutmayın.",
+    "{val} tarihinden önceki siparişin, ödemenin iki gün sonra {val} pm'den önce sona ereceğini veya {val} pm'den sonra, ödemenin üç gün sonra {val} pm'den önce sona ereceğini unutmayın.",
   rememberMe: 'Beni Hatırla',
   removeAllFilters: 'Tüm filtreleri kaldır',
   replyComments: 'Yorumları yanıtla',
