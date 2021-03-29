@@ -25,13 +25,16 @@ service.interceptors.request.use((config) => {
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;
   }
-  if(config.method&&config.method.toLocaleLowerCase() === 'get'){
-      Object.assign(config,{
-        paramsSerializer: function (params) {
-          return qs.stringify(params, { arrayFormat: "indices", allowDots: true });
-        }
-      })
-    }
+  if (config.method && config.method.toLocaleLowerCase() === 'get') {
+    Object.assign(config, {
+      paramsSerializer: function (params) {
+        return qs.stringify(params, {
+          arrayFormat: 'indices',
+          allowDots: true
+        });
+      }
+    });
+  }
   config.headers['Accept-Language'] = {
     en: 'en-US',
     es: 'es-MX',
@@ -52,7 +55,7 @@ service.interceptors.response.use(
       return response;
     }
     if (response.headers.jsessionid) {
-      sessionItemRoyal.set('jsessionid', response.headers.jsessionid)
+      sessionItemRoyal.set('jsessionid', response.headers.jsessionid);
     }
     if (
       response.status === 200 &&
@@ -63,7 +66,7 @@ service.interceptors.response.use(
     } else {
       // token失效处理
       if (
-        localItemRoyal.get('rc-token') &&
+        // localItemRoyal.get('rc-token') &&
         response.status === 200 &&
         response.data &&
         response.data.code === 'K-000002'

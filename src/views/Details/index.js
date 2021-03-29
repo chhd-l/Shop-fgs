@@ -2494,7 +2494,6 @@ class Details extends React.Component {
             {/* 最下方跳转更多板块 */}
             {isHub ? (
               <>
-                <div className="split-line rc-bg-colour--brand4 rc-content--fixed-header "></div>
                 <div className="more-link rc-content--fixed-header ">
                   <LazyLoad height={200}>
                     <img src={loop} srcSet={loop} alt="" />
