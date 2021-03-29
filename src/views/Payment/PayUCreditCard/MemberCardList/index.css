@@ -1,0 +1,6 @@
+.input:not(.rc-input--full-width),
+.rc-input:not(.rc-input--full-width),
+.rc-select:not(.rc-input--full-width),
+.select:not(.rc-input--full-width) {
+  max-width: 400px;
+}

@@ -2141,6 +2141,7 @@ class Details extends React.Component {
                                           : '1.5rem',
                                         height: isMobile ? '70px' : 'auto'
                                       }}
+                                      customCls="text-left"
                                       selectedItemChange={
                                         this.handleSelectedItemChange
                                       }
@@ -2275,6 +2276,7 @@ class Details extends React.Component {
                                           : '1.5rem',
                                         height: isMobile ? '70px' : 'auto'
                                       }}
+                                      customCls="text-left"
                                       selectedItemChange={
                                         this.handleSelectedItemChange
                                       }
