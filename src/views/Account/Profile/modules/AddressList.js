@@ -377,7 +377,7 @@ class AddressList extends React.Component {
                         <CardItem
                           data={item}
                           operateBtnJSX={
-                            <div>
+                            <div className="d-flex align-items-sm-center">
                               {item.isDefaltAddress === 1 ? (
                                 <div
                                   className="red"
