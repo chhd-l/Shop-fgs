@@ -117,11 +117,10 @@ class Prescription extends React.Component {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
-    //与后台联调发测试版之前，先不显示弹框
+    //获取是否显示prescriber弹框
     await this.props.configStore.getIsNeedPrescriber();
     const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
     this.setState({ modalShow: showPrescriberModal });
-    //
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
