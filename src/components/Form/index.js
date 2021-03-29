@@ -43,9 +43,8 @@ class Form extends React.Component {
         birthdate: '',
         address1: '',
         address2: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        country: '',
         countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
-        countryName: '',
         cityId: '',
         city: '',
         regionId: '',
@@ -293,7 +292,6 @@ class Form extends React.Component {
         let cfm = caninForm;
         cfm.country = res[0].value;
         cfm.countryId = res[0].id;
-        cfm.countryName = res[0].name;
         this.setState({
           countryList: res,
           caninForm: Object.assign(this.state.caninForm, cfm)
@@ -393,7 +391,7 @@ class Form extends React.Component {
       caninForm.state = data.name;
       caninForm.stateNo = data.no; // 省份简写
     } else if (key == 'country') {
-      caninForm.countryName = data.name;
+      caninForm.country = data.name;
     } else if (key == 'city') {
       caninForm.city = data.name;
       this.setState({
