@@ -191,11 +191,6 @@ const fr_FR = {
     "cette case est obligatoire pour l'abonnement",
   checkout: 'Commander',
   'payment.checkout': 'Commander',
-  'checkout.faq.contactCustomer': 'Comment puis-je joindre le service client',
-  'checkout.faq.freeDelivery': 'Proposez-vous la livraison gratuite',
-  'checkout.faq.FreeReturn': 'Proposez-vous des retours gratuits',
-  'checkout.faq.paymentInformation':
-    'Dans quelle mesure mes informations de paiement sont-elles sécurisées',
   checkoutTip: 'Veuillez entrer vos coordonnées ci-dessous.',
   'Choose your pet type': "Quelle est l'espèce de votre animal",
   choosePayment: 'Choisissez le paiement',
