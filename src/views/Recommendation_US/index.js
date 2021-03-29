@@ -972,7 +972,8 @@ class Recommendation extends React.Component {
                           <div className="main">
                             <div className="pic">
                               <ImageMagnifier
-                                sizeList={[productList[activeIndex].goodsInfo]}
+                                // sizeList={[productList[activeIndex].goodsInfo]}
+                                sizeList={productList[activeIndex].images || []}
                                 images={productList[activeIndex].images || []}
                                 minImg={
                                   productList[activeIndex].goodsInfo
