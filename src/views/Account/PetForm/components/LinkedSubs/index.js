@@ -152,7 +152,7 @@ const LinkedSubs = (props) => {
                           display: 'inline-block',
                           marginRight: '30px'
                         }}
-                        alt=""
+                        alt="club-logo"
                       />
                     </LazyLoad>
                     <LazyLoad>
@@ -162,7 +162,7 @@ const LinkedSubs = (props) => {
                           width: '40px',
                           display: 'inline-block'
                         }}
-                        alt=""
+                        alt="autoship-icon"
                       />
                     </LazyLoad>
                     <span

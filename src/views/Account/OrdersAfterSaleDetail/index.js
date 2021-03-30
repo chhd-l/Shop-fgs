@@ -170,7 +170,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                         <LazyLoad>
                                           <img
                                             src={JSON.parse(item).url}
-                                            alt=""
+                                            alt="detail-image"
                                           />
                                         </LazyLoad>
                                       </div>

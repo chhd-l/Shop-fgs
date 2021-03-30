@@ -911,7 +911,11 @@ class UnLoginCart extends React.Component {
               style={{ marginTop: '-1.5rem' }}
             >
               <div className="name-info flex-column-gift d-flex">
-                <img className="img" src={foodDispenserPic} alt="" />
+                <img
+                  className="img"
+                  src={foodDispenserPic}
+                  alt="food-dispenserPic"
+                />
               </div>
               <div className="text-center" style={{ width: '200px' }}>
                 <img

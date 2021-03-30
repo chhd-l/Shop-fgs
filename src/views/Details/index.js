@@ -2409,7 +2409,7 @@ class Details extends React.Component {
                     <img
                       className="good-contact-img mr-5"
                       src={details.goodsImg}
-                      alt=""
+                      alt="goods-details-image"
                     />
                   ) : null}
                   <div className="good-contact-dec">

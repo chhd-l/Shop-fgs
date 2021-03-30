@@ -81,7 +81,7 @@ const ClubItem = ({ subItem, idx, frequencyList }) => {
               display: 'inline-block',
               marginRight: '30px'
             }}
-            alt=""
+            alt="club-logo"
           />
         </LazyLoad>
         <LazyLoad>
@@ -91,7 +91,7 @@ const ClubItem = ({ subItem, idx, frequencyList }) => {
               width: '40px',
               display: 'inline-block'
             }}
-            alt=""
+            alt="autoship-icon"
           />
         </LazyLoad>
         <span

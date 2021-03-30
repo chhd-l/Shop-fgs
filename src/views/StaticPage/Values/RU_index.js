@@ -132,7 +132,7 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={image1} style={{ width: '100%' }} alt="" />
+                <img src={image1} style={{ width: '100%' }} alt="lovely dog" />
               </LazyLoad>
             </div>
           </div>
@@ -145,7 +145,7 @@ class Help extends React.Component {
                 <img
                   src={image2}
                   style={{ width: '100%', marginTop: '50px' }}
-                  alt=""
+                  alt="Standing cat"
                 />
               </LazyLoad>
             </div>
@@ -217,7 +217,11 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={image3} style={{ width: '100%' }} alt="" />
+                <img
+                  src={image3}
+                  style={{ width: '100%' }}
+                  alt="Dog playing ball"
+                />
               </LazyLoad>
             </div>
           </div>

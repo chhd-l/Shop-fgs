@@ -1105,7 +1105,7 @@ class SubscriptionDetail extends React.Component {
                         right: 0
                       }}
                       src={!el.petsSex ? Male : Female}
-                      alt=""
+                      alt="pet-sex-icon"
                     />
                   </div>
                   <div style={{ paddingLeft: '1rem' }}>
@@ -1563,7 +1563,7 @@ class SubscriptionDetail extends React.Component {
                                         margin: '0 .625rem'
                                       }}
                                       src={tradeItem.pic}
-                                      alt=""
+                                      alt="trade-item"
                                     />
                                   </LazyLoad>
                                   <div
@@ -2097,7 +2097,7 @@ class SubscriptionDetail extends React.Component {
                       )[0].goodsInfoImg
                     }
                     className="p-img"
-                    alt=""
+                    alt="product-image"
                   />
                 </LazyLoad>
               </div>
@@ -2184,7 +2184,7 @@ class SubscriptionDetail extends React.Component {
                           )[0].goodsInfoImg
                         }
                         className="p-img"
-                        alt=""
+                        alt="product-image"
                       />
                     </LazyLoad>
                   </div>
@@ -3671,7 +3671,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     >
                                       <img
-                                        alt=""
+                                        alt="card-background"
                                         className="d-inline-block"
                                         src={
                                           CREDIT_CARD_IMG_ENUM[
@@ -4022,7 +4022,7 @@ class SubscriptionDetail extends React.Component {
                                                             margin: '0 .625rem'
                                                           }}
                                                           src={tradeItem.pic}
-                                                          alt=""
+                                                          alt="trade-item"
                                                         />
                                                       </LazyLoad>
                                                       <div
@@ -4580,7 +4580,7 @@ class SubscriptionDetail extends React.Component {
                                                               display: 'inline'
                                                             }}
                                                             src={tradeItem.pic}
-                                                            alt=""
+                                                            alt="trade-item"
                                                           />
                                                         </LazyLoad>
                                                         <div
@@ -4659,7 +4659,7 @@ class SubscriptionDetail extends React.Component {
                                                                 src={
                                                                   tradeItem.pic
                                                                 }
-                                                                alt=""
+                                                                alt="trade-item"
                                                               />
                                                             </LazyLoad>
                                                             <div

@@ -723,7 +723,12 @@ class PaymentEditForm extends React.Component {
       <span className="logo-payment-card-list logo-credit-card">
         {supportPaymentMethods.map((el, idx) => (
           <LazyLoad key={idx}>
-            <img key={idx} className="logo-payment-card" src={el.img} alt="" />
+            <img
+              key={idx}
+              className="logo-payment-card"
+              src={el.img}
+              alt="logo-payment-card-image"
+            />
           </LazyLoad>
         ))}
       </span>
@@ -1147,7 +1152,7 @@ class PaymentEditForm extends React.Component {
                           src={cardTypeImg[item.id]}
                           title={item.id}
                           style={{ width: '40px' }}
-                          alt=""
+                          alt="cardType-image"
                         />
                       </label>
                     </div>

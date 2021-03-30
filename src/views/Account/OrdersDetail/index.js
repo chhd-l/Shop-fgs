@@ -1561,7 +1561,7 @@ class AccountOrders extends React.Component {
                                             style={{ display: 'inline' }}
                                           >
                                             <img
-                                              alt=""
+                                              alt="card-background"
                                               className="d-inline-block mr-1"
                                               style={{ width: '20%' }}
                                               src={

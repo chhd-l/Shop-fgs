@@ -146,7 +146,7 @@ export default class ImgUpload extends React.Component {
               className="img-pre"
               src={this.state.preImg}
               onClick={(e) => e.stopPropagation()}
-              alt=""
+              alt="img-pre"
             />
           </LazyLoad>
         </div>

@@ -24,7 +24,7 @@ export function SubscriptionBenefits() {
             <img
               className="value-proposition__img"
               src={pack}
-              alt=""
+              alt="pack-icon"
               title=""
             />
           </LazyLoad>
@@ -42,7 +42,7 @@ export function SubscriptionBenefits() {
             <img
               className="value-proposition__img"
               src={delivery}
-              alt=""
+              alt="delivery-icon"
               title=""
             />
           </LazyLoad>
@@ -64,7 +64,7 @@ export function SubscriptionBenefits() {
             <img
               className="value-proposition__img"
               src={question}
-              alt=""
+              alt="question-icon"
               title=""
             />
           </LazyLoad>

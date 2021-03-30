@@ -202,7 +202,7 @@ class Pet extends React.Component {
                                         : null) ||
                                       (el.petsType === 'cat' ? Cat : Dog)
                                     }
-                                    alt=""
+                                    alt="Pet avatar"
                                   />
                                 </LazyLoad>
                               </div>
@@ -213,7 +213,7 @@ class Pet extends React.Component {
                                     <img
                                       style={{ width: '1.25rem' }}
                                       src={!el.petsSex ? Male : Female}
-                                      alt=""
+                                      alt="pet-sex-icon"
                                     />
                                   </LazyLoad>
                                 </h1>
@@ -256,7 +256,7 @@ class Pet extends React.Component {
                                         : null) ||
                                       (el.petsType === 'cat' ? Cat : Dog)
                                     }
-                                    alt=""
+                                    alt="Pet avatar"
                                   />
                                 </LazyLoad>
                               </div>
@@ -267,7 +267,7 @@ class Pet extends React.Component {
                                     <img
                                       style={{ width: '.9375rem' }}
                                       src={!el.petsSex ? Male : Female}
-                                      alt=""
+                                      alt="pet-sex-icon"
                                     />
                                   </LazyLoad>
                                 </h1>
