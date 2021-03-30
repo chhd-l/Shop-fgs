@@ -134,7 +134,7 @@ function ListItemH5ForGlobalStyle(props) {
                           height: 'auto',
                           margin: 'auto'
                         }}
-                        alt=""
+                        alt="Retail Products"
                       />
                     </div>
                   </div>
