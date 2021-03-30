@@ -113,14 +113,14 @@ class Prescription extends React.Component {
       modalShow: false //是否显示询问绑定prescriber弹框
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
-    //与后台联调发测试版之前，先不显示弹框
-    // const showPrescriberModal=this.props.configStore.showPrescriberModal;
-    // this.setState({modalShow:showPrescriberModal});
-    //
+    //获取是否显示prescriber弹框
+    await this.props.configStore.getIsNeedPrescriber();
+    const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
+    this.setState({ modalShow: showPrescriberModal });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -204,14 +204,14 @@ class Prescription extends React.Component {
     });
   }
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
-  closeModal() {
+  closeModal = () => {
     this.setState({ modalShow: false });
     this.props.history.push('/checkout');
-  }
+  };
   //需要绑定prescriber，直接关闭弹框显示当前页面
-  handleClickSubmit() {
+  handleClickSubmit = () => {
     this.setState({ modalShow: false });
-  }
+  };
   handleSearch = () => {
     const { params } = this.state;
     params.input = this.state.keywords;
@@ -329,8 +329,8 @@ class Prescription extends React.Component {
         />
         <Modal
           visible={this.state.modalShow}
-          close={() => this.closeModal()}
-          handleClickConfirm={() => this.handleClickSubmit()}
+          close={this.closeModal}
+          handleClickConfirm={this.handleClickSubmit}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
@@ -391,13 +391,13 @@ class Prescription extends React.Component {
                       )}
                     </FormattedMessage>
                     <label className="rc-input__label" htmlFor="id-submit-2">
-                      <span className="rc-input__label-text"></span>
+                      <span className="rc-input__label-text" />
                     </label>
                     <i
                       className="rc-icon rc-location2--xs rc-iconography rc-vertical-align click-btn"
                       aria-label="location"
                       onClick={(e) => this.handleInit(e)}
-                    ></i>
+                    />
                   </span>
 
                   {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
@@ -431,7 +431,7 @@ class Prescription extends React.Component {
                         >
                           <div onClick={() => this.handleItem(item)}>
                             <p style={{ margin: '.5rem 0 0 0' }}>
-                              <FormattedMessage id="clinic.vet"></FormattedMessage>
+                              <FormattedMessage id="clinic.vet" />
                             </p>
                             <h3 className="rc-card__title rc-delta click-btn clinic-title">
                               {item.prescriberName}
@@ -479,7 +479,7 @@ class Prescription extends React.Component {
                   zoom={this.state.zoom}
                   flags={flags}
                   key={this.state.mapKey}
-                ></GoogleMap>
+                />
               </div>
             </div>
           </div>

@@ -76,7 +76,8 @@ class Subscription extends React.Component {
         }
       ],
       subscriptionType: 'All',
-      isMobile: getDeviceType() !== 'PC'
+      isMobile: getDeviceType() !== 'PC',
+      testNumber: 0
     };
     this.pageSize = 6;
   }
@@ -86,6 +87,12 @@ class Subscription extends React.Component {
   }
 
   async componentDidMount() {
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        this.setState({ testNumber: this.state.testNumber + i });
+        console.log(this.state.testNumber, 'testNumber');
+      }, 1000);
+    }
     myAccountPushEvent('Subscriptions');
     setSeoConfig({
       pageName: 'Account subscriptions'
@@ -200,7 +207,7 @@ class Subscription extends React.Component {
             <h4 className="rc-delta rc-margin--none pb-2">
               <FormattedMessage id={subscription} />
             </h4>
-            <div style={{ width: '200px' }}>
+            <div style={{ width: isMobile ? '100px' : '200px' }}>
               <Selection
                 optionList={[
                   { name: 'All', value: 'All' },

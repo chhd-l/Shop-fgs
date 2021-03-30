@@ -13,15 +13,14 @@ export default class Modal extends React.Component {
     cancelBtnText: <FormattedMessage id="bindPrescriber.modal.no" />,
     middleSpanText: <FormattedMessage id="bindPrescriber.modal.or" />,
     confirmBtnText: <FormattedMessage id="bindPrescriber.modal.yes" />,
-    visible: false,
-    cancel: null //取消回调函数
+    visible: false //是否显示弹框
   };
-  close() {
+  close = () => {
     this.props.close();
-  }
-  handleClickConfirm() {
+  };
+  handleClickConfirm = () => {
     this.props.handleClickConfirm();
-  }
+  };
   render() {
     const { visible } = this.props;
     return (
@@ -65,9 +64,7 @@ export default class Modal extends React.Component {
                   type="button"
                   className="rc-styled-link"
                   data-dismiss="modal"
-                  onClick={() =>
-                    this.props.cancel ? this.props.cancel() : this.close()
-                  }
+                  onClick={this.close}
                 >
                   {this.props.cancelBtnText}
                 </a>
@@ -79,7 +76,7 @@ export default class Modal extends React.Component {
                   type="button"
                   className="btn btn-primary cart-delete-confirmation-btn"
                   data-dismiss="modal"
-                  onClick={() => this.handleClickConfirm()}
+                  onClick={this.handleClickConfirm}
                 >
                   {this.props.confirmBtnText}
                 </button>

@@ -11,6 +11,7 @@ import { createIntl, createIntlCache } from 'react-intl';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
+import en from 'date-fns/locale/en-US';
 import { registerLocale } from 'react-datepicker';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 
@@ -456,9 +457,10 @@ export function distributeLinktoPrecriberOrPaymentPage({
     } else {
       needPrescriber = AuditData.length > 0;
     }
-    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      return '/checkout';
-    }
+    //暂时不用autoAuditFlag检验，直接用prescriber弹框
+    // if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+    //   return '/checkout';
+    // }
   } else {
     let needPrescriber;
     if (autoAuditFlag) {
@@ -466,9 +468,10 @@ export function distributeLinktoPrecriberOrPaymentPage({
     } else {
       needPrescriber = AuditData.length > 0;
     }
-    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      return '/checkout';
-    }
+    //暂时不用autoAuditFlag检验，直接用prescriber弹框
+    // if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+    //   return '/checkout';
+    // }
   }
 
   // 校验本地prescriber缓存，有则跳过prescriber页面
@@ -622,6 +625,9 @@ function getDatePickerConfig() {
       break;
     case 'fr':
       registerLocale('fr', fr);
+      break;
+    case 'en':
+      registerLocale('en', en);
       break;
     default:
       break;

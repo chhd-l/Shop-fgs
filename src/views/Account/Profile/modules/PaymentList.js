@@ -93,6 +93,8 @@ class AddressList extends React.Component {
       fromPage: 'cover',
       paymentType: 'PAYU', //getway接口没配置美国支付CYBER，暂时这样
       errorMsg: '',
+      successMsg: '',
+      getPaymentMethodListFlag: false,
       supportPaymentMethods: []
     };
 
@@ -119,11 +121,24 @@ class AddressList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  getPaymentMethodList = async ({ showLoading = true } = {}) => {
+  getPaymentMethodList = async (msg, { showLoading = true } = {}) => {
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod();
-      this.setState({ creditCardList: res.context || [] });
+      this.setState({
+        creditCardList: res.context || []
+      });
+      if (msg) {
+        this.setState(
+          {
+            successMsg: msg, // 获取保存地址返回的提示成功信息
+            getPaymentMethodListFlag: true
+          },
+          () => {
+            this.clearSuccessMsg();
+          }
+        );
+      }
     } catch (err) {
       this.setState({ listErr: err.message });
     } finally {
@@ -132,6 +147,15 @@ class AddressList extends React.Component {
         listLoading: false
       });
     }
+  };
+  // 提示成功信息
+  clearSuccessMsg = () => {
+    setTimeout(() => {
+      this.setState({
+        successMsg: '',
+        getPaymentMethodListFlag: false
+      });
+    }, 5000);
   };
   async deleteCard(el, e) {
     e.preventDefault();
@@ -145,6 +169,15 @@ class AddressList extends React.Component {
     });
     await deleteCard({ id: el.id })
       .then(() => {
+        this.setState(
+          {
+            successMsg: 'Delete successfullly',
+            getPaymentMethodListFlag: true
+          },
+          () => {
+            this.clearSuccessMsg();
+          }
+        );
         this.getPaymentMethodList();
         myAccountActionPushEvent('Delete payment method');
       })
@@ -241,7 +274,9 @@ class AddressList extends React.Component {
       creditCardList,
       listLoading,
       loading,
-      errorMsg
+      errorMsg,
+      successMsg,
+      getPaymentMethodListFlag
     } = this.state;
     const curPageAtCover = !listVisible && !editFormVisible;
     return (
@@ -327,6 +362,16 @@ class AddressList extends React.Component {
                     </button>
                   </aside>
                 </div>
+                <aside
+                  className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                    successMsg && getPaymentMethodListFlag ? '' : 'hidden'
+                  }`}
+                  role="alert"
+                >
+                  <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                    {successMsg}
+                  </p>
+                </aside>
 
                 {/* preview form */}
                 <div

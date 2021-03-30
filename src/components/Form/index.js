@@ -76,7 +76,6 @@ class Form extends React.Component {
     this.setState({
       formLoading: true
     });
-
     // 查询国家
     this.getCountryList();
 
@@ -87,8 +86,10 @@ class Form extends React.Component {
     initData.stateId = initData.provinceId;
     initData.stateNo = initData.provinceNo;
     initData.state = initData.province;
-    console.log('91 -------------★ EditForm initData: ', initData);
-    // console.log('-------------★ EditForm caninForm: ', caninForm);
+
+    //console.log('91 -------------★ EditForm initData: ', initData);
+    //console.log('92-------------★ EditForm caninForm: ', caninForm);
+
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -438,7 +439,12 @@ class Form extends React.Component {
         value = value.replace(/^[0]/, '+(33)');
       }
       if (process.env.REACT_APP_LANG === 'en') {
-        value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+        value = value.replace(/-/g, '');
+        if (value.length > 3 && value.length < 8) {
+          value = value.replace(/(\d{3})(?!\-)/g, '$1-');
+        } else {
+          value = value.replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
+        }
       }
       if (process.env.REACT_APP_LANG === 'ru') {
         // value = value.replace(/^[0]/, '+(7)');
@@ -781,11 +787,11 @@ class Form extends React.Component {
                           )}
                           {/* 输入提示 */}
                           {errMsgObj[item.fieldKey] &&
-                            item.requiredFlag == 1 && (
-                              <div className="text-danger-2">
-                                {errMsgObj[item.fieldKey]}
-                              </div>
-                            )}
+                          item.requiredFlag == 1 ? (
+                            <div className="text-danger-2">
+                              {errMsgObj[item.fieldKey]}
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                       {/* 个人中心添加 email 和 birthData */}

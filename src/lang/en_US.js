@@ -270,11 +270,6 @@ const en_US = {
   checkboxIsRequiredForSubscription:
     'this checkbox is required for subscription',
   checkout: 'Buy now',
-  'checkout.faq.contactCustomer': 'How can I reach customer service',
-  'checkout.faq.freeDelivery': 'Do you offer free shipping',
-  'checkout.faq.FreeReturn': 'Do you offer free returns',
-  'checkout.faq.paymentInformation':
-    'How secure is my payment {val} information',
   checkoutTip: 'Please enter your information below',
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',
@@ -308,7 +303,7 @@ const en_US = {
   'confirmation.customerInformation': 'Customer Information',
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2':
-    'In the near future, our staff will contact you to comfirm the order.',
+    'You will receive an email confirmation shortly at {val1}',
   'confirmation.info3':
     ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.oneShoot': 'Continue shopping',
@@ -1136,7 +1131,7 @@ const en_US = {
   startTypingToSearch: 'Start typing to search',
   sterilized: 'Spayed/neutered?',
   submit: 'Submit',
-  subscribe: 'Add to Cart',
+  subscribe: 'Subscribe',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.BillingAddress': 'Billing address',
@@ -1259,6 +1254,7 @@ const en_US = {
   avecLabonnement: 'with autoship',
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
-  'payment.codConfirmTip': 'Payment upon receipt'
+  'payment.codConfirmTip': 'Payment upon receipt',
+  'Special Need': 'Sensitivites'
 };
 export default en_US;

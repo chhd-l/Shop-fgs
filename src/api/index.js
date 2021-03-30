@@ -9,13 +9,14 @@ const api = {
   getRegionByCityId: `/systemRegion/queryByStoreId`, // 根据cityId查询region
   getProvincesList: `/systemState/queryByStoreId`, // 查询省份列表
   getAddressBykeyWord: `/address-input-auto/list`, // DuData，根据输入的关键字返回详细地址信息
-  addressValidation: `/addressValidation/validation`,
+  addressValidation: `/addressValidation/validation`, // 地址校验接口
   buryPoint: '/fgs.gif',
   getConfig: `/config/store/${process.env.REACT_APP_STOREID}`,
   navigations: '/navigations', // 查询二级菜单
   seo: 'seo/setting',
   getSystemConfig: '/system/config',
-  addressSetting: '/addressDisplaySetting/queryByStoreId' // 查询文本框设置
+  addressSetting: '/addressDisplaySetting/queryByStoreId', // 查询文本框设置
+  getIsNeedPrescriber: '/order/config/listSystemConfig' //查询是否需要显示用户选择绑定prescriber弹框
 };
 
 export default api;
@@ -135,5 +136,14 @@ export function getAddressSetting(parameter) {
   return axios({
     url: `${api.addressSetting}/${parameter.addressApiType}`,
     method: 'get'
+  });
+}
+
+//查询prescription页面是否需要显示用户选择绑定prescriber弹框
+export function getIsNeedPrescriber() {
+  return axios({
+    url: `${api.getIsNeedPrescriber}`,
+    method: 'get',
+    params: { storeId: process.env.REACT_APP_STOREID }
   });
 }

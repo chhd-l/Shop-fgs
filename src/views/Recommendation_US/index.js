@@ -1229,7 +1229,7 @@ class Recommendation extends React.Component {
                   <div className="rc-grid">
                     <div>
                       <h3 className="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs">
-                        <b>{item.title}</b>
+                        <strong>{item.title}</strong>
                       </h3>
                       <lazyload>
                         <img

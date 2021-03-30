@@ -362,9 +362,9 @@ export default class Felin extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
-      value = value.replace(/^[0]/, '+(33)');
-    }
+    // if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+    //   value = value.replace(/^[0]/, '+(33)');
+    // }
     userInfo[name] = value;
     this.setState({ userInfo });
   };
@@ -1135,6 +1135,12 @@ export default class Felin extends React.Component {
                           </p>
                           <p
                             className="text-center"
+                            style={{ margin: '20px 0 10px' }}
+                          >
+                            {getFormatDate(this.state.currentDate, null, 'fr')}
+                          </p>
+                          <p
+                            className="text-center"
                             style={{
                               margin: '10px 0 20px',
                               marginBottom: '40px'
@@ -1348,6 +1354,12 @@ export default class Felin extends React.Component {
                           </p>
                           <p
                             className="text-center"
+                            style={{ margin: '20px 0 10px' }}
+                          >
+                            {getFormatDate(this.state.currentDate, null, 'fr')}
+                          </p>
+                          <p
+                            className="text-center"
                             style={{ margin: '10px 0 20px' }}
                           >
                             {this.state.selectedTimeObj.name}
@@ -1412,6 +1424,16 @@ export default class Felin extends React.Component {
                               style={{ fontWeight: '500' }}
                             >
                               Consultation expert
+                            </p>
+                            <p
+                              className="text-center"
+                              style={{ margin: '20px 0 10px' }}
+                            >
+                              {getFormatDate(
+                                this.state.currentDate,
+                                null,
+                                'fr'
+                              )}
                             </p>
                             <p
                               className="text-center"

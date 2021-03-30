@@ -742,7 +742,9 @@ class PayProductInfo extends React.Component {
                   <div className="col-5 end-lines">
                     <p className="text-right">
                       <span className="shipping-total-cost">
-                        <b>-{formatMoney(this.subscriptionDiscountPrice)}</b>
+                        <strong>
+                          -{formatMoney(this.subscriptionDiscountPrice)}
+                        </strong>
                       </span>
                     </p>
                   </div>
@@ -750,23 +752,22 @@ class PayProductInfo extends React.Component {
 
                 {/* 显示 promotionCode */}
                 {!isShowValidCode && this.promotionDiscountPrice > 0
-                  ? this.promotionVOList.map((el) => (
-                      <div className="row leading-lines shipping-item flex-layout green">
-                        <label
-                          className="saveDiscount font14"
-                          style={{ flex: 2 }}
-                        >
-                          {el.marketingName}
-                        </label>
-                        <div
-                          className="text-right"
-                          style={{
-                            position: 'relative',
-                            textAlign: 'right',
-                            flex: 1
-                          }}
-                        >
-                          <b>-{formatMoney(el.discountPrice)}</b>
+                  ? this.promotionVOList.map((el, i) => (
+                      <div
+                        className="row leading-lines shipping-item green"
+                        key={i}
+                      >
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            {el.marketingName}
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost">
+                              <strong>-{formatMoney(el.discountPrice)}</strong>
+                            </span>
+                          </p>
                         </div>
                       </div>
                     ))
@@ -832,7 +833,7 @@ class PayProductInfo extends React.Component {
                               {this.props.isCheckOut &&
                               this.props.deliveryAddress?.address1 == '' ? (
                                 <>
-                                  <b>{subtractionSign}</b>
+                                  <strong>{subtractionSign}</strong>
                                 </>
                               ) : (
                                 <>{formatMoney(this.taxFeePrice)}</>
@@ -889,7 +890,7 @@ class PayProductInfo extends React.Component {
                       <>
                         {customTaxSettingOpenFlag == 0 &&
                         enterPriceType == 1 ? (
-                          <b>{subtractionSign}</b>
+                          <strong>{subtractionSign}</strong>
                         ) : (
                           formatMoney(this.tradePrice)
                         )}
@@ -899,7 +900,7 @@ class PayProductInfo extends React.Component {
                     {this.props.isCheckOut &&
                     this.props.deliveryAddress?.address1 == '' ? (
                       <>
-                        <b>{subtractionSign}</b>
+                        <strong>{subtractionSign}</strong>
                       </>
                     ) : (
                       <>{formatMoney(this.tradePrice)}</>

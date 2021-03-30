@@ -343,6 +343,7 @@ const ru_RU = {
   'details.theSize': 'Размер',
   'details.unitPrice': 'Цена за единицу',
   'details.youCanSave': 'Можно сэкономить',
+  'details.buyFromRetailer': 'Bayilerimiz aracılığıyla satın alın',
   dogs: 'СОБАКИ',
   dogs2: 'Собаки',
   dogs3: 'Собаки',
@@ -985,10 +986,6 @@ const ru_RU = {
   yes2: 'Подтвердить',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
-  'checkout.faq.contactCustomer': 'СЛУЖБА ПОДДЕРЖКИ',
-  'checkout.faq.freeDelivery': 'БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 2500 руб.',
-  'checkout.faq.paymentInformation': 'БЕЗОПАСНЫЕ ПЛАТЕЖИ',
-  'checkout.faq.FreeReturn': 'ВОЗВРАТ ТОВАРА',
 
   //Club新增
   'club.subscription.titile': 'Что входит в программу ROYAL CANIN® КЛУБ',
@@ -1092,7 +1089,14 @@ const ru_RU = {
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
   'subscription.pause': 'Пауза',
   signInAndRegisterNow: 'Войти / Зарегистрироваться сейчас',
-  startEnd: 'к'
+  startEnd: 'к',
+  'bindPrescriber.modal.title':
+    'Есть ли у вас рекомендация от ветеринарного врача?',
+  'bindPrescriber.modal.content':
+    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
+  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
+  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
+  'bindPrescriber.modal.or': 'или'
 };
 
 export default ru_RU;

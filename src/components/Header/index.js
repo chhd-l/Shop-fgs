@@ -39,6 +39,16 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
+function HeaderContainer({ isScroll, children }) {
+  return isScroll ? (
+    <header className={`rc-header`} data-js-header-scroll>
+      {children}
+    </header>
+  ) : (
+    <header className={`rc-header`}>{children}</header>
+  );
+}
+
 @inject(
   'loginStore',
   'clinicStore',
@@ -537,7 +547,7 @@ class Header extends React.Component {
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
-        <header className={`rc-header`} data-js-header-scroll>
+        <HeaderContainer isScroll={!process.env.REACT_APP_HUB}>
           {!!+process.env.REACT_APP_HUB ? (
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
               <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">
@@ -678,7 +688,10 @@ class Header extends React.Component {
                           <Link
                             to="/subscription-landing"
                             className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                            style={{ minWidth: '110px', lineHeight: 'normal' }}
+                            style={{
+                              minWidth: '110px',
+                              lineHeight: 'normal'
+                            }}
                           >
                             <FormattedMessage id="bannerTip.btnText" />
                           </Link>
@@ -690,7 +703,7 @@ class Header extends React.Component {
               </div>
             </div>
           )}
-        </header>
+        </HeaderContainer>
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>

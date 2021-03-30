@@ -2931,7 +2931,7 @@ class SubscriptionDetail extends React.Component {
                               // style={{ paddingLeft: '60px' }}
                               >
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -2939,7 +2939,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     <FormattedMessage id="subscription.frequency"></FormattedMessage>
                                     :
-                                  </b>
+                                  </strong>
                                   <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
@@ -2966,7 +2966,7 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -2974,7 +2974,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {/* Shipping Method: */}
                                     <FormattedMessage id="autoShipStarted" />
-                                  </b>
+                                  </strong>
                                   <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
@@ -2988,7 +2988,7 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -3007,7 +3007,7 @@ class SubscriptionDetail extends React.Component {
                                     </LazyLoad>
                                     <FormattedMessage id="nextShipment"></FormattedMessage>
                                     :
-                                  </b>
+                                  </strong>
                                   <div
                                     className="rc-card__meta order-Id"
                                     style={{
@@ -3311,7 +3311,7 @@ class SubscriptionDetail extends React.Component {
                                   style={{ paddingLeft: '60px' }}
                                 >
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -3319,7 +3319,7 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       <FormattedMessage id="subscription.frequency"></FormattedMessage>
                                       :
-                                    </b>
+                                    </strong>
                                     <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
@@ -3349,7 +3349,7 @@ class SubscriptionDetail extends React.Component {
                                     </div>
                                   </div>
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -3357,7 +3357,7 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       {/* Shipping Method: */}
                                       <FormattedMessage id="autoShipStarted" />
-                                    </b>
+                                    </strong>
                                     <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
@@ -3374,7 +3374,7 @@ class SubscriptionDetail extends React.Component {
                                     </div>
                                   </div>
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -3393,7 +3393,7 @@ class SubscriptionDetail extends React.Component {
                                       </LazyLoad>
                                       <FormattedMessage id="nextShipment"></FormattedMessage>
                                       :
-                                    </b>
+                                    </strong>
                                     <div
                                       className="rc-card__meta order-Id"
                                       style={{
@@ -3483,39 +3483,43 @@ class SubscriptionDetail extends React.Component {
                               )}
                             </div>
                             <div className="ml-1">
-                              <span
-                                className="medium"
-                                style={{
-                                  fontSize: '18px',
-                                  fontWeight: '400',
-                                  color: '#333',
-                                  margin: '25px 0 10px'
-                                }}
-                              >
-                                {currentDeliveryAddress.consigneeName}
-                              </span>
-                              <br />
-                              {currentDeliveryAddress.consigneeNumber}
-                              <br />
-                              {this.state.countryList.length &&
-                              this.state.countryList.filter(
-                                (el) =>
-                                  el.id === currentDeliveryAddress.countryId
-                              ).length
-                                ? this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentDeliveryAddress.countryId
-                                  )[0].valueEn
-                                : currentDeliveryAddress.countryId}
-                              ,{/* 省份 / State */}
-                              {currentDeliveryAddress?.province &&
-                              currentDeliveryAddress?.province != null
-                                ? currentDeliveryAddress.province + ', '
-                                : null}
-                              {currentDeliveryAddress.city}
-                              <br />
-                              {currentDeliveryAddress.address1}
-                              <br />
+                              <p className="mb-0">
+                                <span
+                                  className="medium"
+                                  style={{
+                                    fontSize: '18px',
+                                    color: '#333',
+                                    margin: '25px 0 10px'
+                                  }}
+                                >
+                                  {currentDeliveryAddress.consigneeName}
+                                </span>
+                              </p>
+                              <p className="mb-0">
+                                {currentDeliveryAddress.consigneeNumber}
+                              </p>
+                              <p className="mb-0">
+                                {this.state.countryList.length &&
+                                this.state.countryList.filter(
+                                  (el) =>
+                                    el.id === currentDeliveryAddress.countryId
+                                ).length
+                                  ? this.state.countryList.filter(
+                                      (el) =>
+                                        el.id ===
+                                        currentDeliveryAddress.countryId
+                                    )[0].valueEn
+                                  : currentDeliveryAddress.countryId}
+                                ,{/* 省份 / State */}
+                                {currentDeliveryAddress?.province &&
+                                currentDeliveryAddress?.province != null
+                                  ? currentDeliveryAddress.province + ', '
+                                  : null}
+                                {currentDeliveryAddress.city}
+                              </p>
+                              <p className="mb-0">
+                                {currentDeliveryAddress.address1}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -3557,48 +3561,51 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                 >
                                   <FormattedMessage id="edit" />{' '}
-                                  {/* <FormattedMessage id="address" /> */}
                                 </a>
                               )}
                             </div>
                             <div className="ml-1">
-                              <span
-                                className="medium"
-                                style={{
-                                  fontSize: '18px',
-                                  fontWeight: '400',
-                                  color: '#333',
-                                  margin: '25px 0 10px'
-                                }}
-                              >
-                                {currentBillingAddress.consigneeName}
-                              </span>
-                              <br />
-                              {currentBillingAddress.consigneeNumber}
-                              <br />
-                              {this.state.countryList.length &&
-                              this.state.countryList.filter(
-                                (el) =>
-                                  el.id === currentBillingAddress.countryId
-                              ).length
-                                ? this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentBillingAddress.countryId
-                                  )[0].valueEn
-                                : currentBillingAddress.countryId}
-                              ,{/* 省份 / State */}
-                              {currentBillingAddress?.province &&
-                              currentBillingAddress?.province != null
-                                ? currentBillingAddress.province + ', '
-                                : null}
-                              {currentBillingAddress.city}
-                              <br />
-                              {currentBillingAddress.address1}
-                              <br />
+                              <p className="mb-0">
+                                <span
+                                  className="medium"
+                                  style={{
+                                    fontSize: '18px',
+                                    color: '#333',
+                                    margin: '25px 0 10px'
+                                  }}
+                                >
+                                  {currentBillingAddress.consigneeName}
+                                </span>
+                              </p>
+                              <p className="mb-0">
+                                {currentBillingAddress.consigneeNumber}
+                              </p>
+                              <p className="mb-0">
+                                {this.state.countryList.length &&
+                                this.state.countryList.filter(
+                                  (el) =>
+                                    el.id === currentBillingAddress.countryId
+                                ).length
+                                  ? this.state.countryList.filter(
+                                      (el) =>
+                                        el.id ===
+                                        currentBillingAddress.countryId
+                                    )[0].valueEn
+                                  : currentBillingAddress.countryId}
+                                ,{/* 省份 / State */}
+                                {currentBillingAddress?.province &&
+                                currentBillingAddress?.province != null
+                                  ? currentBillingAddress.province + ', '
+                                  : null}
+                                {currentBillingAddress.city}
+                              </p>
+                              <p className="mb-0">
+                                {currentBillingAddress.address1}
+                              </p>
                             </div>
                           </div>
                         </div>
-                        {
+                        {currentCardInfo ? (
                           <div
                             className="col-12 col-md-4 mb-2"
                             style={{ padding: '5px', paddingRight: '0' }}
@@ -3638,10 +3645,10 @@ class SubscriptionDetail extends React.Component {
                                   </a>
                                 )}
                               </div>
-                              {currentCardInfo && (
-                                <div className="ml-1">
-                                  {currentCardInfo.lastFourDigits ? (
-                                    <>
+                              <div className="ml-1">
+                                {currentCardInfo.lastFourDigits ? (
+                                  <>
+                                    <p className="mb-0">
                                       <span
                                         className="medium"
                                         style={{
@@ -3655,36 +3662,36 @@ class SubscriptionDetail extends React.Component {
                                         **** **** ****
                                         {currentCardInfo.lastFourDigits}
                                       </span>
-                                      <br />
-                                      <LazyLoad
-                                        style={{
-                                          width: '20%',
-                                          marginRight: '.2rem'
-                                        }}
-                                      >
-                                        <img
-                                          alt=""
-                                          className="d-inline-block"
-                                          src={
-                                            CREDIT_CARD_IMG_ENUM[
-                                              currentCardInfo.paymentVendor.toUpperCase()
-                                            ] ||
-                                            'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                          }
-                                        />
-                                      </LazyLoad>
-                                    </>
-                                  ) : null}
+                                    </p>
 
+                                    <LazyLoad
+                                      style={{
+                                        width: '20%',
+                                        marginRight: '.2rem'
+                                      }}
+                                    >
+                                      <img
+                                        alt=""
+                                        className="d-inline-block"
+                                        src={
+                                          CREDIT_CARD_IMG_ENUM[
+                                            currentCardInfo.paymentVendor.toUpperCase()
+                                          ] ||
+                                          'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                        }
+                                      />
+                                    </LazyLoad>
+                                  </>
+                                ) : null}
+
+                                <p className="mb-0">
                                   {currentCardInfo.holderName}
-                                  <br />
-                                  {currentCardInfo.phone}
-                                  <br />
-                                </div>
-                              )}
+                                </p>
+                                <p className="mb-0">{currentCardInfo.phone}</p>
+                              </div>
                             </div>
                           </div>
-                        }
+                        ) : null}
                       </div>
                       <h4 className="h4">
                         <FormattedMessage id="myAutoshipOrder" />
@@ -4225,11 +4232,11 @@ class SubscriptionDetail extends React.Component {
                                                   <FormattedMessage id="subscription.total" />
                                                 </label>
                                                 <div className="col-5 col-md-3 text-right">
-                                                  <b>
+                                                  <strong>
                                                     {formatMoney(
                                                       el.tradePrice.goodsPrice
                                                     )}
-                                                  </b>
+                                                  </strong>
                                                 </div>
                                               </div>
                                               {el.tradePrice
@@ -4241,13 +4248,13 @@ class SubscriptionDetail extends React.Component {
                                                     :
                                                   </label>
                                                   <div className="col-5 col-md-3 text-right green">
-                                                    <b>
+                                                    <strong>
                                                       -
                                                       {formatMoney(
                                                         el.tradePrice
                                                           .subscriptionDiscountPrice
                                                       )}
-                                                    </b>
+                                                    </strong>
                                                   </div>
                                                 </div>
                                               ) : null}
@@ -4261,12 +4268,12 @@ class SubscriptionDetail extends React.Component {
                                                           {el.marketingName}:
                                                         </label>
                                                         <div className="col-5 col-md-3 text-right green">
-                                                          <b>
+                                                          <strong>
                                                             -
                                                             {formatMoney(
                                                               el.discountPrice
                                                             )}
-                                                          </b>
+                                                          </strong>
                                                         </div>
                                                       </div>
                                                     )
@@ -4295,13 +4302,13 @@ class SubscriptionDetail extends React.Component {
                                                           : 'inherit'
                                                       }}
                                                     >
-                                                      <b>
+                                                      <strong>
                                                         -
                                                         {formatMoney(
                                                           this.state
                                                             .promotionDiscount
                                                         )}
-                                                      </b>
+                                                      </strong>
                                                       <span
                                                         style={{
                                                           position: 'absolute',
@@ -4328,12 +4335,12 @@ class SubscriptionDetail extends React.Component {
                                                   <FormattedMessage id="subscription.shipping" />
                                                 </label>
                                                 <div className="text-right red-text col-5 col-md-3">
-                                                  <b>
+                                                  <strong>
                                                     {formatMoney(
                                                       el.tradePrice
                                                         .deliveryPrice
                                                     )}
-                                                  </b>
+                                                  </strong>
                                                 </div>
                                               </div>
 
@@ -4346,26 +4353,26 @@ class SubscriptionDetail extends React.Component {
                                                     <FormattedMessage id="estimatedTax" />
                                                   </label>
                                                   <div className="text-right red-text col-5 col-md-3">
-                                                    <b>
+                                                    <strong>
                                                       {formatMoney(
                                                         el.tradePrice
                                                           .taxFeePrice
                                                       )}
-                                                    </b>
+                                                    </strong>
                                                   </div>
                                                 </div>
                                               ) : null}
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
-                                                  <b
+                                                  <strong
                                                     style={{
                                                       fontSize: '20px',
                                                       color: '#333'
                                                     }}
                                                   >
                                                     <FormattedMessage id="order.total" />
-                                                  </b>{' '}
+                                                  </strong>{' '}
                                                   <span
                                                     style={{ fontSize: '12px' }}
                                                   >
@@ -4376,11 +4383,11 @@ class SubscriptionDetail extends React.Component {
                                                   </span>
                                                 </label>
                                                 <div className="text-right col-5 col-md-3">
-                                                  <b>
+                                                  <strong>
                                                     {formatMoney(
                                                       el.tradePrice.totalPrice
                                                     )}
-                                                  </b>
+                                                  </strong>
                                                 </div>
                                               </div>
                                             </div>

@@ -67,6 +67,7 @@ class ValidationAddressModal extends React.Component {
       let res = await addressValidation(data);
       if (res.context && res.context != null) {
         valres = res.context.suggestionAddress;
+        valres.validationResult = res.context.validationResult;
         this.setState({
           modalVisible: true,
           validationAddress: valres
@@ -162,7 +163,7 @@ class ValidationAddressModal extends React.Component {
                           className="rc-input__label--inline rc-margin-bottom--none text-left"
                           for="originalAddress"
                         >
-                          <b>Original Address</b>
+                          <strong>Original Address</strong>
                           <br />
                           <span className="name"></span>
                           {address ? (
@@ -183,7 +184,7 @@ class ValidationAddressModal extends React.Component {
                                 {address.postCode},
                               </span>
                               <span className="countryCode">
-                                {address.countryName}
+                                {address.country}
                               </span>
                               <br />
                               <a
@@ -191,7 +192,7 @@ class ValidationAddressModal extends React.Component {
                                 data-dismiss="modal"
                                 onClick={() => this.close()}
                               >
-                                <b>Edit</b>
+                                <strong>Edit</strong>
                               </a>
                             </div>
                           ) : null}
@@ -229,7 +230,7 @@ class ValidationAddressModal extends React.Component {
                           className="rc-input__label--inline rc-margin-bottom--none text-left"
                           for="suggestedAddress"
                         >
-                          <b>Suggested Address</b>
+                          <strong>Suggested Address</strong>
                           <br />
                           <span className="name"></span>
                           {validationAddress ? (

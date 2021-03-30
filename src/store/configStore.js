@@ -1,5 +1,5 @@
 import { action, observable, computed } from 'mobx';
-import { getConfig } from '@/api';
+import { getConfig, getIsNeedPrescriber } from '@/api';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -8,6 +8,8 @@ class ConfigStore {
   @observable info = sessionItemRoyal.get('storeContentInfo')
     ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null;
+
+  @observable isNeedPrescriber = null; //prescription页面是否需要显示prescriber弹框
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
@@ -87,12 +89,9 @@ class ConfigStore {
     );
   }
 
-  // 获取是否显示询问绑定prescriber弹框
-  @computed get showPrescriberModal() {
-    return (
-      //TODO:将prescriberMap字段改成后端传的showPrescriberModal字段
-      this.info && this.info.storeVO && this.info.storeVO.prescriberMap === '1'
-    );
+  // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
+  @computed get isShowPrescriberModal() {
+    return this.isNeedPrescriber !== null && this.isNeedPrescriber === 1;
   }
 
   // 显示onePageCheckout样式
@@ -126,6 +125,22 @@ class ConfigStore {
     }
     this.info = res;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
+  }
+
+  //查询prescription页面是否需要显示用户选择绑定prescriber弹框
+  @action.bound
+  async getIsNeedPrescriber() {
+    let res = await getIsNeedPrescriber();
+    if (res.context) {
+      res = res.context.find((item) => {
+        return item.configType === 'if_prescriber_is_not_mandatory';
+      });
+      res = res ? res.status : null;
+    } else {
+      res = res.context;
+    }
+    console.log('是否显示prescriber弹框:', res);
+    this.isNeedPrescriber = res;
   }
 }
 export default ConfigStore;

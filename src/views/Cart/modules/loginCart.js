@@ -154,16 +154,18 @@ class LoginCart extends React.Component {
     }
     this.setData();
 
+    //给代客下单用 start
     if (localItemRoyal.get('rc-iframe-from-storepotal')) {
       let timer = null;
-      timer = setInterval(() => {
+      timer = setInterval(async () => {
         if (this.props.checkoutStore.loginCartData.length) {
-          alert(this.props.checkoutStore.loginCartData.length);
           clearInterval(timer);
+          await this.updateCartCache();
           this.handleCheckout();
         }
       }, 1000);
     }
+    //给代客下单用 end
   }
   componentWillUnmount() {}
   get loginCartData() {
@@ -612,7 +614,7 @@ class LoginCart extends React.Component {
                   {/* <div className="rc-swatch__item selected">
               <span>
                 {find(pitem.sizeList, s => s.selected).specText}
-                <i></i>
+                <em></em>
               </span>
             </div> */}
                   {pitem.goodsSpecs &&
@@ -637,10 +639,7 @@ class LoginCart extends React.Component {
                               index
                             )}
                           >
-                            <span key={i2}>
-                              {sdItem.detailName}
-                              <i></i>
-                            </span>
+                            <span key={i2}>{sdItem.detailName}</span>
                           </div>
                         ))}
                       </div>
@@ -1117,7 +1116,7 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
-                <b>-{formatMoney(this.subscriptionDiscountPrice)}</b>
+                <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
             </div>
           </div>
@@ -1140,7 +1139,7 @@ class LoginCart extends React.Component {
               <div className="col-6">
                 <p className="text-right shipping-cost">
                   {/* - {formatMoney(this.discountPrice)} */}
-                  <b>-{formatMoney(el.discountPrice)}</b>
+                  <strong>-{formatMoney(el.discountPrice)}</strong>
                 </p>
               </div>
             </div>
@@ -1186,7 +1185,7 @@ class LoginCart extends React.Component {
             <div className="col-4">
               <p className="text-right shipping-cost">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                  <b>{subtractionSign}</b>
+                  <strong>{subtractionSign}</strong>
                 ) : (
                   formatMoney(this.taxFeePrice)
                 )}
@@ -1207,7 +1206,7 @@ class LoginCart extends React.Component {
             <div className="col-5">
               <p className="text-right grand-total-sum medium mb-0">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                  <b>{subtractionSign}</b>
+                  <strong>{subtractionSign}</strong>
                 ) : (
                   formatMoney(this.tradePrice)
                 )}
