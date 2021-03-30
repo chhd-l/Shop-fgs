@@ -376,7 +376,8 @@ class ShelterPrescription extends React.Component {
                     id="video-dog"
                     className="optanon-category-4 "
                     src="https://www.youtube.com/embed/FYwO1fiYoa8"
-                  ></iframe>
+                    title="making a better world for pets"
+                  />
                 </div>
               </div>
             </div>
