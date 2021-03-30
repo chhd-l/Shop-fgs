@@ -16,7 +16,8 @@ const api = {
   // updateNextDeliveryTime: '/sub/updateNextDeliveryTime',
   updateNextDeliveryTime: `/${process.env.REACT_APP_STOREID}/sub/next-deliver/`,
   changeSubscriptionGoods: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`,
-  getListForPet: `/${process.env.REACT_APP_STOREID}/subs`
+  getListForPet: `/${process.env.REACT_APP_STOREID}/subs`,
+  findPetProductForClub: '/product/finder/club/pets/products'
 };
 
 export default api;
@@ -118,5 +119,13 @@ export function changeSubscriptionGoods(parameter) {
     url: `${api.changeSubscriptionGoods}`,
     method: 'put',
     data: parameter
+  });
+}
+
+export function findPetProductForClub(parameter) {
+  return axios({
+    url: `${api.findPetProductForClub}`,
+    method: 'get',
+    params: parameter
   });
 }
