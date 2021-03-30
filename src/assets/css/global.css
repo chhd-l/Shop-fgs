@@ -17093,6 +17093,9 @@ ul li:not(.rc-list__item) {
   box-sizing: content-box;
   z-index: 10;
 }
+#ot-sdk-btn.ot-sdk-show-settings:hover {
+  color: #68b631;
+}
 
 .optanon-show-settings-button.optanon-toggle-display
   .optanon-show-settings-middle,
