@@ -134,7 +134,7 @@ function ListItemH5ForGlobalStyle(props) {
                           height: 'auto',
                           margin: 'auto'
                         }}
-                        alt=""
+                        alt="Retail Products"
                       />
                     </div>
                   </div>
@@ -287,7 +287,7 @@ function ListItemForDefault(props) {
                           ? retailDog
                           : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                       }
-                      alt=""
+                      alt="product-finder-recomend-retail-cat-find"
                       title=""
                       className="ImgFitScreen pt-3"
                       style={{
@@ -594,7 +594,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImg} alt="" />
+                  <img src={pfRecoImg} alt="product-finder-recomend" />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -622,7 +622,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
-                    alt=""
+                    alt="product-finder-recomend-retail-cat"
                   />
                 </LazyLoad>
               </div>
@@ -655,7 +655,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
-                    alt=""
+                    alt="product-finder-recomend-vet-cat"
                   />
                 </LazyLoad>
               </div>
@@ -1281,20 +1281,15 @@ class List extends React.Component {
       );
     let filterList = tmpList.concat(customFilter);
 
-    // isVetProducts 过滤掉'breeds' 'Sterilized'
-    const vetFilterList = filterList.filter(
-      (item) =>
-        item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
-    );
+    // isVetProducts 过滤掉'breeds' 'Sterilized' 改成storeportal配置
+    // const vetFilterList = filterList.filter(
+    //   (item) =>
+    //     item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
+    // );
     // 非isVetProducts 过滤掉'Size'
-    const sptFilterList = filterList.filter(
-      (item) => item.attributeName !== 'Size'
-    );
-    let allFilterList = isHub
-      ? this.state.isVetProducts
-        ? vetFilterList
-        : sptFilterList
-      : filterList;
+    // const sptFilterList = filterList.filter(
+    //   (item) => item.attributeName !== 'Size'
+    // );
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -1498,7 +1493,7 @@ class List extends React.Component {
       });
       return pEle;
     });
-    this.setState({ filterList: allFilterList, initingFilter: false });
+    this.setState({ filterList, initingFilter: false });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1702,10 +1697,8 @@ class List extends React.Component {
                     e.showPage.includes('PLP')
                 )[0],
                 technologyOrBreedsAttr: isHub && attrs,
-                // 临时处理法国plp价格
-                fromPrice:
-                  process.env.REACT_APP_LANG === 'fr' ? 0 : ele.fromPrice,
-                toPrice: process.env.REACT_APP_LANG === 'fr' ? 0 : ele.toPrice
+                fromPrice: ele.fromPrice,
+                toPrice: ele.toPrice
               });
               const tmpItem = find(
                 res.context.goodsList,
@@ -2051,7 +2044,11 @@ class List extends React.Component {
                 </div>
                 <div className="rc-column">
                   <LazyLoad style={{ width: '100%' }}>
-                    <img src={titleData.img} className="mx-auto" alt="" />
+                    <img
+                      src={titleData.img}
+                      className="mx-auto"
+                      alt="titleData-image"
+                    />
                   </LazyLoad>
                 </div>
               </div>
@@ -2070,7 +2067,7 @@ class List extends React.Component {
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <b>"{keywords}"</b>
+                    <strong>"{keywords}"</strong>
                     {results > 0 && (
                       <>
                         (
@@ -2204,7 +2201,7 @@ class List extends React.Component {
                           />
                         )}
                       </span>
-                      <i
+                      <em
                         className={`rc-icon rc-filter--xs rc-iconography ${
                           (filterModalVisible && !isTop) ||
                           (!filterModalVisible && isTop)
@@ -2337,11 +2334,11 @@ class List extends React.Component {
                       <div className="row">
                         <div className="col-12">
                           <div className="ui-font-nothing rc-md-up">
-                            <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                            <em className="rc-icon rc-incompatible--sm rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                           <div className="ui-font-nothing rc-md-down d-flex">
-                            <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                            <em className="rc-icon rc-incompatible--xs rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                         </div>
@@ -2386,7 +2383,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt=""
+                                            alt="product-list-taggingForImage"
                                           />
                                         </div>
                                       ) : null
@@ -2431,7 +2428,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt=""
+                                            alt="product-list-taggingForImage"
                                           />
                                         </div>
                                       ) : null

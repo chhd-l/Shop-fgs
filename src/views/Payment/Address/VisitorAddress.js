@@ -11,7 +11,6 @@ import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
 } from '../modules/utils';
-import { addressValidation } from '@/api/index';
 import { shippingCalculation } from '@/api/cart';
 import AddressPreview from './Preview';
 import './VisitorAddress.css';
@@ -62,6 +61,10 @@ class VisitorAddress extends React.Component {
       ' 61   VisitorAddress validationModalVisible: ',
       this.state.validationModalVisible
     );
+  }
+  //props发生变化时触发
+  componentWillReceiveProps(props) {
+    console.log(props);
   }
   get panelStatus() {
     const tmpKey =
@@ -156,7 +159,7 @@ class VisitorAddress extends React.Component {
   titleJSX = ({ redColor = false } = {}) => {
     return this.props.type === 'delivery' ? (
       <>
-        <i
+        <em
           className={`rc-icon rc-indoors--xs rc-margin-right--xs ${
             redColor ? 'rc-brand1' : 'rc-iconography'
           }`}
@@ -167,7 +170,7 @@ class VisitorAddress extends React.Component {
       </>
     ) : (
       <>
-        <i
+        <em
           className={`rc-icon rc-news--xs ${
             redColor ? 'rc-brand1' : 'rc-iconography'
           }`}
@@ -238,9 +241,12 @@ class VisitorAddress extends React.Component {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
       form.city = validationAddress.city;
-      if (process.env.REACT_APP_LANG == 'en') {
-        form.province = validationAddress.provinceCode;
-      }
+
+      form.province = validationAddress.provinceCode;
+      form.provinceId =
+        validationAddress.provinceId && validationAddress.provinceId != null
+          ? validationAddress.provinceId
+          : form.provinceId;
     } else {
       this.setState({
         form: JSON.parse(JSON.stringify(oldForm))

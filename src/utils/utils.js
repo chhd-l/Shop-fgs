@@ -171,7 +171,6 @@ export async function validData(rule, data) {
     const targetRule = find(rule, (ele) => ele.key === key);
     if (targetRule) {
       if (targetRule.require && !val) {
-        console.log('111 errMsg: ', targetRule.errMsg);
         throw new Error(targetRule.errMsg);
       }
       if (
@@ -180,7 +179,6 @@ export async function validData(rule, data) {
         val &&
         !targetRule.regExp.test(val)
       ) {
-        console.log('222 errMsg: ', targetRule.errMsg);
         throw new Error(targetRule.errMsg);
       }
     }
@@ -459,9 +457,10 @@ export function distributeLinktoPrecriberOrPaymentPage({
     } else {
       needPrescriber = AuditData.length > 0;
     }
-    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      return '/checkout';
-    }
+    //暂时不用autoAuditFlag检验，直接用prescriber弹框
+    // if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+    //   return '/checkout';
+    // }
   } else {
     let needPrescriber;
     if (autoAuditFlag) {
@@ -469,9 +468,10 @@ export function distributeLinktoPrecriberOrPaymentPage({
     } else {
       needPrescriber = AuditData.length > 0;
     }
-    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      return '/checkout';
-    }
+    //暂时不用autoAuditFlag检验，直接用prescriber弹框
+    // if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+    //   return '/checkout';
+    // }
   }
 
   // 校验本地prescriber缓存，有则跳过prescriber页面

@@ -842,7 +842,7 @@ class Help extends React.Component {
                             onClick={() => this.setState({ activeIndex: i })}
                             className={`${i === activeIndex ? 'active' : ''}`}
                           >
-                            <i></i>
+                            <em></em>
                             <LazyLoad>
                               <img
                                 alt=""
@@ -947,7 +947,7 @@ class Help extends React.Component {
                         {productList.map((el, i) => (
                           // <li onClick={() => this.setState({ activeIndex: i })} className={`${i === activeIndex ? 'active' : ''}`}>
                           <li onClick={() => this.setState({ activeIndex: i })}>
-                            <i></i>
+                            <em></em>
                             <LazyLoad>
                               <img
                                 alt=""

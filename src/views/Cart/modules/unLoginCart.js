@@ -629,7 +629,6 @@ class UnLoginCart extends React.Component {
                   {/* <div className="rc-swatch__item selected">
               <span>
                 {find(pitem.sizeList, s => s.selected).specText}
-                <i></i>
               </span>
             </div> */}
                   {pitem.goodsSpecs &&
@@ -656,10 +655,7 @@ class UnLoginCart extends React.Component {
                               this.handleChooseSize(sdItem, pitem, index)
                             }
                           >
-                            <span key={i2}>
-                              {sdItem.detailName}
-                              <i></i>
-                            </span>
+                            <span key={i2}>{sdItem.detailName}</span>
                           </div>
                         ))}
                       </div>
@@ -921,7 +917,7 @@ class UnLoginCart extends React.Component {
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
-                  alt=""
+                  alt="Club-Logo"
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -955,7 +951,7 @@ class UnLoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
-                    alt=""
+                    alt="goodsInformationImage"
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
@@ -1284,7 +1280,7 @@ class UnLoginCart extends React.Component {
                   <div className="col-6">
                     <p className="text-right shipping-cost">
                       {/* - {formatMoney(this.discountPrice)} */}
-                      <b>-{formatMoney(el.discountPrice)}</b>
+                      <strong>-{formatMoney(el.discountPrice)}</strong>
                     </p>
                   </div>
                 </div>
@@ -1314,7 +1310,7 @@ class UnLoginCart extends React.Component {
               <div className="col-4">
                 <p className="text-right shipping-cost">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                    <b>{subtractionSign}</b>
+                    <strong>{subtractionSign}</strong>
                   ) : (
                     formatMoney(this.taxFeePrice)
                   )}
@@ -1342,7 +1338,7 @@ class UnLoginCart extends React.Component {
               <div className="col-5">
                 <p className="text-right grand-total-sum medium mb-0">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                    <b>{subtractionSign}</b>
+                    <strong>{subtractionSign}</strong>
                   ) : (
                     formatMoney(this.tradePrice)
                   )}

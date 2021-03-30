@@ -100,7 +100,7 @@ const faqList =
       {
         title: 'БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 2500 руб.',
         context: `<h1 class="rc-zeta"></h1>
-        <p></p><p>С условиями доставки Вы можете ознакомиться <a href="https://www.royalcanin.com/ru/about-us/shipment-conditions"><u>здесь</u></a></p><p></p>`,
+        <p></p><p>С условиями доставки Вы можете ознакомиться <a href="https://www.royalcanin.com/ru/about-us/shipment-conditions"><ins>здесь</ins></a></p><p></p>`,
         gaContext: 'Would you like free delivery'
       },
       {

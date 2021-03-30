@@ -97,7 +97,11 @@ class PayProductInfo extends React.Component {
                   >
                     <span className="light">{item.spuName}</span>
                     {item.promotions && item.promotions.includes('club') ? (
-                      <img className="clubLogo" src={Club_Logo} alt="" />
+                      <img
+                        className="clubLogo"
+                        src={Club_Logo}
+                        alt="club-logo"
+                      />
                     ) : null}
                   </div>
                 </div>

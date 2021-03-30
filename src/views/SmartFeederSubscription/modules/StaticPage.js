@@ -99,22 +99,26 @@ const staticPage = (props) => {
               src={bannerDog}
               className="rc-md-up"
               style={{ width: '100%' }}
-              alt=""
+              alt="banner-dog"
             />
             <img
               src={bannerDogH5}
               className="rc-md-down"
               style={{ width: '100%' }}
-              alt=""
+              alt="banner-dog"
             />
             <img
               className="rc-md-up banner_food"
               style={{ maxHeight: '84%' }}
               src={bannerFood}
-              alt=""
+              alt="banner-food"
             />
           </div>
-          <img className="rc-md-down m-auto" src={bannerFood} alt="" />
+          <img
+            className="rc-md-down m-auto"
+            src={bannerFood}
+            alt="banner-food"
+          />
           <div className="rc-column rc-text--center">
             <div className="title">
               <FormattedMessage id="smartFeederSubscription.tabDes1" />
@@ -195,7 +199,7 @@ const staticPage = (props) => {
               src={foodDispenserTitle}
               className=""
               style={{ width: '90%' }}
-              alt=""
+              alt="food-dispenser-title"
             />
           </div>
           <div className="rc-column rc-double-width">
@@ -219,7 +223,11 @@ const staticPage = (props) => {
             return (
               <div className="rc-column">
                 <p className=" rc-text--center">
-                  <img className="margin-auto wid100" src={item.img} alt="" />
+                  <img
+                    className="margin-auto wid100"
+                    src={item.img}
+                    alt="Process steps"
+                  />
                 </p>
                 <div className="">
                   <div className="des_title">{item.title}</div>
@@ -258,8 +266,12 @@ const staticPage = (props) => {
               className="rc-md-up"
               style={{ width: '5rem', float: 'left', height: '1px' }}
             ></span>
-            <img src={phoneImg} className="rc-md-up" alt="" />
-            <img src={phoneImg} className="rc-md-down m-auto" alt="" />
+            <img src={phoneImg} className="rc-md-up" alt="phone-icon" />
+            <img
+              src={phoneImg}
+              className="rc-md-down m-auto"
+              alt="phone-icon"
+            />
           </div>
         </div>
       </section>
@@ -275,7 +287,11 @@ const staticPage = (props) => {
           {sectionList1.map((item) => {
             return (
               <div className="rc-column rc-text--center">
-                <img className="margin-auto" src={item.img} alt="" />
+                <img
+                  className="margin-auto"
+                  src={item.img}
+                  alt="Process steps"
+                />
                 {/* <div className=""> {item.description} </div> */}
               </div>
             );

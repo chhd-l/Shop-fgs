@@ -217,7 +217,7 @@ class AdyenCreditCardForm extends React.Component {
                   style={{ width: '50px' }}
                   className="logo-payment-card mr-1"
                   src={el}
-                  alt=""
+                  alt={el}
                 />
               </LazyLoad>
             ))}

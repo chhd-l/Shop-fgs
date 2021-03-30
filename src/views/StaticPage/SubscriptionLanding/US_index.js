@@ -124,13 +124,13 @@ class SubscriptionLanding extends React.Component {
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>
+                                <em className="wof rc-margin-right--xs"></em>
                                 <strong>Royal Canin Pet Advisor Live</strong> -
                                 chat with veterinarians around the clock about
                                 your pet’s health, nutrition, behavior and more.
                               </li>
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>
+                                <em className="wof rc-margin-right--xs"></em>
                                 <strong>
                                   Special Savings + FREE Shipping
                                 </strong>{' '}
@@ -138,7 +138,7 @@ class SubscriptionLanding extends React.Component {
                                 every autoship order.
                               </li>
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>
+                                <em className="wof rc-margin-right--xs"></em>
                                 <strong>Expert Recommendations</strong> -
                                 receive recommendations for pet food and
                                 products as your pet grows.
@@ -430,7 +430,7 @@ class SubscriptionLanding extends React.Component {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
                                 <div className="w-100">
-                                  <b>Have a question?</b>
+                                  <strong>Have a question?</strong>
                                   <p>
                                     <span
                                       style={{ color: 'rgb(102, 102, 102)' }}

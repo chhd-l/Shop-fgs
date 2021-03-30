@@ -88,19 +88,20 @@ class PaymentEditForm extends React.Component {
         email: '', //didier.valansot@publicissapient.com
         isSaveCard: true
 
-        // cardholderName: 'Didier Valansot', //Didier Valansot
+        // cardholderName: '', //Didier Valansot
         // cardNumber: '4111111111111111', //4111111111111111
         // expirationMonth: 2, //2
         // expirationYear: '2022', //2022
         // securityCode: '000', //000
         // firstName: 'Didier', //Didier
-        // lastName: 'Didier', //Didier
+        // lastName: 'Valansot', //Valansot
         // address1: 'add1', //add1
         // address2: '', //add2非必填
         // country: '',
         // state: 'Alabama', //Alabama
         // city: '',
         // zipCode: '10036', //10036
+        // postCode: '', //10036
         // email: 'didier.valansot@publicissapient.com', //didier.valansot@publicissapient.com
         // isSaveCard: true
       },
@@ -544,9 +545,12 @@ class PaymentEditForm extends React.Component {
       paymentForm.country = validationAddress.countryCode;
       paymentForm.zipCode = validationAddress.postalCode;
       paymentForm.postCode = validationAddress.postalCode;
-      if (process.env.REACT_APP_Adyen_country === 'US') {
-        paymentForm.state = validationAddress.provinceCode;
-      }
+
+      paymentForm.province = validationAddress.provinceCode;
+      paymentForm.provinceId =
+        validationAddress.provinceId && validationAddress.provinceId != null
+          ? validationAddress.provinceId
+          : paymentForm.provinceId;
     } else {
       this.setState({
         paymentForm: JSON.parse(JSON.stringify(oldPaymentForm))
@@ -573,18 +577,13 @@ class PaymentEditForm extends React.Component {
 
     this.showNextPanel();
   }
-  //CYBER支付save判断必填项是否已经全部填完
-  cyberSaveIsAllRequiredFinished = () => {
+
+  isAllFinish = () => {
     let errMsgObj = {};
     const paymentForm = this.state.paymentForm;
-    // 表单验证是否通过
-    if (!this.state.isValidForm) {
-      this.toTop();
-      return;
-    }
     ADDRESS_RULE.forEach((item) => {
       if (
-        Object.keys(paymentForm).indexOf(item.key) &&
+        Object.keys(paymentForm).indexOf(item.key) != -1 &&
         !paymentForm[item.key] &&
         item.require //必填项没值
       ) {
@@ -592,20 +591,47 @@ class PaymentEditForm extends React.Component {
       }
     });
 
-    if (Object.keys(errMsgObj).length > 0) {
-      this.setState({ errMsgObj }, () => {
-        this.toTop();
-      });
-    } else if (!this.state.paymentForm.isSaveCard) {
-      //勾选框
-      let errMsgObj = Object.assign({}, this.state.errMsgObj, {
-        isSaveCard: true
-      });
-      this.setState({ errMsgObj });
+    if (
+      Object.keys(errMsgObj).length == 0 &&
+      this.state.isValidForm &&
+      this.state.paymentForm.isSaveCard
+    ) {
+      return true;
     } else {
-      this.handleCyberSave();
+      return false;
     }
   };
+
+  //CYBER支付save判断必填项是否已经全部填完
+  // cyberSaveIsAllRequiredFinished = () => {
+  //   let errMsgObj = {};
+  //   const paymentForm = this.state.paymentForm;
+  //   ADDRESS_RULE.forEach((item) => {
+  //     if (
+  //       Object.keys(paymentForm).indexOf(item.key)!=-1 &&
+  //       !paymentForm[item.key] &&
+  //       item.require //必填项没值
+  //     ) {
+  //       errMsgObj[item.key] = true;
+  //     }
+  //   });
+
+  //   if (Object.keys(errMsgObj).length > 0) {//payForm表单验证
+  //     this.setState({ errMsgObj }, () => {
+  //       this.toTop();
+  //     });
+  //   } else if(!this.state.isValidForm){//billdingAddress验证
+  //     this.toTop();
+  //     return;
+  //   } else if(!this.state.paymentForm.isSaveCard) { //勾选框
+  //     let errMsgObj = Object.assign({}, this.state.errMsgObj, {
+  //       isSaveCard: true
+  //     });
+  //     this.setState({ errMsgObj });
+  //   } else {
+  //     this.handleCyberSave();
+  //   }
+  // };
   //CYBER支付保存event
   handleCyberSave = () => {
     const { paymentForm } = this.state;
@@ -636,16 +662,39 @@ class PaymentEditForm extends React.Component {
   };
 
   updateCyberBillingAddress = async (data) => {
+    this.setState({
+      isValidForm: false
+    });
     const { paymentForm } = this.state;
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
       await validData(data.formRule, data); // 数据验证
-      data.zipCode = data.postCode;
+
+      data.zipCode = data.postCode; //后台接口需要，多加个属性
+      data.phone = data.phoneNumber; //后台接口需要，多加个属性
+
+      const {
+        cardholderName,
+        cardNumber,
+        expirationMonth,
+        expirationYear,
+        securityCode
+      } = paymentForm;
+
+      const paymentFormObj = {
+        cardholderName,
+        cardNumber,
+        expirationMonth,
+        expirationYear,
+        securityCode
+      };
+      let newPaymentForm = Object.assign({}, data, paymentFormObj);
+
       this.setState({
         isValidForm: true,
-        paymentForm: Object.assign(paymentForm, data)
+        paymentForm: newPaymentForm
       });
     } catch (err) {
       console.error(' err msg: ', err);
@@ -1177,13 +1226,23 @@ class PaymentEditForm extends React.Component {
               </div>
               <div className="col-sm-3"></div>
               <div className="col-sm-3">
-                <button
-                  className="rc-btn rc-btn--one"
-                  style={{ width: '200px' }}
-                  onClick={this.cyberSaveIsAllRequiredFinished}
-                >
-                  Save
-                </button>
+                {this.isAllFinish() ? (
+                  <button
+                    className="rc-btn rc-btn--one"
+                    style={{ width: '200px' }}
+                    onClick={this.handleCyberSave}
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    className="rc-btn rc-btn--one"
+                    style={{ width: '200px' }}
+                    disabled
+                  >
+                    Save
+                  </button>
+                )}
               </div>
               <div className="col-sm-3"></div>
             </div>

@@ -101,23 +101,23 @@ class Help extends React.Component {
             >
               <div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description1" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description2" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description3" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description4" />
                 </div>
                 {/* <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description4"/>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em><FormattedMessage id="subscriptionLanding.description4"/>
                 </div> */}
                 <div style={{ marginTop: '20px' }}>
                   <Link className="rc-btn rc-btn--one" to="/cats">
@@ -368,7 +368,7 @@ class Help extends React.Component {
                     <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
                       <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
                         <div>
-                          <b>Have a question?</b>
+                          <strong>Have a question?</strong>
                           <p>
                             <span style={{ color: 'rgb(102, 102, 102)' }}>
                               Check out our&nbsp;

@@ -867,7 +867,7 @@ class Help extends React.Component {
                 data-link-label="https://www.royal-canin.ru/upload/doc/RC_Invoice_back_LAST.pdf"
                 style={{ color: 'rgb(68, 68, 68)' }}
               >
-                <u>ссылке</u>
+                <ins>ссылке</ins>
               </a>
               <u style={{ color: 'rgb(68, 68, 68)' }}>.</u>
             </p>

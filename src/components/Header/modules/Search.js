@@ -249,7 +249,7 @@ export default class Search extends React.Component {
                     ))
                   ) : (
                     <p className="d-flex ml-2 mr-2">
-                      <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                      <em className="rc-icon rc-incompatible--xs rc-iconography" />
                       <FormattedMessage id="list.errMsg4" />
                     </p>
                   )}
@@ -265,10 +265,10 @@ export default class Search extends React.Component {
                         search: `?q=${keywords}`
                       }}
                     >
-                      <b>
+                      <strong>
                         <FormattedMessage id="viewAllResults" /> (
                         {result.totalElements})
-                      </b>
+                      </strong>
                     </Link>
                   </div>
                 ) : null}

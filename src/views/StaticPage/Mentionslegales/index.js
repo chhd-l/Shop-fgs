@@ -73,13 +73,13 @@ class Mentionslegales extends React.Component {
                       <div className="text-left">
                         <div className="rc-large-body inherit-fontsize children-nomargin">
                           <p>
-                            <b>
+                            <strong>
                               La plateforme accessible à{' '}
                               <Link to="https://shop.royalcanin.fr/">
                                 https://shop.royalcanin.fr/
                               </Link>{' '}
                               (la « Plateforme ») est éditée par :
-                            </b>
+                            </strong>
                           </p>
 
                           <p className="rc-margin-y--sm">
@@ -98,7 +98,7 @@ class Mentionslegales extends React.Component {
                             </span>
                           </p>
                           <p className="rc-margin-y--sm">
-                            <b>Contacts : </b>
+                            <strong>Contacts : </strong>
                           </p>
                           <p className="rc-margin-y--sm">
                             Téléphone :{' '}
@@ -120,7 +120,7 @@ class Mentionslegales extends React.Component {
                           </p>
 
                           <p className="rc-margin-y--sm">
-                            <b>Le directeur de publication est :</b>
+                            <strong>Le directeur de publication est :</strong>
                           </p>
                           <p className="rc-margin-y--sm">
                             Monsieur Fabrice Ribourg agissant en qualité de
@@ -128,7 +128,7 @@ class Mentionslegales extends React.Component {
                           </p>
 
                           <p className="rc-margin-y--sm">
-                            <b>La Plateforme est hébergée par :</b>
+                            <strong>La Plateforme est hébergée par :</strong>
                           </p>
                           <p className="rc-margin-y--sm">
                             Mars, Incorporated ; située au 800 High Street,

@@ -55,9 +55,9 @@ class FooterImage extends React.Component {
             </LazyLoad>
           </div>
           <h5 className="rc-epsilon rc-text-colour--brand1">
-            <b>
+            <strong>
               <FormattedMessage id="home.point6" />
-            </b>
+            </strong>
           </h5>
         </div>
       </div>
@@ -113,9 +113,9 @@ class FooterImage extends React.Component {
               </LazyLoad>
             </div>
             <h5 className="rc-epsilon rc-text-colour--brand1">
-              <b>
+              <strong>
                 <FormattedMessage id="home.point6" />
-              </b>
+              </strong>
             </h5>
           </div>
         </div>
@@ -233,9 +233,9 @@ class FooterImage extends React.Component {
               </LazyLoad>
             </div>
             <h5 className="rc-epsilon rc-text-colour--brand1">
-              <b>
+              <strong>
                 <FormattedMessage id="home.point6" />
-              </b>
+              </strong>
             </h5>
           </div>
         </div>

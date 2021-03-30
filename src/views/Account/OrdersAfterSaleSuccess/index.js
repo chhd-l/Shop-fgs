@@ -109,13 +109,13 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                       />
                     </LazyLoad>
                     <h4>
-                      <b>
+                      <strong>
                         The{' '}
                         {details.returnType === 'RETURN'
                           ? 'return refund'
                           : 'exchange'}{' '}
                         application is submited successfully!
-                      </b>
+                      </strong>
                     </h4>
                     <p style={{ marginBottom: '5px' }}>
                       Your application has been submited for review, you can
@@ -137,7 +137,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                       <FormattedMessage id="confirmation.visitOnlineStore" />
                     </Link>
                     <p className="rc-margin-top--sm">
-                      <b>Return number: {this.state.returnNumber}</b>
+                      <strong>Return number: {this.state.returnNumber}</strong>
                     </p>
                     <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
                       <div className="info-container text-left">

@@ -9,7 +9,7 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null;
 
-  @observable isNeedPrescriber = null;
+  @observable isNeedPrescriber = null; //prescription页面是否需要显示prescriber弹框
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;

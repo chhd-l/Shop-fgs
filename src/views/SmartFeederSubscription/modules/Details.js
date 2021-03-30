@@ -205,7 +205,7 @@ const Details = ({ goodsDetailTabs, details }) => {
           goodsDetailTab.tabName.map((ele, index) => (
             <dl style={{ marginBottom: '0' }}>
               <div
-                className={`rc-list__accordion-item test-color 
+                className={`rc-list__accordion-item test-color
               ${tabs[index]?.show ? 'showItem' : 'hiddenItem'}`}
               >
                 <div
@@ -241,7 +241,10 @@ const Details = ({ goodsDetailTabs, details }) => {
                     }}
                   />
                   <LazyLoad height={200}>
-                    <img src={goodsDetailTab.tabContent[index].imgUl} alt="" />
+                    <img
+                      src={goodsDetailTab.tabContent[index].imgUl}
+                      alt="goods-Detail-table-image"
+                    />
                   </LazyLoad>
                 </div>
               </div>

@@ -398,7 +398,7 @@ class Register extends Component {
                     >
                       <p>
                         <FormattedMessage id="registerErrorMessage" />
-                        <b>
+                        <strong>
                           <a
                             href={process.env.REACT_APP_ACCESS_PATH + 'help'}
                             className="rc-text-colour--brand1"
@@ -406,7 +406,7 @@ class Register extends Component {
                             {' '}
                             <FormattedMessage id="footer.email" />
                           </a>
-                        </b>
+                        </strong>
                       </p>
                       <button
                         className="rc-btn rc-alert__close rc-close--xs rc-iconography"
