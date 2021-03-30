@@ -614,7 +614,7 @@ class LoginCart extends React.Component {
                   {/* <div className="rc-swatch__item selected">
               <span>
                 {find(pitem.sizeList, s => s.selected).specText}
-                <i></i>
+                <em></em>
               </span>
             </div> */}
                   {pitem.goodsSpecs &&
@@ -639,10 +639,7 @@ class LoginCart extends React.Component {
                               index
                             )}
                           >
-                            <span key={i2}>
-                              {sdItem.detailName}
-                              <i></i>
-                            </span>
+                            <span key={i2}>{sdItem.detailName}</span>
                           </div>
                         ))}
                       </div>

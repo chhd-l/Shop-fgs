@@ -629,7 +629,6 @@ class UnLoginCart extends React.Component {
                   {/* <div className="rc-swatch__item selected">
               <span>
                 {find(pitem.sizeList, s => s.selected).specText}
-                <i></i>
               </span>
             </div> */}
                   {pitem.goodsSpecs &&
@@ -656,10 +655,7 @@ class UnLoginCart extends React.Component {
                               this.handleChooseSize(sdItem, pitem, index)
                             }
                           >
-                            <span key={i2}>
-                              {sdItem.detailName}
-                              <i></i>
-                            </span>
+                            <span key={i2}>{sdItem.detailName}</span>
                           </div>
                         ))}
                       </div>
