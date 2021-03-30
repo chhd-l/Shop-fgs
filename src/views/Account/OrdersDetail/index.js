@@ -296,18 +296,18 @@ class AccountOrders extends React.Component {
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
           tmpIndex = findIndex(curProgressList, (ele) =>
-            lastedEventLog.eventType.includes(ele.backendName)
+            lastedEventLog?.eventType?.includes(ele.backendName)
           );
 
           if (tmpIndex === -1) {
             // 特殊处理作废发货的情况
             if (lastedEventLog.eventType === 'Void shipment record') {
-              if (lastedEventLog.eventDetail.includes('part shipped')) {
+              if (lastedEventLog?.eventDetail?.includes('part shipped')) {
                 tmpIndex = findIndex(
                   curProgressList,
                   (ele) => ele.backendName === 'DELIVERED'
                 );
-              } else if (lastedEventLog.eventDetail.includes('not shipped')) {
+              } else if (lastedEventLog?.eventDetail?.includes('not shipped')) {
                 tmpIndex = findIndex(
                   curProgressList,
                   (ele) => ele.backendName === 'Order payment'
@@ -325,7 +325,7 @@ class AccountOrders extends React.Component {
 
           Array.from(curProgressList, (item) => {
             const tpm = find(tradeEventLogs, (ele) =>
-              ele.eventType.includes(item.backendName)
+              ele?.eventType?.includes(item.backendName)
             );
             if (tpm) {
               item.time1 = tpm.eventTime.substr(0, 10);
@@ -1171,7 +1171,7 @@ class AccountOrders extends React.Component {
                                   <FormattedMessage id="order.orderStatus" />
                                   <br />
                                   <span className="medium">
-                                    {details.tradeState.flowState}
+                                    {details.tradeState.orderStatus}
                                   </span>
                                 </div>
 
