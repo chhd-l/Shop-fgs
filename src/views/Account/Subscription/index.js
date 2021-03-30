@@ -176,6 +176,10 @@ class Subscription extends React.Component {
               this.setState({
                 errMsg: this.props.intl.messages['subscription.noDataTip']
               });
+            } else {
+              this.setState({
+                errMsg: ''
+              });
             }
           }
         );
