@@ -303,7 +303,7 @@ const en_US = {
   'confirmation.customerInformation': 'Customer Information',
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2':
-    'In the near future, our staff will contact you to comfirm the order.',
+    'You will receive an email confirmation shortly at {val1}',
   'confirmation.info3':
     ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.oneShoot': 'Continue shopping',
