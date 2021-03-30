@@ -2269,7 +2269,7 @@ class Payment extends React.Component {
     };
 
     try {
-      debugger;
+      // debugger;
       if ('没有校验过地址') {
         // 直接显示校验弹框
         throw new Error();
