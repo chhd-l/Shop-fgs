@@ -13,7 +13,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
   return (
     <div
       className="card-container"
-      style={{ marginTop: '0', marginBottom: '20px' }}
+      style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
       <div className="card rc-margin-y--none ml-0">
@@ -21,10 +21,10 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
           <div className="col-12 col-md-4">
             <p
               style={{
-                fontSize: '16px',
+                fontSize: '1rem',
                 fontWeight: '400',
                 color: '#333',
-                paddingLeft: '20px'
+                paddingLeft: '1.25rem'
               }}
             >
               {subItem.subscribeId}
@@ -39,7 +39,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
         <div className="col-12 col-md-4 d-flex flex-wrap">
           {subItem.goodsInfo &&
             subItem.goodsInfo.map((item) => (
-              <div style={{ margin: '10px 20px' }}>
+              <div style={{ margin: '.625rem 1.25rem' }}>
                 <LazyLoad>
                   <img
                     style={{
@@ -56,14 +56,14 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
                   style={{
                     display: 'inline-block',
                     verticalAlign: 'middle',
-                    fontSize: '12px',
-                    marginLeft: '10px',
+                    fontSize: '.75rem',
+                    marginLeft: '.625rem',
                     width: isMobile ? 'auto' : '250px'
                   }}
                 >
                   <p
                     style={{
-                      fontSize: '16px',
+                      fontSize: '1rem',
                       fontWeight: '400',
                       color: '#333',
                       marginBottom: '5px',
@@ -101,15 +101,15 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
                 width: '40px',
                 display: 'inline-block'
               }}
-              alt=""
+              alt="auttoship-icon"
             />
           </LazyLoad>
           <span
             style={{
               display: 'inline-block',
               verticalAlign: 'middle',
-              fontSize: '12px',
-              marginLeft: '10px'
+              fontSize: '.75rem',
+              marginLeft: '.625rem'
             }}
           >
             <p
@@ -121,7 +121,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
             >
               <FormattedMessage id="autoShipStarted" />
             </p>
-            <p style={{ color: '#666', fontSize: '16px' }}>
+            <p style={{ color: '#666', fontSize: '1rem' }}>
               {getFormatDate(subItem.createTime.split(' ')[0])}
               {/* <FormattedDate value={subItem.createTime.split(' ')[0]}/> */}
               {/* {subItem.createTime.split(' ')[0]} */}
@@ -133,12 +133,12 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
           {subItem.subscribeStatus === '0' ||
           subItem.subscribeStatus === '1' ? (
             <div>
-              <i className="greenCircle" />
+              <em className="greenCircle" />
               <FormattedMessage id="active" />
             </div>
           ) : (
             <div>
-              <i className="yellowCircle" />
+              <em className="yellowCircle" />
               <FormattedMessage id="inactive" />
             </div>
           )}

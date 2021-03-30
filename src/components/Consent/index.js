@@ -36,7 +36,7 @@ class Consent extends Component {
     const disabled = this.props.disabled || false;
     const zoom = this.props.zoom || '120%';
     const fontZoom = this.props.fontZoom || '100%';
-    const checkboxPadding = this.props.checkboxPadding || '20px';
+    const checkboxPadding = this.props.checkboxPadding || '1.25rem';
     const url = this.props.url;
     //组件传参end
     const createMarkup = (text, isRequired) => {

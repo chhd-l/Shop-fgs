@@ -1581,7 +1581,7 @@ class Details extends React.Component {
                 style={{ margin: '50px 0' }}
               >
                 <div className="ui-font-nothing text-center">
-                  <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                  <em className="rc-icon rc-incompatible--sm rc-iconography"></em>
                   {errMsg}
                 </div>
               </div>
@@ -2015,7 +2015,7 @@ class Details extends React.Component {
                                   {De && selectedSpecItem ? (
                                     <div
                                       style={{
-                                        fontSize: '14px',
+                                        fontSize: '.875rem',
                                         color: '#999'
                                       }}
                                     >
@@ -2163,7 +2163,7 @@ class Details extends React.Component {
                                     {De && selectedSpecItem ? (
                                       <div
                                         style={{
-                                          fontSize: '14px',
+                                          fontSize: '.875rem',
                                           color: '#999'
                                         }}
                                       >
@@ -2297,7 +2297,7 @@ class Details extends React.Component {
                                     {De && selectedSpecItem ? (
                                       <div
                                         style={{
-                                          fontSize: '14px',
+                                          fontSize: '.875rem',
                                           color: '#999'
                                         }}
                                       >
@@ -2319,7 +2319,7 @@ class Details extends React.Component {
                             <div className="rc-md-up">
                               <div
                                 className="mb-2 mr-2 text-right"
-                                style={{ fontSize: '14px' }}
+                                style={{ fontSize: '.875rem' }}
                               >
                                 <FormattedMessage
                                   id="pricesIncludeVAT"
@@ -2409,12 +2409,12 @@ class Details extends React.Component {
                     <img
                       className="good-contact-img mr-5"
                       src={details.goodsImg}
-                      alt=""
+                      alt="goods-details-image"
                     />
                   ) : null}
                   <div className="good-contact-dec">
                     <div
-                      style={{ fontSize: '20px' }}
+                      style={{ fontSize: '1.25rem' }}
                       className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
                     >
                       <FormattedMessage id="detail.question" />

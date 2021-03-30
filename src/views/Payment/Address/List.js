@@ -548,7 +548,7 @@ class AddressList extends React.Component {
       <h5 className={`mb-0 text-nowrap`}>
         {titleVisible ? (
           <>
-            <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
+            <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
             <FormattedMessage id="payment.deliveryTitle" />
           </>
         ) : null}
@@ -563,7 +563,7 @@ class AddressList extends React.Component {
         <h5 className={`mb-0 text-nowrap red`}>
           {titleVisible ? (
             <>
-              <i className="rc-icon rc-indoors--xs rc-brand1" />{' '}
+              <em className="rc-icon rc-indoors--xs rc-brand1" />{' '}
               <FormattedMessage id="payment.deliveryTitle" />
             </>
           ) : null}
@@ -589,7 +589,7 @@ class AddressList extends React.Component {
         <h5 className={`mb-0 text-nowrap`}>
           {titleVisible ? (
             <>
-              <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
+              <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
               <FormattedMessage id="payment.deliveryTitle" />
               <span className="iconfont font-weight-bold green ml-2">
                 &#xe68c;

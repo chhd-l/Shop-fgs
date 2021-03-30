@@ -452,7 +452,7 @@ class ImageMagnifier extends Component {
           )}
         </div>
         <div className="scrollOutBox">
-          <i
+          <em
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
             }`}
@@ -530,7 +530,7 @@ class ImageMagnifier extends Component {
             </div>
           </div>
           {/* <img className="moveImg" src={RightImg} /> */}
-          <i
+          <em
             className={`rc-icon rc-right rightArrow rc-iconography ${
               this.state.positionLeft === (imgCount - 5) * -69
                 ? ''

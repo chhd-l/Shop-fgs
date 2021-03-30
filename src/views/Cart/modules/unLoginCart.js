@@ -908,16 +908,20 @@ class UnLoginCart extends React.Component {
           {pitem.promotions && pitem.promotions.includes('club') ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
-              style={{ marginTop: '-24px' }}
+              style={{ marginTop: '-1.5rem' }}
             >
               <div className="name-info flex-column-gift d-flex">
-                <img className="img" src={foodDispenserPic} alt="" />
+                <img
+                  className="img"
+                  src={foodDispenserPic}
+                  alt="food-dispenserPic"
+                />
               </div>
               <div className="text-center" style={{ width: '200px' }}>
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
-                  alt=""
+                  alt="Club-Logo"
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -951,7 +955,7 @@ class UnLoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
-                    alt=""
+                    alt="goodsInformationImage"
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
@@ -1078,7 +1082,7 @@ class UnLoginCart extends React.Component {
           {this.totalNum > 0 ? (
             this.props.checkoutStore.cartData.filter((el) => el.goodsInfoFlag)
               .length > 0 ? (
-              <div className="text-center" style={{ fontSize: '15px' }}>
+              <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
             ) : (
@@ -1134,7 +1138,7 @@ class UnLoginCart extends React.Component {
                 className="rc-input rc-input--inline rc-input--label mr-0"
                 style={{
                   width: '150px',
-                  marginBottom: '10px',
+                  marginBottom: '.625rem',
                   overflow: 'hidden'
                 }}
               >
@@ -1164,9 +1168,9 @@ class UnLoginCart extends React.Component {
                       : ''
                   }`}
                   style={{
-                    marginTop: '10px',
+                    marginTop: '.625rem',
                     float: 'right',
-                    marginBottom: '10px'
+                    marginBottom: '.625rem'
                   }}
                   onClick={this.handleClickPromotionApply}
                 >
@@ -1176,7 +1180,7 @@ class UnLoginCart extends React.Component {
             </div>
           </div>
           {this.state.isShowValidCode ? (
-            <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '14px' }}>
+            <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '.875rem' }}>
               {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
               <FormattedMessage id="validPromotionCode" />
             </div>
@@ -1186,7 +1190,7 @@ class UnLoginCart extends React.Component {
               <div
                 className={`row leading-lines shipping-item d-flex`}
                 style={{
-                  margin: '10px',
+                  margin: '.625rem',
                   border: '1px solid #ccc',
                   height: '60px',
                   lineHeight: '60px',
@@ -1223,14 +1227,14 @@ class UnLoginCart extends React.Component {
                     )}
                   </p>
                 </div>
-                <div className="col-2" style={{ padding: '0 15px 0 0' }}>
+                <div className="col-2" style={{ padding: '0 .9375rem 0 0' }}>
                   <p className="text-right shipping-cost">
                     <span
                       className="rc-icon rc-close--sm rc-iconography"
                       style={{
-                        fontSize: '18px',
-                        marginLeft: '10px',
-                        lineHeight: '20px',
+                        fontSize: '1.125rem',
+                        marginLeft: '.625rem',
+                        lineHeight: '1.25rem',
                         cursor: 'pointer'
                       }}
                       onClick={this.handleRemovePromotionCode}

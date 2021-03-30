@@ -834,7 +834,7 @@ class Recommendation extends React.Component {
             }`}
             style={{
               width: '50%',
-              margin: '20px auto 0'
+              margin: '1.25rem auto 0'
             }}
           >
             <aside
@@ -856,7 +856,7 @@ class Recommendation extends React.Component {
                   </h1>
                 </div>
                 <div className="rc-beta inherit-fontsize">
-                  <p style={{ marginBottom: '16px' }}>
+                  <p style={{ marginBottom: '1rem' }}>
                     <FormattedMessage id="recommendation.welcomeText2" />
                     {/* Merci pour votre visite en magasin, voici notre recommandation. */}
                   </p>
@@ -865,7 +865,9 @@ class Recommendation extends React.Component {
               <FormattedMessage id="recommendation.firstTitle" />
             </h2> */}
                 <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                  <span style={{ fontSize: '18px', color: 'rgb(61, 61, 60)' }}>
+                  <span
+                    style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
+                  >
                     <FormattedMessage id="recommendation.welcomeSubText" />
                     {/* La recommandation a été faite en fonction des besoins uniques de
                 votre animal. */}
@@ -895,7 +897,7 @@ class Recommendation extends React.Component {
               className="recommendProduct re-custom rc-max-width--md"
               style={{ paddingRight: 0, paddingLeft: 0 }}
             >
-              <div style={{ boxShadow: '0 8px 15px rgb(0 0 0 / 10%)' }}>
+              <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
                 {this.state.loading ? (
                   <div>
                     <div
@@ -946,7 +948,7 @@ class Recommendation extends React.Component {
                                   style={{
                                     width: '40px',
                                     display: 'inline-block',
-                                    margin: '10px 0'
+                                    margin: '.625rem 0'
                                   }}
                                   alt=""
                                 />
@@ -954,7 +956,7 @@ class Recommendation extends React.Component {
                                 <p
                                   style={{
                                     textAlign: 'center',
-                                    fontSize: '12px',
+                                    fontSize: '.75rem',
                                     marginBottom: '5px',
                                     width: '100%',
                                     overflow: 'hidden',
@@ -1040,7 +1042,7 @@ class Recommendation extends React.Component {
                             )}
                             {isRu && promotionCode ? (
                               <>
-                                <div style={{ marginBottom: '12px' }}>
+                                <div style={{ marginBottom: '.75rem' }}>
                                   <span className="promotion-code-title">
                                     {/* Promo code : */}
                                     Промо Код:
@@ -1114,8 +1116,8 @@ class Recommendation extends React.Component {
                                 <h5
                                   className="red"
                                   style={{
-                                    margin: '30px 0 20px',
-                                    fontSize: isMobile ? '18px' : 'auto'
+                                    margin: '30px 0 1.25rem',
+                                    fontSize: isMobile ? '1.125rem' : 'auto'
                                   }}
                                 >
                                   <FormattedMessage id="recommendation.benefit" />
@@ -1127,7 +1129,7 @@ class Recommendation extends React.Component {
                                   )}
                                 ></p>
                                 <p
-                                  style={{ fontSize: '16px' }}
+                                  style={{ fontSize: '1rem' }}
                                   dangerouslySetInnerHTML={createMarkup(
                                     productList[activeIndex].benefitMobile
                                   )}
@@ -1266,7 +1268,7 @@ class Recommendation extends React.Component {
                 <h2 style={{ color: '#E2001A' }}>
                   <FormattedMessage id="recommendation.fourTitle" />
                 </h2>
-                <p style={{ fontSize: '18px' }}>
+                <p style={{ fontSize: '1.125rem' }}>
                   We focus our attention on the unique needs of cats and dogs.
                   That obsession with detail is what makes it possible for us to
                   deliver precise, effective nutrition and help pets become

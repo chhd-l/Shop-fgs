@@ -89,7 +89,7 @@ class Help extends React.Component {
 
           <div
             className="rc-layout-container rc-two-column"
-            style={{ padding: '20px' }}
+            style={{ padding: '1.25rem' }}
           >
             <div
               className="rc-column"
@@ -101,30 +101,30 @@ class Help extends React.Component {
             >
               <div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description1" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description2" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description3" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description4" />
                 </div>
                 {/* <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description4"/>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em><FormattedMessage id="subscriptionLanding.description4"/>
                 </div> */}
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '1.25rem' }}>
                   <Link className="rc-btn rc-btn--one" to="/cats">
                     <FormattedMessage id="subscriptionLanding.catButton" />
                   </Link>
                 </div>
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '1.25rem' }}>
                   <Link className="rc-btn rc-btn--one" to="/dogs">
                     <FormattedMessage id="subscriptionLanding.dogButton" />
                   </Link>
@@ -146,7 +146,7 @@ class Help extends React.Component {
           </section>
           <div
             className="rc-layout-container rc-four-column"
-            style={{ padding: '20px' }}
+            style={{ padding: '1.25rem' }}
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
@@ -156,7 +156,7 @@ class Help extends React.Component {
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -173,7 +173,7 @@ class Help extends React.Component {
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -191,7 +191,7 @@ class Help extends React.Component {
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -208,7 +208,7 @@ class Help extends React.Component {
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -220,7 +220,7 @@ class Help extends React.Component {
           </div>
           <div
             className="rc-layout-container rc-three-column"
-            style={{ padding: '20px', background: '#eee' }}
+            style={{ padding: '1.25rem', background: '#eee' }}
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
@@ -229,7 +229,7 @@ class Help extends React.Component {
                   style={{
                     width: '100%',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                   alt=""
                 />
@@ -257,7 +257,7 @@ class Help extends React.Component {
                   style={{
                     width: '100%',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                   alt=""
                 />

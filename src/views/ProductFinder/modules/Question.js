@@ -686,7 +686,7 @@ class Question extends React.Component {
               </span>
             ) : errMsg ? (
               <>
-                <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                <em className="rc-icon rc-incompatible--sm rc-iconography" />
                 {errMsg}
               </>
             ) : (

@@ -205,7 +205,7 @@ class LoginCart extends React.Component {
           data-loc="miniCartOrderBtn"
           onClick={this.clickBasket}
         >
-          <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
+          <em className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></em>
           {totalNum > 0 ? (
             <span className="minicart-quantity">{totalNum}</span>
           ) : (
@@ -251,7 +251,7 @@ class LoginCart extends React.Component {
                 <div className="minicart__header cart--head small">
                   <span className="minicart__pointer" />
                   <div className="d-flex minicart_freeshipping_info align-items-center">
-                    <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
+                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></em>
                     <p>
                       {process.env.REACT_APP_IS_PROMOTION === 'true' ? (
                         <FormattedMessage id="cart.miniCartTitle" />
@@ -446,7 +446,7 @@ class LoginCart extends React.Component {
                                             &nbsp;
                                             <span
                                               className="red"
-                                              style={{ fontSize: '14px' }}
+                                              style={{ fontSize: '.875rem' }}
                                             >
                                               {formatMoney(
                                                 item.goodsInfoFlag &&
@@ -500,7 +500,7 @@ class LoginCart extends React.Component {
                                           style={{
                                             width: '100%',
                                             overflow: 'hidden',
-                                            fontSize: '12px'
+                                            fontSize: '.75rem'
                                           }}
                                         >
                                           x1           

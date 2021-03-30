@@ -105,7 +105,7 @@ function ListItemH5ForGlobalStyle(props) {
                 >
                   <button
                     className="rc-btn rc-btn--two margin-top-mobile-20"
-                    style={{ marginTop: '19px' }}
+                    style={{ marginTop: '1.1875rem' }}
                   >
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
                   </button>
@@ -176,9 +176,9 @@ function ListItemH5ForGlobalStyle(props) {
                 <picture
                   className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
                   style={{
-                    marginLeft: '-10px',
+                    marginLeft: '-.625rem',
                     paddingLeft: '5px',
-                    paddingRight: '15px',
+                    paddingRight: '.9375rem',
                     fontSize: '0'
                   }}
                 >
@@ -265,7 +265,7 @@ function ListItemForDefault(props) {
                   >
                     <button
                       className="rc-btn rc-btn--two "
-                      style={{ marginTop: '19px' }}
+                      style={{ marginTop: '1.1875rem' }}
                     >
                       <FormattedMessage id="plp.retail.cat.product.finder.button" />
                     </button>
@@ -287,7 +287,7 @@ function ListItemForDefault(props) {
                           ? retailDog
                           : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                       }
-                      alt=""
+                      alt="product-finder-recomend-retail-cat-find"
                       title=""
                       className="ImgFitScreen pt-3"
                       style={{
@@ -564,7 +564,7 @@ function ListItemBody({ item, headingTag }) {
           {item.goodsNewSubtitle ? (
             <div
               className="rc-card__meta text-center ui-text-overflow-line2 col-12 p-0"
-              style={{ marginBottom: '10px' }}
+              style={{ marginBottom: '.625rem' }}
             >
               {item.goodsNewSubtitle}
             </div>
@@ -594,7 +594,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImg} alt="" />
+                  <img src={pfRecoImg} alt="product-finder-recomend" />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -622,7 +622,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
-                    alt=""
+                    alt="product-finder-recomend-retail-cat"
                   />
                 </LazyLoad>
               </div>
@@ -655,7 +655,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
-                    alt=""
+                    alt="product-finder-recomend-vet-cat"
                   />
                 </LazyLoad>
               </div>
@@ -726,7 +726,7 @@ class List extends React.Component {
 
       searchForm: {
         minMarketPrice: 0,
-        maxMarketPrice: null
+        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
       },
       defaultFilterSearchForm: {
         // 初始化filter查询参数
@@ -1697,10 +1697,8 @@ class List extends React.Component {
                     e.showPage.includes('PLP')
                 )[0],
                 technologyOrBreedsAttr: isHub && attrs,
-                // 临时处理法国plp价格
-                fromPrice:
-                  process.env.REACT_APP_LANG === 'fr' ? 0 : ele.fromPrice,
-                toPrice: process.env.REACT_APP_LANG === 'fr' ? 0 : ele.toPrice
+                fromPrice: ele.fromPrice,
+                toPrice: ele.toPrice
               });
               const tmpItem = find(
                 res.context.goodsList,
@@ -1913,7 +1911,10 @@ class List extends React.Component {
   render() {
     const { breadListByDeco, lastBreadListName } = this;
     const { pageLink } = this.state;
-    const { history } = this.props;
+    const {
+      history,
+      configStore: { maxGoodsPrice }
+    } = this.props;
     const { pathname } = history.location;
     const {
       category,
@@ -2043,7 +2044,11 @@ class List extends React.Component {
                 </div>
                 <div className="rc-column">
                   <LazyLoad style={{ width: '100%' }}>
-                    <img src={titleData.img} className="mx-auto" alt="" />
+                    <img
+                      src={titleData.img}
+                      className="mx-auto"
+                      alt="titleData-image"
+                    />
                   </LazyLoad>
                 </div>
               </div>
@@ -2110,7 +2115,7 @@ class List extends React.Component {
                       {isMobilePhone ? (
                         <Filters
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2126,7 +2131,7 @@ class List extends React.Component {
                       ) : (
                         <FiltersPC
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2196,7 +2201,7 @@ class List extends React.Component {
                           />
                         )}
                       </span>
-                      <i
+                      <em
                         className={`rc-icon rc-filter--xs rc-iconography ${
                           (filterModalVisible && !isTop) ||
                           (!filterModalVisible && isTop)
@@ -2224,7 +2229,7 @@ class List extends React.Component {
                       {isMobilePhone ? (
                         <Filters
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2240,7 +2245,7 @@ class List extends React.Component {
                       ) : (
                         <FiltersPC
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2329,11 +2334,11 @@ class List extends React.Component {
                       <div className="row">
                         <div className="col-12">
                           <div className="ui-font-nothing rc-md-up">
-                            <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                            <em className="rc-icon rc-incompatible--sm rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                           <div className="ui-font-nothing rc-md-down d-flex">
-                            <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                            <em className="rc-icon rc-incompatible--xs rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                         </div>
@@ -2378,7 +2383,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt=""
+                                            alt="product-list-taggingForImage"
                                           />
                                         </div>
                                       ) : null
@@ -2423,7 +2428,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt=""
+                                            alt="product-list-taggingForImage"
                                           />
                                         </div>
                                       ) : null

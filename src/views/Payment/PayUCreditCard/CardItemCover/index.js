@@ -108,7 +108,7 @@ export default class CardItemCover extends React.Component {
               <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
                 <div className={`col-12 color-999 mb-1`}>
                   <div className="row align-items-center">
-                    <div className="col-4" style={{ fontSize: '14px' }}>
+                    <div className="col-4" style={{ fontSize: '.875rem' }}>
                       <FormattedMessage id="name2" />
                     </div>
                     <div className={`col-6 creditCompleteInfo`}>
@@ -120,7 +120,7 @@ export default class CardItemCover extends React.Component {
                 {needReConfirmCVV && el.paymentToken && selectedSts && (
                   <div className={`col-12 color-999 mb-1`}>
                     <div className="row align-items-center">
-                      <div className={`col-4`} style={{ fontSize: '14px' }}>
+                      <div className={`col-4`} style={{ fontSize: '.875rem' }}>
                         <FormattedMessage id="CVV" />
                       </div>
                       <div
@@ -142,7 +142,7 @@ export default class CardItemCover extends React.Component {
               </div>
               <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
                 <div className="col-6 color-999">
-                  <span style={{ fontSize: '14px' }}>
+                  <span style={{ fontSize: '.875rem' }}>
                     <FormattedMessage id="payment.cardNumber2" />
                   </span>
                   <br />
@@ -151,7 +151,7 @@ export default class CardItemCover extends React.Component {
                   </span>
                 </div>
                 <div className="col-6 border-left color-999">
-                  <span style={{ fontSize: '14px' }}>
+                  <span style={{ fontSize: '.875rem' }}>
                     <FormattedMessage id="payment.cardType" />
                   </span>
                   <br />

@@ -43,7 +43,7 @@ function Progress(props) {
               data-step="perscription"
             >
               <span className="rc-header-with-icon">
-                <i
+                <em
                   className={[
                     'rc-icon',
                     'rc-health--xs',
@@ -51,7 +51,7 @@ function Progress(props) {
                       ? 'rc-brand1'
                       : 'rc-iconography'
                   ].join(' ')}
-                ></i>
+                ></em>
                 <FormattedMessage id="prescription" />
               </span>
             </li>
@@ -63,14 +63,14 @@ function Progress(props) {
             >
               <span className="rc-header-with-icon">
                 <hr />
-                <i
+                <em
                   className={[
                     'rc-icon',
                     'rc-icon-less-scale',
                     'rc-payment--sm',
                     props.type === 'payment' ? 'rc-brand1' : 'rc-iconography'
                   ].join(' ')}
-                ></i>
+                ></em>
                 <FormattedMessage id="choosePayment" />
               </span>
             </li>
@@ -82,7 +82,7 @@ function Progress(props) {
             >
               <span className="rc-header-with-icon">
                 <hr />
-                <i
+                <em
                   className={[
                     'rc-icon',
                     'rc-icon-less-scale',
@@ -91,7 +91,7 @@ function Progress(props) {
                       ? 'rc-brand1'
                       : 'rc-iconography'
                   ].join(' ')}
-                ></i>
+                ></em>
                 <FormattedMessage id="confirmation" />
               </span>
             </li>

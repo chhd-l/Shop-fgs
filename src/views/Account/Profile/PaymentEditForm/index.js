@@ -723,7 +723,12 @@ class PaymentEditForm extends React.Component {
       <span className="logo-payment-card-list logo-credit-card">
         {supportPaymentMethods.map((el, idx) => (
           <LazyLoad key={idx}>
-            <img key={idx} className="logo-payment-card" src={el.img} alt="" />
+            <img
+              key={idx}
+              className="logo-payment-card"
+              src={el.img}
+              alt="logo-payment-card-image"
+            />
           </LazyLoad>
         ))}
       </span>
@@ -1036,7 +1041,7 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input rc-input--inline"
                     style={{
-                      marginTop: '10px',
+                      marginTop: '.625rem',
                       float: 'left',
                       textAlign: 'left',
                       maxWidth: '400px'
@@ -1147,7 +1152,7 @@ class PaymentEditForm extends React.Component {
                           src={cardTypeImg[item.id]}
                           title={item.id}
                           style={{ width: '40px' }}
-                          alt=""
+                          alt="cardType-image"
                         />
                       </label>
                     </div>
@@ -1214,7 +1219,7 @@ class PaymentEditForm extends React.Component {
               </div>
             </div>
             {/* 取消 确认 按钮 */}
-            <div className="row" style={{ marginTop: '20px' }}>
+            <div className="row" style={{ marginTop: '1.25rem' }}>
               <div className="col-sm-3">
                 <button
                   className="rc-btn rc-btn--two"

@@ -586,7 +586,11 @@ class AccountOrders extends React.Component {
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column">
                           <LazyLoad>
-                            <img src={orderImg} className="w-100" alt="" />
+                            <img
+                              src={orderImg}
+                              className="w-100"
+                              alt="order-image"
+                            />
                           </LazyLoad>
                         </div>
                         <div className="rc-column d-flex align-items-center justify-content-center">
@@ -689,7 +693,7 @@ class AccountOrders extends React.Component {
                                   className="card-container"
                                   style={{
                                     paddingBottom:
-                                      this.deviceType === 'H5' ? '20px' : '0'
+                                      this.deviceType === 'H5' ? '1.25rem' : '0'
                                   }}
                                   key={order.id}
                                   onClick={this.handleClickCardItem.bind(
@@ -775,7 +779,7 @@ class AccountOrders extends React.Component {
                                               className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
-                                              <i className="rc-iconography rc-icon rc-news--xs"></i>
+                                              <em className="rc-iconography rc-icon rc-news--xs"></em>
                                               <span
                                                 className="medium pull-right--desktop rc-styled-link"
                                                 title={txt}
@@ -796,8 +800,8 @@ class AccountOrders extends React.Component {
                                       className="rc-md-down"
                                       style={{
                                         position: 'absolute',
-                                        right: '15px',
-                                        bottom: '-20px'
+                                        right: '.9375rem',
+                                        bottom: '-1.25rem'
                                       }}
                                     >
                                       {order.tradeState.deliverStatus ===
@@ -888,7 +892,7 @@ class AccountOrders extends React.Component {
                                           </div>
                                           {item.subscriptionPlanId ? (
                                             <div className="align-items-center d-flex">
-                                              <i className="gift-icon" />
+                                              <em className="gift-icon" />
                                               <div>
                                                 <span className="medium color-444 ui-text-overflow-line2">
                                                   Cadeaux

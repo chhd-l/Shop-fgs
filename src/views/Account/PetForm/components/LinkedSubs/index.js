@@ -93,7 +93,7 @@ const LinkedSubs = (props) => {
                   <div className="col-4 col-md-4 d-flex flex-wrap">
                     {subItem.goodsInfo &&
                       subItem.goodsInfo.map((item) => (
-                        <div style={{ marginLeft: '20px' }}>
+                        <div style={{ marginLeft: '1.25rem' }}>
                           <LazyLoad>
                             <img
                               style={{
@@ -110,14 +110,14 @@ const LinkedSubs = (props) => {
                             style={{
                               display: 'inline-block',
                               verticalAlign: 'middle',
-                              fontSize: '12px',
-                              marginLeft: '10px',
+                              fontSize: '.75rem',
+                              marginLeft: '.625rem',
                               width: isMobile ? 'auto' : '250px'
                             }}
                           >
                             <p
                               style={{
-                                fontSize: '16px',
+                                fontSize: '1rem',
                                 fontWeight: '400',
                                 color: '#333',
                                 marginBottom: '5px'
@@ -152,7 +152,7 @@ const LinkedSubs = (props) => {
                           display: 'inline-block',
                           marginRight: '30px'
                         }}
-                        alt=""
+                        alt="club-logo"
                       />
                     </LazyLoad>
                     <LazyLoad>
@@ -162,15 +162,15 @@ const LinkedSubs = (props) => {
                           width: '40px',
                           display: 'inline-block'
                         }}
-                        alt=""
+                        alt="autoship-icon"
                       />
                     </LazyLoad>
                     <span
                       style={{
                         display: 'inline-block',
                         verticalAlign: 'middle',
-                        fontSize: '12px',
-                        marginLeft: '10px'
+                        fontSize: '.75rem',
+                        marginLeft: '.625rem'
                       }}
                     >
                       <p
@@ -182,7 +182,7 @@ const LinkedSubs = (props) => {
                       >
                         <FormattedMessage id="autoShipStarted" />
                       </p>
-                      <p style={{ color: '#666', fontSize: '16px' }}>
+                      <p style={{ color: '#666', fontSize: '1rem' }}>
                         {getFormatDate(subItem.createTime.split(' ')[0])}
                       </p>
                     </span>

@@ -475,7 +475,7 @@ class ImageMagnifier extends Component {
           )}
         </div>
         <div className="scrollOutBox">
-          {/* <i
+          {/* <em
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
             }`}
@@ -487,7 +487,7 @@ class ImageMagnifier extends Component {
               });
             }}
           /> */}
-          <i
+          <em
             className="leftArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
@@ -498,7 +498,7 @@ class ImageMagnifier extends Component {
             }}
           >
             &#xe6fa;
-          </i>
+          </em>
           <div className="imageOutBox">
             <div
               className="justify-content-center imageInnerBox text-center text-md-left"
@@ -569,7 +569,7 @@ class ImageMagnifier extends Component {
             </div>
           </div>
           {/* <img className="moveImg" src={RightImg} /> */}
-          <i
+          <em
             className="rightArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
@@ -580,8 +580,8 @@ class ImageMagnifier extends Component {
             }}
           >
             &#xe6f9;
-          </i>
-          {/* <i
+          </em>
+          {/* <em
             className={`rc-icon rc-right rightArrow rc-iconography ${
               this.state.positionLeft === (imgCount - 5) * -offsetX
                 ? ''

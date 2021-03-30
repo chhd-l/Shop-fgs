@@ -379,7 +379,7 @@ class ShippingAddress extends React.Component {
                         <button
                           className="rc-tab text-break"
                           onClick={() => this.switchAddressType('DELIVERY')}
-                          style={{ padding: '8px 15px' }}
+                          style={{ padding: '8px .9375rem' }}
                           data-toggle="deliveryAddress"
                           role="tab"
                         >
@@ -390,7 +390,7 @@ class ShippingAddress extends React.Component {
                         <button
                           className="rc-tab text-break"
                           onClick={() => this.switchAddressType('BILLING')}
-                          style={{ padding: '8px 15px' }}
+                          style={{ padding: '8px .9375rem' }}
                           data-toggle="billingAddress"
                           role="tab"
                         >
@@ -430,7 +430,7 @@ class ShippingAddress extends React.Component {
                       {this.state.currentAddressList.map((item) => (
                         <div
                           className="col-lg-6"
-                          style={{ padding: '10px 25px' }}
+                          style={{ padding: '.625rem 25px' }}
                           key={item.deliveryAddressId}
                         >
                           {/* <div className="addr-line"></div> */}
@@ -488,7 +488,7 @@ class ShippingAddress extends React.Component {
                             </div>
                             <div
                               className="col-lg-12"
-                              style={{ fontSize: '12px' }}
+                              style={{ fontSize: '.75rem' }}
                             >
                               <div>
                                 <span>{item.consigneeNumber}</span>

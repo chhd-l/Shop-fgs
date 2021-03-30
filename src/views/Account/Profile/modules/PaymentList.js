@@ -60,7 +60,7 @@ function CardItem(props) {
                   CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
                   'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                 }
-                alt=""
+                alt="pay-card-img-fit-screen"
               />
             </LazyLoad>
           </div>
