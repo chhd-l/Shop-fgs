@@ -43,6 +43,7 @@ const subscriptionLandingRouter = (lang) => {
   }[lang];
 };
 
+@injectIntl
 class Subscription extends React.Component {
   constructor(props) {
     super(props);
@@ -162,13 +163,26 @@ class Subscription extends React.Component {
     }
     getSubList(param)
       .then((res) => {
-        this.setState({
-          subList: res.context.subscriptionResponses,
-          loading: false,
-          initing: false,
-          currentPage: res.context.currentPage + 1,
-          totalPage: Math.ceil(res.context.total / this.pageSize)
-        });
+        this.setState(
+          {
+            subList: res.context.subscriptionResponses,
+            loading: false,
+            initing: false,
+            currentPage: res.context.currentPage + 1,
+            totalPage: Math.ceil(res.context.total / this.pageSize)
+          },
+          () => {
+            if (!this.state.subList.length) {
+              this.setState({
+                errMsg: this.props.intl.messages['subscription.noDataTip']
+              });
+            } else {
+              this.setState({
+                errMsg: ''
+              });
+            }
+          }
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -202,7 +216,7 @@ class Subscription extends React.Component {
 
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-        {subList.length ? (
+        {this.state.subscriptionType !== 'All' || subList.length ? (
           <div className="d-flex justify-content-between align-items-center">
             <h4 className="rc-delta rc-margin--none pb-2">
               <FormattedMessage id={subscription} />
@@ -242,7 +256,7 @@ class Subscription extends React.Component {
                 <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                 {errMsg}
               </div>
-            ) : subList.length ? (
+            ) : this.state.subscriptionType !== 'All' || subList.length ? (
               <>
                 {subList.map((subItem, i) => {
                   let subItemComp = null;

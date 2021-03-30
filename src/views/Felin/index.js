@@ -119,7 +119,8 @@ export default class Felin extends React.Component {
       nextBtnEnable: false,
       nextBtnShow: true,
       felinType: 0,
-      consentChecked: false,
+      consentChecked1: false,
+      consentChecked2: false,
       isContactUs: false,
       currentTabIndex: 0,
       topVal: '159px',
@@ -518,7 +519,7 @@ export default class Felin extends React.Component {
     let {
       step,
       selectedTimeObj,
-      consentChecked,
+      consentChecked1,
       selectedDate,
       felinType
     } = this.state;
@@ -529,7 +530,7 @@ export default class Felin extends React.Component {
     } else if (
       step === 4 &&
       Object.values(this.state.errMsgObj).every((el) => el === '') &&
-      consentChecked
+      consentChecked1
     ) {
       // 所有信息必须有值
       if (!Object.values(this.state.userInfo).some((el) => !el)) {
@@ -1294,15 +1295,15 @@ export default class Felin extends React.Component {
                           <div className="rc-input rc-input--stacked">
                             <input
                               className="rc-input__checkbox"
-                              id="id-checkbox-cat-2"
+                              id="id-checkbox-consent-1"
                               value="Cat"
                               type="checkbox"
                               name="checkbox-2"
-                              checked={this.state.consentChecked}
+                              checked={this.state.consentChecked1}
                               onClick={() => {
                                 this.setState(
                                   {
-                                    consentChecked: !this.state.consentChecked
+                                    consentChecked1: !this.state.consentChecked1
                                   },
                                   () => {
                                     this.updateButtonState();
@@ -1312,13 +1313,13 @@ export default class Felin extends React.Component {
                             />
                             <label
                               className="rc-input__label--inline consent"
-                              for="id-checkbox-cat-2"
+                              for="id-checkbox-consent-1"
                             >
                               Les données personnelles, que vous renseignez sont
                               traitées aux fins de confirmer et assurer le suivi
                               du rendez-vous Elles seront conservées en accord
-                              avec les règles de gestion des données privées que
-                              vous pourrez retrouver en ligne sur
+                              avec les règles de gestion que vous pourrez
+                              retrouver en ligne sur
                               <br />
                               <a
                                 href="https://www.mars.com/privacy-policy-france"
@@ -1326,6 +1327,34 @@ export default class Felin extends React.Component {
                               >
                                 https://www.mars.com/privacy-policy-france
                               </a>
+                            </label>
+                          </div>
+                          <div className="rc-input rc-input--stacked">
+                            <input
+                              className="rc-input__checkbox"
+                              id="id-checkbox-consent-2"
+                              value="Cat"
+                              type="checkbox"
+                              name="checkbox-2"
+                              checked={this.state.consentChecked2}
+                              onClick={() => {
+                                this.setState(
+                                  {
+                                    consentChecked2: !this.state.consentChecked2
+                                  },
+                                  () => {
+                                    this.updateButtonState();
+                                  }
+                                );
+                              }}
+                            />
+                            <label
+                              className="rc-input__label--inline consent"
+                              for="id-checkbox-consent-2"
+                            >
+                              J'accepte de recevoir des communications marketing
+                              de la part de Royal Canin dans le cadre de
+                              l'Atelier Félin
                             </label>
                           </div>
                           <button
