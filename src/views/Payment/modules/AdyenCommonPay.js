@@ -54,7 +54,7 @@ class AdyenCommonPay extends Component {
             <div className="address-line" id="addressLine2">
               <div
                 className="address-input full-width"
-                style={{ marginBottom: '18px' }}
+                style={{ marginBottom: '1.125rem' }}
               >
                 <label className="address-label" htmlFor="street">
                   <FormattedMessage id="email" />

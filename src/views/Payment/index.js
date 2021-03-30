@@ -3258,8 +3258,8 @@ class Payment extends React.Component {
                                 <div
                                   className="pull-left"
                                   style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
+                                    marginTop: '1.25rem',
+                                    marginLeft: '1.25rem'
                                   }}
                                 >
                                   <p>
@@ -3277,7 +3277,7 @@ class Payment extends React.Component {
                                   className="pull-right"
                                   style={{
                                     marginTop: '30px',
-                                    marginLeft: '20px'
+                                    marginLeft: '1.25rem'
                                   }}
                                 >
                                   <button
@@ -3311,8 +3311,8 @@ class Payment extends React.Component {
                                 <div
                                   className="pull-left"
                                   style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
+                                    marginTop: '1.25rem',
+                                    marginLeft: '1.25rem'
                                   }}
                                 >
                                   <p>
@@ -3332,7 +3332,7 @@ class Payment extends React.Component {
                                   className="pull-right"
                                   style={{
                                     marginTop: '30px',
-                                    marginLeft: '20px'
+                                    marginLeft: '1.25rem'
                                   }}
                                 >
                                   <button

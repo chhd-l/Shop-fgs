@@ -220,7 +220,7 @@ class VetLandingPage extends React.Component {
                       </section>
                       <div
                         className="rc-layout-container rc-four-column"
-                        style={{ padding: '20px' }}
+                        style={{ padding: '1.25rem' }}
                       >
                         <div
                           className="rc-column"
@@ -233,7 +233,7 @@ class VetLandingPage extends React.Component {
                               style={{
                                 width: '100px',
                                 display: 'inline-block',
-                                marginBottom: '20px'
+                                marginBottom: '1.25rem'
                               }}
                             />
                           </LazyLoad>
@@ -254,7 +254,7 @@ class VetLandingPage extends React.Component {
                               style={{
                                 width: '100px',
                                 display: 'inline-block',
-                                marginBottom: '20px'
+                                marginBottom: '1.25rem'
                               }}
                             />
                           </LazyLoad>
@@ -275,7 +275,7 @@ class VetLandingPage extends React.Component {
                               style={{
                                 width: '100px',
                                 display: 'inline-block',
-                                marginBottom: '20px'
+                                marginBottom: '1.25rem'
                               }}
                             />
                           </LazyLoad>
@@ -296,7 +296,7 @@ class VetLandingPage extends React.Component {
                               style={{
                                 width: '100px',
                                 display: 'inline-block',
-                                marginBottom: '20px'
+                                marginBottom: '1.25rem'
                               }}
                             />
                           </LazyLoad>

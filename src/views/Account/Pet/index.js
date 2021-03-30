@@ -211,7 +211,7 @@ class Pet extends React.Component {
                                   {el.petsName}{' '}
                                   <LazyLoad>
                                     <img
-                                      style={{ width: '20px' }}
+                                      style={{ width: '1.25rem' }}
                                       src={!el.petsSex ? Male : Female}
                                       alt=""
                                     />
@@ -265,7 +265,7 @@ class Pet extends React.Component {
                                   {el.petsName}{' '}
                                   <LazyLoad>
                                     <img
-                                      style={{ width: '15px' }}
+                                      style={{ width: '.9375rem' }}
                                       src={!el.petsSex ? Male : Female}
                                       alt=""
                                     />

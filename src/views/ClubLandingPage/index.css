@@ -1,8 +1,8 @@
 .tip-clinics {
   position: fixed;
-  left: .5%;
+  left: 0.5%;
   padding: 5px;
-  font-size: .8em;
+  font-size: 0.8em;
   border-radius: 5px;
   writing-mode: vertical-rl;
   color: #fff;
@@ -17,7 +17,7 @@
 }
 .ui-pop {
   position: fixed;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
   z-index: 99;
@@ -41,8 +41,8 @@
   color: #fff;
   font-weight: normal;
   position: absolute;
-  right: .2rem;
-  top: .2rem;
+  right: 0.2rem;
+  top: 0.2rem;
   display: block;
   font-size: 1rem;
   cursor: pointer;
@@ -58,48 +58,47 @@
   cursor: pointer;
 }
 
-@media(max-width: 639.98px) {
+@media (max-width: 639.98px) {
   .ui-pop .img-container {
     width: 80%;
   }
   .ui-pop .pop-close {
-    transform: scale(.9);
+    transform: scale(0.9);
     right: 0;
     top: 0;
   }
   .ui-pop .btn-cheat {
-    height: 1.2rem
+    height: 1.2rem;
   }
-  .howitworks{
+  .howitworks {
     display: flex;
     flex-direction: column;
   }
-  .imagetransform{
-    transform:rotate(90deg) ;
+  .imagetransform {
+    transform: rotate(90deg);
     width: 50%;
     height: 50%;
-    margin-left: 20px;
+    margin-left: 1.25rem;
   }
-  .jointoday{
+  .jointoday {
     display: flex;
     flex-direction: column;
   }
-  .indexdesktop{
+  .indexdesktop {
     display: none;
   }
 }
 
 @media (min-width: 639.98px) {
-  .indexmobile{
+  .indexmobile {
     display: none;
   }
 
-  .club-video{
+  .club-video {
     width: 400px;
     height: 250px;
   }
-
 }
-.DeCenter{
+.DeCenter {
   margin: 0 auto;
 }

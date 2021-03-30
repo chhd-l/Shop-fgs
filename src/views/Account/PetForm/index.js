@@ -861,18 +861,18 @@ class PetForm extends React.Component {
                       style={{
                         color: '#333333',
                         fontWeight: 400,
-                        fontSize: '22px'
+                        fontSize: '1.375rem'
                       }}
                     >
                       <FormattedMessage id="Choose your pet type" />
                     </p>
-                    <p style={{ color: '#E2001A', fontSize: '22px' }}>
+                    <p style={{ color: '#E2001A', fontSize: '1.375rem' }}>
                       <FormattedMessage id="Your Pet is a…" />
                     </p>
                     <div>
                       <button
                         className="rc-btn rc-btn--sm rc-btn--one"
-                        style={{ marginRight: '20px' }}
+                        style={{ marginRight: '1.25rem' }}
                         onClick={() => {
                           this.petTypeChange(false);
                         }}
@@ -1235,7 +1235,7 @@ class PetForm extends React.Component {
                         <span
                           className="rc-input rc-input--label rc-input--full-width"
                           input-setup="true"
-                          style={{ marginBottom: '10px' }}
+                          style={{ marginBottom: '.625rem' }}
                         >
                           <input
                             type="text"

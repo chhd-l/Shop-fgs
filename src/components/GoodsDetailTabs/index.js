@@ -95,7 +95,7 @@ const GoodsDetailTabs = function (props) {
                   .map((ele) => {
                     return `<li>
           <div class="list_title">${Object.keys(ele)[0]}</div>
-          <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+          <div class="list_item" style="padding-top: .9375rem; margin-bottom: 1.25rem;">${
             Object.values(ele)[0].Description
           }</div>
         </li>`;

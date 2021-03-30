@@ -93,7 +93,7 @@ class TermsConditions extends React.Component {
                         className="text-center"
                         style={{
                           color: '#E2001A',
-                          marginTop: '20px',
+                          marginTop: '1.25rem',
                           fontSize: '2.5rem'
                         }}
                       >
@@ -178,7 +178,7 @@ class TermsConditions extends React.Component {
                   <br />
                 </p>
 
-                <p style={{ fontSize: '16px' }}>
+                <p style={{ fontSize: '1rem' }}>
                   <h3>
                     <FormattedMessage id="termsandconditions.title1" />
                   </h3>

@@ -395,7 +395,7 @@ const Step3 = (props) => {
               <div className=" width12">
                 <h6
                   className="rc-hero__section--text product_name"
-                  style={{ fontSize: '18px' }}
+                  style={{ fontSize: '1.125rem' }}
                 >
                   {detailInfo.planProds?.[0].goodsInfoName}
                 </h6>
@@ -958,7 +958,7 @@ class SmartFeederSubscription extends Component {
                             <div className="list_title">${
                               Object.keys(JSON.parse(el))[0]
                             }</div>
-                            <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                            <div className="list_item" style="padding-top: .9375rem; margin-bottom: 1.25rem;">${
                               Object.values(JSON.parse(el))[0]['Description']
                             }</div>
                           </li>`;
@@ -1114,7 +1114,7 @@ class SmartFeederSubscription extends Component {
                             <div className="list_title">${
                               Object.keys(JSON.parse(el))[0]
                             }</div>
-                            <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                            <div className="list_item" style="padding-top: .9375rem; margin-bottom: 1.25rem;">${
                               Object.values(JSON.parse(el))[0]['Description']
                             }</div>
                           </li>`;

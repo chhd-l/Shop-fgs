@@ -39,7 +39,7 @@ class InfosPreview extends React.Component {
   render() {
     const { payRecord, details } = this.props;
     return (
-      <div style={{ padding: '0 15px' }}>
+      <div style={{ padding: '0 .9375rem' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
           {/* {JSON.stringify(details.consignee)} */}
           {details ? (

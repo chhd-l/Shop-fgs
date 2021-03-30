@@ -10,7 +10,7 @@ import Consent from '@/components/Consent';
 
 class TermsCommon extends Component {
   static defaultProps = {
-    updateValidStatus: () => { }
+    updateValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -36,8 +36,8 @@ class TermsCommon extends Component {
           tempArr[index].innerHtml = tempArr[index].innerHtml
             ? ''
             : arr[0]
-              ? arr[0].contentBody
-              : '';
+            ? arr[0].contentBody
+            : '';
 
           this.setState({ list: tempArr });
         }
@@ -71,7 +71,7 @@ class TermsCommon extends Component {
       <div
         className="required-wrap text-break"
         id={`${this.props.id}`}
-        style={{ marginTop: '10px', marginLeft: '25px' }}
+        style={{ marginTop: '.625rem', marginLeft: '25px' }}
       >
         {/* checkbox组 */}
         <Consent
@@ -83,10 +83,10 @@ class TermsCommon extends Component {
 
         {process.env.REACT_APP_LANG === 'de' ? (
           <>
-            <a
-              style={{ color: '#7F6666', cursor: 'default' }}
-            >
-              Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich. Weitere Informationen zum Vertragsschluss erhalten Sie in unseren allgemeinen{' '}
+            <a style={{ color: '#7F6666', cursor: 'default' }}>
+              Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich.
+              Weitere Informationen zum Vertragsschluss erhalten Sie in unseren
+              allgemeinen{' '}
               <Link
                 target="_blank"
                 rel="nofollow"
@@ -96,10 +96,8 @@ class TermsCommon extends Component {
                 Geschäftsbedingungen.
               </Link>
             </a>
-            <div style={{ paddingLeft: '0px', marginTop: '20px' }}>
-              <a
-                style={{ color: '#7F6666', cursor: 'default' }}
-              >
+            <div style={{ paddingLeft: '0px', marginTop: '1.25rem' }}>
+              <a style={{ color: '#7F6666', cursor: 'default' }}>
                 Informationen zu Ihrem Widerrufsrecht finden Sie{' '}
                 <Link
                   target="_blank"
@@ -108,11 +106,10 @@ class TermsCommon extends Component {
                   className="rc-styled-link"
                 >
                   hier
-              </Link>
+                </Link>
               </a>
             </div>
           </>
-
         ) : null}
       </div>
     );

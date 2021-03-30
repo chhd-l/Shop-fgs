@@ -283,7 +283,7 @@ class Subscription extends React.Component {
                   <div className="rc-padding-right-lg rc-padding-y--sm ">
                     <h4
                       className="red"
-                      style={{ fontSize: '20px', marginBottom: '20px' }}
+                      style={{ fontSize: '1.25rem', marginBottom: '1.25rem' }}
                     >
                       <FormattedMessage id="account.noSubscriptionTitle" />
                     </h4>

@@ -26,7 +26,7 @@
   color: #e2001a;
 }
 .required-component .Checkbox-detail p {
-  font-size: 12px;
+  font-size: 0.75rem;
   text-align: justify;
 }
 .required-component .Checkbox-detail p a {

@@ -261,7 +261,7 @@ class Reviews extends React.Component {
                       <label
                         className="rc-select__label"
                         htmlFor="id-single-select"
-                        style={{ fontSize: '16px', top: '-1.6rem' }}
+                        style={{ fontSize: '1rem', top: '-1.6rem' }}
                       >
                         <FormattedMessage id="sortBy" />
                       </label>
@@ -293,7 +293,7 @@ class Reviews extends React.Component {
                           <div
                             className="rc-border-bottom rc-border-colour--interface"
                             key={i}
-                            style={{ paddingBottom: '20px' }}
+                            style={{ paddingBottom: '1.25rem' }}
                           >
                             <div className="rc-column padl0 padr0">
                               <div
@@ -323,7 +323,7 @@ class Reviews extends React.Component {
                               <div>
                                 <span
                                   style={{
-                                    fontSize: '14px',
+                                    fontSize: '.875rem',
                                     marginTop: '.3rem'
                                   }}
                                 >

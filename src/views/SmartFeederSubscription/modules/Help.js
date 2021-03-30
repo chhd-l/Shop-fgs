@@ -94,7 +94,7 @@ class Help extends React.Component {
                       <p
                         className="text-center"
                         style={{
-                          marginBottom: isRecommendationPage ? '16px' : '0'
+                          marginBottom: isRecommendationPage ? '1rem' : '0'
                         }}
                       >
                         {des ? (
@@ -284,7 +284,7 @@ class Help extends React.Component {
                                     <Link
                                       to={emailLink}
                                       // style={{
-                                      //   fontSize: '16px',
+                                      //   fontSize: '1rem',
                                       //   borderBottom: '1px solid transparent'
                                       // }}
                                       className="rc-styled-link"
@@ -299,7 +299,7 @@ class Help extends React.Component {
                                     <a
                                       href={this.state.mailAddress}
                                       style={{
-                                        fontSize: '16px',
+                                        fontSize: '1rem',
                                         borderBottom: '1px solid transparent',
                                         textDecoration: isEmailUnderLine
                                           ? 'underline'

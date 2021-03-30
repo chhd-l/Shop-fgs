@@ -55,7 +55,7 @@ class SelectPetModal extends Component {
   }
 
   async getPetList() {
-    if (!this.userInfo||!this.userInfo.customerAccount) {
+    if (!this.userInfo || !this.userInfo.customerAccount) {
       // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
@@ -163,7 +163,7 @@ class SelectPetModal extends Component {
                       </label>
                       <span
                         className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                        style={{ marginTop: '10px' }}
+                        style={{ marginTop: '.625rem' }}
                         data-loc="addressTypeSelect"
                       >
                         <select
@@ -175,7 +175,10 @@ class SelectPetModal extends Component {
                           name="petType"
                         >
                           {this.state.pets.map((item, i) => (
-                            <option value={item.value} key={i}> {item.name}</option>
+                            <option value={item.value} key={i}>
+                              {' '}
+                              {item.name}
+                            </option>
                           ))}
                         </select>
                       </span>
