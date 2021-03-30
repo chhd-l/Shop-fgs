@@ -545,9 +545,12 @@ class PaymentEditForm extends React.Component {
       paymentForm.country = validationAddress.countryCode;
       paymentForm.zipCode = validationAddress.postalCode;
       paymentForm.postCode = validationAddress.postalCode;
-      if (process.env.REACT_APP_Adyen_country === 'US') {
-        paymentForm.state = validationAddress.provinceCode;
-      }
+
+      paymentForm.province = validationAddress.provinceCode;
+      paymentForm.provinceId =
+        validationAddress.provinceId && validationAddress.provinceId != null
+          ? validationAddress.provinceId
+          : paymentForm.provinceId;
     } else {
       this.setState({
         paymentForm: JSON.parse(JSON.stringify(oldPaymentForm))

@@ -210,6 +210,7 @@ class AddressList extends React.Component {
     });
     await deleteAddress({ id: el.deliveryAddressId })
       .then(() => {
+        this.getSuccessMsg('Delete successfullly');
         this.getAddressList();
         myAccountActionPushEvent('Delete Address');
       })

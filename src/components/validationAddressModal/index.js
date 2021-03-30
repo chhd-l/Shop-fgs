@@ -67,6 +67,7 @@ class ValidationAddressModal extends React.Component {
       let res = await addressValidation(data);
       if (res.context && res.context != null) {
         valres = res.context.suggestionAddress;
+        valres.validationResult = res.context.validationResult;
         this.setState({
           modalVisible: true,
           validationAddress: valres

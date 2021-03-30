@@ -28,7 +28,7 @@ class InfosPreview extends React.Component {
             <FormattedMessage id="payment.addressTitle" />
           </h5>
         </div>
-        {JSON.stringify(details)}
+        {/* {JSON.stringify(details)} */}
         {details ? (
           <div className="card-body rc-padding--none">
             <div className="single-shipping">
