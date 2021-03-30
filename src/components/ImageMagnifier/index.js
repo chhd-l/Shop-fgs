@@ -399,7 +399,10 @@ class ImageMagnifier extends Component {
             {taggingForImage ? (
               <div className="product-item-flag-image position-absolute">
                 <LazyLoad>
-                  <img src={taggingForImage.taggingImgUrl} alt="" />
+                  <img
+                    src={taggingForImage.taggingImgUrl}
+                    alt="product-item-flag-image"
+                  />
                 </LazyLoad>
               </div>
             ) : null}
@@ -418,7 +421,7 @@ class ImageMagnifier extends Component {
                           style={cssStyle.imgStyle}
                           src={currentImg || noPic}
                           // srcSet={getMuntiImg(currentImg)}
-                          alt=""
+                          alt="J_detail_img"
                         />
                       </LazyLoad>
                     </div>
@@ -431,7 +434,7 @@ class ImageMagnifier extends Component {
                           style={cssStyle.imgStyle}
                           src={currentImg || this.state.maxImg || noPic}
                           // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
-                          alt=""
+                          alt="J_detail_img"
                         />
                       </LazyLoad>
                     </div>
@@ -487,7 +490,7 @@ class ImageMagnifier extends Component {
           )}
         </div>
         <div className="scrollOutBox">
-          <i
+          <em
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
             }`}
@@ -567,7 +570,7 @@ class ImageMagnifier extends Component {
             </div>
           </div>
           {/* <img className="moveImg" src={RightImg} /> */}
-          <i
+          <em
             className={`rc-icon rc-right rightArrow rc-iconography ${
               this.state.positionLeft === (imgCount - 5) * -69
                 ? ''

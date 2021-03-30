@@ -411,7 +411,6 @@ const Step3 = (props) => {
                     {/* <div className="rc-swatch__item selected">
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
-                              <i></i>
                             </span>
                           </div> */}
                     <div className="overflow-hidden">
@@ -429,10 +428,7 @@ const Step3 = (props) => {
                           //   this.handleChooseSize(sdItem, pitem, index)
                           // }
                         >
-                          <span>
-                            {sdItem.detailName}
-                            <i></i>
-                          </span>
+                          <span>{sdItem.detailName}</span>
                         </div>
                       ))}
                     </div>

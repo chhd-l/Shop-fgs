@@ -443,7 +443,7 @@ class Login extends React.Component {
                                 });
                               }}
                             >
-                              <i className="icon-eye-open fa fa-eye"></i>
+                              <em className="icon-eye-open fa fa-eye"></em>
                             </span>
                           </div>
                         </div>
@@ -748,7 +748,7 @@ class Login extends React.Component {
                             });
                           }}
                         >
-                          <i className="icon-eye-open fa fa-eye"></i>
+                          <em className="icon-eye-open fa fa-eye"></em>
                         </span>
                       </div>
                       <p style={{ marginTop: '-1.25rem' }}>
@@ -788,7 +788,7 @@ class Login extends React.Component {
                             });
                           }}
                         >
-                          <i className="icon-eye-open fa fa-eye"></i>
+                          <em className="icon-eye-open fa fa-eye"></em>
                         </span>
                       </div>
                     </div>
@@ -1090,7 +1090,7 @@ class Login extends React.Component {
                                 })
                               }}
                             >
-                              <i className="icon-eye-open fa fa-eye"></i>
+                              <em className="icon-eye-open fa fa-eye"></em>
                             </span>
                           </div>
                         </div>
@@ -1258,7 +1258,7 @@ class Login extends React.Component {
                               })
                             }}
                           >
-                            <i className="icon-eye-open fa fa-eye"></i>
+                            <em className="icon-eye-open fa fa-eye"></em>
                           </span>
 
                         </div>
@@ -1292,7 +1292,7 @@ class Login extends React.Component {
                               })
                             }}
                           >
-                            <i className="icon-eye-open fa fa-eye"></i>
+                            <em className="icon-eye-open fa fa-eye"></em>
                           </span>
                         </div>
 

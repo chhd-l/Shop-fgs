@@ -139,11 +139,9 @@ class RouteFilter extends Component {
 
     if (nextProps.location.pathname === '/prescription') {
       console.log(toJS(this.props.checkoutStore.autoAuditFlag), 'AuditData');
-      //暂时不用autoAuditFlag检验，直接用prescriber弹框
-      // if (this.props.checkoutStore.autoAuditFlag) {
-      //   this.props.history.replace('/checkout');
-      // }
-      //不用autoAuditFlag检验注释结束
+      if (this.props.checkoutStore.autoAuditFlag) {
+        this.props.history.replace('/checkout');
+      }
 
       // if(this.isLogin) {
       //   let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})

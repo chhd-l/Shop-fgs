@@ -155,19 +155,19 @@ class VetLandingPage extends React.Component {
                             <div className="rc-padding-y--lg--mobile rc-full-width">
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item">
-                                  <i className="wof rc-margin-right--xs"></i>Вы
-                                  экономите 10% с каждого заказа orders
+                                  <em className="wof rc-margin-right--xs"></em>
+                                  Вы экономите 10% с каждого заказа orders
                                 </li>
                                 <li className="rc-list__item">
-                                  <i className="wof rc-margin-right--xs"></i>
+                                  <em className="wof rc-margin-right--xs"></em>
                                   Автоматическое пополнение запасов корма с
                                   бесплатной доставкой при подписке на сумму от
                                   2500 руб. time
                                 </li>
                                 <li className="rc-list__item">
-                                  <i className="wof rc-margin-right--xs"></i>Вы
-                                  можете изменить или отменить подписку в любое
-                                  время
+                                  <em className="wof rc-margin-right--xs"></em>
+                                  Вы можете изменить или отменить подписку в
+                                  любое время
                                 </li>
                               </ul>
                               Ветеринарные диеты Royal Canin

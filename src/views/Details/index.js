@@ -1581,7 +1581,7 @@ class Details extends React.Component {
                 style={{ margin: '50px 0' }}
               >
                 <div className="ui-font-nothing text-center">
-                  <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                  <em className="rc-icon rc-incompatible--sm rc-iconography"></em>
                   {errMsg}
                 </div>
               </div>

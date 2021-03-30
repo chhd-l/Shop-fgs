@@ -89,50 +89,50 @@ class CadeauCoussinChat extends React.Component {
                               <div className="rc-padding-y--lg--mobile rc-full-width">
                                 <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                   <li className="rc-list__item">
-                                    <i
+                                    <em
                                       className="wof rc-margin-right--xs"
                                       style={{
                                         position: 'relative',
                                         left: '-6px',
                                         marginRight: 0
                                       }}
-                                    ></i>
+                                    ></em>
                                     Choisissez l'aliment adapté à votre chat et
                                     ajoutez-le à votre panier
                                   </li>
                                   <li className="rc-list__item">
-                                    <i
+                                    <em
                                       className="wof rc-margin-right--xs"
                                       style={{
                                         position: 'relative',
                                         left: '-6px',
                                         marginRight: 0
                                       }}
-                                    ></i>
+                                    ></em>
                                     Rendez-vous dans votre panier pour finaliser
                                     votre commande
                                   </li>
                                   <li className="rc-list__item">
-                                    <i
+                                    <em
                                       className="wof rc-margin-right--xs"
                                       style={{
                                         position: 'relative',
                                         left: '-6px',
                                         marginRight: 0
                                       }}
-                                    ></i>
+                                    ></em>
                                     Ajoutez votre code promotionnel en dessous
                                     du panier et cliquez sur "Appliquer"
                                   </li>
                                   <li className="rc-list__item">
-                                    <i
+                                    <em
                                       className="wof rc-margin-right--xs"
                                       style={{
                                         position: 'relative',
                                         left: '-6px',
                                         marginRight: 0
                                       }}
-                                    ></i>
+                                    ></em>
                                     Créez votre compte et passez votre commande
                                   </li>
                                 </ul>

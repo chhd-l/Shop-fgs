@@ -101,23 +101,23 @@ class Help extends React.Component {
             >
               <div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description1" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description2" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description3" />
                 </div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em>
                   <FormattedMessage id="subscriptionLanding.description4" />
                 </div>
                 {/* <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description4"/>
+                  <em className="rc-icon rc-rate-fill--xs rc-brand1"></em><FormattedMessage id="subscriptionLanding.description4"/>
                 </div> */}
                 <div style={{ marginTop: '1.25rem' }}>
                   <Link className="rc-btn rc-btn--one" to="/cats">

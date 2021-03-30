@@ -17,7 +17,7 @@ export function Advantage() {
             <img
               className="value-proposition__img"
               src={pack}
-              alt=""
+              alt="value-proposition-image"
               title=""
             />
           </LazyLoad>
@@ -35,7 +35,7 @@ export function Advantage() {
             <img
               className="value-proposition__img"
               src={delivery}
-              alt=""
+              alt="delivery-image"
               title=""
             />
           </LazyLoad>

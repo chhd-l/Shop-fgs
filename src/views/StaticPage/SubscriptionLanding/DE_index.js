@@ -116,19 +116,19 @@ class SubscriptionLanding extends React.Component {
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>
+                                <em className="wof rc-margin-right--xs"></em>
                                 <FormattedMessage id="subscription.list1" />
                               </li>
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>
+                                <em className="wof rc-margin-right--xs"></em>
                                 <FormattedMessage id="subscription.list2" />
                               </li>
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>
+                                <em className="wof rc-margin-right--xs"></em>
                                 <FormattedMessage id="subscription.list3" />
                               </li>
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>
+                                <em className="wof rc-margin-right--xs"></em>
                                 <FormattedMessage id="subscription.list4" />
                               </li>
                             </ul>

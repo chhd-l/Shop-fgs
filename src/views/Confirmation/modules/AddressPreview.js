@@ -123,13 +123,13 @@ class InfosPreview extends React.Component {
                   <br />
                 </>
               ) : null}
-              {payRecord.phone ? (
+              {/* {payRecord.phone ? (
                 <>
                   {payRecord.phone}
                   <br />
                 </>
               ) : null}
-              {payRecord.email}
+              {payRecord.email} */}
             </div>
           ) : null}
           {/* {JSON.stringify(details.invoice)} */}

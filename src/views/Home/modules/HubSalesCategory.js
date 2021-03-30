@@ -45,7 +45,6 @@ export default class HubSalesCategory extends Component {
     cateGoryList_dog = res
       .filter((item) => {
         return salesCategoryFilterRule(item, 'dog');
-        //return item.cateType === 'dog'
       })
       .map((item2) => {
         return {
@@ -62,7 +61,6 @@ export default class HubSalesCategory extends Component {
     cateGoryList_cat = res
       .filter((item) => {
         return salesCategoryFilterRule(item, 'cat');
-        //return item.cateType === 'cat'
       })
       .map((item2) => {
         return {
