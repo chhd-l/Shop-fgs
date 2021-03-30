@@ -17088,7 +17088,7 @@ ul li:not(.rc-list__item) {
 .ot-sdk-show-settings {
   position: fixed;
   bottom: 0;
-  right: 0;
+  left: 0;
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
   z-index: 10;

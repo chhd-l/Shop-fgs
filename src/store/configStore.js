@@ -9,9 +9,7 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null;
 
-  @observable isNeedPrescriber = sessionItemRoyal.get('isNeedPrescriber')
-    ? JSON.parse(sessionItemRoyal.get('isNeedPrescriber'))
-    : null;
+  @observable isNeedPrescriber = null;
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
@@ -132,24 +130,17 @@ class ConfigStore {
   //查询prescription页面是否需要显示用户选择绑定prescriber弹框
   @action.bound
   async getIsNeedPrescriber() {
-    let res = this.isNeedPrescriber;
-    if (!res) {
-      res = await getIsNeedPrescriber();
-      if (res.context) {
-        res = res.context.find((item) => {
-          return item.configType === 'if_prescriber_is_not_mandatory';
-        });
-        res = res ? res.status : null;
-      } else {
-        res = res.context;
-      }
-      console.log('是否显示prescriber弹框:', res);
+    let res = await getIsNeedPrescriber();
+    if (res.context) {
+      res = res.context.find((item) => {
+        return item.configType === 'if_prescriber_is_not_mandatory';
+      });
+      res = res ? res.status : null;
+    } else {
+      res = res.context;
     }
+    console.log('是否显示prescriber弹框:', res);
     this.isNeedPrescriber = res;
-    sessionItemRoyal.set(
-      'isNeedPrescriber',
-      JSON.stringify(this.isNeedPrescriber)
-    );
   }
 }
 export default ConfigStore;

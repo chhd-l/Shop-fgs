@@ -329,8 +329,8 @@ class Prescription extends React.Component {
         />
         <Modal
           visible={this.state.modalShow}
-          close={() => this.closeModal()}
-          handleClickConfirm={() => this.handleClickSubmit()}
+          close={this.closeModal}
+          handleClickConfirm={this.handleClickSubmit}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
@@ -391,13 +391,13 @@ class Prescription extends React.Component {
                       )}
                     </FormattedMessage>
                     <label className="rc-input__label" htmlFor="id-submit-2">
-                      <span className="rc-input__label-text"></span>
+                      <span className="rc-input__label-text" />
                     </label>
                     <i
                       className="rc-icon rc-location2--xs rc-iconography rc-vertical-align click-btn"
                       aria-label="location"
                       onClick={(e) => this.handleInit(e)}
-                    ></i>
+                    />
                   </span>
 
                   {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
@@ -431,7 +431,7 @@ class Prescription extends React.Component {
                         >
                           <div onClick={() => this.handleItem(item)}>
                             <p style={{ margin: '.5rem 0 0 0' }}>
-                              <FormattedMessage id="clinic.vet"></FormattedMessage>
+                              <FormattedMessage id="clinic.vet" />
                             </p>
                             <h3 className="rc-card__title rc-delta click-btn clinic-title">
                               {item.prescriberName}
@@ -479,7 +479,7 @@ class Prescription extends React.Component {
                   zoom={this.state.zoom}
                   flags={flags}
                   key={this.state.mapKey}
-                ></GoogleMap>
+                />
               </div>
             </div>
           </div>
