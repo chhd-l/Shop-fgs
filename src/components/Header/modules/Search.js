@@ -265,10 +265,10 @@ export default class Search extends React.Component {
                         search: `?q=${keywords}`
                       }}
                     >
-                      <b>
+                      <strong>
                         <FormattedMessage id="viewAllResults" /> (
                         {result.totalElements})
-                      </b>
+                      </strong>
                     </Link>
                   </div>
                 ) : null}

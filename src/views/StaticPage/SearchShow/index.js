@@ -76,7 +76,7 @@ class SearchShow extends React.Component {
                   <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">
                     Aucun résultat ne correspond à votre recherche :{' '}
                     <br className="d-block d-md-none" />“
-                    <b>{this.state.searchWords}</b>”
+                    <strong>{this.state.searchWords}</strong>”
                   </div>
                 </div>
                 <div className="content-asset">
@@ -125,7 +125,7 @@ class SearchShow extends React.Component {
                           <div className="row rc-layout-container rc-three-column rc-margin--none rc-content-h-middle fullHeight">
                             <div className="col-8 rc-column rc-double-width rc-padding-top--md--mobile">
                               <div>
-                                <b>Par mail</b>
+                                <strong>Par mail</strong>
                                 <div>
                                   <a
                                     href="mailto:info.de@royalcanin.com"

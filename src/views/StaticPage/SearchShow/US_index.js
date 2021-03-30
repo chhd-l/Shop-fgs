@@ -78,7 +78,7 @@ class SearchShow extends React.Component {
                   <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">
                     We could not find any products matching :{' '}
                     <br className="d-block d-md-none" />"
-                    <b>{this.state.searchWords}</b>"
+                    <strong>{this.state.searchWords}</strong>"
                   </div>
                 </div>
                 <div className="content-asset">

@@ -1284,7 +1284,7 @@ class UnLoginCart extends React.Component {
                   <div className="col-6">
                     <p className="text-right shipping-cost">
                       {/* - {formatMoney(this.discountPrice)} */}
-                      <b>-{formatMoney(el.discountPrice)}</b>
+                      <strong>-{formatMoney(el.discountPrice)}</strong>
                     </p>
                   </div>
                 </div>
@@ -1314,7 +1314,7 @@ class UnLoginCart extends React.Component {
               <div className="col-4">
                 <p className="text-right shipping-cost">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                    <b>{subtractionSign}</b>
+                    <strong>{subtractionSign}</strong>
                   ) : (
                     formatMoney(this.taxFeePrice)
                   )}
@@ -1342,7 +1342,7 @@ class UnLoginCart extends React.Component {
               <div className="col-5">
                 <p className="text-right grand-total-sum medium mb-0">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                    <b>{subtractionSign}</b>
+                    <strong>{subtractionSign}</strong>
                   ) : (
                     formatMoney(this.tradePrice)
                   )}

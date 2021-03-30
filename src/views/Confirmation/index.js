@@ -364,9 +364,9 @@ class Confirmation extends React.Component {
                 />
               </LazyLoad>
               <h4 className="rc-text-colour--iconography">
-                <b>
+                <strong>
                   <FormattedMessage id="confirmation.info1" />
-                </b>
+                </strong>
               </h4>
               <p style={{ marginBottom: '5px' }}>
                 <FormattedMessage

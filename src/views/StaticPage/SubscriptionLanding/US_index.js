@@ -430,7 +430,7 @@ class SubscriptionLanding extends React.Component {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
                                 <div className="w-100">
-                                  <b>Have a question?</b>
+                                  <strong>Have a question?</strong>
                                   <p>
                                     <span
                                       style={{ color: 'rgb(102, 102, 102)' }}

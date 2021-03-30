@@ -205,7 +205,7 @@ class OnlineStore extends React.Component {
                 <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                   <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                     <div className="w-100">
-                      <b>
+                      <strong>
                         <font style={{ verticalAlign: 'inherit' }}>
                           <a
                             href="javascript:;"
@@ -218,7 +218,7 @@ class OnlineStore extends React.Component {
                             <FormattedMessage id="onlineStore.BottomInfo.phone.title" />
                           </a>
                         </font>
-                      </b>
+                      </strong>
                       <div className="rc-margin-top--xs">
                         <p
                           className="rc-numeric rc-md-up text-nowrap"
@@ -282,7 +282,7 @@ class OnlineStore extends React.Component {
                 <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                   <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                     <div className="w-100">
-                      <b>
+                      <strong>
                         <font style={{ verticalAlign: 'inherit' }}>
                           <a
                             href="javascript:;"
@@ -295,7 +295,7 @@ class OnlineStore extends React.Component {
                             <FormattedMessage id="onlineStore.BottomInfo.email.title" />
                           </a>
                         </font>
-                      </b>
+                      </strong>
                       <p style={{ marginBottom: '2rem' }}>
                         <span style={{ color: '#828282', fontSize: '12px' }}>
                           <font
@@ -354,7 +354,7 @@ class OnlineStore extends React.Component {
                 <div className="rc-layout-container rc-five-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                   <div className="rc-column rc-quad-width rc-padding-top--md--mobile">
                     <div className="w-100">
-                      <b>
+                      <strong>
                         <font style={{ verticalAlign: 'inherit' }}>
                           <a
                             href="javascript:;"
@@ -367,7 +367,7 @@ class OnlineStore extends React.Component {
                             <FormattedMessage id="onlineStore.BottomInfo.faq.title" />
                           </a>
                         </font>
-                      </b>
+                      </strong>
                       <p>
                         <span style={{ color: '#828282', fontSize: '12px' }}>
                           <font

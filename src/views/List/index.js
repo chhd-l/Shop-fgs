@@ -2062,7 +2062,7 @@ class List extends React.Component {
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <b>"{keywords}"</b>
+                    <strong>"{keywords}"</strong>
                     {results > 0 && (
                       <>
                         (

@@ -162,7 +162,7 @@ class ValidationAddressModal extends React.Component {
                           className="rc-input__label--inline rc-margin-bottom--none text-left"
                           for="originalAddress"
                         >
-                          <b>Original Address</b>
+                          <strong>Original Address</strong>
                           <br />
                           <span className="name"></span>
                           {address ? (
@@ -191,7 +191,7 @@ class ValidationAddressModal extends React.Component {
                                 data-dismiss="modal"
                                 onClick={() => this.close()}
                               >
-                                <b>Edit</b>
+                                <strong>Edit</strong>
                               </a>
                             </div>
                           ) : null}
@@ -229,7 +229,7 @@ class ValidationAddressModal extends React.Component {
                           className="rc-input__label--inline rc-margin-bottom--none text-left"
                           for="suggestedAddress"
                         >
-                          <b>Suggested Address</b>
+                          <strong>Suggested Address</strong>
                           <br />
                           <span className="name"></span>
                           {validationAddress ? (
