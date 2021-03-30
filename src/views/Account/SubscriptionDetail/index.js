@@ -1105,7 +1105,7 @@ class SubscriptionDetail extends React.Component {
                         right: 0
                       }}
                       src={!el.petsSex ? Male : Female}
-                      alt=""
+                      alt="pet-sex-icon"
                     />
                   </div>
                   <div style={{ paddingLeft: '1rem' }}>
@@ -1563,7 +1563,7 @@ class SubscriptionDetail extends React.Component {
                                         margin: '0 10px'
                                       }}
                                       src={tradeItem.pic}
-                                      alt=""
+                                      alt="trade-item"
                                     />
                                   </LazyLoad>
                                   <div
@@ -1753,7 +1753,7 @@ class SubscriptionDetail extends React.Component {
 
         <div className="rc-column d-flex">
           <div className="subdeatial-button-mobile-pad pause-btn">
-            <i
+            <em
               className="iconfont"
               style={{
                 fontSize: '2rem',
@@ -1762,7 +1762,7 @@ class SubscriptionDetail extends React.Component {
               }}
             >
               &#xe62f;
-            </i>
+            </em>
             <span
               style={{
                 position: 'relative',
@@ -1782,7 +1782,7 @@ class SubscriptionDetail extends React.Component {
             </span>
           </div>
           <div>
-            <i
+            <em
               className="iconfont"
               style={{
                 fontSize: '2rem',
@@ -1792,7 +1792,7 @@ class SubscriptionDetail extends React.Component {
               }}
             >
               &#xe619;
-            </i>
+            </em>
             {/* <LazyLoad>
               <img
                 style={{
@@ -1844,7 +1844,7 @@ class SubscriptionDetail extends React.Component {
             className="pause-btn"
             style={{ display: isMobile ? 'block' : 'inline-block' }}
           >
-            <i
+            <em
               className="iconfont"
               style={{
                 fontSize: '20px',
@@ -1854,7 +1854,7 @@ class SubscriptionDetail extends React.Component {
               }}
             >
               &#xe62f;
-            </i>
+            </em>
             <a
               style={{
                 paddingRight: '0.5rem',
@@ -2097,7 +2097,7 @@ class SubscriptionDetail extends React.Component {
                       )[0].goodsInfoImg
                     }
                     className="p-img"
-                    alt=""
+                    alt="product-image"
                   />
                 </LazyLoad>
               </div>
@@ -2184,7 +2184,7 @@ class SubscriptionDetail extends React.Component {
                           )[0].goodsInfoImg
                         }
                         className="p-img"
-                        alt=""
+                        alt="product-image"
                       />
                     </LazyLoad>
                   </div>
@@ -3451,7 +3451,7 @@ class SubscriptionDetail extends React.Component {
                             }}
                           >
                             <div className="align-items-center">
-                              {/* <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
+                              {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
                               <LazyLoad>
                                 <img
                                   src={deliveryIcon}
@@ -3671,7 +3671,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     >
                                       <img
-                                        alt=""
+                                        alt="card-background"
                                         className="d-inline-block"
                                         src={
                                           CREDIT_CARD_IMG_ENUM[
@@ -4022,7 +4022,7 @@ class SubscriptionDetail extends React.Component {
                                                             margin: '0 10px'
                                                           }}
                                                           src={tradeItem.pic}
-                                                          alt=""
+                                                          alt="trade-item"
                                                         />
                                                       </LazyLoad>
                                                       <div
@@ -4481,7 +4481,7 @@ class SubscriptionDetail extends React.Component {
                                                 >
                                                   {el.id ? (
                                                     <>
-                                                      <i className="greenCircle"></i>
+                                                      <em className="greenCircle"></em>
                                                       <span>
                                                         {ORDER_STATUS_ENUM[
                                                           el.tradeState
@@ -4505,7 +4505,7 @@ class SubscriptionDetail extends React.Component {
                                                     </>
                                                   ) : (
                                                     <>
-                                                      <i className="yellowCircle"></i>
+                                                      <em className="yellowCircle"></em>
                                                       <span
                                                         style={{
                                                           paddingRight: '30px'
@@ -4575,7 +4575,7 @@ class SubscriptionDetail extends React.Component {
                                                               display: 'inline'
                                                             }}
                                                             src={tradeItem.pic}
-                                                            alt=""
+                                                            alt="trade-item"
                                                           />
                                                         </LazyLoad>
                                                         <div
@@ -4652,7 +4652,7 @@ class SubscriptionDetail extends React.Component {
                                                                 src={
                                                                   tradeItem.pic
                                                                 }
-                                                                alt=""
+                                                                alt="trade-item"
                                                               />
                                                             </LazyLoad>
                                                             <div
@@ -4731,7 +4731,7 @@ class SubscriptionDetail extends React.Component {
                                             >
                                               {el.id ? (
                                                 <>
-                                                  <i className="greenCircle"></i>
+                                                  <em className="greenCircle"></em>
                                                   <span>
                                                     {ORDER_STATUS_ENUM[
                                                       el.tradeState.flowState
@@ -4741,7 +4741,7 @@ class SubscriptionDetail extends React.Component {
                                                 </>
                                               ) : (
                                                 <>
-                                                  <i className="yellowCircle"></i>
+                                                  <em className="yellowCircle"></em>
                                                   <span>
                                                     <FormattedMessage id="skiped" />
                                                   </span>

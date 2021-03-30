@@ -276,7 +276,7 @@ class ShelterPrescription extends React.Component {
                   </div>
                 </div>
                 <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                  <img src={catAndPhone} alt="" />
+                  <img src={catAndPhone} alt="catandphone" />
                 </div>
               </div>
             </div>

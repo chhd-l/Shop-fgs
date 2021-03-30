@@ -62,7 +62,7 @@ class EmailForm extends React.Component {
     const titleForPrepare = (
       <>
         <h5 className={`mb-0`}>
-          <i
+          <em
             className={`rc-icon d-inline-block rc-email--xs rc-margin-right--xs rc-iconography`}
           />{' '}
           <FormattedMessage id="account.Email" />
@@ -73,7 +73,7 @@ class EmailForm extends React.Component {
     const titleForEdit = (
       <>
         <h5 className={`mb-0 red`}>
-          <i
+          <em
             className={`rc-icon d-inline-block rc-email--xs rc-margin-right--xs rc-brand1`}
           />{' '}
           <FormattedMessage id="account.Email" />
@@ -84,7 +84,7 @@ class EmailForm extends React.Component {
     const titleForCompleted = (
       <>
         <h5 className={`mb-0`}>
-          <i
+          <em
             className={`rc-icon d-inline-block rc-email--xs rc-margin-right--xs rc-iconography`}
           />{' '}
           <FormattedMessage id="account.Email" />

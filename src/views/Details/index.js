@@ -1581,7 +1581,7 @@ class Details extends React.Component {
                 style={{ margin: '50px 0' }}
               >
                 <div className="ui-font-nothing text-center">
-                  <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                  <em className="rc-icon rc-incompatible--sm rc-iconography"></em>
                   {errMsg}
                 </div>
               </div>
@@ -2409,7 +2409,7 @@ class Details extends React.Component {
                     <img
                       className="good-contact-img mr-5"
                       src={details.goodsImg}
-                      alt=""
+                      alt="goods-details-image"
                     />
                   ) : null}
                   <div className="good-contact-dec">

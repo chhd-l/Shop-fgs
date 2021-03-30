@@ -51,7 +51,7 @@ function CardItem(props) {
                   CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
                   'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                 }
-                alt=""
+                alt="pay-card-img-fit-screen"
               />
             </LazyLoad>
           </div>
@@ -602,7 +602,12 @@ class PaymentComp extends React.Component {
       <span className="logo-payment-card-list logo-credit-card">
         {supportPaymentMethods.map((el, idx) => (
           <LazyLoad>
-            <img key={idx} className="logo-payment-card" src={el.img} alt="" />
+            <img
+              key={idx}
+              className="logo-payment-card"
+              src={el.img}
+              alt="logo-payment-card"
+            />
           </LazyLoad>
         ))}
       </span>
@@ -1083,7 +1088,7 @@ class PaymentComp extends React.Component {
                               ]
                             : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                         }
-                        alt=""
+                        alt="card-background"
                       />
                     </LazyLoad>
                   </div>
