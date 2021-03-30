@@ -1254,6 +1254,7 @@ const en_US = {
   avecLabonnement: 'with autoship',
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
-  'payment.codConfirmTip': 'Payment upon receipt'
+  'payment.codConfirmTip': 'Payment upon receipt',
+  'Special Need': 'Sensitivites'
 };
 export default en_US;
