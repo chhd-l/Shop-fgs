@@ -76,7 +76,6 @@ class Form extends React.Component {
     this.setState({
       formLoading: true
     });
-
     // 查询国家
     this.getCountryList();
 

@@ -11,6 +11,7 @@ import { createIntl, createIntlCache } from 'react-intl';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
+import en from 'date-fns/locale/en-US';
 import { registerLocale } from 'react-datepicker';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 
@@ -624,6 +625,9 @@ function getDatePickerConfig() {
       break;
     case 'fr':
       registerLocale('fr', fr);
+      break;
+    case 'en':
+      registerLocale('en', en);
       break;
     default:
       break;

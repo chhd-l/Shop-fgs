@@ -49,7 +49,10 @@ function CardItem(props) {
         {data.address2 ? <p className="mb-0">{data.address2}</p> : null}
         <p className="mb-0">
           {data.postCode}, {data.city},
-          {process.env.REACT_APP_LANG == 'en' ? data.province + ', ' : null}
+          {/* {process.env.REACT_APP_LANG == 'en' ? data.province + ', ' : null} */}
+          {data?.province && data?.province != null
+            ? data.province + ', '
+            : null}
           {props.countryName}
         </p>
       </div>
@@ -75,7 +78,8 @@ class AddressList extends React.Component {
       fromPage: 'cover',
 
       countryList: [],
-      errorMsg: ''
+      errorMsg: '',
+      successMsg: ''
     };
 
     this.handleClickCoverItem = this.handleClickCoverItem.bind(this);
@@ -163,6 +167,18 @@ class AddressList extends React.Component {
     this.changeEditFormVisible(false);
     this.changeListVisible(!closeListPage); // 是否关闭list页面，如果是从封面过来
   };
+  // 获取保存地址返回的提示成功信息
+  getSuccessMsg = (msg) => {
+    this.setState({
+      successMsg: msg
+    });
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      this.setState({
+        successMsg: ''
+      });
+    }, 5000);
+  };
   handleClickAddBtn(fromPage) {
     myAccountPushEvent('Addresses');
     this.changeEditFormVisible(true);
@@ -210,6 +226,7 @@ class AddressList extends React.Component {
     // 最后一次返回cover
     this.setState({ fromPage: 'cover' });
   };
+  // 添加地址按钮
   addBtnJSX = ({ fromPage }) => {
     return (
       <div
@@ -329,6 +346,17 @@ class AddressList extends React.Component {
                     </button>
                   </aside>
                 </div>
+
+                <aside
+                  className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                    this.state.successMsg ? '' : 'hidden'
+                  }`}
+                  role="alert"
+                >
+                  <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                    {this.state.successMsg}
+                  </p>
+                </aside>
 
                 {/* preview form */}
                 <div
@@ -471,6 +499,7 @@ class AddressList extends React.Component {
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getAddressList}
+                    upateSuccessMsg={this.getSuccessMsg}
                   />
                 )}
               </div>
