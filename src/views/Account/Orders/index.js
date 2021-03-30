@@ -727,7 +727,7 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderStatus" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {order.tradeState.flowState}
+                                            {order.tradeState.orderStatus}
                                           </span>
                                         </p>
                                       </div>

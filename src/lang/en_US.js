@@ -270,11 +270,6 @@ const en_US = {
   checkboxIsRequiredForSubscription:
     'this checkbox is required for subscription',
   checkout: 'Buy now',
-  'checkout.faq.contactCustomer': 'How can I reach customer service',
-  'checkout.faq.freeDelivery': 'Do you offer free shipping',
-  'checkout.faq.FreeReturn': 'Do you offer free returns',
-  'checkout.faq.paymentInformation':
-    'How secure is my payment {val} information',
   checkoutTip: 'Please enter your information below',
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',
@@ -1136,7 +1131,7 @@ const en_US = {
   startTypingToSearch: 'Start typing to search',
   sterilized: 'Spayed/neutered?',
   submit: 'Submit',
-  subscribe: 'Add to Cart',
+  subscribe: 'Subscribe',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.BillingAddress': 'Billing address',

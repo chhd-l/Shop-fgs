@@ -343,6 +343,7 @@ const ru_RU = {
   'details.theSize': 'Размер',
   'details.unitPrice': 'Цена за единицу',
   'details.youCanSave': 'Можно сэкономить',
+  'details.buyFromRetailer': 'Bayilerimiz aracılığıyla satın alın',
   dogs: 'СОБАКИ',
   dogs2: 'Собаки',
   dogs3: 'Собаки',
@@ -985,10 +986,6 @@ const ru_RU = {
   yes2: 'Подтвердить',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
-  'checkout.faq.contactCustomer': 'СЛУЖБА ПОДДЕРЖКИ',
-  'checkout.faq.freeDelivery': 'БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 2500 руб.',
-  'checkout.faq.paymentInformation': 'БЕЗОПАСНЫЕ ПЛАТЕЖИ',
-  'checkout.faq.FreeReturn': 'ВОЗВРАТ ТОВАРА',
 
   //Club新增
   'club.subscription.titile': 'Что входит в программу ROYAL CANIN® КЛУБ',

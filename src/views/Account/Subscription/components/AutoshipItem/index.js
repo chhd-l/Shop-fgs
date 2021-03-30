@@ -36,10 +36,10 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
         </div>
       </div>
       <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">
-        <div className="col-4 col-md-5 d-flex flex-wrap">
+        <div className="col-12 col-md-4 d-flex flex-wrap">
           {subItem.goodsInfo &&
             subItem.goodsInfo.map((item) => (
-              <div style={{ marginLeft: '20px' }}>
+              <div style={{ margin: '10px 20px' }}>
                 <LazyLoad>
                   <img
                     style={{
@@ -66,7 +66,11 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
                       fontSize: '16px',
                       fontWeight: '400',
                       color: '#333',
-                      marginBottom: '5px'
+                      marginBottom: '5px',
+                      maxWidth: isMobile ? '200px' : 'auto',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
                     }}
                   >
                     {item.goodsName}
@@ -89,7 +93,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
               </div>
             ))}
         </div>
-        <div className="col-4 col-md-3 text-nowrap">
+        <div className="col-12 col-md-2 text-nowrap ml-3 mt-3 mb-3">
           <LazyLoad>
             <img
               src={autoshipIcon}
@@ -124,7 +128,8 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
             </p>
           </span>
         </div>
-        <div className="col-4 col-md-2">
+        {/* <div className="col-4 col-md-2">{subItem.frequency}</div> */}
+        <div className="col-4 col-md-3 text-center ml-3">
           {subItem.subscribeStatus === '0' ||
           subItem.subscribeStatus === '1' ? (
             <div>

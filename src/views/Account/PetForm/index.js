@@ -708,6 +708,7 @@ class PetForm extends React.Component {
     });
   };
   onDateChange(date) {
+    console.log(date, 'date');
     this.setState({
       birthdate: format(date, 'yyyy-MM-dd'),
       isDisabled: false
