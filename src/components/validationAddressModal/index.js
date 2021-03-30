@@ -183,7 +183,7 @@ class ValidationAddressModal extends React.Component {
                                 {address.postCode},
                               </span>
                               <span className="countryCode">
-                                {address.countryName}
+                                {address.country}
                               </span>
                               <br />
                               <a

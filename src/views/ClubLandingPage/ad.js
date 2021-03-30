@@ -61,7 +61,6 @@ export function Ads() {
 }
 
 export function TopAds() {
-  // todo 小屏幕不会用匹配source
   return (
     {
       en: (
@@ -73,31 +72,31 @@ export function TopAds() {
                 <div className="experience-component experience-assets-banner">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
                     <Link to="/Tailorednutrition">
-                      <picture data-rc-feature-objectfillpolyfill-setup="true">
-                        <source
-                          media="(max-width: 640px)"
-                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=400, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=600 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=800 2x"
-                          srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=400, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=600 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=800 2x"
-                        />
-                        <source
-                          media="(min-width: 640px) and (max-width: 769px)"
-                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=750, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=1125 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=1500 2x"
-                          srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=750, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=1125 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwf2969cfc/Homepage/banner_mob_USA@2x.png?sw=1500 2x"
-                        />
-                        <source
-                          media="(min-width: 769px)"
-                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=1336, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2004 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2380 2x"
-                          srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=1336, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2004 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2380 2x"
-                        />
-                        <LazyLoad height={200}>
+                      <LazyLoad height={200}>
+                        <picture data-rc-feature-objectfillpolyfill-setup="true">
+                          <source
+                            media="(max-width: 640px)"
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x.png  1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x1.png 1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x2.png 2x`}
+                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x.png  1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x1.png 1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x2.png 2x`}
+                          />
+                          <source
+                            media="(min-width: 640px) and (max-width: 769px)"
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x3.png  1x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x4.png  1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x5.png 2x`}
+                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x3.png  1x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x4.png  1.5x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x5.png 2x`}
+                          />
+                          <source
+                            media="(min-width: 769px)"
+                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x1.png 1x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp  1.5x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x2.png  2x`}
+                            srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x1.png 1x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp  1.5x,${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x2.png  2x`}
+                          />
                           <img
                             className="w-100 lazyloaded"
                             alt="Royal Canin Extensive Product Range"
                             title="Royal Canin Extensive Product Range"
-                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2004"
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Banner_USA@2x.png`}
                           />
-                        </LazyLoad>
-                      </picture>
+                        </picture>
+                      </LazyLoad>
                     </Link>
                   </div>
                 </div>

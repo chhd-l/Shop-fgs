@@ -27,6 +27,10 @@
   /* left: 0; */
   top: 0;
 }
+.imageInnerBox > div {
+  width: 4rem;
+  height: 4rem;
+}
 .imageInnerBox .rc-img--square {
   margin-left: 5px;
 }
