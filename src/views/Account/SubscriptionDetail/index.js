@@ -2885,7 +2885,7 @@ class SubscriptionDetail extends React.Component {
                               // style={{ paddingLeft: '60px' }}
                               >
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -2920,7 +2920,7 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -2942,7 +2942,7 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -3264,7 +3264,7 @@ class SubscriptionDetail extends React.Component {
                                   style={{ paddingLeft: '60px' }}
                                 >
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -3302,7 +3302,7 @@ class SubscriptionDetail extends React.Component {
                                     </div>
                                   </div>
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -3327,7 +3327,7 @@ class SubscriptionDetail extends React.Component {
                                     </div>
                                   </div>
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -4318,7 +4318,7 @@ class SubscriptionDetail extends React.Component {
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
-                                                  <b
+                                                  <strong
                                                     style={{
                                                       fontSize: '20px',
                                                       color: '#333'

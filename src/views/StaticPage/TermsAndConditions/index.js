@@ -136,11 +136,11 @@ class TermsConditions extends React.Component {
                             id: 'serviceclients.france@royalcanin.com.href'
                           })}
                         >
-                          <u>
+                          <ins>
                             {this.props.intl.formatMessage({
                               id: 'serviceclients.france@royalcanin.com'
                             })}
-                          </u>
+                          </ins>
                         </a>
                       )
                     }}
@@ -390,13 +390,13 @@ class TermsConditions extends React.Component {
 
                             {
                               // val4: <a href={this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com.href' })}>
-                              //   <u>
+                              //   <ins>
                               //   {this.props.intl.formatMessage({ id: 'serviceclients.france@royalcanin.com' })}
-                              //   </u>
+                              //   </ins>
                               // </a>,
                               val: (
                                 <a href="mailto:suivi.dtc.france@royalcanin.com">
-                                  <u>suivi.dtc.france@royalcanin.com</u>
+                                  <ins>suivi.dtc.france@royalcanin.com</ins>
                                 </a>
                               )
                             }
@@ -453,11 +453,11 @@ class TermsConditions extends React.Component {
                             id: 'serviceclients.france@royalcanin.com.href'
                           })}
                         >
-                          <u>
+                          <ins>
                             {this.props.intl.formatMessage({
                               id: 'serviceclients.france@royalcanin.com'
                             })}
-                          </u>
+                          </ins>
                         </a>
                       )
                     }}
@@ -475,7 +475,7 @@ class TermsConditions extends React.Component {
                     values={{
                       val3: (
                         <a href="https://www.mars.com/privacy-policy-france">
-                          <u>https://www.mars.com/privacy-policy-france</u>
+                          <ins>https://www.mars.com/privacy-policy-france</ins>
                         </a>
                       )
                     }}
@@ -497,14 +497,14 @@ class TermsConditions extends React.Component {
                       ),
                       val3: (
                         <a href="https://www.mars.com/privacy-policy-france">
-                          <u>https://medicys-consommation.fr</u>
+                          <ins>https://medicys-consommation.fr</ins>
                         </a>
                       ),
                       val4: (
                         <a href="https://webgate.ec.europa.eu/odr/main/?event=main.home.show&amp;lng=FR">
-                          <u>
+                          <ins>
                              https://webgate.ec.europa.eu/odr/main/?event=main.home.show&lng=FR
-                          </u>
+                          </ins>
                         </a>
                       ),
                       val5: (
