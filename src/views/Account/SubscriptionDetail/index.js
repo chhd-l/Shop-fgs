@@ -23,6 +23,7 @@ import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
+
 import {
   getDictionary,
   dynamicLoadCss,
@@ -62,7 +63,8 @@ import {
   updateNextDeliveryTime,
   startSubscription,
   pauseSubscription,
-  changeSubscriptionGoods
+  changeSubscriptionGoods,
+  findPetProductForClub
 } from '@/api/subscription';
 import goodsDetailTabJSON from './goodsDetailTab.json';
 import { getRemainings } from '@/api/dispenser';
@@ -540,6 +542,81 @@ class SubscriptionDetail extends React.Component {
       }
     );
   }
+  PetsInfo = (petsInfo, petsId) => (
+    <React.Fragment>
+      <img
+        style={{ marginLeft: '1rem', marginRight: '1rem' }}
+        className="pet-img text-center rc-margin-y--sm"
+        src={
+          (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
+            ? petsInfo.petsImg
+            : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
+        }
+      />
+      <div className="rc-md-down">{this.statusText()}</div>
+      <Link
+        className="rc-md-down rc-margin-y--sm"
+        to={`/account/pets/petForm/${petsId}`}
+      >
+        <div
+          className="rc-styled-link"
+          // onClick={this.showEditRecommendation}
+        >
+          Edit pet profile
+        </div>
+      </Link>
+      <div className="d-flex align-items-center">
+        <div className="rc-padding-right--md">
+          <h4 className="rc-md-up" style={{ color: '#e2001a', margin: 0 }}>
+            CLUB for {petsInfo?.petsName}
+          </h4>
+          <div>
+            Date of birth:<strong> {petsInfo?.birthOfPets}</strong>
+          </div>
+        </div>
+        <div className="rc-padding-right--md">
+          <Link className="rc-md-up" to={`/account/pets/petForm/${petsId}`}>
+            <div
+              className="rc-styled-link"
+              // onClick={this.showEditRecommendation}
+            >
+              Edit pet profile
+            </div>
+          </Link>
+          <div>
+            Breed:<strong>{petsInfo?.petsBreed}</strong>{' '}
+          </div>
+        </div>
+        <div className="rc-padding-right--md">
+          <div className="rc-md-up" style={{ color: '#fff' }}>
+            {' '}
+            &nbsp:;
+          </div>
+          <div>
+            Sterilized: <strong> {petsInfo?.sterilized ? 'yes' : 'no'}</strong>
+          </div>
+        </div>
+        <div className="rc-md-up">
+          <div style={{ color: '#fff' }}> &nbsp:;</div>
+          <span>{this.statusText()}</span>
+        </div>
+      </div>
+    </React.Fragment>
+  );
+  DailyRation = () => {
+    return (
+      <span
+        style={{
+          background: '#F5F5F5',
+          padding: '6px',
+          marginTop: '10px',
+          display: 'inline-block'
+        }}
+      >
+        Daily ration: 57g/day
+      </span>
+    );
+  };
   bundleMatchGoods() {
     let {
       details,
@@ -1933,10 +2010,15 @@ class SubscriptionDetail extends React.Component {
   closeChangeProduct = () => {
     this.setState({ changeProductVisible: false });
   };
-  showChangeProduct = () => {
-    this.closeProdutctDetail();
-    this.closeRecommendation();
-    this.setState({ changeProductVisible: true });
+  showChangeProduct = async () => {
+    let { petsId } = this.state.subDetail;
+    try {
+      // let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
+      // console.info(res, 'res');
+      this.closeProdutctDetail();
+      this.closeRecommendation();
+      this.setState({ changeProductVisible: true });
+    } catch (err) {}
   };
   getDetailModalInner = () => {
     const createMarkup = (text) => ({ __html: text });
@@ -2301,8 +2383,8 @@ class SubscriptionDetail extends React.Component {
             background: '#FCEBD4',
             color: '#ED8A00',
             fontSize: '14px',
-            padding: '0 5px',
-            marginLeft: '10px'
+            padding: '0 5px'
+            // marginLeft: '10px'
           }}
         >
           <FormattedMessage id="inactive" />
@@ -2313,69 +2395,31 @@ class SubscriptionDetail extends React.Component {
   ClubTitle = () => {
     let { petsId, petsInfo } = this.state.subDetail;
     return (
-      <div className="d-flex align-items-center add-pet-btn-wrap">
-        <img src={clubIcon} alt="clubIcon" className="rc-md-up" />
-        {petsId ? (
-          <React.Fragment>
-            <img
-              style={{ margin: ' 0 1rem' }}
-              className="pet-img text-center"
-              src={
-                (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
-                  ? petsInfo.petsImg
-                  : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
-              }
-            />
-            <div className="rc-padding-right--md">
-              <h4 style={{ color: '#e2001a', margin: 0 }}>
-                CLUB for {petsInfo?.petsName}
-              </h4>
-              <div>
-                Date of birth:<strong> {petsInfo?.birthOfPets}</strong>
-              </div>
-            </div>
-            <div className="rc-padding-right--md">
+      <>
+        <img src={clubIcon} alt="clubIcon" />
+        <div className="d-flex align-items-center add-pet-btn-wrap">
+          {petsId ? (
+            this.PetsInfo(petsInfo, petsId)
+          ) : (
+            <React.Fragment>
               <div
-                className="rc-styled-link"
-                onClick={this.showEditRecommendation}
-              >
-                Edit pet profile
-              </div>
+                className="pet-img add-pet-btn text-center"
+                onClick={this.showAddNewPet}
+              ></div>
               <div>
-                Breed:<strong>{petsInfo?.petsBreed}</strong>{' '}
+                For a better experience we recommend linking a pet profile to
+                your Club subscription
+                <div>
+                  <span className="rc-styled-link" onClick={this.showAddNewPet}>
+                    Link a profile
+                  </span>
+                  <span className="mobile-block">{this.statusText()}</span>
+                </div>
               </div>
-            </div>
-            <div className="rc-padding-right--md">
-              <div style={{ color: '#fff' }}> &nbsp:;</div>
-              <div>
-                Sterilized:{' '}
-                <strong> {petsInfo?.sterilized ? 'yes' : 'no'}</strong>
-              </div>
-            </div>
-            <div>
-              <div style={{ color: '#fff' }}> &nbsp:;</div>
-              <span>{this.statusText()}</span>
-            </div>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <div
-              className="pet-img add-pet-btn text-center"
-              onClick={this.showAddNewPet}
-            ></div>
-            <div>
-              For a better experience we recommend linking a pet profile to your
-              Club subscription
-              <div>
-                <span className="rc-styled-link" onClick={this.showAddNewPet}>
-                  Link a profile
-                </span>
-                <span className="mobile-block">{this.statusText()}</span>
-              </div>
-            </div>
-          </React.Fragment>
-        )}
-      </div>
+            </React.Fragment>
+          )}
+        </div>
+      </>
     );
   };
   render() {
@@ -2623,7 +2667,8 @@ class SubscriptionDetail extends React.Component {
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
-                  <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
+                  <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
+                    {/* <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs"> */}
                     {this.state.editRecommendationVisible && (
                       <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
                         <p className="recommendatio-wrap-title">
@@ -2675,7 +2720,7 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <div style={{ display: 'flex' }}>
-                                <div>
+                                <div className="for-mobile-colum">
                                   <LazyLoad>
                                     <img
                                       src={el.goodsPic || IMG_DEFAULT}
@@ -2724,6 +2769,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.specText}
                                   </p>
+                                  {this.DailyRation()}
                                 </div>
                               </div>
                               <div style={{ marginTop: '15px' }}>
@@ -2747,7 +2793,7 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   ></span>
                                   <input
-                                    className="rc-quantity__input"
+                                    className="rc-quantity__input 111"
                                     id="quantity"
                                     name="quantity"
                                     min="1"
@@ -3254,6 +3300,7 @@ class SubscriptionDetail extends React.Component {
                                             </span>
                                           </div>
                                         </div>
+                                        {this.DailyRation()}
                                       </div>
                                     </div>
                                   </div>

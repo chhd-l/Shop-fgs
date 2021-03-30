@@ -240,7 +240,14 @@ class Subscription extends React.Component {
                 {subList.map((subItem, i) => {
                   let subItemComp = null;
                   if (subItem.subscriptionType === 'Club') {
-                    subItemComp = <ClubItem subItem={subItem} />;
+                    subItemComp = (
+                      <ClubItem
+                        frequencyList={frequencyList}
+                        history={this.props.history}
+                        subItem={subItem}
+                        idx={i}
+                      />
+                    );
                   } else if (subItem.subscriptionType === 'Autoship') {
                     subItemComp = (
                       <AutoshipItem

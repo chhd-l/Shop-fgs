@@ -135,6 +135,12 @@
   .add-pet-btn-wrap{
     flex-direction: column;
     text-align: center;
+    width: 100%;
+    .rc-padding-right--md{
+      strong{
+        display: block;
+      }
+    }
     .mobile-block{
       display: block;
     }
@@ -328,6 +334,12 @@
 @media (max-width: 769px) {
   .pets-list-wrap{
     grid-template-columns: 1fr;
+  }
+  .center-for-h5{
+    justify-content: center!important;
+  }
+  .footerGroupButton{
+    height: 144px;
   }
 }
 @media (min-width: 769px) {
