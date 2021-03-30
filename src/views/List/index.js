@@ -726,7 +726,7 @@ class List extends React.Component {
 
       searchForm: {
         minMarketPrice: 0,
-        maxMarketPrice: null
+        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
       },
       defaultFilterSearchForm: {
         // 初始化filter查询参数
@@ -1911,7 +1911,10 @@ class List extends React.Component {
   render() {
     const { breadListByDeco, lastBreadListName } = this;
     const { pageLink } = this.state;
-    const { history } = this.props;
+    const {
+      history,
+      configStore: { maxGoodsPrice }
+    } = this.props;
     const { pathname } = history.location;
     const {
       category,
@@ -2112,7 +2115,7 @@ class List extends React.Component {
                       {isMobilePhone ? (
                         <Filters
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2128,7 +2131,7 @@ class List extends React.Component {
                       ) : (
                         <FiltersPC
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2198,7 +2201,7 @@ class List extends React.Component {
                           />
                         )}
                       </span>
-                      <i
+                      <em
                         className={`rc-icon rc-filter--xs rc-iconography ${
                           (filterModalVisible && !isTop) ||
                           (!filterModalVisible && isTop)
@@ -2226,7 +2229,7 @@ class List extends React.Component {
                       {isMobilePhone ? (
                         <Filters
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2242,7 +2245,7 @@ class List extends React.Component {
                       ) : (
                         <FiltersPC
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2331,11 +2334,11 @@ class List extends React.Component {
                       <div className="row">
                         <div className="col-12">
                           <div className="ui-font-nothing rc-md-up">
-                            <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                            <em className="rc-icon rc-incompatible--sm rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                           <div className="ui-font-nothing rc-md-down d-flex">
-                            <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                            <em className="rc-icon rc-incompatible--xs rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                         </div>

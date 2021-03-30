@@ -779,7 +779,7 @@ class AccountOrders extends React.Component {
                                               className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
-                                              <i className="rc-iconography rc-icon rc-news--xs"></i>
+                                              <em className="rc-iconography rc-icon rc-news--xs"></em>
                                               <span
                                                 className="medium pull-right--desktop rc-styled-link"
                                                 title={txt}
@@ -892,7 +892,7 @@ class AccountOrders extends React.Component {
                                           </div>
                                           {item.subscriptionPlanId ? (
                                             <div className="align-items-center d-flex">
-                                              <i className="gift-icon" />
+                                              <em className="gift-icon" />
                                               <div>
                                                 <span className="medium color-444 ui-text-overflow-line2">
                                                   Cadeaux

@@ -473,7 +473,7 @@ class ImageMagnifier extends Component {
           )}
         </div>
         <div className="scrollOutBox m-auto">
-          <i
+          <em
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0
                 ? 'hide-visible'
@@ -558,7 +558,7 @@ class ImageMagnifier extends Component {
             </div>
           </div>
           {/* <img className="moveImg" src={RightImg} /> */}
-          <i
+          <em
             className={`rc-icon rc-right rightArrow rc-iconography ${
               this.state.positionLeft === (imgCount - MAXCOUNT) * -MOVELENGTH
                 ? 'hide-visible'

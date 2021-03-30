@@ -3105,7 +3105,7 @@ class Payment extends React.Component {
     const paymentMethodTitleForPrepare = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
         <h5 className="mb-0">
-          <i
+          <em
             className="rc-icon rc-payment--sm rc-iconography inlineblock"
             style={{
               transform: 'scale(.8)',
@@ -3121,7 +3121,7 @@ class Payment extends React.Component {
     const paymentMethodTitleForEdit = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center red">
         <h5 className="mb-0">
-          <i
+          <em
             className="rc-icon rc-payment--sm rc-brand1 inlineblock"
             style={{
               transform: 'scale(.8)',
@@ -3137,7 +3137,7 @@ class Payment extends React.Component {
     const paymentMethodTitleForCompeleted = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
         <h5 className="mb-0">
-          <i
+          <em
             className="rc-icon rc-payment--sm rc-iconography inlineblock"
             style={{
               transform: 'scale(.8)',
@@ -3231,7 +3231,7 @@ class Payment extends React.Component {
                       className="ml-custom mr-custom"
                       style={{ overflow: 'hidden' }}
                     >
-                      <i
+                      <em
                         className="rc-icon rc-payment--sm rc-iconography inlineblock"
                         style={{
                           transform: 'scale(.8)',

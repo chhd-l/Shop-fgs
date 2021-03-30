@@ -10,7 +10,7 @@ const Steps = ({ stepsList }) => {
               className="smartfeeder-steps-tail"
               style={{ paddingRight: '0px' }}
             >
-              <i></i>
+              <em></em>
             </div>
             <div className="smartfeeder-steps-step">
               <div className="smartfeeder-steps-head">
