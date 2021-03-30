@@ -625,7 +625,9 @@ class AddressList extends React.Component {
           close={() => {
             this.setState({
               validationModalVisible: false,
-              validationLoading: false
+              validationLoading: false,
+              saveLoading: false,
+              loading: false
             });
           }}
         />

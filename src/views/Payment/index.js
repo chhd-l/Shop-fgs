@@ -2270,10 +2270,10 @@ class Payment extends React.Component {
 
     try {
       // debugger;
-      if ('没有校验过地址') {
-        // 直接显示校验弹框
-        throw new Error();
-      }
+      // if ('没有校验过地址') {
+      //   // 直接显示校验弹框
+      //   throw new Error();
+      // }
 
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false

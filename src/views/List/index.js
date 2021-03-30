@@ -1697,10 +1697,8 @@ class List extends React.Component {
                     e.showPage.includes('PLP')
                 )[0],
                 technologyOrBreedsAttr: isHub && attrs,
-                // 临时处理法国plp价格
-                fromPrice:
-                  process.env.REACT_APP_LANG === 'fr' ? 0 : ele.fromPrice,
-                toPrice: process.env.REACT_APP_LANG === 'fr' ? 0 : ele.toPrice
+                fromPrice: ele.fromPrice,
+                toPrice: ele.toPrice
               });
               const tmpItem = find(
                 res.context.goodsList,
