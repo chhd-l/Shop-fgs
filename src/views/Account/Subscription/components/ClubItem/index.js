@@ -4,18 +4,20 @@ import Club_Logo from '@/assets/images/Logo_club.png';
 import { getFormatDate, getFrequencyDict, getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
+import { IMG_DEFAULT } from '@/utils/constant';
+import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 const localItemRoyal = window.__.localItemRoyal;
-const ClubItem = ({ subItem }) => {
+const ClubItem = ({ subItem, idx, frequencyList }) => {
   const isMobile = getDeviceType() !== 'PC';
   return (
     <div
       className="row rc-margin-x--none row align-items-center card-container"
       style={{
         padding: '1rem 0',
-        marginTop: '1rem',
-        display: i < 2 || isShowAll ? 'flex' : 'none'
+        marginTop: '1rem'
+        // display: idx < 2 || isShowAll ? 'flex' : 'none'
       }}
       key={subItem.subscribeId}
     >
@@ -117,15 +119,9 @@ const ClubItem = ({ subItem }) => {
       <div className="col-4 col-md-2"></div>
       <div className="col-4 col-md-2"></div>
       <div className="col-4 col-md-2" style={{ textAlign: 'center' }}>
-        {i % 2 === 0 ? (
-          <button className="rc-btn rc-btn--two rc-btn--sm" onClick={() => {}}>
-            <FormattedMessage id="Link" />
-          </button>
-        ) : (
-          <a className="rc-styled-link" href="#/">
-            Unlink
-          </a>
-        )}
+        <Link to={`/account/subscription/order/detail/${subItem.subscribeId}`}>
+          <FormattedMessage id="Manage" />
+        </Link>
       </div>
     </div>
   );
