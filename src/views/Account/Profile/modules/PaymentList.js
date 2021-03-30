@@ -135,7 +135,7 @@ class AddressList extends React.Component {
             getPaymentMethodListFlag: true
           },
           () => {
-            this.showSuccessMsg();
+            this.clearSuccessMsg();
           }
         );
       }
@@ -149,7 +149,7 @@ class AddressList extends React.Component {
     }
   };
   // 提示成功信息
-  showSuccessMsg = () => {
+  clearSuccessMsg = () => {
     setTimeout(() => {
       this.setState({
         successMsg: '',
@@ -169,6 +169,15 @@ class AddressList extends React.Component {
     });
     await deleteCard({ id: el.id })
       .then(() => {
+        this.setState(
+          {
+            successMsg: 'Delete successfullly',
+            getPaymentMethodListFlag: true
+          },
+          () => {
+            this.clearSuccessMsg();
+          }
+        );
         this.getPaymentMethodList();
         myAccountActionPushEvent('Delete payment method');
       })

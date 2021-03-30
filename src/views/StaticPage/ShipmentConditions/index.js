@@ -192,20 +192,20 @@ class Help extends React.Component {
                 </div> */}
                 <p className="rc-intro">
                   <strong>1. </strong>Оформите заказ в интернет-магазине{' '}
-                  <b>ROYAL CANIN®</b>.
+                  <strong>ROYAL CANIN®</strong>.
                 </p>
               </div>
               <div className="rc-column">
                 <p className="rc-intro">
                   <strong>2.</strong> Получите сообщение на мобильный телефон
                   и/или e-mail уведомление с ссылкой на страницу онлайн-сервиса
-                  "<b>Управление доставкой</b>".
+                  "<strong>Управление доставкой</strong>".
                 </p>
               </div>
               <div className="rc-column">
                 <p className="rc-intro">
-                  <b>3. </b>Перейдите по ссылке для управления и отслеживания
-                  вашей посылки.
+                  <strong>3. </strong>Перейдите по ссылке для управления и
+                  отслеживания вашей посылки.
                 </p>
               </div>
             </div>

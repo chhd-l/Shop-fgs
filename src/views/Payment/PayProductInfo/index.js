@@ -742,7 +742,9 @@ class PayProductInfo extends React.Component {
                   <div className="col-5 end-lines">
                     <p className="text-right">
                       <span className="shipping-total-cost">
-                        <b>-{formatMoney(this.subscriptionDiscountPrice)}</b>
+                        <strong>
+                          -{formatMoney(this.subscriptionDiscountPrice)}
+                        </strong>
                       </span>
                     </p>
                   </div>
@@ -763,7 +765,7 @@ class PayProductInfo extends React.Component {
                         <div className="col-5 end-lines">
                           <p className="text-right">
                             <span className="shipping-total-cost">
-                              <b>-{formatMoney(el.discountPrice)}</b>
+                              <strong>-{formatMoney(el.discountPrice)}</strong>
                             </span>
                           </p>
                         </div>
@@ -831,7 +833,7 @@ class PayProductInfo extends React.Component {
                               {this.props.isCheckOut &&
                               this.props.deliveryAddress?.address1 == '' ? (
                                 <>
-                                  <b>{subtractionSign}</b>
+                                  <strong>{subtractionSign}</strong>
                                 </>
                               ) : (
                                 <>{formatMoney(this.taxFeePrice)}</>
@@ -888,7 +890,7 @@ class PayProductInfo extends React.Component {
                       <>
                         {customTaxSettingOpenFlag == 0 &&
                         enterPriceType == 1 ? (
-                          <b>{subtractionSign}</b>
+                          <strong>{subtractionSign}</strong>
                         ) : (
                           formatMoney(this.tradePrice)
                         )}
@@ -898,7 +900,7 @@ class PayProductInfo extends React.Component {
                     {this.props.isCheckOut &&
                     this.props.deliveryAddress?.address1 == '' ? (
                       <>
-                        <b>{subtractionSign}</b>
+                        <strong>{subtractionSign}</strong>
                       </>
                     ) : (
                       <>{formatMoney(this.tradePrice)}</>

@@ -161,9 +161,9 @@ class FAQ extends React.Component {
                                 to="/help/contact"
                                 rel="nofollow"
                               >
-                                <u>
+                                <ins>
                                   <FormattedMessage id="here" />
-                                </u>
+                                </ins>
                               </Link>
                             )
                           }}

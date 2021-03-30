@@ -93,9 +93,9 @@ class TermsConditionsUs extends React.Component {
                     </div>
                   </div>
                   <p>
-                    <h6 style={{ fontWeight: '550' }}>
+                    <h1 style={{ fontWeight: '550' }}>
                       ROYAL CANIN SALES TERMS AND CONDITIONS
-                    </h6>
+                    </h1>
                   </p>
                   <p>
                     Welcome to ROYAL CANIN!

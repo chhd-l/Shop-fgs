@@ -2885,7 +2885,7 @@ class SubscriptionDetail extends React.Component {
                               // style={{ paddingLeft: '60px' }}
                               >
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -2893,7 +2893,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     <FormattedMessage id="subscription.frequency"></FormattedMessage>
                                     :
-                                  </b>
+                                  </strong>
                                   <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
@@ -2920,7 +2920,7 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -2928,7 +2928,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {/* Shipping Method: */}
                                     <FormattedMessage id="autoShipStarted" />
-                                  </b>
+                                  </strong>
                                   <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
@@ -2942,7 +2942,7 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                                 <div className="rc-card-content">
-                                  <b
+                                  <strong
                                     style={{
                                       display: 'inline-block',
                                       width: '50%'
@@ -2961,7 +2961,7 @@ class SubscriptionDetail extends React.Component {
                                     </LazyLoad>
                                     <FormattedMessage id="nextShipment"></FormattedMessage>
                                     :
-                                  </b>
+                                  </strong>
                                   <div
                                     className="rc-card__meta order-Id"
                                     style={{
@@ -3264,7 +3264,7 @@ class SubscriptionDetail extends React.Component {
                                   style={{ paddingLeft: '60px' }}
                                 >
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -3272,7 +3272,7 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       <FormattedMessage id="subscription.frequency"></FormattedMessage>
                                       :
-                                    </b>
+                                    </strong>
                                     <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
@@ -3302,7 +3302,7 @@ class SubscriptionDetail extends React.Component {
                                     </div>
                                   </div>
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -3310,7 +3310,7 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       {/* Shipping Method: */}
                                       <FormattedMessage id="autoShipStarted" />
-                                    </b>
+                                    </strong>
                                     <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
@@ -3327,7 +3327,7 @@ class SubscriptionDetail extends React.Component {
                                     </div>
                                   </div>
                                   <div className="rc-card-content">
-                                    <b
+                                    <strong
                                       style={{
                                         display: 'inline-block',
                                         width: '50%'
@@ -3346,7 +3346,7 @@ class SubscriptionDetail extends React.Component {
                                       </LazyLoad>
                                       <FormattedMessage id="nextShipment"></FormattedMessage>
                                       :
-                                    </b>
+                                    </strong>
                                     <div
                                       className="rc-card__meta order-Id"
                                       style={{
@@ -4185,11 +4185,11 @@ class SubscriptionDetail extends React.Component {
                                                   <FormattedMessage id="subscription.total" />
                                                 </label>
                                                 <div className="col-5 col-md-3 text-right">
-                                                  <b>
+                                                  <strong>
                                                     {formatMoney(
                                                       el.tradePrice.goodsPrice
                                                     )}
-                                                  </b>
+                                                  </strong>
                                                 </div>
                                               </div>
                                               {el.tradePrice
@@ -4201,13 +4201,13 @@ class SubscriptionDetail extends React.Component {
                                                     :
                                                   </label>
                                                   <div className="col-5 col-md-3 text-right green">
-                                                    <b>
+                                                    <strong>
                                                       -
                                                       {formatMoney(
                                                         el.tradePrice
                                                           .subscriptionDiscountPrice
                                                       )}
-                                                    </b>
+                                                    </strong>
                                                   </div>
                                                 </div>
                                               ) : null}
@@ -4221,12 +4221,12 @@ class SubscriptionDetail extends React.Component {
                                                           {el.marketingName}:
                                                         </label>
                                                         <div className="col-5 col-md-3 text-right green">
-                                                          <b>
+                                                          <strong>
                                                             -
                                                             {formatMoney(
                                                               el.discountPrice
                                                             )}
-                                                          </b>
+                                                          </strong>
                                                         </div>
                                                       </div>
                                                     )
@@ -4255,13 +4255,13 @@ class SubscriptionDetail extends React.Component {
                                                           : 'inherit'
                                                       }}
                                                     >
-                                                      <b>
+                                                      <strong>
                                                         -
                                                         {formatMoney(
                                                           this.state
                                                             .promotionDiscount
                                                         )}
-                                                      </b>
+                                                      </strong>
                                                       <span
                                                         style={{
                                                           position: 'absolute',
@@ -4288,12 +4288,12 @@ class SubscriptionDetail extends React.Component {
                                                   <FormattedMessage id="subscription.shipping" />
                                                 </label>
                                                 <div className="text-right red-text col-5 col-md-3">
-                                                  <b>
+                                                  <strong>
                                                     {formatMoney(
                                                       el.tradePrice
                                                         .deliveryPrice
                                                     )}
-                                                  </b>
+                                                  </strong>
                                                 </div>
                                               </div>
 
@@ -4306,26 +4306,26 @@ class SubscriptionDetail extends React.Component {
                                                     <FormattedMessage id="estimatedTax" />
                                                   </label>
                                                   <div className="text-right red-text col-5 col-md-3">
-                                                    <b>
+                                                    <strong>
                                                       {formatMoney(
                                                         el.tradePrice
                                                           .taxFeePrice
                                                       )}
-                                                    </b>
+                                                    </strong>
                                                   </div>
                                                 </div>
                                               ) : null}
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
-                                                  <b
+                                                  <strong
                                                     style={{
                                                       fontSize: '20px',
                                                       color: '#333'
                                                     }}
                                                   >
                                                     <FormattedMessage id="order.total" />
-                                                  </b>{' '}
+                                                  </strong>{' '}
                                                   <span
                                                     style={{ fontSize: '12px' }}
                                                   >
@@ -4336,11 +4336,11 @@ class SubscriptionDetail extends React.Component {
                                                   </span>
                                                 </label>
                                                 <div className="text-right col-5 col-md-3">
-                                                  <b>
+                                                  <strong>
                                                     {formatMoney(
                                                       el.tradePrice.totalPrice
                                                     )}
-                                                  </b>
+                                                  </strong>
                                                 </div>
                                               </div>
                                             </div>
