@@ -135,12 +135,13 @@ class ConfigStore {
     let res = this.isNeedPrescriber;
     if (!res) {
       res = await getIsNeedPrescriber();
-      res = res.context;
-      if (res) {
+      if (res.context) {
         res = res.context.find((item) => {
           return item.configType === 'if_prescriber_is_not_mandatory';
         });
         res = res ? res.status : null;
+      } else {
+        res = res.context;
       }
       console.log('是否显示prescriber弹框:', res);
     }

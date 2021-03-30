@@ -204,14 +204,14 @@ class Prescription extends React.Component {
     });
   }
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
-  closeModal() {
+  closeModal = () => {
     this.setState({ modalShow: false });
     this.props.history.push('/checkout');
-  }
+  };
   //需要绑定prescriber，直接关闭弹框显示当前页面
-  handleClickSubmit() {
+  handleClickSubmit = () => {
     this.setState({ modalShow: false });
-  }
+  };
   handleSearch = () => {
     const { params } = this.state;
     params.input = this.state.keywords;
