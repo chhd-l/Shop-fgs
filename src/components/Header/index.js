@@ -542,28 +542,6 @@ class Header extends React.Component {
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
               <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">
                 <div className="rc-column p-0">
-                  {process.env.REACT_APP_HUB_VET_PORTAL &&
-                  process.env.REACT_APP_HUB_BREEDER_PORTAL ? (
-                    <span style={{ fontSize: '.85em' }}>
-                      <FormattedMessage id="header.User.royalCaninPartner" />
-                      <a
-                        className="medium ml-2"
-                        href={process.env.REACT_APP_HUB_BREEDER_PORTAL}
-                      >
-                        <FormattedMessage id="header.User.breederPortal" />
-                      </a>{' '}
-                      <span>
-                        <FormattedMessage id="header.User.or" />
-                      </span>{' '}
-                      <a
-                        className="medium"
-                        href={process.env.REACT_APP_HUB_VET_PORTAL}
-                      >
-                        <FormattedMessage id="header.User.vetPortal" />
-                      </a>
-                    </span>
-                  ) : null}
-
                   <Language
                     className={`qhx rc-btn rc-btn--icon-label rc-icon rc-language--xs rc-iconography ui-cursor-pointer ${
                       0 ? 'ui-btn-loading ui-btn-loading-border-red' : ''
