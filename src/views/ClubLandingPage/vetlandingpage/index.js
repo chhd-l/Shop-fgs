@@ -228,7 +228,7 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="bitmap"
                               src={icon1}
                               style={{
                                 width: '100px',
@@ -249,7 +249,7 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="bitmap"
                               src={icon2}
                               style={{
                                 width: '100px',
@@ -270,7 +270,7 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="bitmap"
                               src={icon3}
                               style={{
                                 width: '100px',
@@ -291,7 +291,7 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="bitmap"
                               src={icon4}
                               style={{
                                 width: '100px',

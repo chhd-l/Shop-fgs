@@ -46,7 +46,7 @@ class DeleteMyAccount extends React.Component {
                   display: 'inline-table'
                 }}
               >
-                <img src={deleteMyAccountImg} alt="" />
+                <img src={deleteMyAccountImg} alt="delete-My-Acc" />
               </div>
               <FormattedMessage id="account.deleteMyaccountTitle" />
             </h5>

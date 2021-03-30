@@ -586,7 +586,11 @@ class AccountOrders extends React.Component {
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column">
                           <LazyLoad>
-                            <img src={orderImg} className="w-100" alt="" />
+                            <img
+                              src={orderImg}
+                              className="w-100"
+                              alt="order-image"
+                            />
                           </LazyLoad>
                         </div>
                         <div className="rc-column d-flex align-items-center justify-content-center">

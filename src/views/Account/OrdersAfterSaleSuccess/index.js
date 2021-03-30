@@ -104,7 +104,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                     <LazyLoad>
                       <img
                         src={successImg}
-                        alt=""
+                        alt="success-image"
                         style={{ display: 'inline-block' }}
                       />
                     </LazyLoad>

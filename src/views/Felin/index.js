@@ -677,7 +677,7 @@ export default class Felin extends React.Component {
                       width: '50px',
                       marginLeft: '20px'
                     }}
-                    alt=""
+                    alt="facebook-icon"
                     src={FaceBook_Icon}
                   />
                 </a>
@@ -688,7 +688,7 @@ export default class Felin extends React.Component {
                       width: '50px',
                       marginLeft: '20px'
                     }}
-                    alt=""
+                    alt="insgram-icon"
                     src={Insgram_Icon}
                   />
                 </a>
@@ -701,7 +701,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/logoAtelier felin.png`}
-                        alt=""
+                        alt="logoAterlier-icon"
                       />
                     </LazyLoad>
                     <div className="rc-gamma inherit-fontsize mt-2">
@@ -737,7 +737,7 @@ export default class Felin extends React.Component {
                       <img
                         loop="infinite"
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/felin_cat_sm.gif`}
-                        alt=""
+                        alt="felin-cat"
                       />
                     </LazyLoad>
                   </h4>
@@ -784,7 +784,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x_1.jpeg`}
-                        alt=""
+                        alt="felin-person"
                       />
                     </LazyLoad>
                   </h4>
@@ -797,7 +797,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.png`}
-                        alt=""
+                        alt="felin-grid"
                       />
                     </LazyLoad>
                   </h4>

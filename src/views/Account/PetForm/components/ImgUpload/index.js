@@ -41,12 +41,12 @@ export default class ImgUpload extends React.Component {
     } else {
       const formData = new FormData();
       formData.append('uploadFile', files[0]);
-      this.props.showLoading()
+      this.props.showLoading();
       uploadResource(formData)
         .then((res) => {
           this.props.handleChange(res.context[0]);
-          this.props.hiddenLoading()
-          myAccountActionPushEvent('Add picture')
+          this.props.hiddenLoading();
+          myAccountActionPushEvent('Add picture');
         })
         .catch((err) => {
           console.log(err);
@@ -69,18 +69,24 @@ export default class ImgUpload extends React.Component {
   render() {
     return (
       <div className="aui-col-xs-3 d-flex flex-wrap" id="img">
-        <div
-          id="imgPreview"
-          className="d-flex flex-wrap"
-        >
-          <p style={{marginTop: '10px', width: '100%', textAlign: 'center'}}>
-          <a className="rc-styled-link" href="#/" onClick={(e) => {
-                        e.preventDefault()
-                        this.uploadDom.current.click()
-                      }}><FormattedMessage id="changepic" /></a>
+        <div id="imgPreview" className="d-flex flex-wrap">
+          <p style={{ marginTop: '10px', width: '100%', textAlign: 'center' }}>
+            <a
+              className="rc-styled-link"
+              href="#/"
+              onClick={(e) => {
+                e.preventDefault();
+                this.uploadDom.current.click();
+              }}
+            >
+              <FormattedMessage id="changepic" />
+            </a>
           </p>
           {this.state.imgList.length <= 2 ? (
-            <div className="icon-add" style={{visibility: 'hidden', position: 'absolute'}}>
+            <div
+              className="icon-add"
+              style={{ visibility: 'hidden', position: 'absolute' }}
+            >
               <div id="upImg">
                 <input
                   ref={this.uploadDom}
@@ -134,12 +140,12 @@ export default class ImgUpload extends React.Component {
           }}
         >
           <LazyLoad>
-          <img
-            className="img-pre"
-            src={this.state.preImg}
-            onClick={(e) => e.stopPropagation()}
-            alt=""
-          />
+            <img
+              className="img-pre"
+              src={this.state.preImg}
+              onClick={(e) => e.stopPropagation()}
+              alt="img-pre"
+            />
           </LazyLoad>
         </div>
       </div>

@@ -57,7 +57,7 @@ export function Advantage() {
             <img
               className="value-proposition__img"
               src={question}
-              alt=""
+              alt="question-icon"
               title=""
             />
           </LazyLoad>

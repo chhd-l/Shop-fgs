@@ -357,7 +357,7 @@ class Confirmation extends React.Component {
             <div className="text-center mt-3">
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="success-image"
                   src={successImg}
                   className="mb-3"
                   style={{ display: 'inline-block' }}

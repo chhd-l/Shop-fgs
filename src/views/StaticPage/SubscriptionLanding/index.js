@@ -317,7 +317,7 @@ class SubscriptionLanding extends React.Component {
                             <LazyLoad>
                               <img
                                 className="mx-auto lazyloaded"
-                                alt=""
+                                alt="dog-image"
                                 src={imagedog}
                               ></img>
                             </LazyLoad>
