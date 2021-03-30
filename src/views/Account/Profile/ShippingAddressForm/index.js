@@ -30,7 +30,8 @@ const addressType = ({ hideBillingAddr }) => {
 class ShippingAddressFrom extends React.Component {
   static defaultProps = {
     addressId: '',
-    hideBillingAddr: false
+    hideBillingAddr: false,
+    upateSuccessMsg: () => {}
   };
   constructor(props) {
     super(props);
@@ -245,15 +246,16 @@ class ShippingAddressFrom extends React.Component {
         type: curType.toUpperCase()
       };
       if (process.env.REACT_APP_LANG === 'en') {
-        // 手动输入的城市 id 设为 null
         params.province = data.province;
         params.provinceId = data.provinceId;
       }
       console.log('----------------------> handleSave params: ', params);
 
-      await (this.state.isAdd ? saveAddress : editAddress)(params);
-      myAccountActionPushEvent('Add Address');
+      let res = await (this.state.isAdd ? saveAddress : editAddress)(params);
+      myAccountActionPushEvent('Add Address'); // GA
       this.handleCancel();
+      // this.props.upateSuccessMsg(res?.message);
+      this.props.upateSuccessMsg('Save successfullly');
       this.props.refreshList();
     } catch (err) {
       this.showErrorMsg(err.message);
@@ -402,90 +404,94 @@ class ShippingAddressFrom extends React.Component {
             </p>
           </aside>
           {this.state.loading ? (
-            <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
+            <>
+              <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
+            </>
           ) : (
-            <div className={`userContactInfoEdit`}>
-              <div className="row">
-                {addressType({ hideBillingAddr }).map((item, i) => (
-                  <div className="col-12 col-md-4" key={i}>
-                    <div className="rc-input rc-input--inline">
-                      <input
-                        className="rc-input__radio"
-                        id={`account-info-address-${item.type}-${i}`}
-                        checked={curType === item.type}
-                        type="radio"
-                        disabled={!!this.props.addressId}
-                        onChange={this.handleTypeChange.bind(this, item)}
-                      />
-                      <label
-                        className="rc-input__label--inline"
-                        htmlFor={`account-info-address-${item.type}-${i}`}
-                      >
-                        <FormattedMessage id={item.langKey} />
-                      </label>
+            <>
+              <div className={`userContactInfoEdit`}>
+                <div className="row">
+                  {addressType({ hideBillingAddr }).map((item, i) => (
+                    <div className="col-12 col-md-4" key={i}>
+                      <div className="rc-input rc-input--inline">
+                        <input
+                          className="rc-input__radio"
+                          id={`account-info-address-${item.type}-${i}`}
+                          checked={curType === item.type}
+                          type="radio"
+                          disabled={!!this.props.addressId}
+                          onChange={this.handleTypeChange.bind(this, item)}
+                        />
+                        <label
+                          className="rc-input__label--inline"
+                          htmlFor={`account-info-address-${item.type}-${i}`}
+                        >
+                          <FormattedMessage id={item.langKey} />
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-              <div className="row">
-                <EditForm
-                  initData={addressForm}
-                  isLogin={true}
-                  updateData={this.handleEditFormChange}
-                />
+                  ))}
+                </div>
+                <div className="row">
+                  <EditForm
+                    initData={addressForm}
+                    isLogin={true}
+                    updateData={this.handleEditFormChange}
+                  />
 
-                {addressForm.addressType === 'DELIVERY' ? (
-                  <div className="form-group col-12 col-md-6">
-                    <div
-                      className="rc-input rc-input--inline"
-                      onClick={this.isDefalt}
-                    >
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        value={addressForm.isDefalt}
-                        checked={addressForm.isDefalt}
-                      />
-                      <label className="rc-input__label--inline text-break w-100">
-                        <FormattedMessage id="setDefaultAddress" />
-                      </label>
+                  {addressForm.addressType === 'DELIVERY' ? (
+                    <div className="form-group col-12 col-md-6">
+                      <div
+                        className="rc-input rc-input--inline"
+                        onClick={this.isDefalt}
+                      >
+                        <input
+                          type="checkbox"
+                          className="rc-input__checkbox"
+                          value={addressForm.isDefalt}
+                          checked={addressForm.isDefalt}
+                        />
+                        <label className="rc-input__label--inline text-break w-100">
+                          <FormattedMessage id="setDefaultAddress" />
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                ) : null}
-              </div>
-              <span className="rc-meta mandatoryField">
-                * <FormattedMessage id="account.requiredFields" />
-              </span>
-              <div className="text-right">
-                <span
-                  className="rc-styled-link editPersonalInfoBtn"
-                  name="contactInformation"
-                  onClick={this.handleCancel}
-                >
-                  <FormattedMessage id="cancel" />
+                  ) : null}
+                </div>
+                <span className="rc-meta mandatoryField">
+                  * <FormattedMessage id="account.requiredFields" />
                 </span>
-                &nbsp;
-                <FormattedMessage id="or" />
-                &nbsp;
-                <button
-                  className={classNames(
-                    'rc-btn',
-                    'rc-btn--one',
-                    'editAddress',
-                    {
-                      'ui-btn-loading': this.state.saveLoading
-                    }
-                  )}
-                  data-sav="false"
-                  name="contactInformation"
-                  type="submit"
-                  disabled={!isValid}
-                  onClick={this.handleSave}
-                >
-                  <FormattedMessage id="save" />
-                </button>
+                <div className="text-right">
+                  <span
+                    className="rc-styled-link editPersonalInfoBtn"
+                    name="contactInformation"
+                    onClick={this.handleCancel}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </span>
+                  &nbsp;
+                  <FormattedMessage id="or" />
+                  &nbsp;
+                  <button
+                    className={classNames(
+                      'rc-btn',
+                      'rc-btn--one',
+                      'editAddress',
+                      {
+                        'ui-btn-loading': this.state.saveLoading
+                      }
+                    )}
+                    data-sav="false"
+                    name="contactInformation"
+                    type="submit"
+                    disabled={!isValid}
+                    onClick={this.handleSave}
+                  >
+                    <FormattedMessage id="save" />
+                  </button>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
 

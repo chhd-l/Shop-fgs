@@ -77,7 +77,8 @@ class AccountProfile extends React.Component {
       originData: null, // 提交接口时，保留未修改参数用
       loading: true,
       personalDataIsEdit: false,
-      editOperationPaneName: ''
+      editOperationPaneName: '',
+      successMsg: ''
     };
   }
   componentWillUnmount() {

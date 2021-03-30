@@ -562,7 +562,8 @@ class PaymentEditForm extends React.Component {
       const res = await usPaymentInfo(params);
       if (res.code == 'K-000000') {
         this.handleCancel();
-        this.props.refreshList();
+        // this.props.refreshList(res.message);
+        this.props.refreshList('Save successfullly');
       }
     } catch (err) {
       this.showErrorMsg(err.message);
@@ -613,15 +614,6 @@ class PaymentEditForm extends React.Component {
     this.setState({
       validationLoading: true
     });
-
-    // let ValidationAddressData = {};
-    // ValidationAddressData['cityName'] = paymentForm.city;
-    // ValidationAddressData['country'] = paymentForm.countryId;
-    // ValidationAddressData['address1'] = paymentForm.address1;
-    // ValidationAddressData['postCode'] = paymentForm.zipCode;
-    // ValidationAddressData['province'] = paymentForm.state;
-
-    // this.setState({ ValidationAddressData });
 
     setTimeout(() => {
       this.setState({

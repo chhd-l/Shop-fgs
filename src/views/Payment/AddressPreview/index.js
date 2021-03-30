@@ -16,6 +16,7 @@ class InfosPreview extends React.Component {
         countryList: res
       });
     });
+    console.log('19    AddressPreview: ', this.props.details);
   }
   render() {
     const { details } = this.props;
@@ -27,6 +28,7 @@ class InfosPreview extends React.Component {
             <FormattedMessage id="payment.addressTitle" />
           </h5>
         </div>
+        {JSON.stringify(details)}
         {details ? (
           <div className="card-body rc-padding--none">
             <div className="single-shipping">

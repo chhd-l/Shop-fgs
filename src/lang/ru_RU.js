@@ -1089,7 +1089,14 @@ const ru_RU = {
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
   'subscription.pause': 'Пауза',
   signInAndRegisterNow: 'Войти / Зарегистрироваться сейчас',
-  startEnd: 'к'
+  startEnd: 'к',
+  'bindPrescriber.modal.title':
+    'Есть ли у вас рекомендация от ветеринарного врача?',
+  'bindPrescriber.modal.content':
+    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
+  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
+  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
+  'bindPrescriber.modal.or': 'или'
 };
 
 export default ru_RU;

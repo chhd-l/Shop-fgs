@@ -25,6 +25,7 @@ import './VisitorAddress.css';
 class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
+    isDeliveryOrBilling: 'delivery',
     initData: null,
     titleVisible: true,
     showConfirmBtn: true,
@@ -53,7 +54,14 @@ class VisitorAddress extends React.Component {
     this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
   }
   componentDidMount() {
-    this.validData({ data: this.state.form });
+    this.validData({
+      data: this.state.form,
+      validationModalVisible: false
+    });
+    console.log(
+      ' 61   VisitorAddress validationModalVisible: ',
+      this.state.validationModalVisible
+    );
   }
   get panelStatus() {
     const tmpKey =
@@ -131,35 +139,12 @@ class VisitorAddress extends React.Component {
       });
     }, 800);
 
-    // console.log('------------------ 游客确认 VisitorAddress Delivery address:  ',this.state.validationModalVisible);
+    console.log(
+      '------------------ 游客确认 VisitorAddress Delivery address:  ',
+      this.state.validationModalVisible
+    );
     if (this.props.type !== 'delivery') {
-      // throw new Error('VisitorAddress Delivery address ');
-    }
-  };
-  // 不进行地址验证，进入下一步
-  handleNextPanel = () => {
-    const { paymentStore } = this.props;
-    const { form, billingChecked } = this.state;
-    const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
-
-    this.props.updateData(form);
-
-    paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (isDeliveryAddr) {
-      billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
-      paymentStore.setDefaultCardDataFromAddr(form);
-    }
-
-    // 下一个最近的未complete的panel
-    const nextConfirmPanel = searchNextConfirmPanel({
-      list: toJS(paymentStore.panelStatus),
-      curKey: this.curPanelKey
-    });
-    paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    if (isDeliveryAddr) {
-      setTimeout(() => {
-        scrollPaymentPanelIntoView();
-      });
+      throw new Error('VisitorAddress Delivery address ');
     }
   };
   handleClickEdit = () => {
@@ -253,7 +238,7 @@ class VisitorAddress extends React.Component {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
       form.city = validationAddress.city;
-      if (process.env.REACT_APP_LANG === 'en') {
+      if (process.env.REACT_APP_LANG == 'en') {
         form.province = validationAddress.provinceCode;
       }
     } else {
@@ -261,11 +246,14 @@ class VisitorAddress extends React.Component {
         form: JSON.parse(JSON.stringify(oldForm))
       });
     }
-    // 进入下一步
-    this.showNextPanel();
+
     // payment 时提交 billing address
-    if (this.props.type !== 'delivery') {
+    if (this.props.isDeliveryOrBilling == 'billing') {
+      // billing
       this.props.setPaymentToCompleted();
+    } else {
+      // delivery  进入下一步
+      this.showNextPanel();
     }
   }
   // 下一个最近的未complete的panel
@@ -274,30 +262,34 @@ class VisitorAddress extends React.Component {
     const { form, billingChecked } = this.state;
     const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
 
-    this.setState({
-      validationModalVisible: false,
-      btnLoading: false
-    });
+    this.setState(
+      {
+        validationModalVisible: false,
+        btnLoading: false
+      },
+      () => {
+        this.props.updateData(form);
 
-    this.props.updateData(form);
+        paymentStore.setStsToCompleted({ key: this.curPanelKey });
+        if (isDeliveryAddr) {
+          billingChecked &&
+            paymentStore.setStsToCompleted({ key: 'billingAddr' });
+          paymentStore.setDefaultCardDataFromAddr(form);
+        }
 
-    paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (isDeliveryAddr) {
-      billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
-      paymentStore.setDefaultCardDataFromAddr(form);
-    }
-
-    // 下一个最近的未complete的panel
-    const nextConfirmPanel = searchNextConfirmPanel({
-      list: toJS(paymentStore.panelStatus),
-      curKey: this.curPanelKey
-    });
-    paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    if (isDeliveryAddr) {
-      setTimeout(() => {
-        scrollPaymentPanelIntoView();
-      });
-    }
+        // 下一个最近的未complete的panel
+        const nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: this.curPanelKey
+        });
+        paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+        if (isDeliveryAddr) {
+          setTimeout(() => {
+            scrollPaymentPanelIntoView();
+          });
+        }
+      }
+    );
   };
 
   render() {
