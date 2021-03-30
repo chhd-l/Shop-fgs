@@ -287,7 +287,7 @@ function ListItemForDefault(props) {
                           ? retailDog
                           : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                       }
-                      alt=""
+                      alt="product-finder-recomend-retail-cat-find"
                       title=""
                       className="ImgFitScreen pt-3"
                       style={{
@@ -594,7 +594,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImg} alt="" />
+                  <img src={pfRecoImg} alt="product-finder-recomend" />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -622,7 +622,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
-                    alt=""
+                    alt="product-finder-recomend-retail-cat"
                   />
                 </LazyLoad>
               </div>
@@ -655,7 +655,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
-                    alt=""
+                    alt="product-finder-recomend-vet-cat"
                   />
                 </LazyLoad>
               </div>
@@ -2043,7 +2043,11 @@ class List extends React.Component {
                 </div>
                 <div className="rc-column">
                   <LazyLoad style={{ width: '100%' }}>
-                    <img src={titleData.img} className="mx-auto" alt="" />
+                    <img
+                      src={titleData.img}
+                      className="mx-auto"
+                      alt="titleData-image"
+                    />
                   </LazyLoad>
                 </div>
               </div>
@@ -2378,7 +2382,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt=""
+                                            alt="product-list-taggingForImage"
                                           />
                                         </div>
                                       ) : null
@@ -2423,7 +2427,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt=""
+                                            alt="product-list-taggingForImage"
                                           />
                                         </div>
                                       ) : null

@@ -399,7 +399,10 @@ class ImageMagnifier extends Component {
             {taggingForImage ? (
               <div className="product-item-flag-image position-absolute">
                 <LazyLoad>
-                  <img src={taggingForImage.taggingImgUrl} alt="" />
+                  <img
+                    src={taggingForImage.taggingImgUrl}
+                    alt="product-item-flag-image"
+                  />
                 </LazyLoad>
               </div>
             ) : null}
@@ -418,7 +421,7 @@ class ImageMagnifier extends Component {
                           style={cssStyle.imgStyle}
                           src={currentImg || noPic}
                           // srcSet={getMuntiImg(currentImg)}
-                          alt=""
+                          alt="J_detail_img"
                         />
                       </LazyLoad>
                     </div>
@@ -431,7 +434,7 @@ class ImageMagnifier extends Component {
                           style={cssStyle.imgStyle}
                           src={currentImg || this.state.maxImg || noPic}
                           // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
-                          alt=""
+                          alt="J_detail_img"
                         />
                       </LazyLoad>
                     </div>
