@@ -4096,7 +4096,7 @@ class SubscriptionDetail extends React.Component {
                                                   >
                                                     <span className="red">
                                                       {formatMoney(
-                                                        tradeItem.subscriptionPrice
+                                                        tradeItem.price
                                                       )}
                                                     </span>
                                                     <span
