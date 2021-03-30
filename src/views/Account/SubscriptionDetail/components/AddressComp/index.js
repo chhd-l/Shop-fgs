@@ -9,7 +9,6 @@ import {
   deleteAddress,
   setDefaltAddress
 } from '@/api/address';
-import { queryCityNameById, addressValidation } from '@/api';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from '@/components/Form';
@@ -230,9 +229,15 @@ class AddressList extends React.Component {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.address2 = validationAddress.address2;
       deliveryAddress.city = validationAddress.city;
-      if (process.env.REACT_APP_LANG === 'en') {
-        deliveryAddress.province = validationAddress.provinceCode;
-      }
+
+      deliveryAddress.province = validationAddress.provinceCode;
+      deliveryAddress.provinceId =
+        validationAddress.provinceId && validationAddress.provinceId != null
+          ? validationAddress.provinceId
+          : deliveryAddress.provinceId;
+
+      // 地址校验返回参数
+      deliveryAddress.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         deliveryAddress: JSON.parse(JSON.stringify(oldDeliveryAddress))
@@ -451,10 +456,11 @@ class AddressList extends React.Component {
         type: this.props.type.toUpperCase()
       };
 
-      if (process.env.REACT_APP_LANG == 'en') {
-        params.province = deliveryAddress.province;
-        params.provinceId = deliveryAddress.provinceId;
-      }
+      // if (params?.province && params?.province != null) {
+      params.province = deliveryAddress.province;
+      params.provinceId = deliveryAddress.provinceId;
+      params.isValidated = deliveryAddress.validationResult;
+      // }
 
       this.setState({ saveLoading: true });
       const tmpPromise =

@@ -192,9 +192,15 @@ class ShippingAddressFrom extends React.Component {
       addressForm.address1 = validationAddress.address1;
       addressForm.address2 = validationAddress.address2;
       addressForm.city = validationAddress.city;
-      if (process.env.REACT_APP_LANG === 'en') {
-        addressForm.province = validationAddress.provinceCode;
-      }
+
+      addressForm.province = validationAddress.provinceCode;
+      addressForm.provinceId =
+        validationAddress.provinceId && validationAddress.provinceId != null
+          ? validationAddress.provinceId
+          : addressForm.provinceId;
+
+      // 地址校验返回参数
+      addressForm.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         addressForm: JSON.parse(JSON.stringify(oldAddressForm))
@@ -245,10 +251,11 @@ class ShippingAddressFrom extends React.Component {
         email: data.email,
         type: curType.toUpperCase()
       };
-      if (process.env.REACT_APP_LANG === 'en') {
-        params.province = data.province;
-        params.provinceId = data.provinceId;
-      }
+      // if (params?.province && params?.province != null) {
+      params.province = data.province;
+      params.provinceId = data.provinceId;
+      params.isValidated = data.validationResult;
+      // }
       console.log('----------------------> handleSave params: ', params);
 
       let res = await (this.state.isAdd ? saveAddress : editAddress)(params);

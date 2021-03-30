@@ -9,7 +9,7 @@ const api = {
   getRegionByCityId: `/systemRegion/queryByStoreId`, // 根据cityId查询region
   getProvincesList: `/systemState/queryByStoreId`, // 查询省份列表
   getAddressBykeyWord: `/address-input-auto/list`, // DuData，根据输入的关键字返回详细地址信息
-  addressValidation: `/addressValidation/validation`,
+  addressValidation: `/addressValidation/validation`, // 地址校验接口
   buryPoint: '/fgs.gif',
   getConfig: `/config/store/${process.env.REACT_APP_STOREID}`,
   navigations: '/navigations', // 查询二级菜单
