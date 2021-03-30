@@ -31,7 +31,7 @@ class BuyFromRetailerBtn extends React.Component {
           </div>
         ) : (
           <a
-            href="https://www.royalcanin.com.com/tr/where-to-buy"
+            href="http://www.royalcanin.com.com/tr/where-to-buy"
             className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
             style={{ padding: '7px 1.5rem' }}
           >
