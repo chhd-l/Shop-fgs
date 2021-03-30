@@ -272,7 +272,7 @@ class Filter extends React.Component {
                             <li className="filter-value" key={cItem.id}>
                               <Link to={cItem.router}>
                                 {cItem.attributeDetailNameEn}
-                                <i
+                                <em
                                   className="filter-remove"
                                   // onClick={this.handleClickValueItem.bind(this, {
                                   //   parentItem: pItem,
@@ -382,7 +382,7 @@ class Filter extends React.Component {
                 ))
               ) : (
                 <div className="ui-font-nothing mt-2">
-                  <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                  <em className="rc-icon rc-incompatible--sm rc-iconography" />
                   <FormattedMessage id="list.errMsg3" />
                 </div>
               )}

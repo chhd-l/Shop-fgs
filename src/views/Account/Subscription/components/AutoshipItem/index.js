@@ -133,12 +133,12 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
           {subItem.subscribeStatus === '0' ||
           subItem.subscribeStatus === '1' ? (
             <div>
-              <i className="greenCircle" />
+              <em className="greenCircle" />
               <FormattedMessage id="active" />
             </div>
           ) : (
             <div>
-              <i className="yellowCircle" />
+              <em className="yellowCircle" />
               <FormattedMessage id="inactive" />
             </div>
           )}

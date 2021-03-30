@@ -61,7 +61,6 @@ export function Ads() {
 }
 
 export function TopAds() {
-  // todo 小屏幕不会用匹配source
   return (
     {
       en: (

@@ -341,7 +341,7 @@ class Help extends React.Component {
                       >
                         <picture className="rc-card__image">
                           <LazyLoad>
-                            <img src={helpImg} alt=" " title=" " />
+                            <img src={helpImg} alt="help-icon" title=" " />
                           </LazyLoad>
                         </picture>
                       </div>

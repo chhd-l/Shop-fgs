@@ -42,7 +42,7 @@ const UserJSX = (props) => {
                     data-loc="miniCartOrderBtn"
                     title={txt}
                   >
-                    <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
+                    <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
                     <span
                       className="rc-md-down"
                       style={{
@@ -65,7 +65,7 @@ const UserJSX = (props) => {
                     data-loc="miniCartOrderBtn"
                     title={txt}
                   >
-                    <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
+                    <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
                   </div>
                 )}
               </FormattedMessage>

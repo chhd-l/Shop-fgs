@@ -53,7 +53,7 @@ export default class SelectPetModal extends Component {
     }
     let res = await getPetList({
       consumerAccount: this.userInfo.customerAccount,
-      customerId: this.userInfo.customerId,
+      customerId: this.userInfo.customerId
     });
     if (res) {
       let petList = res.context.context;
@@ -114,11 +114,11 @@ export default class SelectPetModal extends Component {
                 ? productList.map((item, i) => (
                     <div className="img-wrapper" key={i}>
                       <LazyLoad>
-                      <img
-                        className="rc-img--square rc-img--square-custom "
-                        src={item.goodsInfoImg}
-                        alt=""
-                      />
+                        <img
+                          className="rc-img--square rc-img--square-custom "
+                          src={item.goodsInfoImg}
+                          alt="goods-information-image"
+                        />
                       </LazyLoad>
                     </div>
                   ))
@@ -163,7 +163,10 @@ export default class SelectPetModal extends Component {
                           name="petType"
                         >
                           {this.state.pets.map((item, i) => (
-                            <option key={i} value={item.value}> {item.name}</option>
+                            <option key={i} value={item.value}>
+                              {' '}
+                              {item.name}
+                            </option>
                           ))}
                         </select>
                       </span>
