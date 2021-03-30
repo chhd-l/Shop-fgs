@@ -134,7 +134,7 @@ function ListItemH5ForGlobalStyle(props) {
                           height: 'auto',
                           margin: 'auto'
                         }}
-                        alt=""
+                        alt="Retail Products"
                       />
                     </div>
                   </div>
@@ -1281,20 +1281,15 @@ class List extends React.Component {
       );
     let filterList = tmpList.concat(customFilter);
 
-    // isVetProducts 过滤掉'breeds' 'Sterilized'
-    const vetFilterList = filterList.filter(
-      (item) =>
-        item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
-    );
+    // isVetProducts 过滤掉'breeds' 'Sterilized' 改成storeportal配置
+    // const vetFilterList = filterList.filter(
+    //   (item) =>
+    //     item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
+    // );
     // 非isVetProducts 过滤掉'Size'
-    const sptFilterList = filterList.filter(
-      (item) => item.attributeName !== 'Size'
-    );
-    let allFilterList = isHub
-      ? this.state.isVetProducts
-        ? vetFilterList
-        : sptFilterList
-      : filterList;
+    // const sptFilterList = filterList.filter(
+    //   (item) => item.attributeName !== 'Size'
+    // );
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -1498,7 +1493,7 @@ class List extends React.Component {
       });
       return pEle;
     });
-    this.setState({ filterList: allFilterList, initingFilter: false });
+    this.setState({ filterList, initingFilter: false });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -2067,7 +2062,7 @@ class List extends React.Component {
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <b>"{keywords}"</b>
+                    <strong>"{keywords}"</strong>
                     {results > 0 && (
                       <>
                         (

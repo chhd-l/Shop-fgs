@@ -505,14 +505,14 @@ class ContactUs extends Component {
           >
             <div className="contact-us-form talk-to-us">
               <p>
-                <i>
+                <em>
                   A message to our valued customers regarding COVID-19: Royal
                   Canin’s top priority is the health and wellness of our
                   Associates, partners, and cats and dogs we serve. While we are
                   doing our best to maintain the level of service you have come
                   to expect, you may experience slight delays. We appreciate
                   your patience during this time.
-                </i>
+                </em>
               </p>
               <h2 className="rc-text-colour--brand1">Talk to us</h2>
               <div className="rc-intro">

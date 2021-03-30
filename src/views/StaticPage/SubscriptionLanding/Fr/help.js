@@ -112,7 +112,7 @@ class Help extends Component {
               <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
                 <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
                   <div>
-                    <b>Des questions?</b>
+                    <strong>Des questions?</strong>
                     <p>
                       {`Vous pouvez également consulter notre rubrique `}
                       <DistributeHubLinkOrATag

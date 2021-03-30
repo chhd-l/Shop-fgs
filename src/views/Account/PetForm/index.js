@@ -105,7 +105,14 @@ class PetForm extends React.Component {
       isMobile: false,
       isChoosePetType: this.props.match.params.id ? true : false,
       isPurebred: true,
-      recommendData: []
+      recommendData: [],
+      lifestyle: '',
+      activity: '',
+      weightObj: {
+        measure: '',
+        measureUnit: '',
+        type: 2
+      }
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -282,9 +289,21 @@ class PetForm extends React.Component {
         return;
       }
     }
-    if (!selectedSpecialNeeds.length) {
+    if (
+      !selectedSpecialNeeds.length ||
+      !this.state.activity ||
+      !this.state.lifestyle
+    ) {
       this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
       return;
+    }
+    for (let k in this.state.weightObj) {
+      if (!this.state.weightObj[k]) {
+        this.showErrorMsg(
+          this.props.intl.messages.pleasecompleteTheRequiredItem
+        );
+        return;
+      }
     }
 
     this.setState({
@@ -320,7 +339,10 @@ class PetForm extends React.Component {
       petsType: this.state.isCat ? 'cat' : 'dog',
       sterilized: this.state.isSterilized ? '1' : '0',
       storeId: process.env.REACT_APP_STOREID,
-      isPurebred: this.state.isPurebred ? '1' : '0'
+      isPurebred: this.state.isPurebred ? '1' : '0',
+      activity: this.state.activity,
+      lifestyle: this.state.lifestyle,
+      weight: JSON.stringify(this.state.weightObj)
     };
 
     if (!this.state.isPurebred) {
@@ -749,6 +771,16 @@ class PetForm extends React.Component {
     this.setState({
       weight: data.value,
       selectedSizeObj: { value: data.value }
+    });
+  }
+  lifestyleChange(data) {
+    this.setState({
+      lifestyle: data.value
+    });
+  }
+  activityChange(data) {
+    this.setState({
+      activity: data.value
     });
   }
   handelImgChange(data) {
@@ -1286,6 +1318,104 @@ class PetForm extends React.Component {
                         </div>
                       </div>
                     )}
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="Lifestyle"
+                      >
+                        <FormattedMessage id="Lifestyle" />
+                      </label>
+                      <Selection
+                        optionList={[
+                          { value: 'indoor', name: 'indoor' },
+                          { value: 'outdoor', name: 'outdoor' },
+                          { value: 'both', name: 'both' }
+                        ]}
+                        selectedItemChange={(el) => this.lifestyleChange(el)}
+                        selectedItemData={{
+                          value: this.state.lifestyle
+                        }}
+                        key={this.state.lifestyle}
+                      />
+                    </div>
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="Activity"
+                      >
+                        <FormattedMessage id="Activity" />
+                      </label>
+                      <Selection
+                        optionList={[
+                          { value: 'Very low', name: 'Very low' },
+                          { value: 'Moderate', name: 'Moderate' },
+                          { value: 'Very high', name: 'Very high' }
+                        ]}
+                        selectedItemChange={(el) => this.activityChange(el)}
+                        selectedItemData={{
+                          value: this.state.activity
+                        }}
+                        key={this.state.activity}
+                      />
+                    </div>
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="Weight"
+                      >
+                        <FormattedMessage id="Weight" />
+                      </label>
+                      <span
+                        className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                        input-setup="true"
+                        style={{ display: 'inline-block' }}
+                      >
+                        <input
+                          type="number"
+                          className="rc-input__control"
+                          name="weight"
+                          required=""
+                          aria-required="true"
+                          style={{ padding: '.5rem 0' }}
+                          value={this.state.weightObj.measure}
+                          onChange={(e) => {
+                            let { weightObj } = this.state;
+                            weightObj.measure = e.target.value;
+                            this.setState({
+                              weightObj
+                            });
+                          }}
+                          maxLength="50"
+                          autoComplete="address-line"
+                        />
+                        <label
+                          className="rc-input__label"
+                          htmlFor="weight"
+                        ></label>
+                      </span>
+                      <Selection
+                        customContainerStyle={{
+                          display: 'inline-block',
+                          height: '40px',
+                          marginLeft: '4px'
+                        }}
+                        optionList={[
+                          { value: 'kg', name: 'kg' },
+                          { value: 'g', name: 'g' }
+                        ]}
+                        selectedItemChange={(el) => {
+                          let { weightObj } = this.state;
+                          weightObj.measureUnit = el.value;
+                          this.setState({
+                            weightObj
+                          });
+                        }}
+                        selectedItemData={{
+                          value: this.state.weightObj.measureUnit
+                        }}
+                        key={this.state.activity}
+                      />
+                    </div>
                     <div className="form-group col-lg-6 pull-left required">
                       <label
                         className="form-control-label rc-full-width"

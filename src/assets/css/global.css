@@ -17088,10 +17088,13 @@ ul li:not(.rc-list__item) {
 .ot-sdk-show-settings {
   position: fixed;
   bottom: 0;
-  right: 0;
+  left: 0;
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
   z-index: 10;
+}
+#ot-sdk-btn.ot-sdk-show-settings:hover {
+  color: #68b631;
 }
 
 .optanon-show-settings-button.optanon-toggle-display

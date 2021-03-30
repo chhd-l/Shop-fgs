@@ -23,9 +23,9 @@ export default function Help(props) {
       </div>
       <div className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
         <div className="rc-margin-right--xs flex-grow-1">
-          <b>
+          <strong>
             <FormattedMessage id="help.byTelephone" />
-          </b>
+          </strong>
           <div className="children-nomargin">
             <p>{configStore.contactTimePeriod}</p>
           </div>
@@ -62,9 +62,9 @@ export default function Help(props) {
         to="/help"
       >
         <div className="rc-margin-right--xs flex-grow-1">
-          <b>
+          <strong>
             <FormattedMessage id="help.byEmail" />
-          </b>
+          </strong>
           <div className="children-nomargin" />
         </div>
         <div className="rc-padding-left--xs rc-lg-up">
@@ -91,9 +91,9 @@ export default function Help(props) {
         to="/faq"
       >
         <div className="rc-margin-right--xs flex-grow-1">
-          <b>
+          <strong>
             <FormattedMessage id="footer.FAQ" />
-          </b>
+          </strong>
           <div className="children-nomargin" />
         </div>
         <div className="rc-padding-left--xs rc-lg-up">

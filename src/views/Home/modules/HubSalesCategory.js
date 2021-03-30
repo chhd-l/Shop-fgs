@@ -7,6 +7,22 @@ import './css/HubSalesCategory.less';
 import catsImg from '@/assets/images/salesCategory_cat.png';
 import dogsImg from '@/assets/images/salesCategory_dog.png';
 
+const salesCategoryFilterRule = (item, type) => {
+  const defaultRule = () => {
+    return item.cateType === type;
+  };
+  const rule =
+    {
+      tr: () => {
+        return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
+      },
+      fr: () => {
+        return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
+      }
+    }[process.env.REACT_APP_LANG] || defaultRule;
+  return rule();
+};
+
 export default class HubSalesCategory extends Component {
   static defaultProps = {};
   constructor(props) {
@@ -28,7 +44,8 @@ export default class HubSalesCategory extends Component {
     let cateGoryList_cat = [];
     cateGoryList_dog = res
       .filter((item) => {
-        return item.cateType === 'dog';
+        return salesCategoryFilterRule(item, 'dog');
+        //return item.cateType === 'dog'
       })
       .map((item2) => {
         return {
@@ -44,7 +61,8 @@ export default class HubSalesCategory extends Component {
 
     cateGoryList_cat = res
       .filter((item) => {
-        return item.cateType === 'cat';
+        return salesCategoryFilterRule(item, 'cat');
+        //return item.cateType === 'cat'
       })
       .map((item2) => {
         return {
