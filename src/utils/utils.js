@@ -459,9 +459,10 @@ export function distributeLinktoPrecriberOrPaymentPage({
     } else {
       needPrescriber = AuditData.length > 0;
     }
-    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      return '/checkout';
-    }
+    //暂时不用autoAuditFlag检验，直接用prescriber弹框
+    // if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+    //   return '/checkout';
+    // }
   } else {
     let needPrescriber;
     if (autoAuditFlag) {
@@ -469,9 +470,10 @@ export function distributeLinktoPrecriberOrPaymentPage({
     } else {
       needPrescriber = AuditData.length > 0;
     }
-    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      return '/checkout';
-    }
+    //暂时不用autoAuditFlag检验，直接用prescriber弹框
+    // if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+    //   return '/checkout';
+    // }
   }
 
   // 校验本地prescriber缓存，有则跳过prescriber页面
