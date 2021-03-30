@@ -91,7 +91,7 @@ class ConfigStore {
 
   // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
   @computed get isShowPrescriberModal() {
-    return this.isNeedPrescriber === 1;
+    return this.isNeedPrescriber !== null && this.isNeedPrescriber === 1;
   }
 
   // 显示onePageCheckout样式
