@@ -133,7 +133,7 @@ class VisitorAddress extends React.Component {
 
     // console.log('------------------ 游客确认 VisitorAddress Delivery address:  ',this.state.validationModalVisible);
     if (this.props.type !== 'delivery') {
-      throw new Error('游客确认 VisitorAddress Delivery address ');
+      // throw new Error('VisitorAddress Delivery address ');
     }
   };
   // 不进行地址验证，进入下一步

@@ -343,6 +343,7 @@ const ru_RU = {
   'details.theSize': 'Размер',
   'details.unitPrice': 'Цена за единицу',
   'details.youCanSave': 'Можно сэкономить',
+  'details.buyFromRetailer': 'Bayilerimiz aracılığıyla satın alın',
   dogs: 'СОБАКИ',
   dogs2: 'Собаки',
   dogs3: 'Собаки',
@@ -466,12 +467,6 @@ const ru_RU = {
   'help.tip4': 'Они могут ответить на любые вопросы в любое время',
   here: 'здесь',
   home: 'Личный кабинет',
-  'home.catogery1': 'Dietas Veterinarias Perros',
-  'home.catogery2': 'Dietas Veterinarias Gatos',
-  'home.catogery3': 'Dietas de Prescripción Veterinaria Perros',
-  'home.catogery4': 'Dietas de Prescripción Veterinaria Gatos',
-  'home.catogery5': 'КОШКИ',
-  'home.catogery6': 'СОБАКИ',
   'home.convenientTip1':
     'Подбор рациона в соответствии с потребностями Вашего питомца',
   'home.convenientTip2': 'Быстрая бесплатная доставка при заказе из {val}.',
@@ -513,10 +508,7 @@ const ru_RU = {
   isContinue: 'Стоит ли продолжать?',
   item: '{val} item',
   items: '{val} items',
-  itemsInCart: 'В вашей корзине {val} товар',
-  itemsInCart2: 'В вашей корзине {val} товаров',
   just: 'Просто',
-  kitten: 'Котенок (0-1 год)',
   'lang.close': 'Закрывать',
   'lang.country': 'страна',
   'lang.language': 'Разместить',
@@ -994,10 +986,6 @@ const ru_RU = {
   yes2: 'Подтвердить',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
-  'checkout.faq.contactCustomer': 'СЛУЖБА ПОДДЕРЖКИ',
-  'checkout.faq.freeDelivery': 'БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 2500 руб.',
-  'checkout.faq.paymentInformation': 'БЕЗОПАСНЫЕ ПЛАТЕЖИ',
-  'checkout.faq.FreeReturn': 'ВОЗВРАТ ТОВАРА',
 
   //Club新增
   'club.subscription.titile': 'Что входит в программу ROYAL CANIN® КЛУБ',
@@ -1099,7 +1087,9 @@ const ru_RU = {
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
   'payment.codConfirmTip': 'Оплата при получении',
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
-  'subscription.pause': 'Пауза'
+  'subscription.pause': 'Пауза',
+  signInAndRegisterNow: 'Войти / Зарегистрироваться сейчас',
+  startEnd: 'к'
 };
 
 export default ru_RU;

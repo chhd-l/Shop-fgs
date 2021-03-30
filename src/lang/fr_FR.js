@@ -191,11 +191,6 @@ const fr_FR = {
     "cette case est obligatoire pour l'abonnement",
   checkout: 'Commander',
   'payment.checkout': 'Commander',
-  'checkout.faq.contactCustomer': 'Comment puis-je joindre le service client',
-  'checkout.faq.freeDelivery': 'Proposez-vous la livraison gratuite',
-  'checkout.faq.FreeReturn': 'Proposez-vous des retours gratuits',
-  'checkout.faq.paymentInformation':
-    'Dans quelle mesure mes informations de paiement sont-elles sécurisées',
   checkoutTip: 'Veuillez entrer vos coordonnées ci-dessous.',
   'Choose your pet type': "Quelle est l'espèce de votre animal",
   choosePayment: 'Choisissez le paiement',
@@ -330,6 +325,7 @@ const fr_FR = {
   'details.theSize': 'La taille',
   'details.unitPrice': 'Prix ​​unitaire',
   'details.youCanSave': 'Vous pouvez économiser',
+  'details.buyFromRetailer': 'Acheter via nos revendeurs',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',
@@ -482,14 +478,6 @@ const fr_FR = {
   'help.title': "Besoin d'aide ?",
   here: 'ici',
   home: 'Accueil',
-  'home.catogery1': 'urine',
-  'home.catogery2': 'dermatologie',
-  'home.catogery3': 'Gestion du poids',
-  'home.catogery4': 'Tube digestif',
-  'home.catogery5': 'Chats',
-  'home.catogery6': 'chiens',
-  'home.catogery7': 'Tube digestif',
-  'home.catogery8': 'gestion de la santé',
   'home.convenientTip1': "Trouvez l'alimentation adaptée à votre animal",
   'home.convenientTip2': 'Profitez de la livraison rapide et offerte',
   'home.convenientTip3':
@@ -531,11 +519,8 @@ const fr_FR = {
   isPurebredCat: 'Chien de race',
   item: 'Numéro: {val}',
   items: 'Numéro: {val}',
-  itemsInCart: 'Vous avez {val} articles dans votre panier',
-  itemsInCart2: 'Vous avez {val} articles dans votre panier',
   IVAIncluido: 'TVA incluse',
   just: 'Tout droit',
-  kitten: 'Chatons (0-1 ans)',
   'lang.close': 'Fermer',
   'lang.country': 'Pays',
   'lang.language': 'Langue',
@@ -1494,6 +1479,8 @@ const fr_FR = {
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
-  'contactUs.requiredField': 'The field is required'
+  'contactUs.requiredField': 'The field is required',
+  BacktoSavedPayments: 'Retour au paiement enregistré',
+  'payment.shippingDiscount': 'Remise de fret'
 };
 export default fr_FR;

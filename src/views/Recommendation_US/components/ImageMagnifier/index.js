@@ -7,7 +7,10 @@ import noPic from '@/assets/images/noPic.png';
 //import RightImg from '@/assets/images/right.png'
 import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
-
+let H5Maxcount = 3;
+let PCMaxcount = 5;
+let PcImgSquare = 69;
+let H5ImgSquare = 60;
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
@@ -158,6 +161,7 @@ class ImageMagnifier extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     console.log(nextProps, 'nextProps');
     let { currentImg } = this.state;
+    let positionLeft = this.state.positionLeft;
     let { images } = this.props;
     if (!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl;
@@ -170,17 +174,22 @@ class ImageMagnifier extends Component {
     let selectedSizeInfo = sizeList.filter((item) => item.selected);
     if (!selectedSizeInfo.length) {
       selectedSizeInfo = [sizeList[0]];
+      positionLeft = 0;
     }
     if (selectedSizeInfo.length) {
       let hoverIndex = 0;
-      images.map((el, i) => {
-        if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
-          hoverIndex = i;
-        }
-        return el;
-      });
+      // images.map((el, i) => {
+      //   if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
+      //     hoverIndex = i;
+      //   }
+      //   return el;
+      // });
+      console.info('hoverIndex', hoverIndex);
+
       this.setState({
-        currentImg: selectedSizeInfo[0].goodsInfoImg,
+        positionLeft: positionLeft,
+        currentImg:
+          selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
         videoShow: false,
         hoverIndex,
         offsetX: hoverIndex * 240
@@ -284,6 +293,13 @@ class ImageMagnifier extends Component {
     console.log(i);
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     // cssStyle.imgContainer.cursor = 'move';
+    // this.props.images.forEach((item, index) => {
+    //   if (index !== i) {
+    //     item.selected = false;
+    //   } else {
+    //     item.selected = true;
+    //   }
+    // });
     this.setState({
       currentImg: image,
       videoShow: false,
@@ -343,15 +359,19 @@ class ImageMagnifier extends Component {
     } = this.state;
     let { images, video, taggingForText, taggingForImage } = this.props;
     console.log(images, 'images');
+    console.info('offsetX', this.state.offsetX);
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {
       imgCount = imgCount + 1;
     }
+    const isMobile = getDeviceType() === 'H5';
+    let MAXCOUNT = isMobile ? H5Maxcount : PCMaxcount;
+    let MOVELENGTH = isMobile ? H5ImgSquare : PcImgSquare;
+    console.info('MAXCOUNT', MAXCOUNT);
     return (
       <div>
         <div className="position-relative">
-          {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
             {taggingForText ? (
               <div
@@ -377,31 +397,32 @@ class ImageMagnifier extends Component {
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
-              {images.filter((el) => el.goodsInfoImg).length
-                ? images.map((el, i) => (
-                    <div className="detail_img_box" key={i}>
-                      <LazyLoad>
-                        <img
-                          id="J_detail_img"
-                          style={cssStyle.imgStyle}
-                          src={currentImg || noPic}
-                          alt=""
-                        />
-                      </LazyLoad>
-                    </div>
-                  ))
-                : images.map((el, i) => (
-                    <div key={i}>
-                      <LazyLoad>
-                        <img
-                          id="J_detail_img"
-                          style={cssStyle.imgStyle}
-                          src={currentImg || this.state.maxImg || noPic}
-                          alt=""
-                        />
-                      </LazyLoad>
-                    </div>
-                  ))}
+              {images.filter((el) => el.artworkUrl).length ? (
+                images.map((el, i) => (
+                  <div className="detail_img_box" key={i}>
+                    <LazyLoad>
+                      <img
+                        // id="J_detail_img"
+                        style={cssStyle.imgStyle}
+                        // src={currentImg || noPic}
+                        src={el.artworkUrl || noPic}
+                        alt=""
+                      />
+                    </LazyLoad>
+                  </div>
+                ))
+              ) : (
+                <div>
+                  <LazyLoad>
+                    <img
+                      // id="J_detail_img"
+                      style={cssStyle.imgStyle}
+                      src={currentImg || this.state.maxImg || noPic}
+                      alt=""
+                    />
+                  </LazyLoad>
+                </div>
+              )}
               {videoShow && video && (
                 <div>
                   <video
@@ -454,22 +475,28 @@ class ImageMagnifier extends Component {
         <div className="scrollOutBox m-auto">
           <i
             className={`rc-icon rc-left leftArrow rc-iconography ${
-              this.state.positionLeft === 0 ? '' : 'rc-brand1'
+              this.state.positionLeft === 0
+                ? 'hide-visible'
+                : 'rc-brand1 show-visible'
             }`}
-            style={{ display: imgCount > 5 ? 'block' : 'none' }}
+            style={{ display: imgCount > MAXCOUNT ? 'inline-block' : 'none' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
-              this.setState({ positionLeft: this.state.positionLeft + 69 });
+              this.setState({
+                positionLeft: this.state.positionLeft + MOVELENGTH
+              });
             }}
           />
           {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
-              className="text-center imageInnerBox"
+              className="imageInnerBox"
               style={{
                 marginTop: '2rem',
-                textAlign: imgCount <= 5 ? 'center' : 'left',
-                width: imgCount <= 5 ? '100%' : '1000px',
+                // textAlign: 'center',
+                // width: '100%',
+                textAlign: imgCount <= MAXCOUNT ? 'center' : 'left',
+                width: imgCount <= MAXCOUNT && isMobile ? '100%' : '100000px',
                 left: this.state.positionLeft + 'px'
               }}
             >
@@ -533,14 +560,20 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={RightImg} /> */}
           <i
             className={`rc-icon rc-right rightArrow rc-iconography ${
-              this.state.positionLeft === (imgCount - 5) * -69
-                ? ''
-                : 'rc-brand1'
+              this.state.positionLeft === (imgCount - MAXCOUNT) * -MOVELENGTH
+                ? 'hide-visible'
+                : 'rc-brand1 show-visible'
             }`}
-            style={{ display: imgCount > 5 ? 'block' : 'none' }}
+            style={{ display: imgCount > MAXCOUNT ? 'inline-block' : 'none' }}
             onClick={() => {
-              if (this.state.positionLeft === (imgCount - 5) * -69) return;
-              this.setState({ positionLeft: this.state.positionLeft - 69 });
+              if (
+                this.state.positionLeft ===
+                (imgCount - MAXCOUNT) * -MOVELENGTH
+              )
+                return;
+              this.setState({
+                positionLeft: this.state.positionLeft - MOVELENGTH
+              });
             }}
           />
         </div>

@@ -458,6 +458,11 @@ class Home extends React.Component {
     setSeoConfig({ pageName: 'Home Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });
+    if (localItemRoyal.get('logout-redirect-url')) {
+      let url = localItemRoyal.get('logout-redirect-url');
+      localItemRoyal.remove('logout-redirect-url');
+      location.href = url;
+    }
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);

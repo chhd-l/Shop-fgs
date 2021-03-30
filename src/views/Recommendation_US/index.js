@@ -138,7 +138,7 @@ class Recommendation extends React.Component {
     this.state = {
       promotionCode: '',
       // secondlist: secondlistArr,
-      showMore: false,
+      showMore: true,
       petType: 1, //0 dog;1 cat
       details: {
         id: '',
@@ -249,6 +249,7 @@ class Recommendation extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
+
     getRecommendationList_fr(token)
       .then((res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
@@ -258,42 +259,34 @@ class Recommendation extends React.Component {
           isRu &&
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
         productList.map((el) => {
-          let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
-          if (tmpGoodsDetail) {
-            try {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  if (process.env.REACT_APP_LANG === 'fr') {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (key === 'Description') {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>${Object.values(JSON.parse(el))[0]}</p>`;
-                        });
-                        el.tabDescription = tempContent;
-                      }
-                      if (key === 'Bénéfices') {
-                        let tempContentMobile = '';
-                        tmpGoodsDetail[key].map((ele, idx) => {
-                          // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div className="">${
+          el?.goodsDescriptionDetailList?.forEach((g) => {
+            let ret = g.content;
+            if (g.content && g.contentType === 'json') {
+              try {
+                const parsedContent = JSON.parse(g.content).map((el) => {
+                  el = JSON.parse(el);
+                  return el;
+                });
+                let tempContentMobile = '';
+                let tempContent = '';
+                switch (g.descriptionName) {
+                  case 'Benefits':
+                    parsedContent.map((ele, idx) => {
+                      // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
+                      tempContent =
+                        tempContent +
+                        `<li>
+                            <div class="">${
                               Object.values(JSON.parse(ele))[0]['Description']
                             }</div>
                           </li>`;
-                          tempContentMobile =
-                            tempContentMobile +
-                            `
-                          <div className="rc-list__accordion-item">
+                      tempContentMobile =
+                        tempContentMobile +
+                        `
+                          <div class="rc-list__accordion-item">
                           <dt>
                             <button
-                              className="rc-list__header"
+                              class="rc-list__header"
                               id="heading-${idx}"
                               data-toggle="content-${idx}"
                             >
@@ -303,7 +296,7 @@ class Recommendation extends React.Component {
                             </button>
                           </dt>
                           <dd
-                            className="rc-list__content"
+                            class="rc-list__content"
                             id="content-${idx}"
                             aria-labelledby="heading-${idx}"
                             style="text-align:left"
@@ -312,36 +305,46 @@ class Recommendation extends React.Component {
                           </dd>
                         </div>
                           `;
-                        });
-                        tempContent = `<ul className=" rc-md-up">
+                    });
+                    tempContent = `<ul class=" rc-md-up">
                           ${tempContent}
                         </ul>`;
-                        tempContentMobile = `<div className="fr-faq rc-md-down" style="padding:0">
+                    tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
                         <dl
                           data-toggle-group=""
                           data-toggle-effect="rc-expand--vertical"
-                          className=""
+                          class=""
                         >
                         ${tempContentMobile}
                         </dl>
                       </div>`;
-                        // this.setState({currentBenefit: tempContent})
-                        el.benefit = tempContent;
-                        el.benefitMobile = tempContentMobile;
-                      }
-                      // console.log(tempContent, 'tempContent')
-                      // el.goodsInfo.benefit = tempContent
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                  }
+                    el.benefit = tempContent;
+                    el.benefitMobile = tempContentMobile;
+                    break;
                 }
+              } catch (err) {
+                console.log(111, err);
               }
-            } catch (e) {
-              console.log(e);
+            } else {
+              switch (g.descriptionName) {
+                case 'Benefits':
+                  let content = g.content.replace(
+                    'ui-star-list rc_proudct_html_tab2 list-paddingleft-2',
+                    ''
+                  );
+                  el.benefit = `<div class=" rc-md-up"> ${content}</div>`;
+                  el.benefitMobile = `<div class="fr-faq rc-md-down" style="padding:0">
+                  <dl
+                    data-toggle-group=""
+                    data-toggle-effect="rc-expand--vertical"
+                    class=""
+                  >
+                  ${content}
+                  </dl>
+                </div>`;
+              }
             }
-          }
+          });
           if (!el.goodsInfo.goodsInfoImg) {
             el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
           }
@@ -931,7 +934,8 @@ class Recommendation extends React.Component {
                                   display: 'inline-block',
                                   width: '80px',
                                   textAlign: 'center',
-                                  cursor: 'pointer'
+                                  cursor: 'pointer',
+                                  margin: '0 4px'
                                 }}
                                 onClick={() =>
                                   this.setState({ activeIndex: i })
@@ -968,8 +972,9 @@ class Recommendation extends React.Component {
                           <div className="main">
                             <div className="pic">
                               <ImageMagnifier
-                                sizeList={[productList[activeIndex].goodsInfo]}
-                                images={productList[activeIndex].images}
+                                // sizeList={[productList[activeIndex].goodsInfo]}
+                                sizeList={productList[activeIndex].images || []}
+                                images={productList[activeIndex].images || []}
                                 minImg={
                                   productList[activeIndex].goodsInfo
                                     .goodsInfoImg
@@ -1037,20 +1042,24 @@ class Recommendation extends React.Component {
                               <>
                                 <div style={{ marginBottom: '12px' }}>
                                   <span className="promotion-code-title">
-                                    Promo code :
+                                    {/* Promo code : */}
+                                    Промо Код:
                                   </span>
                                   <span className="promotion-code promotion-code-title">
                                     {promotionCode}
                                   </span>
                                 </div>
                                 <p className="promotion-tips">
-                                  to apply the promotion, you must copy and
+                                  Для применения скидки,  необходимо скопировать
+                                  и вставить промо код в соответствующее поле
+                                  при оформлении заказа в корзине
+                                  {/* to apply the promotion, you must copy and
                                   paste the code into the specified part of the
-                                  shopping cart
+                                  shopping cart */}
                                 </p>
                               </>
                             ) : null}
-                            {this.state.showMore ? (
+                            {this.state.showMore || tabDes.length <= 101 ? (
                               <p
                                 className="product_info"
                                 dangerouslySetInnerHTML={createMarkup(tabDes)}
@@ -1101,7 +1110,7 @@ class Recommendation extends React.Component {
 
                           {productList[activeIndex].benefit ? (
                             <React.Fragment>
-                              <p className="benefit product_info">
+                              <p className="benefit">
                                 <h5
                                   className="red"
                                   style={{
@@ -1109,7 +1118,7 @@ class Recommendation extends React.Component {
                                     fontSize: isMobile ? '18px' : 'auto'
                                   }}
                                 >
-                                  Les bénéfices
+                                  <FormattedMessage id="recommendation.benefit" />
                                 </h5>
                                 <p
                                   style={{ fontSize: 'auto' }}

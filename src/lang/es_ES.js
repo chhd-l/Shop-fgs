@@ -456,11 +456,8 @@ const es_ES = {
   isContinue: '¿Continuar?',
   item: '{val} artículo',
   items: '{val} artículos',
-  itemsInCart: 'Usted tiene {val} artículo en su carro',
-  itemsInCart2: 'Usted tiene {val} artículos en su carro',
   IVAIncluido: '(IVA incluido)',
   just: 'sólo',
-  kitten: 'Gatito (0-1 años)',
   lastName: 'Apellido *',
   'list.errMsg':
     'No se encontraron productos, cambie los criterios de búsqueda e intente nuevamente.',
@@ -1027,6 +1024,7 @@ const es_ES = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.pause': 'pausa'
+  'subscription.pause': 'pausa',
+  'payment.shippingDiscount': 'Reabastecimiento'
 };
 export default es_ES;

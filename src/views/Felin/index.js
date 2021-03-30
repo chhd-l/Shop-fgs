@@ -362,9 +362,9 @@ export default class Felin extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
-      value = value.replace(/^[0]/, '+(33)');
-    }
+    // if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+    //   value = value.replace(/^[0]/, '+(33)');
+    // }
     userInfo[name] = value;
     this.setState({ userInfo });
   };
@@ -1135,6 +1135,12 @@ export default class Felin extends React.Component {
                           </p>
                           <p
                             className="text-center"
+                            style={{ margin: '20px 0 10px' }}
+                          >
+                            {getFormatDate(this.state.currentDate, null, 'fr')}
+                          </p>
+                          <p
+                            className="text-center"
                             style={{
                               margin: '10px 0 20px',
                               marginBottom: '40px'
@@ -1305,7 +1311,7 @@ export default class Felin extends React.Component {
                               }}
                             />
                             <label
-                              className="rc-input__label--inline"
+                              className="rc-input__label--inline consent"
                               for="id-checkbox-cat-2"
                             >
                               Les données personnelles, que vous renseignez sont
@@ -1313,7 +1319,13 @@ export default class Felin extends React.Component {
                               du rendez-vous Elles seront conservées en accord
                               avec les règles de gestion des données privées que
                               vous pourrez retrouver en ligne sur
-                              https://www.mars.com/privacy-policy-france
+                              <br />
+                              <a
+                                href="https://www.mars.com/privacy-policy-france"
+                                target="_blank"
+                              >
+                                https://www.mars.com/privacy-policy-france
+                              </a>
                             </label>
                           </div>
                           <button
@@ -1339,6 +1351,12 @@ export default class Felin extends React.Component {
                             style={{ fontWeight: '500' }}
                           >
                             Consultation expert
+                          </p>
+                          <p
+                            className="text-center"
+                            style={{ margin: '20px 0 10px' }}
+                          >
+                            {getFormatDate(this.state.currentDate, null, 'fr')}
                           </p>
                           <p
                             className="text-center"
@@ -1406,6 +1424,16 @@ export default class Felin extends React.Component {
                               style={{ fontWeight: '500' }}
                             >
                               Consultation expert
+                            </p>
+                            <p
+                              className="text-center"
+                              style={{ margin: '20px 0 10px' }}
+                            >
+                              {getFormatDate(
+                                this.state.currentDate,
+                                null,
+                                'fr'
+                              )}
                             </p>
                             <p
                               className="text-center"

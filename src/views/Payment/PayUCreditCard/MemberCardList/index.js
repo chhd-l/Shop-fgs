@@ -10,12 +10,12 @@ import {
   addOrUpdatePaymentMethod,
   queryIsSupportInstallMents
 } from '@/api/payment';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { CREDIT_CARD_IMG_ENUM, PAYMENT_METHOD_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { scrollPaymentPanelIntoView } from '../modules/utils';
-import InstallmentTable from './modules/InstallmentTable';
+import { scrollPaymentPanelIntoView } from '@/views/Payment/modules/utils';
+import InstallmentTable from '../InstallmentTable';
+import CardItemCover from '../CardItemCover';
 
 import './index.css';
 
@@ -23,7 +23,7 @@ const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore', 'paymentStore', 'checkoutStore')
 @observer
-class PaymentComp extends React.Component {
+class MemberCardList extends React.Component {
   static defaultProps = {
     needReConfirmCVV: true,
     needEmail: true,
@@ -70,6 +70,7 @@ class PaymentComp extends React.Component {
       installMentParam: null // 所选择的分期详情
     };
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
+    this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
     this.currentCvvChange = this.currentCvvChange.bind(this);
     this.onCheckboxChange = this.onCheckboxChange.bind(this);
@@ -456,11 +457,14 @@ class PaymentComp extends React.Component {
     let { creditCardList, memberUnsavedCardList } = this.state;
     el.confirmTooltipVisible = false;
     this.setState({
-      listLoading: true,
       creditCardList,
       memberUnsavedCardList
     });
+    scrollPaymentPanelIntoView();
     if (el.paymentToken) {
+      this.setState({
+        listLoading: true
+      });
       deleteCard({ id: el.id })
         .then(() => {
           this.getPaymentMethodList();
@@ -566,6 +570,11 @@ class PaymentComp extends React.Component {
         this.handleSelectedIdChange();
       }
     );
+  }
+  handleClickDeleteBtn(el, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.updateConfirmTooltipVisible(el, true);
   }
   onCheckboxChange(item) {
     const { key } = item;
@@ -705,144 +714,28 @@ class PaymentComp extends React.Component {
             {_errJSX}
             {creditCardListMerged.map((el, idx) => {
               return (
-                <div
-                  className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
-                    el.id === selectedId ? 'active border-blue' : ''
-                  } ${
-                    el.id !== selectedId &&
-                    idx !== creditCardListMerged.length - 1
-                      ? 'border-bottom-0'
-                      : ''
-                  }`}
-                  key={idx}
-                  onClick={this.handleClickCardItem.bind(this, el)}
-                >
-                  {el.isValid && (
-                    <span
-                      className="position-absolute iconfont font-weight-bold green"
-                      style={{
-                        right: '3%',
-                        bottom: '4%'
-                      }}
-                    >
-                      &#xe68c;
-                    </span>
-                  )}
-
-                  <div className="pt-3 pb-3">
-                    <div
-                      className="position-absolute"
-                      style={{ right: '1%', top: '2%', zIndex: 50 }}
-                    >
-                      <span className="pull-right position-relative pl-2 ui-cursor-pointer-pure">
-                        <span
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            this.updateConfirmTooltipVisible(el, true);
-                          }}
-                        >
-                          <FormattedMessage id="delete" />
-                        </span>
-                        <ConfirmTooltip
-                          containerStyle={{
-                            transform: 'translate(-89%, 105%)'
-                          }}
-                          arrowStyle={{ left: '89%' }}
-                          display={el.confirmTooltipVisible}
-                          confirm={this.deleteCard.bind(this, { el, idx })}
-                          updateChildDisplay={(status) =>
-                            this.updateConfirmTooltipVisible(el, status)
-                          }
-                        />
-                      </span>
-                    </div>
-                    <div className="row">
-                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
-                        <LazyLoad>
-                          <img
-                            alt=""
-                            className="PayCardImgFitScreen"
-                            src={
-                              CREDIT_CARD_IMG_ENUM[
-                                el.paymentVendor.toUpperCase()
-                              ] ||
-                              'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                            }
-                          />
-                        </LazyLoad>
-                      </div>
-                      <div className="col-12 col-sm-9 flex-column justify-content-around d-flex">
-                        <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                          <div className={`col-12 color-999 mb-1`}>
-                            <div className="row align-items-center">
-                              <div
-                                className="col-4"
-                                style={{ fontSize: '14px' }}
-                              >
-                                <FormattedMessage id="name2" />
-                              </div>
-                              <div className={`col-6 creditCompleteInfo`}>
-                                {el.holderName}
-                              </div>
-                            </div>
-                          </div>
-                          {/* 只有保存过的卡，切换时才需要重新输入cvv */}
-                          {this.props.needReConfirmCVV &&
-                            el.paymentToken &&
-                            el.id === selectedId && (
-                              <div className={`col-12 color-999 mb-1`}>
-                                <div className="row align-items-center">
-                                  <div
-                                    className={`col-4`}
-                                    style={{ fontSize: '14px' }}
-                                  >
-                                    <FormattedMessage id="CVV" />
-                                  </div>
-                                  <div
-                                    className={`col-4 color-999 text-left creditCompleteInfo`}
-                                  >
-                                    <input
-                                      onChange={this.currentCvvChange.bind(
-                                        this,
-                                        el
-                                      )}
-                                      type="password"
-                                      autoComplete="new-password"
-                                      maxLength="4"
-                                      className="w-100"
-                                      autoComplete="new-password"
-                                      value={el.cardCvv}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                        </div>
-                        <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                          <div className="col-6 color-999">
-                            <span style={{ fontSize: '14px' }}>
-                              <FormattedMessage id="payment.cardNumber2" />
-                            </span>
-                            <br />
-                            <span className="creditCompleteInfo fontFitSCreen">
-                              xxxx xxxx xxxx {el.lastFourDigits}
-                            </span>
-                          </div>
-                          <div className="col-6 border-left color-999">
-                            <span style={{ fontSize: '14px' }}>
-                              <FormattedMessage id="payment.cardType" />
-                            </span>
-                            <br />
-                            <span className="creditCompleteInfo fontFitSCreen">
-                              {el.cardType}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <>
+                  <CardItemCover
+                    el={el}
+                    lastItem={idx === creditCardListMerged.length - 1}
+                    selectedSts={el.id === selectedId}
+                    canDelete={true}
+                    needReConfirmCVV={this.props.needReConfirmCVV}
+                    handleClickCardItem={this.handleClickCardItem.bind(
+                      this,
+                      el
+                    )}
+                    handleClickDeleteBtn={this.handleClickDeleteBtn.bind(
+                      this,
+                      el
+                    )}
+                    deleteCard={this.deleteCard.bind(this, { el, idx })}
+                    currentCvvChange={this.currentCvvChange.bind(this, el)}
+                    updateConfirmTooltipVisible={(status) => {
+                      this.updateConfirmTooltipVisible(el, status);
+                    }}
+                  />
+                </>
               );
             })}
             <div
@@ -1163,4 +1056,4 @@ class PaymentComp extends React.Component {
   }
 }
 
-export default injectIntl(PaymentComp, { forwardRef: true });
+export default injectIntl(MemberCardList, { forwardRef: true });

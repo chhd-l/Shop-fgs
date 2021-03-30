@@ -222,7 +222,7 @@ const App = () => {
           <ScrollToTop>
             <Security
               oktaAuth={config}
-              onAuthRequired={customAuthHandler}
+              // onAuthRequired={customAuthHandler}
               restoreOriginalUri={restoreOriginalUri}
             >
               <Switch>

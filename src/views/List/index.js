@@ -30,6 +30,7 @@ import {
   getParentNodesByChild,
   formatMoney,
   getParaByName,
+  getRequest,
   getDictionary,
   setSeoConfig,
   getDeviceType,
@@ -749,7 +750,8 @@ class List extends React.Component {
       pageLink: '',
       listLazyLoadSection: 1,
       prefv1: '',
-      keywordsSearch: ''
+      keywordsSearch: '',
+      baseSearchStr: ''
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -808,6 +810,17 @@ class List extends React.Component {
         ]
       });
     });
+
+    let baseSearchStr = '';
+
+    const allSearchParam = getRequest();
+    for (const key in allSearchParam) {
+      if (!key.includes('prefn') && !key.includes('prefv')) {
+        baseSearchStr += `${key}=${allSearchParam[key]}`;
+      }
+    }
+
+    this.setState({ baseSearchStr });
 
     let tmpSearch = '';
     const prefnNum = (search.match(/prefn/gi) || []).length;
@@ -1257,6 +1270,7 @@ class List extends React.Component {
   // 2 根据默认参数设置filter select 状态
   // 3 拼接router参数，用于点击filter时，跳转链接用
   handleFilterResData(res, customFilter) {
+    const { baseSearchStr } = this.state;
     const { pathname, search } = this.props.history.location;
     let tmpList = res
       .filter((ele) => +ele.filterStatus)
@@ -1474,7 +1488,11 @@ class List extends React.Component {
         );
         cEle.router = {
           pathname,
-          search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : ''
+          search: decoParam.ret
+            ? `?${
+                baseSearchStr ? `${baseSearchStr}&` : ''
+              }${decoParam.ret.substr(1)}`
+            : `?${baseSearchStr}`
         };
         return cEle;
       });
@@ -1921,7 +1939,8 @@ class List extends React.Component {
       eEvents,
       GAListParam,
       isDogPage,
-      keywordsSearch
+      keywordsSearch,
+      baseSearchStr
     } = this.state;
     let event;
     if (pathname) {
@@ -2014,7 +2033,7 @@ class List extends React.Component {
               <FormattedMessage id="homePage" />
             </DistributeHubLinkOrATag>
           </div>
-          {titleData ? (
+          {titleData && titleData.title && titleData.description ? (
             <div className="rc-max-width--lg rc-padding-x--sm">
               <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                 <div className="rc-column rc-double-width text-center text-md-left">
@@ -2107,6 +2126,7 @@ class List extends React.Component {
                           markPriceAndSubscriptionLangDict={
                             markPriceAndSubscriptionLangDict
                           }
+                          baseSearchStr={baseSearchStr}
                         />
                       ) : (
                         <FiltersPC
@@ -2122,6 +2142,7 @@ class List extends React.Component {
                           markPriceAndSubscriptionLangDict={
                             markPriceAndSubscriptionLangDict
                           }
+                          baseSearchStr={baseSearchStr}
                         />
                       )}
                     </aside>
@@ -2219,6 +2240,7 @@ class List extends React.Component {
                           markPriceAndSubscriptionLangDict={
                             markPriceAndSubscriptionLangDict
                           }
+                          baseSearchStr={baseSearchStr}
                         />
                       ) : (
                         <FiltersPC
@@ -2234,6 +2256,7 @@ class List extends React.Component {
                           markPriceAndSubscriptionLangDict={
                             markPriceAndSubscriptionLangDict
                           }
+                          baseSearchStr={baseSearchStr}
                         />
                       )}
                       {/* 由于么数据暂时隐藏注释 */}

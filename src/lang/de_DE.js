@@ -494,11 +494,8 @@ const de_DE = {
   isPurebredCat: 'Reinrassige Katze?',
   item: 'Anzahl: {val}',
   items: 'Anzahl: {val}',
-  itemsInCart: 'Sie haben {val} Artikel in Ihrem Warenkorb',
-  itemsInCart2: 'Sie haben {val} Artikel in Ihrem Warenkorb',
   IVAIncluido: '',
   just: 'Gerade',
-  kitten: 'Kätzchen (0-1 Jahre alt)',
   lastName: 'Nachname *',
   learnMore: 'Mehr erfahren',
   lessDetail: '[weniger anzeigen]',
@@ -1223,7 +1220,9 @@ const de_DE = {
   yes2: 'Weiter',
   'Your Pet is a…': 'Mein Tier ist ein(e)…',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
-  yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert'
+  yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
+  BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen',
+  'payment.shippingDiscount': 'Lieferung von Waren'
 };
 
 export default de_DE;

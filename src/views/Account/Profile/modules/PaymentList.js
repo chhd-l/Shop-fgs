@@ -18,6 +18,27 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { computedSupportPaymentMethods } from '@/utils/utils';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 
+const showCardType = (type) => {
+  let cardTypeDesc = '';
+  switch (type) {
+    case '001':
+      cardTypeDesc = 'Visa';
+      break;
+    case '002':
+      cardTypeDesc = 'Mastercard';
+      break;
+    case '003':
+      cardTypeDesc = 'Amex';
+      break;
+    case '004':
+      cardTypeDesc = 'Discover';
+      break;
+    default:
+      cardTypeDesc = type;
+  }
+  return cardTypeDesc;
+};
+
 function CardItem(props) {
   const { data } = props;
   return (
@@ -49,7 +70,7 @@ function CardItem(props) {
               ************
               {data.lastFourDigits}
             </p>
-            <p className="mb-0">{data.cardType}</p>
+            <p className="mb-0">{showCardType(data.cardType)}</p>
           </div>
         </div>
       </div>

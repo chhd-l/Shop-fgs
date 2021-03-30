@@ -543,7 +543,7 @@ class PayProductInfo extends React.Component {
                           //游客
                           result = await checkoutStore.updateUnloginCart({
                             promotionCode: this.state.promotionInputValue,
-                            purchaseFlag: false,
+                            purchaseFlag: false, // 购物车: true，checkout: false
                             guestEmail: this.props.guestEmail
                           });
                         } else {
@@ -551,7 +551,7 @@ class PayProductInfo extends React.Component {
                           result = await checkoutStore.updateLoginCart({
                             promotionCode: this.state.promotionInputValue,
                             subscriptionFlag: this.props.buyWay === 'frequency',
-                            purchaseFlag: false
+                            purchaseFlag: false // 购物车: true，checkout: false
                           });
                         }
 
@@ -750,23 +750,22 @@ class PayProductInfo extends React.Component {
 
                 {/* 显示 promotionCode */}
                 {!isShowValidCode && this.promotionDiscountPrice > 0
-                  ? this.promotionVOList.map((el) => (
-                      <div className="row leading-lines shipping-item flex-layout green">
-                        <label
-                          className="saveDiscount font14"
-                          style={{ flex: 2 }}
-                        >
-                          {el.marketingName}
-                        </label>
-                        <div
-                          className="text-right"
-                          style={{
-                            position: 'relative',
-                            textAlign: 'right',
-                            flex: 1
-                          }}
-                        >
-                          <b>-{formatMoney(el.discountPrice)}</b>
+                  ? this.promotionVOList.map((el, i) => (
+                      <div
+                        className="row leading-lines shipping-item green"
+                        key={i}
+                      >
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            {el.marketingName}
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost">
+                              <b>-{formatMoney(el.discountPrice)}</b>
+                            </span>
+                          </p>
                         </div>
                       </div>
                     ))

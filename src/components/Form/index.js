@@ -26,6 +26,7 @@ class Form extends React.Component {
     type: 'billing',
     initData: null,
     personalData: false,
+    isCyberBillingAddress: false,
     isLogin: false,
     updateData: () => {}
   };
@@ -42,9 +43,8 @@ class Form extends React.Component {
         birthdate: '',
         address1: '',
         address2: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        country: '',
         countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
-        countryName: '',
         cityId: '',
         city: '',
         regionId: '',
@@ -80,14 +80,13 @@ class Form extends React.Component {
     // 查询国家
     this.getCountryList();
 
-    // let newData = Object.assign({}, initData);
-    // initData.cityId = newData.cityId;
-    // initData.city = newData.cityName; // 接口参数 city => long
-    // initData.cityName = newData.cityName; // 接口参数 cityName => string
-
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
+    caninForm.stateNo = initData.provinceNo;
+    caninForm.state = initData.province;
     initData.stateId = initData.provinceId;
+    initData.stateNo = initData.provinceNo;
+    initData.state = initData.province;
     console.log('91 -------------★ EditForm initData: ', initData);
     // console.log('-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
@@ -182,19 +181,51 @@ class Form extends React.Component {
     const { caninForm } = this.state;
     const groups = {};
     let rule = [];
+
+    // 绑卡页面添加 email
+    let emailObj = {
+      id: 99999999,
+      sequence: 99999999,
+      inputType: 0,
+      fieldKey: 'email',
+      fieldName: 'email',
+      filedType: 'text',
+      inputFreeTextFlag: 1,
+      inputSearchBoxFlag: 0,
+      inputDropDownBoxFlag: 0,
+      maxLength: 50,
+      requiredFlag: 1,
+      enableFlag: 1,
+      dataSource: 0,
+      apiName: null,
+      pageRow: 0,
+      pageCol: 0,
+      occupancyNum: 2,
+      storeId: null,
+      createTime: '',
+      updateTime: '',
+      delFlag: 0,
+      delTime: null,
+      regExp: {},
+      errMsg: ''
+    };
+    if (this.props.isCyberBillingAddress) {
+      array.push(emailObj);
+    }
+
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
       item.filedType = item.filedType == 0 ? 'text' : 'number';
       let regExp = '';
       let errMsg = '';
       switch (item.fieldKey) {
-        case 'address1':
-          regExp = /^\d{5}$/;
-          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
-          break;
         case 'postCode':
           regExp = /^\d{5}$/;
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          break;
+        case 'email':
+          regExp = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
+          errMsg = CURRENT_LANGFILE['pleaseEnterTheCorrectEmail'];
           break;
         case 'phoneNumber':
           if (process.env.REACT_APP_LANG == 'fr') {
@@ -258,12 +289,12 @@ class Form extends React.Component {
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
+        let cfm = caninForm;
+        cfm.country = res[0].value;
+        cfm.countryId = res[0].id;
         this.setState({
-          countryList: res
-        });
-        caninForm.countryName = res[0].name;
-        this.setState({
-          caninForm
+          countryList: res,
+          caninForm: Object.assign(this.state.caninForm, cfm)
         });
       }
     } catch (err) {
@@ -355,8 +386,12 @@ class Form extends React.Component {
       caninForm.provinceId = data.value;
       caninForm.province = data.name;
       caninForm.provinceNo = data.no; // 省份简写
+
+      caninForm.stateId = data.value;
+      caninForm.state = data.name;
+      caninForm.stateNo = data.no; // 省份简写
     } else if (key == 'country') {
-      caninForm.countryName = data.name;
+      caninForm.country = data.name;
     } else if (key == 'city') {
       caninForm.city = data.name;
       this.setState({
@@ -403,7 +438,12 @@ class Form extends React.Component {
         value = value.replace(/^[0]/, '+(33)');
       }
       if (process.env.REACT_APP_LANG === 'en') {
-        value = value.replace(/(\d{3})(\d{3})/, '$1-$2-');
+        value = value.replace(/-/g, '');
+        if (value.length > 3 && value.length < 8) {
+          value = value.replace(/(\d{3})(?!\-)/g, '$1-');
+        } else {
+          value = value.replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
+        }
       }
       if (process.env.REACT_APP_LANG === 'ru') {
         // value = value.replace(/^[0]/, '+(7)');
@@ -670,6 +710,7 @@ class Form extends React.Component {
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
           <div className="row rc_form_box">
+            {/* {JSON.stringify(formList)} */}
             {formList &&
               formList.map((fobj, idx) => (
                 <>
@@ -745,11 +786,11 @@ class Form extends React.Component {
                           )}
                           {/* 输入提示 */}
                           {errMsgObj[item.fieldKey] &&
-                            item.requiredFlag == 1 && (
-                              <div className="text-danger-2">
-                                {errMsgObj[item.fieldKey]}
-                              </div>
-                            )}
+                          item.requiredFlag == 1 ? (
+                            <div className="text-danger-2">
+                              {errMsgObj[item.fieldKey]}
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                       {/* 个人中心添加 email 和 birthData */}

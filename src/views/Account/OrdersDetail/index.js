@@ -296,18 +296,18 @@ class AccountOrders extends React.Component {
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
           tmpIndex = findIndex(curProgressList, (ele) =>
-            lastedEventLog.eventType.includes(ele.backendName)
+            lastedEventLog?.eventType?.includes(ele.backendName)
           );
 
           if (tmpIndex === -1) {
             // 特殊处理作废发货的情况
             if (lastedEventLog.eventType === 'Void shipment record') {
-              if (lastedEventLog.eventDetail.includes('part shipped')) {
+              if (lastedEventLog?.eventDetail?.includes('part shipped')) {
                 tmpIndex = findIndex(
                   curProgressList,
                   (ele) => ele.backendName === 'DELIVERED'
                 );
-              } else if (lastedEventLog.eventDetail.includes('not shipped')) {
+              } else if (lastedEventLog?.eventDetail?.includes('not shipped')) {
                 tmpIndex = findIndex(
                   curProgressList,
                   (ele) => ele.backendName === 'Order payment'
@@ -325,7 +325,7 @@ class AccountOrders extends React.Component {
 
           Array.from(curProgressList, (item) => {
             const tpm = find(tradeEventLogs, (ele) =>
-              ele.eventType.includes(item.backendName)
+              ele?.eventType?.includes(item.backendName)
             );
             if (tpm) {
               item.time1 = tpm.eventTime.substr(0, 10);
@@ -974,6 +974,7 @@ class AccountOrders extends React.Component {
       showLogisticsDetail,
       curLogisticInfo
     } = this.state;
+    const isTr = process.env.REACT_APP_LANG === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -1170,7 +1171,7 @@ class AccountOrders extends React.Component {
                                   <FormattedMessage id="order.orderStatus" />
                                   <br />
                                   <span className="medium">
-                                    {details.tradeState.flowState}
+                                    {details.tradeState.orderStatus}
                                   </span>
                                 </div>
 
@@ -1419,16 +1420,21 @@ class AccountOrders extends React.Component {
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
-                                  <div className="col-6 col-md-2 mb-2">
+                                  <div
+                                    className={`col-6 col-md-2 mb-2 ${
+                                      isTr ? 'tr-total-iVAIncluido' : ''
+                                    }`}
+                                  >
                                     <span className="medium color-444">
                                       <FormattedMessage id="order.total" />
-                                    </span>{' '}
+                                    </span>
+                                    <span>&nbsp;</span>
                                     <span style={{ fontSize: '.8em' }}>
                                       <FormattedMessage
                                         id="order.iVAIncluido"
                                         defaultMessage=" "
                                       />
-                                    </span>
+                                    </span>{' '}
                                   </div>
                                   <div className="col-6 col-md-3 text-right medium text-nowrap color-444">
                                     {formatMoney(details.tradePrice.totalPrice)}

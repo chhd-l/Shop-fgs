@@ -33,7 +33,7 @@ const UserJSX = (props) => {
             onMouseOver={self.handleCenterMouseOver}
             onMouseOut={self.handleCenterMouseOut}
           >
-            {self.isLogin ? (
+            {self.isLogin && !isMobile ? (
               <FormattedMessage id="personal">
                 {(txt) => (
                   <Link
