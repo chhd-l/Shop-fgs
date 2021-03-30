@@ -2196,7 +2196,7 @@ class List extends React.Component {
                           />
                         )}
                       </span>
-                      <i
+                      <em
                         className={`rc-icon rc-filter--xs rc-iconography ${
                           (filterModalVisible && !isTop) ||
                           (!filterModalVisible && isTop)
@@ -2329,11 +2329,11 @@ class List extends React.Component {
                       <div className="row">
                         <div className="col-12">
                           <div className="ui-font-nothing rc-md-up">
-                            <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                            <em className="rc-icon rc-incompatible--sm rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                           <div className="ui-font-nothing rc-md-down d-flex">
-                            <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                            <em className="rc-icon rc-incompatible--xs rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                         </div>

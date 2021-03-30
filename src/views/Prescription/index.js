@@ -393,7 +393,7 @@ class Prescription extends React.Component {
                     <label className="rc-input__label" htmlFor="id-submit-2">
                       <span className="rc-input__label-text" />
                     </label>
-                    <i
+                    <em
                       className="rc-icon rc-location2--xs rc-iconography rc-vertical-align click-btn"
                       aria-label="location"
                       onClick={(e) => this.handleInit(e)}
