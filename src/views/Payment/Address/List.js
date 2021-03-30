@@ -302,6 +302,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
+    console.log('--------- ★★★★★★ updateDeliveryAddress: ', data);
     try {
       if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
         let dda = data.DaData;
@@ -340,6 +341,7 @@ class AddressList extends React.Component {
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
+      this.props.updateData(data);
     } catch (err) {
       console.error(' err msg: ', err);
       this.setState({ isValid: false }, () => {

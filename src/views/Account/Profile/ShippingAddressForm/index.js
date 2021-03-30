@@ -82,7 +82,16 @@ class ShippingAddressFrom extends React.Component {
   }
   componentDidMount() {
     setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
+      this.setState(
+        {
+          seoConfig: res
+        },
+        () => {
+          this.setState({
+            loading: false
+          });
+        }
+      );
     });
 
     if (this.props.addressId) {
@@ -119,21 +128,12 @@ class ShippingAddressFrom extends React.Component {
         addressForm.province = data.province;
         addressForm.provinceId = data.provinceId;
       }
-
-      // let cityRes = await queryCityNameById({ id: [data.cityId] });
-      // // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
-      // addressForm.city = cityRes?.context?.systemCityVO[0]?.cityName
-      //   ? cityRes?.context?.systemCityVO[0]?.cityName
-      //   : data.city;
-      // addressForm.cityId = cityRes?.context?.systemCityVO[0]?.id
-      //   ? cityRes?.context?.systemCityVO[0]?.id
-      //   : data.cityId;
-
       this.setState(
         {
           addressForm,
           showModal: true,
           isAdd: false,
+          loading: false,
           curType: data.type === 'DELIVERY' ? 'delivery' : 'billing'
         },
         () => {
@@ -142,6 +142,7 @@ class ShippingAddressFrom extends React.Component {
       );
     } catch (err) {
       this.showErrorMsg(err.message.toString());
+      this.setState({ loading: false });
     } finally {
       this.setState({ loading: false });
     }
@@ -439,7 +440,7 @@ class ShippingAddressFrom extends React.Component {
                     </div>
                   ))}
                 </div>
-                <div className="row">
+                <div>
                   <EditForm
                     initData={addressForm}
                     isLogin={true}
