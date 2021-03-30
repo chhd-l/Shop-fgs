@@ -917,7 +917,7 @@ class UnLoginCart extends React.Component {
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
-                  alt=""
+                  alt="Club-Logo"
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -951,7 +951,7 @@ class UnLoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
-                    alt=""
+                    alt="goodsInformationImage"
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>

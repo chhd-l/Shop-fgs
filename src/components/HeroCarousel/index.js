@@ -161,10 +161,10 @@ class HeroCarousel extends React.Component {
                 href={el.mobiSkipUrl}
                 isOuterLink={el.isOuterLinkForMobile}
               >
-                <img className="w-100 mh-100" src={el.mobiUrl} alt="" />
+                <img className="w-100 mh-100" src={el.mobiUrl} alt="banner" />
               </ATagContainer>
             ) : (
-              <img className="w-100 mh-100" src={el.mobiUrl} alt="" />
+              <img className="w-100 mh-100" src={el.mobiUrl} alt="banner" />
             )}
           </div>
           <div className="hero-carousel__slide__content">
@@ -213,11 +213,15 @@ class HeroCarousel extends React.Component {
                         <img
                           className="rc-md-up mh-100"
                           src={el.webUrl}
-                          alt=""
+                          alt="banner"
                         />
                       </ATagContainer>
                     ) : (
-                      <img className="rc-md-up mh-100" src={el.webUrl} alt="" />
+                      <img
+                        className="rc-md-up mh-100"
+                        src={el.webUrl}
+                        alt="banner"
+                      />
                     )}
 
                     {el.mobiSkipUrl ? (
@@ -231,14 +235,14 @@ class HeroCarousel extends React.Component {
                         <img
                           className="rc-md-down w-100 mh-100"
                           src={el.mobiUrl}
-                          alt=""
+                          alt="banner"
                         />
                       </ATagContainer>
                     ) : (
                       <img
                         className="rc-md-down w-100 mh-100"
                         src={el.mobiUrl}
-                        alt=""
+                        alt="banner"
                       />
                     )}
                   </>
