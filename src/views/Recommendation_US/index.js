@@ -711,6 +711,9 @@ class Recommendation extends React.Component {
   }
   addCart = () => {
     let { productList } = this.state;
+    let filterProducts = productList.filter((el) => {
+      return el.goodsInfo.addedFlag;
+    });
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();
     } else {
