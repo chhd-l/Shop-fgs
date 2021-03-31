@@ -181,6 +181,17 @@ class UnloginCart extends React.Component {
       });
   };
 
+  clickBasket = () => {
+    this.hubGA &&
+      window.dataLayer &&
+      dataLayer.push({
+        event: 'topPictosClick',
+        topPictosClick: {
+          itemName: 'Basket'
+        }
+      });
+  };
+
   render() {
     const { headerCartStore } = this.props;
     let { frequencyList } = this.state;
@@ -194,7 +205,12 @@ class UnloginCart extends React.Component {
           headerCartStore.hide();
         }}
       >
-        <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
+        <Link
+          to="/cart"
+          className="minicart-link"
+          data-loc="miniCartOrderBtn"
+          onClick={this.clickBasket}
+        >
           <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></em>
           {this.totalNum > 0 ? (
             <span className="minicart-quantity">{this.totalNum}</span>

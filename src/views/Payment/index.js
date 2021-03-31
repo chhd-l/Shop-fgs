@@ -460,12 +460,17 @@ class Payment extends React.Component {
         }
       }
       this.setState(
+        //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
         {
-          needPrescriber: checkoutStore.autoAuditFlag
-            ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-                (el) => el.prescriberFlag
-              ).length > 0
-            : checkoutStore.AuditData.length > 0
+          needPrescriber:
+            (this.isLogin ? this.loginCartData : this.cartData).filter(
+              (el) => el.prescriberFlag
+            ).length > 0 && localItemRoyal.get(`rc-clinic-id-select`) !== ''
+          // needPrescriber: checkoutStore.autoAuditFlag
+          //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
+          //       (el) => el.prescriberFlag
+          //     ).length > 0
+          //   : checkoutStore.AuditData.length > 0
         },
         () => {
           const nextConfirmPanel = searchNextConfirmPanel({
