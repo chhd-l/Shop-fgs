@@ -161,6 +161,7 @@ class ShelterPrescription extends React.Component {
             </div>
           </article>
         </a>
+        <span className="warning_blank">Opens a new window</span>
       </Link>
     );
   };

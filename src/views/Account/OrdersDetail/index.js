@@ -994,6 +994,9 @@ class AccountOrders extends React.Component {
                         className={`red rc-styled-link mr-2`}
                       >
                         <FormattedMessage id="order.viewLogisticDetail" />
+                        <span className="warning_blank">
+                          Opens a new window
+                        </span>
                       </a>
                       &gt;
                     </span>

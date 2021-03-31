@@ -1450,3 +1450,30 @@ span.ship-to-phone {
 .checkout-product-summary .order-summary-title {
   padding: 1rem 0;
 }
+
+a[target='_blank'] {
+  position: relative !important;
+}
+a.p-absolute {
+  position: absolute !important;
+}
+a[target='_blank'] .warning_blank {
+  position: absolute;
+  left: -9000px;
+  width: 0;
+  overflow: hidden;
+}
+
+a[target='_blank']:hover .warning_blank,
+a[target='_blank']:focus .warning_blank,
+a[target='_blank']:active .warning_blank {
+  display: block;
+  position: absolute;
+  top: 1.25rem;
+  left: 0;
+  width: 12em;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #666;
+  text-align: center;
+}
