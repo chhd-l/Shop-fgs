@@ -1199,7 +1199,9 @@ const de_DE = {
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen',
   'payment.shippingDiscount': 'Lieferung von Waren',
-  'orderStatus.COMPLETED': 'abgeschlossen'
+  'orderStatus.COMPLETED': 'abgeschlossen',
+  'payment.cardInfoErr':
+    'Die Karteninformationen sind falsch, bitte überprüfen.'
 };
 
 export default de_DE;

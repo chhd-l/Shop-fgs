@@ -1072,7 +1072,8 @@ const ru_RU = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'orderStatus.COMPLETED': 'Завершено'
+  'orderStatus.COMPLETED': 'Завершено',
+  'payment.cardInfoErr': 'Информация о карте неверна, проверьте.'
 };
 
 export default ru_RU;

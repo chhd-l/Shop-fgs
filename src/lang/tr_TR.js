@@ -1000,6 +1000,7 @@ const tr_TR = {
   noStart: 'Gelecek siparişlerim',
   completed: 'Tamamlandı',
   skip: 'Sipariş atla',
-  'orderStatus.COMPLETED': 'Tamamlandı'
+  'orderStatus.COMPLETED': 'Tamamlandı',
+  'payment.cardInfoErr': 'Kart bilgileri yanlış, lütfen kontrol edin.'
 };
 export default tr_TR;
