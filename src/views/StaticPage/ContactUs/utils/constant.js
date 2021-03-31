@@ -31,6 +31,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'phoneNumber',
+    require: true,
     regExp: PHONENEMBER_REGEXP,
     errMsg: CURRENT_LANGFILE['contactUs.validUsPhoneField']
   }
