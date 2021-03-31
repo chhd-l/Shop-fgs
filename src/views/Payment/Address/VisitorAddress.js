@@ -241,12 +241,16 @@ class VisitorAddress extends React.Component {
       form.address1 = validationAddress.address1;
       form.address2 = validationAddress.address2;
       form.city = validationAddress.city;
+      form.postCode = validationAddress.postalCode;
 
       form.province = validationAddress.provinceCode;
       form.provinceId =
         validationAddress.provinceId && validationAddress.provinceId != null
           ? validationAddress.provinceId
           : form.provinceId;
+
+      // 地址校验返回参数
+      form.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         form: JSON.parse(JSON.stringify(oldForm))

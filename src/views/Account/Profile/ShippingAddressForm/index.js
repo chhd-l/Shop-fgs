@@ -181,6 +181,7 @@ class ShippingAddressFrom extends React.Component {
       addressForm.address1 = validationAddress.address1;
       addressForm.address2 = validationAddress.address2;
       addressForm.city = validationAddress.city;
+      addressForm.postCode = validationAddress.postalCode;
 
       addressForm.province = validationAddress.provinceCode;
       addressForm.provinceId =
@@ -406,28 +407,31 @@ class ShippingAddressFrom extends React.Component {
           ) : (
             <>
               <div className={`userContactInfoEdit`}>
-                <div className="row">
-                  {addressType({ hideBillingAddr }).map((item, i) => (
-                    <div className="col-12 col-md-4" key={i}>
-                      <div className="rc-input rc-input--inline">
-                        <input
-                          className="rc-input__radio"
-                          id={`account-info-address-${item.type}-${i}`}
-                          checked={curType === item.type}
-                          type="radio"
-                          disabled={!!this.props.addressId}
-                          onChange={this.handleTypeChange.bind(this, item)}
-                        />
-                        <label
-                          className="rc-input__label--inline"
-                          htmlFor={`account-info-address-${item.type}-${i}`}
-                        >
-                          <FormattedMessage id={item.langKey} />
-                        </label>
+                {addressType({ hideBillingAddr }).length > 1 && (
+                  <div className="row">
+                    {addressType({ hideBillingAddr }).map((item, i) => (
+                      <div className="col-12 col-md-4" key={i}>
+                        <div className="rc-input rc-input--inline">
+                          <input
+                            className="rc-input__radio"
+                            id={`account-info-address-${item.type}-${i}`}
+                            checked={curType === item.type}
+                            type="radio"
+                            disabled={!!this.props.addressId}
+                            onChange={this.handleTypeChange.bind(this, item)}
+                          />
+                          <label
+                            className="rc-input__label--inline"
+                            htmlFor={`account-info-address-${item.type}-${i}`}
+                          >
+                            <FormattedMessage id={item.langKey} />
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
+
                 <div>
                   <EditForm
                     initData={addressForm}

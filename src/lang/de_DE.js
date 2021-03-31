@@ -611,7 +611,8 @@ const de_DE = {
   'order.shippingStatus': 'Versandstatus',
   'order.toBeDeliveredTip':
     'Ihre Bestellung wurde erfolgreich bezahlt und wir bereiten den Versand vor.',
-  'orderStatus.INITTip': 'Ваш заказ не был успешно создан. {val}',
+  'orderStatus.INITTip':
+    'Ihre Bestellung wurde nicht bezahlt, bitte zahlen Sie so schnell wie möglich. {val}',
   'order.total': 'Gesamt',
   'order.viewLogisticDetail': 'Logistische Details anzeigen',
   'order.viewOrder': 'Bestellung anzeigen',

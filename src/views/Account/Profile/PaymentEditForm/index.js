@@ -557,6 +557,9 @@ class PaymentEditForm extends React.Component {
         validationAddress.provinceId && validationAddress.provinceId != null
           ? validationAddress.provinceId
           : paymentForm.provinceId;
+
+      // 地址校验返回参数
+      paymentForm.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         paymentForm: JSON.parse(JSON.stringify(oldPaymentForm))
