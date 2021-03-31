@@ -1087,6 +1087,7 @@ class Payment extends React.Component {
         );
       };
       let successUrl = successUrlFun(type);
+
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl,
