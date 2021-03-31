@@ -392,6 +392,8 @@ class Details extends React.Component {
   }
   get btnStatus() {
     const { details, quantity, instockStatus, initing } = this.state;
+    console.log(details, 'details');
+    // details.sizeList.filter(el => el.selected).addedFlag
     // displayFlag 是否展示在前台
     // saleableFlag 是否可销售
     // 不可销售且不展示在前台 则前台按钮置灰
@@ -399,7 +401,9 @@ class Details extends React.Component {
       !initing &&
       instockStatus &&
       quantity &&
-      (details.saleableFlag || !details.displayFlag)
+      (details.saleableFlag || !details.displayFlag) &&
+      (!details.sizeList.length ||
+        details.sizeList.filter((el) => el.selected).addedFlag)
     );
   }
 
