@@ -198,7 +198,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon1}
-                            alt=""
+                            alt="Bitmap"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -212,7 +212,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon2}
-                            alt=""
+                            alt="Bitmap"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -225,7 +225,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon3}
-                            alt=""
+                            alt="Bitmap"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -241,7 +241,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon4}
-                            alt=""
+                            alt="Bitmap"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>

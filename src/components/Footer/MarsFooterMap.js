@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
+import { cookieSettingsBtn } from './cookieSettingsBtn';
 
 @inject('configStore')
 @observer

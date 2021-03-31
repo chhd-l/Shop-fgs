@@ -21,7 +21,11 @@ class OxxoConfirm extends Component {
         <div className="rounded mb-3">
           <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
             <LazyLoad>
-              <img src={oxxo} style={{ display: 'inline-block' }} alt="" />
+              <img
+                src={oxxo}
+                style={{ display: 'inline-block' }}
+                alt="oxxo-image"
+              />
             </LazyLoad>
           </div>
           <h6>

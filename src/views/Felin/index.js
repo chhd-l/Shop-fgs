@@ -495,6 +495,7 @@ export default class Felin extends React.Component {
   handleNextStepBtn() {
     this.setState({ step: this.state.step + 1 }, () => {
       this.currentStep();
+      this.updateButtonState();
     });
   }
   modifyAppointment() {
@@ -523,6 +524,7 @@ export default class Felin extends React.Component {
       selectedDate,
       felinType
     } = this.state;
+    console.log(step, this.state.errMsgObj, consentChecked1, 'hahaha');
     if (step === 1 && selectedTimeObj.value && selectedDate) {
       this.setState({ nextBtnEnable: true });
     } else if (step === 2) {
@@ -876,7 +878,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
-                        alt=""
+                        alt="box-image"
                       />
                     </LazyLoad>
                   </h4>
@@ -892,7 +894,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
-                        alt=""
+                        alt="store-image"
                       />
                     </LazyLoad>
                   </h4>
@@ -1361,7 +1363,7 @@ export default class Felin extends React.Component {
                             className="rc-btn rc-btn--two"
                             style={{ width: '100%' }}
                             disabled={!nextBtnEnable}
-                            onClick={() => this.ConfirmInfo()}
+                            onClick={() => this.handleNextStepBtn()}
                           >
                             <FormattedMessage id="Confirmer mes informations" />
                           </button>
@@ -1409,7 +1411,7 @@ export default class Felin extends React.Component {
                           <button
                             className="rc-btn rc-btn--one"
                             style={{ width: '100%' }}
-                            onClick={() => this.handleNextStepBtn()}
+                            onClick={() => this.ConfirmInfo()}
                           >
                             <FormattedMessage id="Confirmer le rendez-vous" />
                           </button>
@@ -1504,7 +1506,7 @@ export default class Felin extends React.Component {
                                 height: '160px'
                               }}
                               src={`${this.state.qrCode1}`}
-                              alt=""
+                              alt="qrcode-image"
                             />
                           </div>
                         </>
