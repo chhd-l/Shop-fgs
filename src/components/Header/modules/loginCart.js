@@ -67,76 +67,9 @@ class LoginCart extends React.Component {
   }
   async handleCheckout() {
     try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        headerCartStore,
-        clinicStore
-      } = this.props;
+      const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
-      checkoutStore.updateLoginCart();
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-          />
-        );
-        return false;
-      }
-
-      // 存在下架商品，不能下单
-      if (checkoutStore.offShelvesProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      // 库存不够，不能下单
-      if (checkoutStore.outOfstockProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{
-              val: checkoutStore.outOfstockProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      // 存在被删除商品，不能下单
-      if (checkoutStore.deletedProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo5"
-            values={{
-              val: checkoutStore.deletedProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      // 存在不可销售商品，不能下单
-      if (checkoutStore.notSeableProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo6"
-            values={{
-              val: checkoutStore.notSeableProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
+      await checkoutStore.updateLoginCart({ isThrowErr: true });
 
       let autoAuditFlag = false;
       let res = await getProductPetConfig({
@@ -163,6 +96,7 @@ class LoginCart extends React.Component {
       // history.push('/prescription');
     } catch (err) {
       console.log(err);
+      this.props.headerCartStore.setErrMsg(err.message);
     } finally {
       this.setState({ checkoutLoading: false });
     }

@@ -310,7 +310,7 @@ class UnLoginCart extends React.Component {
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
-      await this.updateStock();
+      await this.updateStock({ isThrowErr: true });
       // 价格未达到底限，不能下单
       if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         window.scrollTo({ behavior: 'smooth', top: 0 });
@@ -550,15 +550,22 @@ class UnLoginCart extends React.Component {
       }
     );
   }
-  async updateStock(fn) {
-    const { productList } = this.state;
-    this.setState({ checkoutLoading: true });
-    await this.props.checkoutStore.updateUnloginCart({ cartData: productList });
-    fn && fn();
-    this.setState({ checkoutLoading: false });
-    //增加数量 重新埋点 start
-    !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
-    //增加数量 重新埋点 end
+  async updateStock({ isThrowErr, callback }) {
+    try {
+      const { productList } = this.state;
+      this.setState({ checkoutLoading: true });
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: productList,
+        isThrowErr
+      });
+      callback && callback();
+      this.setState({ checkoutLoading: false });
+      //增加数量 重新埋点 start
+      !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
+      //增加数量 重新埋点 end
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
   gotoDetails(pitem) {
     this.props.history.push(
@@ -1046,7 +1053,7 @@ class UnLoginCart extends React.Component {
         productList
       },
       () => {
-        this.updateStock(this.clearPromotionCode.bind(this));
+        this.updateStock({ callback: this.clearPromotionCode.bind(this) });
       }
     );
   }
@@ -1440,7 +1447,7 @@ class UnLoginCart extends React.Component {
         productList: this.state.productList
       },
       () => {
-        this.updateStock(this.clearPromotionCode.bind(this));
+        this.updateStock({ callback: this.clearPromotionCode.bind(this) });
       }
     );
   }

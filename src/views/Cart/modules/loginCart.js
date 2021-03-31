@@ -253,12 +253,20 @@ class LoginCart extends React.Component {
     pitem.periodTypeId = data.id;
     this.changeFrequencyType(pitem);
   }
-  async updateCartCache(fn) {
-    this.setState({ checkoutLoading: true });
-    await this.checkoutStore.updateLoginCart();
-    fn && fn();
-    this.setData();
-    this.setState({ checkoutLoading: false });
+  async updateCartCache({ callback, isThrowErr = false }) {
+    try {
+      this.setState({ checkoutLoading: true });
+      await this.checkoutStore.updateLoginCart({ isThrowErr });
+      callback && callback();
+      this.setData();
+    } catch (err) {
+      if (isThrowErr) {
+        console.log(err);
+        throw new Error(err.message);
+      }
+    } finally {
+      this.setState({ checkoutLoading: false });
+    }
   }
   GACheckout(productList) {
     let product = [],
@@ -336,75 +344,7 @@ class LoginCart extends React.Component {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       const { productList } = this.state;
       this.setState({ checkoutLoading: true });
-      await this.updateCartCache();
-
-      // 价格未达到底限，不能下单
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-          />
-        );
-        return false;
-      }
-
-      // 存在下架商品，不能下单
-      if (checkoutStore.offShelvesProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      // 库存不够，不能下单
-      if (checkoutStore.outOfstockProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{
-              val: checkoutStore.outOfstockProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      // 存在被删除商品，不能下单
-      if (checkoutStore.deletedProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo5"
-            values={{
-              val: checkoutStore.deletedProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      // 存在不可销售商品，不能下单
-      if (checkoutStore.notSeableProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo6"
-            values={{
-              val: checkoutStore.notSeableProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
+      await this.updateCartCache({ isThrowErr: true });
 
       this.checkoutStore.setLoginCartData(productList);
       let autoAuditFlag = false;
@@ -440,6 +380,8 @@ class LoginCart extends React.Component {
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
+      console.log(err);
+      window.scrollTo({ behavior: 'smooth', top: 0 });
       this.showErrMsg(err.message);
     } finally {
       this.setState({ checkoutLoading: false, circleLoading: false });
@@ -1361,7 +1303,9 @@ class LoginCart extends React.Component {
       periodTypeId: pitem.periodTypeId,
       goodsInfoFlag: pitem.goodsInfoFlag
     });
-    await this.updateCartCache(this.clearPromotionCode.bind(this));
+    await this.updateCartCache({
+      callback: this.clearPromotionCode.bind(this)
+    });
     this.setState({ checkoutLoading: false });
   }
   // 切换规格/单次订阅购买时，清空promotion code
