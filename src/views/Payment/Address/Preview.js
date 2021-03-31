@@ -55,12 +55,16 @@ export default class AddressPreview extends React.Component {
               <span>{form.province}, </span>
             )}
 
-            <span>
-              {matchNamefromDict(
-                this.state.countryList,
-                form.country || form.countryId
-              )}
-            </span>
+            {process.env.REACT_APP_LANG == 'en' ? null : (
+              <>
+                <span>
+                  {matchNamefromDict(
+                    this.state.countryList,
+                    form.country || form.countryId
+                  )}
+                </span>
+              </>
+            )}
           </p>
         )}
       </div>

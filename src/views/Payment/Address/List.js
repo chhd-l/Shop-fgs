@@ -699,7 +699,7 @@ class AddressList extends React.Component {
             <span>
               {process.env.REACT_APP_LANG == 'en'
                 ? [
-                    matchNamefromDict(this.state.countryList, item.countryId),
+                    // matchNamefromDict(this.state.countryList, item.countryId),
                     item.province,
                     item.city,
                     item.address1

@@ -56,7 +56,7 @@ class AccountProfile extends React.Component {
       addressBookData: {
         address1: '',
         address2: '',
-        country: 'Mexico',
+        country: '',
         city: '',
         seoConfig: {
           title: '',
