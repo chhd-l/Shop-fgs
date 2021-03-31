@@ -595,7 +595,6 @@ class PetForm extends React.Component {
         weightObj = JSON.parse(currentPet.weight);
       }
     } catch (e) {}
-    console.log(weightObj, 'weightObj');
     let param = {
       isEdit: true,
       step: 1,

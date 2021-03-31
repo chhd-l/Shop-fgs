@@ -19,7 +19,7 @@ class MarsFooterMap extends React.Component {
               <li>
                 <a
                   target="_blank"
-                  href={this.props.configStore.privacyPolicyUrl}
+                  href="https://www.mars.com/privacy-policy-mexico"
                   rel="nofollow"
                 >
                   <span className="mars-footer-label">
@@ -43,7 +43,7 @@ class MarsFooterMap extends React.Component {
               <li>
                 <a
                   target="_blank"
-                  href={this.props.configStore.legalTerms}
+                  href="https://www.mars.com/legal-mexico"
                   rel="nofollow"
                 >
                   <span className="mars-footer-label">

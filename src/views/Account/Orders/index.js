@@ -730,10 +730,13 @@ class AccountOrders extends React.Component {
                                         </p>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        <p className="text-nowrap">
+                                        <p className="text-nowrap ui-text-overflow-line1">
                                           <FormattedMessage id="order.orderStatus" />
                                           <br className="d-none d-md-block" />
-                                          <span className="medium orderHeaderTextColor">
+                                          <span
+                                            className="medium orderHeaderTextColor"
+                                            title={order.tradeState.orderStatus}
+                                          >
                                             {order.tradeState.orderStatus}
                                           </span>
                                         </p>
