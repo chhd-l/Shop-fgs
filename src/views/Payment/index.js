@@ -1537,7 +1537,7 @@ class Payment extends React.Component {
       tradeMarketingList: [],
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
-      petsId: '1231',
+      petsId: '',
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId,
       promotionCode,
