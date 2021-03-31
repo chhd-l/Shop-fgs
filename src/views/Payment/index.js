@@ -2240,6 +2240,7 @@ class Payment extends React.Component {
             _this.payUCreditCardRef.current.paymentCompRef &&
             _this.payUCreditCardRef.current.paymentCompRef.current
           ) {
+            // 保存/修改 地址
             await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
           } else {
             // 游客
@@ -2283,12 +2284,6 @@ class Payment extends React.Component {
     };
 
     try {
-      // debugger;
-      // if ('没有校验过地址') {
-      //   // 直接显示校验弹框
-      //   throw new Error();
-      // }
-
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false
 
@@ -2334,6 +2329,7 @@ class Payment extends React.Component {
         }
       }
       this.setPaymentToCompleted();
+      console.log(2327);
     } catch (e) {
       this.showErrorMsg(e.message);
     } finally {
@@ -2425,7 +2421,9 @@ class Payment extends React.Component {
         billingAddress: JSON.parse(JSON.stringify(oldForm))
       });
     }
-
+    console.log('-------------------- 确认选择地址');
+    // 一系列操作
+    // this.confirmPaymentPanel();
     // billing  进入下一步
     this.cvvConfirmNextPanel();
   }
