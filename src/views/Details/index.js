@@ -1298,43 +1298,11 @@ class Details extends React.Component {
 
   //hub加入购物车，埋点
   hubGAAToCar(num, item) {
-    // const { cateId, goodsCateName, goodsName, goodsInfos, brandName, goodsNo } = item;
-    // const cateName = goodsCateName?.split('/') || '';
-    // const SKU = goodsInfos?.[0]?.goodsInfoNo;
-    // const size = goodsInfos?.[0]?.packSize;
-    // let cur_selected_size = item.sizeList.filter((item2) => {
-    //   return item2.selected == true;
-    // });
-    // let { form, calculatedWeeks, quantity } = this.state;
-    // const price = form.buyWay === 0
-    //   ? cur_selected_size[0].marketPrice
-    //   : cur_selected_size[0].subscriptionPrice;
-    // const specie = cateId === '1134' ? 'Cat' : 'Dog';
-    // const subscription = form.buyWay === 1 ? 'Subscription' : '';
-    // const subscriptionFrequency = form.buyWay === 1 ? calculatedWeeks[form.frequencyVal] : '';
-    // const recommendationID = this.props.clinicStore?.linkClinicId || '';
     dataLayer.push({
-      event: 'pdpAddToCart'
-      // products: [
-      //   {
-      //     price,
-      //     specie,
-      //     range: cateName?.[1],
-      //     name: goodsName,
-      //     mainItemCode: goodsNo,
-      //     SKU,
-      //     recommendationID,
-      //     subscription,
-      //     subscriptionFrequency,
-      //     technology: cateName?.[2],
-      //     brand: 'Royal Canin',
-      //     size,
-      //     breed: [],//todo 后端加
-      //     quantity,
-      //     promoCodeName: '',//todo 后端加
-      //     promoCodeAmount: '', // todo 后端加
-      //   }
-      // ],
+      event: 'pdpAddToCart',
+      pdpAddToCartQuantity: this.state.quantity,
+      pdpAddToCartCtA:
+        this.state.form.buyWay === 0 ? 'One-Shot' : 'Subscription'
     });
   }
 
