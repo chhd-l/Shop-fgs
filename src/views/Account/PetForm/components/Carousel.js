@@ -208,7 +208,7 @@ class Carousel extends React.Component {
                                   height: '180px',
                                   backgroundSize: '150px 180px',
                                   backgroundImage: 'url(' + item.goodsImg + ')',
-                                  margin: '10px auto 0'
+                                  margin: '.625rem auto 0'
                                 }}
                               ></div>
                               <div className="goodsName">{item.goodsName}</div>

@@ -86,7 +86,7 @@ class Help extends React.Component {
 
           <div
             className="rc-layout-container rc-two-column"
-            style={{ padding: '20px' }}
+            style={{ padding: '1.25rem' }}
           >
             <div
               className="rc-column"
@@ -112,12 +112,12 @@ class Help extends React.Component {
                 {/* <div>
                   <em className="rc-icon rc-rate-fill--xs rc-brand1"></em><FormattedMessage id="subscriptionLanding.description4"/>
                 </div> */}
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '1.25rem' }}>
                   <Link className="rc-btn rc-btn--one" to="/cats">
                     <FormattedMessage id="subscriptionLanding.catButton" />
                   </Link>
                 </div>
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '1.25rem' }}>
                   <Link className="rc-btn rc-btn--one" to="/dogs">
                     <FormattedMessage id="subscriptionLanding.dogButton" />
                   </Link>
@@ -126,7 +126,11 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={autoship} style={{ width: '100%' }} alt="" />
+                <img
+                  src={autoship}
+                  style={{ width: '100%' }}
+                  alt="autoship-icon"
+                />
               </LazyLoad>
             </div>
           </div>
@@ -139,17 +143,17 @@ class Help extends React.Component {
           </section>
           <div
             className="rc-layout-container rc-four-column"
-            style={{ padding: '20px' }}
+            style={{ padding: '1.25rem' }}
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap"
                   src={icon1}
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -162,12 +166,12 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap"
                   src={icon2}
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -177,12 +181,12 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap"
                   src={icon3}
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -195,12 +199,12 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap"
                   src={icon4}
                   style={{
                     width: '100px',
                     display: 'inline-block',
-                    marginBottom: '20px'
+                    marginBottom: '1.25rem'
                   }}
                 />
               </LazyLoad>
@@ -360,7 +364,11 @@ class Help extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                    <img src={helpImg} alt=" " title=" " />
+                                    <img
+                                      src={helpImg}
+                                      alt="help-icon"
+                                      title=" "
+                                    />
                                   </LazyLoad>
                                 </picture>
                               </div>

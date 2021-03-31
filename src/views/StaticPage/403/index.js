@@ -7,7 +7,7 @@ import LazyLoad from 'react-lazyload';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { Helmet } from 'react-helmet';
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 const event = {
   page: {
     type: 'error',
@@ -15,7 +15,7 @@ const event = {
     path: location.pathname,
     error: '',
     hitTimestamp: new Date(),
-    filters: '',
+    filters: ''
   }
 };
 class Page403 extends React.Component {
@@ -27,29 +27,32 @@ class Page403 extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       }
-    }
+    };
   }
-  componentDidMount(){
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+  componentDidMount() {
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
-  render(){
+  render() {
     return (
       <React.Fragment>
         {/* <Header showMiniIcons={true} location={this.props.location} /> */}
-        <GoogleTagManager additionalEvents={event}/>
+        <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <LazyLoad>
           <img
             src={logo}
-            style={{ width: '150px', margin: '80px auto 20px' }}
-            alt=""
+            style={{ width: '150px', margin: '80px auto 1.25rem' }}
+            alt="logo-icon"
           />
         </LazyLoad>
         <div>
@@ -59,14 +62,14 @@ class Page403 extends React.Component {
                 <img
                   src={image}
                   style={{ width: '300px', margin: '0 auto' }}
-                  alt=""
+                  alt="Internet-problem-500"
                 />
               </LazyLoad>
-  
+
               <div className="rc-bg-colour--brand3">
                 <div className="rc-padding--sm rc-margin-bottom--xs">
                   <div className="rc-padding-y--md rc-md-down"></div>
-  
+
                   <div className="rc-layout-container rc-one-column rc-max-width--md">
                     <div className="rc-column">
                       <div className="rc-full-width rc-text--center rc-padding-x--sm">
@@ -81,7 +84,7 @@ class Page403 extends React.Component {
                       </div>
                     </div>
                   </div>
-  
+
                   <div className="rc-padding-y--md rc-md-down"></div>
                 </div>
               </div>
@@ -96,7 +99,7 @@ class Page403 extends React.Component {
             </div>
           </div>
         </div>
-  
+
         {/* <Footer /> */}
       </React.Fragment>
     );

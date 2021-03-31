@@ -567,7 +567,7 @@ class PaymentEditForm extends React.Component {
       if (res.code == 'K-000000') {
         this.handleCancel();
         // this.props.refreshList(res.message);
-        this.props.refreshList('Save successfullly');
+        this.props.refreshList('Saved Successfully');
       }
     } catch (err) {
       this.showErrorMsg(err.message);
@@ -1041,7 +1041,7 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input rc-input--inline"
                     style={{
-                      marginTop: '10px',
+                      marginTop: '.625rem',
                       float: 'left',
                       textAlign: 'left',
                       maxWidth: '400px'
@@ -1219,7 +1219,7 @@ class PaymentEditForm extends React.Component {
               </div>
             </div>
             {/* 取消 确认 按钮 */}
-            <div className="row" style={{ marginTop: '20px' }}>
+            <div className="row" style={{ marginTop: '1.25rem' }}>
               <div className="col-sm-3">
                 <button
                   className="rc-btn rc-btn--two"

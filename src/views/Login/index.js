@@ -332,17 +332,21 @@ class Login extends React.Component {
               >
                 <div className="rc-column">
                   <div
-                    style={{ fontSize: '20px' }}
+                    style={{ fontSize: '1.25rem' }}
                     className="rc-espilon imgBox"
                   >
                     <LazyLoad>
-                      <img src={bg1} style={{ display: 'inline' }} alt="" />
+                      <img
+                        src={bg1}
+                        style={{ display: 'inline' }}
+                        alt="login-background-image"
+                      />
                     </LazyLoad>
                   </div>
                 </div>
 
                 <div className="rc-column loginForm">
-                  <div style={{ fontSize: '20px' }} className="rc-espilon">
+                  <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                     <h3 style={{ fontSize: '32px' }}>
                       <span style={{ color: '#666' }}>
                         <FormattedMessage id="welcomeTo" />
@@ -466,7 +470,7 @@ class Login extends React.Component {
                         style={{
                           width: '100%',
                           height: '60px',
-                          marginTop: '10px'
+                          marginTop: '.625rem'
                         }}
                       >
                         <div
@@ -483,7 +487,7 @@ class Login extends React.Component {
                           <label
                             className="rc-input__label--inline"
                             htmlFor="id-checkbox-cat"
-                            style={{ color: '#666', fontSize: '14px' }}
+                            style={{ color: '#666', fontSize: '.875rem' }}
                           >
                             <FormattedMessage id="rememberMe" />
                           </label>
@@ -493,7 +497,7 @@ class Login extends React.Component {
                           <a
                             className="rc-styled-link"
                             href="#/"
-                            style={{ color: '#666', fontSize: '14px' }}
+                            style={{ color: '#666', fontSize: '.875rem' }}
                             onClick={(e) => {
                               e.preventDefault();
                               this.setState({ type: 'forgetPassword' });
@@ -502,7 +506,7 @@ class Login extends React.Component {
                           >
                             <FormattedMessage id="forgetPassword" />
                           </a>
-                          {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
+                          {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: ".875rem" }}>
                           <FormattedMessage id="login.forgetPassword" />
                         </Link> */}
                         </p>
@@ -541,7 +545,7 @@ class Login extends React.Component {
                       </div>
                       <a
                         className="rc-styled-link"
-                        style={{ color: '#666', fontSize: '14px' }}
+                        style={{ color: '#666', fontSize: '.875rem' }}
                         onClick={() => {
                           window.location.href =
                             this.props.location.state &&
@@ -626,7 +630,7 @@ class Login extends React.Component {
                         bottom: '-120px',
                         right: '-270px'
                       }}
-                      alt=""
+                      alt="login-background-image"
                     />
                   </LazyLoad>
                   <div className="rc-layout-container rc-two-column">
@@ -751,7 +755,7 @@ class Login extends React.Component {
                           <em className="icon-eye-open fa fa-eye"></em>
                         </span>
                       </div>
-                      <p style={{ marginTop: '-20px' }}>
+                      <p style={{ marginTop: '-1.25rem' }}>
                         {' '}
                         <FormattedMessage id="login.passwordTip" />{' '}
                       </p>
@@ -853,7 +857,7 @@ class Login extends React.Component {
                   <label
                     className="rc-input__label--inline"
                     htmlFor="id-checkbox-cat"
-                    style={{ color: "#666", fontSize: "14px" }}
+                    style={{ color: "#666", fontSize: ".875rem" }}
                   >
                     Remember Me
                   </label>
@@ -950,7 +954,7 @@ class Login extends React.Component {
                         bottom: '-120px',
                         right: '-400px'
                       }}
-                      alt=""
+                      alt="login-background-image"
                     />
                   </LazyLoad>
                   <p>
@@ -1262,7 +1266,7 @@ class Login extends React.Component {
                           </span>
 
                         </div>
-                        <p style={{ marginTop: '-20px' }}>  <FormattedMessage id="login.passwordTip" /> </p>
+                        <p style={{ marginTop: '-1.25rem' }}>  <FormattedMessage id="login.passwordTip" /> </p>
 
                         <div className="input-append input-group miaa_input required">
                           <input
@@ -1428,7 +1432,7 @@ class Login extends React.Component {
 
                         </label>
                       </div>
-                      <div style={{ marginLeft: "20px" }}>
+                      <div style={{ marginLeft: "1.25rem" }}>
                         <FormattedMessage id="requiredFields" />
                       </div>
                     </div>

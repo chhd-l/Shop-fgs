@@ -11,7 +11,7 @@
 .fr-faq .icon {
   position: absolute;
   left: 70px;
-  width: 24px;
+  width: 1.5rem;
   height: 32px;
   background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--iconography--xs.svg?v=8-9-1);
   background-repeat: no-repeat;
@@ -34,7 +34,7 @@
 .faq-title {
   text-align: center;
   padding: 40px 0 40px;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .rc_list_content ul,

@@ -164,10 +164,7 @@ class Landing extends Component {
 
             {/* go to shop按钮 */}
             <div style={{ textAlign: 'center', marginTop: '-31px' }}>
-              <Link
-                to="/home"
-                className="rc-btn rc-btn rc-btn--one"
-              >
+              <Link to="/home" className="rc-btn rc-btn rc-btn--one">
                 Conoce la Tienda
               </Link>
             </div>
@@ -177,8 +174,8 @@ class Landing extends Component {
               style={{
                 textAlign: 'justify',
                 color: '#000',
-                fontSize: '14px',
-                margin: '20px'
+                fontSize: '.875rem',
+                margin: '1.25rem'
               }}
             >
               Te presentamos la innovación de Royal Canin México, eVet. La

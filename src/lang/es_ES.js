@@ -276,11 +276,6 @@ const es_ES = {
   deliveryAddress: 'Dirección de entrega',
   deliveryDate: 'Date de livraison',
   deliveryOneTimeOnly: 'Entrega 1 vez solamente',
-  // 订单状态相关
-  'deliveryStatus.NOT_YET_SHIPPED': 'No enviado',
-  'deliveryStatus.PART_SHIPPED': 'Parcialmente Enviado',
-  'deliveryStatus.SHIPPED': 'Todo enviado',
-  'deliveryStatus.VOID': 'Para ser entregado',
   'details.addToCart': 'Añadir al carrito',
   'details.availability': 'Disponibilidad',
   'details.beneficialFeatures': 'Características beneficiosas',
@@ -555,13 +550,6 @@ const es_ES = {
   'order.paymentStatus': 'Estado de pago',
   'order.paymentTime': 'Tiempo de pago',
   'order.payNow': 'Pagar ahora',
-  'order.progress1': 'Creado',
-  'order.progress2': 'Pagado',
-  'order.progress3': 'Entregado',
-  'order.progress4': 'Terminado',
-  'order.progress5': 'Revisado',
-  'order.progress6': 'Revisión pendiente',
-  'order.progress7': 'Cancelado',
   'order.rateModalTitle': 'Tu opinión es importante',
   'order.refundErrorInfo':
     'Este pedido está asociado con un reembolso en proceso y no se puede volver a aplicar.',
@@ -575,22 +563,13 @@ const es_ES = {
   'order.shippingStatus': 'Estado del envío',
   'order.toBeDeliveredTip':
     'Su pedido se ha pagado correctamente y nos estamos preparando para enviarlo.',
-  'order.toBePaidTip':
+  'orderStatus.INITTip':
     'Su pedido no ha sido pagado, pague lo antes posible. {val}',
   'order.total': 'Total',
   'order.viewLogisticDetail': 'Ver detalle logístico',
   'order.viewOrder': 'Ver pedido',
   orderDetail: 'Detalle de la orden',
   orders: 'Pedidos',
-  'orderStatus.AUDIT': 'Para ser entregado',
-  'orderStatus.COMPLETED': 'Terminado',
-  'orderStatus.CONFIRMED': 'Terminado',
-  'orderStatus.DELIVERED': 'Entregado',
-  'orderStatus.DELIVERED_PART': 'Entregado',
-  'orderStatus.INIT': 'A pagar',
-  'orderStatus.REFUND': 'Cancelado',
-  'orderStatus.REMEDY': 'Para ser entregado',
-  'orderStatus.VOID': 'Cancelado',
   orderSummary: 'Resumen de pedido',
   outOfStockContent_cart:
     'Entre los productos actualmente recomendados, hay productos agotados: {val}.Si continúa agregando el carrito de compras, los productos agotados se eliminarán directamente.',
@@ -671,10 +650,6 @@ const es_ES = {
   //account.paymethods
   'paymethods.info':
     "You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
-  'payStatus.NOT_PAID': 'No pagado',
-  'payStatus.PAID': 'Pagado',
-  'payStatus.PAID_IN': 'Pagado en',
-  'payStatus.REFUND': 'Reembolso',
   personal: 'Personal',
   'pet.addNewPet': 'Agregar una nueva mascota',
   'pet.deletePet': 'Eliminar perfil de mascota',

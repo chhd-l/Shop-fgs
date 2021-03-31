@@ -303,7 +303,7 @@ class Carousel extends React.Component {
                                     backgroundSize: '150px 150px',
                                     backgroundImage:
                                       'url(' + item2.goodsImg + ')',
-                                    margin: '10px auto 0'
+                                    margin: '.625rem auto 0'
                                   }}
                                 ></div>
                                 <div className="goodsName">

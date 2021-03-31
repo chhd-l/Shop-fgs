@@ -211,7 +211,7 @@ class Reviews extends React.Component {
               />
               <LazyLoad height={200}>
                 <img
-                  alt=""
+                  alt="artwork-image"
                   style={{ maxWidth: '100%', maxHeight: '100%' }}
                   src={imgList[showPicIndex].artworkUrl}
                 />
@@ -261,7 +261,7 @@ class Reviews extends React.Component {
                       <label
                         className="rc-select__label"
                         htmlFor="id-single-select"
-                        style={{ fontSize: '16px', top: '-1.6rem' }}
+                        style={{ fontSize: '1rem', top: '-1.6rem' }}
                       >
                         <FormattedMessage id="sortBy" />
                       </label>
@@ -293,7 +293,7 @@ class Reviews extends React.Component {
                           <div
                             className="rc-border-bottom rc-border-colour--interface"
                             key={i}
-                            style={{ paddingBottom: '20px' }}
+                            style={{ paddingBottom: '1.25rem' }}
                           >
                             <div className="rc-column padl0 padr0">
                               <div
@@ -323,7 +323,7 @@ class Reviews extends React.Component {
                               <div>
                                 <span
                                   style={{
-                                    fontSize: '14px',
+                                    fontSize: '.875rem',
                                     marginTop: '.3rem'
                                   }}
                                 >
@@ -340,7 +340,7 @@ class Reviews extends React.Component {
                                         return (
                                           <LazyLoad height={200}>
                                             <img
-                                              alt=""
+                                              alt="artwork-image"
                                               className="rc-img--square rc-img--square-custom mr-1"
                                               src={img.artworkUrl}
                                               key={j}

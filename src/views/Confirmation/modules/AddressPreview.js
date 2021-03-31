@@ -39,7 +39,7 @@ class InfosPreview extends React.Component {
   render() {
     const { payRecord, details } = this.props;
     return (
-      <div style={{ padding: '0 15px' }}>
+      <div style={{ padding: '0 .9375rem' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
           {/* {JSON.stringify(details.consignee)} */}
           {details ? (
@@ -60,10 +60,15 @@ class InfosPreview extends React.Component {
               <div>
                 {details.consignee.postCode}, {details.consignee.phone}
               </div>
-              {matchNamefromDict(
-                this.state.countryList,
-                details.consignee.countryId
-              )}{' '}
+              {process.env.REACT_APP_LANG == 'en' ? null : (
+                <>
+                  {matchNamefromDict(
+                    this.state.countryList,
+                    details.consignee.countryId
+                  )}{' '}
+                </>
+              )}
+
               {/* 支付成功后返回的订单信息 */}
               {details.consignee?.province &&
               details.consignee?.province != null
@@ -151,10 +156,15 @@ class InfosPreview extends React.Component {
               <div>
                 {details.invoice.postCode}, {details.invoice.phone}
               </div>
-              {matchNamefromDict(
-                this.state.countryList,
-                details.invoice.countryId
-              )}{' '}
+              {process.env.REACT_APP_LANG == 'en' ? null : (
+                <>
+                  {matchNamefromDict(
+                    this.state.countryList,
+                    details.invoice.countryId
+                  )}{' '}
+                </>
+              )}
+
               {details.invoice?.province && details.invoice?.province != null
                 ? details.invoice.province + ' '
                 : null}

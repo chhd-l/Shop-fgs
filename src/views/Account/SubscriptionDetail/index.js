@@ -47,11 +47,7 @@ import deliveryIcon from './images/deliveryAddress.png';
 import billingIcon from './images/billingAddress.png';
 import paymentIcon from './images/payment.png';
 import { Link } from 'react-router-dom';
-import {
-  ORDER_STATUS_ENUM,
-  CREDIT_CARD_IMG_ENUM
-  // CREDIT_CARD_IMGURL_ENUM
-} from '@/utils/constant';
+import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import {
   updateDetail,
   getAddressDetail,
@@ -188,7 +184,6 @@ class SubscriptionDetail extends React.Component {
       addressType: '',
       countryList: [],
       frequencyList: [],
-      orderOptions: [],
       modalShow: false,
       currentGoodsInfo: [],
       modalList: [
@@ -1099,7 +1094,7 @@ class SubscriptionDetail extends React.Component {
                     />
                     <img
                       style={{
-                        width: '20px',
+                        width: '1.25rem',
                         position: 'absolute',
                         bottom: 0,
                         right: 0
@@ -1176,11 +1171,6 @@ class SubscriptionDetail extends React.Component {
         // el.periodTypeValue = filterData.valueEn;
         return el;
       });
-      let orderOptions = (subDetail.trades || []).map((el) => {
-        let orderStatus =
-          ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState;
-        return { value: el.id, name: el.id + ' ' + orderStatus };
-      });
       let isGift =
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
@@ -1205,7 +1195,6 @@ class SubscriptionDetail extends React.Component {
           currentCardInfo: subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
-          orderOptions: orderOptions,
           noStartYearOption,
           completedYearOption,
           noStartYear,
@@ -1560,7 +1549,7 @@ class SubscriptionDetail extends React.Component {
                                     <img
                                       style={{
                                         width: '70px',
-                                        margin: '0 10px'
+                                        margin: '0 .625rem'
                                       }}
                                       src={tradeItem.pic}
                                       alt="trade-item"
@@ -1578,7 +1567,7 @@ class SubscriptionDetail extends React.Component {
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
                                         overflowWrap: 'normal',
-                                        fontSize: '14px',
+                                        fontSize: '.875rem',
                                         width: isMobile ? '95px' : 'auto'
                                       }}
                                     >
@@ -1589,7 +1578,7 @@ class SubscriptionDetail extends React.Component {
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
                                         marginBottom: '8px',
-                                        fontSize: '14px'
+                                        fontSize: '.875rem'
                                       }}
                                     >
                                       {tradeItem.specDetails}{' '}
@@ -1607,14 +1596,14 @@ class SubscriptionDetail extends React.Component {
                               <p
                                 style={{
                                   textAlign: 'right',
-                                  paddingRight: '10px',
+                                  paddingRight: '.625rem',
                                   marginBottom: '0'
                                 }}
                               >
                                 <div
                                   className={`${isMobile ? 'col-3' : ''}`}
                                   style={{
-                                    padding: isMobile ? '0 0 0 10px' : '0'
+                                    padding: isMobile ? '0 0 0 .625rem' : '0'
                                   }}
                                 >
                                   {/* <div
@@ -1635,7 +1624,7 @@ class SubscriptionDetail extends React.Component {
                                         <img
                                           style={{
                                             width: '70px',
-                                            margin: '0 10px'
+                                            margin: '0 .625rem'
                                           }}
                                           src={
                                             tradeItem
@@ -1661,7 +1650,7 @@ class SubscriptionDetail extends React.Component {
                                             overflow: 'hidden',
                                             textOverflow: 'ellipsis',
                                             overflowWrap: 'normal',
-                                            fontSize: '14px',
+                                            fontSize: '.875rem',
                                             width: isMobile ? '95px' : 'auto'
                                           }}
                                         >
@@ -1676,7 +1665,7 @@ class SubscriptionDetail extends React.Component {
                                             overflow: 'hidden',
                                             textOverflow: 'ellipsis',
                                             marginBottom: '8px',
-                                            fontSize: '14px'
+                                            fontSize: '.875rem'
                                           }}
                                         >
                                           x 1
@@ -1690,7 +1679,7 @@ class SubscriptionDetail extends React.Component {
                                         <img
                                           style={{
                                             display: 'inline-block',
-                                            width: '20px',
+                                            width: '1.25rem',
                                             marginRight: '5px'
                                           }}
                                           src={skipIcon}
@@ -1742,7 +1731,7 @@ class SubscriptionDetail extends React.Component {
               this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
             }`}
             style={{
-              marginTop: isMobile ? '10px' : '0',
+              marginTop: isMobile ? '.625rem' : '0',
               marginRight: '1rem'
             }}
             onClick={() => this.handleSaveChange(subDetail)}
@@ -1797,7 +1786,7 @@ class SubscriptionDetail extends React.Component {
               <img
                 style={{
                   display: 'inline-block',
-                  width: '20px',
+                  width: '1.25rem',
                   marginRight: '5px'
                 }}
                 src={cancelIcon}
@@ -1821,7 +1810,7 @@ class SubscriptionDetail extends React.Component {
               this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
             }`}
             style={{
-              marginTop: isMobile ? '10px' : '0',
+              marginTop: isMobile ? '.625rem' : '0',
               marginRight: '1rem'
             }}
             onClick={() => this.handleSaveChange(subDetail)}
@@ -1847,7 +1836,7 @@ class SubscriptionDetail extends React.Component {
             <em
               className="iconfont"
               style={{
-                fontSize: '20px',
+                fontSize: '1.25rem',
                 color: 'rgb(242,148,35)',
                 position: 'relative',
                 top: '2px'
@@ -1876,7 +1865,7 @@ class SubscriptionDetail extends React.Component {
               <img
                 style={{
                   display: 'inline-block',
-                  width: '20px',
+                  width: '1.25rem',
                   marginRight: '5px'
                 }}
                 src={cancelIcon}
@@ -1897,7 +1886,7 @@ class SubscriptionDetail extends React.Component {
             className={`rc-btn rc-btn--one ${
               this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
             }`}
-            style={{ marginTop: isMobile ? '10px' : '0' }}
+            style={{ marginTop: isMobile ? '.625rem' : '0' }}
             onClick={() => this.handleSaveChange(subDetail)}
           >
             <FormattedMessage id="saveChange" />
@@ -2370,9 +2359,9 @@ class SubscriptionDetail extends React.Component {
           style={{
             background: '#E0F3D4',
             color: '#47B700',
-            fontSize: '14px',
+            fontSize: '.875rem',
             padding: '0 5px',
-            marginLeft: '10px'
+            marginLeft: '.625rem'
           }}
         >
           <FormattedMessage id="active" />
@@ -2382,9 +2371,9 @@ class SubscriptionDetail extends React.Component {
           style={{
             background: '#FCEBD4',
             color: '#ED8A00',
-            fontSize: '14px',
+            fontSize: '.875rem',
             padding: '0 5px'
-            // marginLeft: '10px'
+            // marginLeft: '.625rem'
           }}
         >
           <FormattedMessage id="inactive" />
@@ -2716,7 +2705,7 @@ class SubscriptionDetail extends React.Component {
                               className="goodsItem rc-card-content"
                               style={{
                                 border: '1px solid #d7d7d7',
-                                padding: '12px'
+                                padding: '.75rem'
                               }}
                             >
                               <div style={{ display: 'flex' }}>
@@ -2739,7 +2728,7 @@ class SubscriptionDetail extends React.Component {
                                 </div>
                                 <div
                                   className="v-center"
-                                  style={{ flex: '1', paddingLeft: '10px' }}
+                                  style={{ flex: '1', paddingLeft: '.625rem' }}
                                 >
                                   <h3
                                     style={{
@@ -2772,7 +2761,7 @@ class SubscriptionDetail extends React.Component {
                                   {this.DailyRation()}
                                 </div>
                               </div>
-                              <div style={{ marginTop: '15px' }}>
+                              <div style={{ marginTop: '.9375rem' }}>
                                 <div>
                                   <span
                                     className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
@@ -2884,7 +2873,7 @@ class SubscriptionDetail extends React.Component {
                                   <span
                                     style={{
                                       display: 'inline-block',
-                                      fontSize: '22px',
+                                      fontSize: '1.375rem',
                                       lineHeight: '40px',
                                       verticalAlign: 'middle'
                                     }}
@@ -2895,7 +2884,7 @@ class SubscriptionDetail extends React.Component {
                                     className="price"
                                     style={{
                                       display: 'inline-block',
-                                      fontSize: '20px',
+                                      fontSize: '1.25rem',
                                       fontWeight: '400',
                                       verticalAlign: 'middle',
                                       marginLeft: '8px',
@@ -2910,14 +2899,14 @@ class SubscriptionDetail extends React.Component {
                                     className="price"
                                     style={{
                                       display: 'inline-block',
-                                      fontSize: '20px',
+                                      fontSize: '1.25rem',
                                       fontWeight: '400',
                                       textDecoration: 'line-through',
                                       verticalAlign: 'middle',
                                       marginLeft: '8px',
-                                      height: '11px',
+                                      height: '.6875rem',
                                       color: '#aaa',
-                                      fontSize: '14px'
+                                      fontSize: '.875rem'
                                     }}
                                   >
                                     {formatMoney(
@@ -2943,10 +2932,10 @@ class SubscriptionDetail extends React.Component {
                                   <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
-                                      fontSize: '20px',
-                                      marginTop: '10px',
+                                      fontSize: '1.25rem',
+                                      marginTop: '.625rem',
                                       display: 'inline-block',
-                                      marginLeft: '10px'
+                                      marginLeft: '.625rem'
                                     }}
                                   >
                                     <Selection
@@ -2978,10 +2967,10 @@ class SubscriptionDetail extends React.Component {
                                   <div
                                     className="rc-card__meta order-Id text-left"
                                     style={{
-                                      marginTop: '10px',
+                                      marginTop: '.625rem',
                                       display: 'inline-block',
-                                      marginLeft: '10px',
-                                      fontSize: '20px'
+                                      marginLeft: '.625rem',
+                                      fontSize: '1.25rem'
                                     }}
                                   >
                                     {getFormatDate(el.createTime.split(' ')[0])}
@@ -2999,7 +2988,7 @@ class SubscriptionDetail extends React.Component {
                                         src={dateIcon}
                                         style={{
                                           display: 'inline-block',
-                                          width: '20px',
+                                          width: '1.25rem',
                                           verticalAlign: 'middle',
                                           marginRight: '8px'
                                         }}
@@ -3011,10 +3000,10 @@ class SubscriptionDetail extends React.Component {
                                   <div
                                     className="rc-card__meta order-Id"
                                     style={{
-                                      marginTop: '10px',
+                                      marginTop: '.625rem',
                                       display: 'inline-block',
-                                      marginLeft: '10px',
-                                      fontSize: '20px'
+                                      marginLeft: '.625rem',
+                                      fontSize: '1.25rem'
                                     }}
                                   >
                                     <DatePicker
@@ -3256,7 +3245,7 @@ class SubscriptionDetail extends React.Component {
                                             <span
                                               style={{
                                                 display: 'inline-block',
-                                                fontSize: '22px',
+                                                fontSize: '1.375rem',
                                                 lineHeight: '40px',
                                                 verticalAlign: 'middle'
                                               }}
@@ -3267,7 +3256,7 @@ class SubscriptionDetail extends React.Component {
                                               className="price"
                                               style={{
                                                 display: 'inline-block',
-                                                fontSize: '20px',
+                                                fontSize: '1.25rem',
                                                 fontWeight: '400',
                                                 verticalAlign: 'middle',
                                                 marginLeft: '8px',
@@ -3283,14 +3272,14 @@ class SubscriptionDetail extends React.Component {
                                               className="price"
                                               style={{
                                                 display: 'inline-block',
-                                                fontSize: '20px',
+                                                fontSize: '1.25rem',
                                                 fontWeight: '400',
                                                 textDecoration: 'line-through',
                                                 verticalAlign: 'middle',
                                                 marginLeft: '8px',
-                                                height: '11px',
+                                                height: '.6875rem',
                                                 color: '#aaa',
-                                                fontSize: '14px'
+                                                fontSize: '.875rem'
                                               }}
                                             >
                                               {formatMoney(
@@ -3323,10 +3312,10 @@ class SubscriptionDetail extends React.Component {
                                     <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
-                                        marginTop: '10px',
+                                        marginTop: '.625rem',
                                         display: 'inline-block',
-                                        marginLeft: '10px',
-                                        fontSize: '20px'
+                                        marginLeft: '.625rem',
+                                        fontSize: '1.25rem'
                                       }}
                                     >
                                       <Selection
@@ -3361,10 +3350,10 @@ class SubscriptionDetail extends React.Component {
                                     <div
                                       className="rc-card__meta order-Id text-left"
                                       style={{
-                                        marginTop: '10px',
+                                        marginTop: '.625rem',
                                         display: 'inline-block',
-                                        marginLeft: '10px',
-                                        fontSize: '20px'
+                                        marginLeft: '.625rem',
+                                        fontSize: '1.25rem'
                                       }}
                                     >
                                       {getFormatDate(
@@ -3385,7 +3374,7 @@ class SubscriptionDetail extends React.Component {
                                           src={dateIcon}
                                           style={{
                                             display: 'inline-block',
-                                            width: '20px',
+                                            width: '1.25rem',
                                             verticalAlign: 'middle',
                                             marginRight: '8px'
                                           }}
@@ -3397,10 +3386,10 @@ class SubscriptionDetail extends React.Component {
                                     <div
                                       className="rc-card__meta order-Id"
                                       style={{
-                                        marginTop: '10px',
+                                        marginTop: '.625rem',
                                         display: 'inline-block',
-                                        marginLeft: '10px',
-                                        fontSize: '20px'
+                                        marginLeft: '.625rem',
+                                        fontSize: '1.25rem'
                                       }}
                                     >
                                       <DatePicker
@@ -3446,7 +3435,7 @@ class SubscriptionDetail extends React.Component {
                           <div
                             style={{
                               border: '1px solid #d7d7d7',
-                              padding: '20px',
+                              padding: '1.25rem',
                               height: '225px'
                             }}
                           >
@@ -3457,7 +3446,7 @@ class SubscriptionDetail extends React.Component {
                                   src={deliveryIcon}
                                   style={{
                                     width: '30px',
-                                    marginRight: '18px',
+                                    marginRight: '1.125rem',
                                     display: 'inline-block'
                                   }}
                                 />
@@ -3487,9 +3476,9 @@ class SubscriptionDetail extends React.Component {
                                 <span
                                   className="medium"
                                   style={{
-                                    fontSize: '18px',
+                                    fontSize: '1.125rem',
                                     color: '#333',
-                                    margin: '25px 0 10px'
+                                    margin: '25px 0 .625rem'
                                   }}
                                 >
                                   {currentDeliveryAddress.consigneeName}
@@ -3499,18 +3488,24 @@ class SubscriptionDetail extends React.Component {
                                 {currentDeliveryAddress.consigneeNumber}
                               </p>
                               <p className="mb-0">
-                                {this.state.countryList.length &&
-                                this.state.countryList.filter(
-                                  (el) =>
-                                    el.id === currentDeliveryAddress.countryId
-                                ).length
-                                  ? this.state.countryList.filter(
+                                {process.env.REACT_APP_LANG == 'en' ? null : (
+                                  <>
+                                    {this.state.countryList.length &&
+                                    this.state.countryList.filter(
                                       (el) =>
                                         el.id ===
                                         currentDeliveryAddress.countryId
-                                    )[0].valueEn
-                                  : currentDeliveryAddress.countryId}
-                                ,{/* 省份 / State */}
+                                    ).length
+                                      ? this.state.countryList.filter(
+                                          (el) =>
+                                            el.id ===
+                                            currentDeliveryAddress.countryId
+                                        )[0].valueEn
+                                      : currentDeliveryAddress.countryId}
+                                    ,
+                                  </>
+                                )}
+                                {/* 省份 / State */}
                                 {currentDeliveryAddress?.province &&
                                 currentDeliveryAddress?.province != null
                                   ? currentDeliveryAddress.province + ', '
@@ -3530,7 +3525,7 @@ class SubscriptionDetail extends React.Component {
                           <div
                             style={{
                               border: '1px solid #d7d7d7',
-                              padding: '20px',
+                              padding: '1.25rem',
                               height: '225px'
                             }}
                           >
@@ -3540,7 +3535,7 @@ class SubscriptionDetail extends React.Component {
                                   src={billingIcon}
                                   style={{
                                     width: '30px',
-                                    marginRight: '18px',
+                                    marginRight: '1.125rem',
                                     display: 'inline-block'
                                   }}
                                 />
@@ -3569,9 +3564,9 @@ class SubscriptionDetail extends React.Component {
                                 <span
                                   className="medium"
                                   style={{
-                                    fontSize: '18px',
+                                    fontSize: '1.125rem',
                                     color: '#333',
-                                    margin: '25px 0 10px'
+                                    margin: '25px 0 .625rem'
                                   }}
                                 >
                                   {currentBillingAddress.consigneeName}
@@ -3581,18 +3576,24 @@ class SubscriptionDetail extends React.Component {
                                 {currentBillingAddress.consigneeNumber}
                               </p>
                               <p className="mb-0">
-                                {this.state.countryList.length &&
-                                this.state.countryList.filter(
-                                  (el) =>
-                                    el.id === currentBillingAddress.countryId
-                                ).length
-                                  ? this.state.countryList.filter(
+                                {process.env.REACT_APP_LANG == 'en' ? null : (
+                                  <>
+                                    {this.state.countryList.length &&
+                                    this.state.countryList.filter(
                                       (el) =>
                                         el.id ===
                                         currentBillingAddress.countryId
-                                    )[0].valueEn
-                                  : currentBillingAddress.countryId}
-                                ,{/* 省份 / State */}
+                                    ).length
+                                      ? this.state.countryList.filter(
+                                          (el) =>
+                                            el.id ===
+                                            currentBillingAddress.countryId
+                                        )[0].valueEn
+                                      : currentBillingAddress.countryId}
+                                    ,
+                                  </>
+                                )}
+                                {/* 省份 / State */}
                                 {currentBillingAddress?.province &&
                                 currentBillingAddress?.province != null
                                   ? currentBillingAddress.province + ', '
@@ -3613,7 +3614,7 @@ class SubscriptionDetail extends React.Component {
                             <div
                               style={{
                                 border: '1px solid #d7d7d7',
-                                padding: '20px',
+                                padding: '1.25rem',
                                 height: '225px'
                               }}
                             >
@@ -3623,7 +3624,7 @@ class SubscriptionDetail extends React.Component {
                                     src={paymentIcon}
                                     style={{
                                       width: '30px',
-                                      marginRight: '18px',
+                                      marginRight: '1.125rem',
                                       display: 'inline-block'
                                     }}
                                   />
@@ -3652,10 +3653,10 @@ class SubscriptionDetail extends React.Component {
                                       <span
                                         className="medium"
                                         style={{
-                                          fontSize: '18px',
+                                          fontSize: '1.125rem',
                                           fontWeight: '400',
                                           color: '#333',
-                                          margin: '25px 0 10px',
+                                          margin: '25px 0 .625rem',
                                           verticalAlign: 'middle'
                                         }}
                                       >
@@ -3819,8 +3820,8 @@ class SubscriptionDetail extends React.Component {
                                               }`}
                                               style={{
                                                 padding: isMobile
-                                                  ? '0 0 0 10px'
-                                                  : '0 15px 0 20px'
+                                                  ? '0 0 0 .625rem'
+                                                  : '0 .9375rem 0 1.25rem'
                                               }}
                                             >
                                               <FormattedMessage id="shipmentOn" />
@@ -3858,7 +3859,7 @@ class SubscriptionDetail extends React.Component {
                                                 textAlign: 'right',
                                                 padding: isMobile
                                                   ? '0'
-                                                  : '0 20px 0 15px'
+                                                  : '0 1.25rem 0 .9375rem'
                                               }}
                                             >
                                               {isActive ? (
@@ -3867,7 +3868,7 @@ class SubscriptionDetail extends React.Component {
                                                     <img
                                                       src={dateIcon}
                                                       style={{
-                                                        width: '20px',
+                                                        width: '1.25rem',
                                                         display: 'inline'
                                                       }}
                                                     />
@@ -3936,7 +3937,7 @@ class SubscriptionDetail extends React.Component {
                                               }`}
                                               style={{
                                                 padding: isMobile
-                                                  ? '0 0 0 10px'
+                                                  ? '0 0 0 .625rem'
                                                   : '0'
                                               }}
                                             >
@@ -3946,7 +3947,7 @@ class SubscriptionDetail extends React.Component {
                                                     <img
                                                       style={{
                                                         display: 'inline-block',
-                                                        width: '20px',
+                                                        width: '1.25rem',
                                                         marginRight: '5px'
                                                       }}
                                                       src={skipIcon}
@@ -4019,7 +4020,7 @@ class SubscriptionDetail extends React.Component {
                                                         <img
                                                           style={{
                                                             width: '70px',
-                                                            margin: '0 10px'
+                                                            margin: '0 .625rem'
                                                           }}
                                                           src={tradeItem.pic}
                                                           alt="trade-item"
@@ -4039,7 +4040,7 @@ class SubscriptionDetail extends React.Component {
                                                               'ellipsis',
                                                             overflowWrap:
                                                               'normal',
-                                                            fontSize: '14px',
+                                                            fontSize: '.875rem',
                                                             width: isMobile
                                                               ? '95px'
                                                               : 'auto'
@@ -4053,7 +4054,7 @@ class SubscriptionDetail extends React.Component {
                                                             textOverflow:
                                                               'ellipsis',
                                                             marginBottom: '8px',
-                                                            fontSize: '14px'
+                                                            fontSize: '.875rem'
                                                           }}
                                                         >
                                                           {
@@ -4090,18 +4091,18 @@ class SubscriptionDetail extends React.Component {
                                                   <p
                                                     style={{
                                                       textAlign: 'right',
-                                                      paddingRight: '10px',
+                                                      paddingRight: '.625rem',
                                                       marginBottom: '0'
                                                     }}
                                                   >
                                                     <span className="red">
                                                       {formatMoney(
-                                                        tradeItem.subscriptionPrice
+                                                        tradeItem.price
                                                       )}
                                                     </span>
                                                     <span
                                                       style={{
-                                                        fontSize: '12px',
+                                                        fontSize: '.75rem',
                                                         textDecoration:
                                                           'line-through',
                                                         marginLeft: '5px'
@@ -4127,8 +4128,8 @@ class SubscriptionDetail extends React.Component {
                                             <div
                                               className="footer"
                                               style={{
-                                                marginTop: '10px',
-                                                marginBottom: '10px',
+                                                marginTop: '.625rem',
+                                                marginBottom: '.625rem',
                                                 padding: '0 40px',
                                                 display: 'none'
                                                 // display:
@@ -4177,7 +4178,7 @@ class SubscriptionDetail extends React.Component {
                                                   this.state.isClickApply &&
                                                     'ui-btn-loading ui-btn-loading-border-red'
                                                 ].join(' ')}
-                                                style={{ marginTop: '10px' }}
+                                                style={{ marginTop: '.625rem' }}
                                                 onClick={async () => {
                                                   let result = {};
                                                   if (
@@ -4312,8 +4313,8 @@ class SubscriptionDetail extends React.Component {
                                                       <span
                                                         style={{
                                                           position: 'absolute',
-                                                          right: '-18px',
-                                                          fontSize: '22px',
+                                                          right: '-1.125rem',
+                                                          fontSize: '1.375rem',
                                                           bottom: '5px',
                                                           cursor: 'pointer'
                                                         }}
@@ -4367,14 +4368,16 @@ class SubscriptionDetail extends React.Component {
                                                 <label className="col-5 text-left">
                                                   <strong
                                                     style={{
-                                                      fontSize: '20px',
+                                                      fontSize: '1.25rem',
                                                       color: '#333'
                                                     }}
                                                   >
                                                     <FormattedMessage id="order.total" />
                                                   </strong>{' '}
                                                   <span
-                                                    style={{ fontSize: '12px' }}
+                                                    style={{
+                                                      fontSize: '.75rem'
+                                                    }}
                                                   >
                                                     <FormattedMessage
                                                       id="order.iVAIncluido"
@@ -4419,7 +4422,7 @@ class SubscriptionDetail extends React.Component {
                                             className={`${
                                               isMobile ? 'col-5' : 'col-md-3'
                                             }`}
-                                            style={{ paddingLeft: '20px' }}
+                                            style={{ paddingLeft: '1.25rem' }}
                                           >
                                             <FormattedMessage id="shipmentOn" />
                                             :{' '}
@@ -4471,7 +4474,9 @@ class SubscriptionDetail extends React.Component {
                                           <div
                                             className="col-7 col-md-3"
                                             style={{
-                                              padding: isMobile ? '0' : '0 15px'
+                                              padding: isMobile
+                                                ? '0'
+                                                : '0 .9375rem'
                                             }}
                                           >
                                             {isMobile ? (
@@ -4481,31 +4486,21 @@ class SubscriptionDetail extends React.Component {
                                                 >
                                                   {el.id ? (
                                                     <>
-                                                      <em className="greenCircle"></em>
+                                                      <em className="greenCircle" />
                                                       <span>
-                                                        {ORDER_STATUS_ENUM[
+                                                        {
                                                           el.tradeState
-                                                            .flowState
-                                                        ] ||
-                                                          el.tradeState
-                                                            .flowState}
+                                                            .orderStatus
+                                                        }
                                                       </span>
-                                                      <span
+                                                      <Link
                                                         className="rc-icon rc-right rc-iconography"
-                                                        onClick={(e) => {
-                                                          e.preventDefault();
-                                                          const {
-                                                            history
-                                                          } = this.props;
-                                                          history.push(
-                                                            `/account/orders/detail/${el.id}`
-                                                          );
-                                                        }}
-                                                      ></span>
+                                                        to={`/account/orders/detail/${el.id}`}
+                                                      />
                                                     </>
                                                   ) : (
                                                     <>
-                                                      <em className="yellowCircle"></em>
+                                                      <em className="yellowCircle" />
                                                       <span
                                                         style={{
                                                           paddingRight: '30px'
@@ -4523,28 +4518,18 @@ class SubscriptionDetail extends React.Component {
                                                   <img
                                                     style={{
                                                       display: 'inline-block',
-                                                      width: '20px',
+                                                      width: '1.25rem',
                                                       marginRight: '5px'
                                                     }}
                                                     src={dateIcon}
                                                   />
                                                 </LazyLoad>
-                                                <a
+                                                <Link
                                                   className="rc-styled-link"
-                                                  href="#/"
-                                                  onClick={(e) => {
-                                                    e.preventDefault();
-                                                    const {
-                                                      history
-                                                    } = this.props;
-                                                    history.push(
-                                                      `/account/orders/detail/${el.id}`
-                                                    );
-                                                  }}
+                                                  to={`/account/orders/detail/${el.id}`}
                                                 >
                                                   <FormattedMessage id="orderDetail" />
-                                                  {/* Order detail */}
-                                                </a>
+                                                </Link>
                                               </>
                                             ) : null}
                                           </div>
@@ -4571,7 +4556,8 @@ class SubscriptionDetail extends React.Component {
                                                           <img
                                                             style={{
                                                               width: '70px',
-                                                              margin: '0 10px',
+                                                              margin:
+                                                                '0 .625rem',
                                                               display: 'inline'
                                                             }}
                                                             src={tradeItem.pic}
@@ -4596,7 +4582,8 @@ class SubscriptionDetail extends React.Component {
                                                                 'ellipsis',
                                                               overflowWrap:
                                                                 'normal',
-                                                              fontSize: '14px',
+                                                              fontSize:
+                                                                '.875rem',
                                                               whiteSpace:
                                                                 'nowrap'
                                                             }}
@@ -4611,7 +4598,8 @@ class SubscriptionDetail extends React.Component {
                                                                 'ellipsis',
                                                               marginBottom:
                                                                 '8px',
-                                                              fontSize: '14px'
+                                                              fontSize:
+                                                                '.875rem'
                                                             }}
                                                           >
                                                             {
@@ -4647,7 +4635,7 @@ class SubscriptionDetail extends React.Component {
                                                                 style={{
                                                                   width: '70px',
                                                                   margin:
-                                                                    '0 10px'
+                                                                    '0 .625rem'
                                                                 }}
                                                                 src={
                                                                   tradeItem.pic
@@ -4673,7 +4661,7 @@ class SubscriptionDetail extends React.Component {
                                                                   overflowWrap:
                                                                     'normal',
                                                                   fontSize:
-                                                                    '14px',
+                                                                    '.875rem',
                                                                   whiteSpace:
                                                                     'nowrap'
                                                                 }}
@@ -4691,7 +4679,7 @@ class SubscriptionDetail extends React.Component {
                                                                   marginBottom:
                                                                     '8px',
                                                                   fontSize:
-                                                                    '14px'
+                                                                    '.875rem'
                                                                 }}
                                                               >
                                                                 {
@@ -4731,17 +4719,14 @@ class SubscriptionDetail extends React.Component {
                                             >
                                               {el.id ? (
                                                 <>
-                                                  <em className="greenCircle"></em>
+                                                  <em className="greenCircle" />
                                                   <span>
-                                                    {ORDER_STATUS_ENUM[
-                                                      el.tradeState.flowState
-                                                    ] ||
-                                                      el.tradeState.flowState}
+                                                    {el.tradeState.orderStatus}
                                                   </span>
                                                 </>
                                               ) : (
                                                 <>
-                                                  <em className="yellowCircle"></em>
+                                                  <em className="yellowCircle" />
                                                   <span>
                                                     <FormattedMessage id="skiped" />
                                                   </span>
@@ -4820,7 +4805,7 @@ class SubscriptionDetail extends React.Component {
               </h4>
               <p className="text-center">Please choose your options</p>
               <div
-                style={{ padding: '15px' }}
+                style={{ padding: '.9375rem' }}
                 className="rc-outline-light rc-padding-y--sm"
               >
                 {/* <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm"> */}

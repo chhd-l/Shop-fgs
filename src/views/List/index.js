@@ -105,7 +105,7 @@ function ListItemH5ForGlobalStyle(props) {
                 >
                   <button
                     className="rc-btn rc-btn--two margin-top-mobile-20"
-                    style={{ marginTop: '19px' }}
+                    style={{ marginTop: '1.1875rem' }}
                   >
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
                   </button>
@@ -176,9 +176,9 @@ function ListItemH5ForGlobalStyle(props) {
                 <picture
                   className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
                   style={{
-                    marginLeft: '-10px',
+                    marginLeft: '-.625rem',
                     paddingLeft: '5px',
-                    paddingRight: '15px',
+                    paddingRight: '.9375rem',
                     fontSize: '0'
                   }}
                 >
@@ -265,7 +265,7 @@ function ListItemForDefault(props) {
                   >
                     <button
                       className="rc-btn rc-btn--two "
-                      style={{ marginTop: '19px' }}
+                      style={{ marginTop: '1.1875rem' }}
                     >
                       <FormattedMessage id="plp.retail.cat.product.finder.button" />
                     </button>
@@ -564,7 +564,7 @@ function ListItemBody({ item, headingTag }) {
           {item.goodsNewSubtitle ? (
             <div
               className="rc-card__meta text-center ui-text-overflow-line2 col-12 p-0"
-              style={{ marginBottom: '10px' }}
+              style={{ marginBottom: '.625rem' }}
             >
               {item.goodsNewSubtitle}
             </div>
@@ -1164,7 +1164,6 @@ class List extends React.Component {
           const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
           )[0];
-
           if (tItem) {
             let attributeValues = [];
             let attributeValueIdList = [];
@@ -1172,7 +1171,7 @@ class List extends React.Component {
               const tFvItemList = tItem.attributesValueList.filter(
                 (t) => t.attributeDetailNameEnSplitByLine === fvItem
               );
-              const tFvItemForFirst = tFvItemList[0];
+              const tFvItemForFirst = tFvItemList;
               let tFvItem = tFvItemForFirst;
               if (tFvItemList.length > 1) {
                 tFvItem =
@@ -1182,12 +1181,12 @@ class List extends React.Component {
                       t.attributeDetailName
                         .toLocaleLowerCase()
                         .includes(`${isDogPage ? 'dog' : 'cat'}`)
-                  )[0] || tFvItemForFirst;
+                  ) || tFvItemForFirst;
               }
 
-              if (tFvItem) {
-                attributeValues.push(tFvItem.attributeDetailName);
-                attributeValueIdList.push(tFvItem.id);
+              if (tFvItem.length > 0) {
+                attributeValues.push(tFvItem.map((t) => t.attributeDetailName));
+                attributeValueIdList.push(tFvItem.map((t) => t.id));
               }
               return fvItem;
             });

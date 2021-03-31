@@ -67,10 +67,10 @@ export default class OnlineStoreSalesCategory extends Component {
           <div className="rc-layout-container rc-two-column">
             <div className="rc-column">
               <div className="header-title">
-                <div style={{ fontSize: '20px' }} className="rc-espilon">
+                <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="onlineStore.salesCategory.cat" />
                 </div>
-                <img src={catsImg} alt="" />
+                <img src={catsImg} alt="cat-icon" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -112,10 +112,10 @@ export default class OnlineStoreSalesCategory extends Component {
             </div>
             <div className="rc-column">
               <div className="header-title">
-                <div style={{ fontSize: '20px' }} className="rc-espilon">
+                <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="onlineStore.salesCategory.dog" />
                 </div>
-                <img src={dogsImg} alt="" />
+                <img src={dogsImg} alt="dog-icon" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (

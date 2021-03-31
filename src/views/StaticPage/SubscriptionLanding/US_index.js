@@ -198,7 +198,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon1}
-                            alt=""
+                            alt="Bitmap"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -212,7 +212,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon2}
-                            alt=""
+                            alt="Bitmap"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -225,7 +225,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon3}
-                            alt=""
+                            alt="Bitmap"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -241,7 +241,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon4}
-                            alt=""
+                            alt="Bitmap"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -269,7 +269,7 @@ class SubscriptionLanding extends React.Component {
                         <div className="col-12 col-md-4 order-1 order-md-0">
                           <div className="rc-column rc-padding--none">
                             <img
-                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/cat.webp`}
+                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/cat.jpg`}
                               alt="Cat image"
                             />
                           </div>
@@ -310,7 +310,7 @@ class SubscriptionLanding extends React.Component {
                         <div className="col-12 col-md-4 order-2 order-md-2">
                           <div className="rc-column rc-padding--none">
                             <img
-                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/dog.webp`}
+                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/dog.jpg`}
                               alt="Dog image"
                             />
                           </div>

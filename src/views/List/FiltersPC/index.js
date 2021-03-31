@@ -279,7 +279,7 @@ class Filter extends React.Component {
     return (
       <div className="rc-filters__form" name="example-filter">
         {initing ? (
-          <div style={{ marginTop: '10px' }}>
+          <div style={{ marginTop: '.625rem' }}>
             <Skeleton color="#f5f5f5" width="100%" height="100%" count={7} />
           </div>
         ) : (

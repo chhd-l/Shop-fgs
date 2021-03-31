@@ -312,11 +312,6 @@ const ru_RU = {
   delivery: 'Доставка',
   delivery2: 'Доставка',
   deliveryAddress: 'Адрес доставки',
-  // 订单状态相关:
-  'deliveryStatus.NOT_YET_SHIPPED': 'Не отправлено',
-  'deliveryStatus.PART_SHIPPED': 'Частично отправлено',
-  'deliveryStatus.SHIPPED': 'Все отгружено',
-  'deliveryStatus.VOID': 'Быть доставленным',
   'detail.answer':
     'Наши консультанты - настоящие эксперты и увлеченные. Они в вашем распоряжении, чтобы ответить на любой запрос.',
   'detail.email': 'По электронной почте',
@@ -594,13 +589,6 @@ const ru_RU = {
   'order.paymentStatus': 'Статус платежа',
   'order.paymentTime': 'Срок оплаты',
   'order.payNow': 'Заплатить сейчас',
-  'order.progress1': 'Создан',
-  'order.progress2': 'Оплачен',
-  'order.progress3': 'Доставлен',
-  'order.progress4': 'Завершен',
-  'order.progress5': 'Проверено',
-  'order.progress6': 'Ожидает оценки',
-  'order.progress7': 'Отменено',
   'order.rateModalTitle': 'Ваше мнение важно',
   'order.refundErrorInfo':
     'Этот заказ связан с возмещением в процессе обработки и не может быть подан повторно',
@@ -614,19 +602,10 @@ const ru_RU = {
   'order.shippingStatus': 'Статус отправки',
   'order.toBeDeliveredTip':
     'Ваш заказ успешно оплачен, и мы готовим его к отправке.',
-  'order.toBePaidTip':
+  'orderStatus.INITTip':
     'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
   'order.viewOrder': 'Посмотреть заказ',
   orders: 'Заказы',
-  'orderStatus.AUDIT': 'Быть доставленным',
-  'orderStatus.COMPLETED': 'Завершено',
-  'orderStatus.CONFIRMED': 'Завершено',
-  'orderStatus.DELIVERED': 'Доставлен',
-  'orderStatus.DELIVERED_PART': 'Доставлен',
-  'orderStatus.INIT': 'Быть оплаченным',
-  'orderStatus.REFUND': 'Отменено',
-  'orderStatus.REMEDY': 'Быть доставленным',
-  'orderStatus.VOID': 'Отменено',
   orderSummary: 'Итого',
   outOfStockContent_cart:
     'Среди рекомендуемых в настоящее время товаров есть товары, которых нет в наличии.',
@@ -711,10 +690,6 @@ const ru_RU = {
   //account.paymethods:
   'paymethods.info':
     'У вас нет сохраненных способов оплаты. Добавьте сюда свою платежную информацию, чтобы ускорить оформление заказа. Это просто, конфиденциально и безопасно!',
-  'payStatus.NOT_PAID': 'Неоплаченный',
-  'payStatus.PAID': 'Платно',
-  'payStatus.PAID_IN': 'Оплачено',
-  'payStatus.REFUND': 'Возврат денег',
   personal: 'Личный',
   petFemale: 'Женский',
   petInfo: 'Информация о питомце',

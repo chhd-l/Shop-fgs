@@ -159,7 +159,7 @@ class Step1H5 extends Component {
                     src={item.goodsInfoImg || IMG_DEFAULT}
                     className="m-auto"
                     style={{ maxHeight: '12rem' }}
-                    alt=""
+                    alt="goods-information-image"
                   />
                   <div className="title">{item.goodsInfoName}</div>
                   <div className="des">{item.goodsCateName}</div>
@@ -228,7 +228,7 @@ const Step2 = (props) => {
         <div className="rc-layout-container rc-five-column">
           <div className="rc-column  rc-header__center d-flex">
             <LazyLoad>
-              <img src={foodPic2} alt="" />
+              <img src={foodPic2} alt="food-image" />
             </LazyLoad>
           </div>
           <div className="rc-column rc-double-width">
@@ -390,12 +390,12 @@ const Step3 = (props) => {
           <div className="pad_2rem_pc">
             <div className="for_h5_img">
               <div style={{ flex: 1 }}>
-                <img src={foodPic2} alt="" />
+                <img src={foodPic2} alt="food-image" />
               </div>
               <div className=" width12">
                 <h6
                   className="rc-hero__section--text product_name"
-                  style={{ fontSize: '18px' }}
+                  style={{ fontSize: '1.125rem' }}
                 >
                   {detailInfo.planProds?.[0].goodsInfoName}
                 </h6>
@@ -954,7 +954,7 @@ class SmartFeederSubscription extends Component {
                             <div className="list_title">${
                               Object.keys(JSON.parse(el))[0]
                             }</div>
-                            <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                            <div className="list_item" style="padding-top: .9375rem; margin-bottom: 1.25rem;">${
                               Object.values(JSON.parse(el))[0]['Description']
                             }</div>
                           </li>`;
@@ -970,10 +970,10 @@ class SmartFeederSubscription extends Component {
                             tempContent =
                               tempContent +
                               `<p>
-                            
+
                             <div className="content">${
                               Object.values(JSON.parse(el))[0]
-                            }</div> 
+                            }</div>
                           </p>`;
                           });
                         } else {
@@ -1110,7 +1110,7 @@ class SmartFeederSubscription extends Component {
                             <div className="list_title">${
                               Object.keys(JSON.parse(el))[0]
                             }</div>
-                            <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                            <div className="list_item" style="padding-top: .9375rem; margin-bottom: 1.25rem;">${
                               Object.values(JSON.parse(el))[0]['Description']
                             }</div>
                           </li>`;
@@ -1124,10 +1124,10 @@ class SmartFeederSubscription extends Component {
                               tempContent =
                                 tempContent +
                                 `<p>
-                              
+
                               <div className="content">${
                                 Object.values(JSON.parse(el))[0]
-                              }</div> 
+                              }</div>
                             </p>`;
                             });
                           } else {
@@ -1146,7 +1146,7 @@ class SmartFeederSubscription extends Component {
                               <div className="title">
                                 ${Object.keys(contentObj)[0]}
                               </div>
-                              <div className="content">${contentValue}</div> 
+                              <div className="content">${contentValue}</div>
                             `;
                             });
                           }

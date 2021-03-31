@@ -2016,7 +2016,7 @@ class Details extends React.Component {
                                   {De && selectedSpecItem ? (
                                     <div
                                       style={{
-                                        fontSize: '14px',
+                                        fontSize: '.875rem',
                                         color: '#999'
                                       }}
                                     >
@@ -2164,7 +2164,7 @@ class Details extends React.Component {
                                     {De && selectedSpecItem ? (
                                       <div
                                         style={{
-                                          fontSize: '14px',
+                                          fontSize: '.875rem',
                                           color: '#999'
                                         }}
                                       >
@@ -2298,7 +2298,7 @@ class Details extends React.Component {
                                     {De && selectedSpecItem ? (
                                       <div
                                         style={{
-                                          fontSize: '14px',
+                                          fontSize: '.875rem',
                                           color: '#999'
                                         }}
                                       >
@@ -2320,7 +2320,7 @@ class Details extends React.Component {
                             <div className="rc-md-up">
                               <div
                                 className="mb-2 mr-2 text-right"
-                                style={{ fontSize: '14px' }}
+                                style={{ fontSize: '.875rem' }}
                               >
                                 <FormattedMessage
                                   id="pricesIncludeVAT"
@@ -2415,7 +2415,7 @@ class Details extends React.Component {
                   ) : null}
                   <div className="good-contact-dec">
                     <div
-                      style={{ fontSize: '20px' }}
+                      style={{ fontSize: '1.25rem' }}
                       className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
                     >
                       <FormattedMessage id="detail.question" />
@@ -2497,10 +2497,15 @@ class Details extends React.Component {
               <>
                 <div className="more-link rc-content--fixed-header ">
                   <LazyLoad height={200}>
-                    <img src={loop} srcSet={loop} alt="" />
+                    <img src={loop} srcSet={loop} alt="loop-icon" />
                   </LazyLoad>
                   <LazyLoad height={200}>
-                    <img src={vert} srcSet={vert} className="vert" alt="" />
+                    <img
+                      src={vert}
+                      srcSet={vert}
+                      className="vert"
+                      alt="vert-icon"
+                    />
                   </LazyLoad>
                   <p>
                     <FormattedMessage id="detail.packagingDesc" />

@@ -346,7 +346,10 @@ class Recommendation extends React.Component {
             }
           });
           if (!el.goodsInfo.goodsInfoImg) {
-            el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
+            el.goodsInfo.goodsInfoImg = el.goodsInfo?.goods?.goodsImg;
+          }
+          if (!el.goodsInfo.goods) {
+            el.goodsInfo.goods = {};
           }
           el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
             g = Object.assign({}, g, { selected: false });
@@ -716,7 +719,6 @@ class Recommendation extends React.Component {
   };
   render(h) {
     const { loginStore, history, configStore } = this.props;
-    console.info('this.helpContentText', this.helpContentText);
     let PuppyJPG = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.plusImg']}`;
     let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
@@ -727,7 +729,7 @@ class Recommendation extends React.Component {
     };
     const createMarkup = (text) => ({ __html: text });
     // const { details, images } = this.state
-    console.log('props', this.props);
+    console.log('productList', this.state.productList);
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let {
@@ -834,7 +836,7 @@ class Recommendation extends React.Component {
             }`}
             style={{
               width: '50%',
-              margin: '20px auto 0'
+              margin: '1.25rem auto 0'
             }}
           >
             <aside
@@ -856,7 +858,7 @@ class Recommendation extends React.Component {
                   </h1>
                 </div>
                 <div className="rc-beta inherit-fontsize">
-                  <p style={{ marginBottom: '16px' }}>
+                  <p style={{ marginBottom: '1rem' }}>
                     <FormattedMessage id="recommendation.welcomeText2" />
                     {/* Merci pour votre visite en magasin, voici notre recommandation. */}
                   </p>
@@ -865,7 +867,9 @@ class Recommendation extends React.Component {
               <FormattedMessage id="recommendation.firstTitle" />
             </h2> */}
                 <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                  <span style={{ fontSize: '18px', color: 'rgb(61, 61, 60)' }}>
+                  <span
+                    style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
+                  >
                     <FormattedMessage id="recommendation.welcomeSubText" />
                     {/* La recommandation a été faite en fonction des besoins uniques de
                 votre animal. */}
@@ -895,7 +899,7 @@ class Recommendation extends React.Component {
               className="recommendProduct re-custom rc-max-width--md"
               style={{ paddingRight: 0, paddingLeft: 0 }}
             >
-              <div style={{ boxShadow: '0 8px 15px rgb(0 0 0 / 10%)' }}>
+              <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
                 {this.state.loading ? (
                   <div>
                     <div
@@ -946,15 +950,15 @@ class Recommendation extends React.Component {
                                   style={{
                                     width: '40px',
                                     display: 'inline-block',
-                                    margin: '10px 0'
+                                    margin: '.625rem 0'
                                   }}
-                                  alt=""
+                                  alt="goods-information-image"
                                 />
                                 {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
                                 <p
                                   style={{
                                     textAlign: 'center',
-                                    fontSize: '12px',
+                                    fontSize: '.75rem',
                                     marginBottom: '5px',
                                     width: '100%',
                                     overflow: 'hidden',
@@ -1040,7 +1044,7 @@ class Recommendation extends React.Component {
                             )}
                             {isRu && promotionCode ? (
                               <>
-                                <div style={{ marginBottom: '12px' }}>
+                                <div style={{ marginBottom: '.75rem' }}>
                                   <span className="promotion-code-title">
                                     {/* Promo code : */}
                                     Промо Код:
@@ -1093,7 +1097,7 @@ class Recommendation extends React.Component {
                             <img
                               className="type-icon"
                               src={PetsImg}
-                              alt=""
+                              alt="pet-image"
                               // src={petsiconArr[this.state.petType]}
                             />
                             <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
@@ -1114,8 +1118,8 @@ class Recommendation extends React.Component {
                                 <h5
                                   className="red"
                                   style={{
-                                    margin: '30px 0 20px',
-                                    fontSize: isMobile ? '18px' : 'auto'
+                                    margin: '30px 0 1.25rem',
+                                    fontSize: isMobile ? '1.125rem' : 'auto'
                                   }}
                                 >
                                   <FormattedMessage id="recommendation.benefit" />
@@ -1127,7 +1131,7 @@ class Recommendation extends React.Component {
                                   )}
                                 ></p>
                                 <p
-                                  style={{ fontSize: '16px' }}
+                                  style={{ fontSize: '1rem' }}
                                   dangerouslySetInnerHTML={createMarkup(
                                     productList[activeIndex].benefitMobile
                                   )}
@@ -1172,7 +1176,11 @@ class Recommendation extends React.Component {
                   <div className="rc-column">
                     <div className="img-hover-switch rc-margin-bottom--sm">
                       <LazyLoad>
-                        <img className="m-center" src={item.img} alt="" />
+                        <img
+                          className="m-center"
+                          src={item.img}
+                          alt="recommendation-image"
+                        />
                       </LazyLoad>
                     </div>
                     <p>
@@ -1210,7 +1218,7 @@ class Recommendation extends React.Component {
               </div>
               <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                 <LazyLoad>
-                  <img src={PuppyJPG} alt="" />
+                  <img src={PuppyJPG} alt="puppy-image" />
                 </LazyLoad>
               </div>
             </div>
@@ -1235,7 +1243,7 @@ class Recommendation extends React.Component {
                         <img
                           className="mx-auto rc-margin-bottom--xs"
                           src={item.img}
-                          alt=""
+                          alt="recommendation-image"
                         />
                       </lazyload>
                       <div
@@ -1266,7 +1274,7 @@ class Recommendation extends React.Component {
                 <h2 style={{ color: '#E2001A' }}>
                   <FormattedMessage id="recommendation.fourTitle" />
                 </h2>
-                <p style={{ fontSize: '18px' }}>
+                <p style={{ fontSize: '1.125rem' }}>
                   We focus our attention on the unique needs of cats and dogs.
                   That obsession with detail is what makes it possible for us to
                   deliver precise, effective nutrition and help pets become
@@ -1305,17 +1313,26 @@ class Recommendation extends React.Component {
                 <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
                   <div className="rc-column">
                     <LazyLoad>
-                      <img src={cur_recommendation2} alt="" />
+                      <img
+                        src={cur_recommendation2}
+                        alt="recommendation-image"
+                      />
                     </LazyLoad>
                   </div>
                   <div className="rc-column">
                     <LazyLoad>
-                      <img src={cur_recommendation3} alt="" />
+                      <img
+                        src={cur_recommendation3}
+                        alt="recommendation-image"
+                      />
                     </LazyLoad>
                   </div>
                   <div className="rc-column">
                     <LazyLoad>
-                      <img src={cur_recommendation4} alt="" />
+                      <img
+                        src={cur_recommendation4}
+                        alt="recommendation-image"
+                      />
                     </LazyLoad>
                   </div>
                 </div>

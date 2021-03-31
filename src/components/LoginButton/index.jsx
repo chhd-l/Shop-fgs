@@ -133,17 +133,14 @@ const LoginButton = (props) => {
 
   const login = async () => {
     try {
-      //debugger
       sessionItemRoyal.remove('rc-token-lose');
       sessionItemRoyal.set(
         'okta-redirectUrl',
         props.history && props.history.location.pathname
       );
-      debugger
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
-      //debugger
       console.log(err);
     }
   };

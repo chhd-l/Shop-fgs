@@ -250,11 +250,6 @@ const tr_TR = {
   delivery: 'teslimat',
   delivery2: 'Gönderi adresim',
   deliveryAddress: 'Teslimat adresi',
-  // 订单状态相关:
-  'deliveryStatus.NOT_YET_SHIPPED': 'Gönderilmedi',
-  'deliveryStatus.PART_SHIPPED': 'Kısmen gönderildi',
-  'deliveryStatus.SHIPPED': 'Hepsi gönderildi',
-  'deliveryStatus.VOID': 'Teslim edilecek',
   'detail.answer':
     'Danışmanlarımız gerçek uzmanlar ve tutkulu. Herhangi bir talebi cevaplamak için emrinizdedirler.',
   'detail.email': 'Eposta ile',
@@ -525,13 +520,6 @@ const tr_TR = {
   'order.paymentStatus': 'Ödeme Durumu',
   'order.paymentTime': 'Ödeme süresi',
   'order.payNow': 'Şimdi öde',
-  'order.progress1': 'Siparişiniz oluşturuldu',
-  'order.progress2': 'Ödeme yapıldı',
-  'order.progress3': 'Teslim edildi',
-  'order.progress4': 'Tamamlandı',
-  'order.progress5': 'İncelendi',
-  'order.progress6': 'Bekleyen yorum',
-  'order.progress7': 'İptal edildi',
   'order.rateModalTitle': 'Fikriniz önemlidir',
   'order.refundErrorInfo':
     'Bu sipariş, işlenmekte olan bir geri ödeme ile ilişkilendirilmiştir ve yeniden uygulanamaz.',
@@ -545,19 +533,9 @@ const tr_TR = {
   'order.shippingStatus': 'Nakliye durumu',
   'order.toBeDeliveredTip':
     'Siparişiniz başarıyla ödendi ve gönderime hazırlanıyoruz.',
-  'order.toBePaidTip':
-    'Siparişiniz ödenmedi, lütfen en kısa sürede ödeyin. {val}',
+  'orderStatus.INITTip': 'Siparişiniz başarıyla oluşturulmadı. {val}',
   'order.viewOrder': 'Siparişi görüntüle',
   orders: 'Emirler',
-  'orderStatus.AUDIT': 'Teslim edilecek',
-  'orderStatus.COMPLETED': 'Tamamlandı',
-  'orderStatus.CONFIRMED': 'Tamamlandı',
-  'orderStatus.DELIVERED': 'Teslim Edildi',
-  'orderStatus.DELIVERED_PART': 'Teslim Edildi',
-  'orderStatus.INIT': 'Ödenecek',
-  'orderStatus.REFUND': 'İptal edildi',
-  'orderStatus.REMEDY': 'Teslim edilecek',
-  'orderStatus.VOID': 'İptal edildi',
   orderSummary: 'Sipariş özeti',
   outOfStockContent_cart:
     'Şu anda tavsiye edilen ürünler arasında stokta kalmayan ürünler var',
@@ -637,10 +615,6 @@ const tr_TR = {
   //account.paymethods:
   'paymethods.info':
     'Kaydedilmiş ödeme yönteminiz yok. Ödeme işlemini hızlandırmak için ödeme bilgilerinizi buraya ekleyin. Kolay, gizli ve güvenlidir!',
-  'payStatus.NOT_PAID': 'Ödenmemiş',
-  'payStatus.PAID': 'Ücretli',
-  'payStatus.PAID_IN': 'Ödenen',
-  'payStatus.REFUND': 'Geri ödeme',
   personal: 'Kişisel',
   petFemale: 'Dişi',
   petInfo: 'Evcil hayvan bilgisi',

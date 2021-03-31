@@ -47,7 +47,12 @@ function CardItem(props) {
           </div>
         </div>
         <p className="mb-0">{data.consigneeNumber}</p>
-        <p className="mb-0">{props.countryName}</p>
+
+        {process.env.REACT_APP_LANG == 'en' ? null : (
+          <>
+            <p className="mb-0">{props.countryName}</p>
+          </>
+        )}
         <p className="mb-0">{data.city}</p>
         {data.province && data.province != null ? (
           <p className="mb-0">{data.province}</p>
@@ -814,7 +819,7 @@ class AddressList extends React.Component {
                 )
               ) : null}
               {!addOrEdit && (
-                <div className="text-right" style={{ marginTop: '10px' }}>
+                <div className="text-right" style={{ marginTop: '.625rem' }}>
                   {/* <button
                     className="rc-btn rc-btn--sm rc-btn--two"
                     onClick={() => this.props.cancel()}

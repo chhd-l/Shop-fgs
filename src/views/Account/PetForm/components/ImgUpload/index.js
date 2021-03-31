@@ -70,7 +70,9 @@ export default class ImgUpload extends React.Component {
     return (
       <div className="aui-col-xs-3 d-flex flex-wrap" id="img">
         <div id="imgPreview" className="d-flex flex-wrap">
-          <p style={{ marginTop: '10px', width: '100%', textAlign: 'center' }}>
+          <p
+            style={{ marginTop: '.625rem', width: '100%', textAlign: 'center' }}
+          >
             <a
               className="rc-styled-link"
               href="#/"

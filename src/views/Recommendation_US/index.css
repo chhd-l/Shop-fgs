@@ -18,20 +18,20 @@
   display: block;
 }
 .Recommendation_FR .promotion-tips {
-  font-size: 12px;
+  font-size: 0.75rem;
   width: 313px;
-  margin: 0 auto 24px;
+  margin: 0 auto 1.5rem;
 }
 .Recommendation_FR .promotion-code {
   padding: 4px 8px;
   background-color: rgb(246, 246, 246);
 }
 .Recommendation_US .promotion-code-title {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #666;
 }
 .Recommendation_FR .has-promotion .promotion-price {
-  font-size: 26px;
+  font-size: 1.625rem;
   color: #e2001a;
   display: inline;
   padding-left: 1rem;
@@ -47,7 +47,7 @@
     .arrow-img-columns
     .for-icon-size
     .rc-grid:not(:last-child):after {
-    font-size: 72px;
+    font-size: 4.5rem;
     height: 41.6px;
     overflow: hidden;
     line-height: 43px;
@@ -65,7 +65,7 @@
   }
 }
 .Recommendation_US .benefit ul > li {
-  padding-bottom: 10px;
+  padding-bottom: 0.625rem;
 }
 .Recommendation_US .imageInnerBox .rc-img--square {
   margin-left: 0;

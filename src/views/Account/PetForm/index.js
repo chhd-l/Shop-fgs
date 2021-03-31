@@ -52,6 +52,8 @@ const noSelect = {
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+console.log(datePickerConfig, 'datePickerConfig');
+
 @inject('loginStore')
 @observer
 class PetForm extends React.Component {
@@ -128,6 +130,19 @@ class PetForm extends React.Component {
   }
   async componentDidMount() {
     console.log(this.props, 'props');
+    const lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
+    const activityOptions = await getDictionary({ type: 'Activity' });
+    lifestyleOptions.map((el) => {
+      el.value = el.valueEn;
+    });
+    activityOptions.map((el) => {
+      el.value = el.valueEn;
+    });
+    this.setState({
+      lifestyleOptions,
+      activityOptions
+    });
+
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -865,18 +880,18 @@ class PetForm extends React.Component {
                       style={{
                         color: '#333333',
                         fontWeight: 400,
-                        fontSize: '22px'
+                        fontSize: '1.375rem'
                       }}
                     >
                       <FormattedMessage id="Choose your pet type" />
                     </p>
-                    <p style={{ color: '#E2001A', fontSize: '22px' }}>
+                    <p style={{ color: '#E2001A', fontSize: '1.375rem' }}>
                       <FormattedMessage id="Your Pet is a…" />
                     </p>
                     <div>
                       <button
                         className="rc-btn rc-btn--sm rc-btn--one"
-                        style={{ marginRight: '20px' }}
+                        style={{ marginRight: '1.25rem' }}
                         onClick={() => {
                           this.petTypeChange(false);
                         }}
@@ -1243,7 +1258,7 @@ class PetForm extends React.Component {
                         <span
                           className="rc-input rc-input--label rc-input--full-width"
                           input-setup="true"
-                          style={{ marginBottom: '10px' }}
+                          style={{ marginBottom: '.625rem' }}
                         >
                           <input
                             type="text"
@@ -1334,11 +1349,7 @@ class PetForm extends React.Component {
                         <FormattedMessage id="Lifestyle" />
                       </label>
                       <Selection
-                        optionList={[
-                          { value: 'indoor', name: 'indoor' },
-                          { value: 'outdoor', name: 'outdoor' },
-                          { value: 'both', name: 'both' }
-                        ]}
+                        optionList={this.state.lifestyleOptions}
                         selectedItemChange={(el) => this.lifestyleChange(el)}
                         selectedItemData={{
                           value: this.state.lifestyle
@@ -1354,11 +1365,7 @@ class PetForm extends React.Component {
                         <FormattedMessage id="Activity" />
                       </label>
                       <Selection
-                        optionList={[
-                          { value: 'Very low', name: 'Very low' },
-                          { value: 'Moderate', name: 'Moderate' },
-                          { value: 'Very high', name: 'Very high' }
-                        ]}
+                        optionList={this.state.activityOptions}
                         selectedItemChange={(el) => this.activityChange(el)}
                         selectedItemData={{
                           value: this.state.activity
@@ -1408,8 +1415,8 @@ class PetForm extends React.Component {
                           marginLeft: '4px'
                         }}
                         optionList={[
-                          { value: 'kg', name: 'kg' },
-                          { value: 'g', name: 'g' }
+                          { value: 'kg', name: 'kg' }
+                          // { value: 'g', name: 'g' }
                         ]}
                         selectedItemChange={(el) => {
                           let { weightObj } = this.state;

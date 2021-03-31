@@ -53,7 +53,7 @@ function CardItem(props) {
           {data?.province && data?.province != null
             ? data.province + ', '
             : null}
-          {props.countryName}
+          {process.env.REACT_APP_LANG == 'en' ? null : <>{props.countryName}</>}
         </p>
       </div>
     </div>
@@ -449,8 +449,8 @@ class AddressList extends React.Component {
                                     isPad
                                       ? {
                                           position: 'absolute',
-                                          top: '20px',
-                                          right: '24px'
+                                          top: '1.25rem',
+                                          right: '1.5rem'
                                         }
                                       : {}
                                   }

@@ -1,51 +1,51 @@
- #upImg {
+#upImg {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
   cursor: pointer;
- }
- #upImg input {
+}
+#upImg input {
   width: 100%;
   height: 100%;
   opacity: 0;
   cursor: pointer;
- }
- #imgPreview .img-item {
+}
+#imgPreview .img-item {
   position: relative;
   width: 60px;
   height: 60px;
- }
- #imgPreview .img-item img {
-   display: block;
-   width: 100%;
-   height: 100%;
- }
+}
+#imgPreview .img-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .img-layer {
   position: absolute;
-  background: rgba(0, 0, 0, .4);
+  background: rgba(0, 0, 0, 0.4);
   width: 100%;
   height: 100%;
 }
 
- .icon-add {
+.icon-add {
   border: 1px solid;
   width: 60px;
   height: 60px;
   color: #ccc;
-  transition: color .25s;
+  transition: color 0.25s;
   position: relative;
   cursor: pointer;
- }
+}
 
- .icon-add::before{
+.icon-add::before {
   content: '';
   position: absolute;
   left: 50%;
   top: 50%;
   width: 44px;
-  margin-left: -22px;
+  margin-left: -1.375rem;
   margin-top: -2px;
   border-top: 4px solid;
 }
@@ -56,14 +56,13 @@
   top: 50%;
   height: 44px;
   margin-left: -2px;
-  margin-top: -22px;
+  margin-top: -1.375rem;
   border-left: 4px solid;
- }
- .img-pre {
+}
+.img-pre {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
   left: 50%;
   max-width: 40%;
- }
- 
+}
