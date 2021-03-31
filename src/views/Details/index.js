@@ -613,14 +613,14 @@ class Details extends React.Component {
     ])
       .then((resList) => {
         if (process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID) {
-
           loadJS({
             url: 'https://fi-v2.global.commerce-connector.com/cc.js',
             id: 'cci-widget',
             dataSets: {
               token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
               locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
-              displaylanguage: process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+              displaylanguage:
+                process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
               widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
               ean: '3182550784436',
               subid: '',
@@ -669,7 +669,7 @@ class Details extends React.Component {
               productRate: goodsRes.avgEvaluate,
               replyNum: goodsRes.goodsEvaluateNum,
               goodsId: goodsRes.goodsId,
-              minMarketPrice: goodsRes.minMarketPrice,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+              minMarketPrice: goodsRes.minMarketPrice,
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 taggingForText: (taggingList || []).filter(
@@ -833,9 +833,9 @@ class Details extends React.Component {
           const goodSize = specList.map((item) =>
             item.chidren.find((good) => good.selected)
           )?.[0]?.detailName;
-          const goodsInfoBarcode = goodsInfos.find(
-            (item) => item.packSize === goodSize
-          )?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
+          const goodsInfoBarcode =
+            goodsInfos.find((item) => item.packSize === goodSize)
+              ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
           const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
 
           let images = [];
@@ -998,7 +998,17 @@ class Details extends React.Component {
                   goodsRes.saleableFlag,
                   goodsRes.displayFlag
                 );
-                if (goodsRes.goodsType === 2) {
+                console.log(this.state.goodsNo, 'goodsNo');
+                if (
+                  goodsRes.goodsType === 2 &&
+                  ![
+                    'BI01',
+                    'P368139936',
+                    'P887613560',
+                    'P860022645',
+                    'P859314116'
+                  ].includes(this.state.goodsNo)
+                ) {
                   ret = `<p style="white-space: pre-line; font-weight: 400">${blodDesc}</p><p style="white-space: pre-line; font-weight: 400">${prescriberDesc}</p><p style="white-space: pre-line;">${shortDesc}</p>`;
                 } else if (!goodsRes.saleableFlag && goodsRes.displayFlag) {
                   this.setState({
@@ -1029,7 +1039,16 @@ class Details extends React.Component {
 
                 break;
               case 'Compositions':
-                if (goodsRes.goodsType === 2) {
+                if (
+                  goodsRes.goodsType === 2 &&
+                  ![
+                    'BI01',
+                    'P368139936',
+                    'P887613560',
+                    'P860022645',
+                    'P859314116'
+                  ].includes(this.state.goodsNo)
+                ) {
                   ret = parsedContent
                     .map((ele, i) => {
                       return `<p><div class="title">${
@@ -1977,7 +1996,11 @@ class Details extends React.Component {
                                 }`}
                                 ref={(el) => this.ccidBtnRef(el)}
                                 data-ccid="wtb-target"
-                                data-ean={process.env.REACT_APP_LANG === 'fr' ? "3182550751148" : barcode}
+                                data-ean={
+                                  process.env.REACT_APP_LANG === 'fr'
+                                    ? '3182550751148'
+                                    : barcode
+                                }
                                 onClick={this.handleBuyFromRetailer}
                                 style={{
                                   marginTop: '20px'
