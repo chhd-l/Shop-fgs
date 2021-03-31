@@ -60,6 +60,10 @@ class Register extends Component {
   }
 
   componentDidMount() {
+    const isLogin = !!localItemRoyal.get('rc-token');
+    if (isLogin) {
+      this.props.history.push('/');
+    }
     this.init();
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
