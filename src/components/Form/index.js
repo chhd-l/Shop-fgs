@@ -35,7 +35,7 @@ class Form extends React.Component {
     this.state = {
       dataLoading: false,
       formLoading: false,
-      formSettingSwitch: '',
+      formSettingSwitch: 'MANUALLY',
       caninForm: {
         firstName: '',
         lastName: '',

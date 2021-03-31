@@ -293,11 +293,6 @@ const fr_FR = {
   deliveryAddress: 'Adresse de livraison',
   deliveryDate: 'Date de livraison',
   deliveryOneTimeOnly: 'Livraison 1 fois seulement',
-  // 订单状态相关
-  'deliveryStatus.NOT_YET_SHIPPED': 'Pas encore envoyé',
-  'deliveryStatus.PART_SHIPPED': 'partiellement expédié',
-  'deliveryStatus.SHIPPED': 'expédié',
-  'deliveryStatus.VOID': 'En cours de livraison',
   detail: '[Montre plus]',
   'detail.answer':
     'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
@@ -647,13 +642,6 @@ const fr_FR = {
   'order.paymentStatus': 'Statut de paiement',
   'order.paymentTime': 'Délai de paiement',
   'order.payNow': 'Payez maintenant',
-  'order.progress1': 'Créé',
-  'order.progress2': 'Payé',
-  'order.progress3': 'Livré',
-  'order.progress4': 'Terminé',
-  'order.progress5': 'Révisé',
-  'order.progress6': "En attendant l'examen",
-  'order.progress7': 'Annulé',
   'order.rateModalTitle': 'Votre opinion est importante',
   'order.refundErrorInfo':
     'Cette commande est soumise à un remboursement de traitement et ne peut pas être réappliquée.',
@@ -667,22 +655,13 @@ const fr_FR = {
   'order.shippingStatus': "Statut d'envoi",
   'order.toBeDeliveredTip':
     "Votre commande a été payée avec succès et nous nous préparons à l'expédier.",
-  'order.toBePaidTip':
-    "Votre commande n'a pas été payée, veuillez payer au plus vite. {val}",
+  'orderStatus.INITTip':
+    "Votre commande n'a pas été payée, veuillez payer le plus tôt possible. {val}",
   'order.total': 'Total',
   'order.viewLogisticDetail': 'Afficher les détails logistiques',
   'order.viewOrder': "Voir l'ordre",
   orderDetail: 'Détails de la commande',
   orders: 'Affectations',
-  'orderStatus.AUDIT': 'En cours de livraison',
-  'orderStatus.COMPLETED': 'terminé',
-  'orderStatus.CONFIRMED': 'Terminé',
-  'orderStatus.DELIVERED': 'livré',
-  'orderStatus.DELIVERED_PART': 'sera livré',
-  'orderStatus.INIT': 'Être payé',
-  'orderStatus.REFUND': 'Appelé',
-  'orderStatus.REMEDY': 'En cours de livraison',
-  'orderStatus.VOID': 'annulé',
   orderSummary: 'Récapitulatif de commande',
   outOfStockContent_cart:
     'Les produits actuellement recommandés incluent les produits qui ne sont pas en stock: {val}. Si vous continuez à ajouter au panier, les produits qui ne sont pas en stock seront immédiatement supprimés.',
@@ -771,10 +750,6 @@ const fr_FR = {
   //account.paymethods
   'paymethods.info':
     "Vous n'avez pas de mode de paiement enregistré. Ajoutez un mode de paiement pour accélérer le processus de commande.",
-  'payStatus.NOT_PAID': 'pas encore payé',
-  'payStatus.PAID': 'payé',
-  'payStatus.PAID_IN': 'Payé en',
-  'payStatus.REFUND': 'rembourser',
   personal: 'Mon Compte',
   'pet.addNewPet': 'ajouter un nouvel animal',
   'pet.deletePet': "Supprimer le profil de l'animal",

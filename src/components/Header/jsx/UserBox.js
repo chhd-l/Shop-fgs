@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl';
 import '../css/user.less';
 
 const localItemRoyal = window.__.localItemRoyal;
-const userInfo = localItemRoyal.get('rc-userinfo') || null;
 
 export const UnLoginUserBox = ({ history, className }) => {
   return (
@@ -136,6 +135,7 @@ export const LoginUserBox = ({ self, className }) => {
       )
     }
   ];
+  const userInfo = localItemRoyal.get('rc-userinfo') || null;
   return (
     <div className={`user-login-popover ${className}`}>
       <div className="Media">

@@ -118,6 +118,7 @@ class ContactUs extends Component {
     const { email } = this.state.address;
     const phoneNumber = this.textInput.current.value;
     await this.checkRegexp({ name: 'validEmail', value: email }); //验证邮箱格式
+    console.log(phoneNumber.split('-').join(''));
     if (phoneNumber !== '') {
       //如果输入了电话号码，验证美国电话号码格式
       await this.checkRegexp({
@@ -126,8 +127,10 @@ class ContactUs extends Component {
       });
     }
     if (
-      this.state.errMsgObj.validEmail !== '' ||
-      this.state.errMsgObj.phoneNumber !== ''
+      (this.state.errMsgObj.validEmail &&
+        this.state.errMsgObj.validEmail !== '') ||
+      (this.state.errMsgObj.phoneNumber &&
+        this.state.errMsgObj.phoneNumber !== '')
     ) {
       window.scrollTo(0, 100);
       return false;

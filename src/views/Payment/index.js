@@ -461,11 +461,15 @@ class Payment extends React.Component {
       }
       this.setState(
         {
-          needPrescriber: checkoutStore.autoAuditFlag
-            ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-                (el) => el.prescriberFlag
-              ).length > 0
-            : checkoutStore.AuditData.length > 0
+          needPrescriber:
+            (this.isLogin ? this.loginCartData : this.cartData).filter(
+              (el) => el.prescriberFlag
+            ).length > 0 && localItemRoyal.get(`rc-clinic-id-select`) !== ''
+          // needPrescriber: checkoutStore.autoAuditFlag
+          //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
+          //       (el) => el.prescriberFlag
+          //     ).length > 0
+          //   : checkoutStore.AuditData.length > 0
         },
         () => {
           const nextConfirmPanel = searchNextConfirmPanel({

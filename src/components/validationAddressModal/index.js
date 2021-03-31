@@ -181,12 +181,15 @@ class ValidationAddressModal extends React.Component {
                                 </span>
                               )}
                               <span className="postalCode">
-                                {address.postCode},
+                                {address.postCode}
                               </span>
                               {process.env.REACT_APP_LANG == 'en' ? null : (
-                                <span className="countryCode">
-                                  {address.country}
-                                </span>
+                                <>
+                                  ,
+                                  <span className="countryCode">
+                                    {address.country}
+                                  </span>
+                                </>
                               )}
                               <br />
                               <a
@@ -247,9 +250,11 @@ class ValidationAddressModal extends React.Component {
                                 {validationAddress.city},
                               </span>
                               {validationAddress.provinceCode && (
-                                <span className="state">
-                                  {validationAddress.provinceCode},
-                                </span>
+                                <>
+                                  <span className="state">
+                                    {validationAddress.provinceCode},
+                                  </span>
+                                </>
                               )}
                               <span className="postalCode">
                                 {validationAddress.postalCode},
