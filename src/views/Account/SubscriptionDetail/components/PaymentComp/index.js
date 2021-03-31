@@ -51,7 +51,7 @@ function CardItem(props) {
                   CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
                   'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                 }
-                alt=""
+                alt="pay-card-img-fit-screen"
               />
             </LazyLoad>
           </div>
@@ -602,7 +602,12 @@ class PaymentComp extends React.Component {
       <span className="logo-payment-card-list logo-credit-card">
         {supportPaymentMethods.map((el, idx) => (
           <LazyLoad>
-            <img key={idx} className="logo-payment-card" src={el.img} alt="" />
+            <img
+              key={idx}
+              className="logo-payment-card"
+              src={el.img}
+              alt="logo-payment-card"
+            />
           </LazyLoad>
         ))}
       </span>
@@ -857,7 +862,7 @@ class PaymentComp extends React.Component {
                         >
                           <div className="row ui-margin-top-1-md-down">
                             <div className={`col-12 color-999`}>
-                              <span style={{ fontSize: '14px' }}>
+                              <span style={{ fontSize: '.875rem' }}>
                                 <FormattedMessage id="name2" />
                               </span>
                               <br />
@@ -873,7 +878,7 @@ class PaymentComp extends React.Component {
                                   el.selected ? '' : 'hidden'
                                 }`}
                               >
-                                <span style={{ fontSize: '14px' }}>
+                                <span style={{ fontSize: '.875rem' }}>
                                   <FormattedMessage id="CVV" />
                                 </span>
                                 <br />
@@ -906,7 +911,7 @@ class PaymentComp extends React.Component {
                           </div>
                           <div className="row ui-margin-top-1-md-down">
                             <div className="col-6 color-999">
-                              <span style={{ fontSize: '14px' }}>
+                              <span style={{ fontSize: '.875rem' }}>
                                 <FormattedMessage id="payment.cardNumber2" />
                               </span>
                               <br />
@@ -922,7 +927,7 @@ class PaymentComp extends React.Component {
                               </span>
                             </div>
                             <div className="col-6 border-left color-999">
-                              <span style={{ fontSize: '14px' }}>
+                              <span style={{ fontSize: '.875rem' }}>
                                 <FormattedMessage id="payment.cardType" />
                               </span>
                               <br />
@@ -975,7 +980,7 @@ class PaymentComp extends React.Component {
           )
         ) : null}
         {!this.state.isEdit && (
-          <div className="text-right" style={{ marginTop: '10px' }}>
+          <div className="text-right" style={{ marginTop: '.625rem' }}>
             {/* <button
               className="rc-btn rc-btn--sm rc-btn--two"
               onClick={() => this.props.cancel()}
@@ -1083,7 +1088,7 @@ class PaymentComp extends React.Component {
                               ]
                             : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                         }
-                        alt=""
+                        alt="card-background"
                       />
                     </LazyLoad>
                   </div>
@@ -1408,7 +1413,7 @@ class PaymentComp extends React.Component {
                     <div
                       className="rc-input rc-input--inline"
                       style={{
-                        marginTop: '10px',
+                        marginTop: '.625rem',
                         float: 'left',
                         textAlign: 'left',
                         maxWidth: '400px'

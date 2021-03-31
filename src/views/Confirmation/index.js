@@ -153,7 +153,7 @@ class Confirmation extends React.Component {
         >
           <FormattedMessage id="confirmation.account" />
         </Link>
-        <div style={{ padding: '0 20px 0 10px' }}>
+        <div style={{ padding: '0 1.25rem 0 .625rem' }}>
           <FormattedMessage id="or" />
         </div>
         <DistributeHubLinkOrATag
@@ -357,7 +357,7 @@ class Confirmation extends React.Component {
             <div className="text-center mt-3">
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="success-image"
                   src={successImg}
                   className="mb-3"
                   style={{ display: 'inline-block' }}

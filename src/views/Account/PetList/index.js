@@ -110,7 +110,11 @@ export default class PetForm extends React.Component {
                     <div className="edit js-edit-pet">
                       <a href="#" className="tab--img" data-toggle="">
                         <LazyLoad>
-                          <img src={edit} className="img-success" alt="" />
+                          <img
+                            src={edit}
+                            className="img-success"
+                            alt="edit-image"
+                          />
                         </LazyLoad>
                       </a>
                     </div>

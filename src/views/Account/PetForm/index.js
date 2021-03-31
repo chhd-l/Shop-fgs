@@ -854,25 +854,29 @@ class PetForm extends React.Component {
                 </h5>
                 <div className="content mt-2 mt-md-4">
                   <LazyLoad>
-                    <img src={Banner_Dog} style={{ left: '40px' }} alt="" />
+                    <img
+                      src={Banner_Dog}
+                      style={{ left: '40px' }}
+                      alt="Banner-Dog"
+                    />
                   </LazyLoad>
                   <div className="buttonBox">
                     <p
                       style={{
                         color: '#333333',
                         fontWeight: 400,
-                        fontSize: '22px'
+                        fontSize: '1.375rem'
                       }}
                     >
                       <FormattedMessage id="Choose your pet type" />
                     </p>
-                    <p style={{ color: '#E2001A', fontSize: '22px' }}>
+                    <p style={{ color: '#E2001A', fontSize: '1.375rem' }}>
                       <FormattedMessage id="Your Pet is a…" />
                     </p>
                     <div>
                       <button
                         className="rc-btn rc-btn--sm rc-btn--one"
-                        style={{ marginRight: '20px' }}
+                        style={{ marginRight: '1.25rem' }}
                         onClick={() => {
                           this.petTypeChange(false);
                         }}
@@ -890,7 +894,11 @@ class PetForm extends React.Component {
                     </div>
                   </div>
                   <LazyLoad>
-                    <img src={Banner_Cat} style={{ right: '40px' }} alt="" />
+                    <img
+                      src={Banner_Cat}
+                      style={{ right: '40px' }}
+                      alt="Banner-Cat"
+                    />
                   </LazyLoad>
                   {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
@@ -934,7 +942,7 @@ class PetForm extends React.Component {
                         borderRadius: '50%'
                       }}
                       src={imgUrl || (isCat ? Cat : Dog)}
-                      alt=""
+                      alt="photo-box"
                     />
                     {/* </LazyLoad> */}
                     {/* <a className="rc-styled-link" href="#/" onClick={(e) => {
@@ -1235,7 +1243,7 @@ class PetForm extends React.Component {
                         <span
                           className="rc-input rc-input--label rc-input--full-width"
                           input-setup="true"
-                          style={{ marginBottom: '10px' }}
+                          style={{ marginBottom: '.625rem' }}
                         >
                           <input
                             type="text"

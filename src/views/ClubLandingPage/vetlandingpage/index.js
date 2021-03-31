@@ -220,7 +220,7 @@ class VetLandingPage extends React.Component {
                       </section>
                       <div
                         className="rc-layout-container rc-four-column"
-                        style={{ padding: '20px' }}
+                        style={{ padding: '1.25rem' }}
                       >
                         <div
                           className="rc-column"
@@ -228,12 +228,12 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="bitmap"
                               src={icon1}
                               style={{
                                 width: '100px',
                                 display: 'inline-block',
-                                marginBottom: '20px'
+                                marginBottom: '1.25rem'
                               }}
                             />
                           </LazyLoad>
@@ -249,12 +249,12 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="bitmap"
                               src={icon2}
                               style={{
                                 width: '100px',
                                 display: 'inline-block',
-                                marginBottom: '20px'
+                                marginBottom: '1.25rem'
                               }}
                             />
                           </LazyLoad>
@@ -270,12 +270,12 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="bitmap"
                               src={icon3}
                               style={{
                                 width: '100px',
                                 display: 'inline-block',
-                                marginBottom: '20px'
+                                marginBottom: '1.25rem'
                               }}
                             />
                           </LazyLoad>
@@ -291,12 +291,12 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="bitmap"
                               src={icon4}
                               style={{
                                 width: '100px',
                                 display: 'inline-block',
-                                marginBottom: '20px'
+                                marginBottom: '1.25rem'
                               }}
                             />
                           </LazyLoad>

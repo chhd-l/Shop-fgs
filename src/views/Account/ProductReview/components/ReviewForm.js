@@ -92,9 +92,7 @@ class ReviewForm extends React.Component {
       <div>
         <div className="rc-five-column rc-padding-bottom--xs">
           <div className="rc-layout-container">
-            <div
-              className="rc-column padb0 padt0"
-            >
+            <div className="rc-column padb0 padt0">
               <div className="">
                 <div className="rc-margin-top--xs">
                   <span className="ui-text-overflow-line2 text-break">
@@ -147,7 +145,10 @@ class ReviewForm extends React.Component {
                       onChange={(e) => this.handleTitleChange(e)}
                       onBlur={(e) => this.inputBlur(e)}
                     ></input>
-                    <label className="rc-input__label" htmlFor="reference"></label>
+                    <label
+                      className="rc-input__label"
+                      htmlFor="reference"
+                    ></label>
                   </span>
                 </div>
               </div>
@@ -156,11 +157,11 @@ class ReviewForm extends React.Component {
             <div className="rc-column text-right padb0">
               <div className="img-container">
                 <LazyLoad>
-                <img
-                  className="product-img"
-                  src={this.props.product.pic}
-                  alt=""
-                />
+                  <img
+                    className="product-img"
+                    src={this.props.product.pic}
+                    alt="product-image"
+                  />
                 </LazyLoad>
               </div>
             </div>

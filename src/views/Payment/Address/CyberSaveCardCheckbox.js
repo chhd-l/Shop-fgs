@@ -40,7 +40,7 @@ class CyberSaveCardCheckbox extends Component {
         {!isChecked && this.isLogin ? (
           <div
             className="text-danger-2"
-            style={{ marginLeft: '35px', fontSize: '12px' }}
+            style={{ marginLeft: '35px', fontSize: '.75rem' }}
           >
             <FormattedMessage id="payment.errorInfo3" />
           </div>

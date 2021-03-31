@@ -611,7 +611,7 @@ class Help extends React.Component {
             }`}
             style={{
               width: '50%',
-              margin: '20px auto 0'
+              margin: '1.25rem auto 0'
             }}
           >
             <aside
@@ -626,14 +626,16 @@ class Help extends React.Component {
               className="text-center"
               style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
             >
-              <h1 style={{ color: '#E2001A', margin: '20px' }}>Bienvenue !</h1>
-              <h2 style={{ color: '#E2001A', margin: '20px' }}>
+              <h1 style={{ color: '#E2001A', margin: '1.25rem' }}>
+                Bienvenue !
+              </h1>
+              <h2 style={{ color: '#E2001A', margin: '1.25rem' }}>
                 Merci pour votre visite en magasin, voici notre recommandation.
               </h2>
               {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
             </h2> */}
-              <p style={{ fontSize: '18px' }}>
+              <p style={{ fontSize: '1.125rem' }}>
                 {/* <FormattedMessage id="recommendation.firstContent" /> */}
                 La recommandation a été faite en fonction des besoins uniques de
                 votre animal.
@@ -701,7 +703,7 @@ class Help extends React.Component {
                               style={{
                                 width: '40px',
                                 display: 'inline-block',
-                                margin: '10px 0'
+                                margin: '.625rem 0'
                               }}
                               alt=""
                             />
@@ -709,7 +711,7 @@ class Help extends React.Component {
                             <p
                               style={{
                                 textAlign: 'center',
-                                fontSize: '12px',
+                                fontSize: '.75rem',
                                 marginBottom: '5px',
                                 width: '100%',
                                 overflow: 'hidden',
@@ -761,7 +763,7 @@ class Help extends React.Component {
                                 style={{
                                   flex: 3,
                                   fontWeight: '200',
-                                  fontSize: '22px'
+                                  fontSize: '1.375rem'
                                   // color: 'rgba(102,102,102,.7)'
                                 }}
                               >
@@ -786,7 +788,7 @@ class Help extends React.Component {
                               style={{
                                 flex: 3,
                                 fontWeight: '200',
-                                fontSize: '22px'
+                                fontSize: '1.375rem'
                               }}
                             >
                               {MaxMarketPrice > 0 ? (
@@ -813,7 +815,7 @@ class Help extends React.Component {
                                 style={{
                                   flex: 3,
                                   fontWeight: '200',
-                                  fontSize: '22px'
+                                  fontSize: '1.375rem'
                                   // color: 'rgba(102,102,102,.7)'
                                 }}
                               >
@@ -838,7 +840,7 @@ class Help extends React.Component {
                             style={{
                               width: '100%',
                               margin: '0 auto',
-                              padding: isMobile ? '0 20px' : '0 40px'
+                              padding: isMobile ? '0 1.25rem' : '0 40px'
                             }}
                             dangerouslySetInnerHTML={createMarkup(
                               productList[activeIndex].goodsInfo.goods
@@ -868,7 +870,7 @@ class Help extends React.Component {
                           </LazyLoad>
                           <p
                             style={{
-                              fontSize: '16px',
+                              fontSize: '1rem',
                               color: '#666666',
                               fontWeight: '500',
                               letterSpacing: '0'
@@ -878,7 +880,7 @@ class Help extends React.Component {
                           </p>
                           <p
                             style={{
-                              fontSize: '12px',
+                              fontSize: '.75rem',
                               letterSpacing: '0'
                             }}
                           >
@@ -894,7 +896,7 @@ class Help extends React.Component {
                           </p>
                           <p
                             style={{
-                              fontSize: '12px',
+                              fontSize: '.75rem',
                               letterSpacing: '0'
                             }}
                           >
@@ -904,7 +906,7 @@ class Help extends React.Component {
                         {/* <p
                           style={{
                             textAlign: 'left',
-                            fontSize: '14px',
+                            fontSize: '.875rem',
                             color: '#666',
                             marginBottom: '60px',
                             letterSpacing: '0',
@@ -939,20 +941,20 @@ class Help extends React.Component {
                             style={{
                               width: '100%',
                               margin: '0 auto',
-                              padding: isMobile ? '0 20px' : '0 40px'
+                              padding: isMobile ? '0 1.25rem' : '0 40px'
                             }}
                           >
                             <h5
                               className="red"
                               style={{
-                                margin: '30px 0 20px',
-                                fontSize: isMobile ? '18px' : 'auto'
+                                margin: '30px 0 1.25rem',
+                                fontSize: isMobile ? '1.125rem' : 'auto'
                               }}
                             >
                               Les bénéfices
                             </h5>
                             <p
-                              style={{ fontSize: isMobile ? '16px' : 'auto' }}
+                              style={{ fontSize: isMobile ? '1rem' : 'auto' }}
                               dangerouslySetInnerHTML={
                                 // productList[activeIndex].goodsInfo.goods
                                 // &&

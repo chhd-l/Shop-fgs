@@ -743,7 +743,7 @@ class Register extends Component {
                         </div>
                         <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
                           <span
-                            style={{ marginRight: '10px' }}
+                            style={{ marginRight: '.625rem' }}
                             className="rc-text-colour--brand1"
                           >
                             *

@@ -229,7 +229,7 @@ class Help extends React.Component {
                                             <a
                                               href={this.state.mailAddress}
                                               style={{
-                                                fontSize: '16px',
+                                                fontSize: '1rem',
                                                 color: 'rgb(0, 135, 189)'
                                               }}
                                               className="rc-styled-link"

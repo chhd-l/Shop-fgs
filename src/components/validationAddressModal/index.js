@@ -102,7 +102,7 @@ class ValidationAddressModal extends React.Component {
             role="dialog"
             aria-labelledby="shippingAddressValidationModal"
             aria-modal="true"
-            style={{ paddingRight: '16px' }}
+            style={{ paddingRight: '1rem' }}
           >
             <div
               className="modal-dialog"

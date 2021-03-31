@@ -466,7 +466,7 @@ class UnloginCart extends React.Component {
                                           &nbsp;
                                           <span
                                             className="red"
-                                            style={{ fontSize: '14px' }}
+                                            style={{ fontSize: '.875rem' }}
                                           >
                                             {formatMoney(
                                               item.sizeList.filter(
@@ -521,7 +521,7 @@ class UnloginCart extends React.Component {
                                       style={{
                                         width: '100%',
                                         overflow: 'hidden',
-                                        fontSize: '12px'
+                                        fontSize: '.75rem'
                                       }}
                                     >
                                       x1{' '}

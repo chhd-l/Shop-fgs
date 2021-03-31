@@ -43,6 +43,9 @@ export function formatMoney(
     val = parseFloat(val);
   }
   val += '';
+  if (process.env.REACT_APP_LANG === 'tr') {
+    return val + ' TL';
+  }
   return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
     style: 'currency',
     currency: process.env.REACT_APP_CURRENCY
