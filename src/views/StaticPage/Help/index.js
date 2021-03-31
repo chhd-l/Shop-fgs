@@ -221,21 +221,25 @@ class Help extends React.Component {
                                         </p>
                                         <div className="rc-margin-top--xs">
                                           <p
-                                            className="rc-numeric rc-md-up text-nowrap"
+                                            className="rc-numeric"
                                             style={{
                                               color: 'rgb(0, 135, 189)'
                                             }}
                                           >
-                                            <a
-                                              href={this.state.mailAddress}
-                                              style={{
-                                                fontSize: '1rem',
-                                                color: 'rgb(0, 135, 189)'
-                                              }}
-                                              className="rc-styled-link"
-                                            >
-                                              <FormattedMessage id="help.email" />
-                                            </a>
+                                            <span>
+                                              <a
+                                                href={this.state.mailAddress}
+                                                style={{
+                                                  fontSize: '1rem',
+                                                  color: 'rgb(0, 135, 189)',
+                                                  lineHeight: '1.5rem'
+                                                }}
+                                                className="rc-styled-link"
+                                              >
+                                                {/* <FormattedMessage id="help.email" /> */}
+                                                {this.state.mailAddress}
+                                              </a>
+                                            </span>
                                           </p>
                                         </div>
                                       </div>
