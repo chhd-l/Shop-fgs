@@ -826,6 +826,7 @@ class Question extends React.Component {
                     rel="nofollow"
                   >
                     <FormattedMessage id="aboutUs.learnMore" />
+                    <span className="warning_blank">Opens a new window</span>
                   </Link>
                   <Link
                     className="rc-btn rc-btn--two"
@@ -834,6 +835,7 @@ class Question extends React.Component {
                     rel="nofollow"
                   >
                     <FormattedMessage id="contactUs" />
+                    <span className="warning_blank">Opens a new window</span>
                   </Link>
                 </div>
               </div>

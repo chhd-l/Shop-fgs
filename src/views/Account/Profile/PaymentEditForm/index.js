@@ -32,6 +32,21 @@ const CardTypeArr = {
   cyberAmex: '003',
   cyberDiscover: '004'
 };
+
+const CardNumberLimit = {
+  cyberVisa: 16,
+  cyberMastercard: 16,
+  cyberAmex: 15,
+  cyberDiscover: 16
+};
+
+const CardCvvLimit = {
+  cyberVisa: 3,
+  cyberMastercard: 3,
+  cyberAmex: 4,
+  cyberDiscover: 3
+};
+
 const CardTypeName = {
   cyberVisa: 'Visa',
   cyberMastercard: 'Mastercard',
@@ -86,7 +101,7 @@ class PaymentEditForm extends React.Component {
         zipCode: '', //10036
         postCode: '', //10036
         email: '', //didier.valansot@publicissapient.com
-        isSaveCard: true
+        isDefaultCard: false
 
         // cardholderName: '', //Didier Valansot
         // cardNumber: '4111111111111111', //4111111111111111
@@ -103,7 +118,7 @@ class PaymentEditForm extends React.Component {
         // zipCode: '10036', //10036
         // postCode: '', //10036
         // email: 'didier.valansot@publicissapient.com', //didier.valansot@publicissapient.com
-        // isSaveCard: true
+        // isDefaultCard: true
       },
       monthList: [
         { name: 'month', value: '' },
@@ -486,7 +501,7 @@ class PaymentEditForm extends React.Component {
     const { paymentForm } = this.state;
     paymentForm[name] = !paymentForm[name];
 
-    let obj = Object.assign({}, errMsgObj, { isSaveCard: '' }); //选择有值了，就清空没填提示
+    let obj = Object.assign({}, errMsgObj, { isDefaultCard: '' }); //选择有值了，就清空没填提示
     this.setState(
       {
         paymentForm,
@@ -567,7 +582,7 @@ class PaymentEditForm extends React.Component {
       if (res.code == 'K-000000') {
         this.handleCancel();
         // this.props.refreshList(res.message);
-        this.props.refreshList('Save Successfully');
+        this.props.refreshList('Saved Successfully');
       }
     } catch (err) {
       this.showErrorMsg(err.message);
@@ -591,11 +606,7 @@ class PaymentEditForm extends React.Component {
       }
     });
 
-    if (
-      Object.keys(errMsgObj).length == 0 &&
-      this.state.isValidForm &&
-      this.state.paymentForm.isSaveCard
-    ) {
+    if (Object.keys(errMsgObj).length == 0 && this.state.isValidForm) {
       return true;
     } else {
       return false;
@@ -623,9 +634,9 @@ class PaymentEditForm extends React.Component {
   //   } else if(!this.state.isValidForm){//billdingAddress验证
   //     this.toTop();
   //     return;
-  //   } else if(!this.state.paymentForm.isSaveCard) { //勾选框
+  //   } else if(!this.state.paymentForm.isDefaultCard) { //勾选框
   //     let errMsgObj = Object.assign({}, this.state.errMsgObj, {
-  //       isSaveCard: true
+  //       isDefaultCard: true
   //     });
   //     this.setState({ errMsgObj });
   //   } else {
@@ -1188,14 +1199,15 @@ class PaymentEditForm extends React.Component {
             <div className="row">
               <div className="col-sm-6">
                 <div
-                  className="rc-input rc-input--inline"
-                  onClick={() => this.handelCheckboxChange('isSaveCard')}
+                  className="c-input rc-input--inline"
+                  style={{ maxWidth: '400px' }}
+                  onClick={() => this.handelCheckboxChange('isDefaultCard')}
                 >
-                  {this.state.paymentForm.isSaveCard ? (
+                  {this.state.paymentForm.isDefaultCard ? (
                     <input
                       type="checkbox"
                       className="rc-input__checkbox"
-                      value={this.state.paymentForm.isSaveCard}
+                      value={this.state.paymentForm.isDefaultCard}
                       key="1"
                       checked
                     />
@@ -1203,14 +1215,14 @@ class PaymentEditForm extends React.Component {
                     <input
                       type="checkbox"
                       className="rc-input__checkbox"
-                      value={this.state.paymentForm.isSaveCard}
+                      value={this.state.paymentForm.isDefaultCard}
                       key="2"
                     />
                   )}
                   <label className="rc-input__label--inline text-break">
                     <FormattedMessage id="cyber.form.saveFor" />
                   </label>
-                  {this.state.errMsgObj.isSaveCard ? (
+                  {this.state.errMsgObj.isDefaultCard ? (
                     <div className="red-text">
                       <FormattedMessage id="cyber.form.theBox" />
                     </div>

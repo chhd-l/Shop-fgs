@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
+import { cookieSettingsBtn } from './cookieSettingsBtn';
 
 @inject('configStore')
 @observer
@@ -24,6 +25,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.confidentiality" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -35,6 +37,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -46,6 +49,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.legalTerms" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
             </ul>
@@ -76,6 +80,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.confidentiality" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -87,6 +92,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -98,6 +104,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.legalTerms" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -107,6 +114,7 @@ class MarsFooterMap extends React.Component {
                   rel="nofollow"
                 >
                   <span className="mars-footer-label">Accessibility</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -116,6 +124,7 @@ class MarsFooterMap extends React.Component {
                   rel="nofollow"
                 >
                   <span className="mars-footer-label">CA Supply Chain Act</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -125,6 +134,7 @@ class MarsFooterMap extends React.Component {
                   rel="nofollow"
                 >
                   <span className="mars-footer-label">Modern Slavery Act</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -134,6 +144,7 @@ class MarsFooterMap extends React.Component {
                   rel="nofollow"
                 >
                   <span className="mars-footer-label">AdChoices</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
             </ul>
@@ -161,6 +172,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.privacy" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -172,6 +184,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies2" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -183,6 +196,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.termsOfUse" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -194,6 +208,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.impress" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
             </ul>
@@ -224,6 +239,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.privacy" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -235,6 +251,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies2" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -246,6 +263,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.termsOfUse" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>
               <li>
@@ -254,6 +272,7 @@ class MarsFooterMap extends React.Component {
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.statutoryDeclaration" />
                   </span>
+                  <span className="warning_blank">Opens a new window</span>
                 </Link>
               </li>
             </ul>
@@ -291,6 +310,7 @@ class MarsFooterMap extends React.Component {
                      <strong></strong>
                   </span>{' '}
                   <span className="mars-footer-label">Конфиденциальность</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>{' '}
               <li>
@@ -303,6 +323,7 @@ class MarsFooterMap extends React.Component {
                      <strong></strong>
                   </span>{' '}
                   <span className="mars-footer-label">Файлы Cookies</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>{' '}
               <li>
@@ -315,6 +336,7 @@ class MarsFooterMap extends React.Component {
                      <strong></strong>
                   </span>{' '}
                   <span className="mars-footer-label">Юридические условия</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>{' '}
             </ul>{' '}
@@ -349,6 +371,7 @@ class MarsFooterMap extends React.Component {
                      <strong></strong>
                   </span>{' '}
                   <span className="mars-footer-label">Конфиденциальность</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>{' '}
               <li>
@@ -361,6 +384,7 @@ class MarsFooterMap extends React.Component {
                      <strong></strong>
                   </span>{' '}
                   <span className="mars-footer-label">Файлы Cookies</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>{' '}
               <li>
@@ -373,6 +397,7 @@ class MarsFooterMap extends React.Component {
                      <strong></strong>
                   </span>{' '}
                   <span className="mars-footer-label">Юридические условия</span>
+                  <span className="warning_blank">Opens a new window</span>
                 </a>
               </li>{' '}
             </ul>{' '}

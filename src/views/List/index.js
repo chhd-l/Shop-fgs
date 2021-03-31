@@ -1164,7 +1164,6 @@ class List extends React.Component {
           const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
           )[0];
-
           if (tItem) {
             let attributeValues = [];
             let attributeValueIdList = [];
@@ -1172,7 +1171,7 @@ class List extends React.Component {
               const tFvItemList = tItem.attributesValueList.filter(
                 (t) => t.attributeDetailNameEnSplitByLine === fvItem
               );
-              const tFvItemForFirst = tFvItemList[0];
+              const tFvItemForFirst = tFvItemList;
               let tFvItem = tFvItemForFirst;
               if (tFvItemList.length > 1) {
                 tFvItem =
@@ -1182,12 +1181,14 @@ class List extends React.Component {
                       t.attributeDetailName
                         .toLocaleLowerCase()
                         .includes(`${isDogPage ? 'dog' : 'cat'}`)
-                  )[0] || tFvItemForFirst;
+                  ) || tFvItemForFirst;
               }
 
-              if (tFvItem) {
-                attributeValues.push(tFvItem.attributeDetailName);
-                attributeValueIdList.push(tFvItem.id);
+              if (tFvItem.length > 0) {
+                attributeValues.push(
+                  ...tFvItem.map((t) => t.attributeDetailName)
+                );
+                attributeValueIdList.push(...tFvItem.map((t) => t.id));
               }
               return fvItem;
             });
@@ -2091,63 +2092,6 @@ class List extends React.Component {
                     zIndex: 3
                   }}
                 >
-                  <div
-                    className="refinements-fixed rc-column"
-                    style={{
-                      position: 'fixed',
-                      display: 'none',
-                      background: '#fff',
-                      zIndex: 22
-                    }}
-                  >
-                    <button
-                      className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
-                      data-filter-trigger="filter-example"
-                      onClick={this.toggleFilterModal.bind(this, true)}
-                    >
-                      <FormattedMessage id="filters" />
-                    </button>
-                    <aside
-                      className={`rc-filters border-top ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
-                    >
-                      {isMobilePhone ? (
-                        <Filters
-                          history={history}
-                          maxGoodsPrice={maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`1-${filterList.length}`}
-                          inputLabelKey={1}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                          baseSearchStr={baseSearchStr}
-                        />
-                      ) : (
-                        <FiltersPC
-                          history={history}
-                          maxGoodsPrice={maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`1-${filterList.length}`}
-                          inputLabelKey={1}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                          baseSearchStr={baseSearchStr}
-                        />
-                      )}
-                    </aside>
-                  </div>
-
                   <div
                     id="refineBar"
                     className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"

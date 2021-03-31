@@ -56,6 +56,7 @@ const LoginButton = (props) => {
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
             : '';
+          localItemRoyal.set('oktaToken', oktaTokenString)
           let oktaToken = 'Bearer ' + oktaTokenString;
           const consentString = localItemRoyal.get('rc-consent-list');
           if (consentString && loginStore.isLogin) {
@@ -133,17 +134,14 @@ const LoginButton = (props) => {
 
   const login = async () => {
     try {
-      //debugger
       sessionItemRoyal.remove('rc-token-lose');
       sessionItemRoyal.set(
         'okta-redirectUrl',
         props.history && props.history.location.pathname
       );
-      debugger
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
-      //debugger
       console.log(err);
     }
   };

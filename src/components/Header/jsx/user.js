@@ -12,11 +12,12 @@ import '../css/user.less';
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const isLogin = !!localItemRoyal.get('rc-token');
-const userInfo = localItemRoyal.get('rc-userinfo') || null;
 const clientWidth = document.body.clientWidth;
 
 const UserJSX = (props) => {
+  const isLogin = !!localItemRoyal.get('rc-token');
+  const userInfo = localItemRoyal.get('rc-userinfo') || null;
+
   const firstNameLetter =
     userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1);
   const { self, showUserIcon, history, showCart, showCenter } = props;
@@ -32,8 +33,9 @@ const UserJSX = (props) => {
             className="minicart inlineblock"
             onMouseOver={self.handleCenterMouseOver}
             onMouseOut={self.handleCenterMouseOut}
+            onClick={self.loginIcon}
           >
-            {self.isLogin && !isMobile ? (
+            {isLogin && !isMobile ? (
               <FormattedMessage id="personal">
                 {(txt) => (
                   <Link
@@ -71,7 +73,7 @@ const UserJSX = (props) => {
               </FormattedMessage>
             )}
 
-            {!self.isLogin ? (
+            {!isLogin ? (
               <div
                 className={`popover popover-bottom ${showCenter ? 'show' : ''}`}
                 style={{ minWidth: '15rem' }}

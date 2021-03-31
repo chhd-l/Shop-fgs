@@ -17086,7 +17086,7 @@ ul li:not(.rc-list__item) {
 
 .optanon-show-settings-button.optanon-toggle-display,
 .ot-sdk-show-settings {
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   left: 0;
   -webkit-box-sizing: content-box;
@@ -24003,4 +24003,7 @@ html:not(.rc-loaded--final) body .rc-list__content {
 .rc-interactive.rc-iconography.rc-icon.left:hover:after,
 .rc-interactive.rc-iconography.rc-icon.rc-left:hover:after {
   background-position: 50% 67% !important;
+}
+.react-datepicker-popper {
+  z-index: 9 !important;
 }
