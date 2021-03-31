@@ -10,7 +10,7 @@ import LazyLoad from 'react-lazyload';
 let H5Maxcount = 3;
 let PCMaxcount = 5;
 let PcImgSquare = 69;
-let H5ImgSquare = 60;
+let H5ImgSquare = 69;
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
@@ -137,20 +137,25 @@ class ImageMagnifier extends Component {
     if (!selectedSizeInfo.length) {
       selectedSizeInfo = [sizeList[0]];
     }
-
-    if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
+    if (
+      selectedSizeInfo.length &&
+      (selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl)
+    ) {
       let hoverIndex = 0;
       images.map((el, i) => {
         if (
           el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
-          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg
+          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg ||
+          el.artworkUrl === selectedSizeInfo[0].artworkUrl ||
+          el.goodsInfoImg === selectedSizeInfo[0].artworkUrl
         ) {
           hoverIndex = i;
         }
         return el;
       });
       this.setState({
-        currentImg: selectedSizeInfo[0].goodsInfoImg,
+        currentImg:
+          selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
         videoShow: false,
         hoverIndex,
         offsetX: hoverIndex * 240
@@ -358,8 +363,6 @@ class ImageMagnifier extends Component {
       hoverIndex
     } = this.state;
     let { images, video, taggingForText, taggingForImage } = this.props;
-    console.log(images, 'images');
-    console.info('offsetX', this.state.offsetX);
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {
@@ -369,6 +372,17 @@ class ImageMagnifier extends Component {
     let MAXCOUNT = isMobile ? H5Maxcount : PCMaxcount;
     let MOVELENGTH = isMobile ? H5ImgSquare : PcImgSquare;
     console.info('MAXCOUNT', MAXCOUNT);
+    console.log(this.state.positionLeft, 'positionLeft');
+    console.info(
+      'offsetX',
+      imgCount <= MAXCOUNT
+        ? imgCount * MOVELENGTH - 5
+        : MAXCOUNT * MOVELENGTH - 5
+    );
+    console.info(
+      ' this.state.positionLeft === (imgCount - MAXCOUNT) * -MOVELENGTH',
+      this.state.positionLeft === (imgCount - MAXCOUNT) * -MOVELENGTH
+    );
     return (
       <div>
         <div className="position-relative">
@@ -488,7 +502,16 @@ class ImageMagnifier extends Component {
             }}
           />
           {/* <img className="moveImg" src={LeftImg} /> */}
-          <div className="imageOutBox">
+          <div
+            className="imageOutBox"
+            style={{
+              width: isMobile
+                ? imgCount <= MAXCOUNT
+                  ? imgCount * MOVELENGTH - 5 + 'px'
+                  : MAXCOUNT * MOVELENGTH - 5 + 'px'
+                : '345px'
+            }}
+          >
             <div
               className="imageInnerBox"
               style={{
@@ -496,7 +519,7 @@ class ImageMagnifier extends Component {
                 // textAlign: 'center',
                 // width: '100%',
                 textAlign: imgCount <= MAXCOUNT ? 'center' : 'left',
-                width: imgCount <= MAXCOUNT && isMobile ? '100%' : '100000px',
+                width: imgCount <= MAXCOUNT ? '100%' : '100000px',
                 left: this.state.positionLeft + 'px'
               }}
             >
