@@ -1288,8 +1288,7 @@ class UnLoginCart extends React.Component {
           {/* 显示 promotionCode */}
           <div>
             {!this.state.isShowValidCode &&
-              this.promotionDiscountPrice > 0 &&
-              this.promotionVOList.map((el) => (
+              this.promotionVOList?.map((el) => (
                 <div className={`row leading-lines shipping-item green d-flex`}>
                   <div className="col-6">
                     <p>
