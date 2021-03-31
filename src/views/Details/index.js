@@ -1469,7 +1469,6 @@ class Details extends React.Component {
       barcode,
       ccidBtnDisplay
     } = this.state;
-
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
