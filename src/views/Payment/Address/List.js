@@ -499,6 +499,7 @@ class AddressList extends React.Component {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.address2 = validationAddress.address2;
       deliveryAddress.city = validationAddress.city;
+      deliveryAddress.postCode = validationAddress.postalCode;
 
       deliveryAddress.province = validationAddress.provinceCode;
       deliveryAddress.provinceId =

@@ -2405,12 +2405,16 @@ class Payment extends React.Component {
       billingAddress.address1 = validationAddress.address1;
       billingAddress.address2 = validationAddress.address2;
       billingAddress.city = validationAddress.city;
+      billingAddress.postCode = validationAddress.postalCode;
 
       billingAddress.province = validationAddress.provinceCode;
       billingAddress.provinceId =
         validationAddress.provinceId && validationAddress.provinceId != null
           ? validationAddress.provinceId
           : billingAddress.provinceId;
+
+      // 地址校验返回参数
+      billingAddress.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         billingAddress: JSON.parse(JSON.stringify(oldForm))
