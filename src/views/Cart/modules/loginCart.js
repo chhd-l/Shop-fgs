@@ -392,6 +392,20 @@ class LoginCart extends React.Component {
         return false;
       }
 
+      // 存在不可销售商品，不能下单
+      if (checkoutStore.notSeableProNames.length) {
+        window.scrollTo({ behavior: 'smooth', top: 0 });
+        this.showErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo6"
+            values={{
+              val: checkoutStore.notSeableProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
+
       this.checkoutStore.setLoginCartData(productList);
       let autoAuditFlag = false;
       let res = await getProductPetConfig({

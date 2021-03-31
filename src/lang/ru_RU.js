@@ -1073,7 +1073,8 @@ const ru_RU = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'orderStatus.COMPLETED': 'Завершено',
-  'payment.cardInfoErr': 'Информация о карте неверна, проверьте.'
+  'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
+  'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}'
 };
 
 export default ru_RU;

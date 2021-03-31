@@ -125,6 +125,19 @@ class LoginCart extends React.Component {
         return false;
       }
 
+      // 存在不可销售商品，不能下单
+      if (checkoutStore.notSeableProNames.length) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo6"
+            values={{
+              val: checkoutStore.notSeableProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
+
       let autoAuditFlag = false;
       let res = await getProductPetConfig({
         goodsInfos: checkoutStore.loginCartData

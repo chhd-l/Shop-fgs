@@ -1201,7 +1201,9 @@ const de_DE = {
   'payment.shippingDiscount': 'Lieferung von Waren',
   'orderStatus.COMPLETED': 'abgeschlossen',
   'payment.cardInfoErr':
-    'Die Karteninformationen sind falsch, bitte überprüfen.'
+    'Die Karteninformationen sind falsch, bitte überprüfen.',
+  'cart.errorInfo6':
+    'Sie können Ihre Bestellung nicht aufgeben, nicht Seable: {val}'
 };
 
 export default de_DE;

@@ -248,6 +248,7 @@ const en_US = {
     '*Your order amount has not yet reached the minimum amount for free shipping （{val}）',
   'cart.errorInfo4': 'You cannot place your order, Off shelves product: {val}',
   'cart.errorInfo5': 'You cannot place your order, deleted product: {val}',
+  'cart.errorInfo6': 'You cannot place your order, not seable: {val}',
   'cart.errorMaxCate': "The shopping cart can't exceed {val} items",
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
   'cart.firstOrderDiscountTip':
