@@ -814,7 +814,7 @@ class AddressList extends React.Component {
                 )
               ) : null}
               {!addOrEdit && (
-                <div className="text-right" style={{ marginTop: '10px' }}>
+                <div className="text-right" style={{ marginTop: '.625rem' }}>
                   {/* <button
                     className="rc-btn rc-btn--sm rc-btn--two"
                     onClick={() => this.props.cancel()}

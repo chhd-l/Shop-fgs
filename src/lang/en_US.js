@@ -1092,7 +1092,7 @@ const en_US = {
   saveExtraMoney: 'Save {val} on this subscription',
   saveFailed: 'Save Failed!',
   saveSuccess: 'Save Success',
-  saveSuccessfullly: 'Save successfullly',
+  saveSuccessfullly: 'Save Successfully',
   saveSuccessfullly2: 'Your information has been correctly saved',
   search: 'Search',
   searchBreed: 'Search breed',

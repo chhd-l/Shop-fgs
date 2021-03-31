@@ -431,6 +431,7 @@ class AccountOrders extends React.Component {
         {order.canPayNow ? (
           <>
             <TimeCount
+              className="rc-hidden"
               startTime={this.state.defaultLocalDateTime}
               endTime={order.orderTimeOut}
               onTimeEnd={this.handlePayNowTimeEnd.bind(this, order)}
@@ -693,7 +694,7 @@ class AccountOrders extends React.Component {
                                   className="card-container"
                                   style={{
                                     paddingBottom:
-                                      this.deviceType === 'H5' ? '20px' : '0'
+                                      this.deviceType === 'H5' ? '1.25rem' : '0'
                                   }}
                                   key={order.id}
                                   onClick={this.handleClickCardItem.bind(
@@ -800,8 +801,8 @@ class AccountOrders extends React.Component {
                                       className="rc-md-down"
                                       style={{
                                         position: 'absolute',
-                                        right: '15px',
-                                        bottom: '-20px'
+                                        right: '.9375rem',
+                                        bottom: '-1.25rem'
                                       }}
                                     >
                                       {order.tradeState.deliverStatus ===

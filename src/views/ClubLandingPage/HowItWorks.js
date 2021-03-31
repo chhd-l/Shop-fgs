@@ -55,8 +55,8 @@ const HowItWorks = (props) => {
                 <div
                   style={{
                     alignSelf: 'center',
-                    marginLeft: '10px',
-                    marginRight: '10px'
+                    marginLeft: '.625rem',
+                    marginRight: '.625rem'
                   }}
                 >
                   <article>
@@ -91,8 +91,8 @@ const HowItWorks = (props) => {
                 <div
                   style={{
                     alignSelf: 'center',
-                    marginLeft: '10px',
-                    marginRight: '10px'
+                    marginLeft: '.625rem',
+                    marginRight: '.625rem'
                   }}
                 >
                   <article>
@@ -128,8 +128,8 @@ const HowItWorks = (props) => {
                 <div
                   style={{
                     alignSelf: 'center',
-                    marginLeft: '10px',
-                    marginRight: '10px'
+                    marginLeft: '.625rem',
+                    marginRight: '.625rem'
                   }}
                 >
                   <article>

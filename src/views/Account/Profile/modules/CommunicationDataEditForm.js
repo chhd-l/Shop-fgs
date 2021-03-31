@@ -370,7 +370,7 @@ class CommunicationDataEditForm extends React.Component {
                   list={list}
                   sendList={this.sendList}
                   disabled={!editFormVisible}
-                  checkboxPadding={'10px'}
+                  checkboxPadding={'.625rem'}
                   zoom={'150%'}
                   key={'profile'}
                 />

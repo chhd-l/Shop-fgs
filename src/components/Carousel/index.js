@@ -47,14 +47,14 @@ class Carousel extends Component {
                 <article
                   className="rc-card rc-card--b"
                   key={index}
-                  style={{ border: '1px solid #E5E5E5', margin: '0 20px' }}
+                  style={{ border: '1px solid #E5E5E5', margin: '0 1.25rem' }}
                 >
                   <picture
                     className="rc-card__image"
                     style={{
                       width: '150px',
                       height: '180px',
-                      margin: '10px auto'
+                      margin: '.625rem auto'
                     }}
                   >
                     <img src={item.goodsImg} alt="alt text" />

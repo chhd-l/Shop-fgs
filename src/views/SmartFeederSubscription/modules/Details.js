@@ -60,7 +60,7 @@ const Details = ({ goodsDetailTabs, details }) => {
                         <div className="list_title">${
                           Object.keys(JSON.parse(el))[0]
                         }</div>
-                        <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                        <div className="list_item" style="padding-top: .9375rem; margin-bottom: 1.25rem;">${
                           Object.values(JSON.parse(el))[0]['Description']
                         }</div>
                       </li>`;

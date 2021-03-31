@@ -1,21 +1,21 @@
-@media(max-width: 960px){
+@media (max-width: 960px) {
   /* Phone */
-  .type-btn{
+  .type-btn {
     background-color: #fff;
-    border: 1px solid #CACACA;
+    border: 1px solid #cacaca;
     color: #b6b6b6;
     border-radius: 5px;
     margin: 0 5px;
   }
-  .selected-btn{
+  .selected-btn {
     border: 1px solid #e2001a;
     border-radius: 5px;
     color: #e2001a;
     background-color: #fff;
     margin: 0 5px;
   }
-  .address-btn{
-    margin-top: 10px;
+  .address-btn {
+    margin-top: 0.625rem;
     background: #e2001a;
     border: 1px;
     color: #fff;
@@ -31,39 +31,39 @@
     width: 20% !important;
   } */
 }
-@media(min-width: 960px){
+@media (min-width: 960px) {
   /* PC */
   .table-toolbar {
-    padding: 10px;
+    padding: 0.625rem;
     display: flex;
     justify-content: space-between;
   }
-  .type-btn{
+  .type-btn {
     background-color: #fff;
-    border: 1px solid #CACACA;
+    border: 1px solid #cacaca;
     color: #b6b6b6;
     border-radius: 5px;
-    padding: 8px 15px;
+    padding: 8px 0.9375rem;
   }
-  .selected-btn{
+  .selected-btn {
     border: 1px solid #e2001a;
     border-radius: 5px;
-    padding: 8px 15px;
+    padding: 8px 0.9375rem;
     color: #e2001a;
     background-color: #fff;
   }
 
-  .address-btn{
+  .address-btn {
     background: #e2001a;
     border: 1px;
     color: #fff;
     border-radius: 25px;
-    padding: 8px 15px;
+    padding: 8px 0.9375rem;
   }
-  .dividing{
-    padding:12px 6px 0px 6px;
-    margin-left: 16px;
-    margin-right: 10px;
+  .dividing {
+    padding: 0.75rem 6px 0px 6px;
+    margin-left: 1rem;
+    margin-right: 0.625rem;
     border-left: 1px solid #b6b6b6;
     font-size: 0;
   }
@@ -76,82 +76,73 @@
   } */
 }
 
-
 .t-gray {
   color: #999;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 2.5;
-  margin-right: 10px;
+  margin-right: 0.625rem;
 }
 
-.card-address-default{
+.card-address-default {
   border-color: #e2001a !important;
 }
 
-
-
-
-.type-text{
-  color:#B6B6B6;
-  font-size:18px;
-  font-weight:500;
+.type-text {
+  color: #b6b6b6;
+  font-size: 1.125rem;
+  font-weight: 500;
   margin: auto 0;
 }
 
-
-
-
-
-.dividing-action{
-  padding: 12px 0px 0px 4px;
+.dividing-action {
+  padding: 0.75rem 0px 0px 4px;
   margin-left: 4px;
   border-left: 1px solid #b6b6b6;
   font-size: 0;
 }
 
-.address-layout{
+.address-layout {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
-.address-border{
-  border: 1px solid #CACACA;
-  padding: 20px 10px;
-  /* border-radius:11px; */
-
+.address-border {
+  border: 1px solid #cacaca;
+  padding: 1.25rem 0.625rem;
+  /* border-radius:.6875rem; */
 }
 
 .card-address {
-  padding: 10px;
-  border: 1px solid #CACACA;
-  /* border-radius:11px; */
+  padding: 0.625rem;
+  border: 1px solid #cacaca;
+  /* border-radius:.6875rem; */
 }
-.address-name{
+.address-name {
   color: #202020;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
-.address-action{
-    height: 20px;
-    font-size: 12px;
-    padding: 0;
-    display: flex;
-    justify-content: flex-end;
+.address-action {
+  height: 1.25rem;
+  font-size: 0.75rem;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.address-click-btn{
+.address-click-btn {
   cursor: pointer;
 }
-.address-click-btn:hover{
+.address-click-btn:hover {
   color: #e2001a !important;
 }
 
- .icon-default {
-  margin: 5px 10px;
-  padding: 0 10px;
-  line-height: 20px;
-  font-size: .9em;
+.icon-default {
+  margin: 5px 0.625rem;
+  padding: 0 0.625rem;
+  line-height: 1.25rem;
+  font-size: 0.9em;
   border-radius: 1em;
   border: 1px solid;
 }
@@ -160,31 +151,30 @@
   border-bottom: 1px solid #d7d7d7;
 }
 
-.address-add-btn{
+.address-add-btn {
   position: absolute;
-  right: 10px;
+  right: 0.625rem;
 }
-.spanWrap{
-  word-break:normal; 
-  width:auto; 
-  display:block; 
-  white-space:pre-wrap;
-  word-wrap : break-word ;
-  overflow: hidden ;
-
+.spanWrap {
+  word-break: normal;
+  width: auto;
+  display: block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
-.line-ellipse{
-  overflow:hidden;
-  text-overflow:ellipsis; 
-  white-space:nowrap;
-  }
-
-.line-ellipsis{
+.line-ellipse {
   overflow: hidden;
   text-overflow: ellipsis;
-  display:-webkit-box;
-  -webkit-box-orient:vertical; 
-  -webkit-line-clamp:2;
-  width:auto; 
+  white-space: nowrap;
+}
+
+.line-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  width: auto;
 }

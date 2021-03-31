@@ -96,7 +96,7 @@ class Help extends React.Component {
 
           <div
             className="rc-layout-container rc-two-column"
-            style={{ padding: '20px 200px' }}
+            style={{ padding: '1.25rem 200px' }}
           >
             <div
               className="rc-column"
@@ -138,7 +138,7 @@ class Help extends React.Component {
           </div>
           <div
             className="rc-layout-container rc-two-column"
-            style={{ padding: '20px 200px' }}
+            style={{ padding: '1.25rem 200px' }}
           >
             <div className="rc-column">
               <LazyLoad>
@@ -183,7 +183,7 @@ class Help extends React.Component {
           </div>
           <div
             className="rc-layout-container rc-two-column"
-            style={{ padding: '20px 200px' }}
+            style={{ padding: '1.25rem 200px' }}
           >
             <div
               className="rc-column"

@@ -604,7 +604,7 @@ class PayProductInfo extends React.Component {
                 </div>
               </div>
               {isShowValidCode ? (
-                <div className="red" style={{ fontSize: '14px' }}>
+                <div className="red" style={{ fontSize: '.875rem' }}>
                   {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
                   <FormattedMessage id="validPromotionCode" />
                 </div>
@@ -619,7 +619,7 @@ class PayProductInfo extends React.Component {
                         height: '60px',
                         lineHeight: '60px',
                         overflow: 'hidden',
-                        marginBottom: '10px'
+                        marginBottom: '.625rem'
                       }}
                     >
                       <div
@@ -651,14 +651,17 @@ class PayProductInfo extends React.Component {
                           )}
                         </p>
                       </div>
-                      <div className="col-2" style={{ padding: '0 15px 0 0' }}>
+                      <div
+                        className="col-2"
+                        style={{ padding: '0 .9375rem 0 0' }}
+                      >
                         <p className="text-right shipping-cost">
                           <span
                             className="rc-icon rc-close--sm rc-iconography"
                             style={{
-                              fontSize: '18px',
-                              marginLeft: '10px',
-                              lineHeight: '20px',
+                              fontSize: '1.125rem',
+                              marginLeft: '.625rem',
+                              lineHeight: '1.25rem',
                               cursor: 'pointer'
                             }}
                             onClick={async () => {
@@ -928,9 +931,9 @@ class PayProductInfo extends React.Component {
           {process.env.REACT_APP_LANG == 'de' ? (
             <div
               style={{
-                fontSize: '12px',
-                paddingLeft: '22px',
-                paddingBottom: '10px',
+                fontSize: '.75rem',
+                paddingLeft: '1.375rem',
+                paddingBottom: '.625rem',
                 color: '#999',
                 marginTop: '-5px'
               }}

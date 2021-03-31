@@ -314,7 +314,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   updateSelectedCardInfo = (data) => {
     let cyberMd5Cvv;
@@ -1939,6 +1941,7 @@ class Payment extends React.Component {
 
   // 修改BillingAddress数据
   updateBillingAddrData = (data) => {
+    console.log('1924 ------------------  updateBillingAddrData: ', data);
     if (!this.state.billingChecked) {
       this.setState({ billingAddress: data });
     }
@@ -2330,7 +2333,6 @@ class Payment extends React.Component {
   // 点击confirm (已绑卡)
   clickReInputCvvConfirm = () => {
     console.log(' 2318 ----------- clickReInputCvvConfirm 已绑卡');
-    console.log(this.state.billingAddress);
     this.setState({
       payPanelTitle: 'clickReInputCvvConfirm'
     });
@@ -2339,14 +2341,23 @@ class Payment extends React.Component {
   };
   // 收起面板，显示preview
   setPaymentToCompleted = () => {
-    const { paymentStore } = this.props;
     if (!this.state.billingChecked) {
       // 未勾选，显示 VisitorAddress 中的地址验证
       this.setState({
         validationLoading: true,
         validationModalVisible: true
       });
+    } else {
+      this.cvvConfirmNextPanel();
     }
+  };
+  // 已绑卡 下一步
+  cvvConfirmNextPanel = () => {
+    const { paymentStore } = this.props;
+    this.setState({
+      validationLoading: false,
+      validationModalVisible: false
+    });
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
@@ -2354,6 +2365,56 @@ class Payment extends React.Component {
       scrollPaymentPanelIntoView();
     });
   };
+
+  /***** 地址校验相关 *******/
+  // 选择地址
+  chooseValidationAddress = (e) => {
+    this.setState({
+      selectValidationOption: e.target.value
+    });
+  };
+  // 获取地址验证查询到的数据
+  getValidationData = async (data) => {
+    this.setState({
+      validationLoading: false
+    });
+    if (data && data != null) {
+      // 获取并设置地址校验返回的数据
+      this.setState({
+        validationAddress: data
+      });
+    } else {
+      // 不校验地址，进入下一步
+      this.cvvConfirmNextPanel();
+    }
+  };
+  // 确认选择地址,切换到下一个最近的未complete的panel
+  confirmListValidationAddress() {
+    const {
+      billingAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
+    let oldForm = JSON.parse(JSON.stringify(billingAddress));
+    if (selectValidationOption == 'suggestedAddress') {
+      billingAddress.address1 = validationAddress.address1;
+      billingAddress.address2 = validationAddress.address2;
+      billingAddress.city = validationAddress.city;
+
+      billingAddress.province = validationAddress.provinceCode;
+      billingAddress.provinceId =
+        validationAddress.provinceId && validationAddress.provinceId != null
+          ? validationAddress.provinceId
+          : billingAddress.provinceId;
+    } else {
+      this.setState({
+        billingAddress: JSON.parse(JSON.stringify(oldForm))
+      });
+    }
+
+    // billing  进入下一步
+    this.cvvConfirmNextPanel();
+  }
 
   // 编辑
   handleClickPaymentPanelEdit = async () => {
@@ -3011,63 +3072,6 @@ class Payment extends React.Component {
     return obj;
   };
 
-  /***** 地址校验相关 *******/
-  // 选择地址
-  chooseValidationAddress = (e) => {
-    this.setState({
-      selectValidationOption: e.target.value
-    });
-  };
-  // 获取地址验证查询到的数据
-  getValidationData = async (data) => {
-    this.setState({
-      validationLoading: false
-    });
-    if (data && data != null) {
-      // 获取并设置地址校验返回的数据
-      this.setState({
-        validationAddress: data
-      });
-    } else {
-      // 不校验地址，进入下一步
-      this.showNextPanel();
-    }
-  };
-  // 确认选择地址,切换到下一个最近的未complete的panel
-  confirmValidationAddress() {
-    const { form, selectValidationOption, validationAddress } = this.state;
-    let oldForm = JSON.parse(JSON.stringify(form));
-    this.setState({
-      btnLoading: true
-    });
-    if (selectValidationOption == 'suggestedAddress') {
-      form.address1 = validationAddress.address1;
-      form.address2 = validationAddress.address2;
-      form.city = validationAddress.city;
-
-      form.province = validationAddress.provinceCode;
-      form.provinceId =
-        validationAddress.provinceId && validationAddress.provinceId != null
-          ? validationAddress.provinceId
-          : form.provinceId;
-    } else {
-      this.setState({
-        form: JSON.parse(JSON.stringify(oldForm))
-      });
-    }
-
-    // payment 时提交 billing address
-    if (this.props.isDeliveryOrBilling == 'billing') {
-      // billing
-      this.props.setPaymentToCompleted();
-    } else {
-      // delivery  进入下一步
-      this.showNextPanel();
-    }
-  }
-  // 下一步
-  showNextPanel = () => {};
-
   render() {
     const { paymentMethodPanelStatus } = this;
     const { history, location, checkoutStore } = this.props;
@@ -3258,8 +3262,8 @@ class Payment extends React.Component {
                                 <div
                                   className="pull-left"
                                   style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
+                                    marginTop: '1.25rem',
+                                    marginLeft: '1.25rem'
                                   }}
                                 >
                                   <p>
@@ -3277,7 +3281,7 @@ class Payment extends React.Component {
                                   className="pull-right"
                                   style={{
                                     marginTop: '30px',
-                                    marginLeft: '20px'
+                                    marginLeft: '1.25rem'
                                   }}
                                 >
                                   <button
@@ -3311,8 +3315,8 @@ class Payment extends React.Component {
                                 <div
                                   className="pull-left"
                                   style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
+                                    marginTop: '1.25rem',
+                                    marginLeft: '1.25rem'
                                   }}
                                 >
                                   <p>
@@ -3332,7 +3336,7 @@ class Payment extends React.Component {
                                   className="pull-right"
                                   style={{
                                     marginTop: '30px',
-                                    marginLeft: '20px'
+                                    marginLeft: '1.25rem'
                                   }}
                                 >
                                   <button
@@ -3477,7 +3481,7 @@ class Payment extends React.Component {
                 handleChooseValidationAddress={(e) =>
                   this.chooseValidationAddress(e)
                 }
-                hanldeClickConfirm={() => this.confirmValidationAddress()}
+                hanldeClickConfirm={() => this.confirmListValidationAddress()}
                 validationModalVisible={validationModalVisible}
                 close={() => {
                   this.setState({

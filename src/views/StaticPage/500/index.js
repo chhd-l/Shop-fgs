@@ -51,7 +51,7 @@ class Page500 extends React.Component {
         <LazyLoad>
           <img
             src={logo}
-            style={{ width: '150px', margin: '80px auto 20px' }}
+            style={{ width: '150px', margin: '80px auto 1.25rem' }}
             alt="logo-icon"
           />
         </LazyLoad>

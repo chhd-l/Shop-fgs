@@ -11,7 +11,10 @@ class MarsFooterMap extends React.Component {
       es: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
-            <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
+            <ul
+              className="mars-footer-list-right"
+              style={{ fontSize: '.625rem' }}
+            >
               <li>
                 <a
                   target="_blank"
@@ -48,7 +51,7 @@ class MarsFooterMap extends React.Component {
             </ul>
             <div
               className="mars-footer-legal text-center"
-              style={{ fontSize: '10px' }}
+              style={{ fontSize: '.625rem' }}
             >
               <p>
                 <FormattedMessage id="footer.copyrightInfo" />
@@ -60,7 +63,10 @@ class MarsFooterMap extends React.Component {
       en: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
-            <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
+            <ul
+              className="mars-footer-list-right"
+              style={{ fontSize: '.625rem' }}
+            >
               <li>
                 <a
                   target="_blank"
@@ -142,7 +148,10 @@ class MarsFooterMap extends React.Component {
       de: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
-            <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
+            <ul
+              className="mars-footer-list-right"
+              style={{ fontSize: '.625rem' }}
+            >
               <li>
                 <a
                   target="_blank"
@@ -190,7 +199,7 @@ class MarsFooterMap extends React.Component {
             </ul>
             <div
               className="mars-footer-legal text-center"
-              style={{ fontSize: '10px' }}
+              style={{ fontSize: '.625rem' }}
             >
               <p>
                 <FormattedMessage id="footer.copyrightInfo2" />
@@ -202,7 +211,10 @@ class MarsFooterMap extends React.Component {
       fr: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
-            <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
+            <ul
+              className="mars-footer-list-right"
+              style={{ fontSize: '.625rem' }}
+            >
               <li>
                 <a
                   target="_blank"
@@ -247,7 +259,7 @@ class MarsFooterMap extends React.Component {
             </ul>
             <div
               className="mars-footer-legal text-center"
-              style={{ fontSize: '10px' }}
+              style={{ fontSize: '.625rem' }}
             >
               <p style={{ color: 'rgb(102,102,102)' }}>
                 <FormattedMessage id="footer.copyrightInfo2" />

@@ -163,7 +163,7 @@ class SelectPetModal extends Component {
                       </label>
                       <span
                         className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                        style={{ marginTop: '10px' }}
+                        style={{ marginTop: '.625rem' }}
                         data-loc="addressTypeSelect"
                       >
                         <select

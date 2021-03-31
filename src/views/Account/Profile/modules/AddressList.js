@@ -449,8 +449,8 @@ class AddressList extends React.Component {
                                     isPad
                                       ? {
                                           position: 'absolute',
-                                          top: '20px',
-                                          right: '24px'
+                                          top: '1.25rem',
+                                          right: '1.5rem'
                                         }
                                       : {}
                                   }

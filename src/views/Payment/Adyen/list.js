@@ -355,19 +355,19 @@ class AdyenCreditCardList extends React.Component {
           {showLastFour && (
             <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
               <div className="col-6">
-                <span style={{ fontSize: '14px' }}>
+                <span style={{ fontSize: '.875rem' }}>
                   <FormattedMessage id="payment.cardNumber2" />
                 </span>
                 <br />
                 <span
                   className="creditCompleteInfo fontFitSCreen"
-                  style={{ fontSize: '14px' }}
+                  style={{ fontSize: '.875rem' }}
                 >
                   xxxx xxxx xxxx {data.lastFourDigits}
                 </span>
               </div>
               <div className={`col-6 border-left`}>
-                <span style={{ fontSize: '14px' }}>
+                <span style={{ fontSize: '.875rem' }}>
                   <FormattedMessage id="payment.cardType" />
                 </span>
                 <br />
