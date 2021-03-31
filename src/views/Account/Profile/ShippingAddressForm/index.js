@@ -87,43 +87,31 @@ class ShippingAddressFrom extends React.Component {
           seoConfig: res
         },
         () => {
-          this.setState({
-            loading: false
-          });
+          // 根据addressId查询地址信息
+          if (this.props.addressId) {
+            this.setState({
+              loading: true
+            });
+            this.getAddressById(this.props.addressId);
+          } else {
+            this.setState({
+              loading: false
+            });
+          }
         }
       );
     });
-
-    if (this.props.addressId) {
-      this.getAddressById(this.props.addressId);
-    }
   }
+  // 根据 address Id 查询地址信息
   getAddressById = async (id) => {
-    this.setState({
-      loading: true
-    });
     try {
       let res = await getAddressById({ id });
       let data = res.context;
-      let addressForm = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        address1: data.address1,
-        address2: data.address2,
-        countryId: data.countryId,
-        country: data.country,
-        cityId: data.cityId,
-        city: data.city,
-        postCode: data.postCode,
-        phoneNumber: data.consigneeNumber,
-        rfc: data.rfc,
-        isDefalt: data.isDefaltAddress === 1 ? true : false,
-        deliveryAddressId: data.deliveryAddressId,
-        customerId: data.customerId,
-        addressType: data.type,
-        email: data.email
-      };
-      if (process.env.REACT_APP_LANG === 'en') {
+      let addressForm = data;
+      addressForm.phoneNumber = data.consigneeNumber;
+      addressForm.isDefalt = data.isDefaltAddress === 1 ? true : false;
+      addressForm.addressType = data.type;
+      if (addressForm.province) {
         addressForm.provinceNo = data.provinceNo;
         addressForm.province = data.province;
         addressForm.provinceId = data.provinceId;
