@@ -623,7 +623,7 @@ class MemberCardList extends React.Component {
         {supportPaymentMethods.map((el, idx) => (
           <LazyLoad key={idx}>
             <img
-              alt=""
+              alt="logo-payment-card"
               key={idx}
               style={{ width: '50px' }}
               className="logo-payment-card mr-1"

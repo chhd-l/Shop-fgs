@@ -197,7 +197,7 @@ class ShelterPrescription extends React.Component {
             <div className=" row align-items-md-center rc-margin-x--none">
               <div className="col-12 col-lg-5 rc-padding-x--sm--desktop">
                 <lazyLoad>
-                  <img src={CATSPng} alt="" />
+                  <img src={CATSPng} alt="cats-image" />
                 </lazyLoad>
               </div>
               <div className="col-12 col-lg-7">

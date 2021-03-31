@@ -948,7 +948,7 @@ class Recommendation extends React.Component {
                                     display: 'inline-block',
                                     margin: '10px 0'
                                   }}
-                                  alt=""
+                                  alt="goods-information-image"
                                 />
                                 {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
                                 <p
@@ -1093,7 +1093,7 @@ class Recommendation extends React.Component {
                             <img
                               className="type-icon"
                               src={PetsImg}
-                              alt=""
+                              alt="pet-image"
                               // src={petsiconArr[this.state.petType]}
                             />
                             <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
@@ -1172,7 +1172,11 @@ class Recommendation extends React.Component {
                   <div className="rc-column">
                     <div className="img-hover-switch rc-margin-bottom--sm">
                       <LazyLoad>
-                        <img className="m-center" src={item.img} alt="" />
+                        <img
+                          className="m-center"
+                          src={item.img}
+                          alt="recommendation-image"
+                        />
                       </LazyLoad>
                     </div>
                     <p>
@@ -1210,7 +1214,7 @@ class Recommendation extends React.Component {
               </div>
               <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                 <LazyLoad>
-                  <img src={PuppyJPG} alt="" />
+                  <img src={PuppyJPG} alt="puppy-image" />
                 </LazyLoad>
               </div>
             </div>
@@ -1235,7 +1239,7 @@ class Recommendation extends React.Component {
                         <img
                           className="mx-auto rc-margin-bottom--xs"
                           src={item.img}
-                          alt=""
+                          alt="recommendation-image"
                         />
                       </lazyload>
                       <div
@@ -1305,17 +1309,26 @@ class Recommendation extends React.Component {
                 <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
                   <div className="rc-column">
                     <LazyLoad>
-                      <img src={cur_recommendation2} alt="" />
+                      <img
+                        src={cur_recommendation2}
+                        alt="recommendation-image"
+                      />
                     </LazyLoad>
                   </div>
                   <div className="rc-column">
                     <LazyLoad>
-                      <img src={cur_recommendation3} alt="" />
+                      <img
+                        src={cur_recommendation3}
+                        alt="recommendation-image"
+                      />
                     </LazyLoad>
                   </div>
                   <div className="rc-column">
                     <LazyLoad>
-                      <img src={cur_recommendation4} alt="" />
+                      <img
+                        src={cur_recommendation4}
+                        alt="recommendation-image"
+                      />
                     </LazyLoad>
                   </div>
                 </div>

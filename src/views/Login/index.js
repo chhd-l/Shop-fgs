@@ -336,7 +336,11 @@ class Login extends React.Component {
                     className="rc-espilon imgBox"
                   >
                     <LazyLoad>
-                      <img src={bg1} style={{ display: 'inline' }} alt="" />
+                      <img
+                        src={bg1}
+                        style={{ display: 'inline' }}
+                        alt="login-background-image"
+                      />
                     </LazyLoad>
                   </div>
                 </div>
@@ -626,7 +630,7 @@ class Login extends React.Component {
                         bottom: '-120px',
                         right: '-270px'
                       }}
-                      alt=""
+                      alt="login-background-image"
                     />
                   </LazyLoad>
                   <div className="rc-layout-container rc-two-column">
@@ -950,7 +954,7 @@ class Login extends React.Component {
                         bottom: '-120px',
                         right: '-400px'
                       }}
-                      alt=""
+                      alt="login-background-image"
                     />
                   </LazyLoad>
                   <p>

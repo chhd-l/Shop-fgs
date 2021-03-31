@@ -133,7 +133,11 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={autoship} style={{ width: '100%' }} alt="" />
+                <img
+                  src={autoship}
+                  style={{ width: '100%' }}
+                  alt="autoship-icon"
+                />
               </LazyLoad>
             </div>
           </div>
@@ -151,7 +155,7 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap"
                   src={icon1}
                   style={{
                     width: '100px',
@@ -168,7 +172,7 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap"
                   src={icon2}
                   style={{
                     width: '100px',
@@ -186,7 +190,7 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap"
                   src={icon3}
                   style={{
                     width: '100px',
@@ -203,7 +207,7 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt=""
+                  alt="Bitmap"
                   src={icon4}
                   style={{
                     width: '100px',
@@ -231,7 +235,7 @@ class Help extends React.Component {
                     display: 'inline-block',
                     marginBottom: '20px'
                   }}
-                  alt=""
+                  alt="cat-icon"
                 />
               </LazyLoad>
             </div>
@@ -259,7 +263,7 @@ class Help extends React.Component {
                     display: 'inline-block',
                     marginBottom: '20px'
                   }}
-                  alt=""
+                  alt="dog-image"
                 />
               </LazyLoad>
             </div>

@@ -255,7 +255,7 @@ class PayProductInfo extends React.Component {
                   <img
                     className="product-image"
                     src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
-                    alt=""
+                    alt="product-image"
                   />
                 </LazyLoad>
               </div>
@@ -268,7 +268,11 @@ class PayProductInfo extends React.Component {
                   >
                     <span className="light">{el.goodsName}</span>
                     {el.promotions && el.promotions.includes('club') ? (
-                      <img className="clubLogo" src={Club_Logo} alt="" />
+                      <img
+                        className="clubLogo"
+                        src={Club_Logo}
+                        alt="club-logo"
+                      />
                     ) : null}
                   </div>
                 </div>
@@ -327,7 +331,11 @@ class PayProductInfo extends React.Component {
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
                 <LazyLoad>
-                  <img className="product-image" src={el.goodsInfoImg} alt="" />
+                  <img
+                    className="product-image"
+                    src={el.goodsInfoImg}
+                    alt="product-image"
+                  />
                 </LazyLoad>
               </div>
               <div className="wrap-item-title">
@@ -341,7 +349,11 @@ class PayProductInfo extends React.Component {
                     </span>
                     {el?.goods?.promotions &&
                     el.goods.promotions.includes('club') ? (
-                      <img className="clubLogo" src={Club_Logo} alt="" />
+                      <img
+                        className="clubLogo"
+                        src={Club_Logo}
+                        alt="club-logo"
+                      />
                     ) : null}
                   </div>
                 </div>

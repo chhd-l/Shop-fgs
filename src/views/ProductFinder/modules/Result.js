@@ -47,7 +47,7 @@ function QListAndPetJSX(props) {
               <img
                 src={{ cat: catImg, dog: dogImg }[props.type]}
                 style={{ width: '50%', margin: '0 auto' }}
-                alt=""
+                alt="pet-image"
               />
             </LazyLoad>
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
@@ -89,7 +89,7 @@ function QListAndPetJSX(props) {
                       width: '50%',
                       margin: '0 auto'
                     }}
-                    alt=""
+                    alt="pet-image"
                   />
                 </LazyLoad>
               </div>
@@ -409,7 +409,7 @@ class ProductFinderResult extends React.Component {
                             )[0].goodsInfoImg
                           }
                           className="p-img"
-                          alt=""
+                          alt="goods-information-image"
                         />
                       </LazyLoad>
                     </div>
@@ -504,7 +504,7 @@ class ProductFinderResult extends React.Component {
                                 )[0].goodsInfoImg
                               }
                               className="p-img"
-                              alt=""
+                              alt="goods-information-image"
                             />
                           </LazyLoad>
                         </div>

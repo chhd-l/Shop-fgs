@@ -55,7 +55,7 @@ class SelectPetModal extends Component {
   }
 
   async getPetList() {
-    if (!this.userInfo||!this.userInfo.customerAccount) {
+    if (!this.userInfo || !this.userInfo.customerAccount) {
       // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
@@ -129,7 +129,7 @@ class SelectPetModal extends Component {
                         <img
                           className="rc-img--square rc-img--square-custom "
                           src={item.goodsInfoImg}
-                          alt=""
+                          alt="goods-information"
                         />
                       </LazyLoad>
                     </div>
@@ -175,7 +175,10 @@ class SelectPetModal extends Component {
                           name="petType"
                         >
                           {this.state.pets.map((item, i) => (
-                            <option value={item.value} key={i}> {item.name}</option>
+                            <option value={item.value} key={i}>
+                              {' '}
+                              {item.name}
+                            </option>
                           ))}
                         </select>
                       </span>

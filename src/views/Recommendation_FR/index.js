@@ -703,7 +703,7 @@ class Help extends React.Component {
                                 display: 'inline-block',
                                 margin: '10px 0'
                               }}
-                              alt=""
+                              alt="goods-information-image"
                             />
                             {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
                             <p
@@ -827,7 +827,7 @@ class Help extends React.Component {
                                   MaxSubPrice === MinSubPrice ? (
                                     <span>{formatMoney(MaxSubPrice)}</span>
                                   ) : (
-                                    
+
                                   )
                                 ) : null} */}
                               </b>
@@ -1355,7 +1355,11 @@ class Help extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                    <img src={helpImg} alt="" title="" />
+                                    <img
+                                      src={helpImg}
+                                      alt="help-icon"
+                                      title=""
+                                    />
                                   </LazyLoad>
                                 </picture>
                               </div>
@@ -1418,17 +1422,17 @@ class Help extends React.Component {
           >
             <li>
               <LazyLoad>
-                <img src={cur_recommendation2} alt="" />
+                <img src={cur_recommendation2} alt="recommendation-image" />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad>
-                <img src={cur_recommendation3} alt="" />
+                <img src={cur_recommendation3} alt="recommendation-image" />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad>
-                <img src={cur_recommendation4} alt="" />
+                <img src={cur_recommendation4} alt="recommendation-image" />
               </LazyLoad>
             </li>
           </section>

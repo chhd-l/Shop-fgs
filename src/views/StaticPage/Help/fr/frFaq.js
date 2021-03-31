@@ -52,7 +52,7 @@ class FrFaq extends Component {
                     <img
                       className=" lazyloaded"
                       src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg`}
-                      alt=""
+                      alt="help-icon"
                     />
                   </LazyLoad>
                 </picture>
@@ -85,7 +85,7 @@ class FrFaq extends Component {
                         <img
                           className="lazyloaded"
                           src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@90.jpg`}
-                          alt=""
+                          alt="faq-icon"
                         />
                       </LazyLoad>
                     </div>

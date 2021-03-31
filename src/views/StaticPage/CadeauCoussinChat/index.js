@@ -149,7 +149,7 @@ class CadeauCoussinChat extends React.Component {
 
                             <div className="rc-column">
                               <img
-                                alt=" "
+                                alt="cat-antibacterial-mat-image"
                                 className="w-100 lazyloaded"
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CAT-ANTIBACTERIAL-MAT.png`}
                               />
