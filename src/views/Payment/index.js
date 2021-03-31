@@ -15,6 +15,7 @@ import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
+import { Prompt } from 'react-router-dom';
 
 import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
@@ -3516,6 +3517,12 @@ class Payment extends React.Component {
           confirm={this.petComfirm}
           close={this.closePetModal}
         />
+        <div>
+          <Prompt
+            when={localItemRoyal.get('rc-iframe-from-storepotal')}
+            message={() => localItemRoyal.remove('rc-iframe-from-storepotal')}
+          />
+        </div>
       </div>
     );
   }

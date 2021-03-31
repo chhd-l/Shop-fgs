@@ -2763,7 +2763,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.specText}
                                   </p>
-                                  {this.DailyRation()}
+                                  {isClub && this.DailyRation()}
                                 </div>
                               </div>
                               <div style={{ marginTop: '.9375rem' }}>
@@ -3295,7 +3295,7 @@ class SubscriptionDetail extends React.Component {
                                             </span>
                                           </div>
                                         </div>
-                                        {this.DailyRation()}
+                                        {isClub && this.DailyRation()}
                                       </div>
                                     </div>
                                   </div>
