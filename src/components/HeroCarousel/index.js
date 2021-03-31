@@ -150,7 +150,7 @@ class HeroCarousel extends React.Component {
       return (
         <>
           <div className="hero-carousel__slide__video">
-            <video autoPlay={true} muted={true} loop={true} id="myVideo">
+            <video autoPlay={true} muted={true} loop={true}>
               <source src={el.webUrl} type="video/mp4" />
             </video>
             {el.mobiSkipUrl ? (
@@ -169,9 +169,9 @@ class HeroCarousel extends React.Component {
           </div>
           <div className="hero-carousel__slide__content">
             <div className="rc-gamma inherit-fontsize">
-              <h1>
+              <div style={{ lineHeight: 1.2 }}>
                 <FormattedMessage id="header.carouselInfo1" />
-              </h1>
+              </div>
             </div>
             <div className="rc-body inherit-fontsize">
               <FormattedMessage id="header.carouselInfo2" />
@@ -193,65 +193,71 @@ class HeroCarousel extends React.Component {
     };
 
     return (
-      banner.length > 0 && (
-        <Slider {...settings}>
-          {banner.map((el, i) => (
-            <div className="hero-carousel__slide" key={i}>
-              <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                {el.isVideo && el.isVideo === '1' ? (
-                  videoJSX(el, i)
-                ) : (
-                  <>
-                    {el.webSkipUrl ? (
-                      <ATagContainer
-                        className="h-100"
-                        to={el.webSkipUrl}
-                        href={el.webSkipUrl}
-                        isOuterLink={el.isOuterLinkForPC}
-                        onClick={this.GABannerClick.bind(this, i)}
-                      >
+      <>
+        {banner.length > 0 && (
+          <Slider {...settings}>
+            {banner.map((el, i) => (
+              <div className="hero-carousel__slide" key={i}>
+                <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                  {el.isVideo && el.isVideo === '1' ? (
+                    videoJSX(el, i)
+                  ) : (
+                    <>
+                      {el.webSkipUrl ? (
+                        <ATagContainer
+                          className="h-100"
+                          to={el.webSkipUrl}
+                          href={el.webSkipUrl}
+                          isOuterLink={el.isOuterLinkForPC}
+                          onClick={this.GABannerClick.bind(this, i)}
+                        >
+                          <img
+                            className="rc-md-up mh-100"
+                            src={el.webUrl}
+                            alt="banner"
+                          />
+                        </ATagContainer>
+                      ) : (
                         <img
                           className="rc-md-up mh-100"
                           src={el.webUrl}
                           alt="banner"
                         />
-                      </ATagContainer>
-                    ) : (
-                      <img
-                        className="rc-md-up mh-100"
-                        src={el.webUrl}
-                        alt="banner"
-                      />
-                    )}
+                      )}
 
-                    {el.mobiSkipUrl ? (
-                      <ATagContainer
-                        className="h-100"
-                        to={el.mobiSkipUrl}
-                        href={el.mobiSkipUrl}
-                        isOuterLink={el.isOuterLinkForMobile}
-                        onClick={this.GABannerClick.bind(this, i)}
-                      >
+                      {el.mobiSkipUrl ? (
+                        <ATagContainer
+                          className="h-100"
+                          to={el.mobiSkipUrl}
+                          href={el.mobiSkipUrl}
+                          isOuterLink={el.isOuterLinkForMobile}
+                          onClick={this.GABannerClick.bind(this, i)}
+                        >
+                          <img
+                            className="rc-md-down w-100 mh-100"
+                            src={el.mobiUrl}
+                            alt="banner"
+                          />
+                        </ATagContainer>
+                      ) : (
                         <img
                           className="rc-md-down w-100 mh-100"
                           src={el.mobiUrl}
                           alt="banner"
                         />
-                      </ATagContainer>
-                    ) : (
-                      <img
-                        className="rc-md-down w-100 mh-100"
-                        src={el.mobiUrl}
-                        alt="banner"
-                      />
-                    )}
-                  </>
-                )}
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </Slider>
-      )
+            ))}
+          </Slider>
+        )}
+        {/* 不要删除，seo用 */}
+        <h1 style={{ display: 'none' }}>
+          <FormattedMessage id="header.carouselInfo1" />
+        </h1>
+      </>
     );
   }
 }

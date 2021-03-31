@@ -223,14 +223,6 @@ class ImageMagnifier extends Component {
     this.setState(
       {
         magnifierOff: true
-        // params: Object.assign({}, this.state.params, {
-        //   width: document.querySelector('#J_detail_img')
-        //     ? document.querySelector('#J_detail_img').offsetWidth
-        //     : 10,
-        //   height: document.querySelector('#J_detail_img')
-        //     ? document.querySelector('#J_detail_img').offsetHeight
-        //     : 10
-        // })
       },
       () => this.initParam()
     );
@@ -430,7 +422,7 @@ class ImageMagnifier extends Component {
                 <div key={i}>
                   {/* <LazyLoad> */}
                   <img
-                    id="J_detail_img"
+                    className="J_detail_img"
                     style={cssStyle.imgStyle}
                     src={el.artworkUrl || this.state.maxImg || noPic}
                     // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
