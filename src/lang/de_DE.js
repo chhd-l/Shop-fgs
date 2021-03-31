@@ -1198,7 +1198,8 @@ const de_DE = {
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen',
-  'payment.shippingDiscount': 'Lieferung von Waren'
+  'payment.shippingDiscount': 'Lieferung von Waren',
+  'orderStatus.COMPLETED': 'abgeschlossen'
 };
 
 export default de_DE;
