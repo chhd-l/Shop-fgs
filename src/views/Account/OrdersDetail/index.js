@@ -320,19 +320,25 @@ class AccountOrders extends React.Component {
         //     }
         // }
 
-        normalProgressList = [1000, 2000, 3000, 4000, 5000, 9000].map((el) => {
+        normalProgressList = [1000, 2000, 4000, 5000].map((el) => {
           let flowStateIds = [orderStatusMap[el]?.flowStateId];
           // 组装所有归属于此状态的订单状态
           switch (el) {
             // case 1000:
             //   flowStateIds.push(orderStatusMap[2000]?.flowStateId);
             //   break;
-            case 3000:
-              flowStateIds.push(orderStatusMap[3010]?.flowStateId);
+            case 2000:
+              flowStateIds.push(orderStatusMap[3000]?.flowStateId);
               break;
+            // case 3000:
+            //   flowStateIds.push(orderStatusMap[3010]?.flowStateId);
+            //   break;
             case 4000:
               flowStateIds.push(orderStatusMap[4010]?.flowStateId);
               // flowStateIds.push(orderStatusMap[5000]?.flowStateId);
+              break;
+            case 5000:
+              flowStateIds.push(orderStatusMap[9000]?.flowStateId);
               break;
           }
           return Object.assign(orderStatusMap[el], {
@@ -1170,7 +1176,7 @@ class AccountOrders extends React.Component {
                           />
                           <div className="row m-0 ml-2 mr-2 ml-md-0 mr-md-0">
                             <div className="col-12 border table-header rounded mt-3 mt-md-0">
-                              <div className="row align-items-center pt-3 pb-2 pl-1 pr-1 pl-md-4 pr-md-4 pt-md-4 pb-md-3">
+                              <div className="row pt-3 pb-2 pl-1 pr-1 pl-md-4 pr-md-4 pt-md-4 pb-md-3">
                                 {/* 订单号 */}
                                 <div className="col-12 col-md-3 text-left mb-2">
                                   <FormattedMessage id="order.orderNumber" />
@@ -1206,7 +1212,10 @@ class AccountOrders extends React.Component {
                                   <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="payment.clinicTitle3" />
                                     <br />
-                                    <span className="medium">
+                                    <span
+                                      className="medium ui-text-overflow-line2"
+                                      title={details.clinicsName}
+                                    >
                                       {details.clinicsName}
                                     </span>
                                   </div>
