@@ -15,6 +15,7 @@ import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
+import { Prompt } from 'react-router-dom';
 
 import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
@@ -2239,6 +2240,7 @@ class Payment extends React.Component {
             _this.payUCreditCardRef.current.paymentCompRef &&
             _this.payUCreditCardRef.current.paymentCompRef.current
           ) {
+            // 保存/修改 地址
             await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
           } else {
             // 游客
@@ -2282,12 +2284,6 @@ class Payment extends React.Component {
     };
 
     try {
-      // debugger;
-      // if ('没有校验过地址') {
-      //   // 直接显示校验弹框
-      //   throw new Error();
-      // }
-
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false
 
@@ -2333,6 +2329,7 @@ class Payment extends React.Component {
         }
       }
       this.setPaymentToCompleted();
+      console.log(2327);
     } catch (e) {
       this.showErrorMsg(e.message);
     } finally {
@@ -2424,7 +2421,9 @@ class Payment extends React.Component {
         billingAddress: JSON.parse(JSON.stringify(oldForm))
       });
     }
-
+    console.log('-------------------- 确认选择地址');
+    // 一系列操作
+    // this.confirmPaymentPanel();
     // billing  进入下一步
     this.cvvConfirmNextPanel();
   }
@@ -3518,6 +3517,12 @@ class Payment extends React.Component {
           confirm={this.petComfirm}
           close={this.closePetModal}
         />
+        <div>
+          <Prompt
+            when={localItemRoyal.get('rc-iframe-from-storepotal')}
+            message={() => localItemRoyal.remove('rc-iframe-from-storepotal')}
+          />
+        </div>
       </div>
     );
   }
