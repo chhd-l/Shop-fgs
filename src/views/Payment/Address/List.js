@@ -29,7 +29,6 @@ class AddressList extends React.Component {
     type: 'delivery',
     showOperateBtn: true,
     titleVisible: true,
-    payPanelTitle: '',
     updateFormValidStatus: () => {},
     updateData: () => {}
   };

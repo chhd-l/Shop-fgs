@@ -121,7 +121,7 @@ class AddressList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  getPaymentMethodList = async (msg, { showLoading = true } = {}) => {
+  getPaymentMethodList = async ({ msg, showLoading = true } = {}) => {
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod();
