@@ -2408,7 +2408,6 @@ class Payment extends React.Component {
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
-      billingAddress.address2 = validationAddress.address2;
       billingAddress.city = validationAddress.city;
       billingAddress.postCode = validationAddress.postalCode;
 

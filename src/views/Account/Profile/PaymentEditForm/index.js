@@ -545,7 +545,6 @@ class PaymentEditForm extends React.Component {
     this.setState({ btnLoading: true });
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
-      paymentForm.address2 = validationAddress.address2;
       paymentForm.city = validationAddress.city;
       paymentForm.country = validationAddress.countryCode;
       paymentForm.zipCode = validationAddress.postalCode;

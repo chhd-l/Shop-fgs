@@ -87,7 +87,7 @@ class Form extends React.Component {
     initData.stateNo = initData.provinceNo;
     initData.state = initData.province;
 
-    console.log('91 -------------★ EditForm initData: ', initData);
+    // console.log('91 -------------★ EditForm initData: ', initData);
     //console.log('92-------------★ EditForm caninForm: ', caninForm);
 
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
@@ -460,6 +460,8 @@ class Form extends React.Component {
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });
+    console.log('------------- value: ', value);
+    console.log('------------- caninForm: ', caninForm);
     this.inputBlur(e);
   };
   // 文本框失去焦点
