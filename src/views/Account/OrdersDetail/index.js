@@ -1373,23 +1373,21 @@ class AccountOrders extends React.Component {
                                       </div>
                                     </>
                                   ) : null}
-                                  {details.tradePrice.promotionDiscountPrice
-                                    ? details.tradePrice.promotionVOList.map(
-                                        (el) => (
-                                          <>
-                                            <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                              &nbsp;
-                                            </div>
-                                            <div className="col-6 col-md-2 mb-2 green">
-                                              {el.marketingName}
-                                            </div>
-                                            <div className="col-6 col-md-3 text-right green text-nowrap">
-                                              -{formatMoney(el.discountPrice)}
-                                            </div>
-                                          </>
-                                        )
-                                      )
-                                    : null}
+                                  {details.tradePrice.promotionVOList?.map(
+                                    (el) => (
+                                      <>
+                                        <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                          &nbsp;
+                                        </div>
+                                        <div className="col-6 col-md-2 mb-2 green">
+                                          {el.marketingName}
+                                        </div>
+                                        <div className="col-6 col-md-3 text-right green text-nowrap">
+                                          -{formatMoney(el.discountPrice)}
+                                        </div>
+                                      </>
+                                    )
+                                  )}
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>

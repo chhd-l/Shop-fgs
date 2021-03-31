@@ -227,10 +227,6 @@ class LoginCart extends React.Component {
     return !(clubFlag && autoShipFlag);
   }
   get promotionVOList() {
-    console.log(
-      this.props.checkoutStore.promotionVOList,
-      'this.props.checkoutStore'
-    );
     return this.props.checkoutStore.promotionVOList;
   }
   get computedList() {
@@ -1139,8 +1135,7 @@ class LoginCart extends React.Component {
 
         {/* 显示 promotionCode */}
         {!isShowValidCode &&
-          this.promotionDiscountPrice > 0 &&
-          this.promotionVOList.map((el) => (
+          this.promotionVOList?.map((el) => (
             <div className={`row leading-lines shipping-item green d-flex`}>
               <div className="col-6">
                 <p>
