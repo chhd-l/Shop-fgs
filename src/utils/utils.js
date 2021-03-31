@@ -639,6 +639,7 @@ function getDatePickerConfig() {
     es: { format: 'yyyy-MM-dd', locale: 'es' },
     de: { format: 'dd.MM.yyyy', locale: 'de' },
     fr: { format: 'dd/MM/yyyy', locale: 'fr' },
+    en: { format: 'yyyy-MM-dd', locale: 'en' },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 

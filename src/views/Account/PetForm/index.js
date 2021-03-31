@@ -52,6 +52,8 @@ const noSelect = {
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+console.log(datePickerConfig, 'datePickerConfig');
+
 @inject('loginStore')
 @observer
 class PetForm extends React.Component {
@@ -1413,8 +1415,8 @@ class PetForm extends React.Component {
                           marginLeft: '4px'
                         }}
                         optionList={[
-                          { value: 'kg', name: 'kg' },
-                          { value: 'g', name: 'g' }
+                          { value: 'kg', name: 'kg' }
+                          // { value: 'g', name: 'g' }
                         ]}
                         selectedItemChange={(el) => {
                           let { weightObj } = this.state;

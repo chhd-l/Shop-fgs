@@ -301,7 +301,7 @@ class Filter extends React.Component {
                     )}
                   </ul>
                 ) : (
-                  <div style={{ borderBottom: '1px solid #ccc' }}></div>
+                  <div style={{ borderBottom: '1px solid #ccc' }} />
                 )}
               </div>
               {/* {this.hasSelecedItems && (
