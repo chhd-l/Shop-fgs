@@ -179,6 +179,11 @@ const faqList =
 
 export default class Faq extends React.Component {
   render() {
-    return <Cover benifitList={benifitList} faqList={faqList} />;
+    return (
+      benifitList.length > 0 &&
+      faqList.length > 0 && (
+        <Cover benifitList={benifitList} faqList={faqList} />
+      )
+    );
   }
 }

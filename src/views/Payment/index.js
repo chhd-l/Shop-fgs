@@ -1085,6 +1085,7 @@ class Payment extends React.Component {
         );
       };
       let successUrl = successUrlFun(type);
+
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl,
@@ -1859,6 +1860,14 @@ class Payment extends React.Component {
             this.props.intl.formatMessage(
               { id: 'cart.errorInfo5' },
               { val: checkoutStore.deletedProNames.join('/') }
+            )
+          );
+        }
+        if (checkoutStore.notSeableProNames.length) {
+          throw new Error(
+            this.props.intl.formatMessage(
+              { id: 'cart.errorInfo6' },
+              { val: checkoutStore.notSeableProNames.join('/') }
             )
           );
         }
