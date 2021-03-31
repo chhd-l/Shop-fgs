@@ -67,6 +67,7 @@ class ContactUs extends Component {
   inputBlur = async (e) => {
     const target = e.target;
     const { errMsgObj } = this.state;
+    //电话号码输入框失焦的时候不验证，失焦的时候把电话号码和邮箱的格式验证失败提示语去掉
     if (target.name === 'phoneNumber') {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
@@ -113,7 +114,7 @@ class ContactUs extends Component {
     const { firstName, lastName, email, request } = this.state.address;
     if (firstName && lastName && email && request) return true;
   };
-  //验证邮箱格式是否正确
+  //验证邮箱格式和美国电话号码格式是否正确
   emailAndPhoneFormatChecked = async () => {
     const { email } = this.state.address;
     const phoneNumber = this.textInput.current.value;
