@@ -35,7 +35,7 @@ class Form extends React.Component {
     this.state = {
       dataLoading: false,
       formLoading: false,
-      formSettingSwitch: '',
+      formSettingSwitch: 'MANUALLY',
       caninForm: {
         firstName: '',
         lastName: '',
@@ -76,7 +76,6 @@ class Form extends React.Component {
     this.setState({
       formLoading: true
     });
-
     // 查询国家
     this.getCountryList();
 
@@ -87,8 +86,10 @@ class Form extends React.Component {
     initData.stateId = initData.provinceId;
     initData.stateNo = initData.provinceNo;
     initData.state = initData.province;
+
     console.log('91 -------------★ EditForm initData: ', initData);
-    // console.log('-------------★ EditForm caninForm: ', caninForm);
+    //console.log('92-------------★ EditForm caninForm: ', caninForm);
+
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -476,6 +477,10 @@ class Form extends React.Component {
       });
     }
   };
+  // 搜索框失去焦点
+  handleGetInputTarget = (e) => {
+    this.inputBlur(e);
+  };
   // 城市搜索选择
   handleCityInputChange = (data) => {
     const { caninForm } = this.state;
@@ -556,6 +561,7 @@ class Form extends React.Component {
             name={item.fieldKey}
             freeText={item.inputFreeTextFlag == 1 ? true : false}
             onChange={this.handleCityInputChange}
+            getInputTarget={this.handleGetInputTarget}
           />
         </span>
       </>
@@ -583,6 +589,8 @@ class Form extends React.Component {
           defaultValue={caninForm[item.fieldKey]}
           value={caninForm[item.fieldKey]}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
+          name={item.fieldKey}
+          getInputTarget={this.handleGetInputTarget}
           placeholder={
             this.props.placeholder
               ? this.props.intl.messages.inputSearchText

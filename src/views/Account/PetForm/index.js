@@ -52,6 +52,8 @@ const noSelect = {
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+console.log(datePickerConfig, 'datePickerConfig');
+
 @inject('loginStore')
 @observer
 class PetForm extends React.Component {
@@ -105,7 +107,14 @@ class PetForm extends React.Component {
       isMobile: false,
       isChoosePetType: this.props.match.params.id ? true : false,
       isPurebred: true,
-      recommendData: []
+      recommendData: [],
+      lifestyle: '',
+      activity: '',
+      weightObj: {
+        measure: '',
+        measureUnit: '',
+        type: 2
+      }
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -121,6 +130,19 @@ class PetForm extends React.Component {
   }
   async componentDidMount() {
     console.log(this.props, 'props');
+    const lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
+    const activityOptions = await getDictionary({ type: 'Activity' });
+    lifestyleOptions.map((el) => {
+      el.value = el.valueEn;
+    });
+    activityOptions.map((el) => {
+      el.value = el.valueEn;
+    });
+    this.setState({
+      lifestyleOptions,
+      activityOptions
+    });
+
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -282,9 +304,21 @@ class PetForm extends React.Component {
         return;
       }
     }
-    if (!selectedSpecialNeeds.length) {
+    if (
+      !selectedSpecialNeeds.length ||
+      !this.state.activity ||
+      !this.state.lifestyle
+    ) {
       this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
       return;
+    }
+    for (let k in this.state.weightObj) {
+      if (!this.state.weightObj[k]) {
+        this.showErrorMsg(
+          this.props.intl.messages.pleasecompleteTheRequiredItem
+        );
+        return;
+      }
     }
 
     this.setState({
@@ -320,7 +354,10 @@ class PetForm extends React.Component {
       petsType: this.state.isCat ? 'cat' : 'dog',
       sterilized: this.state.isSterilized ? '1' : '0',
       storeId: process.env.REACT_APP_STOREID,
-      isPurebred: this.state.isPurebred ? '1' : '0'
+      isPurebred: this.state.isPurebred ? '1' : '0',
+      activity: this.state.activity,
+      lifestyle: this.state.lifestyle,
+      weight: JSON.stringify(this.state.weightObj)
     };
 
     if (!this.state.isPurebred) {
@@ -708,6 +745,7 @@ class PetForm extends React.Component {
     });
   };
   onDateChange(date) {
+    console.log(date, 'date');
     this.setState({
       birthdate: format(date, 'yyyy-MM-dd'),
       isDisabled: false
@@ -748,6 +786,16 @@ class PetForm extends React.Component {
     this.setState({
       weight: data.value,
       selectedSizeObj: { value: data.value }
+    });
+  }
+  lifestyleChange(data) {
+    this.setState({
+      lifestyle: data.value
+    });
+  }
+  activityChange(data) {
+    this.setState({
+      activity: data.value
     });
   }
   handelImgChange(data) {
@@ -821,25 +869,29 @@ class PetForm extends React.Component {
                 </h5>
                 <div className="content mt-2 mt-md-4">
                   <LazyLoad>
-                    <img src={Banner_Dog} style={{ left: '40px' }} alt="" />
+                    <img
+                      src={Banner_Dog}
+                      style={{ left: '40px' }}
+                      alt="Banner-Dog"
+                    />
                   </LazyLoad>
                   <div className="buttonBox">
                     <p
                       style={{
                         color: '#333333',
                         fontWeight: 400,
-                        fontSize: '22px'
+                        fontSize: '1.375rem'
                       }}
                     >
                       <FormattedMessage id="Choose your pet type" />
                     </p>
-                    <p style={{ color: '#E2001A', fontSize: '22px' }}>
+                    <p style={{ color: '#E2001A', fontSize: '1.375rem' }}>
                       <FormattedMessage id="Your Pet is a…" />
                     </p>
                     <div>
                       <button
                         className="rc-btn rc-btn--sm rc-btn--one"
-                        style={{ marginRight: '20px' }}
+                        style={{ marginRight: '1.25rem' }}
                         onClick={() => {
                           this.petTypeChange(false);
                         }}
@@ -857,7 +909,11 @@ class PetForm extends React.Component {
                     </div>
                   </div>
                   <LazyLoad>
-                    <img src={Banner_Cat} style={{ right: '40px' }} alt="" />
+                    <img
+                      src={Banner_Cat}
+                      style={{ right: '40px' }}
+                      alt="Banner-Cat"
+                    />
                   </LazyLoad>
                   {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
@@ -901,7 +957,7 @@ class PetForm extends React.Component {
                         borderRadius: '50%'
                       }}
                       src={imgUrl || (isCat ? Cat : Dog)}
-                      alt=""
+                      alt="photo-box"
                     />
                     {/* </LazyLoad> */}
                     {/* <a className="rc-styled-link" href="#/" onClick={(e) => {
@@ -1202,7 +1258,7 @@ class PetForm extends React.Component {
                         <span
                           className="rc-input rc-input--label rc-input--full-width"
                           input-setup="true"
-                          style={{ marginBottom: '10px' }}
+                          style={{ marginBottom: '.625rem' }}
                         >
                           <input
                             type="text"
@@ -1285,6 +1341,96 @@ class PetForm extends React.Component {
                         </div>
                       </div>
                     )}
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="Lifestyle"
+                      >
+                        <FormattedMessage id="Lifestyle" />
+                      </label>
+                      <Selection
+                        optionList={this.state.lifestyleOptions}
+                        selectedItemChange={(el) => this.lifestyleChange(el)}
+                        selectedItemData={{
+                          value: this.state.lifestyle
+                        }}
+                        key={this.state.lifestyle}
+                      />
+                    </div>
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="Activity"
+                      >
+                        <FormattedMessage id="Activity" />
+                      </label>
+                      <Selection
+                        optionList={this.state.activityOptions}
+                        selectedItemChange={(el) => this.activityChange(el)}
+                        selectedItemData={{
+                          value: this.state.activity
+                        }}
+                        key={this.state.activity}
+                      />
+                    </div>
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="Weight"
+                      >
+                        <FormattedMessage id="Weight" />
+                      </label>
+                      <span
+                        className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                        input-setup="true"
+                        style={{ display: 'inline-block' }}
+                      >
+                        <input
+                          type="number"
+                          className="rc-input__control"
+                          name="weight"
+                          required=""
+                          aria-required="true"
+                          style={{ padding: '.5rem 0' }}
+                          value={this.state.weightObj.measure}
+                          onChange={(e) => {
+                            let { weightObj } = this.state;
+                            weightObj.measure = e.target.value;
+                            this.setState({
+                              weightObj
+                            });
+                          }}
+                          maxLength="50"
+                          autoComplete="address-line"
+                        />
+                        <label
+                          className="rc-input__label"
+                          htmlFor="weight"
+                        ></label>
+                      </span>
+                      <Selection
+                        customContainerStyle={{
+                          display: 'inline-block',
+                          height: '40px',
+                          marginLeft: '4px'
+                        }}
+                        optionList={[
+                          { value: 'kg', name: 'kg' }
+                          // { value: 'g', name: 'g' }
+                        ]}
+                        selectedItemChange={(el) => {
+                          let { weightObj } = this.state;
+                          weightObj.measureUnit = el.value;
+                          this.setState({
+                            weightObj
+                          });
+                        }}
+                        selectedItemData={{
+                          value: this.state.weightObj.measureUnit
+                        }}
+                        key={this.state.activity}
+                      />
+                    </div>
                     <div className="form-group col-lg-6 pull-left required">
                       <label
                         className="form-control-label rc-full-width"

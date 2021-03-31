@@ -34,7 +34,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
       <div>
         <LazyLoad>
           <img
-            alt=""
+            alt="map-default-marker"
             src={meImg}
             draggable="false"
             style={{
@@ -377,11 +377,11 @@ class Prescription extends React.Component {
                     <label className="rc-input__label" htmlFor="id-submit-2">
                       <span className="rc-input__label-text"></span>
                     </label>
-                    <i
+                    <em
                       className="rc-icon rc-location2--xs rc-iconography rc-vertical-align click-btn"
                       aria-label="location"
                       onClick={(e) => this.handleInit(e)}
-                    ></i>
+                    ></em>
                   </span>
 
                   {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"

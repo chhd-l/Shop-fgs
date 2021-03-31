@@ -258,7 +258,7 @@ class FAQ extends React.Component {
                               </p>
                             )}
                             <LazyLoad>
-                              <img src={item.imgUl} alt="" />
+                              <img src={item.imgUl} alt="storeFaq-image" />
                             </LazyLoad>
                           </div>
                         </div>

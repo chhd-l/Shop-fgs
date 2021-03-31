@@ -1,77 +1,72 @@
 import React, { Component } from 'react';
-import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage } from 'react-intl';
+import Slider from 'react-slick';
 
-class Carousel extends Component {
-  static defaultProps = {
-    relatedGoods: [1, 2, 3]
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true
-    };
-  }
-  componentDidMount() {
-    window.onload = () => {
-      this.setState({ isLoading: false });
-    };
-  }
+export default class Responsive extends Component {
   render() {
-    const { relatedGoods } = this.props;
-    console.log({ relatedGoods });
+    var settings = {
+      dots: true,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 4,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            infinite: true,
+            dots: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            initialSlide: 2
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: false
+          }
+        }
+      ]
+    };
     return (
-      <>
-        <div
-          style={{
-            textAlign: 'center',
-            color: 'rgb(236, 0, 26)',
-            height: '50px',
-            lineHeight: '50px',
-            fontSize: '1.4rem'
-          }}
-        >
-          <FormattedMessage id="recommandedForyou" />
-        </div>
-        <div
-          className="rc-carousel rc-carousel--cards rc-match-heights"
-          data-js-carousel=""
-          data-rc-cards="true"
-          data-rows="6"
-          data-rc-prev="prev"
-          data-rc-next="next"
-        >
-          <div className="rc-carousel__card-gal">
-            {relatedGoods.map((item, index) => {
-              return (
-                <article
-                  className="rc-card rc-card--b"
-                  key={index}
-                  style={{ border: '1px solid #E5E5E5', margin: '0 20px' }}
-                >
-                  <picture
-                    className="rc-card__image"
-                    style={{
-                      width: '150px',
-                      height: '180px',
-                      margin: '10px auto'
-                    }}
-                  >
-                    <img src={item.goodsImg} alt="alt text" />
-                  </picture>
-                  <div className="rc-card__body">
-                    <header>
-                      <p className="rc-card__meta">{item.goodsName}</p>
-                      <h1 className="rc-card__title">{item.minLinePrice}</h1>
-                    </header>
-                  </div>
-                </article>
-              );
-            })}
+      <div>
+        <Slider {...settings}>
+          <div>
+            <h3>1</h3>
           </div>
-        </div>
-      </>
+          <div>
+            <h3>2</h3>
+          </div>
+          <div>
+            <h3>3</h3>
+          </div>
+          <div>
+            <h3>4</h3>
+          </div>
+          <div>
+            <h3>5</h3>
+          </div>
+          <div>
+            <h3>6</h3>
+          </div>
+          <div>
+            <h3>7</h3>
+          </div>
+          <div>
+            <h3>8</h3>
+          </div>
+        </Slider>
+      </div>
     );
   }
 }
-export default Carousel;

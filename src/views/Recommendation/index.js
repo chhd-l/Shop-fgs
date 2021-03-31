@@ -568,7 +568,7 @@ class Help extends React.Component {
             }`}
             style={{
               width: '50%',
-              margin: '20px auto 0'
+              margin: '1.25rem auto 0'
             }}
           >
             <aside
@@ -654,7 +654,7 @@ class Help extends React.Component {
                           style={{
                             color: '#E2001A',
                             marginTop: '50px',
-                            marginBottom: '10px'
+                            marginBottom: '.625rem'
                           }}
                         >
                           {productList[activeIndex].goodsInfo.goodsInfoName}
@@ -674,7 +674,7 @@ class Help extends React.Component {
                               style={{
                                 flex: 3,
                                 fontWeight: '200',
-                                fontSize: '20px'
+                                fontSize: '1.25rem'
                               }}
                             >
                               {MaxLinePrice > 0 ? (
@@ -702,7 +702,7 @@ class Help extends React.Component {
                             style={{
                               flex: 3,
                               fontWeight: '200',
-                              fontSize: '20px'
+                              fontSize: '1.25rem'
                             }}
                           >
                             {/* {MaxMarketPrice > 0 ? (
@@ -736,7 +736,7 @@ class Help extends React.Component {
                               style={{
                                 flex: 3,
                                 fontWeight: '200',
-                                fontSize: '20px'
+                                fontSize: '1.25rem'
                               }}
                             >
                               {MaxSubPrice > 0 ? (
@@ -777,19 +777,19 @@ class Help extends React.Component {
                       <div className="rc-column description">
                         <LazyLoad>
                           <img
-                            alt=""
+                            alt="store-logo"
                             src={storeLogo}
                             style={{
                               float: 'left',
                               width: '60px',
-                              marginRight: '20px'
+                              marginRight: '1.25rem'
                             }}
                           />
                         </LazyLoad>
                         <div className="des-content">
                           <p
                             style={{
-                              fontSize: '16px',
+                              fontSize: '1rem',
                               color: '#333333',
                               fontWeight: '500',
                               letterSpacing: '0'
@@ -799,7 +799,7 @@ class Help extends React.Component {
                           </p>
                           <p
                             style={{
-                              fontSize: '12px',
+                              fontSize: '.75rem',
                               letterSpacing: '0'
                             }}
                           >
@@ -815,7 +815,7 @@ class Help extends React.Component {
                           </p>
                           <p
                             style={{
-                              fontSize: '12px',
+                              fontSize: '.75rem',
                               letterSpacing: '0'
                             }}
                           >
@@ -842,10 +842,10 @@ class Help extends React.Component {
                             onClick={() => this.setState({ activeIndex: i })}
                             className={`${i === activeIndex ? 'active' : ''}`}
                           >
-                            <i></i>
+                            <em></em>
                             <LazyLoad>
                               <img
-                                alt=""
+                                alt="goods-information-image"
                                 src={
                                   el.goodsInfo.goodsInfoImg ||
                                   el.goodsInfo.goods.goodsImg
@@ -856,7 +856,7 @@ class Help extends React.Component {
                               style={{
                                 verticalAlign: 'middle',
                                 textAlign: 'left',
-                                padding: '15px 10px 10px 70px',
+                                padding: '.9375rem .625rem .625rem 70px',
                                 flexWrap: 'wrap'
                               }}
                             >
@@ -911,7 +911,7 @@ class Help extends React.Component {
                         )}
                       </div>
                       {!loginStore.isLogin && (
-                        <div style={{ width: '100%', marginTop: '10px' }}>
+                        <div style={{ width: '100%', marginTop: '.625rem' }}>
                           <button
                             className={`rc-styled-link color-999`}
                             onClick={() => {
@@ -935,7 +935,7 @@ class Help extends React.Component {
                     <div
                       style={{
                         width: '100%',
-                        padding: '0 32px 20px 0px',
+                        padding: '0 32px 1.25rem 0px',
                         textAlign: 'left',
                         fontWeight: '500'
                       }}
@@ -947,10 +947,10 @@ class Help extends React.Component {
                         {productList.map((el, i) => (
                           // <li onClick={() => this.setState({ activeIndex: i })} className={`${i === activeIndex ? 'active' : ''}`}>
                           <li onClick={() => this.setState({ activeIndex: i })}>
-                            <i></i>
+                            <em></em>
                             <LazyLoad>
                               <img
-                                alt=""
+                                alt="goods-information-image"
                                 src={
                                   el.goodsInfo.goodsInfoImg ||
                                   el.goodsInfo.goods.goodsImg
@@ -983,7 +983,7 @@ class Help extends React.Component {
                                     style={{
                                       flex: 3,
                                       fontWeight: '200',
-                                      fontSize: '20px'
+                                      fontSize: '1.25rem'
                                     }}
                                   >
                                     {MaxLinePrice > 0 ? (
@@ -1098,7 +1098,7 @@ class Help extends React.Component {
                           )}
                         </div>
                         {!loginStore.isLogin && (
-                          <div style={{ width: '100%', marginTop: '20px' }}>
+                          <div style={{ width: '100%', marginTop: '1.25rem' }}>
                             <button
                               className={`rc-styled-link color-999`}
                               onClick={() => {
@@ -1114,19 +1114,19 @@ class Help extends React.Component {
                         <div className="rec-other-info">
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="store-logo"
                               src={storeLogo}
                               style={{
                                 float: 'left',
                                 width: '60px',
-                                marginRight: '20px'
+                                marginRight: '1.25rem'
                               }}
                             />
                           </LazyLoad>
                           <div className="des-content">
                             <p
                               style={{
-                                fontSize: '18px',
+                                fontSize: '1.125rem',
                                 color: '#333333',
                                 fontWeight: '500',
                                 letterSpacing: '0'
@@ -1136,7 +1136,7 @@ class Help extends React.Component {
                             </p>
                             <p
                               style={{
-                                fontSize: '12px',
+                                fontSize: '.75rem',
                                 letterSpacing: '0'
                               }}
                             >
@@ -1152,7 +1152,7 @@ class Help extends React.Component {
                             </p>
                             <p
                               style={{
-                                fontSize: '12px',
+                                fontSize: '.75rem',
                                 letterSpacing: '0'
                               }}
                             >
@@ -1192,7 +1192,11 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={recommendation1} style={{ width: '100%' }} alt="" />
+                <img
+                  src={recommendation1}
+                  style={{ width: '100%' }}
+                  alt="recommendation-image"
+                />
               </LazyLoad>
             </div>
           </div>
@@ -1327,7 +1331,7 @@ class Help extends React.Component {
                                     <img
                                       className="w-100"
                                       src={helpImg}
-                                      alt=""
+                                      alt="help-icon"
                                       title=""
                                     />
                                   </LazyLoad>
@@ -1358,17 +1362,29 @@ class Help extends React.Component {
           >
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation2} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation2}
+                  alt="recommendation-image"
+                />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation3} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation3}
+                  alt="recommendation-image"
+                />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation4} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation4}
+                  alt="recommendation-image"
+                />
               </LazyLoad>
             </li>
           </section>

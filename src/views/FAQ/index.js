@@ -161,9 +161,9 @@ class FAQ extends React.Component {
                                 to="/help/contact"
                                 rel="nofollow"
                               >
-                                <u>
+                                <ins>
                                   <FormattedMessage id="here" />
-                                </u>
+                                </ins>
                               </Link>
                             )
                           }}
@@ -240,7 +240,7 @@ class FAQ extends React.Component {
                               dangerouslySetInnerHTML={{ __html: item.answer }}
                             ></p>
                             <LazyLoad>
-                              <img src={item.imgUl} alt="" />
+                              <img src={item.imgUl} alt="storeFaq-image" />
                             </LazyLoad>
                           </div>
                         </div>
@@ -281,7 +281,7 @@ class FAQ extends React.Component {
                           {
                             pitem.storeFaqVo.map((item, idx) => {
                               return (
-                                <dl data-toggle-group data-toggle-effect="rc-expand--vertical" style={{marginBottom:'10px'}}>
+                                <dl data-toggle-group data-toggle-effect="rc-expand--vertical" style={{marginBottom:'.625rem'}}>
                                   <div className="rc-list__accordion-item" style={{borderBottom:0}}>
                                     <dt>
                                       <button className="rc-list__header FAQ_header" id={`heading-${item.id}`} data-toggle={`content-${item.id}`} data-js-open="false" data-depth="1" aria-haspopup="true" aria-selected="false" dangerouslySetInnerHTML={{ __html: item.question }}></button>

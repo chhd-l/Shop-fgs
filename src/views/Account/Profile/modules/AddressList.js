@@ -48,9 +48,13 @@ function CardItem(props) {
         <p className="mb-0">{data.address1}</p>
         {data.address2 ? <p className="mb-0">{data.address2}</p> : null}
         <p className="mb-0">
-          {data.postCode}, {data.city},
-          {process.env.REACT_APP_LANG == 'en' ? data.province + ', ' : null}
-          {props.countryName}
+          {data.postCode}, {data.city}
+          {data?.province && data?.province != null ? (
+            <>,{data.province}</>
+          ) : null}
+          {process.env.REACT_APP_LANG == 'en' ? null : (
+            <>,{props.countryName}</>
+          )}
         </p>
       </div>
     </div>
@@ -75,7 +79,8 @@ class AddressList extends React.Component {
       fromPage: 'cover',
 
       countryList: [],
-      errorMsg: ''
+      errorMsg: '',
+      successMsg: ''
     };
 
     this.handleClickCoverItem = this.handleClickCoverItem.bind(this);
@@ -163,6 +168,18 @@ class AddressList extends React.Component {
     this.changeEditFormVisible(false);
     this.changeListVisible(!closeListPage); // 是否关闭list页面，如果是从封面过来
   };
+  // 获取保存地址返回的提示成功信息
+  getSuccessMsg = (msg) => {
+    this.setState({
+      successMsg: msg
+    });
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      this.setState({
+        successMsg: ''
+      });
+    }, 5000);
+  };
   handleClickAddBtn(fromPage) {
     myAccountPushEvent('Addresses');
     this.changeEditFormVisible(true);
@@ -194,6 +211,7 @@ class AddressList extends React.Component {
     });
     await deleteAddress({ id: el.deliveryAddressId })
       .then(() => {
+        this.getSuccessMsg('Delete successfullly');
         this.getAddressList();
         myAccountActionPushEvent('Delete Address');
       })
@@ -210,6 +228,7 @@ class AddressList extends React.Component {
     // 最后一次返回cover
     this.setState({ fromPage: 'cover' });
   };
+  // 添加地址按钮
   addBtnJSX = ({ fromPage }) => {
     return (
       <div
@@ -330,6 +349,17 @@ class AddressList extends React.Component {
                   </aside>
                 </div>
 
+                <aside
+                  className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                    this.state.successMsg ? '' : 'hidden'
+                  }`}
+                  role="alert"
+                >
+                  <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                    {this.state.successMsg}
+                  </p>
+                </aside>
+
                 {/* preview form */}
                 <div
                   className={classNames('row', 'ml-0', 'mr-0', {
@@ -420,8 +450,8 @@ class AddressList extends React.Component {
                                     isPad
                                       ? {
                                           position: 'absolute',
-                                          top: '20px',
-                                          right: '24px'
+                                          top: '1.25rem',
+                                          right: '1.5rem'
                                         }
                                       : {}
                                   }
@@ -471,6 +501,7 @@ class AddressList extends React.Component {
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getAddressList}
+                    upateSuccessMsg={this.getSuccessMsg}
                   />
                 )}
               </div>

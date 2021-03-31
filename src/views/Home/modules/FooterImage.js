@@ -55,9 +55,9 @@ class FooterImage extends React.Component {
             </LazyLoad>
           </div>
           <h5 className="rc-epsilon rc-text-colour--brand1">
-            <b>
+            <strong>
               <FormattedMessage id="home.point6" />
-            </b>
+            </strong>
           </h5>
         </div>
       </div>
@@ -113,9 +113,9 @@ class FooterImage extends React.Component {
               </LazyLoad>
             </div>
             <h5 className="rc-epsilon rc-text-colour--brand1">
-              <b>
+              <strong>
                 <FormattedMessage id="home.point6" />
-              </b>
+              </strong>
             </h5>
           </div>
         </div>
@@ -153,7 +153,7 @@ class FooterImage extends React.Component {
             </h6>
             <p
               className="rc-intro p-2"
-              style={{ fontSize: '12px', color: '#000' }}
+              style={{ fontSize: '.75rem', color: '#000' }}
             >
               Seit 1968 erforscht ROYAL CANIN® die besonderen
               Ernährungsbedürfnisse von Katzen und Hunden bis ins kleinste
@@ -163,7 +163,7 @@ class FooterImage extends React.Component {
             </p>
             <p
               className="rc-intro p-2"
-              style={{ fontSize: '12px', color: '#000' }}
+              style={{ fontSize: '.75rem', color: '#000' }}
             >
               Das gilt natürlich um so mehr, wenn Tierärzt*innen bei Ihrer Katze
               oder Ihrem Hund ein besonderes Bedürfnis festgestellt haben.
@@ -172,7 +172,7 @@ class FooterImage extends React.Component {
             </p>
             <p
               className="rc-intro p-2"
-              style={{ fontSize: '12px', color: '#000' }}
+              style={{ fontSize: '.75rem', color: '#000' }}
             >
               ROYAL CANIN® bietet deshalb ein umfangreiches Programm an
               Nahrungen an, die speziell auf die tierärztlich festgestellten
@@ -233,9 +233,9 @@ class FooterImage extends React.Component {
               </LazyLoad>
             </div>
             <h5 className="rc-epsilon rc-text-colour--brand1">
-              <b>
+              <strong>
                 <FormattedMessage id="home.point6" />
-              </b>
+              </strong>
             </h5>
           </div>
         </div>

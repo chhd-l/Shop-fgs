@@ -185,7 +185,7 @@ class Help extends React.Component {
                                   <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                     <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div className="w-100">
-                                        <b>
+                                        <strong>
                                           <font
                                             style={{ verticalAlign: 'inherit' }}
                                           >
@@ -199,7 +199,7 @@ class Help extends React.Component {
                                               <FormattedMessage id="help.byEmail" />
                                             </a>
                                           </font>
-                                        </b>
+                                        </strong>
                                         <p>
                                           <span
                                             style={{ color: 'rgb(0, 0, 0)' }}
@@ -229,7 +229,7 @@ class Help extends React.Component {
                                             <a
                                               href={this.state.mailAddress}
                                               style={{
-                                                fontSize: '16px',
+                                                fontSize: '1rem',
                                                 color: 'rgb(0, 135, 189)'
                                               }}
                                               className="rc-styled-link"
@@ -263,7 +263,11 @@ class Help extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                    <img src={helpImg} alt=" " title=" " />
+                                    <img
+                                      src={helpImg}
+                                      alt="help-icon"
+                                      title=" "
+                                    />
                                   </LazyLoad>
                                 </picture>
                               </div>

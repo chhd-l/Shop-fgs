@@ -106,7 +106,7 @@ const SubscriptionSelection = function (props) {
         <div className="price">
           <div
             style={{
-              fontSize: '15px',
+              fontSize: '.9375rem',
               textDecoration: 'line-through',
               display: `${isGift ? 'none' : 'initial'}`
             }}

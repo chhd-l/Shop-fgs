@@ -181,6 +181,17 @@ class UnloginCart extends React.Component {
       });
   };
 
+  clickBasket = () => {
+    this.hubGA &&
+      window.dataLayer &&
+      dataLayer.push({
+        event: 'topPictosClick',
+        topPictosClick: {
+          itemName: 'Basket'
+        }
+      });
+  };
+
   render() {
     const { headerCartStore } = this.props;
     let { frequencyList } = this.state;
@@ -194,8 +205,13 @@ class UnloginCart extends React.Component {
           headerCartStore.hide();
         }}
       >
-        <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
-          <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
+        <Link
+          to="/cart"
+          className="minicart-link"
+          data-loc="miniCartOrderBtn"
+          onClick={this.clickBasket}
+        >
+          <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></em>
           {this.totalNum > 0 ? (
             <span className="minicart-quantity">{this.totalNum}</span>
           ) : (
@@ -243,7 +259,7 @@ class UnloginCart extends React.Component {
                 <div className="minicart__header cart--head small">
                   <span className="minicart__pointer"></span>
                   <div className="d-flex minicart_freeshipping_info align-items-center">
-                    <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
+                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></em>
                     <p>
                       {process.env.REACT_APP_IS_PROMOTION === 'true' ? (
                         <FormattedMessage id="cart.miniCartTitle" />
@@ -466,7 +482,7 @@ class UnloginCart extends React.Component {
                                           &nbsp;
                                           <span
                                             className="red"
-                                            style={{ fontSize: '14px' }}
+                                            style={{ fontSize: '.875rem' }}
                                           >
                                             {formatMoney(
                                               item.sizeList.filter(
@@ -521,7 +537,7 @@ class UnloginCart extends React.Component {
                                       style={{
                                         width: '100%',
                                         overflow: 'hidden',
-                                        fontSize: '12px'
+                                        fontSize: '.75rem'
                                       }}
                                     >
                                       x1{' '}

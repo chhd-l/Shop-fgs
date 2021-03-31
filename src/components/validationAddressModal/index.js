@@ -67,6 +67,7 @@ class ValidationAddressModal extends React.Component {
       let res = await addressValidation(data);
       if (res.context && res.context != null) {
         valres = res.context.suggestionAddress;
+        valres.validationResult = res.context.validationResult;
         this.setState({
           modalVisible: true,
           validationAddress: valres
@@ -101,7 +102,7 @@ class ValidationAddressModal extends React.Component {
             role="dialog"
             aria-labelledby="shippingAddressValidationModal"
             aria-modal="true"
-            style={{ paddingRight: '16px' }}
+            style={{ paddingRight: '1rem' }}
           >
             <div
               className="modal-dialog"
@@ -162,7 +163,7 @@ class ValidationAddressModal extends React.Component {
                           className="rc-input__label--inline rc-margin-bottom--none text-left"
                           for="originalAddress"
                         >
-                          <b>Original Address</b>
+                          <strong>Original Address</strong>
                           <br />
                           <span className="name"></span>
                           {address ? (
@@ -180,18 +181,23 @@ class ValidationAddressModal extends React.Component {
                                 </span>
                               )}
                               <span className="postalCode">
-                                {address.postCode},
+                                {address.postCode}
                               </span>
-                              <span className="countryCode">
-                                {address.countryName}
-                              </span>
+                              {process.env.REACT_APP_LANG == 'en' ? null : (
+                                <>
+                                  ,
+                                  <span className="countryCode">
+                                    {address.country}
+                                  </span>
+                                </>
+                              )}
                               <br />
                               <a
                                 className="styled-link"
                                 data-dismiss="modal"
                                 onClick={() => this.close()}
                               >
-                                <b>Edit</b>
+                                <strong>Edit</strong>
                               </a>
                             </div>
                           ) : null}
@@ -229,7 +235,7 @@ class ValidationAddressModal extends React.Component {
                           className="rc-input__label--inline rc-margin-bottom--none text-left"
                           for="suggestedAddress"
                         >
-                          <b>Suggested Address</b>
+                          <strong>Suggested Address</strong>
                           <br />
                           <span className="name"></span>
                           {validationAddress ? (
@@ -244,9 +250,11 @@ class ValidationAddressModal extends React.Component {
                                 {validationAddress.city},
                               </span>
                               {validationAddress.provinceCode && (
-                                <span className="state">
-                                  {validationAddress.provinceCode},
-                                </span>
+                                <>
+                                  <span className="state">
+                                    {validationAddress.provinceCode},
+                                  </span>
+                                </>
                               )}
                               <span className="postalCode">
                                 {validationAddress.postalCode},

@@ -94,7 +94,7 @@ class Help extends React.Component {
                       <p
                         className="text-center"
                         style={{
-                          marginBottom: isRecommendationPage ? '16px' : '0'
+                          marginBottom: isRecommendationPage ? '1rem' : '0'
                         }}
                       >
                         {des ? (
@@ -229,7 +229,7 @@ class Help extends React.Component {
                           <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
-                                <b>
+                                <strong>
                                   {/* <FormattedMessage id="help.byEmail" /> */}
                                   {isRecommendationPage ? (
                                     <span
@@ -263,7 +263,7 @@ class Help extends React.Component {
                                       )}
                                     </Link>
                                   )}
-                                </b>
+                                </strong>
                                 <p>
                                   <span style={{ color: 'rgb(102, 102, 102)' }}>
                                     {emailDes ? (
@@ -284,7 +284,7 @@ class Help extends React.Component {
                                     <Link
                                       to={emailLink}
                                       // style={{
-                                      //   fontSize: '16px',
+                                      //   fontSize: '1rem',
                                       //   borderBottom: '1px solid transparent'
                                       // }}
                                       className="rc-styled-link"
@@ -299,7 +299,7 @@ class Help extends React.Component {
                                     <a
                                       href={this.state.mailAddress}
                                       style={{
-                                        fontSize: '16px',
+                                        fontSize: '1rem',
                                         borderBottom: '1px solid transparent',
                                         textDecoration: isEmailUnderLine
                                           ? 'underline'
@@ -341,7 +341,7 @@ class Help extends React.Component {
                       >
                         <picture className="rc-card__image">
                           <LazyLoad>
-                            <img src={helpImg} alt=" " title=" " />
+                            <img src={helpImg} alt="help-icon" title=" " />
                           </LazyLoad>
                         </picture>
                       </div>

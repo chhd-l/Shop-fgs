@@ -60,7 +60,7 @@ const Details = ({ goodsDetailTabs, details }) => {
                         <div className="list_title">${
                           Object.keys(JSON.parse(el))[0]
                         }</div>
-                        <div className="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                        <div className="list_item" style="padding-top: .9375rem; margin-bottom: 1.25rem;">${
                           Object.values(JSON.parse(el))[0]['Description']
                         }</div>
                       </li>`;
@@ -205,7 +205,7 @@ const Details = ({ goodsDetailTabs, details }) => {
           goodsDetailTab.tabName.map((ele, index) => (
             <dl style={{ marginBottom: '0' }}>
               <div
-                className={`rc-list__accordion-item test-color 
+                className={`rc-list__accordion-item test-color
               ${tabs[index]?.show ? 'showItem' : 'hiddenItem'}`}
               >
                 <div
@@ -241,7 +241,10 @@ const Details = ({ goodsDetailTabs, details }) => {
                     }}
                   />
                   <LazyLoad height={200}>
-                    <img src={goodsDetailTab.tabContent[index].imgUl} alt="" />
+                    <img
+                      src={goodsDetailTab.tabContent[index].imgUl}
+                      alt="goods-Detail-table-image"
+                    />
                   </LazyLoad>
                 </div>
               </div>

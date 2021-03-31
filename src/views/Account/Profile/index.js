@@ -56,7 +56,7 @@ class AccountProfile extends React.Component {
       addressBookData: {
         address1: '',
         address2: '',
-        country: 'Mexico',
+        country: '',
         city: '',
         seoConfig: {
           title: '',
@@ -77,7 +77,8 @@ class AccountProfile extends React.Component {
       originData: null, // 提交接口时，保留未修改参数用
       loading: true,
       personalDataIsEdit: false,
-      editOperationPaneName: ''
+      editOperationPaneName: '',
+      successMsg: ''
     };
   }
   componentWillUnmount() {

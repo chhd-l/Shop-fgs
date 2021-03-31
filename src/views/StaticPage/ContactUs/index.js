@@ -118,6 +118,7 @@ class ContactUs extends Component {
     const { email } = this.state.address;
     const phoneNumber = this.textInput.current.value;
     await this.checkRegexp({ name: 'validEmail', value: email }); //验证邮箱格式
+    console.log(phoneNumber.split('-').join(''));
     if (phoneNumber !== '') {
       //如果输入了电话号码，验证美国电话号码格式
       await this.checkRegexp({
@@ -126,8 +127,10 @@ class ContactUs extends Component {
       });
     }
     if (
-      this.state.errMsgObj.validEmail !== '' ||
-      this.state.errMsgObj.phoneNumber !== ''
+      (this.state.errMsgObj.validEmail &&
+        this.state.errMsgObj.validEmail !== '') ||
+      (this.state.errMsgObj.phoneNumber &&
+        this.state.errMsgObj.phoneNumber !== '')
     ) {
       window.scrollTo(0, 100);
       return false;
@@ -464,7 +467,7 @@ class ContactUs extends Component {
       <div className="FAQ__section rc-padding--md">
         <div className="FAQ-header">
           <div className="confirmation-message">
-            <img src={successImg} alt="" />
+            <img src={successImg} alt="success-image" />
             <h2>Thank You For Contacting Us!</h2>
             <p className="order-thank-you-email-msg">
               A copy of your message has also been sent to {this.state.mail}.
@@ -505,14 +508,14 @@ class ContactUs extends Component {
           >
             <div className="contact-us-form talk-to-us">
               <p>
-                <i>
+                <em>
                   A message to our valued customers regarding COVID-19: Royal
                   Canin’s top priority is the health and wellness of our
                   Associates, partners, and cats and dogs we serve. While we are
                   doing our best to maintain the level of service you have come
                   to expect, you may experience slight delays. We appreciate
                   your patience during this time.
-                </i>
+                </em>
               </p>
               <h2 className="rc-text-colour--brand1">Talk to us</h2>
               <div className="rc-intro">

@@ -119,7 +119,8 @@ export default class Felin extends React.Component {
       nextBtnEnable: false,
       nextBtnShow: true,
       felinType: 0,
-      consentChecked: false,
+      consentChecked1: false,
+      consentChecked2: false,
       isContactUs: false,
       currentTabIndex: 0,
       topVal: '159px',
@@ -494,6 +495,7 @@ export default class Felin extends React.Component {
   handleNextStepBtn() {
     this.setState({ step: this.state.step + 1 }, () => {
       this.currentStep();
+      this.updateButtonState();
     });
   }
   modifyAppointment() {
@@ -518,10 +520,11 @@ export default class Felin extends React.Component {
     let {
       step,
       selectedTimeObj,
-      consentChecked,
+      consentChecked1,
       selectedDate,
       felinType
     } = this.state;
+    console.log(step, this.state.errMsgObj, consentChecked1, 'hahaha');
     if (step === 1 && selectedTimeObj.value && selectedDate) {
       this.setState({ nextBtnEnable: true });
     } else if (step === 2) {
@@ -529,7 +532,7 @@ export default class Felin extends React.Component {
     } else if (
       step === 4 &&
       Object.values(this.state.errMsgObj).every((el) => el === '') &&
-      consentChecked
+      consentChecked1
     ) {
       // 所有信息必须有值
       if (!Object.values(this.state.userInfo).some((el) => !el)) {
@@ -594,7 +597,7 @@ export default class Felin extends React.Component {
                 top: this.state.topVal,
                 width: '100%',
                 minHeight: '60px',
-                paddingTop: '24px',
+                paddingTop: '1.5rem',
                 background: '#fff',
                 zIndex: '10'
               }}
@@ -675,9 +678,9 @@ export default class Felin extends React.Component {
                     style={{
                       display: 'inline-block',
                       width: '50px',
-                      marginLeft: '20px'
+                      marginLeft: '1.25rem'
                     }}
-                    alt=""
+                    alt="facebook-icon"
                     src={FaceBook_Icon}
                   />
                 </a>
@@ -686,9 +689,9 @@ export default class Felin extends React.Component {
                     style={{
                       display: 'inline-block',
                       width: '50px',
-                      marginLeft: '20px'
+                      marginLeft: '1.25rem'
                     }}
-                    alt=""
+                    alt="insgram-icon"
                     src={Insgram_Icon}
                   />
                 </a>
@@ -701,7 +704,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/logoAtelier felin.png`}
-                        alt=""
+                        alt="logoAterlier-icon"
                       />
                     </LazyLoad>
                     <div className="rc-gamma inherit-fontsize mt-2">
@@ -724,7 +727,7 @@ export default class Felin extends React.Component {
                     </button>
                     <p
                       className="mt-3"
-                      style={{ fontSize: '14px', marginLeft: '10px' }}
+                      style={{ fontSize: '.875rem', marginLeft: '.625rem' }}
                     >
                       L'Atelier Félin est ouvert uniquement du 20 avril au 13
                       juin 2021
@@ -737,7 +740,7 @@ export default class Felin extends React.Component {
                       <img
                         loop="infinite"
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/felin_cat_sm.gif`}
-                        alt=""
+                        alt="felin-cat"
                       />
                     </LazyLoad>
                   </h4>
@@ -784,7 +787,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x_1.jpeg`}
-                        alt=""
+                        alt="felin-person"
                       />
                     </LazyLoad>
                   </h4>
@@ -797,7 +800,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.png`}
-                        alt=""
+                        alt="felin-grid"
                       />
                     </LazyLoad>
                   </h4>
@@ -875,7 +878,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
-                        alt=""
+                        alt="box-image"
                       />
                     </LazyLoad>
                   </h4>
@@ -891,7 +894,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
-                        alt=""
+                        alt="store-image"
                       />
                     </LazyLoad>
                   </h4>
@@ -968,7 +971,7 @@ export default class Felin extends React.Component {
                             <h4
                               className="rc-card__meta order-Id"
                               style={{
-                                marginTop: '10px',
+                                marginTop: '.625rem',
                                 display: 'inline-block',
                                 width: '303px'
                               }}
@@ -1135,14 +1138,14 @@ export default class Felin extends React.Component {
                           </p>
                           <p
                             className="text-center"
-                            style={{ margin: '20px 0 10px' }}
+                            style={{ margin: '1.25rem 0 .625rem' }}
                           >
                             {getFormatDate(this.state.currentDate, null, 'fr')}
                           </p>
                           <p
                             className="text-center"
                             style={{
-                              margin: '10px 0 20px',
+                              margin: '.625rem 0 1.25rem',
                               marginBottom: '40px'
                             }}
                           >
@@ -1294,15 +1297,15 @@ export default class Felin extends React.Component {
                           <div className="rc-input rc-input--stacked">
                             <input
                               className="rc-input__checkbox"
-                              id="id-checkbox-cat-2"
+                              id="id-checkbox-consent-1"
                               value="Cat"
                               type="checkbox"
                               name="checkbox-2"
-                              checked={this.state.consentChecked}
+                              checked={this.state.consentChecked1}
                               onClick={() => {
                                 this.setState(
                                   {
-                                    consentChecked: !this.state.consentChecked
+                                    consentChecked1: !this.state.consentChecked1
                                   },
                                   () => {
                                     this.updateButtonState();
@@ -1312,13 +1315,13 @@ export default class Felin extends React.Component {
                             />
                             <label
                               className="rc-input__label--inline consent"
-                              for="id-checkbox-cat-2"
+                              for="id-checkbox-consent-1"
                             >
                               Les données personnelles, que vous renseignez sont
                               traitées aux fins de confirmer et assurer le suivi
                               du rendez-vous Elles seront conservées en accord
-                              avec les règles de gestion des données privées que
-                              vous pourrez retrouver en ligne sur
+                              avec les règles de gestion que vous pourrez
+                              retrouver en ligne sur
                               <br />
                               <a
                                 href="https://www.mars.com/privacy-policy-france"
@@ -1328,18 +1331,46 @@ export default class Felin extends React.Component {
                               </a>
                             </label>
                           </div>
+                          <div className="rc-input rc-input--stacked">
+                            <input
+                              className="rc-input__checkbox"
+                              id="id-checkbox-consent-2"
+                              value="Cat"
+                              type="checkbox"
+                              name="checkbox-2"
+                              checked={this.state.consentChecked2}
+                              onClick={() => {
+                                this.setState(
+                                  {
+                                    consentChecked2: !this.state.consentChecked2
+                                  },
+                                  () => {
+                                    this.updateButtonState();
+                                  }
+                                );
+                              }}
+                            />
+                            <label
+                              className="rc-input__label--inline consent"
+                              for="id-checkbox-consent-2"
+                            >
+                              J'accepte de recevoir des communications marketing
+                              de la part de Royal Canin dans le cadre de
+                              l'Atelier Félin
+                            </label>
+                          </div>
                           <button
                             className="rc-btn rc-btn--two"
                             style={{ width: '100%' }}
                             disabled={!nextBtnEnable}
-                            onClick={() => this.ConfirmInfo()}
+                            onClick={() => this.handleNextStepBtn()}
                           >
                             <FormattedMessage id="Confirmer mes informations" />
                           </button>
                         </>
                       ) : null}
                       {this.state.step === 5 ? (
-                        <div style={{ marginBottom: '20px' }}>
+                        <div style={{ marginBottom: '1.25rem' }}>
                           <p
                             className="text-center"
                             style={{ fontWeight: '500', marginTop: '30px' }}
@@ -1354,13 +1385,13 @@ export default class Felin extends React.Component {
                           </p>
                           <p
                             className="text-center"
-                            style={{ margin: '20px 0 10px' }}
+                            style={{ margin: '1.25rem 0 .625rem' }}
                           >
                             {getFormatDate(this.state.currentDate, null, 'fr')}
                           </p>
                           <p
                             className="text-center"
-                            style={{ margin: '10px 0 20px' }}
+                            style={{ margin: '.625rem 0 1.25rem' }}
                           >
                             {this.state.selectedTimeObj.name}
                           </p>
@@ -1373,14 +1404,14 @@ export default class Felin extends React.Component {
                           <p className="text-center">{userInfo.email}</p>
                           <p
                             className="text-center"
-                            style={{ margin: '10px 0 40px' }}
+                            style={{ margin: '.625rem 0 40px' }}
                           >
                             {userInfo.phoneNumber}
                           </p>
                           <button
                             className="rc-btn rc-btn--one"
                             style={{ width: '100%' }}
-                            onClick={() => this.handleNextStepBtn()}
+                            onClick={() => this.ConfirmInfo()}
                           >
                             <FormattedMessage id="Confirmer le rendez-vous" />
                           </button>
@@ -1396,7 +1427,7 @@ export default class Felin extends React.Component {
                       {this.state.step === 1 ||
                       this.state.step === 2 ||
                       this.state.step === 5 ? (
-                        <p style={{ textAlign: 'center', fontSize: '14px' }}>
+                        <p style={{ textAlign: 'center', fontSize: '.875rem' }}>
                           L'Atelier Félin est ouvert du 20 avril au 13 juin
                           2021, tous les jours de 10h à 18h en magasin, et de
                           18h à 20h en ligne par visioconférence. Fermé le lundi
@@ -1410,7 +1441,7 @@ export default class Felin extends React.Component {
                             style={{
                               display: 'inline-block',
                               verticalAlign: 'middle',
-                              paddingTop: '10px'
+                              paddingTop: '.625rem'
                             }}
                           >
                             <p
@@ -1427,7 +1458,7 @@ export default class Felin extends React.Component {
                             </p>
                             <p
                               className="text-center"
-                              style={{ margin: '20px 0 10px' }}
+                              style={{ margin: '1.25rem 0 .625rem' }}
                             >
                               {getFormatDate(
                                 this.state.currentDate,
@@ -1437,7 +1468,7 @@ export default class Felin extends React.Component {
                             </p>
                             <p
                               className="text-center"
-                              style={{ margin: '10px 0 20px' }}
+                              style={{ margin: '.625rem 0 1.25rem' }}
                             >
                               {this.state.selectedTimeObj.name}
                             </p>
@@ -1450,7 +1481,7 @@ export default class Felin extends React.Component {
                             <p className="text-center">{userInfo.email}</p>
                             <p
                               className="text-center"
-                              style={{ margin: '10px 0 20px' }}
+                              style={{ margin: '.625rem 0 1.25rem' }}
                             >
                               {userInfo.phoneNumber}
                             </p>
@@ -1465,7 +1496,7 @@ export default class Felin extends React.Component {
                               textAlign: 'center',
                               lineHeight: '176px',
                               float: 'right',
-                              marginTop: '12px'
+                              marginTop: '.75rem'
                             }}
                           >
                             <img
@@ -1475,7 +1506,7 @@ export default class Felin extends React.Component {
                                 height: '160px'
                               }}
                               src={`${this.state.qrCode1}`}
-                              alt=""
+                              alt="qrcode-image"
                             />
                           </div>
                         </>

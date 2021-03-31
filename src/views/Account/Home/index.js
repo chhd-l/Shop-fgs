@@ -195,9 +195,9 @@ class AccountHome extends React.Component {
                           <div>{item.icon}</div>
                           <div className="ml-3">
                             <h3 className="rc-delta profileTextColor mb-1">
-                              <b>
+                              <strong>
                                 <FormattedMessage id={item.titleLangKey} />
-                              </b>
+                              </strong>
                             </h3>
                             <p>
                               <FormattedMessage id={item.textLangKey} />

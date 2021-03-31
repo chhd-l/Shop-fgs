@@ -30,7 +30,7 @@ const AddCartSuccessMobile = ({ target }) => {
               style={{
                 width: '35px',
                 height: '35px',
-                marginBottom: '20px'
+                marginBottom: '1.25rem'
               }}
               viewBox="0 0 1024 1024"
               version="1.1"

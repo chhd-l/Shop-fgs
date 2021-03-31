@@ -7,6 +7,22 @@ import './css/HubSalesCategory.less';
 import catsImg from '@/assets/images/salesCategory_cat.png';
 import dogsImg from '@/assets/images/salesCategory_dog.png';
 
+const salesCategoryFilterRule = (item, type) => {
+  const defaultRule = () => {
+    return item.cateType === type;
+  };
+  const rule =
+    {
+      tr: () => {
+        return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
+      },
+      fr: () => {
+        return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
+      }
+    }[process.env.REACT_APP_LANG] || defaultRule;
+  return rule();
+};
+
 export default class HubSalesCategory extends Component {
   static defaultProps = {};
   constructor(props) {
@@ -28,7 +44,7 @@ export default class HubSalesCategory extends Component {
     let cateGoryList_cat = [];
     cateGoryList_dog = res
       .filter((item) => {
-        return item.cateType === 'dog';
+        return salesCategoryFilterRule(item, 'dog');
       })
       .map((item2) => {
         return {
@@ -44,7 +60,7 @@ export default class HubSalesCategory extends Component {
 
     cateGoryList_cat = res
       .filter((item) => {
-        return item.cateType === 'cat';
+        return salesCategoryFilterRule(item, 'cat');
       })
       .map((item2) => {
         return {
@@ -86,10 +102,10 @@ export default class HubSalesCategory extends Component {
           <div className="rc-layout-container rc-two-column">
             <div className="rc-column">
               <div className="header-title">
-                <div style={{ fontSize: '20px' }} className="rc-espilon">
+                <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.cat" />
                 </div>
-                <img src={catsImg} alt="" />
+                <img src={catsImg} alt="cats-image" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -131,10 +147,10 @@ export default class HubSalesCategory extends Component {
             </div>
             <div className="rc-column">
               <div className="header-title">
-                <div style={{ fontSize: '20px' }} className="rc-espilon">
+                <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.dog" />
                 </div>
-                <img src={dogsImg} alt="" />
+                <img src={dogsImg} alt="dogs-image" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (

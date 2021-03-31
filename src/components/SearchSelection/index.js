@@ -22,7 +22,10 @@ class SearchSelection extends React.Component {
     customStyle: false,
     customCls: '',
     isBottomPaging: false, // 滑倒底部翻页
-    freeText: false
+    freeText: false,
+    name: '',
+    isCitySearchSelection: false,
+    getInputTarget: () => {}
   };
   constructor(props) {
     super(props);
@@ -119,6 +122,9 @@ class SearchSelection extends React.Component {
     }
   };
   handleInputBlur = (e) => {
+    if (this.props.isCitySearchSelection) {
+      this.props.getInputTarget(e);
+    }
     if (this.props.freeText) {
       const target = e.target;
       const { form } = this.state;
@@ -260,6 +266,7 @@ class SearchSelection extends React.Component {
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
             ref={this.searchText}
+            name={this.props.name}
           />
           {this.props.customStyle && <label className="rc-input__label" />}
           {this.state.optionPanelVisible && (

@@ -73,11 +73,11 @@ class Help extends React.Component {
           >
             <div
               className="rc-layout-container rc-three-column"
-              style={{ padding: '20px' }}
+              style={{ padding: '1.25rem' }}
             >
               <div className="rc-column rc-double-width">
                 <LazyLoad>
-                  <img src={image1} alt="" />
+                  <img src={image1} alt="truck-image" />
                 </LazyLoad>
               </div>
               <div className="rc-column">
@@ -87,7 +87,7 @@ class Help extends React.Component {
                   </h2>
                   <span
                     style={{
-                      fontSize: '18px',
+                      fontSize: '1.125rem',
                       backgroundColor: 'rgba(255, 255, 255, 0.95)'
                     }}
                   >
@@ -102,7 +102,7 @@ class Help extends React.Component {
           <section>
             <div
               className="rc-layout-container rc-two-column"
-              style={{ padding: '20px 200px' }}
+              style={{ padding: '1.25rem 200px' }}
             >
               <div className="rc-column">
                 <h2 style={{ color: '#E2001A' }}>Регионы и сроки доставки*</h2>
@@ -192,20 +192,20 @@ class Help extends React.Component {
                 </div> */}
                 <p className="rc-intro">
                   <strong>1. </strong>Оформите заказ в интернет-магазине{' '}
-                  <b>ROYAL CANIN®</b>.
+                  <strong>ROYAL CANIN®</strong>.
                 </p>
               </div>
               <div className="rc-column">
                 <p className="rc-intro">
                   <strong>2.</strong> Получите сообщение на мобильный телефон
                   и/или e-mail уведомление с ссылкой на страницу онлайн-сервиса
-                  "<b>Управление доставкой</b>".
+                  "<strong>Управление доставкой</strong>".
                 </p>
               </div>
               <div className="rc-column">
                 <p className="rc-intro">
-                  <b>3. </b>Перейдите по ссылке для управления и отслеживания
-                  вашей посылки.
+                  <strong>3. </strong>Перейдите по ссылке для управления и
+                  отслеживания вашей посылки.
                 </p>
               </div>
             </div>
@@ -214,7 +214,7 @@ class Help extends React.Component {
           <section
             style={{ textAlign: 'left', width: '90%', margin: '0 auto' }}
           >
-            <div className="rc-layout-container" style={{ padding: '20px' }}>
+            <div className="rc-layout-container" style={{ padding: '1.25rem' }}>
               <div className="rc-column">
                 <div style={{ marginTop: '80px' }}>
                   <h2 className="rc-beta ">
@@ -222,7 +222,7 @@ class Help extends React.Component {
                   </h2>
                   <span
                     style={{
-                      fontSize: '18px',
+                      fontSize: '1.125rem',
                       backgroundColor: 'rgba(255, 255, 255, 0.95)'
                     }}
                   >
@@ -234,7 +234,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                  <img src={image2} alt="" />
+                  <img src={image2} alt="timesheet-image" />
                 </LazyLoad>
               </div>
             </div>
@@ -242,20 +242,24 @@ class Help extends React.Component {
           <section
             style={{ textAlign: 'center', width: '90%', margin: '0 auto' }}
           >
-            <div className="rc-layout-container" style={{ padding: '20px' }}>
+            <div className="rc-layout-container" style={{ padding: '1.25rem' }}>
               <div className="rc-column">
                 <div>
                   <h2 className="rc-beta ">Изменения адреса доставки</h2>
                   <span
                     style={{
-                      fontSize: '18px',
+                      fontSize: '1.125rem',
                       backgroundColor: 'rgba(255, 255, 255, 0.95)'
                     }}
                   >
                     Вы можете изменить адрес доставки в пределах одного города.
                   </span>
                   <LazyLoad>
-                    <img style={{ marginTop: '20px' }} src={image3} alt="" />
+                    <img
+                      style={{ marginTop: '1.25rem' }}
+                      src={image3}
+                      alt="form-image"
+                    />
                   </LazyLoad>
                 </div>
               </div>
@@ -263,7 +267,7 @@ class Help extends React.Component {
                 <h2 className="rc-beta ">Выбор пункта самовывоза</h2>
                 <span
                   style={{
-                    fontSize: '18px',
+                    fontSize: '1.125rem',
                     backgroundColor: 'rgba(255, 255, 255, 0.95)'
                   }}
                 >
@@ -273,7 +277,11 @@ class Help extends React.Component {
                   каждого пункта.
                 </span>
                 <LazyLoad>
-                  <img style={{ marginTop: '20px' }} src={image4} alt="" />
+                  <img
+                    style={{ marginTop: '1.25rem' }}
+                    src={image4}
+                    alt="map-image"
+                  />
                 </LazyLoad>
               </div>
             </div>
@@ -281,13 +289,13 @@ class Help extends React.Component {
           <section
             style={{ textAlign: 'left', width: '90%', margin: '0 auto' }}
           >
-            <div className="rc-layout-container" style={{ padding: '20px' }}>
+            <div className="rc-layout-container" style={{ padding: '1.25rem' }}>
               <div className="rc-column">
                 <div style={{ marginTop: '120px' }}>
                   <h2 className="rc-beta ">Отслеживание заказа</h2>
                   <span
                     style={{
-                      fontSize: '18px',
+                      fontSize: '1.125rem',
                       backgroundColor: 'rgba(255, 255, 255, 0.95)'
                     }}
                   >
@@ -298,7 +306,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                  <img src={image5} alt="" />
+                  <img src={image5} alt="timesheet-image" />
                 </LazyLoad>
               </div>
             </div>
@@ -306,13 +314,13 @@ class Help extends React.Component {
           <section
             style={{ textAlign: 'left', width: '90%', margin: '0 auto' }}
           >
-            <div className="rc-layout-container" style={{ padding: '20px' }}>
+            <div className="rc-layout-container" style={{ padding: '1.25rem' }}>
               <div className="rc-column">
                 <div style={{ marginTop: '80px' }}>
                   <h2 className="rc-beta ">Отмена доставки</h2>
                   <span
                     style={{
-                      fontSize: '18px',
+                      fontSize: '1.125rem',
                       backgroundColor: 'rgba(255, 255, 255, 0.95)'
                     }}
                   >
@@ -323,7 +331,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                  <img src={image6} alt="" />
+                  <img src={image6} alt="form-image" />
                 </LazyLoad>
               </div>
             </div>
@@ -331,10 +339,10 @@ class Help extends React.Component {
           <section
             style={{ textAlign: 'left', width: '90%', margin: '0 auto' }}
           >
-            <div className="rc-layout-container" style={{ padding: '20px' }}>
+            <div className="rc-layout-container" style={{ padding: '1.25rem' }}>
               <div className="rc-column">
                 <LazyLoad>
-                  <img style={{ width: '80%' }} src={image7} alt="" />
+                  <img style={{ width: '80%' }} src={image7} alt="dog-image" />
                 </LazyLoad>
               </div>
               <div className="rc-column">
@@ -342,7 +350,7 @@ class Help extends React.Component {
                   <h2 className="rc-beta ">Отмена доставки</h2>
                   <span
                     style={{
-                      fontSize: '18px',
+                      fontSize: '1.125rem',
                       backgroundColor: 'rgba(255, 255, 255, 0.95)'
                     }}
                   >
@@ -351,7 +359,7 @@ class Help extends React.Component {
                   <br />
                   <button
                     className="rc-btn rc-btn--one"
-                    style={{ marginTop: '20px' }}
+                    style={{ marginTop: '1.25rem' }}
                     onClick={() => {
                       this.props.history.push('/help');
                     }}

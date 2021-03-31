@@ -16,6 +16,7 @@ class InfosPreview extends React.Component {
         countryList: res
       });
     });
+    console.log('19    AddressPreview: ', this.props.details);
   }
   render() {
     const { details } = this.props;
@@ -23,10 +24,11 @@ class InfosPreview extends React.Component {
       <div className="card mb-3 shipping-summary checkout--padding">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
           <h5 className="mb-0">
-            <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
+            <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
             <FormattedMessage id="payment.addressTitle" />
           </h5>
         </div>
+        {/* {JSON.stringify(details)} */}
         {details ? (
           <div className="card-body rc-padding--none">
             <div className="single-shipping">
@@ -66,16 +68,23 @@ class InfosPreview extends React.Component {
                             </div>
                           </>
                         ) : null}
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.country" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;
-                          {matchNamefromDict(
-                            this.state.countryList,
-                            details.consignee.countryId
-                          )}
-                        </div>
+
+                        {process.env.REACT_APP_LANG == 'en' ? null : (
+                          <>
+                            <div className="col-md-6">
+                              <FormattedMessage id="payment.country" />
+                            </div>
+
+                            <div className="col-md-6">
+                              &nbsp;
+                              {matchNamefromDict(
+                                this.state.countryList,
+                                details.consignee.countryId
+                              )}
+                            </div>
+                          </>
+                        )}
+
                         <>
                           {details.consignee?.province &&
                             details.consignee?.province != null && (
@@ -159,16 +168,21 @@ class InfosPreview extends React.Component {
                               </div>
                             </>
                           ) : null}
-                          <div className="col-md-6">
-                            <FormattedMessage id="payment.country" />
-                          </div>
-                          <div className="col-md-6">
-                            &nbsp;
-                            {matchNamefromDict(
-                              this.state.countryList,
-                              details.invoice.countryId
-                            )}
-                          </div>
+                          {process.env.REACT_APP_LANG == 'en' ? null : (
+                            <>
+                              <div className="col-md-6">
+                                <FormattedMessage id="payment.country" />
+                              </div>
+                              <div className="col-md-6">
+                                &nbsp;
+                                {matchNamefromDict(
+                                  this.state.countryList,
+                                  details.invoice.countryId
+                                )}
+                              </div>
+                            </>
+                          )}
+
                           <>
                             {details.invoice?.province &&
                               details.invoice?.province != null && (

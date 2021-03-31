@@ -46,7 +46,7 @@ class DeleteMyAccount extends React.Component {
                   display: 'inline-table'
                 }}
               >
-                <img src={deleteMyAccountImg} alt="" />
+                <img src={deleteMyAccountImg} alt="delete-My-Acc" />
               </div>
               <FormattedMessage id="account.deleteMyaccountTitle" />
             </h5>
@@ -114,9 +114,9 @@ class DeleteMyAccount extends React.Component {
             </div>
             {/* 文本内容 */}
             <span className="rc-meta">
-              <b>
+              <strong>
                 <FormattedMessage id="account.deleteMyaccountDesc" />
-              </b>
+              </strong>
             </span>
             <div className="row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer" />
           </div>

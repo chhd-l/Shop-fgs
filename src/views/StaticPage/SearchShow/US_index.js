@@ -78,7 +78,7 @@ class SearchShow extends React.Component {
                   <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">
                     We could not find any products matching :{' '}
                     <br className="d-block d-md-none" />"
-                    <b>{this.state.searchWords}</b>"
+                    <strong>{this.state.searchWords}</strong>"
                   </div>
                 </div>
                 <div className="content-asset">
@@ -113,7 +113,7 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
-                                alt=""
+                                alt="customer-service-image"
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>
@@ -139,7 +139,7 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
-                                alt=""
+                                alt="email-us-icon"
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>

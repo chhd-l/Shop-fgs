@@ -11,8 +11,8 @@
 .pets-list-wrap{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-row-gap: 20px;
-  grid-column-gap: 20px;
+  grid-row-gap: 1.25rem;
+  grid-column-gap: 1.25rem;
 }
 .width50 {
   width: 50%;
@@ -63,7 +63,7 @@
     .modal-header{
       text-align: center;
       color: #e2001a;
-      font-size: 20px;
+      font-size: 1.25rem;
     }
     .modal-title{
       margin: 0 auto;
@@ -135,6 +135,12 @@
   .add-pet-btn-wrap{
     flex-direction: column;
     text-align: center;
+    width: 100%;
+    .rc-padding-right--md{
+      strong{
+        display: block;
+      }
+    }
     .mobile-block{
       display: block;
     }
@@ -171,7 +177,7 @@
   }
 }
 .subscriptionDetail {
-  font-size: 14px;
+  font-size: .875rem;
   .rc-icon {
     // display: inline-block;
     height: 36px;
@@ -196,22 +202,22 @@
   }
   .subscriptionDetail .footer-container {
     margin-top: 30px;
-    padding-left: 20px !important;
+    padding-left: 1.25rem !important;
   }
   .subscriptionDetail .mt10 {
-    margin-top: 10px;
+    margin-top: .625rem;
   }
   .subscriptionDetail .img-container {
     width: 100px !important;
     /* height: 120px; */
-    margin-right: 20px;
-    margin-left: 20px;
+    margin-right: 1.25rem;
+    margin-left: 1.25rem;
   }
   .subscriptionDetail .img-container img {
     width: 100%;
   }
   .rc-layout-container {
-    padding-top: 15px;
+    padding-top: .9375rem;
   }
   .subscriptionDetail .col-md-3 {
     display: inline-block;
@@ -274,8 +280,8 @@
     text-align: right;
     margin-right: 60px;
     text-decoration: line-through;
-    padding-top: 20px;
-    margin-bottom: 20px;
+    padding-top: 1.25rem;
+    margin-bottom: 1.25rem;
   }
   .greenCircle {
     display: inline-block;
@@ -310,7 +316,7 @@
   }
   .h4 {
     color: #e2001a;
-    margin: 60px 0 20px;
+    margin: 60px 0 1.25rem;
   }
   .changeDate .receiveDate {
     color: #666;
@@ -328,6 +334,12 @@
 @media (max-width: 769px) {
   .pets-list-wrap{
     grid-template-columns: 1fr;
+  }
+  .center-for-h5{
+    justify-content: center!important;
+  }
+  .footerGroupButton{
+    height: 144px;
   }
 }
 @media (min-width: 769px) {
@@ -354,7 +366,7 @@
   .subscriptionDetail {
     .h4 {
       color: #e2001a;
-      margin: 20px 0 20px;
+      margin: 1.25rem 0 1.25rem;
     }
     .rc-btn {
       display: inline-block;

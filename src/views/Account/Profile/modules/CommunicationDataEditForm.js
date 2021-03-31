@@ -309,9 +309,9 @@ class CommunicationDataEditForm extends React.Component {
             </div>
 
             <span className={`rc-meta ${editFormVisible ? 'hidden' : ''}`}>
-              <b>
+              <strong>
                 <FormattedMessage id="account.myCommunicationPreferencesDesc" />
-              </b>
+              </strong>
             </span>
             <div
               className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${
@@ -360,9 +360,9 @@ class CommunicationDataEditForm extends React.Component {
               </div>
 
               <span className={`rc-meta`}>
-                <b>
+                <strong>
                   <FormattedMessage id="account.myCommunicationPreferencesContent2" />
-                </b>
+                </strong>
               </span>
               <div id="wrap" style={{ marginLeft: '30px' }}>
                 {/* checkbox组 */}
@@ -370,7 +370,7 @@ class CommunicationDataEditForm extends React.Component {
                   list={list}
                   sendList={this.sendList}
                   disabled={!editFormVisible}
-                  checkboxPadding={'10px'}
+                  checkboxPadding={'.625rem'}
                   zoom={'150%'}
                   key={'profile'}
                 />

@@ -28,7 +28,7 @@ export default class OnlineStoreSalesCategory extends Component {
     let cateGoryList_cat = [];
     cateGoryList_dog = res
       .filter((item) => {
-        return item.cateType === 'dog';
+        return item.cateType === 'dog' && item.cateRouter.indexOf('vet') == -1;
       })
       .map((item2) => {
         return {
@@ -44,7 +44,7 @@ export default class OnlineStoreSalesCategory extends Component {
 
     cateGoryList_cat = res
       .filter((item) => {
-        return item.cateType === 'cat';
+        return item.cateType === 'cat' && item.cateRouter.indexOf('vet') == -1;
         //return item.cateType === 'cat' && item.cateRouter.indexOf('vet') == -1; //排除vet产品
       })
       .map((item2) => {
@@ -67,10 +67,10 @@ export default class OnlineStoreSalesCategory extends Component {
           <div className="rc-layout-container rc-two-column">
             <div className="rc-column">
               <div className="header-title">
-                <div style={{ fontSize: '20px' }} className="rc-espilon">
+                <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="onlineStore.salesCategory.cat" />
                 </div>
-                <img src={catsImg} alt="" />
+                <img src={catsImg} alt="cat-icon" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -112,10 +112,10 @@ export default class OnlineStoreSalesCategory extends Component {
             </div>
             <div className="rc-column">
               <div className="header-title">
-                <div style={{ fontSize: '20px' }} className="rc-espilon">
+                <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="onlineStore.salesCategory.dog" />
                 </div>
-                <img src={dogsImg} alt="" />
+                <img src={dogsImg} alt="dog-icon" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (

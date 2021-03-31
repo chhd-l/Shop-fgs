@@ -4,25 +4,27 @@ import Club_Logo from '@/assets/images/Logo_club.png';
 import { getFormatDate, getFrequencyDict, getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
+import { IMG_DEFAULT } from '@/utils/constant';
+import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 const localItemRoyal = window.__.localItemRoyal;
-const ClubItem = ({ subItem }) => {
+const ClubItem = ({ subItem, idx, frequencyList }) => {
   const isMobile = getDeviceType() !== 'PC';
   return (
     <div
       className="row rc-margin-x--none row align-items-center card-container"
       style={{
         padding: '1rem 0',
-        marginTop: '1rem',
-        display: i < 2 || isShowAll ? 'flex' : 'none'
+        marginTop: '1rem'
+        // display: idx < 2 || isShowAll ? 'flex' : 'none'
       }}
       key={subItem.subscribeId}
     >
       <div className="col-4 col-md-4 d-flex flex-wrap">
         {subItem.goodsInfo &&
           subItem.goodsInfo.map((item) => (
-            <div style={{ marginLeft: '20px' }}>
+            <div style={{ marginLeft: '1.25rem' }}>
               <LazyLoad>
                 <img
                   style={{
@@ -39,14 +41,14 @@ const ClubItem = ({ subItem }) => {
                 style={{
                   display: 'inline-block',
                   verticalAlign: 'middle',
-                  fontSize: '12px',
-                  marginLeft: '10px',
+                  fontSize: '.75rem',
+                  marginLeft: '.625rem',
                   width: isMobile ? 'auto' : '250px'
                 }}
               >
                 <p
                   style={{
-                    fontSize: '16px',
+                    fontSize: '1rem',
                     fontWeight: '400',
                     color: '#333',
                     marginBottom: '5px'
@@ -79,7 +81,7 @@ const ClubItem = ({ subItem }) => {
               display: 'inline-block',
               marginRight: '30px'
             }}
-            alt=""
+            alt="club-logo"
           />
         </LazyLoad>
         <LazyLoad>
@@ -89,15 +91,15 @@ const ClubItem = ({ subItem }) => {
               width: '40px',
               display: 'inline-block'
             }}
-            alt=""
+            alt="autoship-icon"
           />
         </LazyLoad>
         <span
           style={{
             display: 'inline-block',
             verticalAlign: 'middle',
-            fontSize: '12px',
-            marginLeft: '10px'
+            fontSize: '.75rem',
+            marginLeft: '.625rem'
           }}
         >
           <p
@@ -109,7 +111,7 @@ const ClubItem = ({ subItem }) => {
           >
             <FormattedMessage id="autoShipStarted" />
           </p>
-          <p style={{ color: '#666', fontSize: '16px' }}>
+          <p style={{ color: '#666', fontSize: '1rem' }}>
             {getFormatDate(subItem.createTime.split(' ')[0])}
           </p>
         </span>
@@ -117,15 +119,9 @@ const ClubItem = ({ subItem }) => {
       <div className="col-4 col-md-2"></div>
       <div className="col-4 col-md-2"></div>
       <div className="col-4 col-md-2" style={{ textAlign: 'center' }}>
-        {i % 2 === 0 ? (
-          <button className="rc-btn rc-btn--two rc-btn--sm" onClick={() => {}}>
-            <FormattedMessage id="Link" />
-          </button>
-        ) : (
-          <a className="rc-styled-link" href="#/">
-            Unlink
-          </a>
-        )}
+        <Link to={`/account/subscription/order/detail/${subItem.subscribeId}`}>
+          <FormattedMessage id="Manage" />
+        </Link>
       </div>
     </div>
   );

@@ -30,7 +30,8 @@ const addressType = ({ hideBillingAddr }) => {
 class ShippingAddressFrom extends React.Component {
   static defaultProps = {
     addressId: '',
-    hideBillingAddr: false
+    hideBillingAddr: false,
+    upateSuccessMsg: () => {}
   };
   constructor(props) {
     super(props);
@@ -81,58 +82,46 @@ class ShippingAddressFrom extends React.Component {
   }
   componentDidMount() {
     setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
+      this.setState(
+        {
+          seoConfig: res
+        },
+        () => {
+          // 根据addressId查询地址信息
+          if (this.props.addressId) {
+            this.setState({
+              loading: true
+            });
+            this.getAddressById(this.props.addressId);
+          } else {
+            this.setState({
+              loading: false
+            });
+          }
+        }
+      );
     });
-
-    if (this.props.addressId) {
-      this.getAddressById(this.props.addressId);
-    }
   }
+  // 根据 address Id 查询地址信息
   getAddressById = async (id) => {
-    this.setState({
-      loading: true
-    });
     try {
       let res = await getAddressById({ id });
       let data = res.context;
-      let addressForm = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        address1: data.address1,
-        address2: data.address2,
-        countryId: data.countryId,
-        country: data.country,
-        cityId: data.cityId,
-        city: data.city,
-        postCode: data.postCode,
-        phoneNumber: data.consigneeNumber,
-        rfc: data.rfc,
-        isDefalt: data.isDefaltAddress === 1 ? true : false,
-        deliveryAddressId: data.deliveryAddressId,
-        customerId: data.customerId,
-        addressType: data.type,
-        email: data.email
-      };
-      if (process.env.REACT_APP_LANG === 'en') {
+      let addressForm = data;
+      addressForm.phoneNumber = data.consigneeNumber;
+      addressForm.isDefalt = data.isDefaltAddress === 1 ? true : false;
+      addressForm.addressType = data.type;
+      if (addressForm.province) {
         addressForm.provinceNo = data.provinceNo;
         addressForm.province = data.province;
         addressForm.provinceId = data.provinceId;
       }
-
-      // let cityRes = await queryCityNameById({ id: [data.cityId] });
-      // // 手动输入时没有 cityId，直接赋值，cityName和city必须赋值，否则按钮默认灰色
-      // addressForm.city = cityRes?.context?.systemCityVO[0]?.cityName
-      //   ? cityRes?.context?.systemCityVO[0]?.cityName
-      //   : data.city;
-      // addressForm.cityId = cityRes?.context?.systemCityVO[0]?.id
-      //   ? cityRes?.context?.systemCityVO[0]?.id
-      //   : data.cityId;
-
       this.setState(
         {
           addressForm,
           showModal: true,
           isAdd: false,
+          loading: false,
           curType: data.type === 'DELIVERY' ? 'delivery' : 'billing'
         },
         () => {
@@ -141,6 +130,7 @@ class ShippingAddressFrom extends React.Component {
       );
     } catch (err) {
       this.showErrorMsg(err.message.toString());
+      this.setState({ loading: false });
     } finally {
       this.setState({ loading: false });
     }
@@ -191,9 +181,15 @@ class ShippingAddressFrom extends React.Component {
       addressForm.address1 = validationAddress.address1;
       addressForm.address2 = validationAddress.address2;
       addressForm.city = validationAddress.city;
-      if (process.env.REACT_APP_LANG === 'en') {
-        addressForm.province = validationAddress.provinceCode;
-      }
+
+      addressForm.province = validationAddress.provinceCode;
+      addressForm.provinceId =
+        validationAddress.provinceId && validationAddress.provinceId != null
+          ? validationAddress.provinceId
+          : addressForm.provinceId;
+
+      // 地址校验返回参数
+      addressForm.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         addressForm: JSON.parse(JSON.stringify(oldAddressForm))
@@ -244,16 +240,18 @@ class ShippingAddressFrom extends React.Component {
         email: data.email,
         type: curType.toUpperCase()
       };
-      if (process.env.REACT_APP_LANG === 'en') {
-        // 手动输入的城市 id 设为 null
-        params.province = data.province;
-        params.provinceId = data.provinceId;
-      }
+      // if (params?.province && params?.province != null) {
+      params.province = data.province;
+      params.provinceId = data.provinceId;
+      params.isValidated = data.validationResult;
+      // }
       console.log('----------------------> handleSave params: ', params);
 
-      await (this.state.isAdd ? saveAddress : editAddress)(params);
-      myAccountActionPushEvent('Add Address');
+      let res = await (this.state.isAdd ? saveAddress : editAddress)(params);
+      myAccountActionPushEvent('Add Address'); // GA
       this.handleCancel();
+      // this.props.upateSuccessMsg(res?.message);
+      this.props.upateSuccessMsg('Saved Successfully');
       this.props.refreshList();
     } catch (err) {
       this.showErrorMsg(err.message);
@@ -402,90 +400,94 @@ class ShippingAddressFrom extends React.Component {
             </p>
           </aside>
           {this.state.loading ? (
-            <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
+            <>
+              <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
+            </>
           ) : (
-            <div className={`userContactInfoEdit`}>
-              <div className="row">
-                {addressType({ hideBillingAddr }).map((item, i) => (
-                  <div className="col-12 col-md-4" key={i}>
-                    <div className="rc-input rc-input--inline">
-                      <input
-                        className="rc-input__radio"
-                        id={`account-info-address-${item.type}-${i}`}
-                        checked={curType === item.type}
-                        type="radio"
-                        disabled={!!this.props.addressId}
-                        onChange={this.handleTypeChange.bind(this, item)}
-                      />
-                      <label
-                        className="rc-input__label--inline"
-                        htmlFor={`account-info-address-${item.type}-${i}`}
-                      >
-                        <FormattedMessage id={item.langKey} />
-                      </label>
+            <>
+              <div className={`userContactInfoEdit`}>
+                <div className="row">
+                  {addressType({ hideBillingAddr }).map((item, i) => (
+                    <div className="col-12 col-md-4" key={i}>
+                      <div className="rc-input rc-input--inline">
+                        <input
+                          className="rc-input__radio"
+                          id={`account-info-address-${item.type}-${i}`}
+                          checked={curType === item.type}
+                          type="radio"
+                          disabled={!!this.props.addressId}
+                          onChange={this.handleTypeChange.bind(this, item)}
+                        />
+                        <label
+                          className="rc-input__label--inline"
+                          htmlFor={`account-info-address-${item.type}-${i}`}
+                        >
+                          <FormattedMessage id={item.langKey} />
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-              <div className="row">
-                <EditForm
-                  initData={addressForm}
-                  isLogin={true}
-                  updateData={this.handleEditFormChange}
-                />
+                  ))}
+                </div>
+                <div>
+                  <EditForm
+                    initData={addressForm}
+                    isLogin={true}
+                    updateData={this.handleEditFormChange}
+                  />
 
-                {addressForm.addressType === 'DELIVERY' ? (
-                  <div className="form-group col-12 col-md-6">
-                    <div
-                      className="rc-input rc-input--inline"
-                      onClick={this.isDefalt}
-                    >
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        value={addressForm.isDefalt}
-                        checked={addressForm.isDefalt}
-                      />
-                      <label className="rc-input__label--inline text-break w-100">
-                        <FormattedMessage id="setDefaultAddress" />
-                      </label>
+                  {addressForm.addressType === 'DELIVERY' ? (
+                    <div className="form-group col-12 col-md-6">
+                      <div
+                        className="rc-input rc-input--inline"
+                        onClick={this.isDefalt}
+                      >
+                        <input
+                          type="checkbox"
+                          className="rc-input__checkbox"
+                          value={addressForm.isDefalt}
+                          checked={addressForm.isDefalt}
+                        />
+                        <label className="rc-input__label--inline text-break w-100">
+                          <FormattedMessage id="setDefaultAddress" />
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                ) : null}
-              </div>
-              <span className="rc-meta mandatoryField">
-                * <FormattedMessage id="account.requiredFields" />
-              </span>
-              <div className="text-right">
-                <span
-                  className="rc-styled-link editPersonalInfoBtn"
-                  name="contactInformation"
-                  onClick={this.handleCancel}
-                >
-                  <FormattedMessage id="cancel" />
+                  ) : null}
+                </div>
+                <span className="rc-meta mandatoryField">
+                  * <FormattedMessage id="account.requiredFields" />
                 </span>
-                &nbsp;
-                <FormattedMessage id="or" />
-                &nbsp;
-                <button
-                  className={classNames(
-                    'rc-btn',
-                    'rc-btn--one',
-                    'editAddress',
-                    {
-                      'ui-btn-loading': this.state.saveLoading
-                    }
-                  )}
-                  data-sav="false"
-                  name="contactInformation"
-                  type="submit"
-                  disabled={!isValid}
-                  onClick={this.handleSave}
-                >
-                  <FormattedMessage id="save" />
-                </button>
+                <div className="text-right">
+                  <span
+                    className="rc-styled-link editPersonalInfoBtn"
+                    name="contactInformation"
+                    onClick={this.handleCancel}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </span>
+                  &nbsp;
+                  <FormattedMessage id="or" />
+                  &nbsp;
+                  <button
+                    className={classNames(
+                      'rc-btn',
+                      'rc-btn--one',
+                      'editAddress',
+                      {
+                        'ui-btn-loading': this.state.saveLoading
+                      }
+                    )}
+                    data-sav="false"
+                    name="contactInformation"
+                    type="submit"
+                    disabled={!isValid}
+                    onClick={this.handleSave}
+                  >
+                    <FormattedMessage id="save" />
+                  </button>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
 

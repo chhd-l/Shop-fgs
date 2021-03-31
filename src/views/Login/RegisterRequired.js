@@ -88,6 +88,9 @@ class RegisterRequired extends Component {
     try {
       let lastPath =
         (this.props.location.state && this.props.location.state.path) || '/';
+      if (sessionItemRoyal.get('okta-redirectUrl')) {
+        lastPath = sessionItemRoyal.get('okta-redirectUrl');
+      }
       if (lastPath === 'pay') {
         lastPath = '/checkout';
       }
@@ -313,7 +316,7 @@ class RegisterRequired extends Component {
                 {/* Header title */}
                 <h2
                   className="rc-text-colour--brand1"
-                  style={{ textAlign: 'center', marginTop: '15px' }}
+                  style={{ textAlign: 'center', marginTop: '.9375rem' }}
                 >
                   <FormattedMessage id="required.logoTitle" />
                 </h2>
@@ -338,7 +341,7 @@ class RegisterRequired extends Component {
                     </span>
                   </aside>
                 ) : null}
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '1.25rem' }}>
                   <div className="rc-layout-container rc-one-column">
                     <div className="rc-column" style={{ paddingBottom: '0' }}>
                       {this.state.isLoading ? (

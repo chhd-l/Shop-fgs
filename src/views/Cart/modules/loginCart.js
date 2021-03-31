@@ -572,7 +572,7 @@ class LoginCart extends React.Component {
               isGift ? 'rc-padding-right--xs' : ''
             }`}
           >
-            <div style={{ marginTop: '12px' }}>
+            <div style={{ marginTop: '.75rem' }}>
               <FormattedMessage id="quantity" />:{' '}
             </div>
             <div className="rc-quantity d-flex">
@@ -614,7 +614,7 @@ class LoginCart extends React.Component {
                   {/* <div className="rc-swatch__item selected">
               <span>
                 {find(pitem.sizeList, s => s.selected).specText}
-                <i></i>
+                <em></em>
               </span>
             </div> */}
                   {pitem.goodsSpecs &&
@@ -639,10 +639,7 @@ class LoginCart extends React.Component {
                               index
                             )}
                           >
-                            <span key={i2}>
-                              {sdItem.detailName}
-                              <i></i>
-                            </span>
+                            <span key={i2}>{sdItem.detailName}</span>
                           </div>
                         ))}
                       </div>
@@ -864,7 +861,7 @@ class LoginCart extends React.Component {
           {pitem.goods.promotions && pitem.goods.promotions.includes('club') ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
-              style={{ marginTop: '-24px' }}
+              style={{ marginTop: '-1.5rem' }}
             >
               <div className="name-info flex-column-gift d-flex">
                 <img className="img" src={foodDispenserPic} />
@@ -873,7 +870,7 @@ class LoginCart extends React.Component {
                 <img
                   style={{ display: 'inline-block' }}
                   src={Club_Logo}
-                  alt=""
+                  alt="Club-logo"
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -907,7 +904,7 @@ class LoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
-                    alt=""
+                    alt="goodsInformationImage"
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
@@ -981,7 +978,7 @@ class LoginCart extends React.Component {
               className="rc-input rc-input--inline rc-input--label mr-0"
               style={{
                 width: '150px',
-                marginBottom: '10px',
+                marginBottom: '.625rem',
                 overflow: 'hidden'
               }}
             >
@@ -1012,9 +1009,9 @@ class LoginCart extends React.Component {
                     : ''
                 }`}
                 style={{
-                  marginTop: '10px',
+                  marginTop: '.625rem',
                   float: 'right',
-                  marginBottom: '10px'
+                  marginBottom: '.625rem'
                 }}
                 onClick={this.handleClickPromotionApply}
               >
@@ -1024,7 +1021,7 @@ class LoginCart extends React.Component {
           </div>
         </div>
         {isShowValidCode ? (
-          <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '14px' }}>
+          <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '.875rem' }}>
             <FormattedMessage id="validPromotionCode" />
           </div>
         ) : null}
@@ -1033,7 +1030,7 @@ class LoginCart extends React.Component {
             <div
               className={`row leading-lines shipping-item d-flex`}
               style={{
-                margin: '10px',
+                margin: '.625rem',
                 border: '1px solid #ccc',
                 height: '60px',
                 lineHeight: '60px',
@@ -1070,14 +1067,14 @@ class LoginCart extends React.Component {
                   )}
                 </p>
               </div>
-              <div className="col-2" style={{ padding: '0 15px 0 0' }}>
+              <div className="col-2" style={{ padding: '0 .9375rem 0 0' }}>
                 <p className="text-right shipping-cost">
                   <span
                     className="rc-icon rc-close--sm rc-iconography"
                     style={{
-                      fontSize: '18px',
-                      marginLeft: '10px',
-                      lineHeight: '20px',
+                      fontSize: '1.125rem',
+                      marginLeft: '.625rem',
+                      lineHeight: '1.25rem',
                       cursor: 'pointer'
                     }}
                     onClick={this.handleRemovePromotionCode}
@@ -1119,7 +1116,7 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
-                <b>-{formatMoney(this.subscriptionDiscountPrice)}</b>
+                <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
             </div>
           </div>
@@ -1142,7 +1139,7 @@ class LoginCart extends React.Component {
               <div className="col-6">
                 <p className="text-right shipping-cost">
                   {/* - {formatMoney(this.discountPrice)} */}
-                  <b>-{formatMoney(el.discountPrice)}</b>
+                  <strong>-{formatMoney(el.discountPrice)}</strong>
                 </p>
               </div>
             </div>
@@ -1188,7 +1185,7 @@ class LoginCart extends React.Component {
             <div className="col-4">
               <p className="text-right shipping-cost">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                  <b>{subtractionSign}</b>
+                  <strong>{subtractionSign}</strong>
                 ) : (
                   formatMoney(this.taxFeePrice)
                 )}
@@ -1209,7 +1206,7 @@ class LoginCart extends React.Component {
             <div className="col-5">
               <p className="text-right grand-total-sum medium mb-0">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                  <b>{subtractionSign}</b>
+                  <strong>{subtractionSign}</strong>
                 ) : (
                   formatMoney(this.tradePrice)
                 )}

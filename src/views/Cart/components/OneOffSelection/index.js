@@ -34,19 +34,19 @@ const OneOffSelection = function (props) {
               height: '100%',
               fontWeight: '100',
               color: '#666',
-              fontSize: '20px',
+              fontSize: '1.25rem',
               lineHeight: '1'
             }}
           >
             <LazyLoad>
-              <img src={cartImg} alt="" />
+              <img src={cartImg} alt="cart-image" />
             </LazyLoad>
             <span>
               <FormattedMessage id="singlePurchase" />
             </span>
           </span>
         </div>
-        <div className="price singlePrice" style={{ fontSize: '22px' }}>
+        <div className="price singlePrice" style={{ fontSize: '1.375rem' }}>
           {!isLogin
             ? formatMoney(
                 pitem.quantity *

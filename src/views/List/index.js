@@ -105,7 +105,7 @@ function ListItemH5ForGlobalStyle(props) {
                 >
                   <button
                     className="rc-btn rc-btn--two margin-top-mobile-20"
-                    style={{ marginTop: '19px' }}
+                    style={{ marginTop: '1.1875rem' }}
                   >
                     <FormattedMessage id="plp.retail.cat.product.finder.button" />
                   </button>
@@ -134,7 +134,7 @@ function ListItemH5ForGlobalStyle(props) {
                           height: 'auto',
                           margin: 'auto'
                         }}
-                        alt=""
+                        alt="Retail Products"
                       />
                     </div>
                   </div>
@@ -176,9 +176,9 @@ function ListItemH5ForGlobalStyle(props) {
                 <picture
                   className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
                   style={{
-                    marginLeft: '-10px',
+                    marginLeft: '-.625rem',
                     paddingLeft: '5px',
-                    paddingRight: '15px',
+                    paddingRight: '.9375rem',
                     fontSize: '0'
                   }}
                 >
@@ -265,7 +265,7 @@ function ListItemForDefault(props) {
                   >
                     <button
                       className="rc-btn rc-btn--two "
-                      style={{ marginTop: '19px' }}
+                      style={{ marginTop: '1.1875rem' }}
                     >
                       <FormattedMessage id="plp.retail.cat.product.finder.button" />
                     </button>
@@ -287,7 +287,7 @@ function ListItemForDefault(props) {
                           ? retailDog
                           : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                       }
-                      alt=""
+                      alt="product-finder-recomend-retail-cat-find"
                       title=""
                       className="ImgFitScreen pt-3"
                       style={{
@@ -564,7 +564,7 @@ function ListItemBody({ item, headingTag }) {
           {item.goodsNewSubtitle ? (
             <div
               className="rc-card__meta text-center ui-text-overflow-line2 col-12 p-0"
-              style={{ marginBottom: '10px' }}
+              style={{ marginBottom: '.625rem' }}
             >
               {item.goodsNewSubtitle}
             </div>
@@ -594,7 +594,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImg} alt="" />
+                  <img src={pfRecoImg} alt="product-finder-recomend" />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -622,7 +622,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
-                    alt=""
+                    alt="product-finder-recomend-retail-cat"
                   />
                 </LazyLoad>
               </div>
@@ -655,7 +655,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
-                    alt=""
+                    alt="product-finder-recomend-vet-cat"
                   />
                 </LazyLoad>
               </div>
@@ -726,7 +726,7 @@ class List extends React.Component {
 
       searchForm: {
         minMarketPrice: 0,
-        maxMarketPrice: null
+        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
       },
       defaultFilterSearchForm: {
         // 初始化filter查询参数
@@ -1164,7 +1164,6 @@ class List extends React.Component {
           const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
           )[0];
-
           if (tItem) {
             let attributeValues = [];
             let attributeValueIdList = [];
@@ -1172,7 +1171,7 @@ class List extends React.Component {
               const tFvItemList = tItem.attributesValueList.filter(
                 (t) => t.attributeDetailNameEnSplitByLine === fvItem
               );
-              const tFvItemForFirst = tFvItemList[0];
+              const tFvItemForFirst = tFvItemList;
               let tFvItem = tFvItemForFirst;
               if (tFvItemList.length > 1) {
                 tFvItem =
@@ -1182,12 +1181,14 @@ class List extends React.Component {
                       t.attributeDetailName
                         .toLocaleLowerCase()
                         .includes(`${isDogPage ? 'dog' : 'cat'}`)
-                  )[0] || tFvItemForFirst;
+                  ) || tFvItemForFirst;
               }
 
-              if (tFvItem) {
-                attributeValues.push(tFvItem.attributeDetailName);
-                attributeValueIdList.push(tFvItem.id);
+              if (tFvItem.length > 0) {
+                attributeValues.push(
+                  ...tFvItem.map((t) => t.attributeDetailName)
+                );
+                attributeValueIdList.push(...tFvItem.map((t) => t.id));
               }
               return fvItem;
             });
@@ -1281,20 +1282,15 @@ class List extends React.Component {
       );
     let filterList = tmpList.concat(customFilter);
 
-    // isVetProducts 过滤掉'breeds' 'Sterilized'
-    const vetFilterList = filterList.filter(
-      (item) =>
-        item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
-    );
+    // isVetProducts 过滤掉'breeds' 'Sterilized' 改成storeportal配置
+    // const vetFilterList = filterList.filter(
+    //   (item) =>
+    //     item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
+    // );
     // 非isVetProducts 过滤掉'Size'
-    const sptFilterList = filterList.filter(
-      (item) => item.attributeName !== 'Size'
-    );
-    let allFilterList = isHub
-      ? this.state.isVetProducts
-        ? vetFilterList
-        : sptFilterList
-      : filterList;
+    // const sptFilterList = filterList.filter(
+    //   (item) => item.attributeName !== 'Size'
+    // );
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -1498,7 +1494,7 @@ class List extends React.Component {
       });
       return pEle;
     });
-    this.setState({ filterList: allFilterList, initingFilter: false });
+    this.setState({ filterList, initingFilter: false });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1702,10 +1698,8 @@ class List extends React.Component {
                     e.showPage.includes('PLP')
                 )[0],
                 technologyOrBreedsAttr: isHub && attrs,
-                // 临时处理法国plp价格
-                fromPrice:
-                  process.env.REACT_APP_LANG === 'fr' ? 0 : ele.fromPrice,
-                toPrice: process.env.REACT_APP_LANG === 'fr' ? 0 : ele.toPrice
+                fromPrice: ele.fromPrice,
+                toPrice: ele.toPrice
               });
               const tmpItem = find(
                 res.context.goodsList,
@@ -1918,7 +1912,10 @@ class List extends React.Component {
   render() {
     const { breadListByDeco, lastBreadListName } = this;
     const { pageLink } = this.state;
-    const { history } = this.props;
+    const {
+      history,
+      configStore: { maxGoodsPrice }
+    } = this.props;
     const { pathname } = history.location;
     const {
       category,
@@ -2048,7 +2045,11 @@ class List extends React.Component {
                 </div>
                 <div className="rc-column">
                   <LazyLoad style={{ width: '100%' }}>
-                    <img src={titleData.img} className="mx-auto" alt="" />
+                    <img
+                      src={titleData.img}
+                      className="mx-auto"
+                      alt="titleData-image"
+                    />
                   </LazyLoad>
                 </div>
               </div>
@@ -2067,7 +2068,7 @@ class List extends React.Component {
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <b>"{keywords}"</b>
+                    <strong>"{keywords}"</strong>
                     {results > 0 && (
                       <>
                         (
@@ -2091,63 +2092,6 @@ class List extends React.Component {
                     zIndex: 3
                   }}
                 >
-                  <div
-                    className="refinements-fixed rc-column"
-                    style={{
-                      position: 'fixed',
-                      display: 'none',
-                      background: '#fff',
-                      zIndex: 22
-                    }}
-                  >
-                    <button
-                      className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
-                      data-filter-trigger="filter-example"
-                      onClick={this.toggleFilterModal.bind(this, true)}
-                    >
-                      <FormattedMessage id="filters" />
-                    </button>
-                    <aside
-                      className={`rc-filters border-top ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
-                    >
-                      {isMobilePhone ? (
-                        <Filters
-                          history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`1-${filterList.length}`}
-                          inputLabelKey={1}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                          baseSearchStr={baseSearchStr}
-                        />
-                      ) : (
-                        <FiltersPC
-                          history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`1-${filterList.length}`}
-                          inputLabelKey={1}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                          baseSearchStr={baseSearchStr}
-                        />
-                      )}
-                    </aside>
-                  </div>
-
                   <div
                     id="refineBar"
                     className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
@@ -2201,7 +2145,7 @@ class List extends React.Component {
                           />
                         )}
                       </span>
-                      <i
+                      <em
                         className={`rc-icon rc-filter--xs rc-iconography ${
                           (filterModalVisible && !isTop) ||
                           (!filterModalVisible && isTop)
@@ -2229,7 +2173,7 @@ class List extends React.Component {
                       {isMobilePhone ? (
                         <Filters
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2245,7 +2189,7 @@ class List extends React.Component {
                       ) : (
                         <FiltersPC
                           history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          maxGoodsPrice={maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
                           filterList={filterList}
@@ -2334,11 +2278,11 @@ class List extends React.Component {
                       <div className="row">
                         <div className="col-12">
                           <div className="ui-font-nothing rc-md-up">
-                            <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                            <em className="rc-icon rc-incompatible--sm rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                           <div className="ui-font-nothing rc-md-down d-flex">
-                            <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                            <em className="rc-icon rc-incompatible--xs rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
                         </div>
@@ -2383,7 +2327,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt=""
+                                            alt="product-list-taggingForImage"
                                           />
                                         </div>
                                       ) : null
@@ -2428,7 +2372,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt=""
+                                            alt="product-list-taggingForImage"
                                           />
                                         </div>
                                       ) : null

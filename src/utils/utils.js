@@ -11,6 +11,7 @@ import { createIntl, createIntlCache } from 'react-intl';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
+import en from 'date-fns/locale/en-US';
 import { registerLocale } from 'react-datepicker';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 
@@ -42,6 +43,9 @@ export function formatMoney(
     val = parseFloat(val);
   }
   val += '';
+  if (process.env.REACT_APP_LANG === 'tr') {
+    return val + ' TL';
+  }
   return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
     style: 'currency',
     currency: process.env.REACT_APP_CURRENCY
@@ -170,7 +174,6 @@ export async function validData(rule, data) {
     const targetRule = find(rule, (ele) => ele.key === key);
     if (targetRule) {
       if (targetRule.require && !val) {
-        console.log('111 errMsg: ', targetRule.errMsg);
         throw new Error(targetRule.errMsg);
       }
       if (
@@ -179,7 +182,6 @@ export async function validData(rule, data) {
         val &&
         !targetRule.regExp.test(val)
       ) {
-        console.log('222 errMsg: ', targetRule.errMsg);
         throw new Error(targetRule.errMsg);
       }
     }
@@ -452,23 +454,24 @@ export function distributeLinktoPrecriberOrPaymentPage({
   // 校验审核
   if (isLogin) {
     let needPrescriber;
-    if (autoAuditFlag) {
-      needPrescriber =
-        loginCartData.filter((el) => el.prescriberFlag).length > 0;
-    } else {
-      needPrescriber = AuditData.length > 0;
-    }
-    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+    // if (autoAuditFlag) {
+    needPrescriber = loginCartData.filter((el) => el.prescriberFlag).length > 0;
+    // } else {
+    //   needPrescriber = AuditData.length > 0;
+    // }
+    //|| localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
+    if (!needPrescriber) {
       return '/checkout';
     }
   } else {
     let needPrescriber;
-    if (autoAuditFlag) {
-      needPrescriber = cartData.filter((el) => el.prescriberFlag).length > 0;
-    } else {
-      needPrescriber = AuditData.length > 0;
-    }
-    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+    // if (autoAuditFlag) {
+    needPrescriber = cartData.filter((el) => el.prescriberFlag).length > 0;
+    // } else {
+    //   needPrescriber = AuditData.length > 0;
+    // }
+    //|| localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
+    if (!needPrescriber) {
       return '/checkout';
     }
   }
@@ -625,6 +628,9 @@ function getDatePickerConfig() {
     case 'fr':
       registerLocale('fr', fr);
       break;
+    case 'en':
+      registerLocale('en', en);
+      break;
     default:
       break;
   }
@@ -633,6 +639,7 @@ function getDatePickerConfig() {
     es: { format: 'yyyy-MM-dd', locale: 'es' },
     de: { format: 'dd.MM.yyyy', locale: 'de' },
     fr: { format: 'dd/MM/yyyy', locale: 'fr' },
+    en: { format: 'yyyy-MM-dd', locale: 'en' },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 

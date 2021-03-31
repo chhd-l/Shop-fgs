@@ -224,7 +224,7 @@ const en_US = {
   bankCard: 'Bank card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
-  biliingAddressSameAs: 'My billing address is the same as my address',
+  biliingAddressSameAs: 'My billing address is the same as my shipping address',
   billing: 'BILLING',
   billing2: 'Billing Address',
   billingAddress: 'Billing Address',
@@ -236,12 +236,12 @@ const en_US = {
   cardCvvIsInvalid: 'your card cvv is invalid',
   cardNumber: 'Card Number',
   cardNumberIsInvalid: 'your card number is invalid',
-  'cart.catDiet': 'Choose a diet for your cat',
+  'cart.catDiet': 'Shop Cat formulas',
   'cart.deletInfo': 'Delete product?',
   'cart.deletInfo2':
     'Are you sure you want to remove this item from your cart?',
   'cart.delivery': 'Shipping',
-  'cart.dogDiet': 'Choose a diet for your dog',
+  'cart.dogDiet': 'Shop Dog formulas',
   'cart.errorInfo': "The number can't be less than 1",
   'cart.errorInfo2': 'You cannot place your order, out of stock product: {val}',
   'cart.errorInfo3':
@@ -252,7 +252,7 @@ const en_US = {
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
   'cart.firstOrderDiscountTip':
     'The 30% discount for your first order will be applied during checkout',
-  'cart.fullPrice': 'FULL RICE FOR YOUR PET',
+  'cart.fullPrice': 'Find your pet’s precise formula',
   'cart.miniCartTitle':
     '30% off first purchase, plus 5% off every order and additional perks with autoship',
   // 'cart.totalProduct': '{val} item(s) in the basket',
@@ -303,7 +303,7 @@ const en_US = {
   'confirmation.customerInformation': 'Customer Information',
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2':
-    'In the near future, our staff will contact you to comfirm the order.',
+    'You will receive an email confirmation shortly at {val1}',
   'confirmation.info3':
     ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.oneShoot': 'Continue shopping',
@@ -414,11 +414,6 @@ const en_US = {
   deliveryAddress: 'Delivery Address',
   deliveryDate: 'Delivery date',
   deliveryOneTimeOnly: 'Delivery 1 time only',
-  // 订单状态相关
-  'deliveryStatus.NOT_YET_SHIPPED': 'Not shipped',
-  'deliveryStatus.PART_SHIPPED': 'Partially shipped',
-  'deliveryStatus.SHIPPED': 'All shipped',
-  'deliveryStatus.VOID': 'To be delivered',
   detail: '[Show more]',
   'detail.answer':
     'Our advisers are real experts and passionate. They are at your disposal to answer any request.',
@@ -720,13 +715,6 @@ const en_US = {
   'order.paymentStatus': 'Payment Status',
   'order.paymentTime': 'Payment time',
   'order.payNow': 'Pay now',
-  'order.progress1': 'Create',
-  'order.progress2': 'Paid',
-  'order.progress3': 'Delivered',
-  'order.progress4': 'Completed',
-  'order.progress5': 'Reviewed',
-  'order.progress6': 'Pending review',
-  'order.progress7': 'Canceled',
   'order.rateModalTitle': 'Your opinion is important',
   'order.refundErrorInfo':
     'This order is associated with a refund in processing and cannot be reapplied.',
@@ -740,22 +728,12 @@ const en_US = {
   'order.shippingStatus': 'Shipping Status',
   'order.toBeDeliveredTip':
     'Your order has been successfully paid and we are preparing to ship.',
-  'order.toBePaidTip':
-    'Your order has not been paid, please pay as soon as possible. {val}',
+  'orderStatus.INITTip': 'Your order has not been created successfully. {val}',
   'order.total': 'Total',
   'order.viewLogisticDetail': 'View logistic detail',
   'order.viewOrder': 'View order',
   orderDetail: 'Order Detail',
   orders: 'Orders',
-  'orderStatus.AUDIT': 'To be delivered',
-  'orderStatus.COMPLETED': 'Completed',
-  'orderStatus.CONFIRMED': 'Completed',
-  'orderStatus.DELIVERED': 'Delivered',
-  'orderStatus.DELIVERED_PART': 'Delivered',
-  'orderStatus.INIT': 'To be paid',
-  'orderStatus.REFUND': 'Canceled',
-  'orderStatus.REMEDY': 'To be delivered',
-  'orderStatus.VOID': 'Canceled',
   orderSummary: 'Order Summary',
   outOfStockContent_cart:
     'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
@@ -846,10 +824,6 @@ const en_US = {
   //account.paymethods
   'paymethods.info':
     "You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
-  'payStatus.NOT_PAID': 'Unpaid',
-  'payStatus.PAID': 'Paid',
-  'payStatus.PAID_IN': 'Paid in',
-  'payStatus.REFUND': 'Refund',
   personal: 'Personal',
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
@@ -1092,7 +1066,7 @@ const en_US = {
   saveExtraMoney: 'Save {val} on this subscription',
   saveFailed: 'Save Failed!',
   saveSuccess: 'Save Success',
-  saveSuccessfullly: 'Save successfullly',
+  saveSuccessfullly: 'Saved Successfully',
   saveSuccessfullly2: 'Your information has been correctly saved',
   search: 'Search',
   searchBreed: 'Search breed',
@@ -1254,6 +1228,7 @@ const en_US = {
   avecLabonnement: 'with autoship',
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
-  'payment.codConfirmTip': 'Payment upon receipt'
+  'payment.codConfirmTip': 'Payment upon receipt',
+  'Special Need': 'Sensitivites'
 };
 export default en_US;
