@@ -475,7 +475,7 @@ class PayProductInfo extends React.Component {
           )}
         </span>
         {this.props.operateBtnVisible &&
-        !localItemRoyal.get('rc-iframe-from-storepotal') ? (
+        !this.props.checkoutStore.isFromStorePortal ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
           </Link>
