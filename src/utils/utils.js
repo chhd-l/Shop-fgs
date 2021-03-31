@@ -454,6 +454,7 @@ export function distributeLinktoPrecriberOrPaymentPage({
   // 校验审核
   if (isLogin) {
     let needPrescriber;
+    //调整：是否需要进入prescription页面只判断购物车的商品中是否存在Need Prescriber
     // if (autoAuditFlag) {
     needPrescriber = loginCartData.filter((el) => el.prescriberFlag).length > 0;
     // } else {
