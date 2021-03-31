@@ -23,7 +23,7 @@ class PhoneModal extends Component {
             href={`tel:${this.state.phone}`}
             onClick={() => this.cancelModal}
           >
-            <img src={phoneImg} className="phoneImage" alt="" />
+            <img src={phoneImg} className="phoneImage" alt="phone-icon" />
             Appeler+0800005360
           </a>
           <a className="cancelPhone" onClick={this.cancelModal}>

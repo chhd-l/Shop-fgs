@@ -47,11 +47,7 @@ import deliveryIcon from './images/deliveryAddress.png';
 import billingIcon from './images/billingAddress.png';
 import paymentIcon from './images/payment.png';
 import { Link } from 'react-router-dom';
-import {
-  ORDER_STATUS_ENUM,
-  CREDIT_CARD_IMG_ENUM
-  // CREDIT_CARD_IMGURL_ENUM
-} from '@/utils/constant';
+import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import {
   updateDetail,
   getAddressDetail,
@@ -188,7 +184,6 @@ class SubscriptionDetail extends React.Component {
       addressType: '',
       countryList: [],
       frequencyList: [],
-      orderOptions: [],
       modalShow: false,
       currentGoodsInfo: [],
       modalList: [
@@ -1176,11 +1171,6 @@ class SubscriptionDetail extends React.Component {
         // el.periodTypeValue = filterData.valueEn;
         return el;
       });
-      let orderOptions = (subDetail.trades || []).map((el) => {
-        let orderStatus =
-          ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState;
-        return { value: el.id, name: el.id + ' ' + orderStatus };
-      });
       let isGift =
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
@@ -1205,7 +1195,6 @@ class SubscriptionDetail extends React.Component {
           currentCardInfo: subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
-          orderOptions: orderOptions,
           noStartYearOption,
           completedYearOption,
           noStartYear,
@@ -3499,18 +3488,24 @@ class SubscriptionDetail extends React.Component {
                                 {currentDeliveryAddress.consigneeNumber}
                               </p>
                               <p className="mb-0">
-                                {this.state.countryList.length &&
-                                this.state.countryList.filter(
-                                  (el) =>
-                                    el.id === currentDeliveryAddress.countryId
-                                ).length
-                                  ? this.state.countryList.filter(
+                                {process.env.REACT_APP_LANG == 'en' ? null : (
+                                  <>
+                                    {this.state.countryList.length &&
+                                    this.state.countryList.filter(
                                       (el) =>
                                         el.id ===
                                         currentDeliveryAddress.countryId
-                                    )[0].valueEn
-                                  : currentDeliveryAddress.countryId}
-                                ,{/* 省份 / State */}
+                                    ).length
+                                      ? this.state.countryList.filter(
+                                          (el) =>
+                                            el.id ===
+                                            currentDeliveryAddress.countryId
+                                        )[0].valueEn
+                                      : currentDeliveryAddress.countryId}
+                                    ,
+                                  </>
+                                )}
+                                {/* 省份 / State */}
                                 {currentDeliveryAddress?.province &&
                                 currentDeliveryAddress?.province != null
                                   ? currentDeliveryAddress.province + ', '
@@ -3581,18 +3576,24 @@ class SubscriptionDetail extends React.Component {
                                 {currentBillingAddress.consigneeNumber}
                               </p>
                               <p className="mb-0">
-                                {this.state.countryList.length &&
-                                this.state.countryList.filter(
-                                  (el) =>
-                                    el.id === currentBillingAddress.countryId
-                                ).length
-                                  ? this.state.countryList.filter(
+                                {process.env.REACT_APP_LANG == 'en' ? null : (
+                                  <>
+                                    {this.state.countryList.length &&
+                                    this.state.countryList.filter(
                                       (el) =>
                                         el.id ===
                                         currentBillingAddress.countryId
-                                    )[0].valueEn
-                                  : currentBillingAddress.countryId}
-                                ,{/* 省份 / State */}
+                                    ).length
+                                      ? this.state.countryList.filter(
+                                          (el) =>
+                                            el.id ===
+                                            currentBillingAddress.countryId
+                                        )[0].valueEn
+                                      : currentBillingAddress.countryId}
+                                    ,
+                                  </>
+                                )}
+                                {/* 省份 / State */}
                                 {currentBillingAddress?.province &&
                                 currentBillingAddress?.province != null
                                   ? currentBillingAddress.province + ', '
@@ -4485,31 +4486,21 @@ class SubscriptionDetail extends React.Component {
                                                 >
                                                   {el.id ? (
                                                     <>
-                                                      <em className="greenCircle"></em>
+                                                      <em className="greenCircle" />
                                                       <span>
-                                                        {ORDER_STATUS_ENUM[
+                                                        {
                                                           el.tradeState
-                                                            .flowState
-                                                        ] ||
-                                                          el.tradeState
-                                                            .flowState}
+                                                            .orderStatus
+                                                        }
                                                       </span>
-                                                      <span
+                                                      <Link
                                                         className="rc-icon rc-right rc-iconography"
-                                                        onClick={(e) => {
-                                                          e.preventDefault();
-                                                          const {
-                                                            history
-                                                          } = this.props;
-                                                          history.push(
-                                                            `/account/orders/detail/${el.id}`
-                                                          );
-                                                        }}
-                                                      ></span>
+                                                        to={`/account/orders/detail/${el.id}`}
+                                                      />
                                                     </>
                                                   ) : (
                                                     <>
-                                                      <em className="yellowCircle"></em>
+                                                      <em className="yellowCircle" />
                                                       <span
                                                         style={{
                                                           paddingRight: '30px'
@@ -4533,22 +4524,12 @@ class SubscriptionDetail extends React.Component {
                                                     src={dateIcon}
                                                   />
                                                 </LazyLoad>
-                                                <a
+                                                <Link
                                                   className="rc-styled-link"
-                                                  href="#/"
-                                                  onClick={(e) => {
-                                                    e.preventDefault();
-                                                    const {
-                                                      history
-                                                    } = this.props;
-                                                    history.push(
-                                                      `/account/orders/detail/${el.id}`
-                                                    );
-                                                  }}
+                                                  to={`/account/orders/detail/${el.id}`}
                                                 >
                                                   <FormattedMessage id="orderDetail" />
-                                                  {/* Order detail */}
-                                                </a>
+                                                </Link>
                                               </>
                                             ) : null}
                                           </div>
@@ -4738,17 +4719,14 @@ class SubscriptionDetail extends React.Component {
                                             >
                                               {el.id ? (
                                                 <>
-                                                  <em className="greenCircle"></em>
+                                                  <em className="greenCircle" />
                                                   <span>
-                                                    {ORDER_STATUS_ENUM[
-                                                      el.tradeState.flowState
-                                                    ] ||
-                                                      el.tradeState.flowState}
+                                                    {el.tradeState.orderStatus}
                                                   </span>
                                                 </>
                                               ) : (
                                                 <>
-                                                  <em className="yellowCircle"></em>
+                                                  <em className="yellowCircle" />
                                                   <span>
                                                     <FormattedMessage id="skiped" />
                                                   </span>

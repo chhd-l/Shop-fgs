@@ -495,9 +495,13 @@ class ShippingAddress extends React.Component {
                               </div>
                               <div>
                                 <span>
-                                  {matchNamefromDict(
-                                    this.state.countryList,
-                                    item.countryId
+                                  {process.env.REACT_APP_LANG == 'en' ? null : (
+                                    <>
+                                      {matchNamefromDict(
+                                        this.state.countryList,
+                                        item.countryId
+                                      )}
+                                    </>
                                   )}
                                 </span>
                               </div>

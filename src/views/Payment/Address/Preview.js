@@ -24,11 +24,11 @@ export default class AddressPreview extends React.Component {
         <p className={`${boldName ? 'medium' : ''}`}>
           {form.firstName + ' ' + form.lastName}
         </p>
-        <p>{form.phoneNumber || form.consigneeNumber}</p>
         <p>{form.address1}</p>
         {form.address2 ? <p>{form.address2}</p> : null}
         {process.env.REACT_APP_LANG == 'ru' ? (
           <>
+            <p>{form.phoneNumber || form.consigneeNumber} </p>
             {form.city && form.city != null ? (
               <>
                 {form.city} и {form.city}
@@ -48,20 +48,28 @@ export default class AddressPreview extends React.Component {
             ) : null}
           </>
         ) : (
-          <p>
-            <span>{[form.postCode, form.city, ' '].join(',')}</span>
+          <>
+            <p>
+              <span>{[form.postCode, form.city, ' '].join(',')}</span>
 
-            {form.province && form.province != null && (
-              <span>{form.province}, </span>
-            )}
-
-            <span>
-              {matchNamefromDict(
-                this.state.countryList,
-                form.country || form.countryId
+              {form.province && form.province != null && (
+                <span>{form.province}</span>
               )}
-            </span>
-          </p>
+
+              {process.env.REACT_APP_LANG == 'en' ? null : (
+                <>
+                  ,
+                  <span>
+                    {matchNamefromDict(
+                      this.state.countryList,
+                      form.country || form.countryId
+                    )}
+                  </span>
+                </>
+              )}
+            </p>
+            <p>{form.phoneNumber || form.consigneeNumber} </p>
+          </>
         )}
       </div>
     ) : null;

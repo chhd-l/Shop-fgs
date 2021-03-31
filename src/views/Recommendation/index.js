@@ -777,7 +777,7 @@ class Help extends React.Component {
                       <div className="rc-column description">
                         <LazyLoad>
                           <img
-                            alt=""
+                            alt="store-logo"
                             src={storeLogo}
                             style={{
                               float: 'left',
@@ -845,7 +845,7 @@ class Help extends React.Component {
                             <em></em>
                             <LazyLoad>
                               <img
-                                alt=""
+                                alt="goods-information-image"
                                 src={
                                   el.goodsInfo.goodsInfoImg ||
                                   el.goodsInfo.goods.goodsImg
@@ -950,7 +950,7 @@ class Help extends React.Component {
                             <em></em>
                             <LazyLoad>
                               <img
-                                alt=""
+                                alt="goods-information-image"
                                 src={
                                   el.goodsInfo.goodsInfoImg ||
                                   el.goodsInfo.goods.goodsImg
@@ -1114,7 +1114,7 @@ class Help extends React.Component {
                         <div className="rec-other-info">
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="store-logo"
                               src={storeLogo}
                               style={{
                                 float: 'left',
@@ -1192,7 +1192,11 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={recommendation1} style={{ width: '100%' }} alt="" />
+                <img
+                  src={recommendation1}
+                  style={{ width: '100%' }}
+                  alt="recommendation-image"
+                />
               </LazyLoad>
             </div>
           </div>
@@ -1327,7 +1331,7 @@ class Help extends React.Component {
                                     <img
                                       className="w-100"
                                       src={helpImg}
-                                      alt=""
+                                      alt="help-icon"
                                       title=""
                                     />
                                   </LazyLoad>
@@ -1358,17 +1362,29 @@ class Help extends React.Component {
           >
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation2} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation2}
+                  alt="recommendation-image"
+                />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation3} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation3}
+                  alt="recommendation-image"
+                />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad classNamePrefix="w-100">
-                <img className="w-100" src={cur_recommendation4} alt="" />
+                <img
+                  className="w-100"
+                  src={cur_recommendation4}
+                  alt="recommendation-image"
+                />
               </LazyLoad>
             </li>
           </section>

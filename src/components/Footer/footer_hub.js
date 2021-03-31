@@ -27,6 +27,11 @@ class FooterHub extends React.Component {
         this.setState({ footerInfo: res.data });
       }
     );
+    setTimeout(() => {
+      let cookieDomBox = document.querySelector('.cookieSettingBox');
+      document.querySelector('#mars-footer-panel').append(cookieDomBox);
+      cookieDomBox.style.visibility = 'visible';
+    }, 3000);
     // this.setState({ footerInfo: footerHubResult.data });
   }
   scrollToTop = () => {
@@ -245,7 +250,12 @@ class FooterHub extends React.Component {
             <MarsFooterMap />
           </div>
           {/* <!-- OneTrust Cookies Settings button start --> */}
-          {cookieSettingsBtn[process.env.REACT_APP_LANG]}
+          <div
+            className="cookieSettingBox"
+            style={{ visibility: 'hidden', background: '#fff' }}
+          >
+            {cookieSettingsBtn[process.env.REACT_APP_LANG]}
+          </div>
           {/* <!-- OneTrust Cookies Settings button end --> */}
         </footer>
       </>

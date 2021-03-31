@@ -467,7 +467,7 @@ class ContactUs extends Component {
       <div className="FAQ__section rc-padding--md">
         <div className="FAQ-header">
           <div className="confirmation-message">
-            <img src={successImg} alt="" />
+            <img src={successImg} alt="success-image" />
             <h2>Thank You For Contacting Us!</h2>
             <p className="order-thank-you-email-msg">
               A copy of your message has also been sent to {this.state.mail}.

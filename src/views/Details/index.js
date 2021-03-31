@@ -36,6 +36,7 @@ import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import Carousel from './components/Carousel';
+import ResponsiveCarousel from '@/components/Carousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
 import Help from './components/Help';
@@ -2496,10 +2497,15 @@ class Details extends React.Component {
               <>
                 <div className="more-link rc-content--fixed-header ">
                   <LazyLoad height={200}>
-                    <img src={loop} srcSet={loop} alt="" />
+                    <img src={loop} srcSet={loop} alt="loop-icon" />
                   </LazyLoad>
                   <LazyLoad height={200}>
-                    <img src={vert} srcSet={vert} className="vert" alt="" />
+                    <img
+                      src={vert}
+                      srcSet={vert}
+                      className="vert"
+                      alt="vert-icon"
+                    />
                   </LazyLoad>
                   <p>
                     <FormattedMessage id="detail.packagingDesc" />
@@ -2517,6 +2523,7 @@ class Details extends React.Component {
               </>
             ) : null}
             <Help />
+            {/* <ResponsiveCarousel/> */}
             <Footer />
           </main>
         )}

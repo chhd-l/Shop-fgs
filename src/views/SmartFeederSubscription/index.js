@@ -159,7 +159,7 @@ class Step1H5 extends Component {
                     src={item.goodsInfoImg || IMG_DEFAULT}
                     className="m-auto"
                     style={{ maxHeight: '12rem' }}
-                    alt=""
+                    alt="goods-information-image"
                   />
                   <div className="title">{item.goodsInfoName}</div>
                   <div className="des">{item.goodsCateName}</div>
@@ -228,7 +228,7 @@ const Step2 = (props) => {
         <div className="rc-layout-container rc-five-column">
           <div className="rc-column  rc-header__center d-flex">
             <LazyLoad>
-              <img src={foodPic2} alt="" />
+              <img src={foodPic2} alt="food-image" />
             </LazyLoad>
           </div>
           <div className="rc-column rc-double-width">
@@ -390,7 +390,7 @@ const Step3 = (props) => {
           <div className="pad_2rem_pc">
             <div className="for_h5_img">
               <div style={{ flex: 1 }}>
-                <img src={foodPic2} alt="" />
+                <img src={foodPic2} alt="food-image" />
               </div>
               <div className=" width12">
                 <h6
@@ -970,10 +970,10 @@ class SmartFeederSubscription extends Component {
                             tempContent =
                               tempContent +
                               `<p>
-                            
+
                             <div className="content">${
                               Object.values(JSON.parse(el))[0]
-                            }</div> 
+                            }</div>
                           </p>`;
                           });
                         } else {
@@ -1124,10 +1124,10 @@ class SmartFeederSubscription extends Component {
                               tempContent =
                                 tempContent +
                                 `<p>
-                              
+
                               <div className="content">${
                                 Object.values(JSON.parse(el))[0]
-                              }</div> 
+                              }</div>
                             </p>`;
                             });
                           } else {
@@ -1146,7 +1146,7 @@ class SmartFeederSubscription extends Component {
                               <div className="title">
                                 ${Object.keys(contentObj)[0]}
                               </div>
-                              <div className="content">${contentValue}</div> 
+                              <div className="content">${contentValue}</div>
                             `;
                             });
                           }

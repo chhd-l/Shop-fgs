@@ -2685,7 +2685,7 @@ class Payment extends React.Component {
                       type: 'adyenKlarnaPayLater'
                     })}
                   />
-                  {/* 
+                  {/*
                       // 校验状态
                       // 1 校验邮箱
                       // 2 billing校验
@@ -2756,7 +2756,7 @@ class Payment extends React.Component {
                                   src={cardTypeImg[item.id]}
                                   title={item.id}
                                   style={{ width: '40px' }}
-                                  alt=""
+                                  alt="card-type-image"
                                 />
                               </label>
                             </div>
@@ -3254,7 +3254,7 @@ class Payment extends React.Component {
                                 <LazyLoad>
                                   <img
                                     className="pull-left"
-                                    alt=""
+                                    alt="goods-information-image"
                                     src={el.goodsInfoImg}
                                   />
                                 </LazyLoad>
@@ -3304,7 +3304,7 @@ class Payment extends React.Component {
                               <div className="petProduct" key={i}>
                                 <LazyLoad>
                                   <img
-                                    alt=""
+                                    alt="pet-product-image"
                                     src={
                                       el.sizeList.filter((el) => el.selected)[0]
                                         .goodsInfoImg
