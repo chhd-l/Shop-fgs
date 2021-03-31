@@ -949,7 +949,7 @@ class Recommendation extends React.Component {
                                 }
                               >
                                 <img
-                                  src={el.goodsInfo.goodsInfoImg}
+                                  src={el.images[0].artworkUrl}
                                   style={{
                                     width: '40px',
                                     display: 'inline-block',
