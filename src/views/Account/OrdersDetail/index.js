@@ -277,21 +277,62 @@ class AccountOrders extends React.Component {
         // Created / Cancelled
         // 9000-9999
 
-        normalProgressList = [1000, 3000, 4000, 9000].map((el) => {
+        //   {
+        //     "1000": {
+        //         "flowStateId": "INIT",
+        //         "flowStateDesc": "Created"
+        //     },
+        //     "2000": {
+        //         "flowStateId": "PENDING_REVIEW",
+        //         "flowStateDesc": "Processing"
+        //     },
+        //     "3000": {
+        //         "flowStateId": "TO_BE_DELIVERED",
+        //         "flowStateDesc": "Processing"
+        //     },
+        //     "3010": {
+        //         "flowStateId": "PARTIALLY_SHIPPED",
+        //         "flowStateDesc": "Partially Shipped"
+        //     },
+        //     "4000": {
+        //         "flowStateId": "SHIPPED",
+        //         "flowStateDesc": "Shipped"
+        //     },
+        //     "4010": {
+        //         "flowStateId": "PARTIALLY_DELIVERED",
+        //         "flowStateDesc": "Partially Delivered"
+        //     },
+        //     "5000": {
+        //         "flowStateId": "DELIVERED",
+        //         "flowStateDesc": "Delivered"
+        //     },
+        //     "8000": {
+        //         "flowStateId": "REJECTED",
+        //         "flowStateDesc": "Rejected"
+        //     },
+        //     "9000": {
+        //         "flowStateId": "COMPLETED",
+        //         "flowStateDesc": "Completed"
+        //     },
+        //     "9999": {
+        //         "flowStateId": "VOID",
+        //         "flowStateDesc": "Cancelled"
+        //     }
+        // }
+
+        normalProgressList = [1000, 2000, 3000, 4000, 5000, 9000].map((el) => {
           let flowStateIds = [orderStatusMap[el]?.flowStateId];
           // 组装所有归属于此状态的订单状态
           switch (el) {
-            case 1000:
-              flowStateIds.push(orderStatusMap[2000]?.flowStateId);
-              break;
+            // case 1000:
+            //   flowStateIds.push(orderStatusMap[2000]?.flowStateId);
+            //   break;
             case 3000:
               flowStateIds.push(orderStatusMap[3010]?.flowStateId);
               break;
             case 4000:
-              flowStateIds.push(
-                orderStatusMap[4010]?.flowStateId,
-                orderStatusMap[5000]?.flowStateId
-              );
+              flowStateIds.push(orderStatusMap[4010]?.flowStateId);
+              // flowStateIds.push(orderStatusMap[5000]?.flowStateId);
               break;
           }
           return Object.assign(orderStatusMap[el], {
@@ -1105,7 +1146,8 @@ class AccountOrders extends React.Component {
                         />
                       ) : details ? (
                         <div className="card-body p-0">
-                          {this.renderHeadTip()}
+                          {/* todo 联调哦 */}
+                          {/* {this.renderHeadTip()} */}
                           {currentProgerssIndex > -1 ? (
                             <Progress
                               progressList={normalProgressList}
