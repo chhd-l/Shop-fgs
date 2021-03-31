@@ -535,7 +535,6 @@ class Payment extends React.Component {
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
-    localItemRoyal.remove('rc-iframe-from-storepotal');
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
