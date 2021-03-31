@@ -865,22 +865,91 @@ class AccountOrders extends React.Component {
       defaultLocalDateTime,
       orderNumber,
       logisticsList,
-      currentProgerssIndex
+      currentProgerssIndex,
+      normalProgressList
     } = this.state;
-    const tradeState = details.tradeState;
     let ret = null;
-    if (currentProgerssIndex === 0) {
-      // if (
-      //   ((!details.isAuditOpen && tradeState.flowState === 'AUDIT') ||
-      //     (details.isAuditOpen &&
-      //       tradeState.flowState === 'INIT' &&
-      //       tradeState.auditState === 'NON_CHECKED')) &&
-      //   tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
-      //   tradeState.payState === 'NOT_PAID'
-      // ) {
-      // 订单创建
-      ret = (
-        <>
+    switch (currentProgerssIndex) {
+      case 0:
+        // 订单创建
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <svg
+                  className="svg-icon"
+                  aria-hidden="true"
+                  style={{ width: '3.5em', height: '3.5em' }}
+                >
+                  <use xlinkHref="#iconTobepaid" />
+                </svg>
+              }
+              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              titleColor="text-info"
+              tip={
+                <FormattedMessage
+                  id="orderStatus.INITTip"
+                  values={{
+                    val: (
+                      <>
+                        {canPayNow ? (
+                          <>
+                            <span
+                              className={`red ui-cursor-pointer ${
+                                payNowLoading
+                                  ? 'ui-btn-loading ui-btn-loading-border-red'
+                                  : ''
+                              }`}
+                              onClick={this.handleClickPayNow}
+                            >
+                              <span className={`red rc-styled-link mr-2`}>
+                                <FormattedMessage id="order.payNow" />
+                              </span>
+                              &gt;
+                            </span>{' '}
+                            <TimeCount
+                              className="rc-hidden"
+                              startTime={this.state.defaultLocalDateTime}
+                              endTime={details.orderTimeOut}
+                              onTimeEnd={this.handlePayNowTimeEnd}
+                            />
+                          </>
+                        ) : null}
+                      </>
+                    )
+                  }}
+                />
+              }
+            />
+            <hr />
+          </>
+        );
+        break;
+      case 1:
+        // 等待发货
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <svg
+                  className="svg-icon"
+                  aria-hidden="true"
+                  style={{ width: '3.5em', height: '3.5em' }}
+                >
+                  <use xlinkHref="#iconTobedelivered" />
+                </svg>
+              }
+              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              titleColor="text-warning"
+              tip={<FormattedMessage id="order.toBeDeliveredTip" />}
+            />
+            <hr />
+          </>
+        );
+        break;
+      case 2:
+        // 发货运输中
+        ret = (
           <HeadTip
             icon={
               <svg
@@ -888,183 +957,97 @@ class AccountOrders extends React.Component {
                 aria-hidden="true"
                 style={{ width: '3.5em', height: '3.5em' }}
               >
-                <use xlinkHref="#iconTobepaid" />
+                <use xlinkHref="#iconIntransit" />
               </svg>
             }
-            title={<FormattedMessage id="orderStatus.INIT" />}
-            titleColor="text-info"
+            title={<FormattedMessage id="inTransit" />}
+            titleColor="text-success"
+            moreTip={this.renderLogitiscsJSX()}
             tip={
               <FormattedMessage
-                id="order.toBePaidTip"
+                id="order.inTranistTip"
                 values={{
-                  val: (
-                    <>
-                      {canPayNow ? (
-                        <>
-                          <span
-                            className={`red ui-cursor-pointer ${
-                              payNowLoading
-                                ? 'ui-btn-loading ui-btn-loading-border-red'
-                                : ''
-                            }`}
-                            onClick={this.handleClickPayNow}
-                          >
-                            <span className={`red rc-styled-link mr-2`}>
-                              <FormattedMessage id="order.payNow" />
-                            </span>
-                            &gt;
-                          </span>{' '}
-                          <TimeCount
-                            className="rc-hidden"
-                            startTime={this.state.defaultLocalDateTime}
-                            endTime={details.orderTimeOut}
-                            onTimeEnd={this.handlePayNowTimeEnd}
-                          />
-                        </>
-                      ) : null}
-                    </>
-                  )
+                  val:
+                    logisticsList[0] && logisticsList[0].trackingUrl ? (
+                      <span className={`red ui-cursor-pointer`}>
+                        <a
+                          href={logisticsList[0].trackingUrl}
+                          target="_blank"
+                          rel="nofollow"
+                          className={`red rc-styled-link mr-2`}
+                        >
+                          <FormattedMessage id="order.viewLogisticDetail" />
+                        </a>
+                        &gt;
+                      </span>
+                    ) : null
                 }}
               />
             }
           />
-          <hr />
-        </>
-      );
-    } else if (
-      tradeState.flowState === 'SHIPPED' &&
-      tradeState.payState === 'PAID' &&
-      tradeState.auditState === 'CHECKED' &&
-      tradeState.deliverStatus === 'NOT_YET_SHIPPED'
-    ) {
-      // 等待发货
-      ret = (
-        <>
-          <HeadTip
-            icon={
-              <svg
-                className="svg-icon"
-                aria-hidden="true"
-                style={{ width: '3.5em', height: '3.5em' }}
-              >
-                <use xlinkHref="#iconTobedelivered" />
-              </svg>
-            }
-            title={<FormattedMessage id="subscription.toBeDelivered" />}
-            titleColor="text-warning"
-            tip={<FormattedMessage id="order.toBeDeliveredTip" />}
-          />
-          <hr />
-        </>
-      );
-    } else if (
-      (tradeState.payState === 'PAID' &&
-        tradeState.auditState === 'CHECKED' &&
-        tradeState.deliverStatus === 'SHIPPED' &&
-        tradeState.flowState === 'DELIVERED') ||
-      (tradeState.deliverStatus === 'PART_SHIPPED' &&
-        tradeState.flowState === 'DELIVERED_PART')
-    ) {
-      // 发货运输中
-      ret = (
-        <HeadTip
-          icon={
-            <svg
-              className="svg-icon"
-              aria-hidden="true"
-              style={{ width: '3.5em', height: '3.5em' }}
-            >
-              <use xlinkHref="#iconIntransit" />
-            </svg>
-          }
-          title={<FormattedMessage id="inTransit" />}
-          titleColor="text-success"
-          moreTip={this.renderLogitiscsJSX()}
-          tip={
-            <FormattedMessage
-              id="order.inTranistTip"
-              values={{
-                val:
-                  logisticsList[0] && logisticsList[0].trackingUrl ? (
-                    <span className={`red ui-cursor-pointer`}>
-                      <a
-                        href={logisticsList[0].trackingUrl}
-                        target="_blank"
-                        rel="nofollow"
-                        className={`red rc-styled-link mr-2`}
+        );
+        break;
+      case 3:
+        // 完成订单
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <svg
+                  className="svg-icon"
+                  aria-hidden="true"
+                  style={{ width: '3.5em', height: '3.5em' }}
+                >
+                  <use xlinkHref="#iconCompleted" />
+                </svg>
+              }
+              title={<FormattedMessage id="orderStatus.COMPLETED" />}
+              tip={<FormattedMessage id="order.completeTip" />}
+              operation={
+                !!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                  <FormattedMessage id="comment">
+                    {(txt) => (
+                      <Link
+                        className="rc-btn rc-btn--sm rc-btn--one"
+                        to={`/account/productReview/${orderNumber}`}
+                        title={txt}
+                        alt={txt}
                       >
-                        <FormattedMessage id="order.viewLogisticDetail" />
-                      </a>
-                      &gt;
-                    </span>
-                  ) : null
-              }}
+                        {txt}
+                      </Link>
+                    )}
+                  </FormattedMessage>
+                )
+              }
+              moreTip={this.renderLogitiscsJSX()}
             />
-          }
-        />
-      );
-    } else if (auditRejectReason) {
-      // 审核拒绝
-      ret = (
-        <>
-          <HeadTip
-            icon={
-              <svg
-                className="svg-icon"
-                aria-hidden="true"
-                style={{ width: '3.5em', height: '3.5em' }}
-              >
-                <use xlinkHref="#iconPrescriptionDeclined" />
-              </svg>
-            }
-            title={<FormattedMessage id="prescriptionDeclined" />}
-            titleColor="red"
-            tip={auditRejectReason}
-          />
-          <hr />
-        </>
-      );
-    } else if (
-      details.tradeState.flowState === 'COMPLETED' &&
-      !details.storeEvaluateVO
-    ) {
-      // 完成订单
-      ret = (
-        <>
-          <HeadTip
-            icon={
-              <svg
-                className="svg-icon"
-                aria-hidden="true"
-                style={{ width: '3.5em', height: '3.5em' }}
-              >
-                <use xlinkHref="#iconCompleted" />
-              </svg>
-            }
-            title={<FormattedMessage id="orderStatus.COMPLETED" />}
-            tip={<FormattedMessage id="order.completeTip" />}
-            operation={
-              !!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
-                <FormattedMessage id="comment">
-                  {(txt) => (
-                    <Link
-                      className="rc-btn rc-btn--sm rc-btn--one"
-                      to={`/account/productReview/${orderNumber}`}
-                      title={txt}
-                      alt={txt}
-                    >
-                      {txt}
-                    </Link>
-                  )}
-                </FormattedMessage>
-              )
-            }
-            moreTip={this.renderLogitiscsJSX()}
-          />
-          <hr />
-        </>
-      );
+            <hr />
+          </>
+        );
+        break;
     }
+    // if (auditRejectReason) {
+    //   // 审核拒绝
+    //   ret = (
+    //     <>
+    //       <HeadTip
+    //         icon={
+    //           <svg
+    //             className="svg-icon"
+    //             aria-hidden="true"
+    //             style={{ width: '3.5em', height: '3.5em' }}
+    //           >
+    //             <use xlinkHref="#iconPrescriptionDeclined" />
+    //           </svg>
+    //         }
+    //         title={<FormattedMessage id="prescriptionDeclined" />}
+    //         titleColor="red"
+    //         tip={auditRejectReason}
+    //       />
+    //       <hr />
+    //     </>
+    //   );
+    // }
     return ret;
   };
   render() {
@@ -1152,8 +1135,7 @@ class AccountOrders extends React.Component {
                         />
                       ) : details ? (
                         <div className="card-body p-0">
-                          {/* todo 联调哦 */}
-                          {/* {this.renderHeadTip()} */}
+                          {this.renderHeadTip()}
                           {currentProgerssIndex > -1 ? (
                             <Progress
                               progressList={normalProgressList}
