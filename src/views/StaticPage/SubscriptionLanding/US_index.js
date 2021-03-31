@@ -448,6 +448,9 @@ class SubscriptionLanding extends React.Component {
                                       }}
                                     >
                                       FAQs
+                                      <span className="warning_blank">
+                                        Opens a new window
+                                      </span>
                                     </Link>
                                     <span
                                       style={{ color: 'rgb(102, 102, 102)' }}

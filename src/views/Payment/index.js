@@ -378,6 +378,9 @@ class Payment extends React.Component {
     const name = target.name;
     let value = '';
     value = target.value;
+    if (name === 'cardNumber') {
+      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+    }
     cyberPaymentForm[name] = value;
     this.setState({ cyberPaymentForm });
     this.inputBlur(e);
@@ -460,12 +463,19 @@ class Payment extends React.Component {
         }
       }
       this.setState(
+        //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
         {
-          needPrescriber: checkoutStore.autoAuditFlag
-            ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-                (el) => el.prescriberFlag
-              ).length > 0
-            : checkoutStore.AuditData.length > 0
+          needPrescriber:
+            (this.isLogin ? this.loginCartData : this.cartData).filter(
+              (el) => el.prescriberFlag
+            ).length > 0 &&
+            clinicStore.selectClinicId &&
+            clinicStore.selectClinicId !== ''
+          // needPrescriber: checkoutStore.autoAuditFlag
+          //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
+          //       (el) => el.prescriberFlag
+          //     ).length > 0
+          //   : checkoutStore.AuditData.length > 0
         },
         () => {
           const nextConfirmPanel = searchNextConfirmPanel({
@@ -1537,7 +1547,7 @@ class Payment extends React.Component {
       tradeMarketingList: [],
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
-      petsId: '1231',
+      petsId: '',
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId,
       promotionCode,
@@ -2398,14 +2408,17 @@ class Payment extends React.Component {
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
-      billingAddress.address2 = validationAddress.address2;
       billingAddress.city = validationAddress.city;
+      billingAddress.postCode = validationAddress.postalCode;
 
       billingAddress.province = validationAddress.provinceCode;
       billingAddress.provinceId =
         validationAddress.provinceId && validationAddress.provinceId != null
           ? validationAddress.provinceId
           : billingAddress.provinceId;
+
+      // 地址校验返回参数
+      billingAddress.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         billingAddress: JSON.parse(JSON.stringify(oldForm))
@@ -2767,6 +2780,7 @@ class Payment extends React.Component {
 
                   {/* 2.cyber form */}
                   <CyberPaymentForm
+                    cardTypeVal={this.state.cardTypeVal}
                     cyberFormTitle={cyberFormTitle}
                     ref={this.cyberCardRef}
                     form={this.state.cyberPaymentForm}

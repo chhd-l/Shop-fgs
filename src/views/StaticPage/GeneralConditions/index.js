@@ -868,6 +868,7 @@ class Help extends React.Component {
                 style={{ color: 'rgb(68, 68, 68)' }}
               >
                 <ins>ссылке</ins>
+                <span className="warning_blank">Opens a new window</span>
               </a>
               <u style={{ color: 'rgb(68, 68, 68)' }}>.</u>
             </p>

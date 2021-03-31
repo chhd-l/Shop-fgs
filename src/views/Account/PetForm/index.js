@@ -112,7 +112,7 @@ class PetForm extends React.Component {
       activity: '',
       weightObj: {
         measure: '',
-        measureUnit: '',
+        measureUnit: 'kg',
         type: 2
       }
     };
@@ -573,10 +573,25 @@ class PetForm extends React.Component {
       birthdate: '',
       selectedSpecialNeeds: [],
       isUnknownDisabled: false,
-      isInputDisabled: false
+      isInputDisabled: false,
+      activity: '',
+      lifestyle: '',
+      weightObj: {
+        measure: '',
+        measureUnit: '',
+        type: 2
+      }
     });
   };
   edit = (currentPet) => {
+    let weightObj = {
+      measure: '',
+      measureUnit: '',
+      type: 2
+    };
+    try {
+      weightObj = JSON.parse(JSON.parse(currentPet.weight));
+    } catch (e) {}
     let param = {
       isEdit: true,
       step: 1,
@@ -595,7 +610,10 @@ class PetForm extends React.Component {
         currentPet.petsBreed === 'unknown Breed' ? '' : currentPet.petsBreed,
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
       isSterilized: currentPet.sterilized === 1 ? true : false,
-      birthdate: currentPet.birthOfPets
+      birthdate: currentPet.birthOfPets,
+      activity: currentPet.activity,
+      lifestyle: currentPet.lifestyle,
+      weightObj
     };
     if (currentPet.petsBreed === 'unknown Breed') {
       param.isMix = false;
@@ -1395,7 +1413,13 @@ class PetForm extends React.Component {
                           value={this.state.weightObj.measure}
                           onChange={(e) => {
                             let { weightObj } = this.state;
-                            weightObj.measure = e.target.value;
+                            let valueArr = e.target.value.split('.');
+                            if (valueArr.length > 1) {
+                              console.log(valueArr);
+                              valueArr[1] = valueArr[1].slice(0, 2);
+                            }
+                            // let valueArr = e.target.value.split()
+                            weightObj.measure = valueArr.join('.');
                             this.setState({
                               weightObj
                             });

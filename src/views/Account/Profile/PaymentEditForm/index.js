@@ -32,6 +32,7 @@ const CardTypeArr = {
   cyberAmex: '003',
   cyberDiscover: '004'
 };
+
 const CardTypeName = {
   cyberVisa: 'Visa',
   cyberMastercard: 'Mastercard',
@@ -59,7 +60,7 @@ class PaymentEditForm extends React.Component {
         cardOwner: '',
         email: '',
         phoneNumber: '',
-        isDefault: false,
+        isDefault: 0,
         paymentToken: '',
         paymentTransactionId: '',
         paymentCustomerId: ''
@@ -86,7 +87,7 @@ class PaymentEditForm extends React.Component {
         zipCode: '', //10036
         postCode: '', //10036
         email: '', //didier.valansot@publicissapient.com
-        isSaveCard: true
+        isDefault: 0
 
         // cardholderName: '', //Didier Valansot
         // cardNumber: '4111111111111111', //4111111111111111
@@ -103,7 +104,7 @@ class PaymentEditForm extends React.Component {
         // zipCode: '10036', //10036
         // postCode: '', //10036
         // email: 'didier.valansot@publicissapient.com', //didier.valansot@publicissapient.com
-        // isSaveCard: true
+        //  isDefault: 0
       },
       monthList: [
         { name: 'month', value: '' },
@@ -434,7 +435,11 @@ class PaymentEditForm extends React.Component {
     const name = target.name;
     let value = '';
     value = target.value;
+    if (name === 'cardNumber') {
+      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+    }
     paymentForm[name] = value;
+
     this.setState({ paymentForm }, () => {
       console.log(paymentForm, '--------handleInputChange');
     });
@@ -484,9 +489,9 @@ class PaymentEditForm extends React.Component {
   handelCheckboxChange = (name) => {
     let errMsgObj = this.state.errMsgObj;
     const { paymentForm } = this.state;
-    paymentForm[name] = !paymentForm[name];
+    paymentForm[name] = paymentForm[name] == 0 ? 1 : 0;
 
-    let obj = Object.assign({}, errMsgObj, { isSaveCard: '' }); //选择有值了，就清空没填提示
+    let obj = Object.assign({}, errMsgObj, { isDefault: 0 }); //选择有值了，就清空没填提示
     this.setState(
       {
         paymentForm,
@@ -540,7 +545,6 @@ class PaymentEditForm extends React.Component {
     this.setState({ btnLoading: true });
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
-      paymentForm.address2 = validationAddress.address2;
       paymentForm.city = validationAddress.city;
       paymentForm.country = validationAddress.countryCode;
       paymentForm.zipCode = validationAddress.postalCode;
@@ -551,6 +555,9 @@ class PaymentEditForm extends React.Component {
         validationAddress.provinceId && validationAddress.provinceId != null
           ? validationAddress.provinceId
           : paymentForm.provinceId;
+
+      // 地址校验返回参数
+      paymentForm.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         paymentForm: JSON.parse(JSON.stringify(oldPaymentForm))
@@ -591,11 +598,7 @@ class PaymentEditForm extends React.Component {
       }
     });
 
-    if (
-      Object.keys(errMsgObj).length == 0 &&
-      this.state.isValidForm &&
-      this.state.paymentForm.isSaveCard
-    ) {
+    if (Object.keys(errMsgObj).length == 0 && this.state.isValidForm) {
       return true;
     } else {
       return false;
@@ -623,9 +626,9 @@ class PaymentEditForm extends React.Component {
   //   } else if(!this.state.isValidForm){//billdingAddress验证
   //     this.toTop();
   //     return;
-  //   } else if(!this.state.paymentForm.isSaveCard) { //勾选框
+  //   } else if(!this.state.paymentForm. isDefault) { //勾选框
   //     let errMsgObj = Object.assign({}, this.state.errMsgObj, {
-  //       isSaveCard: true
+  //        isDefault: true
   //     });
   //     this.setState({ errMsgObj });
   //   } else {
@@ -1162,6 +1165,7 @@ class PaymentEditForm extends React.Component {
             )}
             {/* ********************支付tab栏end********************************** */}
             <CyberPaymentForm
+              cardTypeVal={this.state.cardTypeVal}
               form={this.state.paymentForm}
               errMsgObj={errMsgObj}
               monthList={this.state.monthList}
@@ -1188,14 +1192,15 @@ class PaymentEditForm extends React.Component {
             <div className="row">
               <div className="col-sm-6">
                 <div
-                  className="rc-input rc-input--inline"
-                  onClick={() => this.handelCheckboxChange('isSaveCard')}
+                  className="c-input rc-input--inline"
+                  style={{ maxWidth: '400px' }}
+                  onClick={() => this.handelCheckboxChange('isDefault')}
                 >
-                  {this.state.paymentForm.isSaveCard ? (
+                  {this.state.paymentForm.isDefault ? (
                     <input
                       type="checkbox"
                       className="rc-input__checkbox"
-                      value={this.state.paymentForm.isSaveCard}
+                      value={this.state.paymentForm.isDefault}
                       key="1"
                       checked
                     />
@@ -1203,18 +1208,18 @@ class PaymentEditForm extends React.Component {
                     <input
                       type="checkbox"
                       className="rc-input__checkbox"
-                      value={this.state.paymentForm.isSaveCard}
+                      value={this.state.paymentForm.isDefault}
                       key="2"
                     />
                   )}
                   <label className="rc-input__label--inline text-break">
                     <FormattedMessage id="cyber.form.saveFor" />
                   </label>
-                  {this.state.errMsgObj.isSaveCard ? (
+                  {/* {this.state.errMsgObj.isDefault ? (
                     <div className="red-text">
                       <FormattedMessage id="cyber.form.theBox" />
                     </div>
-                  ) : null}
+                  ) : null} */}
                 </div>
               </div>
             </div>

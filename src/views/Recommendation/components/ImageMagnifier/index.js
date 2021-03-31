@@ -197,12 +197,8 @@ class ImageMagnifier extends Component {
       {
         magnifierOff: true,
         params: Object.assign({}, this.state.params, {
-          width: document.querySelector('#J_detail_img')
-            ? document.querySelector('#J_detail_img').offsetWidth
-            : 10,
-          height: document.querySelector('#J_detail_img')
-            ? document.querySelector('#J_detail_img').offsetHeight
-            : 10
+          width: document.querySelector('.J_detail_img')?.offsetWidth || 10,
+          height: document.querySelector('.J_detail_img')?.offsetHeight || 10
         })
       },
       () => this.initParam()
@@ -385,7 +381,7 @@ class ImageMagnifier extends Component {
                     <div key={i}>
                       <LazyLoad>
                         <img
-                          id="J_detail_img"
+                          className="J_detail_img"
                           style={cssStyle.imgStyle}
                           src={currentImg || noPic}
                           alt="goods-information-image"
@@ -397,7 +393,7 @@ class ImageMagnifier extends Component {
                     <div key={i}>
                       <LazyLoad>
                         <img
-                          id="J_detail_img"
+                          className="J_detail_img"
                           style={cssStyle.imgStyle}
                           src={currentImg || this.state.maxImg || noPic}
                           alt="goods-information-image"

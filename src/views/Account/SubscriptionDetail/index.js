@@ -23,6 +23,7 @@ import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
+import Loading from '@/components/Loading';
 
 import {
   getDictionary,
@@ -542,6 +543,7 @@ class SubscriptionDetail extends React.Component {
       <img
         style={{ marginLeft: '1rem', marginRight: '1rem' }}
         className="pet-img text-center rc-margin-y--sm"
+        alt=""
         src={
           (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
             ? petsInfo.petsImg
@@ -1090,6 +1092,7 @@ class SubscriptionDetail extends React.Component {
                           ? el.petsImg
                           : null) || (el.petsType === 'cat' ? Cat : Dog)
                       }
+                      alt="petimg"
                       className="pet-img"
                     />
                     <img
@@ -1552,7 +1555,7 @@ class SubscriptionDetail extends React.Component {
                                         margin: '0 .625rem'
                                       }}
                                       src={tradeItem.pic}
-                                      alt="trade-item"
+                                      alt={tradeItem.skuName}
                                     />
                                   </LazyLoad>
                                   <div
@@ -1682,6 +1685,7 @@ class SubscriptionDetail extends React.Component {
                                             width: '1.25rem',
                                             marginRight: '5px'
                                           }}
+                                          alt="skipicon"
                                           src={skipIcon}
                                         />
                                       </LazyLoad>
@@ -1868,6 +1872,7 @@ class SubscriptionDetail extends React.Component {
                   width: '1.25rem',
                   marginRight: '5px'
                 }}
+                alt="cancleicon"
                 src={cancelIcon}
               />
             </LazyLoad>
@@ -2020,7 +2025,7 @@ class SubscriptionDetail extends React.Component {
           <div className="rc-layout-container rc-five-column">
             <div className="rc-column  rc-header__center d-flex">
               <LazyLoad>
-                <img src={foodPic2} />
+                <img src={foodPic2} alt="" />
               </LazyLoad>
             </div>
             <div className="rc-column rc-double-width">
@@ -2063,7 +2068,7 @@ class SubscriptionDetail extends React.Component {
           close={this.closeChangeProduct}
         >
           <div className="p-f-result-box">
-            <img className="m-auto" src={clubIcon} />
+            <img className="m-auto" src={clubIcon} alt="clubicon" />
             <h4 className="red text-center mb-3 mt-3">
               Your product recommendation
             </h4>
@@ -2086,7 +2091,7 @@ class SubscriptionDetail extends React.Component {
                       )[0].goodsInfoImg
                     }
                     className="p-img"
-                    alt="product-image"
+                    alt={productDetail.mainProduct.goodsName}
                   />
                 </LazyLoad>
               </div>
@@ -2173,7 +2178,7 @@ class SubscriptionDetail extends React.Component {
                           )[0].goodsInfoImg
                         }
                         className="p-img"
-                        alt="product-image"
+                        alt={ele.goodsName}
                       />
                     </LazyLoad>
                   </div>
@@ -2468,7 +2473,7 @@ class SubscriptionDetail extends React.Component {
             history={this.props.history}
             match={this.props.match}
           />
-
+          {/* {this.state.loading ? <Loading /> : null} */}
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BreadCrumbs />
             <Modal
@@ -2986,6 +2991,7 @@ class SubscriptionDetail extends React.Component {
                                     <LazyLoad>
                                       <img
                                         src={dateIcon}
+                                        alt="deleteicon"
                                         style={{
                                           display: 'inline-block',
                                           width: '1.25rem',
@@ -3371,6 +3377,7 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       <LazyLoad>
                                         <img
+                                          alt="deleteicon"
                                           src={dateIcon}
                                           style={{
                                             display: 'inline-block',
@@ -3443,6 +3450,7 @@ class SubscriptionDetail extends React.Component {
                               {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
                               <LazyLoad>
                                 <img
+                                  alt="deliveryIcon"
                                   src={deliveryIcon}
                                   style={{
                                     width: '30px',
@@ -3532,6 +3540,7 @@ class SubscriptionDetail extends React.Component {
                             <div className="align-items-center">
                               <LazyLoad>
                                 <img
+                                  alt="billingIcon"
                                   src={billingIcon}
                                   style={{
                                     width: '30px',
@@ -3621,6 +3630,7 @@ class SubscriptionDetail extends React.Component {
                               <div className="align-items-center">
                                 <LazyLoad style={{ display: 'inline' }}>
                                   <img
+                                    src="paymentIcon"
                                     src={paymentIcon}
                                     style={{
                                       width: '30px',
@@ -3866,6 +3876,7 @@ class SubscriptionDetail extends React.Component {
                                                 <>
                                                   <LazyLoad>
                                                     <img
+                                                      alt="dateIcon"
                                                       src={dateIcon}
                                                       style={{
                                                         width: '1.25rem',
@@ -3950,6 +3961,7 @@ class SubscriptionDetail extends React.Component {
                                                         width: '1.25rem',
                                                         marginRight: '5px'
                                                       }}
+                                                      alt="skipicon"
                                                       src={skipIcon}
                                                     />
                                                   </LazyLoad>
@@ -4023,7 +4035,9 @@ class SubscriptionDetail extends React.Component {
                                                             margin: '0 .625rem'
                                                           }}
                                                           src={tradeItem.pic}
-                                                          alt="trade-item"
+                                                          alt={
+                                                            tradeItem.skuName
+                                                          }
                                                         />
                                                       </LazyLoad>
                                                       <div
@@ -4522,6 +4536,7 @@ class SubscriptionDetail extends React.Component {
                                                       marginRight: '5px'
                                                     }}
                                                     src={dateIcon}
+                                                    alt="dateIcon"
                                                   />
                                                 </LazyLoad>
                                                 <Link
@@ -4561,7 +4576,9 @@ class SubscriptionDetail extends React.Component {
                                                               display: 'inline'
                                                             }}
                                                             src={tradeItem.pic}
-                                                            alt="trade-item"
+                                                            alt={
+                                                              tradeItem.skuName
+                                                            }
                                                           />
                                                         </LazyLoad>
                                                         <div
@@ -4640,7 +4657,9 @@ class SubscriptionDetail extends React.Component {
                                                                 src={
                                                                   tradeItem.pic
                                                                 }
-                                                                alt="trade-item"
+                                                                alt={
+                                                                  tradeItem.skuName
+                                                                }
                                                               />
                                                             </LazyLoad>
                                                             <div
