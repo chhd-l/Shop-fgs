@@ -224,7 +224,7 @@ const en_US = {
   bankCard: 'Bank card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
-  biliingAddressSameAs: 'My billing address is the same as my address',
+  biliingAddressSameAs: 'My billing address is the same as my shipping address',
   billing: 'BILLING',
   billing2: 'Billing Address',
   billingAddress: 'Billing Address',
