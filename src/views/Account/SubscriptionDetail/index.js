@@ -3527,7 +3527,14 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                         <div
-                          className="col-12 col-md-4 mb-2"
+                          className={[
+                            'col-12',
+                            'col-md-4',
+                            'mb-2',
+                            process.env.REACT_APP_LANG == 'en'
+                              ? 'rc-hidden'
+                              : ''
+                          ].join(' ')}
                           style={{ padding: '5px' }}
                         >
                           <div
