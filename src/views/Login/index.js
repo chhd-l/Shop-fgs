@@ -889,6 +889,9 @@ class Login extends React.Component {
                       >
                         {' '}
                         <FormattedMessage id="userAgreement" />
+                        <span className="warning_blank">
+                          Opens a new window
+                        </span>
                       </a>
                       <FormattedMessage id="andThe" />
                       <a
@@ -897,6 +900,9 @@ class Login extends React.Component {
                         rel="nofollow"
                       >
                         <FormattedMessage id="privacyPolicy" />{' '}
+                        <span className="warning_blank">
+                          Opens a new window
+                        </span>
                       </a>
                       <FormattedMessage id="giveConsentPersonalData" />
                     </label>

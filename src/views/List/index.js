@@ -1176,11 +1176,7 @@ class List extends React.Component {
               if (tFvItemList.length > 1) {
                 tFvItem =
                   tItem.attributesValueList.filter(
-                    (t) =>
-                      t.attributeDetailNameEnSplitByLine === fvItem &&
-                      t.attributeDetailName
-                        .toLocaleLowerCase()
-                        .includes(`${isDogPage ? 'dog' : 'cat'}`)
+                    (t) => t.attributeDetailNameEnSplitByLine === fvItem
                   ) || tFvItemForFirst;
               }
 
