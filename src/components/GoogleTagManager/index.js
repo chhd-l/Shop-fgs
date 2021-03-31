@@ -27,11 +27,11 @@ class GoogleTagManager extends React.Component {
 
   componentDidMount() {
     // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
-    const { page = {}, pet = {} } = this.props.additionalEvents;
+    const { page = {}, pet = {}, search = {} } = this.props.additionalEvents;
     const commonSite = {
       country: process.env.REACT_APP_GA_COUNTRY,
       environment: process.env.REACT_APP_GA_ENV,
-      id: process.env.REACT_APP_GTM_SITE_ID,
+      id: process.env.REACT_APP_GTM_SITE_ID
     };
     let event = {
       page: {},
@@ -58,21 +58,22 @@ class GoogleTagManager extends React.Component {
 
     let hubEvent = {
       site: {
-        ...commonSite,
+        ...commonSite
       },
       page: {
         type: page?.type || '',
         theme: page?.theme || '',
-        globalURI: page?.path || '',
+        globalURI: page?.path || ''
       },
+      search,
       pet: {
         specieID: pet?.specieId || '',
         breedName: pet?.breedName || ''
-      },
+      }
     };
 
     let userInfo = this.props.loginStore.userInfo;
-    console.log({ userInfo })
+    console.log({ userInfo });
 
     if (userInfo) {
       event.user = {
@@ -87,9 +88,8 @@ class GoogleTagManager extends React.Component {
       hubEvent.user = {
         segment: 'Authenticated',
         country: process.env.REACT_APP_GA_COUNTRY,
-        id: userInfo.customerId,
-      }
-
+        id: userInfo.customerId
+      };
     } else {
       event.user = {
         authentificationStatus: 'not authenticated',
@@ -102,10 +102,10 @@ class GoogleTagManager extends React.Component {
       hubEvent.user = {
         segment: 'Not Authenticated',
         country: process.env.REACT_APP_GA_COUNTRY,
-        id: '',
+        id: ''
       };
     }
-    (event.user.country = process.env.REACT_APP_GA_COUNTRY)
+    event.user.country = process.env.REACT_APP_GA_COUNTRY;
 
     let additionalEvents = Object.assign(
       {},
@@ -129,10 +129,15 @@ class GoogleTagManager extends React.Component {
     window.dataLayer.push(${JSON.stringify(filterObjectValueDeep(addEvents))});`
     });
 
-    if (Object.keys(ecommerceEvents).length > 0 || Object.keys(hubEcommerceEvents).length > 0) {
+    if (
+      Object.keys(ecommerceEvents).length > 0 ||
+      Object.keys(hubEcommerceEvents).length > 0
+    ) {
       loadJS({
         code: `window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(${JSON.stringify(filterObjectValueDeep(ecEvents))});`
+      window.dataLayer.push(${JSON.stringify(
+        filterObjectValueDeep(ecEvents)
+      )});`
       });
     }
 
@@ -149,7 +154,6 @@ class GoogleTagManager extends React.Component {
         type: 'text/plain'
       });
     }
-
   }
 }
 

@@ -436,8 +436,7 @@ class PaymentEditForm extends React.Component {
     let value = '';
     value = target.value;
     if (name === 'cardNumber') {
-      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-      console.log({ value });
+      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 '); //银行卡4位后自动加空格
     }
     paymentForm[name] = value;
 

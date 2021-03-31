@@ -378,6 +378,9 @@ class Payment extends React.Component {
     const name = target.name;
     let value = '';
     value = target.value;
+    if (name === 'cardNumber') {
+      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+    }
     cyberPaymentForm[name] = value;
     this.setState({ cyberPaymentForm });
     this.inputBlur(e);
@@ -2775,6 +2778,7 @@ class Payment extends React.Component {
 
                   {/* 2.cyber form */}
                   <CyberPaymentForm
+                    cardTypeVal={this.state.cardTypeVal}
                     cyberFormTitle={cyberFormTitle}
                     ref={this.cyberCardRef}
                     form={this.state.cyberPaymentForm}
