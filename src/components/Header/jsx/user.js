@@ -32,6 +32,7 @@ const UserJSX = (props) => {
             className="minicart inlineblock"
             onMouseOver={self.handleCenterMouseOver}
             onMouseOut={self.handleCenterMouseOut}
+            onClick={self.loginIcon}
           >
             {self.isLogin && !isMobile ? (
               <FormattedMessage id="personal">
