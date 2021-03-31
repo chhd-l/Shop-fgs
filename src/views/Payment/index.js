@@ -465,7 +465,9 @@ class Payment extends React.Component {
           needPrescriber:
             (this.isLogin ? this.loginCartData : this.cartData).filter(
               (el) => el.prescriberFlag
-            ).length > 0 && localItemRoyal.get(`rc-clinic-id-select`) !== ''
+            ).length > 0 &&
+            clinicStore.selectClinicId &&
+            clinicStore.selectClinicId !== ''
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
           //       (el) => el.prescriberFlag
@@ -1542,7 +1544,7 @@ class Payment extends React.Component {
       tradeMarketingList: [],
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
-      petsId: '1231',
+      petsId: '',
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId,
       promotionCode,
