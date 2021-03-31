@@ -221,7 +221,9 @@ class Form extends React.Component {
       let errMsg = '';
       switch (item.fieldKey) {
         case 'postCode':
-          regExp = /^\d{5}$/;
+          process.env.REACT_APP_LANG == 'en'
+            ? (regExp = /^\d{5}(-\d{4})?$/)
+            : (regExp = /^\d{5}$/);
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
           break;
         case 'email':
@@ -425,13 +427,18 @@ class Form extends React.Component {
     return tmp;
   }
   // 文本框输入改变
-  inputChange = (e) => {
+  inputChange = (e, data) => {
     const { caninForm } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
+      value = value.replace(/-/g, '');
+    }
+    if (name === 'postCode') {
+      // value = value.replace(/^\d{5}(-\d{4})?$/, '$1-');
+      // console.log(value);
     }
     if (name === 'phoneNumber') {
       // 格式化电话号码
@@ -439,7 +446,6 @@ class Form extends React.Component {
         value = value.replace(/^[0]/, '+(33)');
       }
       if (process.env.REACT_APP_LANG === 'en') {
-        value = value.replace(/-/g, '');
         if (value.length > 3 && value.length < 8) {
           value = value.replace(/(\d{3})(?!\-)/g, '$1-');
         } else {
@@ -514,7 +520,7 @@ class Form extends React.Component {
             id={`shipping${item.fieldKey}`}
             type={item.fieldKey}
             value={caninForm[item.fieldKey]}
-            onChange={this.inputChange}
+            onChange={(e) => this.inputChange(e, item)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
@@ -534,7 +540,7 @@ class Form extends React.Component {
             className="rc_input_textarea"
             id={`shipping${item.fieldKey}`}
             value={caninForm[item.fieldKey]}
-            onChange={this.inputChange}
+            onChange={(e) => this.inputChange(e, item)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
