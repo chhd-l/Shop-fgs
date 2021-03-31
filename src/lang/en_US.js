@@ -728,7 +728,8 @@ const en_US = {
   'order.shippingStatus': 'Shipping Status',
   'order.toBeDeliveredTip':
     'Your order has been successfully paid and we are preparing to ship.',
-  'orderStatus.INITTip': 'Your order has not been created successfully. {val}',
+  'orderStatus.INITTip':
+    'Your order has not been paid, please pay as soon as possible. {val}',
   'order.total': 'Total',
   'order.viewLogisticDetail': 'View logistic detail',
   'order.viewOrder': 'View order',
@@ -1229,6 +1230,7 @@ const en_US = {
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
-  'Special Need': 'Sensitivites'
+  'Special Need': 'Sensitivites',
+  'orderStatus.COMPLETED': 'Completed'
 };
 export default en_US;

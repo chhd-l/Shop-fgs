@@ -94,6 +94,8 @@ export default class Search extends React.Component {
             dataLayer[0].search.results = esGoodsPage.totalElements;
             dataLayer[0].search.type = 'with results';
           }
+          const sessionItemRoyal = window.__.sessionItemRoyal;
+          sessionItemRoyal.set('search-results', esGoodsPage.totalElements);
 
           this.setState({
             isSearchSuccess: true,

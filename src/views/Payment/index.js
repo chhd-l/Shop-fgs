@@ -378,6 +378,9 @@ class Payment extends React.Component {
     const name = target.name;
     let value = '';
     value = target.value;
+    if (name === 'cardNumber') {
+      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+    }
     cyberPaymentForm[name] = value;
     this.setState({ cyberPaymentForm });
     this.inputBlur(e);
@@ -465,7 +468,9 @@ class Payment extends React.Component {
           needPrescriber:
             (this.isLogin ? this.loginCartData : this.cartData).filter(
               (el) => el.prescriberFlag
-            ).length > 0 && localItemRoyal.get(`rc-clinic-id-select`) !== ''
+            ).length > 0 &&
+            clinicStore.selectClinicId &&
+            clinicStore.selectClinicId !== ''
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
           //       (el) => el.prescriberFlag
@@ -2234,6 +2239,7 @@ class Payment extends React.Component {
             _this.payUCreditCardRef.current.paymentCompRef &&
             _this.payUCreditCardRef.current.paymentCompRef.current
           ) {
+            // 保存/修改 地址
             await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
           } else {
             // 游客
@@ -2277,12 +2283,6 @@ class Payment extends React.Component {
     };
 
     try {
-      // debugger;
-      // if ('没有校验过地址') {
-      //   // 直接显示校验弹框
-      //   throw new Error();
-      // }
-
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false
 
@@ -2328,6 +2328,7 @@ class Payment extends React.Component {
         }
       }
       this.setPaymentToCompleted();
+      console.log(2327);
     } catch (e) {
       this.showErrorMsg(e.message);
     } finally {
@@ -2403,20 +2404,25 @@ class Payment extends React.Component {
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
-      billingAddress.address2 = validationAddress.address2;
       billingAddress.city = validationAddress.city;
+      billingAddress.postCode = validationAddress.postalCode;
 
       billingAddress.province = validationAddress.provinceCode;
       billingAddress.provinceId =
         validationAddress.provinceId && validationAddress.provinceId != null
           ? validationAddress.provinceId
           : billingAddress.provinceId;
+
+      // 地址校验返回参数
+      billingAddress.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         billingAddress: JSON.parse(JSON.stringify(oldForm))
       });
     }
-
+    console.log('-------------------- 确认选择地址');
+    // 一系列操作
+    // this.confirmPaymentPanel();
     // billing  进入下一步
     this.cvvConfirmNextPanel();
   }
@@ -2772,6 +2778,7 @@ class Payment extends React.Component {
 
                   {/* 2.cyber form */}
                   <CyberPaymentForm
+                    cardTypeVal={this.state.cardTypeVal}
                     cyberFormTitle={cyberFormTitle}
                     ref={this.cyberCardRef}
                     form={this.state.cyberPaymentForm}

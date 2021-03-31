@@ -960,7 +960,7 @@ class AccountOrders extends React.Component {
                 <use xlinkHref="#iconIntransit" />
               </svg>
             }
-            title={<FormattedMessage id="inTransit" />}
+            title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
             titleColor="text-success"
             moreTip={this.renderLogitiscsJSX()}
             tip={
@@ -1001,7 +1001,7 @@ class AccountOrders extends React.Component {
                   <use xlinkHref="#iconCompleted" />
                 </svg>
               }
-              title={<FormattedMessage id="orderStatus.COMPLETED" />}
+              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
               tip={<FormattedMessage id="order.completeTip" />}
               operation={
                 !!+process.env.REACT_APP_PDP_RATING_VISIBLE && (

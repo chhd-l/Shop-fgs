@@ -46,8 +46,7 @@ function CardItem(props) {
             <span>{data.firstName + ' ' + data.lastName}</span>
           </div>
         </div>
-        <p className="mb-0">{data.consigneeNumber}</p>
-
+        <p className="mb-0">{data.address1}</p>
         {process.env.REACT_APP_LANG == 'en' ? null : (
           <>
             <p className="mb-0">{props.countryName}</p>
@@ -57,7 +56,7 @@ function CardItem(props) {
         {data.province && data.province != null ? (
           <p className="mb-0">{data.province}</p>
         ) : null}
-        <p className="mb-0">{data.address1}</p>
+        {/* <p className="mb-0">{data.consigneeNumber}</p> */}
       </div>
     </div>
   );
@@ -232,8 +231,8 @@ class AddressList extends React.Component {
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
-      deliveryAddress.address2 = validationAddress.address2;
       deliveryAddress.city = validationAddress.city;
+      deliveryAddress.postCode = validationAddress.postalCode;
 
       deliveryAddress.province = validationAddress.provinceCode;
       deliveryAddress.provinceId =

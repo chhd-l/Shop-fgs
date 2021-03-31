@@ -1000,6 +1000,7 @@ const es_ES = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.pause': 'pausa',
-  'payment.shippingDiscount': 'Reabastecimiento'
+  'payment.shippingDiscount': 'Reabastecimiento',
+  'orderStatus.COMPLETED': 'Terminado'
 };
 export default es_ES;

@@ -171,9 +171,9 @@ class ValidationAddressModal extends React.Component {
                               <span className="address-one">
                                 {address.address1},
                               </span>
-                              <span className="address-two">
+                              {/* <span className="address-two">
                                 {address.address2}
-                              </span>
+                              </span> */}
                               <span className="city">{address.city},</span>
                               {address.province && (
                                 <span className="state">
@@ -243,9 +243,9 @@ class ValidationAddressModal extends React.Component {
                               <span className="address-one">
                                 {validationAddress.address1},
                               </span>
-                              <span className="address-two">
+                              {/* <span className="address-two">
                                 {validationAddress.address2}
-                              </span>
+                              </span> */}
                               <span className="city">
                                 {validationAddress.city},
                               </span>

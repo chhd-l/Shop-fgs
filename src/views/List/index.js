@@ -771,6 +771,9 @@ class List extends React.Component {
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
     if (keywordsSearch) {
+      this.setState({
+        keywordsSearch
+      });
       //表示从搜索来的
       // dataLayer[0].page.type = 'Search Results';
     }
@@ -791,6 +794,7 @@ class List extends React.Component {
       },
       () => {
         this.initData();
+        this.pageGa();
       }
     );
     setTimeout(() => {
@@ -841,6 +845,58 @@ class List extends React.Component {
       animalType
     });
   }
+
+  pageGa() {
+    const { pathname } = this.props.history.location;
+    if (pathname) {
+      let reDog = /^\/dog/; // 匹配dog开头
+      let reCat = /^\/cat/; // 匹配cat开头
+      let theme;
+      let type;
+      let specieId;
+      if (reDog.test(pathname)) {
+        theme = 'Dog';
+        type = 'Product Catalogue';
+        specieId = 2;
+      } else if (reCat.test(pathname)) {
+        theme = 'Cat';
+        type = 'Product Catalogue';
+        specieId = 1;
+      } else {
+        theme = '';
+        type = 'Product';
+        specieId = '';
+      }
+
+      let search = this.state.keywordsSearch
+        ? {
+            query: this.state.keywordsSearch,
+            results: parseFloat(sessionItemRoyal.get('search-results')),
+            type: 'with results'
+          }
+        : {};
+      let event = {
+        page: {
+          type,
+          theme,
+          path: pathname,
+          error: '',
+          hitTimestamp: new Date(),
+          filters: ''
+        },
+        search: {
+          ...search
+        },
+        pet: {
+          specieId
+        }
+      };
+      this.setState({
+        event
+      });
+    }
+  }
+
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -1176,11 +1232,7 @@ class List extends React.Component {
               if (tFvItemList.length > 1) {
                 tFvItem =
                   tItem.attributesValueList.filter(
-                    (t) =>
-                      t.attributeDetailNameEnSplitByLine === fvItem &&
-                      t.attributeDetailName
-                        .toLocaleLowerCase()
-                        .includes(`${isDogPage ? 'dog' : 'cat'}`)
+                    (t) => t.attributeDetailNameEnSplitByLine === fvItem
                   ) || tFvItemForFirst;
               }
 
@@ -1939,41 +1991,6 @@ class List extends React.Component {
       keywordsSearch,
       baseSearchStr
     } = this.state;
-    let event;
-    if (pathname) {
-      let reDog = /^\/dog/; // 匹配dog开头
-      let reCat = /^\/cat/; // 匹配cat开头
-      let theme;
-      let type;
-      let specieId;
-      if (reDog.test(pathname)) {
-        theme = 'Dog';
-        type = 'Product Catalogue';
-        specieId = 2;
-      } else if (reCat.test(pathname)) {
-        theme = 'Cat';
-        type = 'Product Catalogue';
-        specieId = 1;
-      } else {
-        theme = '';
-        type = 'Product';
-        specieId = '';
-      }
-
-      event = {
-        page: {
-          type: keywordsSearch ? 'Search Results' : type,
-          theme,
-          path: pathname,
-          error: '',
-          hitTimestamp: new Date(),
-          filters: ''
-        },
-        pet: {
-          specieId
-        }
-      };
-    }
 
     const a = [9, 9, 9, 9, 9, 9, 9];
     a.splice(3, 0, 3);
@@ -2005,7 +2022,12 @@ class List extends React.Component {
       metaDescriptionSeo;
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
+        {this.state.event && (
+          <GoogleTagManager
+            additionalEvents={this.state.event}
+            ecommerceEvents={eEvents}
+          />
+        )}
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.prefv1 ? filterSeoTitle : titleSeo}</title>
