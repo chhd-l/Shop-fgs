@@ -346,7 +346,10 @@ class Recommendation extends React.Component {
             }
           });
           if (!el.goodsInfo.goodsInfoImg) {
-            el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
+            el.goodsInfo.goodsInfoImg = el.goodsInfo?.goods?.goodsImg;
+          }
+          if (!el.goodsInfo.goods) {
+            el.goodsInfo.goods = {};
           }
           el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
             g = Object.assign({}, g, { selected: false });
@@ -716,7 +719,6 @@ class Recommendation extends React.Component {
   };
   render(h) {
     const { loginStore, history, configStore } = this.props;
-    console.info('this.helpContentText', this.helpContentText);
     let PuppyJPG = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.plusImg']}`;
     let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
@@ -727,7 +729,7 @@ class Recommendation extends React.Component {
     };
     const createMarkup = (text) => ({ __html: text });
     // const { details, images } = this.state
-    console.log('props', this.props);
+    console.log('productList', this.state.productList);
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let {
