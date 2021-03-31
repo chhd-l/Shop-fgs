@@ -460,6 +460,7 @@ class Payment extends React.Component {
         }
       }
       this.setState(
+        //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
         {
           needPrescriber:
             (this.isLogin ? this.loginCartData : this.cartData).filter(
