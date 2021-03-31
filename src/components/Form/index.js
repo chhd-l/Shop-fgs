@@ -523,7 +523,7 @@ class Form extends React.Component {
           <input
             className={`rc-input__control shipping${item.fieldKey}`}
             id={`shipping${item.fieldKey}`}
-            type={item.fieldKey}
+            type={item.filedType}
             value={caninForm[item.fieldKey]}
             onChange={(e) => this.inputChange(e, item)}
             onBlur={this.inputBlur}

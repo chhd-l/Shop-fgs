@@ -289,6 +289,7 @@ class MemberCardList extends React.Component {
     const {
       creditCardInfoForm: { savedCardChecked }
     } = this.state;
+    let isValid = false;
     try {
       // 必须保存卡时，没有勾选保存卡按钮时，校验不通过
       if (mustSaveForFutherPayments && !savedCardChecked) {
@@ -296,10 +297,14 @@ class MemberCardList extends React.Component {
       }
       await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
       this.setState({ isValid: true });
+      isValid = true;
     } catch (err) {
       this.setState({ isValid: false });
+      isValid = false;
     } finally {
-      this.props.updateFormValidStatus(this.state.isValid);
+      this.setState({ isValid }, () => {
+        this.props.updateFormValidStatus(this.state.isValid);
+      });
     }
   }
   inputBlur = (e) => {
@@ -315,24 +320,9 @@ class MemberCardList extends React.Component {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
   };
-  // save card form， 保存卡
-  handleSave = async (e) => {
+  async generateCardInfo() {
     try {
-      // 是否直接返回预览封面 true-返回列表 false-返回封面
-      const { isSupportInstallMent } = this.props;
-      const { isValid, isEdit, creditCardInfoForm } = this.state;
-      const isReturnToCardList = isEdit && isSupportInstallMent;
-      e && e.preventDefault();
-
-      // 没有校验通过 或者 不是新增操作，直接返回
-      if (!isValid || !isEdit) {
-        !isEdit &&
-          this.props.onInstallMentParamChange(this.state.installMentParam);
-        return false;
-      }
-      this.setState({
-        saveLoading: true
-      });
+      const { creditCardInfoForm } = this.state;
       const res = await axios.post(
         'https://api.paymentsos.com/tokens',
         {
@@ -358,6 +348,31 @@ class MemberCardList extends React.Component {
           'Lo sentimos, los tipos de tarjeta de crédito actualmente admitidos son: VISA, American Express, MasterCard'
         );
       }
+      return resData;
+    } catch (err) {
+      throw new Error(this.props.intl.messages['payment.cardInfoErr']);
+    }
+  }
+  // save card form， 保存卡
+  handleSave = async (e) => {
+    try {
+      // 是否直接返回预览封面 true-返回列表 false-返回封面
+      const { isSupportInstallMent } = this.props;
+      const { isValid, isEdit, creditCardInfoForm } = this.state;
+      const isReturnToCardList = isEdit && isSupportInstallMent;
+      e && e.preventDefault();
+
+      // 没有校验通过 或者 不是新增操作，直接返回
+      if (!isValid || !isEdit) {
+        !isEdit &&
+          this.props.onInstallMentParamChange(this.state.installMentParam);
+        return false;
+      }
+      this.setState({
+        saveLoading: true
+      });
+
+      const resData = await this.generateCardInfo();
 
       if (creditCardInfoForm.savedCardChecked) {
         const addRes = await addOrUpdatePaymentMethod({
@@ -366,9 +381,9 @@ class MemberCardList extends React.Component {
           email: creditCardInfoForm.email,
           phone: creditCardInfoForm.phoneNumber,
           isDefault: creditCardInfoForm.savedDefaultCardChecked ? '1' : '0',
-          paymentToken: res ? resData.token : '',
-          paymentVendor: res ? resData.vendor : '',
-          binNumber: res ? resData.bin_number : '',
+          paymentToken: resData?.token || '',
+          paymentVendor: resData?.vendor || '',
+          binNumber: resData?.bin_number || '',
           pspName: 'PAYU'
         });
 
@@ -411,40 +426,9 @@ class MemberCardList extends React.Component {
       }
     } catch (e) {
       console.log(111, e);
-      const {
-        cardCvvIsInvalid,
-        cardNumberIsInvalid,
-        expirationDateIsInvalid
-      } = this.props.intl.messages;
-      let res = e.response;
-      let errMsg;
       this.setState({
         saveLoading: false
       });
-      // debugger;
-      // if (res) {
-      //   console.log(
-      //     res.more_info,
-      //     'body/expiration_date should match pattern "^(0[1-9]|1[0-2])(/|-|.| )d{2,4}"'
-      //   );
-      //   if (
-      //     res.more_info.indexOf('body/credit_card_cvv should match pattern') !==
-      //     -1
-      //   ) {
-      //     errMsg = cardCvvIsInvalid;
-      //   } else if (
-      //     res.more_info.indexOf('body/card_number should match pattern') !== -1
-      //   ) {
-      //     errMsg = cardNumberIsInvalid;
-      //   } else if (
-      //     res.more_info.indexOf('body/expiration_date should match pattern') !==
-      //     -1
-      //   ) {
-      //     errMsg = expirationDateIsInvalid;
-      //   } else {
-      //     errMsg = res.description;
-      //   }
-      // }
       this.showErrorMsg(e.message);
       throw new Error();
     } finally {

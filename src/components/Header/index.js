@@ -616,7 +616,7 @@ class Header extends React.Component {
                         &#xe6a5;
                       </span>
                     ) : (
-                      <Search history={history} />
+                      <Search history={history} configStore={configStore} />
                     )}
                     {this.isLogin ? (
                       <LoginCart
