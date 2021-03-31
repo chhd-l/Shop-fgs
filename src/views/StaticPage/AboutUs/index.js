@@ -304,7 +304,7 @@ class AboutUs extends React.Component {
                                       <img
                                         src={dog}
                                         style={{ width: '100%' }}
-                                        alt=""
+                                        alt="dog-image"
                                       />
                                     </LazyLoad>
                                   </Link>
@@ -328,7 +328,7 @@ class AboutUs extends React.Component {
                                       <img
                                         src={cat}
                                         style={{ width: '100%' }}
-                                        alt=""
+                                        alt="cat-image"
                                       />
                                     </LazyLoad>
                                   </Link>

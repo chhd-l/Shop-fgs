@@ -482,7 +482,7 @@ class ImageMagnifier extends Component {
                   // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                   onLoad={this.handleImageLoaded.bind(this)}
                   onError={this.handleImageErrored.bind(this)}
-                  alt=""
+                  alt="current-image"
                 />
               </LazyLoad>
               {!imgLoad && 'failed to load'}

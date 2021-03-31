@@ -149,7 +149,7 @@ class QualitySafety extends React.Component {
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <LazyLoad>
                               <img
-                                alt=""
+                                alt="export-all-lowres-image"
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_0847Export_All_Lowres.jpg`}
                               />
                             </LazyLoad>

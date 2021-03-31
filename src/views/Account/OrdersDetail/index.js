@@ -842,7 +842,7 @@ class AccountOrders extends React.Component {
                           <img
                             className="rc-bg-colour--brand4"
                             src={sItem.pic}
-                            alt=""
+                            alt="shipping-Items-image"
                           />
                         </LazyLoad>
                       </div>
@@ -1472,10 +1472,15 @@ class AccountOrders extends React.Component {
                                       {details.consignee.postCode},{' '}
                                       {details.consignee.phone}
                                       <br />
-                                      {matchNamefromDict(
-                                        this.state.countryList,
-                                        details.consignee.countryId
-                                      )}{' '}
+                                      {process.env.REACT_APP_LANG ==
+                                      'en' ? null : (
+                                        <>
+                                          {matchNamefromDict(
+                                            this.state.countryList,
+                                            details.consignee.countryId
+                                          )}{' '}
+                                        </>
+                                      )}
                                       {details?.consignee?.province &&
                                       details?.consignee?.province != null ? (
                                         <>
@@ -1519,10 +1524,15 @@ class AccountOrders extends React.Component {
                                       {details.invoice.postCode},{' '}
                                       {details.invoice.phone}
                                       <br />
-                                      {matchNamefromDict(
-                                        this.state.countryList,
-                                        details.invoice.countryId
-                                      )}{' '}
+                                      {process.env.REACT_APP_LANG ==
+                                      'en' ? null : (
+                                        <>
+                                          {matchNamefromDict(
+                                            this.state.countryList,
+                                            details.invoice.countryId
+                                          )}{' '}
+                                        </>
+                                      )}
                                       {details?.invoice?.province &&
                                       details?.invoice?.province != null ? (
                                         <>

@@ -70,7 +70,7 @@ export default class OnlineStoreSalesCategory extends Component {
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="onlineStore.salesCategory.cat" />
                 </div>
-                <img src={catsImg} alt="" />
+                <img src={catsImg} alt="cat-icon" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -115,7 +115,7 @@ export default class OnlineStoreSalesCategory extends Component {
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="onlineStore.salesCategory.dog" />
                 </div>
-                <img src={dogsImg} alt="" />
+                <img src={dogsImg} alt="dog-icon" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (

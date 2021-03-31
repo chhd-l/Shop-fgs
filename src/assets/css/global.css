@@ -17086,7 +17086,7 @@ ul li:not(.rc-list__item) {
 
 .optanon-show-settings-button.optanon-toggle-display,
 .ot-sdk-show-settings {
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   left: 0;
   -webkit-box-sizing: content-box;

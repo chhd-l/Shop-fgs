@@ -94,7 +94,12 @@ export default class ImgUpload extends React.Component {
                 </span>
               </div>
               <LazyLoad>
-                <img className="" src={src} id={`cropedBigImg_${i}`} alt="" />
+                <img
+                  className=""
+                  src={src}
+                  id={`cropedBigImg_${i}`}
+                  alt="cropedbig-image"
+                />
               </LazyLoad>
             </div>
           ))}
