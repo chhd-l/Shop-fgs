@@ -216,7 +216,8 @@ class Form extends React.Component {
 
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
-      item.filedType = item.filedType == 0 ? 'text' : 'number';
+      // item.filedType = item.filedType == 0 ? 'text' : 'number';
+      item.filedType = 'text';
       let regExp = '';
       let errMsg = '';
       switch (item.fieldKey) {
@@ -449,13 +450,14 @@ class Form extends React.Component {
       }
       if (process.env.REACT_APP_LANG == 'en') {
         // if (value.length > 3 && value.length < 8) {
-        // value = value.replace(/(\d{3})(?!\-)/g, '$1-');
+        //   value = value.replace(/(\d{3})(?!\-)/g, '$1-');
         // } else {
+        //   value = value.replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
+        // }
         value = value
           .replace(/\s/g, '')
           .replace(/-$/, '')
           .replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
-        // }
       }
       if (process.env.REACT_APP_LANG === 'ru') {
         // value = value.replace(/^[0]/, '+(7)');
@@ -523,7 +525,7 @@ class Form extends React.Component {
           <input
             className={`rc-input__control shipping${item.fieldKey}`}
             id={`shipping${item.fieldKey}`}
-            type={item.fieldKey}
+            type={item.filedType}
             value={caninForm[item.fieldKey]}
             onChange={(e) => this.inputChange(e, item)}
             onBlur={this.inputBlur}

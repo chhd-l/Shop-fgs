@@ -1457,6 +1457,8 @@ const fr_FR = {
   'contactUs.requiredField': 'The field is required',
   BacktoSavedPayments: 'Retour au paiement enregistré',
   'payment.shippingDiscount': 'Remise de fret',
-  'orderStatus.COMPLETED': 'terminé'
+  'orderStatus.COMPLETED': 'terminé',
+  'payment.cardInfoErr':
+    'Les informations de la carte sont incorrectes, veuillez vérifier.'
 };
 export default fr_FR;

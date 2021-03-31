@@ -2359,18 +2359,26 @@ class Payment extends React.Component {
     }
   };
   // 已绑卡 下一步
-  cvvConfirmNextPanel = () => {
+  cvvConfirmNextPanel = async () => {
+    const { isLogin } = this;
+    const { billingChecked } = this.state;
     const { paymentStore } = this.props;
     this.setState({
       validationLoading: false,
       validationModalVisible: false
     });
+    if (isLogin) {
+      if (
+        !billingChecked &&
+        this.loginBillingAddrRef &&
+        this.loginBillingAddrRef.current
+      ) {
+        await this.loginBillingAddrRef.current.handleSave();
+      }
+    }
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
-    setTimeout(() => {
-      scrollPaymentPanelIntoView();
-    });
   };
 
   /***** 地址校验相关 *******/

@@ -820,6 +820,7 @@ const en_US = {
   'payment.totalProduct': '{val} item(s)',
   'payment.totalProduct2': '{val} products',
   'payment.yourOrder': 'Your order',
+  'payment.cardInfoErr': 'The card information is incorrect, please check.',
   paymentMethod: 'Payment method',
   'paymethods.btn': 'Add Payment',
   //account.paymethods

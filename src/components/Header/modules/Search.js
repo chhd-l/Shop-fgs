@@ -63,7 +63,9 @@ export default class Search extends React.Component {
         brandIds: [],
         pageSize: 10, //isHub ? 10 : 20,不区分，都改成10条
         esGoodsInfoDTOList: [],
-        companyType: ''
+        companyType: '',
+        minMarketPrice: 0,
+        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
       }),
       isHub && getSearch({ keywords })
       // isHub && querySearch()
