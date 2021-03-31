@@ -477,6 +477,10 @@ class Form extends React.Component {
       });
     }
   };
+  // 搜索框失去焦点
+  handleGetInputTarget = (e) => {
+    this.inputBlur(e);
+  };
   // 城市搜索选择
   handleCityInputChange = (data) => {
     const { caninForm } = this.state;
@@ -557,6 +561,7 @@ class Form extends React.Component {
             name={item.fieldKey}
             freeText={item.inputFreeTextFlag == 1 ? true : false}
             onChange={this.handleCityInputChange}
+            getInputTarget={this.handleGetInputTarget}
           />
         </span>
       </>
@@ -584,6 +589,8 @@ class Form extends React.Component {
           defaultValue={caninForm[item.fieldKey]}
           value={caninForm[item.fieldKey]}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
+          name={item.fieldKey}
+          getInputTarget={this.handleGetInputTarget}
           placeholder={
             this.props.placeholder
               ? this.props.intl.messages.inputSearchText
