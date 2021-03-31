@@ -112,7 +112,11 @@ class Values extends React.Component {
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6">
                             <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                              <h2>Respect Their Nature</h2>
+                              <div
+                                style={{ fontWeight: 300, fontSize: '2rem' }}
+                              >
+                                Respect Their Nature
+                              </div>
                               <p>
                                 We respect cats and dogs for the incredible
                                 animals they are. This respect is born from a

@@ -47,8 +47,69 @@ const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
+function Progress({ progressList, currentProgerssIndex }) {
+  return (
+    <div className="od-prg-container ml-2 mr-2 ml-md-4 mr-md-4">
+      <div className="od-prg d-flex align-items-center">
+        {progressList.map((item, i) => (
+          <>
+            <span
+              className={`od-prg-text position-relative ${!i ? 'ml-3' : ''} ${
+                i <= currentProgerssIndex ? 'compelete red' : ''
+              }`}
+            >
+              {i <= currentProgerssIndex ? (
+                <svg
+                  className="svg-icon align-middle"
+                  aria-hidden="true"
+                  style={{
+                    width: '1.5em',
+                    height: '1.5em'
+                  }}
+                >
+                  <use xlinkHref="#iconwancheng" />
+                </svg>
+              ) : (
+                <span className="od-prg-icon inlineblock text-white">
+                  {i + 1}
+                </span>
+              )}
+              <span className="ml-1 rc-md-up">{item.flowStateDesc}</span>
+              <span className="od-prg-name position-absolute rc-md-down">
+                {item.flowStateDesc}
+              </span>
+              <span className="od-prg-time position-absolute">
+                <span className="rc-md-up">
+                  {item.time1 ? getFormatDate(item.time1) : null} {item.time2}
+                </span>
+                <span className="rc-md-down">
+                  {item.time1 ? getFormatDate(item.time1) : null}
+                  <br />
+                  {item.time2 || (
+                    <span style={{ color: 'transparent' }}>&nbsp;</span>
+                  )}
+                </span>
+              </span>
+            </span>
+            {i !== progressList.length - 1 ? (
+              <span
+                className={`od-prg-line position-relative flex-fill ml-2 mr-2 ${
+                  i < currentProgerssIndex
+                    ? 'complete'
+                    : i == currentProgerssIndex
+                    ? 'ing'
+                    : ''
+                }`}
+              />
+            ) : null}
+          </>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function HeadTip(props) {
-  console.log(props, 'props');
   return (
     <>
       <div className="row align-items-center text-left ml-1 mr-1 ml-md-0 mr-md-0">
@@ -151,46 +212,8 @@ class AccountOrders extends React.Component {
       returnOrExchangeModalVisible: false,
       errModalText: '',
       countryList: [],
-      progressList: [
-        {
-          backendName: 'Create Order',
-          displayName: this.props.intl.messages['order.progress1']
-        },
-        {
-          backendName: 'Order payment',
-          displayName: this.props.intl.messages['order.progress2']
-        },
-        {
-          backendName: 'DELIVERED',
-          displayName: this.props.intl.messages['order.progress3']
-        },
-        {
-          backendName: 'COMPLETED',
-          displayName: this.props.intl.messages['order.progress4']
-        }
-      ],
-      auditNormalProgressList: [
-        {
-          backendName: 'Create Order',
-          displayName: this.props.intl.messages['order.progress1']
-        },
-        {
-          backendName: 'Order payment',
-          displayName: this.props.intl.messages['order.progress2']
-        },
-        {
-          backendName: 'AUDIT',
-          displayName: this.props.intl.messages['order.progress5']
-        },
-        {
-          backendName: 'DELIVERED',
-          displayName: this.props.intl.messages['order.progress3']
-        },
-        {
-          backendName: 'COMPLETED',
-          displayName: this.props.intl.messages['order.progress4']
-        }
-      ],
+      normalProgressList: [],
+      cancelProgressList: [],
       currentProgerssIndex: -1,
       defaultLocalDateTime: '',
       isAuditOpen: false,
@@ -237,20 +260,86 @@ class AccountOrders extends React.Component {
   init() {
     const { orderNumber, progressList } = this.state;
     this.setState({ loading: true });
-    let curProgressList = [...progressList];
+    let normalProgressList = [];
+    let cancelProgressList = [];
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
         const tradeState = resContext.tradeState;
-        let tmpIndex = -1;
-        // 查询支付卡信息
-        this.setState({ totalTid: resContext.totalTid }, () => {
-          getPayRecord(this.state.totalTid).then((res) => {
-            this.setState({
-              payRecord: res.context
-            });
+        const orderStatusMap = resContext.orderStatusMap;
+        let currentProgerssIndex = -1;
+        let currentCanceledProgerssIndex = -1;
+
+        // Created / To be delivered / Shipped / Delivered
+        // 1000 /    3000 /   4000 /   9000
+        // 1000-2000 / 3000-3010 / 4000-4010-5000 / 9000
+
+        // Created / Cancelled
+        // 9000-9999
+
+        normalProgressList = [1000, 3000, 4000, 9000].map((el) => {
+          let flowStateIds = [orderStatusMap[el]?.flowStateId];
+          // 组装所有归属于此状态的订单状态
+          switch (el) {
+            case 1000:
+              flowStateIds.push(orderStatusMap[2000]?.flowStateId);
+              break;
+            case 3000:
+              flowStateIds.push(orderStatusMap[3010]?.flowStateId);
+              break;
+            case 4000:
+              flowStateIds.push(
+                orderStatusMap[4010]?.flowStateId,
+                orderStatusMap[5000]?.flowStateId
+              );
+              break;
+          }
+          return Object.assign(orderStatusMap[el], {
+            flowStateIds: [...flowStateIds],
+            showInFlow: true
           });
         });
+
+        // 处理取消订单流程
+        // cancelProgressList = [1000, 9999].map((el) => {
+        //   let flowStateIds2 = [orderStatusMap[el]?.flowStateId];
+        //   // 组装所有归属于此状态的订单状态
+        //   switch (el) {
+        //     case 1000:
+        //       flowStateIds2.push(
+        //         orderStatusMap[2000]?.flowStateId,
+        //         orderStatusMap[3000]?.flowStateId,
+        //         orderStatusMap[4000]?.flowStateId,
+        //         orderStatusMap[4010]?.flowStateId,
+        //         orderStatusMap[5000]?.flowStateId
+        //       );
+        //       break;
+        //     case 9999:
+        //       flowStateIds2.push(
+        //         orderStatusMap[9000]?.flowStateId,
+        //         orderStatusMap[9999]?.flowStateId
+        //       );
+        //       break;
+        //   }
+        //   return Object.assign(orderStatusMap[el], {
+        //     flowStateIds: [...flowStateIds2],
+        //     showInFlow: true
+        //   });
+        // });
+
+        // 查询支付卡信息
+        this.setState(
+          {
+            totalTid: resContext.totalTid
+          },
+          () => {
+            getPayRecord(this.state.totalTid).then((res) => {
+              this.setState({
+                payRecord: res.context
+              });
+            });
+          }
+        );
         // 发货运输中，查询物流信息
         if (
           tradeState.payState === 'PAID' &&
@@ -270,69 +359,31 @@ class AccountOrders extends React.Component {
           //   });
           // });
         }
-        // 开启审核时
-        if (resContext.isAuditOpen) {
-          this.setState({ isAuditOpen: true });
-
-          switch (tradeState.auditState) {
-            case 'CHECKED': // 审核通过
-            case 'NON_CHECKED': // 未审核
-              curProgressList = [...this.state.auditNormalProgressList];
-              this.setState({
-                isAuditOpen: true,
-                processMore: true
-              });
-              break;
-            case 'REJECTED': // 审核拒绝
-              this.setState({
-                auditRejectReason: tradeState.obsoleteReason
-              });
-              break;
-            default:
-              break;
-          }
-        }
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
-          tmpIndex = findIndex(curProgressList, (ele) =>
-            lastedEventLog?.eventType?.includes(ele.backendName)
-          );
 
-          if (tmpIndex === -1) {
-            // 特殊处理作废发货的情况
-            if (lastedEventLog.eventType === 'Void shipment record') {
-              if (lastedEventLog?.eventDetail?.includes('part shipped')) {
-                tmpIndex = findIndex(
-                  curProgressList,
-                  (ele) => ele.backendName === 'DELIVERED'
-                );
-              } else if (lastedEventLog?.eventDetail?.includes('not shipped')) {
-                tmpIndex = findIndex(
-                  curProgressList,
-                  (ele) => ele.backendName === 'Order payment'
-                );
-              }
-            }
-            // 特殊处理订单未审核状态
-            if (lastedEventLog.eventType === 'Pending review') {
-              tmpIndex = findIndex(
-                curProgressList,
-                (ele) => ele.backendName === 'Order payment'
-              );
-            }
+          currentProgerssIndex = findIndex(normalProgressList, (ele) =>
+            ele.flowStateIds.includes(tradeState.flowState)
+          );
+          if (currentProgerssIndex === -1) {
+            currentCanceledProgerssIndex = findIndex(
+              cancelProgressList,
+              (ele) => ele.flowStateIds.includes(tradeState.flowState)
+            );
           }
 
-          Array.from(curProgressList, (item) => {
-            const tpm = find(tradeEventLogs, (ele) =>
-              ele?.eventType?.includes(item.backendName)
-            );
-            if (tpm) {
-              item.time1 = tpm.eventTime.substr(0, 10);
-              item.time2 = tpm.eventTime.substr(11, 8);
-            }
-            return item;
-          });
+          // 从eventLogs中获取时间信息
+          // Array.from(normalProgressList, (item) => {
+          //   const tpm = find(tradeEventLogs, (ele) =>
+          //     ele?.eventType?.includes(item.flowStateId)
+          //   );
+          //   if (tpm) {
+          //     item.time1 = tpm.eventTime.substr(0, 10);
+          //     item.time2 = tpm.eventTime.substr(11, 8);
+          //   }
+          //   return item;
+          // });
         }
         // let cityRes = await queryCityNameById({
         //   id: [resContext.consignee.cityId, resContext.invoice.cityId]
@@ -349,8 +400,10 @@ class AccountOrders extends React.Component {
         this.setState({
           details: resContext,
           loading: false,
-          currentProgerssIndex: tmpIndex,
-          progressList: curProgressList,
+          currentProgerssIndex,
+          currentCanceledProgerssIndex,
+          normalProgressList,
+          cancelProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
           canPayNow:
@@ -603,101 +656,111 @@ class AccountOrders extends React.Component {
       <>
         {logisticsList[0] && logisticsList[0].trackingUrl ? null : (
           <>
-            <div className="col-12 mt-4 border1 rounded mb-4 pl-0 pr-0 rc-md-up">
-              {logisticsList.length > 1 ? (
-                <nav className="rc-bg-colour--brand4 p-3">
-                  {logisticsList.map((item, i) => (
-                    <span
-                      className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
-                        activeTabIdx === i
-                          ? 'active red rc-bg-colour--brand3'
-                          : ''
-                      }`}
-                      onClick={this.changeTab.bind(this, i)}
-                      key={i}
-                    >
-                      <FormattedMessage id="packageX" values={{ val: i + 1 }} />
-                    </span>
-                  ))}
-                </nav>
-              ) : null}
-
-              {logisticsList.map((item, i) => (
-                <div
-                  key={i}
-                  className={`ml-3 mr-3 ${i === activeTabIdx ? '' : 'hidden'}`}
-                >
-                  <LogisticsProgress
-                    list={
-                      (item.syncLogisticsInfo &&
-                        item.syncLogisticsInfo.originInfo &&
-                        item.syncLogisticsInfo.originInfo.trackInfo) ||
-                      []
-                    }
-                    hasMoreLessOperation={true}
-                    moreLogistics={moreLogistics}
-                    handleToggleMoreLess={this.handleToggleMoreLess}
-                    customDateCls="text-nowrap"
-                  />
-
-                  <div className="row">
-                    {(item.shippingItems || []).map((ele) => (
-                      <div className="text-center col-2" key={ele.skuId}>
-                        <LazyLoad>
-                          <img
-                            src={ele.pic || IMG_DEFAULT}
-                            alt={ele.itemName}
-                            title={ele.itemName}
-                            style={{ width: '70%', margin: '0 auto' }}
-                          />
-                        </LazyLoad>
-                        <p className="font-weight-normal ui-text-overflow-line1">
-                          {ele.itemName} X {ele.itemNum}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="row border-top m-0 pt-2 pb-2">
-                    <div className="col-12 col-md-3">
-                      <svg className="svg-icon mr-1" aria-hidden="true">
-                        <use xlinkHref="#iconDeliverydate" />
-                      </svg>
-                      <FormattedMessage id="deliveryDate" />:{' '}
-                      <span className="medium">
-                        {getFormatDate((item.deliverTime || '').substr(0, 10))}
-                      </span>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <svg className="svg-icon mr-1" aria-hidden="true">
-                        <use xlinkHref="#iconLogisticscompany" />
-                      </svg>
-                      <FormattedMessage id="logisticsCompany" />:{' '}
-                      <span className="medium">
-                        {item.logistics
-                          ? item.logistics.logisticCompanyName
-                          : ''}
-                      </span>
-                    </div>
-                    <div className="col-12 col-md-5">
-                      <svg className="svg-icon mr-1" aria-hidden="true">
-                        <use xlinkHref="#iconLogisticssinglenumber" />
-                      </svg>
-                      <FormattedMessage id="logisticsSingleNumber" />:{' '}
-                      <span className="medium">
-                        {item.logistics ? item.logistics.logisticNo : ''}
-                      </span>
-                      <CopyToClipboard
-                        text={item.logistics ? item.logistics.logisticNo : ''}
+            {logisticsList.length > 0 ? (
+              <div className="col-12 mt-4 border1 rounded mb-4 pl-0 pr-0 rc-md-up">
+                {logisticsList.length > 1 ? (
+                  <nav className="rc-bg-colour--brand4 p-3">
+                    {logisticsList.map((item, i) => (
+                      <span
+                        className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
+                          activeTabIdx === i
+                            ? 'active red rc-bg-colour--brand3'
+                            : ''
+                        }`}
+                        onClick={this.changeTab.bind(this, i)}
+                        key={i}
                       >
-                        <span className="iconfont ui-cursor-pointer ml-2">
-                          &#xe6c0;
+                        <FormattedMessage
+                          id="packageX"
+                          values={{ val: i + 1 }}
+                        />
+                      </span>
+                    ))}
+                  </nav>
+                ) : null}
+
+                {logisticsList.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`ml-3 mr-3 ${
+                      i === activeTabIdx ? '' : 'hidden'
+                    }`}
+                  >
+                    <LogisticsProgress
+                      list={
+                        (item.syncLogisticsInfo &&
+                          item.syncLogisticsInfo.originInfo &&
+                          item.syncLogisticsInfo.originInfo.trackInfo) ||
+                        []
+                      }
+                      hasMoreLessOperation={true}
+                      moreLogistics={moreLogistics}
+                      handleToggleMoreLess={this.handleToggleMoreLess}
+                      customDateCls="text-nowrap"
+                    />
+
+                    <div className="row">
+                      {(item.shippingItems || []).map((ele) => (
+                        <div className="text-center col-2" key={ele.skuId}>
+                          <LazyLoad>
+                            <img
+                              src={ele.pic || IMG_DEFAULT}
+                              alt={ele.itemName}
+                              title={ele.itemName}
+                              style={{ width: '70%', margin: '0 auto' }}
+                            />
+                          </LazyLoad>
+                          <p className="font-weight-normal ui-text-overflow-line1">
+                            {ele.itemName} X {ele.itemNum}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="row border-top m-0 pt-2 pb-2">
+                      <div className="col-12 col-md-3">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconDeliverydate" />
+                        </svg>
+                        <FormattedMessage id="deliveryDate" />:{' '}
+                        <span className="medium">
+                          {getFormatDate(
+                            (item.deliverTime || '').substr(0, 10)
+                          )}
                         </span>
-                      </CopyToClipboard>
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticscompany" />
+                        </svg>
+                        <FormattedMessage id="logisticsCompany" />:{' '}
+                        <span className="medium">
+                          {item.logistics
+                            ? item.logistics.logisticCompanyName
+                            : ''}
+                        </span>
+                      </div>
+                      <div className="col-12 col-md-5">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticssinglenumber" />
+                        </svg>
+                        <FormattedMessage id="logisticsSingleNumber" />:{' '}
+                        <span className="medium">
+                          {item.logistics ? item.logistics.logisticNo : ''}
+                        </span>
+                        <CopyToClipboard
+                          text={item.logistics ? item.logistics.logisticNo : ''}
+                        >
+                          <span className="iconfont ui-cursor-pointer ml-2">
+                            &#xe6c0;
+                          </span>
+                        </CopyToClipboard>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : null}
+
             <div className="ml-4 mr-4 rc-md-down mt-2 mt-md-0">
               {filteredLogisticsList.map((item, i) => (
                 <div
@@ -754,18 +817,20 @@ class AccountOrders extends React.Component {
       payNowLoading,
       defaultLocalDateTime,
       orderNumber,
-      logisticsList
+      logisticsList,
+      currentProgerssIndex
     } = this.state;
     const tradeState = details.tradeState;
     let ret = null;
-    if (
-      ((!details.isAuditOpen && tradeState.flowState === 'AUDIT') ||
-        (details.isAuditOpen &&
-          tradeState.flowState === 'INIT' &&
-          tradeState.auditState === 'NON_CHECKED')) &&
-      tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
-      tradeState.payState === 'NOT_PAID'
-    ) {
+    if (currentProgerssIndex === 0) {
+      // if (
+      //   ((!details.isAuditOpen && tradeState.flowState === 'AUDIT') ||
+      //     (details.isAuditOpen &&
+      //       tradeState.flowState === 'INIT' &&
+      //       tradeState.auditState === 'NON_CHECKED')) &&
+      //   tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+      //   tradeState.payState === 'NOT_PAID'
+      // ) {
       // 订单创建
       ret = (
         <>
@@ -803,6 +868,7 @@ class AccountOrders extends React.Component {
                             &gt;
                           </span>{' '}
                           <TimeCount
+                            className="rc-hidden"
                             startTime={this.state.defaultLocalDateTime}
                             endTime={details.orderTimeOut}
                             onTimeEnd={this.handlePayNowTimeEnd}
@@ -819,6 +885,7 @@ class AccountOrders extends React.Component {
         </>
       );
     } else if (
+      tradeState.flowState === 'SHIPPED' &&
       tradeState.payState === 'PAID' &&
       tradeState.auditState === 'CHECKED' &&
       tradeState.deliverStatus === 'NOT_YET_SHIPPED'
@@ -969,8 +1036,10 @@ class AccountOrders extends React.Component {
       details,
       payRecord,
       currentProgerssIndex,
+      currentCanceledProgerssIndex,
       orderNumber,
-      progressList,
+      normalProgressList,
+      cancelProgressList,
       showLogisticsDetail,
       curLogisticInfo
     } = this.state;
@@ -1037,121 +1106,21 @@ class AccountOrders extends React.Component {
                       ) : details ? (
                         <div className="card-body p-0">
                           {this.renderHeadTip()}
-                          {/* {currentProgerssIndex > -1 ? (
-                            <>
-                              <div className="rc-progress-stepped order-progress mb-4">
-                                <ol className="rc-list d-flex order-progress-mb">
-                                  {this.state.progressList.map((item, i) => (
-                                    <li
-                                      key={i}
-                                      className={`rc-list__item rc-progress-stepped__item ${
-                                        i < currentProgerssIndex
-                                          ? 'rc-complete'
-                                          : i === currentProgerssIndex
-                                          ? 'rc-current'
-                                          : ''
-                                      } ${
-                                        this.state.processMore
-                                          ? 'step_more'
-                                          : ''
-                                      }`}
-                                    >
-                                      <span className="rc-progress-stepped__link">
-                                        {i + 1}
-                                        <br />
-                                        <span className="order-progress-text md-up">
-                                          {item.displayName}
-                                          <br />
-                                          {item.time1}&nbsp;{item.time2}
-                                        </span>
-                                        <span className="order-progress-text md-down">
-                                          {item.displayName}
-                                          <br />
-                                          {item.time1}&nbsp;
-                                          <br />
-                                          {item.time2}&nbsp;
-                                        </span>
-                                      </span>
-                                    </li>
-                                  ))}
-                                </ol>
-                              </div>
-                            </>
-                          ) : null} */}
                           {currentProgerssIndex > -1 ? (
-                            <div className="od-prg-container ml-2 mr-2 ml-md-4 mr-md-4">
-                              <div className="od-prg d-flex align-items-center">
-                                {progressList.map((item, i) => (
-                                  <>
-                                    <span
-                                      className={`od-prg-text position-relative ${
-                                        !i ? 'ml-3' : ''
-                                      } ${
-                                        i <= currentProgerssIndex
-                                          ? 'compelete red'
-                                          : ''
-                                      }`}
-                                    >
-                                      {i <= currentProgerssIndex ? (
-                                        <svg
-                                          className="svg-icon align-middle"
-                                          aria-hidden="true"
-                                          style={{
-                                            width: '1.5em',
-                                            height: '1.5em'
-                                          }}
-                                        >
-                                          <use xlinkHref="#iconwancheng" />
-                                        </svg>
-                                      ) : (
-                                        <span className="od-prg-icon inlineblock text-white">
-                                          {i + 1}
-                                        </span>
-                                      )}
-                                      <span className="ml-1 rc-md-up">
-                                        {item.displayName}
-                                      </span>
-                                      <span className="od-prg-name position-absolute rc-md-down">
-                                        {item.displayName}
-                                      </span>
-                                      <span className="od-prg-time position-absolute">
-                                        <span className="rc-md-up">
-                                          {item.time1
-                                            ? getFormatDate(item.time1)
-                                            : null}{' '}
-                                          {item.time2}
-                                        </span>
-                                        <span className="rc-md-down">
-                                          {item.time1
-                                            ? getFormatDate(item.time1)
-                                            : null}
-                                          <br />
-                                          {item.time2 || (
-                                            <span
-                                              style={{ color: 'transparent' }}
-                                            >
-                                              &nbsp;
-                                            </span>
-                                          )}
-                                        </span>
-                                      </span>
-                                    </span>
-                                    {i !== progressList.length - 1 ? (
-                                      <span
-                                        className={`od-prg-line position-relative flex-fill ml-2 mr-2 ${
-                                          i < currentProgerssIndex
-                                            ? 'complete'
-                                            : i == currentProgerssIndex
-                                            ? 'ing'
-                                            : ''
-                                        }`}
-                                      />
-                                    ) : null}
-                                  </>
-                                ))}
-                              </div>
-                            </div>
+                            <Progress
+                              progressList={normalProgressList}
+                              currentProgerssIndex={currentProgerssIndex}
+                            />
                           ) : null}
+                          {/* 取消状态不展示进度条 */}
+                          {/* {currentCanceledProgerssIndex > -1 ? (
+                            <Progress
+                              progressList={cancelProgressList}
+                              currentProgerssIndex={
+                                currentCanceledProgerssIndex
+                              }
+                            />
+                          ) : null} */}
 
                           <div
                             className="rc-bg-colour--brand4 rc-md-down mt-3"
