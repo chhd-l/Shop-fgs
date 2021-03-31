@@ -3499,18 +3499,24 @@ class SubscriptionDetail extends React.Component {
                                 {currentDeliveryAddress.consigneeNumber}
                               </p>
                               <p className="mb-0">
-                                {this.state.countryList.length &&
-                                this.state.countryList.filter(
-                                  (el) =>
-                                    el.id === currentDeliveryAddress.countryId
-                                ).length
-                                  ? this.state.countryList.filter(
+                                {process.env.REACT_APP_LANG == 'en' ? null : (
+                                  <>
+                                    {this.state.countryList.length &&
+                                    this.state.countryList.filter(
                                       (el) =>
                                         el.id ===
                                         currentDeliveryAddress.countryId
-                                    )[0].valueEn
-                                  : currentDeliveryAddress.countryId}
-                                ,{/* 省份 / State */}
+                                    ).length
+                                      ? this.state.countryList.filter(
+                                          (el) =>
+                                            el.id ===
+                                            currentDeliveryAddress.countryId
+                                        )[0].valueEn
+                                      : currentDeliveryAddress.countryId}
+                                    ,
+                                  </>
+                                )}
+                                {/* 省份 / State */}
                                 {currentDeliveryAddress?.province &&
                                 currentDeliveryAddress?.province != null
                                   ? currentDeliveryAddress.province + ', '
@@ -3581,18 +3587,24 @@ class SubscriptionDetail extends React.Component {
                                 {currentBillingAddress.consigneeNumber}
                               </p>
                               <p className="mb-0">
-                                {this.state.countryList.length &&
-                                this.state.countryList.filter(
-                                  (el) =>
-                                    el.id === currentBillingAddress.countryId
-                                ).length
-                                  ? this.state.countryList.filter(
+                                {process.env.REACT_APP_LANG == 'en' ? null : (
+                                  <>
+                                    {this.state.countryList.length &&
+                                    this.state.countryList.filter(
                                       (el) =>
                                         el.id ===
                                         currentBillingAddress.countryId
-                                    )[0].valueEn
-                                  : currentBillingAddress.countryId}
-                                ,{/* 省份 / State */}
+                                    ).length
+                                      ? this.state.countryList.filter(
+                                          (el) =>
+                                            el.id ===
+                                            currentBillingAddress.countryId
+                                        )[0].valueEn
+                                      : currentBillingAddress.countryId}
+                                    ,
+                                  </>
+                                )}
+                                {/* 省份 / State */}
                                 {currentBillingAddress?.province &&
                                 currentBillingAddress?.province != null
                                   ? currentBillingAddress.province + ', '

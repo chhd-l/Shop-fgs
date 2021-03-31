@@ -68,16 +68,23 @@ class InfosPreview extends React.Component {
                             </div>
                           </>
                         ) : null}
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.country" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;
-                          {matchNamefromDict(
-                            this.state.countryList,
-                            details.consignee.countryId
-                          )}
-                        </div>
+
+                        {process.env.REACT_APP_LANG == 'en' ? null : (
+                          <>
+                            <div className="col-md-6">
+                              <FormattedMessage id="payment.country" />
+                            </div>
+
+                            <div className="col-md-6">
+                              &nbsp;
+                              {matchNamefromDict(
+                                this.state.countryList,
+                                details.consignee.countryId
+                              )}
+                            </div>
+                          </>
+                        )}
+
                         <>
                           {details.consignee?.province &&
                             details.consignee?.province != null && (
@@ -161,16 +168,21 @@ class InfosPreview extends React.Component {
                               </div>
                             </>
                           ) : null}
-                          <div className="col-md-6">
-                            <FormattedMessage id="payment.country" />
-                          </div>
-                          <div className="col-md-6">
-                            &nbsp;
-                            {matchNamefromDict(
-                              this.state.countryList,
-                              details.invoice.countryId
-                            )}
-                          </div>
+                          {process.env.REACT_APP_LANG == 'en' ? null : (
+                            <>
+                              <div className="col-md-6">
+                                <FormattedMessage id="payment.country" />
+                              </div>
+                              <div className="col-md-6">
+                                &nbsp;
+                                {matchNamefromDict(
+                                  this.state.countryList,
+                                  details.invoice.countryId
+                                )}
+                              </div>
+                            </>
+                          )}
+
                           <>
                             {details.invoice?.province &&
                               details.invoice?.province != null && (

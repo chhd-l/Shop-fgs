@@ -263,7 +263,7 @@ class ShippingAddressFrom extends React.Component {
       myAccountActionPushEvent('Add Address'); // GA
       this.handleCancel();
       // this.props.upateSuccessMsg(res?.message);
-      this.props.upateSuccessMsg('Save Successfully');
+      this.props.upateSuccessMsg('Saved Successfully');
       this.props.refreshList();
     } catch (err) {
       this.showErrorMsg(err.message);

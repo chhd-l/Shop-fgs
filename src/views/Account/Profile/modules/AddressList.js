@@ -53,7 +53,7 @@ function CardItem(props) {
           {data?.province && data?.province != null
             ? data.province + ', '
             : null}
-          {props.countryName}
+          {process.env.REACT_APP_LANG == 'en' ? null : <>{props.countryName}</>}
         </p>
       </div>
     </div>
