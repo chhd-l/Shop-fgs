@@ -206,6 +206,12 @@ class PayProductInfo extends React.Component {
 
     !isHubGA && this.GACheck(productList);
     isHubGA && this.GAInitialProductArray(productList);
+
+    window.onload = function () {
+      if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+        localItemRoyal.remove('rc-iframe-from-storepotal');
+      }
+    };
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
