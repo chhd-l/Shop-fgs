@@ -26,6 +26,7 @@ class CheckoutStore {
   @observable outOfstockProNames = []; // 超出库存的商品
   @observable offShelvesProNames = []; // 下架的商品
   @observable deletedProNames = []; // 被删除的商品
+  @observable notSeableProNames = []; // 不可销售的商品
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
   @observable couponCodeFitFlag =
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
@@ -303,6 +304,7 @@ class CheckoutStore {
     let tmpOutOfstockProNames = [];
     let tmpOffShelvesProNames = [];
     let tmpDeletedProNames = [];
+    let tmpNotSeableProNames = [];
 
     Array.from(data, (item) => {
       item.sizeList.map((el) => {
@@ -334,6 +336,9 @@ class CheckoutStore {
           console.log(tmpObj, tmpOutOfstockProNames, 'name');
           tmpOutOfstockProNames.push(tmpName);
         }
+        if (!tmpObj?.goods?.saleableFlag) {
+          tmpNotSeableProNames.push(tmpName);
+        }
       }
       return item;
     });
@@ -341,6 +346,7 @@ class CheckoutStore {
     this.offShelvesProNames = tmpOffShelvesProNames;
     this.outOfstockProNames = tmpOutOfstockProNames;
     this.deletedProNames = tmpDeletedProNames;
+    this.notSeableProNames = tmpNotSeableProNames;
     return new Promise(function (resolve) {
       resolve({ backCode, context: purchasesRes });
     });
@@ -398,7 +404,7 @@ class CheckoutStore {
             return g.goodsInfoId === good.goodsInfoId;
           })[0];
           let specList = good.goodsSpecs;
-          let specDetailList = good.goodsSpecDetails;
+          let specDetailList = good.goodsSpecDetails || [];
           (specList || []).map((sItem) => {
             sItem.chidren = specDetailList.filter((sdItem) => {
               if (
@@ -486,6 +492,11 @@ class CheckoutStore {
           .map((ele) =>
             [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
           );
+        this.notSeableProNames = siteMiniPurchasesRes.goodsList
+          .filter((ele) => !ele?.goods?.saleableFlag)
+          .map((ele) =>
+            [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
+          );
         this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap);
         this.changeLoadingCartData(false);
       });
@@ -493,6 +504,7 @@ class CheckoutStore {
         resolve({ backCode, context: sitePurchasesRes });
       });
     } catch (err) {
+      console.log(111, err);
       this.changeLoadingCartData(false);
     }
   }

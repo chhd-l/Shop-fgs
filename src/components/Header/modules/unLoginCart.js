@@ -131,6 +131,17 @@ class UnloginCart extends React.Component {
         );
         return false;
       }
+      if (checkoutStore.notSeableProNames.length) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo6"
+            values={{
+              val: checkoutStore.notSeableProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {

@@ -1807,6 +1807,17 @@ class SmartFeederSubscription extends Component {
           );
           return false;
         }
+        if (checkoutStore.notSeableProNames.length) {
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo6"
+              values={{
+                val: checkoutStore.notSeableProNames.join('/')
+              }}
+            />
+          );
+          return false;
+        }
         // this.openPetModal()
         let autoAuditFlag = false;
         let res = await getProductPetConfig({

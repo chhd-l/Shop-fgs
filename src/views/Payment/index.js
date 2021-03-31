@@ -1865,6 +1865,14 @@ class Payment extends React.Component {
             )
           );
         }
+        if (checkoutStore.notSeableProNames.length) {
+          throw new Error(
+            this.props.intl.formatMessage(
+              { id: 'cart.errorInfo6' },
+              { val: checkoutStore.notSeableProNames.join('/') }
+            )
+          );
+        }
       }
     } catch (err) {
       console.warn(err);

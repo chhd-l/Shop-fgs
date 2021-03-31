@@ -1003,6 +1003,7 @@ const es_ES = {
   'payment.shippingDiscount': 'Reabastecimiento',
   'orderStatus.COMPLETED': 'Terminado',
   'payment.cardInfoErr':
-    'La información de la tarjeta es incorrecta, verifique.'
+    'La información de la tarjeta es incorrecta, verifique.',
+  'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}'
 };
 export default es_ES;
