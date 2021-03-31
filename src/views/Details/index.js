@@ -36,6 +36,7 @@ import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import Carousel from './components/Carousel';
+import ResponsiveCarousel from '@/components/Carousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
 import Help from './components/Help';
@@ -2517,6 +2518,7 @@ class Details extends React.Component {
               </>
             ) : null}
             <Help />
+            {/* <ResponsiveCarousel/> */}
             <Footer />
           </main>
         )}
