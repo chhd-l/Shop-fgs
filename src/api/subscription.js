@@ -16,7 +16,7 @@ const api = {
   // updateNextDeliveryTime: '/sub/updateNextDeliveryTime',
   updateNextDeliveryTime: `/${process.env.REACT_APP_STOREID}/sub/next-deliver/`,
   changeSubscriptionGoods: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`,
-  getListForPet: `/${process.env.REACT_APP_STOREID}/subs`,
+  getListForPet: `/${process.env.REACT_APP_STOREID}/subGoods`,
   findPetProductForClub: '/product/finder/club/pets/products'
 };
 

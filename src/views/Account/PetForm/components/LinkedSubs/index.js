@@ -18,6 +18,7 @@ const LinkedSubs = (props) => {
   const { loading, errorMsg } = props;
   const isMobile = getDeviceType() !== 'PC';
   const querySubList = () => {
+    console.log('hahaha');
     props.setState({ loading: true });
     // let param = {
     //   pageNum: 0,
