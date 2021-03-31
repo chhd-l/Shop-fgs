@@ -28,7 +28,8 @@ class VisitorAddress extends React.Component {
     initData: null,
     titleVisible: true,
     showConfirmBtn: true,
-    updateFormValidStatus: () => {}
+    updateFormValidStatus: () => {},
+    setPaymentToCompleted: () => {}
   };
   constructor(props) {
     super(props);
@@ -143,9 +144,10 @@ class VisitorAddress extends React.Component {
     }, 800);
 
     console.log(
-      '------------------ 游客确认 VisitorAddress Delivery address:  ',
+      '------------------ 游客确认:  ',
       this.state.validationModalVisible
     );
+
     if (this.props.type !== 'delivery') {
       throw new Error('VisitorAddress Delivery address ');
     }
@@ -255,11 +257,10 @@ class VisitorAddress extends React.Component {
         form: JSON.parse(JSON.stringify(oldForm))
       });
     }
-
     // payment 时提交 billing address
     if (this.props.isDeliveryOrBilling == 'billing') {
       // billing
-      this.props.setPaymentToCompleted();
+      this.props.setPaymentToCompleted(this.props.isDeliveryOrBilling);
     } else {
       // delivery  进入下一步
       this.showNextPanel();

@@ -9,7 +9,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 class Modal extends React.Component {
   static defaultProps = {
     modalTitle: <FormattedMessage id="information" />,
-    modalText: '',  
+    modalText: '',
     visible: false,
     confirmLoading: false,
     confirmBtnText: <FormattedMessage id="yes" />,
@@ -46,7 +46,7 @@ class Modal extends React.Component {
             style={{ top: '50%', transform: 'translateY(-50%)' }}
           >
             <div className="modal-content mt-0">
-              {!hideHeader && (
+              {
                 <div className="modal-header delete-confirmation-header">
                   <h4 className="modal-title" id="removeProductLineItemModal">
                     {this.props.modalTitle}
@@ -61,7 +61,7 @@ class Modal extends React.Component {
                     <span aria-hidden="true">×</span>
                   </button>
                 </div>
-              )}
+              }
               <div
                 className="modal-body delete-confirmation-body"
                 style={{ maxHeight: '50vh', overflowY: 'auto' }}
@@ -69,7 +69,10 @@ class Modal extends React.Component {
                 {this.props.modalText}
                 {this.props.children}
               </div>
-              <div className="modal-footer" style={{display:this.props.hideFooter?'none':'flex'}}>
+              <div
+                className="modal-footer"
+                style={{ display: this.props.hideFooter ? 'none' : 'flex' }}
+              >
                 {this.props.cancelBtnVisible ? (
                   <button
                     type="button"

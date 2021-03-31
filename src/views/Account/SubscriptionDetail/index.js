@@ -4293,27 +4293,24 @@ class SubscriptionDetail extends React.Component {
                                                   </div>
                                                 </div>
                                               ) : null}
-                                              {el.tradePrice
-                                                .promotionDiscountPrice
-                                                ? el.tradePrice.promotionVOList?.map(
-                                                    (el) => (
-                                                      <div className="row">
-                                                        <div className="col-1 col-md-3" />
-                                                        <label className="green col-5 text-left">
-                                                          {el.marketingName}:
-                                                        </label>
-                                                        <div className="col-5 col-md-3 text-right green">
-                                                          <strong>
-                                                            -
-                                                            {formatMoney(
-                                                              el.discountPrice
-                                                            )}
-                                                          </strong>
-                                                        </div>
-                                                      </div>
-                                                    )
-                                                  )
-                                                : null}
+                                              {el.tradePrice.promotionVOList?.map(
+                                                (el) => (
+                                                  <div className="row">
+                                                    <div className="col-1 col-md-3" />
+                                                    <label className="green col-5 text-left">
+                                                      {el.marketingName}:
+                                                    </label>
+                                                    <div className="col-5 col-md-3 text-right green">
+                                                      <strong>
+                                                        -
+                                                        {formatMoney(
+                                                          el.discountPrice
+                                                        )}
+                                                      </strong>
+                                                    </div>
+                                                  </div>
+                                                )
+                                              )}
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el, i) => (
                                                   <div className="row" key={i}>

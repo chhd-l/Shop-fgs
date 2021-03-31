@@ -43,7 +43,7 @@ const ClubItem = ({ subItem, idx, frequencyList }) => {
                   verticalAlign: 'middle',
                   fontSize: '.75rem',
                   marginLeft: '.625rem',
-                  width: isMobile ? 'auto' : '250px'
+                  width: isMobile ? 'auto' : '200px'
                 }}
               >
                 <p

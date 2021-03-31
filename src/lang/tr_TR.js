@@ -1001,6 +1001,7 @@ const tr_TR = {
   completed: 'Tamamlandı',
   skip: 'Sipariş atla',
   'orderStatus.COMPLETED': 'Tamamlandı',
-  'payment.cardInfoErr': 'Kart bilgileri yanlış, lütfen kontrol edin.'
+  'payment.cardInfoErr': 'Kart bilgileri yanlış, lütfen kontrol edin.',
+  'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}'
 };
 export default tr_TR;
