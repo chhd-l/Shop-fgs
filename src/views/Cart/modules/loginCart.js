@@ -420,6 +420,7 @@ class LoginCart extends React.Component {
 
       if (localItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: false });
+        this.checkoutStore.changeFromStorePortal(true);
       }
 
       url && history.push(url);

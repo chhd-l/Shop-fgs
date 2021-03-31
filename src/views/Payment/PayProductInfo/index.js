@@ -206,12 +206,6 @@ class PayProductInfo extends React.Component {
 
     !isHubGA && this.GACheck(productList);
     isHubGA && this.GAInitialProductArray(productList);
-
-    window.onload = function () {
-      if (localItemRoyal.get('rc-iframe-from-storepotal')) {
-        localItemRoyal.remove('rc-iframe-from-storepotal');
-      }
-    };
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
@@ -481,7 +475,7 @@ class PayProductInfo extends React.Component {
           )}
         </span>
         {this.props.operateBtnVisible &&
-        !localItemRoyal.get('rc-iframe-from-storepotal') ? (
+        !this.checkoutStore.isFromStorePortal ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
           </Link>
