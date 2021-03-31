@@ -189,7 +189,6 @@ class PersonalDataEditForm extends React.Component {
     let oldForm = JSON.parse(JSON.stringify(form));
     if (selectValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
-      form.address2 = validationAddress.address2;
       form.city = validationAddress.city;
       form.postCode = validationAddress.postalCode;
 
