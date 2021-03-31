@@ -34,7 +34,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
       <div>
         <LazyLoad>
           <img
-            alt=""
+            alt="map-default-marker"
             src={meImg}
             draggable="false"
             style={{

@@ -2496,10 +2496,15 @@ class Details extends React.Component {
               <>
                 <div className="more-link rc-content--fixed-header ">
                   <LazyLoad height={200}>
-                    <img src={loop} srcSet={loop} alt="" />
+                    <img src={loop} srcSet={loop} alt="loop-icon" />
                   </LazyLoad>
                   <LazyLoad height={200}>
-                    <img src={vert} srcSet={vert} className="vert" alt="" />
+                    <img
+                      src={vert}
+                      srcSet={vert}
+                      className="vert"
+                      alt="vert-icon"
+                    />
                   </LazyLoad>
                   <p>
                     <FormattedMessage id="detail.packagingDesc" />

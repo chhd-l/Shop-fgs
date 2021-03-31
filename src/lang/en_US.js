@@ -236,12 +236,12 @@ const en_US = {
   cardCvvIsInvalid: 'your card cvv is invalid',
   cardNumber: 'Card Number',
   cardNumberIsInvalid: 'your card number is invalid',
-  'cart.catDiet': 'Choose a diet for your cat',
+  'cart.catDiet': 'Shop Cat formulas',
   'cart.deletInfo': 'Delete product?',
   'cart.deletInfo2':
     'Are you sure you want to remove this item from your cart?',
   'cart.delivery': 'Shipping',
-  'cart.dogDiet': 'Choose a diet for your dog',
+  'cart.dogDiet': 'Shop Dog formulas',
   'cart.errorInfo': "The number can't be less than 1",
   'cart.errorInfo2': 'You cannot place your order, out of stock product: {val}',
   'cart.errorInfo3':
@@ -252,7 +252,7 @@ const en_US = {
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
   'cart.firstOrderDiscountTip':
     'The 30% discount for your first order will be applied during checkout',
-  'cart.fullPrice': 'FULL RICE FOR YOUR PET',
+  'cart.fullPrice': 'Find your pet’s precise formula',
   'cart.miniCartTitle':
     '30% off first purchase, plus 5% off every order and additional perks with autoship',
   // 'cart.totalProduct': '{val} item(s) in the basket',
@@ -1092,7 +1092,7 @@ const en_US = {
   saveExtraMoney: 'Save {val} on this subscription',
   saveFailed: 'Save Failed!',
   saveSuccess: 'Save Success',
-  saveSuccessfullly: 'Save successfullly',
+  saveSuccessfullly: 'Save Successfully',
   saveSuccessfullly2: 'Your information has been correctly saved',
   search: 'Search',
   searchBreed: 'Search breed',

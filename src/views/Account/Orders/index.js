@@ -431,6 +431,7 @@ class AccountOrders extends React.Component {
         {order.canPayNow ? (
           <>
             <TimeCount
+              className="rc-hidden"
               startTime={this.state.defaultLocalDateTime}
               endTime={order.orderTimeOut}
               onTimeEnd={this.handlePayNowTimeEnd.bind(this, order)}

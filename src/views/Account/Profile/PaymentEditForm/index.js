@@ -567,7 +567,7 @@ class PaymentEditForm extends React.Component {
       if (res.code == 'K-000000') {
         this.handleCancel();
         // this.props.refreshList(res.message);
-        this.props.refreshList('Save successfullly');
+        this.props.refreshList('Save Successfully');
       }
     } catch (err) {
       this.showErrorMsg(err.message);

@@ -49,13 +49,14 @@ export default class TimeCount extends React.Component {
     clearInterval(this.timer);
   }
   render() {
+    const { className = '' } = this.props;
     return (
       this.state.initd && (
-        <span className="red">
+        <span className={`red ${className}`}>
           <span
             className="inlineblock rc-icon rc-clock--xs rc-brand1 relative"
             style={{ top: 2 }}
-          ></span>
+          />
           {this.state.hour}:{this.state.minute}:{this.state.second}
         </span>
       )

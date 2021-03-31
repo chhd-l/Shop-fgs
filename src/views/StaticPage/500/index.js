@@ -52,7 +52,7 @@ class Page500 extends React.Component {
           <img
             src={logo}
             style={{ width: '150px', margin: '80px auto 1.25rem' }}
-            alt=""
+            alt="logo-icon"
           />
         </LazyLoad>
         <div>
@@ -62,7 +62,7 @@ class Page500 extends React.Component {
                 <img
                   src={image}
                   style={{ width: '300px', margin: '0 auto' }}
-                  alt=""
+                  alt="Internet-problem-500"
                 />
               </LazyLoad>
               <div className="rc-bg-colour--brand3">

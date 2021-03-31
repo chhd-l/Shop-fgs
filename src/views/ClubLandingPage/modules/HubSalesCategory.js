@@ -89,7 +89,7 @@ export default class HubSalesCategory extends Component {
                 <h1 className="rc-espilon">
                   <FormattedMessage id="salesCategory.cat" />
                 </h1>
-                <img src={catsImg} alt="" />
+                <img src={catsImg} alt="cats-image" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -134,7 +134,7 @@ export default class HubSalesCategory extends Component {
                 <h1 className="rc-espilon">
                   <FormattedMessage id="salesCategory.dog" />
                 </h1>
-                <img src={dogsImg} alt="" />
+                <img src={dogsImg} alt="dogs-image" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (

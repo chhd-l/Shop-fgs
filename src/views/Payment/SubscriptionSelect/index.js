@@ -224,7 +224,7 @@ class SubscriptionSelect extends Component {
                         <div className="imgBoxForSelect ">
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="goods-information-image"
                               className="width-sub-img  imgForSelect "
                               style={{ display: 'inline-block' }}
                               key={i}
@@ -242,7 +242,7 @@ class SubscriptionSelect extends Component {
                         <div className="imgBoxForSelect ">
                           <LazyLoad>
                             <img
-                              alt=""
+                              alt="goods-information-image"
                               className="width-sub-img  imgForSelect "
                               style={{ display: 'inline-block' }}
                               key={i}
