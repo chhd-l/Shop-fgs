@@ -1328,6 +1328,9 @@ export default class Felin extends React.Component {
                                 target="_blank"
                               >
                                 https://www.mars.com/privacy-policy-france
+                                <span className="warning_blank">
+                                  Opens a new window
+                                </span>
                               </a>
                             </label>
                           </div>

@@ -136,6 +136,9 @@ class Footer extends React.Component {
                                     rel="nofollow"
                                   >
                                     <FormattedMessage id={listItem.messageId} />
+                                    <span className="warning_blank">
+                                      Opens a new window
+                                    </span>
                                   </a>
                                 )}
                               </li>

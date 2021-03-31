@@ -153,6 +153,7 @@ export default class Search extends React.Component {
         });
       }
     );
+    this.hanldeSearchFocus();
   }
   handleSearch = () => {
     if (this.state.loading) return;
