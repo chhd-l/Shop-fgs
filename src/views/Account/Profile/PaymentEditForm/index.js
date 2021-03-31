@@ -437,7 +437,6 @@ class PaymentEditForm extends React.Component {
     value = target.value;
     if (name === 'cardNumber') {
       value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-      console.log({ value });
     }
     paymentForm[name] = value;
 
