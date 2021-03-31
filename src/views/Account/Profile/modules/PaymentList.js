@@ -121,24 +121,24 @@ class AddressList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  getPaymentMethodList = async ({ showLoading = true } = {}) => {
+  getPaymentMethodList = async ({ msg, showLoading = true } = {}) => {
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod();
       this.setState({
         creditCardList: res.context || []
       });
-      // if (msg) {
-      //   this.setState(
-      //     {
-      //       successMsg: msg, // 获取保存地址返回的提示成功信息
-      //       getPaymentMethodListFlag: true
-      //     },
-      //     () => {
-      //       this.clearSuccessMsg();
-      //     }
-      //   );
-      // }
+      if (msg) {
+        this.setState(
+          {
+            successMsg: msg, // 获取保存地址返回的提示成功信息
+            getPaymentMethodListFlag: true
+          },
+          () => {
+            this.clearSuccessMsg();
+          }
+        );
+      }
     } catch (err) {
       this.setState({ listErr: err.message });
     } finally {

@@ -427,6 +427,11 @@ class Form extends React.Component {
     }
     return tmp;
   }
+  // 判断是否是数字
+  isNumber = (value) => {
+    value = value.replace(/-/g, '');
+    return isNaN(value) ? false : true;
+  };
   // 文本框输入改变
   inputChange = (e, data) => {
     const { caninForm } = this.state;
@@ -435,6 +440,10 @@ class Form extends React.Component {
     const name = target.name;
     if (name == 'postCode' || name == 'phoneNumber') {
       value = value.replace(/\s+/g, '');
+      if (!this.isNumber(value)) {
+        value = '';
+        return;
+      }
     }
     if (name == 'postCode') {
       value = value
@@ -443,17 +452,11 @@ class Form extends React.Component {
         .replace(/(\d{5})(?:\d)/g, '$1-');
     }
     if (name == 'phoneNumber') {
-      // 格式化电话号码
-      value = value.replace(/-/g, '');
+      value = value.replace(/-/g, ''); // 格式化电话号码
       if (process.env.REACT_APP_LANG == 'fr') {
         value = value.replace(/^[0]/, '+(33)');
       }
       if (process.env.REACT_APP_LANG == 'en') {
-        // if (value.length > 3 && value.length < 8) {
-        //   value = value.replace(/(\d{3})(?!\-)/g, '$1-');
-        // } else {
-        //   value = value.replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
-        // }
         value = value
           .replace(/\s/g, '')
           .replace(/-$/, '')
