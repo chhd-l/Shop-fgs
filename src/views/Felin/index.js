@@ -876,7 +876,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
-                        alt=""
+                        alt="box-image"
                       />
                     </LazyLoad>
                   </h4>
@@ -892,7 +892,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
-                        alt=""
+                        alt="store-image"
                       />
                     </LazyLoad>
                   </h4>
@@ -1504,7 +1504,7 @@ export default class Felin extends React.Component {
                                 height: '160px'
                               }}
                               src={`${this.state.qrCode1}`}
-                              alt=""
+                              alt="qrcode-image"
                             />
                           </div>
                         </>

@@ -240,7 +240,7 @@ class FAQ extends React.Component {
                               dangerouslySetInnerHTML={{ __html: item.answer }}
                             ></p>
                             <LazyLoad>
-                              <img src={item.imgUl} alt="" />
+                              <img src={item.imgUl} alt="storeFaq-image" />
                             </LazyLoad>
                           </div>
                         </div>

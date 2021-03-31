@@ -375,7 +375,11 @@ class PayOs extends React.Component {
       <span className="logo-payment-card-list logo-credit-card">
         {supportPaymentMethods.map((el, idx) => (
           <LazyLoad key={idx}>
-            <img className="logo-payment-card" src={el.img} alt="" />
+            <img
+              className="logo-payment-card"
+              src={el.img}
+              alt="logo-payment-card"
+            />
           </LazyLoad>
         ))}
       </span>

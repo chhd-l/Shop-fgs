@@ -384,10 +384,18 @@ class ClubHeroCarousel extends React.Component {
                 onClick={this.GABannerClick.bind(this, i)}
                 to={el.mobiSkipUrl}
               >
-                <img className="w-100 mh-100" src={el.mobiUrl} alt="" />
+                <img
+                  className="w-100 mh-100"
+                  src={el.mobiUrl}
+                  alt="banner-video"
+                />
               </Link>
             ) : (
-              <img className="w-100 mh-100" src={el.mobiUrl} alt="" />
+              <img
+                className="w-100 mh-100"
+                src={el.mobiUrl}
+                alt="banner-video"
+              />
             )}
           </div>
           <div className="hero-carousel__slide__content">

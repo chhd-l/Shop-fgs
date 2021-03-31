@@ -129,7 +129,7 @@ class SelectPetModal extends Component {
                         <img
                           className="rc-img--square rc-img--square-custom "
                           src={item.goodsInfoImg}
-                          alt=""
+                          alt="goods-information"
                         />
                       </LazyLoad>
                     </div>

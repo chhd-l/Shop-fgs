@@ -663,7 +663,7 @@ class Question extends React.Component {
                 src={helpImg}
                 onMouseEnter={this.setIconToolTipVisible.bind(this, true)}
                 onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
-                alt=""
+                alt="help-icon"
               />
             </LazyLoad>
             <ConfirmTooltip
@@ -792,7 +792,7 @@ class Question extends React.Component {
               <img
                 src={{ cat: catImg, dog: dogImg }[type]}
                 className="p-f-q-avatar"
-                alt=""
+                alt="pet-image"
               />
             </LazyLoad>
           </div>
@@ -843,14 +843,14 @@ class Question extends React.Component {
                     src={veterinaryImg}
                     className="rc-md-up"
                     style={{ width: '20%', margin: '0 auto' }}
-                    alt=""
+                    alt="veterinary-image"
                   />
                 </LazyLoad>
                 <LazyLoad>
                   <img
                     className="mt-3 rc-full-width"
                     src={veterinaryProductImg}
-                    alt=""
+                    alt="veterinary-product-image"
                   />
                 </LazyLoad>
               </div>
