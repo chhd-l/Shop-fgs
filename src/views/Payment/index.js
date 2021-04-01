@@ -2339,8 +2339,10 @@ class Payment extends React.Component {
           // 游客确认
           this.unLoginBillingAddrRef.current.handleClickConfirm();
         }
-        this.setPaymentToCompleted();
       }
+
+      // 游客和会员绑卡后执行
+      this.setPaymentToCompleted();
     } catch (e) {
       this.showErrorMsg(e.message);
     } finally {

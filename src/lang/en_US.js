@@ -497,6 +497,7 @@ const en_US = {
   'footer.copyrightInfo2_1': 'An Affiliate of Mars, Incorporated',
   'footer.email': 'Contact Us',
   'footer.FAQ': 'FAQ',
+  'footer.FAQ2': 'FAQ',
   'footer.FAQAllgemeines': 'General FAQ',
   'footer.FAQVersand': 'Shipping FAQ',
   'footer.healthAndNutrition': 'Health and Nutrition',
