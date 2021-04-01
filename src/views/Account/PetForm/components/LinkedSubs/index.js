@@ -3,7 +3,11 @@ import autoshipIcon from '@/assets/images/autoship.png';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import { getFormatDate, getFrequencyDict, getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { getSubList, getSubListForPet } from '@/api/subscription';
+import {
+  getSubList,
+  getSubListForPet,
+  changeSubscriptionGoods
+} from '@/api/subscription';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -90,57 +94,54 @@ const LinkedSubs = (props) => {
                   key={subItem.subscribeId}
                 >
                   <div className="col-4 col-md-4 d-flex flex-wrap">
-                    {subItem.goodsInfo &&
-                      subItem.goodsInfo.map((item) => (
-                        <div style={{ marginLeft: '1.25rem' }}>
-                          <LazyLoad>
-                            <img
-                              style={{
-                                width: '70px',
-                                display: 'inline-block'
-                              }}
-                              key={item.spuId}
-                              src={item.goodsPic || IMG_DEFAULT}
-                              alt={item.goodsName}
-                              title={item.goodsName}
-                            />
-                          </LazyLoad>
-                          <span
-                            style={{
-                              display: 'inline-block',
-                              verticalAlign: 'middle',
-                              fontSize: '.75rem',
-                              marginLeft: '.625rem',
-                              width: isMobile ? 'auto' : '250px'
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontSize: '1rem',
-                                fontWeight: '400',
-                                color: '#333',
-                                marginBottom: '5px'
-                              }}
-                            >
-                              {item.goodsName}
-                            </p>
-                            <p>
-                              {item.specText} - {item.subscribeNum}{' '}
-                              <FormattedMessage id="units" />
-                            </p>
-                            <p>
-                              <FormattedMessage id="subscription.frequency" />:{' '}
-                              {frequencyList.filter(
-                                (el) => el.id === item.periodTypeId
-                              )[0]
-                                ? frequencyList.filter(
-                                    (el) => el.id === item.periodTypeId
-                                  )[0].value
-                                : ''}
-                            </p>
-                          </span>
-                        </div>
-                      ))}
+                    <div style={{ marginLeft: '1.25rem' }}>
+                      <LazyLoad>
+                        <img
+                          style={{
+                            width: '70px',
+                            display: 'inline-block'
+                          }}
+                          key={subItem.spuId}
+                          src={subItem.goodsPic || IMG_DEFAULT}
+                          alt={subItem.goodsName}
+                          title={subItem.goodsName}
+                        />
+                      </LazyLoad>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          verticalAlign: 'middle',
+                          fontSize: '.75rem',
+                          marginLeft: '.625rem',
+                          width: isMobile ? 'auto' : '250px'
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontSize: '1rem',
+                            fontWeight: '400',
+                            color: '#333',
+                            marginBottom: '5px'
+                          }}
+                        >
+                          {subItem.goodsName}
+                        </p>
+                        <p>
+                          {subItem.specText} - {subItem.subscribeNum}{' '}
+                          <FormattedMessage id="units" />
+                        </p>
+                        <p>
+                          <FormattedMessage id="subscription.frequency" />:{' '}
+                          {frequencyList.filter(
+                            (el) => el.id === subItem.periodTypeId
+                          )[0]
+                            ? frequencyList.filter(
+                                (el) => el.id === subItem.periodTypeId
+                              )[0].value
+                            : ''}
+                        </p>
+                      </span>
+                    </div>
                   </div>
                   <div className="col-4 col-md-2 text-nowrap">
                     <LazyLoad>
@@ -192,10 +193,18 @@ const LinkedSubs = (props) => {
                     className="col-4 col-md-2"
                     style={{ textAlign: 'center' }}
                   >
-                    {i % 2 === 0 ? (
+                    {!subItem.petsId ? (
                       <button
                         className="rc-btn rc-btn--two rc-btn--sm"
-                        onClick={() => {}}
+                        onClick={() => {
+                          let params = {
+                            petsId: props.petsId,
+                            addGoodsItems: {
+                              skuId: subItem.skuId
+                            }
+                          };
+                          changeSubscriptionGoods(params).then((res) => {});
+                        }}
                       >
                         <FormattedMessage id="Link" />
                       </button>

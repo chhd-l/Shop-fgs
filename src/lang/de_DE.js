@@ -366,6 +366,7 @@ const de_DE = {
   'footer.copyrightInfo2_1': 'Ein Tochterunternehmen von Mars, Incorporated',
   'footer.email': 'E-Mail',
   'footer.FAQ': 'FAQ',
+  'footer.FAQ2': 'FAQ',
   'footer.FAQAllgemeines': 'FAQ Allgemeines',
   'footer.FAQVersand': 'FAQ Versand',
   'footer.healthAndNutrition': 'Gesundheit und Ernährung',

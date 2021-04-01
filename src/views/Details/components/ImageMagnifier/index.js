@@ -544,6 +544,7 @@ class ImageMagnifier extends Component {
                   className={`rc-img--square rc-img--square-custom ${
                     hoverIndex === images.length ? 'hover' : ''
                   }`}
+                  ref="video"
                   onMouseEnter={() => {
                     let cssStyle = JSON.parse(
                       JSON.stringify(this.state.cssStyle)

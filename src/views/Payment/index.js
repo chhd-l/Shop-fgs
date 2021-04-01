@@ -690,7 +690,7 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
       if (payWay.context) {
-        payWayNameArr = (payWay.context.payPspItemVOList || [])
+        payWayNameArr = (payWay.context.payPsp.payPspItemVOList || [])
           .map(
             (p) => payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()]
           )
@@ -2340,8 +2340,10 @@ class Payment extends React.Component {
           // 游客确认
           this.unLoginBillingAddrRef.current.handleClickConfirm();
         }
-        this.setPaymentToCompleted();
       }
+
+      // 游客和会员绑卡后执行
+      this.setPaymentToCompleted();
     } catch (e) {
       this.showErrorMsg(e.message);
     } finally {

@@ -343,6 +343,7 @@ const es_ES = {
   'footer.copyrightInfo':
     'Copyright © Mars 2021®, Marca registrada de Mars Incorporated y sus afiliados',
   'footer.FAQ': 'Preguntas frecuentes',
+  'footer.FAQ2': 'Preguntas frecuentes',
   'footer.healthAndNutrition': 'Nutrición específica',
   'footer.help': 'AYUDA',
   'footer.informationForParents': 'Información para padres de familia',
