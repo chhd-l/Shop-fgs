@@ -30,6 +30,7 @@ export default class Selection extends React.Component {
       noResultsFound: false
     };
     this.timeOutId = null;
+    this.searchRef = React.createRef();
   }
   hideOptions = () => {
     this.setState({
@@ -66,9 +67,14 @@ export default class Selection extends React.Component {
           )
         : -1
     }));
-    this.setState({
-      dataList: this.props.optionList
-    });
+    this.setState(
+      {
+        dataList: this.props.optionList
+      },
+      () => {
+        this.searchRef.current.focus();
+      }
+    );
   };
   onBlurHandler = () => {
     this.timeOutId = setTimeout(() => {
@@ -188,6 +194,7 @@ export default class Selection extends React.Component {
                 placeholder=""
                 onClick={(e) => this.handleClickSearchInput(e)}
                 onChange={(e) => this.handleSearchInputChange(e)}
+                ref={this.searchRef}
               />
             ) : null}
 

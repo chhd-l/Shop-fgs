@@ -28,7 +28,9 @@ class VisitorAddress extends React.Component {
     initData: null,
     titleVisible: true,
     showConfirmBtn: true,
+    isValidationModal: true, // 是否显示验证弹框
     updateFormValidStatus: () => {},
+    updateValidationStaus: () => {},
     setPaymentToCompleted: () => {}
   };
   constructor(props) {
@@ -46,26 +48,24 @@ class VisitorAddress extends React.Component {
         provinceCode: null
       },
       billingChecked: true,
-      validationLoading: false, // 地址校验loading
-      validationModalVisible: false, // 地址校验查询开关
-      selectValidationOption: 'suggestedAddress',
+      visitorValidationLoading: false, // 地址校验loading
+      visitorValidationModalVisible: false, // 地址校验查询开关
+      selectVisitorValidationOption: 'suggestedAddress',
       btnLoading: false
     };
-    this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
+    this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
+      this
+    );
   }
   componentDidMount() {
     this.validData({
       data: this.state.form,
-      validationModalVisible: false
+      visitorValidationModalVisible: false
     });
-    console.log(
-      ' 61   VisitorAddress validationModalVisible: ',
-      this.state.validationModalVisible
-    );
   }
   //props发生变化时触发
   componentWillReceiveProps(props) {
-    console.log(props);
+    // console.log(props);
   }
   get panelStatus() {
     const tmpKey =
@@ -103,7 +103,7 @@ class VisitorAddress extends React.Component {
           }
         });
         data.calculation = ddres?.context?.tariffs[0];
-        console.log('---------- ★★★★★★ 计算运费： ', data.calculation);
+        // console.log('---------- ★★★★★★ 计算运费： ', data.calculation);
         if (!data.calculation) {
           return;
         }
@@ -117,7 +117,7 @@ class VisitorAddress extends React.Component {
       });
     } catch (err) {
       console.error(' err msg: ', err);
-      this.setState({ isValid: false, validationLoading: false }, () => {
+      this.setState({ isValid: false, visitorValidationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     }
@@ -133,20 +133,19 @@ class VisitorAddress extends React.Component {
       return false;
     }
     // 地址验证
-    // validationModalVisible - 控制是否查询数据
+    // visitorValidationModalVisible - 控制是否查询数据
     this.setState({
-      validationLoading: true
+      visitorValidationLoading: true
     });
-    setTimeout(() => {
-      this.setState({
-        validationModalVisible: true
-      });
-    }, 800);
-
-    console.log(
-      '------------------ 游客确认:  ',
-      this.state.validationModalVisible
-    );
+    if (this.props.isValidationModal) {
+      console.log('★ ----------------- VisitorAddress 地址校验');
+      setTimeout(() => {
+        this.setState({
+          visitorValidationModalVisible: true
+        });
+        this.props.updateValidationStaus(false);
+      }, 800);
+    }
 
     if (this.props.type !== 'delivery') {
       throw new Error('VisitorAddress Delivery address ');
@@ -212,15 +211,15 @@ class VisitorAddress extends React.Component {
   };
 
   // 选择地址
-  chooseValidationAddress = (e) => {
+  chooseVisitorValidationAddress = (e) => {
     this.setState({
-      selectValidationOption: e.target.value
+      selectVisitorValidationOption: e.target.value
     });
   };
   // 获取地址验证查询到的数据
-  getValidationData = async (data) => {
+  getVisitorValidationData = async (data) => {
     this.setState({
-      validationLoading: false
+      visitorValidationLoading: false
     });
     if (data && data != null) {
       // 获取并设置地址校验返回的数据
@@ -233,13 +232,17 @@ class VisitorAddress extends React.Component {
     }
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
-  confirmValidationAddress() {
-    const { form, selectValidationOption, validationAddress } = this.state;
+  confirmVisitorValidationAddress() {
+    const {
+      form,
+      selectVisitorValidationOption,
+      validationAddress
+    } = this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
       btnLoading: true
     });
-    if (selectValidationOption == 'suggestedAddress') {
+    if (selectVisitorValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
       form.city = validationAddress.city;
       form.postCode = validationAddress.postalCode;
@@ -274,10 +277,11 @@ class VisitorAddress extends React.Component {
 
     this.setState(
       {
-        validationModalVisible: false,
+        visitorValidationModalVisible: false,
         btnLoading: false
       },
       () => {
+        this.props.updateValidationStaus(true);
         this.props.updateData(form);
 
         paymentStore.setStsToCompleted({ key: this.curPanelKey });
@@ -309,9 +313,9 @@ class VisitorAddress extends React.Component {
     const {
       form,
       isValid,
-      validationLoading,
-      validationModalVisible,
-      selectValidationOption
+      visitorValidationLoading,
+      visitorValidationModalVisible,
+      selectVisitorValidationOption
     } = this.state;
 
     const _editForm = (
@@ -358,22 +362,22 @@ class VisitorAddress extends React.Component {
           ) : null
         ) : null}
 
-        {validationLoading && <Loading positionFixed="true" />}
-        {validationModalVisible && (
+        {visitorValidationLoading && <Loading positionFixed="true" />}
+        {visitorValidationModalVisible && (
           <ValidationAddressModal
             btnLoading={this.state.btnLoading}
             address={form}
-            updateValidationData={(res) => this.getValidationData(res)}
-            selectValidationOption={selectValidationOption}
+            updateValidationData={(res) => this.getVisitorValidationData(res)}
+            selectValidationOption={selectVisitorValidationOption}
             handleChooseValidationAddress={(e) =>
-              this.chooseValidationAddress(e)
+              this.chooseVisitorValidationAddress(e)
             }
-            hanldeClickConfirm={() => this.confirmValidationAddress()}
-            validationModalVisible={validationModalVisible}
+            hanldeClickConfirm={() => this.confirmVisitorValidationAddress()}
+            validationModalVisible={visitorValidationModalVisible}
             close={() => {
               this.setState({
-                validationModalVisible: false,
-                validationLoading: false
+                visitorValidationModalVisible: false,
+                visitorValidationLoading: false
               });
             }}
           />
