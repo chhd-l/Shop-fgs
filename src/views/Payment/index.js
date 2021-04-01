@@ -437,10 +437,7 @@ class Payment extends React.Component {
               buyWay: 'frequency',
               frequencyName: '',
               frequencyId: ''
-            },
-            cyberPaymentForm: Object.assign({}, cyberPaymentForm, {
-              isSaveCard: true
-            })
+            }
           });
         }
       }
