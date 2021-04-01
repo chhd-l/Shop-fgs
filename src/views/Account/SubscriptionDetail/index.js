@@ -2532,8 +2532,7 @@ class SubscriptionDetail extends React.Component {
                             };
                           })
                         };
-                        console.log(param);
-                        debugger;
+
                         this.setState({ loading: true });
                         updateDetail(param)
                           .then((res) => {
