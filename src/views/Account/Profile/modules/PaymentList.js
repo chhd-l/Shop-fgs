@@ -89,9 +89,9 @@ class AddressList extends React.Component {
     this.getPaymentMethodList();
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.name,
+        paymentType: res?.context?.payPsp?.name,
         supportPaymentMethods: computedSupportPaymentMethods(
-          res?.context?.supportPaymentMethods || []
+          res?.context?.payPsp?.supportPaymentMethods || []
         )
       }); //PAYU,ADYEN,CYBER
     });

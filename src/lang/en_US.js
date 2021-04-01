@@ -1236,6 +1236,7 @@ const en_US = {
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
   'Special Need': 'Sensitivites',
-  'orderStatus.COMPLETED': 'Completed'
+  'orderStatus.COMPLETED': 'Completed',
+  'subscription.see_more': 'See other Subscription'
 };
 export default en_US;

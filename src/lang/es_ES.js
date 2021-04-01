@@ -1005,6 +1005,7 @@ const es_ES = {
   'orderStatus.COMPLETED': 'Terminado',
   'payment.cardInfoErr':
     'La información de la tarjeta es incorrecta, verifique.',
-  'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}'
+  'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}',
+  'account.clinicTitle2': 'Mi clínica por defecto'
 };
 export default es_ES;

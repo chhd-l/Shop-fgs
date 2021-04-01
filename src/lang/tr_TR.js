@@ -1003,6 +1003,7 @@ const tr_TR = {
   skip: 'Sipariş atla',
   'orderStatus.COMPLETED': 'Tamamlandı',
   'payment.cardInfoErr': 'Kart bilgileri yanlış, lütfen kontrol edin.',
-  'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}'
+  'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}',
+  'subscription.see_more': 'Diğer Aboneliğe Bakın'
 };
 export default tr_TR;
