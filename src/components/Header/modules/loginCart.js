@@ -56,7 +56,7 @@ class LoginCart extends React.Component {
   }
   get totalNum() {
     return this.cartData.reduce((prev, cur) => {
-      return Number(pre) + Number(cur.buyCount);
+      return Number(prev) + Number(cur.buyCount);
     }, 0);
   }
   get loading() {
