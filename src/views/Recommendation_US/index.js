@@ -136,6 +136,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isNoMoreProduct: false,
       promotionCode: '',
       // secondlist: secondlistArr,
       showMore: true,
@@ -388,9 +389,19 @@ class Recommendation extends React.Component {
           return el;
         });
         let promotionCode = res.context.promotionCode || '';
-        this.setState({ productList, petType, promotionCode }, () => {
-          this.checkoutStock();
+        let filterProducts = productList.filter((el) => {
+          return el.goodsInfo.addedFlag;
         });
+        // 只展示上架商品
+        if (!filterProducts.length) {
+          this.setState({ isNoMoreProduct: true });
+        }
+        this.setState(
+          { productList: filterProducts, petType, promotionCode },
+          () => {
+            this.checkoutStock();
+          }
+        );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
         this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
         this.props.clinicStore.setLinkClinicName('');
@@ -711,9 +722,6 @@ class Recommendation extends React.Component {
   }
   addCart = () => {
     let { productList } = this.state;
-    let filterProducts = productList.filter((el) => {
-      return el.goodsInfo.addedFlag;
-    });
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();
     } else {
@@ -897,281 +905,299 @@ class Recommendation extends React.Component {
               </div>
             </section>
           </div>
-          <div className="transparentSection">
-            <section
-              className="recommendProduct re-custom rc-max-width--md"
-              style={{ paddingRight: 0, paddingLeft: 0 }}
+          {this.state.isNoMoreProduct ? (
+            <div
+              className="rc-max-width--xl"
+              style={{ fontSize: '2.5rem', textAlign: 'center' }}
             >
-              <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
-                {this.state.loading ? (
-                  <div>
-                    <div
-                      className="recommendProductInner"
-                      style={{
-                        background: '#fff',
-                        minHeight: '600px',
-                        borderTop: 0
-                      }}
-                    >
-                      <Skeleton
-                        color="#f5f5f5"
-                        width="100%"
-                        height="100%"
-                        count="3"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  productList.length > 0 && (
+              <FormattedMessage id="recommendation.noMoreRecommendation" />
+            </div>
+          ) : (
+            <div className="transparentSection">
+              <section
+                className="recommendProduct re-custom rc-max-width--md"
+                style={{ paddingRight: 0, paddingLeft: 0 }}
+              >
+                <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
+                  {this.state.loading ? (
                     <div>
                       <div
                         className="recommendProductInner"
                         style={{
+                          background: '#fff',
+                          minHeight: '600px',
                           borderTop: 0
                         }}
                       >
-                        {productList.length > 1 && (
-                          <div className="imageTabBox">
-                            {productList.map((el, i) => (
-                              <span
-                                className={`${
-                                  i === activeIndex ? 'active' : ''
-                                }`}
-                                style={{
-                                  display: 'inline-block',
-                                  width: '80px',
-                                  textAlign: 'center',
-                                  cursor: 'pointer',
-                                  margin: '0 4px'
-                                }}
-                                onClick={() =>
-                                  this.setState({ activeIndex: i })
-                                }
-                              >
-                                <img
-                                  src={el.images[0].artworkUrl}
-                                  style={{
-                                    width: '40px',
-                                    display: 'inline-block',
-                                    margin: '.625rem 0'
-                                  }}
-                                  alt="goods-information-image"
-                                />
-                                {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
-                                <p
-                                  style={{
-                                    textAlign: 'center',
-                                    fontSize: '.75rem',
-                                    marginBottom: '5px',
-                                    width: '100%',
-                                    overflow: 'hidden',
-                                    whiteSpace: 'nowrap',
-                                    textOverflow: 'ellipsis'
-                                  }}
-                                >
-                                  {el.goodsInfo.goodsInfoName}
-                                </p>
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                        <div className="right rc-padding-x--lg ">
-                          <div className="main">
-                            <div className="pic">
-                              <ImageMagnifier
-                                // sizeList={[productList[activeIndex].goodsInfo]}
-                                sizeList={productList[activeIndex].images || []}
-                                images={productList[activeIndex].images || []}
-                                minImg={
-                                  productList[activeIndex].goodsInfo
-                                    .goodsInfoImg
-                                }
-                                maxImg={
-                                  productList[activeIndex].goodsInfo
-                                    .goodsInfoImg
-                                }
-                                config={false}
-                              />
-                            </div>
-                          </div>
-                          <div
-                            className={`product-recommendation__desc text-center rc-padding-bottom--lg--mobile ${
-                              isRu && promotionCode ? 'has-promotion' : ''
-                            }`}
-                          >
-                            <h3
-                              title={
-                                productList[activeIndex].goodsInfo.goodsInfoName
-                              }
-                              className="rc-gamma"
-                              style={{ color: '#E2001A' }}
-                            >
-                              {productList[activeIndex].goodsInfo.goodsInfoName}
-                            </h3>
-                            {/* <h4>
-                            From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
-                          </h4> */}
-                            {MaxMarketPrice > 0 && (
-                              <div className="product-pricing__card__head d-flex align-items-center">
-                                {/* <div className="rc-input product-pricing__card__head__title">
-                                <FormattedMessage id="autoship" />
-                              </div> */}
-                                <div className="rc-large-body  m-auto">
-                                  {MaxMarketPrice === MinMarketPrice ? (
-                                    <React.Fragment>
-                                      <span className="text-throught-line">
-                                        {formatMoney(MaxMarketPrice)}
-                                      </span>
-                                      <span className="promotion-price">
-                                        {formatMoney(MaxMarketPrice * 0.8)}
-                                      </span>
-                                    </React.Fragment>
-                                  ) : (
-                                    <React.Fragment>
-                                      <span className="text-throught-line">
-                                        <FormattedMessage id="from" />{' '}
-                                        {formatMoney(MinMarketPrice)}{' '}
-                                        <FormattedMessage id="to" />{' '}
-                                        {formatMoney(MaxMarketPrice)}
-                                      </span>
-                                      <span className="promotion-price">
-                                        <FormattedMessage id="from" />{' '}
-                                        {formatMoney(MinMarketPrice)}
-                                        <FormattedMessage id="to" />{' '}
-                                        {formatMoney(MaxMarketPrice)}
-                                      </span>
-                                    </React.Fragment>
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                            {isRu && promotionCode ? (
-                              <>
-                                <div style={{ marginBottom: '.75rem' }}>
-                                  <span className="promotion-code-title">
-                                    {/* Promo code : */}
-                                    Промо Код:
-                                  </span>
-                                  <span className="promotion-code promotion-code-title">
-                                    {promotionCode}
-                                  </span>
-                                </div>
-                                <p className="promotion-tips">
-                                  Для применения скидки,  необходимо скопировать
-                                  и вставить промо код в соответствующее поле
-                                  при оформлении заказа в корзине
-                                  {/* to apply the promotion, you must copy and
-                                  paste the code into the specified part of the
-                                  shopping cart */}
-                                </p>
-                              </>
-                            ) : null}
-                            {this.state.showMore || tabDes.length <= 101 ? (
-                              <p
-                                className="product_info"
-                                dangerouslySetInnerHTML={createMarkup(tabDes)}
-                              ></p>
-                            ) : (
-                              <p
-                                className="product_info"
-                                style={{
-                                  display: `${
-                                    tabDes.length > 101 ? '' : 'none'
-                                  }`
-                                }}
-                              >
-                                {tabDesText}
-                                <strong
-                                  style={{
-                                    whiteSpace: 'nowrap',
-                                    cursor: 'pointer'
-                                  }}
-                                  onClick={this.seeMore}
-                                >
-                                  <FormattedMessage id="seeMoreText" />
-                                </strong>
-                              </p>
-                            )}
-                          </div>
-                          <div
-                            className=" text-center"
-                            style={{ position: 'relative' }}
-                          >
-                            <img
-                              className="type-icon"
-                              src={PetsImg}
-                              alt="pet-image"
-                              // src={petsiconArr[this.state.petType]}
-                            />
-                            <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
-                              <div className="">
-                                {grayBoxInnerText[process.env.REACT_APP_LANG]}
-                              </div>
-                              {/* <h6>Cute Puppy Breeding</h6>
-                            <div>994 Drummond Street, Newmark, New Jersey</div> */}
-                            </div>
-                            <div className="rc-margin-bottom--none rc-meta text-center w-100">
-                              <FormattedMessage id="recommendation.guidelinesTips" />
-                            </div>
-                          </div>
-
-                          {productList[activeIndex].benefit ? (
-                            <React.Fragment>
-                              <p className="benefit">
-                                <h5
-                                  className="red"
-                                  style={{
-                                    margin: '30px 0 1.25rem',
-                                    fontSize: isMobile ? '1.125rem' : 'auto'
-                                  }}
-                                >
-                                  <FormattedMessage id="recommendation.benefit" />
-                                </h5>
-                                <p
-                                  style={{ fontSize: 'auto' }}
-                                  dangerouslySetInnerHTML={createMarkup(
-                                    productList[activeIndex].benefit
-                                  )}
-                                ></p>
-                                <p
-                                  style={{ fontSize: '1rem' }}
-                                  dangerouslySetInnerHTML={createMarkup(
-                                    productList[activeIndex].benefitMobile
-                                  )}
-                                ></p>
-                                {/* <p>{productList[activeIndex]}</p> */}
-                              </p>
-                            </React.Fragment>
-                          ) : null}
-
-                          <p
-                            style={{
-                              marginTop: '30px',
-                              textAlign: 'center',
-                              marginBottom: isMobile ? '0' : '30px'
-                            }}
-                          >
-                            <button
-                              className={`rc-btn rc-btn--one rc-btn--sm ${
-                                this.state.buttonLoading ? 'ui-btn-loading' : ''
-                              } ${
-                                this.state.inStockProducts.length
-                                  ? ''
-                                  : 'rc-btn-solid-disabled'
-                              }`}
-                              onClick={this.addCart}
-                            >
-                              <FormattedMessage id="recommendation.viewInCart" />
-                            </button>
-                          </p>
-                        </div>
+                        <Skeleton
+                          color="#f5f5f5"
+                          width="100%"
+                          height="100%"
+                          count="3"
+                        />
                       </div>
                     </div>
-                  )
-                )}
-              </div>
-            </section>
-          </div>
+                  ) : (
+                    productList.length > 0 && (
+                      <div>
+                        <div
+                          className="recommendProductInner"
+                          style={{
+                            borderTop: 0
+                          }}
+                        >
+                          {productList.length > 1 && (
+                            <div className="imageTabBox">
+                              {productList.map((el, i) => (
+                                <span
+                                  className={`${
+                                    i === activeIndex ? 'active' : ''
+                                  }`}
+                                  style={{
+                                    display: 'inline-block',
+                                    width: '80px',
+                                    textAlign: 'center',
+                                    cursor: 'pointer',
+                                    margin: '0 4px'
+                                  }}
+                                  onClick={() =>
+                                    this.setState({ activeIndex: i })
+                                  }
+                                >
+                                  <img
+                                    src={el.images[0].artworkUrl}
+                                    style={{
+                                      width: '40px',
+                                      display: 'inline-block',
+                                      margin: '.625rem 0'
+                                    }}
+                                    alt="goods-information-image"
+                                  />
+                                  {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
+                                  <p
+                                    style={{
+                                      textAlign: 'center',
+                                      fontSize: '.75rem',
+                                      marginBottom: '5px',
+                                      width: '100%',
+                                      overflow: 'hidden',
+                                      whiteSpace: 'nowrap',
+                                      textOverflow: 'ellipsis'
+                                    }}
+                                  >
+                                    {el.goodsInfo.goodsInfoName}
+                                  </p>
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          <div className="right rc-padding-x--lg ">
+                            <div className="main">
+                              <div className="pic">
+                                <ImageMagnifier
+                                  // sizeList={[productList[activeIndex].goodsInfo]}
+                                  sizeList={
+                                    productList[activeIndex].images || []
+                                  }
+                                  images={productList[activeIndex].images || []}
+                                  minImg={
+                                    productList[activeIndex].goodsInfo
+                                      .goodsInfoImg
+                                  }
+                                  maxImg={
+                                    productList[activeIndex].goodsInfo
+                                      .goodsInfoImg
+                                  }
+                                  config={false}
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className={`product-recommendation__desc text-center rc-padding-bottom--lg--mobile ${
+                                isRu && promotionCode ? 'has-promotion' : ''
+                              }`}
+                            >
+                              <h3
+                                title={
+                                  productList[activeIndex].goodsInfo
+                                    .goodsInfoName
+                                }
+                                className="rc-gamma"
+                                style={{ color: '#E2001A' }}
+                              >
+                                {
+                                  productList[activeIndex].goodsInfo
+                                    .goodsInfoName
+                                }
+                              </h3>
+                              {/* <h4>
+                            From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
+                          </h4> */}
+                              {MaxMarketPrice > 0 && (
+                                <div className="product-pricing__card__head d-flex align-items-center">
+                                  {/* <div className="rc-input product-pricing__card__head__title">
+                                <FormattedMessage id="autoship" />
+                              </div> */}
+                                  <div className="rc-large-body  m-auto">
+                                    {MaxMarketPrice === MinMarketPrice ? (
+                                      <React.Fragment>
+                                        <span className="text-throught-line">
+                                          {formatMoney(MaxMarketPrice)}
+                                        </span>
+                                        <span className="promotion-price">
+                                          {formatMoney(MaxMarketPrice * 0.8)}
+                                        </span>
+                                      </React.Fragment>
+                                    ) : (
+                                      <React.Fragment>
+                                        <span className="text-throught-line">
+                                          <FormattedMessage id="from" />{' '}
+                                          {formatMoney(MinMarketPrice)}{' '}
+                                          <FormattedMessage id="to" />{' '}
+                                          {formatMoney(MaxMarketPrice)}
+                                        </span>
+                                        <span className="promotion-price">
+                                          <FormattedMessage id="from" />{' '}
+                                          {formatMoney(MinMarketPrice)}
+                                          <FormattedMessage id="to" />{' '}
+                                          {formatMoney(MaxMarketPrice)}
+                                        </span>
+                                      </React.Fragment>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                              {isRu && promotionCode ? (
+                                <>
+                                  <div style={{ marginBottom: '.75rem' }}>
+                                    <span className="promotion-code-title">
+                                      {/* Promo code : */}
+                                      Промо Код:
+                                    </span>
+                                    <span className="promotion-code promotion-code-title">
+                                      {promotionCode}
+                                    </span>
+                                  </div>
+                                  <p className="promotion-tips">
+                                    Для применения скидки,  необходимо
+                                    скопировать и вставить промо код в
+                                    соответствующее поле при оформлении заказа в
+                                    корзине
+                                    {/* to apply the promotion, you must copy and
+                                  paste the code into the specified part of the
+                                  shopping cart */}
+                                  </p>
+                                </>
+                              ) : null}
+                              {this.state.showMore || tabDes.length <= 101 ? (
+                                <p
+                                  className="product_info"
+                                  dangerouslySetInnerHTML={createMarkup(tabDes)}
+                                ></p>
+                              ) : (
+                                <p
+                                  className="product_info"
+                                  style={{
+                                    display: `${
+                                      tabDes.length > 101 ? '' : 'none'
+                                    }`
+                                  }}
+                                >
+                                  {tabDesText}
+                                  <strong
+                                    style={{
+                                      whiteSpace: 'nowrap',
+                                      cursor: 'pointer'
+                                    }}
+                                    onClick={this.seeMore}
+                                  >
+                                    <FormattedMessage id="seeMoreText" />
+                                  </strong>
+                                </p>
+                              )}
+                            </div>
+                            <div
+                              className=" text-center"
+                              style={{ position: 'relative' }}
+                            >
+                              <img
+                                className="type-icon"
+                                src={PetsImg}
+                                alt="pet-image"
+                                // src={petsiconArr[this.state.petType]}
+                              />
+                              <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
+                                <div className="">
+                                  {grayBoxInnerText[process.env.REACT_APP_LANG]}
+                                </div>
+                                {/* <h6>Cute Puppy Breeding</h6>
+                            <div>994 Drummond Street, Newmark, New Jersey</div> */}
+                              </div>
+                              <div className="rc-margin-bottom--none rc-meta text-center w-100">
+                                <FormattedMessage id="recommendation.guidelinesTips" />
+                              </div>
+                            </div>
+
+                            {productList[activeIndex].benefit ? (
+                              <React.Fragment>
+                                <p className="benefit">
+                                  <h5
+                                    className="red"
+                                    style={{
+                                      margin: '30px 0 1.25rem',
+                                      fontSize: isMobile ? '1.125rem' : 'auto'
+                                    }}
+                                  >
+                                    <FormattedMessage id="recommendation.benefit" />
+                                  </h5>
+                                  <p
+                                    style={{ fontSize: 'auto' }}
+                                    dangerouslySetInnerHTML={createMarkup(
+                                      productList[activeIndex].benefit
+                                    )}
+                                  ></p>
+                                  <p
+                                    style={{ fontSize: '1rem' }}
+                                    dangerouslySetInnerHTML={createMarkup(
+                                      productList[activeIndex].benefitMobile
+                                    )}
+                                  ></p>
+                                  {/* <p>{productList[activeIndex]}</p> */}
+                                </p>
+                              </React.Fragment>
+                            ) : null}
+
+                            <p
+                              style={{
+                                marginTop: '30px',
+                                textAlign: 'center',
+                                marginBottom: isMobile ? '0' : '30px'
+                              }}
+                            >
+                              <button
+                                className={`rc-btn rc-btn--one rc-btn--sm ${
+                                  this.state.buttonLoading
+                                    ? 'ui-btn-loading'
+                                    : ''
+                                } ${
+                                  this.state.inStockProducts.length
+                                    ? ''
+                                    : 'rc-btn-solid-disabled'
+                                }`}
+                                onClick={this.addCart}
+                              >
+                                <FormattedMessage id="recommendation.viewInCart" />
+                              </button>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </section>
+            </div>
+          )}
           {isUs && (
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
               <div className="rc-layout-container rc-four-column rc-content-v-middle text-center">

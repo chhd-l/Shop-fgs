@@ -1,3 +1,4 @@
+// 卡列表页+卡form页
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
@@ -13,31 +14,11 @@ import {
   setDefaltCard
 } from '@/api/payment';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
-import PaymentEditForm from '../PaymentEditForm';
+import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { computedSupportPaymentMethods } from '@/utils/utils';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
-
-const showCardType = (type) => {
-  let cardTypeDesc = '';
-  switch (type) {
-    case '001':
-      cardTypeDesc = 'Visa';
-      break;
-    case '002':
-      cardTypeDesc = 'Mastercard';
-      break;
-    case '003':
-      cardTypeDesc = 'Amex';
-      break;
-    case '004':
-      cardTypeDesc = 'Discover';
-      break;
-    default:
-      cardTypeDesc = type;
-  }
-  return cardTypeDesc;
-};
+import { showCardType } from '@/utils/constant/cyber';
 
 function CardItem(props) {
   const { data } = props;
@@ -399,7 +380,10 @@ class AddressList extends React.Component {
                 >
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {creditCardList.map((el) => (
-                      <div className="col-12 col-md-6 p-2" key={el.id}>
+                      <div
+                        className="col-12 col-md-6 p-2 ui-cursor-pointer"
+                        key={el.id}
+                      >
                         <CardItem
                           data={el}
                           operateBtnJSX={
