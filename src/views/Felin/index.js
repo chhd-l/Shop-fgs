@@ -130,7 +130,10 @@ export default class Felin extends React.Component {
       qrCode1: '',
       languageHeight: 0,
       errMsg: '',
-      consentList: []
+      consentList: {
+        requiredList: [],
+        optionalList: []
+      }
     };
   }
   componentDidMount() {
@@ -451,7 +454,7 @@ export default class Felin extends React.Component {
     let userInfo = localItemRoyal.get('rc-userinfo');
     try {
       let { consentList } = this.state;
-      let optionList = [];
+      let optionalList = [];
       let requiredList = [];
       if (this.state.consentChecked1) {
         requiredList.push({
@@ -460,8 +463,8 @@ export default class Felin extends React.Component {
         });
       }
       if (this.state.consentChecked2) {
-        optionList.push({
-          consentKey: consentList.optionList[0].consentId,
+        optionalList.push({
+          consentKey: consentList.optionalList[0].consentId,
           selectedFlag: true
         });
       }
@@ -600,6 +603,7 @@ export default class Felin extends React.Component {
       errMsg,
       consentList
     } = this.state;
+    console.log(consentList, 'consentList');
     const event = {
       page: {
         type: 'Felin',
@@ -1369,7 +1373,7 @@ export default class Felin extends React.Component {
                               </label>
                             </div>
                           ) : null}
-                          {consentList.optionList.length > 0 ? (
+                          {consentList.optionalList.length > 0 ? (
                             <div className="rc-input rc-input--stacked">
                               <input
                                 className="rc-input__checkbox"

@@ -31,7 +31,7 @@ const LinkedSubs = (props) => {
     // };
     getSubListForPet({ petsId: props.petsId })
       .then((res) => {
-        setSubList(res.context.subscriptionResponses);
+        setSubList(res.context);
         props.setState({
           loading: false
         });
