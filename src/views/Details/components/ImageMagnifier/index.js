@@ -431,6 +431,18 @@ class ImageMagnifier extends Component {
                   {/* </LazyLoad> */}
                 </div>
               ))}
+              {videoShow && video && (
+                <div>
+                  <video
+                    ref="video"
+                    style={cssStyle.imgStyle}
+                    src={video ? video : ''}
+                    controlsList="nodownload"
+                    onContextMenu="return false;"
+                    controls
+                  />
+                </div>
+              )}
             </div>
             {videoShow && videoModalShow && (
               <div
@@ -552,10 +564,10 @@ class ImageMagnifier extends Component {
                     this.setState({
                       videoShow: true,
                       cssStyle,
-                      hoverIndex: images.length,
+                      hoverIndex: spuImages.length,
                       offsetX: isMobile
-                        ? images.length * 230
-                        : images.length * 250
+                        ? spuImages.length * 230
+                        : spuImages.length * 250
                     });
                   }}
                   src={video ? video : ''}
