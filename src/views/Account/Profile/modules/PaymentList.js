@@ -1,3 +1,5 @@
+// 卡列表页+卡form页
+
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
