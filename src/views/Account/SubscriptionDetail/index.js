@@ -14,7 +14,6 @@ import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
 import clubIcon from '@/assets/images/club-icon.png';
-import productDetail from './productDetail.json';
 import { unique } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import Female from '@/assets/images/female.png';
@@ -85,12 +84,16 @@ const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-@inject('checkoutStore', 'loginStore')
+@inject('checkoutStore', 'loginStore', 'configStore')
 @injectIntl
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      productDetail: {},
+      productListLoading: false,
+      currentGoodsItems: [],
+      goodsDetails: {}, //for GoodsDetailTabs
       stock: 0,
       currentSubscriptionPrice: null,
       quantityMinLimit: 1,
@@ -99,6 +102,7 @@ class SubscriptionDetail extends React.Component {
       //订阅购物车参数
       subTotal: 0,
       subShipping: 0,
+      addNewPetLoading: false,
       addNewPetVisible: false,
       changeRecommendationVisible: false,
       editRecommendationVisible: false,
@@ -247,196 +251,218 @@ class SubscriptionDetail extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async queryProductDetails(id) {
-    let res = goodsDetailTabJSON;
-    // getDetailsBySpuNo(id)
-    //   .then((res) => {
-    const goodsRes = res && res.context && res.context.goods;
-    this.setState({
-      form: Object.assign(this.state.form, {
-        frequencyId:
-          goodsRes.defaultFrequencyId ||
-          configStore.defaultSubscriptionFrequencyId ||
-          (frequencyDictRes[0] && frequencyDictRes[0].id) ||
-          ''
-      })
-    });
-    let petType = 'Cat';
-    let foodType = 'Dry';
-    if (res && res.context?.goodsAttributesValueRelList) {
-      res.context.goodsAttributesValueRelList.forEach((item, idx) => {
-        if (item.goodsAttributeName == 'Lifestages') {
-          petType =
-            item.goodsAttributeValue.split('_') &&
-            item.goodsAttributeValue.split('_')[1];
-        }
-        if (item.goodsAttributeName == 'Technology') {
-          foodType = item.goodsAttributeValue;
-        }
-      });
-    }
-    let sizeList = [];
-    let goodsInfos = res.context.goodsInfos || [];
-    if (res && res.context && res.context.goodsSpecDetails) {
-      let specList = res.context.goodsSpecs;
-      let foodFllType = `${foodType} ${petType} Food`;
-
-      let specDetailList = res.context.goodsSpecDetails;
-      specList.map((sItem, index) => {
-        sItem.chidren = specDetailList.filter((sdItem, i) => {
-          if (index === 0) {
-            let filterproducts = goodsInfos.filter((goodEl) =>
-              goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-            );
-            sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
-            sdItem.isEmpty = filterproducts.every((item) => item.stock === 0);
-            console.info('sdItem.isEmpty', sdItem.isEmpty);
-
-            // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-          }
-          return sdItem.specId === sItem.specId;
+    // let res = goodsDetailTabJSON;
+    this.setState({ productListLoading: true });
+    let { configStore } = this.props;
+    getDetailsBySpuNo(id)
+      .then((res) => {
+        const goodsRes = res && res.context && res.context.goods;
+        this.setState({
+          form: Object.assign(this.state.form, {
+            frequencyId:
+              goodsRes.defaultFrequencyId ||
+              configStore.defaultSubscriptionFrequencyId ||
+              (frequencyDictRes[0] && frequencyDictRes[0].id) ||
+              ''
+          })
         });
-        let defaultSelcetdSku = -1;
-        if (defaultSelcetdSku > -1) {
-          // 默认选择该sku
-          if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
-            // 如果是sku进来的，需要默认当前sku被选择
-            sItem.chidren[defaultSelcetdSku].selected = true;
-          }
-        } else {
-          if (
-            process.env.REACT_APP_LANG === 'de' &&
-            sItem.chidren.length > 1 &&
-            !sItem.chidren[1].isEmpty
-          ) {
-            sItem.chidren[1].selected = true;
-          } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
-            sItem.chidren[1].selected = true;
-          } else {
-            for (let i = 0; i < sItem.chidren.length; i++) {
-              if (sItem.chidren[i].isEmpty) {
+        let petType = 'Cat';
+        let foodType = 'Dry';
+        if (res && res.context?.goodsAttributesValueRelList) {
+          res.context.goodsAttributesValueRelList.forEach((item, idx) => {
+            if (item.goodsAttributeName == 'Lifestages') {
+              petType =
+                item.goodsAttributeValue.split('_') &&
+                item.goodsAttributeValue.split('_')[1];
+            }
+            if (item.goodsAttributeName == 'Technology') {
+              foodType = item.goodsAttributeValue;
+            }
+          });
+        }
+        let sizeList = [];
+        let goodsInfos = res.context.goodsInfos || [];
+        if (res && res.context && res.context.goodsSpecDetails) {
+          let specList = res.context.goodsSpecs;
+          let foodFllType = `${foodType} ${petType} Food`;
+
+          let specDetailList = res.context.goodsSpecDetails;
+          specList.map((sItem, index) => {
+            sItem.chidren = specDetailList.filter((sdItem, i) => {
+              if (index === 0) {
+                let filterproducts = goodsInfos.filter((goodEl) =>
+                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+                );
+                sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
+                sdItem.isEmpty = filterproducts.every(
+                  (item) => item.stock === 0
+                );
+                console.info('sdItem.isEmpty', sdItem.isEmpty);
+
+                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
+              }
+              return sdItem.specId === sItem.specId;
+            });
+            let defaultSelcetdSku = -1;
+            if (defaultSelcetdSku > -1) {
+              // 默认选择该sku
+              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
+                // 如果是sku进来的，需要默认当前sku被选择
+                sItem.chidren[defaultSelcetdSku].selected = true;
+              }
+            } else {
+              if (
+                process.env.REACT_APP_LANG === 'de' &&
+                sItem.chidren.length > 1 &&
+                !sItem.chidren[1].isEmpty
+              ) {
+                sItem.chidren[1].selected = true;
+              } else if (
+                sItem.chidren.length > 1 &&
+                !sItem.chidren[1].isEmpty
+              ) {
+                sItem.chidren[1].selected = true;
               } else {
-                sItem.chidren[i].selected = true;
-                break;
+                for (let i = 0; i < sItem.chidren.length; i++) {
+                  if (sItem.chidren[i].isEmpty) {
+                  } else {
+                    sItem.chidren[i].selected = true;
+                    break;
+                  }
+                }
               }
             }
-          }
-        }
 
-        return sItem;
-      });
-      // this.setState({ specList });
-      sizeList = goodsInfos.map((g, i) => {
-        // g = Object.assign({}, g, { selected: false });
-        g = Object.assign({}, g, {
-          selected: i === 0
+            return sItem;
+          });
+          // this.setState({ specList });
+          sizeList = goodsInfos.map((g, i) => {
+            // g = Object.assign({}, g, { selected: false });
+            g = Object.assign({}, g, {
+              selected: i === 0
+            });
+            if (g.selected && !g.subscriptionStatus) {
+              let { form } = this.state;
+              form.buyWay = 0;
+              this.setState({ form });
+            }
+            return g;
+          });
+
+          const goodSize = specList.map((item) =>
+            item.chidren.find((good) => good.selected)
+          )?.[0]?.detailName;
+          const goodsInfoBarcode =
+            goodsInfos.find((item) => item.packSize === goodSize)
+              ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
+          const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+
+          let images = [];
+          images = res.context.goodsInfos;
+          this.setState(
+            {
+              foodFllType,
+              goodsDetails: res.context,
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:
+                    res.context.goodsAttributesValueRelList
+                }
+              ),
+              images,
+              specList,
+              barcode
+            },
+            () => {
+              console.info('detiasdsdsdsd', this.state.details);
+              this.matchGoods();
+              //Product Detail Page view 埋点start
+              // this.hubGA
+              //   ? this.hubGAProductDetailPageView(
+              //       res.context.goodsAttributesValueRelList,
+              //       this.state.details
+              //     )
+              //   : this.GAProductDetailPageView(this.state.details);
+              //Product Detail Page view 埋点end
+            }
+          );
+        } else {
+          let sizeList = [];
+          let foodFllType = `${foodType} ${petType} Food`;
+          let goodsInfos = res.context.goodsInfos || [];
+          sizeList = goodsInfos.map((g, i) => {
+            g = Object.assign({}, g, {
+              selected: i === 0
+            });
+            if (g.selected && !g.subscriptionStatus) {
+              let { form } = this.state;
+              form.buyWay = 0;
+              this.setState({ form });
+            }
+            return g;
+          });
+
+          let images = [];
+          images = res.context.goodsInfos;
+          this.setState(
+            {
+              foodFllType,
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:
+                    res.context.goodsAttributesValueRelList
+                }
+              ),
+              images
+            },
+            () => {
+              this.bundleMatchGoods();
+              //Product Detail Page view 埋点start
+              // this.hubGA
+              //   ? this.hubGAProductDetailPageView(
+              //       res.context.goodsAttributesValueRelList,
+              //       this.state.details
+              //     )
+              //   : this.GAProductDetailPageView(this.state.details);
+              //Product Detail Page view 埋点end
+            }
+          );
+          // 没有规格的情况
+          // this.setState({
+          //   errMsg: <FormattedMessage id="details.errMsg" />
+          // });
+        }
+        this.closeChangeProduct();
+        this.closeRecommendation();
+        this.setState({ produtctDetailVisible: true });
+      })
+      .catch((e) => {
+        console.log(e);
+        this.setState({
+          errMsg: e.message || <FormattedMessage id="details.errMsg2" />
         });
-        if (g.selected && !g.subscriptionStatus) {
-          let { form } = this.state;
-          form.buyWay = 0;
-          this.setState({ form });
-        }
-        return g;
-      });
-
-      const goodSize = specList.map((item) =>
-        item.chidren.find((good) => good.selected)
-      )?.[0]?.detailName;
-      const goodsInfoBarcode =
-        goodsInfos.find((item) => item.packSize === goodSize)
-          ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-      const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-
-      let images = [];
-      images = res.context.goodsInfos;
-      this.setState(
-        {
-          foodFllType,
-          details: Object.assign({}, this.state.details, res.context.goods, {
-            promotions: res.context.goods?.promotions?.toLowerCase(),
-            sizeList,
-            goodsInfos: res.context.goodsInfos,
-            goodsSpecDetails: res.context.goodsSpecDetails,
-            goodsSpecs: res.context.goodsSpecs,
-            goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
-          }),
-          images,
-          specList,
-          barcode
-        },
-        () => {
-          console.info('detiasdsdsdsd', this.state.details);
-          this.matchGoods();
-          //Product Detail Page view 埋点start
-          // this.hubGA
-          //   ? this.hubGAProductDetailPageView(
-          //       res.context.goodsAttributesValueRelList,
-          //       this.state.details
-          //     )
-          //   : this.GAProductDetailPageView(this.state.details);
-          //Product Detail Page view 埋点end
-        }
-      );
-    } else {
-      let sizeList = [];
-      let foodFllType = `${foodType} ${petType} Food`;
-      let goodsInfos = res.context.goodsInfos || [];
-      sizeList = goodsInfos.map((g, i) => {
-        g = Object.assign({}, g, {
-          selected: i === 0
+      })
+      .finally(() => {
+        this.setState({
+          productListLoading: false
         });
-        if (g.selected && !g.subscriptionStatus) {
-          let { form } = this.state;
-          form.buyWay = 0;
-          this.setState({ form });
-        }
-        return g;
       });
-
-      let images = [];
-      images = res.context.goodsInfos;
-      this.setState(
-        {
-          foodFllType,
-          details: Object.assign({}, this.state.details, res.context.goods, {
-            promotions: res.context.goods?.promotions?.toLowerCase(),
-            sizeList,
-            goodsInfos: res.context.goodsInfos,
-            goodsSpecDetails: res.context.goodsSpecDetails,
-            goodsSpecs: res.context.goodsSpecs,
-            goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
-          }),
-          images
-        },
-        () => {
-          this.bundleMatchGoods();
-          //Product Detail Page view 埋点start
-          // this.hubGA
-          //   ? this.hubGAProductDetailPageView(
-          //       res.context.goodsAttributesValueRelList,
-          //       this.state.details
-          //     )
-          //   : this.GAProductDetailPageView(this.state.details);
-          //Product Detail Page view 埋点end
-        }
-      );
-      // 没有规格的情况
-      // this.setState({
-      //   errMsg: <FormattedMessage id="details.errMsg" />
-      // });
-    }
-    // })
-    // .catch((e) => {
-    //   console.log(e);
-    //   this.setState({
-    //     errMsg: e.message || <FormattedMessage id="details.errMsg2" />
-    //   });
-    // })
-    // .finally(() => {
-    //   this.setState({
-    //     loading: false,
-    //     initing: false
-    //   });
-    // });
   }
 
   handleChooseSize(sId, sdId, isSelected) {
@@ -844,9 +870,9 @@ class SubscriptionDetail extends React.Component {
                 style={{ height: '4rem' }}
                 alt={details.goodsName}
               />
-              <div>
+              <div className="rc-margin-left--xs">
                 <div>{details.goodsName}</div>
-                <div>type</div>
+                <div>{this.state.foodFllType}</div>
               </div>
             </div>
             <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-margin-left--xs">
@@ -1075,6 +1101,9 @@ class SubscriptionDetail extends React.Component {
           // hanldeClickConfirm={() => this.hanldeClickSubmit()}
           // modalText={this.getModalBox()}
         >
+          {this.state.addNewPetLoading ? (
+            <Loading positionAbsolute="true" />
+          ) : null}
           <div className="rc-padding-x--md">
             <div className="pets-list-wrap">
               {this.state.petList.map((el) => (
@@ -1972,31 +2001,34 @@ class SubscriptionDetail extends React.Component {
     let addGoodsItems = {
       skuId: currentSelectedSize.goodsInfoId,
       goodsNum: quantity,
-      goodsInfoFlag
+      goodsInfoFlag,
+      subscribeId: this.state.subDetail.subscribeId
       // productFinderFlag: currentSelectedSize.productFinderFlag
+    };
+    let deleteGoodsItems = {
+      subscribeId: this.state.subDetail.subscribeId,
+      skuId: this.state.currentGoodsItems[0]?.goodsInfoVO?.goodsInfoId
     };
     if (buyWay) {
       addGoodsItems.periodTypeId = form.frequencyId;
     }
     let params = {
-      subscribeId: this.state.subDetail.subscribeId,
-      addGoodsItems
+      addGoodsItems: [addGoodsItems],
+      deleteGoodsItems: [deleteGoodsItems]
     };
-    changeSubscriptionGoods(params).then((res) => {});
+    changeSubscriptionGoods(params).then((res) => {
+      this.closeRecommendation();
+      this.closeEditRecommendation();
+    });
   };
-  changePets = async () => {
-    await this.changeSubscriptionGoods();
-    this.closeRecommendation();
-    this.closeEditRecommendation();
+  changePets = () => {
+    this.changeSubscriptionGoods();
   };
   closeEditRecommendation = () => {
     this.setState({ editRecommendationVisible: false });
   };
-  showProdutctDetail = async (id) => {
-    await this.queryProductDetails(id);
-    this.closeChangeProduct();
-    this.closeRecommendation();
-    this.setState({ produtctDetailVisible: true });
+  showProdutctDetail = (id) => {
+    this.queryProductDetails(id);
   };
   closeProdutctDetail = () => {
     this.setState({ produtctDetailVisible: false });
@@ -2004,15 +2036,24 @@ class SubscriptionDetail extends React.Component {
   closeChangeProduct = () => {
     this.setState({ changeProductVisible: false });
   };
-  showChangeProduct = async () => {
+  showChangeProduct = async (el) => {
+    this.setState({ productListLoading: true });
+    if (el) {
+      this.setState({ currentGoodsItems: [el] });
+    }
     let { petsId } = this.state.subDetail;
     try {
-      // let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
-      // console.info(res, 'res');
+      let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
+      console.info(res, 'res');
+      this.setState({ productDetail: res.context }, () => {
+        this.setState({ changeProductVisible: true, details: {} }); //清空details
+      });
       this.closeProdutctDetail();
       this.closeRecommendation();
-      this.setState({ changeProductVisible: true });
-    } catch (err) {}
+    } catch (err) {
+    } finally {
+      this.setState({ productListLoading: false });
+    }
   };
   getDetailModalInner = () => {
     const createMarkup = (text) => ({ __html: text });
@@ -2024,9 +2065,9 @@ class SubscriptionDetail extends React.Component {
         <div>
           <div className="rc-layout-container rc-five-column">
             <div className="rc-column  rc-header__center d-flex">
-              <LazyLoad>
-                <img src={foodPic2} alt="" />
-              </LazyLoad>
+              {/* <LazyLoad> */}
+              <img src={details.goodsImg} alt={details.goodsInfoName} />
+              {/* </LazyLoad> */}
             </div>
             <div className="rc-column rc-double-width">
               <div className="title">{details.goodsInfoName}</div>
@@ -2052,12 +2093,15 @@ class SubscriptionDetail extends React.Component {
             </div>
           </div>
         </div>
-        <GoodsDetailTabs detailRes={details} />
+        {this.state.goodsDetails?.goods?.goodsId && (
+          <GoodsDetailTabs detailRes={this.state.goodsDetails} />
+        )}
         {/* <Details goodsDetailTab={goodsDetailTab} details={props.details} /> */}
       </div>
     );
   };
   changeProductModal = () => {
+    const { productDetail } = this.state;
     return (
       <div className="change-product-modal">
         <Modal
@@ -2078,54 +2122,54 @@ class SubscriptionDetail extends React.Component {
               your subscription
             </p>
           </div>
-
           <div className="p-f-result-box">
             <div className="border rounded row pt-3 pb-3">
               <div className="col-12 col-md-6">
-                <LazyLoad style={{ height: '100%', width: '100%' }}>
-                  <img
-                    src={
-                      productDetail.mainProduct.goodsImg ||
-                      productDetail.mainProduct.goodsInfos.sort(
-                        (a, b) => a.marketPrice - b.marketPrice
-                      )[0].goodsInfoImg
-                    }
-                    className="p-img"
-                    alt={productDetail.mainProduct.goodsName}
-                  />
-                </LazyLoad>
+                {/* LazyLoad在弹窗有点问题，显示不出来图片 */}
+                {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
+                <img
+                  src={
+                    productDetail.mainProduct?.goodsImg ||
+                    productDetail.mainProduct?.goodsInfos.sort(
+                      (a, b) => a.marketPrice - b.marketPrice
+                    )[0].goodsInfoImg
+                  }
+                  className="p-img"
+                  alt={productDetail.mainProduct?.goodsName}
+                />
+                {/* </LazyLoad> */}
               </div>
               <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
                 <header className="rc-text--center">
                   <h3
                     className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
-                    title={productDetail.mainProduct.goodsName}
+                    title={productDetail.mainProduct?.goodsName}
                   >
-                    {productDetail.mainProduct.goodsName}
+                    {productDetail.mainProduct?.goodsName}
                   </h3>
                 </header>
                 <div
                   className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
-                  title={productDetail.mainProduct.subTitle}
+                  title={productDetail.mainProduct?.subTitle}
                 >
-                  {productDetail.mainProduct.subTitle}
+                  {productDetail.mainProduct?.subTitle}
                 </div>
                 <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
                   your daily ration
                 </div>
                 <div className="text-center mt-2">
-                  {productDetail.mainProduct.toPrice ? (
+                  {productDetail.mainProduct?.toPrice ? (
                     <span className="mr-1" style={{ fontSize: '.8em' }}>
                       <FormattedMessage id="startFrom" />
                     </span>
                   ) : null}
-                  {formatMoney(productDetail.mainProduct.fromPrice)}
-                  {productDetail.mainProduct.toPrice ? (
+                  {formatMoney(productDetail.mainProduct?.fromPrice)}
+                  {productDetail.mainProduct?.toPrice ? (
                     <>
                       <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
                         <FormattedMessage id="startEnd" />
                       </span>
-                      {formatMoney(productDetail.mainProduct.toPrice)}
+                      {formatMoney(productDetail.mainProduct?.toPrice)}
                     </>
                   ) : null}
                   {/* {formatMoney(
@@ -2146,10 +2190,12 @@ class SubscriptionDetail extends React.Component {
                   <span
                     onClick={() => {
                       this.showProdutctDetail(
-                        productDetail.mainProduct.spuCode
+                        productDetail.mainProduct?.spuCode
                       );
                     }}
-                    className="rc-btn rc-btn--one rc-btn--sm"
+                    className={`rc-btn rc-btn--one rc-btn--sm ${
+                      this.state.productListLoading ? 'ui-btn-loading' : ''
+                    } `}
                   >
                     <FormattedMessage id="seeTheProduct" />
                   </span>
@@ -2169,18 +2215,19 @@ class SubscriptionDetail extends React.Component {
                   style={{ flex: 1 }}
                 >
                   <div className="mb-3 p-f-product-img">
-                    <LazyLoad style={{ height: '100%', width: '100%' }}>
-                      <img
-                        src={
-                          ele.goodsImg ||
-                          ele.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg
-                        }
-                        className="p-img"
-                        alt={ele.goodsName}
-                      />
-                    </LazyLoad>
+                    {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
+                    <img
+                      src={
+                        ele.goodsImg ||
+                        ele.goodsInfos.sort(
+                          (a, b) => a.marketPrice - b.marketPrice
+                        )[0].goodsInfoImg
+                      }
+                      style={{ maxHeight: '12rem', margin: '0 auto' }}
+                      className="p-img"
+                      alt={ele.goodsName}
+                    />
+                    {/* </LazyLoad> */}
                   </div>
                   <div className="d-flex flex-column justify-content-center">
                     <header className="rc-text--center">
@@ -2201,13 +2248,13 @@ class SubscriptionDetail extends React.Component {
                       your daily ration
                     </div>
                     <div className="text-center mt-2">
-                      {productDetail.mainProduct.toPrice ? (
+                      {productDetail.mainProduct?.toPrice ? (
                         <span className="mr-1" style={{ fontSize: '.8em' }}>
                           <FormattedMessage id="startFrom" />
                         </span>
                       ) : null}
-                      {formatMoney(productDetail.mainProduct.fromPrice)}
-                      {productDetail.mainProduct.toPrice ? (
+                      {formatMoney(productDetail.mainProduct?.fromPrice)}
+                      {productDetail.mainProduct?.toPrice ? (
                         <>
                           <span
                             className="ml-1 mr-1"
@@ -2215,7 +2262,7 @@ class SubscriptionDetail extends React.Component {
                           >
                             <FormattedMessage id="startEnd" />
                           </span>
-                          {formatMoney(productDetail.mainProduct.toPrice)}
+                          {formatMoney(productDetail.mainProduct?.toPrice)}
                         </>
                       ) : null}
                       {/* {formatMoney(
@@ -2237,7 +2284,9 @@ class SubscriptionDetail extends React.Component {
                       > */}
                       <span
                         onClick={this.showProdutctDetail}
-                        className="rc-btn rc-btn--one rc-btn--sm"
+                        className={`rc-btn rc-btn--one rc-btn--sm ${
+                          this.state.productListLoading ? 'ui-btn-loading' : ''
+                        }`}
                       >
                         <FormattedMessage id="seeTheProduct" />
                       </span>
@@ -2287,6 +2336,8 @@ class SubscriptionDetail extends React.Component {
     }
   };
   linkPets = async (petsId) => {
+    this.setState({ addNewPetLoading: true });
+
     let { subscribeId } = this.state.subDetail;
     try {
       let param = {
@@ -2299,7 +2350,7 @@ class SubscriptionDetail extends React.Component {
     } catch (err) {
       this.showErrMsg(err.message);
     } finally {
-      this.setState({ loading: false });
+      this.setState({ addNewPetLoading: false });
     }
   };
   async handleSaveChange(subDetail) {
@@ -2473,7 +2524,6 @@ class SubscriptionDetail extends React.Component {
             history={this.props.history}
             match={this.props.match}
           />
-          {/* {this.state.loading ? <Loading /> : null} */}
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BreadCrumbs />
             <Modal
@@ -2722,10 +2772,14 @@ class SubscriptionDetail extends React.Component {
                                       alt={el.goodsName}
                                     />
                                   </LazyLoad>
-                                  {isClub && (
+                                  {isClub && !!subDetail.petsId && (
                                     <span
-                                      className="rc-styled-link"
-                                      onClick={this.showChangeProduct}
+                                      className={`rc-styled-link ${
+                                        this.state.productListLoading
+                                          ? 'ui-btn-loading'
+                                          : ''
+                                      }`}
+                                      onClick={() => this.showChangeProduct(el)}
                                     >
                                       change product
                                     </span>
@@ -2763,7 +2817,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.specText}
                                   </p>
-                                  {this.DailyRation()}
+                                  {isClub && this.DailyRation()}
                                 </div>
                               </div>
                               <div style={{ marginTop: '.9375rem' }}>
@@ -3079,10 +3133,16 @@ class SubscriptionDetail extends React.Component {
                                             alt={el.goodsName}
                                           />
                                         </LazyLoad>
-                                        {isClub && (
+                                        {isClub && !!subDetail.petsId && (
                                           <span
-                                            className="rc-styled-link"
-                                            onClick={this.showChangeProduct}
+                                            className={`rc-styled-link ${
+                                              this.state.productListLoading
+                                                ? 'ui-btn-loading'
+                                                : ''
+                                            }`}
+                                            onClick={() =>
+                                              this.showChangeProduct(el)
+                                            }
                                           >
                                             change product
                                           </span>
@@ -3295,7 +3355,7 @@ class SubscriptionDetail extends React.Component {
                                             </span>
                                           </div>
                                         </div>
-                                        {this.DailyRation()}
+                                        {isClub && this.DailyRation()}
                                       </div>
                                     </div>
                                   </div>
