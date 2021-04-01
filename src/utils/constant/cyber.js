@@ -39,4 +39,32 @@ const cyberFormTitle = {
   secureCode: 'cyber.form.secureCode2'
 };
 
-export { CardTypeDesc, cardTypeImg, CardTypeArr, CardTypeName, cyberFormTitle };
+const showCardType = (type) => {
+  let cardTypeDesc = '';
+  switch (type) {
+    case '001':
+      cardTypeDesc = 'Visa';
+      break;
+    case '002':
+      cardTypeDesc = 'Mastercard';
+      break;
+    case '003':
+      cardTypeDesc = 'Amex';
+      break;
+    case '004':
+      cardTypeDesc = 'Discover';
+      break;
+    default:
+      cardTypeDesc = type;
+  }
+  return cardTypeDesc;
+};
+
+export {
+  CardTypeDesc,
+  cardTypeImg,
+  CardTypeArr,
+  CardTypeName,
+  cyberFormTitle,
+  showCardType
+};
