@@ -10,7 +10,8 @@ import {
   getPaymentMethod,
   deleteCard,
   addOrUpdatePaymentMethod,
-  getWays
+  getWays,
+  setDefaltCard
 } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -660,6 +661,15 @@ class PaymentComp extends React.Component {
       </div>
     );
   };
+  async toggleSetDefault(item, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    if (!item.isDefault) {
+      await setDefaltCard(item.id);
+      this.getPaymentMethodList({ showLoading: false });
+    }
+  }
   render() {
     const { needEmail, needPhone } = this.props;
     const {
@@ -736,9 +746,8 @@ class PaymentComp extends React.Component {
               <div className={classNames('row', 'ml-0', 'mr-0')}>
                 {creditCardList.map((el, idx) => (
                   <div
-                    className="col-12 col-md-6 p-2"
+                    className="col-12 col-md-6 p-2 ui-cursor-pointer"
                     key={el.id}
-                    style={{ cursor: 'pointer' }}
                   >
                     <CardItem
                       data={el}
@@ -762,7 +771,7 @@ class PaymentComp extends React.Component {
                           {el.isDefault === 1 ? (
                             <div
                               className="red"
-                              // onClick={this.toggleSetDefault.bind(this, el)}
+                              onClick={this.toggleSetDefault.bind(this, el)}
                             >
                               <span className="iconfont mr-1">&#xe68c;</span>
                               <span className="rc-styled-link red border-danger">
@@ -772,7 +781,7 @@ class PaymentComp extends React.Component {
                           ) : (
                             <div
                               className="ui-cursor-pointer"
-                              // onClick={this.toggleSetDefault.bind(this, el)}
+                              onClick={this.toggleSetDefault.bind(this, el)}
                             >
                               <span className="iconfont mr-1">&#xe68c;</span>
                               <span className="rc-styled-link">

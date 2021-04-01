@@ -381,9 +381,8 @@ class AddressList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {creditCardList.map((el) => (
                       <div
-                        className="col-12 col-md-6 p-2"
+                        className="col-12 col-md-6 p-2 ui-cursor-pointer"
                         key={el.id}
-                        style={{ cursor: 'pointer' }}
                       >
                         <CardItem
                           data={el}
