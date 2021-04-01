@@ -396,6 +396,11 @@ class PaymentComp extends React.Component {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
   }
+  //是否有卡被选中
+  isCreditCardListSelected = () => {
+    const { creditCardList } = this.state;
+    return creditCardList.some((el) => el.selected);
+  };
   async handleSave(e) {
     e.preventDefault();
     const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
@@ -844,6 +849,7 @@ class PaymentComp extends React.Component {
             &nbsp;
             <button
               className="rc-btn rc-btn--sm rc-btn--one"
+              disabled={!this.isCreditCardListSelected()}
               onClick={() => {
                 const selectedItem = creditCardList.filter(
                   (el) => el.selected

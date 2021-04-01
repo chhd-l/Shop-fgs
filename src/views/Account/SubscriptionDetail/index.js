@@ -2521,7 +2521,6 @@ class SubscriptionDetail extends React.Component {
                       paymentId={currentCardInfo.id}
                       type={type}
                       save={(el) => {
-                        console.log(el);
                         let param = {
                           subscribeId: subDetail.subscribeId,
                           paymentId: el.id,
@@ -2534,6 +2533,7 @@ class SubscriptionDetail extends React.Component {
                           })
                         };
                         console.log(param);
+                        debugger;
                         this.setState({ loading: true });
                         updateDetail(param)
                           .then((res) => {
