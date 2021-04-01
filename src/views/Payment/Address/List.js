@@ -29,7 +29,8 @@ class AddressList extends React.Component {
     type: 'delivery',
     showOperateBtn: true,
     titleVisible: true,
-    payPanelTitle: '',
+    isValidationModal: true, // 是否显示验证弹框
+    updateValidationStaus: () => {},
     updateFormValidStatus: () => {},
     updateData: () => {}
   };
@@ -447,14 +448,21 @@ class AddressList extends React.Component {
       return false;
     }
     // 地址验证
-    this.setState({
-      saveLoading: true
-    });
-    setTimeout(() => {
-      this.setState({
-        validationModalVisible: true
-      });
-    }, 800);
+    this.setState(
+      {
+        saveLoading: true
+      },
+      () => {
+        if (this.props.isValidationModal) {
+          setTimeout(() => {
+            this.setState({
+              validationModalVisible: true
+            });
+            this.props.updateValidationStaus(false);
+          }, 800);
+        }
+      }
+    );
   };
   // 选择地址
   chooseValidationAddress = (e) => {
@@ -483,6 +491,7 @@ class AddressList extends React.Component {
       validationModalVisible: false,
       saveLoading: false
     });
+    this.props.updateValidationStaus(true);
     // 不校验地址，进入下一步
     await this.handleSavePromise();
     // this.clickConfirmAddressPanel();
@@ -497,8 +506,8 @@ class AddressList extends React.Component {
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
-      deliveryAddress.address2 = validationAddress.address2;
       deliveryAddress.city = validationAddress.city;
+      deliveryAddress.postCode = validationAddress.postalCode;
 
       deliveryAddress.province = validationAddress.provinceCode;
       deliveryAddress.provinceId =

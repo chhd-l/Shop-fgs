@@ -23,6 +23,9 @@ import Dog from '@/assets/images/dog.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
+import { getPaymentMethod, deleteCard, getWays } from '@/api/payment';
+
+import { computedSupportPaymentMethods } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -2568,7 +2571,6 @@ class SubscriptionDetail extends React.Component {
                       paymentId={currentCardInfo.id}
                       type={type}
                       save={(el) => {
-                        console.log(el);
                         let param = {
                           subscribeId: subDetail.subscribeId,
                           paymentId: el.id,
@@ -2580,7 +2582,7 @@ class SubscriptionDetail extends React.Component {
                             };
                           })
                         };
-                        console.log(param);
+
                         this.setState({ loading: true });
                         updateDetail(param)
                           .then((res) => {
@@ -3587,7 +3589,14 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                         <div
-                          className="col-12 col-md-4 mb-2"
+                          className={[
+                            'col-12',
+                            'col-md-4',
+                            'mb-2',
+                            process.env.REACT_APP_LANG == 'en'
+                              ? 'rc-hidden'
+                              : ''
+                          ].join(' ')}
                           style={{ padding: '5px' }}
                         >
                           <div
@@ -4333,27 +4342,24 @@ class SubscriptionDetail extends React.Component {
                                                   </div>
                                                 </div>
                                               ) : null}
-                                              {el.tradePrice
-                                                .promotionDiscountPrice
-                                                ? el.tradePrice.promotionVOList?.map(
-                                                    (el) => (
-                                                      <div className="row">
-                                                        <div className="col-1 col-md-3" />
-                                                        <label className="green col-5 text-left">
-                                                          {el.marketingName}:
-                                                        </label>
-                                                        <div className="col-5 col-md-3 text-right green">
-                                                          <strong>
-                                                            -
-                                                            {formatMoney(
-                                                              el.discountPrice
-                                                            )}
-                                                          </strong>
-                                                        </div>
-                                                      </div>
-                                                    )
-                                                  )
-                                                : null}
+                                              {el.tradePrice.promotionVOList?.map(
+                                                (el) => (
+                                                  <div className="row">
+                                                    <div className="col-1 col-md-3" />
+                                                    <label className="green col-5 text-left">
+                                                      {el.marketingName}:
+                                                    </label>
+                                                    <div className="col-5 col-md-3 text-right green">
+                                                      <strong>
+                                                        -
+                                                        {formatMoney(
+                                                          el.discountPrice
+                                                        )}
+                                                      </strong>
+                                                    </div>
+                                                  </div>
+                                                )
+                                              )}
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el, i) => (
                                                   <div className="row" key={i}>

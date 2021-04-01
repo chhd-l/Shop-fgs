@@ -24,7 +24,7 @@ import 'react-calendar/dist/Calendar.css';
 import FaceBook_Icon from '@/assets/images/facebookIcon.png';
 import Insgram_Icon from '@/assets/images/insgramIcon.png';
 import qrcode_border from '@/assets/images/qrcode_border.jpg';
-import { getTimeOptions, apptSave } from '@/api/appointment';
+import { getTimeOptions, apptSave, getConsentList } from '@/api/appointment';
 import { inject, observer } from 'mobx-react';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -129,11 +129,14 @@ export default class Felin extends React.Component {
       timeOption: [],
       qrCode1: '',
       languageHeight: 0,
-      errMsg: ''
+      errMsg: '',
+      consentList: {
+        requiredList: [],
+        optionalList: []
+      }
     };
   }
   componentDidMount() {
-    console.log(this.props, 'this.props');
     if (this.props.location.search === '?type=contact') {
       this.setState({ isContactUs: true, currentTabIndex: 2 });
       window.scroll({ top: 0 });
@@ -149,6 +152,13 @@ export default class Felin extends React.Component {
         },
         () => {
           this.buildTimeOption();
+          getConsentList({ consentGroup: 'appointment' })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       );
     } else {
@@ -158,6 +168,13 @@ export default class Felin extends React.Component {
         },
         () => {
           this.buildTimeOption();
+          getConsentList({ consentGroup: 'appointment' })
+            .then((res) => {
+              this.setState({ consentList: res.context });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       );
     }
@@ -172,7 +189,6 @@ export default class Felin extends React.Component {
             '.rc-header__nav, .search-full-input-container'
           )
         ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
-      console.log(height, 'height');
       if (document.querySelector('.rc-header--scrolled')) {
         this.setState({
           topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
@@ -437,6 +453,21 @@ export default class Felin extends React.Component {
   ConfirmInfo() {
     let userInfo = localItemRoyal.get('rc-userinfo');
     try {
+      let { consentList } = this.state;
+      let optionalList = [];
+      let requiredList = [];
+      if (this.state.consentChecked1) {
+        requiredList.push({
+          consentKey: consentList.requiredList[0].consentId,
+          selectedFlag: true
+        });
+      }
+      if (this.state.consentChecked2) {
+        optionalList.push({
+          consentKey: consentList.optionalList[0].consentId,
+          selectedFlag: true
+        });
+      }
       apptSave({
         customerDetailVO: null,
         id: null,
@@ -456,7 +487,10 @@ export default class Felin extends React.Component {
         delTime: null,
         consumerName: this.state.userInfo.username,
         consumerEmail: this.state.userInfo.email,
-        consumerPhone: this.state.userInfo.phoneNumber
+        consumerPhone: this.state.userInfo.phoneNumber,
+        optionalList,
+        requiredList,
+        oktaToken: localItemRoyal.get('oktaToken')
       })
         .then((res) => {
           this.setState({ qrCode1: res.context.settingVO.qrCode1 }, () => {
@@ -566,8 +600,10 @@ export default class Felin extends React.Component {
       nextBtnShow,
       isContactUs,
       currentTabIndex,
-      errMsg
+      errMsg,
+      consentList
     } = this.state;
+    console.log(consentList, 'consentList');
     const event = {
       page: {
         type: 'Felin',
@@ -1294,74 +1330,81 @@ export default class Felin extends React.Component {
                               )}
                             </div>
                           </div>
-                          <div className="rc-input rc-input--stacked">
-                            <input
-                              className="rc-input__checkbox"
-                              id="id-checkbox-consent-1"
-                              value="Cat"
-                              type="checkbox"
-                              name="checkbox-2"
-                              checked={this.state.consentChecked1}
-                              onClick={() => {
-                                this.setState(
-                                  {
-                                    consentChecked1: !this.state.consentChecked1
-                                  },
-                                  () => {
-                                    this.updateButtonState();
-                                  }
-                                );
-                              }}
-                            />
-                            <label
-                              className="rc-input__label--inline consent"
-                              for="id-checkbox-consent-1"
-                            >
-                              Les données personnelles, que vous renseignez sont
-                              traitées aux fins de confirmer et assurer le suivi
-                              du rendez-vous Elles seront conservées en accord
-                              avec les règles de gestion que vous pourrez
-                              retrouver en ligne sur
-                              <br />
-                              <a
-                                href="https://www.mars.com/privacy-policy-france"
-                                target="_blank"
+                          {consentList.requiredList.length > 0 ? (
+                            <div className="rc-input rc-input--stacked">
+                              <input
+                                className="rc-input__checkbox"
+                                id="id-checkbox-consent-1"
+                                value="Cat"
+                                type="checkbox"
+                                name="checkbox-2"
+                                checked={this.state.consentChecked1}
+                                onClick={() => {
+                                  this.setState(
+                                    {
+                                      consentChecked1: !this.state
+                                        .consentChecked1
+                                    },
+                                    () => {
+                                      this.updateButtonState();
+                                    }
+                                  );
+                                }}
+                              />
+                              <label
+                                className="rc-input__label--inline consent"
+                                for="id-checkbox-consent-1"
                               >
-                                https://www.mars.com/privacy-policy-france
-                                <span className="warning_blank">
-                                  Opens a new window
-                                </span>
-                              </a>
-                            </label>
-                          </div>
-                          <div className="rc-input rc-input--stacked">
-                            <input
-                              className="rc-input__checkbox"
-                              id="id-checkbox-consent-2"
-                              value="Cat"
-                              type="checkbox"
-                              name="checkbox-2"
-                              checked={this.state.consentChecked2}
-                              onClick={() => {
-                                this.setState(
-                                  {
-                                    consentChecked2: !this.state.consentChecked2
-                                  },
-                                  () => {
-                                    this.updateButtonState();
-                                  }
-                                );
-                              }}
-                            />
-                            <label
-                              className="rc-input__label--inline consent"
-                              for="id-checkbox-consent-2"
-                            >
-                              J'accepte de recevoir des communications marketing
-                              de la part de Royal Canin dans le cadre de
-                              l'Atelier Félin
-                            </label>
-                          </div>
+                                Les données personnelles, que vous renseignez
+                                sont traitées aux fins de confirmer et assurer
+                                le suivi du rendez-vous Elles seront conservées
+                                en accord avec les règles de gestion que vous
+                                pourrez retrouver en ligne sur
+                                <br />
+                                <a
+                                  href="https://www.mars.com/privacy-policy-france"
+                                  target="_blank"
+                                >
+                                  https://www.mars.com/privacy-policy-france
+                                  <span className="warning_blank">
+                                    Opens a new window
+                                  </span>
+                                </a>
+                              </label>
+                            </div>
+                          ) : null}
+                          {consentList.optionalList.length > 0 ? (
+                            <div className="rc-input rc-input--stacked">
+                              <input
+                                className="rc-input__checkbox"
+                                id="id-checkbox-consent-2"
+                                value="Cat"
+                                type="checkbox"
+                                name="checkbox-2"
+                                checked={this.state.consentChecked2}
+                                onClick={() => {
+                                  this.setState(
+                                    {
+                                      consentChecked2: !this.state
+                                        .consentChecked2
+                                    },
+                                    () => {
+                                      this.updateButtonState();
+                                    }
+                                  );
+                                }}
+                              />
+                              <label
+                                className="rc-input__label--inline consent"
+                                for="id-checkbox-consent-2"
+                              >
+                                J'accepte de recevoir des communications
+                                marketing de la part de Royal Canin dans le
+                                cadre de l'Atelier Félin
+                              </label>
+                            </div>
+                          ) : null}
+
                           <button
                             className="rc-btn rc-btn--two"
                             style={{ width: '100%' }}

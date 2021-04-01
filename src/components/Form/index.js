@@ -87,7 +87,7 @@ class Form extends React.Component {
     initData.stateNo = initData.provinceNo;
     initData.state = initData.province;
 
-    console.log('91 -------------★ EditForm initData: ', initData);
+    // console.log('91 -------------★ EditForm initData: ', initData);
     //console.log('92-------------★ EditForm caninForm: ', caninForm);
 
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
@@ -216,13 +216,14 @@ class Form extends React.Component {
 
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
-      item.filedType = item.filedType == 0 ? 'text' : 'number';
+      // item.filedType = item.filedType == 0 ? 'text' : 'number';
+      item.filedType = 'text';
       let regExp = '';
       let errMsg = '';
       switch (item.fieldKey) {
         case 'postCode':
           process.env.REACT_APP_LANG == 'en'
-            ? (regExp = /^\d{5}(-\d{4})?$/)
+            ? (regExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/)
             : (regExp = /^\d{5}$/);
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
           break;
@@ -426,31 +427,40 @@ class Form extends React.Component {
     }
     return tmp;
   }
+  // 判断是否是数字
+  isNumber = (value) => {
+    value = value.replace(/-/g, '');
+    return isNaN(value) ? false : true;
+  };
   // 文本框输入改变
   inputChange = (e, data) => {
     const { caninForm } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    if (name === 'postCode' || name === 'phoneNumber') {
+    if (name == 'postCode' || name == 'phoneNumber') {
       value = value.replace(/\s+/g, '');
-      value = value.replace(/-/g, '');
+      if (!this.isNumber(value)) {
+        value = '';
+        return;
+      }
     }
-    if (name === 'postCode') {
-      // value = value.replace(/^\d{5}(-\d{4})?$/, '$1-');
-      // console.log(value);
+    if (name == 'postCode') {
+      value = value
+        .replace(/\s/g, '')
+        .replace(/-$/, '')
+        .replace(/(\d{5})(?:\d)/g, '$1-');
     }
-    if (name === 'phoneNumber') {
-      // 格式化电话号码
-      if (process.env.REACT_APP_LANG === 'fr') {
+    if (name == 'phoneNumber') {
+      value = value.replace(/-/g, ''); // 格式化电话号码
+      if (process.env.REACT_APP_LANG == 'fr') {
         value = value.replace(/^[0]/, '+(33)');
       }
-      if (process.env.REACT_APP_LANG === 'en') {
-        if (value.length > 3 && value.length < 8) {
-          value = value.replace(/(\d{3})(?!\-)/g, '$1-');
-        } else {
-          value = value.replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
-        }
+      if (process.env.REACT_APP_LANG == 'en') {
+        value = value
+          .replace(/\s/g, '')
+          .replace(/-$/, '')
+          .replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
       }
       if (process.env.REACT_APP_LANG === 'ru') {
         // value = value.replace(/^[0]/, '+(7)');
@@ -503,7 +513,7 @@ class Form extends React.Component {
     caninForm.city = data.city;
     caninForm.postCode = data.postCode;
     caninForm.DaData = data;
-    console.log('--- ****** DuData handleAddressInputChange data: ', data);
+    // console.log('--- ****** DuData handleAddressInputChange data: ', data);
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -518,7 +528,7 @@ class Form extends React.Component {
           <input
             className={`rc-input__control shipping${item.fieldKey}`}
             id={`shipping${item.fieldKey}`}
-            type={item.fieldKey}
+            type={item.filedType}
             value={caninForm[item.fieldKey]}
             onChange={(e) => this.inputChange(e, item)}
             onBlur={this.inputBlur}

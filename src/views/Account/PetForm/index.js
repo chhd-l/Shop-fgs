@@ -305,7 +305,7 @@ class PetForm extends React.Component {
       }
     }
     if (
-      !selectedSpecialNeeds.length ||
+      !this.state.sensitivity ||
       !this.state.activity ||
       !this.state.lifestyle
     ) {
@@ -357,7 +357,8 @@ class PetForm extends React.Component {
       isPurebred: this.state.isPurebred ? '1' : '0',
       activity: this.state.activity,
       lifestyle: this.state.lifestyle,
-      weight: JSON.stringify(this.state.weightObj)
+      weight: JSON.stringify(this.state.weightObj),
+      sensitivity: this.state.sensitivity
     };
 
     if (!this.state.isPurebred) {
@@ -365,7 +366,7 @@ class PetForm extends React.Component {
     }
     let param = {
       customerPets: pets,
-      customerPetsPropRelations: customerPetsPropRelations,
+      // customerPetsPropRelations: customerPetsPropRelations,
       storeId: process.env.REACT_APP_STOREID,
       userId: consumerAccount
     };
@@ -578,7 +579,7 @@ class PetForm extends React.Component {
       lifestyle: '',
       weightObj: {
         measure: '',
-        measureUnit: '',
+        measureUnit: 'kg',
         type: 2
       }
     });
@@ -586,11 +587,13 @@ class PetForm extends React.Component {
   edit = (currentPet) => {
     let weightObj = {
       measure: '',
-      measureUnit: '',
+      measureUnit: 'kg',
       type: 2
     };
     try {
-      weightObj = JSON.parse(JSON.parse(currentPet.weight));
+      if (currentPet.weight) {
+        weightObj = JSON.parse(JSON.parse(currentPet.weight));
+      }
     } catch (e) {}
     let param = {
       isEdit: true,
@@ -613,7 +616,8 @@ class PetForm extends React.Component {
       birthdate: currentPet.birthOfPets,
       activity: currentPet.activity,
       lifestyle: currentPet.lifestyle,
-      weightObj
+      weightObj,
+      sensitivity: currentPet.sensitivity
     };
     if (currentPet.petsBreed === 'unknown Breed') {
       param.isMix = false;
@@ -788,7 +792,8 @@ class PetForm extends React.Component {
     });
   }
   specialNeedsOptionsChange(data) {
-    console.log(data);
+    this.setState({ sensitivity: data.value });
+    // console.log(data);
     if (data.value === 'none') {
       this.setState({
         selectedSpecialNeeds: ['none']
@@ -1210,11 +1215,9 @@ class PetForm extends React.Component {
                           this.specialNeedsOptionsChange(el)
                         }
                         selectedItemData={{
-                          value: selectedSpecialNeedsObj.value
-                          // value: ''
+                          value: this.state.sensitivity
                         }}
-                        disabled={this.state.specialNeedsDisable}
-                        key={selectedSpecialNeedsObj.value}
+                        key={this.state.sensitivity}
                       />
                       <div
                         className="invalid-feedback"
@@ -1418,7 +1421,6 @@ class PetForm extends React.Component {
                               console.log(valueArr);
                               valueArr[1] = valueArr[1].slice(0, 2);
                             }
-                            // let valueArr = e.target.value.split()
                             weightObj.measure = valueArr.join('.');
                             this.setState({
                               weightObj

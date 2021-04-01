@@ -376,26 +376,22 @@ class PayProductInfo extends React.Component {
                         </div>
                       </div>
                     ) : null}
-                    {details.tradePrice.promotionDiscountPrice
-                      ? details.tradePrice.promotionVOList.map((el) => (
-                          <div className="row leading-lines shipping-item">
-                            <div className="col-7 start-lines">
-                              <p className="order-receipt-label order-shipping-cost">
-                                <span className="green">
-                                  {el.marketingName}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="col-5 end-lines">
-                              <p className="text-right">
-                                <span className="shipping-total-cost green">
-                                  -{formatMoney(el.discountPrice)}
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        ))
-                      : null}
+                    {details.tradePrice.promotionVOList?.map((el) => (
+                      <div className="row leading-lines shipping-item">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span className="green">{el.marketingName}</span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost green">
+                              -{formatMoney(el.discountPrice)}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                     {/* 显示 delivereyPrice */}
                     <div className="row leading-lines shipping-item">
                       <div className="col-7 start-lines">

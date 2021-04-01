@@ -50,7 +50,7 @@ const en_US = {
   'account.myCommunicationPreferencesContent2':
     'Consents given for communication',
   'account.myCommunicationPreferencesDesc':
-    'Follow the Royal Canin information on the commuication',
+    'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My communication preferences',
   'account.myPayments': 'My payments',
   'account.nickname': "What is your pet's nickname?",
@@ -248,6 +248,7 @@ const en_US = {
     '*Your order amount has not yet reached the minimum amount for free shipping （{val}）',
   'cart.errorInfo4': 'You cannot place your order, Off shelves product: {val}',
   'cart.errorInfo5': 'You cannot place your order, deleted product: {val}',
+  'cart.errorInfo6': 'You cannot place your order, not seable: {val}',
   'cart.errorMaxCate': "The shopping cart can't exceed {val} items",
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
   'cart.firstOrderDiscountTip':
@@ -652,8 +653,8 @@ const en_US = {
   'mixed Breed': 'mixed Breed',
   MMYY: 'MM/YY',
   modalCancelAllContent:
-    'Are you sure you want to cancel all the following deliveries?',
-  modalCancelAllTitle: 'CANCEL ALL ORDERS?',
+    'Are you sure you want to unsubscribe? This means that you will not receive the upcoming delivery.',
+  modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
   modalChangeDateContent:
     'Are you sure you want to change the next shipment date?',
   modalChangeDateTitle: 'Change the shipping date',
@@ -728,7 +729,8 @@ const en_US = {
   'order.shippingStatus': 'Shipping Status',
   'order.toBeDeliveredTip':
     'Your order has been successfully paid and we are preparing to ship.',
-  'orderStatus.INITTip': 'Your order has not been created successfully. {val}',
+  'orderStatus.INITTip':
+    'Your order has not been paid, please pay as soon as possible. {val}',
   'order.total': 'Total',
   'order.viewLogisticDetail': 'View logistic detail',
   'order.viewOrder': 'View order',
@@ -819,6 +821,7 @@ const en_US = {
   'payment.totalProduct': '{val} item(s)',
   'payment.totalProduct2': '{val} products',
   'payment.yourOrder': 'Your order',
+  'payment.cardInfoErr': 'The card information is incorrect, please check.',
   paymentMethod: 'Payment method',
   'paymethods.btn': 'Add Payment',
   //account.paymethods
@@ -947,6 +950,8 @@ const en_US = {
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
   seeMoreText: 'see more',
+  'recommendation.noMoreRecommendation':
+    'The product is no longer available or not available for sale',
   'recommendation.benefit': 'The benefits',
   'recommendation.guidelinesTips':
     "Royal Canin's feeding guidelines can also be found on the product packaging.",
@@ -1109,7 +1114,7 @@ const en_US = {
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.BillingAddress': 'Billing address',
-  'subscription.cancelAll': 'Cancel All',
+  'subscription.cancelAll': 'Unsubscribe',
   'subscription.change': 'Change',
   'subscription.chooseSubscription': 'Choose subscription',
   'subscription.date': 'Subscription date',
@@ -1229,6 +1234,7 @@ const en_US = {
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
-  'Special Need': 'Sensitivites'
+  'Special Need': 'Sensitivites',
+  'orderStatus.COMPLETED': 'Completed'
 };
 export default en_US;

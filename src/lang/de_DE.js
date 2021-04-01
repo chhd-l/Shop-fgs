@@ -611,7 +611,8 @@ const de_DE = {
   'order.shippingStatus': 'Versandstatus',
   'order.toBeDeliveredTip':
     'Ihre Bestellung wurde erfolgreich bezahlt und wir bereiten den Versand vor.',
-  'orderStatus.INITTip': 'Ваш заказ не был успешно создан. {val}',
+  'orderStatus.INITTip':
+    'Ihre Bestellung wurde nicht bezahlt, bitte zahlen Sie so schnell wie möglich. {val}',
   'order.total': 'Gesamt',
   'order.viewLogisticDetail': 'Logistische Details anzeigen',
   'order.viewOrder': 'Bestellung anzeigen',
@@ -1197,7 +1198,12 @@ const de_DE = {
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen',
-  'payment.shippingDiscount': 'Lieferung von Waren'
+  'payment.shippingDiscount': 'Lieferung von Waren',
+  'orderStatus.COMPLETED': 'abgeschlossen',
+  'payment.cardInfoErr':
+    'Die Karteninformationen sind falsch, bitte überprüfen.',
+  'cart.errorInfo6':
+    'Sie können Ihre Bestellung nicht aufgeben, nicht Seable: {val}'
 };
 
 export default de_DE;

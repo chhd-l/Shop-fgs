@@ -475,7 +475,7 @@ class PayProductInfo extends React.Component {
           )}
         </span>
         {this.props.operateBtnVisible &&
-        !localItemRoyal.get('rc-iframe-from-storepotal') ? (
+        !this.props.checkoutStore?.isFromStorePortal ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
           </Link>
@@ -766,8 +766,8 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 显示 promotionCode */}
-                {!isShowValidCode && this.promotionDiscountPrice > 0
-                  ? this.promotionVOList.map((el, i) => (
+                {!isShowValidCode
+                  ? this.promotionVOList?.map((el, i) => (
                       <div
                         className="row leading-lines shipping-item green"
                         key={i}

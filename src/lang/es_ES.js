@@ -162,7 +162,7 @@ const es_ES = {
   'cart.miniCartTitle':
     '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
   'cart.totalProduct': '{val} artículo(s) en la canasta',
-  'cart.totalProduct_nounit': '{num} producto(s) en total en la canasta',
+  'cart.totalProduct_nounit': '{val} producto(s) en total en la canasta',
   'cart.yourShoppingCart': 'Tu carrito de la compra',
   cats: 'GATOS',
   cats2: 'Gatos',
@@ -1000,6 +1000,10 @@ const es_ES = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.pause': 'pausa',
-  'payment.shippingDiscount': 'Reabastecimiento'
+  'payment.shippingDiscount': 'Reabastecimiento',
+  'orderStatus.COMPLETED': 'Terminado',
+  'payment.cardInfoErr':
+    'La información de la tarjeta es incorrecta, verifique.',
+  'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}'
 };
 export default es_ES;

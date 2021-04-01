@@ -358,6 +358,11 @@ class Register extends Component {
     const registerDisabled = !(allValid && requireCheckd);
     const isHub = process.env.REACT_APP_HUB == '1';
     const isTr = process.env.REACT_APP_LANG === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
+    let homePage = process.env.REACT_APP_HOMEPAGE;
+    const contactUrl =
+      homePage.substring(homePage.length - 1, homePage.length) === '/'
+        ? 'help/contact'
+        : '/help/contact';
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -769,8 +774,9 @@ class Register extends Component {
                         <div className="rc-meta rc-margin-top--sm rc-text--left">
                           <p>
                             <FormattedMessage id="registerFooter1" />
-                            &nbsp;
-                            <a href="/help">here</a>
+                            {process.env.REACT_APP_LANG === 'en' ? (
+                              <a href={contactUrl}>&nbsp;here</a>
+                            ) : null}
                           </p>
                         </div>
                       </form>

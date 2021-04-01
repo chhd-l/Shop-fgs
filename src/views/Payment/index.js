@@ -78,38 +78,12 @@ import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './Cyber/constant/utils';
 import { de } from 'date-fns/locale';
 import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
-import visaImg from '@/assets/images/credit-cards/visa.svg';
-import amexImg from '@/assets/images/credit-cards/amex.svg';
-import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
-import discoverImg from '@/assets/images/credit-cards/discover.svg';
-
-const cardTypeImg = {
-  visa: visaImg,
-  mastercard: mastercardImg,
-  amex: amexImg,
-  discover: discoverImg
-};
-
-const CardTypeArr = {
-  cyberVisa: '001',
-  cyberMastercard: '002',
-  cyberAmex: '003',
-  cyberDiscover: '004'
-};
-const CardTypeName = {
-  cyberVisa: 'Visa',
-  cyberMastercard: 'Mastercard',
-  cyberAmex: 'Amex',
-  cyberDiscover: 'Discover'
-};
-
-const cyberFormTitle = {
-  cardHolderName: 'cyber.form.cardHolderName2',
-  cardNumber: 'cyber.form.cardNumber2',
-  EXPMonth: 'cyber.form.EXPMonth2',
-  EXPYear: 'cyber.form.EXPYear2',
-  secureCode: 'cyber.form.secureCode2'
-};
+import {
+  cardTypeImg,
+  CardTypeArr,
+  CardTypeName,
+  cyberFormTitle
+} from '@/utils/constant/cyber';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -298,11 +272,11 @@ class Payment extends React.Component {
       isShowCardList: false,
       isShowCyberBindCardBtn: false,
       cardListLength: 0,
-      payPanelTitle: '',
-      isDeliveryOrBilling: 'delivery', // 当前操作位置（deliveryAddress or billingAdding）
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress', // 校验选择
+      isValidationModal: true, // 是否显示验证弹框
+      isGetBillingAddressId: 'true', //
       validationAddress: [] // 校验地址
     };
     this.timer = null;
@@ -378,6 +352,9 @@ class Payment extends React.Component {
     const name = target.name;
     let value = '';
     value = target.value;
+    if (name === 'cardNumber') {
+      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+    }
     cyberPaymentForm[name] = value;
     this.setState({ cyberPaymentForm });
     this.inputBlur(e);
@@ -465,7 +442,9 @@ class Payment extends React.Component {
           needPrescriber:
             (this.isLogin ? this.loginCartData : this.cartData).filter(
               (el) => el.prescriberFlag
-            ).length > 0 && localItemRoyal.get(`rc-clinic-id-select`) !== ''
+            ).length > 0 &&
+            clinicStore.selectClinicId &&
+            clinicStore.selectClinicId !== ''
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
           //       (el) => el.prescriberFlag
@@ -1082,6 +1061,7 @@ class Payment extends React.Component {
         );
       };
       let successUrl = successUrlFun(type);
+
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl,
@@ -1859,6 +1839,14 @@ class Payment extends React.Component {
             )
           );
         }
+        if (checkoutStore.notSeableProNames.length) {
+          throw new Error(
+            this.props.intl.formatMessage(
+              { id: 'cart.errorInfo6' },
+              { val: checkoutStore.notSeableProNames.join('/') }
+            )
+          );
+        }
       }
     } catch (err) {
       console.warn(err);
@@ -1976,20 +1964,20 @@ class Payment extends React.Component {
             <AddressList
               id="1"
               type="delivery"
-              isDeliveryOrBilling={this.getIsDeliveryOrBilling}
+              isDeliveryOrBilling="delivery"
               updateData={this.updateDeliveryAddrData}
+              isValidationModal={this.state.isValidationModal}
+              updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
-              payPanelTitle={this.state.payPanelTitle}
             />
           ) : (
             <VisitorAddress
               key={1}
               type="delivery"
-              isDeliveryOrBilling={this.getIsDeliveryOrBilling}
+              isDeliveryOrBilling="delivery"
               initData={deliveryAddress}
               guestEmail={guestEmail}
               updateData={this.updateDeliveryAddrData}
-              payPanelTitle={this.state.payPanelTitle}
             />
           )}
         </div>
@@ -2074,15 +2062,16 @@ class Payment extends React.Component {
                 key={2}
                 titleVisible={false}
                 type="billing"
-                isDeliveryOrBilling={this.getIsDeliveryOrBilling}
+                isDeliveryOrBilling="billing"
                 showOperateBtn={false}
                 visible={!billingChecked}
                 updateData={this.updateBillingAddrData}
+                isValidationModal={this.state.isValidationModal}
+                updateValidationStaus={this.updateValidationStaus}
                 updateFormValidStatus={this.updateValidStatus.bind(this, {
                   key: 'billingAddr'
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
-                payPanelTitle={this.state.payPanelTitle}
               />
             ) : (
               <VisitorAddress
@@ -2091,7 +2080,7 @@ class Payment extends React.Component {
                 titleVisible={false}
                 showConfirmBtn={false}
                 type="billing"
-                isDeliveryOrBilling={this.getIsDeliveryOrBilling}
+                isDeliveryOrBilling="billing"
                 initData={billingAddress}
                 guestEmail={guestEmail}
                 updateData={this.updateBillingAddrData}
@@ -2099,7 +2088,6 @@ class Payment extends React.Component {
                 updateFormValidStatus={this.updateValidStatus.bind(this, {
                   key: 'billingAddr'
                 })}
-                payPanelTitle={this.state.payPanelTitle}
               />
             )}
           </>
@@ -2136,7 +2124,11 @@ class Payment extends React.Component {
       </div>
     );
   };
-
+  updateValidationStaus = (flag) => {
+    this.setState({
+      isValidationModal: flag
+    });
+  };
   // 点击confirm (未绑卡)
   clickConfirmPaymentPanel = async (e) => {
     e.preventDefault();
@@ -2145,8 +2137,7 @@ class Payment extends React.Component {
     console.log(' 2126 ----------- clickConfirmPaymentPanel 未绑卡');
     // 勾选，billingAddress = deliveryAddress
     this.setState({
-      saveBillingLoading: true,
-      payPanelTitle: 'clickConfirmPaymentPanel'
+      saveBillingLoading: true
     });
     setTimeout(() => {
       this.confirmPaymentPanel();
@@ -2234,6 +2225,7 @@ class Payment extends React.Component {
             _this.payUCreditCardRef.current.paymentCompRef &&
             _this.payUCreditCardRef.current.paymentCompRef.current
           ) {
+            // 保存/修改 地址
             await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
           } else {
             // 游客
@@ -2277,12 +2269,6 @@ class Payment extends React.Component {
     };
 
     try {
-      // debugger;
-      // if ('没有校验过地址') {
-      //   // 直接显示校验弹框
-      //   throw new Error();
-      // }
-
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false
 
@@ -2338,37 +2324,51 @@ class Payment extends React.Component {
   // 点击confirm (已绑卡)
   clickReInputCvvConfirm = () => {
     console.log(' 2318 ----------- clickReInputCvvConfirm 已绑卡');
-    this.setState({
-      payPanelTitle: 'clickReInputCvvConfirm'
-    });
     // 收起面板，显示preview
     this.setPaymentToCompleted();
   };
   // 收起面板，显示preview
-  setPaymentToCompleted = () => {
+  setPaymentToCompleted = (data) => {
+    const { tid, isValidationModal } = this.state;
     if (!this.state.billingChecked) {
-      // 未勾选，显示 VisitorAddress 中的地址验证
-      this.setState({
-        validationLoading: true,
-        validationModalVisible: true
-      });
+      if (
+        (!tid || tid == null) &&
+        data &&
+        data == 'billing' &&
+        isValidationModal
+      ) {
+        // 未勾选，显示 VisitorAddress 中的地址验证
+        this.setState({
+          validationLoading: true,
+          validationModalVisible: true
+        });
+      }
     } else {
       this.cvvConfirmNextPanel();
     }
   };
   // 已绑卡 下一步
-  cvvConfirmNextPanel = () => {
+  cvvConfirmNextPanel = async () => {
+    const { isLogin } = this;
+    const { billingChecked } = this.state;
     const { paymentStore } = this.props;
     this.setState({
       validationLoading: false,
       validationModalVisible: false
     });
+    if (isLogin) {
+      if (
+        !billingChecked &&
+        this.loginBillingAddrRef &&
+        this.loginBillingAddrRef.current
+      ) {
+        // 执行 List 页面的保存 billingAddress
+        await this.loginBillingAddrRef.current.showNextPanel();
+      }
+    }
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
-    setTimeout(() => {
-      scrollPaymentPanelIntoView();
-    });
   };
 
   /***** 地址校验相关 *******/
@@ -2403,20 +2403,25 @@ class Payment extends React.Component {
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
-      billingAddress.address2 = validationAddress.address2;
       billingAddress.city = validationAddress.city;
+      billingAddress.postCode = validationAddress.postalCode;
 
       billingAddress.province = validationAddress.provinceCode;
       billingAddress.provinceId =
         validationAddress.provinceId && validationAddress.provinceId != null
           ? validationAddress.provinceId
           : billingAddress.provinceId;
+
+      // 地址校验返回参数
+      billingAddress.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         billingAddress: JSON.parse(JSON.stringify(oldForm))
       });
     }
-
+    console.log('-------------------- 确认选择地址');
+    // 一系列操作
+    // this.confirmPaymentPanel();
     // billing  进入下一步
     this.cvvConfirmNextPanel();
   }
@@ -2503,7 +2508,7 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      console.log('2248 payConfirmBtn: ', disabled);
+      console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2772,6 +2777,7 @@ class Payment extends React.Component {
 
                   {/* 2.cyber form */}
                   <CyberPaymentForm
+                    cardTypeVal={this.state.cardTypeVal}
                     cyberFormTitle={cyberFormTitle}
                     ref={this.cyberCardRef}
                     form={this.state.cyberPaymentForm}
@@ -3481,7 +3487,7 @@ class Payment extends React.Component {
             {validationModalVisible && (
               <ValidationAddressModal
                 address={billingAddress}
-                updateValidationData={(res) => this.getValidationData(res)}
+                updateValidationData={this.getValidationData}
                 selectValidationOption={selectValidationOption}
                 handleChooseValidationAddress={(e) =>
                   this.chooseValidationAddress(e)

@@ -95,6 +95,8 @@ const ru_RU = {
     'Добро пожаловать, {val}, Здесь вы можете управлять своим профилем, редактировать информацию о питомцах, проверять статус по заказам и подписке.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
+  'recommendation.noMoreRecommendation':
+    'Товар больше не доступен или недоступен для продажи',
   'recommendation.buyNow': 'Купить',
   'recommendation.firstBtnText': 'Sign up',
   'recommendation.firstContent':
@@ -1071,7 +1073,10 @@ const ru_RU = {
     'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
-  'bindPrescriber.modal.or': 'или'
+  'bindPrescriber.modal.or': 'или',
+  'orderStatus.COMPLETED': 'Завершено',
+  'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
+  'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}'
 };
 
 export default ru_RU;

@@ -223,10 +223,10 @@ class AccountHome extends React.Component {
               </p>
               <div className="payBtn">
                 <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
-                  <img src={GooglePayImg}></img>
+                  <img src={GooglePayImg} />
                 </a>
                 <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
-                  <img src={ApplePayImg}></img>
+                  <img src={ApplePayImg} />
                 </a>
               </div>
             </div>

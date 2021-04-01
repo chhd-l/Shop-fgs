@@ -227,10 +227,6 @@ class LoginCart extends React.Component {
     return !(clubFlag && autoShipFlag);
   }
   get promotionVOList() {
-    console.log(
-      this.props.checkoutStore.promotionVOList,
-      'this.props.checkoutStore'
-    );
     return this.props.checkoutStore.promotionVOList;
   }
   get computedList() {
@@ -253,12 +249,20 @@ class LoginCart extends React.Component {
     pitem.periodTypeId = data.id;
     this.changeFrequencyType(pitem);
   }
-  async updateCartCache(fn) {
-    this.setState({ checkoutLoading: true });
-    await this.checkoutStore.updateLoginCart();
-    fn && fn();
-    this.setData();
-    this.setState({ checkoutLoading: false });
+  async updateCartCache({ callback, isThrowErr = false } = {}) {
+    try {
+      this.setState({ checkoutLoading: true });
+      await this.checkoutStore.updateLoginCart({ isThrowErr });
+      callback && callback();
+      this.setData();
+    } catch (err) {
+      if (isThrowErr) {
+        console.log(err);
+        throw new Error(err.message);
+      }
+    } finally {
+      this.setState({ checkoutLoading: false });
+    }
   }
   GACheckout(productList) {
     let product = [],
@@ -336,61 +340,7 @@ class LoginCart extends React.Component {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       const { productList } = this.state;
       this.setState({ checkoutLoading: true });
-      await this.updateCartCache();
-
-      // 价格未达到底限，不能下单
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-          />
-        );
-        return false;
-      }
-
-      // 存在下架商品，不能下单
-      if (checkoutStore.offShelvesProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      // 库存不够，不能下单
-      if (checkoutStore.outOfstockProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{
-              val: checkoutStore.outOfstockProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      // 存在被删除商品，不能下单
-      if (checkoutStore.deletedProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo5"
-            values={{
-              val: checkoutStore.deletedProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
+      await this.updateCartCache({ isThrowErr: true });
 
       this.checkoutStore.setLoginCartData(productList);
       let autoAuditFlag = false;
@@ -420,11 +370,14 @@ class LoginCart extends React.Component {
 
       if (localItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: false });
+        this.props.checkoutStore.changeFromStorePortal(true);
       }
 
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
+      console.log(err);
+      window.scrollTo({ behavior: 'smooth', top: 0 });
       this.showErrMsg(err.message);
     } finally {
       this.setState({ checkoutLoading: false, circleLoading: false });
@@ -1088,7 +1041,7 @@ class LoginCart extends React.Component {
             <FormattedMessage id="total2" />
           </div>
           <div className="col-6 no-padding-left">
-            <p className="text-right sub-total">
+            <p className="text-right sub-total text-nowrap">
               {formatMoney(this.totalPrice)}
             </p>
           </div>
@@ -1115,7 +1068,7 @@ class LoginCart extends React.Component {
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost">
+              <p className="text-right shipping-cost text-nowrap">
                 <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
             </div>
@@ -1124,8 +1077,7 @@ class LoginCart extends React.Component {
 
         {/* 显示 promotionCode */}
         {!isShowValidCode &&
-          this.promotionDiscountPrice > 0 &&
-          this.promotionVOList.map((el) => (
+          this.promotionVOList?.map((el) => (
             <div className={`row leading-lines shipping-item green d-flex`}>
               <div className="col-6">
                 <p>
@@ -1137,7 +1089,7 @@ class LoginCart extends React.Component {
                 </p>
               </div>
               <div className="col-6">
-                <p className="text-right shipping-cost">
+                <p className="text-right shipping-cost text-nowrap">
                   {/* - {formatMoney(this.discountPrice)} */}
                   <strong>-{formatMoney(el.discountPrice)}</strong>
                 </p>
@@ -1168,7 +1120,7 @@ class LoginCart extends React.Component {
             </p>
           </div>
           <div className="col-4">
-            <p className="text-right shipping-cost">
+            <p className="text-right shipping-cost text-nowrap">
               {formatMoney(this.deliveryPrice)}
             </p>
           </div>
@@ -1183,7 +1135,7 @@ class LoginCart extends React.Component {
               </p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost">
+              <p className="text-right shipping-cost text-nowrap">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <strong>{subtractionSign}</strong>
                 ) : (
@@ -1204,7 +1156,7 @@ class LoginCart extends React.Component {
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium mb-0">
+              <p className="text-right grand-total-sum medium mb-0 text-nowrap">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <strong>{subtractionSign}</strong>
                 ) : (
@@ -1346,7 +1298,9 @@ class LoginCart extends React.Component {
       periodTypeId: pitem.periodTypeId,
       goodsInfoFlag: pitem.goodsInfoFlag
     });
-    await this.updateCartCache(this.clearPromotionCode.bind(this));
+    await this.updateCartCache({
+      callback: this.clearPromotionCode.bind(this)
+    });
     this.setState({ checkoutLoading: false });
   }
   // 切换规格/单次订阅购买时，清空promotion code
@@ -1498,7 +1452,7 @@ class LoginCart extends React.Component {
                 {productList.length > 0 && (
                   <>
                     <div className="rc-layout-container rc-one-column pt-1">
-                      <div className="rc-column">
+                      <div className="rc-column d-flex">
                         <FormattedMessage id="continueShopping">
                           {(txt) => (
                             <DistributeHubLinkOrATag
@@ -1507,7 +1461,7 @@ class LoginCart extends React.Component {
                               className="ui-cursor-pointer-pure"
                             >
                               <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
+                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
                                 {txt}
                               </span>
                             </DistributeHubLinkOrATag>

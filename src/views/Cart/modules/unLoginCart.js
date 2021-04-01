@@ -267,10 +267,10 @@ class UnLoginCart extends React.Component {
     });
   }
   showErrMsg(msg) {
+    clearTimeout(this.timer);
     this.setState({
       errorMsg: msg
     });
-    clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
         errorMsg: ''
@@ -310,57 +310,7 @@ class UnLoginCart extends React.Component {
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
-      await this.updateStock();
-      // 价格未达到底限，不能下单
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-          />
-        );
-        return false;
-      }
-      // 存在下架商品，不能下单
-      if (checkoutStore.offShelvesProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      // 库存不够，不能下单
-      if (checkoutStore.outOfstockProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{
-              val: checkoutStore.outOfstockProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      // 存在被删除商品，不能下单
-      if (checkoutStore.deletedProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo5"
-            values={{
-              val: checkoutStore.deletedProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
+      await this.updateStock({ isThrowErr: true });
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
@@ -409,6 +359,7 @@ class UnLoginCart extends React.Component {
       }
     } catch (e) {
       console.log(e);
+      window.scrollTo({ behavior: 'smooth', top: 0 });
       this.showErrMsg(e.message);
     } finally {
       this.setState({ checkoutLoading: false });
@@ -538,15 +489,22 @@ class UnLoginCart extends React.Component {
       }
     );
   }
-  async updateStock(fn) {
-    const { productList } = this.state;
-    this.setState({ checkoutLoading: true });
-    await this.props.checkoutStore.updateUnloginCart({ cartData: productList });
-    fn && fn();
-    this.setState({ checkoutLoading: false });
-    //增加数量 重新埋点 start
-    !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
-    //增加数量 重新埋点 end
+  async updateStock({ isThrowErr, callback } = {}) {
+    try {
+      const { productList } = this.state;
+      this.setState({ checkoutLoading: true });
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: productList,
+        isThrowErr
+      });
+      callback && callback();
+      this.setState({ checkoutLoading: false });
+      //增加数量 重新埋点 start
+      !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
+      //增加数量 重新埋点 end
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
   gotoDetails(pitem) {
     this.props.history.push(
@@ -1034,7 +992,7 @@ class UnLoginCart extends React.Component {
         productList
       },
       () => {
-        this.updateStock(this.clearPromotionCode.bind(this));
+        this.updateStock({ callback: this.clearPromotionCode.bind(this) });
       }
     );
   }
@@ -1061,8 +1019,8 @@ class UnLoginCart extends React.Component {
               beforeLoginCallback={async () =>
                 this.handleCheckout({ needLogin: true })
               }
-              btnClass={`${
-                this.btnStatus ? '' : 'rc-btn-solid-disabled'
+              btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
+                checkoutLoading ? 'ui-btn-loading' : ''
               } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width`}
               history={this.props.history}
             >
@@ -1090,7 +1048,14 @@ class UnLoginCart extends React.Component {
                 className="text-center"
                 onClick={() => this.handleCheckout()}
               >
-                <div className="rc-styled-link color-999" aria-pressed="true">
+                <div
+                  className={`rc-styled-link color-999 ${
+                    checkoutLoading
+                      ? 'ui-btn-loading ui-btn-loading-border-red'
+                      : ''
+                  }`}
+                  aria-pressed="true"
+                >
                   <FormattedMessage id="guestCheckout" />
                 </div>
               </div>
@@ -1269,8 +1234,7 @@ class UnLoginCart extends React.Component {
           {/* 显示 promotionCode */}
           <div>
             {!this.state.isShowValidCode &&
-              this.promotionDiscountPrice > 0 &&
-              this.promotionVOList.map((el) => (
+              this.promotionVOList?.map((el) => (
                 <div className={`row leading-lines shipping-item green d-flex`}>
                   <div className="col-6">
                     <p>
@@ -1428,7 +1392,7 @@ class UnLoginCart extends React.Component {
         productList: this.state.productList
       },
       () => {
-        this.updateStock(this.clearPromotionCode.bind(this));
+        this.updateStock({ callback: this.clearPromotionCode.bind(this) });
       }
     );
   }
@@ -1551,7 +1515,7 @@ class UnLoginCart extends React.Component {
             {productList.length ? (
               <>
                 <div className="rc-layout-container rc-one-column pt-1">
-                  <div className="rc-column">
+                  <div className="rc-column d-flex">
                     <FormattedMessage id="continueShopping">
                       {(txt) => (
                         <DistributeHubLinkOrATag

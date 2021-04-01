@@ -5,6 +5,20 @@ import { usPaymentInfo } from '@/api/payment';
 import { usGuestPaymentInfo } from '@/api/payment';
 import resolve from 'resolve';
 
+const CardNumberLimit = {
+  cyberVisa: 19,
+  cyberMastercard: 19,
+  cyberAmex: 18,
+  cyberDiscover: 19
+};
+
+const CardCvvLimit = {
+  cyberVisa: 3,
+  cyberMastercard: 3,
+  cyberAmex: 4,
+  cyberDiscover: 3
+};
+
 class CyberPaymentForm extends React.Component {
   static defaultProps = {
     cyberFormTitle: {
@@ -33,7 +47,8 @@ class CyberPaymentForm extends React.Component {
       expirationMonth: '',
       expirationYear: '',
       securityCode: ''
-    }
+    },
+    cardTypeVal: ''
   };
   //游客绑卡
   usGuestPaymentInfoEvent = async (params) => {
@@ -88,7 +103,7 @@ class CyberPaymentForm extends React.Component {
   };
 
   cardNumberJSX = () => {
-    const { form, errMsgObj, cyberFormTitle } = this.props;
+    const { form, errMsgObj, cyberFormTitle, cardTypeVal } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -103,7 +118,7 @@ class CyberPaymentForm extends React.Component {
             onChange={this.props.handleInputChange}
             onBlur={this.props.inputBlur}
             name="cardNumber"
-            maxLength="254"
+            maxLength={CardNumberLimit[cardTypeVal]}
             placeholder=""
           />
           <label className="rc-input__label" htmlFor="cardNumber" />
@@ -180,7 +195,13 @@ class CyberPaymentForm extends React.Component {
   };
 
   securityCodeJSX = () => {
-    const { form, errMsgObj, cyberFormTitle, securityCodeTipsJSX } = this.props;
+    const {
+      form,
+      errMsgObj,
+      cyberFormTitle,
+      securityCodeTipsJSX,
+      cardTypeVal
+    } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label" htmlFor="month">
@@ -195,7 +216,7 @@ class CyberPaymentForm extends React.Component {
             onChange={this.props.handleInputChange}
             onBlur={this.props.inputBlur}
             name="securityCode"
-            maxLength="254"
+            maxLength={CardCvvLimit[cardTypeVal]}
           />
           <label className="rc-input__label" htmlFor="securityCode" />
         </span>

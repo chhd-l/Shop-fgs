@@ -1413,40 +1413,12 @@ class SmartFeederSubscription extends Component {
       cartDataCopy.push(tmpData);
     }
 
-    await checkoutStore.updateUnloginCart({ cartData: cartDataCopy });
     try {
+      await checkoutStore.updateUnloginCart({
+        cartData: cartDataCopy,
+        isThrowErr: true
+      });
       if (redirect) {
-        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo3"
-              values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          );
-          throw new Error();
-        }
-        if (checkoutStore.offShelvesProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo4"
-              values={{
-                val: checkoutStore.offShelvesProNames.join('/')
-              }}
-            />
-          );
-          throw new Error();
-        }
-        if (checkoutStore.outOfstockProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo2"
-              values={{ val: checkoutStore.outOfstockProNames.join('/') }}
-            />
-          );
-          throw new Error();
-        }
         if (needLogin) {
           // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
         } else {
@@ -1496,7 +1468,8 @@ class SmartFeederSubscription extends Component {
       }
     } catch (err) {
       console.log(err);
-      this.setState({ errMsg: err.message.toString() });
+      this.showCheckoutErrMsg(err.message);
+      // this.setState({ errMsg: err.message.toString() });
     } finally {
       this.setState({ addToCartLoading: false });
     }
@@ -1745,7 +1718,7 @@ class SmartFeederSubscription extends Component {
         };
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart();
+      await checkoutStore.updateLoginCart({ isThrowErr: true });
       if (isMobile) {
         // this.refs.showModalButton.click();
       } else {
@@ -1758,55 +1731,6 @@ class SmartFeederSubscription extends Component {
       }
       console.info('redirect....', redirect);
       if (redirect) {
-        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo3"
-              values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          );
-          return false;
-        }
-
-        // 存在下架商品，不能下单
-        if (checkoutStore.offShelvesProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo4"
-              values={{
-                val: checkoutStore.offShelvesProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
-
-        // 库存不够，不能下单
-        if (checkoutStore.outOfstockProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo2"
-              values={{
-                val: checkoutStore.outOfstockProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
-        // 存在被删除商品，不能下单
-        if (checkoutStore.deletedProNames.length) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorInfo5"
-              values={{
-                val: checkoutStore.deletedProNames.join('/')
-              }}
-            />
-          );
-          return false;
-        }
         // this.openPetModal()
         let autoAuditFlag = false;
         let res = await getProductPetConfig({

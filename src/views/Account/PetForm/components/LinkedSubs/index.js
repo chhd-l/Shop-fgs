@@ -18,6 +18,7 @@ const LinkedSubs = (props) => {
   const { loading, errorMsg } = props;
   const isMobile = getDeviceType() !== 'PC';
   const querySubList = () => {
+    console.log('hahaha');
     props.setState({ loading: true });
     // let param = {
     //   pageNum: 0,
@@ -30,7 +31,7 @@ const LinkedSubs = (props) => {
     // };
     getSubListForPet({ petsId: props.petsId })
       .then((res) => {
-        setSubList(res.context.subscriptionResponses);
+        setSubList(res.context);
         props.setState({
           loading: false
         });

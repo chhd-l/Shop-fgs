@@ -1,3 +1,4 @@
+//卡form表单
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
@@ -14,45 +15,7 @@ import { usPaymentInfo } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
-import visaImg from '@/assets/images/credit-cards/visa.svg';
-import amexImg from '@/assets/images/credit-cards/amex.svg';
-import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
-import discoverImg from '@/assets/images/credit-cards/discover.svg';
-
-const cardTypeImg = {
-  visa: visaImg,
-  mastercard: mastercardImg,
-  amex: amexImg,
-  discover: discoverImg
-};
-
-const CardTypeArr = {
-  cyberVisa: '001',
-  cyberMastercard: '002',
-  cyberAmex: '003',
-  cyberDiscover: '004'
-};
-
-const CardNumberLimit = {
-  cyberVisa: 16,
-  cyberMastercard: 16,
-  cyberAmex: 15,
-  cyberDiscover: 16
-};
-
-const CardCvvLimit = {
-  cyberVisa: 3,
-  cyberMastercard: 3,
-  cyberAmex: 4,
-  cyberDiscover: 3
-};
-
-const CardTypeName = {
-  cyberVisa: 'Visa',
-  cyberMastercard: 'Mastercard',
-  cyberAmex: 'Amex',
-  cyberDiscover: 'Discover'
-};
+import { cardTypeImg, CardTypeArr, CardTypeName } from '@/utils/constant/cyber';
 
 @inject('loginStore')
 @injectIntl
@@ -74,7 +37,7 @@ class PaymentEditForm extends React.Component {
         cardOwner: '',
         email: '',
         phoneNumber: '',
-        isDefault: false,
+        isDefault: 0,
         paymentToken: '',
         paymentTransactionId: '',
         paymentCustomerId: ''
@@ -101,7 +64,7 @@ class PaymentEditForm extends React.Component {
         zipCode: '', //10036
         postCode: '', //10036
         email: '', //didier.valansot@publicissapient.com
-        isDefaultCard: false
+        isDefault: 0
 
         // cardholderName: '', //Didier Valansot
         // cardNumber: '4111111111111111', //4111111111111111
@@ -118,7 +81,7 @@ class PaymentEditForm extends React.Component {
         // zipCode: '10036', //10036
         // postCode: '', //10036
         // email: 'didier.valansot@publicissapient.com', //didier.valansot@publicissapient.com
-        // isDefaultCard: true
+        //  isDefault: 0
       },
       monthList: [
         { name: 'month', value: '' },
@@ -449,7 +412,11 @@ class PaymentEditForm extends React.Component {
     const name = target.name;
     let value = '';
     value = target.value;
+    if (name === 'cardNumber') {
+      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 '); //银行卡4位后自动加空格
+    }
     paymentForm[name] = value;
+
     this.setState({ paymentForm }, () => {
       console.log(paymentForm, '--------handleInputChange');
     });
@@ -499,9 +466,9 @@ class PaymentEditForm extends React.Component {
   handelCheckboxChange = (name) => {
     let errMsgObj = this.state.errMsgObj;
     const { paymentForm } = this.state;
-    paymentForm[name] = !paymentForm[name];
+    paymentForm[name] = paymentForm[name] == 0 ? 1 : 0;
 
-    let obj = Object.assign({}, errMsgObj, { isDefaultCard: '' }); //选择有值了，就清空没填提示
+    let obj = Object.assign({}, errMsgObj, { isDefault: 0 }); //选择有值了，就清空没填提示
     this.setState(
       {
         paymentForm,
@@ -555,7 +522,6 @@ class PaymentEditForm extends React.Component {
     this.setState({ btnLoading: true });
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
-      paymentForm.address2 = validationAddress.address2;
       paymentForm.city = validationAddress.city;
       paymentForm.country = validationAddress.countryCode;
       paymentForm.zipCode = validationAddress.postalCode;
@@ -566,6 +532,9 @@ class PaymentEditForm extends React.Component {
         validationAddress.provinceId && validationAddress.provinceId != null
           ? validationAddress.provinceId
           : paymentForm.provinceId;
+
+      // 地址校验返回参数
+      paymentForm.validationResult = validationAddress.validationResult;
     } else {
       this.setState({
         paymentForm: JSON.parse(JSON.stringify(oldPaymentForm))
@@ -582,7 +551,7 @@ class PaymentEditForm extends React.Component {
       if (res.code == 'K-000000') {
         this.handleCancel();
         // this.props.refreshList(res.message);
-        this.props.refreshList('Saved Successfully');
+        this.props.refreshList({ msg: 'Saved Successfully' });
       }
     } catch (err) {
       this.showErrorMsg(err.message);
@@ -634,9 +603,9 @@ class PaymentEditForm extends React.Component {
   //   } else if(!this.state.isValidForm){//billdingAddress验证
   //     this.toTop();
   //     return;
-  //   } else if(!this.state.paymentForm.isDefaultCard) { //勾选框
+  //   } else if(!this.state.paymentForm. isDefault) { //勾选框
   //     let errMsgObj = Object.assign({}, this.state.errMsgObj, {
-  //       isDefaultCard: true
+  //        isDefault: true
   //     });
   //     this.setState({ errMsgObj });
   //   } else {
@@ -1173,6 +1142,7 @@ class PaymentEditForm extends React.Component {
             )}
             {/* ********************支付tab栏end********************************** */}
             <CyberPaymentForm
+              cardTypeVal={this.state.cardTypeVal}
               form={this.state.paymentForm}
               errMsgObj={errMsgObj}
               monthList={this.state.monthList}
@@ -1201,13 +1171,13 @@ class PaymentEditForm extends React.Component {
                 <div
                   className="c-input rc-input--inline"
                   style={{ maxWidth: '400px' }}
-                  onClick={() => this.handelCheckboxChange('isDefaultCard')}
+                  onClick={() => this.handelCheckboxChange('isDefault')}
                 >
-                  {this.state.paymentForm.isDefaultCard ? (
+                  {this.state.paymentForm.isDefault ? (
                     <input
                       type="checkbox"
                       className="rc-input__checkbox"
-                      value={this.state.paymentForm.isDefaultCard}
+                      value={this.state.paymentForm.isDefault}
                       key="1"
                       checked
                     />
@@ -1215,18 +1185,18 @@ class PaymentEditForm extends React.Component {
                     <input
                       type="checkbox"
                       className="rc-input__checkbox"
-                      value={this.state.paymentForm.isDefaultCard}
+                      value={this.state.paymentForm.isDefault}
                       key="2"
                     />
                   )}
                   <label className="rc-input__label--inline text-break">
                     <FormattedMessage id="cyber.form.saveFor" />
                   </label>
-                  {this.state.errMsgObj.isDefaultCard ? (
+                  {/* {this.state.errMsgObj.isDefault ? (
                     <div className="red-text">
                       <FormattedMessage id="cyber.form.theBox" />
                     </div>
-                  ) : null}
+                  ) : null} */}
                 </div>
               </div>
             </div>

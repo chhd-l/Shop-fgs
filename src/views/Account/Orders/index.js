@@ -730,17 +730,20 @@ class AccountOrders extends React.Component {
                                         </p>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        <p className="text-nowrap">
+                                        <p className="text-nowrap ui-text-overflow-line1">
                                           <FormattedMessage id="order.orderStatus" />
                                           <br className="d-none d-md-block" />
-                                          <span className="medium orderHeaderTextColor">
+                                          <span
+                                            className="medium orderHeaderTextColor"
+                                            title={order.tradeState.orderStatus}
+                                          >
                                             {order.tradeState.orderStatus}
                                           </span>
                                         </p>
                                       </div>
                                       <div className="col-12 col-md-2">
                                         <p>
-                                          <FormattedMessage id="total" />
+                                          <FormattedMessage id="order.total" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
                                             {formatMoney(
@@ -782,7 +785,7 @@ class AccountOrders extends React.Component {
                                               className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
-                                              <em className="rc-iconography rc-icon rc-news--xs"></em>
+                                              <em className="rc-iconography rc-icon rc-news--xs" />
                                               <span
                                                 className="medium pull-right--desktop rc-styled-link"
                                                 title={txt}

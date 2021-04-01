@@ -1449,13 +1449,15 @@ const fr_FR = {
   yes: 'Confirmer',
   yes2: 'Confirmer',
   'Your Pet is a…': 'Votre animal de compagnie est un...',
-  'Your Pet is a…': 'Votre animal de compagnie est un...',
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
-  yourEmailNotVerified: "Votre email n'a pas été vérifié!",
-  yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
   'contactUs.requiredField': 'The field is required',
   BacktoSavedPayments: 'Retour au paiement enregistré',
-  'payment.shippingDiscount': 'Remise de fret'
+  'payment.shippingDiscount': 'Remise de fret',
+  'orderStatus.COMPLETED': 'terminé',
+  'payment.cardInfoErr':
+    'Les informations de la carte sont incorrectes, veuillez vérifier.',
+  'cart.errorInfo6':
+    'Vous ne pouvez pas passer votre commande, pas Seable: {val}'
 };
 export default fr_FR;
