@@ -947,7 +947,6 @@ class Payment extends React.Component {
       let commonParameter = obj.commonParameter;
       let phone = obj.phone;
       let parameters;
-
       /* 组装支付需要的参数 */
       const actions = {
         oxxo: () => {
@@ -1117,7 +1116,7 @@ class Payment extends React.Component {
     }
   }
 
-  //根据条件-调用不同的支付接口,进行支付
+  // 根据条件-调用不同的支付接口,进行支付
   async allAdyenPayment(parameters, type) {
     try {
       const { clinicStore } = this.props;
@@ -1513,13 +1512,20 @@ class Payment extends React.Component {
       promotionCode
     } = this.state;
 
-    // console.log(deliveryAddress, billingAddress, 'billingAddress');
+    /**
+     * ★★★ 1
+     * 封装下单参数的时候需要把新加的字段加上，
+     * 否则支付时会刷新preview显示的参数
+     */
     let param = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
       city: deliveryAddress.city,
       cityId: deliveryAddress.cityId,
+      provinceId: deliveryAddress.provinceId,
+      provinceNo: deliveryAddress.provinceNo,
+      province: deliveryAddress.province,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1719,6 +1725,9 @@ class Payment extends React.Component {
 
   /**
    * save address/comment
+   * ★★★ 2
+   * 封装下单参数的时候需要把新加的字段加上，
+   * 否则支付时会刷新preview显示的参数
    */
   async saveAddressAndCommentPromise() {
     try {
@@ -1737,6 +1746,9 @@ class Payment extends React.Component {
           country: deliveryAddress.country,
           city: deliveryAddress.city,
           cityId: deliveryAddress.cityId,
+          provinceId: deliveryAddress.provinceId,
+          provinceNo: deliveryAddress.provinceNo,
+          province: deliveryAddress.province,
           postCode: deliveryAddress.postCode,
           phoneNumber: deliveryAddress.consigneeNumber,
           email: deliveryAddress.email,
@@ -1754,6 +1766,9 @@ class Payment extends React.Component {
             country: billingAddress.country,
             city: billingAddress.city,
             cityId: billingAddress.cityId,
+            provinceId: billingAddress.provinceId,
+            provinceNo: billingAddress.provinceNo,
+            province: billingAddress.province,
             postCode: billingAddress.postCode,
             phoneNumber: billingAddress.consigneeNumber,
             addressId:
@@ -2378,7 +2393,6 @@ class Payment extends React.Component {
       console.log('★ ----------------- 跳过验证，下一步 ');
       this.cvvConfirmNextPanel();
     }
-    // debugger
   };
   // 已绑卡 下一步
   cvvConfirmNextPanel = async () => {
