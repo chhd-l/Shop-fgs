@@ -883,7 +883,7 @@ class AddressList extends React.Component {
                     </div>
                     {
                       <>
-                        <div className="rc-md-up">
+                        <div className="rc-md-down ">
                           <a
                             className="rc-styled-link"
                             onClick={() =>
@@ -907,7 +907,7 @@ class AddressList extends React.Component {
                             <FormattedMessage id="save" />
                           </button>
                         </div>
-                        <div className="rc-md-down rc-full-width text-right">
+                        <div className="rc-md-up rc-full-width text-right">
                           <a
                             className="rc-styled-link"
                             onClick={() => this.handleClickCancel()}
@@ -921,6 +921,7 @@ class AddressList extends React.Component {
                             className="rc-btn rc-btn--one submitBtn"
                             name="contactPreference"
                             type="submit"
+                            disabled={!isValid}
                             onClick={() => this.handleSave()}
                           >
                             <FormattedMessage id="save" />
