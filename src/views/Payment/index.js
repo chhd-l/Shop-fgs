@@ -441,7 +441,12 @@ class Payment extends React.Component {
           });
         }
       }
-
+      console.log(
+        (this.isLogin ? this.loginCartData : this.cartData).filter(
+          (el) => el.prescriberFlag
+        ).length > 0
+      );
+      console.log(sessionItemRoyal.get('needShowPrescriber'));
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
         {
@@ -449,8 +454,7 @@ class Payment extends React.Component {
             (this.isLogin ? this.loginCartData : this.cartData).filter(
               (el) => el.prescriberFlag
             ).length > 0 &&
-            clinicStore.selectClinicId &&
-            clinicStore.selectClinicId !== ''
+            sessionItemRoyal.get('needShowPrescriber') === 'true'
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
           //       (el) => el.prescriberFlag

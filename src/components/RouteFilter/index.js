@@ -139,9 +139,10 @@ class RouteFilter extends Component {
 
     if (nextProps.location.pathname === '/prescription') {
       console.log(toJS(this.props.checkoutStore.autoAuditFlag), 'AuditData');
-      if (this.props.checkoutStore.autoAuditFlag) {
-        this.props.history.replace('/checkout');
-      }
+      // 不需要校验，只要Need Prescription就进入Prescription页面
+      // if (this.props.checkoutStore.autoAuditFlag) {
+      //   this.props.history.replace('/checkout');
+      // }
 
       // if(this.isLogin) {
       //   let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
@@ -161,20 +162,21 @@ class RouteFilter extends Component {
       // this.props.history.replace('/checkout');
       // return false;
     }
-    if (
-      nextProps.location.pathname === '/prescription' &&
-      ((localItemRoyal.get(`rc-clinic-id-link`) &&
-        localItemRoyal.get(`rc-clinic-name-link`)) ||
-        (localItemRoyal.get(`rc-clinic-id-select`) &&
-          localItemRoyal.get(`rc-clinic-name-select`)) ||
-        (localItemRoyal.get(`rc-clinic-id-default`) &&
-          localItemRoyal.get(`rc-clinic-name-default`)))
-    ) {
-      console.log(nextProps.location.pathname, 'pathname');
-      debugger;
-      this.props.history.replace('/checkout');
-      return false;
-    }
+    // 不需要校验本地prescriber缓存，只要Need Prescription就进入Prescription页面
+    // if (
+    //   nextProps.location.pathname === '/prescription' &&
+    //   ((localItemRoyal.get(`rc-clinic-id-link`) &&
+    //     localItemRoyal.get(`rc-clinic-name-link`)) ||
+    //     (localItemRoyal.get(`rc-clinic-id-select`) &&
+    //       localItemRoyal.get(`rc-clinic-name-select`)) ||
+    //     (localItemRoyal.get(`rc-clinic-id-default`) &&
+    //       localItemRoyal.get(`rc-clinic-name-default`)))
+    // ) {
+    //   console.log(nextProps.location.pathname, 'pathname');
+    //   debugger;
+    //   this.props.history.replace('/checkout');
+    //   return false;
+    // }
 
     if (
       nextProps.location.pathname.indexOf('/account') !== -1 &&

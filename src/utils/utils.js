@@ -478,31 +478,31 @@ export function distributeLinktoPrecriberOrPaymentPage({
   }
 
   // 校验本地prescriber缓存，有则跳过prescriber页面
-  if (
-    (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
-      localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
-    ((localItemRoyal.get(`rc-clinic-id-link`) &&
-      localItemRoyal.get(`rc-clinic-name-link`)) ||
-      (localItemRoyal.get(`rc-clinic-id-select`) &&
-        localItemRoyal.get(`rc-clinic-name-select`)) ||
-      (localItemRoyal.get(`rc-clinic-id-default`) &&
-        localItemRoyal.get(`rc-clinic-name-default`)))
-  ) {
-    if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      if (clinicStore.linkClinicId) {
-        clinicStore.setSelectClinicId(clinicStore.linkClinicId);
-        clinicStore.setSelectClinicName(clinicStore.linkClinicName);
-      }
-    } else if (
-      !clinicStore.linkClinicId &&
-      !clinicStore.selectClinicId &&
-      clinicStore.defaultClinicId
-    ) {
-      clinicStore.setSelectClinicId(clinicStore.defaultClinicId);
-      clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
-    }
-    return '/checkout';
-  }
+  // if (
+  //   (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
+  //     localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
+  //   ((localItemRoyal.get(`rc-clinic-id-link`) &&
+  //     localItemRoyal.get(`rc-clinic-name-link`)) ||
+  //     (localItemRoyal.get(`rc-clinic-id-select`) &&
+  //       localItemRoyal.get(`rc-clinic-name-select`)) ||
+  //     (localItemRoyal.get(`rc-clinic-id-default`) &&
+  //       localItemRoyal.get(`rc-clinic-name-default`)))
+  // ) {
+  //   if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+  //     if (clinicStore.linkClinicId) {
+  //       clinicStore.setSelectClinicId(clinicStore.linkClinicId);
+  //       clinicStore.setSelectClinicName(clinicStore.linkClinicName);
+  //     }
+  //   } else if (
+  //     !clinicStore.linkClinicId &&
+  //     !clinicStore.selectClinicId &&
+  //     clinicStore.defaultClinicId
+  //   ) {
+  //     clinicStore.setSelectClinicId(clinicStore.defaultClinicId);
+  //     clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
+  //   }
+  //   return '/checkout';
+  // }
   return '/prescription';
 }
 
