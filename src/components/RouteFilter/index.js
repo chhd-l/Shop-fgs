@@ -161,7 +161,6 @@ class RouteFilter extends Component {
       // this.props.history.replace('/checkout');
       // return false;
     }
-
     if (
       nextProps.location.pathname === '/prescription' &&
       ((localItemRoyal.get(`rc-clinic-id-link`) &&
@@ -171,6 +170,8 @@ class RouteFilter extends Component {
         (localItemRoyal.get(`rc-clinic-id-default`) &&
           localItemRoyal.get(`rc-clinic-name-default`)))
     ) {
+      console.log(nextProps.location.pathname, 'pathname');
+      debugger;
       this.props.history.replace('/checkout');
       return false;
     }

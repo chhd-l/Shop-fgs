@@ -10,7 +10,6 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
-//import PaymentComp2 from './components/PaymentComp2';
 import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
@@ -2515,15 +2514,6 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
                 >
                   {currentCardInfo && (
-                    // <PaymentComp2
-                    //   backPage={this.state.fromPage}
-                    //   hideMyself={this.handleHideEditForm}
-                    //   refreshList={this.getPaymentMethodList}
-                    //   paymentType={this.state.paymentType}
-                    //   supportPaymentMethods={this.state.supportPaymentMethods}
-                    //   needEmail={+process.env.REACT_APP_PAYU_EMAIL}
-                    //   needPhone={+process.env.REACT_APP_PAYU_PHONE}
-                    // />
                     <PaymentComp
                       needEmail={+process.env.REACT_APP_PAYU_EMAIL}
                       needPhone={+process.env.REACT_APP_PAYU_PHONE}
@@ -2531,7 +2521,6 @@ class SubscriptionDetail extends React.Component {
                       paymentId={currentCardInfo.id}
                       type={type}
                       save={(el) => {
-                        console.log(el);
                         let param = {
                           subscribeId: subDetail.subscribeId,
                           paymentId: el.id,
@@ -2544,6 +2533,7 @@ class SubscriptionDetail extends React.Component {
                           })
                         };
                         console.log(param);
+                        debugger;
                         this.setState({ loading: true });
                         updateDetail(param)
                           .then((res) => {

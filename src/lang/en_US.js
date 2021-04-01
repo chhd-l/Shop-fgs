@@ -50,7 +50,7 @@ const en_US = {
   'account.myCommunicationPreferencesContent2':
     'Consents given for communication',
   'account.myCommunicationPreferencesDesc':
-    'Follow the Royal Canin information on the commuication',
+    'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My communication preferences',
   'account.myPayments': 'My payments',
   'account.nickname': "What is your pet's nickname?",
@@ -653,15 +653,14 @@ const en_US = {
   'mixed Breed': 'mixed Breed',
   MMYY: 'MM/YY',
   modalCancelAllContent:
-    'Are you sure you want to cancel all the following deliveries?',
+    'Are you sure you want to unsubscribe? This means that you will not receive the upcoming delivery.',
   modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
   modalChangeDateContent:
     'Are you sure you want to change the next shipment date?',
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',
-  modalSkipContent:
-    'Are you sure you want to unsubscribe? This means that you will not receive the upcoming delivery.',
+  modalSkipContent: 'Are you sure you want to cancel the next delivery?',
   modalSkipTitle: 'SKIP NEXT DELIVERY?',
   month: 'Month',
   moreAddress: 'More Address',
@@ -951,6 +950,8 @@ const en_US = {
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
   seeMoreText: 'see more',
+  'recommendation.noMoreRecommendation':
+    'The product is no longer available or not available for sale',
   'recommendation.benefit': 'The benefits',
   'recommendation.guidelinesTips':
     "Royal Canin's feeding guidelines can also be found on the product packaging.",
