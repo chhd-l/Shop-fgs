@@ -394,7 +394,7 @@ class Details extends React.Component {
     const { details, quantity, instockStatus, initing } = this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
-      addedFlag = details.sizeList.filter((el) => el.selected)[0].addedFlag;
+      addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
     }
     // details.sizeList.filter(el => el.selected).addedFlag
     // displayFlag 是否展示在前台

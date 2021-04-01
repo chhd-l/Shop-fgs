@@ -275,6 +275,8 @@ class Payment extends React.Component {
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress', // 校验选择
+      isValidationModal: true, // 是否显示验证弹框
+      isGetBillingAddressId: 'true', //
       validationAddress: [] // 校验地址
     };
     this.timer = null;
@@ -1964,6 +1966,8 @@ class Payment extends React.Component {
               type="delivery"
               isDeliveryOrBilling="delivery"
               updateData={this.updateDeliveryAddrData}
+              isValidationModal={this.state.isValidationModal}
+              updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
             />
           ) : (
@@ -2062,6 +2066,8 @@ class Payment extends React.Component {
                 showOperateBtn={false}
                 visible={!billingChecked}
                 updateData={this.updateBillingAddrData}
+                isValidationModal={this.state.isValidationModal}
+                updateValidationStaus={this.updateValidationStaus}
                 updateFormValidStatus={this.updateValidStatus.bind(this, {
                   key: 'billingAddr'
                 })}
@@ -2118,7 +2124,11 @@ class Payment extends React.Component {
       </div>
     );
   };
-
+  updateValidationStaus = (flag) => {
+    this.setState({
+      isValidationModal: flag
+    });
+  };
   // 点击confirm (未绑卡)
   clickConfirmPaymentPanel = async (e) => {
     e.preventDefault();
@@ -2319,12 +2329,20 @@ class Payment extends React.Component {
   };
   // 收起面板，显示preview
   setPaymentToCompleted = (data) => {
-    if (!this.state.billingChecked && !data) {
-      // 未勾选，显示 VisitorAddress 中的地址验证
-      this.setState({
-        validationLoading: true,
-        validationModalVisible: true
-      });
+    const { tid, isValidationModal } = this.state;
+    if (!this.state.billingChecked) {
+      if (
+        (!tid || tid == null) &&
+        data &&
+        data == 'billing' &&
+        isValidationModal
+      ) {
+        // 未勾选，显示 VisitorAddress 中的地址验证
+        this.setState({
+          validationLoading: true,
+          validationModalVisible: true
+        });
+      }
     } else {
       this.cvvConfirmNextPanel();
     }
@@ -2490,7 +2508,7 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      console.log('2248 payConfirmBtn: ', disabled);
+      console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
