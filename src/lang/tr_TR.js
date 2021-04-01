@@ -320,6 +320,7 @@ const tr_TR = {
   'footer.copyrightInfo':
     "Telif hakkı © Mars 2021®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
   'footer.FAQ': 'SSS',
+  'footer.FAQ2': 'SSS',
   'footer.healthAndNutrition': 'Sağlık ve Beslenme',
   'footer.help': 'YARDIM',
   'footer.informationForParents': 'Ebeveynler için Bilgiler',
