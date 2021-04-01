@@ -22,12 +22,11 @@ const checkoutStore = stores.checkoutStore;
 
 const LogoutButton = (props) => {
   const [userInfo, setUserInfo] = useState(null);
-  const { authState, oktaAuth } = useOktaAuth();
+  const { authState, oktaAuth } = useOktaAuth();d
   const logout = async () => {
     try {
       const idToken = authState.idToken;
       if (idToken) {
-        
         if(location.pathname.includes('/account')) {
           // const redirectUri = 
           // window.location.origin + process.env.REACT_APP_HOMEPAGE;
