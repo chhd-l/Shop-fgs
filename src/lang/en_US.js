@@ -50,7 +50,7 @@ const en_US = {
   'account.myCommunicationPreferencesContent2':
     'Consents given for communication',
   'account.myCommunicationPreferencesDesc':
-    'Follow the Royal Canin information on the commuication',
+    'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My communication preferences',
   'account.myPayments': 'My payments',
   'account.nickname': "What is your pet's nickname?",
