@@ -416,13 +416,18 @@ class Payment extends React.Component {
           this.queryOrderDetails();
         }
 
+        let cyberPaymentForm = { ...this.state.cyberPaymentForm };
+
         if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
           this.setState({
             subForm: {
               buyWay: 'frequency',
               frequencyName: '',
               frequencyId: ''
-            }
+            },
+            cyberPaymentForm: Object.assign({}, cyberPaymentForm, {
+              isSaveCard: true
+            })
           });
         }
       } else {
@@ -432,10 +437,14 @@ class Payment extends React.Component {
               buyWay: 'frequency',
               frequencyName: '',
               frequencyId: ''
-            }
+            },
+            cyberPaymentForm: Object.assign({}, cyberPaymentForm, {
+              isSaveCard: true
+            })
           });
         }
       }
+
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
         {
