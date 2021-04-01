@@ -16,7 +16,7 @@ const ClubItem = ({ subItem, idx, frequencyList }) => {
       className="row rc-margin-x--none row align-items-center card-container"
       style={{
         padding: '1rem 0',
-        marginTop: '1rem'
+        margin: '1rem 0'
         // display: idx < 2 || isShowAll ? 'flex' : 'none'
       }}
       key={subItem.subscribeId}
