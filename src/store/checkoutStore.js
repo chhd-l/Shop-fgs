@@ -564,7 +564,6 @@ class CheckoutStore {
               )
             );
           }
-          debugger;
           if (this.offShelvesProNames.length > 0) {
             throw new Error(
               CURRENT_LANGFILE['cart.errorInfo4'].replace(
