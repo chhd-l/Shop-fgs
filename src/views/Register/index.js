@@ -769,8 +769,9 @@ class Register extends Component {
                         <div className="rc-meta rc-margin-top--sm rc-text--left">
                           <p>
                             <FormattedMessage id="registerFooter1" />
-                            &nbsp;
-                            <a href="/help">here</a>
+                            {process.env.REACT_APP_LANG === 'en' ? (
+                              <a href="/help/contact">&nbsp;here</a>
+                            ) : null}
                           </p>
                         </div>
                       </form>
