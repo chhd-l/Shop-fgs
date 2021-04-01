@@ -29,7 +29,7 @@ class FooterHub extends React.Component {
     );
     setTimeout(() => {
       let cookieDomBox = document.querySelector('.cookieSettingBox');
-      document.querySelector('#mars-footer-panel').append(cookieDomBox);
+      document.querySelector('#mars-footer-panel')?.append(cookieDomBox);
       cookieDomBox.style.visibility = 'visible';
     }, 3000);
     // this.setState({ footerInfo: footerHubResult.data });
