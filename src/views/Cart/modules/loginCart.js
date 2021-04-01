@@ -249,7 +249,7 @@ class LoginCart extends React.Component {
     pitem.periodTypeId = data.id;
     this.changeFrequencyType(pitem);
   }
-  async updateCartCache({ callback, isThrowErr = false }) {
+  async updateCartCache({ callback, isThrowErr = false } = {}) {
     try {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({ isThrowErr });
