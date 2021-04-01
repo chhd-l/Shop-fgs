@@ -267,10 +267,10 @@ class UnLoginCart extends React.Component {
     });
   }
   showErrMsg(msg) {
+    clearTimeout(this.timer);
     this.setState({
       errorMsg: msg
     });
-    clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
         errorMsg: ''
@@ -311,68 +311,6 @@ class UnLoginCart extends React.Component {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
       await this.updateStock({ isThrowErr: true });
-      // 价格未达到底限，不能下单
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-          />
-        );
-        return false;
-      }
-      // 存在下架商品，不能下单
-      if (checkoutStore.offShelvesProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      // 库存不够，不能下单
-      if (checkoutStore.outOfstockProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{
-              val: checkoutStore.outOfstockProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      // 存在被删除商品，不能下单
-      if (checkoutStore.deletedProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo5"
-            values={{
-              val: checkoutStore.deletedProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      if (checkoutStore.notSeableProNames.length) {
-        window.scrollTo({ behavior: 'smooth', top: 0 });
-        this.showErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo6"
-            values={{
-              val: checkoutStore.notSeableProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
@@ -421,6 +359,7 @@ class UnLoginCart extends React.Component {
       }
     } catch (e) {
       console.log(e);
+      window.scrollTo({ behavior: 'smooth', top: 0 });
       this.showErrMsg(e.message);
     } finally {
       this.setState({ checkoutLoading: false });
@@ -550,7 +489,7 @@ class UnLoginCart extends React.Component {
       }
     );
   }
-  async updateStock({ isThrowErr, callback }) {
+  async updateStock({ isThrowErr, callback } = {}) {
     try {
       const { productList } = this.state;
       this.setState({ checkoutLoading: true });
@@ -1080,8 +1019,8 @@ class UnLoginCart extends React.Component {
               beforeLoginCallback={async () =>
                 this.handleCheckout({ needLogin: true })
               }
-              btnClass={`${
-                this.btnStatus ? '' : 'rc-btn-solid-disabled'
+              btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
+                checkoutLoading ? 'ui-btn-loading' : ''
               } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width`}
               history={this.props.history}
             >
@@ -1109,7 +1048,14 @@ class UnLoginCart extends React.Component {
                 className="text-center"
                 onClick={() => this.handleCheckout()}
               >
-                <div className="rc-styled-link color-999" aria-pressed="true">
+                <div
+                  className={`rc-styled-link color-999 ${
+                    checkoutLoading
+                      ? 'ui-btn-loading ui-btn-loading-border-red'
+                      : ''
+                  }`}
+                  aria-pressed="true"
+                >
                   <FormattedMessage id="guestCheckout" />
                 </div>
               </div>
