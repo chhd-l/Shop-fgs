@@ -718,25 +718,7 @@ class PaymentComp extends React.Component {
               ? ''
               : 'hidden-xxl-down'
           }`}
-        >
-          {/* <span
-            className="red font-weight-normal ui-cursor-pointer d-flex align-items-center"
-            onClick={() => {
-              this.setState({ isEdit: true }, () => {
-                this.scrollToPaymentComp();
-              });
-              this.initCardInfo();
-            }}
-          >
-            <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
-            <span style={{ marginTop: -3 }}>
-              <FormattedMessage id="addNewCreditCard" />
-            </span>
-          </span> */}
-        </div>
-        {/* <div className="addbox" onClick={() => this.openCreatePage()}>
-          <div id="cross"></div>
-        </div> */}
+        ></div>
         {!this.state.isEdit && this.state.creditCardList.length ? (
           this.state.listLoading ? (
             <div className="mt-4">
