@@ -48,7 +48,7 @@ class UnloginCart extends React.Component {
   }
   get totalNum() {
     return this.selectedCartData.reduce((pre, cur) => {
-      return pre + cur.quantity;
+      return Number(pre) + Number(cur.quantity);
     }, 0);
   }
   get tradePrice() {

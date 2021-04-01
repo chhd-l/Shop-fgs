@@ -950,6 +950,8 @@ const en_US = {
   receiver: 'Receiver',
   recommandedForyou: 'Recommanded for you',
   seeMoreText: 'see more',
+  'recommendation.noMoreRecommendation':
+    'The product is no longer available or not available for sale',
   'recommendation.benefit': 'The benefits',
   'recommendation.guidelinesTips':
     "Royal Canin's feeding guidelines can also be found on the product packaging.",

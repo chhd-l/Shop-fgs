@@ -95,6 +95,8 @@ const ru_RU = {
     'Добро пожаловать, {val}, Здесь вы можете управлять своим профилем, редактировать информацию о питомцах, проверять статус по заказам и подписке.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
+  'recommendation.noMoreRecommendation':
+    'Товар больше не доступен или недоступен для продажи',
   'recommendation.buyNow': 'Купить',
   'recommendation.firstBtnText': 'Sign up',
   'recommendation.firstContent':

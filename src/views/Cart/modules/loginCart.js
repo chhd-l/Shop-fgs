@@ -1041,7 +1041,7 @@ class LoginCart extends React.Component {
             <FormattedMessage id="total2" />
           </div>
           <div className="col-6 no-padding-left">
-            <p className="text-right sub-total">
+            <p className="text-right sub-total text-nowrap">
               {formatMoney(this.totalPrice)}
             </p>
           </div>
@@ -1068,7 +1068,7 @@ class LoginCart extends React.Component {
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost">
+              <p className="text-right shipping-cost text-nowrap">
                 <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
             </div>
@@ -1089,7 +1089,7 @@ class LoginCart extends React.Component {
                 </p>
               </div>
               <div className="col-6">
-                <p className="text-right shipping-cost">
+                <p className="text-right shipping-cost text-nowrap">
                   {/* - {formatMoney(this.discountPrice)} */}
                   <strong>-{formatMoney(el.discountPrice)}</strong>
                 </p>
@@ -1120,7 +1120,7 @@ class LoginCart extends React.Component {
             </p>
           </div>
           <div className="col-4">
-            <p className="text-right shipping-cost">
+            <p className="text-right shipping-cost text-nowrap">
               {formatMoney(this.deliveryPrice)}
             </p>
           </div>
@@ -1135,7 +1135,7 @@ class LoginCart extends React.Component {
               </p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost">
+              <p className="text-right shipping-cost text-nowrap">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <strong>{subtractionSign}</strong>
                 ) : (
@@ -1156,7 +1156,7 @@ class LoginCart extends React.Component {
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium mb-0">
+              <p className="text-right grand-total-sum medium mb-0 text-nowrap">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                   <strong>{subtractionSign}</strong>
                 ) : (
