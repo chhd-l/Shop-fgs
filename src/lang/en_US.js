@@ -654,13 +654,14 @@ const en_US = {
   MMYY: 'MM/YY',
   modalCancelAllContent:
     'Are you sure you want to cancel all the following deliveries?',
-  modalCancelAllTitle: 'CANCEL ALL ORDERS?',
+  modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
   modalChangeDateContent:
     'Are you sure you want to change the next shipment date?',
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',
-  modalSkipContent: 'Are you sure you want to cancel the next delivery?',
+  modalSkipContent:
+    'Are you sure you want to unsubscribe? This means that you will not receive the upcoming delivery.',
   modalSkipTitle: 'SKIP NEXT DELIVERY?',
   month: 'Month',
   moreAddress: 'More Address',
@@ -1112,7 +1113,7 @@ const en_US = {
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.BillingAddress': 'Billing address',
-  'subscription.cancelAll': 'Cancel All',
+  'subscription.cancelAll': 'Unsubscribe',
   'subscription.change': 'Change',
   'subscription.chooseSubscription': 'Choose subscription',
   'subscription.date': 'Subscription date',
