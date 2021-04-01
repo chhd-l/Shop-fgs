@@ -224,6 +224,10 @@ class CheckoutStore {
       promotionVOList: purchasesRes.promotionVOList
     });
   }
+
+  @action.bound
+  validCheckoutLimitRule() {}
+
   // 游客
   @action.bound
   async updateUnloginCart({
@@ -318,16 +322,21 @@ class CheckoutStore {
           el.currentAmount = el.salePrice * item.quantity;
           return el;
         });
-        let selectedSize = find(item.sizeList, (s) => s.selected);
+        const selectedSize = find(item.sizeList, (s) => s.selected);
         const tmpObj = find(
           purchasesRes.goodsInfos,
           (l) =>
             l.goodsId === item.goodsId &&
             l.goodsInfoId === selectedSize.goodsInfoId
         );
+        const tmpSpuObj = find(
+          purchasesRes.goodses,
+          (l) => l.goodsId === item.goodsId
+        );
         if (tmpObj) {
           item.addedFlag = tmpObj.addedFlag;
           selectedSize.stock = tmpObj.stock;
+          item.saleableFlag = tmpSpuObj.saleableFlag;
           const tmpName = [tmpObj.goodsInfoName, tmpObj.specText]
             .filter((e) => e)
             .join(' ');
@@ -342,7 +351,7 @@ class CheckoutStore {
             console.log(tmpObj, tmpOutOfstockProNames, 'name');
             tmpOutOfstockProNames.push(tmpName);
           }
-          if (!tmpObj?.goods?.saleableFlag) {
+          if (!item.saleableFlag) {
             tmpNotSeableProNames.push(tmpName);
           }
         }
@@ -400,7 +409,9 @@ class CheckoutStore {
         resolve({ backCode, context: purchasesRes });
       });
     } catch (err) {
-      throw new Error(err.message);
+      if (isThrowErr) {
+        throw new Error(err.message);
+      }
     }
   }
 
@@ -450,7 +461,7 @@ class CheckoutStore {
           good.goodsInfoImg = good.goodsInfoImg
             ? good.goodsInfoImg
             : good.goods.goodsImg;
-          const selectdSkuInfo = good.goodsInfos.filter((g) => {
+          const selectdSkuInfo = (good.goodsInfos || []).filter((g) => {
             if (good.buyCount > g.stock) {
               g.isEmpty = true;
             }
@@ -604,7 +615,9 @@ class CheckoutStore {
     } catch (err) {
       console.log(111, err);
       this.changeLoadingCartData(false);
-      throw new Error(err.message);
+      if (isThrowErr) {
+        throw new Error(err.message);
+      }
     }
   }
 
