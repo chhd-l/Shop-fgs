@@ -10,6 +10,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
+//import PaymentComp2 from './components/PaymentComp2';
 import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
@@ -24,6 +25,9 @@ import Dog from '@/assets/images/dog.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
+import { getPaymentMethod, deleteCard, getWays } from '@/api/payment';
+
+import { computedSupportPaymentMethods } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -2511,6 +2515,15 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
                 >
                   {currentCardInfo && (
+                    // <PaymentComp2
+                    //   backPage={this.state.fromPage}
+                    //   hideMyself={this.handleHideEditForm}
+                    //   refreshList={this.getPaymentMethodList}
+                    //   paymentType={this.state.paymentType}
+                    //   supportPaymentMethods={this.state.supportPaymentMethods}
+                    //   needEmail={+process.env.REACT_APP_PAYU_EMAIL}
+                    //   needPhone={+process.env.REACT_APP_PAYU_PHONE}
+                    // />
                     <PaymentComp
                       needEmail={+process.env.REACT_APP_PAYU_EMAIL}
                       needPhone={+process.env.REACT_APP_PAYU_PHONE}
@@ -4280,27 +4293,24 @@ class SubscriptionDetail extends React.Component {
                                                   </div>
                                                 </div>
                                               ) : null}
-                                              {el.tradePrice
-                                                .promotionDiscountPrice
-                                                ? el.tradePrice.promotionVOList?.map(
-                                                    (el) => (
-                                                      <div className="row">
-                                                        <div className="col-1 col-md-3" />
-                                                        <label className="green col-5 text-left">
-                                                          {el.marketingName}:
-                                                        </label>
-                                                        <div className="col-5 col-md-3 text-right green">
-                                                          <strong>
-                                                            -
-                                                            {formatMoney(
-                                                              el.discountPrice
-                                                            )}
-                                                          </strong>
-                                                        </div>
-                                                      </div>
-                                                    )
-                                                  )
-                                                : null}
+                                              {el.tradePrice.promotionVOList?.map(
+                                                (el) => (
+                                                  <div className="row">
+                                                    <div className="col-1 col-md-3" />
+                                                    <label className="green col-5 text-left">
+                                                      {el.marketingName}:
+                                                    </label>
+                                                    <div className="col-5 col-md-3 text-right green">
+                                                      <strong>
+                                                        -
+                                                        {formatMoney(
+                                                          el.discountPrice
+                                                        )}
+                                                      </strong>
+                                                    </div>
+                                                  </div>
+                                                )
+                                              )}
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el, i) => (
                                                   <div className="row" key={i}>

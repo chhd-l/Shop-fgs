@@ -21,6 +21,8 @@ import classNames from 'classnames';
 import { computedSupportPaymentMethods } from '@/utils/utils';
 
 import { myAccountActionPushEvent } from '@/utils/GA';
+//import PaymentEditForm from "@/views/Account/Profile"
+import PaymentEditForm from '../PaymentComp2';
 
 function CardItem(props) {
   const { data } = props;
@@ -80,6 +82,18 @@ class PaymentComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // 111
+      fromPage: '',
+      paymentType: 'CYBER',
+      supportPaymentMethods: [],
+      editFormVisible: false,
+      listVisible: false,
+      listLoading: false,
+      creditCardList: [],
+      successMsg: '',
+      getPaymentMethodListFlag: false,
+      // 111
+
       inted: false,
       creditCardList: [],
       isEdit: false,
@@ -109,6 +123,14 @@ class PaymentComp extends React.Component {
     };
   }
   async componentDidMount() {
+    getWays().then((res) => {
+      this.setState({
+        paymentType: res?.context?.name,
+        supportPaymentMethods: computedSupportPaymentMethods(
+          res?.context?.supportPaymentMethods || []
+        )
+      }); //PAYU,ADYEN,CYBER
+    });
     await this.getPaymentMethodList();
     if (this.state.creditCardList.length) {
       this.state.creditCardList.map((el) => {
@@ -137,6 +159,54 @@ class PaymentComp extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
+  // 111
+  handleHideEditForm = ({ closeListPage }) => {
+    this.changeEditFormVisible(false);
+    this.changeListVisible(!closeListPage);
+  };
+  changeListVisible = (status) => {
+    this.setState({ listVisible: status, isEdit: false });
+  };
+  changeEditFormVisible = (status) => {
+    this.setState({ editFormVisible: status, isEdit: false });
+  };
+  getPaymentMethodList = async (msg, { showLoading = true } = {}) => {
+    try {
+      showLoading && this.setState({ listLoading: true });
+      const res = await getPaymentMethod();
+      this.setState({
+        creditCardList: res.context || []
+      });
+      if (msg) {
+        this.setState(
+          {
+            successMsg: msg, // 获取保存地址返回的提示成功信息
+            getPaymentMethodListFlag: true
+          },
+          () => {
+            this.clearSuccessMsg();
+          }
+        );
+      }
+    } catch (err) {
+      this.setState({ listErr: err.message });
+    } finally {
+      this.setState({
+        loading: false,
+        listLoading: false
+      });
+    }
+  };
+  // 提示成功信息
+  clearSuccessMsg = () => {
+    setTimeout(() => {
+      this.setState({
+        successMsg: '',
+        getPaymentMethodListFlag: false
+      });
+    }, 5000);
+  };
+  // 111
   updateInitStatus = (val) => {
     this.setState({ inited: val });
   };
@@ -1019,19 +1089,7 @@ class PaymentComp extends React.Component {
           </div>
         )}
 
-        {/* {window.location.pathname !== "/checkout" && !this.state.isEdit && (
-          <div
-            className="addbox"
-            onClick={() => {
-              this.setState({ isEdit: true });
-              this.initCardInfo();
-            }}
-          >
-            <div id="cross"></div>
-          </div>
-        )} */}
-
-        <div
+        {/* <div
           className="credit-card-content"
           id="credit-card-content"
           style={{
@@ -1486,6 +1544,23 @@ class PaymentComp extends React.Component {
               </div>
             </>
           )}
+        </div> */}
+
+        <div
+          style={{
+            display:
+              this.state.isEdit || !creditCardList.length ? 'block' : 'none'
+          }}
+        >
+          <PaymentEditForm
+            backPage={this.state.fromPage}
+            hideMyself={this.handleHideEditForm}
+            refreshList={this.getPaymentMethodList}
+            paymentType={this.state.paymentType}
+            supportPaymentMethods={this.state.supportPaymentMethods}
+            needEmail={this.props.needEmail}
+            needPhone={this.props.needPhone}
+          />
         </div>
       </div>
     );

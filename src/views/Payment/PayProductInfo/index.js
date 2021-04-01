@@ -766,8 +766,8 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 显示 promotionCode */}
-                {!isShowValidCode && this.promotionDiscountPrice > 0
-                  ? this.promotionVOList.map((el, i) => (
+                {!isShowValidCode
+                  ? this.promotionVOList?.map((el, i) => (
                       <div
                         className="row leading-lines shipping-item green"
                         key={i}

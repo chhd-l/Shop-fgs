@@ -84,64 +84,8 @@ class UnloginCart extends React.Component {
       } = this.props;
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
-      checkoutStore.updateUnloginCart();
+      checkoutStore.updateUnloginCart({ isThrow: true });
 
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-          />
-        );
-        return false;
-      }
-
-      // 存在下架商品，不能下单
-      if (checkoutStore.offShelvesProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-
-      if (checkoutStore.outOfstockProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{
-              val: checkoutStore.outOfstockProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      if (checkoutStore.deletedProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo5"
-            values={{
-              val: checkoutStore.deletedProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
-      if (checkoutStore.notSeableProNames.length) {
-        headerCartStore.setErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo6"
-            values={{
-              val: checkoutStore.notSeableProNames.join('/')
-            }}
-          />
-        );
-        return false;
-      }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
@@ -177,6 +121,7 @@ class UnloginCart extends React.Component {
         // history.push('/prescription');
       }
     } catch (err) {
+      headerCartStore.setErrMsg(err.message);
     } finally {
       this.setState({ checkoutLoading: false });
     }
