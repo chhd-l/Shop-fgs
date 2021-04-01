@@ -32,6 +32,9 @@ export default class Selection extends React.Component {
     this.timeOutId = null;
     this.searchRef = React.createRef();
   }
+  componentDidMount() {
+    this.searchRef?.current && this.searchRef?.current?.focus();
+  }
   hideOptions = () => {
     this.setState({
       optionsVisible: false
@@ -72,7 +75,9 @@ export default class Selection extends React.Component {
         dataList: this.props.optionList
       },
       () => {
-        this.searchRef.current.focus();
+        if (this.searchRef) {
+          this.searchRef?.current?.focus();
+        }
       }
     );
   };
