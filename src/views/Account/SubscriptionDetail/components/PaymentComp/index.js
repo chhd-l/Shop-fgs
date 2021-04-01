@@ -1,3 +1,4 @@
+// 订阅卡列表+卡form页
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
@@ -23,6 +24,7 @@ import { computedSupportPaymentMethods } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
 //import PaymentEditForm from "@/views/Account/Profile"
 import PaymentEditForm from '../PaymentComp2';
+import { CardTypeDesc } from '@/utils/constant/cyber.js';
 
 function CardItem(props) {
   const { data } = props;
@@ -63,7 +65,7 @@ function CardItem(props) {
               ************
               {data.lastFourDigits}
             </p>
-            <p className="mb-0">{data.cardType}</p>
+            <p className="mb-0">{CardTypeDesc[data.cardType]}</p>
           </div>
         </div>
       </div>

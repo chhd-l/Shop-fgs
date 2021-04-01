@@ -1,3 +1,5 @@
+//卡form表单
+
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
@@ -14,31 +16,7 @@ import { usPaymentInfo } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
-import visaImg from '@/assets/images/credit-cards/visa.svg';
-import amexImg from '@/assets/images/credit-cards/amex.svg';
-import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
-import discoverImg from '@/assets/images/credit-cards/discover.svg';
-
-const cardTypeImg = {
-  visa: visaImg,
-  mastercard: mastercardImg,
-  amex: amexImg,
-  discover: discoverImg
-};
-
-const CardTypeArr = {
-  cyberVisa: '001',
-  cyberMastercard: '002',
-  cyberAmex: '003',
-  cyberDiscover: '004'
-};
-
-const CardTypeName = {
-  cyberVisa: 'Visa',
-  cyberMastercard: 'Mastercard',
-  cyberAmex: 'Amex',
-  cyberDiscover: 'Discover'
-};
+import { cardTypeImg, CardTypeArr, CardTypeName } from '@/utils/constant/cyber';
 
 @inject('loginStore')
 @injectIntl

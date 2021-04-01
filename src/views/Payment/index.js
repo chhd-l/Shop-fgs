@@ -78,38 +78,12 @@ import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './Cyber/constant/utils';
 import { de } from 'date-fns/locale';
 import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
-import visaImg from '@/assets/images/credit-cards/visa.svg';
-import amexImg from '@/assets/images/credit-cards/amex.svg';
-import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
-import discoverImg from '@/assets/images/credit-cards/discover.svg';
-
-const cardTypeImg = {
-  visa: visaImg,
-  mastercard: mastercardImg,
-  amex: amexImg,
-  discover: discoverImg
-};
-
-const CardTypeArr = {
-  cyberVisa: '001',
-  cyberMastercard: '002',
-  cyberAmex: '003',
-  cyberDiscover: '004'
-};
-const CardTypeName = {
-  cyberVisa: 'Visa',
-  cyberMastercard: 'Mastercard',
-  cyberAmex: 'Amex',
-  cyberDiscover: 'Discover'
-};
-
-const cyberFormTitle = {
-  cardHolderName: 'cyber.form.cardHolderName2',
-  cardNumber: 'cyber.form.cardNumber2',
-  EXPMonth: 'cyber.form.EXPMonth2',
-  EXPYear: 'cyber.form.EXPYear2',
-  secureCode: 'cyber.form.secureCode2'
-};
+import {
+  cardTypeImg,
+  CardTypeArr,
+  CardTypeName,
+  cyberFormTitle
+} from '@/utils/constant/cyber';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
