@@ -39,70 +39,46 @@ class CheckoutStore {
   @observable GA_product = {};
 
   @computed get tradePrice() {
-    return this.cartPrice && this.cartPrice.tradePrice
-      ? this.cartPrice.tradePrice
-      : 0;
+    return this?.cartPrice?.tradePrice || 0;
+  }
+  @computed get totalMinusSubPrice() {
+    return this?.cartPrice?.totalMinusSubPrice || 0;
   }
   @computed get totalPrice() {
-    return this.cartPrice && this.cartPrice.totalPrice
-      ? this.cartPrice.totalPrice
-      : 0;
+    return this?.cartPrice?.totalPrice || 0;
   }
   @computed get taxFeePrice() {
-    return this.cartPrice && this.cartPrice.taxFeePrice
-      ? this.cartPrice.taxFeePrice
-      : 0;
+    return this?.cartPrice?.taxFeePrice || 0;
   }
   @computed get freeShippingFlag() {
-    return this.cartPrice && this.cartPrice.freeShippingFlag
-      ? this.cartPrice.freeShippingFlag
-      : 0;
+    return this?.cartPrice?.freeShippingFlag || 0;
   }
   @computed get freeShippingDiscountPrice() {
-    return this.cartPrice && this.cartPrice.freeShippingDiscountPrice
-      ? this.cartPrice.freeShippingDiscountPrice
-      : 0;
+    return this?.cartPrice?.freeShippingDiscountPrice || 0;
   }
   @computed get discountPrice() {
-    return this.cartPrice && this.cartPrice.discountPrice
-      ? this.cartPrice.discountPrice
-      : 0;
+    return this?.cartPrice?.discountPrice || 0;
   }
   @computed get subscriptionDiscountPrice() {
-    return this.cartPrice && this.cartPrice.subscriptionDiscountPrice
-      ? this.cartPrice.subscriptionDiscountPrice
-      : 0;
+    return this?.cartPrice?.subscriptionDiscountPrice || 0;
   }
   @computed get promotionDiscountPrice() {
-    return this.cartPrice && this.cartPrice.promotionDiscountPrice
-      ? this.cartPrice.promotionDiscountPrice
-      : 0;
+    return this?.cartPrice?.promotionDiscountPrice || 0;
   }
   @computed get deliveryPrice() {
-    return this.cartPrice && this.cartPrice.deliveryPrice
-      ? this.cartPrice.deliveryPrice
-      : 0;
+    return this?.cartPrice?.deliveryPrice || 0;
   }
   @computed get subscriptionPrice() {
-    return this.cartPrice && this.cartPrice.deliveryPrice
-      ? this.cartPrice.subscriptionPrice
-      : 0;
+    return this?.cartPrice?.subscriptionPrice || 0;
   }
   @computed get promotionDesc() {
-    return this.cartPrice && this.cartPrice.promotionDesc
-      ? this.cartPrice.promotionDesc
-      : '';
+    return this?.cartPrice?.promotionDesc || '';
   }
   @computed get promotionDiscount() {
-    return this.cartPrice && this.cartPrice.promotionDiscount
-      ? this.cartPrice.promotionDiscount
-      : '';
+    return this?.cartPrice?.promotionDiscount || '';
   }
   @computed get promotionVOList() {
-    console.log(this.cartPrice, 'this.cartPrice');
-    return this.cartPrice && this.cartPrice.promotionVOList
-      ? this.cartPrice.promotionVOList
-      : [];
+    return this?.cartPrice?.promotionVOList || [];
   }
 
   @action.bound
@@ -221,7 +197,8 @@ class CheckoutStore {
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice,
       goodsInfos: purchasesRes.goodsInfos,
-      promotionVOList: purchasesRes.promotionVOList
+      promotionVOList: purchasesRes.promotionVOList,
+      totalMinusSubPrice: purchasesRes.totalMinusSubPrice
     });
   }
 
@@ -287,7 +264,8 @@ class CheckoutStore {
         promotionDiscount: purchasesRes.promotionDiscount,
         subscriptionPrice: purchasesRes.subscriptionPrice,
         goodsInfos: purchasesRes.goodsInfos,
-        promotionVOList: purchasesRes.promotionVOList
+        promotionVOList: purchasesRes.promotionVOList,
+        totalMinusSubPrice: purchasesRes.totalMinusSubPrice
       };
       if (
         !promotionCode ||
@@ -513,7 +491,8 @@ class CheckoutStore {
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice,
           goodsInfos: sitePurchasesRes.goodsInfos,
-          promotionVOList: sitePurchasesRes.promotionVOList
+          promotionVOList: sitePurchasesRes.promotionVOList,
+          totalMinusSubPrice: sitePurchasesRes.totalMinusSubPrice
         };
 
         if (

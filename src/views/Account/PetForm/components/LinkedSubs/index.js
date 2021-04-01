@@ -18,7 +18,6 @@ const LinkedSubs = (props) => {
   const { loading, errorMsg } = props;
   const isMobile = getDeviceType() !== 'PC';
   const querySubList = () => {
-    console.log('hahaha');
     props.setState({ loading: true });
     // let param = {
     //   pageNum: 0,
@@ -37,10 +36,9 @@ const LinkedSubs = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err);
         props.setState({
           loading: false,
-          errorMsg: err
+          errorMsg: err.message
         });
       });
   };
@@ -212,7 +210,7 @@ const LinkedSubs = (props) => {
             </>
           )}
         </div>
-        {!isShowAll ? (
+        {!isShowAll && subList.length ? (
           <p className="more" style={{ marginTop: '1rem' }}>
             <a
               className="rc-styled-link"
@@ -220,7 +218,7 @@ const LinkedSubs = (props) => {
                 setIsShowAll(true);
               }}
             >
-              See other Subscription
+              <FormattedMessage id="subscription.see_more" />
             </a>
           </p>
         ) : null}
