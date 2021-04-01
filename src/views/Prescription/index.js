@@ -206,6 +206,7 @@ class Prescription extends React.Component {
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
   closeModal = () => {
     this.setState({ modalShow: false });
+    sessionItemRoyal.set('needShowPrescriber', 'false');
     this.props.history.push('/checkout');
   };
   //需要绑定prescriber，直接关闭弹框显示当前页面
@@ -260,6 +261,7 @@ class Prescription extends React.Component {
     // removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
+    sessionItemRoyal.set('needShowPrescriber', 'true');
     this.props.history.push('/checkout');
   };
   getSonMess(center) {
