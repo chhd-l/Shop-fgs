@@ -15,7 +15,7 @@ import {
   setDefaltCard
 } from '@/api/payment';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
-import PaymentEditForm from '../PaymentEditForm';
+import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { computedSupportPaymentMethods } from '@/utils/utils';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';

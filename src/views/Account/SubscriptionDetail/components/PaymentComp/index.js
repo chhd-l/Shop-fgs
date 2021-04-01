@@ -22,8 +22,7 @@ import classNames from 'classnames';
 import { computedSupportPaymentMethods } from '@/utils/utils';
 
 import { myAccountActionPushEvent } from '@/utils/GA';
-//import PaymentEditForm from "@/views/Account/Profile"
-import PaymentEditForm from '../PaymentComp2';
+import PaymentEditForm from '@/components/PaymentEditForm';
 import { CardTypeDesc } from '@/utils/constant/cyber.js';
 
 function CardItem(props) {
