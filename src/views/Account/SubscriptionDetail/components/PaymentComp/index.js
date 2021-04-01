@@ -96,7 +96,6 @@ class PaymentComp extends React.Component {
       // 111
 
       inted: false,
-      creditCardList: [],
       isEdit: false,
       creditCardInfoForm: {
         cardNumber: '',
@@ -736,7 +735,11 @@ class PaymentComp extends React.Component {
 
               <div className={classNames('row', 'ml-0', 'mr-0')}>
                 {creditCardList.map((el, idx) => (
-                  <div className="col-12 col-md-6 p-2" key={el.id}>
+                  <div
+                    className="col-12 col-md-6 p-2"
+                    key={el.id}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <CardItem
                       data={el}
                       idx={idx}
