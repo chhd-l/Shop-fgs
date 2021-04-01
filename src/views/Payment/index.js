@@ -272,7 +272,7 @@ class Payment extends React.Component {
       isShowCardList: false,
       isShowCyberBindCardBtn: false,
       cardListLength: 0,
-      validationLoading: false, // 地址校验loading
+      paymentValidationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress', // 校验选择
       isValidationModal: true, // 是否显示验证弹框
@@ -2350,13 +2350,14 @@ class Payment extends React.Component {
       console.log('★ ----------------- payment 地址验证 ');
       // 未勾选，显示地址验证
       this.setState({
-        validationLoading: true,
+        paymentValidationLoading: true,
         validationModalVisible: true
       });
     } else {
       console.log('★ ----------------- 跳过验证，下一步 ');
       this.cvvConfirmNextPanel();
     }
+    // debugger
   };
   // 已绑卡 下一步
   cvvConfirmNextPanel = async () => {
@@ -2364,8 +2365,7 @@ class Payment extends React.Component {
     const { billingChecked, billingAddressAddOrEdit } = this.state;
     const { paymentStore } = this.props;
     this.setState({
-      validationLoading: false,
-      isValidationModal: false,
+      paymentValidationLoading: false,
       validationModalVisible: false
     });
     if (isLogin) {
@@ -2385,6 +2385,7 @@ class Payment extends React.Component {
     paymentStore.setStsToEdit({ key: 'confirmation' });
     this.setState({
       billingAddressAddOrEdit: false,
+      saveBillingLoading: false,
       isValidationModal: false
     });
     window.scrollTo({
@@ -2403,7 +2404,7 @@ class Payment extends React.Component {
   // 获取地址验证查询到的数据
   getValidationData = async (data) => {
     this.setState({
-      validationLoading: false
+      paymentValidationLoading: false
     });
     if (data && data != null) {
       // 获取并设置地址校验返回的数据
@@ -3123,7 +3124,7 @@ class Payment extends React.Component {
       guestEmail,
       installMentParam,
       deliveryAddress,
-      validationLoading,
+      paymentValidationLoading,
       validationModalVisible,
       billingAddress,
       selectValidationOption
@@ -3505,25 +3506,27 @@ class Payment extends React.Component {
 
           <>
             {/* 地址校验弹框 */}
-            {validationLoading && <Loading positionFixed="true" />}
+            {paymentValidationLoading && <Loading positionFixed="true" />}
             {validationModalVisible && (
-              <ValidationAddressModal
-                address={billingAddress}
-                updateValidationData={this.getValidationData}
-                selectValidationOption={selectValidationOption}
-                handleChooseValidationAddress={(e) =>
-                  this.chooseValidationAddress(e)
-                }
-                hanldeClickConfirm={() => this.confirmListValidationAddress()}
-                validationModalVisible={validationModalVisible}
-                close={() => {
-                  this.setState({
-                    validationModalVisible: false,
-                    validationLoading: false,
-                    saveLoading: false
-                  });
-                }}
-              />
+              <>
+                <ValidationAddressModal
+                  address={billingAddress}
+                  updateValidationData={this.getValidationData}
+                  selectValidationOption={selectValidationOption}
+                  handleChooseValidationAddress={(e) =>
+                    this.chooseValidationAddress(e)
+                  }
+                  hanldeClickConfirm={() => this.confirmListValidationAddress()}
+                  validationModalVisible={validationModalVisible}
+                  close={() => {
+                    this.setState({
+                      validationModalVisible: false,
+                      paymentValidationLoading: false,
+                      saveLoading: false
+                    });
+                  }}
+                />
+              </>
             )}
           </>
 
