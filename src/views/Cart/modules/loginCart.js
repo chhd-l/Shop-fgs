@@ -1452,7 +1452,7 @@ class LoginCart extends React.Component {
                 {productList.length > 0 && (
                   <>
                     <div className="rc-layout-container rc-one-column pt-1">
-                      <div className="rc-column">
+                      <div className="rc-column d-flex">
                         <FormattedMessage id="continueShopping">
                           {(txt) => (
                             <DistributeHubLinkOrATag
@@ -1461,7 +1461,7 @@ class LoginCart extends React.Component {
                               className="ui-cursor-pointer-pure"
                             >
                               <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
+                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
                                 {txt}
                               </span>
                             </DistributeHubLinkOrATag>

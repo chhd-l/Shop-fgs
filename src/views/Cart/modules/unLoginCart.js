@@ -1515,7 +1515,7 @@ class UnLoginCart extends React.Component {
             {productList.length ? (
               <>
                 <div className="rc-layout-container rc-one-column pt-1">
-                  <div className="rc-column">
+                  <div className="rc-column d-flex">
                     <FormattedMessage id="continueShopping">
                       {(txt) => (
                         <DistributeHubLinkOrATag

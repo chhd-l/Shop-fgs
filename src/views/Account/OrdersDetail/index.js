@@ -1454,7 +1454,7 @@ class AccountOrders extends React.Component {
                             </p>
                             <div className="row text-left text-break">
                               <div className="col-12 col-md-4 mb-2">
-                                <div className="border rounded">
+                                <div className="border rounded h-100">
                                   <div className="d-flex p-3 h-100">
                                     <svg
                                       className="svg-icon align-middle mr-3 ml-1"
@@ -1470,37 +1470,50 @@ class AccountOrders extends React.Component {
                                       <p className="medium mb-2">
                                         {details.consignee.name}
                                       </p>
-                                      {details.consignee.postCode},{' '}
-                                      {details.consignee.phone}
-                                      <br />
+                                      <p className="mb-0">
+                                        {[
+                                          details.consignee.postCode,
+                                          details.consignee.phone
+                                        ]
+                                          .filter((d) => d)
+                                          .join(' ')}
+                                      </p>
                                       {process.env.REACT_APP_LANG ==
                                       'en' ? null : (
-                                        <>
+                                        <p className="mb-0">
                                           {matchNamefromDict(
                                             this.state.countryList,
                                             details.consignee.countryId
-                                          )}{' '}
-                                        </>
+                                          )}
+                                        </p>
                                       )}
-                                      {details?.consignee?.province &&
-                                      details?.consignee?.province != null ? (
-                                        <>
-                                          <br />
+
+                                      {details?.consignee?.province ? (
+                                        <p className="mb-0">
                                           {details?.consignee?.province}
-                                          <br />
-                                        </>
+                                        </p>
                                       ) : null}
-                                      {details.consignee.city}
-                                      <br />
-                                      {details.consignee.detailAddress1}
-                                      <br />
-                                      {details.consignee.detailAddress2}
+                                      <p className="mb-0">
+                                        {details.consignee.city}
+                                      </p>
+                                      <p className="mb-0">
+                                        {details.consignee.detailAddress1}
+                                      </p>
                                       {details.consignee.detailAddress2 ? (
-                                        <br />
+                                        <p className="mb-0">
+                                          {details.consignee.detailAddress2}
+                                        </p>
                                       ) : null}
-                                      {details.consignee.rfc}
-                                      {details.consignee.rfc ? <br /> : null}
-                                      {details.buyerRemark}
+                                      {details.consignee.rfc ? (
+                                        <p className="mb-0">
+                                          {details.consignee.rfc}
+                                        </p>
+                                      ) : null}
+                                      {details.buyerRemark ? (
+                                        <p className="mb-0">
+                                          {details.buyerRemark}
+                                        </p>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </div>
@@ -1522,34 +1535,46 @@ class AccountOrders extends React.Component {
                                       <p className="medium mb-2">
                                         {details.invoice.contacts}
                                       </p>
-                                      {details.invoice.postCode},{' '}
-                                      {details.invoice.phone}
-                                      <br />
+                                      <p className="mb-0">
+                                        {[
+                                          details.invoice.postCode,
+                                          details.invoice.phone
+                                        ]
+                                          .filter((d) => d)
+                                          .join(' ')}
+                                      </p>
                                       {process.env.REACT_APP_LANG ==
                                       'en' ? null : (
-                                        <>
+                                        <p className="mb-0">
                                           {matchNamefromDict(
                                             this.state.countryList,
                                             details.invoice.countryId
-                                          )}{' '}
-                                        </>
+                                          )}
+                                        </p>
                                       )}
-                                      {details?.invoice?.province &&
-                                      details?.invoice?.province != null ? (
-                                        <>
-                                          <br />
+
+                                      {details?.invoice?.province ? (
+                                        <p className="mb-0">
                                           {details?.invoice?.province}
-                                          <br />
-                                        </>
+                                        </p>
                                       ) : null}
-                                      {details.invoice.city}
-                                      <br />
-                                      {details.invoice.address1}
-                                      <br />
-                                      {details.invoice.address2}
-                                      {details.invoice.address2 ? <br /> : null}
-                                      {details.invoice.rfc}
-                                      {details.invoice.rfc ? <br /> : null}
+
+                                      <p className="mb-0">
+                                        {details.invoice.city}
+                                      </p>
+                                      <p className="mb-0">
+                                        {details.invoice.address1}
+                                      </p>
+                                      {details.invoice.address2 ? (
+                                        <p className="mb-0">
+                                          {details.invoice.address2}
+                                        </p>
+                                      ) : null}
+                                      {details.invoice.rfc ? (
+                                        <p className="mb-0">
+                                          {details.invoice.rfc}
+                                        </p>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </div>
