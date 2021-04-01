@@ -2338,7 +2338,7 @@ class Payment extends React.Component {
         }
       }
 
-      // 游客和会员绑卡后执行
+      console.log('★ ----------------- 游客和会员绑卡后执行');
       this.setPaymentToCompleted();
     } catch (e) {
       this.showErrorMsg(e.message);
@@ -2349,7 +2349,7 @@ class Payment extends React.Component {
 
   // 点击confirm cvv
   clickReInputCvvConfirm = () => {
-    console.log(' 2318 ----------- click ReInput Cvv Confirm');
+    console.log('★ ----------------- click ReInput Cvv Confirm');
     // 收起面板，显示preview
     this.setPaymentToCompleted('billing');
   };
@@ -2394,6 +2394,15 @@ class Payment extends React.Component {
       ) {
         // 执行 List 页面的保存 billingAddress
         await this.loginBillingAddrRef.current.showNextPanel();
+      }
+    } else {
+      // 清空 VisitorAddress 参数
+      if (
+        !billingChecked &&
+        this.unLoginBillingAddrRef &&
+        this.unLoginBillingAddrRef.current
+      ) {
+        this.unLoginBillingAddrRef.current.resetVisitorAddressState();
       }
     }
     console.log('★ ----------------- payment 收起面板，显示preview ');

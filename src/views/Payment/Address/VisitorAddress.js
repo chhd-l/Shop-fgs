@@ -60,8 +60,10 @@ class VisitorAddress extends React.Component {
   componentDidMount() {
     this.validData({
       data: this.state.form,
-      visitorValidationModalVisible: false
+      visitorValidationModalVisible: false,
+      btnLoading: false
     });
+    console.log('★ ----------------- VisitorAddress');
   }
   //props发生变化时触发
   componentWillReceiveProps(props) {
@@ -123,6 +125,10 @@ class VisitorAddress extends React.Component {
     }
   };
   handleEditFormChange = (data) => {
+    console.log(
+      '128 ------------------ VisitorAddress handleEditFormChange: ',
+      data
+    );
     this.validData({ data });
   };
   // 游客确认 Delivery address
@@ -305,6 +311,17 @@ class VisitorAddress extends React.Component {
       }
     );
   };
+
+  // 重置参数
+  resetVisitorAddressState() {
+    const { form } = this.state;
+    this.setState({
+      visitorValidationModalVisible: false,
+      btnLoading: false
+    });
+    this.props.updateValidationStaus(false);
+    this.props.updateData(form);
+  }
 
   render() {
     const { panelStatus } = this;
