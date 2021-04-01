@@ -1,3 +1,4 @@
+//订阅卡列表页
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
