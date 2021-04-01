@@ -1820,12 +1820,12 @@ class List extends React.Component {
               // plp页面初始化埋点
               this.hubGA
                 ? this.hubGAProductImpression(
-                    this.state.productList,
+                    esGoodsPage.content,
                     totalElements,
                     keywords
                   )
                 : this.GAProductImpression(
-                    this.state.productList,
+                    esGoodsPage.content,
                     totalElements,
                     keywords
                   );
@@ -1833,7 +1833,7 @@ class List extends React.Component {
               // hubGa点击页码切换埋点
               this.hubGA &&
                 type === 'pageChange' &&
-                this.hubGAPageChange(this.state.productList);
+                this.hubGAPageChange(esGoodsPage.content);
             }
           );
         } else {
