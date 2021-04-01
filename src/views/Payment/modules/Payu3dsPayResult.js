@@ -29,13 +29,11 @@ class Payu3dsResult extends Component {
     try {
       const res = await payu3dsPaymentsDetails({
         ...getRequest()
-        //businessId: sessionItemRoyal.get('orderNumber')
       });
       if (res.context.status === 'Succeed') {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
-      console.log(err);
     } finally {
       this.setState({
         circleLoading: false
