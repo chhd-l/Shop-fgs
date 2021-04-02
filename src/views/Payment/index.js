@@ -690,7 +690,7 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
       if (payWay.context) {
-        payWayNameArr = (payWay.context.payPsp.payPspItemVOList || [])
+        payWayNameArr = (payWay.context.payPspItemVOList || [])
           .map(
             (p) => payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()]
           )
