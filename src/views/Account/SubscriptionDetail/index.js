@@ -567,7 +567,7 @@ class SubscriptionDetail extends React.Component {
       }
     );
   }
-  PetsInfo = (petsInfo, petsId) => (
+  PetsInfo = (petsInfo, petsId, history) => (
     <React.Fragment>
       <img
         style={{ marginLeft: '1rem', marginRight: '1rem' }}
@@ -582,7 +582,10 @@ class SubscriptionDetail extends React.Component {
       <div className="rc-md-down">{this.statusText()}</div>
       <Link
         className="rc-md-down rc-margin-y--sm"
-        to={`/account/pets/petForm/${petsId}`}
+        to={{
+          pathname: `/account/pets/petForm/${petsId}`,
+          state: { isFromSubscriptionDetail: true }
+        }}
       >
         <div
           className="rc-styled-link"
@@ -601,7 +604,13 @@ class SubscriptionDetail extends React.Component {
           </div>
         </div>
         <div className="rc-padding-right--md">
-          <Link className="rc-md-up" to={`/account/pets/petForm/${petsId}`}>
+          <Link
+            className="rc-md-up"
+            to={{
+              pathname: `/account/pets/petForm/${petsId}`,
+              state: { isFromSubscriptionDetail: true }
+            }}
+          >
             <div
               className="rc-styled-link"
               // onClick={this.showEditRecommendation}
@@ -2001,25 +2010,29 @@ class SubscriptionDetail extends React.Component {
     let buyWay = parseInt(form.buyWay);
     let goodsInfoFlag =
       buyWay && details.promotions?.includes('club') ? 2 : buyWay;
+    let subscribeId = this.state.subDetail.subscribeId;
+
     let addGoodsItems = {
       skuId: currentSelectedSize.goodsInfoId,
       goodsNum: quantity,
       goodsInfoFlag,
-      subscribeId: this.state.subDetail.subscribeId
+      subscribeId
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
     let deleteGoodsItems = {
-      subscribeId: this.state.subDetail.subscribeId,
+      subscribeId,
       skuId: this.state.currentGoodsItems[0]?.goodsInfoVO?.goodsInfoId
     };
     if (buyWay) {
       addGoodsItems.periodTypeId = form.frequencyId;
     }
     let params = {
+      subscribeId,
       addGoodsItems: [addGoodsItems],
       deleteGoodsItems: [deleteGoodsItems]
     };
     changeSubscriptionGoods(params).then((res) => {
+      this.getDetail();
       this.closeRecommendation();
       this.closeEditRecommendation();
     });
@@ -2286,7 +2299,9 @@ class SubscriptionDetail extends React.Component {
                         className="rc-btn rc-btn--one rc-btn--sm"
                       > */}
                       <span
-                        onClick={this.showProdutctDetail}
+                        onClick={() => {
+                          this.showProdutctDetail(ele.spuCode);
+                        }}
                         className={`rc-btn rc-btn--one rc-btn--sm ${
                           this.state.productListLoading ? 'ui-btn-loading' : ''
                         }`}
@@ -2447,7 +2462,7 @@ class SubscriptionDetail extends React.Component {
         <img src={clubIcon} alt="clubIcon" />
         <div className="d-flex align-items-center add-pet-btn-wrap">
           {petsId ? (
-            this.PetsInfo(petsInfo, petsId)
+            this.PetsInfo(petsInfo, petsId, this.props.history)
           ) : (
             <React.Fragment>
               <div
