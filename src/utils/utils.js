@@ -476,7 +476,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
       return '/checkout';
     }
   }
-
+  //获取是否显示prescriber弹框
   await this.props.configStore.getIsNeedPrescriber();
   const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
   // 不需要显示弹框的情况下才校验本地prescriber缓存，有则跳过prescriber页面
