@@ -1718,7 +1718,10 @@ class SmartFeederSubscription extends Component {
         };
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart({ isThrowErr: true });
+      await checkoutStore.updateLoginCart({
+        isThrowErr: true,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
       if (isMobile) {
         // this.refs.showModalButton.click();
       } else {

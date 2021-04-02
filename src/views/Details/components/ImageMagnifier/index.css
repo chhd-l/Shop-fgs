@@ -27,12 +27,18 @@
   /* left: 0; */
   top: 0;
 }
-.imageInnerBox > div {
-  width: 4rem;
-  height: 4rem;
-}
 .imageInnerBox .rc-img--square {
   margin-left: 5px;
+  display: inline-block;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+.imageInnerBox > div,
+.imageInnerBox video {
+  width: 4rem;
+  height: 4rem;
 }
 .moveImg {
   width: 30px;

@@ -200,7 +200,10 @@ const LinkedSubs = (props) => {
                           let params = {
                             petsId: props.petsId,
                             addGoodsItems: {
-                              skuId: subItem.skuId
+                              skuId: subItem.skuId,
+                              goodsNum: subItem.subscribeNum,
+                              goodsInfoFlag: subItem.goodsInfoFlag,
+                              periodTypeId: subItem.periodTypeId
                             }
                           };
                           changeSubscriptionGoods(params).then((res) => {});

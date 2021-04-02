@@ -373,6 +373,8 @@ class ImageMagnifier extends Component {
       taggingForImage,
       spuImages
     } = this.props;
+    console.info('images', images);
+    console.info('spuImages', spuImages);
     if (process.env.REACT_APP_LANG !== 'fr' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;
@@ -432,7 +434,10 @@ class ImageMagnifier extends Component {
                 </div>
               ))}
               {videoShow && video && (
-                <div>
+                <div
+                  className="d-flex"
+                  style={{ alignItems: 'center', justifyContent: 'center' }}
+                >
                   <video
                     ref="video"
                     style={cssStyle.imgStyle}
