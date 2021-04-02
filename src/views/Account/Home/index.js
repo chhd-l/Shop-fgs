@@ -211,10 +211,11 @@ class AccountHome extends React.Component {
               </div>
             </div>
           </div>
-          {+process.env.REACT_APP_HUB ? (
+          {process.env.REACT_APP_GOOGLEPLAY_APP_LINK &&
+          process.env.REACT_APP_APP_STORE_LINK ? (
             <div className="accountHomeFooterLink">
               <h2>
-                <img src={accountSLogo}></img>
+                <img src={accountSLogo} />
               </h2>
               <p className="brandName">Royal Canin & Moi</p>
               <p className="content">
@@ -222,10 +223,10 @@ class AccountHome extends React.Component {
                 de votre compagnon{' '}
               </p>
               <div className="payBtn">
-                <a href="https://play.google.com/store/apps/details?id=com.royalcanin.royalcaninetmoi&hl=en&gl=US">
+                <a href={process.env.REACT_APP_GOOGLEPLAY_APP_LINK}>
                   <img src={GooglePayImg} />
                 </a>
-                <a href="https://apps.apple.com/fr/app/royal-canin-moi/id1440585946">
+                <a href={process.env.REACT_APP_APP_STORE_LINK}>
                   <img src={ApplePayImg} />
                 </a>
               </div>
