@@ -18,6 +18,7 @@ import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
+const configStore = stores.configStore;
 const mapEnum = {
   1: { mark: '$', break: ' ', atEnd: false },
   2: { mark: 'Mex$', break: ' ', atEnd: false },
@@ -477,8 +478,8 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     }
   }
   //获取是否显示prescriber弹框
-  await this.props.configStore.getIsNeedPrescriber();
-  const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
+  await configStore.getIsNeedPrescriber();
+  const showPrescriberModal = configStore.isShowPrescriberModal;
   // 不需要显示弹框的情况下才校验本地prescriber缓存，有则跳过prescriber页面
   if (!showPrescriberModal) {
     if (

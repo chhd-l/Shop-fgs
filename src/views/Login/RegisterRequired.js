@@ -150,7 +150,7 @@ class RegisterRequired extends Component {
       if (result.context.requiredList.length === 0) {
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
         if (tmpUrl === '/prescription') {
-          const url = distributeLinktoPrecriberOrPaymentPage({
+          const url = await distributeLinktoPrecriberOrPaymentPage({
             configStore,
             checkoutStore: this.props.checkoutStore,
             clinicStore,
