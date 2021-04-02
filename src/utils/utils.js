@@ -18,6 +18,7 @@ import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
+const configStore = stores.configStore;
 const mapEnum = {
   1: { mark: '$', break: ' ', atEnd: false },
   2: { mark: 'Mex$', break: ' ', atEnd: false },
@@ -434,7 +435,7 @@ async function getGoodsSeo(goodsId) {
 
 // 分发跳转prescriber/payment页面
 // 一旦正向流程跳转prescriber/payment页面，则需使用此方法，以替代routeFilter.js中的相关拦截，以此解决闪现/presciber页面的bug
-export async function distributeLinktoPrecriberOrPaymentPage({
+export function distributeLinktoPrecriberOrPaymentPage({
   configStore = {},
   checkoutStore,
   clinicStore,
@@ -477,8 +478,8 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     }
   }
   //获取是否显示prescriber弹框
-  await this.props.configStore.getIsNeedPrescriber();
-  const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
+  const showPrescriberModal = configStore.isShowPrescriberModal;
+  console.log('是否显示弹框:' + showPrescriberModal);
   // 不需要显示弹框的情况下才校验本地prescriber缓存，有则跳过prescriber页面
   if (!showPrescriberModal) {
     if (

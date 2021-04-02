@@ -26,6 +26,7 @@ class Footer extends React.Component {
   }
   async componentDidMount() {
     this.props.configStore.queryConfig();
+    this.props.configStore.getIsNeedPrescriber(); //获取是否显示弹框
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
