@@ -1459,6 +1459,13 @@ const fr_FR = {
   'payment.cardInfoErr':
     'Les informations de la carte sont incorrectes, veuillez vérifier.',
   'cart.errorInfo6':
-    'Vous ne pouvez pas passer votre commande, pas Seable: {val}'
+    'Vous ne pouvez pas passer votre commande, pas Seable: {val}',
+  'bindPrescriber.modal.title':
+    'Есть ли у вас рекомендация от ветеринарного врача?',
+  'bindPrescriber.modal.content':
+    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
+  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
+  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
+  'bindPrescriber.modal.or': 'или'
 };
 export default fr_FR;

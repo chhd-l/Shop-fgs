@@ -30,7 +30,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
         sonMess={sonMess}
         props={props}
         mode="confirm"
-      ></MapFlag>
+      />
     );
   } else {
     return (
@@ -221,7 +221,7 @@ class Prescription extends React.Component {
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
   closeModal = () => {
     this.setState({ modalShow: false });
-    sessionItemRoyal.set('needShowPrescriber', 'false');
+    sessionItemRoyal.set('needShowPrescriber', 'false'); //在checkout页面不显示prescriber信息
     this.props.history.push('/checkout');
   };
   //需要绑定prescriber，直接关闭弹框显示当前页面
@@ -280,7 +280,7 @@ class Prescription extends React.Component {
     // removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
-    sessionItemRoyal.set('needShowPrescriber', 'true');
+    sessionItemRoyal.set('needShowPrescriber', 'true'); //在checkout页面显示prescriber信息
     this.props.history.push('/checkout');
   };
   getSonMess(center) {

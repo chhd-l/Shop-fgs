@@ -1237,6 +1237,13 @@ const en_US = {
   'payment.codConfirmTip': 'Payment upon receipt',
   'Special Need': 'Sensitivites',
   'orderStatus.COMPLETED': 'Completed',
-  'subscription.see_more': 'See other Subscription'
+  'subscription.see_more': 'See other Subscription',
+  'bindPrescriber.modal.title':
+    'Есть ли у вас рекомендация от ветеринарного врача?',
+  'bindPrescriber.modal.content':
+    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
+  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
+  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
+  'bindPrescriber.modal.or': 'или'
 };
 export default en_US;

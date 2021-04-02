@@ -203,7 +203,51 @@ class CheckoutStore {
   }
 
   @action.bound
-  validCheckoutLimitRule() {}
+  async validCheckoutLimitRule({
+    offShelvesProNames = this.offShelvesProNames,
+    outOfstockProNames = this.outOfstockProNames,
+    deletedProNames = this.deletedProNames,
+    notSeableProNames = this.notSeableProNames,
+    minimunAmountPrice = 0
+  } = {}) {
+    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+      throw new Error(
+        CURRENT_LANGFILE['cart.errorInfo3'].replace(/{.+}/, minimunAmountPrice)
+      );
+    }
+    if (offShelvesProNames.length > 0) {
+      throw new Error(
+        CURRENT_LANGFILE['cart.errorInfo4'].replace(
+          /{.+}/,
+          offShelvesProNames.join('/')
+        )
+      );
+    }
+    if (outOfstockProNames.length > 0) {
+      throw new Error(
+        CURRENT_LANGFILE['cart.errorInfo2'].replace(
+          /{.+}/,
+          outOfstockProNames.join('/')
+        )
+      );
+    }
+    if (deletedProNames.length > 0) {
+      throw new Error(
+        CURRENT_LANGFILE['cart.errorInfo5'].replace(
+          /{.+}/,
+          deletedProNames.join('/')
+        )
+      );
+    }
+    if (notSeableProNames.length > 0) {
+      throw new Error(
+        CURRENT_LANGFILE['cart.errorInfo6'].replace(
+          /{.+}/,
+          notSeableProNames.join('/')
+        )
+      );
+    }
+  }
 
   // 游客
   @action.bound
@@ -213,6 +257,7 @@ class CheckoutStore {
     purchaseFlag,
     taxFeeData,
     guestEmail,
+    minimunAmountPrice,
     isThrowErr
   } = {}) {
     try {
@@ -301,7 +346,7 @@ class CheckoutStore {
           return el;
         });
         const selectedSize = find(item.sizeList, (s) => s.selected);
-        const tmpObj = find(
+        const tmpSkuObj = find(
           purchasesRes.goodsInfos,
           (l) =>
             l.goodsId === item.goodsId &&
@@ -311,22 +356,21 @@ class CheckoutStore {
           purchasesRes.goodses,
           (l) => l.goodsId === item.goodsId
         );
-        if (tmpObj) {
-          item.addedFlag = tmpObj.addedFlag;
-          selectedSize.stock = tmpObj.stock;
+        if (tmpSkuObj) {
+          item.addedFlag = tmpSkuObj.addedFlag;
+          selectedSize.stock = tmpSkuObj.stock;
           item.saleableFlag = tmpSpuObj.saleableFlag;
-          const tmpName = [tmpObj.goodsInfoName, tmpObj.specText]
+          const tmpName = [tmpSkuObj.goodsInfoName, tmpSkuObj.specText]
             .filter((e) => e)
             .join(' ');
           // handle product off shelves logic
-          if (!tmpObj.addedFlag) {
+          if (!tmpSkuObj.addedFlag) {
             tmpOffShelvesProNames.push(tmpName);
           }
-          if (tmpObj.delFlag) {
+          if (tmpSkuObj.delFlag) {
             tmpDeletedProNames.push(tmpName);
           }
           if (item.quantity > selectedSize.stock) {
-            console.log(tmpObj, tmpOutOfstockProNames, 'name');
             tmpOutOfstockProNames.push(tmpName);
           }
           if (!item.saleableFlag) {
@@ -342,46 +386,7 @@ class CheckoutStore {
       this.notSeableProNames = tmpNotSeableProNames;
       // 抛出错误
       if (isThrowErr) {
-        if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          throw new Error(
-            CURRENT_LANGFILE['cart.errorInfo3'].replace(
-              /{.+}/,
-              formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-            )
-          );
-        }
-        if (this.offShelvesProNames.length > 0) {
-          throw new Error(
-            CURRENT_LANGFILE['cart.errorInfo4'].replace(
-              /{.+}/,
-              this.offShelvesProNames.join('/')
-            )
-          );
-        }
-        if (this.outOfstockProNames.length > 0) {
-          throw new Error(
-            CURRENT_LANGFILE['cart.errorInfo2'].replace(
-              /{.+}/,
-              this.outOfstockProNames.join('/')
-            )
-          );
-        }
-        if (this.deletedProNames.length > 0) {
-          throw new Error(
-            CURRENT_LANGFILE['cart.errorInfo5'].replace(
-              /{.+}/,
-              this.deletedProNames.join('/')
-            )
-          );
-        }
-        if (this.notSeableProNames.length > 0) {
-          throw new Error(
-            CURRENT_LANGFILE['cart.errorInfo6'].replace(
-              /{.+}/,
-              this.notSeableProNames.join('/')
-            )
-          );
-        }
+        await this.validCheckoutLimitRule({ minimunAmountPrice });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: purchasesRes });
@@ -400,6 +405,7 @@ class CheckoutStore {
     subscriptionFlag = false,
     purchaseFlag,
     taxFeeData,
+    minimunAmountPrice,
     isThrowErr = false
   } = {}) {
     try {
@@ -432,162 +438,118 @@ class CheckoutStore {
       sitePurchasesRes = sitePurchasesRes.context;
 
       this.setPromotionCode(promotionCode);
-      runInAction(() => {
-        let goodsList = siteMiniPurchasesRes.goodsList;
+      let goodsList = siteMiniPurchasesRes.goodsList;
 
-        for (let good of goodsList) {
-          good.goodsInfoImg = good.goodsInfoImg
-            ? good.goodsInfoImg
-            : good.goods.goodsImg;
-          const selectdSkuInfo = (good.goodsInfos || []).filter((g) => {
-            if (good.buyCount > g.stock) {
-              g.isEmpty = true;
+      for (let good of goodsList) {
+        good.goodsInfoImg = good.goodsInfoImg
+          ? good.goodsInfoImg
+          : good.goods.goodsImg;
+        const selectdSkuInfo = (good.goodsInfos || []).filter((g) => {
+          if (good.buyCount > g.stock) {
+            g.isEmpty = true;
+          }
+          return g.goodsInfoId === good.goodsInfoId;
+        })[0];
+        let specList = good.goodsSpecs;
+        let specDetailList = good.goodsSpecDetails || [];
+        (specList || []).map((sItem) => {
+          sItem.chidren = specDetailList.filter((sdItem) => {
+            if (
+              selectdSkuInfo &&
+              selectdSkuInfo.mockSpecDetailIds &&
+              selectdSkuInfo.mockSpecIds &&
+              selectdSkuInfo.mockSpecDetailIds.includes(sdItem.specDetailId) &&
+              selectdSkuInfo.mockSpecIds.includes(sdItem.specId)
+            ) {
+              sdItem.selected = true;
             }
-            return g.goodsInfoId === good.goodsInfoId;
-          })[0];
-          let specList = good.goodsSpecs;
-          let specDetailList = good.goodsSpecDetails || [];
-          (specList || []).map((sItem) => {
-            sItem.chidren = specDetailList.filter((sdItem) => {
+            good.goodsInfos.map((el) => {
               if (
-                selectdSkuInfo &&
-                selectdSkuInfo.mockSpecDetailIds &&
-                selectdSkuInfo.mockSpecIds &&
-                selectdSkuInfo.mockSpecDetailIds.includes(
-                  sdItem.specDetailId
-                ) &&
-                selectdSkuInfo.mockSpecIds.includes(sdItem.specId)
+                el.mockSpecDetailIds &&
+                el.mockSpecIds &&
+                el.mockSpecDetailIds.includes(sdItem.specDetailId) &&
+                el.mockSpecIds.includes(sdItem.specId)
               ) {
-                sdItem.selected = true;
-              }
-              good.goodsInfos.map((el) => {
-                if (
-                  el.mockSpecDetailIds &&
-                  el.mockSpecIds &&
-                  el.mockSpecDetailIds.includes(sdItem.specDetailId) &&
-                  el.mockSpecIds.includes(sdItem.specId)
-                ) {
-                  if (el.isEmpty) {
-                    sdItem.isEmpty = true;
-                  }
+                if (el.isEmpty) {
+                  sdItem.isEmpty = true;
                 }
-              });
-
-              return sdItem.specId === sItem.specId;
+              }
             });
-            return sItem;
+
+            return sdItem.specId === sItem.specId;
           });
-        }
-        this.setLoginCartData(goodsList);
-        let params = {
-          totalPrice: sitePurchasesRes.totalPrice,
-          taxFeePrice: sitePurchasesRes.taxFeePrice,
-          freeShippingFlag: sitePurchasesRes.freeShippingFlag,
-          freeShippingDiscountPrice: sitePurchasesRes.freeShippingDiscountPrice,
-          tradePrice: sitePurchasesRes.tradePrice,
-          // discountPrice: sitePurchasesRes.discountPrice,
-          deliveryPrice: sitePurchasesRes.deliveryPrice,
-          promotionDesc: sitePurchasesRes.promotionDesc,
-          promotionDiscount: sitePurchasesRes.promotionDiscount,
-          subscriptionPrice: sitePurchasesRes.subscriptionPrice,
-          goodsInfos: sitePurchasesRes.goodsInfos,
-          promotionVOList: sitePurchasesRes.promotionVOList,
-          totalMinusSubPrice: sitePurchasesRes.totalMinusSubPrice
-        };
+          return sItem;
+        });
+      }
+      this.setLoginCartData(goodsList);
+      let params = {
+        totalPrice: sitePurchasesRes.totalPrice,
+        taxFeePrice: sitePurchasesRes.taxFeePrice,
+        freeShippingFlag: sitePurchasesRes.freeShippingFlag,
+        freeShippingDiscountPrice: sitePurchasesRes.freeShippingDiscountPrice,
+        tradePrice: sitePurchasesRes.tradePrice,
+        // discountPrice: sitePurchasesRes.discountPrice,
+        deliveryPrice: sitePurchasesRes.deliveryPrice,
+        promotionDesc: sitePurchasesRes.promotionDesc,
+        promotionDiscount: sitePurchasesRes.promotionDiscount,
+        subscriptionPrice: sitePurchasesRes.subscriptionPrice,
+        goodsInfos: sitePurchasesRes.goodsInfos,
+        promotionVOList: sitePurchasesRes.promotionVOList,
+        totalMinusSubPrice: sitePurchasesRes.totalMinusSubPrice
+      };
 
+      if (
+        !promotionCode ||
+        !sitePurchasesRes.promotionFlag ||
+        sitePurchasesRes.couponCodeFlag
+      ) {
         if (
-          !promotionCode ||
-          !sitePurchasesRes.promotionFlag ||
-          sitePurchasesRes.couponCodeFlag
+          sitePurchasesRes.couponCodeFlag &&
+          !sitePurchasesRes.couponCodeDiscount
         ) {
-          if (
-            sitePurchasesRes.couponCodeFlag &&
-            !sitePurchasesRes.couponCodeDiscount
-          ) {
-            this.setCouponCodeFitFlag(false);
-          } else {
-            this.setCouponCodeFitFlag(true);
-          }
-          params.discountPrice = sitePurchasesRes.discountPrice;
-          params.promotionDiscountPrice =
-            sitePurchasesRes.promotionDiscountPrice;
-          params.subscriptionDiscountPrice =
-            sitePurchasesRes.subscriptionDiscountPrice;
+          this.setCouponCodeFitFlag(false);
         } else {
-          params.discountPrice = this.discountPrice;
-          params.promotionDiscountPrice = this.promotionDiscountPrice;
-          params.subscriptionDiscountPrice = this.subscriptionDiscountPrice;
+          this.setCouponCodeFitFlag(true);
         }
-        this.setCartPrice(params);
+        params.discountPrice = sitePurchasesRes.discountPrice;
+        params.promotionDiscountPrice = sitePurchasesRes.promotionDiscountPrice;
+        params.subscriptionDiscountPrice =
+          sitePurchasesRes.subscriptionDiscountPrice;
+      } else {
+        params.discountPrice = this.discountPrice;
+        params.promotionDiscountPrice = this.promotionDiscountPrice;
+        params.subscriptionDiscountPrice = this.subscriptionDiscountPrice;
+      }
+      this.setCartPrice(params);
 
-        this.offShelvesProNames = siteMiniPurchasesRes.goodsList
-          .filter((ele) => !ele.addedFlag)
-          .map((ele) =>
-            [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
-          );
+      this.offShelvesProNames = siteMiniPurchasesRes.goodsList
+        .filter((ele) => !ele.addedFlag)
+        .map((ele) =>
+          [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
+        );
 
-        this.outOfstockProNames = siteMiniPurchasesRes.goodsList
-          .filter((ele) => ele.buyCount > ele.stock)
-          .map((ele) =>
-            [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
-          );
-        this.deletedProNames = siteMiniPurchasesRes.goodsList
-          .filter((ele) => ele.delFlag)
-          .map((ele) =>
-            [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
-          );
-        this.notSeableProNames = siteMiniPurchasesRes.goodsList
-          .filter((ele) => !ele?.goods?.saleableFlag)
-          .map((ele) =>
-            [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
-          );
+      this.outOfstockProNames = siteMiniPurchasesRes.goodsList
+        .filter((ele) => ele.buyCount > ele.stock)
+        .map((ele) =>
+          [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
+        );
+      this.deletedProNames = siteMiniPurchasesRes.goodsList
+        .filter((ele) => ele.delFlag)
+        .map((ele) =>
+          [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
+        );
+      this.notSeableProNames = siteMiniPurchasesRes.goodsList
+        .filter((ele) => !ele?.goods?.saleableFlag)
+        .map((ele) =>
+          [ele.goodsInfoName, ele.specText].filter((e) => e).join(' ')
+        );
 
-        this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap);
-        this.changeLoadingCartData(false);
-        // 抛出错误
-        if (isThrowErr) {
-          if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-            throw new Error(
-              CURRENT_LANGFILE['cart.errorInfo3'].replace(
-                /{.+}/,
-                formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-              )
-            );
-          }
-          if (this.offShelvesProNames.length > 0) {
-            throw new Error(
-              CURRENT_LANGFILE['cart.errorInfo4'].replace(
-                /{.+}/,
-                this.offShelvesProNames.join('/')
-              )
-            );
-          }
-          if (this.outOfstockProNames.length > 0) {
-            throw new Error(
-              CURRENT_LANGFILE['cart.errorInfo2'].replace(
-                /{.+}/,
-                this.outOfstockProNames.join('/')
-              )
-            );
-          }
-          if (this.deletedProNames.length > 0) {
-            throw new Error(
-              CURRENT_LANGFILE['cart.errorInfo5'].replace(
-                /{.+}/,
-                this.deletedProNames.join('/')
-              )
-            );
-          }
-          if (this.notSeableProNames.length > 0) {
-            throw new Error(
-              CURRENT_LANGFILE['cart.errorInfo6'].replace(
-                /{.+}/,
-                this.notSeableProNames.join('/')
-              )
-            );
-          }
-        }
-      });
+      this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap);
+      this.changeLoadingCartData(false);
+      // 抛出错误
+      if (isThrowErr) {
+        await this.validCheckoutLimitRule({ minimunAmountPrice });
+      }
       return new Promise(function (resolve) {
         resolve({ backCode, context: sitePurchasesRes });
       });
