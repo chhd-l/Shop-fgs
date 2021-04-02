@@ -122,9 +122,6 @@ class SearchSelection extends React.Component {
     }
   };
   handleInputBlur = (e) => {
-    if (this.props.isCitySearchSelection) {
-      this.props.getInputTarget(e);
-    }
     if (this.props.freeText) {
       const target = e.target;
       const { form } = this.state;
@@ -165,6 +162,9 @@ class SearchSelection extends React.Component {
             },
             () => {
               this.props.selectedItemChange(citem);
+              if (this.props.isCitySearchSelection) {
+                this.props.getInputTarget(e);
+              }
             }
           );
         }, 500);
