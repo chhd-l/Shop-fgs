@@ -292,102 +292,9 @@ class Payment extends React.Component {
       this
     );
   }
-  updateSelectedCardInfo = (data) => {
-    let cyberMd5Cvv;
-    if (data?.cardCvv) {
-      if (this.state.paymentTypeVal == 'cyber') {
-        cyberMd5Cvv = md5(data.lastFourDigits + data.cardCvv);
-        data = Object.assign({}, data, { cardCvv: cyberMd5Cvv });
-      }
-      this.setState({
-        isShowCyberBindCardBtn: true,
-        cyberPayParam: data
-      });
-    } else {
-      this.setState({
-        isShowCyberBindCardBtn: false,
-        cyberPayParam: data
-      });
-    }
-  };
-  showCyberList = () => {
-    this.setState({
-      isShowCardList: true
-    });
-  };
-  showCyberForm = () => {
-    this.setState({
-      isShowCardList: false
-    });
-  };
-  setCardListToEmpty = () => {
-    this.setState({
-      cardListLength: 0
-    });
-  };
-  inputBlur = async (e) => {
-    const { cyberErrMsgObj } = this.state;
-    const target = e.target;
-    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
-    const value = target.value;
-    try {
-      await validData(targetRule, { [target.name]: value });
-      this.setState({
-        cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
-          [target.name]: ''
-        })
-      });
-    } catch (err) {
-      this.setState({
-        cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
-          [target.name]: err.message
-        })
-      });
-    }
-  };
-  //input输入事件
-  handleCyberInputChange = (e) => {
-    const target = e.target;
-    const { cyberPaymentForm } = this.state;
-    const name = target.name;
-    let value = '';
-    value = target.value;
-    if (name === 'cardNumber') {
-      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-    }
-    cyberPaymentForm[name] = value;
-    this.setState({ cyberPaymentForm });
-    this.inputBlur(e);
-  };
-  //select事件
-  handleCyberSelectedItemChange = (name, item) => {
-    let cyberErrMsgObj = this.state.cyberErrMsgObj;
-    const { cyberPaymentForm } = this.state;
-    cyberPaymentForm[name] = item.value;
-
-    let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，就清空没填提示
-
-    this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });
-  };
-  getPetVal() {
-    let obj = doGetGAVal(this.props);
-    this.setState({ pet: obj });
-  }
   componentWillMount() {
     isHubGA && this.getPetVal();
   }
-  queryList = async () => {
-    try {
-      let res = await getPaymentMethod();
-      let cardList = res.context;
-      this.setState({ cardListLength: cardList.length });
-      if (cardList.length > 0) {
-        this.setState({ isShowCardList: true });
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
   async componentDidMount() {
     if (this.isLogin) {
       await this.queryList();
@@ -396,7 +303,7 @@ class Payment extends React.Component {
       checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' });
     }
     try {
-      const { checkoutStore, paymentStore, clinicStore, history } = this.props;
+      const { paymentStore, clinicStore, history } = this.props;
       const { tid } = this.state;
       setSeoConfig().then((res) => {
         this.setState({ seoConfig: res });
@@ -441,11 +348,6 @@ class Payment extends React.Component {
           });
         }
       }
-      console.log(
-        (this.isLogin ? this.loginCartData : this.cartData).filter(
-          (el) => el.prescriberFlag
-        ).length > 0
-      );
       console.log(sessionItemRoyal.get('needShowPrescriber'));
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
@@ -555,6 +457,99 @@ class Payment extends React.Component {
       this.state.paymentTypeVal
     );
   }
+  updateSelectedCardInfo = (data) => {
+    let cyberMd5Cvv;
+    if (data?.cardCvv) {
+      if (this.state.paymentTypeVal == 'cyber') {
+        cyberMd5Cvv = md5(data.lastFourDigits + data.cardCvv);
+        data = Object.assign({}, data, { cardCvv: cyberMd5Cvv });
+      }
+      this.setState({
+        isShowCyberBindCardBtn: true,
+        cyberPayParam: data
+      });
+    } else {
+      this.setState({
+        isShowCyberBindCardBtn: false,
+        cyberPayParam: data
+      });
+    }
+  };
+  showCyberList = () => {
+    this.setState({
+      isShowCardList: true
+    });
+  };
+  showCyberForm = () => {
+    this.setState({
+      isShowCardList: false
+    });
+  };
+  setCardListToEmpty = () => {
+    this.setState({
+      cardListLength: 0
+    });
+  };
+  inputBlur = async (e) => {
+    const { cyberErrMsgObj } = this.state;
+    const target = e.target;
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const value = target.value;
+    try {
+      await validData(targetRule, { [target.name]: value });
+      this.setState({
+        cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
+          [target.name]: ''
+        })
+      });
+    } catch (err) {
+      this.setState({
+        cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
+          [target.name]: err.message
+        })
+      });
+    }
+  };
+  //input输入事件
+  handleCyberInputChange = (e) => {
+    const target = e.target;
+    const { cyberPaymentForm } = this.state;
+    const name = target.name;
+    let value = '';
+    value = target.value;
+    if (name === 'cardNumber') {
+      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+    }
+    cyberPaymentForm[name] = value;
+    this.setState({ cyberPaymentForm });
+    this.inputBlur(e);
+  };
+  //select事件
+  handleCyberSelectedItemChange = (name, item) => {
+    let cyberErrMsgObj = this.state.cyberErrMsgObj;
+    const { cyberPaymentForm } = this.state;
+    cyberPaymentForm[name] = item.value;
+
+    let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，就清空没填提示
+
+    this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });
+  };
+  getPetVal() {
+    let obj = doGetGAVal(this.props);
+    this.setState({ pet: obj });
+  }
+  queryList = async () => {
+    try {
+      let res = await getPaymentMethod();
+      let cardList = res.context;
+      this.setState({ cardListLength: cardList.length });
+      if (cardList.length > 0) {
+        this.setState({ isShowCardList: true });
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
     this.setState({
@@ -627,52 +622,52 @@ class Payment extends React.Component {
   initPaymentWay = async () => {
     try {
       const payWay = await getWays();
-      // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
+      // name:后台返回的支付方式，langKey：翻译id，paymentTypeVal：前端显示的支付方式
       let payMethodsObj = {
         PAYU: {
           name: 'payu',
-          id: 'creditCard',
+          langKey: 'creditCard',
           paymentTypeVal: 'payUCreditCard'
         },
         PAYU_RU: {
           name: 'payu_ru',
-          id: 'creditCard',
+          langKey: 'creditCard',
           paymentTypeVal: 'payUCreditCardRU'
         },
         PAYU_TU: {
           name: 'payu_tu',
-          id: 'creditCard',
+          langKey: 'creditCard',
           paymentTypeVal: 'payUCreditCardTU'
         },
         COD: {
           name: 'payu_cod',
-          id: 'cod',
+          langKey: 'cod',
           paymentTypeVal: 'cod'
         },
-        PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
+        PAYUOXXO: { name: 'payuoxxo', langKey: 'oxxo', paymentTypeVal: 'oxxo' },
         adyen_credit_card: {
           name: 'adyen_credit_card',
-          id: 'adyenCard',
+          langKey: 'adyenCard',
           paymentTypeVal: 'adyenCard'
         },
         adyen_klarna_pay_now: {
           name: 'adyen_klarna_pay_now',
-          id: 'adyenPayNow',
+          langKey: 'adyenPayNow',
           paymentTypeVal: 'adyenKlarnaPayNow'
         },
         adyen_klarna_pay_later: {
           name: 'adyen_klarna_pay_lat',
-          id: 'adyenPayLater',
+          langKey: 'adyenPayLater',
           paymentTypeVal: 'adyenKlarnaPayLater'
         },
         directEbanking: {
           name: 'directEbanking',
-          id: 'sofort',
+          langKey: 'sofort',
           paymentTypeVal: 'directEbanking'
         },
         pc_web: {
           name: 'cyber',
-          id: 'cyber',
+          langKey: 'cyber',
           paymentTypeVal: 'cyber'
         }
       };
@@ -683,7 +678,7 @@ class Payment extends React.Component {
         payMethodsObj = {
           COD: {
             name: 'payu_cod',
-            id: 'cod',
+            langKey: 'cod',
             paymentTypeVal: 'cod'
           }
         };
@@ -691,63 +686,14 @@ class Payment extends React.Component {
       let payWayNameArr = [];
       if (payWay.context) {
         payWayNameArr = (payWay.context.payPspItemVOList || [])
-          .map(
-            (p) => payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()]
-          )
-          .filter((e) => e);
+          .map((p) => {
+            const tmp =
+              payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
+            return tmp ? Object.assign({}, tmp, p) : tmp;
+          })
+          .filter((e) => e)
+          .filter((e) => e.isOpen);
       }
-
-      let payMethod = (payWayNameArr[0] && payWayNameArr[0].name) || 'none'; //初始化默认取第1个
-
-      //各种支付component初始化方法
-      var initPaymentWay = {
-        adyen_credit_card: () => {
-          this.setState({ paymentTypeVal: 'adyenCard' });
-        },
-        adyen_klarna_slice: () => {
-          console.log('initKlarnaSlice');
-        },
-        adyen_klarna_pay_now: () => {
-          this.setState({ paymentTypeVal: 'adyenKlarnaPayNow' });
-        },
-        adyen_klarna_pay_lat: () => {
-          this.setState({ paymentTypeVal: 'adyenKlarnaPayLater' });
-        },
-        //Sofort支付
-        directEbanking: () => {
-          this.setState({ paymentTypeVal: 'directEbanking' });
-        },
-        payu: () => {
-          this.setState({ paymentTypeVal: 'payUCreditCard' });
-        },
-        payu_ru: () => {
-          this.setState({
-            paymentTypeVal: 'payUCreditCardRU',
-            pspItemCode: ''
-          });
-        },
-        payu_tu: () => {
-          this.setState({
-            paymentTypeVal: 'payUCreditCardTU',
-            pspItemCode: ''
-          });
-        },
-        payu_cod: () => {
-          this.setState({
-            paymentTypeVal: 'cod'
-          });
-        },
-        payuoxxo: () => {
-          this.setState({ paymentTypeVal: 'oxxo' });
-        },
-        //cyber支付
-        cyber: () => {
-          this.setState({ paymentTypeVal: 'cyber' });
-        },
-        none: () => {
-          console.log('no payway');
-        }
-      };
 
       //默认第一个,如没有支付方式,就不初始化方法
       this.setState(
@@ -758,7 +704,10 @@ class Payment extends React.Component {
           )
         },
         () => {
-          initPaymentWay[payMethod] && initPaymentWay[payMethod]();
+          //初始化默认取第1个
+          this.setState({
+            paymentTypeVal: payWayNameArr[0]?.paymentTypeVal || ''
+          });
         }
       );
     } catch (e) {
@@ -2567,9 +2516,11 @@ class Payment extends React.Component {
           <div className={`ml-custom mr-custom`}>
             {payWayNameArr.map((item, i) => {
               return (
+                // todo adyenPayLater 订阅购买时，隐藏
                 <div
                   className={`rc-input rc-input--inline ${
-                    subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
+                    subForm.buyWay == 'frequency' &&
+                    (item.code == 'adyenPayLater' || item.code == 'payuoxxo')
                       ? 'hidden'
                       : ''
                   }`}
@@ -2588,7 +2539,7 @@ class Payment extends React.Component {
                     className="rc-input__label--inline"
                     htmlFor={`payment-info-${item.id}`}
                   >
-                    <FormattedMessage id={item.id} />
+                    <FormattedMessage id={item.langKey} />
                   </label>
                 </div>
               );
@@ -2619,13 +2570,7 @@ class Payment extends React.Component {
                 </>
               )}
               {/* oxxo */}
-              {paymentTypeVal === 'oxxo' &&
-              !loginCartData.filter(
-                (ele) =>
-                  ele.subscriptionStatus &&
-                  (ele.subscriptionPrice > 0 || ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
-                  ele.goodsInfoFlag
-              ).length ? (
+              {paymentTypeVal === 'oxxo' ? (
                 <>
                   <OxxoConfirm
                     type={'oxxo'}
@@ -2859,12 +2804,9 @@ class Payment extends React.Component {
     return form ? (
       <>
         {titleVisible && (
-          <>
-            <span className="medium">
-              <FormattedMessage id="billingAddress" />
-            </span>
-            <br />
-          </>
+          <p className="mb-0 medium">
+            <FormattedMessage id="billingAddress" />
+          </p>
         )}
         <AddressPreview
           boldName={boldName}
