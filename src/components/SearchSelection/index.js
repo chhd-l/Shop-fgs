@@ -125,6 +125,9 @@ class SearchSelection extends React.Component {
     if (this.props.freeText) {
       const target = e.target;
       const { form } = this.state;
+      if (this.props.isCitySearchSelection) {
+        this.props.getInputTarget(e);
+      }
       try {
         setTimeout(() => {
           // 可以输入，也可以选择
@@ -162,9 +165,6 @@ class SearchSelection extends React.Component {
             },
             () => {
               this.props.selectedItemChange(citem);
-              if (this.props.isCitySearchSelection) {
-                this.props.getInputTarget(e);
-              }
             }
           );
         }, 500);
