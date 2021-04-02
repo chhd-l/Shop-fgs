@@ -1,9 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ADYEN_CREDIT_CARD_IMGURL_ENUM,
-  ADYEN_CREDIT_CARD_BRANDS
-} from '@/utils/constant';
+import { ADYEN_CREDIT_CARD_BRANDS } from '@/utils/constant';
 import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
@@ -24,7 +21,6 @@ class AdyenCreditCardForm extends React.Component {
     enableStoreDetails: false, // 是否显示保存卡checkbox
     mustSaveForFutherPayments: true, // 是否必须勾选保存卡checkbox，true-只有勾选了之后保存卡按钮才可用
     isOnepageCheckout: false,
-    supportPaymentMethods: [],
     updateClickPayBtnValidStatus: () => {},
     updateAdyenPayParam: () => {},
     refreshList: () => {},
@@ -204,10 +200,10 @@ class AdyenCreditCardForm extends React.Component {
       showSaveBtn,
       paymentStore,
       mustSaveForFutherPayments,
-      cardList,
-      supportPaymentMethods
+      cardList
     } = this.props;
     const { saveLoading, isValid } = this.state;
+    const { supportPaymentMethods } = paymentStore;
     return (
       <div>
         {/* 支持卡的类型 Visa和master */}

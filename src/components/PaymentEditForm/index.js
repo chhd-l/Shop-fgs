@@ -22,8 +22,7 @@ import { cardTypeImg, CardTypeArr, CardTypeName } from '@/utils/constant/cyber';
 @observer
 class PaymentEditForm extends React.Component {
   static defaultProps = {
-    paymentType: 'PAYU', // PAYU ADYEN CYBER(美国支付)
-    supportPaymentMethods: []
+    paymentType: 'PAYU' // PAYU ADYEN CYBER(美国支付)
   };
   constructor(props) {
     super(props);
@@ -681,7 +680,11 @@ class PaymentEditForm extends React.Component {
     }
   };
   render() {
-    const { supportPaymentMethods, needEmail, needPhone } = this.props;
+    const {
+      paymentStore: { supportPaymentMethods },
+      needEmail,
+      needPhone
+    } = this.props;
     const {
       creditCardInfoForm,
       errorMsg,
@@ -706,7 +709,7 @@ class PaymentEditForm extends React.Component {
             <img
               key={idx}
               className="logo-payment-card"
-              src={el.img}
+              src={el.imgUrl}
               alt="logo-payment-card-image"
             />
           </LazyLoad>

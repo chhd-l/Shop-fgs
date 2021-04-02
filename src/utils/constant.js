@@ -21,14 +21,6 @@ export const CREDIT_CARD_IMG_ENUM = {
   AMEX: amexImg
 };
 
-export const CREDIT_CARD_IMGURL_ENUM = [visaImg, amexImg, mastercardImg];
-const tmpArr = [visaImg, mastercardImg];
-export const ADYEN_CREDIT_CARD_IMGURL_ENUM =
-  {
-    fr: [visaImg, mastercardImg, cartebancaireImg],
-    ru: [visaImg, mastercardImg, discoverImg, amexImg],
-    en: [visaImg, mastercardImg, discoverImg, amexImg]
-  }[process.env.REACT_APP_LANG] || tmpArr;
 export const ADYEN_CREDIT_CARD_BRANDS = {
   fr: ['mc', 'visa', 'cartebancaire'],
   ru: ['mc', 'visa', 'amex', 'discover'],

@@ -459,13 +459,6 @@ class Payment extends React.Component {
   get isCurrentBuyWaySubscription() {
     return this.state.subForm?.buyWay === 'frequency';
   }
-  get supportPaymentMethods() {
-    return (
-      this.state.payWayNameArr.filter(
-        (p) => p.paymentTypeVal === this.state.paymentTypeVal
-      )[0]?.payPspItemCardTypeVOList || []
-    );
-  }
   updateSelectedCardInfo = (data) => {
     let cyberMd5Cvv;
     if (data?.cardCvv) {
@@ -699,23 +692,14 @@ class Payment extends React.Component {
           .map((p) => {
             const tmp =
               payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-            return tmp
-              ? Object.assign(
-                  {},
-                  tmp,
-                  p
-                  // { supportSubscription: true },
-                  // { maxAmount: 10 }
-                )
-              : tmp;
+            return tmp ? Object.assign({}, tmp, p) : tmp;
           })
           .filter((e) => e)
           .filter(
-            (e) => e.isOpen
-            // todo
-            // &&
-            // (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
-            // (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
+            (e) =>
+              e.isOpen &&
+              (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
+              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
           );
       }
 
@@ -726,9 +710,12 @@ class Payment extends React.Component {
         },
         () => {
           //初始化默认取第1个
-          this.setState({
-            paymentTypeVal: payWayNameArr[0]?.paymentTypeVal || ''
-          });
+          this.setState(
+            {
+              paymentTypeVal: payWayNameArr[0]?.paymentTypeVal || ''
+            },
+            () => this.onPaymentTypeValChange()
+          );
         }
       );
     } catch (e) {
@@ -737,6 +724,13 @@ class Payment extends React.Component {
       });
     }
   };
+  onPaymentTypeValChange() {
+    this.props.paymentStore.setSupportPaymentMethods(
+      this.state.payWayNameArr.filter(
+        (p) => p.paymentTypeVal === this.state.paymentTypeVal
+      )[0]?.payPspItemCardTypeVOList || []
+    );
+  }
   //获取卡类型
   initCardType = () => {
     let cardTypeArr = [
@@ -1811,7 +1805,9 @@ class Payment extends React.Component {
     });
   };
   handlePaymentTypeChange = (e) => {
-    this.setState({ paymentTypeVal: e.target.value, email: '' });
+    this.setState({ paymentTypeVal: e.target.value, email: '' }, () =>
+      this.onPaymentTypeValChange()
+    );
   };
   handleCardTypeChange = (e) => {
     this.setState({ cardTypeVal: e.target.value }, () => {
@@ -2452,7 +2448,6 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = ({ visible = false }) => {
-    const { supportPaymentMethods } = this;
     const {
       paymentTypeVal,
       cardTypeVal,
@@ -2628,7 +2623,6 @@ class Payment extends React.Component {
                       type: 'payUCreditCard'
                     })}
                     defaultCardDataFromAddr={this.defaultCardDataFromAddr}
-                    supportPaymentMethods={supportPaymentMethods}
                   />
                   {payConfirmBtn({
                     disabled: !validSts.payUCreditCard || validForBilling,
@@ -2643,7 +2637,6 @@ class Payment extends React.Component {
                   <AdyenCreditCard
                     ref={this.adyenCardRef}
                     subBuyWay={subForm.buyWay}
-                    supportPaymentMethods={supportPaymentMethods}
                     showErrorMsg={this.showErrorMsg}
                     updateAdyenPayParam={this.updateAdyenPayParam}
                     updateFormValidStatus={this.updateValidStatus.bind(this, {
