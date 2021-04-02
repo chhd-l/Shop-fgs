@@ -114,7 +114,7 @@ class UnloginCart extends React.Component {
           checkoutStore.setPetFlag(res.context.petFlag);
         }
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
+        const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
           clinicStore,

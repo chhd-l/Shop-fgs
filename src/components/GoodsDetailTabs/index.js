@@ -204,7 +204,6 @@ const GoodsDetailTabs = function (props) {
 
   useEffect(() => {
     handleTabData();
-    debugger;
   }, []);
 
   const createMarkup = (text) => ({ __html: text });
