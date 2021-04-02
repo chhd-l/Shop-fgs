@@ -69,7 +69,10 @@ class LoginCart extends React.Component {
     try {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
-      await checkoutStore.updateLoginCart({ isThrowErr: true });
+      await checkoutStore.updateLoginCart({
+        isThrowErr: true,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
 
       let autoAuditFlag = false;
       let res = await getProductPetConfig({

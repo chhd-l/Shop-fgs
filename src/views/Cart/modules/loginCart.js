@@ -252,7 +252,10 @@ class LoginCart extends React.Component {
   async updateCartCache({ callback, isThrowErr = false } = {}) {
     try {
       this.setState({ checkoutLoading: true });
-      await this.checkoutStore.updateLoginCart({ isThrowErr });
+      await this.checkoutStore.updateLoginCart({
+        isThrowErr,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
       callback && callback();
       this.setData();
     } catch (err) {
@@ -1367,10 +1370,9 @@ class LoginCart extends React.Component {
         subscriptionFlag: buyWay === 'frequency'
       });
     } else {
-      result = await checkoutStore.updateUnloginCart(
-        '',
-        lastPromotionInputValue
-      );
+      result = await checkoutStore.updateUnloginCart({
+        promotionCode: lastPromotionInputValue
+      });
     }
     if (
       result &&
