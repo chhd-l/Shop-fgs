@@ -126,9 +126,9 @@ class PaymentComp extends React.Component {
   async componentDidMount() {
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.payPsp?.name,
+        paymentType: res?.context?.name,
         supportPaymentMethods: computedSupportPaymentMethods(
-          res?.context?.payPsp?.supportPaymentMethods || []
+          res?.context?.supportPaymentMethods || []
         )
       }); //PAYU,ADYEN,CYBER
     });

@@ -1204,7 +1204,14 @@ const de_DE = {
   'payment.cardInfoErr':
     'Die Karteninformationen sind falsch, bitte überprüfen.',
   'cart.errorInfo6':
-    'Sie können Ihre Bestellung nicht aufgeben, nicht Seable: {val}'
+    'Sie können Ihre Bestellung nicht aufgeben, nicht Seable: {val}',
+  'bindPrescriber.modal.title':
+    'Есть ли у вас рекомендация от ветеринарного врача?',
+  'bindPrescriber.modal.content':
+    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
+  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
+  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
+  'bindPrescriber.modal.or': 'или'
 };
 
 export default de_DE;

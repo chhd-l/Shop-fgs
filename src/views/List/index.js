@@ -537,7 +537,7 @@ function ListItemBody({ item, headingTag }) {
                     style={{
                       color: '#000'
                     }}
-                    className="value sales"
+                    className="value sales contaner-price"
                   >
                     {item.toPrice ? (
                       <span className="mr-1" style={{ fontSize: '.8em' }}>
