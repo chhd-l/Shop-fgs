@@ -948,6 +948,7 @@ class Payment extends React.Component {
       let phone = obj.phone;
       let parameters;
       /* 组装支付需要的参数 */
+      console.log(type, parameters, commonParameter, obj, 'type');
       const actions = {
         oxxo: () => {
           parameters = Object.assign({}, commonParameter, {
@@ -967,7 +968,7 @@ class Payment extends React.Component {
         payUCreditCardRU: async () => {
           parameters = await this.hanldePAYUCheckoutParams({
             commonParameter,
-            parameters,
+            parameters: parameters,
             payPspItemEnum: isLogin ? 'PAYU_RUSSIA_AUTOSHIP2' : 'PAYU_RUSSIA',
             country: 'RUS'
           });
@@ -1511,7 +1512,7 @@ class Payment extends React.Component {
       guestEmail,
       promotionCode
     } = this.state;
-
+    console.log(deliveryAddress, 'deliveryAddress');
     /**
      * ★★★ 1
      * 封装下单参数的时候需要把新加的字段加上，

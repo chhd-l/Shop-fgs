@@ -1801,8 +1801,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {details.promotions &&
-                                details.promotions.includes('club') ? (
+                                {sessionItemRoyal.get('pr-question-params') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
                                       The recommended daily ration for your pet
