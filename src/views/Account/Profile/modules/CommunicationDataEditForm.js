@@ -7,9 +7,22 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 
+const SPECAIL_CONSENT_ENUM =
+  {
+    en: [
+      'RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL',
+      'RC_DF_US_PREF_CENTER_PRODUCTS_OPT_MAIL',
+      'RC_DF_US_PREF_CENTER_NL_OPT_MAIL',
+      'RC_DF_HQ_MARS_PRIVACY_POLICY'
+    ],
+    fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
+    ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
+    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
+  }[process.env.REACT_APP_LANG] || [];
 class CommunicationDataEditForm extends React.Component {
   static defaultProps = {
-    originData: null
+    originData: null,
+    needPhone: true
   };
   constructor(props) {
     super(props);
@@ -114,80 +127,74 @@ class CommunicationDataEditForm extends React.Component {
   }
   //保存
   handleSave = async () => {
-    const { userInfo } = this.props;
-    const { form, list } = this.state;
-    let errMsg = null;
-    const theConset = list.filter((l) =>
-      ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'].includes(
-        l.consentDesc
-      )
-    ).length;
-    const hasCheckedTheConsent = list.filter(
-      (l) =>
-        ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'].includes(
-          l.consentDesc
-        ) && l.isChecked
-    ).length;
-    // 1 勾选了某条特殊consent情况下，phone/email不能同时取消
-    // 2 勾选了phone/email，必须勾选某条特殊consent
-    if (
-      hasCheckedTheConsent &&
-      !+form.communicationPhone &&
-      !+form.communicationEmail
-    ) {
-      errMsg = <FormattedMessage id="mustChooseACommunicationMethodTip" />;
-    } else if (
-      theConset &&
-      (+form.communicationPhone || +form.communicationEmail) &&
-      !hasCheckedTheConsent
-    ) {
-      errMsg = <FormattedMessage id="mustChooseTheConsentTip" />;
-    }
+    try {
+      const { userInfo, needPhone } = this.props;
+      const { form, list } = this.state;
+      let errMsg = null;
+      const theConset = list.filter((l) =>
+        SPECAIL_CONSENT_ENUM.includes(l.consentDesc)
+      ).length;
+      const hasCheckedTheConsent = list.filter(
+        (l) => SPECAIL_CONSENT_ENUM.includes(l.consentDesc) && l.isChecked
+      ).length;
+      // 1 勾选了某条特殊consent情况下，phone/email不能同时取消
+      // 2 勾选了phone/email，必须勾选某条特殊consent
+      if (
+        hasCheckedTheConsent &&
+        !+form.communicationEmail &&
+        (!needPhone || !+form.communicationPhone)
+      ) {
+        errMsg = <FormattedMessage id="mustChooseACommunicationMethodTip" />;
+      } else if (
+        theConset &&
+        (+form.communicationEmail || (needPhone && +form.communicationPhone)) &&
+        !hasCheckedTheConsent
+      ) {
+        errMsg = <FormattedMessage id="mustChooseTheConsentTip" />;
+      }
 
-    if (errMsg) {
-      this.showErrMsg(errMsg);
-      return false;
-    }
+      if (errMsg) {
+        this.showErrMsg(errMsg);
+        return false;
+      }
 
-    this.setState({
-      saveLoading: true
-    });
-    const oktaTokenString =
-      this.props.authState && this.props.authState.accessToken
-        ? this.props.authState.accessToken.value
-        : '';
-    let oktaToken = 'Bearer ' + oktaTokenString;
-    let submitParam = this.bindSubmitParam(this.state.list);
-    Promise.all([
-      updateCustomerBaseInfo(
+      this.setState({
+        saveLoading: true
+      });
+      const oktaTokenString =
+        this.props.authState && this.props.authState.accessToken
+          ? this.props.authState.accessToken.value
+          : '';
+      let oktaToken = 'Bearer ' + oktaTokenString;
+      let submitParam = this.bindSubmitParam(this.state.list);
+
+      await userBindConsent({
+        ...submitParam,
+        ...{ oktaToken },
+        customerId: (userInfo && userInfo.customerId) || '',
+        communicationEmail: form.communicationEmail,
+        communicationPhone: needPhone ? form.communicationPhone : null
+      });
+      await updateCustomerBaseInfo(
         Object.assign({}, this.props.originData, {
           communicationEmail: form.communicationEmail,
           communicationPhone: form.communicationPhone,
           oktaToken
         })
-      ),
-      userBindConsent({
-        ...submitParam,
-        ...{ oktaToken },
-        customerId: (userInfo && userInfo.customerId) || '',
-        communicationEmail: form.communicationEmail,
-        communicationPhone: form.communicationPhone
-      })
-    ])
-      .then(async (res) => {
-        await this.init();
-        this.props.updateData();
-        this.handleCancel();
-        this.setState({
-          saveLoading: false
-        });
-      })
-      .catch((err) => {
-        this.showErrMsg(err.message);
-        this.setState({
-          saveLoading: false
-        });
+      );
+
+      await this.init();
+      this.props.updateData();
+      this.handleCancel();
+      this.setState({
+        saveLoading: false
       });
+    } catch (err) {
+      this.showErrMsg(err.message);
+      this.setState({
+        saveLoading: false
+      });
+    }
   };
   handleCancel = () => {
     this.changeEditFormVisible(false);
