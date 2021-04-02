@@ -126,9 +126,9 @@ class PaymentComp extends React.Component {
   async componentDidMount() {
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.name,
+        paymentType: res?.context?.payPsp?.name,
         supportPaymentMethods: computedSupportPaymentMethods(
-          res?.context?.supportPaymentMethods || []
+          res?.context?.payPsp?.supportPaymentMethods || []
         )
       }); //PAYU,ADYEN,CYBER
     });
@@ -143,7 +143,7 @@ class PaymentComp extends React.Component {
     }
     this.setState({ creditCardList: this.state.creditCardList });
     const waysRes = await getWays();
-    if (waysRes.context && waysRes.context.name === 'ADYEN') {
+    if (waysRes.context && waysRes.context.payPsp.name === 'ADYEN') {
       this.setState({
         paymentType: 'ADYEN'
       });

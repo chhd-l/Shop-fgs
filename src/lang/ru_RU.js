@@ -386,6 +386,7 @@ const ru_RU = {
     'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
   'footer.email': 'Обратиться в службу поддержки.',
   'footer.FAQ': 'Часто задаваемые вопросы',
+  'footer.FAQ2': 'FAQ',
   'footer.healthAndNutrition': 'Здоровье и питание',
   'footer.help': 'ПОМОГИТЕ',
   'footer.informationForParents': 'Информация для родителей',
@@ -1076,7 +1077,8 @@ const ru_RU = {
   'bindPrescriber.modal.or': 'или',
   'orderStatus.COMPLETED': 'Завершено',
   'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
-  'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}'
+  'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
+  'subscription.see_more': 'Смотри другие Подписка'
 };
 
 export default ru_RU;

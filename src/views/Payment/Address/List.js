@@ -30,6 +30,7 @@ class AddressList extends React.Component {
     showOperateBtn: true,
     titleVisible: true,
     isValidationModal: true, // 是否显示验证弹框
+    isAddOrEdit: () => {},
     updateValidationStaus: () => {},
     updateFormValidStatus: () => {},
     updateData: () => {}
@@ -67,12 +68,14 @@ class AddressList extends React.Component {
       selectedId: '',
       isValid: false,
       validationLoading: false, // 地址校验loading
-      validationModalVisible: false, // 地址校验查询开关
-      selectValidationOption: 'suggestedAddress'
+      listValidationModalVisible: false, // 地址校验查询开关
+      selectListValidationOption: 'suggestedAddress'
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
-    this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   async componentDidMount() {
     getDictionary({ type: 'country' }).then((res) => {
@@ -82,16 +85,6 @@ class AddressList extends React.Component {
     });
     this.queryAddressList({ init: true });
   }
-  // props发生变化时触发
-  // componentWillReceiveProps(props) {
-  //   console.log(' 86 componentWillReceiveProps: ', props)
-  //   let pmodal = props.showValidationAddressModal;
-  //   // 监听 props 变化，validationModalVisible 控制 billingAddress 地址校验弹框
-  //   this.setState({
-  //     validationLoading: pmodal,
-  //     validationModalVisible: pmodal,
-  //   });
-  // }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
   }
@@ -227,6 +220,8 @@ class AddressList extends React.Component {
     const { deliveryAddress, addressList } = this.state;
     this.currentOperateIdx = idx;
 
+    this.props.isAddOrEdit(true); // payment中用来判断是否添加或者编辑地址
+    this.props.updateValidationStaus(true);
     let tmpDeliveryAddress = {
       firstName: '',
       lastName: '',
@@ -237,22 +232,16 @@ class AddressList extends React.Component {
       country: '',
       cityId: '',
       city: '',
+      provinceNo: '',
+      provinceId: '',
+      province: '',
       postCode: '',
       phoneNumber: '',
       isDefalt: false
     };
-    if (process.env.REACT_APP_LANG === 'en') {
-      tmpDeliveryAddress.provinceNo = '';
-      tmpDeliveryAddress.provinceId = '';
-      tmpDeliveryAddress.province = '';
-    }
 
     if (idx > -1) {
       const tmp = addressList[idx];
-      console.log(
-        '--------------------- ★★★ List add Or EditAddress data: ',
-        tmp
-      );
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
         lastName: tmp.lastName,
@@ -263,16 +252,14 @@ class AddressList extends React.Component {
         country: tmp.country,
         cityId: tmp.cityId,
         city: tmp.city,
+        provinceNo: tmp.provinceNo,
+        provinceId: tmp.provinceId,
+        province: tmp.province,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
-      // if (tmp?.province && tmp?.province != null) {
-      tmpDeliveryAddress.provinceNo = tmp.provinceNo;
-      tmpDeliveryAddress.province = tmp.province;
-      tmpDeliveryAddress.provinceId = tmp.provinceId;
-      // }
     }
 
     this.setState(
@@ -303,7 +290,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------- ★★★★★★ updateDeliveryAddress: ', data);
+    // console.log('--------- ★★★★★★ updateDeliveryAddress: ', data);
     try {
       if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
         let dda = data.DaData;
@@ -330,7 +317,7 @@ class AddressList extends React.Component {
           }
         });
         data.calculation = ddres?.context?.tariffs[0];
-        console.log('---------- ★★★★★★ 计算运费： ', ddres);
+        // console.log('---------- ★★★★★★ 计算运费： ', ddres);
         if (!data.calculation) {
           return;
         }
@@ -456,7 +443,7 @@ class AddressList extends React.Component {
         if (this.props.isValidationModal) {
           setTimeout(() => {
             this.setState({
-              validationModalVisible: true
+              listValidationModalVisible: true
             });
             this.props.updateValidationStaus(false);
           }, 800);
@@ -465,13 +452,13 @@ class AddressList extends React.Component {
     );
   };
   // 选择地址
-  chooseValidationAddress = (e) => {
+  chooseListValidationAddress = (e) => {
     this.setState({
-      selectValidationOption: e.target.value
+      selectListValidationOption: e.target.value
     });
   };
   // 获取地址验证查询到的数据
-  getValidationData = async (data) => {
+  getListValidationData = async (data) => {
     this.setState({
       validationLoading: false
     });
@@ -488,7 +475,7 @@ class AddressList extends React.Component {
   // 下一步
   showNextPanel = async () => {
     this.setState({
-      validationModalVisible: false,
+      listValidationModalVisible: false,
       saveLoading: false
     });
     this.props.updateValidationStaus(true);
@@ -497,14 +484,14 @@ class AddressList extends React.Component {
     // this.clickConfirmAddressPanel();
   };
   // 点击地址验证确认按钮
-  confirmValidationAddress = () => {
+  confirmListValidationAddress = () => {
     const {
       deliveryAddress,
-      selectValidationOption,
+      selectListValidationOption,
       validationAddress
     } = this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
-    if (selectValidationOption == 'suggestedAddress') {
+    if (selectListValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.city = validationAddress.city;
       deliveryAddress.postCode = validationAddress.postalCode;
@@ -621,21 +608,23 @@ class AddressList extends React.Component {
   ValidationAddressModalJSX = () => {
     const {
       deliveryAddress,
-      validationModalVisible,
-      selectValidationOption
+      listValidationModalVisible,
+      selectListValidationOption
     } = this.state;
     return (
       <>
         <ValidationAddressModal
           address={deliveryAddress}
-          updateValidationData={(res) => this.getValidationData(res)}
-          selectValidationOption={selectValidationOption}
-          handleChooseValidationAddress={(e) => this.chooseValidationAddress(e)}
-          hanldeClickConfirm={() => this.confirmValidationAddress()}
-          validationModalVisible={validationModalVisible}
+          updateValidationData={(res) => this.getListValidationData(res)}
+          selectValidationOption={selectListValidationOption}
+          handleChooseValidationAddress={(e) =>
+            this.chooseListValidationAddress(e)
+          }
+          hanldeClickConfirm={() => this.confirmListValidationAddress()}
+          validationModalVisible={listValidationModalVisible}
           close={() => {
             this.setState({
-              validationModalVisible: false,
+              listValidationModalVisible: false,
               validationLoading: false,
               saveLoading: false,
               loading: false
@@ -659,8 +648,8 @@ class AddressList extends React.Component {
       successTipVisible,
       selectedId,
       validationLoading,
-      validationModalVisible,
-      selectValidationOption
+      listValidationModalVisible,
+      selectListValidationOption
     } = this.state;
     const _list = addressList.map((item, i) => (
       <div
@@ -955,7 +944,7 @@ class AddressList extends React.Component {
           </div>
 
           {validationLoading && <Loading positionFixed="true" />}
-          {validationModalVisible ? this.ValidationAddressModalJSX() : null}
+          {listValidationModalVisible ? this.ValidationAddressModalJSX() : null}
         </div>
       </>
     );

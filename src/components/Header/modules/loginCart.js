@@ -62,8 +62,8 @@ class LoginCart extends React.Component {
   get loading() {
     return this.checkoutStore.loadingCartData;
   }
-  get tradePrice() {
-    return this.props.checkoutStore.tradePrice;
+  get totalMinusSubPrice() {
+    return this.props.checkoutStore.totalMinusSubPrice;
   }
   async handleCheckout() {
     try {
@@ -215,7 +215,7 @@ class LoginCart extends React.Component {
                       values={{
                         totalPrice: (
                           <span style={{ fontWeight: '500' }}>
-                            {formatMoney(this.tradePrice)}
+                            {formatMoney(this.totalMinusSubPrice)}
                           </span>
                         )
                       }}

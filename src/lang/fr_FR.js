@@ -380,6 +380,7 @@ const fr_FR = {
   'footer.copyrightInfo2_1': 'An Affiliate of Mars, Incorporated',
   'footer.email': 'Contactez-nous',
   'footer.FAQ': 'FAQ',
+  'footer.FAQ2': 'FAQ',
   'footer.FAQAllgemeines': 'FAQ général',
   'footer.FAQVersand': 'FAQ expédition',
   'footer.healthAndNutrition': 'santé et nutrition',

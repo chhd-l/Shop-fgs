@@ -27,13 +27,14 @@ class FooterHub extends React.Component {
         this.setState({ footerInfo: res.data });
       }
     );
-    setTimeout(() => {
+    let timer = setInterval(() => {
       let cookieDomBox = document.querySelector('.cookieSettingBox');
-      if (cookieDomBox) {
-        document.querySelector('#mars-footer-panel')?.append(cookieDomBox);
+      if (cookieDomBox && document.querySelector('#mars-footer-panel')) {
+        document.querySelector('#mars-footer-panel').append(cookieDomBox);
         cookieDomBox.style.visibility = 'visible';
+        clearInterval(timer);
       }
-    }, 3000);
+    }, 1000);
     // this.setState({ footerInfo: footerHubResult.data });
   }
   scrollToTop = () => {

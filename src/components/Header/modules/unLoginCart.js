@@ -51,8 +51,8 @@ class UnloginCart extends React.Component {
       return Number(pre) + Number(cur.quantity);
     }, 0);
   }
-  get tradePrice() {
-    return this.props.checkoutStore.tradePrice;
+  get totalMinusSubPrice() {
+    return this.props.checkoutStore.totalMinusSubPrice;
   }
   GAAccessToGuestCheck(type) {
     this.hubGA
@@ -213,9 +213,9 @@ class UnloginCart extends React.Component {
             <div className="container cart">
               <div>
                 <div className="minicart__header cart--head small">
-                  <span className="minicart__pointer"></span>
+                  <span className="minicart__pointer" />
                   <div className="d-flex minicart_freeshipping_info align-items-center">
-                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></em>
+                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
                     <p>
                       {process.env.REACT_APP_IS_PROMOTION === 'true' ? (
                         <FormattedMessage id="cart.miniCartTitle" />
@@ -232,7 +232,7 @@ class UnloginCart extends React.Component {
                       values={{
                         totalPrice: (
                           <span style={{ fontWeight: '500' }}>
-                            {formatMoney(this.tradePrice)}
+                            {formatMoney(this.totalMinusSubPrice)}
                           </span>
                         )
                       }}

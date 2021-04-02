@@ -320,6 +320,7 @@ const tr_TR = {
   'footer.copyrightInfo':
     "Telif hakkı © Mars 2021®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
   'footer.FAQ': 'SSS',
+  'footer.FAQ2': 'SSS',
   'footer.healthAndNutrition': 'Sağlık ve Beslenme',
   'footer.help': 'YARDIM',
   'footer.informationForParents': 'Ebeveynler için Bilgiler',
@@ -1002,6 +1003,7 @@ const tr_TR = {
   skip: 'Sipariş atla',
   'orderStatus.COMPLETED': 'Tamamlandı',
   'payment.cardInfoErr': 'Kart bilgileri yanlış, lütfen kontrol edin.',
-  'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}'
+  'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}',
+  'subscription.see_more': 'Diğer Aboneliğe Bakın'
 };
 export default tr_TR;

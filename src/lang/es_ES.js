@@ -343,6 +343,7 @@ const es_ES = {
   'footer.copyrightInfo':
     'Copyright © Mars 2021®, Marca registrada de Mars Incorporated y sus afiliados',
   'footer.FAQ': 'Preguntas frecuentes',
+  'footer.FAQ2': 'Preguntas frecuentes',
   'footer.healthAndNutrition': 'Nutrición específica',
   'footer.help': 'AYUDA',
   'footer.informationForParents': 'Información para padres de familia',
@@ -1004,6 +1005,7 @@ const es_ES = {
   'orderStatus.COMPLETED': 'Terminado',
   'payment.cardInfoErr':
     'La información de la tarjeta es incorrecta, verifique.',
-  'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}'
+  'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}',
+  'account.clinicTitle2': 'Mi clínica por defecto'
 };
 export default es_ES;

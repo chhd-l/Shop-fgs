@@ -3488,7 +3488,9 @@ class SubscriptionDetail extends React.Component {
                                           ) || this.state.minDate
                                         }
                                         selected={
-                                          el.nextDeliveryTime
+                                          !isNotInactive
+                                            ? ''
+                                            : el.nextDeliveryTime
                                             ? new Date(el.nextDeliveryTime)
                                             : new Date()
                                         }
@@ -3901,7 +3903,7 @@ class SubscriptionDetail extends React.Component {
                                       <div className="card-container">
                                         <div className="card rc-margin-y--none ml-0">
                                           <div
-                                            className="1111 card-header row rc-margin-x--none align-items-center pl-0 pr-0"
+                                            className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
                                             style={{
                                               background: '#f9f9f9',
                                               height: '60px',
@@ -3927,11 +3929,13 @@ class SubscriptionDetail extends React.Component {
                                                   fontWeight: '400'
                                                 }}
                                               >
-                                                {getFormatDate(
-                                                  el.tradeItems[0].nextDeliveryTime.split(
-                                                    ' '
-                                                  )[0]
-                                                )}
+                                                {isNotInactive
+                                                  ? getFormatDate(
+                                                      el.tradeItems[0].nextDeliveryTime.split(
+                                                        ' '
+                                                      )[0]
+                                                    )
+                                                  : ''}
                                                 {/* <FormattedDate value={el.tradeItems[0].nextDeliveryTime.split(' ')[0]}/> */}
                                                 {/* {
                                                   el.tradeItems[0].nextDeliveryTime.split(' ')[0]
