@@ -84,7 +84,10 @@ class UnloginCart extends React.Component {
       } = this.props;
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
-      checkoutStore.updateUnloginCart({ isThrow: true });
+      checkoutStore.updateUnloginCart({
+        isThrow: true,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
 
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })

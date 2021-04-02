@@ -93,7 +93,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
               </div>
             ))}
         </div>
-        <div className="col-12 col-md-2 text-nowrap ml-3 mt-3 mb-3">
+        <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
           <LazyLoad>
             <img
               src={autoshipIcon}
@@ -129,7 +129,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
           </span>
         </div>
         {/* <div className="col-4 col-md-2">{subItem.frequency}</div> */}
-        <div className="col-4 col-md-3 text-center ml-3">
+        <div className="col-4 col-md-1 text-center ml-3">
           {subItem.subscribeStatus === '0' ||
           subItem.subscribeStatus === '1' ? (
             <div>
@@ -143,7 +143,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
             </div>
           )}
         </div>
-        <div className="col-4 col-md-2">
+        <div className="col-4 col-md-2 text-center">
           <button
             className="rc-btn rc-btn--two rc-btn--sm"
             onClick={() => {
