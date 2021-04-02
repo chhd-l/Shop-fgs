@@ -457,6 +457,10 @@ class Payment extends React.Component {
       this.state.paymentTypeVal
     );
   }
+  // 当前是否为订阅购买
+  get isCurrentBuyWaySubscription() {
+    return this.state.subForm?.buyWay === 'frequency';
+  }
   updateSelectedCardInfo = (data) => {
     let cyberMd5Cvv;
     if (data?.cardCvv) {
@@ -689,10 +693,22 @@ class Payment extends React.Component {
           .map((p) => {
             const tmp =
               payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-            return tmp ? Object.assign({}, tmp, p) : tmp;
+            return tmp
+              ? Object.assign(
+                  {},
+                  tmp,
+                  p
+                  // { supportSubscription: true }
+                )
+              : tmp;
           })
           .filter((e) => e)
-          .filter((e) => e.isOpen);
+          .filter(
+            (e) => e.isOpen
+            // todo
+            //  &&
+            // (!this.isCurrentBuyWaySubscription || e.supportSubscription)
+          );
       }
 
       //默认第一个,如没有支付方式,就不初始化方法
@@ -1562,7 +1578,7 @@ class Payment extends React.Component {
       });
     }
 
-    if (subForm.buyWay === 'frequency') {
+    if (this.isCurrentBuyWaySubscription) {
       param.tradeItems = loginCartData
         // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .filter((ele) => !ele.goodsInfoFlag)
@@ -2465,7 +2481,7 @@ class Payment extends React.Component {
       if (Object.keys(errMsgObj).length > 0) {
         isValidForCyberPayment = false;
       } else {
-        if (subForm.buyWay == 'frequency') {
+        if (this.isCurrentBuyWaySubscription) {
           if (isCheckSaveCard) {
             isValidForCyberPayment = true; //有订阅商品，必须勾上保存卡checkbox框
           } else {
@@ -2516,34 +2532,23 @@ class Payment extends React.Component {
         {payWayNameArr.length > 1 && (
           <div className={`ml-custom mr-custom`}>
             {payWayNameArr.map((item, i) => {
-              return (
-                // todo adyenPayLater 订阅购买时，隐藏
-                <div
-                  className={`rc-input rc-input--inline ${
-                    subForm.buyWay == 'frequency' &&
-                    (item.code == 'adyenPayLater' || item.code == 'payuoxxo')
-                      ? 'hidden'
-                      : ''
-                  }`}
-                  key={i}
+              <div className={`rc-input rc-input--inline`} key={i}>
+                <input
+                  className="rc-input__radio"
+                  id={`payment-info-${item.id}`}
+                  value={item.paymentTypeVal}
+                  type="radio"
+                  name="payment-info"
+                  onChange={this.handlePaymentTypeChange}
+                  checked={paymentTypeVal === item.paymentTypeVal}
+                />
+                <label
+                  className="rc-input__label--inline"
+                  htmlFor={`payment-info-${item.id}`}
                 >
-                  <input
-                    className="rc-input__radio"
-                    id={`payment-info-${item.id}`}
-                    value={item.paymentTypeVal}
-                    type="radio"
-                    name="payment-info"
-                    onChange={this.handlePaymentTypeChange}
-                    checked={paymentTypeVal === item.paymentTypeVal}
-                  />
-                  <label
-                    className="rc-input__label--inline"
-                    htmlFor={`payment-info-${item.id}`}
-                  >
-                    <FormattedMessage id={item.langKey} />
-                  </label>
-                </div>
-              );
+                  <FormattedMessage id={item.langKey} />
+                </label>
+              </div>;
             })}
           </div>
         )}
@@ -2590,7 +2595,7 @@ class Payment extends React.Component {
                     ref={this.payUCreditCardRef}
                     type={'PayUCreditCard'}
                     isLogin={this.isLogin}
-                    mustSaveForFutherPayments={subForm.buyWay === 'frequency'}
+                    mustSaveForFutherPayments={this.isCurrentBuyWaySubscription}
                     isSupportInstallMent={Boolean(
                       +process.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
                     )}
