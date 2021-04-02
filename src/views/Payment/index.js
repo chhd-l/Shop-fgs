@@ -1826,52 +1826,7 @@ class Payment extends React.Component {
           );
         }
         await this.saveAddressAndCommentPromise();
-        // 价格未达到底限，不能下单
-        if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          throw new Error(
-            intl.formatMessage(
-              { id: 'cart.errorInfo3' },
-              { val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }
-            )
-          );
-        }
-
-        // 存在下架商品，不能下单
-        if (checkoutStore.offShelvesProNames.length) {
-          throw new Error(
-            intl.formatMessage(
-              { id: 'cart.errorInfo4' },
-              { val: checkoutStore.offShelvesProNames.join('/') }
-            )
-          );
-        }
-
-        // 库存不够，不能下单
-        if (checkoutStore.outOfstockProNames.length) {
-          throw new Error(
-            this.props.intl.formatMessage(
-              { id: 'cart.errorInfo2' },
-              { val: checkoutStore.outOfstockProNames.join('/') }
-            )
-          );
-        }
-        // 存在被删除商品，不能下单
-        if (checkoutStore.deletedProNames.length) {
-          throw new Error(
-            this.props.intl.formatMessage(
-              { id: 'cart.errorInfo5' },
-              { val: checkoutStore.deletedProNames.join('/') }
-            )
-          );
-        }
-        if (checkoutStore.notSeableProNames.length) {
-          throw new Error(
-            this.props.intl.formatMessage(
-              { id: 'cart.errorInfo6' },
-              { val: checkoutStore.notSeableProNames.join('/') }
-            )
-          );
-        }
+        await checkoutStore.validCheckoutLimitRule();
       }
     } catch (err) {
       console.warn(err);
