@@ -75,16 +75,13 @@ class UnloginCart extends React.Component {
   async handleCheckout({ type, needLogin = false } = {}) {
     this.GAAccessToGuestCheck(type);
     try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        headerCartStore,
-        clinicStore
-      } = this.props;
+      const { configStore, checkoutStore, history, clinicStore } = this.props;
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
-      checkoutStore.updateUnloginCart({ isThrow: true });
+      checkoutStore.updateUnloginCart({
+        isThrow: true,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
 
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
@@ -111,7 +108,7 @@ class UnloginCart extends React.Component {
           checkoutStore.setPetFlag(res.context.petFlag);
         }
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
+        const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
           clinicStore,
@@ -121,7 +118,7 @@ class UnloginCart extends React.Component {
         // history.push('/prescription');
       }
     } catch (err) {
-      headerCartStore.setErrMsg(err.message);
+      this.props.headerCartStore.setErrMsg(err.message);
     } finally {
       this.setState({ checkoutLoading: false });
     }

@@ -294,7 +294,7 @@ class AddressList extends React.Component {
     try {
       if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
         let dda = data.DaData;
-        // console.log('--------- ★★★★★★ DaData: ', dda);
+        console.log('★ ------------------ DaData: ', dda);
         // 计算运费
         let ddres = await shippingCalculation({
           sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',

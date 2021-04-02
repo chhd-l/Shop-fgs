@@ -153,7 +153,7 @@ class Footer extends React.Component {
               </nav>
             </div>
           </div>
-          <div className="rc-divider rc-md-up"></div>
+          <div className="rc-divider rc-md-up" />
           {/*tips */}
           <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
             <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">

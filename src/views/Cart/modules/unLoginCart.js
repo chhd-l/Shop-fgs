@@ -348,7 +348,7 @@ class UnLoginCart extends React.Component {
           checkoutStore.setPetFlag(res.context.petFlag);
         }
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
+        const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
           clinicStore,
@@ -495,7 +495,8 @@ class UnLoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await this.props.checkoutStore.updateUnloginCart({
         cartData: productList,
-        isThrowErr
+        isThrowErr,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
       });
       callback && callback();
       this.setState({ checkoutLoading: false });

@@ -86,12 +86,13 @@ class LoginCart extends React.Component {
       autoAuditFlag = res.context.autoAuditFlag;
       checkoutStore.setAutoAuditFlag(autoAuditFlag);
       checkoutStore.setPetFlag(res.context.petFlag);
-      const url = distributeLinktoPrecriberOrPaymentPage({
+      const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore,
         checkoutStore,
         clinicStore,
         isLogin: true
       });
+      console.log(url, 'urlll');
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {

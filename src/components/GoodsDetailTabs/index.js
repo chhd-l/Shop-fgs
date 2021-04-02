@@ -39,6 +39,7 @@ const GoodsDetailTabs = function (props) {
   if (goodsDescriptionDetailList === undefined) {
     goodsDescriptionDetailList = detailRes.goodsDescriptionDetailList;
   }
+
   const handleTabData = () => {
     const isVet = goodsType === 3; //vet todo 没有测试这种场景
     let tmpGoodsDescriptionDetailList = (goodsDescriptionDetailList || []).sort(
