@@ -560,6 +560,10 @@ class SubscriptionDetail extends React.Component {
       >
         <div
           className="rc-styled-link"
+          to={{
+            pathname: `/account/pets/petForm/${petsId}`,
+            state: { isFromSubscriptionDetail: true }
+          }}
           // onClick={this.showEditRecommendation}
         >
           Edit pet profile
@@ -578,6 +582,10 @@ class SubscriptionDetail extends React.Component {
           <Link className="rc-md-up" to={`/account/pets/petForm/${petsId}`}>
             <div
               className="rc-styled-link"
+              to={{
+                pathname: `/account/pets/petForm/${petsId}`,
+                state: { isFromSubscriptionDetail: true }
+              }}
               // onClick={this.showEditRecommendation}
             >
               Edit pet profile
