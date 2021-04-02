@@ -3273,10 +3273,14 @@ class Payment extends React.Component {
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 mt-md-0">
               <div className="rc-column rc-double-width shipping__address">
-                {/* 错误提示 */}
+                {/* 错误提示，errorMsg==This Error No Display时不显示  */}
                 <div
                   className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-                    errorMsg ? '' : 'hidden'
+                    errorMsg
+                      ? errorMsg == 'This Error No Display'
+                        ? 'hidden'
+                        : ''
+                      : 'hidden'
                   }`}
                 >
                   <aside
