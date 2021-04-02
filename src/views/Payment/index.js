@@ -35,8 +35,7 @@ import {
   generatePayUScript,
   getFormatDate,
   setSeoConfig,
-  validData,
-  computedSupportPaymentMethods
+  validData
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import {
@@ -217,7 +216,6 @@ class Payment extends React.Component {
       payWayErr: '',
       pet: {},
       installMentParam: null, // 分期参数
-      supportPaymentMethods: [], // 当前支付方式所支持的卡列表
       //cyber参数
       cyberPaymentForm: {
         cardholderName: '', //Didier Valansot
@@ -461,6 +459,13 @@ class Payment extends React.Component {
   get isCurrentBuyWaySubscription() {
     return this.state.subForm?.buyWay === 'frequency';
   }
+  get supportPaymentMethods() {
+    return (
+      this.state.payWayNameArr.filter(
+        (p) => p.paymentTypeVal === this.state.paymentTypeVal
+      )[0]?.payPspItemCardTypeVOList || []
+    );
+  }
   updateSelectedCardInfo = (data) => {
     let cyberMd5Cvv;
     if (data?.cardCvv) {
@@ -689,6 +694,7 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
       if (payWay.context) {
+        // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
           .map((p) => {
             const tmp =
@@ -698,7 +704,8 @@ class Payment extends React.Component {
                   {},
                   tmp,
                   p
-                  // { supportSubscription: true }
+                  // { supportSubscription: true },
+                  // { maxAmount: 10 }
                 )
               : tmp;
           })
@@ -706,18 +713,16 @@ class Payment extends React.Component {
           .filter(
             (e) => e.isOpen
             // todo
-            //  &&
-            // (!this.isCurrentBuyWaySubscription || e.supportSubscription)
+            // &&
+            // (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
+            // (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
           );
       }
 
       //默认第一个,如没有支付方式,就不初始化方法
       this.setState(
         {
-          payWayNameArr,
-          supportPaymentMethods: computedSupportPaymentMethods(
-            payWay?.context?.supportPaymentMethods || []
-          )
+          payWayNameArr
         },
         () => {
           //初始化默认取第1个
@@ -2447,6 +2452,7 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = ({ visible = false }) => {
+    const { supportPaymentMethods } = this;
     const {
       paymentTypeVal,
       cardTypeVal,
@@ -2458,8 +2464,7 @@ class Payment extends React.Component {
       validSts,
       saveBillingLoading,
       payWayNameArr,
-      cyberPaymentForm,
-      supportPaymentMethods
+      cyberPaymentForm
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -2531,7 +2536,7 @@ class Payment extends React.Component {
         {/* payWayObj为支付方式，如果大于1种，才显示此tab栏 */}
         {payWayNameArr.length > 1 && (
           <div className={`ml-custom mr-custom`}>
-            {payWayNameArr.map((item, i) => {
+            {payWayNameArr.map((item, i) => (
               <div className={`rc-input rc-input--inline`} key={i}>
                 <input
                   className="rc-input__radio"
@@ -2548,8 +2553,8 @@ class Payment extends React.Component {
                 >
                   <FormattedMessage id={item.langKey} />
                 </label>
-              </div>;
-            })}
+              </div>
+            ))}
           </div>
         )}
         {/* ********************支付tab栏end********************************** */}
@@ -2638,6 +2643,7 @@ class Payment extends React.Component {
                   <AdyenCreditCard
                     ref={this.adyenCardRef}
                     subBuyWay={subForm.buyWay}
+                    supportPaymentMethods={supportPaymentMethods}
                     showErrorMsg={this.showErrorMsg}
                     updateAdyenPayParam={this.updateAdyenPayParam}
                     updateFormValidStatus={this.updateValidStatus.bind(this, {

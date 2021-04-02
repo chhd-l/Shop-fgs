@@ -24,6 +24,7 @@ class AdyenCreditCardForm extends React.Component {
     enableStoreDetails: false, // 是否显示保存卡checkbox
     mustSaveForFutherPayments: true, // 是否必须勾选保存卡checkbox，true-只有勾选了之后保存卡按钮才可用
     isOnepageCheckout: false,
+    supportPaymentMethods: [],
     updateClickPayBtnValidStatus: () => {},
     updateAdyenPayParam: () => {},
     refreshList: () => {},
@@ -203,26 +204,29 @@ class AdyenCreditCardForm extends React.Component {
       showSaveBtn,
       paymentStore,
       mustSaveForFutherPayments,
-      cardList
+      cardList,
+      supportPaymentMethods
     } = this.props;
     const { saveLoading, isValid } = this.state;
     return (
       <div>
         {/* 支持卡的类型 Visa和master */}
-        <p className="mb-2">
-          <span className="logo-payment-card-list logo-credit-card ml-0">
-            {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-              <LazyLoad key={idx}>
-                <img
-                  style={{ width: '50px' }}
-                  className="logo-payment-card mr-1"
-                  src={el}
-                  alt={el}
-                />
-              </LazyLoad>
-            ))}
-          </span>
-        </p>
+        {supportPaymentMethods.length > 0 && (
+          <p className="mb-2">
+            <span className="logo-payment-card-list logo-credit-card ml-0">
+              {supportPaymentMethods.map((el, idx) => (
+                <LazyLoad key={idx}>
+                  <img
+                    style={{ width: '50px' }}
+                    className="logo-payment-card mr-1"
+                    src={el.imgUrl}
+                    alt={el.cardType}
+                  />
+                </LazyLoad>
+              ))}
+            </span>
+          </p>
+        )}
         <div
           id="adyen-card-container"
           className={`payment-method__container ${
