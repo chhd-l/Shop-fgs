@@ -60,8 +60,10 @@ class VisitorAddress extends React.Component {
   componentDidMount() {
     this.validData({
       data: this.state.form,
-      visitorValidationModalVisible: false
+      visitorValidationModalVisible: false,
+      btnLoading: false
     });
+    console.log('★ ----------------- VisitorAddress');
   }
   //props发生变化时触发
   componentWillReceiveProps(props) {
@@ -148,7 +150,7 @@ class VisitorAddress extends React.Component {
     }
 
     if (this.props.type !== 'delivery') {
-      throw new Error('VisitorAddress Delivery address ');
+      throw new Error('This Error No Display');
     }
   };
   handleClickEdit = () => {
@@ -305,6 +307,17 @@ class VisitorAddress extends React.Component {
       }
     );
   };
+
+  // 重置参数，在Payment确认地址时调用
+  resetVisitorAddressState() {
+    const { form } = this.state;
+    this.setState({
+      visitorValidationModalVisible: false,
+      btnLoading: false
+    });
+    this.props.updateValidationStaus(false);
+    this.props.updateData(form);
+  }
 
   render() {
     const { panelStatus } = this;
