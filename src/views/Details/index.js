@@ -1469,6 +1469,11 @@ class Details extends React.Component {
       barcode,
       ccidBtnDisplay
     } = this.state;
+    const filterImages =
+      images?.filter((i) => {
+        i.artworkUrl = i.goodsInfoImg;
+        return i.goodsInfoImg;
+      }) || [];
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
@@ -1654,7 +1659,11 @@ class Details extends React.Component {
                                       }
                                       taggingForText={details.taggingForText}
                                       taggingForImage={details.taggingForImage}
-                                      spuImages={spuImages}
+                                      spuImages={
+                                        filterImages.length
+                                          ? filterImages
+                                          : spuImages
+                                      }
                                     />
                                   ) : (
                                     <ImageMagnifier
@@ -1801,8 +1810,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {details.promotions &&
-                                details.promotions.includes('club') ? (
+                                {sessionItemRoyal.get('pr-question-params') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
                                       The recommended daily ration for your pet
@@ -2067,7 +2075,7 @@ class Details extends React.Component {
                                             i
                                           </span>
                                           <ConfirmTooltip
-                                            arrowStyle={{ left: '83%' }}
+                                            arrowStyle={{ left: '65%' }}
                                             display={this.state.toolTipVisible}
                                             cancelBtnVisible={false}
                                             confirmBtnVisible={false}

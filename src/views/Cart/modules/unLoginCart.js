@@ -53,7 +53,7 @@ const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 @injectIntl
-@inject('checkoutStore', 'loginStore', 'clinicStore')
+@inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @observer
 class UnLoginCart extends React.Component {
   constructor(props) {
@@ -249,6 +249,8 @@ class UnLoginCart extends React.Component {
   }
   setCartData() {
     !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
+    const { configStore } = this.props;
+    console.log(configStore.frequencyId, '🐖');
     let productList = this.props.checkoutStore.cartData.map((el) => {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
@@ -256,7 +258,8 @@ class UnLoginCart extends React.Component {
       el.form = {
         frequencyVal: filterData.valueEn,
         frequencyName: filterData.name,
-        frequencyId: filterData.id,
+        frequencyId:
+          configStore.defaultSubscriptionFrequencyId || filterData.id,
         //GA 计算周数
         frequencyType: filterData.type
       };
@@ -348,7 +351,7 @@ class UnLoginCart extends React.Component {
           checkoutStore.setPetFlag(res.context.petFlag);
         }
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
+        const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
           clinicStore,
@@ -495,7 +498,8 @@ class UnLoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await this.props.checkoutStore.updateUnloginCart({
         cartData: productList,
-        isThrowErr
+        isThrowErr,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
       });
       callback && callback();
       this.setState({ checkoutLoading: false });

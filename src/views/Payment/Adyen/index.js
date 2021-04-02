@@ -72,6 +72,7 @@ class AdyenCreditCard extends React.Component {
           updateSelectedCardInfo={this.updateSelectedCardInfo}
           showErrorMsg={this.showErrorMsg}
           subBuyWay={subBuyWay}
+          supportPaymentMethods={this.props.supportPaymentMethods}
           paymentStore={paymentStore}
           billingJSX={this.props.billingJSX}
           updateFormValidStatus={this.props.updateFormValidStatus}

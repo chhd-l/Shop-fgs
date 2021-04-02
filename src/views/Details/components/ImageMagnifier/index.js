@@ -373,6 +373,8 @@ class ImageMagnifier extends Component {
       taggingForImage,
       spuImages
     } = this.props;
+    console.info('images', images);
+    console.info('spuImages', spuImages);
     if (process.env.REACT_APP_LANG !== 'fr' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;
@@ -431,6 +433,21 @@ class ImageMagnifier extends Component {
                   {/* </LazyLoad> */}
                 </div>
               ))}
+              {videoShow && video && (
+                <div
+                  className="d-flex"
+                  style={{ alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <video
+                    ref="video"
+                    style={cssStyle.imgStyle}
+                    src={video ? video : ''}
+                    controlsList="nodownload"
+                    onContextMenu="return false;"
+                    controls
+                  />
+                </div>
+              )}
             </div>
             {videoShow && videoModalShow && (
               <div
@@ -552,10 +569,10 @@ class ImageMagnifier extends Component {
                     this.setState({
                       videoShow: true,
                       cssStyle,
-                      hoverIndex: images.length,
+                      hoverIndex: spuImages.length,
                       offsetX: isMobile
-                        ? images.length * 230
-                        : images.length * 250
+                        ? spuImages.length * 230
+                        : spuImages.length * 250
                     });
                   }}
                   src={video ? video : ''}

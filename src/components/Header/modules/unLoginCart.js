@@ -51,8 +51,8 @@ class UnloginCart extends React.Component {
       return Number(pre) + Number(cur.quantity);
     }, 0);
   }
-  get tradePrice() {
-    return this.props.checkoutStore.tradePrice;
+  get totalMinusSubPrice() {
+    return this.props.checkoutStore.totalMinusSubPrice;
   }
   GAAccessToGuestCheck(type) {
     this.hubGA
@@ -75,16 +75,13 @@ class UnloginCart extends React.Component {
   async handleCheckout({ type, needLogin = false } = {}) {
     this.GAAccessToGuestCheck(type);
     try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        headerCartStore,
-        clinicStore
-      } = this.props;
+      const { configStore, checkoutStore, history, clinicStore } = this.props;
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
-      checkoutStore.updateUnloginCart({ isThrow: true });
+      checkoutStore.updateUnloginCart({
+        isThrow: true,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
 
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
@@ -111,7 +108,7 @@ class UnloginCart extends React.Component {
           checkoutStore.setPetFlag(res.context.petFlag);
         }
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
+        const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
           clinicStore,
@@ -121,7 +118,7 @@ class UnloginCart extends React.Component {
         // history.push('/prescription');
       }
     } catch (err) {
-      headerCartStore.setErrMsg(err.message);
+      this.props.headerCartStore.setErrMsg(err.message);
     } finally {
       this.setState({ checkoutLoading: false });
     }
@@ -213,9 +210,9 @@ class UnloginCart extends React.Component {
             <div className="container cart">
               <div>
                 <div className="minicart__header cart--head small">
-                  <span className="minicart__pointer"></span>
+                  <span className="minicart__pointer" />
                   <div className="d-flex minicart_freeshipping_info align-items-center">
-                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></em>
+                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
                     <p>
                       {process.env.REACT_APP_IS_PROMOTION === 'true' ? (
                         <FormattedMessage id="cart.miniCartTitle" />
@@ -232,7 +229,7 @@ class UnloginCart extends React.Component {
                       values={{
                         totalPrice: (
                           <span style={{ fontWeight: '500' }}>
-                            {formatMoney(this.tradePrice)}
+                            {formatMoney(this.totalMinusSubPrice)}
                           </span>
                         )
                       }}

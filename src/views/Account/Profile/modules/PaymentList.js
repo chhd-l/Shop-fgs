@@ -16,7 +16,6 @@ import {
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { computedSupportPaymentMethods } from '@/utils/utils';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { showCardType } from '@/utils/constant/cyber';
 
@@ -59,7 +58,7 @@ function CardItem(props) {
   );
 }
 
-@inject('loginStore')
+@inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
 class AddressList extends React.Component {
@@ -75,8 +74,7 @@ class AddressList extends React.Component {
       paymentType: 'PAYU', //getway接口没配置美国支付CYBER，暂时这样
       errorMsg: '',
       successMsg: '',
-      getPaymentMethodListFlag: false,
-      supportPaymentMethods: []
+      getPaymentMethodListFlag: false
     };
 
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
@@ -89,11 +87,11 @@ class AddressList extends React.Component {
     this.getPaymentMethodList();
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.name,
-        supportPaymentMethods: computedSupportPaymentMethods(
-          res?.context?.supportPaymentMethods || []
-        )
+        paymentType: res?.context?.name
       }); //PAYU,ADYEN,CYBER
+      this.props.paymentStore.setSupportPaymentMethods(
+        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
+      );
     });
   }
   get isLogin() {
@@ -455,9 +453,9 @@ class AddressList extends React.Component {
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getPaymentMethodList}
                     paymentType={this.state.paymentType}
-                    supportPaymentMethods={this.state.supportPaymentMethods}
                     needEmail={this.props.needEmail}
                     needPhone={this.props.needPhone}
+                    paymentStore={this.props.paymentStore}
                   />
                 )}
               </div>

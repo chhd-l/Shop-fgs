@@ -181,6 +181,25 @@ export const LoginUserBox = ({ self, className }) => {
           </span>
         </a>
       ) : null}
+      {process.env.REACT_APP_HUB_VET_PORTAL &&
+      process.env.REACT_APP_HUB_BREEDER_PORTAL ? (
+        <div className="border-top pt-2">
+          <div className="brandName">
+            <FormattedMessage id="header.User.royalCaninPartner" />
+          </div>
+          <div className="breeder">
+            <a href={process.env.REACT_APP_HUB_BREEDER_PORTAL}>
+              <FormattedMessage id="header.User.breederPortal" />
+            </a>
+            <span>
+              <FormattedMessage id="header.User.or" />
+            </span>
+            <a href={process.env.REACT_APP_HUB_VET_PORTAL}>
+              <FormattedMessage id="header.User.vetPortal" />
+            </a>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

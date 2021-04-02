@@ -62,14 +62,17 @@ class LoginCart extends React.Component {
   get loading() {
     return this.checkoutStore.loadingCartData;
   }
-  get tradePrice() {
-    return this.props.checkoutStore.tradePrice;
+  get totalMinusSubPrice() {
+    return this.props.checkoutStore.totalMinusSubPrice;
   }
   async handleCheckout() {
     try {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
-      await checkoutStore.updateLoginCart({ isThrowErr: true });
+      await checkoutStore.updateLoginCart({
+        isThrowErr: true,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
 
       let autoAuditFlag = false;
       let res = await getProductPetConfig({
@@ -86,12 +89,13 @@ class LoginCart extends React.Component {
       autoAuditFlag = res.context.autoAuditFlag;
       checkoutStore.setAutoAuditFlag(autoAuditFlag);
       checkoutStore.setPetFlag(res.context.petFlag);
-      const url = distributeLinktoPrecriberOrPaymentPage({
+      const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore,
         checkoutStore,
         clinicStore,
         isLogin: true
       });
+      console.log(url, 'urlll');
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
@@ -215,7 +219,7 @@ class LoginCart extends React.Component {
                       values={{
                         totalPrice: (
                           <span style={{ fontWeight: '500' }}>
-                            {formatMoney(this.tradePrice)}
+                            {formatMoney(this.totalMinusSubPrice)}
                           </span>
                         )
                       }}

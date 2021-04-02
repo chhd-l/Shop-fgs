@@ -438,31 +438,30 @@ class MemberCardList extends React.Component {
     }
   };
   async deleteCard({ el, idx }) {
-    let { creditCardList, memberUnsavedCardList } = this.state;
-    el.confirmTooltipVisible = false;
-    this.setState({
-      creditCardList,
-      memberUnsavedCardList
-    });
-    scrollPaymentPanelIntoView();
-    if (el.paymentToken) {
+    try {
+      let { creditCardList, memberUnsavedCardList } = this.state;
+      el.confirmTooltipVisible = false;
       this.setState({
-        listLoading: true
-      });
-      deleteCard({ id: el.id })
-        .then(() => {
-          this.getPaymentMethodList();
-        })
-        .catch((err) => {
-          this.showErrorMsg(err.message);
-          this.setState({
-            listLoading: false
-          });
-        });
-    } else {
-      memberUnsavedCardList.splice(idx, 1);
-      this.setState({
+        creditCardList,
         memberUnsavedCardList
+      });
+      scrollPaymentPanelIntoView();
+      if (el.paymentToken) {
+        this.setState({
+          listLoading: true
+        });
+        await deleteCard({ id: el.id });
+      } else {
+        memberUnsavedCardList.splice(idx, 1);
+        this.setState({
+          memberUnsavedCardList
+        });
+      }
+      await this.getPaymentMethodList();
+    } catch (err) {
+      this.showErrorMsg(err.message);
+      this.setState({
+        listLoading: false
       });
     }
   }
@@ -585,7 +584,7 @@ class MemberCardList extends React.Component {
       needEmail,
       needPhone,
       isSupportInstallMent,
-      supportPaymentMethods
+      paymentStore: { supportPaymentMethods }
     } = this.props;
     const {
       creditCardInfoForm,
@@ -611,7 +610,7 @@ class MemberCardList extends React.Component {
               key={idx}
               style={{ width: '50px' }}
               className="logo-payment-card mr-1"
-              src={el.img}
+              src={el.imgUrl}
             />
           </LazyLoad>
         ))}

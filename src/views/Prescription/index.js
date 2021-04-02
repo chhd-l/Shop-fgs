@@ -30,7 +30,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
         sonMess={sonMess}
         props={props}
         mode="confirm"
-      ></MapFlag>
+      />
     );
   } else {
     return (
@@ -112,6 +112,7 @@ class Prescription extends React.Component {
       loading: true,
       modalShow: false //是否显示询问绑定prescriber弹框
     };
+    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
     setSeoConfig().then((res) => {
@@ -120,7 +121,14 @@ class Prescription extends React.Component {
     //获取是否显示prescriber弹框
     await this.props.configStore.getIsNeedPrescriber();
     const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
-    this.setState({ modalShow: showPrescriberModal });
+    this.setState(
+      {
+        modalShow: showPrescriberModal
+      },
+      () => {
+        this.state.modalShow && this.hubGA && this.hubGaModalPopup();
+      }
+    );
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -134,6 +142,13 @@ class Prescription extends React.Component {
     sessionItemRoyal.remove('clinic-reselect');
     localItemRoyal.set('isRefresh', true);
   }
+
+  hubGaModalPopup() {
+    dataLayer.push({
+      event: 'VetPrescriptionPopup'
+    });
+  }
+
   inputSearchValue = (e) => {
     this.setState({
       keywords: e.target.value
@@ -206,11 +221,16 @@ class Prescription extends React.Component {
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
   closeModal = () => {
     this.setState({ modalShow: false });
+    sessionItemRoyal.set('needShowPrescriber', 'false'); //在checkout页面不显示prescriber信息
     this.props.history.push('/checkout');
   };
   //需要绑定prescriber，直接关闭弹框显示当前页面
   handleClickSubmit = () => {
     this.setState({ modalShow: false });
+    dataLayer.push({
+      event: 'VetPrescriptionClick',
+      buttonName: 'choose a clinic'
+    });
   };
   handleSearch = () => {
     const { params } = this.state;
@@ -260,6 +280,7 @@ class Prescription extends React.Component {
     // removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
+    sessionItemRoyal.set('needShowPrescriber', 'true'); //在checkout页面显示prescriber信息
     this.props.history.push('/checkout');
   };
   getSonMess(center) {
@@ -304,7 +325,7 @@ class Prescription extends React.Component {
     const event = {
       page: {
         type: 'Checkout',
-        theme: ''
+        path: this.props.history.location.pathname
       }
     };
 

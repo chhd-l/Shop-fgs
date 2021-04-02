@@ -49,7 +49,7 @@ class Faq extends Component {
           </ul>
         </div>
         <div className="faq-title rc-delta mb-0">
-          <FormattedMessage id="footer.FAQ" />
+          <FormattedMessage id="footer.FAQ2" />
         </div>
         <dl
           data-toggle-group=""

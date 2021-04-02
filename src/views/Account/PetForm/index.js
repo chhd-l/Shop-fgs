@@ -1559,6 +1559,22 @@ class PetForm extends React.Component {
                 </div>
               </div>
             </div>
+            {/* 土耳其、俄罗斯club绑定订阅 */}
+            <LinkedSubs
+              petsId={this.props.match.params.id}
+              loading={this.state.loading}
+              setState={this.setState.bind(this)}
+              errorMsg={this.state.errorMsg}
+            />
+            {/* {
+            ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1?
+            <LinkedSubs
+              petsId={this.props.match.params.id}
+              loading={this.state.loading}
+              setState={this.setState.bind(this)}
+              errorMsg={this.state.errorMsg}
+            />: null
+            } */}
             <div>
               {this.state.recommendData.length && this.state.isChoosePetType ? (
                 <Carousel
@@ -1573,22 +1589,6 @@ class PetForm extends React.Component {
                 />
               ) : null}
             </div>
-            {/* 土耳其、俄罗斯club绑定订阅 */}
-            {/* <LinkedSubs
-              petsId={this.props.match.params.id}
-              loading={this.state.loading}
-              setState={this.setState.bind(this)}
-              errorMsg={this.state.errorMsg}
-            /> */}
-            {/* {
-            ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1?
-            <LinkedSubs
-              petsId={this.props.match.params.id}
-              loading={this.state.loading}
-              setState={this.setState.bind(this)}
-              errorMsg={this.state.errorMsg}
-            />: null
-            } */}
           </div>
           <Footer />
         </main>

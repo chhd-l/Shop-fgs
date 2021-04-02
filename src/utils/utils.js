@@ -13,11 +13,11 @@ import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
 import en from 'date-fns/locale/en-US';
 import { registerLocale } from 'react-datepicker';
-import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
+const configStore = stores.configStore;
 const mapEnum = {
   1: { mark: '$', break: ' ', atEnd: false },
   2: { mark: 'Mex$', break: ' ', atEnd: false },
@@ -434,7 +434,7 @@ async function getGoodsSeo(goodsId) {
 
 // 分发跳转prescriber/payment页面
 // 一旦正向流程跳转prescriber/payment页面，则需使用此方法，以替代routeFilter.js中的相关拦截，以此解决闪现/presciber页面的bug
-export function distributeLinktoPrecriberOrPaymentPage({
+export async function distributeLinktoPrecriberOrPaymentPage({
   configStore = {},
   checkoutStore,
   clinicStore,
@@ -476,32 +476,37 @@ export function distributeLinktoPrecriberOrPaymentPage({
       return '/checkout';
     }
   }
-
-  // 校验本地prescriber缓存，有则跳过prescriber页面
-  if (
-    (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
-      localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
-    ((localItemRoyal.get(`rc-clinic-id-link`) &&
-      localItemRoyal.get(`rc-clinic-name-link`)) ||
-      (localItemRoyal.get(`rc-clinic-id-select`) &&
-        localItemRoyal.get(`rc-clinic-name-select`)) ||
-      (localItemRoyal.get(`rc-clinic-id-default`) &&
-        localItemRoyal.get(`rc-clinic-name-default`)))
-  ) {
-    if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      if (clinicStore.linkClinicId) {
-        clinicStore.setSelectClinicId(clinicStore.linkClinicId);
-        clinicStore.setSelectClinicName(clinicStore.linkClinicName);
-      }
-    } else if (
-      !clinicStore.linkClinicId &&
-      !clinicStore.selectClinicId &&
-      clinicStore.defaultClinicId
+  //获取是否显示prescriber弹框
+  await configStore.getIsNeedPrescriber();
+  const showPrescriberModal = configStore.isShowPrescriberModal;
+  // 不需要显示弹框的情况下才校验本地prescriber缓存，有则跳过prescriber页面
+  if (!showPrescriberModal) {
+    if (
+      (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
+        localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
+      ((localItemRoyal.get(`rc-clinic-id-link`) &&
+        localItemRoyal.get(`rc-clinic-name-link`)) ||
+        (localItemRoyal.get(`rc-clinic-id-select`) &&
+          localItemRoyal.get(`rc-clinic-name-select`)) ||
+        (localItemRoyal.get(`rc-clinic-id-default`) &&
+          localItemRoyal.get(`rc-clinic-name-default`)))
     ) {
-      clinicStore.setSelectClinicId(clinicStore.defaultClinicId);
-      clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
+      if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+        if (clinicStore.linkClinicId) {
+          clinicStore.setSelectClinicId(clinicStore.linkClinicId);
+          clinicStore.setSelectClinicName(clinicStore.linkClinicName);
+        }
+      } else if (
+        !clinicStore.linkClinicId &&
+        !clinicStore.selectClinicId &&
+        clinicStore.defaultClinicId
+      ) {
+        clinicStore.setSelectClinicId(clinicStore.defaultClinicId);
+        clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
+      }
+      sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber信息
+      return '/checkout';
     }
-    return '/checkout';
   }
   return '/prescription';
 }

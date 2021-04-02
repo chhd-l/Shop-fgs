@@ -1,9 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ADYEN_CREDIT_CARD_IMGURL_ENUM,
-  ADYEN_CREDIT_CARD_BRANDS
-} from '@/utils/constant';
+import { ADYEN_CREDIT_CARD_BRANDS } from '@/utils/constant';
 import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
@@ -206,23 +203,26 @@ class AdyenCreditCardForm extends React.Component {
       cardList
     } = this.props;
     const { saveLoading, isValid } = this.state;
+    const { supportPaymentMethods } = paymentStore;
     return (
       <div>
         {/* 支持卡的类型 Visa和master */}
-        <p className="mb-2">
-          <span className="logo-payment-card-list logo-credit-card ml-0">
-            {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-              <LazyLoad key={idx}>
-                <img
-                  style={{ width: '50px' }}
-                  className="logo-payment-card mr-1"
-                  src={el}
-                  alt={el}
-                />
-              </LazyLoad>
-            ))}
-          </span>
-        </p>
+        {supportPaymentMethods.length > 0 && (
+          <p className="mb-2">
+            <span className="logo-payment-card-list logo-credit-card ml-0">
+              {supportPaymentMethods.map((el, idx) => (
+                <LazyLoad key={idx}>
+                  <img
+                    style={{ width: '50px' }}
+                    className="logo-payment-card mr-1"
+                    src={el.imgUrl}
+                    alt={el.cardType}
+                  />
+                </LazyLoad>
+              ))}
+            </span>
+          </p>
+        )}
         <div
           id="adyen-card-container"
           className={`payment-method__container ${

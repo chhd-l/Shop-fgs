@@ -352,7 +352,7 @@ const ru_RU = {
   enterCatBreed: 'Введите породу вашей кошки',
   enterClinicName: 'Введите название клиники',
   enterCorrectEmail: 'Пожалуйста, введите правильный адрес электронной почты',
-  enterCorrectPhoneNumber: 'Введите действующий номер телефона',
+  enterCorrectPhoneNumber: 'Пожалуйста, введите действующий номер телефона',
   enterCorrectPostCode: 'Пожалуйста, введите правильный почтовый индекс',
   enterCorrectValue: 'Пожалуйста, введите правильный {val}',
   enterDogBreed: 'Выберите породу Вашего питомца',
@@ -361,7 +361,7 @@ const ru_RU = {
   estimatedTax: 'Скидка на доставку',
   every: 'Каждый',
   example: 'Пример',
-  examplePhone: '+ (52) 559 801 65',
+  examplePhone: '+7 (923) 456 78 90',
   examplePostCode: '02860',
   expirationDateIsInvalid: 'срок действия вашей карты недействителен',
   'faq.frequentQuestions': 'Часто задаваемые вопросы',
@@ -386,6 +386,7 @@ const ru_RU = {
     'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
   'footer.email': 'Обратиться в службу поддержки.',
   'footer.FAQ': 'Часто задаваемые вопросы',
+  'footer.FAQ2': 'FAQ',
   'footer.healthAndNutrition': 'Здоровье и питание',
   'footer.help': 'ПОМОГИТЕ',
   'footer.informationForParents': 'Информация для родителей',
@@ -648,7 +649,7 @@ const ru_RU = {
   'payment.deliveryTitle': 'Доставка',
   'payment.email': 'Эл. адрес',
   'payment.errorInfo': '* {val} должно быть заполнено',
-  'payment.errorInfo2': 'Это поле обязательно к заполнению.',
+  'payment.errorInfo2': 'Это поле обязательно для заполнения.',
   'payment.errTip': 'введите cvv или выберите карту',
   'payment.firstName': 'Имя',
   'payment.forFree': 'Бесплатно',
@@ -674,9 +675,9 @@ const ru_RU = {
   'payment.socialId': 'Социальный идентификатор',
   'payment.state': 'область',
   'payment.region': 'район',
-  'payment.entrance': 'вход',
+  'payment.entrance': 'Подъезд',
   'payment.apartment': 'квартира',
-  'payment.comment': 'Замечания',
+  'payment.comment': 'Комментарий к доставке',
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
@@ -1076,7 +1077,8 @@ const ru_RU = {
   'bindPrescriber.modal.or': 'или',
   'orderStatus.COMPLETED': 'Завершено',
   'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
-  'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}'
+  'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
+  'subscription.see_more': 'Смотри другие Подписка'
 };
 
 export default ru_RU;

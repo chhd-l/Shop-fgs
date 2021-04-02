@@ -9,22 +9,18 @@ import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 const localItemRoyal = window.__.localItemRoyal;
-const ClubItem = ({ subItem, idx, frequencyList }) => {
+const ClubItem = ({ subItem, frequencyList, history }) => {
   const isMobile = getDeviceType() !== 'PC';
   return (
     <div
-      className="row rc-margin-x--none row align-items-center card-container"
-      style={{
-        padding: '1rem 0',
-        marginTop: '1rem'
-        // display: idx < 2 || isShowAll ? 'flex' : 'none'
-      }}
+      className="row rc-margin-x--none row align-items-center card-container  pt-3 pb-3"
+      style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
-      <div className="col-4 col-md-4 d-flex flex-wrap">
+      <div className="col-12 col-md-4 d-flex flex-wrap">
         {subItem.goodsInfo &&
           subItem.goodsInfo.map((item) => (
-            <div style={{ marginLeft: '1.25rem' }}>
+            <div style={{ margin: '.625rem 1.25rem' }}>
               <LazyLoad>
                 <img
                   style={{
@@ -72,7 +68,7 @@ const ClubItem = ({ subItem, idx, frequencyList }) => {
             </div>
           ))}
       </div>
-      <div className="col-4 col-md-2 text-nowrap">
+      <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
         <LazyLoad>
           <img
             src={Club_Logo}
@@ -116,12 +112,34 @@ const ClubItem = ({ subItem, idx, frequencyList }) => {
           </p>
         </span>
       </div>
-      <div className="col-4 col-md-2"></div>
-      <div className="col-4 col-md-2"></div>
-      <div className="col-4 col-md-2" style={{ textAlign: 'center' }}>
-        <Link to={`/account/subscription/order/detail/${subItem.subscribeId}`}>
+      <div className="col-4 col-md-1  text-center ml-3">
+        {subItem.subscribeStatus === '0' || subItem.subscribeStatus === '1' ? (
+          <div>
+            <em className="greenCircle" />
+            <FormattedMessage id="active" />
+          </div>
+        ) : (
+          <div>
+            <em className="yellowCircle" />
+            <FormattedMessage id="inactive" />
+          </div>
+        )}
+      </div>
+      <div className="col-2 col-md-2" style={{ textAlign: 'center' }}>
+        {/* <Link to={`/account/subscription/order/detail/${subItem.subscribeId}`}>
           <FormattedMessage id="Manage" />
-        </Link>
+        </Link> */}
+        <button
+          className="rc-btn rc-btn--two rc-btn--sm"
+          onClick={() => {
+            localItemRoyal.set('subDetail', subItem);
+            history.push(
+              `/account/subscription/order/detail/${subItem.subscribeId}`
+            );
+          }}
+        >
+          <FormattedMessage id="manage" />
+        </button>
       </div>
     </div>
   );

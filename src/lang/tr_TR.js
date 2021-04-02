@@ -320,6 +320,7 @@ const tr_TR = {
   'footer.copyrightInfo':
     "Telif hakkı © Mars 2021®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
   'footer.FAQ': 'SSS',
+  'footer.FAQ2': 'SSS',
   'footer.healthAndNutrition': 'Sağlık ve Beslenme',
   'footer.help': 'YARDIM',
   'footer.informationForParents': 'Ebeveynler için Bilgiler',
@@ -1002,6 +1003,14 @@ const tr_TR = {
   skip: 'Sipariş atla',
   'orderStatus.COMPLETED': 'Tamamlandı',
   'payment.cardInfoErr': 'Kart bilgileri yanlış, lütfen kontrol edin.',
-  'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}'
+  'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}',
+  'subscription.see_more': 'Diğer Aboneliğe Bakın',
+  'bindPrescriber.modal.title':
+    'Есть ли у вас рекомендация от ветеринарного врача?',
+  'bindPrescriber.modal.content':
+    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
+  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
+  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
+  'bindPrescriber.modal.or': 'или'
 };
 export default tr_TR;

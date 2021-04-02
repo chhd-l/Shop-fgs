@@ -48,7 +48,7 @@ class VisitorAddress extends React.Component {
         provinceCode: null
       },
       billingChecked: true,
-      validationLoading: false, // 地址校验loading
+      visitorValidationLoading: false, // 地址校验loading
       visitorValidationModalVisible: false, // 地址校验查询开关
       selectVisitorValidationOption: 'suggestedAddress',
       btnLoading: false
@@ -60,8 +60,10 @@ class VisitorAddress extends React.Component {
   componentDidMount() {
     this.validData({
       data: this.state.form,
-      visitorValidationModalVisible: false
+      visitorValidationModalVisible: false,
+      btnLoading: false
     });
+    console.log('★ ----------------- VisitorAddress');
   }
   //props发生变化时触发
   componentWillReceiveProps(props) {
@@ -117,7 +119,7 @@ class VisitorAddress extends React.Component {
       });
     } catch (err) {
       console.error(' err msg: ', err);
-      this.setState({ isValid: false, validationLoading: false }, () => {
+      this.setState({ isValid: false, visitorValidationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     }
@@ -135,7 +137,7 @@ class VisitorAddress extends React.Component {
     // 地址验证
     // visitorValidationModalVisible - 控制是否查询数据
     this.setState({
-      validationLoading: true
+      visitorValidationLoading: true
     });
     if (this.props.isValidationModal) {
       console.log('★ ----------------- VisitorAddress 地址校验');
@@ -148,7 +150,7 @@ class VisitorAddress extends React.Component {
     }
 
     if (this.props.type !== 'delivery') {
-      throw new Error('VisitorAddress Delivery address ');
+      throw new Error('This Error No Display');
     }
   };
   handleClickEdit = () => {
@@ -219,7 +221,7 @@ class VisitorAddress extends React.Component {
   // 获取地址验证查询到的数据
   getVisitorValidationData = async (data) => {
     this.setState({
-      validationLoading: false
+      visitorValidationLoading: false
     });
     if (data && data != null) {
       // 获取并设置地址校验返回的数据
@@ -306,6 +308,17 @@ class VisitorAddress extends React.Component {
     );
   };
 
+  // 重置参数，在Payment确认地址时调用
+  resetVisitorAddressState() {
+    const { form } = this.state;
+    this.setState({
+      visitorValidationModalVisible: false,
+      btnLoading: false
+    });
+    this.props.updateValidationStaus(false);
+    this.props.updateData(form);
+  }
+
   render() {
     const { panelStatus } = this;
 
@@ -313,7 +326,7 @@ class VisitorAddress extends React.Component {
     const {
       form,
       isValid,
-      validationLoading,
+      visitorValidationLoading,
       visitorValidationModalVisible,
       selectVisitorValidationOption
     } = this.state;
@@ -362,7 +375,7 @@ class VisitorAddress extends React.Component {
           ) : null
         ) : null}
 
-        {validationLoading && <Loading positionFixed="true" />}
+        {visitorValidationLoading && <Loading positionFixed="true" />}
         {visitorValidationModalVisible && (
           <ValidationAddressModal
             btnLoading={this.state.btnLoading}
@@ -377,7 +390,7 @@ class VisitorAddress extends React.Component {
             close={() => {
               this.setState({
                 visitorValidationModalVisible: false,
-                validationLoading: false
+                visitorValidationLoading: false
               });
             }}
           />
