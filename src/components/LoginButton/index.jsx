@@ -52,6 +52,17 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
+          if(loginStore.userInfo && loginStore.userInfo.email && info.email !== loginStore.userInfo.email) {
+            localItemRoyal.set('login-again', true)
+            const idToken = authState.idToken;
+            const redirectUri = 
+            window.location.origin + process.env.REACT_APP_HOMEPAGE;
+            window.location.href = `${
+              process.env.REACT_APP_ISSUER
+            }/v1/logout?id_token_hint=${
+              idToken ? idToken.value : ''
+            }&post_logout_redirect_uri=${redirectUri}`;
+          } // Cross-store login
           setUserInfo(info);
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value

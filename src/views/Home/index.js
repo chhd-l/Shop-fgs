@@ -13,11 +13,12 @@ import HubSalesCategory from './modules/HubSalesCategory';
 import { Ads } from './ad';
 import { TopAds } from './ad';
 import { Advantage } from './advantage';
-import { setSeoConfig, getDeviceType } from '@/utils/utils';
+import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
+import stores from '@/store';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
@@ -29,6 +30,7 @@ import HelpComponents from '../../components/HelpComponents/HelpComponents';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
 let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
@@ -454,7 +456,16 @@ class Home extends React.Component {
       searchEvent: {}
     };
   }
+
   async componentDidMount() {
+    if (localItemRoyal.get('login-again')) {
+      loginStore.changeLoginModal(true);
+      var callOktaCallBack = getOktaCallBackUrl(
+        localItemRoyal.get('okta-session-token')
+      );
+      localItemRoyal.remove('login-again');
+      window.location.href = callOktaCallBack;
+    } // Cross-store login
     setSeoConfig({ pageName: 'Home Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -499,6 +510,10 @@ class Home extends React.Component {
     if (parametersString.indexOf('toOkta=true') >= 0) {
       this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
+    }
+
+    if (localItemRoyal.get('login-again')) {
+      return null;
     }
 
     return (

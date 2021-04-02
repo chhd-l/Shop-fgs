@@ -7,7 +7,7 @@ import SocialRegister from './components/socialRegister';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { oktaRegister } from '@/api/user';
 import stores from '@/store';
-import { mergeUnloginCartData } from '@/utils/utils';
+import { mergeUnloginCartData, getOktaCallBackUrl } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 
@@ -48,7 +48,8 @@ class Register extends Component {
       passwordMessage: '',
       emailMessage: '',
       requiredConsentCount: 0,
-      hasError: false
+      hasError: false,
+      errorMessage: ''
     };
     this.sendList = this.sendList.bind(this);
     this.init = this.init.bind(this);
@@ -263,48 +264,51 @@ class Register extends Component {
       customerName: registerForm.name
     })
       .then(async (res) => {
-        //GA 注册成功 start
-        dataLayer.push({
-          event: `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
-          interaction: {
-            category: 'account creation',
-            action: 'accounct creation',
-            label: '',
-            value: 1
+        if (res.code === 'K-000000') {
+          //GA 注册成功 start
+          dataLayer.push({
+            event: `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
+            interaction: {
+              category: 'account creation',
+              action: 'accounct creation',
+              label: '',
+              value: 1
+            }
+          });
+          //GA 注册成功 end
+
+          loginStore.changeLoginModal(false);
+          loginStore.changeIsLogin(true);
+
+          localItemRoyal.set('rc-token', res.context.token);
+          localItemRoyal.set('rc-register', true);
+          loginStore.setUserInfo(res.context.customerDetail);
+
+          if (checkoutStore.cartData.length) {
+            await mergeUnloginCartData();
+            await checkoutStore.updateLoginCart();
           }
-        });
-        //GA 注册成功 end
-
-        loginStore.changeLoginModal(false);
-        loginStore.changeIsLogin(true);
-
-        localItemRoyal.set('rc-token', res.context.token);
-        localItemRoyal.set('rc-register', true);
-        loginStore.setUserInfo(res.context.customerDetail);
-
-        const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-        if (checkoutStore.cartData.length) {
-          await mergeUnloginCartData();
-          await checkoutStore.updateLoginCart();
-        }
-        if (res.context.oktaSessionToken) {
-          // hard code
-          const state =
-            'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
-          const nonce =
-            '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
-          let homePage = process.env.REACT_APP_HOMEPAGE;
-          const regiserUrl =
-            homePage.substring(homePage.length - 1, homePage.length) === '/'
-              ? 'implicit/callback'
-              : '/implicit/callback';
-          const redirectUri = window.location.origin + homePage + regiserUrl;
-          var callOktaCallBack = `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${res.context.oktaSessionToken}`;
-          localItemRoyal.set(
-            'rc-consent-list',
-            JSON.stringify(this.state.list)
-          );
-          window.location.href = callOktaCallBack;
+          if (res.context.oktaSessionToken) {
+            localItemRoyal.set(
+              'okta-session-token',
+              res.context.oktaSessionToken
+            );
+            var callOktaCallBack = getOktaCallBackUrl(
+              res.context.oktaSessionToken
+            );
+            localItemRoyal.set(
+              'rc-consent-list',
+              JSON.stringify(this.state.list)
+            );
+            window.location.href = callOktaCallBack;
+          }
+        } else {
+          window.scrollTo(0, 0);
+          this.setState({
+            circleLoading: false,
+            hasError: true,
+            errorMessage: res.messages
+          });
         }
       })
       .catch((err) => {
@@ -343,7 +347,8 @@ class Register extends Component {
       passwordMessage,
       requiredConsentCount,
       list,
-      hasError
+      hasError,
+      errorMessage
     } = this.state;
     const allValid =
       nameValid &&
@@ -406,16 +411,24 @@ class Register extends Component {
                       role="alert"
                     >
                       <p>
-                        <FormattedMessage id="registerErrorMessage" />
-                        <strong>
-                          <a
-                            href={process.env.REACT_APP_ACCESS_PATH + 'help'}
-                            className="rc-text-colour--brand1"
-                          >
-                            {' '}
-                            <FormattedMessage id="footer.email" />
-                          </a>
-                        </strong>
+                        {errorMessage ? (
+                          errorMessage
+                        ) : (
+                          <div>
+                            <FormattedMessage id="registerErrorMessage" />
+                            <strong>
+                              <a
+                                href={
+                                  process.env.REACT_APP_ACCESS_PATH + 'help'
+                                }
+                                className="rc-text-colour--brand1"
+                              >
+                                {' '}
+                                <FormattedMessage id="footer.email" />
+                              </a>
+                            </strong>
+                          </div>
+                        )}
                       </p>
                       <button
                         className="rc-btn rc-alert__close rc-close--xs rc-iconography"
