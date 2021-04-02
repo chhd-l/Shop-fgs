@@ -126,6 +126,8 @@ import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
 
+import RedirectUrlJSON from './redirectUrl';
+
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
@@ -346,7 +348,7 @@ const App = () => (
                 render={(props) => (
                   <AccountPetForm key={props.match.params.id} {...props} />
                 )}
-                // component={AccountPetForm}
+              // component={AccountPetForm}
               />
               <Route
                 path="/account/pets/petForm/"
@@ -482,7 +484,7 @@ const App = () => (
                 path="/Values"
                 component={
                   { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                    process.env.REACT_APP_LANG
+                  process.env.REACT_APP_LANG
                   ] || Values
                 }
               />
@@ -584,40 +586,7 @@ const App = () => (
                   //为了匹配/refuge108785 这种数字动态的短链接
                   if (/^\/refuge/.test(pathname))
                     return <RefugeSource key={Math.random()} {...props} />;
-
-                  //为了匹配/boxer01，boxer02等
-                  if (/^\/boxer[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-                  //为了匹配/bulldog01，bulldog02等
-                  if (/^\/bulldog[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/chihuahua[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/bergerallemand[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/golden[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/labrador[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/shihtzu[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/yorkshire[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/british[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/mainecoon[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
-
-                  if (/^\/persan[0-9]/.test(pathname))
-                    return <ListSource key={Math.random()} {...props} />;
+                    
 
                   // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].*[0-9]{1,}.*$/.test(pathname)) {
@@ -654,31 +623,24 @@ const App = () => (
                       return <Details key={props.match.params.id} {...props} />;
                     }
                   } else {
-                    let redirectUrl = '';
+                    let RedirectUrlObj = {};
+                    if (process.env.REACT_APP_LANG == 'fr') {
+                      RedirectUrlJSON.RECORDS.filter(
+                        (item) => item.shortUrl !== item.redirectUrl
+                      )
+                        .map((item) => ({
+                          [item.shortUrl]: item.redirectUrl
+                        }))
+                        .forEach((item) => {
+                          RedirectUrlObj = { ...RedirectUrlObj, ...item }; //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
+                        });
+                    }
+
                     const specailPlpUrlMapping = {
-                      '/dogs?prefn1=breeds&prefv1=Boxer':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Boxer',
-                      '/dogs?prefn1=breeds&prefv1=Bulldog%20Anglais':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Bulldog-Anglais',
-                      '/dogs?prefn1=breeds&prefv1=Chihuahua':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Chihuahua',
-                      '/dogs?prefn1=breeds&prefv1=Berger%20Allemand':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Berger-Allemand',
-                      '/dogs?prefn1=breeds&prefv1=Golden%20Retriever':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Golden-Retriever',
-                      '/dogs?prefn1=breeds&prefv1=Labrador%20Retriever':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Labrador-Retriever',
-                      '/dogs?prefn1=breeds&prefv1=Shih%20Tzu':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Shih-Tzu',
-                      '/dogs?prefn1=breeds&prefv1=Yorkshire%20Terrier':
-                        '/dogs/retail-products?prefn1=breeds&prefv1=Yorkshire-Terrier',
-                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=British%20shorthair':
-                        '/cats/retail-products?prefn1=breeds&prefv1=British-shorthair',
-                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=Maine%20Coon':
-                        '/cats/retail-products?prefn1=breeds&prefv1=Maine-Coon',
-                      'https://shopstg.royalcanin.com/fr/cats?prefn1=breeds&prefv1=Persan':
-                        '/cats/retail-products?prefn1=breeds&prefv1=Persan'
+                      ...RedirectUrlObj
                     };
+
+                    let redirectUrl = '';
                     if (pathname.split('.html').length > 1) {
                       redirectUrl = pathname.split('.html')[0];
                     } else if (specailPlpUrlMapping[pathname + search]) {
