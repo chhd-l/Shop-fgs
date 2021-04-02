@@ -1469,6 +1469,11 @@ class Details extends React.Component {
       barcode,
       ccidBtnDisplay
     } = this.state;
+    const filterImages =
+      images?.filter((i) => {
+        i.artworkUrl = i.goodsInfoImg;
+        return i.goodsInfoImg;
+      }) || [];
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
@@ -1654,7 +1659,11 @@ class Details extends React.Component {
                                       }
                                       taggingForText={details.taggingForText}
                                       taggingForImage={details.taggingForImage}
-                                      spuImages={spuImages}
+                                      spuImages={
+                                        filterImages.length
+                                          ? filterImages
+                                          : spuImages
+                                      }
                                     />
                                   ) : (
                                     <ImageMagnifier
