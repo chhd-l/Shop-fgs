@@ -2015,8 +2015,7 @@ class SubscriptionDetail extends React.Component {
     let addGoodsItems = {
       skuId: currentSelectedSize.goodsInfoId,
       goodsNum: quantity,
-      goodsInfoFlag,
-      subscribeId
+      goodsInfoFlag
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
     let deleteGoodsItems = {
