@@ -30,7 +30,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
         sonMess={sonMess}
         props={props}
         mode="confirm"
-      ></MapFlag>
+      />
     );
   } else {
     return (
