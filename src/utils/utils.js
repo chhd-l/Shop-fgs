@@ -18,6 +18,7 @@ import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
+const configStore = stores.configStore;
 const mapEnum = {
   1: { mark: '$', break: ' ', atEnd: false },
   2: { mark: 'Mex$', break: ' ', atEnd: false },

@@ -75,13 +75,7 @@ class UnloginCart extends React.Component {
   async handleCheckout({ type, needLogin = false } = {}) {
     this.GAAccessToGuestCheck(type);
     try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        headerCartStore,
-        clinicStore
-      } = this.props;
+      const { configStore, checkoutStore, history, clinicStore } = this.props;
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
       checkoutStore.updateUnloginCart({
@@ -124,7 +118,7 @@ class UnloginCart extends React.Component {
         // history.push('/prescription');
       }
     } catch (err) {
-      headerCartStore.setErrMsg(err.message);
+      this.props.headerCartStore.setErrMsg(err.message);
     } finally {
       this.setState({ checkoutLoading: false });
     }
