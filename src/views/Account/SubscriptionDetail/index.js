@@ -556,14 +556,13 @@ class SubscriptionDetail extends React.Component {
       <div className="rc-md-down">{this.statusText()}</div>
       <Link
         className="rc-md-down rc-margin-y--sm"
-        to={`/account/pets/petForm/${petsId}`}
+        to={{
+          pathname: `/account/pets/petForm/${petsId}`,
+          state: { isFromSubscriptionDetail: true }
+        }}
       >
         <div
           className="rc-styled-link"
-          to={{
-            pathname: `/account/pets/petForm/${petsId}`,
-            state: { isFromSubscriptionDetail: true }
-          }}
           // onClick={this.showEditRecommendation}
         >
           Edit pet profile
@@ -579,13 +578,15 @@ class SubscriptionDetail extends React.Component {
           </div>
         </div>
         <div className="rc-padding-right--md">
-          <Link className="rc-md-up" to={`/account/pets/petForm/${petsId}`}>
+          <Link
+            className="rc-md-up"
+            to={{
+              pathname: `/account/pets/petForm/${petsId}`,
+              state: { isFromSubscriptionDetail: true }
+            }}
+          >
             <div
               className="rc-styled-link"
-              to={{
-                pathname: `/account/pets/petForm/${petsId}`,
-                state: { isFromSubscriptionDetail: true }
-              }}
               // onClick={this.showEditRecommendation}
             >
               Edit pet profile
