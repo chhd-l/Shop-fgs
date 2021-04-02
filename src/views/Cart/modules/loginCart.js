@@ -65,7 +65,7 @@ const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
+@inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
 @observer
 class LoginCart extends React.Component {
@@ -298,6 +298,8 @@ class LoginCart extends React.Component {
     }
   }
   setData() {
+    const { configStore } = this.props;
+    console.log(configStore.defaultSubscriptionFrequencyId, '🌏');
     //每次数据变化调用
     !isHubGA && this.GACheckout(this.checkoutStore.loginCartData);
     let productList = this.checkoutStore.loginCartData.map((el) => {
@@ -307,7 +309,7 @@ class LoginCart extends React.Component {
       el.form = {
         frequencyVal: filterData.valueEn,
         frequencyName: filterData.name,
-        frequencyId: filterData.id
+        frequencyId: configStore.defaultSubscriptionFrequencyId || filterData.id
       };
       return el;
     });
