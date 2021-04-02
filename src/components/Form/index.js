@@ -8,7 +8,6 @@ import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
 import Loading from '@/components/Loading';
-import { injectIntl } from 'react-intl';
 import {
   getSystemConfig,
   getAddressSetting,
@@ -17,10 +16,11 @@ import {
   getAddressBykeyWord,
   getCityList
 } from '@/api';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.less';
 
 const CURRENT_LANGFILE = locales;
+@injectIntl
 class Form extends React.Component {
   static defaultProps = {
     type: 'billing',
@@ -236,6 +236,8 @@ class Form extends React.Component {
             regExp = /[+(33)|0]\d{9}$/;
           } else if (process.env.REACT_APP_LANG == 'en') {
             regExp = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
+          } else if (process.env.REACT_APP_LANG == 'ru') {
+            regExp = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else {
             regExp = /\S/;
           }
@@ -243,7 +245,13 @@ class Form extends React.Component {
           break;
         default:
           regExp = /\S/;
-          errMsg = CURRENT_LANGFILE['payment.errorInfo'].replace(
+          let errstr = '';
+          if (process.env.REACT_APP_LANG == 'ru') {
+            errstr = 'payment.errorInfo2';
+          } else {
+            errstr = 'payment.errorInfo';
+          }
+          errMsg = CURRENT_LANGFILE[errstr].replace(
             /{.+}/,
             CURRENT_LANGFILE[`payment.${item.fieldKey}`]
           );
@@ -446,24 +454,35 @@ class Form extends React.Component {
       }
     }
     if (name == 'postCode') {
-      value = value
-        .replace(/\s/g, '')
-        .replace(/-$/, '')
-        .replace(/(\d{5})(?:\d)/g, '$1-');
+      switch (process.env.REACT_APP_LANG) {
+        case 'en':
+          value = value
+            .replace(/\s/g, '')
+            .replace(/-$/, '')
+            .replace(/(\d{5})(?:\d)/g, '$1-');
+          break;
+        default:
+          value = value.replace(/\s+/g, '');
+          break;
+      }
     }
     if (name == 'phoneNumber') {
       value = value.replace(/-/g, ''); // 格式化电话号码
-      if (process.env.REACT_APP_LANG == 'fr') {
-        value = value.replace(/^[0]/, '+(33)');
-      }
-      if (process.env.REACT_APP_LANG == 'en') {
-        value = value
-          .replace(/\s/g, '')
-          .replace(/-$/, '')
-          .replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
-      }
-      if (process.env.REACT_APP_LANG === 'ru') {
-        // value = value.replace(/^[0]/, '+(7)');
+      switch (process.env.REACT_APP_LANG) {
+        case 'fr':
+          value = value.replace(/^[0]/, '+(33)');
+          break;
+        case 'en':
+          value = value
+            .replace(/\s/g, '')
+            .replace(/-$/, '')
+            .replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
+          break;
+        case 'ru':
+          break;
+        default:
+          value = value.replace(/\s+/g, '');
+          break;
       }
     }
     caninForm[name] = value;
@@ -479,6 +498,7 @@ class Form extends React.Component {
     const targetRule = caninForm.formRule.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
+      console.log(target.name);
       await validData(targetRule, { [target.name]: value });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
@@ -548,6 +568,7 @@ class Form extends React.Component {
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <textarea
             className="rc_input_textarea"
+            placeholder={`${this.props.intl.messages['payment.comment']}`}
             id={`shipping${item.fieldKey}`}
             value={caninForm[item.fieldKey]}
             onChange={(e) => this.inputChange(e, item)}
@@ -571,7 +592,7 @@ class Form extends React.Component {
         >
           {/* 城市搜索框 value = fieldkey */}
           <CitySearchSelection
-            placeholder={true}
+            placeholder={false}
             defaultValue={caninForm[item.fieldKey]}
             key={caninForm[item.fieldKey]}
             name={item.fieldKey}
