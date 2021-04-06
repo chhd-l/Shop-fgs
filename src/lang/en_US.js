@@ -1024,7 +1024,7 @@ const en_US = {
   registerEmailFormate:
     'The email address does not match the specified format.',
   registerErrorMessage:
-    'An error occurred while creating your account. Please try again later or use a different email address. ',
+    'An account with this email address already exists. Please log in or use a different email address. ',
   registerFeckbook: 'Connect with Facebook',
   registerFillIn: 'Please fill in this field',
   registerFooter1:
