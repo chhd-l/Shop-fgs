@@ -100,7 +100,7 @@ export default class CardItemCover extends React.Component {
                     CREDIT_CARD_IMG_ENUM[el?.paymentVendor?.toUpperCase()] ||
                     'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                   }
-                  alt="card-background"
+                  alt="card background"
                 />
               </LazyLoad>
             </div>

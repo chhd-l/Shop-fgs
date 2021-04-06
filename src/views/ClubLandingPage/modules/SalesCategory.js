@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { queryStoreCateList } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -6,32 +6,34 @@ import LazyLoad from 'react-lazyload';
 
 class SalesCategory extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       categoryList: [],
-      categoryLoading: true,
-    }
+      categoryLoading: true
+    };
   }
   render() {
-    const {categoryList} = this.state
+    const { categoryList } = this.state;
     const curListNum = categoryList.length;
     const _catogeryJXS2 = categoryList.map((ele, i) => (
       <div
-        className={`col-6 ${curListNum >= 6
+        className={`col-6 ${
+          curListNum >= 6
             ? curListNum >= 15
               ? 'col-md-3'
               : 'col-md-4'
             : 'col-md-3'
-          }`}
+        }`}
         key={i}
       >
         <Link
           className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
           to={{
-            pathname: `${ele.cateRouter && ele.cateRouter.startsWith('/')
+            pathname: `${
+              ele.cateRouter && ele.cateRouter.startsWith('/')
                 ? ele.cateRouter
                 : `/${ele.cateRouter}`
-              }`,
+            }`,
             state: {
               GAListParam: 'Catalogue'
             }
@@ -43,7 +45,7 @@ class SalesCategory extends Component {
             <LazyLoad height={300}>
               <img
                 src={ele.cateImgForHome}
-                alt={ele.cateName}
+                alt={`${ele.cateName} product image`}
                 title={ele.altName}
                 style={{ width: '144px' }}
               />
@@ -60,20 +62,20 @@ class SalesCategory extends Component {
         <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
             <div
-              className={`${curListNum >= 6 ? '' : 'row'
-                } rc-match-heights text-center text-md-left`}
+              className={`${
+                curListNum >= 6 ? '' : 'row'
+              } rc-match-heights text-center text-md-left`}
             >
               <div
-                className={`${curListNum >= 6 ? 'DeCenter' : ''
-                  } col-lg-3 align-self-center`}
+                className={`${
+                  curListNum >= 6 ? 'DeCenter' : ''
+                } col-lg-3 align-self-center`}
               >
                 <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
                   <FormattedMessage id="home.productsCategory" />
                 </h2>
               </div>
-              <div
-                className={`${curListNum >= 6 ? 'DeCenter' : ''} col-lg-9`}
-              >
+              <div className={`${curListNum >= 6 ? 'DeCenter' : ''} col-lg-9`}>
                 <div className="row custom-gutter">
                   <span className="hidden rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link" />
                   {_catogeryJXS2}
@@ -83,7 +85,7 @@ class SalesCategory extends Component {
           </div>
         </div>
       </section>
-    )
+    );
   }
   componentDidMount() {
     queryStoreCateList().then((res) => {
@@ -92,4 +94,4 @@ class SalesCategory extends Component {
     });
   }
 }
-export default SalesCategory
+export default SalesCategory;

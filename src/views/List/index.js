@@ -287,7 +287,7 @@ function ListItemForDefault(props) {
                           ? retailDog
                           : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                       }
-                      alt="product-finder-recomend-retail-cat-find"
+                      alt="product finder recomend retail cat find"
                       title=""
                       className="ImgFitScreen pt-3"
                       style={{
@@ -351,7 +351,7 @@ function ListItemForDefault(props) {
                           IMG_DEFAULT
                         }
                         // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
-                        alt={item.goodsName}
+                        alt={`${item.goodsName} product image`}
                         title={item.goodsName}
                         className="ImgFitScreen "
                         style={{
@@ -594,7 +594,7 @@ function ProductFinderAd({
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImg} alt="product-finder-recomend" />
+                  <img src={pfRecoImg} alt="product finder recomend" />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -622,7 +622,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
-                    alt="product-finder-recomend-retail-cat"
+                    alt="product finder recomend retail cat"
                   />
                 </LazyLoad>
               </div>
@@ -655,7 +655,7 @@ function ProductFinderAd({
                   <img
                     style={{ width: '100%' }}
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
-                    alt="product-finder-recomend-vet-cat"
+                    alt="product finder recomend vet cat"
                   />
                 </LazyLoad>
               </div>
@@ -737,9 +737,9 @@ class List extends React.Component {
       markPriceAndSubscriptionLangDict: [],
       actionFromFilter: false,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: '',
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin',
         headingTag: 'h2'
       },
       isDogPage: isDog,
@@ -2070,13 +2070,15 @@ class List extends React.Component {
                     <img
                       src={titleData.img}
                       className="mx-auto"
-                      alt="titleData-image"
+                      alt="titleData image"
                     />
                   </LazyLoad>
                 </div>
               </div>
             </div>
-          ) : null}
+          ) : (
+            <h1 style={{ display: 'none' }}>Royal canin</h1>
+          )}
           <div id="J-product-list" />
           {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
           <div
@@ -2089,7 +2091,7 @@ class List extends React.Component {
                   <div className="rc-intro">
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
-                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
+                  <h1 className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
                     <strong>"{keywords}"</strong>
                     {results > 0 && (
                       <>
@@ -2101,7 +2103,7 @@ class List extends React.Component {
                         )
                       </>
                     )}
-                  </div>
+                  </h1>
                 </div>
               ) : null}
             </div>
@@ -2349,7 +2351,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt="product-list-taggingForImage"
+                                            alt="product list taggingForImage"
                                           />
                                         </div>
                                       ) : null
@@ -2394,7 +2396,7 @@ class List extends React.Component {
                                             src={
                                               item.taggingForImage.taggingImgUrl
                                             }
-                                            alt="product-list-taggingForImage"
+                                            alt="product list taggingForImage"
                                           />
                                         </div>
                                       ) : null

@@ -16,9 +16,9 @@ export default class PetForm extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
@@ -113,7 +113,7 @@ export default class PetForm extends React.Component {
                           <img
                             src={edit}
                             className="img-success"
-                            alt="edit-image"
+                            alt="edit image"
                           />
                         </LazyLoad>
                       </a>

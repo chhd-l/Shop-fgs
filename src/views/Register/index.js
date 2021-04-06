@@ -393,14 +393,14 @@ class Register extends Component {
                   <span className="rc-screen-reader-text">
                     <FormattedMessage id="registerCloud" />
                   </span>
-                  <div className="content-asset">
+                  <h1 className="content-asset mb-0">
                     <img
                       src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo--secondary.png`}
                       width="164"
                       height="60"
                       alt="Royal Canin Flagship Store"
                     />
-                  </div>
+                  </h1>
                 </a>
               </div>
               <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">

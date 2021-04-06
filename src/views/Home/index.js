@@ -449,9 +449,9 @@ class Home extends React.Component {
       categoryList: [],
       categoryLoading: true,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       searchEvent: {}
     };

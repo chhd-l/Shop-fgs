@@ -862,7 +862,7 @@ class Form extends React.Component {
                 className="rc-input__control shippingEmail"
                 id="email"
                 data-name="profile_personalInfo"
-                alt="E-mail"
+                alt="birthday E-mail"
                 name="email"
                 value={caninForm.email}
                 maxLength="50"

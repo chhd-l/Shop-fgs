@@ -17,7 +17,7 @@ export function Advantage() {
             <img
               className="value-proposition__img"
               src={pack}
-              alt="pack-icon"
+              alt="pack icon"
               title=""
             />
           </LazyLoad>
@@ -35,7 +35,7 @@ export function Advantage() {
             <img
               className="value-proposition__img"
               src={delivery}
-              alt="delivery-image"
+              alt="delivery image"
               title=""
             />
           </LazyLoad>
@@ -57,7 +57,7 @@ export function Advantage() {
             <img
               className="value-proposition__img"
               src={question}
-              alt="question-icon"
+              alt="question icon"
               title=""
             />
           </LazyLoad>
@@ -156,7 +156,7 @@ export function Advantage() {
                   style={{ width: '80px' }}
                   className="value-proposition__img"
                   src={pack}
-                  alt="pack-icon"
+                  alt="pack icon"
                   title=""
                 />
               </LazyLoad>
@@ -177,7 +177,7 @@ export function Advantage() {
                   style={{ width: '80px' }}
                   className="value-proposition__img"
                   src={autoship}
-                  alt="autoship-icon"
+                  alt="autoship icon"
                   title=""
                 />
               </LazyLoad>
@@ -198,7 +198,7 @@ export function Advantage() {
                   style={{ width: '80px' }}
                   className="value-proposition__img"
                   src={delivery}
-                  alt="delivery-icon"
+                  alt="delivery icon"
                   title=""
                 />
               </LazyLoad>
@@ -224,7 +224,7 @@ export function Advantage() {
                   style={{ width: '80px' }}
                   className="value-proposition__img"
                   src={question}
-                  alt="question-icon"
+                  alt="question icon"
                   title=""
                 />
               </LazyLoad>
@@ -249,7 +249,7 @@ export function Advantage() {
                   style={{ width: '80px' }}
                   className="value-proposition__img"
                   src={pack}
-                  alt="pack-icon"
+                  alt="pack icon"
                   title=""
                 />
               </LazyLoad>
@@ -270,7 +270,7 @@ export function Advantage() {
                   style={{ width: '80px' }}
                   className="value-proposition__img"
                   src={autoship}
-                  alt="autoship-icon"
+                  alt="autoship icon"
                   title=""
                 />
               </LazyLoad>
@@ -291,7 +291,7 @@ export function Advantage() {
                   style={{ width: '80px' }}
                   className="value-proposition__img"
                   src={delivery}
-                  alt="delivery-icon"
+                  alt="delivery icon"
                   title=""
                 />
               </LazyLoad>
@@ -317,7 +317,7 @@ export function Advantage() {
                   style={{ width: '80px' }}
                   className="value-proposition__img"
                   src={question}
-                  alt="question-icon"
+                  alt="question icon"
                   title=""
                 />
               </LazyLoad>

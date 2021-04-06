@@ -5,14 +5,14 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
-import {doGetGAVal} from "@/utils/GA"
+import { doGetGAVal } from '@/utils/GA';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
-const isHubGA = process.env.REACT_APP_HUB_GA
+const isHubGA = process.env.REACT_APP_HUB_GA;
 
 @inject('loginStore', 'configStore', 'checkoutStore')
 @observer
@@ -21,27 +21,27 @@ class Cart extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       pet: {}
-    }
+    };
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentWillMount(){
-    isHubGA&&this.getPetVal()
+  componentWillMount() {
+    isHubGA && this.getPetVal();
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({ seoConfig: res })
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
   getPetVal() {
-    let obj = doGetGAVal(this.props)
-    this.setState({pet:obj})
+    let obj = doGetGAVal(this.props);
+    this.setState({ pet: obj });
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -55,7 +55,7 @@ class Cart extends React.Component {
         path: history.location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       },
       pet: this.state.pet
     };
@@ -65,10 +65,13 @@ class Cart extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription} />
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <GoogleTagManager additionalEvents={event}/>
+        <GoogleTagManager additionalEvents={event} />
         {this.isLogin ? (
           <LoginCart
             history={history}
@@ -76,12 +79,12 @@ class Cart extends React.Component {
             configStore={configStore}
           />
         ) : (
-            <UnloginCart
-              history={history}
-              match={match}
-              configStore={configStore}
-            />
-          )}
+          <UnloginCart
+            history={history}
+            match={match}
+            configStore={configStore}
+          />
+        )}
       </>
     );
   }

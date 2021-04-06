@@ -381,7 +381,7 @@ class PrivacyPolicy extends React.Component {
                 <p>
                   <LazyLoad>
                     <img
-                      alt="logo"
+                      alt="rc logo"
                       src="https://www.mars.com/sites/g/files/jydpyr121/files/styles/thumbnail/public/advertising-option-icon_0.png?itok=r-ki3CVH"
                     />
                   </LazyLoad>

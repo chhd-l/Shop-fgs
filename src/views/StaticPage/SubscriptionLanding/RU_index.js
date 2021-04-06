@@ -26,9 +26,9 @@ class Help extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
@@ -129,7 +129,7 @@ class Help extends React.Component {
                 <img
                   src={autoship}
                   style={{ width: '100%' }}
-                  alt="autoship-icon"
+                  alt="autoship icon"
                 />
               </LazyLoad>
             </div>
@@ -148,7 +148,7 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt="Bitmap"
+                  alt="Bitmap image"
                   src={icon1}
                   style={{
                     width: '100px',
@@ -166,7 +166,7 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt="Bitmap"
+                  alt="Bitmap image"
                   src={icon2}
                   style={{
                     width: '100px',
@@ -181,7 +181,7 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt="Bitmap"
+                  alt="Bitmap image"
                   src={icon3}
                   style={{
                     width: '100px',
@@ -199,7 +199,7 @@ class Help extends React.Component {
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
                 <img
-                  alt="Bitmap"
+                  alt="Bitmap image"
                   src={icon4}
                   style={{
                     width: '100px',
@@ -366,7 +366,7 @@ class Help extends React.Component {
                                   <LazyLoad>
                                     <img
                                       src={helpImg}
-                                      alt="help-icon"
+                                      alt="help icon"
                                       title=" "
                                     />
                                   </LazyLoad>

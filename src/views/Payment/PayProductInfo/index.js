@@ -255,7 +255,7 @@ class PayProductInfo extends React.Component {
                   <img
                     className="product-image"
                     src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
-                    alt="product-image"
+                    alt="product image"
                   />
                 </LazyLoad>
               </div>
@@ -271,7 +271,7 @@ class PayProductInfo extends React.Component {
                       <img
                         className="clubLogo"
                         src={Club_Logo}
-                        alt="club-logo"
+                        alt="club logo"
                       />
                     ) : null}
                   </div>
@@ -334,7 +334,7 @@ class PayProductInfo extends React.Component {
                   <img
                     className="product-image"
                     src={el.goodsInfoImg}
-                    alt="product-image"
+                    alt="product image"
                   />
                 </LazyLoad>
               </div>
@@ -352,7 +352,7 @@ class PayProductInfo extends React.Component {
                       <img
                         className="clubLogo"
                         src={Club_Logo}
-                        alt="club-logo"
+                        alt="club logo"
                       />
                     ) : null}
                   </div>
