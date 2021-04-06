@@ -496,6 +496,7 @@ class PayProductInfo extends React.Component {
         ? this.getProductsForLogin(productList)
         : this.getProducts(productList);
     const subtractionSign = '-';
+    // console.log(this.props, customTaxSettingOpenFlag == 0 && enterPriceType == 1, customTaxSettingOpenFlag, enterPriceType, 'this.props')
     return (
       <div
         className={`product-summary__inner ${className}`}

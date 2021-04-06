@@ -656,8 +656,7 @@ const en_US = {
   modalCancelAllContent:
     'Are you sure you want to unsubscribe? This means that you will not receive the upcoming delivery.',
   modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
-  modalChangeDateContent:
-    'Are you sure you want to change the next shipment date?',
+  modalChangeDateContent: 'Are you sure you want to skip the next delivery?',
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',
@@ -683,7 +682,7 @@ const en_US = {
   noDefaultClinic: 'No default clinic',
   NoPromotionDesc: 'No PromotionDesc',
   noSpecialNeeds: 'No special needs',
-  noStart: 'No start',
+  noStart: 'Next Shipment',
   notate: ' ',
   notSterilized: 'Not sterilized',
   of: 'of',

@@ -612,6 +612,20 @@ export function getFormatDate(date, callback, lang) {
     } else {
       return intl.formatDate(date);
     }
+  } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
+    const cache = createIntlCache();
+    const intl = createIntl(
+      {
+        locale: 'en-US',
+        messages: {}
+      },
+      cache
+    );
+    if (callback && typeof callback === 'function') {
+      return callback(intl.formatDate(date));
+    } else {
+      return intl.formatDate(date);
+    }
   } else {
     if (callback && typeof callback === 'function') {
       return callback(date);

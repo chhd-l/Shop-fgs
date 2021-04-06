@@ -304,14 +304,19 @@ class PetForm extends React.Component {
         return;
       }
     }
-    if (
-      !this.state.sensitivity ||
-      !this.state.activity ||
-      !this.state.lifestyle
-    ) {
-      this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
-      return;
+    if (process.env.REACT_APP_LANG !== 'en') {
+      if (
+        !this.state.sensitivity ||
+        !this.state.activity ||
+        !this.state.lifestyle
+      ) {
+        this.showErrorMsg(
+          this.props.intl.messages.pleasecompleteTheRequiredItem
+        );
+        return;
+      }
     }
+
     for (let k in this.state.weightObj) {
       if (!this.state.weightObj[k]) {
         this.showErrorMsg(
