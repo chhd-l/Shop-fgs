@@ -697,6 +697,7 @@ class LoginCart extends React.Component {
                     updateChildDisplay={(status) =>
                       this.updateConfirmTooltipVisible(pitem, status)
                     }
+                    content={<FormattedMessage id="confirmDeleteProduct" />}
                   />
                 </span>
                 <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
