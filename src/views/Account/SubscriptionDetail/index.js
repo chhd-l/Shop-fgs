@@ -757,7 +757,7 @@ class SubscriptionDetail extends React.Component {
   }
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = format(date, 'yyyy-MM-dd');
+    subDetail.nextDeliveryTime = getFormatDate(date);
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
@@ -4503,6 +4503,24 @@ class SubscriptionDetail extends React.Component {
                                                   </strong>
                                                 </div>
                                               </div>
+                                              {process.env.REACT_APP_LANG ===
+                                              'en' ? (
+                                                <div className="row">
+                                                  <div className="col-1 col-md-3" />
+                                                  <label className="col-9 text-left">
+                                                    Tax will be calculated when
+                                                    your order is processed
+                                                    {/* <strong
+                                                        style={{
+                                                          fontSize: '1.25rem',
+                                                          color: '#333'
+                                                        }}
+                                                      >
+                                                        <FormattedMessage id="order.total" />
+                                                      </strong>{' '} */}
+                                                  </label>
+                                                </div>
+                                              ) : null}
                                             </div>
                                           </div>
                                         </div>

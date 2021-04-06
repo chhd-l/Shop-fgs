@@ -13,6 +13,7 @@ import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
 import en from 'date-fns/locale/en-US';
 import { registerLocale } from 'react-datepicker';
+import { format } from 'date-fns';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -613,19 +614,7 @@ export function getFormatDate(date, callback, lang) {
       return intl.formatDate(date);
     }
   } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
-    const cache = createIntlCache();
-    const intl = createIntl(
-      {
-        locale: 'en-US',
-        messages: {}
-      },
-      cache
-    );
-    if (callback && typeof callback === 'function') {
-      return callback(intl.formatDate(date));
-    } else {
-      return intl.formatDate(date);
-    }
+    return format(new Date(date), 'MM/dd/yyyy');
   } else {
     if (callback && typeof callback === 'function') {
       return callback(date);
@@ -659,7 +648,7 @@ function getDatePickerConfig() {
     es: { format: 'yyyy-MM-dd', locale: 'es' },
     de: { format: 'dd.MM.yyyy', locale: 'de' },
     fr: { format: 'dd/MM/yyyy', locale: 'fr' },
-    en: { format: 'yyyy-MM-dd', locale: 'en' },
+    en: { format: 'MM/dd/yyyy', locale: 'en' },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 
