@@ -65,7 +65,7 @@ const enterPriceType =
   storeInfo?.systemTaxSetting?.configVOList &&
   storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
+@inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
 @observer
 class LoginCart extends React.Component {
@@ -252,7 +252,10 @@ class LoginCart extends React.Component {
   async updateCartCache({ callback, isThrowErr = false } = {}) {
     try {
       this.setState({ checkoutLoading: true });
-      await this.checkoutStore.updateLoginCart({ isThrowErr });
+      await this.checkoutStore.updateLoginCart({
+        isThrowErr,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
       callback && callback();
       this.setData();
     } catch (err) {
@@ -298,6 +301,8 @@ class LoginCart extends React.Component {
     }
   }
   setData() {
+    const { configStore } = this.props;
+    console.log(configStore.defaultSubscriptionFrequencyId, '🌏');
     //每次数据变化调用
     !isHubGA && this.GACheckout(this.checkoutStore.loginCartData);
     let productList = this.checkoutStore.loginCartData.map((el) => {
@@ -307,7 +312,7 @@ class LoginCart extends React.Component {
       el.form = {
         frequencyVal: filterData.valueEn,
         frequencyName: filterData.name,
-        frequencyId: filterData.id
+        frequencyId: configStore.defaultSubscriptionFrequencyId || filterData.id
       };
       return el;
     });
@@ -361,7 +366,7 @@ class LoginCart extends React.Component {
       autoAuditFlag = res.context.autoAuditFlag;
       checkoutStore.setAutoAuditFlag(autoAuditFlag);
       checkoutStore.setPetFlag(res.context.petFlag);
-      const url = distributeLinktoPrecriberOrPaymentPage({
+      const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore,
         checkoutStore,
         clinicStore,
@@ -1367,10 +1372,9 @@ class LoginCart extends React.Component {
         subscriptionFlag: buyWay === 'frequency'
       });
     } else {
-      result = await checkoutStore.updateUnloginCart(
-        '',
-        lastPromotionInputValue
-      );
+      result = await checkoutStore.updateUnloginCart({
+        promotionCode: lastPromotionInputValue
+      });
     }
     if (
       result &&

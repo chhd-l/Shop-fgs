@@ -54,6 +54,8 @@ class PaymentStore {
 
   @observable firstSavedCardCvv = ''; //当前绑卡的cvv
 
+  @observable supportPaymentMethods = []; //当前支付方式所支持的卡类型
+
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
   }
@@ -373,6 +375,11 @@ class PaymentStore {
   @action.bound
   setBrowserInfo(data) {
     this.browserInfo = data;
+  }
+
+  @action.bound
+  setSupportPaymentMethods(list) {
+    this.supportPaymentMethods = list;
   }
 }
 export default PaymentStore;

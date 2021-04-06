@@ -23,9 +23,6 @@ import Dog from '@/assets/images/dog.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
-import { getPaymentMethod, deleteCard, getWays } from '@/api/payment';
-
-import { computedSupportPaymentMethods } from '@/utils/utils';
 
 import {
   getDictionary,

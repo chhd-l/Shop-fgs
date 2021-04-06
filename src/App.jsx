@@ -198,6 +198,12 @@ const LoginCallback = (props) => {
   return <div />;
 };
 
+const ImplicitLogin = () => {
+  const { oktaAuth } = useOktaAuth();
+  oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+  return <div />;
+}
+
 const App = () => {
   const history = useHistory();
 
@@ -243,6 +249,11 @@ const App = () => {
                   exact
                   path="/implicit/callback"
                   render={(props) => <LoginCallback {...props} />}
+                />
+                <Route
+                  exact
+                  path={'/implicit/login'}
+                  render={() => <ImplicitLogin />}
                 />
                 {/* <Route exact path="/login" component={Login} /> */}
                 <Route

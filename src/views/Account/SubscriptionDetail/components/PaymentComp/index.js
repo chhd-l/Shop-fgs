@@ -20,7 +20,6 @@ import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
-import { computedSupportPaymentMethods } from '@/utils/utils';
 
 import { myAccountActionPushEvent } from '@/utils/GA';
 import PaymentEditForm from '@/components/PaymentEditForm';
@@ -73,7 +72,7 @@ function CardItem(props) {
   );
 }
 
-@inject('loginStore')
+@inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
 class PaymentComp extends React.Component {
@@ -126,12 +125,21 @@ class PaymentComp extends React.Component {
   async componentDidMount() {
     getWays().then((res) => {
       this.setState({
-        paymentType: res?.context?.name,
-        supportPaymentMethods: computedSupportPaymentMethods(
-          res?.context?.supportPaymentMethods || []
-        )
-      }); //PAYU,ADYEN,CYBER
+        paymentType: res?.context?.name
+      });
+      // if (res?.context?.name === 'ADYEN') {
+      //   this.setState({
+      //     paymentType: 'ADYEN'
+      //   });
+      // }
+      // if (this.state.paymentType === 'PAYU') {
+      //   this.updateInitStatus(true);
+      // }
+      this.props.paymentStore.setSupportPaymentMethods(
+        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
+      );
     });
+
     await this.getPaymentMethodList();
     if (this.state.creditCardList.length) {
       this.state.creditCardList.map((el) => {
@@ -142,20 +150,6 @@ class PaymentComp extends React.Component {
       });
     }
     this.setState({ creditCardList: this.state.creditCardList });
-    const waysRes = await getWays();
-    if (waysRes.context && waysRes.context.payPsp?.name === 'ADYEN') {
-      this.setState({
-        paymentType: 'ADYEN'
-      });
-    }
-    if (this.state.paymentType === 'PAYU') {
-      this.updateInitStatus(true);
-    }
-    this.setState({
-      supportPaymentMethods: computedSupportPaymentMethods(
-        waysRes?.context?.supportPaymentMethods || []
-      )
-    });
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -862,6 +856,7 @@ class PaymentComp extends React.Component {
             supportPaymentMethods={this.state.supportPaymentMethods}
             needEmail={this.props.needEmail}
             needPhone={this.props.needPhone}
+            paymentStore={this.props.paymentStore}
           />
         </div>
       </div>

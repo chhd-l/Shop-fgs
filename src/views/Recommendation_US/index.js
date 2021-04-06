@@ -653,7 +653,7 @@ class Recommendation extends React.Component {
         JSON.stringify(inStockProducts)
       );
       if (!needLogin) {
-        const url = distributeLinktoPrecriberOrPaymentPage({
+        const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore: this.props.configStore,
           checkoutStore,
           clinicStore,
@@ -710,7 +710,7 @@ class Recommendation extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
-      const url = distributeLinktoPrecriberOrPaymentPage({
+      const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
         checkoutStore,
         clinicStore,

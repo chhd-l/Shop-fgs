@@ -1,10 +1,6 @@
 import React from 'react';
 import findIndex from 'lodash/findIndex';
-import {
-  CREDIT_CARD_IMG_ENUM,
-  CREDIT_CARD_IMGURL_ENUM,
-  PAYMENT_METHOD_RULE
-} from '@/utils/constant';
+import { CREDIT_CARD_IMG_ENUM, PAYMENT_METHOD_RULE } from '@/utils/constant';
 import { validData, loadJS } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
@@ -127,7 +123,6 @@ class PayOs extends React.Component {
     isSupportInstallMent: false,
     mustSaveForFutherPayments: false, // 是否将卡保存到后台
     billingJSX: null,
-    supportPaymentMethods: [],
     updateFormValidStatus: () => {},
     onVisitorPayosDataConfirm: () => {},
     onInstallMentParamChange: () => {}
@@ -361,7 +356,7 @@ class PayOs extends React.Component {
       defaultCardDataFromAddr,
       needEmail,
       needPhone,
-      supportPaymentMethods
+      paymentStore: { supportPaymentMethods }
     } = this.props;
     const {
       creditCardInfoForm,
@@ -377,7 +372,7 @@ class PayOs extends React.Component {
           <LazyLoad key={idx}>
             <img
               className="logo-payment-card"
-              src={el.img}
+              src={el.imgUrl}
               alt="logo-payment-card"
             />
           </LazyLoad>
@@ -420,7 +415,6 @@ class PayOs extends React.Component {
                           this.props.mustSaveForFutherPayments
                         }
                         isSupportInstallMent={this.props.isSupportInstallMent}
-                        supportPaymentMethods={supportPaymentMethods}
                         needEmail={needEmail}
                         needPhone={needPhone}
                         billingJSX={billingJSX}

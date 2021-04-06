@@ -69,7 +69,10 @@ class LoginCart extends React.Component {
     try {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
-      await checkoutStore.updateLoginCart({ isThrowErr: true });
+      await checkoutStore.updateLoginCart({
+        isThrowErr: true,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
 
       let autoAuditFlag = false;
       let res = await getProductPetConfig({
@@ -86,12 +89,13 @@ class LoginCart extends React.Component {
       autoAuditFlag = res.context.autoAuditFlag;
       checkoutStore.setAutoAuditFlag(autoAuditFlag);
       checkoutStore.setPetFlag(res.context.petFlag);
-      const url = distributeLinktoPrecriberOrPaymentPage({
+      const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore,
         checkoutStore,
         clinicStore,
         isLogin: true
       });
+      console.log(url, 'urlll');
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {

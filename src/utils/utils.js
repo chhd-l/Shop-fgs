@@ -13,11 +13,11 @@ import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
 import en from 'date-fns/locale/en-US';
 import { registerLocale } from 'react-datepicker';
-import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant/enum';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
+const configStore = stores.configStore;
 const mapEnum = {
   1: { mark: '$', break: ' ', atEnd: false },
   2: { mark: 'Mex$', break: ' ', atEnd: false },
@@ -477,8 +477,8 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     }
   }
   //获取是否显示prescriber弹框
-  await this.props.configStore.getIsNeedPrescriber();
-  const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
+  await configStore.getIsNeedPrescriber();
+  const showPrescriberModal = configStore.isShowPrescriberModal;
   // 不需要显示弹框的情况下才校验本地prescriber缓存，有则跳过prescriber页面
   if (!showPrescriberModal) {
     if (
@@ -759,4 +759,21 @@ export function computedSupportPaymentMethods(list = []) {
       img: CREDIT_CARD_IMGURL_ENUM[el.toUpperCase()]
     }))
     .filter((el) => el.img);
+}
+
+export function getOktaCallBackUrl(sessionToken) {
+  // hard code
+  const state =
+    'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
+  const nonce =
+    '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
+  // hard code
+  let homePage = process.env.REACT_APP_HOMEPAGE;
+  const regiserUrl =
+    homePage.substring(homePage.length - 1, homePage.length) === '/'
+      ? 'implicit/callback'
+      : '/implicit/callback';
+  const redirectUri = window.location.origin + homePage + regiserUrl;
+  var callOktaCallBack = `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
+  return callOktaCallBack;
 }

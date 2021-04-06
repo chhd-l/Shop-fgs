@@ -1456,7 +1456,7 @@ class SmartFeederSubscription extends Component {
             checkoutStore.setPetFlag(res.context.petFlag);
           }
           checkoutStore.setAutoAuditFlag(autoAuditFlag);
-          const url = distributeLinktoPrecriberOrPaymentPage({
+          const url = await distributeLinktoPrecriberOrPaymentPage({
             configStore,
             checkoutStore,
             clinicStore,
@@ -1718,7 +1718,10 @@ class SmartFeederSubscription extends Component {
         };
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart({ isThrowErr: true });
+      await checkoutStore.updateLoginCart({
+        isThrowErr: true,
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
       if (isMobile) {
         // this.refs.showModalButton.click();
       } else {
@@ -1747,7 +1750,7 @@ class SmartFeederSubscription extends Component {
         autoAuditFlag = res.context.autoAuditFlag;
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
         checkoutStore.setPetFlag(res.context.petFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
+        const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
           clinicStore,
