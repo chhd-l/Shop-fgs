@@ -39,22 +39,33 @@ function CardItem(props) {
         )}
       </div>
       <div>
+        {/* 姓名 */}
         <div className="ccard-phone-title word-break">
-          <div className="address-name">
+          <div className="address-name mp_mb_name">
             <span>{data.firstName + ' ' + data.lastName}</span>
           </div>
         </div>
-        <p className="mb-0">{data.consigneeNumber}</p>
-        <p className="mb-0">{data.address1}</p>
-        {data.address2 ? <p className="mb-0">{data.address2}</p> : null}
-        <p className="mb-0">
-          {data.postCode}, {data.city}
+        {/* 电话 */}
+        <p className="mb-0 mp_mb_tel">{data.consigneeNumber}</p>
+        {/* 国家 */}
+        {process.env.REACT_APP_LANG == 'en' ? null : (
+          <p className="mb-0 mp_mb_country">{props.countryName}</p>
+        )}
+        {/* 地址 */}
+        <p className="mb-0 mp_mb_address1">{data.address1}</p>
+        {data.address2 ? (
+          <p className="mb-0 mp_mb_address2">{data.address2}</p>
+        ) : null}
+        <p className="mb-0 mp_mb_cpp">
+          {/* 城市 */}
+          {data.city}
+          {', '}
+          {/* 省份 */}
           {data?.province && data?.province != null ? (
-            <>,{data.province}</>
-          ) : null}
-          {process.env.REACT_APP_LANG == 'en' ? null : (
-            <>,{props.countryName}</>
-          )}
+            <>{data.province}</>
+          ) : null}{' '}
+          {/* 邮编 */}
+          {data.postCode}
         </p>
       </div>
     </div>

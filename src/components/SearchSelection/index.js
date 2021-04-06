@@ -25,7 +25,7 @@ class SearchSelection extends React.Component {
     freeText: false,
     name: '',
     isCitySearchSelection: false,
-    getInputTarget: () => {}
+    searchSelectionBlur: () => {}
   };
   constructor(props) {
     super(props);
@@ -47,30 +47,6 @@ class SearchSelection extends React.Component {
     this.setState = (state, callback) => {
       return;
     };
-  };
-  // freeText=true时设置参数
-  handleSearchSelectionInput = (e) => {
-    const target = e.target;
-    const { form } = this.state;
-    form.value = target.value;
-    let citem = {
-      cityName: form.value,
-      cityNo: null,
-      createTime: null,
-      delFlag: 0,
-      delTime: null,
-      id: null,
-      name: form.value,
-      osmId: null,
-      postCode: null,
-      sip: null,
-      stateId: null,
-      stateName: null,
-      storeId: process.env.REACT_APP_STOREID,
-      systemCityPostCodes: null,
-      updateTime: null
-    };
-    this.props.selectedItemChange(citem);
   };
   handleInputChange = (e) => {
     e.nativeEvent.stopImmediatePropagation();
@@ -125,9 +101,7 @@ class SearchSelection extends React.Component {
     if (this.props.freeText) {
       const target = e.target;
       const { form } = this.state;
-      if (this.props.isCitySearchSelection) {
-        this.props.getInputTarget(e);
-      }
+      this.props.searchSelectionBlur(e);
       try {
         setTimeout(() => {
           // 可以输入，也可以选择
@@ -140,31 +114,32 @@ class SearchSelection extends React.Component {
             form.value = target.value;
           }
 
-          let citem = {
-            cityName: form.value,
-            cityNo: null,
-            createTime: null,
-            delFlag: 0,
-            delTime: null,
-            id: null,
-            name: form.value,
-            osmId: null,
-            postCode: null,
-            sip: null,
-            stateId: null,
-            stateName: null,
-            storeId: process.env.REACT_APP_STOREID,
-            systemCityPostCodes: null,
-            updateTime: null
-          };
-
           this.setState(
             {
               form: form,
               optionPanelVisible: false
             },
             () => {
-              this.props.selectedItemChange(citem);
+              if (this.props.isCitySearchSelection) {
+                let citem = {
+                  cityName: form.value,
+                  cityNo: null,
+                  createTime: null,
+                  delFlag: 0,
+                  delTime: null,
+                  id: null,
+                  name: form.value,
+                  osmId: null,
+                  postCode: null,
+                  sip: null,
+                  stateId: null,
+                  stateName: null,
+                  storeId: process.env.REACT_APP_STOREID,
+                  systemCityPostCodes: null,
+                  updateTime: null
+                };
+                this.props.selectedItemChange(citem);
+              }
             }
           );
         }, 500);
@@ -260,8 +235,6 @@ class SearchSelection extends React.Component {
               this.props.customStyle ? 'rc-input__control' : 'form-control'
             }`}
             value={form.value || ''}
-            // onKeyUp={(e) => throttle(this.handleInputChange(e), 2000)}
-            // onInput={(e)=>this.handleSearchSelectionInput(e)}
             onChange={(e) => this.handleInputChange(e)}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
