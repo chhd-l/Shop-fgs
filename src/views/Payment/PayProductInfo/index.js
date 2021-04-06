@@ -474,8 +474,8 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {this.props.operateBtnVisible &&
-        !localItemRoyal.get('rc-iframe-from-storepotal') ? (
+        {!this.props.checkoutStore.isFromStorePortal &&
+        this.props.operateBtnVisible ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
           </Link>
@@ -823,6 +823,7 @@ class PayProductInfo extends React.Component {
                       <p className="text-right">
                         <span className="shipping-total-cost">
                           {/* {formatMoney(this.freeShippingDiscountPrice)} */}
+                          {'-'}
                           {formatMoney(
                             this.props.deliveryAddress?.calculation?.price
                           )}
