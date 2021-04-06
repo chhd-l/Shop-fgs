@@ -691,7 +691,7 @@ const ru_RU = {
   'payment.yourOrder': 'Твоя очередь',
   'payment.deliveryDate': 'срок поставки - {min} - {max} рабочих дня.',
   'payment.deliveryDate2': 'срок поставки {val} рабочих дня.',
-  'payment.shippingDiscount': 'скидка с фрахта',
+  'payment.shippingDiscount': 'Скидка на доставку',
   'payment.deliveryFee': 'Стоимость доставки',
   securePaymentProcessing: 'Безопасная обработка платежа',
   paymentMethod: 'Способ оплаты',

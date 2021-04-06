@@ -5,12 +5,7 @@ import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
-import {
-  getAddressList,
-  deleteAddress,
-  editAddress,
-  setDefaltAddress
-} from '@/api/address';
+import { getAddressList, deleteAddress, setDefaltAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
