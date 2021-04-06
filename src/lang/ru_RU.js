@@ -1085,7 +1085,10 @@ const ru_RU = {
   'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
   'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
   'subscription.see_more': 'Смотри другие Подписка',
-  'subscription.viewDetails': 'Посмотреть детали'
+  'subscription.viewDetails': 'Посмотреть детали',
+  Lifestyle: 'Стиль жизни',
+  Activity: 'Активность',
+  Weight: 'Масса'
 };
 
 export default ru_RU;
