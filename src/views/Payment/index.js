@@ -624,7 +624,13 @@ class Payment extends React.Component {
         detailList: item.detailList
       };
     });
-    let listData = [...requiredList, ...optioalList]; //必填项+选填项
+    let listData = [];
+    if (!this.isLogin && process.env.REACT_APP_LANG == 'en') {
+      listData = [...requiredList]; //美国游客只显示必选项
+    } else {
+      listData = [...requiredList, ...optioalList]; //必填项+选填项
+    }
+
     this.rebindListData(listData);
   }
   //获取支付方式
@@ -1840,6 +1846,7 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
+    console.log('1869 ★★ -------------- updateDeliveryAddrData: ', data);
     this.setState({
       deliveryAddress: data
     });

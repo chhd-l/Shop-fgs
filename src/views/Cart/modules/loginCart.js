@@ -309,11 +309,25 @@ class LoginCart extends React.Component {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
         this.computedList[0];
-      el.form = {
-        frequencyVal: filterData.valueEn,
-        frequencyName: filterData.name,
-        frequencyId: configStore.defaultSubscriptionFrequencyId || filterData.id
-      };
+      if (el.goodsInfoFlag) {
+        el.form = {
+          frequencyVal: filterData.valueEn,
+          frequencyName: filterData.name,
+          frequencyId:
+            filterData.id ||
+            el.goods.defaultFrequencyId ||
+            configStore.defaultSubscriptionFrequencyId
+        };
+      } else {
+        el.form = {
+          frequencyVal: filterData.valueEn,
+          frequencyName: filterData.name,
+          frequencyId:
+            el.goods.defaultFrequencyId ||
+            configStore.defaultSubscriptionFrequencyId ||
+            filterData.id
+        };
+      }
       return el;
     });
     this.setState({
@@ -615,6 +629,7 @@ class LoginCart extends React.Component {
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
+        console.log(pitem, 'pitem');
       }
       return (
         <div className="product-info ">
@@ -682,6 +697,7 @@ class LoginCart extends React.Component {
                     updateChildDisplay={(status) =>
                       this.updateConfirmTooltipVisible(pitem, status)
                     }
+                    content={<FormattedMessage id="confirmDeleteProduct" />}
                   />
                 </span>
                 <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">

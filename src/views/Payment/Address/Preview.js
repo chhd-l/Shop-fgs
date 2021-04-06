@@ -26,26 +26,42 @@ export default class AddressPreview extends React.Component {
         </p>
         <p>{form.address1}</p>
         {form.address2 ? <p>{form.address2}</p> : null}
+
+        {/* 俄罗斯计算运费 */}
         {process.env.REACT_APP_LANG == 'ru' ? (
           <>
             <p>{form.phoneNumber || form.consigneeNumber} </p>
-            {form.city && form.city != null ? (
-              <>
-                {form.city} и {form.city}
-                <br />
-                <p>
-                  <FormattedMessage id="payment.deliveryFee" />:{' '}
-                  {formatMoney(form?.calculation?.deliveryPrice)}
-                </p>
-                <FormattedMessage
-                  id="payment.deliveryDate"
-                  values={{
-                    min: form?.calculation?.minDeliveryTime,
-                    max: form?.calculation?.maxDeliveryTime
-                  }}
-                />
-              </>
-            ) : null}
+            {/* 是否存在运费 */}
+            {form?.calculation?.deliveryPrice &&
+              form?.calculation?.minDeliveryTime && (
+                <>
+                  <p>
+                    <FormattedMessage id="payment.deliveryFee" />:{' '}
+                    {formatMoney(form?.calculation?.deliveryPrice)}
+                  </p>
+                  {form?.calculation?.minDeliveryTime && (
+                    <>
+                      {form?.calculation?.minDeliveryTime ==
+                      form?.calculation?.maxDeliveryTime ? (
+                        <FormattedMessage
+                          id="payment.deliveryDate2"
+                          values={{
+                            val: form?.calculation?.minDeliveryTime
+                          }}
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id="payment.deliveryDate"
+                          values={{
+                            min: form?.calculation?.minDeliveryTime,
+                            max: form?.calculation?.maxDeliveryTime
+                          }}
+                        />
+                      )}
+                    </>
+                  )}
+                </>
+              )}
           </>
         ) : (
           <>

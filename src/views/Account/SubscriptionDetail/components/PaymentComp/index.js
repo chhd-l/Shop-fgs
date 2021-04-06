@@ -124,14 +124,17 @@ class PaymentComp extends React.Component {
   }
   async componentDidMount() {
     getWays().then((res) => {
-      if (res?.context.payPsp?.name === 'ADYEN') {
-        this.setState({
-          paymentType: 'ADYEN'
-        });
-      }
-      if (this.state.paymentType === 'PAYU') {
-        this.updateInitStatus(true);
-      }
+      this.setState({
+        paymentType: res?.context?.name
+      });
+      // if (res?.context?.name === 'ADYEN') {
+      //   this.setState({
+      //     paymentType: 'ADYEN'
+      //   });
+      // }
+      // if (this.state.paymentType === 'PAYU') {
+      //   this.updateInitStatus(true);
+      // }
       this.props.paymentStore.setSupportPaymentMethods(
         res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
       );

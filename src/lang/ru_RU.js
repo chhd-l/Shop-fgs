@@ -670,6 +670,11 @@ const ru_RU = {
   'payment.phoneNumber': 'Номер телефона',
   'payment.phoneNumber2': 'Телефонный номер',
   'payment.postCode': 'Индекс',
+  'payment.pleaseInput': 'Пожалуйста, укажите: ',
+  'payment.streets': 'Улица',
+  'payment.house': 'Дом',
+  'payment.wrongAddress':
+    'Пожалуйста, введите адрес, который находится в пределах зон доставки интернет-магазина. С зонами доставки Вы можете ознакомиться на странице "Условия доставки" в разделе "Помощь"',
   'payment.postCode2': 'Почтовый Код',
   'payment.rfc': 'Ссылка',
   'payment.socialId': 'Социальный идентификатор',
@@ -685,8 +690,9 @@ const ru_RU = {
   'payment.totalProduct': '{val} товар (а/ов)',
   'payment.yourOrder': 'Твоя очередь',
   'payment.deliveryDate': 'срок поставки - {min} - {max} рабочих дня.',
+  'payment.deliveryDate2': 'срок поставки {val} рабочих дня.',
   'payment.shippingDiscount': 'скидка с фрахта',
-  'payment.deliveryFee': 'плата за доставку',
+  'payment.deliveryFee': 'Стоимость доставки',
   securePaymentProcessing: 'Безопасная обработка платежа',
   paymentMethod: 'Способ оплаты',
   'paymethods.btn': 'Добавить платеж',
@@ -1078,7 +1084,8 @@ const ru_RU = {
   'orderStatus.COMPLETED': 'Завершено',
   'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
   'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
-  'subscription.see_more': 'Смотри другие Подписка'
+  'subscription.see_more': 'Смотри другие Подписка',
+  'subscription.viewDetails': 'Посмотреть детали'
 };
 
 export default ru_RU;

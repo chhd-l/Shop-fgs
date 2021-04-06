@@ -7,7 +7,7 @@ import { queryCityByName } from '@/api';
 class CitySearchSelection extends React.Component {
   static defaultProps = {
     name: '',
-    getInputTarget: () => {}
+    searchSelectionBlur: () => {}
   };
   render() {
     return (
@@ -24,7 +24,6 @@ class CitySearchSelection extends React.Component {
             ).map((ele) => Object.assign(ele, { name: ele.cityName }));
           }}
           selectedItemChange={(data) => this.props.onChange(data)}
-          getInputTarget={(e) => this.props.getInputTarget(e)}
           defaultValue={this.props.defaultValue}
           key={this.props.defaultValue}
           freeText={this.props.freeText}
@@ -37,6 +36,7 @@ class CitySearchSelection extends React.Component {
           customStyle={true}
           isBottomPaging={true}
           isCitySearchSelection={true}
+          searchSelectionBlur={(e) => this.props.searchSelectionBlur(e)}
         />
       </>
     );

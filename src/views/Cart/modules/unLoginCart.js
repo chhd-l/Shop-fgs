@@ -255,14 +255,28 @@ class UnLoginCart extends React.Component {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
         this.computedList[0];
-      el.form = {
-        frequencyVal: filterData.valueEn,
-        frequencyName: filterData.name,
-        frequencyId:
-          configStore.defaultSubscriptionFrequencyId || filterData.id,
-        //GA 计算周数
-        frequencyType: filterData.type
-      };
+      if (el.goodsInfoFlag) {
+        el.form = {
+          frequencyVal: filterData.valueEn,
+          frequencyName: filterData.name,
+          frequencyId:
+            filterData.id ||
+            el.goods.defaultFrequencyId ||
+            configStore.defaultSubscriptionFrequencyId,
+          //GA 计算周数
+          frequencyType: filterData.type
+        };
+      } else {
+        el.form = {
+          frequencyVal: filterData.valueEn,
+          frequencyName: filterData.name,
+          frequencyId:
+            el.goods.defaultFrequencyId ||
+            configStore.defaultSubscriptionFrequencyId ||
+            filterData.id,
+          frequencyType: filterData.type
+        };
+      }
       return el;
     });
     this.setState({
