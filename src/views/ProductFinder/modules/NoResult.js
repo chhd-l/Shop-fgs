@@ -231,7 +231,7 @@ class ProductFinderNoResult extends React.Component {
                         </div>
                         <div className="col-12 col-md-4 order-1 order-md-0">
                           <LazyLoad style={{ width: '100%' }}>
-                            <img src={catImg} alt="cat-image" />
+                            <img src={catImg} alt="cat image" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
                             <Link className="rc-btn rc-btn--one" to="/cats">
@@ -241,7 +241,7 @@ class ProductFinderNoResult extends React.Component {
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
                           <LazyLoad style={{ width: '100%' }}>
-                            <img src={dogImg} alt="dog-image" />
+                            <img src={dogImg} alt="dog image" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
                             <Link className="rc-btn rc-btn--one" to="/dogs">

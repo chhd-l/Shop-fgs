@@ -153,9 +153,9 @@ class Recommendation extends React.Component {
         goodsSpecs: []
       },
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       productList: [],
       currentDetail: {},
@@ -981,7 +981,7 @@ class Recommendation extends React.Component {
                                         display: 'inline-block',
                                         margin: '.625rem 0'
                                       }}
-                                      alt="goods-information-image"
+                                      alt="goods information image"
                                     />
                                     {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
                                     <p
@@ -1134,7 +1134,7 @@ class Recommendation extends React.Component {
                               <img
                                 className="type-icon"
                                 src={PetsImg}
-                                alt="pet-image"
+                                alt="pet image"
                                 // src={petsiconArr[this.state.petType]}
                               />
                               <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
@@ -1219,7 +1219,7 @@ class Recommendation extends React.Component {
                         <img
                           className="m-center"
                           src={item.img}
-                          alt="recommendation-image"
+                          alt="recommendation image"
                         />
                       </LazyLoad>
                     </div>
@@ -1258,7 +1258,7 @@ class Recommendation extends React.Component {
               </div>
               <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                 <LazyLoad>
-                  <img src={PuppyJPG} alt="puppy-image" />
+                  <img src={PuppyJPG} alt="puppy image" />
                 </LazyLoad>
               </div>
             </div>
@@ -1283,7 +1283,7 @@ class Recommendation extends React.Component {
                         <img
                           className="mx-auto rc-margin-bottom--xs"
                           src={item.img}
-                          alt="recommendation-image"
+                          alt="recommendation image"
                         />
                       </lazyload>
                       <div
@@ -1355,7 +1355,7 @@ class Recommendation extends React.Component {
                     <LazyLoad>
                       <img
                         src={cur_recommendation2}
-                        alt="recommendation-image"
+                        alt="recommendation image"
                       />
                     </LazyLoad>
                   </div>
@@ -1363,7 +1363,7 @@ class Recommendation extends React.Component {
                     <LazyLoad>
                       <img
                         src={cur_recommendation3}
-                        alt="recommendation-image"
+                        alt="recommendation image"
                       />
                     </LazyLoad>
                   </div>
@@ -1371,7 +1371,7 @@ class Recommendation extends React.Component {
                     <LazyLoad>
                       <img
                         src={cur_recommendation4}
-                        alt="recommendation-image"
+                        alt="recommendation image"
                       />
                     </LazyLoad>
                   </div>

@@ -30,9 +30,9 @@ class SubscriptionLanding extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
@@ -56,17 +56,14 @@ class SubscriptionLanding extends React.Component {
         filters: ''
       }
     };
-
+    const { seoConfig } = this.state;
     return (
       <div className="subscriptionLanding">
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          <title>{seoConfig.title}</title>
+          <meta name="description" content={seoConfig.metaDescription} />
+          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager additionalEvents={event} />
         <Header
@@ -77,6 +74,9 @@ class SubscriptionLanding extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <h1 style={{ display: 'none' }}>
+            {seoConfig.metaDescription || 'Royal canin'}
+          </h1>
           <BannerTip />
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
@@ -198,7 +198,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon1}
-                            alt="Bitmap"
+                            alt="Bitmap image"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -212,7 +212,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon2}
-                            alt="Bitmap"
+                            alt="Bitmap image"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -225,7 +225,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon3}
-                            alt="Bitmap"
+                            alt="Bitmap image"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -241,7 +241,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="mx-auto rc-margin-bottom--xs rc-padding-bottom--xs"
                             src={icon4}
-                            alt="Bitmap"
+                            alt="Bitmap image"
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
@@ -464,7 +464,7 @@ class SubscriptionLanding extends React.Component {
                               <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
                                 <img
                                   className="align-self-center widthAuto lazyloaded"
-                                  alt="faq"
+                                  alt="faq images"
                                   title="faq"
                                   src={helpImg}
                                 />

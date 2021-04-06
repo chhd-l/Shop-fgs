@@ -21,9 +21,9 @@ class TermsConditionsUs extends React.Component {
     this.state = {
       tel: '',
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       mailAddress: ''
     };

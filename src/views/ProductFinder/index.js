@@ -36,9 +36,9 @@ class ProductFinder extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       type: '' // cat dog
     };
@@ -134,12 +134,12 @@ class ProductFinder extends React.Component {
           </div>
           <div className="col-6 col-md-4 order-1 order-md-0">
             <LazyLoad style={{ width: '100%', height: '100%' }}>
-              <img src={catImg} alt="cat-image" />
+              <img src={catImg} alt="cat image" />
             </LazyLoad>
           </div>
           <div className="col-6 col-md-4 order-2 order-md-2">
             <LazyLoad style={{ width: '100%', height: '100%' }}>
-              <img src={dogImg} alt="dog-image" />
+              <img src={dogImg} alt="dog image" />
             </LazyLoad>
           </div>
         </div>

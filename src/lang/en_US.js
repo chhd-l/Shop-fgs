@@ -11,6 +11,8 @@ const en_US = {
   'aboutUs.IncredibleDetail': 'Incredible in Every Detail',
   'aboutUs.learnMore': 'Learn More',
   'aboutUs.ourValues': 'Our Values',
+  'aboutUs.foodQualityAndSafetyBtn': 'See our Commitment',
+  'aboutUs.ourValuesBtn': 'Discover our Passion',
   'aboutUs.ourValuesDetail':
     'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
   'aboutUs.SeeHowWeDo':
@@ -656,7 +658,7 @@ const en_US = {
   'mixed Breed': 'mixed Breed',
   MMYY: 'MM/YY',
   modalCancelAllContent:
-    'Are you sure you want to unsubscribe? This means that you will not receive the upcoming delivery.',
+    'Are you sure you want to cancel all future shipments?',
   modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
   modalChangeDateContent: 'Are you sure you want to skip the next delivery?',
   modalChangeDateTitle: 'Change the shipping date',
@@ -1116,7 +1118,7 @@ const en_US = {
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.BillingAddress': 'Billing address',
-  'subscription.cancelAll': 'Unsubscribe',
+  'subscription.cancelAll': 'Cancel',
   'subscription.change': 'Change',
   'subscription.chooseSubscription': 'Choose subscription',
   'subscription.date': 'Subscription date',

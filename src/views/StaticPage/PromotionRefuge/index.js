@@ -465,7 +465,7 @@ class PromotionRefuge extends React.Component {
                                   <LazyLoad>
                                     <img
                                       className="align-self-center widthAuto lazyloaded"
-                                      alt="FAQ"
+                                      alt="FAQ image"
                                       title="FAQ"
                                       src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon100@2x.png`}
                                     />

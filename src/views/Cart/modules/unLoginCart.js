@@ -271,7 +271,7 @@ class UnLoginCart extends React.Component {
           frequencyVal: filterData.valueEn,
           frequencyName: filterData.name,
           frequencyId:
-            el.goods.defaultFrequencyId ||
+            el.goods?.defaultFrequencyId ||
             configStore.defaultSubscriptionFrequencyId ||
             filterData.id,
           frequencyType: filterData.type
@@ -890,14 +890,14 @@ class UnLoginCart extends React.Component {
                 <img
                   className="img"
                   src={foodDispenserPic}
-                  alt="food-dispenserPic"
+                  alt="food dispenserPic"
                 />
               </div>
               <div className="text-center" style={{ width: '200px' }}>
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
-                  alt="Club-Logo"
+                  alt="Club Logo"
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -931,7 +931,7 @@ class UnLoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
-                    alt="goodsInformationImage"
+                    alt="goods Information Image"
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
@@ -1584,9 +1584,9 @@ class UnLoginCart extends React.Component {
             ) : (
               <>
                 <div className="rc-text-center">
-                  <div className="rc-beta mb-1 mt-3">
+                  <h1 className="rc-beta mb-1 mt-3">
                     <FormattedMessage id="cart.yourShoppingCart" />
-                  </div>
+                  </h1>
                   <div className="rc-gamma title-empty mb-0">
                     <FormattedMessage id="header.basketEmpty" />
                   </div>
@@ -1614,7 +1614,7 @@ class UnLoginCart extends React.Component {
                                 <img
                                   className="w-100"
                                   src={dogsPic}
-                                  alt="Dog"
+                                  alt="Dog products"
                                 />
                               </LazyLoad>
                               <br />
@@ -1629,7 +1629,7 @@ class UnLoginCart extends React.Component {
                                 <img
                                   className="w-100"
                                   src={catsPic}
-                                  alt="Cat"
+                                  alt="Cat products"
                                 />
                               </LazyLoad>
                               <br />

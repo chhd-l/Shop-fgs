@@ -33,9 +33,9 @@ class ShippingAddress extends React.Component {
       isAdd: true,
       addressList: [],
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       total: 0,
       errorMsg: '',

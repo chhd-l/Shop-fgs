@@ -27,9 +27,9 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       details: null,
       loading: true,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       errMsg: ''
     };
@@ -104,7 +104,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                     <LazyLoad>
                       <img
                         src={successImg}
-                        alt="success-image"
+                        alt="success image"
                         style={{ display: 'inline-block' }}
                       />
                     </LazyLoad>

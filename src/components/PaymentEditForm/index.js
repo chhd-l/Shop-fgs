@@ -712,7 +712,7 @@ class PaymentEditForm extends React.Component {
                         <span className="cardImage">
                           <LazyLoad>
                             <img
-                              alt="Card"
+                              alt="Card img"
                               src={
                                 CREDIT_CARD_IMG_ENUM[
                                   currentVendor && currentVendor.toUpperCase()

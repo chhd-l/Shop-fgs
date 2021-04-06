@@ -13,7 +13,7 @@ import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
 import en from 'date-fns/locale/en-US';
 import { registerLocale } from 'react-datepicker';
-import { format } from 'date-fns';
+import { format, utcToZonedTime } from 'date-fns-tz';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -453,9 +453,9 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     return '/checkout';
   }
   // 校验审核
+  //调整：商品中所属category的Need Prescriber都为NO,直接进入checkout页面
   if (isLogin) {
     let needPrescriber;
-    //调整：是否需要进入prescription页面只判断购物车的商品中是否存在Need Prescriber
     // if (autoAuditFlag) {
     needPrescriber = loginCartData.filter((el) => el.prescriberFlag).length > 0;
     // } else {
@@ -614,7 +614,10 @@ export function getFormatDate(date, callback, lang) {
       return intl.formatDate(date);
     }
   } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
-    return format(new Date(date), 'MM/dd/yyyy');
+    console.log(date, 'date---');
+    return format(new Date(date).addHours(12), 'MM/dd/yyyy', {
+      locale: datePickerConfig.locale_module
+    });
   } else {
     if (callback && typeof callback === 'function') {
       return callback(date);
@@ -645,10 +648,10 @@ function getDatePickerConfig() {
   }
 
   const datePickerCfg = {
-    es: { format: 'yyyy-MM-dd', locale: 'es' },
-    de: { format: 'dd.MM.yyyy', locale: 'de' },
-    fr: { format: 'dd/MM/yyyy', locale: 'fr' },
-    en: { format: 'MM/dd/yyyy', locale: 'en' },
+    es: { format: 'yyyy-MM-dd', locale: 'es', locale_module: es },
+    de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
+    fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
+    en: { format: 'MM/dd/yyyy', locale: 'en', locale_module: en },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 

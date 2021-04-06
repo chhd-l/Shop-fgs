@@ -387,14 +387,14 @@ class ClubHeroCarousel extends React.Component {
                 <img
                   className="w-100 mh-100"
                   src={el.mobiUrl}
-                  alt="banner-video"
+                  alt="banner video"
                 />
               </Link>
             ) : (
               <img
                 className="w-100 mh-100"
                 src={el.mobiUrl}
-                alt="banner-video"
+                alt="banner video"
               />
             )}
           </div>

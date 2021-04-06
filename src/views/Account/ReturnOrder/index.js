@@ -29,9 +29,9 @@ export default class ReturnOrder extends React.Component {
         dateRangeKey: 'inWeek'
       },
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       loading: false,
       currentPage: 1,

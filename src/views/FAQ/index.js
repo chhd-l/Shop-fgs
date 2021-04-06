@@ -23,9 +23,9 @@ class FAQ extends React.Component {
     this.state = {
       dataFAQ: [],
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       // 当前展开的FAQ
       showCur: -1,
@@ -243,7 +243,7 @@ class FAQ extends React.Component {
                               dangerouslySetInnerHTML={{ __html: item.answer }}
                             ></p>
                             <LazyLoad>
-                              <img src={item.imgUl} alt="storeFaq-image" />
+                              <img src={item.imgUl} alt="storeFaq image" />
                             </LazyLoad>
                           </div>
                         </div>

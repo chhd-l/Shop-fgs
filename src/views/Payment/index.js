@@ -139,9 +139,9 @@ class Payment extends React.Component {
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       deliveryAddress: {
         firstName: '',
@@ -2675,7 +2675,7 @@ class Payment extends React.Component {
                             src={item.imgUrl}
                             title={item.cardType}
                             style={{ width: '40px' }}
-                            alt="card-type-image"
+                            alt="card type image"
                           />
                         </label>
                       </div>
@@ -3169,7 +3169,7 @@ class Payment extends React.Component {
                                 <LazyLoad>
                                   <img
                                     className="pull-left"
-                                    alt="goods-information-image"
+                                    alt="goods information image"
                                     src={el.goodsInfoImg}
                                   />
                                 </LazyLoad>
@@ -3219,7 +3219,7 @@ class Payment extends React.Component {
                               <div className="petProduct" key={i}>
                                 <LazyLoad>
                                   <img
-                                    alt="pet-product-image"
+                                    alt="pet product image"
                                     src={
                                       el.sizeList.filter((el) => el.selected)[0]
                                         .goodsInfoImg

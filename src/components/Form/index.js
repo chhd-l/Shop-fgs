@@ -5,7 +5,12 @@ import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import SearchSelection from '@/components/SearchSelection';
-import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  datePickerConfig,
+  getFormatDate
+} from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
 import Loading from '@/components/Loading';
@@ -877,7 +882,7 @@ class Form extends React.Component {
                 className="rc-input__control shippingEmail"
                 id="email"
                 data-name="profile_personalInfo"
-                alt="E-mail"
+                alt="birthday E-mail"
                 name="email"
                 value={caninForm.email}
                 maxLength="50"

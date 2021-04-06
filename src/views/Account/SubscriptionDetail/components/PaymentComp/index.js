@@ -53,7 +53,7 @@ function CardItem(props) {
                   CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
                   'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                 }
-                alt="pay-card-img-fit-screen"
+                alt="pay card img fit screen"
               />
             </LazyLoad>
           </div>
@@ -701,7 +701,7 @@ class PaymentComp extends React.Component {
               key={idx}
               className="logo-payment-card"
               src={el.img}
-              alt="logo-payment-card"
+              alt="logo payment card"
             />
           </LazyLoad>
         ))}

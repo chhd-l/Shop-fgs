@@ -26,9 +26,9 @@ class ProductReview extends React.Component {
     super();
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       orderId: 0,
       productList: [],

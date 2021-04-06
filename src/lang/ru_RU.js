@@ -10,6 +10,8 @@ const ru_RU = {
     'Компания ROYAL CANIN® была основана во Франции ветеринарным врачом Жаном Катари в 1968 году. С 1968 года компания ROYAL CANIN® работает над тем, чтобы сделать питание одним из методов поддержания здоровья кошек и собак. Это наш способ сделать мир для домашних животных лучше.',
   'aboutUs.IncredibleDetail': 'Здоровье каждого питомца уникально',
   'aboutUs.learnMore': 'Узнать больше',
+  'aboutUs.foodQualityAndSafetyBtn': 'Узнать больше',
+  'aboutUs.ourValuesBtn': 'Узнать больше',
   'aboutUs.ourValues': 'Наши ценности',
   'aboutUs.ourValuesDetail':
     'Узнайте больше об идеях и ценностях, которые определяют роль ROYAL CANIN® в мире.',
@@ -1085,7 +1087,10 @@ const ru_RU = {
   'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
   'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
   'subscription.see_more': 'Смотри другие Подписка',
-  'subscription.viewDetails': 'Посмотреть детали'
+  'subscription.viewDetails': 'Посмотреть детали',
+  Lifestyle: 'Стиль жизни',
+  Activity: 'Активность',
+  Weight: 'Масса'
 };
 
 export default ru_RU;

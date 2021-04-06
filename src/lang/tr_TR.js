@@ -10,6 +10,8 @@ const tr_TR = {
     'Royal Canin, 1968 yılında veteriner hekim Jean Cathary tarafından kuruldu. Dr. Cathary’nin vizyonu bilime dayalı, kedi ve köpeklerin ilk ilacı olarak beslenme sağlayan ve her bir evcil hayvanın benzersiz ihtiyaçlarını karşılamak için kesin formüller oluşturan bir evcil hayvan maması şirketiydi.',
   'aboutUs.IncredibleDetail': 'Her Ayrıntıda İnanılmaz',
   'aboutUs.learnMore': 'Daha Fazla Bilgi Edinin',
+  'aboutUs.foodQualityAndSafetyBtn': 'Daha Fazla Bilgi Edinin',
+  'aboutUs.ourValuesBtn': 'Daha Fazla Bilgi Edinin',
   'aboutUs.ourValues': 'Değerlerimiz',
   'aboutUs.ourValuesDetail':
     "Royal Canin'in dünyadaki rolünü şekillendiren fikirler ve değerler hakkında daha fazla bilgi edinin.",
@@ -1012,6 +1014,9 @@ const tr_TR = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'ayrıntılara bakın'
+  'subscription.viewDetails': 'ayrıntılara bakın',
+  Lifestyle: 'Yaşam tarzı',
+  Activity: 'Aktivite',
+  Weight: 'Ağırlık'
 };
 export default tr_TR;

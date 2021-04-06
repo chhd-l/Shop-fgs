@@ -211,7 +211,7 @@ class Reviews extends React.Component {
               />
               <LazyLoad height={200}>
                 <img
-                  alt="artwork-image"
+                  alt="artwork image"
                   style={{ maxWidth: '100%', maxHeight: '100%' }}
                   src={imgList[showPicIndex].artworkUrl}
                 />
@@ -340,7 +340,7 @@ class Reviews extends React.Component {
                                         return (
                                           <LazyLoad height={200}>
                                             <img
-                                              alt="artwork-image"
+                                              alt="artwork image"
                                               className="rc-img--square rc-img--square-custom mr-1"
                                               src={img.artworkUrl}
                                               key={j}

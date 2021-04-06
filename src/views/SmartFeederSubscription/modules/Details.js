@@ -243,7 +243,7 @@ const Details = ({ goodsDetailTabs, details }) => {
                   <LazyLoad height={200}>
                     <img
                       src={goodsDetailTab.tabContent[index].imgUl}
-                      alt="goods-Detail-table-image"
+                      alt="goods Detail table image"
                     />
                   </LazyLoad>
                 </div>
