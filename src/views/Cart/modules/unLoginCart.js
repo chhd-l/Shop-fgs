@@ -271,7 +271,7 @@ class UnLoginCart extends React.Component {
           frequencyVal: filterData.valueEn,
           frequencyName: filterData.name,
           frequencyId:
-            el.goods.defaultFrequencyId ||
+            el.goods?.defaultFrequencyId ||
             configStore.defaultSubscriptionFrequencyId ||
             filterData.id,
           frequencyType: filterData.type
