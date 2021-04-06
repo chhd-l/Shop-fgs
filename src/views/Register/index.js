@@ -368,6 +368,10 @@ class Register extends Component {
       homePage.substring(homePage.length - 1, homePage.length) === '/'
         ? 'help/contact'
         : '/help/contact';
+    const helpUrl =
+      homePage.substring(homePage.length - 1, homePage.length) === '/'
+        ? 'help'
+        : '/help';
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -419,7 +423,9 @@ class Register extends Component {
                             <strong>
                               <a
                                 href={
-                                  process.env.REACT_APP_ACCESS_PATH + 'help'
+                                  process.env.REACT_APP_LANG === 'en'
+                                    ? homePage + contactUrl
+                                    : homePage + helpUrl
                                 }
                                 className="rc-text-colour--brand1"
                               >

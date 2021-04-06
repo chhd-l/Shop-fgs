@@ -1467,43 +1467,47 @@ class AccountOrders extends React.Component {
                                       <p className="medium mb-3">
                                         <FormattedMessage id="delivery2" />
                                       </p>
-                                      <p className="medium mb-2">
+                                      {/* 姓名 */}
+                                      <p className="medium mb-2 od_mb_name">
                                         {details.consignee.name}
                                       </p>
-                                      <p className="mb-0">
-                                        {[
-                                          details.consignee.postCode,
-                                          details.consignee.phone
-                                        ]
-                                          .filter((d) => d)
-                                          .join(' ')}
+                                      {/* 电话 */}
+                                      <p className="mb-0 od_mb_tel">
+                                        {details.consignee.phone}
                                       </p>
+                                      {/* <p className="mb-0">
+                                        {[details.consignee.postCode,details.consignee.phone].filter((d) => d).join(' ')}
+                                      </p> */}
+                                      {/* 国家 */}
                                       {process.env.REACT_APP_LANG ==
                                       'en' ? null : (
-                                        <p className="mb-0">
+                                        <p className="mb-0 od_mb_country">
                                           {matchNamefromDict(
                                             this.state.countryList,
                                             details.consignee.countryId
                                           )}
                                         </p>
                                       )}
-
-                                      {details?.consignee?.province ? (
-                                        <p className="mb-0">
-                                          {details?.consignee?.province}
-                                        </p>
-                                      ) : null}
-                                      <p className="mb-0">
-                                        {details.consignee.city}
-                                      </p>
-                                      <p className="mb-0">
+                                      {/* 地址 */}
+                                      <p className="mb-0 od_mb_address1">
                                         {details.consignee.detailAddress1}
                                       </p>
                                       {details.consignee.detailAddress2 ? (
-                                        <p className="mb-0">
+                                        <p className="mb-0 od_mb_address2">
                                           {details.consignee.detailAddress2}
                                         </p>
                                       ) : null}
+                                      <p className="mb-0 od_mb_cpp">
+                                        {/* 市 */}
+                                        {details.consignee.city}
+                                        {', '}
+                                        {/* 省份 */}
+                                        {details?.consignee?.province
+                                          ? details?.consignee?.province
+                                          : null}{' '}
+                                        {/* 邮编 */}
+                                        {details.consignee.postCode}
+                                      </p>
                                       {details.consignee.rfc ? (
                                         <p className="mb-0">
                                           {details.consignee.rfc}
@@ -1532,44 +1536,52 @@ class AccountOrders extends React.Component {
                                       <p className="medium mb-3">
                                         <FormattedMessage id="billing2" />
                                       </p>
-                                      <p className="medium mb-2">
+                                      {/* 姓名 */}
+                                      <p className="medium mb-2 od_mb_name">
                                         {details.invoice.contacts}
                                       </p>
-                                      <p className="mb-0">
+                                      {/* 电话 */}
+                                      <p className="mb-0 od_mb_tel">
+                                        {details.invoice.phone}
+                                      </p>
+                                      {/* <p className="mb-0">
                                         {[
                                           details.invoice.postCode,
                                           details.invoice.phone
                                         ]
                                           .filter((d) => d)
                                           .join(' ')}
-                                      </p>
+                                      </p> */}
+                                      {/* 国家 */}
                                       {process.env.REACT_APP_LANG ==
                                       'en' ? null : (
-                                        <p className="mb-0">
+                                        <p className="mb-0 od_mb_country">
                                           {matchNamefromDict(
                                             this.state.countryList,
                                             details.invoice.countryId
                                           )}
                                         </p>
                                       )}
-
-                                      {details?.invoice?.province ? (
-                                        <p className="mb-0">
-                                          {details?.invoice?.province}
-                                        </p>
-                                      ) : null}
-
-                                      <p className="mb-0">
-                                        {details.invoice.city}
-                                      </p>
-                                      <p className="mb-0">
+                                      {/* 地址 */}
+                                      <p className="mb-0 od_mb_address1">
                                         {details.invoice.address1}
                                       </p>
                                       {details.invoice.address2 ? (
-                                        <p className="mb-0">
+                                        <p className="mb-0 od_mb_address2">
                                           {details.invoice.address2}
                                         </p>
                                       ) : null}
+                                      <p className="mb-0 od_mb_cpp">
+                                        {/* 城市 */}
+                                        {details.invoice.city}
+                                        {', '}
+                                        {/* 省份 */}
+                                        {details?.invoice?.province
+                                          ? details?.invoice?.province
+                                          : null}{' '}
+                                        {/* 邮编 */}
+                                        {details.invoice.postCode}
+                                      </p>
                                       {details.invoice.rfc ? (
                                         <p className="mb-0">
                                           {details.invoice.rfc}

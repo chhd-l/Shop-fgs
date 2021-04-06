@@ -807,7 +807,9 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 运费折扣 俄罗斯 */}
-                {this.freeShippingFlag && this.props.isCheckOut ? (
+                {/* {this.freeShippingFlag && this.props.isCheckOut ? ( */}
+                {this.props.deliveryAddress?.calculation?.price &&
+                this.props.isCheckOut ? (
                   <div className="row leading-lines shipping-item green">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">
@@ -819,7 +821,10 @@ class PayProductInfo extends React.Component {
                     <div className="col-5 end-lines">
                       <p className="text-right">
                         <span className="shipping-total-cost">
-                          {formatMoney(this.freeShippingDiscountPrice)}
+                          {/* {formatMoney(this.freeShippingDiscountPrice)} */}
+                          {formatMoney(
+                            this.props.deliveryAddress?.calculation?.price
+                          )}
                         </span>
                       </p>
                     </div>
