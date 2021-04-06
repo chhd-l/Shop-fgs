@@ -1012,6 +1012,9 @@ const tr_TR = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'ayrıntılara bakın'
+  'subscription.viewDetails': 'ayrıntılara bakın',
+  Lifestyle: 'Yaşam tarzı',
+  Activity: 'Aktivite',
+  Weight: 'Ağırlık'
 };
 export default tr_TR;
