@@ -351,7 +351,11 @@ class Payment extends React.Component {
       };
     });
     if (isLogin) {
-      params = { customerId, consentPage: 'check out' };
+      const oktaTokenString = this.props.authState.accessToken
+        ? this.props.authState.accessToken.value
+        : '';
+      let oktaToken = 'Bearer ' + oktaTokenString;
+      params = { customerId, consentPage: 'check out', oktaToken: oktaToken };
     }
     if (groups) {
       params.groups = groups;

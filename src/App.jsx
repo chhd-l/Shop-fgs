@@ -197,9 +197,9 @@ const App = () => (
         path={'/'}
         forceRefresh={true}
       >
-        <RouteFilter />
         <ScrollToTop>
           <Security oktaAuth={config}>
+            <RouteFilter />
             <Switch>
               <Route exact path={'/'} component={Home} />
               <Route
