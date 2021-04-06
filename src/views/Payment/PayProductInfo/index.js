@@ -823,6 +823,7 @@ class PayProductInfo extends React.Component {
                       <p className="text-right">
                         <span className="shipping-total-cost">
                           {/* {formatMoney(this.freeShippingDiscountPrice)} */}
+                          {'-'}
                           {formatMoney(
                             this.props.deliveryAddress?.calculation?.price
                           )}

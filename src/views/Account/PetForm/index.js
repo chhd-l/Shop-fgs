@@ -27,13 +27,14 @@ import {
   getDictionary,
   getDeviceType,
   datePickerConfig,
-  setSeoConfig
+  setSeoConfig,
+  getFormatDate
 } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
+import { format, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
@@ -771,7 +772,6 @@ class PetForm extends React.Component {
     });
   };
   onDateChange(date) {
-    console.log(date, 'date');
     this.setState({
       birthdate: format(date, 'yyyy-MM-dd'),
       isDisabled: false
@@ -1118,7 +1118,7 @@ class PetForm extends React.Component {
                           maxDate={new Date()}
                           selected={
                             this.state.birthdate
-                              ? new Date(this.state.birthdate)
+                              ? new Date(getFormatDate(this.state.birthdate))
                               : ''
                           }
                           onChange={(date) => this.onDateChange(date)}

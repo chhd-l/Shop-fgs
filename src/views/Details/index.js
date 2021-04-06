@@ -2097,7 +2097,7 @@ class Details extends React.Component {
                                         id="saveExtra"
                                         values={{
                                           val:
-                                            selectedSpecItem.subscriptionPercentage
+                                            selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>

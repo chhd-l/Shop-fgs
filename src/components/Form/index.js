@@ -5,7 +5,12 @@ import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import SearchSelection from '@/components/SearchSelection';
-import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  datePickerConfig,
+  getFormatDate
+} from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
 import Loading from '@/components/Loading';
@@ -427,6 +432,9 @@ class Form extends React.Component {
   // 7-2、计算运费
   getShippingCalculation = async (data) => {
     const { caninForm } = this.state;
+    // this.setState({
+    //   dataLoading: true
+    // });
     try {
       let res = await shippingCalculation({
         sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
@@ -457,15 +465,28 @@ class Form extends React.Component {
         // 清空错误信息
         this.setState(
           {
-            caninForm
+            caninForm,
+            errMsgObj: {
+              ['address1']: ''
+            }
           },
           () => {
             this.props.updateData(this.state.caninForm);
           }
         );
+      } else {
+        this.setState({
+          errMsgObj: {
+            ['address1']: this.getIntlMsg('payment.wrongAddress')
+          }
+        });
       }
     } catch (err) {
       console.warn(err);
+    } finally {
+      this.setState({
+        dataLoading: false
+      });
     }
   };
   // 下拉框选择
@@ -598,12 +619,6 @@ class Form extends React.Component {
   handleCitySearchSelectionBlur = (e) => {
     this.inputBlur(e);
   };
-  // 地址搜索框失去焦点
-  handleSearchSelectionBlur = (e) => {
-    const { address1Data } = this.state;
-    this.inputBlur(e);
-    this.handleAddressInputChange(address1Data);
-  };
   // 城市搜索选择
   handleCityInputChange = (data) => {
     const { caninForm } = this.state;
@@ -613,6 +628,16 @@ class Form extends React.Component {
       this.props.updateData(this.state.caninForm);
     });
   };
+  // 地址搜索框失去焦点
+  handleSearchSelectionBlur = (e) => {
+    const { address1Data } = this.state;
+    this.inputBlur(e);
+    this.handleAddressInputChange(address1Data);
+  };
+  // 提示消息
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
   // DuData地址搜索选择
   handleAddressInputChange = async (data) => {
     const { caninForm } = this.state;
@@ -621,12 +646,9 @@ class Form extends React.Component {
     });
     // 根据地址组装对应的提示信息
     let errMsg = '';
-    const getIntlMsg = (str) => {
-      return this.props.intl.messages[str];
-    };
-    let streets = getIntlMsg('payment.streets'),
-      postCode = getIntlMsg('payment.postCode'),
-      house = getIntlMsg('payment.house');
+    let streets = this.getIntlMsg('payment.streets'),
+      postCode = this.getIntlMsg('payment.postCode'),
+      house = this.getIntlMsg('payment.house');
     let dstreet = data?.street,
       dpcode = data?.postCode,
       dhouse = data?.house;
@@ -649,9 +671,9 @@ class Form extends React.Component {
       if (dpcode == null && dhouse == null) {
         errMsg = postCode + ', ' + house;
       }
-      errMsg = getIntlMsg('payment.pleaseInput') + errMsg;
+      errMsg = this.getIntlMsg('payment.pleaseInput') + errMsg;
       if (dstreet == null && dpcode == null && dhouse == null) {
-        errMsg = getIntlMsg('payment.wrongAddress');
+        errMsg = this.getIntlMsg('payment.wrongAddress');
       }
       // 显示错误信息
       this.setState({
@@ -665,19 +687,10 @@ class Form extends React.Component {
       caninForm.address1 = data.unrestrictedValue;
       caninForm.city = data.city;
       caninForm.postCode = data.postCode;
-      // 清空错误信息
-      this.setState(
-        {
-          caninForm,
-          errMsgObj: {
-            ['address1']: ''
-          }
-        },
-        () => {
-          // 计算运费
-          this.getShippingCalculation(data);
-        }
-      );
+      this.setState({ caninForm }, () => {
+        // 计算运费
+        this.getShippingCalculation(data);
+      });
     }
   };
 
@@ -767,6 +780,7 @@ class Form extends React.Component {
             ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
           }}
           selectedItemChange={(data) => this.handleAddressInputChange(data)}
+          searchSelectionBlur={this.handleSearchSelectionBlur}
           key={caninForm[item.fieldKey]}
           defaultValue={caninForm[item.fieldKey]}
           value={caninForm[item.fieldKey]}
@@ -779,7 +793,6 @@ class Form extends React.Component {
           }
           customStyle={true}
           isBottomPaging={true}
-          searchSelectionBlur={this.handleSearchSelectionBlur}
         />
       </>
     );

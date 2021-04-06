@@ -75,23 +75,24 @@ const itemList = [
     titleLangKey: 'account.subscriptionTitle',
     textLangKey: 'account.subscriptionTip',
     link: '/account/subscription'
-  },
-  {
-    icon: (
-      <svg
-        className="svg-icon account-home-icon"
-        aria-hidden="true"
-        style={{ width: '2.6rem' }}
-      >
-        <use xlinkHref="#iconFAQ" />
-      </svg>
-    ),
-    titleLangKey: 'account.faqTitle',
-    textLangKey: 'account.faqTip',
-    link: '/faq',
-    href: '/about-us/faqs',
-    isHubOuterLink: true
   }
+  // 暂时注释，因为faq页面还没做好，需要隐藏
+  // {
+  //   icon: (
+  //     <svg
+  //       className="svg-icon account-home-icon"
+  //       aria-hidden="true"
+  //       style={{ width: '2.6rem' }}
+  //     >
+  //       <use xlinkHref="#iconFAQ" />
+  //     </svg>
+  //   ),
+  //   titleLangKey: 'account.faqTitle',
+  //   textLangKey: 'account.faqTip',
+  //   link: '/faq',
+  //   href: '/about-us/faqs',
+  //   isHubOuterLink: true
+  // }
 ];
 
 function Container({ className, item, children }) {
