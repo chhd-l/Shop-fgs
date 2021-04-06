@@ -581,7 +581,10 @@ class SubscriptionDetail extends React.Component {
         className="rc-md-down rc-margin-y--sm"
         to={{
           pathname: `/account/pets/petForm/${petsId}`,
-          state: { isFromSubscriptionDetail: true }
+          state: {
+            isFromSubscriptionDetail: true,
+            subscribeId: this.state.subDetail.subscribeId
+          }
         }}
       >
         <div
@@ -605,7 +608,10 @@ class SubscriptionDetail extends React.Component {
             className="rc-md-up"
             to={{
               pathname: `/account/pets/petForm/${petsId}`,
-              state: { isFromSubscriptionDetail: true }
+              state: {
+                isFromSubscriptionDetail: true,
+                subscribeId: this.state.subDetail.subscribeId
+              }
             }}
           >
             <div

@@ -7,6 +7,7 @@ import PhoneModal from '../../StaticPage/Help/components/phoneModal.js';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('configStore')
 @observer
@@ -40,6 +41,20 @@ class Help extends React.Component {
       mailAddress: '',
       showModal: false
     };
+  }
+  saveCurrentScrollTop = () => {
+    let curScrollTop = document.documentElement.scrollTop;
+    sessionItemRoyal.set('recommendation-scroll', curScrollTop);
+  };
+  async UNSAFE_componentWillMount() {
+    let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+    if (curScrollTop) {
+      window.scrollTo({
+        top: curScrollTop,
+        behavior: 'smooth'
+      });
+      sessionItemRoyal.set('recommendation-scroll', 0);
+    }
   }
   mobileDial = () => {
     this.setState({ showModal: true });
@@ -287,6 +302,7 @@ class Help extends React.Component {
                                       //   fontSize: '1rem',
                                       //   borderBottom: '1px solid transparent'
                                       // }}
+                                      onClick={this.saveCurrentScrollTop}
                                       className="rc-styled-link"
                                     >
                                       {email ? (
