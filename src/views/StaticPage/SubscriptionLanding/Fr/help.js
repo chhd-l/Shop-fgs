@@ -12,9 +12,9 @@ class Help extends Component {
     this.state = {
       mailAddress: '',
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
@@ -65,7 +65,7 @@ class Help extends Component {
                   <LazyLoad>
                     <img
                       className="align-self-center widthAuto lazyloaded"
-                      alt="customer-service-image"
+                      alt="customer service image"
                       src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                     />
                   </LazyLoad>
@@ -97,7 +97,7 @@ class Help extends Component {
                   <LazyLoad>
                     <img
                       className="align-self-center widthAuto lazyloaded"
-                      alt="email-us-icon"
+                      alt="email us icon"
                       src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon_100@2x .webp`}
                     />
                   </LazyLoad>
@@ -134,7 +134,7 @@ class Help extends Component {
                   <LazyLoad>
                     <img
                       className="align-self-center widthAuto lazyloaded"
-                      alt="faq-icon"
+                      alt="faq icon"
                       src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon_100@2x.png`}
                     />
                   </LazyLoad>

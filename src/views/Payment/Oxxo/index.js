@@ -24,7 +24,7 @@ class OxxoConfirm extends Component {
               <img
                 src={oxxo}
                 style={{ display: 'inline-block' }}
-                alt="oxxo-image"
+                alt="oxxo image"
               />
             </LazyLoad>
           </div>

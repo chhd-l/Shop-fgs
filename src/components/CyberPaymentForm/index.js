@@ -1,24 +1,49 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
 import { usPaymentInfo } from '@/api/payment';
 import { usGuestPaymentInfo } from '@/api/payment';
-import resolve from 'resolve';
 
-const CardNumberLimit = {
-  cyberVisa: 19,
-  cyberMastercard: 19,
-  cyberAmex: 18,
-  cyberDiscover: 19
-};
+const monthList = [
+  { name: 'month', value: '' },
+  { name: '01', value: 1 },
+  { name: '02', value: 2 },
+  { name: '03', value: 3 },
+  { name: '04', value: 4 },
+  { name: '05', value: 5 },
+  { name: '06', value: 6 },
+  { name: '07', value: 7 },
+  { name: '08', value: 8 },
+  { name: '09', value: 9 },
+  { name: '10', value: 10 },
+  { name: '11', value: 11 },
+  { name: '12', value: 12 }
+];
+// Array.from({ length: 12 }).map((item, i) => {
+//   return {
+//     label: <FormattedMessage id="xMonths" values={{ val: i }} />,
+//     key: i.toString(),
+//     value: i
+//   };
+// }),
 
-const CardCvvLimit = {
-  cyberVisa: 3,
-  cyberMastercard: 3,
-  cyberAmex: 4,
-  cyberDiscover: 3
-};
+const yearList = [
+  { name: 'year', value: '' },
+  { name: '2021', value: 2021 },
+  { name: '2022', value: 2022 },
+  { name: '2023', value: 2023 },
+  { name: '2024', value: 2024 },
+  { name: '2025', value: 2025 },
+  { name: '2026', value: 2026 },
+  { name: '2027', value: 2027 },
+  { name: '2028', value: 2028 },
+  { name: '2029', value: 2029 },
+  { name: '2030', value: 2030 }
+];
 
+@inject('paymentStore')
+@observer
 class CyberPaymentForm extends React.Component {
   static defaultProps = {
     cyberFormTitle: {
@@ -39,16 +64,13 @@ class CyberPaymentForm extends React.Component {
       expirationYear: '',
       securityCode: ''
     },
-    monthList: [],
-    yearList: [],
     errMsgObj: {
       cardholderName: '',
       cardNumber: '',
       expirationMonth: '',
       expirationYear: '',
       securityCode: ''
-    },
-    cardTypeVal: ''
+    }
   };
   //游客绑卡
   usGuestPaymentInfoEvent = async (params) => {
@@ -103,7 +125,12 @@ class CyberPaymentForm extends React.Component {
   };
 
   cardNumberJSX = () => {
-    const { form, errMsgObj, cyberFormTitle, cardTypeVal } = this.props;
+    const {
+      form,
+      errMsgObj,
+      cyberFormTitle,
+      paymentStore: { currentCardTypeInfo }
+    } = this.props;
     return (
       <div className="form-group required">
         <label className="form-control-label">
@@ -118,7 +145,7 @@ class CyberPaymentForm extends React.Component {
             onChange={this.props.handleInputChange}
             onBlur={this.props.inputBlur}
             name="cardNumber"
-            maxLength={CardNumberLimit[cardTypeVal]}
+            maxLength={currentCardTypeInfo?.cardLength || 19}
             placeholder=""
           />
           <label className="rc-input__label" htmlFor="cardNumber" />
@@ -148,7 +175,7 @@ class CyberPaymentForm extends React.Component {
             selectedItemChange={(data) =>
               this.props.handleSelectedItemChange('expirationMonth', data)
             }
-            optionList={this.props.monthList}
+            optionList={monthList}
             selectedItemData={{
               value: form.expirationMonth
             }}
@@ -179,7 +206,7 @@ class CyberPaymentForm extends React.Component {
             selectedItemChange={(data) =>
               this.props.handleSelectedItemChange('expirationYear', data)
             }
-            optionList={this.props.yearList}
+            optionList={yearList}
             selectedItemData={{
               value: form.expirationYear
             }}
@@ -200,7 +227,7 @@ class CyberPaymentForm extends React.Component {
       errMsgObj,
       cyberFormTitle,
       securityCodeTipsJSX,
-      cardTypeVal
+      paymentStore: { currentCardTypeInfo }
     } = this.props;
     return (
       <div className="form-group required">
@@ -216,7 +243,7 @@ class CyberPaymentForm extends React.Component {
             onChange={this.props.handleInputChange}
             onBlur={this.props.inputBlur}
             name="securityCode"
-            maxLength={CardCvvLimit[cardTypeVal]}
+            maxLength={currentCardTypeInfo?.cvvLength || 3}
           />
           <label className="rc-input__label" htmlFor="securityCode" />
         </span>

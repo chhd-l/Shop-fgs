@@ -24,9 +24,9 @@ class Help extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
@@ -77,7 +77,7 @@ class Help extends React.Component {
             >
               <div className="rc-column rc-double-width">
                 <LazyLoad>
-                  <img src={image1} alt="truck-image" />
+                  <img src={image1} alt="truck image" />
                 </LazyLoad>
               </div>
               <div className="rc-column">
@@ -234,7 +234,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                  <img src={image2} alt="timesheet-image" />
+                  <img src={image2} alt="timesheet image" />
                 </LazyLoad>
               </div>
             </div>
@@ -258,7 +258,7 @@ class Help extends React.Component {
                     <img
                       style={{ marginTop: '1.25rem' }}
                       src={image3}
-                      alt="form-image"
+                      alt="form image"
                     />
                   </LazyLoad>
                 </div>
@@ -280,7 +280,7 @@ class Help extends React.Component {
                   <img
                     style={{ marginTop: '1.25rem' }}
                     src={image4}
-                    alt="map-image"
+                    alt="map image"
                   />
                 </LazyLoad>
               </div>
@@ -306,7 +306,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                  <img src={image5} alt="timesheet-image" />
+                  <img src={image5} alt="timesheet image" />
                 </LazyLoad>
               </div>
             </div>
@@ -331,7 +331,7 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <LazyLoad>
-                  <img src={image6} alt="form-image" />
+                  <img src={image6} alt="form image" />
                 </LazyLoad>
               </div>
             </div>
@@ -342,7 +342,7 @@ class Help extends React.Component {
             <div className="rc-layout-container" style={{ padding: '1.25rem' }}>
               <div className="rc-column">
                 <LazyLoad>
-                  <img style={{ width: '80%' }} src={image7} alt="dog-image" />
+                  <img style={{ width: '80%' }} src={image7} alt="dog image" />
                 </LazyLoad>
               </div>
               <div className="rc-column">

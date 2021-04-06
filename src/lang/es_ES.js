@@ -10,6 +10,8 @@ const es_ES = {
     'Royal Canin fue fundada en 1968 por el veterinario Jean Cathary. La visión del Dr. Cathary era una empresa de alimentos para mascotas basada en la ciencia, proporcionando nutrición como el primer medicamento para perros y gatos y creando fórmulas precisas para satisfacer las necesidades únicas de cada mascota.',
   'aboutUs.IncredibleDetail': 'Increíble en cada detalle',
   'aboutUs.learnMore': 'Más información',
+  'aboutUs.foodQualityAndSafetyBtn': 'Más información',
+  'aboutUs.ourValuesBtn': 'Más información',
   'aboutUs.ourValues': 'Nuestros valores',
   'aboutUs.ourValuesDetail':
     'Obtenga más información sobre las ideas y los valores que dan forma al papel de Royal Canin en el mundo.',
@@ -1006,6 +1008,7 @@ const es_ES = {
   'payment.cardInfoErr':
     'La información de la tarjeta es incorrecta, verifique.',
   'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}',
-  'account.clinicTitle2': 'Mi clínica por defecto'
+  'account.clinicTitle2': 'Mi clínica por defecto',
+  'subscription.viewDetails': 'Ver Detalle'
 };
 export default es_ES;

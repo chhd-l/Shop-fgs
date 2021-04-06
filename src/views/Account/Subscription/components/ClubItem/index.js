@@ -77,7 +77,7 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
               display: 'inline-block',
               marginRight: '30px'
             }}
-            alt="club-logo"
+            alt="club logo"
           />
         </LazyLoad>
         <LazyLoad>
@@ -87,7 +87,7 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
               width: '40px',
               display: 'inline-block'
             }}
-            alt="autoship-icon"
+            alt="autoship icon"
           />
         </LazyLoad>
         <span
@@ -138,7 +138,12 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
             );
           }}
         >
-          <FormattedMessage id="manage" />
+          {subItem.subscribeStatus === '0' ||
+          subItem.subscribeStatus === '1' ? (
+            <FormattedMessage id="manage" />
+          ) : (
+            <FormattedMessage id="subscription.viewDetails" />
+          )}
         </button>
       </div>
     </div>

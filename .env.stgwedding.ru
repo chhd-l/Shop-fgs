@@ -110,3 +110,5 @@ REACT_APP_NO_INDEX = 1
 REACT_APP_HIDE_ACCOUNT_BILLING_ADDR = 1
 #是否显示billing addr(checkout页)
 REACT_APP_HIDE_CHECKOUT_BILLING_ADDR = 1
+
+REACT_APP_SUCCESSFUL_URL = 'https://stgwedding.royalcanin.com/ru/shop'

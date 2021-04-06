@@ -255,7 +255,7 @@ class PayProductInfo extends React.Component {
                   <img
                     className="product-image"
                     src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
-                    alt="product-image"
+                    alt="product image"
                   />
                 </LazyLoad>
               </div>
@@ -271,7 +271,7 @@ class PayProductInfo extends React.Component {
                       <img
                         className="clubLogo"
                         src={Club_Logo}
-                        alt="club-logo"
+                        alt="club logo"
                       />
                     ) : null}
                   </div>
@@ -334,7 +334,7 @@ class PayProductInfo extends React.Component {
                   <img
                     className="product-image"
                     src={el.goodsInfoImg}
-                    alt="product-image"
+                    alt="product image"
                   />
                 </LazyLoad>
               </div>
@@ -352,7 +352,7 @@ class PayProductInfo extends React.Component {
                       <img
                         className="clubLogo"
                         src={Club_Logo}
-                        alt="club-logo"
+                        alt="club logo"
                       />
                     ) : null}
                   </div>
@@ -474,8 +474,8 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {this.props.operateBtnVisible &&
-        !this.props.checkoutStore?.isFromStorePortal ? (
+        {!this.props.checkoutStore.isFromStorePortal &&
+        this.props.operateBtnVisible ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
           </Link>
@@ -496,6 +496,7 @@ class PayProductInfo extends React.Component {
         ? this.getProductsForLogin(productList)
         : this.getProducts(productList);
     const subtractionSign = '-';
+    // console.log(this.props, customTaxSettingOpenFlag == 0 && enterPriceType == 1, customTaxSettingOpenFlag, enterPriceType, 'this.props')
     return (
       <div
         className={`product-summary__inner ${className}`}
@@ -807,9 +808,9 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 运费折扣 俄罗斯 */}
-                {/* {this.freeShippingFlag && this.props.isCheckOut ? ( */}
-                {this.props.deliveryAddress?.calculation?.price &&
-                this.props.isCheckOut ? (
+                {/* {this.props.deliveryAddress?.calculation?.price &&
+                this.props.isCheckOut ? ( */}
+                {this.freeShippingFlag && this.props.isCheckOut ? (
                   <div className="row leading-lines shipping-item green">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">
@@ -822,6 +823,7 @@ class PayProductInfo extends React.Component {
                       <p className="text-right">
                         <span className="shipping-total-cost">
                           {/* {formatMoney(this.freeShippingDiscountPrice)} */}
+                          {'-'}
                           {formatMoney(
                             this.props.deliveryAddress?.calculation?.price
                           )}

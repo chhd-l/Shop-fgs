@@ -311,7 +311,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="mx-auto lazyloaded"
                                 src={imagecat}
-                                alt="cat-image"
+                                alt="cat image"
                               />
                             </LazyLoad>
                           </div>
@@ -355,7 +355,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="mx-auto lazyloaded"
                                 src={imagedog}
-                                alt="dog-image"
+                                alt="dog image"
                               />
                             </LazyLoad>
                           </div>
@@ -392,7 +392,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="value-proposition__img lazyloaded"
                                 src={image4B}
-                                alt="delivery-icon"
+                                alt="delivery icon"
                               />
                             </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -408,7 +408,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="value-proposition__img lazyloaded"
                                 src={image4C}
-                                alt="card-icon"
+                                alt="card icon"
                               />
                             </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -424,7 +424,7 @@ class Packfeed extends React.Component {
                               <img
                                 className="value-proposition__img lazyloaded"
                                 src={image4D}
-                                alt="medal-icon"
+                                alt="medal icon"
                               />
                             </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -437,7 +437,7 @@ class Packfeed extends React.Component {
                         <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
                           <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                             <LazyLoad>
-                              <img src={image4E} alt="goods-icon" />
+                              <img src={image4E} alt="goods icon" />
                             </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
                               <p className="rc-margin-bottom--none rc-intro">

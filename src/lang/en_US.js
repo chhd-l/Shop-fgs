@@ -11,6 +11,8 @@ const en_US = {
   'aboutUs.IncredibleDetail': 'Incredible in Every Detail',
   'aboutUs.learnMore': 'Learn More',
   'aboutUs.ourValues': 'Our Values',
+  'aboutUs.foodQualityAndSafetyBtn': 'See our Commitment',
+  'aboutUs.ourValuesBtn': 'Discover our Passion',
   'aboutUs.ourValuesDetail':
     'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
   'aboutUs.SeeHowWeDo':
@@ -283,7 +285,7 @@ const en_US = {
   'clinic.cancel': 'Cancel',
   'clinic.clinic': 'clinic',
   'clinic.clinicTip': 'Which clinic has provided prescription for you？',
-  'clinic.confirm': 'Confirm',
+  'clinic.confirm': 'Yes',
   'clinic.confirm2': 'Next : Delivery Details',
   'clinic.confirm3': 'Continue to payment',
   'clinic.navigate': 'Navigate',
@@ -314,9 +316,11 @@ const en_US = {
   'confirmation.rateTip3': 'Enter up to 50 characters',
   'confirmation.rateTip4': 'Please score first.',
   'confirmation.subscriptionDiscountPriceDes':
-    'You saved {val1}  with the mark',
+    'You saved {val1}  with autoship',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
+  confirmDeleteProduct:
+    'Are you sure you want to remove this product for the cart ?',
   confirmPassword: 'Confirm Password *',
   consent: 'Consent',
   consignee: 'Consignee',
@@ -654,10 +658,9 @@ const en_US = {
   'mixed Breed': 'mixed Breed',
   MMYY: 'MM/YY',
   modalCancelAllContent:
-    'Are you sure you want to unsubscribe? This means that you will not receive the upcoming delivery.',
+    'Are you sure you want to cancel all future shipments?',
   modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
-  modalChangeDateContent:
-    'Are you sure you want to change the next shipment date?',
+  modalChangeDateContent: 'Are you sure you want to skip the next delivery?',
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',
@@ -683,7 +686,7 @@ const en_US = {
   noDefaultClinic: 'No default clinic',
   NoPromotionDesc: 'No PromotionDesc',
   noSpecialNeeds: 'No special needs',
-  noStart: 'No start',
+  noStart: 'Next Shipment',
   notate: ' ',
   notSterilized: 'Not sterilized',
   of: 'of',
@@ -1049,7 +1052,7 @@ const en_US = {
   rememberMe: 'Remember Me',
   removeAllFilters: 'Remove all filters',
   replyComments: 'Reply comments',
-  rePurchase: 'Repurchase',
+  rePurchase: 'Reorder',
   'requestInvoices.title': 'Request invoices',
   'required.checkRequired': 'Check the required items',
   'required.complete': 'Complete log-in process',
@@ -1115,7 +1118,7 @@ const en_US = {
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.BillingAddress': 'Billing address',
-  'subscription.cancelAll': 'Unsubscribe',
+  'subscription.cancelAll': 'Cancel',
   'subscription.change': 'Change',
   'subscription.chooseSubscription': 'Choose subscription',
   'subscription.date': 'Subscription date',
@@ -1235,7 +1238,7 @@ const en_US = {
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
-  'Special Need': 'Sensitivites',
+  'Special Need': 'Special Needs',
   'orderStatus.COMPLETED': 'Completed',
   'subscription.see_more': 'See other Subscription',
   'bindPrescriber.modal.title':
@@ -1244,6 +1247,7 @@ const en_US = {
     'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
-  'bindPrescriber.modal.or': 'или'
+  'bindPrescriber.modal.or': 'или',
+  'subscription.viewDetails': 'View Detail'
 };
 export default en_US;

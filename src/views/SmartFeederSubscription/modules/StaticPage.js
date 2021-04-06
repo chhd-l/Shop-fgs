@@ -99,25 +99,25 @@ const staticPage = (props) => {
               src={bannerDog}
               className="rc-md-up"
               style={{ width: '100%' }}
-              alt="banner-dog"
+              alt="banner dog"
             />
             <img
               src={bannerDogH5}
               className="rc-md-down"
               style={{ width: '100%' }}
-              alt="banner-dog"
+              alt="banner dog"
             />
             <img
               className="rc-md-up banner_food"
               style={{ maxHeight: '84%' }}
               src={bannerFood}
-              alt="banner-food"
+              alt="banner food"
             />
           </div>
           <img
             className="rc-md-down m-auto"
             src={bannerFood}
-            alt="banner-food"
+            alt="banner food"
           />
           <div className="rc-column rc-text--center">
             <div className="title">
@@ -199,7 +199,7 @@ const staticPage = (props) => {
               src={foodDispenserTitle}
               className=""
               style={{ width: '90%' }}
-              alt="food-dispenser-title"
+              alt="food dispenser title"
             />
           </div>
           <div className="rc-column rc-double-width">
@@ -266,11 +266,11 @@ const staticPage = (props) => {
               className="rc-md-up"
               style={{ width: '5rem', float: 'left', height: '1px' }}
             ></span>
-            <img src={phoneImg} className="rc-md-up" alt="phone-icon" />
+            <img src={phoneImg} className="rc-md-up" alt="phone icon" />
             <img
               src={phoneImg}
               className="rc-md-down m-auto"
-              alt="phone-icon"
+              alt="phone icon"
             />
           </div>
         </div>

@@ -14,9 +14,9 @@ class SearchShow extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       searchWords: ''
     };
@@ -112,10 +112,10 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
-                                alt="customer-service-image"
+                                alt="customer service image"
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                                 className="align-self-center w-auto"
-                              ></img>
+                              />
                             </div>
                           </div>
                         </div>
@@ -138,7 +138,7 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
-                                alt="email-us-image"
+                                alt="email us image"
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>

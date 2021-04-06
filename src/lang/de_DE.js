@@ -10,6 +10,8 @@ const de_DE = {
     'Royal Canin wurde 1968 vom Tierarzt Jean Cathary gegründet. Dr. Catharys Vision war ein wissenschaftlich fundiertes Tiernahrungsunternehmen, das Ernährung als erste Medizin für Katzen und Hunde anbietet und präzise Formeln erstellt, um den individuellen Bedürfnissen jedes Haustieres gerecht zu werden.',
   'aboutUs.IncredibleDetail': 'In jedem Detail unglaublich',
   'aboutUs.learnMore': 'Weitere Informationen',
+  'aboutUs.foodQualityAndSafetyBtn': 'Weitere Informationen',
+  'aboutUs.ourValuesBtn': 'Weitere Informationen',
   'aboutUs.ourValues': 'Unsere Werte',
   'aboutUs.ourValuesDetail':
     'Erfahren Sie mehr über die Ideen und Werte, die die Rolle von Royal Canin in der Welt prägen.',
@@ -1211,7 +1213,8 @@ const de_DE = {
     'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
-  'bindPrescriber.modal.or': 'или'
+  'bindPrescriber.modal.or': 'или',
+  'subscription.viewDetails': 'Im Detail sehen'
 };
 
 export default de_DE;

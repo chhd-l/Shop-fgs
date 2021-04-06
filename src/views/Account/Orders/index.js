@@ -51,9 +51,9 @@ class AccountOrders extends React.Component {
       loading: true,
       initLoading: true,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       currentPage: 1,
       totalPage: 1,
@@ -592,7 +592,7 @@ class AccountOrders extends React.Component {
                             <img
                               src={orderImg}
                               className="w-100"
-                              alt="order-image"
+                              alt="order image"
                             />
                           </LazyLoad>
                         </div>

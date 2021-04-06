@@ -26,9 +26,9 @@ class AboutUs extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       intl: this.props.intl.messages
     };
@@ -59,17 +59,15 @@ class AboutUs extends React.Component {
         filters: ''
       }
     };
+    const { seoConfig } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          <title>{seoConfig.title}</title>
+          <meta name="description" content={seoConfig.metaDescription} />
+          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -79,6 +77,9 @@ class AboutUs extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <h1 style={{ display: 'none' }}>
+            {seoConfig.metaDescription || 'Royal canin'}
+          </h1>
           <BannerTip />
           {/* {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />} */}
           <br />
@@ -181,7 +182,7 @@ class AboutUs extends React.Component {
                                 to="/Tailorednutrition"
                                 title="En savoir plus"
                               >
-                                <FormattedMessage id="aboutUs.learnMore" />
+                                <FormattedMessage id="aboutUs.ourValuesBtn" />
                               </Link>
                             </div>
                           </div>
@@ -217,7 +218,7 @@ class AboutUs extends React.Component {
                                 to="/Quality-safety"
                                 title="En savoir plus"
                               >
-                                <FormattedMessage id="aboutUs.learnMore" />
+                                <FormattedMessage id="aboutUs.foodQualityAndSafetyBtn" />
                               </Link>
                             </div>
                           </div>
@@ -304,7 +305,7 @@ class AboutUs extends React.Component {
                                       <img
                                         src={dog}
                                         style={{ width: '100%' }}
-                                        alt="dog-image"
+                                        alt="dog image"
                                       />
                                     </LazyLoad>
                                   </Link>
@@ -328,7 +329,7 @@ class AboutUs extends React.Component {
                                       <img
                                         src={cat}
                                         style={{ width: '100%' }}
-                                        alt="cat-image"
+                                        alt="cat image"
                                       />
                                     </LazyLoad>
                                   </Link>

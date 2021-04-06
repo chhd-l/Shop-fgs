@@ -309,11 +309,25 @@ class LoginCart extends React.Component {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
         this.computedList[0];
-      el.form = {
-        frequencyVal: filterData.valueEn,
-        frequencyName: filterData.name,
-        frequencyId: configStore.defaultSubscriptionFrequencyId || filterData.id
-      };
+      if (el.goodsInfoFlag) {
+        el.form = {
+          frequencyVal: filterData.valueEn,
+          frequencyName: filterData.name,
+          frequencyId:
+            filterData.id ||
+            el.goods.defaultFrequencyId ||
+            configStore.defaultSubscriptionFrequencyId
+        };
+      } else {
+        el.form = {
+          frequencyVal: filterData.valueEn,
+          frequencyName: filterData.name,
+          frequencyId:
+            el.goods.defaultFrequencyId ||
+            configStore.defaultSubscriptionFrequencyId ||
+            filterData.id
+        };
+      }
       return el;
     });
     this.setState({
@@ -615,6 +629,7 @@ class LoginCart extends React.Component {
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
+        console.log(pitem, 'pitem');
       }
       return (
         <div className="product-info ">
@@ -682,6 +697,7 @@ class LoginCart extends React.Component {
                     updateChildDisplay={(status) =>
                       this.updateConfirmTooltipVisible(pitem, status)
                     }
+                    content={<FormattedMessage id="confirmDeleteProduct" />}
                   />
                 </span>
                 <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
@@ -828,7 +844,7 @@ class LoginCart extends React.Component {
                 <img
                   style={{ display: 'inline-block' }}
                   src={Club_Logo}
-                  alt="Club-logo"
+                  alt="Club logo"
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -862,7 +878,7 @@ class LoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
-                    alt="goodsInformationImage"
+                    alt="goods Information Image"
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
@@ -1509,9 +1525,9 @@ class LoginCart extends React.Component {
                 {productList.length === 0 && !initLoading && (
                   <>
                     <div className="rc-text-center">
-                      <div className="rc-beta mb-1 mt-3">
+                      <h1 className="rc-beta mb-1 mt-3">
                         <FormattedMessage id="cart.yourShoppingCart" />
-                      </div>
+                      </h1>
                       <div className="rc-gamma title-empty mb-0">
                         <FormattedMessage id="header.basketEmpty" />
                       </div>
@@ -1540,7 +1556,7 @@ class LoginCart extends React.Component {
                                     <img
                                       className="w-100"
                                       src={dogsPic}
-                                      alt="Dog"
+                                      alt="Dog products"
                                     />
                                   </LazyLoad>
                                   <br />
@@ -1555,7 +1571,7 @@ class LoginCart extends React.Component {
                                     <img
                                       className="w-100"
                                       src={catsPic}
-                                      alt="Cat"
+                                      alt="Cat products"
                                     />
                                   </LazyLoad>
                                   <br />

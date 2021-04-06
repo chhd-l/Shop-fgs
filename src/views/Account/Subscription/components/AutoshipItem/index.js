@@ -101,7 +101,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
                 width: '40px',
                 display: 'inline-block'
               }}
-              alt="auttoship-icon"
+              alt="auttoship icon"
             />
           </LazyLoad>
           <span
@@ -153,7 +153,12 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
               );
             }}
           >
-            <FormattedMessage id="manage" />
+            {subItem.subscribeStatus === '0' ||
+            subItem.subscribeStatus === '1' ? (
+              <FormattedMessage id="manage" />
+            ) : (
+              <FormattedMessage id="subscription.viewDetails" />
+            )}
           </button>
         </div>
       </div>

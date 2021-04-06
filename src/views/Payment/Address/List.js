@@ -180,12 +180,12 @@ class AddressList extends React.Component {
   }
   // 根据address1查询地址信息，再根据查到的信息计算运费
   getAddressListByKeyWord = async (obj) => {
-    console.log('182 ★★ -------------- obj: ', obj);
+    console.log('182 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
     const { addressList } = this.state;
     try {
       let address1 = obj.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
-      if (res?.context && res?.context?.addressList) {
+      if (res?.context && res?.context?.addressList.length > 0) {
         // 根据地址获取到的地址列表
         let addls = res.context.addressList;
         let dladdress = Object.assign({}, obj);
@@ -211,6 +211,7 @@ class AddressList extends React.Component {
   // 俄罗斯 计算运费
   getShippingCalculation = async (obj) => {
     const { addressList } = this.state;
+    console.log('214 ★★ -------------- 计算运费 obj: ', obj);
     try {
       let data = obj.DuData;
       let res = await shippingCalculation({
@@ -243,7 +244,8 @@ class AddressList extends React.Component {
             addressList[i] = newaddr;
             this.setState(
               {
-                addressList
+                addressList,
+                deliveryAddress: newaddr
               },
               () => {
                 this.props.updateData(this.state.deliveryAddress);
@@ -471,6 +473,16 @@ class AddressList extends React.Component {
         postCode: deliveryAddress.postCode,
         rfc: deliveryAddress.rfc,
         email: deliveryAddress.email,
+
+        region: deliveryAddress.province, // DuData相关参数
+        area: deliveryAddress.area,
+        settlement: deliveryAddress.settlement,
+        street: deliveryAddress.street,
+        house: deliveryAddress.house,
+        block: deliveryAddress.housing,
+        entrance: deliveryAddress.entrance,
+        appartment: deliveryAddress.appartment,
+
         type: this.props.type.toUpperCase()
       };
       // if (params?.province && params?.province != null) {
@@ -479,6 +491,7 @@ class AddressList extends React.Component {
       params.provinceNo = deliveryAddress.provinceNo;
       params.isValidated = deliveryAddress.validationResult;
       // }
+
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);

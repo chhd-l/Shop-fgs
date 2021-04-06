@@ -23,9 +23,9 @@ class Page403 extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
@@ -52,7 +52,7 @@ class Page403 extends React.Component {
           <img
             src={logo}
             style={{ width: '150px', margin: '80px auto 1.25rem' }}
-            alt="logo-icon"
+            alt="logo icon"
           />
         </LazyLoad>
         <div>
@@ -62,7 +62,7 @@ class Page403 extends React.Component {
                 <img
                   src={image}
                   style={{ width: '300px', margin: '0 auto' }}
-                  alt="Internet-problem-500"
+                  alt="Internet problem 500"
                 />
               </LazyLoad>
 

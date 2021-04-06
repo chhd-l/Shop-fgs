@@ -606,7 +606,7 @@ class MemberCardList extends React.Component {
         {supportPaymentMethods.map((el, idx) => (
           <LazyLoad key={idx}>
             <img
-              alt="logo-payment-card"
+              alt="logo payment card"
               key={idx}
               style={{ width: '50px' }}
               className="logo-payment-card mr-1"
@@ -789,7 +789,7 @@ class MemberCardList extends React.Component {
                         <span className="cardImage">
                           <LazyLoad>
                             <img
-                              alt="Card"
+                              alt="Card image"
                               src={
                                 CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
                                   ? CREDIT_CARD_IMG_ENUM[

@@ -10,6 +10,8 @@ const fr_FR = {
     'Le vétérinaire Jean Cathary a fondé Royal Canin en France en 1968. Le Dr Cathary rêvait d’une entreprise qui produirait des aliments pour animaux en se basant sur la science, mais aussi sur des principes : mieux connaître les animaux, les respecter en toutes circonstances, et créer des aliments de qualité pour chiens et chats conçus en fonction de leurs besoins et non en fonction des désirs de leurs propriétaires.',
   'aboutUs.IncredibleDetail': 'Incroyable jusque dans le moindre détail',
   'aboutUs.learnMore': 'En savoir plus',
+  'aboutUs.foodQualityAndSafetyBtn': 'En savoir plus',
+  'aboutUs.ourValuesBtn': 'En savoir plus',
   'aboutUs.ourValues': 'Nos valeurs',
   'aboutUs.ourValuesDetail':
     'Découvrez comment nous incarnons ces valeurs tous les jours depuis 50 ans.',
@@ -1466,6 +1468,7 @@ const fr_FR = {
     'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
-  'bindPrescriber.modal.or': 'или'
+  'bindPrescriber.modal.or': 'или',
+  'subscription.viewDetails': 'Voir les détails'
 };
 export default fr_FR;

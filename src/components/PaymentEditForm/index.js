@@ -15,14 +15,14 @@ import { usPaymentInfo } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
-import { cardTypeImg, CardTypeArr, CardTypeName } from '@/utils/constant/cyber';
 
 @inject('loginStore')
 @injectIntl
 @observer
 class PaymentEditForm extends React.Component {
   static defaultProps = {
-    paymentType: 'PAYU' // PAYU ADYEN CYBER(美国支付)
+    paymentType: 'PAYU', // PAYU ADYEN CYBER(美国支付)
+    onCardTypeValChange: () => {}
   };
   constructor(props) {
     super(props);
@@ -82,34 +82,6 @@ class PaymentEditForm extends React.Component {
         // email: 'didier.valansot@publicissapient.com', //didier.valansot@publicissapient.com
         //  isDefault: 0
       },
-      monthList: [
-        { name: 'month', value: '' },
-        { name: '01', value: 1 },
-        { name: '02', value: 2 },
-        { name: '03', value: 3 },
-        { name: '04', value: 4 },
-        { name: '05', value: 5 },
-        { name: '06', value: 6 },
-        { name: '07', value: 7 },
-        { name: '08', value: 8 },
-        { name: '09', value: 9 },
-        { name: '10', value: 10 },
-        { name: '11', value: 11 },
-        { name: '12', value: 12 }
-      ],
-      yearList: [
-        { name: 'year', value: '' },
-        { name: '2021', value: 2021 },
-        { name: '2022', value: 2022 },
-        { name: '2023', value: 2023 },
-        { name: '2024', value: 2024 },
-        { name: '2025', value: 2025 },
-        { name: '2026', value: 2026 },
-        { name: '2027', value: 2027 },
-        { name: '2028', value: 2028 },
-        { name: '2029', value: 2029 },
-        { name: '2030', value: 2030 }
-      ],
       // countryList: [],
       stateList: [],
 
@@ -123,30 +95,7 @@ class PaymentEditForm extends React.Component {
 
       errMsgObj: {},
 
-      //CYBER支持的四种卡
-      cardTypeArr: [
-        {
-          name: 'Visa',
-          id: 'visa',
-          cardTypeVal: 'cyberVisa'
-        },
-        {
-          name: 'Mastercard',
-          id: 'mastercard',
-          cardTypeVal: 'cyberMastercard'
-        },
-        {
-          name: 'Amex',
-          id: 'amex',
-          cardTypeVal: 'cyberAmex'
-        },
-        {
-          name: 'Discover',
-          id: 'discover',
-          cardTypeVal: 'cyberDiscover'
-        }
-      ],
-      cardTypeVal: '',
+      cardTypeVal: this.props.defaultCardTypeVal || '',
       btnLoading: false
     };
   }
@@ -171,64 +120,7 @@ class PaymentEditForm extends React.Component {
         stateList: res.context.systemStates
       });
     });
-
-    this.initCardType();
   }
-  initCardType = () => {
-    let cardTypeArr = [
-      {
-        name: 'Visa',
-        id: 'visa',
-        cardTypeVal: 'cyberVisa'
-      },
-      {
-        name: 'Mastercard',
-        id: 'mastercard',
-        cardTypeVal: 'cyberMastercard'
-      },
-      {
-        name: 'Amex',
-        id: 'amex',
-        cardTypeVal: 'cyberAmex'
-      },
-      {
-        name: 'Discover',
-        id: 'discover',
-        cardTypeVal: 'cyberDiscover'
-      }
-    ];
-
-    let cardType = 'Visa'; //默认Visa
-    //各种支付component初始化方法
-    var initCardType = {
-      //cyber支付
-      Visa: () => {
-        this.setState({ cardTypeVal: 'cyberVisa' });
-      },
-      Mastercard: () => {
-        this.setState({ cardTypeVal: 'cyberMastercard' });
-      },
-      Amex: () => {
-        this.setState({ cardTypeVal: 'cyberAmex' });
-      },
-      discover: () => {
-        this.setState({ cardTypeVal: 'cyberDiscover' });
-      },
-      none: () => {
-        console.log('no payway');
-      }
-    };
-
-    //默认第一个,如没有支付方式,就不初始化方法
-    this.setState(
-      {
-        cardTypeArr
-      },
-      () => {
-        initCardType[cardType]();
-      }
-    );
-  };
   toTop = () => {
     window.scrollTo({
       top: 0,
@@ -516,6 +408,9 @@ class PaymentEditForm extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   async confirmValidationAddress() {
+    const {
+      paymentStore: { currentCardTypeInfo }
+    } = this.props;
     let { paymentForm, selectValidationOption, validationAddress } = this.state;
     let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
     this.setState({ btnLoading: true });
@@ -541,17 +436,16 @@ class PaymentEditForm extends React.Component {
     }
 
     let params = Object.assign({}, paymentForm, {
-      cardType: CardTypeArr[this.state.cardTypeVal] || '001', //默认visa
-      paymentVendor: CardTypeName[this.state.cardTypeVal] || 'Visa'
+      cardType: currentCardTypeInfo.cardType,
+      cardTypeValue: currentCardTypeInfo.cardTypeValue,
+      paymentVendor: currentCardTypeInfo.cardType
     });
 
     try {
-      const res = await usPaymentInfo(params);
-      if (res.code == 'K-000000') {
-        this.handleCancel();
-        // this.props.refreshList(res.message);
-        this.props.refreshList({ msg: 'Saved Successfully' });
-      }
+      await usPaymentInfo(params);
+      this.handleCancel();
+      // this.props.refreshList(res.message);
+      this.props.refreshList({ msg: 'Saved Successfully' });
     } catch (err) {
       this.showErrorMsg(err.message);
     } finally {
@@ -634,9 +528,9 @@ class PaymentEditForm extends React.Component {
     // 绑卡
   };
 
-  handlePaymentTypeChange = (e) => {
+  handleCardTypeChange = (e) => {
     this.setState({ cardTypeVal: e.target.value }, () => {
-      console.log(this.state.cardTypeVal);
+      this.props.onCardTypeValChange({ cardTypeVal: this.state.cardTypeVal });
     });
   };
 
@@ -697,7 +591,6 @@ class PaymentEditForm extends React.Component {
       validationModalVisible,
       selectValidationOption,
       errMsgObj,
-      cardTypeArr,
       cardTypeVal
     } = this.state;
     const { paymentType } = this.props;
@@ -819,7 +712,7 @@ class PaymentEditForm extends React.Component {
                         <span className="cardImage">
                           <LazyLoad>
                             <img
-                              alt="Card"
+                              alt="Card img"
                               src={
                                 CREDIT_CARD_IMG_ENUM[
                                   currentVendor && currentVendor.toUpperCase()
@@ -1112,58 +1005,42 @@ class PaymentEditForm extends React.Component {
               </aside>
             </div>
             {/* CYBER支持卡类型，超过一种才显示此tab栏 */}
-            {cardTypeArr.length > 1 && (
-              <div>
-                {cardTypeArr.map((item, i) => {
-                  return (
-                    <div className={`rc-input rc-input--inline`} key={i}>
-                      <input
-                        className="rc-input__radio"
-                        id={`payment-info-${item.id}`}
-                        value={item.cardTypeVal}
-                        type="radio"
-                        name="payment-info"
-                        onChange={this.handlePaymentTypeChange}
-                        checked={cardTypeVal === item.cardTypeVal}
+            {supportPaymentMethods.length > 1 &&
+              supportPaymentMethods.map((item, i) => {
+                return (
+                  <div className={`rc-input rc-input--inline`} key={i}>
+                    <input
+                      className="rc-input__radio"
+                      id={`payment-info-${item.id}`}
+                      value={item.cardType}
+                      type="radio"
+                      name="payment-info"
+                      onChange={this.handleCardTypeChange}
+                      checked={cardTypeVal === item.cardType}
+                    />
+                    <label
+                      className="rc-input__label--inline"
+                      htmlFor={`payment-info-${item.id}`}
+                    >
+                      <img
+                        src={item.imgUrl}
+                        title={item.cardType}
+                        style={{ width: '40px' }}
+                        alt="cardType-image"
                       />
-                      <label
-                        className="rc-input__label--inline"
-                        htmlFor={`payment-info-${item.id}`}
-                      >
-                        {/* <FormattedMessage id={item.id} /> */}
-                        <img
-                          src={cardTypeImg[item.id]}
-                          title={item.id}
-                          style={{ width: '40px' }}
-                          alt="cardType-image"
-                        />
-                      </label>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                    </label>
+                  </div>
+                );
+              })}
             {/* ********************支付tab栏end********************************** */}
             <CyberPaymentForm
               cardTypeVal={this.state.cardTypeVal}
               form={this.state.paymentForm}
               errMsgObj={errMsgObj}
-              monthList={this.state.monthList}
-              yearList={this.state.yearList}
               handleInputChange={this.handleInputChange}
               handleSelectedItemChange={this.handleSelectedItemChange}
               inputBlur={this.inputBlur}
             />
-            {/* <CyberBillingAddress
-              form={this.state.paymentForm}
-              errMsgObj={errMsgObj}
-              countryList={this.state.countryList}
-              stateList={this.computedList('state')}
-              handleInputChange={this.handleInputChange}
-              handleSelectedItemChange={this.handleSelectedItemChange}
-              handleSelectedCityChange={this.handleSelectedCityChange}
-              updateCyberBillingAddress={this.updateCyberBillingAddress}
-            /> */}
             <CyberBillingAddress
               form={this.state.paymentForm}
               updateCyberBillingAddress={this.updateCyberBillingAddress}
@@ -1216,23 +1093,14 @@ class PaymentEditForm extends React.Component {
               </div>
               <div className="col-sm-3"></div>
               <div className="col-sm-3">
-                {this.isAllFinish() ? (
-                  <button
-                    className="rc-btn rc-btn--one"
-                    style={{ width: '200px' }}
-                    onClick={this.handleCyberSave}
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    className="rc-btn rc-btn--one"
-                    style={{ width: '200px' }}
-                    disabled
-                  >
-                    Save
-                  </button>
-                )}
+                <button
+                  className="rc-btn rc-btn--one"
+                  style={{ width: '200px' }}
+                  onClick={this.handleCyberSave}
+                  disabled={this.isAllFinish() ? false : true}
+                >
+                  Save
+                </button>
               </div>
               <div className="col-sm-3"></div>
             </div>

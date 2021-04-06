@@ -7,6 +7,7 @@ import PhoneModal from '../../StaticPage/Help/components/phoneModal.js';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('configStore')
 @observer
@@ -32,15 +33,19 @@ class Help extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       tel: '',
       mailAddress: '',
       showModal: false
     };
   }
+  saveCurrentScrollTop = () => {
+    let curScrollTop = document.documentElement.scrollTop;
+    sessionItemRoyal.set('recommendation-scroll', curScrollTop);
+  };
   mobileDial = () => {
     this.setState({ showModal: true });
   };
@@ -287,6 +292,7 @@ class Help extends React.Component {
                                       //   fontSize: '1rem',
                                       //   borderBottom: '1px solid transparent'
                                       // }}
+                                      onClick={this.saveCurrentScrollTop}
                                       className="rc-styled-link"
                                     >
                                       {email ? (
@@ -341,7 +347,7 @@ class Help extends React.Component {
                       >
                         <picture className="rc-card__image">
                           <LazyLoad>
-                            <img src={helpImg} alt="help-icon" title=" " />
+                            <img src={helpImg} alt="help icon" title=" " />
                           </LazyLoad>
                         </picture>
                       </div>

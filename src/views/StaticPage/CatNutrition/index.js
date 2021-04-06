@@ -197,7 +197,7 @@ class CatNutrition extends React.Component {
                                 <img
                                   className="value-proposition__img lazyloaded"
                                   src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4D.png`}
-                                  alt="CatNutrition-image"
+                                  alt="CatNutrition image"
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -213,7 +213,7 @@ class CatNutrition extends React.Component {
                                 <img
                                   className="value-proposition__img lazyloaded"
                                   src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/4E.png`}
-                                  alt="CatNutrition-image"
+                                  alt="CatNutrition image"
                                 />
                               </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
@@ -242,7 +242,7 @@ class CatNutrition extends React.Component {
                               <img
                                 className="w-100 lazyloaded"
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/CAT 6A.jpg`}
-                                alt="CatNutrition-image"
+                                alt="CatNutrition image"
                               />
                             </LazyLoad>
                           </picture>
