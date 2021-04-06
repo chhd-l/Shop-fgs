@@ -11,6 +11,8 @@ const en_US = {
   'aboutUs.IncredibleDetail': 'Incredible in Every Detail',
   'aboutUs.learnMore': 'Learn More',
   'aboutUs.ourValues': 'Our Values',
+  'aboutUs.foodQualityAndSafetyBtn': 'See our Commitment',
+  'aboutUs.ourValuesBtn': 'Discover our Passion',
   'aboutUs.ourValuesDetail':
     'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
   'aboutUs.SeeHowWeDo':

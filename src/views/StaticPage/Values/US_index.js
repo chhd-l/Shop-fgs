@@ -329,7 +329,7 @@ class Values extends React.Component {
                               to="/Tailorednutrition"
                               title="Learn more"
                             >
-                              Learn more
+                              Explore Tailored Nutrition
                             </Link>
                           </div>
                         </div>
