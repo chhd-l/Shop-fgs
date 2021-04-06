@@ -402,7 +402,7 @@ class Form extends React.Component {
     try {
       let address1 = caninForm.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
-      if (res?.context && res?.context?.addressList) {
+      if (res?.context && res?.context?.addressList.length > 0) {
         let addls = res.context.addressList;
         addls.forEach((item) => {
           if (item.unrestrictedValue == address1) {
