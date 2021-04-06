@@ -285,7 +285,7 @@ export default class Felin extends React.Component {
     let timeOption = [];
     let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
     arr.map((el) => {
-      if (el < 18) {
+      if (el < 19) {
         timeOption.push({
           name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
           value: `${el}:00-${el}:20`,
@@ -324,9 +324,11 @@ export default class Felin extends React.Component {
     );
   }
   get virtualDisabledFlag() {
-    return (
-      !this.virtualAppointmentFlag && this.state.selectedTimeObj.type === 1
-    );
+    // console.log(this.virtualAppointmentFlag, this.state.selectedTimeObj, 'selectedTimeObj----')
+    // return (
+    //   !this.virtualAppointmentFlag && this.state.selectedTimeObj.type === 1
+    // );
+    return false;
   }
   get facetofaceDisabledFlag() {
     return this.virtualAppointmentFlag || this.state.selectedTimeObj.type === 0;
@@ -334,9 +336,7 @@ export default class Felin extends React.Component {
   getTimeOptions() {
     this.setState({ loading: true });
     getTimeOptions({
-      apptDate: format(this.state.currentDate, 'yyyyMMdd', {
-        locale: datePickerConfig.locale
-      })
+      apptDate: format(this.state.currentDate, 'yyyyMMdd')
     })
       .then((res) => {
         let { timeOption } = this.state;
@@ -477,9 +477,7 @@ export default class Felin extends React.Component {
         storeId: process.env.REACT_APP_STOREID,
         customerId: userInfo ? userInfo.customerId : null,
         type: this.state.felinType,
-        apptDate: format(this.state.currentDate, 'yyyyMMdd', {
-          locale: datePickerConfig.locale
-        }),
+        apptDate: format(this.state.currentDate, 'yyyyMMdd'),
         apptTime: this.state.selectedTimeObj.value,
         status: 0,
         qrCode1: null,
@@ -954,8 +952,8 @@ export default class Felin extends React.Component {
                         Coutures Saint-Gervais, du 20 avril au 13 juin 2021.
                       </p>
                       <p className="mb-20">
-                        Venez rencontrer nos associations partenaires pour
-                        adopter des chats (le weekend exclusivement).
+                        Venez rencontrer nos associations partenaires et
+                        découvrir certains chats qui sont à l’adoption.
                       </p>
                     </div>
                   </h4>
@@ -1020,7 +1018,7 @@ export default class Felin extends React.Component {
                                 type="text"
                                 autocomplete="off"
                                 id="datepicker"
-                                placeholder="Sélectionner une date"
+                                placeholder="Sélectionner Un date"
                                 style={{
                                   width: '100%',
                                   border: 'none'
@@ -1053,12 +1051,8 @@ export default class Felin extends React.Component {
                               maxDate={new Date('2021-06-13')}
                               onChange={(date) => {
                                 if (
-                                  format(date, 'yyyy-MM-dd', {
-                                    locale: datePickerConfig.locale
-                                  }) ===
-                                  format(this.state.currentDate, 'yyyy-MM-dd', {
-                                    locale: datePickerConfig.locale
-                                  })
+                                  format(date, 'yyyy-MM-dd') ===
+                                  format(this.state.currentDate, 'yyyy-MM-dd')
                                 ) {
                                   return false;
                                 }
@@ -1075,9 +1069,17 @@ export default class Felin extends React.Component {
                               optionList={this.state.timeOption}
                               selectedItemChange={(data) => {
                                 console.log(data);
-                                this.setState({ selectedTimeObj: data }, () => {
-                                  this.updateButtonState();
-                                });
+                                this.setState(
+                                  {
+                                    selectedTimeObj: data,
+                                    felinType: this.virtualAppointmentFlag
+                                      ? 0
+                                      : data.type
+                                  },
+                                  () => {
+                                    this.updateButtonState();
+                                  }
+                                );
                               }}
                               selectedItemData={{
                                 value: this.state.selectedTimeObj.value
@@ -1110,14 +1112,15 @@ export default class Felin extends React.Component {
                             >
                               <input
                                 className="rc-input__radio"
-                                id="female"
+                                id="virtuel"
                                 value="0"
                                 checked={
-                                  this.virtualAppointmentFlag ||
-                                  this.state.selectedTimeObj.type === 0
+                                  // this.virtualAppointmentFlag ||
+                                  // this.state.selectedTimeObj.type === 0
+                                  this.state.felinType === 0
                                 }
                                 type="radio"
-                                name="gender"
+                                name="apptType"
                                 disabled={this.virtualDisabledFlag}
                                 onChange={(e) => {
                                   this.setState({ felinType: 0 });
@@ -1125,7 +1128,7 @@ export default class Felin extends React.Component {
                               />
                               <label
                                 className="rc-input__label--inline"
-                                htmlFor="female"
+                                htmlFor="virtuel"
                               >
                                 {/* <FormattedMessage id="Virtual appointment" /> */}
                                 <FormattedMessage id="Rendez-vous virtuel" />
@@ -1141,14 +1144,15 @@ export default class Felin extends React.Component {
                             >
                               <input
                                 className="rc-input__radio"
-                                id="male"
+                                id="facetoface"
                                 value="1"
                                 checked={
-                                  !this.virtualAppointmentFlag &&
-                                  this.state.selectedTimeObj.type === 1
+                                  // !this.virtualAppointmentFlag &&
+                                  // this.state.selectedTimeObj.type === 1
+                                  this.state.felinType === 1
                                 }
                                 type="radio"
-                                name="gender"
+                                name="apptType"
                                 disabled={this.facetofaceDisabledFlag}
                                 onChange={(e) => {
                                   this.setState({ felinType: 1 });
@@ -1157,7 +1161,7 @@ export default class Felin extends React.Component {
                               />
                               <label
                                 className="rc-input__label--inline"
-                                htmlFor="male"
+                                htmlFor="facetoface"
                               >
                                 {/* <FormattedMessage id="Face-to-face appointment" /> */}
                                 <FormattedMessage id="Rendez-vous face à face" />
@@ -1482,11 +1486,14 @@ export default class Felin extends React.Component {
                       this.state.step === 2 ||
                       this.state.step === 5 ? (
                         <p style={{ textAlign: 'center', fontSize: '.875rem' }}>
-                          L'Atelier Félin est ouvert du 20 avril au 13 juin
-                          2021, tous les jours de 10h à 18h en magasin, et de
-                          18h à 20h en ligne par visioconférence. Fermé le lundi
-                          et le 1er mai. Toutes les réservations et abonnements
-                          seront annulés après le 13 juin.
+                          Du 20 avril au 13 juin 2021, prenez rendez vous pour
+                          discuter avec nos experts du comportement de votre
+                          chat et découvrir l’aliment le plus adapté à ses
+                          besoins. Dans notre Atelier Félin, 6 Rue des Coutures
+                          Saint-Gervais 75003 Paris ou en ligne par visio
+                          conférence du Mardi au Dimanche de 10h à 19h, et
+                          uniquement par visio conférence de 19h à 20h. Fermé le
+                          lundi et le 1er Mai.
                         </p>
                       ) : null}
                       {this.state.step === 6 ? (

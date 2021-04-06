@@ -4019,7 +4019,10 @@ class SubscriptionDetail extends React.Component {
                                                       selected={
                                                         el.tradeItems
                                                           ? new Date(
-                                                              el.tradeItems[0].nextDeliveryTime
+                                                              getFormatDate(
+                                                                el.tradeItems[0]
+                                                                  .nextDeliveryTime
+                                                              )
                                                             )
                                                           : new Date()
                                                       }
