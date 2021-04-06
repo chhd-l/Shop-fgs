@@ -314,7 +314,7 @@ const en_US = {
   'confirmation.rateTip3': 'Enter up to 50 characters',
   'confirmation.rateTip4': 'Please score first.',
   'confirmation.subscriptionDiscountPriceDes':
-    'You saved {val1}  with the autoship',
+    'You saved {val1}  with autoship',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
   confirmDeleteProduct:
