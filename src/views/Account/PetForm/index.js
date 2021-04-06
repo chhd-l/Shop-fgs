@@ -27,13 +27,14 @@ import {
   getDictionary,
   getDeviceType,
   datePickerConfig,
-  setSeoConfig
+  setSeoConfig,
+  getFormatDate
 } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
+import { format, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
@@ -771,9 +772,15 @@ class PetForm extends React.Component {
     });
   };
   onDateChange(date) {
-    console.log(date, 'date');
+    console.log(
+      +date,
+      new Date(date).toISOString(),
+      utcToZonedTime(new Date(date), 'America/Los_Angeles'),
+      'date----',
+      datePickerConfig.locale_module
+    );
     this.setState({
-      birthdate: format(date, 'yyyy-MM-dd'),
+      birthdate: getFormatDate(date),
       isDisabled: false
     });
   }

@@ -11,7 +11,7 @@ import { format } from 'date-fns';
 import SearchSelection from '@/components/SearchSelection';
 import { inject, observer } from 'mobx-react';
 import './NewPetModal.css';
-import { datePickerConfig } from '@/utils/utils';
+import { datePickerConfig, getFormatDate } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -132,7 +132,7 @@ class NewPetModal extends Component {
     };
     const parmas = {
       customerPets: pets,
-      userId:  this.getUserInfo.customerAccount
+      userId: this.getUserInfo.customerAccount
     };
     let res = await addPet(parmas);
     this.props.confirm({ value: res.context.result, name: pets.petsName });
@@ -183,10 +183,10 @@ class NewPetModal extends Component {
     console.log(date);
     let { petForm, isShowBirthErorr } = this.state;
     if (date) {
-      petForm['birthday'] = format(date, 'yyyy-MM-dd');
+      petForm['birthday'] = getFormatDate(date);
       isShowBirthErorr = false;
     } else {
-      petForm['birthday'] = date;
+      petForm['birthday'] = getFormatDate(date);
       isShowBirthErorr = true;
     }
     this.setState({ petForm, isShowBirthErorr });

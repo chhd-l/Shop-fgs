@@ -3947,10 +3947,6 @@ class SubscriptionDetail extends React.Component {
                                                       )[0]
                                                     )
                                                   : ''}
-                                                {/* <FormattedDate value={el.tradeItems[0].nextDeliveryTime.split(' ')[0]}/> */}
-                                                {/* {
-                                                  el.tradeItems[0].nextDeliveryTime.split(' ')[0]
-                                                } */}
                                               </span>
                                             </div>
                                             <div

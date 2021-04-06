@@ -334,7 +334,9 @@ export default class Felin extends React.Component {
   getTimeOptions() {
     this.setState({ loading: true });
     getTimeOptions({
-      apptDate: format(this.state.currentDate, 'yyyyMMdd')
+      apptDate: format(this.state.currentDate, 'yyyyMMdd', {
+        locale: datePickerConfig.locale
+      })
     })
       .then((res) => {
         let { timeOption } = this.state;
@@ -475,7 +477,9 @@ export default class Felin extends React.Component {
         storeId: process.env.REACT_APP_STOREID,
         customerId: userInfo ? userInfo.customerId : null,
         type: this.state.felinType,
-        apptDate: format(this.state.currentDate, 'yyyyMMdd'),
+        apptDate: format(this.state.currentDate, 'yyyyMMdd', {
+          locale: datePickerConfig.locale
+        }),
         apptTime: this.state.selectedTimeObj.value,
         status: 0,
         qrCode1: null,
@@ -1049,8 +1053,12 @@ export default class Felin extends React.Component {
                               maxDate={new Date('2021-06-13')}
                               onChange={(date) => {
                                 if (
-                                  format(date, 'yyyy-MM-dd') ===
-                                  format(this.state.currentDate, 'yyyy-MM-dd')
+                                  format(date, 'yyyy-MM-dd', {
+                                    locale: datePickerConfig.locale
+                                  }) ===
+                                  format(this.state.currentDate, 'yyyy-MM-dd', {
+                                    locale: datePickerConfig.locale
+                                  })
                                 ) {
                                   return false;
                                 }
