@@ -614,6 +614,7 @@ export function getFormatDate(date, callback, lang) {
       return intl.formatDate(date);
     }
   } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
+    console.log(date, 'date---');
     return format(new Date(date).addHours(12), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });
