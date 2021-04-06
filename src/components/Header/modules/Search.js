@@ -23,7 +23,8 @@ export default class Search extends React.Component {
       result: null,
       keywords: '',
       loading: false,
-      isSearchSuccess: false //是否搜索成功
+      isSearchSuccess: false, //是否搜索成功
+      hasSearchedDone: false //是否请求接口完毕
     };
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
@@ -36,7 +37,8 @@ export default class Search extends React.Component {
   handleSearchInputChange(e) {
     this.setState(
       {
-        keywords: e.target.value
+        keywords: e.target.value,
+        hasSearchedDone: false
       },
       () => {
         clearTimeout(this.timer);
@@ -122,6 +124,7 @@ export default class Search extends React.Component {
           });
         }
         this.setState({
+          hasSearchedDone: true,
           loading: false
         });
       })
@@ -132,6 +135,7 @@ export default class Search extends React.Component {
           dataLayer[0].search.type = 'without results';
         }
         this.setState({
+          hasSearchedDone: true,
           loading: false,
           result: Object.assign({}, { productList: [], totalElements: 0 })
         });
@@ -160,7 +164,7 @@ export default class Search extends React.Component {
     this.hanldeSearchFocus();
   }
   handleSearch = () => {
-    if (this.state.loading) return;
+    if (this.state.loading || !this.state.hasSearchedDone) return;
     this.props.history.push({
       pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
       // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
