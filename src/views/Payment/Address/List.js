@@ -5,7 +5,7 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
-import { queryCityNameById } from '@/api';
+import { queryCityNameById, getAddressBykeyWord } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
@@ -54,6 +54,9 @@ class AddressList extends React.Component {
         postCode: '',
         phoneNumber: '',
         isDefalt: false,
+        minDeliveryTime: 0,
+        maxDeliveryTime: 0,
+        DaData: null, // 俄罗斯DaData
         email: ''
       },
       errMsg: '',
@@ -76,6 +79,7 @@ class AddressList extends React.Component {
     this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
       this
     );
+    this.editFormRef = React.createRef();
   }
   async componentDidMount() {
     getDictionary({ type: 'country' }).then((res) => {
@@ -150,18 +154,123 @@ class AddressList extends React.Component {
   /**
    * 会员确认地址列表信息，并展示封面
    */
-  clickConfirmAddressPanel = () => {
-    this.updateSelectedData();
-    this.confirmToNextPanel();
+  clickConfirmAddressPanel = async () => {
+    this.updateSelectedData('confirm');
+    if (process.env.REACT_APP_LANG != 'ru') {
+      this.confirmToNextPanel();
+    }
   };
-  updateSelectedData() {
+  // 处理选择的地址数据
+  updateSelectedData(str) {
     const { selectedId, addressList } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    this.props.updateData(tmpObj);
-    this.isDeliverAddress &&
-      this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+    // 俄罗斯DuData
+    if (process.env.REACT_APP_LANG == 'ru' && str == 'confirm') {
+      this.setState({
+        validationLoading: true
+      });
+      // 根据address1查询地址信息，再根据查到的信息计算运费
+      this.getAddressListByKeyWord(tmpObj);
+    } else {
+      this.props.updateData(tmpObj);
+      this.isDeliverAddress &&
+        this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+    }
   }
+  // 根据address1查询地址信息，再根据查到的信息计算运费
+  getAddressListByKeyWord = async (obj) => {
+    console.log('182 ★★ -------------- obj: ', obj);
+    const { addressList } = this.state;
+    try {
+      let address1 = obj.address1;
+      let res = await getAddressBykeyWord({ keyword: address1 });
+      if (res?.context && res?.context?.addressList) {
+        // 根据地址获取到的地址列表
+        let addls = res.context.addressList;
+        let dladdress = Object.assign({}, obj);
+        addls.forEach((item) => {
+          if (item.unrestrictedValue == address1) {
+            dladdress.DuData = item;
+            // 计算运费
+            this.getShippingCalculation(dladdress);
+          }
+        });
+      } else {
+        this.setState({
+          validationLoading: false
+        });
+      }
+    } catch (err) {
+      console.warn(err);
+      this.setState({
+        validationLoading: false
+      });
+    }
+  };
+  // 俄罗斯 计算运费
+  getShippingCalculation = async (obj) => {
+    const { addressList } = this.state;
+    try {
+      let data = obj.DuData;
+      let res = await shippingCalculation({
+        sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+        sourceAreaFias: null,
+        sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+        sourceSettlementFias: null,
+        sourcePostalCode: null,
+        regionFias: data.provinceId,
+        areaFias: data.areaId,
+        cityFias: data.cityId,
+        settlementFias: data.settlementId,
+        postalCode: data.postCode,
+        weight: '1',
+        insuranceSum: 0,
+        codSum: 0,
+        dimensions: {
+          height: '1',
+          width: '1',
+          depth: '1'
+        }
+      });
+      if (res?.context?.success && res?.context?.tariffs[0]) {
+        let calculation = res?.context?.tariffs[0];
+        let newaddr = Object.assign({}, obj);
+        // 赋值查询到的地址信息
+        newaddr.calculation = calculation;
+        addressList.forEach((item, i) => {
+          if (item.deliveryAddressId == newaddr.deliveryAddressId) {
+            addressList[i] = newaddr;
+            this.setState(
+              {
+                addressList
+              },
+              () => {
+                this.props.updateData(this.state.deliveryAddress);
+                this.isDeliverAddress &&
+                  this.props.paymentStore.setDefaultCardDataFromAddr(
+                    this.state.deliveryAddress
+                  );
+                this.confirmToNextPanel();
+                this.setState({
+                  validationLoading: false
+                });
+              }
+            );
+          }
+        });
+      } else {
+        this.setState({
+          validationLoading: false
+        });
+      }
+    } catch (err) {
+      console.warn(err);
+      this.setState({
+        validationLoading: false
+      });
+    }
+  };
   confirmToNextPanel({ init = false } = {}) {
     if (this.curPanelKey !== 'deliveryAddr') {
       return false;
@@ -199,6 +308,7 @@ class AddressList extends React.Component {
       paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
     }
   }
+  // 选择地址
   selectAddress(e, idx) {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -212,6 +322,7 @@ class AddressList extends React.Component {
       },
       () => {
         this.updateSelectedData();
+        // debugger
       }
     );
   }
@@ -290,38 +401,8 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    // console.log('--------- ★★★★★★ updateDeliveryAddress: ', data);
+    console.log('--------- ★★★★★★ updateDeliveryAddress: ', data);
     try {
-      if (process.env.REACT_APP_LANG == 'ru' && data?.DaData != null) {
-        let dda = data.DaData;
-        console.log('★ ------------------ DaData: ', dda);
-        // 计算运费
-        let ddres = await shippingCalculation({
-          sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-          sourceAreaFias: null,
-          sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-          sourceSettlementFias: null,
-          sourcePostalCode: null,
-          regionFias: dda.provinceId,
-          areaFias: dda.areaId,
-          cityFias: dda.cityId,
-          settlementFias: dda.settlementId,
-          postalCode: dda.postCode,
-          weight: '1',
-          insuranceSum: 0,
-          codSum: 0,
-          dimensions: {
-            height: '1',
-            width: '1',
-            depth: '1'
-          }
-        });
-        data.calculation = ddres?.context?.tariffs[0];
-        // console.log('---------- ★★★★★★ 计算运费： ', ddres);
-        if (!data.calculation) {
-          return;
-        }
-      }
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
@@ -428,6 +509,7 @@ class AddressList extends React.Component {
   /**
    * 1 新增/编辑地址
    * 2 确认地址信息，并返回到封面
+   * 3 ★ 俄罗斯需要根据地址先计算运费
    */
   handleSave = () => {
     const { isValid, addOrEdit } = this.state;
@@ -698,14 +780,14 @@ class AddressList extends React.Component {
               {process.env.REACT_APP_LANG == 'en'
                 ? [
                     // matchNamefromDict(this.state.countryList, item.countryId),
-                    item.province,
+                    item.address1,
                     item.city,
-                    item.address1
+                    item.province
                   ].join(', ')
                 : [
                     matchNamefromDict(this.state.countryList, item.countryId),
-                    item.city,
-                    item.address1
+                    item.address1,
+                    item.city
                   ].join(', ')}
             </span>
           </div>
@@ -784,6 +866,7 @@ class AddressList extends React.Component {
       >
         {addOrEdit && (
           <EditForm
+            ref={this.editFormRef}
             isLogin={true}
             initData={deliveryAddress}
             updateData={this.updateDeliveryAddress}

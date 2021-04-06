@@ -3556,7 +3556,8 @@ class SubscriptionDetail extends React.Component {
                               )}
                             </div>
                             <div className="ml-1">
-                              <p className="mb-0">
+                              {/* 姓名 */}
+                              <p className="mb-0 sd_mb_name">
                                 <span
                                   className="medium"
                                   style={{
@@ -3568,36 +3569,64 @@ class SubscriptionDetail extends React.Component {
                                   {currentDeliveryAddress.consigneeName}
                                 </span>
                               </p>
-                              <p className="mb-0">
+                              {/* 电话 */}
+                              <p className="mb-0 sd_mb_tel">
                                 {currentDeliveryAddress.consigneeNumber}
                               </p>
-                              <p className="mb-0">
-                                {process.env.REACT_APP_LANG == 'en' ? null : (
-                                  <>
-                                    {this.state.countryList.length &&
-                                    this.state.countryList.filter(
-                                      (el) =>
-                                        el.id ===
-                                        currentDeliveryAddress.countryId
-                                    ).length
-                                      ? this.state.countryList.filter(
-                                          (el) =>
-                                            el.id ===
-                                            currentDeliveryAddress.countryId
-                                        )[0].valueEn
-                                      : currentDeliveryAddress.countryId}
-                                    ,
-                                  </>
-                                )}
+
+                              {/* 国家 */}
+                              {process.env.REACT_APP_LANG == 'en' ? null : (
+                                <p
+                                  className="mb-0 sd_mb_country"
+                                  style={{
+                                    fontSize: '1.125rem',
+                                    color: '#333',
+                                    margin: '25px 0 .625rem'
+                                  }}
+                                >
+                                  {this.state.countryList.length &&
+                                  this.state.countryList.filter(
+                                    (el) =>
+                                      el.id === currentDeliveryAddress.countryId
+                                  ).length
+                                    ? this.state.countryList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentDeliveryAddress.countryId
+                                      )[0].valueEn
+                                    : currentDeliveryAddress.countryId}
+                                  ,
+                                </p>
+                              )}
+                              {/* 地址 */}
+                              {process.env.REACT_APP_LANG == 'en' ? (
+                                <p
+                                  className="mb-0 sd_mb_address1"
+                                  style={{
+                                    fontSize: '1.125rem',
+                                    color: '#333',
+                                    margin: '25px 0 .625rem'
+                                  }}
+                                >
+                                  {currentDeliveryAddress.address1}
+                                </p>
+                              ) : (
+                                <p className="mb-0 sd_mb_address1">
+                                  {currentDeliveryAddress.address1}
+                                </p>
+                              )}
+
+                              <p className="mb-0 sd_mb_cpp">
+                                {/* 城市 */}
+                                {currentDeliveryAddress.city}
+                                {', '}
                                 {/* 省份 / State */}
                                 {currentDeliveryAddress?.province &&
                                 currentDeliveryAddress?.province != null
-                                  ? currentDeliveryAddress.province + ', '
-                                  : null}
-                                {currentDeliveryAddress.city}
-                              </p>
-                              <p className="mb-0">
-                                {currentDeliveryAddress.address1}
+                                  ? currentDeliveryAddress.province
+                                  : null}{' '}
+                                {/* 邮编 */}
+                                {currentDeliveryAddress.postCode}
                               </p>
                             </div>
                           </div>
