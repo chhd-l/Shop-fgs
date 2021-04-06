@@ -588,16 +588,9 @@ class Payment extends React.Component {
     if (groups) {
       params.groups = groups;
     }
-    let res = '';
-    if (isLogin) {
-      res = await findUserConsentList(params);
-    } else {
-      if (process.env.REACT_APP_LANG == 'en') return; //美国游客不显示consent
-      res = await getStoreOpenConsentList(params);
-    }
-    // const res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
-    //   params
-    // );
+    const res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
+      params
+    );
     this.isExistListFun(res); //现在游客会员 统一
   }
   //重新组装listData
@@ -631,7 +624,13 @@ class Payment extends React.Component {
         detailList: item.detailList
       };
     });
-    let listData = [...requiredList, ...optioalList]; //必填项+选填项
+    let listData = [];
+    if (!this.isLogin && process.env.REACT_APP_LANG == 'en') {
+      listData = [...requiredList]; //美国游客只显示必选项
+    } else {
+      listData = [...requiredList, ...optioalList]; //必填项+选填项
+    }
+
     this.rebindListData(listData);
   }
   //获取支付方式

@@ -3576,14 +3576,7 @@ class SubscriptionDetail extends React.Component {
 
                               {/* 国家 */}
                               {process.env.REACT_APP_LANG == 'en' ? null : (
-                                <p
-                                  className="mb-0 sd_mb_country"
-                                  style={{
-                                    fontSize: '1.125rem',
-                                    color: '#333',
-                                    margin: '25px 0 .625rem'
-                                  }}
-                                >
+                                <p className="mb-0 sd_mb_country">
                                   {this.state.countryList.length &&
                                   this.state.countryList.filter(
                                     (el) =>
@@ -3599,22 +3592,14 @@ class SubscriptionDetail extends React.Component {
                                 </p>
                               )}
                               {/* 地址 */}
-                              {process.env.REACT_APP_LANG == 'en' ? (
-                                <p
-                                  className="mb-0 sd_mb_address1"
-                                  style={{
-                                    fontSize: '1.125rem',
-                                    color: '#333',
-                                    margin: '25px 0 .625rem'
-                                  }}
-                                >
-                                  {currentDeliveryAddress.address1}
+                              <p className="mb-0 sd_mb_address1">
+                                {currentDeliveryAddress.address1}
+                              </p>
+                              {currentDeliveryAddress.address2 ? (
+                                <p className="mb-0 od_mb_address2">
+                                  {currentDeliveryAddress.address2}
                                 </p>
-                              ) : (
-                                <p className="mb-0 sd_mb_address1">
-                                  {currentDeliveryAddress.address1}
-                                </p>
-                              )}
+                              ) : null}
 
                               <p className="mb-0 sd_mb_cpp">
                                 {/* 城市 */}
