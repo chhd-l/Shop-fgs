@@ -3927,34 +3927,39 @@ class SubscriptionDetail extends React.Component {
                                               padding: 0
                                             }}
                                           >
-                                            <div
-                                              className={`${
-                                                isMobile ? 'col-4' : 'col-md-3'
-                                              }`}
-                                              style={{
-                                                padding: isMobile
-                                                  ? '0 0 0 .625rem'
-                                                  : '0 .9375rem 0 1.25rem'
-                                              }}
-                                            >
-                                              <FormattedMessage id="shipmentOn" />
-                                              :
-                                              <br />
-                                              <span
+                                            {isActive ? (
+                                              <div
+                                                className={`${
+                                                  isMobile
+                                                    ? 'col-4'
+                                                    : 'col-md-3'
+                                                }`}
                                                 style={{
-                                                  color: '#e2001a',
-                                                  fontWeight: '400'
+                                                  padding: isMobile
+                                                    ? '0 0 0 .625rem'
+                                                    : '0 .9375rem 0 1.25rem'
                                                 }}
                                               >
-                                                {isNotInactive
-                                                  ? getFormatDate(
-                                                      el.tradeItems[0].nextDeliveryTime.split(
-                                                        ' '
-                                                      )[0]
-                                                    )
-                                                  : ''}
-                                              </span>
-                                            </div>
+                                                <FormattedMessage id="shipmentOn" />
+                                                :
+                                                <br />
+                                                <span
+                                                  style={{
+                                                    color: '#e2001a',
+                                                    fontWeight: '400'
+                                                  }}
+                                                >
+                                                  {isNotInactive
+                                                    ? getFormatDate(
+                                                        el.tradeItems[0].nextDeliveryTime.split(
+                                                          ' '
+                                                        )[0]
+                                                      )
+                                                    : ''}
+                                                </span>
+                                              </div>
+                                            ) : null}
+
                                             <div
                                               className={`${
                                                 isMobile ? 'col-0' : 'col-md-5'
@@ -4548,28 +4553,31 @@ class SubscriptionDetail extends React.Component {
                                             height: '75px'
                                           }}
                                         >
-                                          <div
-                                            className={`${
-                                              isMobile ? 'col-5' : 'col-md-3'
-                                            }`}
-                                            style={{ paddingLeft: '1.25rem' }}
-                                          >
-                                            <FormattedMessage id="shipmentOn" />
-                                            :{' '}
-                                            <span
-                                              style={{
-                                                color: '#e2001a',
-                                                fontWeight: '400'
-                                              }}
+                                          {' '}
+                                          {isActive ? (
+                                            <div
+                                              className={`${
+                                                isMobile ? 'col-5' : 'col-md-3'
+                                              }`}
+                                              style={{ paddingLeft: '1.25rem' }}
                                             >
-                                              {getFormatDate(
-                                                el.tradeState.createTime.split(
-                                                  ' '
-                                                )[0]
-                                              )}
-                                              {/* <FormattedDate value={el.tradeState.createTime.split(' ')[0]}/> */}
-                                            </span>
-                                          </div>
+                                              <FormattedMessage id="shipmentOn" />
+                                              :{' '}
+                                              <span
+                                                style={{
+                                                  color: '#e2001a',
+                                                  fontWeight: '400'
+                                                }}
+                                              >
+                                                {getFormatDate(
+                                                  el.tradeState.createTime.split(
+                                                    ' '
+                                                  )[0]
+                                                )}
+                                                {/* <FormattedDate value={el.tradeState.createTime.split(' ')[0]}/> */}
+                                              </span>
+                                            </div>
+                                          ) : null}
                                           {isMobile ? null : (
                                             <div className="col-12 col-md-3"></div>
                                           )}

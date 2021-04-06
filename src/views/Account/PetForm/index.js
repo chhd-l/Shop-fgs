@@ -772,16 +772,7 @@ class PetForm extends React.Component {
     });
   };
   onDateChange(date) {
-    console.log(
-      +date,
-      new Date(date).toISOString(),
-      utcToZonedTime(new Date(date), 'America/Los_Angeles'),
-      'date----',
-      datePickerConfig.locale_module
-    );
-    // console.log(getFormatDate(date), format(date, 'yyyy-MM-dd'), 'aaaaaa')
     this.setState({
-      // birthdate: getFormatDate(date),
       birthdate: format(date, 'yyyy-MM-dd'),
       isDisabled: false
     });
