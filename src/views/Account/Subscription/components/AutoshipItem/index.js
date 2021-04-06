@@ -153,7 +153,12 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
               );
             }}
           >
-            <FormattedMessage id="manage" />
+            {subItem.subscribeStatus === '0' ||
+            subItem.subscribeStatus === '1' ? (
+              <FormattedMessage id="manage" />
+            ) : (
+              <FormattedMessage id="subscription.viewDetails" />
+            )}
           </button>
         </div>
       </div>

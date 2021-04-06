@@ -1078,7 +1078,8 @@ const ru_RU = {
   'orderStatus.COMPLETED': 'Завершено',
   'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
   'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
-  'subscription.see_more': 'Смотри другие Подписка'
+  'subscription.see_more': 'Смотри другие Подписка',
+  'subscription.viewDetails': 'Посмотреть детали'
 };
 
 export default ru_RU;
