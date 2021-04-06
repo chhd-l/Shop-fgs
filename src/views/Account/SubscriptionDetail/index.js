@@ -23,9 +23,6 @@ import Dog from '@/assets/images/dog.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
-import { getPaymentMethod, deleteCard, getWays } from '@/api/payment';
-
-import { computedSupportPaymentMethods } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -3559,7 +3556,8 @@ class SubscriptionDetail extends React.Component {
                               )}
                             </div>
                             <div className="ml-1">
-                              <p className="mb-0">
+                              {/* 姓名 */}
+                              <p className="mb-0 sd_mb_name">
                                 <span
                                   className="medium"
                                   style={{
@@ -3571,36 +3569,49 @@ class SubscriptionDetail extends React.Component {
                                   {currentDeliveryAddress.consigneeName}
                                 </span>
                               </p>
-                              <p className="mb-0">
+                              {/* 电话 */}
+                              <p className="mb-0 sd_mb_tel">
                                 {currentDeliveryAddress.consigneeNumber}
                               </p>
-                              <p className="mb-0">
-                                {process.env.REACT_APP_LANG == 'en' ? null : (
-                                  <>
-                                    {this.state.countryList.length &&
-                                    this.state.countryList.filter(
-                                      (el) =>
-                                        el.id ===
-                                        currentDeliveryAddress.countryId
-                                    ).length
-                                      ? this.state.countryList.filter(
-                                          (el) =>
-                                            el.id ===
-                                            currentDeliveryAddress.countryId
-                                        )[0].valueEn
-                                      : currentDeliveryAddress.countryId}
-                                    ,
-                                  </>
-                                )}
+
+                              {/* 国家 */}
+                              {process.env.REACT_APP_LANG == 'en' ? null : (
+                                <p className="mb-0 sd_mb_country">
+                                  {this.state.countryList.length &&
+                                  this.state.countryList.filter(
+                                    (el) =>
+                                      el.id === currentDeliveryAddress.countryId
+                                  ).length
+                                    ? this.state.countryList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentDeliveryAddress.countryId
+                                      )[0].valueEn
+                                    : currentDeliveryAddress.countryId}
+                                  ,
+                                </p>
+                              )}
+                              {/* 地址 */}
+                              <p className="mb-0 sd_mb_address1">
+                                {currentDeliveryAddress.address1}
+                              </p>
+                              {currentDeliveryAddress.address2 ? (
+                                <p className="mb-0 od_mb_address2">
+                                  {currentDeliveryAddress.address2}
+                                </p>
+                              ) : null}
+
+                              <p className="mb-0 sd_mb_cpp">
+                                {/* 城市 */}
+                                {currentDeliveryAddress.city}
+                                {', '}
                                 {/* 省份 / State */}
                                 {currentDeliveryAddress?.province &&
                                 currentDeliveryAddress?.province != null
-                                  ? currentDeliveryAddress.province + ', '
-                                  : null}
-                                {currentDeliveryAddress.city}
-                              </p>
-                              <p className="mb-0">
-                                {currentDeliveryAddress.address1}
+                                  ? currentDeliveryAddress.province
+                                  : null}{' '}
+                                {/* 邮编 */}
+                                {currentDeliveryAddress.postCode}
                               </p>
                             </div>
                           </div>

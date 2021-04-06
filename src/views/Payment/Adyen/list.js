@@ -570,6 +570,7 @@ class AdyenCreditCardList extends React.Component {
         updateAdyenPayParam={this.updateAdyenPayParam}
         updateClickPayBtnValidStatus={this.props.updateFormValidStatus}
         showErrorMsg={showErrorMsg}
+        supportPaymentMethods={this.props.supportPaymentMethods}
       />
     );
   };

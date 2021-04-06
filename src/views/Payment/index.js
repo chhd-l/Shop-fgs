@@ -35,8 +35,7 @@ import {
   generatePayUScript,
   getFormatDate,
   setSeoConfig,
-  validData,
-  computedSupportPaymentMethods
+  validData
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import {
@@ -84,6 +83,7 @@ import {
   CardTypeName,
   cyberFormTitle
 } from '@/utils/constant/cyber';
+import { getProductPetConfig } from '@/api/payment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -217,7 +217,6 @@ class Payment extends React.Component {
       payWayErr: '',
       pet: {},
       installMentParam: null, // 分期参数
-      supportPaymentMethods: [], // 当前支付方式所支持的卡列表
       //cyber参数
       cyberPaymentForm: {
         cardholderName: '', //Didier Valansot
@@ -348,14 +347,20 @@ class Payment extends React.Component {
           });
         }
       }
-      console.log(sessionItemRoyal.get('needShowPrescriber'));
+      //解决从prescription页面到checkout页面prescriberFlag变成null的问题，重新请求商品prescriberFlag参数
+      const productData = this.isLogin ? this.loginCartData : this.cartData;
+      let res = await getProductPetConfig({
+        goodsInfos: productData
+      });
+      let handledData = productData.map((el, i) => {
+        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+        return el;
+      });
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
         {
           needPrescriber:
-            (this.isLogin ? this.loginCartData : this.cartData).filter(
-              (el) => el.prescriberFlag
-            ).length > 0 &&
+            handledData.filter((el) => el.prescriberFlag).length > 0 &&
             sessionItemRoyal.get('needShowPrescriber') === 'true'
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
@@ -619,7 +624,13 @@ class Payment extends React.Component {
         detailList: item.detailList
       };
     });
-    let listData = [...requiredList, ...optioalList]; //必填项+选填项
+    let listData = [];
+    if (!this.isLogin && process.env.REACT_APP_LANG == 'en') {
+      listData = [...requiredList]; //美国游客只显示必选项
+    } else {
+      listData = [...requiredList, ...optioalList]; //必填项+选填项
+    }
+
     this.rebindListData(listData);
   }
   //获取支付方式
@@ -689,41 +700,35 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
       if (payWay.context) {
+        // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
           .map((p) => {
             const tmp =
               payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-            return tmp
-              ? Object.assign(
-                  {},
-                  tmp,
-                  p
-                  // { supportSubscription: true }
-                )
-              : tmp;
+            return tmp ? Object.assign({}, tmp, p) : tmp;
           })
           .filter((e) => e)
           .filter(
-            (e) => e.isOpen
-            // todo
-            //  &&
-            // (!this.isCurrentBuyWaySubscription || e.supportSubscription)
+            (e) =>
+              e.isOpen &&
+              (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
+              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
           );
       }
 
       //默认第一个,如没有支付方式,就不初始化方法
       this.setState(
         {
-          payWayNameArr,
-          supportPaymentMethods: computedSupportPaymentMethods(
-            payWay?.context?.supportPaymentMethods || []
-          )
+          payWayNameArr
         },
         () => {
           //初始化默认取第1个
-          this.setState({
-            paymentTypeVal: payWayNameArr[0]?.paymentTypeVal || ''
-          });
+          this.setState(
+            {
+              paymentTypeVal: payWayNameArr[0]?.paymentTypeVal || ''
+            },
+            () => this.onPaymentTypeValChange()
+          );
         }
       );
     } catch (e) {
@@ -732,6 +737,13 @@ class Payment extends React.Component {
       });
     }
   };
+  onPaymentTypeValChange() {
+    this.props.paymentStore.setSupportPaymentMethods(
+      this.state.payWayNameArr.filter(
+        (p) => p.paymentTypeVal === this.state.paymentTypeVal
+      )[0]?.payPspItemCardTypeVOList || []
+    );
+  }
   //获取卡类型
   initCardType = () => {
     let cardTypeArr = [
@@ -1806,7 +1818,9 @@ class Payment extends React.Component {
     });
   };
   handlePaymentTypeChange = (e) => {
-    this.setState({ paymentTypeVal: e.target.value, email: '' });
+    this.setState({ paymentTypeVal: e.target.value, email: '' }, () =>
+      this.onPaymentTypeValChange()
+    );
   };
   handleCardTypeChange = (e) => {
     this.setState({ cardTypeVal: e.target.value }, () => {
@@ -1832,6 +1846,7 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
+    console.log('1869 ★★ -------------- updateDeliveryAddrData: ', data);
     this.setState({
       deliveryAddress: data
     });
@@ -2458,8 +2473,7 @@ class Payment extends React.Component {
       validSts,
       saveBillingLoading,
       payWayNameArr,
-      cyberPaymentForm,
-      supportPaymentMethods
+      cyberPaymentForm
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -2531,7 +2545,7 @@ class Payment extends React.Component {
         {/* payWayObj为支付方式，如果大于1种，才显示此tab栏 */}
         {payWayNameArr.length > 1 && (
           <div className={`ml-custom mr-custom`}>
-            {payWayNameArr.map((item, i) => {
+            {payWayNameArr.map((item, i) => (
               <div className={`rc-input rc-input--inline`} key={i}>
                 <input
                   className="rc-input__radio"
@@ -2548,8 +2562,8 @@ class Payment extends React.Component {
                 >
                   <FormattedMessage id={item.langKey} />
                 </label>
-              </div>;
-            })}
+              </div>
+            ))}
           </div>
         )}
         {/* ********************支付tab栏end********************************** */}
@@ -2623,7 +2637,6 @@ class Payment extends React.Component {
                       type: 'payUCreditCard'
                     })}
                     defaultCardDataFromAddr={this.defaultCardDataFromAddr}
-                    supportPaymentMethods={supportPaymentMethods}
                   />
                   {payConfirmBtn({
                     disabled: !validSts.payUCreditCard || validForBilling,
