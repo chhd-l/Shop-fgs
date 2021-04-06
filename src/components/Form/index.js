@@ -832,7 +832,7 @@ class Form extends React.Component {
   // birthData onchange
   onDateChange(date) {
     const { caninForm } = this.state;
-    caninForm['birthdate'] = getFormatDate(date);
+    caninForm['birthdate'] = format(date, 'yyyy-MM-dd');
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });

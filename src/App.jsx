@@ -137,6 +137,11 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
 
+Date.prototype.addHours= function(h){
+  this.setHours(this.getHours()+h);
+  return this;
+}
+
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
 import es from 'date-fns/locale/es';

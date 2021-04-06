@@ -779,8 +779,10 @@ class PetForm extends React.Component {
       'date----',
       datePickerConfig.locale_module
     );
+    // console.log(getFormatDate(date), format(date, 'yyyy-MM-dd'), 'aaaaaa')
     this.setState({
-      birthdate: getFormatDate(date),
+      // birthdate: getFormatDate(date),
+      birthdate: format(date, 'yyyy-MM-dd'),
       isDisabled: false
     });
   }
@@ -1125,7 +1127,7 @@ class PetForm extends React.Component {
                           maxDate={new Date()}
                           selected={
                             this.state.birthdate
-                              ? new Date(this.state.birthdate)
+                              ? new Date(getFormatDate(this.state.birthdate))
                               : ''
                           }
                           onChange={(date) => this.onDateChange(date)}

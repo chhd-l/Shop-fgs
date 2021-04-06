@@ -614,10 +614,8 @@ export function getFormatDate(date, callback, lang) {
       return intl.formatDate(date);
     }
   } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
-    let zoneTime = utcToZonedTime(date, 'America/New_York');
-    return format(zoneTime, "MM/dd/yyyy HH:mm:ss.SSS 'GMT' XXX (z)", {
-      locale: datePickerConfig.locale_module,
-      timeZone: 'America/New_York'
+    return format(new Date(date).addHours(12), 'MM/dd/yyyy', {
+      locale: datePickerConfig.locale_module
     });
   } else {
     if (callback && typeof callback === 'function') {
