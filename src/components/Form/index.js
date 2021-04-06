@@ -1,3 +1,4 @@
+//billaddress灵活配置组件
 import React from 'react';
 import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';

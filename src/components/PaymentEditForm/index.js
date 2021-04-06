@@ -1154,16 +1154,6 @@ class PaymentEditForm extends React.Component {
               handleSelectedItemChange={this.handleSelectedItemChange}
               inputBlur={this.inputBlur}
             />
-            {/* <CyberBillingAddress
-              form={this.state.paymentForm}
-              errMsgObj={errMsgObj}
-              countryList={this.state.countryList}
-              stateList={this.computedList('state')}
-              handleInputChange={this.handleInputChange}
-              handleSelectedItemChange={this.handleSelectedItemChange}
-              handleSelectedCityChange={this.handleSelectedCityChange}
-              updateCyberBillingAddress={this.updateCyberBillingAddress}
-            /> */}
             <CyberBillingAddress
               form={this.state.paymentForm}
               updateCyberBillingAddress={this.updateCyberBillingAddress}
@@ -1216,23 +1206,14 @@ class PaymentEditForm extends React.Component {
               </div>
               <div className="col-sm-3"></div>
               <div className="col-sm-3">
-                {this.isAllFinish() ? (
-                  <button
-                    className="rc-btn rc-btn--one"
-                    style={{ width: '200px' }}
-                    onClick={this.handleCyberSave}
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    className="rc-btn rc-btn--one"
-                    style={{ width: '200px' }}
-                    disabled
-                  >
-                    Save
-                  </button>
-                )}
+                <button
+                  className="rc-btn rc-btn--one"
+                  style={{ width: '200px' }}
+                  onClick={this.handleCyberSave}
+                  disabled={this.isAllFinish() ? false : true}
+                >
+                  Save
+                </button>
               </div>
               <div className="col-sm-3"></div>
             </div>
