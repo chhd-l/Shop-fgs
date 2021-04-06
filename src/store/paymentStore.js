@@ -56,6 +56,8 @@ class PaymentStore {
 
   @observable supportPaymentMethods = []; //当前支付方式所支持的卡类型
 
+  @observable currentCardTypeInfo = null; //当前卡类型信息
+
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
   }
@@ -380,6 +382,11 @@ class PaymentStore {
   @action.bound
   setSupportPaymentMethods(list) {
     this.supportPaymentMethods = list;
+  }
+
+  @action.bound
+  setCurrentCardTypeInfo(data) {
+    this.currentCardTypeInfo = data;
   }
 }
 export default PaymentStore;

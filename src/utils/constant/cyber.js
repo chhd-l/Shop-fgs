@@ -17,20 +17,6 @@ const cardTypeImg = {
   discover: discoverImg
 };
 
-const CardTypeArr = {
-  cyberVisa: '001',
-  cyberMastercard: '002',
-  cyberAmex: '003',
-  cyberDiscover: '004'
-};
-
-const CardTypeName = {
-  cyberVisa: 'Visa',
-  cyberMastercard: 'Mastercard',
-  cyberAmex: 'Amex',
-  cyberDiscover: 'Discover'
-};
-
 const cyberFormTitle = {
   cardHolderName: 'cyber.form.cardHolderName2',
   cardNumber: 'cyber.form.cardNumber2',
@@ -39,32 +25,4 @@ const cyberFormTitle = {
   secureCode: 'cyber.form.secureCode2'
 };
 
-const showCardType = (type) => {
-  let cardTypeDesc = '';
-  switch (type) {
-    case '001':
-      cardTypeDesc = 'Visa';
-      break;
-    case '002':
-      cardTypeDesc = 'Mastercard';
-      break;
-    case '003':
-      cardTypeDesc = 'Amex';
-      break;
-    case '004':
-      cardTypeDesc = 'Discover';
-      break;
-    default:
-      cardTypeDesc = type;
-  }
-  return cardTypeDesc;
-};
-
-export {
-  CardTypeDesc,
-  cardTypeImg,
-  CardTypeArr,
-  CardTypeName,
-  cyberFormTitle,
-  showCardType
-};
+export { CardTypeDesc, cardTypeImg, cyberFormTitle };
