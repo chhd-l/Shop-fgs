@@ -20,9 +20,9 @@ class Landing extends Component {
       showFail: false,
       errMessage: '',
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       inputType: [
         { name: 'Nombre', value: '', isRequired: true }, //姓名

@@ -473,6 +473,16 @@ class AddressList extends React.Component {
         postCode: deliveryAddress.postCode,
         rfc: deliveryAddress.rfc,
         email: deliveryAddress.email,
+
+        region: deliveryAddress.province, // DuData相关参数
+        area: deliveryAddress.area,
+        settlement: deliveryAddress.settlement,
+        street: deliveryAddress.street,
+        house: deliveryAddress.house,
+        block: deliveryAddress.housing,
+        entrance: deliveryAddress.entrance,
+        appartment: deliveryAddress.appartment,
+
         type: this.props.type.toUpperCase()
       };
       // if (params?.province && params?.province != null) {
@@ -481,6 +491,7 @@ class AddressList extends React.Component {
       params.provinceNo = deliveryAddress.provinceNo;
       params.isValidated = deliveryAddress.validationResult;
       // }
+
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);

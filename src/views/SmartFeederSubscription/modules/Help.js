@@ -33,9 +33,9 @@ class Help extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       tel: '',
       mailAddress: '',
@@ -347,7 +347,7 @@ class Help extends React.Component {
                       >
                         <picture className="rc-card__image">
                           <LazyLoad>
-                            <img src={helpImg} alt="help-icon" title=" " />
+                            <img src={helpImg} alt="help icon" title=" " />
                           </LazyLoad>
                         </picture>
                       </div>

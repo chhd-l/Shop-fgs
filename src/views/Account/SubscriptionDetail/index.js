@@ -118,9 +118,9 @@ class SubscriptionDetail extends React.Component {
         frequencyId: -1
       },
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       isGift: false,
       remainingsList: [],
@@ -569,7 +569,7 @@ class SubscriptionDetail extends React.Component {
       <img
         style={{ marginLeft: '1rem', marginRight: '1rem' }}
         className="pet-img text-center rc-margin-y--sm"
-        alt=""
+        alt="pet img"
         src={
           (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
             ? petsInfo.petsImg
@@ -1136,7 +1136,7 @@ class SubscriptionDetail extends React.Component {
                           ? el.petsImg
                           : null) || (el.petsType === 'cat' ? Cat : Dog)
                       }
-                      alt="petimg"
+                      alt="pet img"
                       className="pet-img"
                     />
                     <img
@@ -1147,7 +1147,7 @@ class SubscriptionDetail extends React.Component {
                         right: 0
                       }}
                       src={!el.petsSex ? Male : Female}
-                      alt="pet-sex-icon"
+                      alt="pet sex icon"
                     />
                   </div>
                   <div style={{ paddingLeft: '1rem' }}>
@@ -1729,7 +1729,7 @@ class SubscriptionDetail extends React.Component {
                                             width: '1.25rem',
                                             marginRight: '5px'
                                           }}
-                                          alt="skipicon"
+                                          alt="skip icon"
                                           src={skipIcon}
                                         />
                                       </LazyLoad>
@@ -1916,7 +1916,7 @@ class SubscriptionDetail extends React.Component {
                   width: '1.25rem',
                   marginRight: '5px'
                 }}
-                alt="cancleicon"
+                alt="cancle icon"
                 src={cancelIcon}
               />
             </LazyLoad>
@@ -2130,7 +2130,7 @@ class SubscriptionDetail extends React.Component {
           close={this.closeChangeProduct}
         >
           <div className="p-f-result-box">
-            <img className="m-auto" src={clubIcon} alt="clubicon" />
+            <img className="m-auto" src={clubIcon} alt="club icon" />
             <h4 className="red text-center mb-3 mt-3">
               Your product recommendation
             </h4>
@@ -2461,7 +2461,7 @@ class SubscriptionDetail extends React.Component {
     let { petsId, petsInfo } = this.state.subDetail;
     return (
       <>
-        <img src={clubIcon} alt="clubIcon" />
+        <img src={clubIcon} alt="club Icon" />
         <div className="d-flex align-items-center add-pet-btn-wrap">
           {petsId ? (
             this.PetsInfo(petsInfo, petsId, this.props.history)
@@ -3065,7 +3065,7 @@ class SubscriptionDetail extends React.Component {
                                     <LazyLoad>
                                       <img
                                         src={dateIcon}
-                                        alt="deleteicon"
+                                        alt="delete icon"
                                         style={{
                                           display: 'inline-block',
                                           width: '1.25rem',
@@ -3457,7 +3457,7 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       <LazyLoad>
                                         <img
-                                          alt="deleteicon"
+                                          alt="delete icon"
                                           src={dateIcon}
                                           style={{
                                             display: 'inline-block',
@@ -3532,7 +3532,7 @@ class SubscriptionDetail extends React.Component {
                               {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
                               <LazyLoad>
                                 <img
-                                  alt="deliveryIcon"
+                                  alt="delivery Icon"
                                   src={deliveryIcon}
                                   style={{
                                     width: '30px',
@@ -3643,7 +3643,7 @@ class SubscriptionDetail extends React.Component {
                             <div className="align-items-center">
                               <LazyLoad>
                                 <img
-                                  alt="billingIcon"
+                                  alt="billing Icon"
                                   src={billingIcon}
                                   style={{
                                     width: '30px',
@@ -3785,7 +3785,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     >
                                       <img
-                                        alt="card-background"
+                                        alt="card background"
                                         className="d-inline-block"
                                         src={
                                           CREDIT_CARD_IMG_ENUM[
@@ -3982,7 +3982,7 @@ class SubscriptionDetail extends React.Component {
                                                 <>
                                                   <LazyLoad>
                                                     <img
-                                                      alt="dateIcon"
+                                                      alt="date Icon"
                                                       src={dateIcon}
                                                       style={{
                                                         width: '1.25rem',
@@ -4070,7 +4070,7 @@ class SubscriptionDetail extends React.Component {
                                                         width: '1.25rem',
                                                         marginRight: '5px'
                                                       }}
-                                                      alt="skipicon"
+                                                      alt="skip icon"
                                                       src={skipIcon}
                                                     />
                                                   </LazyLoad>
@@ -4663,7 +4663,7 @@ class SubscriptionDetail extends React.Component {
                                                       marginRight: '5px'
                                                     }}
                                                     src={dateIcon}
-                                                    alt="dateIcon"
+                                                    alt="date Icon"
                                                   />
                                                 </LazyLoad>
                                                 <Link

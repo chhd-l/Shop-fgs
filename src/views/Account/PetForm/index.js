@@ -70,9 +70,9 @@ class PetForm extends React.Component {
       isInputDisabled: false,
       isUnknownDisabled: false,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       //pet
       currentPetId: '',
@@ -899,7 +899,7 @@ class PetForm extends React.Component {
                     <img
                       src={Banner_Dog}
                       style={{ left: '40px' }}
-                      alt="Banner-Dog"
+                      alt="Banner Dog"
                     />
                   </LazyLoad>
                   <div className="buttonBox">
@@ -939,7 +939,7 @@ class PetForm extends React.Component {
                     <img
                       src={Banner_Cat}
                       style={{ right: '40px' }}
-                      alt="Banner-Cat"
+                      alt="Banner Cat"
                     />
                   </LazyLoad>
                   {/* <div className="buttonBox" style={{left: '350px'}}>
@@ -984,7 +984,7 @@ class PetForm extends React.Component {
                         borderRadius: '50%'
                       }}
                       src={imgUrl || (isCat ? Cat : Dog)}
-                      alt="photo-box"
+                      alt="photo box"
                     />
                     {/* </LazyLoad> */}
                     {/* <a className="rc-styled-link" href="#/" onClick={(e) => {

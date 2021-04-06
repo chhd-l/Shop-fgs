@@ -139,9 +139,9 @@ class Payment extends React.Component {
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       deliveryAddress: {
         firstName: '',
@@ -847,7 +847,7 @@ class Payment extends React.Component {
       let phone = obj.phone;
       let parameters;
       /* 组装支付需要的参数 */
-      console.log(type, parameters, commonParameter, obj, 'type');
+      // console.log(type, parameters, commonParameter, obj, 'type');
       const actions = {
         oxxo: () => {
           parameters = Object.assign({}, commonParameter, {
@@ -1411,7 +1411,7 @@ class Payment extends React.Component {
       guestEmail,
       promotionCode
     } = this.state;
-    console.log(deliveryAddress, 'deliveryAddress');
+    // console.log(deliveryAddress, 'deliveryAddress');
     /**
      * ★★★ 1
      * 封装下单参数的时候需要把新加的字段加上，
@@ -2029,7 +2029,7 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    console.log(' 2126 ----------- click Confirm Payment Panel');
+    // console.log(' 2126 ----------- click Confirm Payment Panel');
     // 勾选，billingAddress = deliveryAddress
     this.setState(
       {
@@ -2439,7 +2439,7 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      console.log('2248 : ', disabled);
+      // console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2454,7 +2454,7 @@ class Payment extends React.Component {
     };
 
     const reInputCVVBtn = ({ disabled, loading = false }) => {
-      console.log('2263 CVV Btn: ', disabled);
+      // console.log('2263 CVV Btn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2675,7 +2675,7 @@ class Payment extends React.Component {
                             src={item.imgUrl}
                             title={item.cardType}
                             style={{ width: '40px' }}
-                            alt="card-type-image"
+                            alt="card type image"
                           />
                         </label>
                       </div>
@@ -3169,7 +3169,7 @@ class Payment extends React.Component {
                                 <LazyLoad>
                                   <img
                                     className="pull-left"
-                                    alt="goods-information-image"
+                                    alt="goods information image"
                                     src={el.goodsInfoImg}
                                   />
                                 </LazyLoad>
@@ -3219,7 +3219,7 @@ class Payment extends React.Component {
                               <div className="petProduct" key={i}>
                                 <LazyLoad>
                                   <img
-                                    alt="pet-product-image"
+                                    alt="pet product image"
                                     src={
                                       el.sizeList.filter((el) => el.selected)[0]
                                         .goodsInfoImg

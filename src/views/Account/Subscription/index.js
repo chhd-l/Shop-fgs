@@ -51,9 +51,9 @@ class Subscription extends React.Component {
       orderList: [],
       subList: [],
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       form: {
         subscribeId: '',

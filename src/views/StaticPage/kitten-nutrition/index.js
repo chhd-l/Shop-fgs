@@ -59,10 +59,10 @@ class PromotionRefuge extends React.Component {
                         <div className="col-12 col-lg-6 rc-padding-x--sm--desktop">
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <img
-                              alt="kitten-pack-for-sol"
+                              alt="kitten pack for sol"
                               className="w-100 lazyloaded"
                               src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dw0c51547c/Breed-Cats-&-Dogs/kitten-pack-for-sol.jpg?sw=600&sh=400&sm=cut&sfrm=jpg"
-                            ></img>
+                            />
                           </picture>
                         </div>
                         <div className="col-12 col-lg-6">
@@ -156,7 +156,7 @@ class PromotionRefuge extends React.Component {
                           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <img
-                                alt="Breed-Cats-&-Dogs"
+                                alt="Breed Cats&Dogs"
                                 className="value-proposition__img lazyloaded"
                                 style={{ width: '90px' }}
                                 src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c03ad8b/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png"
@@ -171,11 +171,11 @@ class PromotionRefuge extends React.Component {
                           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <img
-                                alt="value-proposition"
+                                alt="value proposition"
                                 className="value-proposition__img lazyloaded"
                                 style={{ width: '90px' }}
                                 src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dw4bbb7d34/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png"
-                              ></img>
+                              />
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
                                 <p className="rc-margin-bottom--none rc-intro">
                                   Paiement sécurisé
@@ -186,11 +186,11 @@ class PromotionRefuge extends React.Component {
                           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <img
-                                alt="value-proposition"
+                                alt="value proposition"
                                 className="value-proposition__img lazyloaded"
                                 style={{ width: '90px' }}
                                 src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dw94e7b91f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png"
-                              ></img>
+                              />
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
                                 <p className="rc-margin-bottom--none rc-intro">
                                   Qualité certifiée
@@ -201,11 +201,11 @@ class PromotionRefuge extends React.Component {
                           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <img
-                                alt="value-proposition"
+                                alt="value proposition"
                                 className="value-proposition__img lazyloaded"
                                 style={{ width: '90px' }}
                                 src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dw077bfc85/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png"
-                              ></img>
+                              />
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
                                 <p className="rc-margin-bottom--none rc-intro">
                                   La nutrition santé livrée à votre domicile

@@ -399,7 +399,7 @@ class ImageMagnifier extends Component {
                 <LazyLoad>
                   <img
                     src={taggingForImage.taggingImgUrl}
-                    alt="tagging-image"
+                    alt="tagging image"
                   />
                 </LazyLoad>
               </div>
@@ -418,7 +418,7 @@ class ImageMagnifier extends Component {
                         style={cssStyle.imgStyle}
                         // src={currentImg || noPic}
                         src={el.artworkUrl || noPic}
-                        alt="artwork-image"
+                        alt="artwork image"
                       />
                     </LazyLoad>
                   </div>
@@ -429,7 +429,7 @@ class ImageMagnifier extends Component {
                     <img
                       style={cssStyle.imgStyle}
                       src={currentImg || this.state.maxImg || noPic}
-                      alt="artwork-image"
+                      alt="artwork image"
                     />
                   </LazyLoad>
                 </div>
@@ -476,7 +476,7 @@ class ImageMagnifier extends Component {
                   src={currentImg || this.state.maxImg || noPic}
                   onLoad={this.handleImageLoaded.bind(this)}
                   onError={this.handleImageErrored.bind(this)}
-                  alt="current-Image"
+                  alt="current Image"
                 />
               </LazyLoad>
               {!imgLoad && 'failed to load'}
