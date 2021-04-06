@@ -50,7 +50,7 @@ function CardItem(props) {
               ************
               {data.lastFourDigits}
             </p>
-            <p className="mb-0">{data.cardType}</p>
+            <p className="mb-0">{data.paymentVendor}</p>
           </div>
         </div>
       </div>

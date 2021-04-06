@@ -3,13 +3,6 @@ import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
 
-const CardTypeDesc = {
-  '001': 'Visa',
-  '002': 'Mastercard',
-  '003': 'Amex',
-  '004': 'Discover'
-};
-
 const cardTypeImg = {
   visa: visaImg,
   mastercard: mastercardImg,
@@ -25,4 +18,4 @@ const cyberFormTitle = {
   secureCode: 'cyber.form.secureCode2'
 };
 
-export { CardTypeDesc, cardTypeImg, cyberFormTitle };
+export { cardTypeImg, cyberFormTitle };
