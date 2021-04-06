@@ -1024,7 +1024,7 @@ const en_US = {
   registerEmailFormate:
     'The email address does not match the specified format.',
   registerErrorMessage:
-    'An error occurred while creating your account. Please try again later or use a different email address. ',
+    'An account with this email address already exists. Please log in or use a different email address. ',
   registerFeckbook: 'Connect with Facebook',
   registerFillIn: 'Please fill in this field',
   registerFooter1:
@@ -1235,7 +1235,7 @@ const en_US = {
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
-  'Special Need': 'Sensitivites',
+  'Special Need': 'Special Needs',
   'orderStatus.COMPLETED': 'Completed',
   'subscription.see_more': 'See other Subscription',
   'bindPrescriber.modal.title':
@@ -1244,6 +1244,7 @@ const en_US = {
     'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
-  'bindPrescriber.modal.or': 'или'
+  'bindPrescriber.modal.or': 'или',
+  'subscription.viewDetails': 'View Detail'
 };
 export default en_US;
