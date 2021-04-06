@@ -23,7 +23,6 @@ import classNames from 'classnames';
 
 import { myAccountActionPushEvent } from '@/utils/GA';
 import PaymentEditForm from '@/components/PaymentEditForm';
-import { CardTypeDesc } from '@/utils/constant/cyber.js';
 
 function CardItem(props) {
   const { data } = props;
@@ -64,7 +63,7 @@ function CardItem(props) {
               ************
               {data.lastFourDigits}
             </p>
-            <p className="mb-0">{CardTypeDesc[data.cardType]}</p>
+            <p className="mb-0">{data.paymentVendor}</p>
           </div>
         </div>
       </div>
@@ -119,7 +118,8 @@ class PaymentComp extends React.Component {
       completeCardShow: false,
       currentEditOriginCardInfo: null,
       paymentType: 'PAYU', // PAYU ADYEN
-      supportPaymentMethods: []
+      supportPaymentMethods: [],
+      defaultCardTypeVal: ''
     };
   }
   async componentDidMount() {
@@ -135,8 +135,16 @@ class PaymentComp extends React.Component {
       // if (this.state.paymentType === 'PAYU') {
       //   this.updateInitStatus(true);
       // }
-      this.props.paymentStore.setSupportPaymentMethods(
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
+      const supportPaymentMethods =
+        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      this.props.paymentStore.setSupportPaymentMethods(supportPaymentMethods);
+      this.setState(
+        { defaultCardTypeVal: supportPaymentMethods[0]?.cardType },
+        () => {
+          this.onCardTypeValChange({
+            cardTypeVal: this.state.defaultCardTypeVal
+          });
+        }
       );
     });
 
@@ -154,6 +162,14 @@ class PaymentComp extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
+  onCardTypeValChange = ({ cardTypeVal }) => {
+    const { paymentStore } = this.props;
+    paymentStore.setCurrentCardTypeInfo(
+      paymentStore.supportPaymentMethods.filter(
+        (s) => s.cardType === cardTypeVal
+      )[0] || null
+    );
+  };
   // 111
   handleHideEditForm = ({ closeListPage }) => {
     this.changeEditFormVisible(false);
@@ -727,7 +743,7 @@ class PaymentComp extends React.Component {
               <div className={classNames('row', 'ml-0', 'mr-0')}>
                 {creditCardList.map((el, idx) => (
                   <div
-                    className="col-12 col-md-6 p-2 ui-cursor-pointer"
+                    className="col-12 col-md-6 p-2 ui-cursor-pointer-pure"
                     key={el.id}
                   >
                     <CardItem
@@ -842,13 +858,9 @@ class PaymentComp extends React.Component {
           </div>
         )}
 
-        <div
-          style={{
-            display:
-              this.state.isEdit || !creditCardList.length ? 'block' : 'none'
-          }}
-        >
+        {this.state.isEdit || !creditCardList.length ? (
           <PaymentEditForm
+            defaultCardTypeVal={this.state.defaultCardTypeVal}
             backPage={this.state.fromPage}
             hideMyself={this.handleHideEditForm}
             refreshList={this.getPaymentMethodList}
@@ -857,8 +869,9 @@ class PaymentComp extends React.Component {
             needEmail={this.props.needEmail}
             needPhone={this.props.needPhone}
             paymentStore={this.props.paymentStore}
+            onCardTypeValChange={this.onCardTypeValChange}
           />
-        </div>
+        ) : null}
       </div>
     );
   }
