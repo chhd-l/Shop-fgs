@@ -317,11 +317,12 @@ export default class Felin extends React.Component {
     this.getTimeOptions();
   }
   get virtualAppointmentFlag() {
-    let { currentDate } = this.state;
-    return (
-      +format(currentDate, 'yyyyMMdd') >= 20210420 &&
-      +format(currentDate, 'yyyyMMdd') <= 20210502
-    );
+    // let { currentDate } = this.state;
+    // return (
+    //   +format(currentDate, 'yyyyMMdd') >= 20210420 &&
+    //   +format(currentDate, 'yyyyMMdd') <= 20210502
+    // );
+    return false;
   }
   get virtualDisabledFlag() {
     // console.log(this.virtualAppointmentFlag, this.state.selectedTimeObj, 'selectedTimeObj----')
