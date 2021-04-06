@@ -12,13 +12,6 @@ import LazyLoad from 'react-lazyload';
 import { usPaymentInfo } from '@/api/payment';
 import './list.css';
 
-const CardTypeDesc = {
-  '001': 'Visa',
-  '002': 'Mastercard',
-  '003': 'Amex',
-  '004': 'Discover'
-};
-
 function CardItemCover({
   selectedSts,
   hanldeClickCardItem = () => {},
@@ -322,7 +315,7 @@ class CyberCardList extends React.Component {
               </div>
               {!showLastFour && (
                 <div className="row align-items-center">
-                  <div className="col-12">{CardTypeDesc[data.cardType]}</div>
+                  <div className="col-12">{data.paymentVendor}</div>
                 </div>
               )}
             </div>
@@ -347,7 +340,7 @@ class CyberCardList extends React.Component {
                 </span>
                 <br />
                 <span className="creditCompleteInfo fontFitSCreen">
-                  {CardTypeDesc[data.cardType]}
+                  {data.paymentVendor}
                 </span>
               </div>
             </div>

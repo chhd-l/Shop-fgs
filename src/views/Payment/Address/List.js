@@ -185,7 +185,7 @@ class AddressList extends React.Component {
     try {
       let address1 = obj.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
-      if (res?.context && res?.context?.addressList) {
+      if (res?.context && res?.context?.addressList.length > 0) {
         // 根据地址获取到的地址列表
         let addls = res.context.addressList;
         let dladdress = Object.assign({}, obj);
