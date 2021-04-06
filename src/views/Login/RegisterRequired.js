@@ -208,7 +208,7 @@ class RegisterRequired extends Component {
     } catch (err) {
       window.location.href = process.env.REACT_APP_HOMEPAGE; //回到首页
       this.setState({
-        styleObj: { display: 'block' },
+        styleObj: { display: 'none' },
         isLoading: false,
         circleLoading: false
       });

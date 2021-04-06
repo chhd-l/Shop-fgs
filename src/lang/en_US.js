@@ -223,7 +223,7 @@ const en_US = {
   autoShipStarted: 'Autoship started',
   autoshop: 'autoship',
   backToAuthorization: 'Back to authorization',
-  bankCard: 'Credit card',
+  bankCard: 'Credit Card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
   biliingAddressSameAs: 'My billing address is the same as my shipping address',
