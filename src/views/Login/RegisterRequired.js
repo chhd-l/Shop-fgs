@@ -145,7 +145,10 @@ class RegisterRequired extends Component {
       if (!customerId) {
         return;
       }
-      const result = await findUserConsentList({ customerId });
+      const result = await findUserConsentList({
+        customerId,
+        oktaToken: localItemRoyal.get('oktaToken')
+      });
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');

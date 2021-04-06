@@ -224,13 +224,13 @@ const App = () => {
           path={'/'}
           forceRefresh={true}
         >
-          <RouteFilter />
           <ScrollToTop>
             <Security
               oktaAuth={config}
               // onAuthRequired={customAuthHandler}
               restoreOriginalUri={restoreOriginalUri}
             >
+              <RouteFilter />
               <Switch>
                 <Route exact path={'/'} component={Home} />
                 <Route
