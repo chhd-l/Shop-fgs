@@ -1491,6 +1491,7 @@ class Details extends React.Component {
       </${
         this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
       }>`;
+    console.log(goodHeading, 'goodHeading');
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
     const fromPathName =
