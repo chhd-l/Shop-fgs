@@ -221,7 +221,7 @@ const en_US = {
   autoShipStarted: 'Autoship started',
   autoshop: 'autoship',
   backToAuthorization: 'Back to authorization',
-  bankCard: 'Bank card',
+  bankCard: 'Credit card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
   biliingAddressSameAs: 'My billing address is the same as my shipping address',
@@ -1024,7 +1024,7 @@ const en_US = {
   registerEmailFormate:
     'The email address does not match the specified format.',
   registerErrorMessage:
-    'An error occurred while creating your account. Please try again later or use a different email address. ',
+    'An account with this email address already exists. Please log in or use a different email address. ',
   registerFeckbook: 'Connect with Facebook',
   registerFillIn: 'Please fill in this field',
   registerFooter1:

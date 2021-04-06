@@ -295,7 +295,7 @@ export const orderConfirmationPushEvent = (details) => {
       id: details.totalTid || '', //Transaction ID, same as backend system
       currency: process.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
       amount: details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
-      taxes: details.tradePrice.taxFreePrice || '', //Taxes amount, US number format, local currency
+      taxes: details.tradePrice.taxFeePrice || '', //Taxes amount, US number format, local currency
       shipping: details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
       paymentMethod: 'Credit Card',
       shippingMode: details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery'
