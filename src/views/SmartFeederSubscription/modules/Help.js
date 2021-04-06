@@ -46,16 +46,6 @@ class Help extends React.Component {
     let curScrollTop = document.documentElement.scrollTop;
     sessionItemRoyal.set('recommendation-scroll', curScrollTop);
   };
-  async UNSAFE_componentWillMount() {
-    let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
-    if (curScrollTop) {
-      window.scrollTo({
-        top: curScrollTop,
-        behavior: 'smooth'
-      });
-      sessionItemRoyal.set('recommendation-scroll', 0);
-    }
-  }
   mobileDial = () => {
     this.setState({ showModal: true });
   };

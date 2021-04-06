@@ -252,10 +252,20 @@ class Recommendation extends React.Component {
     this.setState({ loading: true });
 
     getRecommendationList_fr(token)
-      .then((res) => {
+      .then(async (res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
+        let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+        if (curScrollTop) {
+          window.scrollTo({
+            top: curScrollTop,
+            behavior: 'smooth'
+          });
+          setTimeout(() => {
+            sessionItemRoyal.set('recommendation-scroll', 0);
+          }, 100);
+        }
         prescriberId &&
           isRu &&
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
