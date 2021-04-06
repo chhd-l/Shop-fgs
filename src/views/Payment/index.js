@@ -588,9 +588,16 @@ class Payment extends React.Component {
     if (groups) {
       params.groups = groups;
     }
-    const res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
-      params
-    );
+    let res = '';
+    if (isLogin) {
+      res = await findUserConsentList(params);
+    } else {
+      if (process.env.REACT_APP_LANG == 'en') return; //美国游客不显示consent
+      res = await getStoreOpenConsentList(params);
+    }
+    // const res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
+    //   params
+    // );
     this.isExistListFun(res); //现在游客会员 统一
   }
   //重新组装listData
