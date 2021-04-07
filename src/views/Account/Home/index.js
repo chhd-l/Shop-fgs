@@ -131,7 +131,7 @@ class AccountHome extends React.Component {
     myAccountPushEvent('Overview');
 
     setSeoConfig({
-      pageName: 'Account index'
+      pageName: 'Account index'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });

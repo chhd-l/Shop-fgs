@@ -12,7 +12,8 @@ import {
   formatMoney,
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
-  unique
+  unique,
+  cancelPrevRequest
 } from '@/utils/utils';
 import {
   GAInitUnLogin,
@@ -298,16 +299,20 @@ class UnLoginCart extends React.Component {
         productList
       },
       () => {
-        // 初始化页面时，若为空购物车，则要用其他seo
-        if (initPage && !this.state.productList.length) {
-          setSeoConfig({
-            pageName: 'Empty Cart page'
-          }).then((res) => {
-            this.setState({ seoConfig: res });
-          });
-        }
+        this.queryEmptyCartSeo();
       }
     );
+  }
+  // 若为空购物车，则要用其他seo
+  queryEmptyCartSeo() {
+    if (!this.state.productList.length) {
+      cancelPrevRequest();
+      setSeoConfig({
+        pageName: 'Empty Cart page'
+      }).then((res) => {
+        this.setState({ seoConfig: res });
+      });
+    }
   }
   showErrMsg(msg) {
     clearTimeout(this.timer);
@@ -520,7 +525,7 @@ class UnLoginCart extends React.Component {
     productList.splice(currentProductIdx, 1);
     this.setState(
       {
-        productList: productList
+        productList
       },
       () => {
         this.updateStock();
@@ -529,6 +534,7 @@ class UnLoginCart extends React.Component {
           dataLayer.push({
             event: 'removeFromCart'
           });
+        this.queryEmptyCartSeo();
       }
     );
   }
