@@ -243,7 +243,26 @@ class Payment extends React.Component {
       isShowValidationModal: true, // 是否显示验证弹框
       billingAddressAddOrEdit: false, // billingAddress编辑或者添加地址
       validationAddress: [], // 校验地址
-      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
+      ruShippingDTO: {
+        sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+        sourceAreaFias: null,
+        sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+        sourceSettlementFias: null,
+        sourcePostalCode: null,
+        regionFias: '',
+        areaFias: '',
+        cityFias: '',
+        settlementFias: '',
+        postalCode: '',
+        weight: '1',
+        insuranceSum: 0,
+        codSum: 0,
+        dimensions: {
+          height: '1',
+          width: '1',
+          depth: '1'
+        }
+      } // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -1778,11 +1797,18 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
-    console.log(
-      '1869 ★★ -------------- Payment updateDeliveryAddrData: ',
-      data
-    );
+    const { ruShippingDTO } = this.state;
+    console.log('1869 ★★ -- Payment updateDeliveryAddrData: ', data);
+
+    var dudata = data?.DuData;
+    ruShippingDTO.regionFias = dudata?.provinceId;
+    ruShippingDTO.areaFias = dudata?.areaId;
+    ruShippingDTO.cityFias = dudata?.cityId;
+    ruShippingDTO.settlementFias = dudata?.settlementId;
+    ruShippingDTO.postalCode = dudata?.postCode;
+
     this.setState({
+      ruShippingDTO,
       deliveryAddress: data
     });
     if (this.state.billingChecked) {
@@ -1791,7 +1817,6 @@ class Payment extends React.Component {
       });
     }
     try {
-      // if (process.env.REACT_APP_LANG == 'en') {
       // 获取税额
       if (this.isLogin) {
         let stateNo = data?.state?.stateNo;
@@ -1824,7 +1849,6 @@ class Payment extends React.Component {
           }
         });
       }
-      // }
     } catch (err) {
       console.warn(err);
     }

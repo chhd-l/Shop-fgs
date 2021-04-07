@@ -249,7 +249,7 @@ class PersonalDataEditForm extends React.Component {
         city: form.city,
         cityId: form.cityId,
         entrance: form.entrance,
-        appartment: form.appartment,
+        apartment: form.apartment,
         communicationEmail: form.communicationEmail,
         communicationPhone: form.communicationPhone,
         oktaToken: oktaToken
