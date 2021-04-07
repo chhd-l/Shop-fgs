@@ -110,6 +110,25 @@ class Form extends React.Component {
     // 1、查询form表单配置开关
     this.getSystemFormConfig();
   }
+  checkRussiaPhone(str) {
+    const r = /^((\+7|7|8)?([489][0-9]{2}))(\d*)$/;
+    const cityCode = str.replace(r, function (word) {
+      if (RegExp.$1.length === 4) {
+        const countriesCode = RegExp.$2.replace('+', '');
+        return `+${countriesCode}(${RegExp.$3})`;
+      } else if (RegExp.$1.length === 3) {
+        return `(${RegExp.$3})`;
+      }
+    });
+    const r2 = /^(\d{3})(\d{2})(\d{2})$/;
+    if (str.length <= 12) {
+      const number = RegExp.$4.replace(r2, '$1-$2-$3');
+      return `${cityCode}${number}`;
+    } else {
+      console.log('格式化 str: ', str);
+      return str;
+    }
+  }
   // 1、查询form表单配置开关
   getSystemFormConfig = async () => {
     const { caninForm } = this.state;
@@ -214,7 +233,7 @@ class Form extends React.Component {
       apiName: null,
       pageRow: 0,
       pageCol: 0,
-      occupancyNum: 2,
+      occupancyNum: 1,
       storeId: null,
       createTime: '',
       updateTime: '',
@@ -288,18 +307,22 @@ class Form extends React.Component {
           require: item.requiredFlag == 1 ? true : false
         };
       }
-      rule.push(ruleItem);
 
-      // 利用对象的key值唯一性的，创建数组
-      const group = JSON.stringify(fn(item));
-      groups[group] = groups[group] || [];
-      groups[group].push(item);
+      if (this.props.isCyberBillingAddress && item.fieldKey != 'phoneNumber') {
+        rule.push(ruleItem);
 
-      // 查询城市列表
-      if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
-        this.getAllCityList();
+        // 利用对象的key值唯一性的，创建数组
+        const group = JSON.stringify(fn(item));
+        groups[group] = groups[group] || [];
+        groups[group].push(item);
+
+        // 查询城市列表
+        if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
+          this.getAllCityList();
+        }
       }
     });
+
     caninForm.formRule = rule;
     this.setState({
       caninForm
@@ -554,12 +577,12 @@ class Form extends React.Component {
     const name = target.name;
     if (name == 'postCode' || name == 'phoneNumber') {
       value = value.replace(/\s+/g, '');
+    }
+    if (name == 'postCode') {
       if (!this.isNumber(value)) {
         value = '';
         return;
       }
-    }
-    if (name == 'postCode') {
       switch (process.env.REACT_APP_LANG) {
         case 'en':
           value = value
@@ -585,10 +608,11 @@ class Form extends React.Component {
             .replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
           break;
         case 'ru':
-          value = value.replace(
-            /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/g,
-            '$1'
-          );
+          // value = value.replace(
+          //   /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/g,
+          //   '$1'
+          // );
+          value = this.checkRussiaPhone(value);
           break;
         default:
           value = value.replace(/\s+/g, '');
