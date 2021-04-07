@@ -321,7 +321,7 @@ const en_US = {
   confirmDelete2:
     'Are you sure you want to remove the following payment method? {val1} {val2}',
   confirmDeleteProduct:
-    'Are you sure you want to remove this product from the cart ?',
+    'Are you sure you want to remove this product from the cart?',
   confirmPassword: 'Confirm Password *',
   consent: 'Consent',
   consignee: 'Consignee',
