@@ -132,7 +132,7 @@ class NewPetModal extends Component {
     };
     const parmas = {
       customerPets: pets,
-      userId:  this.getUserInfo.customerAccount
+      userId: this.getUserInfo.customerAccount
     };
     let res = await addPet(parmas);
     this.props.confirm({ value: res.context.result, name: pets.petsName });
@@ -186,7 +186,7 @@ class NewPetModal extends Component {
       petForm['birthday'] = format(date, 'yyyy-MM-dd');
       isShowBirthErorr = false;
     } else {
-      petForm['birthday'] = date;
+      petForm['birthday'] = format(date, 'yyyy-MM-dd');
       isShowBirthErorr = true;
     }
     this.setState({ petForm, isShowBirthErorr });

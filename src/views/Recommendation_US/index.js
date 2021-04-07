@@ -153,9 +153,9 @@ class Recommendation extends React.Component {
         goodsSpecs: []
       },
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       productList: [],
       currentDetail: {},
@@ -252,10 +252,20 @@ class Recommendation extends React.Component {
     this.setState({ loading: true });
 
     getRecommendationList_fr(token)
-      .then((res) => {
+      .then(async (res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
+        let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+        if (curScrollTop) {
+          window.scrollTo({
+            top: curScrollTop,
+            behavior: 'smooth'
+          });
+          setTimeout(() => {
+            sessionItemRoyal.set('recommendation-scroll', 0);
+          }, 100);
+        }
         prescriberId &&
           isRu &&
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
@@ -947,48 +957,49 @@ class Recommendation extends React.Component {
                           }}
                         >
                           {productList.length > 1 && (
-                            <div className="imageTabBox">
-                              {productList.map((el, i) => (
-                                <span
-                                  className={`${
-                                    i === activeIndex ? 'active' : ''
-                                  }`}
-                                  style={{
-                                    display: 'inline-block',
-                                    width: '80px',
-                                    textAlign: 'center',
-                                    cursor: 'pointer',
-                                    margin: '0 4px'
-                                  }}
-                                  onClick={() =>
-                                    this.setState({ activeIndex: i })
-                                  }
-                                >
-                                  <img
-                                    src={el.images[0].artworkUrl}
+                            <div className="rc-fade--x">
+                              <div className="imageTabBox">
+                                {productList.map((el, i) => (
+                                  <span
+                                    className={` rc-btn--sm ${
+                                      i === activeIndex ? 'active' : ''
+                                    }`}
                                     style={{
-                                      width: '40px',
                                       display: 'inline-block',
-                                      margin: '.625rem 0'
-                                    }}
-                                    alt="goods-information-image"
-                                  />
-                                  {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
-                                  <p
-                                    style={{
+                                      // width: '80px',
                                       textAlign: 'center',
-                                      fontSize: '.75rem',
-                                      marginBottom: '5px',
-                                      width: '100%',
-                                      overflow: 'hidden',
-                                      whiteSpace: 'nowrap',
-                                      textOverflow: 'ellipsis'
+                                      cursor: 'pointer'
                                     }}
+                                    onClick={() =>
+                                      this.setState({ activeIndex: i })
+                                    }
                                   >
-                                    {el.goodsInfo.goodsInfoName}
-                                  </p>
-                                </span>
-                              ))}
+                                    <img
+                                      src={el.images[0].artworkUrl}
+                                      style={{
+                                        width: '60px',
+                                        display: 'inline-block',
+                                        margin: '.625rem 0'
+                                      }}
+                                      alt="goods information image"
+                                    />
+                                    {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
+                                    <p
+                                      style={{
+                                        textAlign: 'center',
+                                        fontSize: '1rem',
+                                        marginBottom: '5px',
+                                        width: '100%',
+                                        overflow: 'hidden',
+                                        whiteSpace: 'nowrap',
+                                        textOverflow: 'ellipsis'
+                                      }}
+                                    >
+                                      {el.goodsInfo.goodsInfoName}
+                                    </p>
+                                  </span>
+                                ))}
+                              </div>
                             </div>
                           )}
                           <div className="right rc-padding-x--lg ">
@@ -1123,7 +1134,7 @@ class Recommendation extends React.Component {
                               <img
                                 className="type-icon"
                                 src={PetsImg}
-                                alt="pet-image"
+                                alt="pet image"
                                 // src={petsiconArr[this.state.petType]}
                               />
                               <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
@@ -1208,7 +1219,7 @@ class Recommendation extends React.Component {
                         <img
                           className="m-center"
                           src={item.img}
-                          alt="recommendation-image"
+                          alt="recommendation image"
                         />
                       </LazyLoad>
                     </div>
@@ -1247,7 +1258,7 @@ class Recommendation extends React.Component {
               </div>
               <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                 <LazyLoad>
-                  <img src={PuppyJPG} alt="puppy-image" />
+                  <img src={PuppyJPG} alt="puppy image" />
                 </LazyLoad>
               </div>
             </div>
@@ -1272,7 +1283,7 @@ class Recommendation extends React.Component {
                         <img
                           className="mx-auto rc-margin-bottom--xs"
                           src={item.img}
-                          alt="recommendation-image"
+                          alt="recommendation image"
                         />
                       </lazyload>
                       <div
@@ -1344,7 +1355,7 @@ class Recommendation extends React.Component {
                     <LazyLoad>
                       <img
                         src={cur_recommendation2}
-                        alt="recommendation-image"
+                        alt="recommendation image"
                       />
                     </LazyLoad>
                   </div>
@@ -1352,7 +1363,7 @@ class Recommendation extends React.Component {
                     <LazyLoad>
                       <img
                         src={cur_recommendation3}
-                        alt="recommendation-image"
+                        alt="recommendation image"
                       />
                     </LazyLoad>
                   </div>
@@ -1360,7 +1371,7 @@ class Recommendation extends React.Component {
                     <LazyLoad>
                       <img
                         src={cur_recommendation4}
-                        alt="recommendation-image"
+                        alt="recommendation image"
                       />
                     </LazyLoad>
                   </div>

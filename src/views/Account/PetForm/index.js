@@ -27,13 +27,14 @@ import {
   getDictionary,
   getDeviceType,
   datePickerConfig,
-  setSeoConfig
+  setSeoConfig,
+  getFormatDate
 } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
+import { format, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
@@ -69,9 +70,9 @@ class PetForm extends React.Component {
       isInputDisabled: false,
       isUnknownDisabled: false,
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       //pet
       currentPetId: '',
@@ -304,25 +305,24 @@ class PetForm extends React.Component {
         return;
       }
     }
+    if (!this.state.sensitivity) {
+      this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
+      return;
+    }
     if (process.env.REACT_APP_LANG !== 'en') {
-      if (
-        !this.state.sensitivity ||
-        !this.state.activity ||
-        !this.state.lifestyle
-      ) {
+      if (!this.state.activity || !this.state.lifestyle) {
         this.showErrorMsg(
           this.props.intl.messages.pleasecompleteTheRequiredItem
         );
         return;
       }
-    }
-
-    for (let k in this.state.weightObj) {
-      if (!this.state.weightObj[k]) {
-        this.showErrorMsg(
-          this.props.intl.messages.pleasecompleteTheRequiredItem
-        );
-        return;
+      for (let k in this.state.weightObj) {
+        if (!this.state.weightObj[k]) {
+          this.showErrorMsg(
+            this.props.intl.messages.pleasecompleteTheRequiredItem
+          );
+          return;
+        }
       }
     }
 
@@ -772,7 +772,6 @@ class PetForm extends React.Component {
     });
   };
   onDateChange(date) {
-    console.log(date, 'date');
     this.setState({
       birthdate: format(date, 'yyyy-MM-dd'),
       isDisabled: false
@@ -900,7 +899,7 @@ class PetForm extends React.Component {
                     <img
                       src={Banner_Dog}
                       style={{ left: '40px' }}
-                      alt="Banner-Dog"
+                      alt="Banner Dog"
                     />
                   </LazyLoad>
                   <div className="buttonBox">
@@ -940,7 +939,7 @@ class PetForm extends React.Component {
                     <img
                       src={Banner_Cat}
                       style={{ right: '40px' }}
-                      alt="Banner-Cat"
+                      alt="Banner Cat"
                     />
                   </LazyLoad>
                   {/* <div className="buttonBox" style={{left: '350px'}}>
@@ -985,7 +984,7 @@ class PetForm extends React.Component {
                         borderRadius: '50%'
                       }}
                       src={imgUrl || (isCat ? Cat : Dog)}
-                      alt="photo-box"
+                      alt="photo box"
                     />
                     {/* </LazyLoad> */}
                     {/* <a className="rc-styled-link" href="#/" onClick={(e) => {
@@ -1119,7 +1118,7 @@ class PetForm extends React.Component {
                           maxDate={new Date()}
                           selected={
                             this.state.birthdate
-                              ? new Date(this.state.birthdate)
+                              ? new Date(getFormatDate(this.state.birthdate))
                               : ''
                           }
                           onChange={(date) => this.onDateChange(date)}

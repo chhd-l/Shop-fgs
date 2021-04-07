@@ -160,7 +160,7 @@ class ReviewForm extends React.Component {
                   <img
                     className="product-img"
                     src={this.props.product.pic}
-                    alt="product-image"
+                    alt="product image"
                   />
                 </LazyLoad>
               </div>

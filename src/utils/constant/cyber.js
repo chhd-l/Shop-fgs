@@ -3,32 +3,11 @@ import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
 
-const CardTypeDesc = {
-  '001': 'Visa',
-  '002': 'Mastercard',
-  '003': 'Amex',
-  '004': 'Discover'
-};
-
 const cardTypeImg = {
   visa: visaImg,
   mastercard: mastercardImg,
   amex: amexImg,
   discover: discoverImg
-};
-
-const CardTypeArr = {
-  cyberVisa: '001',
-  cyberMastercard: '002',
-  cyberAmex: '003',
-  cyberDiscover: '004'
-};
-
-const CardTypeName = {
-  cyberVisa: 'Visa',
-  cyberMastercard: 'Mastercard',
-  cyberAmex: 'Amex',
-  cyberDiscover: 'Discover'
 };
 
 const cyberFormTitle = {
@@ -39,32 +18,4 @@ const cyberFormTitle = {
   secureCode: 'cyber.form.secureCode2'
 };
 
-const showCardType = (type) => {
-  let cardTypeDesc = '';
-  switch (type) {
-    case '001':
-      cardTypeDesc = 'Visa';
-      break;
-    case '002':
-      cardTypeDesc = 'Mastercard';
-      break;
-    case '003':
-      cardTypeDesc = 'Amex';
-      break;
-    case '004':
-      cardTypeDesc = 'Discover';
-      break;
-    default:
-      cardTypeDesc = type;
-  }
-  return cardTypeDesc;
-};
-
-export {
-  CardTypeDesc,
-  cardTypeImg,
-  CardTypeArr,
-  CardTypeName,
-  cyberFormTitle,
-  showCardType
-};
+export { cardTypeImg, cyberFormTitle };

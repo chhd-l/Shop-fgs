@@ -12,6 +12,15 @@
 .Recommendation_US p.list_item {
   margin-bottom: 0;
 }
+.Recommendation_US .recommendProduct .imageTabBox {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.Recommendation_US .recommendProduct .imageTabBox::-webkit-scrollbar {
+  width: 0.625rem;
+  background: #f6f6f6;
+  height: 2px;
+}
 .Recommendation_FR .has-promotion .text-throught-line {
   text-decoration: line-through;
   color: #666;

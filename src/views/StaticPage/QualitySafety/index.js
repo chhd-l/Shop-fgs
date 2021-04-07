@@ -18,9 +18,9 @@ class QualitySafety extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
@@ -149,7 +149,7 @@ class QualitySafety extends React.Component {
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <LazyLoad>
                               <img
-                                alt="export-all-lowres-image"
+                                alt="export all lowres image"
                                 src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_0847Export_All_Lowres.jpg`}
                               />
                             </LazyLoad>

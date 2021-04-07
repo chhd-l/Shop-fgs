@@ -137,13 +137,42 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
 
+Date.prototype.addHours= function(h){
+  this.setHours(this.getHours()+h);
+  return this;
+}
+
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
 
-import RedirectUrlJSON from './redirectUrl';
+import RedirectUrlJSON_fr from './redirect/fr';
+import RedirectUrlJSON_ru from './redirect/ru';
+import RedirectUrlJSON_tr from './redirect/tr';
+
+const redirectFun = () => {
+  let RedirectUrlObj = {}
+  let RedirectUrlJSON = {
+    fr: RedirectUrlJSON_fr,
+    ru: RedirectUrlJSON_ru,
+    tr: RedirectUrlJSON_tr
+  };
+  if(RedirectUrlJSON[process.env.REACT_APP_LANG]){
+    RedirectUrlJSON[process.env.REACT_APP_LANG].RECORDS.filter(
+      (item) => item.shortUrl !== item.redirectUrl
+    )
+      .map((item) => ({
+        [item.shortUrl]: item.redirectUrl
+      }))
+      .forEach((item) => {
+        RedirectUrlObj = { ...RedirectUrlObj, ...item }; //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
+      });
+  }
+  return RedirectUrlObj
+  
+}
 
 if (process.env.REACT_APP_LANG === 'fr') {
   registerLocale(process.env.REACT_APP_LANG, fr);
@@ -224,13 +253,13 @@ const App = () => {
           path={'/'}
           forceRefresh={true}
         >
-          <RouteFilter />
           <ScrollToTop>
             <Security
               oktaAuth={config}
               // onAuthRequired={customAuthHandler}
               restoreOriginalUri={restoreOriginalUri}
             >
+              <RouteFilter />
               <Switch>
                 <Route exact path={'/'} component={Home} />
                 <Route
@@ -322,7 +351,7 @@ const App = () => {
                   path="/club-subscription"
                   component={
                     process.env.REACT_APP_LANG == 'ru' ||
-                    process.env.REACT_APP_LANG == 'tr'
+                      process.env.REACT_APP_LANG == 'tr'
                       ? ClubLandingPage
                       : Exception
                   }
@@ -419,7 +448,7 @@ const App = () => {
                   render={(props) => (
                     <AccountPetForm key={props.match.params.id} {...props} />
                   )}
-                  // component={AccountPetForm}
+                // component={AccountPetForm}
                 />
                 <Route
                   path="/account/pets/petForm/"
@@ -555,7 +584,7 @@ const App = () => {
                   path="/Values"
                   component={
                     { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                      process.env.REACT_APP_LANG
+                    process.env.REACT_APP_LANG
                     ] || Values
                   }
                 />
@@ -692,7 +721,15 @@ const App = () => {
                         redirectUrl = pathname.split(splitName)[0];
                       } else if (pathname.split('.html').length > 1) {
                         redirectUrl = pathname.split('.html')[0];
-                      }
+                      } 
+
+                      // PDP文件重定向start
+                      const specailPlpUrlMapping = {
+                        ...redirectFun()
+                      };
+                      redirectUrl = specailPlpUrlMapping[pathname + search];
+                       // PDP文件重定向end
+
                       if (redirectUrl) {
                         return <Redirect to={redirectUrl} />;
                       } else {
@@ -701,21 +738,9 @@ const App = () => {
                         );
                       }
                     } else {
-                      let RedirectUrlObj = {};
-                      if (process.env.REACT_APP_LANG == 'fr') {
-                        RedirectUrlJSON.RECORDS.filter(
-                          (item) => item.shortUrl !== item.redirectUrl
-                        )
-                          .map((item) => ({
-                            [item.shortUrl]: item.redirectUrl
-                          }))
-                          .forEach((item) => {
-                            RedirectUrlObj = { ...RedirectUrlObj, ...item }; //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
-                          });
-                      }
-
+                      // 除去PDP页面文件重定向start
                       const specailPlpUrlMapping = {
-                        ...RedirectUrlObj
+                        ...redirectFun()
                       };
 
                       let redirectUrl = '';
@@ -724,6 +749,7 @@ const App = () => {
                       } else if (specailPlpUrlMapping[pathname + search]) {
                         redirectUrl = specailPlpUrlMapping[pathname + search];
                       }
+                      // 除去PDP页面文件重定向end
 
                       if (redirectUrl) {
                         return <Redirect to={redirectUrl} />;

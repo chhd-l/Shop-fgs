@@ -21,9 +21,9 @@ export default class OrdersAfterSaleDetail extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       returnNumber: '',
       details: null,
@@ -170,7 +170,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                         <LazyLoad>
                                           <img
                                             src={JSON.parse(item).url}
-                                            alt="detail-image"
+                                            alt="detail image"
                                           />
                                         </LazyLoad>
                                       </div>

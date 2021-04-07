@@ -1,10 +1,16 @@
+//billaddress灵活配置组件
 import React from 'react';
 import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import SearchSelection from '@/components/SearchSelection';
-import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  datePickerConfig,
+  getFormatDate
+} from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
 import Loading from '@/components/Loading';
@@ -402,7 +408,8 @@ class Form extends React.Component {
     try {
       let address1 = caninForm.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
-      if (res?.context && res?.context?.addressList) {
+      console.log('★ -------------- 7-1、根据address1查询地址信息 res: ', res);
+      if (res?.context && res?.context?.addressList.length > 0) {
         let addls = res.context.addressList;
         addls.forEach((item) => {
           if (item.unrestrictedValue == address1) {
@@ -426,6 +433,9 @@ class Form extends React.Component {
   // 7-2、计算运费
   getShippingCalculation = async (data) => {
     const { caninForm } = this.state;
+    // this.setState({
+    //   dataLoading: true
+    // });
     try {
       let res = await shippingCalculation({
         sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
@@ -447,6 +457,7 @@ class Form extends React.Component {
           depth: '1'
         }
       });
+      console.log('★ -------------- 2、计算运费 res: ', res);
       if (res?.context?.success && res?.context?.tariffs[0]) {
         let calculation = res?.context?.tariffs[0];
         // 赋值查询到的地址信息
@@ -456,15 +467,28 @@ class Form extends React.Component {
         // 清空错误信息
         this.setState(
           {
-            caninForm
+            caninForm,
+            errMsgObj: {
+              ['address1']: ''
+            }
           },
           () => {
             this.props.updateData(this.state.caninForm);
           }
         );
+      } else {
+        this.setState({
+          errMsgObj: {
+            ['address1']: this.getIntlMsg('payment.wrongAddress')
+          }
+        });
       }
     } catch (err) {
       console.warn(err);
+    } finally {
+      this.setState({
+        dataLoading: false
+      });
     }
   };
   // 下拉框选择
@@ -578,6 +602,12 @@ class Form extends React.Component {
     const target = e.target;
     const targetRule = caninForm.formRule.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
+
+    if (target.name == 'address1' && value == '') {
+      this.setState({
+        address1Data: []
+      });
+    }
     try {
       await validData(targetRule, { [target.name]: value });
       this.setState({
@@ -597,12 +627,6 @@ class Form extends React.Component {
   handleCitySearchSelectionBlur = (e) => {
     this.inputBlur(e);
   };
-  // 地址搜索框失去焦点
-  handleSearchSelectionBlur = (e) => {
-    const { address1Data } = this.state;
-    this.inputBlur(e);
-    this.handleAddressInputChange(address1Data);
-  };
   // 城市搜索选择
   handleCityInputChange = (data) => {
     const { caninForm } = this.state;
@@ -612,20 +636,36 @@ class Form extends React.Component {
       this.props.updateData(this.state.caninForm);
     });
   };
+  // 地址搜索框失去焦点
+  handleSearchSelectionBlur = (e) => {
+    const { caninForm, address1Data } = this.state;
+    // const target = e.target;
+    // let value = target.value;
+    // const name = target.name;
+    // caninForm[name] = value;
+    // this.setState({ caninForm }, () => {
+    //   this.props.updateData(this.state.caninForm);
+    // });
+    this.inputBlur(e);
+    this.handleAddressInputChange(address1Data);
+  };
+  // 提示消息
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
   // DuData地址搜索选择
   handleAddressInputChange = async (data) => {
     const { caninForm } = this.state;
     this.setState({
       address1Data: data
     });
+    console.log('★ -------------- DuData地址搜索选择 data: ', data);
     // 根据地址组装对应的提示信息
     let errMsg = '';
-    const getIntlMsg = (str) => {
-      return this.props.intl.messages[str];
-    };
-    let streets = getIntlMsg('payment.streets'),
-      postCode = getIntlMsg('payment.postCode'),
-      house = getIntlMsg('payment.house');
+    let streets = this.getIntlMsg('payment.streets'),
+      postCode = this.getIntlMsg('payment.postCode'),
+      house = this.getIntlMsg('payment.house');
+
     let dstreet = data?.street,
       dpcode = data?.postCode,
       dhouse = data?.house;
@@ -648,9 +688,9 @@ class Form extends React.Component {
       if (dpcode == null && dhouse == null) {
         errMsg = postCode + ', ' + house;
       }
-      errMsg = getIntlMsg('payment.pleaseInput') + errMsg;
+      errMsg = this.getIntlMsg('payment.pleaseInput') + errMsg;
       if (dstreet == null && dpcode == null && dhouse == null) {
-        errMsg = getIntlMsg('payment.wrongAddress');
+        errMsg = this.getIntlMsg('payment.wrongAddress');
       }
       // 显示错误信息
       this.setState({
@@ -659,24 +699,23 @@ class Form extends React.Component {
         }
       });
     } else {
+      // DuData相关参数
+      caninForm.province = data.region;
+      caninForm.area = data.area;
+      caninForm.settlement = data.settlement;
+      caninForm.street = data.street;
+      caninForm.house = data.house;
+      caninForm.housing = data.block;
+
       // 赋值查询到的地址信息
       caninForm.DaData = data;
       caninForm.address1 = data.unrestrictedValue;
       caninForm.city = data.city;
       caninForm.postCode = data.postCode;
-      // 清空错误信息
-      this.setState(
-        {
-          caninForm,
-          errMsgObj: {
-            ['address1']: ''
-          }
-        },
-        () => {
-          // 计算运费
-          this.getShippingCalculation(data);
-        }
-      );
+      this.setState({ caninForm }, () => {
+        // 计算运费
+        this.getShippingCalculation(data);
+      });
     }
   };
 
@@ -755,17 +794,13 @@ class Form extends React.Component {
             let res = await getAddressBykeyWord({
               keyword: inputVal
             });
-            if (!res?.context?.addressList) {
-              this.setState({
-                address1Data: []
-              });
-            }
             return (
               (res?.context && res?.context?.addressList) ||
               []
             ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
           }}
           selectedItemChange={(data) => this.handleAddressInputChange(data)}
+          searchSelectionBlur={this.handleSearchSelectionBlur}
           key={caninForm[item.fieldKey]}
           defaultValue={caninForm[item.fieldKey]}
           value={caninForm[item.fieldKey]}
@@ -778,7 +813,6 @@ class Form extends React.Component {
           }
           customStyle={true}
           isBottomPaging={true}
-          searchSelectionBlur={this.handleSearchSelectionBlur}
         />
       </>
     );
@@ -848,7 +882,7 @@ class Form extends React.Component {
                 className="rc-input__control shippingEmail"
                 id="email"
                 data-name="profile_personalInfo"
-                alt="E-mail"
+                alt="birthday E-mail"
                 name="email"
                 value={caninForm.email}
                 maxLength="50"

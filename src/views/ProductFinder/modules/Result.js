@@ -47,7 +47,7 @@ function QListAndPetJSX(props) {
               <img
                 src={{ cat: catImg, dog: dogImg }[props.type]}
                 style={{ width: '50%', margin: '0 auto' }}
-                alt="pet-image"
+                alt="pet image"
               />
             </LazyLoad>
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
@@ -89,7 +89,7 @@ function QListAndPetJSX(props) {
                       width: '50%',
                       margin: '0 auto'
                     }}
-                    alt="pet-image"
+                    alt="pet image"
                   />
                 </LazyLoad>
               </div>
@@ -172,9 +172,9 @@ class ProductFinderResult extends React.Component {
       isLoading: true,
       questionlist: [],
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       petBaseInfo: null
     };
@@ -409,7 +409,7 @@ class ProductFinderResult extends React.Component {
                             )[0].goodsInfoImg
                           }
                           className="p-img"
-                          alt="goods-information-image"
+                          alt="goods information image"
                         />
                       </LazyLoad>
                     </div>
@@ -504,7 +504,7 @@ class ProductFinderResult extends React.Component {
                                 )[0].goodsInfoImg
                               }
                               className="p-img"
-                              alt="goods-information-image"
+                              alt="goods information image"
                             />
                           </LazyLoad>
                         </div>

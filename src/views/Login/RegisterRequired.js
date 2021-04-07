@@ -145,7 +145,10 @@ class RegisterRequired extends Component {
       if (!customerId) {
         return;
       }
-      const result = await findUserConsentList({ customerId });
+      const result = await findUserConsentList({
+        customerId,
+        oktaToken: localItemRoyal.get('oktaToken')
+      });
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
@@ -205,7 +208,7 @@ class RegisterRequired extends Component {
     } catch (err) {
       window.location.href = process.env.REACT_APP_HOMEPAGE; //回到首页
       this.setState({
-        styleObj: { display: 'block' },
+        styleObj: { display: 'none' },
         isLoading: false,
         circleLoading: false
       });

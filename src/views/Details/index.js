@@ -316,9 +316,9 @@ class Details extends React.Component {
       goodsNo: '', // SPU
       breadCrumbs: [],
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: '',
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin',
         headingTag: 'h1'
       },
       spuImages: [],
@@ -1467,8 +1467,10 @@ class Details extends React.Component {
       pageLink,
       goodsType,
       barcode,
-      ccidBtnDisplay
+      ccidBtnDisplay,
+      seoConfig
     } = this.state;
+    const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
         i.artworkUrl = i.goodsInfoImg;
@@ -1482,15 +1484,11 @@ class Details extends React.Component {
       details.displayFlag; //vet产品并且是hub的情况下
     const De = process.env.REACT_APP_LANG === 'de';
     const Ru = process.env.REACT_APP_LANG === 'ru';
-    let goodHeading = `<${
-      this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
-    }
+    const goodHeading = `<${headingTag || 'h2'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
-      </${
-        this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag : 'h1'
-      }>`;
+      </${headingTag || 'h2'}>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
     const fromPathName =
@@ -1537,12 +1535,9 @@ class Details extends React.Component {
         ) : null}
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          <title>{seoConfig.title}</title>
+          <meta name="description" content={seoConfig.metaDescription} />
+          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -1560,7 +1555,10 @@ class Details extends React.Component {
                 style={{ margin: '50px 0' }}
               >
                 <div className="ui-font-nothing text-center">
-                  <em className="rc-icon rc-incompatible--sm rc-iconography"></em>
+                  <h1 style={{ display: 'none' }}>
+                    {seoConfig.metaDescription}
+                  </h1>
+                  <em className="rc-icon rc-incompatible--sm rc-iconography" />
                   {errMsg}
                 </div>
               </div>
@@ -2097,7 +2095,7 @@ class Details extends React.Component {
                                         id="saveExtra"
                                         values={{
                                           val:
-                                            selectedSpecItem.subscriptionPercentage
+                                            selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>
@@ -2391,7 +2389,7 @@ class Details extends React.Component {
                     <img
                       className="good-contact-img mr-5"
                       src={details.goodsImg}
-                      alt="goods-details-image"
+                      alt="goods details image"
                     />
                   ) : null}
                   <div className="good-contact-dec">
@@ -2478,14 +2476,14 @@ class Details extends React.Component {
               <>
                 <div className="more-link rc-content--fixed-header ">
                   <LazyLoad height={200}>
-                    <img src={loop} srcSet={loop} alt="loop-icon" />
+                    <img src={loop} srcSet={loop} alt="loop icon" />
                   </LazyLoad>
                   <LazyLoad height={200}>
                     <img
                       src={vert}
                       srcSet={vert}
                       className="vert"
-                      alt="vert-icon"
+                      alt="vert icon"
                     />
                   </LazyLoad>
                   <p>

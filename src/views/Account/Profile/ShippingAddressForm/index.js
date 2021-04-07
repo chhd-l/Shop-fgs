@@ -37,9 +37,9 @@ class ShippingAddressFrom extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       loading: false,
       saveLoading: false,
@@ -238,6 +238,16 @@ class ShippingAddressFrom extends React.Component {
         postCode: data.postCode,
         rfc: data.rfc,
         email: data.email,
+
+        region: data.province, // DuData相关参数
+        area: data.area,
+        settlement: data.settlement,
+        street: data.street,
+        house: data.house,
+        block: data.housing,
+        entrance: data.entrance,
+        appartment: data.appartment,
+
         type: curType.toUpperCase()
       };
       // if (params?.province && params?.province != null) {

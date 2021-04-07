@@ -66,9 +66,9 @@ class Help extends React.Component {
         goodsSpecs: []
       },
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       productList: [],
       currentDetail: {},
@@ -721,7 +721,7 @@ class Help extends React.Component {
                                   display: 'inline-block',
                                   margin: '.625rem 0'
                                 }}
-                                alt="goods-information-image"
+                                alt="goods information image"
                               />
                               {/* <p style={{textAlign: 'center'}}>{el.goodsInfo.goodsInfoName}</p> */}
                               <p
@@ -1157,8 +1157,8 @@ class Help extends React.Component {
                 <div className="rc-margin-bottom--sm">
                   <img
                     className="m-auto w-auto lazyloaded"
-                    alt="image-one"
-                    title="image-one"
+                    alt="image one"
+                    title="image one"
                     src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
                   />
                 </div>
@@ -1443,17 +1443,17 @@ class Help extends React.Component {
           >
             <li>
               <LazyLoad>
-                <img src={cur_recommendation2} alt="recommendation-image" />
+                <img src={cur_recommendation2} alt="recommendation image" />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad>
-                <img src={cur_recommendation3} alt="recommendation-image" />
+                <img src={cur_recommendation3} alt="recommendation image" />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad>
-                <img src={cur_recommendation4} alt="recommendation-image" />
+                <img src={cur_recommendation4} alt="recommendation image" />
               </LazyLoad>
             </li>
           </section>

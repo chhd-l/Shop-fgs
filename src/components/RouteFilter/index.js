@@ -6,11 +6,13 @@ import { findUserConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
 import { toJS } from 'mobx';
 import { PDP_Regex } from '@/utils/constant';
+import { withOktaAuth } from '@okta/okta-react';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('configStore', 'loginStore', 'checkoutStore', 'clinicStore')
+@withRouter
 class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -195,7 +197,27 @@ class RouteFilter extends Component {
     }
     return true;
   }
-  async componentDidMount() {
+
+  //总的调用consense接口
+  getConsentList() {
+    if (this.isLogin) {
+      this.doFindUserConsentList();
+    }
+  }
+  //1.会员调用consense接口
+  doFindUserConsentList() {
+    let customerId = this.userInfo && this.userInfo.customerId;
+    if (!customerId) {
+      return;
+    }
+    findUserConsentList({
+      customerId: customerId,
+      oktaToken: localItemRoyal.get('oktaToken')
+    }).then((result) => {
+      this.isExistRequiredListFun(result);
+    });
+  }
+  componentDidMount() {
     const { history, location, checkoutStore } = this.props;
     const { pathname, key } = location;
     const curPath = `${pathname}_${key}`;
@@ -243,18 +265,6 @@ class RouteFilter extends Component {
     }
 
     sessionItemRoyal.set('prevPath', curPath);
-
-    // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
-    if (
-      localItemRoyal.get('rc-token') &&
-      !localItemRoyal.get('rc-register') &&
-      pathname === '/' &&
-      pathname !== '/implicit/callback' &&
-      pathname !== '/required' &&
-      pathname !== '/account/information'
-    ) {
-      this.getConsentList();
-    }
 
     if (
       !localItemRoyal.get('rc-token') &&
@@ -328,25 +338,30 @@ class RouteFilter extends Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  //总的调用consense接口
-  getConsentList() {
-    if (this.isLogin) {
-      this.doFindUserConsentList();
-    }
-  }
-  //1.会员调用consense接口
-  doFindUserConsentList() {
-    let customerId = this.userInfo && this.userInfo.customerId;
-    if (!customerId) {
-      return;
-    }
-    findUserConsentList({ customerId }).then((result) => {
-      this.isExistRequiredListFun(result);
-    });
-  }
+
   render() {
+    const oktaTokenString =
+      this.props.authState && this.props.authState.accessToken
+        ? this.props.authState.accessToken.value
+        : '';
+    if (oktaTokenString) {
+      let oktaToken = 'Bearer ' + oktaTokenString;
+      localItemRoyal.set('oktaToken', oktaToken);
+      let pathname = this.props.location.pathname;
+      // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
+      if (
+        localItemRoyal.get('rc-token') &&
+        !localItemRoyal.get('rc-register') &&
+        pathname === '/' &&
+        pathname !== '/implicit/callback' &&
+        pathname !== '/required' &&
+        pathname !== '/account/information'
+      ) {
+        this.getConsentList();
+      }
+    }
     return <React.Fragment />;
   }
 }
 
-export default withRouter(RouteFilter);
+export default withOktaAuth(RouteFilter);

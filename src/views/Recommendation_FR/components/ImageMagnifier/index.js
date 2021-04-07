@@ -365,7 +365,7 @@ class ImageMagnifier extends Component {
                 <LazyLoad>
                   <img
                     src={taggingForImage.taggingImgUrl}
-                    alt="tagging-image"
+                    alt="tagging image"
                   />
                 </LazyLoad>
               </div>
@@ -384,7 +384,7 @@ class ImageMagnifier extends Component {
                           className="J_detail_img"
                           style={cssStyle.imgStyle}
                           src={currentImg || noPic}
-                          alt="current-image"
+                          alt="current image"
                         />
                       </LazyLoad>
                     </div>
@@ -396,7 +396,7 @@ class ImageMagnifier extends Component {
                           className="J_detail_img"
                           style={cssStyle.imgStyle}
                           src={currentImg || this.state.maxImg || noPic}
-                          alt="current-image"
+                          alt="current image"
                         />
                       </LazyLoad>
                     </div>

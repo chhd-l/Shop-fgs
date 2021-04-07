@@ -33,9 +33,9 @@ class Pet extends React.Component {
       loading: false,
       petList: [],
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       isMobile: false,
       loading: true
@@ -213,7 +213,7 @@ class Pet extends React.Component {
                                     <img
                                       style={{ width: '1.25rem' }}
                                       src={!el.petsSex ? Male : Female}
-                                      alt="pet-sex-icon"
+                                      alt="pet sex icon"
                                     />
                                   </LazyLoad>
                                 </h1>
@@ -267,7 +267,7 @@ class Pet extends React.Component {
                                     <img
                                       style={{ width: '.9375rem' }}
                                       src={!el.petsSex ? Male : Female}
-                                      alt="pet-sex-icon"
+                                      alt="pet sex icon"
                                     />
                                   </LazyLoad>
                                 </h1>

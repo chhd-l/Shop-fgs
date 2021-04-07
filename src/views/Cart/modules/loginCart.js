@@ -844,7 +844,7 @@ class LoginCart extends React.Component {
                 <img
                   style={{ display: 'inline-block' }}
                   src={Club_Logo}
-                  alt="Club-logo"
+                  alt="Club logo"
                 />
               </div>
               <div className="tips-info mobile-text-center">
@@ -878,7 +878,7 @@ class LoginCart extends React.Component {
                   <img
                     className="img"
                     src={gift.goodsInfoImg || foodDispenserPic}
-                    alt="goodsInformationImage"
+                    alt="goods Information Image"
                   />
                   <div className="mobile-text-center">
                     <div>{gift.goodsInfoName}</div>
@@ -1525,9 +1525,9 @@ class LoginCart extends React.Component {
                 {productList.length === 0 && !initLoading && (
                   <>
                     <div className="rc-text-center">
-                      <div className="rc-beta mb-1 mt-3">
+                      <h1 className="rc-beta mb-1 mt-3">
                         <FormattedMessage id="cart.yourShoppingCart" />
-                      </div>
+                      </h1>
                       <div className="rc-gamma title-empty mb-0">
                         <FormattedMessage id="header.basketEmpty" />
                       </div>
@@ -1556,7 +1556,7 @@ class LoginCart extends React.Component {
                                     <img
                                       className="w-100"
                                       src={dogsPic}
-                                      alt="Dog"
+                                      alt="Dog products"
                                     />
                                   </LazyLoad>
                                   <br />
@@ -1571,7 +1571,7 @@ class LoginCart extends React.Component {
                                     <img
                                       className="w-100"
                                       src={catsPic}
-                                      alt="Cat"
+                                      alt="Cat products"
                                     />
                                   </LazyLoad>
                                   <br />

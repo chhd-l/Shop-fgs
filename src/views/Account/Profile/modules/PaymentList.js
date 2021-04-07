@@ -40,7 +40,7 @@ function CardItem(props) {
                   CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
                   'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                 }
-                alt="pay-card-img-fit-screen"
+                alt="pay card img fit screen"
               />
             </LazyLoad>
           </div>
@@ -50,7 +50,7 @@ function CardItem(props) {
               ************
               {data.lastFourDigits}
             </p>
-            <p className="mb-0">{showCardType(data.cardType)}</p>
+            <p className="mb-0">{data.paymentVendor}</p>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ function CardItem(props) {
 @inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
-class AddressList extends React.Component {
+class PaymentList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +74,8 @@ class AddressList extends React.Component {
       paymentType: 'PAYU', //getway接口没配置美国支付CYBER，暂时这样
       errorMsg: '',
       successMsg: '',
-      getPaymentMethodListFlag: false
+      getPaymentMethodListFlag: false,
+      defaultCardTypeVal: ''
     };
 
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
@@ -84,13 +85,22 @@ class AddressList extends React.Component {
     this.timer = '';
   }
   componentDidMount() {
+    const { paymentStore } = this.props;
     this.getPaymentMethodList();
     getWays().then((res) => {
       this.setState({
         paymentType: res?.context?.name
       }); //PAYU,ADYEN,CYBER
-      this.props.paymentStore.setSupportPaymentMethods(
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
+      const supportPaymentMethods =
+        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      paymentStore.setSupportPaymentMethods(supportPaymentMethods);
+      this.setState(
+        { defaultCardTypeVal: supportPaymentMethods[0]?.cardType },
+        () => {
+          this.onCardTypeValChange({
+            cardTypeVal: this.state.defaultCardTypeVal
+          });
+        }
       );
     });
   }
@@ -100,6 +110,14 @@ class AddressList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
+  onCardTypeValChange = ({ cardTypeVal }) => {
+    const { paymentStore } = this.props;
+    paymentStore.setCurrentCardTypeInfo(
+      paymentStore.supportPaymentMethods.filter(
+        (s) => s.cardType === cardTypeVal
+      )[0] || null
+    );
+  };
   getPaymentMethodList = async ({ msg, showLoading = true } = {}) => {
     try {
       showLoading && this.setState({ listLoading: true });
@@ -379,7 +397,7 @@ class AddressList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {creditCardList.map((el) => (
                       <div
-                        className="col-12 col-md-6 p-2 ui-cursor-pointer"
+                        className="col-12 col-md-6 p-2 ui-cursor-pointer-pure"
                         key={el.id}
                       >
                         <CardItem
@@ -449,6 +467,7 @@ class AddressList extends React.Component {
                 {/* edit form panel  */}
                 {editFormVisible && (
                   <PaymentEditForm
+                    defaultCardTypeVal={this.state.defaultCardTypeVal}
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getPaymentMethodList}
@@ -456,6 +475,7 @@ class AddressList extends React.Component {
                     needEmail={this.props.needEmail}
                     needPhone={this.props.needPhone}
                     paymentStore={this.props.paymentStore}
+                    onCardTypeValChange={this.onCardTypeValChange}
                   />
                 )}
               </div>
@@ -467,4 +487,4 @@ class AddressList extends React.Component {
   }
 }
 
-export default AddressList;
+export default PaymentList;

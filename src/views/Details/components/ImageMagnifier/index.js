@@ -409,7 +409,7 @@ class ImageMagnifier extends Component {
                 <LazyLoad>
                   <img
                     src={taggingForImage.taggingImgUrl}
-                    alt="tagging-image"
+                    alt="tagging image"
                   />
                 </LazyLoad>
               </div>
@@ -428,7 +428,7 @@ class ImageMagnifier extends Component {
                     style={cssStyle.imgStyle}
                     src={el.artworkUrl || this.state.maxImg || noPic}
                     // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
-                    alt="art-work-image"
+                    alt="art work image"
                   />
                   {/* </LazyLoad> */}
                 </div>
@@ -479,7 +479,7 @@ class ImageMagnifier extends Component {
                   // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                   onLoad={this.handleImageLoaded.bind(this)}
                   onError={this.handleImageErrored.bind(this)}
-                  alt="current-image"
+                  alt="current image"
                 />
               </LazyLoad>
               {!imgLoad && 'failed to load'}
