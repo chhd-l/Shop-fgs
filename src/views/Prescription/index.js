@@ -275,7 +275,21 @@ class Prescription extends React.Component {
         lng: +item.longitude
       }
     });
+    this.mapFlag(item.prescriberName);
   };
+
+  mapFlag(prescriberName) {
+    dataLayer.push({
+      event: 'vetPrescMap',
+      vetPrescMapAction: 'display'
+    });
+    dataLayer.push({
+      event: 'vetPrescMap',
+      vetPrescMapAction: 'clinicClick',
+      vetPrescMapClinicName: prescriberName
+    });
+  }
+
   handleConfirm = (item) => {
     const {
       setSelectClinicId,
@@ -308,7 +322,7 @@ class Prescription extends React.Component {
         lat={+this.state.meLocation.lat}
         lng={+this.state.meLocation.lng}
         obj={this.state.me}
-        show={false}
+        // show={false}
       />
     );
     for (var i = 0; i < this.state.clinicArr.length; i++) {
