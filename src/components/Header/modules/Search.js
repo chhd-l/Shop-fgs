@@ -43,6 +43,7 @@ export default class Search extends React.Component {
       () => {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
+          this.cancel();
           this.getSearchData();
         }, 500);
       }
@@ -52,6 +53,16 @@ export default class Search extends React.Component {
     this.props.focusedOnDidMount &&
       this.inputRef.current &&
       this.inputRef.current.focus();
+  }
+  // 取消请求
+  cancel() {
+    // 设置一个函数，在执行请求前先执行这个函数
+    // 获取缓存的 请求取消标识 数组，取消所有关联的请求
+    let cancelArr = window.axiosCancel;
+    cancelArr.forEach((ele, index) => {
+      ele.cancel('取消了请求'); // 在失败函数中返回这里自定义的错误信息
+      delete window.axiosCancel[index];
+    });
   }
   async getSearchData() {
     const { keywords } = this.state;

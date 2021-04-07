@@ -56,7 +56,7 @@ class AddressList extends React.Component {
         isDefalt: false,
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
-        DaData: null, // 俄罗斯DaData
+        DuData: null, // 俄罗斯DuData
         email: ''
       },
       errMsg: '',
@@ -72,7 +72,8 @@ class AddressList extends React.Component {
       isValid: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
-      selectListValidationOption: 'suggestedAddress'
+      selectListValidationOption: 'suggestedAddress',
+      russiaAddressValidFlag: true // 俄罗斯地址校验标记
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -421,6 +422,12 @@ class AddressList extends React.Component {
     } finally {
       this.setState({ deliveryAddress: data });
     }
+  };
+  // 俄罗斯地址校验flag，控制按钮是否可用
+  getRussiaAddressValidFlag = (flag) => {
+    this.setState({
+      russiaAddressValidFlag: flag
+    });
   };
   scrollToTitle() {
     const widget = document.querySelector(`#J-address-title-${this.props.id}`);
@@ -883,6 +890,7 @@ class AddressList extends React.Component {
             isLogin={true}
             initData={deliveryAddress}
             updateData={this.updateDeliveryAddress}
+            getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
           />
         )}
 
@@ -912,7 +920,9 @@ class AddressList extends React.Component {
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={!this.state.isValid}
+                    disabled={
+                      !this.state.isValid && !this.state.russiaAddressValidFlag
+                    }
                   >
                     <FormattedMessage id="save" />
                   </button>

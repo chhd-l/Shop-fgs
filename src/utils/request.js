@@ -45,6 +45,14 @@ service.interceptors.request.use((config) => {
     cn: 'zh-CN'
   }[process.env.REACT_APP_LANG];
   config.headers['storeId'] = process.env.REACT_APP_STOREID;
+  // 添加取消标记
+  config.cancelToken = new axios.CancelToken((cancel) => {
+    window.axiosCancel = window.axiosCancel || [];
+    window.axiosCancel.push({
+      cancel
+    });
+  });
+
   return config;
 });
 
