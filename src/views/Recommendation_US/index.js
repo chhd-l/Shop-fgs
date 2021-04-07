@@ -232,7 +232,7 @@ class Recommendation extends React.Component {
     getPrescriberByPrescriberIdAndStoreId({ prescriberId, storeId }).then(
       (res) => {
         console.info('resstoreIdstoreId', res);
-        let locationPath = res.context.location;
+        let locationPath = res.context?.location;
         this.setState({ locationPath });
       }
     );
