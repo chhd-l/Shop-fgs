@@ -76,8 +76,7 @@ const en_US = {
   'account.personalArea': 'My account',
   'account.personalData': 'Personal data',
   'account.pets': 'My Pets',
-  'account.petsTip':
-    "Create and manage your pet's profile to maintain its best health possible",
+  'account.petsTip': 'Create and manage your pet profiles.',
   'account.petsTitle': 'My Pets',
   'account.preferredContactMethod': 'Preferred Contact Method',
   'account.preferredMethodOfCommunication': 'Preferred method of communication',
@@ -835,7 +834,8 @@ const en_US = {
   personal: 'Personal',
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
-  'pet.petListTitle': 'Create and manage your pet profiles.',
+  'pet.petListTitle':
+    "Create and manage your pet's profile to maintain its best health possible",
   petFemale: 'Female',
   petInfo: 'Pet information',
   petMale: 'Male',
