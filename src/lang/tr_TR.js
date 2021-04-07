@@ -198,6 +198,8 @@ const tr_TR = {
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
   confirmDelete: 'Silmek istiyor musunuz?',
   confirmDelete2: 'Silmek istiyor musunuz?',
+  confirmDeleteProduct:
+    'Bu ürünü arabadan çıkarmak istediğinize emin misiniz ?',
   confirmPassword: 'Şifreyi Onayla *',
   consent: 'Razı olmak',
   consignee: 'Alıcı',
