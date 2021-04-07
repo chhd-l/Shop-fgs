@@ -1484,11 +1484,11 @@ class Details extends React.Component {
       details.displayFlag; //vet产品并且是hub的情况下
     const De = process.env.REACT_APP_LANG === 'de';
     const Ru = process.env.REACT_APP_LANG === 'ru';
-    const goodHeading = `<${headingTag}
+    const goodHeading = `<${headingTag || 'h2'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
-      </${headingTag}>`;
+      </${headingTag || 'h2'}>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
     const fromPathName =

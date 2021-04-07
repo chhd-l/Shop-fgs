@@ -446,11 +446,17 @@ class PersonalDataEditForm extends React.Component {
                       .join(' ')
                   },
                   {
-                    name: <FormattedMessage id="payment.phoneNumber" />,
+                    name:
+                      process.env.REACT_APP_LANG === 'en' ? null : (
+                        <FormattedMessage id="payment.phoneNumber" />
+                      ),
                     val: data.phoneNumber
                   },
                   {
-                    name: <FormattedMessage id="payment.address1" />,
+                    name:
+                      process.env.REACT_APP_LANG === 'en' ? null : (
+                        <FormattedMessage id="payment.address1" />
+                      ),
                     val: data.address1
                   }
                 ].map((item, i) => (

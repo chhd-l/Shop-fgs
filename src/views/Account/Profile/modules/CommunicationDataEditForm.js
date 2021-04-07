@@ -7,6 +7,7 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 
+const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
   {
     en: [
@@ -80,9 +81,9 @@ class CommunicationDataEditForm extends React.Component {
         isLoading: true
       });
       let result = await findUserSelectedList({
-        customerId: (userInfo && userInfo.customerId) || ''
+        customerId: (userInfo && userInfo.customerId) || '',
+        oktaToken: localItemRoyal.get('oktaToken')
       });
-
       const optioalList = result.context.optionalList.map((item) => {
         return {
           id: item.id,

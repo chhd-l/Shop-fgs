@@ -312,7 +312,8 @@ class Carousel extends React.Component {
                                 <div className="subtitle">
                                   {item2.goodsSubtitle}
                                 </div>
-                                <div className="rete">
+                                {/* 暂时不要 */}
+                                {/* <div className="rete">
                                   <div className="display-inline">
                                     <Rate
                                       def={item2.avgEvaluate}
@@ -323,7 +324,7 @@ class Carousel extends React.Component {
                                   <span className="comments rc-margin-left--xs rc-text-colour--text">
                                     ({item2.goodsEvaluateNum})
                                   </span>
-                                </div>
+                                </div> */}
                                 <div className="marketPrice">
                                   {formatMoney(item2.minMarketPrice)}
                                   {item2.minLinePrice && (

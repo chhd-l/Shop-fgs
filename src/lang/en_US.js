@@ -45,8 +45,8 @@ const en_US = {
     'If you have questions, we are always ready to help you and your pet.',
   'account.male': 'Male',
   'account.mixBreed': 'Mix breed',
-  'account.myAccount': 'My account',
-  'account.myAddresses': 'My addresses',
+  'account.myAccount': 'My Contact Information',
+  'account.myAddresses': 'My Addresses',
   'account.myCommunicationPreferencesContent1':
     'Perferred method of communication',
   'account.myCommunicationPreferencesContent2':
@@ -54,7 +54,7 @@ const en_US = {
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My communication preferences',
-  'account.myPayments': 'My payments',
+  'account.myPayments': 'My Payment Methods',
   'account.nickname': "What is your pet's nickname?",
   'account.no': 'No',
   'account.noPet':
@@ -223,7 +223,7 @@ const en_US = {
   autoShipStarted: 'Autoship started',
   autoshop: 'autoship',
   backToAuthorization: 'Back to authorization',
-  bankCard: 'Credit card',
+  bankCard: 'Credit Card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
   biliingAddressSameAs: 'My billing address is the same as my shipping address',
@@ -320,7 +320,7 @@ const en_US = {
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
   confirmDeleteProduct:
-    'Are you sure you want to remove this product for the cart ?',
+    'Are you sure you want to remove this product from the cart ?',
   confirmPassword: 'Confirm Password *',
   consent: 'Consent',
   consignee: 'Consignee',
@@ -416,7 +416,7 @@ const en_US = {
   deliveredTip: 'Expected to arrive in about 3 days',
   delivery: 'delivery',
   delivery2: 'Shipping Address',
-  deliveryAddress: 'Delivery Address',
+  deliveryAddress: 'Shipping Address',
   deliveryDate: 'Delivery date',
   deliveryOneTimeOnly: 'Delivery 1 time only',
   detail: '[Show more]',
@@ -540,7 +540,7 @@ const en_US = {
   getPetFailed: 'Get Pet Failed',
   giveConsentPersonalData:
     'and give my consent to the processing of personal data, including cross-border transfer',
-  goods: 'Goods',
+  goods: 'Products',
   goToCart: 'Go to shopping cart',
   guestCheckout: 'Continue as a Guest',
   'header.bannerTip': '30% off first purchase + 5% off autoship',
@@ -664,7 +664,7 @@ const en_US = {
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',
-  modalSkipContent: 'Are you sure you want to cancel the next delivery?',
+  modalSkipContent: 'Are you sure you want to skip the next delivery?',
   modalSkipTitle: 'SKIP NEXT DELIVERY?',
   month: 'Month',
   moreAddress: 'More Address',

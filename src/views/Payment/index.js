@@ -291,6 +291,7 @@ class Payment extends React.Component {
         let cyberPaymentForm = { ...this.state.cyberPaymentForm };
 
         if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
+          //订阅商品
           this.setState({
             subForm: {
               buyWay: 'frequency',
@@ -548,7 +549,11 @@ class Payment extends React.Component {
       };
     });
     if (isLogin) {
-      params = { customerId, consentPage: 'check out' };
+      const oktaTokenString = this.props.authState.accessToken
+        ? this.props.authState.accessToken.value
+        : '';
+      let oktaToken = 'Bearer ' + oktaTokenString;
+      params = { customerId, consentPage: 'check out', oktaToken: oktaToken };
     }
     if (groups) {
       params.groups = groups;

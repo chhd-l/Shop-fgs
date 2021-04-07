@@ -227,7 +227,7 @@ class FAQ extends React.Component {
                               dangerouslySetInnerHTML={{
                                 __html: item.question
                               }}
-                            ></div>
+                            />
 
                             <span
                               className={`rc-vertical-align icon-change ${
@@ -241,10 +241,12 @@ class FAQ extends React.Component {
                           <div className={`rc-list__content `}>
                             <p
                               dangerouslySetInnerHTML={{ __html: item.answer }}
-                            ></p>
-                            <LazyLoad>
-                              <img src={item.imgUl} alt="storeFaq image" />
-                            </LazyLoad>
+                            />
+                            {item.imgUl ? (
+                              <LazyLoad>
+                                <img src={item.imgUl} alt="storeFaq image" />
+                              </LazyLoad>
+                            ) : null}
                           </div>
                         </div>
                       ))}

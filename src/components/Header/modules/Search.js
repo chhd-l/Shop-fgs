@@ -23,7 +23,8 @@ export default class Search extends React.Component {
       result: null,
       keywords: '',
       loading: false,
-      isSearchSuccess: false //是否搜索成功
+      isSearchSuccess: false, //是否搜索成功
+      hasSearchedDone: false //是否请求接口完毕
     };
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
@@ -36,11 +37,13 @@ export default class Search extends React.Component {
   handleSearchInputChange(e) {
     this.setState(
       {
-        keywords: e.target.value
+        keywords: e.target.value,
+        hasSearchedDone: false
       },
       () => {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
+          this.cancel();
           this.getSearchData();
         }, 500);
       }
@@ -50,6 +53,16 @@ export default class Search extends React.Component {
     this.props.focusedOnDidMount &&
       this.inputRef.current &&
       this.inputRef.current.focus();
+  }
+  // 取消请求
+  cancel() {
+    // 设置一个函数，在执行请求前先执行这个函数
+    // 获取缓存的 请求取消标识 数组，取消所有关联的请求
+    let cancelArr = window.axiosCancel;
+    cancelArr.forEach((ele, index) => {
+      ele.cancel('取消了请求'); // 在失败函数中返回这里自定义的错误信息
+      delete window.axiosCancel[index];
+    });
   }
   async getSearchData() {
     const { keywords } = this.state;
@@ -122,6 +135,7 @@ export default class Search extends React.Component {
           });
         }
         this.setState({
+          hasSearchedDone: true,
           loading: false
         });
       })
@@ -132,6 +146,7 @@ export default class Search extends React.Component {
           dataLayer[0].search.type = 'without results';
         }
         this.setState({
+          hasSearchedDone: true,
           loading: false,
           result: Object.assign({}, { productList: [], totalElements: 0 })
         });
@@ -160,7 +175,7 @@ export default class Search extends React.Component {
     this.hanldeSearchFocus();
   }
   handleSearch = () => {
-    if (this.state.loading) return;
+    if (this.state.loading || !this.state.hasSearchedDone) return;
     this.props.history.push({
       pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
       // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,

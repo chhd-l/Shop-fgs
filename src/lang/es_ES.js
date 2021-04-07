@@ -418,7 +418,7 @@ const es_ES = {
   'home.convenientTitle':
     '¿Por qué es conveniente realizar tus compras con Royal Canin®?',
   'home.note1':
-    'A causa de la pandemia, el tiempo de entrega puede extenderse.',
+    'A causa de la pandemia, el tiempo de entrega puede extenderse hasta 48 horas.',
   'home.note2':
     'Nuestras áreas de distribución se limitan a Ciudad de México, Guadalajara y Monterrey.',
   'home.pageNotFound': 'Página no encontrada…',
@@ -1009,6 +1009,7 @@ const es_ES = {
     'La información de la tarjeta es incorrecta, verifique.',
   'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}',
   'account.clinicTitle2': 'Mi clínica por defecto',
-  'subscription.viewDetails': 'Ver Detalle'
+  'subscription.viewDetails': 'Ver Detalle',
+  bankCard: 'Tarjeta bancaria'
 };
 export default es_ES;

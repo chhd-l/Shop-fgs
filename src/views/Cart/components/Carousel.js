@@ -6,6 +6,7 @@ import chunk from 'lodash/chunk';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -151,7 +152,7 @@ class Carousel extends React.Component {
 
     sessionItemRoyal.set('recomment-preview', history.location.pathname);
 
-    history.push('/details/' + item.goodsInfoIds[0]);
+    // history.push('/details/' + item.goodsInfoIds[0]);
   };
   render() {
     return (
@@ -196,21 +197,37 @@ class Carousel extends React.Component {
                               onClick={() => this.hanldeClick(item2)}
                               style={{ cursor: 'pointer' }}
                             >
-                              <div
-                                style={{
-                                  width: '150px',
-                                  height: '160px',
-                                  backgroundSize: '150px 160px',
-                                  backgroundImage:
-                                    'url(' + item2.goodsImg + ')',
-                                  margin: '.625rem auto 0'
+                              <Link
+                                to={{
+                                  pathname: item2
+                                    ? `/${item2.goodsName
+                                        .toLowerCase()
+                                        .split(' ')
+                                        .join('-')
+                                        .replace('/', '')}-${
+                                        item2.mainItemCode
+                                      }`
+                                    : ''
                                 }}
-                              ></div>
-                              <div className="goodsName">{item2.goodsName}</div>
-                              <div className="subtitle">
-                                {item2.goodsSubtitle}
-                              </div>
-                              <div className="rete">
+                              >
+                                <div
+                                  style={{
+                                    width: '150px',
+                                    height: '160px',
+                                    backgroundSize: '150px 160px',
+                                    backgroundImage:
+                                      'url(' + item2.goodsImg + ')',
+                                    margin: '.625rem auto 0'
+                                  }}
+                                ></div>
+                                <div className="goodsName">
+                                  {item2.goodsName}
+                                </div>
+                                <div className="subtitle">
+                                  {item2.goodsSubtitle}
+                                </div>
+                                {/* 暂时不需要 */}
+                                {/* <div className="rete">
                                 <div className="display-inline">
                                   <Rate
                                     def={item2.avgEvaluate}
@@ -221,42 +238,45 @@ class Carousel extends React.Component {
                                 <span className="comments rc-margin-left--xs rc-text-colour--text">
                                   ({item2.goodsEvaluateNum})
                                 </span>
-                              </div>
-                              <div className="marketPrice">
-                                {formatMoney(item2.minMarketPrice)}
-                                {item2.minLinePrice && (
-                                  <span>{formatMoney(item2.minLinePrice)}</span>
-                                )}
-                              </div>
-                              {item2.minSubscriptionPrice ? (
-                                <p className="subscriptionPrice">
-                                  <div>
-                                    {formatMoney(item2.minSubscriptionPrice)}
-                                    <span
-                                      className="iconfont font-weight-bold red mr-1"
-                                      style={{
-                                        fontSize: '.65em',
-                                        marginLeft: '6px',
-                                        color: '#323232',
-                                        fontWeight: 'bold'
-                                      }}
-                                    >
-                                      &#xe675;
+                              </div> */}
+                                <div className="marketPrice">
+                                  {formatMoney(item2.minMarketPrice)}
+                                  {item2.minLinePrice && (
+                                    <span>
+                                      {formatMoney(item2.minLinePrice)}
                                     </span>
-                                    <span
-                                      className="position-relative red-text position-absolute"
-                                      style={{
-                                        fontSize: '.7em',
-                                        whiteSpace: 'nowrap',
-                                        marginTop: '4px',
-                                        marginLeft: '4px'
-                                      }}
-                                    >
-                                      <FormattedMessage id="autoshop" />
-                                    </span>
-                                  </div>
-                                </p>
-                              ) : null}
+                                  )}
+                                </div>
+                                {item2.minSubscriptionPrice ? (
+                                  <p className="subscriptionPrice">
+                                    <div>
+                                      {formatMoney(item2.minSubscriptionPrice)}
+                                      <span
+                                        className="iconfont font-weight-bold red mr-1"
+                                        style={{
+                                          fontSize: '.65em',
+                                          marginLeft: '6px',
+                                          color: '#323232',
+                                          fontWeight: 'bold'
+                                        }}
+                                      >
+                                        &#xe675;
+                                      </span>
+                                      <span
+                                        className="position-relative red-text position-absolute"
+                                        style={{
+                                          fontSize: '.7em',
+                                          whiteSpace: 'nowrap',
+                                          marginTop: '4px',
+                                          marginLeft: '4px'
+                                        }}
+                                      >
+                                        <FormattedMessage id="autoshop" />
+                                      </span>
+                                    </div>
+                                  </p>
+                                ) : null}
+                              </Link>
                             </p>
                           );
                         })}
