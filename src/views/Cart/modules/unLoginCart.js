@@ -726,6 +726,7 @@ class UnLoginCart extends React.Component {
                     updateChildDisplay={(status) =>
                       this.updateConfirmTooltipVisible(pitem, status)
                     }
+                    content={<FormattedMessage id="confirmDeleteProduct" />}
                   />
                 </span>
 

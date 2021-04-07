@@ -223,6 +223,8 @@ const es_ES = {
   'confirmation.visitOnlineStore': 'Visita tienda online',
   confirmDelete: '¿Confirmas eliminar?',
   confirmDelete2: '¿Confirmas eliminar?',
+  confirmDeleteProduct:
+    '¿Está seguro de que desea eliminar este producto del carrito de la compra ?',
   confirmPassword: 'Confirmar contraseña *',
   consent: 'Consentement',
   consignee: 'Consignatario',

@@ -1154,9 +1154,8 @@ class Payment extends React.Component {
           oxxoPayUrl =
             oxxoArgs &&
             oxxoArgs.additionalDetails &&
-            oxxoArgs.additionalDetails.object &&
-            oxxoArgs.additionalDetails.object.data[0]
-              ? oxxoArgs.additionalDetails.object.data[0].href
+            oxxoArgs.additionalDetails.data[0]
+              ? oxxoArgs.additionalDetails.data[0].href
               : '';
           subOrderNumberList = tidList.length
             ? tidList
@@ -1841,9 +1840,9 @@ class Payment extends React.Component {
             city: data.city,
             street: data.address1,
             postalCode: data.postCode,
-            customerAccount: this.state.guestEmail,
-            ruShippingDTO: this.state.ruShippingDTO
-          }
+            customerAccount: this.state.guestEmail
+          },
+          ruShippingDTO: this.state.ruShippingDTO
         });
       }
     } catch (err) {

@@ -89,6 +89,7 @@ class VisitorAddress extends React.Component {
       this.setState({ isValid: true, form: data }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
+      this.props.updateData(data);
     } catch (err) {
       console.error(' err msg: ', err);
       this.setState({ isValid: false, visitorValidationLoading: false }, () => {
@@ -96,6 +97,7 @@ class VisitorAddress extends React.Component {
       });
     }
   };
+  // 接收form表单输入
   handleEditFormChange = (data) => {
     this.validData({ data });
   };
