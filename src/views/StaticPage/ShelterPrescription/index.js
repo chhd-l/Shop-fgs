@@ -19,6 +19,10 @@ import './index.less';
 import Slider from 'react-slick';
 // import Rate from '@/components/Rate';
 import Help from '../../SmartFeederSubscription/modules/Help';
+import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
+
+const pageLink = window.location.href;
 
 @inject('clinicStore')
 @injectIntl
@@ -28,8 +32,13 @@ class ShelterPrescription extends React.Component {
     super(props);
     this.state = {
       list: mockData.data,
-      defalutList: Array(8).fill({})
+      defalutList: Array(8).fill({}),
       // list: [{}]
+      seoConfig: {
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
+      }
     };
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
@@ -72,6 +81,12 @@ class ShelterPrescription extends React.Component {
     }
   };
   componentDidMount() {
+    setSeoConfig({
+      pageName: 'Shelter landing page'
+    }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
+
     let clinicId = getParaByName(location.search, 'shelterID');
     this.props.clinicStore.setLinkClinicId(clinicId);
     this.props.clinicStore.setLinkClinicName('');
@@ -185,6 +200,15 @@ class ShelterPrescription extends React.Component {
     };
     return (
       <div className="shelter-prescription">
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
