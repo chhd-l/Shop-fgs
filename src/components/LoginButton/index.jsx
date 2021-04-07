@@ -67,8 +67,8 @@ const LoginButton = (props) => {
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
             : '';
-          localItemRoyal.set('oktaToken', oktaTokenString)
           let oktaToken = 'Bearer ' + oktaTokenString;
+          localItemRoyal.set('oktaToken', oktaToken)
           const consentString = localItemRoyal.get('rc-consent-list');
           if (consentString && loginStore.isLogin) {
             var consents = JSON.parse(consentString);

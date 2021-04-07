@@ -408,6 +408,7 @@ class Form extends React.Component {
     try {
       let address1 = caninForm.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
+      console.log('★ -------------- 7-1、根据address1查询地址信息 res: ', res);
       if (res?.context && res?.context?.addressList.length > 0) {
         let addls = res.context.addressList;
         addls.forEach((item) => {
@@ -456,6 +457,7 @@ class Form extends React.Component {
           depth: '1'
         }
       });
+      console.log('★ -------------- 2、计算运费 res: ', res);
       if (res?.context?.success && res?.context?.tariffs[0]) {
         let calculation = res?.context?.tariffs[0];
         // 赋值查询到的地址信息
@@ -600,6 +602,12 @@ class Form extends React.Component {
     const target = e.target;
     const targetRule = caninForm.formRule.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
+
+    if (target.name == 'address1' && value == '') {
+      this.setState({
+        address1Data: []
+      });
+    }
     try {
       await validData(targetRule, { [target.name]: value });
       this.setState({
@@ -630,7 +638,14 @@ class Form extends React.Component {
   };
   // 地址搜索框失去焦点
   handleSearchSelectionBlur = (e) => {
-    const { address1Data } = this.state;
+    const { caninForm, address1Data } = this.state;
+    // const target = e.target;
+    // let value = target.value;
+    // const name = target.name;
+    // caninForm[name] = value;
+    // this.setState({ caninForm }, () => {
+    //   this.props.updateData(this.state.caninForm);
+    // });
     this.inputBlur(e);
     this.handleAddressInputChange(address1Data);
   };
@@ -644,11 +659,13 @@ class Form extends React.Component {
     this.setState({
       address1Data: data
     });
+    console.log('★ -------------- DuData地址搜索选择 data: ', data);
     // 根据地址组装对应的提示信息
     let errMsg = '';
     let streets = this.getIntlMsg('payment.streets'),
       postCode = this.getIntlMsg('payment.postCode'),
       house = this.getIntlMsg('payment.house');
+
     let dstreet = data?.street,
       dpcode = data?.postCode,
       dhouse = data?.house;
@@ -682,6 +699,14 @@ class Form extends React.Component {
         }
       });
     } else {
+      // DuData相关参数
+      caninForm.province = data.region;
+      caninForm.area = data.area;
+      caninForm.settlement = data.settlement;
+      caninForm.street = data.street;
+      caninForm.house = data.house;
+      caninForm.housing = data.block;
+
       // 赋值查询到的地址信息
       caninForm.DaData = data;
       caninForm.address1 = data.unrestrictedValue;
@@ -769,11 +794,6 @@ class Form extends React.Component {
             let res = await getAddressBykeyWord({
               keyword: inputVal
             });
-            if (!res?.context?.addressList) {
-              this.setState({
-                address1Data: []
-              });
-            }
             return (
               (res?.context && res?.context?.addressList) ||
               []

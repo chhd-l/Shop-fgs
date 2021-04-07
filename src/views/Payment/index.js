@@ -548,7 +548,11 @@ class Payment extends React.Component {
       };
     });
     if (isLogin) {
-      params = { customerId, consentPage: 'check out' };
+      const oktaTokenString = this.props.authState.accessToken
+        ? this.props.authState.accessToken.value
+        : '';
+      let oktaToken = 'Bearer ' + oktaTokenString;
+      params = { customerId, consentPage: 'check out', oktaToken: oktaToken };
     }
     if (groups) {
       params.groups = groups;
@@ -847,7 +851,7 @@ class Payment extends React.Component {
       let phone = obj.phone;
       let parameters;
       /* 组装支付需要的参数 */
-      console.log(type, parameters, commonParameter, obj, 'type');
+      // console.log(type, parameters, commonParameter, obj, 'type');
       const actions = {
         oxxo: () => {
           parameters = Object.assign({}, commonParameter, {
@@ -1411,7 +1415,7 @@ class Payment extends React.Component {
       guestEmail,
       promotionCode
     } = this.state;
-    console.log(deliveryAddress, 'deliveryAddress');
+    // console.log(deliveryAddress, 'deliveryAddress');
     /**
      * ★★★ 1
      * 封装下单参数的时候需要把新加的字段加上，
@@ -2029,7 +2033,7 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    console.log(' 2126 ----------- click Confirm Payment Panel');
+    // console.log(' 2126 ----------- click Confirm Payment Panel');
     // 勾选，billingAddress = deliveryAddress
     this.setState(
       {
@@ -2439,7 +2443,7 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      console.log('2248 : ', disabled);
+      // console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2454,7 +2458,7 @@ class Payment extends React.Component {
     };
 
     const reInputCVVBtn = ({ disabled, loading = false }) => {
-      console.log('2263 CVV Btn: ', disabled);
+      // console.log('2263 CVV Btn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button

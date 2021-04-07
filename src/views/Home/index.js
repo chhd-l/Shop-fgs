@@ -223,7 +223,7 @@ function HealthNutrition() {
                             to="/Tailorednutrition"
                             title="Learn more"
                           >
-                            Learn more
+                            Explore Tailored Nutrition
                           </Link>
                         </div>
                       </div>

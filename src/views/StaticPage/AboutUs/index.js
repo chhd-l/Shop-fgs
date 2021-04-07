@@ -182,7 +182,7 @@ class AboutUs extends React.Component {
                                 to="/Tailorednutrition"
                                 title="En savoir plus"
                               >
-                                <FormattedMessage id="aboutUs.learnMore" />
+                                <FormattedMessage id="aboutUs.ourValuesBtn" />
                               </Link>
                             </div>
                           </div>
@@ -218,7 +218,7 @@ class AboutUs extends React.Component {
                                 to="/Quality-safety"
                                 title="En savoir plus"
                               >
-                                <FormattedMessage id="aboutUs.learnMore" />
+                                <FormattedMessage id="aboutUs.foodQualityAndSafetyBtn" />
                               </Link>
                             </div>
                           </div>

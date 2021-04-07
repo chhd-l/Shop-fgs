@@ -11,6 +11,8 @@ const en_US = {
   'aboutUs.IncredibleDetail': 'Incredible in Every Detail',
   'aboutUs.learnMore': 'Learn More',
   'aboutUs.ourValues': 'Our Values',
+  'aboutUs.foodQualityAndSafetyBtn': 'See our Commitment',
+  'aboutUs.ourValuesBtn': 'Discover our Passion',
   'aboutUs.ourValuesDetail':
     'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
   'aboutUs.SeeHowWeDo':
@@ -221,7 +223,7 @@ const en_US = {
   autoShipStarted: 'Autoship started',
   autoshop: 'autoship',
   backToAuthorization: 'Back to authorization',
-  bankCard: 'Credit card',
+  bankCard: 'Credit Card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
   biliingAddressSameAs: 'My billing address is the same as my shipping address',
