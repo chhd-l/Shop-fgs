@@ -1072,6 +1072,7 @@ const ru_RU = {
   subscribe: 'Добавить в корзину',
   cod: 'Оплата при получении',
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
+  saveExtra: 'Сэкономьте {val} на этой подписке',
   'payment.codConfirmTip': 'Оплата при получении',
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
   'subscription.pause': 'Пауза',

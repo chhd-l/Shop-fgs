@@ -825,11 +825,18 @@ class Details extends React.Component {
                 sessionItemRoyal.get('pr-question-params') &&
                 JSON.parse(sessionItemRoyal.get('pr-question-params'))
             });
+            let { form } = this.state;
             if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
               form.buyWay = 0;
-              this.setState({ form });
             }
+            if (g.selected && g.subscriptionStatus) {
+              form.buyWay =
+                form.buyWay && res.context?.goods.promotions?.includes('club')
+                  ? 2
+                  : form.buyWay;
+            }
+            this.setState({ form });
+
             return g;
           });
 
@@ -1436,6 +1443,27 @@ class Details extends React.Component {
       observer.observe(nodeBtn, config);
     }
   }
+  getFrequencyDictDom = () => (
+    <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
+      <span>
+        <FormattedMessage id="subscription.frequency" />:
+      </span>
+      <Selection
+        customContainerStyle={{
+          display: 'inline-block',
+          marginLeft: isMobile ? '50px' : '1.5rem',
+          height: isMobile ? '70px' : 'auto'
+        }}
+        customCls="text-left"
+        selectedItemChange={this.handleSelectedItemChange}
+        optionList={this.computedList}
+        selectedItemData={{
+          value: this.state.form.frequencyId
+        }}
+        key={this.state.form.frequencyId}
+      />
+    </div>
+  );
 
   render() {
     const createMarkup = (text) => ({ __html: text });
@@ -2104,30 +2132,7 @@ class Details extends React.Component {
                                       <FormattedMessage id="freeShipping" />
                                     </div>
                                   </div>
-                                  <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
-                                    <span>
-                                      <FormattedMessage id="subscription.frequency" />
-                                      :
-                                    </span>
-                                    <Selection
-                                      customContainerStyle={{
-                                        display: 'inline-block',
-                                        marginLeft: isMobile
-                                          ? '50px'
-                                          : '1.5rem',
-                                        height: isMobile ? '70px' : 'auto'
-                                      }}
-                                      customCls="text-left"
-                                      selectedItemChange={
-                                        this.handleSelectedItemChange
-                                      }
-                                      optionList={this.computedList}
-                                      selectedItemData={{
-                                        value: form.frequencyId
-                                      }}
-                                      key={form.frequencyId}
-                                    />
-                                  </div>
+                                  {this.getFrequencyDictDom()}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
                                     <div>
                                       {formatMoney(
@@ -2238,30 +2243,7 @@ class Details extends React.Component {
                                       </a>
                                     </div>
                                   </div>
-                                  <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
-                                    <span>
-                                      <FormattedMessage id="subscription.frequency" />
-                                      :
-                                    </span>
-                                    <Selection
-                                      customContainerStyle={{
-                                        display: 'inline-block',
-                                        marginLeft: isMobile
-                                          ? '50px'
-                                          : '1.5rem',
-                                        height: isMobile ? '70px' : 'auto'
-                                      }}
-                                      customCls="text-left"
-                                      selectedItemChange={
-                                        this.handleSelectedItemChange
-                                      }
-                                      optionList={this.computedList}
-                                      selectedItemData={{
-                                        value: form.frequencyId
-                                      }}
-                                      key={form.frequencyId}
-                                    />
-                                  </div>
+                                  {this.getFrequencyDictDom()}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
                                     <div>
                                       {formatMoney(
