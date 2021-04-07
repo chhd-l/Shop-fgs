@@ -4,7 +4,7 @@ import './index.less';
 
 class ConfirmTooltip extends React.Component {
   static defaultProps = {
-    content: '',
+    content: <FormattedMessage id="confirmDelete" />,
     containerStyle: {},
     arrowStyle: {},
     arrowDirection: 'top',
@@ -12,23 +12,23 @@ class ConfirmTooltip extends React.Component {
     confirmBtnVisible: true,
     lastFourDigits: ''
   };
-  get newContent() {
-    let res = '';
-    if (this.props.lastFourDigits) {
-      res = (
-        <FormattedMessage
-          id="confirmDelete2"
-          values={{
-            val1: <br />,
-            val2: '************' + this.props.lastFourDigits
-          }}
-        />
-      );
-    } else {
-      res = <FormattedMessage id="confirmDelete" />;
-    }
-    return res;
-  }
+  // get newContent() {
+  //   let res = '';
+  //   if (this.props.lastFourDigits) {
+  //     res = (
+  //       <FormattedMessage
+  //         id="confirmDelete2"
+  //         values={{
+  //           val1: <br />,
+  //           val2: '************' + this.props.lastFourDigits
+  //         }}
+  //       />
+  //     );
+  //   } else {
+  //     res = <FormattedMessage id="confirmDelete" />;
+  //   }
+  //   return res;
+  // }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.display) {
       setTimeout(() => {
@@ -68,7 +68,7 @@ class ConfirmTooltip extends React.Component {
           tabIndex="1"
         >
           <div className={`confirm-tool-arrow`} style={this.props.arrowStyle} />
-          <div className="pt-1">{this.newContent}</div>
+          <div className="pt-1">{this.props.content}</div>
           <div className="d-flex justify-content-between">
             {this.props.cancelBtnVisible ? (
               <div
