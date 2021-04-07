@@ -334,7 +334,7 @@ const de_DE = {
   estimatedTax: 'Geschätzte Steuer',
   every: 'Alle',
   example: 'zum Beispiel',
-  examplePhone: '0221 937060 650',
+  examplePhone: 'zum Beispiel: 0221 937060 650',
   examplePostCode: '50674',
   expirationDateIsInvalid: 'Das Ablaufdatum Ihrer Karte ist ungültig',
   'faq.frequentQuestions': 'Häufig gestellte Fragen',

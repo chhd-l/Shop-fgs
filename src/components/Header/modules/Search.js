@@ -355,6 +355,7 @@ export default class Search extends React.Component {
                     onFocus={this.hanldeSearchFocus}
                     onChange={this.handleSearchInputChange}
                     value={keywords}
+                    style={{ width: '18rem' }}
                   />
                 )}
               </FormattedMessage>
