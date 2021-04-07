@@ -446,6 +446,7 @@ class PaymentList extends React.Component {
                                     transform: 'translate(-89%, 105%)'
                                   }}
                                   arrowStyle={{ left: '89%' }}
+                                  lastFourDigits={el.lastFourDigits}
                                   display={el.confirmTooltipVisible}
                                   confirm={this.deleteCard.bind(this, el)}
                                   updateChildDisplay={(status) =>

@@ -1092,7 +1092,8 @@ const ru_RU = {
   Lifestyle: 'Стиль жизни',
   Activity: 'Активность',
   Weight: 'Масса',
-  Expire: ' '
+  Expire: ' ',
+  xProduct: '{val} товар (а/ов)'
 };
 
 export default ru_RU;

@@ -805,6 +805,7 @@ class PaymentComp extends React.Component {
                               }}
                               arrowStyle={{ left: '89%' }}
                               display={el.confirmTooltipVisible}
+                              lastFourDigits={el.lastFourDigits}
                               confirm={(e) => this.deleteCard(el)}
                               updateChildDisplay={(status) =>
                                 this.updateConfirmTooltipVisible(el, status)

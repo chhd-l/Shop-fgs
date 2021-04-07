@@ -112,7 +112,7 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
           </p>
         </span>
       </div>
-      <div className="col-4 col-md-1  text-center ml-3">
+      <div className="col-4 col-md-1  text-center">
         {subItem.subscribeStatus === '0' || subItem.subscribeStatus === '1' ? (
           <div>
             <em className="greenCircle" />
@@ -125,7 +125,7 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
           </div>
         )}
       </div>
-      <div className="col-2 col-md-2" style={{ textAlign: 'center' }}>
+      <div className="col-2 col-md-2 ml-3" style={{ textAlign: 'center' }}>
         {/* <Link to={`/account/subscription/order/detail/${subItem.subscribeId}`}>
           <FormattedMessage id="Manage" />
         </Link> */}

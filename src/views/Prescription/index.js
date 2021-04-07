@@ -145,7 +145,8 @@ class Prescription extends React.Component {
 
   hubGaModalPopup() {
     dataLayer.push({
-      event: 'VetPrescriptionPopup'
+      event: 'vetPrescPopin',
+      vetPrescPopinAction: 'display'
     });
   }
 

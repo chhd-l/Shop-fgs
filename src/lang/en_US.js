@@ -45,8 +45,8 @@ const en_US = {
     'If you have questions, we are always ready to help you and your pet.',
   'account.male': 'Male',
   'account.mixBreed': 'Mix breed',
-  'account.myAccount': 'My account',
-  'account.myAddresses': 'My addresses',
+  'account.myAccount': 'My Contact Information',
+  'account.myAddresses': 'My Addresses',
   'account.myCommunicationPreferencesContent1':
     'Perferred method of communication',
   'account.myCommunicationPreferencesContent2':
@@ -54,7 +54,7 @@ const en_US = {
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My communication preferences',
-  'account.myPayments': 'My payments',
+  'account.myPayments': 'My Payment Methods',
   'account.nickname': "What is your pet's nickname?",
   'account.no': 'No',
   'account.noPet':
@@ -322,7 +322,7 @@ const en_US = {
   confirmDelete2:
     'Are you sure you want to remove the following payment method? {val1} {val2}',
   confirmDeleteProduct:
-    'Are you sure you want to remove this product for the cart ?',
+    'Are you sure you want to remove this product from the cart ?',
   confirmPassword: 'Confirm Password *',
   consent: 'Consent',
   consignee: 'Consignee',
@@ -542,7 +542,7 @@ const en_US = {
   getPetFailed: 'Get Pet Failed',
   giveConsentPersonalData:
     'and give my consent to the processing of personal data, including cross-border transfer',
-  goods: 'Goods',
+  goods: 'Products',
   goToCart: 'Go to shopping cart',
   guestCheckout: 'Continue as a Guest',
   'header.bannerTip': '30% off first purchase + 5% off autoship',
