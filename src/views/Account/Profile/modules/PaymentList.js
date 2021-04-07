@@ -25,7 +25,7 @@ function CardItem(props) {
     <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between">
       <div
         className="position-absolute d-flex align-items-center"
-        style={{ right: '2%', top: '2%', zIndex: 9 }}
+        style={{ right: '2%', top: '2%' }}
       >
         {props.operateBtnJSX}
       </div>
