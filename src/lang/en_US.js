@@ -664,7 +664,7 @@ const en_US = {
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',
-  modalSkipContent: 'Are you sure you want to cancel the next delivery?',
+  modalSkipContent: 'Are you sure you want to skip the next delivery?',
   modalSkipTitle: 'SKIP NEXT DELIVERY?',
   month: 'Month',
   moreAddress: 'More Address',
