@@ -734,7 +734,12 @@ export default class Felin extends React.Component {
                 </a>
               </p>
             </div>
-            <div style={{ display: !isContactUs ? 'block' : 'none' }}>
+            <div
+              style={{
+                display: !isContactUs ? 'block' : 'none',
+                marginTop: '2.5rem'
+              }}
+            >
               <div className="rc-layout-container rc-two-column rc-content-h-middle">
                 <div className="rc-column">
                   <h4 className="rc-espilon">
