@@ -9,7 +9,8 @@ import Footer from '@/components/Footer';
 import HeroCarousel from '@/components/HeroCarousel';
 import FooterImage from './modules/FooterImage';
 import SalesCategory from './modules/SalesCategory';
-import HubSalesCategory from './modules/HubSalesCategory';
+import HubSalesCategory from '@/components/HubSalesCategory';
+import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
 import { Ads } from './ad';
 import { TopAds } from './ad';
 import { Advantage } from './advantage';
@@ -547,7 +548,7 @@ class Home extends React.Component {
             </div>
           </div>
           {process.env.REACT_APP_HUB == 1 ? (
-            <HubSalesCategory />
+            <HubSalesCategory rule={salesCategoryFilterRule} />
           ) : (
             <SalesCategory />
           )}
