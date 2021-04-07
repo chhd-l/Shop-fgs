@@ -133,34 +133,34 @@ class ImageMagnifier extends Component {
       currentImg: currentImg
     });
 
-    let selectedSizeInfo = sizeList.filter((item) => item.selected);
-    if (!selectedSizeInfo.length) {
-      selectedSizeInfo = [sizeList[0]];
-    }
-    if (
-      selectedSizeInfo.length &&
-      (selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl)
-    ) {
-      let hoverIndex = 0;
-      images.map((el, i) => {
-        if (
-          el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
-          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg ||
-          el.artworkUrl === selectedSizeInfo[0].artworkUrl ||
-          el.goodsInfoImg === selectedSizeInfo[0].artworkUrl
-        ) {
-          hoverIndex = i;
-        }
-        return el;
-      });
-      this.setState({
-        currentImg:
-          selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
-        videoShow: false,
-        hoverIndex,
-        offsetX: hoverIndex * 240
-      });
-    }
+    // let selectedSizeInfo = sizeList.filter((item) => item.selected);
+    // if (!selectedSizeInfo.length) {
+    //   selectedSizeInfo = [sizeList[0]];
+    // }
+    // if (
+    //   selectedSizeInfo.length &&
+    //   (selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl)
+    // ) {
+    //   let hoverIndex = 0;
+    //   images.map((el, i) => {
+    //     if (
+    //       el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
+    //       el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg ||
+    //       el.artworkUrl === selectedSizeInfo[0].artworkUrl ||
+    //       el.goodsInfoImg === selectedSizeInfo[0].artworkUrl
+    //     ) {
+    //       hoverIndex = i;
+    //     }
+    //     return el;
+    //   });
+    //   this.setState({
+    //     currentImg:
+    //       selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
+    //     videoShow: false,
+    //     hoverIndex,
+    //     offsetX: hoverIndex * 240
+    //   });
+    // }
   }
   // props 变化时更新
   UNSAFE_componentWillReceiveProps(nextProps) {
