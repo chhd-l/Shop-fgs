@@ -431,6 +431,7 @@ class AddressList extends React.Component {
         postCode: deliveryAddress.postCode,
         rfc: deliveryAddress.rfc,
         email: deliveryAddress.email,
+        comment: deliveryAddress?.comment,
 
         region: deliveryAddress.province, // DuData相关参数
         area: deliveryAddress.area,
@@ -439,7 +440,7 @@ class AddressList extends React.Component {
         house: deliveryAddress.house,
         housing: deliveryAddress.housing,
         entrance: deliveryAddress.entrance,
-        appartment: deliveryAddress.appartment,
+        apartment: deliveryAddress.apartment,
 
         type: this.props.type.toUpperCase()
       };

@@ -51,9 +51,8 @@ class VisitorAddress extends React.Component {
       visitorValidationLoading: false, // 地址校验loading
       visitorValidationModalVisible: false, // 地址校验查询开关
       selectVisitorValidationOption: 'suggestedAddress',
-      russiaAddressValidFlag: true, // 俄罗斯地址校验标记
-      btnLoading: false,
-      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
+      russiaAddressValidFlag: false, // 俄罗斯地址校验标记
+      btnLoading: false
     };
     this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
       this
@@ -90,6 +89,7 @@ class VisitorAddress extends React.Component {
       this.setState({ isValid: true, form: data }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
+      this.props.updateData(data);
     } catch (err) {
       console.error(' err msg: ', err);
       this.setState({ isValid: false, visitorValidationLoading: false }, () => {
@@ -97,6 +97,7 @@ class VisitorAddress extends React.Component {
       });
     }
   };
+  // 接收form表单输入
   handleEditFormChange = (data) => {
     this.validData({ data });
   };

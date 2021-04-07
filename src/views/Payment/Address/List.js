@@ -73,8 +73,7 @@ class AddressList extends React.Component {
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
-      russiaAddressValidFlag: true, // 俄罗斯地址校验标记
-      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
+      russiaAddressValidFlag: false // 俄罗斯地址校验标记
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -411,6 +410,7 @@ class AddressList extends React.Component {
         return;
       }
       await validData(data.formRule, data); // 数据验证
+
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
@@ -481,6 +481,7 @@ class AddressList extends React.Component {
         postCode: deliveryAddress.postCode,
         rfc: deliveryAddress.rfc,
         email: deliveryAddress.email,
+        comment: deliveryAddress?.comment,
 
         region: deliveryAddress.province, // DuData相关参数
         area: deliveryAddress.area,
@@ -489,7 +490,7 @@ class AddressList extends React.Component {
         house: deliveryAddress.house,
         housing: deliveryAddress.housing,
         entrance: deliveryAddress.entrance,
-        appartment: deliveryAddress.appartment,
+        apartment: deliveryAddress.apartment,
 
         type: this.props.type.toUpperCase()
       };
