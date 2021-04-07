@@ -948,7 +948,7 @@ const en_US = {
   'qualitySafety.title': 'Committed to Quality and Food Safety',
   quantity: 'Quantity',
   quantityCannotExceed10: 'Quantity cannot exceed 10',
-  quantityText: '{specText} - {buyCount} item(s)',
+  quantityText: '{specText} - Qty {buyCount}',
   queryDataFailed: 'Query Data Failed',
   ratingGrade1: 'Most Recent',
   ratingGrade2: 'Lowest to Highest Rating',
