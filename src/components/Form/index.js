@@ -1000,14 +1000,7 @@ class Form extends React.Component {
                             className="form-control-label"
                             htmlFor={`shipping${item.fieldKey}`}
                           >
-                            {process.env.REACT_APP_LANG == 'en' &&
-                            item.fieldKey == 'postCode' ? (
-                              <FormattedMessage id="payment.ZIPCode" />
-                            ) : (
-                              <FormattedMessage
-                                id={`payment.${item.fieldKey}`}
-                              />
-                            )}
+                            <FormattedMessage id={`payment.${item.fieldKey}`} />
                           </label>
 
                           {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
