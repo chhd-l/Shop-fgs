@@ -25,7 +25,8 @@ class SearchSelection extends React.Component {
     freeText: false,
     name: '',
     isCitySearchSelection: false,
-    searchSelectionBlur: () => {}
+    searchSelectionBlur: () => {},
+    searchInputChange: () => {}
   };
   constructor(props) {
     super(props);
@@ -54,6 +55,8 @@ class SearchSelection extends React.Component {
     const { form } = this.state;
     try {
       form.value = target.value;
+      // 返回搜索框输入的值
+      this.props.searchInputChange(target.value);
       this.setState({
         form: form,
         searchForNoResult: true
