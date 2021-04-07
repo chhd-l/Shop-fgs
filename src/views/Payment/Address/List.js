@@ -181,7 +181,7 @@ class AddressList extends React.Component {
   }
   // 根据address1查询地址信息，再根据查到的信息计算运费
   getAddressListByKeyWord = async (obj) => {
-    console.log('182 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
+    console.log('183 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
     const { addressList } = this.state;
     try {
       let address1 = obj.address1;
@@ -404,7 +404,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------- ★★★★★★ updateDeliveryAddress: ', data);
+    console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
@@ -486,7 +486,7 @@ class AddressList extends React.Component {
         settlement: deliveryAddress.settlement,
         street: deliveryAddress.street,
         house: deliveryAddress.house,
-        block: deliveryAddress.housing,
+        housing: deliveryAddress.housing,
         entrance: deliveryAddress.entrance,
         appartment: deliveryAddress.appartment,
 
