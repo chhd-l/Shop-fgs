@@ -172,15 +172,16 @@ class Subscription extends React.Component {
             totalPage: Math.ceil(res.context.total / this.pageSize)
           },
           () => {
-            if (!this.state.subList.length) {
-              this.setState({
-                errMsg: this.props.intl.messages['subscription.noDataTip']
-              });
-            } else {
-              this.setState({
-                errMsg: ''
-              });
-            }
+            // 未查询出结果时，显示订阅ad
+            // if (!this.state.subList.length) {
+            //   this.setState({
+            //     errMsg: this.props.intl.messages['subscription.noDataTip']
+            //   });
+            // } else {
+            //   this.setState({
+            //     errMsg: ''
+            //   });
+            // }
           }
         );
       })
