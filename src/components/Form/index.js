@@ -35,7 +35,9 @@ class Form extends React.Component {
     personalData: false,
     isCyberBillingAddress: false,
     isLogin: false,
-    updateData: () => {}
+    russiaAddressValidFlag: true,
+    updateData: () => {},
+    getRussiaAddressValidFlag: () => {}
   };
   constructor(props) {
     super(props);
@@ -67,7 +69,7 @@ class Form extends React.Component {
         comment: '',
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
-        DaData: null, // 俄罗斯DaData
+        DuData: null, // 俄罗斯DuData
         formRule: [] // form表单校验规则
       },
       addressSettings: [],
@@ -77,7 +79,7 @@ class Form extends React.Component {
       stateList: [], // 省份列表
       cityList: [], // city列表
       regionList: [], // region列表
-      address1Data: [], // DaData address1
+      address1Data: [], // DuData address1
       errMsgObj: {}
     };
   }
@@ -402,7 +404,7 @@ class Form extends React.Component {
       });
     }
   };
-  // 7-1、根据address1查询地址信息，再根据查到的信息计算运费
+  // 7-1、根据address1查询地址信息
   getAddressListByKeyWord = async () => {
     const { caninForm } = this.state;
     try {
@@ -413,16 +415,18 @@ class Form extends React.Component {
         let addls = res.context.addressList;
         addls.forEach((item) => {
           if (item.unrestrictedValue == address1) {
-            caninForm.DaData = item;
-            this.setState(
-              {
-                caninForm
-              },
-              () => {
-                // 计算运费
-                this.getShippingCalculation(item);
-              }
-            );
+            console.log('★ ----------- item: ', item);
+            this.getDuDataAddressIntegrity(item);
+            // caninForm.DuData = item;
+            // this.setState(
+            //   {
+            //     caninForm
+            //   },
+            //   () => {
+            //     // 计算运费
+            //     this.getShippingCalculation(item);
+            //   }
+            // );
           }
         });
       }
@@ -430,12 +434,12 @@ class Form extends React.Component {
       console.warn(err);
     }
   };
-  // 7-2、计算运费
+  // 7-2、根据地址查询运费
   getShippingCalculation = async (data) => {
     const { caninForm } = this.state;
-    // this.setState({
-    //   dataLoading: true
-    // });
+    this.setState({
+      dataLoading: true
+    });
     try {
       let res = await shippingCalculation({
         sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
@@ -473,6 +477,7 @@ class Form extends React.Component {
             }
           },
           () => {
+            this.props.getRussiaAddressValidFlag(true);
             this.props.updateData(this.state.caninForm);
           }
         );
@@ -602,12 +607,6 @@ class Form extends React.Component {
     const target = e.target;
     const targetRule = caninForm.formRule.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
-
-    if (target.name == 'address1' && value == '') {
-      this.setState({
-        address1Data: []
-      });
-    }
     try {
       await validData(targetRule, { [target.name]: value });
       this.setState({
@@ -623,7 +622,7 @@ class Form extends React.Component {
       });
     }
   };
-  // 搜索框失去焦点
+  // 城市搜索框失去焦点
   handleCitySearchSelectionBlur = (e) => {
     this.inputBlur(e);
   };
@@ -636,30 +635,41 @@ class Form extends React.Component {
       this.props.updateData(this.state.caninForm);
     });
   };
-  // 地址搜索框失去焦点
-  handleSearchSelectionBlur = (e) => {
-    const { caninForm, address1Data } = this.state;
-    // const target = e.target;
-    // let value = target.value;
-    // const name = target.name;
-    // caninForm[name] = value;
-    // this.setState({ caninForm }, () => {
-    //   this.props.updateData(this.state.caninForm);
-    // });
-    this.inputBlur(e);
-    this.handleAddressInputChange(address1Data);
-  };
-  // 提示消息
-  getIntlMsg = (str) => {
-    return this.props.intl.messages[str];
-  };
-  // DuData地址搜索选择
+
+  // DuData地址搜索选择 1
   handleAddressInputChange = async (data) => {
+    console.log('★ -------------- DuData地址搜索选择 data: ', data);
     const { caninForm } = this.state;
     this.setState({
       address1Data: data
     });
-    console.log('★ -------------- DuData地址搜索选择 data: ', data);
+    const integrity = this.getDuDataAddressIntegrity(data);
+    if (integrity) {
+      // DuData相关参数
+      caninForm.province = data.region;
+      caninForm.area = data.area;
+      caninForm.settlement = data.settlement;
+      caninForm.street = data.street;
+      caninForm.house = data.house;
+      caninForm.housing = data.block;
+
+      // 赋值查询到的地址信息
+      caninForm.DuData = data;
+      caninForm.address1 = data.unrestrictedValue;
+      caninForm.city = data.city;
+      caninForm.postCode = data.postCode;
+      this.setState({ caninForm }, () => {
+        // 根据地址查询运费
+        this.getShippingCalculation(data);
+      });
+    }
+  };
+  // 提示消息 1-1
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
+  // 判断是否是完整地址 1-2
+  getDuDataAddressIntegrity = (data) => {
     // 根据地址组装对应的提示信息
     let errMsg = '';
     let streets = this.getIntlMsg('payment.streets'),
@@ -670,6 +680,7 @@ class Form extends React.Component {
       dpcode = data?.postCode,
       dhouse = data?.house;
     if (dstreet == null || dpcode == null || dhouse == null) {
+      this.props.getRussiaAddressValidFlag(false);
       if (dstreet == null) {
         errMsg = streets;
       }
@@ -698,27 +709,86 @@ class Form extends React.Component {
           ['address1']: errMsg
         }
       });
+      return false;
     } else {
-      // DuData相关参数
-      caninForm.province = data.region;
-      caninForm.area = data.area;
-      caninForm.settlement = data.settlement;
-      caninForm.street = data.street;
-      caninForm.house = data.house;
-      caninForm.housing = data.block;
-
-      // 赋值查询到的地址信息
-      caninForm.DaData = data;
-      caninForm.address1 = data.unrestrictedValue;
-      caninForm.city = data.city;
-      caninForm.postCode = data.postCode;
-      this.setState({ caninForm }, () => {
-        // 计算运费
-        this.getShippingCalculation(data);
-      });
+      return true;
+    }
+  };
+  // 地址搜索框失去焦点 2
+  handleSearchSelectionBlur = (e) => {
+    const { caninForm } = this.state;
+    const target = e.target;
+    const value = target.value;
+    if (value == '') {
+      this.props.getRussiaAddressValidFlag(false);
+      caninForm.address1 = '';
+      this.setState(
+        {
+          caninForm,
+          address1Data: []
+        },
+        () => {
+          this.props.updateData(this.state.caninForm);
+          this.inputBlur(e);
+        }
+      );
+    } else {
+      setTimeout(() => {
+        caninForm.address1 = value;
+        this.setState(
+          {
+            caninForm
+          },
+          () => {
+            this.getAddressListByKeyWord();
+          }
+        );
+      }, 1000);
+    }
+  };
+  // 地址搜索框输入值接收，控制按钮状态 3
+  getSearchInputChange = (val) => {
+    if (val == '') {
+      this.props.getRussiaAddressValidFlag(false);
+    } else {
+      this.props.getRussiaAddressValidFlag(true);
     }
   };
 
+  // 地址搜索框
+  addressSearchSelectionJSX = (item) => {
+    const { caninForm } = this.state;
+    return (
+      <>
+        <SearchSelection
+          queryList={async ({ inputVal }) => {
+            let res = await getAddressBykeyWord({
+              keyword: inputVal
+            });
+            return (
+              (res?.context && res?.context?.addressList) ||
+              []
+            ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
+          }}
+          selectedItemChange={(data) => this.handleAddressInputChange(data)}
+          searchSelectionBlur={this.handleSearchSelectionBlur}
+          searchInputChange={this.getSearchInputChange}
+          key={caninForm[item.fieldKey]}
+          defaultValue={caninForm[item.fieldKey]}
+          value={caninForm[item.fieldKey]}
+          freeText={item.inputFreeTextFlag == 1 ? true : false}
+          name={item.fieldKey}
+          placeholder={
+            this.props.placeholder
+              ? this.props.intl.messages.inputSearchText
+              : ''
+          }
+          customStyle={true}
+          isBottomPaging={true}
+        />
+      </>
+    );
+  };
   // 文本框
   inputJSX = (item) => {
     const { caninForm } = this.state;
@@ -781,39 +851,6 @@ class Form extends React.Component {
             searchSelectionBlur={this.handleCitySearchSelectionBlur}
           />
         </span>
-      </>
-    );
-  };
-  // 地址搜索框
-  addressSearchSelectionJSX = (item) => {
-    const { caninForm } = this.state;
-    return (
-      <>
-        <SearchSelection
-          queryList={async ({ inputVal }) => {
-            let res = await getAddressBykeyWord({
-              keyword: inputVal
-            });
-            return (
-              (res?.context && res?.context?.addressList) ||
-              []
-            ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
-          }}
-          selectedItemChange={(data) => this.handleAddressInputChange(data)}
-          searchSelectionBlur={this.handleSearchSelectionBlur}
-          key={caninForm[item.fieldKey]}
-          defaultValue={caninForm[item.fieldKey]}
-          value={caninForm[item.fieldKey]}
-          freeText={item.inputFreeTextFlag == 1 ? true : false}
-          name={item.fieldKey}
-          placeholder={
-            this.props.placeholder
-              ? this.props.intl.messages.inputSearchText
-              : ''
-          }
-          customStyle={true}
-          isBottomPaging={true}
-        />
       </>
     );
   };
