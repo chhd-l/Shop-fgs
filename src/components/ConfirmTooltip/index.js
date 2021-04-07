@@ -25,7 +25,7 @@ class ConfirmTooltip extends React.Component {
         />
       );
     } else {
-      res = <FormattedMessage id="confirmDelete2" />;
+      res = <FormattedMessage id="confirmDelete" />;
     }
     return res;
   }
