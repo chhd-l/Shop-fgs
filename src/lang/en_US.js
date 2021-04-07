@@ -540,7 +540,7 @@ const en_US = {
   getPetFailed: 'Get Pet Failed',
   giveConsentPersonalData:
     'and give my consent to the processing of personal data, including cross-border transfer',
-  goods: 'Goods',
+  goods: 'Products',
   goToCart: 'Go to shopping cart',
   guestCheckout: 'Continue as a Guest',
   'header.bannerTip': '30% off first purchase + 5% off autoship',
