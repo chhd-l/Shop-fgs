@@ -110,6 +110,25 @@ class Form extends React.Component {
     // 1、查询form表单配置开关
     this.getSystemFormConfig();
   }
+  checkRussiaPhone(str) {
+    const r = /^((\+7|7|8)?([489][0-9]{2}))(\d*)$/;
+    const cityCode = str.replace(r, function (word) {
+      if (RegExp.$1.length === 4) {
+        const countriesCode = RegExp.$2.replace('+', '');
+        return `+${countriesCode}(${RegExp.$3})`;
+      } else if (RegExp.$1.length === 3) {
+        return `(${RegExp.$3})`;
+      }
+    });
+    const r2 = /^(\d{3})(\d{2})(\d{2})$/;
+    if (str.length <= 12) {
+      const number = RegExp.$4.replace(r2, '$1-$2-$3');
+      return `${cityCode}${number}`;
+    } else {
+      console.log('格式化 str: ', str);
+      return str;
+    }
+  }
   // 1、查询form表单配置开关
   getSystemFormConfig = async () => {
     const { caninForm } = this.state;
@@ -151,10 +170,19 @@ class Form extends React.Component {
             addressSettings: res.context.addressDisplaySettings
           },
           () => {
+            let narr = null;
             // 过滤掉不可用的
-            let narr = this.state.addressSettings.filter(
-              (item) => item.enableFlag == 1
-            );
+            if (this.props.isCyberBillingAddress) {
+              // 美国加卡不要电话号码
+              narr = this.state.addressSettings.filter(
+                (item) => item.enableFlag == 1 && item.fieldKey != 'phoneNumber'
+              );
+            } else {
+              narr = this.state.addressSettings.filter(
+                (item) => item.enableFlag == 1
+              );
+            }
+
             let ress = this.formListByRow(narr, (item) => {
               return [item.sequence];
             });
@@ -214,7 +242,7 @@ class Form extends React.Component {
       apiName: null,
       pageRow: 0,
       pageCol: 0,
-      occupancyNum: 2,
+      occupancyNum: 1,
       storeId: null,
       createTime: '',
       updateTime: '',
@@ -250,8 +278,7 @@ class Form extends React.Component {
           } else if (process.env.REACT_APP_LANG == 'en') {
             regExp = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
           } else if (process.env.REACT_APP_LANG == 'ru') {
-            // regExp = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-            regExp = /\S/;
+            regExp = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else {
             regExp = /\S/;
           }
@@ -288,6 +315,7 @@ class Form extends React.Component {
           require: item.requiredFlag == 1 ? true : false
         };
       }
+
       rule.push(ruleItem);
 
       // 利用对象的key值唯一性的，创建数组
@@ -300,6 +328,7 @@ class Form extends React.Component {
         this.getAllCityList();
       }
     });
+
     caninForm.formRule = rule;
     this.setState({
       caninForm
@@ -405,10 +434,11 @@ class Form extends React.Component {
     }
   };
   // 7-1、根据address1查询地址信息
-  getAddressListByKeyWord = async () => {
-    const { caninForm } = this.state;
+  // 俄罗斯地址没有办法用不完整的地址匹配，因为模糊查询出来是一个地址列表
+  getAddressListByKeyWord = async (address1) => {
+    // const { caninForm } = this.state;
     try {
-      let address1 = caninForm.address1;
+      // let address1 = caninForm.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
       console.log('★ -------------- 7-1、根据address1查询地址信息 res: ', res);
       if (res?.context && res?.context?.addressList.length > 0) {
@@ -417,16 +447,6 @@ class Form extends React.Component {
           if (item.unrestrictedValue == address1) {
             console.log('★ ----------- item: ', item);
             this.getDuDataAddressIntegrity(item);
-            // caninForm.DuData = item;
-            // this.setState(
-            //   {
-            //     caninForm
-            //   },
-            //   () => {
-            //     // 计算运费
-            //     this.getShippingCalculation(item);
-            //   }
-            // );
           }
         });
       }
@@ -552,14 +572,12 @@ class Form extends React.Component {
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    if (name == 'postCode' || name == 'phoneNumber') {
+    if (name == 'postCode') {
       value = value.replace(/\s+/g, '');
       if (!this.isNumber(value)) {
         value = '';
         return;
       }
-    }
-    if (name == 'postCode') {
       switch (process.env.REACT_APP_LANG) {
         case 'en':
           value = value
@@ -573,22 +591,25 @@ class Form extends React.Component {
       }
     }
     if (name == 'phoneNumber') {
-      value = value.replace(/-/g, ''); // 格式化电话号码
       switch (process.env.REACT_APP_LANG) {
         case 'fr':
+          value = value.replace(/\s+/g, '');
           value = value.replace(/^[0]/, '+(33)');
           break;
         case 'en':
+          value = value.replace(/\s+/g, '');
+          value = value.replace(/-/g, ''); // 格式化电话号码
           value = value
             .replace(/\s/g, '')
             .replace(/-$/, '')
             .replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
           break;
         case 'ru':
-          value = value.replace(
-            /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/g,
-            '$1'
-          );
+          // value = value.replace(
+          //   /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/g,
+          //   '$1'
+          // );
+          value = this.checkRussiaPhone(value);
           break;
         default:
           value = value.replace(/\s+/g, '');
@@ -604,20 +625,21 @@ class Form extends React.Component {
   // 文本框失去焦点
   inputBlur = async (e) => {
     const { errMsgObj, caninForm } = this.state;
-    const target = e.target;
-    const targetRule = caninForm.formRule.filter((e) => e.key === target.name);
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const target = e?.target;
+    const tname = target?.name;
+    const targetRule = caninForm.formRule.filter((e) => e.key === tname);
+    const value = target?.type === 'checkbox' ? target?.checked : target?.value;
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData(targetRule, { [tname]: value });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: ''
+          [tname]: ''
         })
       });
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: err.message
+          [tname]: err.message
         })
       });
     }
@@ -732,18 +754,6 @@ class Form extends React.Component {
           this.inputBlur(e);
         }
       );
-    } else {
-      setTimeout(() => {
-        caninForm.address1 = value;
-        this.setState(
-          {
-            caninForm
-          },
-          () => {
-            this.getAddressListByKeyWord();
-          }
-        );
-      }, 1000);
     }
   };
   // 地址搜索框输入值接收，控制按钮状态 3

@@ -450,7 +450,6 @@ class LoginCart extends React.Component {
     }
   }
   addQuantity(item) {
-    console.log(item, 'item----');
     if (this.state.checkoutLoading) {
       return;
     }
@@ -1448,10 +1447,14 @@ class LoginCart extends React.Component {
     const List = this.getProducts(productList);
     const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
+    console.log(this.btnStatus, 'this.btnStatus');
     return (
       <div className="Carts">
-        {this.state.circleLoading ? (
-          <Loading bgColor={'#fff'} opacity={1} />
+        {this.state.circleLoading || this.state.checkoutLoading ? (
+          <Loading
+            bgColor={'#000'}
+            opacity={this.state.checkoutLoading ? 0.3 : 1}
+          />
         ) : null}
         <Header
           showMiniIcons={true}
