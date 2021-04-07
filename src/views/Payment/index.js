@@ -1138,6 +1138,9 @@ class Payment extends React.Component {
             oxxoArgs.additionalDetails.object.data[0]
               ? oxxoArgs.additionalDetails.object.data[0].href
               : '';
+          console.log(res);
+          console.log(oxxoPayUrl);
+          debugger;
           subOrderNumberList = tidList.length
             ? tidList
             : oxxoContent && oxxoContent.tidList;
