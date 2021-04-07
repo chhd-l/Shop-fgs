@@ -247,6 +247,10 @@ class Form extends React.Component {
     }
 
     array.forEach((item) => {
+      // 美国加卡不要电话号码
+      if (this.props.isCyberBillingAddress && item.fieldKey == 'phoneNumber') {
+        item.enableFlag = 0;
+      }
       // filedType '字段类型:0.text,1.number'
       // item.filedType = item.filedType == 0 ? 'text' : 'number';
       item.filedType = 'text';
@@ -308,18 +312,16 @@ class Form extends React.Component {
         };
       }
 
-      if (this.props.isCyberBillingAddress && item.fieldKey != 'phoneNumber') {
-        rule.push(ruleItem);
+      rule.push(ruleItem);
 
-        // 利用对象的key值唯一性的，创建数组
-        const group = JSON.stringify(fn(item));
-        groups[group] = groups[group] || [];
-        groups[group].push(item);
+      // 利用对象的key值唯一性的，创建数组
+      const group = JSON.stringify(fn(item));
+      groups[group] = groups[group] || [];
+      groups[group].push(item);
 
-        // 查询城市列表
-        if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
-          this.getAllCityList();
-        }
+      // 查询城市列表
+      if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
+        this.getAllCityList();
       }
     });
 
