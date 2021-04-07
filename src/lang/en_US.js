@@ -68,7 +68,8 @@ const en_US = {
   'account.orders.btns': 'Start Shopping',
   'account.orders.tips':
     "You haven't placed any orders yet. Start shopping now for precise nutrition for your pet.",
-  'account.ordersTip': 'Check the status of your order or see past orders',
+  'account.ordersTip':
+    'Check the status of current orders and see the history of previous ones.',
   'account.ordersTitle': 'My Orders',
   'account.paymentMethod': 'Payment method',
   'account.paymentMethodTip': 'View and update payment information',
@@ -81,7 +82,7 @@ const en_US = {
   'account.preferredContactMethod': 'Preferred Contact Method',
   'account.preferredMethodOfCommunication': 'Preferred method of communication',
   'account.profile': 'My Profile',
-  'account.profileTip': 'Show and update your personal information',
+  'account.profileTip': 'View and edit your personal information.',
   'account.requiredFields': 'Required fields',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
@@ -89,8 +90,7 @@ const en_US = {
   'account.step': 'Step',
   'account.sterilized': 'Is your pet sterilized?',
   'account.subscription': 'My Club Shipments',
-  'account.subscriptionTip':
-    'Manage your club subscription and access to your exclusive membership services',
+  'account.subscriptionTip': 'View and change your membership settings.',
   'account.subscriptionTitle': 'My Club Shipments',
   'account.TheAddressBook': 'The address book',
   'account.toComeIn': 'To come in',
@@ -835,8 +835,7 @@ const en_US = {
   personal: 'Personal',
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
-  'pet.petListTitle':
-    "Create and manage your pet's profile to maintain its best health possible",
+  'pet.petListTitle': 'Create and manage your pet profiles.',
   petFemale: 'Female',
   petInfo: 'Pet information',
   petMale: 'Male',

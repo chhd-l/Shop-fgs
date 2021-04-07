@@ -63,7 +63,7 @@ class Form extends React.Component {
         province: '',
         stateId: '',
         postCode: '',
-        phoneNumber: 0,
+        phoneNumber: '',
         entrance: '',
         apartment: '',
         comment: '',

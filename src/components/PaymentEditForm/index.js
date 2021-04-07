@@ -36,6 +36,7 @@ class PaymentEditForm extends React.Component {
         cardOwner: '',
         email: '',
         phoneNumber: '',
+        phone: '',
         isDefault: 0,
         paymentToken: '',
         paymentTransactionId: '',
@@ -235,7 +236,7 @@ class PaymentEditForm extends React.Component {
         storeId: process.env.REACT_APP_STOREID,
         customerId: this.userInfo ? this.userInfo.customerId : '',
         email: creditCardInfoForm.email,
-        phone: creditCardInfoForm.phoneNumber,
+        phone: creditCardInfoForm.phoneNumber || '',
         isDefault: creditCardInfoForm.isDefault ? '1' : '0',
         paymentToken: res ? res.data.token : '',
         paymentVendor: res ? res.data.vendor : '',
@@ -546,7 +547,7 @@ class PaymentEditForm extends React.Component {
       await validData(data.formRule, data); // 数据验证
 
       data.zipCode = data.postCode; //后台接口需要，多加个属性
-      data.phone = data.phoneNumber; //后台接口需要，多加个属性
+      data.phone = data.phoneNumber || ''; //后台接口需要，多加个属性
 
       const {
         cardholderName,
