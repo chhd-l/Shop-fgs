@@ -445,9 +445,7 @@ export default class Felin extends React.Component {
           selectedTimeObj
         })
       );
-      // let felinForm = {
-      //   selectedDate:
-      // }
+      scrollPaymentPanelIntoView('felinFooter', this.state.languageHeight);
       this.currentStep();
       this.updateButtonState();
     });
@@ -796,16 +794,16 @@ export default class Felin extends React.Component {
                         </h3>
                       </div>
                       <p className="mb-20">
-                        L’Atelier Félin est fait pour vous : venez rencontrer
-                        des experts, posez-leur vos questions sur le
-                        comportement de votre chat, ses habitudes, ses soins et
-                        la nutrition la plus appropriée à ses besoins…
+                        L’Atelier Félin est fait pour vous : échangez avec des
+                        experts, posez-leur vos questions sur le comportement de
+                        votre chat, ses habitudes, ses soins et la nutrition la
+                        plus appropriée à ses besoins…
                       </p>
                       <p className="mb-20">
-                        Des comportementalistes félins et vétérinaires vous
-                        accueillent pour établir le profil de votre chat et vous
-                        apporter des conseils personnalisés et spécifiques à la
-                        vie en appartement.
+                        Des comportementalistes félins et vétérinaires sont là
+                        pour établir le profil de votre chat et vous apporter
+                        des conseils personnalisés et spécifiques à la vie en
+                        appartement.
                       </p>
                       <button
                         className="rc-btn rc-btn--two"
@@ -816,7 +814,7 @@ export default class Felin extends React.Component {
                           );
                         }}
                       >
-                        Venez rencontrer nos experts
+                        échangez avec nos experts
                       </button>
                     </div>
                   </h4>
@@ -894,9 +892,10 @@ export default class Felin extends React.Component {
                         Toutes nos croquettes sont distribuées à la demande et
                         servies dans un contenant réutilisable et consigné.
                         Lorsque votre contenant est vide, vous pouvez le
-                        recharger en boutique, ou vous faire livrer une nouvelle
-                        dose. Notre livreur repartira avec le contenant vide qui
-                        sera reconditionné pour un nouvel usage.
+                        recharger en boutique, ou vous faire livrer (Uniquement
+                        en Ile de France) une nouvelle dose. Notre livreur
+                        repartira avec le contenant vide qui sera reconditionné
+                        pour un nouvel usage.
                       </p>
                       <button
                         className="rc-btn rc-btn--two"
@@ -1167,6 +1166,9 @@ export default class Felin extends React.Component {
                                 {/* <FormattedMessage id="Face-to-face appointment" /> */}
                                 <FormattedMessage id="Rendez-vous face à face" />
                               </label>
+                              <p style={{ fontSize: '.25rem' }}>
+                                (6 Rue des Coutures Saint-Gervais 75003 Paris)
+                              </p>
                             </div>
                           </div>
                         </>
@@ -1490,11 +1492,13 @@ export default class Felin extends React.Component {
                           Du 20 avril au 13 juin 2021, prenez rendez vous pour
                           discuter avec nos experts du comportement de votre
                           chat et découvrir l’aliment le plus adapté à ses
-                          besoins. Dans notre Atelier Félin, 6 Rue des Coutures
-                          Saint-Gervais 75003 Paris ou en ligne par visio
-                          conférence du Mardi au Dimanche de 10h à 19h, et
-                          uniquement par visio conférence de 19h à 20h. Fermé le
-                          lundi et le 1er Mai.
+                          besoins.
+                          <p style={{ fontSize: '.25rem' }}>
+                            (Dans notre Atelier Félin ou par telephone du Mardi
+                            au Dimanche de 10h à 19h, et uniquement par
+                            telephone de 19h à 20h. Fermé le lundi et le 1er
+                            Mai.)
+                          </p>
                         </p>
                       ) : null}
                       {this.state.step === 6 ? (

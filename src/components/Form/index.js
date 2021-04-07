@@ -170,10 +170,19 @@ class Form extends React.Component {
             addressSettings: res.context.addressDisplaySettings
           },
           () => {
+            let narr = null;
             // 过滤掉不可用的
-            let narr = this.state.addressSettings.filter(
-              (item) => item.enableFlag == 1
-            );
+            if (this.props.isCyberBillingAddress) {
+              // 美国加卡不要电话号码
+              narr = this.state.addressSettings.filter(
+                (item) => item.enableFlag == 1 && item.fieldKey != 'phoneNumber'
+              );
+            } else {
+              narr = this.state.addressSettings.filter(
+                (item) => item.enableFlag == 1
+              );
+            }
+
             let ress = this.formListByRow(narr, (item) => {
               return [item.sequence];
             });
@@ -247,10 +256,6 @@ class Form extends React.Component {
     }
 
     array.forEach((item) => {
-      // 美国加卡不要电话号码
-      if (this.props.isCyberBillingAddress && item.fieldKey == 'phoneNumber') {
-        item.enableFlag = 0;
-      }
       // filedType '字段类型:0.text,1.number'
       // item.filedType = item.filedType == 0 ? 'text' : 'number';
       item.filedType = 'text';
