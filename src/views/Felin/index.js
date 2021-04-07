@@ -751,8 +751,8 @@ export default class Felin extends React.Component {
                     </LazyLoad>
                     <div className="rc-gamma inherit-fontsize mt-2">
                       <h3 className="firstTitle">
-                        Un nouveau lieu d’échanges sur la santé et le bien-être
-                        de votre chat, au coeur de Paris
+                        Un nouveau lieu d'échanges sur la santé et le bien-être
+                        de votre chat
                       </h3>
                     </div>
 
@@ -765,7 +765,7 @@ export default class Felin extends React.Component {
                         );
                       }}
                     >
-                      Venez rencontrer nos comportementalistes félins
+                      Rencontrez nos experts félins
                     </button>
                     <p
                       className="mt-3"
@@ -799,7 +799,7 @@ export default class Felin extends React.Component {
                         </h3>
                       </div>
                       <p className="mb-20">
-                        L’Atelier Félin est fait pour vous : échangez avec des
+                        L’Atelier Félin est fait pour vous échangez avec des
                         experts, posez-leur vos questions sur le comportement de
                         votre chat, ses habitudes, ses soins et la nutrition la
                         plus appropriée à ses besoins…
@@ -1382,7 +1382,7 @@ export default class Felin extends React.Component {
                               >
                                 Les données personnelles, que vous renseignez
                                 sont traitées aux fins de confirmer et assurer
-                                le suivi du rendez-vous Elles seront conservées
+                                le suivi du rendez-vous. Elles seront conservées
                                 conformément avec notre déclaration de
                                 confidentialité que vous pouvez retrouver en
                                 ligne sur

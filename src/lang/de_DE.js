@@ -237,6 +237,8 @@ const de_DE = {
   'confirmation.visitOnlineStore': 'Online-Shop besuchen',
   confirmDelete: 'Möchten Sie den Artikel löschen?',
   confirmDelete2: 'Möchten Sie den Artikel löschen?',
+  confirmDeleteProduct:
+    'Sind Sie sicher, dass Sie dieses Produkt aus dem Warenkorb entfernen möchten ?',
   confirmPassword: 'Bestätige das Passwort *',
   consent: 'Akzeptieren',
   consignee: 'Empfänger',

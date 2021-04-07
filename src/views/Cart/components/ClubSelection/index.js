@@ -64,7 +64,7 @@ const ClubSelection = function (props) {
               </span>
             )} */}
             <ConfirmTooltip
-              arrowStyle={{ left: '65%' }}
+              arrowStyle={{ left: '79%' }}
               display={toolTipVisible && index === activeToolTipIndex}
               cancelBtnVisible={false}
               confirmBtnVisible={false}

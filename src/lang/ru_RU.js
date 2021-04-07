@@ -272,6 +272,7 @@ const ru_RU = {
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
   confirmDelete2: 'Вы хотите удалить адрес?',
+  confirmDeleteProduct: 'Удалить этот продукт из магазина ?',
   confirmPassword: 'Подтвердить Пароль *',
   consent: 'Согласие',
   consignee: 'Грузополучатель',
@@ -1093,7 +1094,24 @@ const ru_RU = {
   Activity: 'Активность',
   Weight: 'Масса',
   Expire: ' ',
-  xProduct: '{val} товар (а/ов)'
+  xProduct: '{val} товар (а/ов)',
+  'onlineStore.breedcrumb': 'Королевская собака',
+  'onlineStore.header.title': 'Королевская собака',
+  'onlineStore.header.content': 'узнать наш онлайн - сериал.',
+  'onlineStore.footer.title': 'задача Дес',
+  'onlineStore.footer.content':
+    'Нужна помощь?{val1}наша команда может ответить на все ваши вопросы и убедиться, {val1}что вы получите лучший опыт покупки.',
+  'onlineStore.BottomInfo.phone.content2':
+    'Понедельник - пятница с 8 ч. 30 м. до 12 ч. 30 м. и с 14 ч. 00 м. до 17 ч. 00 м.',
+  'onlineStore.BottomInfo.phone.title': 'по телефону',
+  'onlineStore.BottomInfo.email.title': 'Par E - mail',
+  'onlineStore.BottomInfo.email.content1':
+    'Мы ответим вам в течение двух рабочих дней.',
+  'onlineStore.BottomInfo.email.content2': 'отправить письмо',
+  'onlineStore.BottomInfo.faq.content1':
+    'Вы также можете просмотреть часть ответа на наши общие вопросы, эта часть даст вам много ответов.',
+  'onlineStore.BottomInfo.faq.content2': 'ответ на вопрос',
+  'onlineStore.BottomInfo.faq.title': 'задача Дес?'
 };
 
 export default ru_RU;
