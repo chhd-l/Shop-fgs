@@ -1070,7 +1070,7 @@ export default class Felin extends React.Component {
                           </div>
                           <div>
                             <Selection
-                              placeholder="Choisissez une créneau horaire"
+                              placeholder="Choisissez Un créneau horaire"
                               optionList={this.state.timeOption}
                               selectedItemChange={(data) => {
                                 console.log(data);
@@ -1170,10 +1170,15 @@ export default class Felin extends React.Component {
                               >
                                 {/* <FormattedMessage id="Face-to-face appointment" /> */}
                                 <FormattedMessage id="Rendez-vous face à face" />
+                                <p
+                                  style={{
+                                    fontSize: '.75rem',
+                                    marginTop: '.5rem'
+                                  }}
+                                >
+                                  (6 Rue des Coutures Saint-Gervais 75003 Paris)
+                                </p>
                               </label>
-                              <p style={{ fontSize: '.25rem' }}>
-                                (6 Rue des Coutures Saint-Gervais 75003 Paris)
-                              </p>
                             </div>
                           </div>
                         </>
@@ -1378,8 +1383,9 @@ export default class Felin extends React.Component {
                                 Les données personnelles, que vous renseignez
                                 sont traitées aux fins de confirmer et assurer
                                 le suivi du rendez-vous Elles seront conservées
-                                en accord avec les règles de gestion que vous
-                                pourrez retrouver en ligne sur
+                                conformément avec notre déclaration de
+                                confidentialité que vous pouvez retrouver en
+                                ligne sur
                                 <br />
                                 <a
                                   href="https://www.mars.com/privacy-policy-france"
@@ -1498,7 +1504,7 @@ export default class Felin extends React.Component {
                           discuter avec nos experts du comportement de votre
                           chat et découvrir l’aliment le plus adapté à ses
                           besoins.
-                          <p style={{ fontSize: '.25rem' }}>
+                          <p style={{ fontSize: '.75rem', marginTop: '1rem' }}>
                             (Dans notre Atelier Félin ou par telephone du Mardi
                             au Dimanche de 10h à 19h, et uniquement par
                             telephone de 19h à 20h. Fermé le lundi et le 1er

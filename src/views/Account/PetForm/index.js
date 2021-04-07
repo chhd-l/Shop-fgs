@@ -162,7 +162,9 @@ class PetForm extends React.Component {
       .catch((err) => {
         this.showErrorMsg(err.message);
       });
-    await getDictionary({ type: 'specialNeeds' })
+    await getDictionary({
+      type: this.state.isCat ? 'specialneeds_cat' : 'specialneeds_dog'
+    })
       .then((res) => {
         this.setState({
           specialNeeds: res
@@ -510,7 +512,8 @@ class PetForm extends React.Component {
     });
 
     getDict({
-      type: this.state.isCat ? 'catBreed' : 'dogBreed',
+      // type: this.state.isCat ? 'catBreed' : 'dogBreed',
+      type: 'Breed',
       name: e.target.value,
       delFlag: 0,
       storeId: process.env.REACT_APP_STOREID
