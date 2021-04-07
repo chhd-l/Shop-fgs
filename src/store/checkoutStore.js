@@ -258,7 +258,8 @@ class CheckoutStore {
     taxFeeData,
     guestEmail,
     minimunAmountPrice,
-    isThrowErr
+    isThrowErr,
+    ruShippingDTO
   } = {}) {
     try {
       if (!data) {
@@ -292,7 +293,8 @@ class CheckoutStore {
         street: taxFeeData.street,
         postalCode: taxFeeData.postalCode,
         customerAccount: email,
-        guestEmail: email
+        guestEmail: email,
+        ruShippingDTO // DuData地址对象，俄罗斯计算运费用
       });
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
@@ -406,7 +408,8 @@ class CheckoutStore {
     purchaseFlag,
     taxFeeData,
     minimunAmountPrice,
-    isThrowErr = false
+    isThrowErr = false,
+    ruShippingDTO
   } = {}) {
     try {
       this.changeLoadingCartData(true);
@@ -431,7 +434,8 @@ class CheckoutStore {
         city: taxFeeData.city,
         street: taxFeeData.street,
         postalCode: taxFeeData.postalCode,
-        customerAccount: taxFeeData.customerAccount
+        customerAccount: taxFeeData.customerAccount,
+        ruShippingDTO // DuData地址对象，俄罗斯计算运费用
       });
 
       let backCode = sitePurchasesRes.code;
