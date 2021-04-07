@@ -465,8 +465,8 @@ class PersonalDataEditForm extends React.Component {
                   }
                 ].map((item, i) => (
                   <React.Fragment key={i}>
-                    <div className="col-6 col-md-9">{item.name}</div>
-                    <div className="col-6 col-md-3">{item.val}</div>
+                    <div className="col-6 col-md-8">{item.name}</div>
+                    <div className="col-6 col-md-4">{item.val}</div>
                   </React.Fragment>
                 ))}
               </div>
