@@ -1,0 +1,2591 @@
+export default {
+  RECORDS: [
+    {
+      shortUrl: '/',
+      redirectUrl: '/'
+    },
+    {
+      shortUrl:
+        '/%D0%92%D0%B7%D1%80%D0%BE%D1%81%D0%BB%D1%8B%D0%B5%20%281-7%20%D0%BB%D0%B5%D1%82%29%20%D1%81%D0%BE%D0%B1%D0%B0%D0%BA%D0%B0/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%92%D0%B7%D1%80%D0%BE%D1%81%D0%BB%D1%8B%D0%B5%20%281-7%20%D0%BB%D0%B5%D1%82%29/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%92%D0%B7%D1%80%D0%BE%D1%81%D0%BB%D1%8B%D0%B5%20%287-12%20%D0%BB%D0%B5%D1%82%29/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%92%D0%BB%D0%B0%D0%B6%D0%BD%D1%8B%D0%B9%20%D0%BA%D0%BE%D1%80%D0%BC%20%D1%81%D0%BE%D0%B1%D0%B0%D0%BA%D0%B0/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%92%D0%BB%D0%B0%D0%B6%D0%BD%D1%8B%D0%B9%20%D0%BA%D0%BE%D1%80%D0%BC/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%92%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%20%D0%A1%D0%BE%D0%B1%D0%B0%D0%BA%D0%B0/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/%D0%92%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%9A%D0%BE%D1%82%D1%8F%D1%82%D0%B0%20%280-1%20%D0%B3%D0%BE%D0%B4%D0%B0%29/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%9B%D0%B8%D0%BD%D0%B5%D0%B9%D0%BA%D0%B0%20%D0%A1%D0%BE%D0%B1%D0%B0%D0%BA%D0%B0/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/%D0%9B%D0%B8%D0%BD%D0%B5%D0%B9%D0%BA%D0%B0/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8-%D0%9F%D0%B0%D0%BF%D0%BF%D0%B8%3A-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1097_RU.html',
+      redirectUrl:
+        '/%D0%BC%D0%B0%D0%BA%D1%81%D0%B8-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1097'
+    },
+    {
+      shortUrl:
+        '/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82%3A-%D1%81-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-%D0%B4%D0%BE-5-%D0%BB%D0%B5%D1%82-1094_RU.html',
+      redirectUrl:
+        '/%D0%BC%D0%B0%D0%BA%D1%81%D0%B8-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82:-%D1%81-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-%D0%B4%D0%BE-5-%D0%BB%D0%B5%D1%82-1094'
+    },
+    {
+      shortUrl:
+        '/%D0%9C%D0%B5%D0%B4%D0%B8%D1%83%D0%BC-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8%3A-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-12-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1098_RU.html',
+      redirectUrl:
+        '/%D0%BC%D0%B5%D0%B4%D0%B8%D1%83%D0%BC-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-12-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1098'
+    },
+    {
+      shortUrl:
+        '/%D0%9C%D0%B5%D0%B4%D0%B8%D1%83%D0%BC-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82%3A-%D1%81-12-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-%D0%B8-%D1%81%D1%82%D0%B0%D1%80%D1%88%D0%B5-1095_RU.html',
+      redirectUrl:
+        '/%D0%BC%D0%B5%D0%B4%D0%B8%D1%83%D0%BC-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82:-%D1%81-12-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-%D0%B8-%D1%81%D1%82%D0%B0%D1%80%D1%88%D0%B5-1095'
+    },
+    {
+      shortUrl:
+        '/%D0%9C%D0%B8%D0%BD%D0%B8-%D0%9F%D0%B0%D0%BF%D0%BF%D0%B8%3A-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1099_RU.html',
+      redirectUrl:
+        '/%D0%BC%D0%B8%D0%BD%D0%B8-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1099'
+    },
+    {
+      shortUrl:
+        '/%D0%9C%D0%B8%D0%BD%D0%B8-%D0%AD%D0%B9%D0%B4%D0%B6%D0%B8%D0%BD%D0%B3-12%2B%3A-%D0%BE%D1%82-12-%D0%BB%D0%B5%D1%82-%D0%B8-%D1%81%D1%82%D0%B0%D1%80%D1%88%D0%B5-1093_RU.html',
+      redirectUrl:
+        '/%D0%BC%D0%B8%D0%BD%D0%B8-%D1%8D%D0%B9%D0%B4%D0%B6%D0%B8%D0%BD%D0%B3-12+:-%D0%BE%D1%82-12-%D0%BB%D0%B5%D1%82-%D0%B8-%D1%81%D1%82%D0%B0%D1%80%D1%88%D0%B5-1093'
+    },
+    {
+      shortUrl:
+        '/%D0%9F%D0%BE%D0%BC%D0%B5%D1%80%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9-%D1%88%D0%BF%D0%B8%D1%86%3A-%D1%81-8-%D0%BC%D0%B5%D1%81%D1%8F%D1%87%D0%BD%D0%BE%D0%B3%D0%BE-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B0-1256_RU.html',
+      redirectUrl: '/pomeranian-adult-1255'
+    },
+    {
+      shortUrl: '/%D0%A0%D0%B0%D0%B7%D0%BC%D0%B5%D1%80/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%A1%D1%82%D0%B0%D1%80%D0%B5%D1%8E%D1%89%D0%B8%D0%B5%20%2812%20%D0%BB%D0%B5%D1%82%20%2B%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%A1%D1%82%D0%B0%D1%80%D0%B5%D1%8E%D1%89%D0%B8%D0%B5%20%287%20%D0%BB%D0%B5%D1%82%20%2B%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/%D0%A1%D1%82%D0%B0%D1%80%D1%82%D0%B5%D1%80%3A-%D0%B4%D0%BB%D1%8F-%D1%81%D1%83%D0%BA-%D0%B8-%D1%89%D0%B5%D0%BD%D0%BA%D0%BE%D0%B2-%D0%B4%D0%BE-2-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-4077_RU.html',
+      redirectUrl:
+        '/%D1%81%D1%82%D0%B0%D1%80%D1%82%D0%B5%D1%80:-%D0%B4%D0%BB%D1%8F-%D1%81%D1%83%D0%BA-%D0%B8-%D1%89%D0%B5%D0%BD%D0%BA%D0%BE%D0%B2-%D0%B4%D0%BE-2-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-4077'
+    },
+    {
+      shortUrl:
+        '/%D0%A2%D0%B0%D0%BA%D1%81%D0%B0%3A-%D0%BE%D1%82-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-2042_RU.html',
+      redirectUrl:
+        '/%D1%82%D0%B0%D0%BA%D1%81%D0%B0:-%D0%BE%D1%82-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-2042'
+    },
+    {
+      shortUrl:
+        '/%D0%A9%D0%B5%D0%BD%D0%BA%D0%B8%20%280-1%20%D0%B3%D0%BE%D0%B4%D0%B0%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/Ageing-12%2B-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-4153_RU.html',
+      redirectUrl: '/ageing-12+-in-jelly-4153'
+    },
+    {
+      shortUrl:
+        '/Ageing-12%2B-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4082_RU.html',
+      redirectUrl: '/ageing-12+-in-sauce-4082'
+    },
+    {
+      shortUrl: '/Ageing-12%2B-2561_RU.html',
+      redirectUrl: '/ageing-12+-2561'
+    },
+    {
+      shortUrl: '/Anallergenic-1950_RU.html',
+      redirectUrl: '/anallergenic-1950'
+    },
+    {
+      shortUrl: '/Anallergenic-4014_RU.html',
+      redirectUrl: '/anallergenic-4014'
+    },
+    {
+      shortUrl:
+        '/Appetite-Control-Care-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-1467_RU.html',
+      redirectUrl: '/appetite-control-care-in-jelly-1467'
+    },
+    {
+      shortUrl:
+        '/Appetite-Control-Care-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1466_RU.html',
+      redirectUrl: '/appetite-control-care-in-sauce-1466'
+    },
+    {
+      shortUrl:
+        '/Appetite-Control-Care-(в-желе)-(x12)-14670008A0_INNERBOX_12_UNIT_RU.html',
+      redirectUrl: '/appetite-control-care-in-jelly-1467'
+    },
+    {
+      shortUrl: '/Appetite-Control-Care-(в-желе)-1467_RU.html',
+      redirectUrl: '/appetite-control-care-in-jelly-1467'
+    },
+    {
+      shortUrl: '/Appetite-Control-Care-(в-соусе)-1466_RU.html',
+      redirectUrl: '/appetite-control-care-in-sauce-1466'
+    },
+    {
+      shortUrl: '/Appetite-Control-Care-2563_RU.html',
+      redirectUrl: '/appetite-control-care-2563'
+    },
+    {
+      shortUrl: '/Aroma-Exigent-2543_RU.html',
+      redirectUrl: '/aroma-exigent-2543'
+    },
+    {
+      shortUrl: '/Babycat-milk-2553_RU.html',
+      redirectUrl: '/babycat-milk-2553'
+    },
+    {
+      shortUrl: '/Beagle-Adult-2106_RU.html',
+      redirectUrl: '/beagle-adult-2106'
+    },
+    {
+      shortUrl: '/Bengal-Adult-4370_RU.html',
+      redirectUrl: '/bengal-adult-4370'
+    },
+    {
+      shortUrl: '/Boxer-Adult-2588_RU.html',
+      redirectUrl: '/boxer-adult-2588'
+    },
+    {
+      shortUrl: '/breed-cat-landing.html',
+      redirectUrl: '/breed-cat-landing'
+    },
+    {
+      shortUrl: '/breed-dog-landing.html',
+      redirectUrl: '/breed-dog-landing'
+    },
+    {
+      shortUrl:
+        '/British-Shorthair-Adult-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-2032_RU.html',
+      redirectUrl: '/british-shorthair-adult-in-sauce-2032'
+    },
+    {
+      shortUrl: '/British-Shorthair-Adult-(в-соусе)-2032_RU.html',
+      redirectUrl: '/british-shorthair-adult-in-sauce-2032'
+    },
+    {
+      shortUrl: '/British-Shorthair-Adult-2557_RU.html',
+      redirectUrl: '/british-shorthair-adult-2557'
+    },
+    {
+      shortUrl: '/British-Shorthair-Kitten-2566_RU.html',
+      redirectUrl: '/british-shorthair-kitten-2566'
+    },
+    {
+      shortUrl: '/Bulldog-Adult-2590_RU.html',
+      redirectUrl: '/bulldog-adult-2590'
+    },
+    {
+      shortUrl: '/Calm-CC-36-Feline-3955_RU.html',
+      redirectUrl: '/calm-cc-36-feline-3955'
+    },
+    {
+      shortUrl: '/Canin Care Nutrition/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Canin%20Care%20Nutrition/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/Cardiac-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4023_RU.html',
+      redirectUrl: '/cardiac-3930'
+    },
+    {
+      shortUrl: '/Cardiac-(паштет)-(x12)-40230041A0_INNERBOX_12_UNIT_RU.html',
+      redirectUrl: '/cardiac-3930'
+    },
+    {
+      shortUrl: '/Cardiac-3930_RU.html',
+      redirectUrl: '/cardiac-3930'
+    },
+    {
+      shortUrl: '/cats/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Chihuahua--2210_RU.html',
+      redirectUrl: '/chihuahua-2210'
+    },
+    {
+      shortUrl: '/Chihuahua-Puppy-2438_RU.html',
+      redirectUrl: '/chihuahua-puppy-2438'
+    },
+    {
+      shortUrl: '/club',
+      redirectUrl: '/club'
+    },
+    {
+      shortUrl: '/Cocker-Adult-3969_RU.html',
+      redirectUrl: '/cocker-adult-3969'
+    },
+    {
+      shortUrl: '/Dachshund-Adult-3059_RU.html',
+      redirectUrl: '/dachshund-adult-3059'
+    },
+    {
+      shortUrl: '/Dachshund-Puppy-2437_RU.html',
+      redirectUrl: '/dachshund-puppy-2437'
+    },
+    {
+      shortUrl: '/Dachshund-Puppy-24370150F0_RU.html',
+      redirectUrl: '/dachshund-puppy-2437'
+    },
+    {
+      shortUrl: '/Dalmatian--2598_RU.html',
+      redirectUrl: '/dalmatian-2598'
+    },
+    {
+      shortUrl: '/Dalmatian--25981200P0_RU.html',
+      redirectUrl: '/dalmatian-2598'
+    },
+    {
+      shortUrl: '/Dalmatian-Puppy-2597_RU.html',
+      redirectUrl: '/dalmatian-puppy-2597'
+    },
+    {
+      shortUrl: '/Dalmatian-Puppy-25971200F0_RU.html',
+      redirectUrl: '/dalmatian-puppy-2597'
+    },
+    {
+      shortUrl: '/Dental-DSO-29-Feline-3936_RU.html',
+      redirectUrl: '/dental-dso-29-feline-3936'
+    },
+    {
+      shortUrl: '/Dental-Special-Small-Dog-DSD-25-Canine-3939_RU.html',
+      redirectUrl: '/dental-special-small-dog-dsd-25-canine-3939'
+    },
+    {
+      shortUrl: '/Diabetic-(в-соусе)-4085_RU.html',
+      redirectUrl: '/diabetic-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4085'
+    },
+    {
+      shortUrl: '/Diabetic--3906_RU.html',
+      redirectUrl: '/diabetic-3906'
+    },
+    {
+      shortUrl: '/Diabetic-4086_RU.html',
+      redirectUrl: '/diabetic-3906'
+    },
+    {
+      shortUrl: '/Digestive-Care-2555_RU.html',
+      redirectUrl: '/digestive-Care-2555'
+    },
+    {
+      shortUrl:
+        '/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076_RU.html',
+      redirectUrl: '/digestive-Care-2555'
+    },
+    {
+      shortUrl:
+        '/Digest-Sensitive-(в-соусе)-(x24)-40760008R0_INNERBOX_24_UNIT_RU.html',
+      redirectUrl: '/digestive-Care-2555'
+    },
+    {
+      shortUrl: '/dogs/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/Early-Renal-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1243_RU.html',
+      redirectUrl: '/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1243'
+    },
+    {
+      shortUrl:
+        '/Early-Renal-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1252_RU.html',
+      redirectUrl: '/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1243'
+    },
+    {
+      shortUrl: '/Early-Renal-(в-соусе)-1243_RU.html',
+      redirectUrl: '/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1243'
+    },
+    {
+      shortUrl: '/Early-Renal-(в-соусе)-1252_RU.html',
+      redirectUrl: '/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1243'
+    },
+    {
+      shortUrl: '/Early-Renal-1242_RU.html',
+      redirectUrl: '/early-renal-1248'
+    },
+    {
+      shortUrl: '/Early-Renal-1248_RU.html',
+      redirectUrl: '/early-renal-1248'
+    },
+    {
+      shortUrl: '/Educ-(x60)-31000005F0_INNERBOX_60_UNIT_RU.html',
+      redirectUrl: '/educ-3100'
+    },
+    {
+      shortUrl: '/Educ-3100_RU.html',
+      redirectUrl: '/educ-3100'
+    },
+    {
+      shortUrl: '/Energy-3064_RU.html',
+      redirectUrl: '/energy-3064'
+    },
+    {
+      shortUrl: '/Feline Care Nutrition/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Feline Health Nutrition/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Feline%20Care%20Nutrition/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Feline%20Health%20Nutrition/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Fit-32-2520_RU.html',
+      redirectUrl: '/fit-32-2520'
+    },
+    {
+      shortUrl: '/French-Bulldog-Adult-3991_RU.html',
+      redirectUrl: '/french-bulldog-adult-3991'
+    },
+    {
+      shortUrl: '/French-Bulldog-Puppy-3990_RU.html',
+      redirectUrl: '/french-bulldog-puppy-3990'
+    },
+    {
+      shortUrl: '/Gastrointestinal-(в-соусе)-4039_RU.html',
+      redirectUrl:
+        '/gastrointestinal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4039'
+    },
+    {
+      shortUrl: '/Gastrointestinal-(паштет)-4038_RU.html',
+      redirectUrl:
+        '/gastrointestinal-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4038'
+    },
+    {
+      shortUrl: '/Gastrointestinal-3905_RU.html',
+      redirectUrl: '/gastrointestinal-3905'
+    },
+    {
+      shortUrl: '/Gastrointestinal-3911_RU.html',
+      redirectUrl: '/gastrointestinal-3911'
+    },
+    {
+      shortUrl: '/Gastrointestinal-Fibre-Response-4007_RU.html',
+      redirectUrl: '/gastrointestinal-fibre-response-4007'
+    },
+    {
+      shortUrl: '/Gastrointestinal-Hairball-2722_RU.html',
+      redirectUrl: '/gastrointestinal-hairball-2722'
+    },
+    {
+      shortUrl: '/Gastrointestinal-High-Fibre-3959_RU.html',
+      redirectUrl: '/gastrointestinal-high-fibre-3959'
+    },
+    {
+      shortUrl:
+        '/Gastrointestinal-Low-Fat-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4029_RU.html',
+      redirectUrl: '/gastrointestinal-low-fat-in-pate-4029'
+    },
+    {
+      shortUrl: '/Gastrointestinal-Low-Fat-(паштет)-4029_RU.html',
+      redirectUrl: '/gastrointestinal-low-fat-in-pate-4029'
+    },
+    {
+      shortUrl: '/Gastrointestinal-Low-Fat--3932_RU.html',
+      redirectUrl: '/gastrointestinal-low-fat-3932'
+    },
+    {
+      shortUrl: '/Gastrointestinal-Moderate-Calorie-(в-соусе)-4009_RU.html',
+      redirectUrl: '/gastrointestinal-moderate-calorie-in-sauce-4009'
+    },
+    {
+      shortUrl: '/Gastrointestinal-Moderate-Calorie-4008_RU.html',
+      redirectUrl: '/gastrointestinal-moderate-calorie-4008'
+    },
+    {
+      shortUrl:
+        '/Gastrointestinal-Puppy-%28%D0%BC%D1%83%D1%81%D1%81%29-1229_RU.html',
+      redirectUrl: '/gastrointestinal-puppy-(%D0%BC%D1%83%D1%81%D1%81)-1229'
+    },
+    {
+      shortUrl: '/Gastrointestinal-Puppy-(мусс)-1229_RU.html',
+      redirectUrl: '/gastrointestinal-puppy-(%D0%BC%D1%83%D1%81%D1%81)-1229'
+    },
+    {
+      shortUrl: '/Gastrointestinal-Puppy-3957_RU.html',
+      redirectUrl: '/gastrointestinal-puppy-3957'
+    },
+    {
+      shortUrl: '/general-terms-conditions.html',
+      redirectUrl: '/general-terms-conditions'
+    },
+    {
+      shortUrl: '/German-Shepherd--2518_RU.html',
+      redirectUrl: '/german-shepherd-2518'
+    },
+    {
+      shortUrl: '/German-Shepherd-Puppy-2519_RU.html',
+      redirectUrl: '/german-shepherd-puppy-2519'
+    },
+    {
+      shortUrl: '/Giant ( > 45 кг)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Giant%20%28%20%3E%2045%20%D0%BA%D0%B3%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Giant-Adult-3009_RU.html',
+      redirectUrl: '/giant-adult-3009'
+    },
+    {
+      shortUrl: '/Giant-Junior-3031_RU.html',
+      redirectUrl: '/giant-junior-3031'
+    },
+    {
+      shortUrl: '/Giant-Puppy-3030_RU.html',
+      redirectUrl: '/giant-puppy-3030'
+    },
+    {
+      shortUrl: '/Giant-Starter-Mother-%26-Babydog-2996_RU.html',
+      redirectUrl: '/giant-starter-mother-babydog-2996'
+    },
+    {
+      shortUrl: '/Golden-Retriever--3970_RU.html',
+      redirectUrl: '/golden-retriever-3970'
+    },
+    {
+      shortUrl: '/Hair-%26-Skin-Care-2526_RU.html',
+      redirectUrl: '/hair-skin-care-2526'
+    },
+    {
+      shortUrl:
+        '/Hairball-Care-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4158_RU.html',
+      redirectUrl: '/hairball-care-2534'
+    },
+    {
+      shortUrl:
+        '/Hairball-Care-(в-соусе)-(x12)-41580008A0_INNERBOX_12_UNIT_RU.html',
+      redirectUrl: '/hairball-care-2534'
+    },
+    {
+      shortUrl: '/Hairball-Care-2534_RU.html',
+      redirectUrl: '/hairball-care-2534'
+    },
+    {
+      shortUrl:
+        '/Hepatic-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4022_RU.html',
+      redirectUrl: '/hepatic-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4022'
+    },
+    {
+      shortUrl: '/Hepatic-(паштет)-4022_RU.html',
+      redirectUrl: '/hepatic-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4022'
+    },
+    {
+      shortUrl: '/Hepatic-3927_RU.html',
+      redirectUrl: '/hepatic-3927'
+    },
+    {
+      shortUrl: '/Hepatic--4012_RU.html',
+      redirectUrl: '/hepatic-4012'
+    },
+    {
+      shortUrl:
+        '/Hypoallergenic-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4084_RU.html',
+      redirectUrl: '/hypoallergenic-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4084'
+    },
+    {
+      shortUrl: '/Hypoallergenic-(паштет)-4084_RU.html',
+      redirectUrl: '/hypoallergenic-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4084'
+    },
+    {
+      shortUrl: '/Hypoallergenic-3902_RU.html',
+      redirectUrl: '/hypoallergenic-3902'
+    },
+    {
+      shortUrl: '/Hypoallergenic-3910_RU.html',
+      redirectUrl: '/hypoallergenic-3910'
+    },
+    {
+      shortUrl: '/Hypoallergenic-Moderate-Calorie-3964_RU.html',
+      redirectUrl: '/hypoallergenic-moderate-calorie-3964'
+    },
+    {
+      shortUrl: '/Hypoallergenic-Small-Dog-3952_RU.html',
+      redirectUrl: '/hypoallergenic-small-dog-3952'
+    },
+    {
+      shortUrl: '/Indoor-27-2529_RU.html',
+      redirectUrl: '/indoor-27-2529'
+    },
+    {
+      shortUrl: '/Indoor-7%2B-2548_RU.html',
+      redirectUrl: '/indoor-7+-2548'
+    },
+    {
+      shortUrl: '/Indoor-Appetite-Control-2568_RU.html',
+      redirectUrl: '/indoor-appetite-control-2568'
+    },
+    {
+      shortUrl: '/Indoor-Long-Hair-2549_RU.html',
+      redirectUrl: '/indoor-long-hair-2549'
+    },
+    {
+      shortUrl:
+        '/Indoor-Sterilised-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-1288_RU.html',
+      redirectUrl: '/indoor-sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1288'
+    },
+    {
+      shortUrl:
+        '/Indoor-Sterilised-%28%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5%29-1293_RU.html',
+      redirectUrl:
+        '/indoor-sterilised-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-1293'
+    },
+    {
+      shortUrl:
+        '/Indoor-Sterilised-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1278_RU.html',
+      redirectUrl:
+        '/indoor-sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1278'
+    },
+    {
+      shortUrl: '/Indoor-Sterilised-(в-желе)-1288_RU.html',
+      redirectUrl: '/indoor-sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1288'
+    },
+    {
+      shortUrl:
+        '/Indoor-Sterilised-(в-паштете)-(x12)-12930008A0_INNERBOX_12_UNIT_RU.html',
+      redirectUrl:
+        '/indoor-sterilised-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-1293'
+    },
+    {
+      shortUrl: '/Indoor-Sterilised-(в-паштете)-1293_RU.html',
+      redirectUrl:
+        '/indoor-sterilised-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-1293'
+    },
+    {
+      shortUrl: '/Indoor-Sterilised-(в-соусе)-1278_RU.html',
+      redirectUrl:
+        '/indoor-sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1278'
+    },
+    {
+      shortUrl:
+        '/Indoor-Sterilised-7%2B-years-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-1313_RU.html',
+      redirectUrl:
+        '/indoor-sterilised-7+-years-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1313'
+    },
+    {
+      shortUrl:
+        '/Indoor-Sterilised-7%2B-years-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1305_RU.html',
+      redirectUrl:
+        '/indoor-sterilised-7+-years-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1305'
+    },
+    {
+      shortUrl:
+        '/Instinctive-%28%D0%B2--%D0%B6%D0%B5%D0%BB%D0%B5%29-4074_RU.html',
+      redirectUrl: '/instinctive-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4074'
+    },
+    {
+      shortUrl:
+        '/Instinctive-%28%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5%29-4146_RU.html',
+      redirectUrl:
+        '/instinctive-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4146'
+    },
+    {
+      shortUrl:
+        '/Instinctive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4059_RU.html',
+      redirectUrl: '/instinctive-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4059'
+    },
+    {
+      shortUrl:
+        '/Instinctive-(в--желе)-(x24)-40740008R0_INNERBOX_24_UNIT_RU.html',
+      redirectUrl:
+        '/instinctive-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4146'
+    },
+    {
+      shortUrl: '/Instinctive-(в-паштете)-4146_RU.html',
+      redirectUrl:
+        '/instinctive-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4146'
+    },
+    {
+      shortUrl: '/Instinctive-(в-соусе)-4059_RU.html',
+      redirectUrl: '/instinctive-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4059'
+    },
+    {
+      shortUrl:
+        '/Instinctive-7%2B-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4083_RU.html',
+      redirectUrl:
+        '/instinctive-7+-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4083'
+    },
+    {
+      shortUrl:
+        '/Intense-Beauty-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-4151_RU.html',
+      redirectUrl: '/intense-beauty-in-jelly-4151'
+    },
+    {
+      shortUrl:
+        '/Intense-Beauty-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4071_RU.html',
+      redirectUrl: '/intense-beauty-in-sauce-4071'
+    },
+    {
+      shortUrl: '/Intense-Beauty-(в-желе)-4151_RU.html',
+      redirectUrl: '/intense-beauty-in-jelly-4151'
+    },
+    {
+      shortUrl: '/Intense-Beauty-(в-соусе)-4071_RU.html',
+      redirectUrl: '/intense-beauty-in-sauce-4071'
+    },
+    {
+      shortUrl: '/Jack-Russell-Adult-2100_RU.html',
+      redirectUrl: '/jack-russell-adult-2100'
+    },
+    {
+      shortUrl: '/Jack-Russell-Terrier-Puppy-2101_RU.html',
+      redirectUrl: '/jack-russell-terrier-puppy-2101'
+    },
+    {
+      shortUrl: '/Jack-Russell-Terrier-Puppy-21010050F0_RU.html',
+      redirectUrl: '/jack-russell-terrier-puppy-2101'
+    },
+    {
+      shortUrl: '/Kitten-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-4150_RU.html',
+      redirectUrl: '/kitten-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4150'
+    },
+    {
+      shortUrl:
+        '/Kitten-%28%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5%29-4145_RU.html',
+      redirectUrl:
+        '/kitten-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4145'
+    },
+    {
+      shortUrl: '/Kitten-(в-желе)-4150_RU.html',
+      redirectUrl: '/kitten-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4058'
+    },
+    {
+      shortUrl: '/Kitten-(в-паштете)-4145_RU.html',
+      redirectUrl: '/kitten-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4058'
+    },
+    {
+      shortUrl: '/Kitten-(в-соусе)-4058_RU.html',
+      redirectUrl: '/kitten-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4058'
+    },
+    {
+      shortUrl: '/Kitten-2522_RU.html',
+      redirectUrl: '/kitten-2522'
+    },
+    {
+      shortUrl:
+        '/Kitten-Sterilised-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-1072_RU.html',
+      redirectUrl: '/kitten-sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1072'
+    },
+    {
+      shortUrl:
+        '/Kitten-Sterilised-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1071_RU.html',
+      redirectUrl:
+        '/kitten-sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1071'
+    },
+    {
+      shortUrl: '/Kitten-Sterilised-(в-желе)-1072_RU.html',
+      redirectUrl: '/kitten-sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1072'
+    },
+    {
+      shortUrl: '/Kitten-Sterilised-(в-соусе)-1071_RU.html',
+      redirectUrl:
+        '/kitten-sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1071'
+    },
+    {
+      shortUrl: '/Kitten-Sterilised-2562_RU.html',
+      redirectUrl: '/kitten-sterilised-2562'
+    },
+    {
+      shortUrl: '/Labrador-Retriever--2487_RU.html',
+      redirectUrl: '/labrador-retriever-2487'
+    },
+    {
+      shortUrl: '/Labrador-retriever-Puppy-2491_RU.html',
+      redirectUrl: '/labrador-retriever-puppy-2491'
+    },
+    {
+      shortUrl:
+        '/Light-Weight-Care-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-4152_RU.html',
+      redirectUrl: '/light-weight-care-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4152'
+    },
+    {
+      shortUrl:
+        '/Light-Weight-Care-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4070_RU.html',
+      redirectUrl:
+        '/light-weight-care-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4070'
+    },
+    {
+      shortUrl: '/Light-Weight-Care-(в-желе)-4152_RU.html',
+      redirectUrl: '/light-weight-care-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4152'
+    },
+    {
+      shortUrl: '/Light-Weight-Care-(в-соусе)-4070_RU.html',
+      redirectUrl:
+        '/light-weight-care-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4070'
+    },
+    {
+      shortUrl: '/Light-Weight-Care-2524_RU.html',
+      redirectUrl: '/light-weight-care-2524'
+    },
+    {
+      shortUrl:
+        '/Maine-Coon-Adult-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-2031_RU.html',
+      redirectUrl:
+        '/maine-coon-adult-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-2031'
+    },
+    {
+      shortUrl: '/Maine-Coon-Adult-(в-соусе)-2031_RU.html',
+      redirectUrl:
+        '/maine-coon-adult-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-2031'
+    },
+    {
+      shortUrl: '/Maine-Coon-Adult-2550_RU.html',
+      redirectUrl: '/maine-coon-adult-2550'
+    },
+    {
+      shortUrl:
+        '/Maine-Coon-Kitten-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1232_RU.html',
+      redirectUrl:
+        '/maine-coon-kitten-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1232'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-(в-соусе)-1232_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-2558_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-2558H12_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-2558H13_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-2558H14_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-2558H15_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-2558H16_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-2558H17_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maine-Coon-Kitten-2558H18_RU.html',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/Maxi (26-44 кг)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Maxi%20%2826-44%20%D0%BA%D0%B3%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Maxi-Adult-3007_RU.html',
+      redirectUrl: '/maxi-adult-3007'
+    },
+    {
+      shortUrl: '/Maxi-Adult-5%2B-3008_RU.html',
+      redirectUrl: '/maxi-adult-5+-3008'
+    },
+    {
+      shortUrl: '/Maxi-Ageing-8%2B-2454_RU.html',
+      redirectUrl: '/maxi-ageing-8+-2454'
+    },
+    {
+      shortUrl: '/Maxi-Dermacomfort-2444_RU.html',
+      redirectUrl: '/maxi-dermacomfort-2444'
+    },
+    {
+      shortUrl: '/Maxi-Digestive-care-3055_RU.html',
+      redirectUrl: '/maxi-digestive-care-3055'
+    },
+    {
+      shortUrl: '/Maxi-Joint-Care-2390_RU.html',
+      redirectUrl: '/maxi-joint-care-2390'
+    },
+    {
+      shortUrl: '/Maxi-Light-Weight-Care-2446_RU.html',
+      redirectUrl: '/maxi-light-weight-care-2446'
+    },
+    {
+      shortUrl: '/Maxi-Light-Weight-Care-24461000P1_RU.html',
+      redirectUrl: '/maxi-light-weight-care-2446'
+    },
+    {
+      shortUrl: '/Maxi-Puppy-3006_RU.html',
+      redirectUrl: '/maxi-puppy-3006'
+    },
+    {
+      shortUrl: '/Maxi-Starter-mother-%26-babydog-2994_RU.html',
+      redirectUrl: '/maxi-starter-mother-&-babydog-2994'
+    },
+    {
+      shortUrl: '/Medium (11-25 кг)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Medium%20%2811-25%20%D0%BA%D0%B3%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Medium-Adult-3004_RU.html',
+      redirectUrl: '/medium-adult-3004'
+    },
+    {
+      shortUrl: '/Medium-Adult-7%2B-3005_RU.html',
+      redirectUrl: '/medium-adult-7+-3005'
+    },
+    {
+      shortUrl: '/Medium-Dermacomfort-2442_RU.html',
+      redirectUrl: '/medium-dermacomfort-2442'
+    },
+    {
+      shortUrl: '/Medium-Digestive-Care-3016_RU.html',
+      redirectUrl: '/medium-digestive-care-3016'
+    },
+    {
+      shortUrl: '/Medium-Light-Weight-Care-3021_RU.html',
+      redirectUrl: '/medium-light-weight-care-3021'
+    },
+    {
+      shortUrl: '/Medium-Puppy-3003_RU.html',
+      redirectUrl: '/medium-puppy-3003'
+    },
+    {
+      shortUrl: '/Medium-Starter-Mother-%26-babydog-2993_RU.html',
+      redirectUrl: '/medium-starter-mother-&-babydog-2993'
+    },
+    {
+      shortUrl: '/Mini (1-10 кг)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Mini%20%281-10%20%D0%BA%D0%B3%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Mini-Adult-3001_RU.html',
+      redirectUrl: '/mini-adult-3001'
+    },
+    {
+      shortUrl: '/Mini-Adult-8%2B-3002_RU.html',
+      redirectUrl: '/mini-adult-8+-3002'
+    },
+    {
+      shortUrl: '/Miniature-Schnauzer-Adult-2220_RU.html',
+      redirectUrl: '/miniature-schnauzer-adult-2220'
+    },
+    {
+      shortUrl: '/Mini-Coat-Care-1220_RU.html',
+      redirectUrl: '/mini-coat-care-1220'
+    },
+    {
+      shortUrl: '/Mini-Dental-Care-1221_RU.html',
+      redirectUrl: '/mini-dental-care-1221'
+    },
+    {
+      shortUrl: '/Mini-Dermacomfort-2441_RU.html',
+      redirectUrl: '/mini-dermacomfort-2441'
+    },
+    {
+      shortUrl: '/Mini-Digestive-care-2447_RU.html',
+      redirectUrl: '/mini-digestive-care-2447'
+    },
+    {
+      shortUrl: '/Mini-Exigent--1006_RU.html',
+      redirectUrl: '/mini-exigent-1006'
+    },
+    {
+      shortUrl: '/Mini-Indoor-Adult-2434_RU.html',
+      redirectUrl: '/mini-indoor-adult-2434'
+    },
+    {
+      shortUrl: '/Mini-Light-Weight-Care-3018_RU.html',
+      redirectUrl: '/mini-light-weight-care-3018'
+    },
+    {
+      shortUrl: '/Mini-Puppy-3000_RU.html',
+      redirectUrl: '/mini-puppy-3000'
+    },
+    {
+      shortUrl: '/Mini-Relax-Care-1224_RU.html',
+      redirectUrl: '/mini-relax-care-1224'
+    },
+    {
+      shortUrl: '/Mini-Starter-Mother-%26-Babydog-2990_RU.html',
+      redirectUrl: '/mini-starter-mother-&-babydog-2990'
+    },
+    {
+      shortUrl: '/Mini-Sterilised-3185_RU.html',
+      redirectUrl: '/mini-sterilised-3185'
+    },
+    {
+      shortUrl: '/Mini-Urinary-Care-1261_RU.html',
+      redirectUrl: '/mini-urinary-care-1261'
+    },
+    {
+      shortUrl: '/Mobility-3946_RU.html',
+      redirectUrl: '/mobility-3946'
+    },
+    {
+      shortUrl: '/Mobility-C2P%2B-4220_RU.html',
+      redirectUrl: '/mobility-c2p+-4220'
+    },
+    {
+      shortUrl: '/Mobility-C2P%2B-4221_RU.html',
+      redirectUrl: '/mobility-c2p+-4221'
+    },
+    {
+      shortUrl:
+        '/Mother-%26-Babycat-%28%D0%BC%D1%83%D1%81%D1%81%29-4098_RU.html',
+      redirectUrl: '/mother-&-babycat-(%D0%BC%D1%83%D1%81%D1%81)-4098'
+    },
+    {
+      shortUrl: '/Mother-%26-Babycat-2544_RU.html',
+      redirectUrl: '/mother-&-babycat-2544'
+    },
+    {
+      shortUrl: '/Neutered-Adult-3714_RU.html',
+      redirectUrl: '/neutered-adult-3714'
+    },
+    {
+      shortUrl:
+        '/Neutered-Adult-Maintenance-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4089_RU.html',
+      redirectUrl:
+        '/neutered-adult-maintenance-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4089'
+    },
+    {
+      shortUrl: '/Neutered-Adult-Maintenance-(в-соусе)-4089_RU.html',
+      redirectUrl:
+        '/neutered-adult-maintenance-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4089'
+    },
+    {
+      shortUrl: '/Neutered-Adult-Small-Dog-3712_RU.html',
+      redirectUrl: '/neutered-adult-small-dog-3712'
+    },
+    {
+      shortUrl: '/Neutered-Satiety-Balance-2721_RU.html',
+      redirectUrl: '/neutered-satiety-balance-2721'
+    },
+    {
+      shortUrl:
+        '/Neutered-Weight-Balance-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4088_RU.html',
+      redirectUrl:
+        '/neutered-weight-balance-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4088'
+    },
+    {
+      shortUrl: '/Neutered-Weight-Balance-(в-соусе)-4088_RU.html',
+      redirectUrl:
+        '/neutered-weight-balance-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4088'
+    },
+    {
+      shortUrl: '/Neutered-Young-Female-2614_RU.html',
+      redirectUrl: '/neutered-young-female-2614'
+    },
+    {
+      shortUrl: '/Neutered-Young-Male-2613_RU.html',
+      redirectUrl: '/neutered-young-male-2613'
+    },
+    {
+      shortUrl: '/Norwegian-Forest-Adult-2516_RU.html',
+      redirectUrl: '/norwegian-forest-adult-2516'
+    },
+    {
+      shortUrl: '/Oral-Care-2532_RU.html',
+      redirectUrl: '/oral-care-2532'
+    },
+    {
+      shortUrl:
+        '/Pediatric-Weaning-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4099_RU.html',
+      redirectUrl:
+        '/pediatric-weaning-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4099'
+    },
+    {
+      shortUrl: '/Pediatric-Weaning-(паштет)-4099_RU.html',
+      redirectUrl:
+        '/pediatric-weaning-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4099'
+    },
+    {
+      shortUrl:
+        '/Persian-%28%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5%29-2030_RU.html',
+      redirectUrl: '/persian-in-pate-2030'
+    },
+    {
+      shortUrl: '/Persian-(в-паштете)-2030_RU.html',
+      redirectUrl: '/persian-in-pate-2030'
+    },
+    {
+      shortUrl: '/Persian-Adult-2552_RU.html',
+      redirectUrl: '/persian-adult-2552'
+    },
+    {
+      shortUrl: '/Persian-Kitten-2554_RU.html',
+      redirectUrl: '/persian-kitten-2554'
+    },
+    {
+      shortUrl: '/Pomeranian-Adult-1255_RU.html',
+      redirectUrl: '/pomeranian-adult-1255'
+    },
+    {
+      shortUrl: '/pomeranianbook.html',
+      redirectUrl: '/pomeranian-book'
+    },
+    {
+      shortUrl: '/Protein-Exigent-2542_RU.html',
+      redirectUrl: '/protein-exigent-2542'
+    },
+    {
+      shortUrl: '/Pug--3985_RU.html',
+      redirectUrl: '/pug-3985'
+    },
+    {
+      shortUrl: '/Pug-Puppy-4130_RU.html',
+      redirectUrl: '/pug-puppy-4130'
+    },
+    {
+      shortUrl: '/Recovery-%28%D0%BC%D1%83%D1%81%D1%81%29-4055_RU.html',
+      redirectUrl: '/recovery-(%D0%BC%D1%83%D1%81%D1%81)-4055'
+    },
+    {
+      shortUrl: '/Recovery-(мусс)-4055_RU.html',
+      redirectUrl: '/recovery-(%D0%BC%D1%83%D1%81%D1%81)-4055'
+    },
+    {
+      shortUrl:
+        '/Renal-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-1246_RU.html',
+      redirectUrl: '/renal-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-1246'
+    },
+    {
+      shortUrl:
+        '/Renal-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4020_RU.html',
+      redirectUrl: '/renal-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4020'
+    },
+    {
+      shortUrl:
+        '/Renal-%D1%81-%D0%B3%D0%BE%D0%B2%D1%8F%D0%B4%D0%B8%D0%BD%D0%BE%D0%B9-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4031_RU.html',
+      redirectUrl:
+        '/renal-%D1%81-%D0%B3%D0%BE%D0%B2%D1%8F%D0%B4%D0%B8%D0%BD%D0%BE%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4031'
+    },
+    {
+      shortUrl:
+        '/Renal-%D1%81-%D0%BA%D1%83%D1%80%D0%B8%D1%86%D0%B5%D0%B9-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4030_RU.html',
+      redirectUrl:
+        '/renal-%D1%81-%D0%BA%D1%83%D1%80%D0%B8%D1%86%D0%B5%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4030'
+    },
+    {
+      shortUrl:
+        '/Renal-%D1%81-%D1%80%D1%8B%D0%B1%D0%BE%D0%B9-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4067_RU.html',
+      redirectUrl:
+        '/renal-%D1%81-%D1%80%D1%8B%D0%B1%D0%BE%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4067'
+    },
+    {
+      shortUrl: '/Renal-(паштет)-1246_RU.html',
+      redirectUrl: '/renal-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-1246'
+    },
+    {
+      shortUrl: '/Renal-(паштет)-4020_RU.html',
+      redirectUrl: '/renal-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4020'
+    },
+    {
+      shortUrl: '/Renal-3900_RU.html',
+      redirectUrl: '/renal-3900'
+    },
+    {
+      shortUrl: '/Renal-3916_RU.html',
+      redirectUrl: '/renal-3916'
+    },
+    {
+      shortUrl: '/Renal-Select-4160_RU.html',
+      redirectUrl: '/renal-select-4160'
+    },
+    {
+      shortUrl: '/Renal-Select-4162_RU.html',
+      redirectUrl: '/renal-select-4162'
+    },
+    {
+      shortUrl: '/Renal-Select-41620200F0_RU.html',
+      redirectUrl: '/renal-select-4162'
+    },
+    {
+      shortUrl: '/Renal-Small-Dog-1249_RU.html',
+      redirectUrl: '/renal-small-dog-1249'
+    },
+    {
+      shortUrl:
+        '/Renal-Special-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4170_RU.html',
+      redirectUrl: '/renal-special-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4170'
+    },
+    {
+      shortUrl: '/Renal-Special-(паштет)-4170_RU.html',
+      redirectUrl: '/renal-special-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4170'
+    },
+    {
+      shortUrl: '/Renal-Special-3949_RU.html',
+      redirectUrl: '/renal-special-3949'
+    },
+    {
+      shortUrl: '/Renal-с-говядиной-(в-соусе)-4031_RU.html',
+      redirectUrl:
+        '/renal-%D1%81-%D0%B3%D0%BE%D0%B2%D1%8F%D0%B4%D0%B8%D0%BD%D0%BE%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4031'
+    },
+    {
+      shortUrl: '/Renal-с-курицей-(в-соусе)-4030_RU.html',
+      redirectUrl:
+        '/renal-%D1%81-%D0%BA%D1%83%D1%80%D0%B8%D1%86%D0%B5%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4030'
+    },
+    {
+      shortUrl: '/Renal-с-рыбой-(в-соусе)-4067_RU.html',
+      redirectUrl:
+        '/renal-%D1%81-%D1%80%D1%8B%D0%B1%D0%BE%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4067'
+    },
+    {
+      shortUrl: '/Rottweiler-3971_RU.html',
+      redirectUrl: '/rottweiler-3971'
+    },
+    {
+      shortUrl: '/Rottweiler-39711200R0_RU.html',
+      redirectUrl: '/rottweiler-3971'
+    },
+    {
+      shortUrl: '/Rottweiler-Puppy-3987_RU.html',
+      redirectUrl: '/rottweiler-puppy-3987'
+    },
+    {
+      shortUrl: '/Satiety-Weight-Management-Feline-1070_RU.html',
+      redirectUrl: '/satiety-weight-management-feline-1070'
+    },
+    {
+      shortUrl: '/Satiety-Weight-Management-SAT-34-Feline-3943_RU.html',
+      redirectUrl: '/satiety-weight-management-sat-34-feline-3943'
+    },
+    {
+      shortUrl: '/Satiety-Weight-Management-Small-Dogs--4252_RU.html',
+      redirectUrl: '/satiety-weight-management-small-dogs-4252'
+    },
+    {
+      shortUrl: '/Savour-Exigent-2531_RU.html',
+      redirectUrl: '/savour-exigent-2531'
+    },
+    {
+      shortUrl:
+        '/Senior-Consult-Stage-1-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4090_RU.html',
+      redirectUrl:
+        '/senior-consult-stage-1-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4090'
+    },
+    {
+      shortUrl: '/Senior-Consult-Stage-1-(в-соусе)-4090_RU.html',
+      redirectUrl:
+        '/senior-consult-stage-1-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4090'
+    },
+    {
+      shortUrl: '/Senior-Consult-Stage-1-2724_RU.html',
+      redirectUrl: '/senior-consult-stage-1-2724'
+    },
+    {
+      shortUrl: '/Sensible-33-2521_RU.html',
+      redirectUrl: '/sensible-33-2521'
+    },
+    {
+      shortUrl: '/Sensitivity-Control-3909_RU.html',
+      redirectUrl: '/sensitivity-control-3909'
+    },
+    {
+      shortUrl: '/Sensitivity-Control--3922_RU.html',
+      redirectUrl: '/sensitivity-control-3922'
+    },
+    {
+      shortUrl:
+        '/Sensitivity-Control-Canine-Duck-with-Rice-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4027_RU.html',
+      redirectUrl:
+        '/sensitivity-control-canine-duck-with-rice-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4027'
+    },
+    {
+      shortUrl:
+        '/Sensitivity-Control-Canine-Duck-with-Rice-(паштет)-4027_RU.html',
+      redirectUrl:
+        '/sensitivity-control-canine-duck-with-rice-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4027'
+    },
+    {
+      shortUrl: '/Sensitivity-Control-Chicken-with-Rice-(в-соусе)-4035_RU.html',
+      redirectUrl:
+        '/sensitivity-control-chicken-with-rice-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4035'
+    },
+    {
+      shortUrl: '/Shih-Tzu--2200_RU.html',
+      redirectUrl: '/shih-tzu-2200'
+    },
+    {
+      shortUrl: '/Shih-Tzu-Puppy-2439_RU.html',
+      redirectUrl: '/shih-tzu-puppy-2439'
+    },
+    {
+      shortUrl: '/Shih-Tzu-Puppy-24390050F0_RU.html',
+      redirectUrl: '/shih-tzu-puppy-2439'
+    },
+    {
+      shortUrl: '/Siamese-Adult-2551_RU.html',
+      redirectUrl: '/siamese-adult-2551'
+    },
+    {
+      shortUrl: '/Siberian-Adult-4360_RU.html',
+      redirectUrl: '/siberian-adult-4360'
+    },
+    {
+      shortUrl: '/Size Health Nutrition/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Size%20Health%20Nutrition/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/Skin-%26-Coat-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4092_RU.html',
+      redirectUrl: '/skin-&-coat-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4092'
+    },
+    {
+      shortUrl: '/Skin-%26-Coat-1323_RU.html',
+      redirectUrl: '/skin-&-coat-1323'
+    },
+    {
+      shortUrl: '/Skin-Care-Small-Dogs-4006_RU.html',
+      redirectUrl: '/skin-care-small-dogs-4006'
+    },
+    {
+      shortUrl: '/Skin-Support-3921_RU.html',
+      redirectUrl: '/skin-support-3921'
+    },
+    {
+      shortUrl: '/Sphynx-Adult-2556_RU.html',
+      redirectUrl: '/sphynx-adult-2556'
+    },
+    {
+      shortUrl: '/Sphynx-Kitten-1231_RU.html',
+      redirectUrl: '/sphynx-kitten-1231'
+    },
+    {
+      shortUrl: '/Sporting-Life-Agility-4100-L-2781_RU.html',
+      redirectUrl: '/sporting-life-agility-4100-L-2781'
+    },
+    {
+      shortUrl: '/start-of-life-kitten.html',
+      redirectUrl: '/start-of-life-kitten'
+    },
+    {
+      shortUrl: '/start-of-life-puppy.html',
+      redirectUrl: '/start-of-life-puppy'
+    },
+    {
+      shortUrl:
+        '/Sterilised-%28%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5%29-4156_RU.html',
+      redirectUrl: '/sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4156'
+    },
+    {
+      shortUrl:
+        '/Sterilised-%28%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5%29-4147_RU.html',
+      redirectUrl:
+        '/sterilised-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4147'
+    },
+    {
+      shortUrl:
+        '/Sterilised-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4095_RU.html',
+      redirectUrl: '/sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4095'
+    },
+    {
+      shortUrl: '/Sterilised-(в-желе)-4156_RU.html',
+      redirectUrl: '/sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4156'
+    },
+    {
+      shortUrl:
+        '/Sterilised-(в-паштете)-(x12)-41470008A0_INNERBOX_12_UNIT_RU.html',
+      redirectUrl:
+        '/sterilised-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4147'
+    },
+    {
+      shortUrl: '/Sterilised-(в-соусе)-4095_RU.html',
+      redirectUrl: '/sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4095'
+    },
+    {
+      shortUrl: '/Sterilised-37-2537_RU.html',
+      redirectUrl: '/sterilised-37-2537'
+    },
+    {
+      shortUrl: '/Sterilised-7%2B-2560_RU.html',
+      redirectUrl: '/sterilised-7+-2560'
+    },
+    {
+      shortUrl: '/Sterilised-Ageing-12%2B-2565_RU.html',
+      redirectUrl: '/sterilised-ageing-12+-2565'
+    },
+    {
+      shortUrl: '/subscription-landing.html',
+      redirectUrl: '/subscription-landing'
+    },
+    {
+      shortUrl: '/terms_conditions.html',
+      redirectUrl: '/general-terms-conditions'
+    },
+    {
+      shortUrl:
+        '/Urinary-Care-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4157_RU.html',
+      redirectUrl: '/urinary-care-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4157'
+    },
+    {
+      shortUrl: '/Urinary-Care-(в-соусе)-4157_RU.html',
+      redirectUrl: '/urinary-care-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4157'
+    },
+    {
+      shortUrl: '/Urinary-Care-1800_RU.html',
+      redirectUrl: '/urinary-care-1800'
+    },
+    {
+      shortUrl:
+        '/Urinary-S%2FO-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4032_RU.html',
+      redirectUrl: '/urinary-so-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4032'
+    },
+    {
+      shortUrl:
+        '/Urinary-S%2FO-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4021_RU.html',
+      redirectUrl: '/urinary-so-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4021'
+    },
+    {
+      shortUrl: '/Urinary-S%2FO-3901_RU.html',
+      redirectUrl: '/urinary-so-3901'
+    },
+    {
+      shortUrl: '/Urinary-S%2FO-3913_RU.html',
+      redirectUrl: '/urinary-so-3913'
+    },
+    {
+      shortUrl:
+        '/Urinary-S%2FO-Feline-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-1254_RU.html',
+      redirectUrl:
+        '/urinary-so-feline-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-1254'
+    },
+    {
+      shortUrl:
+        '/Urinary-S%2FO-Moderate-Calorie-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4080_RU.html',
+      redirectUrl:
+        '/urinary-so-moderate-calorie-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4080'
+    },
+    {
+      shortUrl: '/Urinary-S%2FO-Moderate-Calorie-3954_RU.html',
+      redirectUrl: '/urinary-so-moderate-calorie-3954'
+    },
+    {
+      shortUrl: '/Urinary-S%2FO-Small-Dog-3801_RU.html',
+      redirectUrl: '/urinary-so-small-dog-3801'
+    },
+    {
+      shortUrl: '/vet.html',
+      redirectUrl: '/vet'
+    },
+    {
+      shortUrl: '/West-Highland-White-Terrier--3981_RU.html',
+      redirectUrl: '/west-highland-white-terrier-3981'
+    },
+    {
+      shortUrl: '/X-Small (1-4 кг)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/X-Small%20%281-4%20%D0%BA%D0%B3%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/X-Small-Adult-1003_RU.html',
+      redirectUrl: '/x-small-adult-1003'
+    },
+    {
+      shortUrl: '/X-Small-Light-Weight-Care-1230_RU.html',
+      redirectUrl: '/x-small-light-weight-care-1230'
+    },
+    {
+      shortUrl: '/X-Small-Puppy-1002_RU.html',
+      redirectUrl: '/x-small-puppy-1002'
+    },
+    {
+      shortUrl: '/X-Small-Sterilised-1019_RU.html',
+      redirectUrl: '/x-small-sterilised-1019'
+    },
+    {
+      shortUrl: '/Yorkshire-Terrier-8%2B-1260_RU.html',
+      redirectUrl: '/yorkshire-terrier-8+-1260'
+    },
+    {
+      shortUrl: '/Yorkshire-Terrier-Adult-3051_RU.html',
+      redirectUrl: '/yorkshire-terrier-adult-3051'
+    },
+    {
+      shortUrl: '/Yorkshire-Terrier-bundle-MKT00001_RU.html',
+      redirectUrl: '/yorkshire-terrier-adult-3051'
+    },
+    {
+      shortUrl: '/Yorkshire-Terrier-Puppy-3972_RU.html',
+      redirectUrl: '/yorkshire-terrier-puppy-3972'
+    },
+    {
+      shortUrl: '/Взрослые (1-7 лет) собака/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Взрослые (1-7 лет)/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Взрослые (7-12 лет)/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Влажный корм собака/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Влажный корм/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Возраст/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Котята (0-1 года)/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Линейка Собака/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Линейка/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/Размер/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/Щенки (0-1 года)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/appetite-control-care-jelly',
+      redirectUrl: '/shop/appetite-control-care-in-jelly-1467'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/appetite-control-care-gravy',
+      redirectUrl: '/shop/appetite-control-care-in-sauce-1466'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/british-shorthair-wet',
+      redirectUrl: '/shop/british-shorthair-adult-in-sauce-2032'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/intense-beauty-jelly-wet',
+      redirectUrl: '/shop/intense-beauty-in-jelly-4151'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/intense-beauty-gravy-wet',
+      redirectUrl: '/shop/intense-beauty-in-sauce-4071'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/persian-wet',
+      redirectUrl: '/shop/persian-in-pate-2030'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/digestive-care-wet',
+      redirectUrl:
+        '/shop/%D0%B4%D0%B0%D0%B9%D0%B4%D0%B6%D0%B5%D1%81%D1%82%D0%B8%D0%B2-%D0%BA%D1%8D%D0%B0-%D0%BA%D0%B0%D0%BD%D0%B8%D0%BD:-%D0%B4%D0%BB%D1%8F-%D1%81%D0%BE%D0%B1%D0%B0%D0%BA-%D1%81-%D1%87%D1%83%D0%B2%D1%81%D1%82%D0%B2%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%BC-%D0%BF%D0%B8%D1%89%D0%B5%D0%B2%D0%B0%D1%80%D0%B5%D0%BD%D0%B8%D0%B5%D0%BC-1180'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dermacomfort-wet',
+      redirectUrl:
+        '/shop/%D0%B4%D0%B5%D1%80%D0%BC%D0%B0%D0%BA%D0%BE%D0%BC%D1%84%D0%BE%D1%80%D1%82-%D0%BA%D0%B0%D0%BD%D0%B8%D0%BD:-%D0%BF%D1%80%D0%B8-%D1%80%D0%B0%D0%B7%D0%B4%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%D1%85-%D0%B8-%D0%B7%D1%83%D0%B4%D0%B5,-%D1%81%D0%B2%D1%8F%D0%B7%D0%B0%D0%BD%D0%BD%D1%8B%D1%85-%D1%81-%D0%BF%D0%BE%D0%B2%D1%8B%D1%88%D0%B5%D0%BD%D0%BD%D0%BE%D0%B9-%D1%87%D1%83%D0%B2%D1%81%D1%82%D0%B2%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C%D1%8E-%D0%BA%D0%BE%D0%B6%D0%B8-1181'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/yorkshire-terrier-wet',
+      redirectUrl:
+        '/shop/%D0%B9%D0%BE%D1%80%D0%BA%D1%88%D0%B8%D1%80%D1%81%D0%BA%D0%B8%D0%B9-%D1%82%D0%B5%D1%80%D1%8C%D0%B5%D1%80:-%D1%81-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%87%D0%BD%D0%BE%D0%B3%D0%BE-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B0-2040'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/coat-care-wet',
+      redirectUrl:
+        '/shop/%D0%BA%D0%BE%D0%B0%D1%82-%D0%BA%D1%8D%D0%B0-%D0%BA%D0%B0%D0%BD%D0%B8%D0%BD:-%D0%B4%D0%BB%D1%8F-%D1%81%D0%BE%D0%B1%D0%B0%D0%BA-%D1%81-%D1%82%D1%83%D1%81%D0%BA%D0%BB%D0%BE%D0%B9-%D0%B8-%D1%81%D1%83%D1%85%D0%BE%D0%B9-%D1%88%D0%B5%D1%80%D1%81%D1%82%D1%8C%D1%8E-1184'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/light-weight-care-wet',
+      redirectUrl:
+        '/shop/%D0%BB%D0%B0%D0%B9%D1%82-%D0%B2%D0%B5%D0%B9%D1%82-%D0%BA%D1%8D%D0%B0-%D0%BA%D0%B0%D0%BD%D0%B8%D0%BD:-%D0%B4%D0%BB%D1%8F-%D1%81%D0%BE%D0%B1%D0%B0%D0%BA,-%D1%81%D0%BA%D0%BB%D0%BE%D0%BD%D0%BD%D1%8B%D1%85-%D0%BA-%D0%BD%D0%B0%D0%B1%D0%BE%D1%80%D1%83-%D0%B2%D0%B5%D1%81%D0%B0-1178'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-puppy-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B0%D0%BA%D1%81%D0%B8-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1097'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-adult-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B0%D0%BA%D1%81%D0%B8-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82:-%D1%81-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-%D0%B4%D0%BE-5-%D0%BB%D0%B5%D1%82-1094'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-ageing-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B0%D0%BA%D1%81%D0%B8-%D1%8D%D0%B9%D0%B4%D0%B6%D0%B8%D0%BD%D0%B3-8+:-%D0%BE%D1%82-8-%D0%BB%D0%B5%D1%82-%D0%B8-%D1%81%D1%82%D0%B0%D1%80%D1%88%D0%B5-1091'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-puppy-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B5%D0%B4%D0%B8%D1%83%D0%BC-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-12-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1098'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-adult-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B5%D0%B4%D0%B8%D1%83%D0%BC-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82:-%D1%81-12-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-%D0%B8-%D1%81%D1%82%D0%B0%D1%80%D1%88%D0%B5-1095'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-ageing-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B5%D0%B4%D0%B8%D1%83%D0%BC-%D1%8D%D0%B9%D0%B4%D0%B6%D0%B8%D0%BD%D0%B3-10+:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-10-%D0%BB%D0%B5%D1%82-%D0%B8-%D1%81%D1%82%D0%B0%D1%80%D1%88%D0%B5-1092'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-puppy-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B8%D0%BD%D0%B8-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1099'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-adult-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B8%D0%BD%D0%B8-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82:-c-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-%D0%B4%D0%BE-8-%D0%BB%D0%B5%D1%82-1096'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-ageing-wet',
+      redirectUrl:
+        '/shop/%D0%BC%D0%B8%D0%BD%D0%B8-%D1%8D%D0%B9%D0%B4%D0%B6%D0%B8%D0%BD%D0%B3-12+:-%D0%BE%D1%82-12-%D0%BB%D0%B5%D1%82-%D0%B8-%D1%81%D1%82%D0%B0%D1%80%D1%88%D0%B5-1093'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/pomeranian',
+      redirectUrl:
+        '/shop/%D0%BF%D0%BE%D0%BC%D0%B5%D1%80%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9-%D1%88%D0%BF%D0%B8%D1%86:-%D1%81-8-%D0%BC%D0%B5%D1%81%D1%8F%D1%87%D0%BD%D0%BE%D0%B3%D0%BE-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B0-1256'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products/starter-mousse-mother-babydog-wet',
+      redirectUrl:
+        '/shop/%D1%81%D1%82%D0%B0%D1%80%D1%82%D0%B5%D1%80:-%D0%B4%D0%BB%D1%8F-%D1%81%D1%83%D0%BA-%D0%B8-%D1%89%D0%B5%D0%BD%D0%BA%D0%BE%D0%B2-%D0%B4%D0%BE-2-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-4077'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/sterilised-wet',
+      redirectUrl:
+        '/shop/%D1%81%D1%82%D0%B5%D1%80%D0%B8%D0%BB%D0%B0%D0%B9%D0%B7%D0%B4-%D0%BA%D0%B0%D0%BD%D0%B8%D0%BD:-%D0%B4%D0%BB%D1%8F-%D1%81%D1%82%D0%B5%D1%80%D0%B8%D0%BB%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D1%85-%D1%81%D0%BE%D0%B1%D0%B0%D0%BA-1179'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dachshund-wet',
+      redirectUrl:
+        '/shop/%D1%82%D0%B0%D0%BA%D1%81%D0%B0:-%D0%BE%D1%82-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-2042'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/urinary-care-wet',
+      redirectUrl:
+        '/shop/%D1%83%D1%80%D0%B8%D0%BD%D0%B0%D1%80%D0%B8-%D0%BA%D1%8D%D0%B0-%D0%BA%D0%B0%D0%BD%D0%B8%D0%BD:-%D0%B4%D0%BB%D1%8F-%D1%81%D0%BE%D0%B1%D0%B0%D0%BA-%D1%81-%D1%87%D1%83%D0%B2%D1%81%D1%82%D0%B2%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9-%D0%BC%D0%BE%D1%87%D0%B5%D0%B2%D1%8B%D0%B4%D0%B5%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%BE%D0%B9-1183'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/chihuahua-wet',
+      redirectUrl:
+        '/shop/%D1%87%D0%B8%D1%85%D1%83%D0%B0%D1%85%D1%83%D0%B0:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D1%81-8-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-2041'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/exigent',
+      redirectUrl:
+        '/shop/%D1%8D%D0%BA%D0%B7%D0%B8%D0%B4%D0%B6%D0%B5%D0%BD%D1%82-%D0%BA%D0%B0%D0%BD%D0%B8%D0%BD-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82:-%D0%B4%D0%BB%D1%8F-%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%80%D0%B5%D0%B4%D0%BB%D0%B8%D0%B2%D1%8B%D1%85-%D0%B2-%D0%BF%D0%B8%D1%82%D0%B0%D0%BD%D0%B8%D0%B8-1185'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/digest-sensitive-gravy-wet',
+      redirectUrl:
+        '/shop/digest-sensitive-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4076'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/hairball-care-gravy-wet',
+      redirectUrl:
+        '/shop/hairball-care-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4158'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/indoor-27-dry',
+      redirectUrl: '/shop/indoor-27-2529'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/indoor-7-dry',
+      redirectUrl: '/shop/indoor-7+-2548'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/indoor-sterilized-jelly',
+      redirectUrl:
+        '/shop/indoor-sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1288'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/indoor-sterilized-loaf',
+      redirectUrl:
+        '/shop/indoor-sterilised-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-1293'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/indoor-sterilized-gravy',
+      redirectUrl:
+        '/shop/indoor-sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1278'
+    },
+    {
+      shortUrl:
+        '/cats/products/retail-products/indoor-sterilized-7-years-jelly',
+      redirectUrl:
+        '/shop/indoor-sterilised-7+-years-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1313'
+    },
+    {
+      shortUrl:
+        '/cats/products/retail-products/indoor-sterilized-7-years-gravy',
+      redirectUrl:
+        '/shop/indoor-sterilised-7+-years-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1305'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/instinctive-jelly-wet',
+      redirectUrl: '/shop/instinctive-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4074'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/instinctive-loaf-wet',
+      redirectUrl:
+        '/shop/instinctive-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4146'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/instinctive-gravy-wet',
+      redirectUrl:
+        '/shop/instinctive-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4059'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/instinctive-7-gravy-wet',
+      redirectUrl:
+        '/shop/instinctive-7+-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4083'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/kitten-jelly-wet',
+      redirectUrl: '/shop/kitten-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4150'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/kitten-loaf-wet',
+      redirectUrl:
+        '/shop/kitten-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4145'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/kitten-gravy-wet',
+      redirectUrl: '/shop/kitten-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4058'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-kitten-jelly',
+      redirectUrl:
+        '/shop/kitten-sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1072'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-kitten-gravy',
+      redirectUrl:
+        '/shop/kitten-sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1071'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/kitten-sterilised-dry',
+      redirectUrl: '/shop/kitten-sterilised-2562'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/light-weight-care-dry',
+      redirectUrl: '/shop/light-weight-care-2524'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/maine-coon-wet',
+      redirectUrl:
+        '/shop/maine-coon-adult-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-2031'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/maine-coon-kitten',
+      redirectUrl:
+        '/shop/maine-coon-kitten-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1232'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/maine-coon-kitten-dry',
+      redirectUrl: '/shop/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl:
+        '/cats/products/retail-products/mother-babycat-ultra-soft-mousse-wet',
+      redirectUrl: '/shop/mother-&-babycat-(%D0%BC%D1%83%D1%81%D1%81)-4098'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/mother-babycat-dry',
+      redirectUrl: '/shop/mother-&-babycat-2544'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/norwegian-forest-adult-dry',
+      redirectUrl: '/shop/norwegian-forest-adult-2516'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/oral-care-dry',
+      redirectUrl: '/shop/oral-care-2532'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/protein-exigent-dry',
+      redirectUrl: '/shop/protein-exigent-2542'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/savour-exigent-dry',
+      redirectUrl: '/shop/savour-exigent-2531'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sensible-33-dry',
+      redirectUrl: '/shop/sensible-33-2521'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/ageing-12-dry',
+      redirectUrl: '/shop/ageing-12+-2561'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/ageing-12-jelly-wet',
+      redirectUrl: '/shop/ageing-12+-in-jelly-4153'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/ageing-12-gravy-wet',
+      redirectUrl: '/shop/ageing-12+-in-sauce-4082'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/anallergenic-dry',
+      redirectUrl: '/shop/anallergenic-1950'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/anallergenic-dry',
+      redirectUrl: '/shop/anallergenic-4014'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/appetite-control-care',
+      redirectUrl: '/shop/appetite-control-care-2563'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/aroma-exigent-dry',
+      redirectUrl: '/shop/aroma-exigent-2543'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/babycat-milk',
+      redirectUrl: '/shop/babycat-milk-2553'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/babydog-milk',
+      redirectUrl: '/shop/babydog-milk-2300'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/beagle-adult-dry',
+      redirectUrl: '/shop/beagle-adult-2106'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/bengal-adult-dry',
+      redirectUrl: '/shop/bengal-adult-4370'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/boxer-adult-dry',
+      redirectUrl: '/shop/boxer-adult-2588'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/british-shorthair-adult-dry',
+      redirectUrl: '/shop/british-shorthair-adult-2557'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/british-shorthair-kitten-dry',
+      redirectUrl: '/shop/british-shorthair-kitten-2566'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/bulldog-adult-dry',
+      redirectUrl: '/shop/bulldog-adult-2590'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/calm-cc-36-dry',
+      redirectUrl: '/shop/calm-cc-36-feline-3955'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/cardiac-dry',
+      redirectUrl: '/shop/cardiac-3930'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/cardiac-canine-wet',
+      redirectUrl: '/shop/cardiac-3930'
+    },
+    {
+      shortUrl: '/cats/products/vet-products',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats/products/retail-products',
+      redirectUrl: '/shop/cats/retail-products'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/chihuahua-adult-dry',
+      redirectUrl: '/shop/chihuahua-2210'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/chihuahua-puppy-dry',
+      redirectUrl: '/shop/chihuahua-puppy-2438'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/cocker-adult-dry',
+      redirectUrl: '/shop/cocker-adult-3969'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dachshund-adult-dry',
+      redirectUrl: '/shop/dachshund-adult-3059'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dachshund-puppy-dry',
+      redirectUrl: '/shop/dachshund-puppy-2437'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dalmatian-adult-dry',
+      redirectUrl: '/shop/dalmatian-2598'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dalmatian-puppy',
+      redirectUrl: '/shop/dalmatian-puppy-2597'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/dental-dry',
+      redirectUrl: '/shop/dental-dso-29-feline-3936'
+    },
+    {
+      shortUrl:
+        '/dogs/products/vet-products/dental-special-small-dog-dsd-25-canine',
+      redirectUrl: '/shop/dental-special-small-dog-dsd-25-canine-3939'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/diabetic-wet',
+      redirectUrl: '/shop/diabetic-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4085'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/diabetic-dry',
+      redirectUrl: '/shop/diabetic-3906'
+    },
+    {
+      shortUrl:
+        '/dogs/products/vet-products/diabetic-special-low-carbohydrate-wet',
+      redirectUrl:
+        '/shop/diabetic-special-low-carbohydrate-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4015'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/digestive-care-dry',
+      redirectUrl: '/shop/digestive-Care-2555'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products',
+      redirectUrl: '/shop/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products',
+      redirectUrl: '/shop/dogs/vet-products'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/early-renal-gravy',
+      redirectUrl:
+        '/shop/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1243'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/early-renal',
+      redirectUrl:
+        '/shop/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1252'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/early-renal-dry',
+      redirectUrl: '/shop/early-renal-1248'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/educ-dry',
+      redirectUrl: '/shop/educ-3100'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/energy-dry',
+      redirectUrl: '/shop/energy-3064'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/fit-32-dry',
+      redirectUrl: '/shop/fit-32-2520'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/french-bulldog-adult-dry',
+      redirectUrl: '/shop/french-bulldog-adult-3991'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/french-bulldog-puppy-dry',
+      redirectUrl: '/shop/french-bulldog-puppy-3990'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/gastro-intestinal-wet',
+      redirectUrl:
+        '/shop/gastrointestinal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4039'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastro-intestinal-wet',
+      redirectUrl:
+        '/shop/gastrointestinal-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4038'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/gastro-intestinal-dry',
+      redirectUrl: '/shop/gastrointestinal-3905'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastro-intestinal-dry',
+      redirectUrl: '/shop/gastrointestinal-3911'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/fibre-response-dry',
+      redirectUrl: '/shop/gastrointestinal-fibre-response-4007'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/gastrointestinal-hairball',
+      redirectUrl: '/shop/gastrointestinal-hairball-2722'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/fibre-response-dry',
+      redirectUrl: '/shop/gastrointestinal-high-fibre-3959'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastro-intestinal-low-fat-dry',
+      redirectUrl: '/shop/gastrointestinal-low-fat-3932'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastro-intestinal-low-fat-wet',
+      redirectUrl: '/shop/gastrointestinal-low-fat-in-pate-4029'
+    },
+    {
+      shortUrl:
+        '/cats/products/vet-products/gastrointestinal-moderate-calorie-dry',
+      redirectUrl: '/shop/gastrointestinal-moderate-calorie-4008'
+    },
+    {
+      shortUrl:
+        '/cats/products/vet-products/gastro-intestinal-moderate-calorie-wet',
+      redirectUrl: '/shop/gastrointestinal-moderate-calorie-in-sauce-4009'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastro-intestinal-junior-dry',
+      redirectUrl:
+        '/shop/gastrointestinal-puppy-(%D0%BC%D1%83%D1%81%D1%81)-1229'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastrointestinal-puppy',
+      redirectUrl: '/shop/gastrointestinal-puppy-3957'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/german-shepherd-adult-dry',
+      redirectUrl: '/shop/german-shepherd-2518'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/german-shepherd-puppy-dry',
+      redirectUrl: '/shop/german-shepherd-puppy-2519'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/giant-adult-dry',
+      redirectUrl: '/shop/giant-adult-3009'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/giant-junior-dry',
+      redirectUrl: '/shop/giant-junior-3031'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/giant-puppy-dry',
+      redirectUrl: '/shop/giant-puppy-3030'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products/giant-starter-mother-babydog-dry',
+      redirectUrl: '/shop/giant-starter-mother-babydog-2996'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/golden-retriever-adult-dry',
+      redirectUrl: '/shop/golden-retriever-3970'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/hairball-care-dry',
+      redirectUrl: '/shop/hairball-care-2534'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/hair-and-skin-care-dry',
+      redirectUrl: '/shop/hair-skin-care-2526'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hepatic-wet',
+      redirectUrl: '/shop/hepatic-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4022'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hepatic-dry',
+      redirectUrl: '/shop/hepatic-3927'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/hepatic-dry',
+      redirectUrl: '/shop/hepatic-4012'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hypoallergenic-canine-wet',
+      redirectUrl:
+        '/shop/hypoallergenic-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4084'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/hypoallergenic-dry',
+      redirectUrl: '/shop/hypoallergenic-3902'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hypoallergenic-dry',
+      redirectUrl: '/shop/hypoallergenic-3910'
+    },
+    {
+      shortUrl:
+        '/dogs/products/vet-products/hypoallergenic-moderate-calorie-canine',
+      redirectUrl: '/shop/hypoallergenic-moderate-calorie-3964'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hypoallergenic-small-dog-dry',
+      redirectUrl: '/shop/hypoallergenic-small-dog-3952'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/indoor-appetite-control-dry',
+      redirectUrl: '/shop/indoor-appetite-control-2568'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/indoor-long-hair-dry',
+      redirectUrl: '/shop/indoor-long-hair-2549'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/jack-russell-adult-dry',
+      redirectUrl: '/shop/jack-russell-adult-2100'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/jack-russell-terrier-puppy-dry',
+      redirectUrl: '/shop/jack-russell-terrier-puppy-2101'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/kitten-dry',
+      redirectUrl: '/shop/kitten-2522'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/labrador-retriever-adult-dry',
+      redirectUrl: '/shop/labrador-retriever-2487'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/labrador-retriever-puppy-dry',
+      redirectUrl: '/shop/labrador-retriever-puppy-2491'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/maine-coon-adult-dry',
+      redirectUrl: '/shop/maine-coon-adult-2550'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-adult-dry',
+      redirectUrl: '/shop/maxi-adult-3007'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-adult-5-dry',
+      redirectUrl: '/shop/maxi-adult-5+-3008'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-ageing-8-dry',
+      redirectUrl: '/shop/maxi-ageing-8+-2454'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-dermacomfort-dry',
+      redirectUrl: '/shop/maxi-dermacomfort-2444'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-digestive-care-dry',
+      redirectUrl: '/shop/maxi-digestive-care-3055'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-joint-care-dry',
+      redirectUrl: '/shop/maxi-joint-care-2390'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-light-weight-care-dry',
+      redirectUrl: '/shop/maxi-light-weight-care-2446'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-puppy-dry',
+      redirectUrl: '/shop/maxi-puppy-3006'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/maxi-starter-dry',
+      redirectUrl: '/shop/maxi-starter-mother-&-babydog-2994'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-adult-dry',
+      redirectUrl: '/shop/medium-adult-3004'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-adult-7-dry',
+      redirectUrl: '/shop/medium-adult-7+-3005'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-dermacomfort-dry',
+      redirectUrl: '/shop/medium-dermacomfort-2442'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-digestive-care-dry',
+      redirectUrl: '/shop/medium-digestive-care-3016'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-light-weight-care-dry',
+      redirectUrl: '/shop/medium-light-weight-care-3021'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-puppy-dry',
+      redirectUrl: '/shop/medium-puppy-3003'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/medium-starter-dry',
+      redirectUrl: '/shop/medium-starter-mother-&-babydog-2993'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-adult-dry',
+      redirectUrl: '/shop/mini-adult-3001'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-adult-8-dry',
+      redirectUrl: '/shop/mini-adult-8+-3002'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/miniature-schnauzer-adult-dry',
+      redirectUrl: '/shop/miniature-schnauzer-adult-2220'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-coat-care-dry',
+      redirectUrl: '/shop/mini-coat-care-1220'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-dental-care-dry',
+      redirectUrl: '/shop/mini-dental-care-1221'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-dermacomfort-dry',
+      redirectUrl: '/shop/mini-dermacomfort-2441'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-digestive-care-dry',
+      redirectUrl: '/shop/mini-digestive-care-2447'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-exigent-dry',
+      redirectUrl: '/shop/mini-exigent-1006'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-indoor-adult-dry',
+      redirectUrl: '/shop/mini-indoor-adult-2434'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-light-weight-care-dry',
+      redirectUrl: '/shop/mini-light-weight-care-3018'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-puppy-dry',
+      redirectUrl: '/shop/mini-puppy-3000'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-relax-care',
+      redirectUrl: '/shop/mini-relax-care-1224'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-starter-dry',
+      redirectUrl: '/shop/mini-starter-mother-&-babydog-2990'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-sterilised-dry',
+      redirectUrl: '/shop/mini-sterilised-3185'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-urinary-care-dry',
+      redirectUrl: '/shop/mini-urinary-care-1261'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/mobility-dry',
+      redirectUrl: '/shop/mobility-3946'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/mobility-c2p-wet',
+      redirectUrl: '/shop/mobility-c2p+-4220'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/mobility-c2p-dry',
+      redirectUrl: '/shop/mobility-c2p+-4221'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/neutered-adult-dry',
+      redirectUrl: '/shop/neutered-adult-3714'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/neutered-adult-maintenance-wet',
+      redirectUrl:
+        '/shop/neutered-adult-maintenance-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4089'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/neutered-adult-small-dog-dry',
+      redirectUrl: '/shop/neutered-adult-small-dog-3712'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/neutered-satiety-balance-dry',
+      redirectUrl: '/shop/neutered-satiety-balance-2721'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/neutered-weight-balance-wet',
+      redirectUrl:
+        '/shop/neutered-weight-balance-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4088'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/neutered-young-female-dry',
+      redirectUrl: '/shop/neutered-young-female-2614'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/neutered-young-male-dry',
+      redirectUrl: '/shop/neutered-young-male-2613'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/pediatric-weaning-wet',
+      redirectUrl:
+        '/shop/pediatric-weaning-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4099'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/persian-adult-dry',
+      redirectUrl: '/shop/persian-adult-2552'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/persian-kitten-dry',
+      redirectUrl: '/shop/persian-kitten-2554'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/pomeranian-adult',
+      redirectUrl: '/shop/pomeranian-adult-1255'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/pug-adult-dry',
+      redirectUrl: '/shop/pug-3985'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/pug-puppy-dry',
+      redirectUrl: '/shop/pug-puppy-4130'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/recovery-wet',
+      redirectUrl: '/shop/recovery-(%D0%BC%D1%83%D1%81%D1%81)-4055'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-with-beef-wet',
+      redirectUrl:
+        '/shop/renal-%D1%81-%D0%B3%D0%BE%D0%B2%D1%8F%D0%B4%D0%B8%D0%BD%D0%BE%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4031'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-with-chicken---pouch-wet',
+      redirectUrl:
+        '/shop/renal-%D1%81-%D0%BA%D1%83%D1%80%D0%B8%D1%86%D0%B5%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4030'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-with-tuna-cig-wet',
+      redirectUrl:
+        '/shop/renal-%D1%81-%D1%80%D1%8B%D0%B1%D0%BE%D0%B9-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4067'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal',
+      redirectUrl: '/shop/renal-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-1246'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/renal-canine-wet',
+      redirectUrl: '/shop/renal-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4020'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-feline-dry',
+      redirectUrl: '/shop/renal-3900'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/renal-dry-dry',
+      redirectUrl: '/shop/renal-3916'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-select-feline-dry',
+      redirectUrl: '/shop/renal-select-4160'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/renal-select',
+      redirectUrl: '/shop/renal-select-4162'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/renal-small-dog',
+      redirectUrl: '/shop/renal-small-dog-1249'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/renal-special',
+      redirectUrl:
+        '/shop/renal-special-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4170'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-special-feline-dry',
+      redirectUrl: '/shop/renal-special-3949'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/rottweiler-adult-dry',
+      redirectUrl: '/shop/rottweiler-3971'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/rottweiler-puppy-dry',
+      redirectUrl: '/shop/rottweiler-puppy-3987'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/satiety-weight-management-wet',
+      redirectUrl: '/shop/satiety-weight-management-feline-1070'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/satiety-weight-management-dry',
+      redirectUrl: '/shop/satiety-weight-management-sat-34-feline-3943'
+    },
+    {
+      shortUrl:
+        '/dogs/products/vet-products/satiety-weight-management-small-dog-dry',
+      redirectUrl: '/shop/satiety-weight-management-small-dogs-4252'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/senior-consult-stage-1-wet',
+      redirectUrl:
+        '/shop/senior-consult-stage-1-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4090'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/senior-consult-stage-1-dry',
+      redirectUrl: '/shop/senior-consult-stage-1-2724'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/sensitivity-control-dry',
+      redirectUrl: '/shop/sensitivity-control-3909'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/sensitivity-control-dry',
+      redirectUrl: '/shop/sensitivity-control-3922'
+    },
+    {
+      shortUrl:
+        '/dogs/products/vet-products/sensitivity-control-duck-with-rice-wet',
+      redirectUrl:
+        '/shop/sensitivity-control-canine-duck-with-rice-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4027'
+    },
+    {
+      shortUrl:
+        '/cats/products/vet-products/sensitivity-control-chicken-with-rice-wet',
+      redirectUrl:
+        '/shop/sensitivity-control-chicken-with-rice-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4035'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/shih-tzu-adult-dry',
+      redirectUrl: '/shop/shih-tzu-2200'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/shin-tzu-puppy-dry',
+      redirectUrl: '/shop/shih-tzu-puppy-2439'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/siamese-adult-dry',
+      redirectUrl: '/shop/siamese-adult-2551'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/siberian-adult',
+      redirectUrl: '/shop/siberian-adult-4360'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sphynx-adult-dry',
+      redirectUrl: '/shop/sphynx-adult-2556'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sphynx-kitten',
+      redirectUrl: '/shop/sphynx-kitten-1231'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products/west-highland-white-terrier-adult-dry',
+      redirectUrl: '/shop/west-highland-white-terrier-3981'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/yorkshire-terrier-adult-dry',
+      redirectUrl: '/shop/yorkshire-terrier-adult-3051'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/yorkshire-terrier-puppy-dry',
+      redirectUrl: '/shop/yorkshire-terrier-puppy-3972'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/skin-coat-wet',
+      redirectUrl:
+        '/shop/skin-&-coat-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4092'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/skin-coat-dry',
+      redirectUrl: '/shop/skin-&-coat-1323'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/skin-care-small-dog',
+      redirectUrl: '/shop/skin-care-small-dogs-4006'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/skin-support',
+      redirectUrl: '/shop/skin-support-3921'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products/sporting-life-agility-4100-l-dry',
+      redirectUrl: '/shop/sporting-life-agility-4100-l-2781'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-jelly-wet',
+      redirectUrl: '/shop/sterilised-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-4156'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-loaf-wet',
+      redirectUrl:
+        '/shop/sterilised-(%D0%B2-%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%D0%B5)-4147'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-gravy-wet',
+      redirectUrl:
+        '/shop/sterilised-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4095'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-37-dry',
+      redirectUrl: '/shop/sterilised-37-2537'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-7-dry',
+      redirectUrl: '/shop/sterilised-7+-2560'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-ageing-12-dry',
+      redirectUrl: '/shop/sterilised-ageing-12+-2565'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/urinary-care-gravy-wet',
+      redirectUrl:
+        '/shop/urinary-care-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4157'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/urinary-care-dry',
+      redirectUrl: '/shop/urinary-care-1800'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/urinary-so-wet',
+      redirectUrl:
+        '/shop/urinary-so-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4032'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/urinary-so-wet',
+      redirectUrl:
+        '/shop/urinary-so-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4021'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/urinary-so-dry',
+      redirectUrl: '/shop/urinary-so-3901'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/urinary-so-dry',
+      redirectUrl: '/shop/urinary-so-3913'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/urinary-so-loaf',
+      redirectUrl:
+        '/shop/urinary-so-feline-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-1254'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/urinary-so-moderate-calorie-wet',
+      redirectUrl:
+        '/shop/urinary-so-moderate-calorie-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4080'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/urinary-so-moderate-calorie-dry',
+      redirectUrl: '/shop/urinary-so-moderate-calorie-3954'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/urinary-so-small-dog-dry',
+      redirectUrl: '/shop/urinary-so-small-dog-3801'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/x-small-adult-dry',
+      redirectUrl: '/shop/x-small-adult-1003'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/xsmall-adult-8-dry',
+      redirectUrl: '/shop/x-small-adult-8+-1004'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/x-small-light-weight-care',
+      redirectUrl: '/shop/x-small-light-weight-care-1230'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/x-small-puppy-dry',
+      redirectUrl: '/shop/x-small-puppy-1002'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/x-small-sterilised-dry',
+      redirectUrl: '/shop/x-small-sterilised-1019'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/yorkshire-terrier-8',
+      redirectUrl: '/shop/yorkshire-terrier-8+-1260'
+    }
+  ]
+};

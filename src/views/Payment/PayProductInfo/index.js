@@ -255,7 +255,7 @@ class PayProductInfo extends React.Component {
                   <img
                     className="product-image"
                     src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
-                    alt="product-image"
+                    alt="product image"
                   />
                 </LazyLoad>
               </div>
@@ -271,7 +271,7 @@ class PayProductInfo extends React.Component {
                       <img
                         className="clubLogo"
                         src={Club_Logo}
-                        alt="club-logo"
+                        alt="club logo"
                       />
                     ) : null}
                   </div>
@@ -334,7 +334,7 @@ class PayProductInfo extends React.Component {
                   <img
                     className="product-image"
                     src={el.goodsInfoImg}
-                    alt="product-image"
+                    alt="product image"
                   />
                 </LazyLoad>
               </div>
@@ -352,7 +352,7 @@ class PayProductInfo extends React.Component {
                       <img
                         className="clubLogo"
                         src={Club_Logo}
-                        alt="club-logo"
+                        alt="club logo"
                       />
                     ) : null}
                   </div>
@@ -808,9 +808,9 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 运费折扣 俄罗斯 */}
-                {/* {this.freeShippingFlag && this.props.isCheckOut ? ( */}
-                {this.props.deliveryAddress?.calculation?.price &&
-                this.props.isCheckOut ? (
+                {/* {this.props.deliveryAddress?.calculation?.price &&
+                this.props.isCheckOut ? ( */}
+                {this.freeShippingFlag && this.props.isCheckOut ? (
                   <div className="row leading-lines shipping-item green">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">

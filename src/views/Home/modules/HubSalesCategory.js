@@ -105,7 +105,7 @@ export default class HubSalesCategory extends Component {
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.cat" />
                 </div>
-                <img src={catsImg} alt="cats-image" />
+                <img src={catsImg} alt="cats image" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -150,7 +150,7 @@ export default class HubSalesCategory extends Component {
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.dog" />
                 </div>
-                <img src={dogsImg} alt="dogs-image" />
+                <img src={dogsImg} alt="dogs image" />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (

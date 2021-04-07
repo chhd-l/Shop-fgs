@@ -34,9 +34,9 @@ class Confirmation extends React.Component {
       eEvents: '',
       productList: [],
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       loading: true,
       paywithLogin: sessionItemRoyal.get('rc-paywith-login') === 'true',
@@ -357,7 +357,7 @@ class Confirmation extends React.Component {
             <div className="text-center mt-3">
               <LazyLoad>
                 <img
-                  alt="success-image"
+                  alt="success image"
                   src={successImg}
                   className="mb-3"
                   style={{ display: 'inline-block' }}

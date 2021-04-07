@@ -42,9 +42,9 @@ class VetLandingPage extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       intl: this.props.intl.messages
     };
@@ -228,7 +228,7 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt="bitmap"
+                              alt="bitmap image"
                               src={icon1}
                               style={{
                                 width: '100px',
@@ -249,7 +249,7 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt="bitmap"
+                              alt="bitmap image"
                               src={icon2}
                               style={{
                                 width: '100px',
@@ -270,7 +270,7 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt="bitmap"
+                              alt="bitmap image"
                               src={icon3}
                               style={{
                                 width: '100px',
@@ -291,7 +291,7 @@ class VetLandingPage extends React.Component {
                         >
                           <LazyLoad>
                             <img
-                              alt="bitmap"
+                              alt="bitmap image"
                               src={icon4}
                               style={{
                                 width: '100px',

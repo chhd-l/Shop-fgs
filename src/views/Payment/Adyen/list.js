@@ -327,7 +327,7 @@ class AdyenCreditCardList extends React.Component {
         <div className="col-6 col-sm-4 d-flex flex-column pb-1 pb-md-0">
           <LazyLoad>
             <img
-              alt="card-background"
+              alt="card background"
               className="PayCardImgFitScreen"
               src={
                 CREDIT_CARD_IMG_ENUM[

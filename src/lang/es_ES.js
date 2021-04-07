@@ -10,6 +10,8 @@ const es_ES = {
     'Royal Canin fue fundada en 1968 por el veterinario Jean Cathary. La visión del Dr. Cathary era una empresa de alimentos para mascotas basada en la ciencia, proporcionando nutrición como el primer medicamento para perros y gatos y creando fórmulas precisas para satisfacer las necesidades únicas de cada mascota.',
   'aboutUs.IncredibleDetail': 'Increíble en cada detalle',
   'aboutUs.learnMore': 'Más información',
+  'aboutUs.foodQualityAndSafetyBtn': 'Más información',
+  'aboutUs.ourValuesBtn': 'Más información',
   'aboutUs.ourValues': 'Nuestros valores',
   'aboutUs.ourValuesDetail':
     'Obtenga más información sobre las ideas y los valores que dan forma al papel de Royal Canin en el mundo.',
@@ -416,7 +418,7 @@ const es_ES = {
   'home.convenientTitle':
     '¿Por qué es conveniente realizar tus compras con Royal Canin®?',
   'home.note1':
-    'A causa de la pandemia, el tiempo de entrega puede extenderse.',
+    'A causa de la pandemia, el tiempo de entrega puede extenderse hasta 48 horas.',
   'home.note2':
     'Nuestras áreas de distribución se limitan a Ciudad de México, Guadalajara y Monterrey.',
   'home.pageNotFound': 'Página no encontrada…',
@@ -1007,6 +1009,7 @@ const es_ES = {
     'La información de la tarjeta es incorrecta, verifique.',
   'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}',
   'account.clinicTitle2': 'Mi clínica por defecto',
-  'subscription.viewDetails': 'Ver Detalle'
+  'subscription.viewDetails': 'Ver Detalle',
+  bankCard: 'Tarjeta bancaria'
 };
 export default es_ES;

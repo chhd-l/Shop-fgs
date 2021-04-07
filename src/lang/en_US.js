@@ -11,6 +11,8 @@ const en_US = {
   'aboutUs.IncredibleDetail': 'Incredible in Every Detail',
   'aboutUs.learnMore': 'Learn More',
   'aboutUs.ourValues': 'Our Values',
+  'aboutUs.foodQualityAndSafetyBtn': 'See our Commitment',
+  'aboutUs.ourValuesBtn': 'Discover our Passion',
   'aboutUs.ourValuesDetail':
     'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
   'aboutUs.SeeHowWeDo':
@@ -221,7 +223,7 @@ const en_US = {
   autoShipStarted: 'Autoship started',
   autoshop: 'autoship',
   backToAuthorization: 'Back to authorization',
-  bankCard: 'Credit card',
+  bankCard: 'Credit Card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
   biliingAddressSameAs: 'My billing address is the same as my shipping address',
@@ -318,7 +320,7 @@ const en_US = {
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
   confirmDeleteProduct:
-    'Are you sure you want to remove this product for the cart ?',
+    'Are you sure you want to remove this product from the cart ?',
   confirmPassword: 'Confirm Password *',
   consent: 'Consent',
   consignee: 'Consignee',
@@ -662,7 +664,7 @@ const en_US = {
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',
-  modalSkipContent: 'Are you sure you want to cancel the next delivery?',
+  modalSkipContent: 'Are you sure you want to skip the next delivery?',
   modalSkipTitle: 'SKIP NEXT DELIVERY?',
   month: 'Month',
   moreAddress: 'More Address',

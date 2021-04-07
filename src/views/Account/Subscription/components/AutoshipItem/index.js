@@ -101,7 +101,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
                 width: '40px',
                 display: 'inline-block'
               }}
-              alt="auttoship-icon"
+              alt="auttoship icon"
             />
           </LazyLoad>
           <span

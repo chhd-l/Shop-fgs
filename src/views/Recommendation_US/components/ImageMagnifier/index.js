@@ -133,34 +133,34 @@ class ImageMagnifier extends Component {
       currentImg: currentImg
     });
 
-    let selectedSizeInfo = sizeList.filter((item) => item.selected);
-    if (!selectedSizeInfo.length) {
-      selectedSizeInfo = [sizeList[0]];
-    }
-    if (
-      selectedSizeInfo.length &&
-      (selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl)
-    ) {
-      let hoverIndex = 0;
-      images.map((el, i) => {
-        if (
-          el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
-          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg ||
-          el.artworkUrl === selectedSizeInfo[0].artworkUrl ||
-          el.goodsInfoImg === selectedSizeInfo[0].artworkUrl
-        ) {
-          hoverIndex = i;
-        }
-        return el;
-      });
-      this.setState({
-        currentImg:
-          selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
-        videoShow: false,
-        hoverIndex,
-        offsetX: hoverIndex * 240
-      });
-    }
+    // let selectedSizeInfo = sizeList.filter((item) => item.selected);
+    // if (!selectedSizeInfo.length) {
+    //   selectedSizeInfo = [sizeList[0]];
+    // }
+    // if (
+    //   selectedSizeInfo.length &&
+    //   (selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl)
+    // ) {
+    //   let hoverIndex = 0;
+    //   images.map((el, i) => {
+    //     if (
+    //       el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
+    //       el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg ||
+    //       el.artworkUrl === selectedSizeInfo[0].artworkUrl ||
+    //       el.goodsInfoImg === selectedSizeInfo[0].artworkUrl
+    //     ) {
+    //       hoverIndex = i;
+    //     }
+    //     return el;
+    //   });
+    //   this.setState({
+    //     currentImg:
+    //       selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
+    //     videoShow: false,
+    //     hoverIndex,
+    //     offsetX: hoverIndex * 240
+    //   });
+    // }
   }
   // props 变化时更新
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -399,7 +399,7 @@ class ImageMagnifier extends Component {
                 <LazyLoad>
                   <img
                     src={taggingForImage.taggingImgUrl}
-                    alt="tagging-image"
+                    alt="tagging image"
                   />
                 </LazyLoad>
               </div>
@@ -418,7 +418,7 @@ class ImageMagnifier extends Component {
                         style={cssStyle.imgStyle}
                         // src={currentImg || noPic}
                         src={el.artworkUrl || noPic}
-                        alt="artwork-image"
+                        alt="artwork image"
                       />
                     </LazyLoad>
                   </div>
@@ -429,7 +429,7 @@ class ImageMagnifier extends Component {
                     <img
                       style={cssStyle.imgStyle}
                       src={currentImg || this.state.maxImg || noPic}
-                      alt="artwork-image"
+                      alt="artwork image"
                     />
                   </LazyLoad>
                 </div>
@@ -476,7 +476,7 @@ class ImageMagnifier extends Component {
                   src={currentImg || this.state.maxImg || noPic}
                   onLoad={this.handleImageLoaded.bind(this)}
                   onError={this.handleImageErrored.bind(this)}
-                  alt="current-Image"
+                  alt="current Image"
                 />
               </LazyLoad>
               {!imgLoad && 'failed to load'}

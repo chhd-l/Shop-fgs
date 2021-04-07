@@ -453,9 +453,9 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     return '/checkout';
   }
   // 校验审核
+  //调整：商品中所属category的Need Prescriber都为NO,直接进入checkout页面
   if (isLogin) {
     let needPrescriber;
-    //调整：是否需要进入prescription页面只判断购物车的商品中是否存在Need Prescriber
     // if (autoAuditFlag) {
     needPrescriber = loginCartData.filter((el) => el.prescriberFlag).length > 0;
     // } else {
@@ -614,6 +614,7 @@ export function getFormatDate(date, callback, lang) {
       return intl.formatDate(date);
     }
   } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
+    console.log(date, 'date---');
     return format(new Date(date).addHours(12), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });

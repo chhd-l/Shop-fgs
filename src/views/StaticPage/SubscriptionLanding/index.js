@@ -26,9 +26,9 @@ class SubscriptionLanding extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
@@ -171,8 +171,8 @@ class SubscriptionLanding extends React.Component {
                           <LazyLoad>
                             <img
                               className="m-auto w-auto lazyloaded"
-                              alt="image-one"
-                              title="image-one"
+                              alt="image one"
+                              title="image one"
                               src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon1@1x.png`}
                             ></img>
                           </LazyLoad>
@@ -275,7 +275,7 @@ class SubscriptionLanding extends React.Component {
                             <LazyLoad>
                               <img
                                 className="mx-auto lazyloaded"
-                                alt="cat-image"
+                                alt="cat image"
                                 src={imagecat}
                               ></img>
                             </LazyLoad>
@@ -317,7 +317,7 @@ class SubscriptionLanding extends React.Component {
                             <LazyLoad>
                               <img
                                 className="mx-auto lazyloaded"
-                                alt="dog-image"
+                                alt="dog image"
                                 src={imagedog}
                               ></img>
                             </LazyLoad>
@@ -488,7 +488,7 @@ class SubscriptionLanding extends React.Component {
                                   <LazyLoad>
                                     <img
                                       src={helpImg}
-                                      alt="help-icon"
+                                      alt="help icon"
                                       title=" "
                                     />
                                   </LazyLoad>

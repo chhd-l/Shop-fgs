@@ -37,7 +37,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
       <div>
         <LazyLoad>
           <img
-            alt="map-default-marker"
+            alt="map default marker"
             src={meImg}
             draggable="false"
             style={{
@@ -66,9 +66,9 @@ class Prescription extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       type: 'perscription',
       keywords: '',
