@@ -20,6 +20,7 @@ import {
   GACartChangeSubscription
 } from '@/utils/GA';
 import PayProductInfo from '../../Payment/PayProductInfo';
+import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
@@ -1515,6 +1516,12 @@ class UnLoginCart extends React.Component {
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
+        {this.state.checkoutLoading ? (
+          <Loading
+            bgColor={'#000'}
+            opacity={this.state.checkoutLoading ? 0.3 : 1}
+          />
+        ) : null}
         <Header
           showMiniIcons={true}
           showUserIcon={true}
