@@ -15,4 +15,17 @@ const service = axios.create({
   timeout: 600000 // 请求超时时间
 });
 
+// request interceptor
+service.interceptors.request.use((config) => {
+  // 添加取消标记
+  config.cancelToken = new axios.CancelToken((cancel) => {
+    window.axiosCancel = window.axiosCancel || [];
+    window.axiosCancel.push({
+      cancel
+    });
+  });
+
+  return config;
+});
+
 export default service;
