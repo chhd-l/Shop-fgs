@@ -53,7 +53,7 @@ const en_US = {
     'Consents given for communication',
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
-  'account.myCommunicationPreferencesTitle': 'My communication preferences',
+  'account.myCommunicationPreferencesTitle': 'My Communication Preferences',
   'account.myPayments': 'My Payment Methods',
   'account.nickname': "What is your pet's nickname?",
   'account.no': 'No',
