@@ -949,6 +949,7 @@ const en_US = {
   quantity: 'Quantity',
   quantityCannotExceed10: 'Quantity cannot exceed 10',
   quantityText: '{specText} - {buyCount} item(s)',
+  'order.quantityText': '{specText} - Qty {buyCount}',
   queryDataFailed: 'Query Data Failed',
   ratingGrade1: 'Most Recent',
   ratingGrade2: 'Lowest to Highest Rating',

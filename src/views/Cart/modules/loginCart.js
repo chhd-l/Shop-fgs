@@ -450,7 +450,6 @@ class LoginCart extends React.Component {
     }
   }
   addQuantity(item) {
-    console.log(item, 'item----');
     if (this.state.checkoutLoading) {
       return;
     }
@@ -1161,10 +1160,10 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost text-nowrap">
-                {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                  <strong>{subtractionSign}</strong>
-                ) : (
+                {this.taxFeePrice > 0 ? (
                   formatMoney(this.taxFeePrice)
+                ) : (
+                  <strong>{subtractionSign}</strong>
                 )}
               </p>
             </div>
@@ -1183,7 +1182,13 @@ class LoginCart extends React.Component {
             <div className="col-5">
               <p className="text-right grand-total-sum medium mb-0 text-nowrap">
                 {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                  <strong>{subtractionSign}</strong>
+                  <>
+                    {this.tradePrice > 0 ? (
+                      formatMoney(this.tradePrice)
+                    ) : (
+                      <strong>{subtractionSign}</strong>
+                    )}
+                  </>
                 ) : (
                   formatMoney(this.tradePrice)
                 )}
@@ -1448,10 +1453,14 @@ class LoginCart extends React.Component {
     const List = this.getProducts(productList);
     const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
+    console.log(this.btnStatus, 'this.btnStatus');
     return (
       <div className="Carts">
-        {this.state.circleLoading ? (
-          <Loading bgColor={'#fff'} opacity={1} />
+        {this.state.circleLoading || this.state.checkoutLoading ? (
+          <Loading
+            bgColor={'#000'}
+            opacity={this.state.checkoutLoading ? 0.3 : 1}
+          />
         ) : null}
         <Header
           showMiniIcons={true}

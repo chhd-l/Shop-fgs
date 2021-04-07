@@ -889,7 +889,7 @@ class AccountOrders extends React.Component {
                                               {item.spuName}
                                             </span>
                                             <FormattedMessage
-                                              id="quantityText"
+                                              id="order.quantityText"
                                               values={{
                                                 specText: item.specDetails,
                                                 buyCount: item.num

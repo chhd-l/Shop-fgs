@@ -20,7 +20,7 @@ import './list.less';
 /**
  * address list(delivery/billing) - member
  */
-@inject('paymentStore')
+@inject('checkoutStore', 'paymentStore')
 // @injectIntl
 @observer
 class AddressList extends React.Component {
@@ -73,7 +73,8 @@ class AddressList extends React.Component {
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
-      russiaAddressValidFlag: true // 俄罗斯地址校验标记
+      russiaAddressValidFlag: true, // 俄罗斯地址校验标记
+      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -181,7 +182,7 @@ class AddressList extends React.Component {
   }
   // 根据address1查询地址信息，再根据查到的信息计算运费
   getAddressListByKeyWord = async (obj) => {
-    console.log('182 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
+    console.log('183 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
     const { addressList } = this.state;
     try {
       let address1 = obj.address1;
@@ -404,7 +405,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------- ★★★★★★ updateDeliveryAddress: ', data);
+    console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
@@ -486,7 +487,7 @@ class AddressList extends React.Component {
         settlement: deliveryAddress.settlement,
         street: deliveryAddress.street,
         house: deliveryAddress.house,
-        block: deliveryAddress.housing,
+        housing: deliveryAddress.housing,
         entrance: deliveryAddress.entrance,
         appartment: deliveryAddress.appartment,
 

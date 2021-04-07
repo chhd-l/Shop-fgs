@@ -437,7 +437,7 @@ class AddressList extends React.Component {
         settlement: deliveryAddress.settlement,
         street: deliveryAddress.street,
         house: deliveryAddress.house,
-        block: deliveryAddress.housing,
+        housing: deliveryAddress.housing,
         entrance: deliveryAddress.entrance,
         appartment: deliveryAddress.appartment,
 
