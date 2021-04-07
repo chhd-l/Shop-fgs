@@ -318,7 +318,7 @@ const en_US = {
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
   confirmDeleteProduct:
-    'Are you sure you want to remove this product for the cart ?',
+    'Are you sure you want to remove this product from the cart ?',
   confirmPassword: 'Confirm Password *',
   consent: 'Consent',
   consignee: 'Consignee',
