@@ -106,17 +106,17 @@ class UnLoginCart extends React.Component {
   }
 
   get totalPrice() {
-    let totalPrice = 0;
-    this.props.checkoutStore.cartData.map((el) => {
-      let skuItem = el.sizeList.filter((el) => el.selected)[0];
-      // if (el.goodsInfoFlag) {
-      //   totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
-      // } else {
-      totalPrice = totalPrice + el.quantity * skuItem.salePrice;
-      // }
-    });
-    return totalPrice;
-    // return this.props.checkoutStore.totalPrice;
+    // let totalPrice = 0;
+    // this.props.checkoutStore.cartData.map((el) => {
+    //   let skuItem = el.sizeList.filter((el) => el.selected)[0];
+    //   // if (el.goodsInfoFlag) {
+    //   //   totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
+    //   // } else {
+    //   totalPrice = totalPrice + el.quantity * skuItem.salePrice;
+    //   // }
+    // });
+    // return totalPrice;
+    return this.props.checkoutStore.totalPrice;
   }
   get tradePrice() {
     return this.totalPrice - this.discountPrice + this.deliveryPrice;
