@@ -782,3 +782,13 @@ export function getOktaCallBackUrl(sessionToken) {
   var callOktaCallBack = `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
   return callOktaCallBack;
 }
+
+export function cancelPrevRequest() {
+  // 设置一个函数，在执行请求前先执行这个函数
+  // 获取缓存的 请求取消标识 数组，取消所有关联的请求
+  let cancelArr = window.axiosCancel;
+  cancelArr.forEach((ele, index) => {
+    ele.cancel('取消了请求'); // 在失败函数中返回这里自定义的错误信息
+    delete window.axiosCancel[index];
+  });
+}

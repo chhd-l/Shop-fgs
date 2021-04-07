@@ -88,7 +88,7 @@ class AccountOrders extends React.Component {
   componentDidMount() {
     myAccountPushEvent('Orders');
     setSeoConfig({
-      pageName: 'Account orders'
+      pageName: 'Account orders'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });

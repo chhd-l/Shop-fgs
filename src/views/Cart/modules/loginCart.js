@@ -16,7 +16,8 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
   unique,
-  getParaByName
+  getParaByName,
+  cancelPrevRequest
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -346,8 +347,9 @@ class LoginCart extends React.Component {
         initLoading: false
       },
       () => {
-        // 初始化页面时，若为空购物车，则要用其他seo
-        if (initPage && !this.state.productList.length) {
+        // 若为空购物车，则要用其他seo
+        if (!this.state.productList.length) {
+          cancelPrevRequest();
           setSeoConfig({
             pageName: 'Empty Cart page'
           }).then((res) => {
