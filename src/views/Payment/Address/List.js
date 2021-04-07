@@ -733,6 +733,7 @@ class AddressList extends React.Component {
               saveLoading: false,
               loading: false
             });
+            this.props.updateValidationStaus(true);
           }}
         />
       </>
