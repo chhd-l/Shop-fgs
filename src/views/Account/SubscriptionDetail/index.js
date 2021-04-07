@@ -23,6 +23,7 @@ import Dog from '@/assets/images/dog.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
+import play_png from './images/play.png';
 
 import {
   getDictionary,
@@ -1790,16 +1791,31 @@ class SubscriptionDetail extends React.Component {
 
         <div className="rc-column d-flex">
           <div className="subdeatial-button-mobile-pad pause-btn">
-            <em
-              className="iconfont"
-              style={{
-                fontSize: '2rem',
-                color: '#FBE8CD',
-                paddingLeft: '1rem'
-              }}
-            >
-              &#xe62f;
-            </em>
+            {subDetail.subscribeStatus === 0 ? (
+              <em
+                className="iconfont"
+                style={{
+                  fontSize: '1.5rem',
+                  color: 'rgb(242,148,35)',
+                  position: 'relative',
+                  top: '4px'
+                }}
+              >
+                &#xe6c2;
+              </em>
+            ) : (
+              <em
+                className="iconfont"
+                style={{
+                  fontSize: '1.25rem',
+                  color: 'rgb(242,148,35)',
+                  position: 'relative',
+                  top: '2px'
+                }}
+              >
+                &#xe62f;
+              </em>
+            )}
             <span
               style={{
                 position: 'relative',
@@ -1881,17 +1897,31 @@ class SubscriptionDetail extends React.Component {
             className="pause-btn"
             style={{ display: isMobile ? 'block' : 'inline-block' }}
           >
-            <em
-              className="iconfont"
-              style={{
-                fontSize: '1.25rem',
-                color: 'rgb(242,148,35)',
-                position: 'relative',
-                top: '2px'
-              }}
-            >
-              &#xe62f;
-            </em>
+            {subDetail.subscribeStatus === '0' ? (
+              <em
+                className="iconfont"
+                style={{
+                  fontSize: '1.25rem',
+                  color: 'rgb(242,148,35)',
+                  position: 'relative',
+                  top: '2px'
+                }}
+              >
+                &#xe62f;
+              </em>
+            ) : (
+              <em
+                className="iconfont"
+                style={{
+                  fontSize: '1.5rem',
+                  color: 'rgb(58,180,29)',
+                  position: 'relative',
+                  top: '4px'
+                }}
+              >
+                &#xe6c2;
+              </em>
+            )}
             <a
               style={{
                 paddingRight: '0.5rem',
@@ -3097,7 +3127,9 @@ class SubscriptionDetail extends React.Component {
                                         this.state.minDate
                                       }
                                       selected={
-                                        el.nextDeliveryTime
+                                        !isActive
+                                          ? ''
+                                          : el.nextDeliveryTime
                                           ? new Date(el.nextDeliveryTime)
                                           : new Date()
                                       }
@@ -3491,7 +3523,7 @@ class SubscriptionDetail extends React.Component {
                                           ) || this.state.minDate
                                         }
                                         selected={
-                                          !isNotInactive
+                                          !isActive
                                             ? ''
                                             : el.nextDeliveryTime
                                             ? new Date(el.nextDeliveryTime)
@@ -3513,112 +3545,46 @@ class SubscriptionDetail extends React.Component {
                           ))}
                       </div>
                       {!isGift && this.getButtonBox(subDetail)}
+
                       <h4 className="h4">
-                        <FormattedMessage id="transactionInfo" />
+                        <FormattedMessage id="myAutoshipOrder" />
                       </h4>
-                      <div className="row text-left text-break editCard ml-0 mr-0">
+                      <div className="rc-max-width--xl">
                         <div
-                          className="col-12 col-md-4 mb-2"
-                          style={{ padding: '5px', paddingLeft: '0' }}
+                          style={{ display: `${isGift ? 'none' : 'initial'}` }}
+                          className="rc-match-heights rc-content-h-middle rc-reverse-layout"
                         >
-                          <div
-                            style={{
-                              border: '1px solid #d7d7d7',
-                              padding: '1.25rem',
-                              height: '225px'
-                            }}
-                          >
-                            <div className="align-items-center">
-                              {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
-                              <LazyLoad>
-                                <img
-                                  alt="delivery Icon"
-                                  src={deliveryIcon}
-                                  style={{
-                                    width: '30px',
-                                    marginRight: '1.125rem',
-                                    display: 'inline-block'
-                                  }}
-                                />
-                              </LazyLoad>
-                              <span>
-                                <FormattedMessage id="delivery2" />
-                              </span>
-                              {subDetail.subscribeStatus === '0' && (
-                                <a
-                                  className="rc-styled-link red-text"
-                                  style={{ float: 'right', marginTop: '5px' }}
-                                  onClick={() => {
-                                    window.scrollTo(0, 0);
-                                    this.setState({
-                                      type: 'AddressComp',
-                                      addressType: 'delivery'
-                                    });
-                                  }}
+                          <div>
+                            <div
+                              className="rc-border-bottom rc-border-colour--interface"
+                              style={{ width: '70%', display: 'inline-block' }}
+                            >
+                              <nav className="rc-fade--x">
+                                <ul
+                                  className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
+                                  role="tablist"
                                 >
-                                  <FormattedMessage id="edit" />{' '}
-                                  {/* <FormattedMessage id="address" /> */}
-                                </a>
-                              )}
-                            </div>
-                            <div className="ml-1">
-                              {/* 姓名 */}
-                              <p className="mb-0 sd_mb_name">
-                                <span
-                                  className="medium"
-                                  style={{
-                                    fontSize: '1.125rem',
-                                    color: '#333',
-                                    margin: '25px 0 .625rem'
-                                  }}
-                                >
-                                  {currentDeliveryAddress.consigneeName}
-                                </span>
-                              </p>
-                              {/* 电话 */}
-                              <p className="mb-0 sd_mb_tel">
-                                {currentDeliveryAddress.consigneeNumber}
-                              </p>
-
-                              {/* 国家 */}
-                              {process.env.REACT_APP_LANG == 'en' ? null : (
-                                <p className="mb-0 sd_mb_country">
-                                  {this.state.countryList.length &&
-                                  this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentDeliveryAddress.countryId
-                                  ).length
-                                    ? this.state.countryList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentDeliveryAddress.countryId
-                                      )[0].valueEn
-                                    : currentDeliveryAddress.countryId}
-                                  ,
-                                </p>
-                              )}
-                              {/* 地址 */}
-                              <p className="mb-0 sd_mb_address1">
-                                {currentDeliveryAddress.address1}
-                              </p>
-                              {currentDeliveryAddress.address2 ? (
-                                <p className="mb-0 od_mb_address2">
-                                  {currentDeliveryAddress.address2}
-                                </p>
-                              ) : null}
-
-                              <p className="mb-0 sd_mb_cpp">
-                                {/* 城市 */}
-                                {currentDeliveryAddress.city}
-                                {', '}
-                                {/* 省份 / State */}
-                                {currentDeliveryAddress?.province &&
-                                currentDeliveryAddress?.province != null
-                                  ? currentDeliveryAddress.province
-                                  : null}{' '}
-                                {/* 邮编 */}
-                                {currentDeliveryAddress.postCode}
-                              </p>
+                                  {this.state.tabName.map((ele, index) => (
+                                    <li key={index}>
+                                      <button
+                                        className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                        data-toggle={`tab__panel-${index}`}
+                                        aria-selected={
+                                          this.state.activeTabIdx === index
+                                            ? 'true'
+                                            : 'false'
+                                        }
+                                        role="tab"
+                                        onClick={(e) =>
+                                          this.changeTab(e, index)
+                                        }
+                                      >
+                                        {ele}
+                                      </button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </nav>
                             </div>
                           </div>
                         </div>
@@ -3801,7 +3767,7 @@ class SubscriptionDetail extends React.Component {
                                 <p className="mb-0">
                                   {currentCardInfo.holderName}
                                 </p>
-                                <p className="mb-0">{currentCardInfo.phone}</p>
+                                {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
                               </div>
                             </div>
                           </div>
@@ -4897,6 +4863,301 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                         {isGift && this.getGiftList()}
+                      </div>
+
+                      <h4 className="h4">
+                        <FormattedMessage id="transactionInfo" />
+                      </h4>
+                      <div className="row text-left text-break editCard ml-0 mr-0">
+                        <div
+                          className="col-12 col-md-4 mb-2"
+                          style={{ padding: '5px', paddingLeft: '0' }}
+                        >
+                          <div
+                            style={{
+                              border: '1px solid #d7d7d7',
+                              padding: '1.25rem',
+                              height: '225px'
+                            }}
+                          >
+                            <div className="align-items-center">
+                              {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
+                              <LazyLoad>
+                                <img
+                                  alt="delivery Icon"
+                                  src={deliveryIcon}
+                                  style={{
+                                    width: '30px',
+                                    marginRight: '1.125rem',
+                                    display: 'inline-block'
+                                  }}
+                                />
+                              </LazyLoad>
+                              <span>
+                                <FormattedMessage id="delivery2" />
+                              </span>
+                              {subDetail.subscribeStatus === '0' && (
+                                <a
+                                  className="rc-styled-link red-text"
+                                  style={{ float: 'right', marginTop: '5px' }}
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({
+                                      type: 'AddressComp',
+                                      addressType: 'delivery'
+                                    });
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />{' '}
+                                  {/* <FormattedMessage id="address" /> */}
+                                </a>
+                              )}
+                            </div>
+                            <div className="ml-1">
+                              {/* 姓名 */}
+                              <p className="mb-0 sd_mb_name">
+                                <span
+                                  className="medium"
+                                  style={{
+                                    fontSize: '1.125rem',
+                                    color: '#333',
+                                    margin: '25px 0 .625rem'
+                                  }}
+                                >
+                                  {currentDeliveryAddress.consigneeName}
+                                </span>
+                              </p>
+                              {/* 电话 */}
+                              <p className="mb-0 sd_mb_tel">
+                                {currentDeliveryAddress.consigneeNumber}
+                              </p>
+
+                              {/* 国家 */}
+                              {process.env.REACT_APP_LANG == 'en' ? null : (
+                                <p className="mb-0 sd_mb_country">
+                                  {this.state.countryList.length &&
+                                  this.state.countryList.filter(
+                                    (el) =>
+                                      el.id === currentDeliveryAddress.countryId
+                                  ).length
+                                    ? this.state.countryList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentDeliveryAddress.countryId
+                                      )[0].valueEn
+                                    : currentDeliveryAddress.countryId}
+                                  ,
+                                </p>
+                              )}
+                              {/* 地址 */}
+                              <p className="mb-0 sd_mb_address1">
+                                {currentDeliveryAddress.address1}
+                              </p>
+                              {currentDeliveryAddress.address2 ? (
+                                <p className="mb-0 od_mb_address2">
+                                  {currentDeliveryAddress.address2}
+                                </p>
+                              ) : null}
+
+                              <p className="mb-0 sd_mb_cpp">
+                                {/* 城市 */}
+                                {currentDeliveryAddress.city}
+                                {', '}
+                                {/* 省份 / State */}
+                                {currentDeliveryAddress?.province &&
+                                currentDeliveryAddress?.province != null
+                                  ? currentDeliveryAddress.province
+                                  : null}{' '}
+                                {/* 邮编 */}
+                                {currentDeliveryAddress.postCode}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className={[
+                            'col-12',
+                            'col-md-4',
+                            'mb-2',
+                            process.env.REACT_APP_LANG == 'en'
+                              ? 'rc-hidden'
+                              : ''
+                          ].join(' ')}
+                          style={{ padding: '5px' }}
+                        >
+                          <div
+                            style={{
+                              border: '1px solid #d7d7d7',
+                              padding: '1.25rem',
+                              height: '225px'
+                            }}
+                          >
+                            <div className="align-items-center">
+                              <LazyLoad>
+                                <img
+                                  alt="billing Icon"
+                                  src={billingIcon}
+                                  style={{
+                                    width: '30px',
+                                    marginRight: '1.125rem',
+                                    display: 'inline-block'
+                                  }}
+                                />
+                              </LazyLoad>
+                              <span>
+                                <FormattedMessage id="billing2" />
+                              </span>
+                              {subDetail.subscribeStatus === '0' && (
+                                <a
+                                  className="rc-styled-link red-text"
+                                  style={{ float: 'right', marginTop: '5px' }}
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({
+                                      type: 'AddressComp',
+                                      addressType: 'billing'
+                                    });
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />{' '}
+                                </a>
+                              )}
+                            </div>
+                            <div className="ml-1">
+                              <p className="mb-0">
+                                <span
+                                  className="medium"
+                                  style={{
+                                    fontSize: '1.125rem',
+                                    color: '#333',
+                                    margin: '25px 0 .625rem'
+                                  }}
+                                >
+                                  {currentBillingAddress.consigneeName}
+                                </span>
+                              </p>
+                              <p className="mb-0">
+                                {currentBillingAddress.consigneeNumber}
+                              </p>
+                              <p className="mb-0">
+                                {process.env.REACT_APP_LANG == 'en' ? null : (
+                                  <>
+                                    {this.state.countryList.length &&
+                                    this.state.countryList.filter(
+                                      (el) =>
+                                        el.id ===
+                                        currentBillingAddress.countryId
+                                    ).length
+                                      ? this.state.countryList.filter(
+                                          (el) =>
+                                            el.id ===
+                                            currentBillingAddress.countryId
+                                        )[0].valueEn
+                                      : currentBillingAddress.countryId}
+                                    ,
+                                  </>
+                                )}
+                                {/* 省份 / State */}
+                                {currentBillingAddress?.province &&
+                                currentBillingAddress?.province != null
+                                  ? currentBillingAddress.province + ', '
+                                  : null}
+                                {currentBillingAddress.city}
+                              </p>
+                              <p className="mb-0">
+                                {currentBillingAddress.address1}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        {currentCardInfo ? (
+                          <div
+                            className="col-12 col-md-4 mb-2"
+                            style={{ padding: '5px', paddingRight: '0' }}
+                          >
+                            <div
+                              style={{
+                                border: '1px solid #d7d7d7',
+                                padding: '1.25rem',
+                                height: '225px'
+                              }}
+                            >
+                              <div className="align-items-center">
+                                <LazyLoad style={{ display: 'inline' }}>
+                                  <img
+                                    src="paymentIcon"
+                                    src={paymentIcon}
+                                    style={{
+                                      width: '30px',
+                                      marginRight: '1.125rem',
+                                      display: 'inline-block'
+                                    }}
+                                  />
+                                </LazyLoad>
+                                <span>
+                                  <FormattedMessage id="payment.payment" />
+                                </span>
+                                {subDetail.subscribeStatus === '0' && (
+                                  <a
+                                    className="rc-styled-link red-text"
+                                    style={{ float: 'right', marginTop: '5px' }}
+                                    onClick={() => {
+                                      window.scrollTo(0, 0);
+                                      this.setState({ type: 'PaymentComp' });
+                                    }}
+                                  >
+                                    <FormattedMessage id="edit" />{' '}
+                                    {/* <FormattedMessage id="card" /> */}
+                                  </a>
+                                )}
+                              </div>
+                              <div className="ml-1">
+                                {currentCardInfo.lastFourDigits ? (
+                                  <>
+                                    <p className="mb-0">
+                                      <span
+                                        className="medium"
+                                        style={{
+                                          fontSize: '1.125rem',
+                                          fontWeight: '400',
+                                          color: '#333',
+                                          margin: '25px 0 .625rem',
+                                          verticalAlign: 'middle'
+                                        }}
+                                      >
+                                        **** **** ****
+                                        {currentCardInfo.lastFourDigits}
+                                      </span>
+                                    </p>
+
+                                    <LazyLoad
+                                      style={{
+                                        width: '20%',
+                                        marginRight: '.2rem'
+                                      }}
+                                    >
+                                      <img
+                                        alt="card background"
+                                        className="d-inline-block"
+                                        src={
+                                          CREDIT_CARD_IMG_ENUM[
+                                            currentCardInfo.paymentVendor.toUpperCase()
+                                          ] ||
+                                          'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                        }
+                                      />
+                                    </LazyLoad>
+                                  </>
+                                ) : null}
+
+                                <p className="mb-0">
+                                  {currentCardInfo.holderName}
+                                </p>
+                                <p className="mb-0">{currentCardInfo.phone}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>

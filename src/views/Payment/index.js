@@ -242,7 +242,8 @@ class Payment extends React.Component {
       selectValidationOption: 'suggestedAddress', // 校验选择
       isShowValidationModal: true, // 是否显示验证弹框
       billingAddressAddOrEdit: false, // billingAddress编辑或者添加地址
-      validationAddress: [] // 校验地址
+      validationAddress: [], // 校验地址
+      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -1802,7 +1803,8 @@ class Payment extends React.Component {
             street: data.address1,
             postalCode: data.postCode,
             customerAccount: this.state.email
-          }
+          },
+          ruShippingDTO: this.state.ruShippingDTO
         });
       } else {
         await this.props.checkoutStore.updateUnloginCart({
@@ -1814,7 +1816,8 @@ class Payment extends React.Component {
             city: data.city,
             street: data.address1,
             postalCode: data.postCode,
-            customerAccount: this.state.guestEmail
+            customerAccount: this.state.guestEmail,
+            ruShippingDTO: this.state.ruShippingDTO
           }
         });
       }
@@ -2933,7 +2936,8 @@ class Payment extends React.Component {
           city: deliveryAddress.city,
           street: deliveryAddress.address1,
           postalCode: deliveryAddress.postCode,
-          customerAccount: guestEmail
+          customerAccount: guestEmail,
+          ruShippingDTO: this.state.ruShippingDTO
         }
       });
     });

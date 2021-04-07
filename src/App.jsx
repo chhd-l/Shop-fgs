@@ -132,6 +132,7 @@ import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
 import ClubLandingPage from './views/ClubLandingPage';
+import {redirectFun} from "@/redirect/utils"
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -147,32 +148,6 @@ import fr from 'date-fns/locale/fr';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
-
-import RedirectUrlJSON_fr from './redirect/fr';
-import RedirectUrlJSON_ru from './redirect/ru';
-import RedirectUrlJSON_tr from './redirect/tr';
-
-const redirectFun = () => {
-  let RedirectUrlObj = {}
-  let RedirectUrlJSON = {
-    fr: RedirectUrlJSON_fr,
-    ru: RedirectUrlJSON_ru,
-    tr: RedirectUrlJSON_tr
-  };
-  if(RedirectUrlJSON[process.env.REACT_APP_LANG]){
-    RedirectUrlJSON[process.env.REACT_APP_LANG].RECORDS.filter(
-      (item) => item.shortUrl !== item.redirectUrl
-    )
-      .map((item) => ({
-        [item.shortUrl]: item.redirectUrl
-      }))
-      .forEach((item) => {
-        RedirectUrlObj = { ...RedirectUrlObj, ...item }; //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
-      });
-  }
-  return RedirectUrlObj
-  
-}
 
 if (process.env.REACT_APP_LANG === 'fr') {
   registerLocale(process.env.REACT_APP_LANG, fr);

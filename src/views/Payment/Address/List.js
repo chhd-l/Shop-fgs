@@ -20,7 +20,7 @@ import './list.less';
 /**
  * address list(delivery/billing) - member
  */
-@inject('paymentStore')
+@inject('checkoutStore', 'paymentStore')
 // @injectIntl
 @observer
 class AddressList extends React.Component {
@@ -73,7 +73,8 @@ class AddressList extends React.Component {
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
-      russiaAddressValidFlag: true // 俄罗斯地址校验标记
+      russiaAddressValidFlag: true, // 俄罗斯地址校验标记
+      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
