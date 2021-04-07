@@ -291,6 +291,7 @@ class Payment extends React.Component {
         let cyberPaymentForm = { ...this.state.cyberPaymentForm };
 
         if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
+          //订阅商品
           this.setState({
             subForm: {
               buyWay: 'frequency',
