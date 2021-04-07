@@ -51,6 +51,7 @@ class VisitorAddress extends React.Component {
       visitorValidationLoading: false, // 地址校验loading
       visitorValidationModalVisible: false, // 地址校验查询开关
       selectVisitorValidationOption: 'suggestedAddress',
+      russiaAddressValidFlag: true, // 俄罗斯地址校验标记
       btnLoading: false
     };
     this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
@@ -123,6 +124,12 @@ class VisitorAddress extends React.Component {
     if (this.props.type !== 'delivery') {
       throw new Error('This Error No Display');
     }
+  };
+  // 俄罗斯地址校验flag，控制按钮是否可用
+  getRussiaAddressValidFlag = (flag) => {
+    this.setState({
+      russiaAddressValidFlag: flag
+    });
   };
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({
@@ -308,6 +315,7 @@ class VisitorAddress extends React.Component {
         initData={form}
         isLogin={false}
         updateData={this.handleEditFormChange}
+        getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
       />
     );
     const _title = panelStatus.isPrepare
@@ -334,7 +342,7 @@ class VisitorAddress extends React.Component {
                   <button
                     className="rc-btn rc-btn--one rc-btn--sm"
                     onClick={this.handleClickConfirm}
-                    disabled={!isValid}
+                    disabled={!isValid && !this.state.russiaAddressValidFlag}
                   >
                     <FormattedMessage id="clinic.confirm3" />
                   </button>
