@@ -135,18 +135,18 @@ class PayProductInfo extends React.Component {
                     ) : null}
                   </div>
                   <div className="line-item-total-price text-nowrap">
-                    {(details.subscriptionResponseVO &&
-                      item.subscriptionStatus) ||
-                    item.price < item.splitPrice ? (
+                    {details.subscriptionResponseVO &&
+                    item.subscriptionStatus ? (
                       <>
-                        <span className="text-line-through">
+                        <p className="text-line-through mb-0">
                           {formatMoney(item.splitPrice)}
-                        </span>
-                        <br />
-                        <span className="red">{formatMoney(item.price)}</span>
+                        </p>
+                        <p className="red mb-0">
+                          {formatMoney(item.subscriptionPrice * item.num)}
+                        </p>
                       </>
                     ) : (
-                      <span>{formatMoney(item.price)}</span>
+                      <p className="mb-0">{formatMoney(item.splitPrice)}</p>
                     )}
                   </div>
                 </div>

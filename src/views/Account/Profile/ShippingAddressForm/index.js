@@ -244,7 +244,7 @@ class ShippingAddressFrom extends React.Component {
         settlement: data.settlement,
         street: data.street,
         house: data.house,
-        block: data.housing,
+        housing: data.housing,
         entrance: data.entrance,
         appartment: data.appartment,
 

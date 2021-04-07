@@ -242,7 +242,8 @@ class Payment extends React.Component {
       selectValidationOption: 'suggestedAddress', // 校验选择
       isShowValidationModal: true, // 是否显示验证弹框
       billingAddressAddOrEdit: false, // billingAddress编辑或者添加地址
-      validationAddress: [] // 校验地址
+      validationAddress: [], // 校验地址
+      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -291,6 +292,7 @@ class Payment extends React.Component {
         let cyberPaymentForm = { ...this.state.cyberPaymentForm };
 
         if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
+          //订阅商品
           this.setState({
             subForm: {
               buyWay: 'frequency',
@@ -1137,6 +1139,9 @@ class Payment extends React.Component {
             oxxoArgs.additionalDetails.object.data[0]
               ? oxxoArgs.additionalDetails.object.data[0].href
               : '';
+          console.log(res);
+          console.log(oxxoPayUrl);
+          debugger;
           subOrderNumberList = tidList.length
             ? tidList
             : oxxoContent && oxxoContent.tidList;
@@ -1773,7 +1778,10 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
-    console.log('1869 ★★ -------------- updateDeliveryAddrData: ', data);
+    console.log(
+      '1869 ★★ -------------- Payment updateDeliveryAddrData: ',
+      data
+    );
     this.setState({
       deliveryAddress: data
     });
@@ -1798,7 +1806,8 @@ class Payment extends React.Component {
             street: data.address1,
             postalCode: data.postCode,
             customerAccount: this.state.email
-          }
+          },
+          ruShippingDTO: this.state.ruShippingDTO
         });
       } else {
         await this.props.checkoutStore.updateUnloginCart({
@@ -1810,7 +1819,8 @@ class Payment extends React.Component {
             city: data.city,
             street: data.address1,
             postalCode: data.postCode,
-            customerAccount: this.state.guestEmail
+            customerAccount: this.state.guestEmail,
+            ruShippingDTO: this.state.ruShippingDTO
           }
         });
       }
@@ -2929,7 +2939,8 @@ class Payment extends React.Component {
           city: deliveryAddress.city,
           street: deliveryAddress.address1,
           postalCode: deliveryAddress.postCode,
-          customerAccount: guestEmail
+          customerAccount: guestEmail,
+          ruShippingDTO: this.state.ruShippingDTO
         }
       });
     });

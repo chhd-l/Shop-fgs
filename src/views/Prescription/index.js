@@ -145,7 +145,16 @@ class Prescription extends React.Component {
 
   hubGaModalPopup() {
     dataLayer.push({
-      event: 'VetPrescriptionPopup'
+      event: 'vetPrescPopin',
+      vetPrescPopinAction: 'display'
+    });
+  }
+
+  hubGaModalPopupClick(btnLabel) {
+    dataLayer.push({
+      event: 'vetPrescPopin',
+      vetPrescPopinAction: 'buttonClick',
+      vetPrescPopinButton: btnLabel
     });
   }
 
@@ -220,17 +229,15 @@ class Prescription extends React.Component {
   }
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
   closeModal = () => {
+    this.hubGaModalPopupClick('No, go to buy');
     this.setState({ modalShow: false });
     sessionItemRoyal.set('needShowPrescriber', 'false'); //在checkout页面不显示prescriber信息
     this.props.history.push('/checkout');
   };
   //需要绑定prescriber，直接关闭弹框显示当前页面
   handleClickSubmit = () => {
+    this.hubGaModalPopupClick('Yes, choose a clinic');
     this.setState({ modalShow: false });
-    dataLayer.push({
-      event: 'VetPrescriptionClick',
-      buttonName: 'choose a clinic'
-    });
   };
   handleSearch = () => {
     const { params } = this.state;
@@ -268,7 +275,21 @@ class Prescription extends React.Component {
         lng: +item.longitude
       }
     });
+    this.mapFlag(item.prescriberName);
   };
+
+  mapFlag(prescriberName) {
+    dataLayer.push({
+      event: 'vetPrescMap',
+      vetPrescMapAction: 'display'
+    });
+    dataLayer.push({
+      event: 'vetPrescMap',
+      vetPrescMapAction: 'clinicClick',
+      vetPrescMapClinicName: prescriberName
+    });
+  }
+
   handleConfirm = (item) => {
     const {
       setSelectClinicId,
@@ -301,7 +322,7 @@ class Prescription extends React.Component {
         lat={+this.state.meLocation.lat}
         lng={+this.state.meLocation.lng}
         obj={this.state.me}
-        show={false}
+        // show={false}
       />
     );
     for (var i = 0; i < this.state.clinicArr.length; i++) {

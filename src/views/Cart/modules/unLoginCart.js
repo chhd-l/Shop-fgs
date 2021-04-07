@@ -20,6 +20,7 @@ import {
   GACartChangeSubscription
 } from '@/utils/GA';
 import PayProductInfo from '../../Payment/PayProductInfo';
+import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
@@ -105,17 +106,17 @@ class UnLoginCart extends React.Component {
   }
 
   get totalPrice() {
-    let totalPrice = 0;
-    this.props.checkoutStore.cartData.map((el) => {
-      let skuItem = el.sizeList.filter((el) => el.selected)[0];
-      // if (el.goodsInfoFlag) {
-      //   totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
-      // } else {
-      totalPrice = totalPrice + el.quantity * skuItem.salePrice;
-      // }
-    });
-    return totalPrice;
-    // return this.props.checkoutStore.totalPrice;
+    // let totalPrice = 0;
+    // this.props.checkoutStore.cartData.map((el) => {
+    //   let skuItem = el.sizeList.filter((el) => el.selected)[0];
+    //   // if (el.goodsInfoFlag) {
+    //   //   totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
+    //   // } else {
+    //   totalPrice = totalPrice + el.quantity * skuItem.salePrice;
+    //   // }
+    // });
+    // return totalPrice;
+    return this.props.checkoutStore.totalPrice;
   }
   get tradePrice() {
     return this.totalPrice - this.discountPrice + this.deliveryPrice;
@@ -1295,10 +1296,15 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="col-4">
                 <p className="text-right shipping-cost">
-                  {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                  {/* {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                     <strong>{subtractionSign}</strong>
                   ) : (
                     formatMoney(this.taxFeePrice)
+                  )} */}
+                  {this.taxFeePrice > 0 ? (
+                    formatMoney(this.taxFeePrice)
+                  ) : (
+                    <strong>{subtractionSign}</strong>
                   )}
                 </p>
               </div>
@@ -1324,7 +1330,13 @@ class UnLoginCart extends React.Component {
               <div className="col-5">
                 <p className="text-right grand-total-sum medium mb-0">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                    <strong>{subtractionSign}</strong>
+                    <>
+                      {this.tradePrice > 0 ? (
+                        formatMoney(this.tradePrice)
+                      ) : (
+                        <strong>{subtractionSign}</strong>
+                      )}
+                    </>
                   ) : (
                     formatMoney(this.tradePrice)
                   )}
@@ -1515,6 +1527,12 @@ class UnLoginCart extends React.Component {
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
+        {this.state.checkoutLoading ? (
+          <Loading
+            bgColor={'#000'}
+            opacity={this.state.checkoutLoading ? 0.3 : 1}
+          />
+        ) : null}
         <Header
           showMiniIcons={true}
           showUserIcon={true}

@@ -1639,13 +1639,13 @@ class AccountOrders extends React.Component {
                                             <br />
                                           </>
                                         ) : null}
-                                        {payRecord.phone ? (
+                                        {/* {payRecord.phone ? (
                                           <>
                                             {payRecord.phone}
                                             <br />
                                           </>
                                         ) : null}
-                                        {payRecord.email}
+                                        {payRecord.email} */}
                                       </div>
                                     </div>
                                   </div>

@@ -9,7 +9,8 @@ class ConfirmTooltip extends React.Component {
     arrowStyle: {},
     arrowDirection: 'top',
     cancelBtnVisible: true,
-    confirmBtnVisible: true
+    confirmBtnVisible: true,
+    lastFourDigits: ''
   };
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.display) {

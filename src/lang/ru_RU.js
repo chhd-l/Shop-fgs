@@ -271,6 +271,7 @@ const ru_RU = {
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
+  confirmDelete2: 'Вы хотите удалить адрес?',
   confirmPassword: 'Подтвердить Пароль *',
   consent: 'Согласие',
   consignee: 'Грузополучатель',
@@ -388,7 +389,7 @@ const ru_RU = {
     'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
   'footer.email': 'Обратиться в службу поддержки.',
   'footer.FAQ': 'Часто задаваемые вопросы',
-  'footer.FAQ2': 'FAQ',
+  'footer.FAQ2': 'SSS',
   'footer.healthAndNutrition': 'Здоровье и питание',
   'footer.help': 'ПОМОГИТЕ',
   'footer.informationForParents': 'Информация для родителей',
@@ -1090,7 +1091,9 @@ const ru_RU = {
   'subscription.viewDetails': 'Посмотреть детали',
   Lifestyle: 'Стиль жизни',
   Activity: 'Активность',
-  Weight: 'Масса'
+  Weight: 'Масса',
+  Expire: ' ',
+  xProduct: '{val} товар (а/ов)'
 };
 
 export default ru_RU;

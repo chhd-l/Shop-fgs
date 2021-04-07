@@ -467,6 +467,15 @@ class CyberCardList extends React.Component {
             }}
             arrowStyle={{ left: '89%' }}
             display={el.confirmTooltipVisible}
+            content={
+              <FormattedMessage
+                id="confirmDelete2"
+                values={{
+                  val1: <br />,
+                  val2: '************' + el.lastFourDigits
+                }}
+              />
+            }
             confirm={this.handleClickConfirmDeleteBtn.bind(this, { el, idx })}
             updateChildDisplay={(status) =>
               this.updateConfirmTooltipVisible(el, status)

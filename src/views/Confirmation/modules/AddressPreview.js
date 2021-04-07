@@ -6,6 +6,7 @@ import {
   getDeviceType,
   getFormatDate
 } from '@/utils/utils';
+import { format } from 'date-fns-tz';
 
 class InfosPreview extends React.Component {
   static defaultProps = {
@@ -114,7 +115,13 @@ class InfosPreview extends React.Component {
                 {payRecord.expirationDate ? (
                   <>
                     <span className="medium">
-                      {getFormatDate(payRecord.expirationDate.substr(0, 7))}
+                      <FormattedMessage id="Expire" />{' '}
+                      {process.env.REACT_APP_LANG == 'en'
+                        ? format(
+                            new Date(payRecord.expirationDate).addHours(12),
+                            'MM/yyyy'
+                          )
+                        : getFormatDate(payRecord.expirationDate.substr(0, 7))}
                     </span>
                     <br />
                   </>
