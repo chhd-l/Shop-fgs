@@ -447,6 +447,15 @@ class PaymentList extends React.Component {
                                   }}
                                   arrowStyle={{ left: '89%' }}
                                   lastFourDigits={el.lastFourDigits}
+                                  content={
+                                    <FormattedMessage
+                                      id="confirmDelete2"
+                                      values={{
+                                        val1: <br />,
+                                        val2: '************' + el.lastFourDigits
+                                      }}
+                                    />
+                                  }
                                   display={el.confirmTooltipVisible}
                                   confirm={this.deleteCard.bind(this, el)}
                                   updateChildDisplay={(status) =>

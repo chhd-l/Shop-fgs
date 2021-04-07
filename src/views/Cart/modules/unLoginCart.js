@@ -20,6 +20,7 @@ import {
   GACartChangeSubscription
 } from '@/utils/GA';
 import PayProductInfo from '../../Payment/PayProductInfo';
+import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
@@ -105,17 +106,17 @@ class UnLoginCart extends React.Component {
   }
 
   get totalPrice() {
-    let totalPrice = 0;
-    this.props.checkoutStore.cartData.map((el) => {
-      let skuItem = el.sizeList.filter((el) => el.selected)[0];
-      // if (el.goodsInfoFlag) {
-      //   totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
-      // } else {
-      totalPrice = totalPrice + el.quantity * skuItem.salePrice;
-      // }
-    });
-    return totalPrice;
-    // return this.props.checkoutStore.totalPrice;
+    // let totalPrice = 0;
+    // this.props.checkoutStore.cartData.map((el) => {
+    //   let skuItem = el.sizeList.filter((el) => el.selected)[0];
+    //   // if (el.goodsInfoFlag) {
+    //   //   totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
+    //   // } else {
+    //   totalPrice = totalPrice + el.quantity * skuItem.salePrice;
+    //   // }
+    // });
+    // return totalPrice;
+    return this.props.checkoutStore.totalPrice;
   }
   get tradePrice() {
     return this.totalPrice - this.discountPrice + this.deliveryPrice;
@@ -1515,6 +1516,12 @@ class UnLoginCart extends React.Component {
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
+        {this.state.checkoutLoading ? (
+          <Loading
+            bgColor={'#000'}
+            opacity={this.state.checkoutLoading ? 0.3 : 1}
+          />
+        ) : null}
         <Header
           showMiniIcons={true}
           showUserIcon={true}
