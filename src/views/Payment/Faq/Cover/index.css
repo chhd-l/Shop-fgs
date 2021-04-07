@@ -58,5 +58,5 @@
   overflow: hidden;
 }
 .rc-list__accordion-item.active .rc-list__content_faq {
-  max-height: 15rem;
+  max-height: 35rem;
 }
