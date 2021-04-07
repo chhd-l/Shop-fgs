@@ -45,8 +45,8 @@ const en_US = {
     'If you have questions, we are always ready to help you and your pet.',
   'account.male': 'Male',
   'account.mixBreed': 'Mix breed',
-  'account.myAccount': 'My account',
-  'account.myAddresses': 'My addresses',
+  'account.myAccount': 'My Contact Information',
+  'account.myAddresses': 'My Addresses',
   'account.myCommunicationPreferencesContent1':
     'Perferred method of communication',
   'account.myCommunicationPreferencesContent2':
@@ -54,7 +54,7 @@ const en_US = {
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My communication preferences',
-  'account.myPayments': 'My payments',
+  'account.myPayments': 'My Payment Methods',
   'account.nickname': "What is your pet's nickname?",
   'account.no': 'No',
   'account.noPet':
@@ -416,7 +416,7 @@ const en_US = {
   deliveredTip: 'Expected to arrive in about 3 days',
   delivery: 'delivery',
   delivery2: 'Shipping Address',
-  deliveryAddress: 'Delivery Address',
+  deliveryAddress: 'Shipping Address',
   deliveryDate: 'Delivery date',
   deliveryOneTimeOnly: 'Delivery 1 time only',
   detail: '[Show more]',
