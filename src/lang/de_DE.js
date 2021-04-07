@@ -236,6 +236,7 @@ const de_DE = {
     'Sie sparen {val1} bei diesem Abonnement',
   'confirmation.visitOnlineStore': 'Online-Shop besuchen',
   confirmDelete: 'Möchten Sie den Artikel löschen?',
+  confirmDelete2: 'Möchten Sie den Artikel löschen?',
   confirmPassword: 'Bestätige das Passwort *',
   consent: 'Akzeptieren',
   consignee: 'Empfänger',
@@ -1214,7 +1215,8 @@ const de_DE = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'Im Detail sehen'
+  'subscription.viewDetails': 'Im Detail sehen',
+  Expire: ' '
 };
 
 export default de_DE;

@@ -271,6 +271,7 @@ const ru_RU = {
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
+  confirmDelete2: 'Вы хотите удалить адрес?',
   confirmPassword: 'Подтвердить Пароль *',
   consent: 'Согласие',
   consignee: 'Грузополучатель',
@@ -1091,6 +1092,7 @@ const ru_RU = {
   Lifestyle: 'Стиль жизни',
   Activity: 'Активность',
   Weight: 'Масса',
+  Expire: ' ',
   xProduct: '{val} товар (а/ов)'
 };
 

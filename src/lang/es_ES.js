@@ -222,6 +222,7 @@ const es_ES = {
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Visita tienda online',
   confirmDelete: '¿Confirmas eliminar?',
+  confirmDelete2: '¿Confirmas eliminar?',
   confirmPassword: 'Confirmar contraseña *',
   consent: 'Consentement',
   consignee: 'Consignatario',
@@ -1010,6 +1011,7 @@ const es_ES = {
   'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}',
   'account.clinicTitle2': 'Mi clínica por defecto',
   'subscription.viewDetails': 'Ver Detalle',
-  bankCard: 'Tarjeta bancaria'
+  bankCard: 'Tarjeta bancaria',
+  Expire: ' '
 };
 export default es_ES;

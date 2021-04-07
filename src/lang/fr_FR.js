@@ -241,6 +241,7 @@ const fr_FR = {
     "Vous avez économisé {val1} avec l'abonnement",
   'confirmation.visitOnlineStore': 'Visiter la boutique en ligne',
   confirmDelete: 'Voulez-vous le supprimer?',
+  confirmDelete2: 'Voulez-vous le supprimer?',
   confirmPassword: 'Confirmer le mot de passe *',
   consent: 'Consentement',
   consignee: 'Destinataire',
@@ -1469,6 +1470,7 @@ const fr_FR = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'Voir les détails'
+  'subscription.viewDetails': 'Voir les détails',
+  Expire: ' '
 };
 export default fr_FR;

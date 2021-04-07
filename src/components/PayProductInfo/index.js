@@ -141,7 +141,9 @@ class PayProductInfo extends React.Component {
                         <p className="text-line-through mb-0">
                           {formatMoney(item.splitPrice)}
                         </p>
-                        <p className="red mb-0">{formatMoney(item.price)}</p>
+                        <p className="red mb-0">
+                          {formatMoney(item.subscriptionPrice * item.num)}
+                        </p>
                       </>
                     ) : (
                       <p className="mb-0">{formatMoney(item.splitPrice)}</p>

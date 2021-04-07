@@ -450,14 +450,18 @@ class PersonalDataEditForm extends React.Component {
                       process.env.REACT_APP_LANG === 'en' ? null : (
                         <FormattedMessage id="payment.phoneNumber" />
                       ),
-                    val: data.phoneNumber
+                    val:
+                      process.env.REACT_APP_LANG === 'en'
+                        ? null
+                        : data.phoneNumber
                   },
                   {
                     name:
                       process.env.REACT_APP_LANG === 'en' ? null : (
                         <FormattedMessage id="payment.address1" />
                       ),
-                    val: data.address1
+                    val:
+                      process.env.REACT_APP_LANG === 'en' ? null : data.address1
                   }
                 ].map((item, i) => (
                   <React.Fragment key={i}>
