@@ -2,11 +2,9 @@ import axios from '@/utils/request';
 
 const api = {
   miniPurchases: '/site/front/miniPurchases',
-  purchases: '/site/front/purchases',
-  sitePurchases: '/site/purchases', // 计算价格
-  // sitePurchase: '/site/purchase', // 加入后台购物车
+  purchases: '/site/front/purchases', // 游客计算价格
+  sitePurchases: '/site/purchases', // 会员计算价格
   sitePurchase: `/site/${process.env.REACT_APP_STOREID}/carts`, // 加入后台购物车
-  // siteMiniPurchases: '/site/miniPurchases', // 查询后台购物车
   siteMiniPurchases: `/site/${process.env.REACT_APP_STOREID}/mini-carts`, // 查询后台购物车
   mergePurchase: `/site/${process.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
   switchSize: `/site/${process.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
