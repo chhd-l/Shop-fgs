@@ -805,6 +805,15 @@ class PaymentComp extends React.Component {
                               }}
                               arrowStyle={{ left: '89%' }}
                               display={el.confirmTooltipVisible}
+                              content={
+                                <FormattedMessage
+                                  id="confirmDelete2"
+                                  values={{
+                                    val1: <br />,
+                                    val2: '************' + el.lastFourDigits
+                                  }}
+                                />
+                              }
                               confirm={(e) => this.deleteCard(el)}
                               updateChildDisplay={(status) =>
                                 this.updateConfirmTooltipVisible(el, status)

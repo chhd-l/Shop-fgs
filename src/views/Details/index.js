@@ -2362,7 +2362,8 @@ class Details extends React.Component {
             <Advantage />
 
             {/* 描述、好处、组成、指南板块*/}
-            {details.goodsDescriptionDetailList ? (
+            {details.goodsDescriptionDetailList &&
+            details.goodsType !== undefined ? (
               <GoodsDetailTabs
                 activeTabIdxList={activeTabIdxList}
                 goodsType={details.goodsType}

@@ -34,6 +34,7 @@ function BreadCrumbsNavigation({ list }) {
           {decoList.map((item, index) => (
             <React.Fragment key={index}>
               <li
+                className="text-capitalize"
                 itemScope
                 itemProp="itemListElement"
                 itemType="https://schema.org/ListItem"

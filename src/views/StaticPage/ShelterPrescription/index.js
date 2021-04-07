@@ -231,7 +231,7 @@ class ShelterPrescription extends React.Component {
                         5% off every autoship purchase
                       </div>
                       <div className="banner-benefits-li col-6">
-                        Royal Canin Pet Advisor Live App
+                        Royal Canin Pet Advisor Live
                       </div>
                       <div className="banner-benefits-li col-6">
                         Free shipping right to your home

@@ -114,6 +114,7 @@ class InfosPreview extends React.Component {
                 {payRecord.expirationDate ? (
                   <>
                     <span className="medium">
+                      <FormattedMessage id="Expire" />{' '}
                       {getFormatDate(payRecord.expirationDate.substr(0, 7))}
                     </span>
                     <br />

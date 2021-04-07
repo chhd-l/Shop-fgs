@@ -45,8 +45,8 @@ const en_US = {
     'If you have questions, we are always ready to help you and your pet.',
   'account.male': 'Male',
   'account.mixBreed': 'Mix breed',
-  'account.myAccount': 'My account',
-  'account.myAddresses': 'My addresses',
+  'account.myAccount': 'My Contact Information',
+  'account.myAddresses': 'My Addresses',
   'account.myCommunicationPreferencesContent1':
     'Perferred method of communication',
   'account.myCommunicationPreferencesContent2':
@@ -54,11 +54,11 @@ const en_US = {
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My communication preferences',
-  'account.myPayments': 'My payments',
+  'account.myPayments': 'My Payment Methods',
   'account.nickname': "What is your pet's nickname?",
   'account.no': 'No',
   'account.noPet':
-    'Create your pet profile today! Fill in the information and choose the most suitable diet',
+    "Add your pet's information to create their profile and find tailored nutrition to fit their individual needs.",
   'account.noSubscription':
     'When you choose automatic shipping at checkout, you automatically become a member. You’ll save on every order and receive perks like free delivery on a schedule of your choosing and other club-exclusive benefits.',
   'account.noSubscriptionTitle': 'Join Royal Canin Club today!',
@@ -208,7 +208,7 @@ const en_US = {
   age: 'Age',
   all: 'All',
   allOrders: 'All Orders',
-  amount: 'Amount',
+  amount: 'Quantity',
   andThe: 'and the',
   anonymous: 'Anonymous',
   anonymousReview: 'Anonymous review',
@@ -217,11 +217,11 @@ const en_US = {
   apply: 'Apply',
   aQuestion: 'A question ?',
   area: 'Area',
-  autoship: 'Autoship',
+  autoship: 'Automatic Shipping',
   autoship_nos: 'Autoship',
   autoShipOrderDetails: 'Autoship order details',
   autoShipStarted: 'Autoship started',
-  autoshop: 'autoship',
+  autoshop: 'Automatic Shipping',
   backToAuthorization: 'Back to authorization',
   bankCard: 'Credit Card',
   'bannerTip.btnText': 'Join the Club',
@@ -319,6 +319,8 @@ const en_US = {
     'You saved {val1}  with autoship',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
+  confirmDelete2:
+    'Are you sure you want to remove the following payment method? {val1} {val2}',
   confirmDeleteProduct:
     'Are you sure you want to remove this product from the cart ?',
   confirmPassword: 'Confirm Password *',
@@ -362,8 +364,8 @@ const en_US = {
   'cyber.form.firstName': 'First Name',
   'cyber.form.lastName': 'Last Name',
   'cyber.form.saveFor': 'Save this card as my preferred payment method',
-  'cyber.form.secureCode': 'Code Security',
-  'cyber.form.secureCode2': 'Code Secure',
+  'cyber.form.secureCode': 'CVV',
+  'cyber.form.secureCode2': 'CVV',
   'cyber.form.state': 'State',
   'cyber.form.theBox': 'This box is required for subscription',
   'cyber.form.zipCode': 'ZIP Code',
@@ -416,9 +418,9 @@ const en_US = {
   deliveredTip: 'Expected to arrive in about 3 days',
   delivery: 'delivery',
   delivery2: 'Shipping Address',
-  deliveryAddress: 'Delivery Address',
+  deliveryAddress: 'Shipping Address',
   deliveryDate: 'Delivery date',
-  deliveryOneTimeOnly: 'Delivery 1 time only',
+  deliveryOneTimeOnly: 'One-Time Delivery',
   detail: '[Show more]',
   'detail.answer':
     'Our advisers are real experts and passionate. They are at your disposal to answer any request.',
@@ -946,7 +948,7 @@ const en_US = {
   'qualitySafety.title': 'Committed to Quality and Food Safety',
   quantity: 'Quantity',
   quantityCannotExceed10: 'Quantity cannot exceed 10',
-  quantityText: '{specText} - {buyCount} item(s)',
+  quantityText: '{specText} - Qty {buyCount}',
   queryDataFailed: 'Query Data Failed',
   ratingGrade1: 'Most Recent',
   ratingGrade2: 'Lowest to Highest Rating',
@@ -1124,7 +1126,7 @@ const en_US = {
   'subscription.date': 'Subscription date',
   'subscription.deliveryDate': 'Next delivery date',
   'subscription.detail': 'Subscription detail',
-  'subscription.frequency': 'Frequency',
+  'subscription.frequency': 'Deliver every',
   'subscription.nextOrder': 'Next Order',
   'subscription.noDataTip': 'No subscription',
   'subscription.notYet': 'Not Yet Shipped',
@@ -1225,7 +1227,7 @@ const en_US = {
   writeReview: 'Write a review',
   writeYourReview: 'Write your review',
   xMonths: '{val} month(s)',
-  xProduct: '{val} item(s)',
+  xProduct: 'Qty {val}',
   xYears: '{val} year(s)',
   year: 'Year',
   yes: 'Yes',
@@ -1248,6 +1250,7 @@ const en_US = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'View Detail'
+  'subscription.viewDetails': 'View Detail',
+  Expire: 'Expire'
 };
 export default en_US;

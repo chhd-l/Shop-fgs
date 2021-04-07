@@ -150,6 +150,14 @@ class Prescription extends React.Component {
     });
   }
 
+  hubGaModalPopupClick(btnLabel) {
+    dataLayer.push({
+      event: 'vetPrescPopin',
+      vetPrescPopinAction: 'buttonClick',
+      vetPrescPopinButton: btnLabel
+    });
+  }
+
   inputSearchValue = (e) => {
     this.setState({
       keywords: e.target.value
@@ -221,17 +229,15 @@ class Prescription extends React.Component {
   }
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
   closeModal = () => {
+    this.hubGaModalPopupClick('No, go to buy');
     this.setState({ modalShow: false });
     sessionItemRoyal.set('needShowPrescriber', 'false'); //在checkout页面不显示prescriber信息
     this.props.history.push('/checkout');
   };
   //需要绑定prescriber，直接关闭弹框显示当前页面
   handleClickSubmit = () => {
+    this.hubGaModalPopupClick('Yes, choose a clinic');
     this.setState({ modalShow: false });
-    dataLayer.push({
-      event: 'VetPrescriptionClick',
-      buttonName: 'choose a clinic'
-    });
   };
   handleSearch = () => {
     const { params } = this.state;
