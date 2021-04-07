@@ -396,6 +396,9 @@ const App = () => {
                       case 'fr':
                         sublanding = <Recommendation_FR {...props} />;
                         break;
+                        case 'es':
+                          sublanding = <Recommendation {...props} />;
+                          break;
                       default:
                         sublanding = <Recommendation_US {...props} />;
                     }
