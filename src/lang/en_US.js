@@ -319,6 +319,8 @@ const en_US = {
     'You saved {val1}  with autoship',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
+  confirmDelete2:
+    'Are you sure you want to remove the following payment method? {val1} {val2}',
   confirmDeleteProduct:
     'Are you sure you want to remove this product for the cart ?',
   confirmPassword: 'Confirm Password *',
@@ -362,8 +364,8 @@ const en_US = {
   'cyber.form.firstName': 'First Name',
   'cyber.form.lastName': 'Last Name',
   'cyber.form.saveFor': 'Save this card as my preferred payment method',
-  'cyber.form.secureCode': 'Code Security',
-  'cyber.form.secureCode2': 'Code Secure',
+  'cyber.form.secureCode': 'CVV',
+  'cyber.form.secureCode2': 'CVV',
   'cyber.form.state': 'State',
   'cyber.form.theBox': 'This box is required for subscription',
   'cyber.form.zipCode': 'ZIP Code',

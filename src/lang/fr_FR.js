@@ -241,6 +241,7 @@ const fr_FR = {
     "Vous avez économisé {val1} avec l'abonnement",
   'confirmation.visitOnlineStore': 'Visiter la boutique en ligne',
   confirmDelete: 'Voulez-vous le supprimer?',
+  confirmDelete2: 'Voulez-vous le supprimer?',
   confirmPassword: 'Confirmer le mot de passe *',
   consent: 'Consentement',
   consignee: 'Destinataire',

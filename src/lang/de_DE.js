@@ -236,6 +236,7 @@ const de_DE = {
     'Sie sparen {val1} bei diesem Abonnement',
   'confirmation.visitOnlineStore': 'Online-Shop besuchen',
   confirmDelete: 'Möchten Sie den Artikel löschen?',
+  confirmDelete2: 'Möchten Sie den Artikel löschen?',
   confirmPassword: 'Bestätige das Passwort *',
   consent: 'Akzeptieren',
   consignee: 'Empfänger',

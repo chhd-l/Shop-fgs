@@ -222,6 +222,7 @@ const es_ES = {
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Visita tienda online',
   confirmDelete: '¿Confirmas eliminar?',
+  confirmDelete2: '¿Confirmas eliminar?',
   confirmPassword: 'Confirmar contraseña *',
   consent: 'Consentement',
   consignee: 'Consignatario',
