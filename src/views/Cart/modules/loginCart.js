@@ -1104,7 +1104,7 @@ class LoginCart extends React.Component {
           this.promotionVOList?.map((el) => (
             <div className={`row leading-lines shipping-item green d-flex`}>
               <div className="col-6">
-                <p>
+                <p className="ui-text-overflow-line1">
                   {/* {this.promotionDesc || (
                         <FormattedMessage id="NoPromotionDesc" />
                       )} */}

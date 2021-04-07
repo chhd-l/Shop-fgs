@@ -162,9 +162,7 @@ class PetForm extends React.Component {
       .catch((err) => {
         this.showErrorMsg(err.message);
       });
-    await getDictionary({
-      type: this.state.isCat ? 'specialneeds_cat' : 'specialneeds_dog'
-    })
+    await getDictionary({ type: 'specialNeeds' })
       .then((res) => {
         this.setState({
           specialNeeds: res
@@ -512,8 +510,7 @@ class PetForm extends React.Component {
     });
 
     getDict({
-      // type: this.state.isCat ? 'catBreed' : 'dogBreed',
-      type: 'Breed',
+      type: this.state.isCat ? 'catBreed' : 'dogBreed',
       name: e.target.value,
       delFlag: 0,
       storeId: process.env.REACT_APP_STOREID
@@ -684,7 +681,7 @@ class PetForm extends React.Component {
       params.size = param.weight;
     }
     getRecommendProducts(params).then((res) => {
-      let result = res.context.context;
+      let result = res.context;
       if (result.otherProducts) {
         let recommendData = result.otherProducts;
         recommendData.unshift(result.mainProduct);
