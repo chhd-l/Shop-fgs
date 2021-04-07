@@ -53,7 +53,9 @@ const GoodsDetailTabs = function (props) {
         if (g.content && g.contentType === 'json') {
           try {
             const parsedContent = JSON.parse(g.content).map((el) => {
+              console.log(el, 'el----');
               el = JSON.parse(el);
+              console.log(el, 'el----1111');
               return el;
             });
             // weshre导入的Description name，此值固定，不跟随国家而变动，以便根据三种情况，处理不同的展示方式
