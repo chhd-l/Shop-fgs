@@ -156,8 +156,7 @@ class Subscription extends React.Component {
       // subscribeStatus: form.subscribeStatus,
       customerAccount: localItemRoyal.get('rc-userinfo')
         ? localItemRoyal.get('rc-userinfo')['customerAccount']
-        : '',
-      storeId: process.env.REACT_APP_STOREID
+        : ''
     };
     if (subscriptionType !== 'All') {
       param.subscriptionType = subscriptionType;
