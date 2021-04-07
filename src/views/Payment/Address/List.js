@@ -325,7 +325,6 @@ class AddressList extends React.Component {
       },
       () => {
         this.updateSelectedData();
-        // debugger
       }
     );
   }

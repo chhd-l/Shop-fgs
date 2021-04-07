@@ -1468,6 +1468,7 @@ class Payment extends React.Component {
       promotionCode,
       guestEmail
     };
+
     if (payosdata) {
       param = Object.assign(param, {
         country: payosdata.country_code,
@@ -1852,7 +1853,7 @@ class Payment extends React.Component {
 
   // 修改BillingAddress数据
   updateBillingAddrData = (data) => {
-    console.log('1924 ------------------  updateBillingAddrData: ', data);
+    console.log('1924 -- Payment updateBillingAddrData: ', data);
     if (!this.state.billingChecked) {
       this.setState({ billingAddress: data });
     }
@@ -2210,7 +2211,6 @@ class Payment extends React.Component {
     try {
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false
-
         if (
           !billingChecked &&
           this.loginBillingAddrRef &&
@@ -2358,7 +2358,8 @@ class Payment extends React.Component {
     }
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
-  confirmListValidationAddress() {
+  confirmListValidationAddress = async () => {
+    const { isLogin } = this;
     const {
       billingAddress,
       selectValidationOption,
@@ -2388,7 +2389,15 @@ class Payment extends React.Component {
     // this.confirmPaymentPanel();
     // billing  进入下一步
     this.cvvConfirmNextPanel();
-  }
+    // 调用保存 billingAddress 方法
+    if (
+      isLogin &&
+      this.loginBillingAddrRef &&
+      this.loginBillingAddrRef.current
+    ) {
+      await this.loginBillingAddrRef.current.handleSavePromise();
+    }
+  };
 
   // 编辑
   handleClickPaymentPanelEdit = async () => {
@@ -2473,7 +2482,7 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      // console.log('2248 : ', disabled);
+      console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2488,7 +2497,7 @@ class Payment extends React.Component {
     };
 
     const reInputCVVBtn = ({ disabled, loading = false }) => {
-      // console.log('2263 CVV Btn: ', disabled);
+      console.log('2263 CVV Btn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2982,6 +2991,7 @@ class Payment extends React.Component {
       this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
+    console.log('clickPay: ', this.state.billingAddress);
     this.initCommonPay({
       type: paymentTypeVal
     });
