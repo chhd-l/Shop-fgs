@@ -18,7 +18,7 @@ import './VisitorAddress.css';
 /**
  * delivery/billing adress module - visitor
  */
-@inject('paymentStore')
+@inject('checkoutStore', 'paymentStore')
 // @injectIntl
 @observer
 class VisitorAddress extends React.Component {
@@ -52,7 +52,8 @@ class VisitorAddress extends React.Component {
       visitorValidationModalVisible: false, // 地址校验查询开关
       selectVisitorValidationOption: 'suggestedAddress',
       russiaAddressValidFlag: true, // 俄罗斯地址校验标记
-      btnLoading: false
+      btnLoading: false,
+      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
       this
