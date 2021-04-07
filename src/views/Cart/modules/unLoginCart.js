@@ -1296,10 +1296,15 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="col-4">
                 <p className="text-right shipping-cost">
-                  {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                  {/* {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
                     <strong>{subtractionSign}</strong>
                   ) : (
                     formatMoney(this.taxFeePrice)
+                  )} */}
+                  {this.taxFeePrice > 0 ? (
+                    formatMoney(this.taxFeePrice)
+                  ) : (
+                    <strong>{subtractionSign}</strong>
                   )}
                 </p>
               </div>
@@ -1325,7 +1330,13 @@ class UnLoginCart extends React.Component {
               <div className="col-5">
                 <p className="text-right grand-total-sum medium mb-0">
                   {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                    <strong>{subtractionSign}</strong>
+                    <>
+                      {this.tradePrice > 0 ? (
+                        formatMoney(this.tradePrice)
+                      ) : (
+                        <strong>{subtractionSign}</strong>
+                      )}
+                    </>
                   ) : (
                     formatMoney(this.tradePrice)
                   )}
