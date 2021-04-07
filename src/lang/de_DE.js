@@ -1215,7 +1215,8 @@ const de_DE = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'Im Detail sehen'
+  'subscription.viewDetails': 'Im Detail sehen',
+  Expire: ' '
 };
 
 export default de_DE;

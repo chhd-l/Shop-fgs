@@ -1091,7 +1091,8 @@ const ru_RU = {
   'subscription.viewDetails': 'Посмотреть детали',
   Lifestyle: 'Стиль жизни',
   Activity: 'Активность',
-  Weight: 'Масса'
+  Weight: 'Масса',
+  Expire: ' '
 };
 
 export default ru_RU;

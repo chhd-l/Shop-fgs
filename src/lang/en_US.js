@@ -418,7 +418,7 @@ const en_US = {
   deliveredTip: 'Expected to arrive in about 3 days',
   delivery: 'delivery',
   delivery2: 'Shipping Address',
-  deliveryAddress: 'Delivery Address',
+  deliveryAddress: 'Shipping Address',
   deliveryDate: 'Delivery date',
   deliveryOneTimeOnly: 'Delivery 1 time only',
   detail: '[Show more]',
@@ -1250,6 +1250,7 @@ const en_US = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'View Detail'
+  'subscription.viewDetails': 'View Detail',
+  Expire: 'Expire'
 };
 export default en_US;

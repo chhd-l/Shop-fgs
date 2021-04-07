@@ -1011,6 +1011,7 @@ const es_ES = {
   'cart.errorInfo6': 'No puede realizar su pedido, no se puede sellar: {val}',
   'account.clinicTitle2': 'Mi clínica por defecto',
   'subscription.viewDetails': 'Ver Detalle',
-  bankCard: 'Tarjeta bancaria'
+  bankCard: 'Tarjeta bancaria',
+  Expire: ' '
 };
 export default es_ES;

@@ -1470,6 +1470,7 @@ const fr_FR = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'Voir les détails'
+  'subscription.viewDetails': 'Voir les détails',
+  Expire: ' '
 };
 export default fr_FR;

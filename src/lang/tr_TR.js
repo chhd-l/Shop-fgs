@@ -1018,6 +1018,7 @@ const tr_TR = {
   'subscription.viewDetails': 'ayrıntılara bakın',
   Lifestyle: 'Yaşam tarzı',
   Activity: 'Aktivite',
-  Weight: 'Ağırlık'
+  Weight: 'Ağırlık',
+  Expire: ' '
 };
 export default tr_TR;
