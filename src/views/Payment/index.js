@@ -1841,9 +1841,9 @@ class Payment extends React.Component {
             city: data.city,
             street: data.address1,
             postalCode: data.postCode,
-            customerAccount: this.state.guestEmail,
-            ruShippingDTO: this.state.ruShippingDTO
-          }
+            customerAccount: this.state.guestEmail
+          },
+          ruShippingDTO: this.state.ruShippingDTO
         });
       }
     } catch (err) {
