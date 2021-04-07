@@ -12,23 +12,6 @@ class ConfirmTooltip extends React.Component {
     confirmBtnVisible: true,
     lastFourDigits: ''
   };
-  // get newContent() {
-  //   let res = '';
-  //   if (this.props.lastFourDigits) {
-  //     res = (
-  //       <FormattedMessage
-  //         id="confirmDelete2"
-  //         values={{
-  //           val1: <br />,
-  //           val2: '************' + this.props.lastFourDigits
-  //         }}
-  //       />
-  //     );
-  //   } else {
-  //     res = <FormattedMessage id="confirmDelete" />;
-  //   }
-  //   return res;
-  // }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.display) {
       setTimeout(() => {
