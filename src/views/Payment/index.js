@@ -238,6 +238,7 @@ class Payment extends React.Component {
       isShowCyberBindCardBtn: false,
       cardListLength: 0,
       paymentValidationLoading: false, // 地址校验loading
+      btnLoading: false,
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress', // 校验选择
       isShowValidationModal: true, // 是否显示验证弹框
@@ -2298,7 +2299,8 @@ class Payment extends React.Component {
     const { paymentStore } = this.props;
     this.setState({
       paymentValidationLoading: false,
-      validationModalVisible: false
+      validationModalVisible: false,
+      btnLoading: false
     });
     if (isLogin) {
       if (
@@ -2365,6 +2367,9 @@ class Payment extends React.Component {
       selectValidationOption,
       validationAddress
     } = this.state;
+    this.setState({
+      btnLoading: true
+    });
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
@@ -3436,6 +3441,7 @@ class Payment extends React.Component {
             {validationModalVisible && (
               <>
                 <ValidationAddressModal
+                  btnLoading={this.state.btnLoading}
                   address={billingAddress}
                   updateValidationData={this.getValidationData}
                   selectValidationOption={selectValidationOption}
