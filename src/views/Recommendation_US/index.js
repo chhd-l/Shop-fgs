@@ -830,7 +830,7 @@ class Recommendation extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
-          showBannerTip={showBannerTip}
+          showBannerTip={false}
           // showBannerTip={isUs ? true : false}
           bannerTipShowBtn={isUs ? true : false}
         />

@@ -3130,7 +3130,9 @@ class SubscriptionDetail extends React.Component {
                                         !isActive
                                           ? ''
                                           : el.nextDeliveryTime
-                                          ? new Date(el.nextDeliveryTime)
+                                          ? new Date(
+                                              getFormatDate(el.nextDeliveryTime)
+                                            )
                                           : new Date()
                                       }
                                       disabled={true}
@@ -3526,7 +3528,11 @@ class SubscriptionDetail extends React.Component {
                                           !isActive
                                             ? ''
                                             : el.nextDeliveryTime
-                                            ? new Date(el.nextDeliveryTime)
+                                            ? new Date(
+                                                getFormatDate(
+                                                  el.nextDeliveryTime
+                                                )
+                                              )
                                             : new Date()
                                         }
                                         disabled={true}
