@@ -1721,6 +1721,9 @@ class Details extends React.Component {
                                   __html: goodHeading
                                 }}
                               />
+                              {Ru && selectedSpecItem ? (
+                                <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
+                              ) : null}
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
                                   <h2
