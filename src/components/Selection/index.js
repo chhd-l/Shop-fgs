@@ -9,38 +9,31 @@ export default class Selection extends React.Component {
     customContainerStyle: null,
     placeholder: '',
     customInnerStyle: {},
+    choicesInput: false,
+    emptyFirstItem: '',
     selectedItemData: null,
     customCls: ''
   };
-  // hub-footer-language新增  如有问题 删除 start
-  // 由于componentWillReceiveProps下方代码会影响正常下拉选择功能，暂时注释了
-  // componentWillReceiveProps(nextProps, nextContext) {
-  //   if (nextProps.selectedItemData && nextProps.selectedItemData !== this.state.selectedItemData) {
-  //     this.setState(
-  //       {
-  //         selectedItem: {
-  //           name: '',
-  //           value:nextProps.selectedItemData.value,
-  //           id: -1,
-  //           ...nextProps.selectedItemData
-  //         },
-  //       }
-  //     );
-  //   }
-  // }
-  // hub-footer-language新增  如有问题 删除 end
   constructor(props) {
     super(props);
     this.state = {
       optionsVisible: false,
       selectedItem: {
         name: '',
-        value: (this.props.selectedItemData && this.props.selectedItemData.value) ||'',
+        value:
+          (this.props.selectedItemData && this.props.selectedItemData.value) ||
+          '',
         id: -1
       },
-      hoveredIdx: -1
+      hoveredIdx: -1,
+      dataList: [],
+      noResultsFound: false
     };
     this.timeOutId = null;
+    this.searchRef = React.createRef();
+  }
+  componentDidMount() {
+    this.searchRef?.current && this.searchRef?.current?.focus();
   }
   hideOptions = () => {
     this.setState({
@@ -77,6 +70,16 @@ export default class Selection extends React.Component {
           )
         : -1
     }));
+    this.setState(
+      {
+        dataList: this.props.optionList
+      },
+      () => {
+        if (this.searchRef) {
+          this.searchRef?.current?.focus();
+        }
+      }
+    );
   };
   onBlurHandler = () => {
     this.timeOutId = setTimeout(() => {
@@ -88,9 +91,48 @@ export default class Selection extends React.Component {
   onFocusHandler = () => {
     clearTimeout(this.timeOutId);
   };
+  handleSearchInputChange = (e) => {
+    const { optionList } = this.props;
+    e.nativeEvent.stopImmediatePropagation();
+    e.stopPropagation();
+    let keyword = e.target.value;
+    let resl = optionList.filter((item) =>
+      item.name.match(new RegExp(keyword, 'i'))
+    );
+    if (this.props.emptyFirstItem == 'State') {
+      if (resl.length == 0) {
+        this.setState({
+          noResultsFound: true
+        });
+      } else {
+        this.setState({
+          noResultsFound: false
+        });
+        if (resl[0]?.name != 'State') {
+          resl.unshift({ value: '', name: 'State' });
+        }
+      }
+    }
+    this.setState({
+      dataList: resl
+    });
+  };
+  handleClickSearchInput = (e) => {
+    e.nativeEvent.stopImmediatePropagation();
+    e.stopPropagation();
+  };
   render() {
     const { optionList, customStyleType } = this.props;
-    const { selectedItem, hoveredIdx, optionsVisible } = this.state;
+    const {
+      dataList,
+      selectedItem,
+      noResultsFound,
+      hoveredIdx,
+      optionsVisible
+    } = this.state;
+    // this.setState({
+    //   dataList: optionList
+    // });
     return (
       <div
         onBlur={this.onBlurHandler}
@@ -146,44 +188,66 @@ export default class Selection extends React.Component {
             }`}
             aria-expanded={optionsVisible}
           >
+            {/* 快速搜索关键字 */}
+            {this.props.choicesInput ? (
+              <input
+                type="text"
+                className="selection_choices_input choices__input choices__input--cloned"
+                autoComplete="off"
+                autoCapitalize="off"
+                spellCheck="false"
+                placeholder=""
+                onClick={(e) => this.handleClickSearchInput(e)}
+                onChange={(e) => this.handleSearchInputChange(e)}
+                ref={this.searchRef}
+              />
+            ) : null}
+
             <div className="choices__list" dir="ltr" role="listbox">
-              {optionList.map((item, i) => (
-                item.value==''?(
+              {noResultsFound && (
+                <div className="choices__item choices__item--custom-data choices__item--choice has-no-results">
+                  No results found
+                </div>
+              )}
+              {dataList.map((item, i) =>
+                item.value == '' ? (
                   <div
                     className={`choices__item choices__item--choice choices__item--selectable ${
                       hoveredIdx === i ? 'is-highlighted' : ''
                     }`}
-                    role="option" aria-selected="false"
+                    role="option"
+                    aria-selected="false"
                     key={i}
                   >
                     {item.name}
                   </div>
-                ):(
+                ) : (
                   <div
                     className={`choices__item choices__item--choice choices__item--selectable ${
                       hoveredIdx === i ? 'is-highlighted' : ''
-                    } ${item.disabled? 'disabled_item': ''}`}
-                    role="option" aria-selected="false"
+                    } ${item.disabled ? 'disabled_item' : ''}`}
+                    role="option"
+                    aria-selected="false"
                     key={i}
                     onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      if(item.disabled) {
-                        return
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (item.disabled) {
+                        return;
                       }
-                      this.handleClickOption(item.value, item)
+                      this.handleClickOption(item.value, item);
                     }}
                     onMouseEnter={() => {
-                      if(item.disabled) {
-                        return
+                      if (item.disabled) {
+                        return;
                       }
-                      this.handleMouseEnterOption(i) 
+                      this.handleMouseEnterOption(i);
                     }}
                   >
                     {item.name}
                   </div>
                 )
-              ))}
+              )}
             </div>
           </div>
           {customStyleType ? null : (
