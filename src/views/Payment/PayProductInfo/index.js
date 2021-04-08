@@ -557,14 +557,16 @@ class PayProductInfo extends React.Component {
                           result = await checkoutStore.updateUnloginCart({
                             promotionCode: this.state.promotionInputValue,
                             purchaseFlag: false, // 购物车: true，checkout: false
-                            guestEmail: this.props.guestEmail
+                            guestEmail: this.props.guestEmail,
+                            address1: this.props.deliveryAddress?.address1
                           });
                         } else {
                           //会员
                           result = await checkoutStore.updateLoginCart({
                             promotionCode: this.state.promotionInputValue,
                             subscriptionFlag: this.props.buyWay === 'frequency',
-                            purchaseFlag: false // 购物车: true，checkout: false
+                            purchaseFlag: false, // 购物车: true，checkout: false
+                            address1: this.props.deliveryAddress?.address1
                           });
                         }
 
