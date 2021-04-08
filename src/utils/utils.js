@@ -32,12 +32,13 @@ const mapEnum = {
  */
 export function formatMoney(
   val,
-  currency = process.env.REACT_APP_CURRENCY_TYPE || 1
+  currency = process.env.REACT_APP_CURRENCY_TYPE || 1,
+  noFixed
 ) {
   if (isNaN(val)) {
     val = 0;
   }
-  val = Number(val).toFixed(2);
+  val = noFixed ? Number(val) : Number(val).toFixed(2);
   const tmp = mapEnum[currency];
   if (!tmp.twoDecimals) {
     // 保留两位小数时，不填充0
@@ -46,6 +47,9 @@ export function formatMoney(
   val += '';
   if (process.env.REACT_APP_LANG === 'tr') {
     return val + ' TL';
+  }
+  if (process.env.REACT_APP_LANG === 'ru') {
+    return val + ' руб';
   }
   return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
     style: 'currency',
@@ -448,9 +452,10 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     cartData
   } = checkoutStore;
   console.log(toJS(AuditData), 'sas');
+  let url = '/prescription';
   // 不开启地图，跳过prescriber页面
   if (!configStore.prescriberMap) {
-    return '/checkout';
+    url = '/checkout';
   }
   // 校验审核
   //调整：商品中所属category的Need Prescriber都为NO,直接进入checkout页面
@@ -463,7 +468,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     // }
     //|| localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
     if (!needPrescriber) {
-      return '/checkout';
+      url = '/checkout';
     }
   } else {
     let needPrescriber;
@@ -474,7 +479,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     // }
     //|| localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
     if (!needPrescriber) {
-      return '/checkout';
+      url = '/checkout';
     }
   }
   //获取是否显示prescriber弹框
@@ -506,10 +511,10 @@ export async function distributeLinktoPrecriberOrPaymentPage({
         clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
       }
       sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber信息
-      return '/checkout';
+      url = '/checkout';
     }
   }
-  return '/prescription';
+  return url;
 }
 
 export async function getFrequencyDict() {

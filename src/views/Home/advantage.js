@@ -332,6 +332,103 @@ export function Advantage() {
             </div>
           </div>
         </>
+      ),
+      ru: (
+        <>
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <LazyLoad height={200}>
+                <img
+                  style={{ width: '80px' }}
+                  className="value-proposition__img"
+                  src={pack}
+                  alt="pack icon"
+                  title=""
+                />
+              </LazyLoad>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p
+                  className="rc-margin-bottom--none rc-intro"
+                  style={{ textAlign: 'left' }}
+                >
+                  <FormattedMessage id="home.convenientTip1" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <LazyLoad height={200}>
+                <img
+                  style={{ width: '80px' }}
+                  className="value-proposition__img"
+                  src={autoship}
+                  alt="autoship icon"
+                  title=""
+                />
+              </LazyLoad>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p
+                  className="rc-margin-bottom--none rc-intro"
+                  style={{ textAlign: 'left' }}
+                >
+                  <FormattedMessage id="home.convenientTip4" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <LazyLoad height={200}>
+                <img
+                  style={{ width: '80px' }}
+                  className="value-proposition__img"
+                  src={delivery}
+                  alt="delivery icon"
+                  title=""
+                />
+              </LazyLoad>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p
+                  className="rc-margin-bottom--none rc-intro"
+                  style={{ textAlign: 'left' }}
+                >
+                  <FormattedMessage
+                    id="home.convenientTip2"
+                    values={{
+                      val: formatMoney(
+                        process.env.REACT_APP_MINIMUM_AMOUNT,
+                        1,
+                        true
+                      )
+                    }}
+                  />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <LazyLoad height={200}>
+                <img
+                  style={{ width: '80px' }}
+                  className="value-proposition__img"
+                  src={question}
+                  alt="question icon"
+                  title=""
+                />
+              </LazyLoad>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p
+                  className="rc-margin-bottom--none rc-intro"
+                  style={{ textAlign: 'left' }}
+                >
+                  <FormattedMessage id="home.convenientTip3" />
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
       )
     }[process.env.REACT_APP_LANG] || defaultJSX
   );

@@ -1736,6 +1736,9 @@ class Details extends React.Component {
                                   __html: goodHeading
                                 }}
                               />
+                              {Ru && selectedSpecItem ? (
+                                <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
+                              ) : null}
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
                                   <h2
@@ -2472,8 +2475,8 @@ class Details extends React.Component {
 
             <AddCartSuccessMobile target="modal-mobile-cart-confirm" />
 
-            {/* 最下方跳转更多板块 */}
-            {isHub ? (
+            {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
+            {/* {isHub ? (
               <>
                 <div className="more-link rc-content--fixed-header ">
                   <LazyLoad height={200}>
@@ -2501,7 +2504,7 @@ class Details extends React.Component {
                   </div>
                 </div>
               </>
-            ) : null}
+            ) : null} */}
             <Help />
             {/* <ResponsiveCarousel/> */}
             <Footer />

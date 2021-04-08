@@ -628,50 +628,55 @@ class Recommendation extends React.Component {
       this.setState({ modalShow: true, currentModalObj: modalList[1] });
       return false;
     } else {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await sitePurchase({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: '',
-            goodsInfoFlag: 0
-          });
-          await checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
-      let res = await getProductPetConfig({
-        goodsInfos: inStockProducts.map((el) => {
-          el.goodsInfo.buyCount = el.recommendationNumber;
-          return el.goodsInfo;
-        })
-      });
-      // let handledData = inStockProducts.map((el, i) => {
-      //   el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-      //   el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-      //   el.sizeList = el.goodsInfo.goods.sizeList
-      //   return el;
-      // });
-      let handledData = res.context.goodsInfos;
-      let AuditData = handledData.filter((el) => el.auditCatFlag);
-      checkoutStore.setAuditData(AuditData);
-      let autoAuditFlag = res.context.autoAuditFlag;
-      checkoutStore.setPetFlag(res.context.petFlag);
-      checkoutStore.setAutoAuditFlag(autoAuditFlag);
-      sessionItemRoyal.set(
-        'recommend_product',
-        JSON.stringify(inStockProducts)
-      );
-      if (!needLogin) {
-        const url = await distributeLinktoPrecriberOrPaymentPage({
-          configStore: this.props.configStore,
-          checkoutStore,
-          clinicStore,
-          isLogin: loginStore.isLogin
+      // for (let i = 0; i < inStockProducts.length; i++) {
+      //   try {
+      //     await sitePurchase({
+      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+      //       goodsNum: inStockProducts[i].recommendationNumber,
+      //       goodsCategory: '',
+      //       goodsInfoFlag: 0
+      //     });
+      //     await checkoutStore.updateLoginCart();
+      //   } catch (e) {
+      //     this.setState({ buttonLoading: false });
+      //   }
+      // }
+      if (loginStore.isLogin) {
+        await this.hanldeLoginAddToCart();
+      } else {
+        let res = await getProductPetConfig({
+          goodsInfos: inStockProducts.map((el) => {
+            el.goodsInfo.buyCount = el.recommendationNumber;
+            return el.goodsInfo;
+          })
         });
-        url && history.push(url);
-        // history.push('/prescription');
+        let handledData = inStockProducts.map((el, i) => {
+          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+          el.sizeList = el.goodsInfo.goods.sizeList;
+          return el;
+        });
+        // let handledData = res.context.goodsInfos;
+        let AuditData = handledData.filter((el) => el.auditCatFlag);
+        checkoutStore.setAuditData(AuditData);
+        let autoAuditFlag = res.context.autoAuditFlag;
+        checkoutStore.setPetFlag(res.context.petFlag);
+        checkoutStore.setAutoAuditFlag(autoAuditFlag);
+        sessionItemRoyal.set(
+          'recommend_product',
+          JSON.stringify(inStockProducts)
+        );
+        if (!needLogin) {
+          const url = await distributeLinktoPrecriberOrPaymentPage({
+            configStore: this.props.configStore,
+            checkoutStore,
+            clinicStore,
+            isLogin: loginStore.isLogin
+          });
+          await this.hanldeUnloginAddToCart(this.state.productList, url);
+          // url && history.push(url);
+          // history.push('/prescription');
+        }
       }
     }
   }
