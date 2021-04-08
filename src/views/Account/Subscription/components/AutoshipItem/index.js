@@ -129,7 +129,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
           </span>
         </div>
         {/* <div className="col-4 col-md-2">{subItem.frequency}</div> */}
-        <div className="col-4 col-md-1 ml-3 text-center">
+        <div className="col-4 col-md-1 ml-3">
           {subItem.subscribeStatus === '0' ||
           subItem.subscribeStatus === '1' ? (
             <div>
