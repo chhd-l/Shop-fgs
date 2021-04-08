@@ -271,7 +271,7 @@ const ru_RU = {
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
-  confirmDelete2: 'Вы хотите удалить адрес?',
+  confirmDelete2: 'Вы хотите удалить данный способ оплаты?',
   confirmDeleteProduct: 'Удалить этот продукт из магазина ?',
   confirmPassword: 'Подтвердить Пароль *',
   consent: 'Согласие',
