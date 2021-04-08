@@ -713,7 +713,7 @@ export default class Felin extends React.Component {
               <p>6 Rue des Coutures Saint-Gervais</p>
               <p className="mb-20">75003 Paris</p>
               <p>Horaires d’ouverture :</p>
-              <p className="mb-20">Mardi - Dimanche, 10h - 18h</p>
+              <p className="mb-20">Mardi - Dimanche, 10h – 19h</p>
               <p>
                 <a href="https://fr-fr.facebook.com/RoyalCaninFrance/">
                   <img
@@ -742,7 +742,7 @@ export default class Felin extends React.Component {
             <div
               style={{
                 display: !isContactUs ? 'block' : 'none',
-                marginTop: '2.5rem'
+                marginTop: '3rem'
               }}
             >
               <div className="rc-layout-container rc-two-column rc-content-h-middle">
@@ -804,10 +804,10 @@ export default class Felin extends React.Component {
                         </h3>
                       </div>
                       <p className="mb-20">
-                        L’Atelier Félin est fait pour vous échangez avec des
-                        experts, posez-leur vos questions sur le comportement de
-                        votre chat, ses habitudes, ses soins et la nutrition la
-                        plus appropriée à ses besoins…
+                        L’Atelier Félin est fait pour échanger avec des experts,
+                        posez-leur vos questions sur le comportement de votre
+                        chat, ses habitudes, ses soins et la nutrition la plus
+                        appropriée à ses besoins…
                       </p>
                       <p className="mb-20">
                         Des comportementalistes félins et vétérinaires sont là
@@ -963,7 +963,8 @@ export default class Felin extends React.Component {
                       </p>
                       <p className="mb-20">
                         Venez rencontrer nos associations partenaires et
-                        découvrir certains chats qui sont à l’adoption.
+                        découvrir certains chats qui sont à l’adoption. (le
+                        weekend exclusivement)
                       </p>
                     </div>
                   </h4>
@@ -1076,7 +1077,7 @@ export default class Felin extends React.Component {
                           </div>
                           <div>
                             <Selection
-                              placeholder="Choisissez Un créneau horaire"
+                              placeholder="Choisissez un créneau horaire"
                               optionList={this.state.timeOption}
                               selectedItemChange={(data) => {
                                 console.log(data);
