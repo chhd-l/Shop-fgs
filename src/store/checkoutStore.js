@@ -259,6 +259,7 @@ class CheckoutStore {
     guestEmail,
     minimunAmountPrice,
     isThrowErr,
+    address1,
     ruShippingDTO
   } = {}) {
     try {
@@ -294,6 +295,7 @@ class CheckoutStore {
         postalCode: taxFeeData.postalCode,
         customerAccount: email,
         guestEmail: email,
+        address1,
         ruShippingDTO // DuData地址对象，俄罗斯计算运费用
       });
       let backCode = purchasesRes.code;
@@ -409,6 +411,7 @@ class CheckoutStore {
     taxFeeData,
     minimunAmountPrice,
     isThrowErr = false,
+    address1,
     ruShippingDTO
   } = {}) {
     try {
@@ -435,6 +438,7 @@ class CheckoutStore {
         street: taxFeeData.street,
         postalCode: taxFeeData.postalCode,
         customerAccount: taxFeeData.customerAccount,
+        address1,
         ruShippingDTO // DuData地址对象，俄罗斯计算运费用
       });
 

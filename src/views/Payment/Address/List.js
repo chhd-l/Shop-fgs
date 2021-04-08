@@ -21,7 +21,7 @@ import './list.less';
  * address list(delivery/billing) - member
  */
 @inject('checkoutStore', 'paymentStore')
-// @injectIntl
+@injectIntl
 @observer
 class AddressList extends React.Component {
   static defaultProps = {
@@ -270,6 +270,7 @@ class AddressList extends React.Component {
         this.setState({
           validationLoading: false
         });
+        this.showErrMsg(this.props.intl.messages['payment.wrongAddress']);
       }
     } catch (err) {
       console.warn(err);
