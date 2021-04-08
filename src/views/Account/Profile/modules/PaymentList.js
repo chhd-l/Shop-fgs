@@ -69,13 +69,13 @@ class PaymentList extends React.Component {
       editFormVisible: false,
       loading: false,
       listLoading: false,
-      creditCardList: [],
+      creditCardList: [], //绑定的银行卡列表
       fromPage: 'cover',
-      paymentType: 'PAYU', //getway接口没配置美国支付CYBER，暂时这样
+      paymentType: 'PAYU', //PAYU,ADYEN,CYBER 支付方式
       errorMsg: '',
       successMsg: '',
       getPaymentMethodListFlag: false,
-      defaultCardTypeVal: ''
+      defaultCardTypeVal: '' //默认卡类型，如visa，amex, discover
     };
 
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
@@ -86,18 +86,19 @@ class PaymentList extends React.Component {
   }
   componentDidMount() {
     const { paymentStore } = this.props;
-    this.getPaymentMethodList();
+    this.getPaymentMethodList(); //获取绑卡列表
     getWays().then((res) => {
       this.setState({
         paymentType: res?.context?.name
-      }); //PAYU,ADYEN,CYBER
+      });
       const supportPaymentMethods =
         res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
-      paymentStore.setSupportPaymentMethods(supportPaymentMethods);
+      paymentStore.setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
       this.setState(
-        { defaultCardTypeVal: supportPaymentMethods[0]?.cardType },
+        { defaultCardTypeVal: supportPaymentMethods[0]?.cardType }, //设置默认卡类型，例如visa
         () => {
           this.onCardTypeValChange({
+            //存储当前卡的类型，(比如卡的长度，cvv长度,卡类型图片等等)
             cardTypeVal: this.state.defaultCardTypeVal
           });
         }
@@ -110,14 +111,10 @@ class PaymentList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  onCardTypeValChange = ({ cardTypeVal }) => {
-    const { paymentStore } = this.props;
-    paymentStore.setCurrentCardTypeInfo(
-      paymentStore.supportPaymentMethods.filter(
-        (s) => s.cardType === cardTypeVal
-      )[0] || null
-    );
-  };
+  // setDefaultCardInfo = async () => {
+  //  const res = await getWays()
+  // }
+  //获取绑卡列表
   getPaymentMethodList = async ({ msg, showLoading = true } = {}) => {
     try {
       showLoading && this.setState({ listLoading: true });
@@ -145,6 +142,16 @@ class PaymentList extends React.Component {
       });
     }
   };
+  //存储当前卡的类型，(比如卡的长度，cvv长度,卡类型图片等等)
+  onCardTypeValChange = ({ cardTypeVal }) => {
+    const { paymentStore } = this.props;
+    paymentStore.setCurrentCardTypeInfo(
+      paymentStore.supportPaymentMethods.filter(
+        (s) => s.cardType === cardTypeVal
+      )[0] || null
+    );
+  };
+
   // 提示成功信息
   clearSuccessMsg = () => {
     setTimeout(() => {
@@ -421,9 +428,6 @@ class PaymentList extends React.Component {
                                   className="ui-cursor-pointer"
                                   onClick={this.toggleSetDefault.bind(this, el)}
                                 >
-                                  {/* <span className="iconfont mr-1">
-                                    &#xe68c;
-                                  </span> */}
                                   <span className="rc-styled-link">
                                     <FormattedMessage id="setAsDefault" />
                                   </span>
