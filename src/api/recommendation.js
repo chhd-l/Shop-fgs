@@ -4,7 +4,8 @@ const api = {
   getRecommendationList: '/recommendation/findById',
   getRecommendationList_fr: '/recommendation',
   getPrescriberByPrescriberIdAndStoreId:
-    '/prescriber/getPrescriberByPrescriberIdAndStoreId'
+    '/prescriber/getPrescriberByPrescriberIdAndStoreId',
+  felinReco: '/reco'
 };
 
 export default api;
@@ -20,6 +21,13 @@ export function getRecommendationList(data) {
     // params: {
     //   id: data
     // }
+  });
+}
+
+export function getFelinReco(parameter) {
+  return axios({
+    url: `${api.felinReco}/${parameter}`,
+    method: 'post'
   });
 }
 
