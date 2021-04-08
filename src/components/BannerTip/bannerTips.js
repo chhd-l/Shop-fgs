@@ -8,7 +8,9 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function Container({ children }) {
   return isMobile ? (
-    <marquee>{children}</marquee>
+    <marquee style={{ display: 'flex', alignItems: 'center' }}>
+      {children}
+    </marquee>
   ) : (
     <div
       className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs"
