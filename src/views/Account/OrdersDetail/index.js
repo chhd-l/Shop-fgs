@@ -1619,21 +1619,17 @@ class AccountOrders extends React.Component {
                                             />
                                           </LazyLoad>
                                           {payRecord.lastFourDigits ? (
-                                            <>
-                                              <span className="medium">
-                                                ********
-                                                {payRecord.lastFourDigits}
-                                              </span>
-                                              <br />
-                                            </>
+                                            <span className="medium">
+                                              ********
+                                              {payRecord.lastFourDigits}
+                                            </span>
                                           ) : null}
                                         </p>
 
                                         {payRecord.holderName ? (
-                                          <>
+                                          <p className="mb-0">
                                             {payRecord.holderName}
-                                            <br />
-                                          </>
+                                          </p>
                                         ) : null}
                                         {/* {payRecord.phone ? (
                                           <>

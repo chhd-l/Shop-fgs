@@ -4942,7 +4942,7 @@ class SubscriptionDetail extends React.Component {
                                 <p className="mb-0">
                                   {currentCardInfo.holderName}
                                 </p>
-                                <p className="mb-0">{currentCardInfo.phone}</p>
+                                {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
                               </div>
                             </div>
                           </div>
