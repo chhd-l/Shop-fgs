@@ -661,7 +661,8 @@ const en_US = {
   modalCancelAllContent:
     'Are you sure you want to cancel all future shipments?',
   modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
-  modalChangeDateContent: 'Are you sure you want to skip the next delivery?',
+  modalChangeDateContent:
+    'Are you sure you want to change the next delivery date?',
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',
