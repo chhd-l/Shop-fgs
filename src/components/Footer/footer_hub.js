@@ -53,7 +53,7 @@ class FooterHub extends React.Component {
 
     return (
       <>
-        <footer className="rc-bg-colour--interface-dark" id="footer">
+        <footer className="rc-bg-colour--interface-dark hub-footer" id="footer">
           <div className="rc-max-width--xl rc-scroll--y">
             {/* MenuItems PC     */}
             <div className="rc-md-up rc-layout-container rc-two-column rc-padding-x--xs--desktop">

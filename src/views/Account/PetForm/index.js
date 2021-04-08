@@ -28,7 +28,8 @@ import {
   getDeviceType,
   datePickerConfig,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  getZoneTime
 } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
@@ -1118,7 +1119,7 @@ class PetForm extends React.Component {
                           maxDate={new Date()}
                           selected={
                             this.state.birthdate
-                              ? new Date(getFormatDate(this.state.birthdate))
+                              ? getZoneTime(this.state.birthdate)
                               : ''
                           }
                           onChange={(date) => this.onDateChange(date)}
