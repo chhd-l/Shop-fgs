@@ -291,7 +291,9 @@ class Payment extends React.Component {
     try {
       const { paymentStore, clinicStore, history } = this.props;
       const { tid } = this.state;
-      setSeoConfig().then((res) => {
+      setSeoConfig({
+        pageName: 'Checkout page'
+      }).then((res) => {
         this.setState({ seoConfig: res });
       });
       if (this.isLogin) {

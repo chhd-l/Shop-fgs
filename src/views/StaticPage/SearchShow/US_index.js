@@ -26,7 +26,9 @@ class SearchShow extends React.Component {
   componentDidMount() {
     const { search } = this.props.history.location;
     const searchWords = decodeURI(getParaByName(search, 'q'));
-    setSeoConfig().then((res) => {
+    setSeoConfig({
+      pageName: 'No search Results page'
+    }).then((res) => {
       this.setState({ seoConfig: res });
     });
 

@@ -367,7 +367,7 @@ class PetForm extends React.Component {
     };
 
     if (!this.state.isPurebred) {
-      pets.petsBreed = 'mixed Breed';
+      pets.petsBreed = 'Other Breed';
     }
     let param = {
       customerPets: pets,
@@ -629,7 +629,7 @@ class PetForm extends React.Component {
       param.isUnknown = true;
       // param.isInputDisabled = true;
       param.breed = '';
-    } else if (currentPet.petsBreed === 'mixed Breed') {
+    } else if (currentPet.petsBreed === 'Other Breed') {
       param.isMix = true;
       param.isUnknown = false;
       // param.isInputDisabled = true;
@@ -670,7 +670,7 @@ class PetForm extends React.Component {
       value: currentPet.customerPetsPropRelations[0]?.propName
     };
     let params = {
-      breedCode: param.isPurebred ? param.breed : 'mixed Breed',
+      breedCode: param.isPurebred ? param.breed : 'Other Breed',
       birth: param.birthdate,
       petsType: param.isCat ? 'cat' : 'dog',
       // mainReason: selectedSpecialNeedsObj

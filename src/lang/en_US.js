@@ -68,20 +68,20 @@ const en_US = {
   'account.orders.btns': 'Start Shopping',
   'account.orders.tips':
     "You haven't placed any orders yet. Start shopping now for precise nutrition for your pet.",
-  'account.ordersTip': 'Check the status of your order or see past orders',
+  'account.ordersTip':
+    'Check the status of current orders and see the history of previous ones.',
   'account.ordersTitle': 'My Orders',
   'account.paymentMethod': 'Payment method',
   'account.paymentMethodTip': 'View and update payment information',
   'account.personalArea': 'My account',
   'account.personalData': 'Personal data',
   'account.pets': 'My Pets',
-  'account.petsTip':
-    "Create and manage your pet's profile to maintain its best health possible",
+  'account.petsTip': 'Create and manage your pet profiles.',
   'account.petsTitle': 'My Pets',
   'account.preferredContactMethod': 'Preferred Contact Method',
   'account.preferredMethodOfCommunication': 'Preferred method of communication',
   'account.profile': 'My Profile',
-  'account.profileTip': 'Show and update your personal information',
+  'account.profileTip': 'View and edit your personal information.',
   'account.requiredFields': 'Required fields',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
@@ -89,8 +89,7 @@ const en_US = {
   'account.step': 'Step',
   'account.sterilized': 'Is your pet sterilized?',
   'account.subscription': 'My Club Shipments',
-  'account.subscriptionTip':
-    'Manage your club subscription and access to your exclusive membership services',
+  'account.subscriptionTip': 'View and change your membership settings.',
   'account.subscriptionTitle': 'My Club Shipments',
   'account.TheAddressBook': 'The address book',
   'account.toComeIn': 'To come in',
@@ -194,7 +193,7 @@ const en_US = {
   active: 'Active',
   addANewAddress: 'Add a new Address',
   addANewPaymentMethod: 'Add a new payment method',
-  addedtoCart: 'Added to cart',
+  addedtoCart: 'Added To Cart',
   addNewCreditCard: 'Add new credit card',
   addPet: 'Add a pet',
   address: 'Address',
@@ -322,7 +321,7 @@ const en_US = {
   confirmDelete2:
     'Are you sure you want to remove the following payment method? {val1} {val2}',
   confirmDeleteProduct:
-    'Are you sure you want to remove this product from the cart ?',
+    'Are you sure you want to remove this product from the cart?',
   confirmPassword: 'Confirm Password *',
   consent: 'Consent',
   consignee: 'Consignee',
@@ -339,7 +338,7 @@ const en_US = {
   contactUsViaPhone: 'contáctenos por teléfono',
   continue: 'Continue',
   continueAsGuest: 'Continue as a guest',
-  continueMyPurchases: 'Continue my purchases',
+  continueMyPurchases: 'Continue Shopping',
   continueShopping: 'Continue shopping',
   country: 'Country *',
   createAnAccount: 'Create an account',
@@ -543,7 +542,7 @@ const en_US = {
   giveConsentPersonalData:
     'and give my consent to the processing of personal data, including cross-border transfer',
   goods: 'Products',
-  goToCart: 'Go to shopping cart',
+  goToCart: 'Go To Cart',
   guestCheckout: 'Continue as a Guest',
   'header.bannerTip': '30% off first purchase + 5% off autoship',
   'header.basketEmpty': 'Your cart is empty',
@@ -662,7 +661,8 @@ const en_US = {
   modalCancelAllContent:
     'Are you sure you want to cancel all future shipments?',
   modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
-  modalChangeDateContent: 'Are you sure you want to skip the next delivery?',
+  modalChangeDateContent:
+    'Are you sure you want to change the next delivery date?',
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',

@@ -96,7 +96,7 @@ class Subscription extends React.Component {
     }
     myAccountPushEvent('Subscriptions');
     setSeoConfig({
-      pageName: 'Account subscriptions'
+      pageName: 'Account subscriptions'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });

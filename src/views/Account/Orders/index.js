@@ -88,7 +88,7 @@ class AccountOrders extends React.Component {
   componentDidMount() {
     myAccountPushEvent('Orders');
     setSeoConfig({
-      pageName: 'Account orders'
+      pageName: 'Account orders'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -694,10 +694,10 @@ class AccountOrders extends React.Component {
                               return (
                                 <div
                                   className="card-container"
-                                  style={{
-                                    paddingBottom:
-                                      this.deviceType === 'H5' ? '1.25rem' : '0'
-                                  }}
+                                  // style={{
+                                  //   paddingBottom:
+                                  //     this.deviceType === 'H5' ? '1.25rem' : '0'
+                                  // }}
                                   key={order.id}
                                   onClick={this.handleClickCardItem.bind(
                                     this,

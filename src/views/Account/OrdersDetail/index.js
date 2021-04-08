@@ -1213,21 +1213,17 @@ class AccountOrders extends React.Component {
                               <div className="order__listing text-left">
                                 <div className="order-list-container">
                                   {details.tradeItems.map((item, i) => (
-                                    <div className="border-bottom p-2" key={i}>
+                                    <div
+                                      className="border-bottom pl-2 pr-2 pt-3 pb-3"
+                                      key={i}
+                                    >
                                       <div
-                                        className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0 ${
-                                          i ? 'pt-3' : ''
-                                        } ${
-                                          i !== details.tradeItems.length - 1
-                                            ? 'pb-3'
-                                            : ''
-                                        }`}
+                                        className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                          <LazyLoad classNamePrefix="d-flex justify-content-center align-items-center">
+                                          <LazyLoad style={{ width: '100%' }}>
                                             <img
-                                              style={{ width: '100px' }}
-                                              className="order-details-img-fluid"
+                                              className="order-details-img-fluid w-100"
                                               src={item.pic || IMG_DEFAULT}
                                               alt={item.spuName}
                                               title={item.spuName}
@@ -1623,21 +1619,17 @@ class AccountOrders extends React.Component {
                                             />
                                           </LazyLoad>
                                           {payRecord.lastFourDigits ? (
-                                            <>
-                                              <span className="medium">
-                                                ********
-                                                {payRecord.lastFourDigits}
-                                              </span>
-                                              <br />
-                                            </>
+                                            <span className="medium">
+                                              ********
+                                              {payRecord.lastFourDigits}
+                                            </span>
                                           ) : null}
                                         </p>
 
                                         {payRecord.holderName ? (
-                                          <>
+                                          <p className="mb-0">
                                             {payRecord.holderName}
-                                            <br />
-                                          </>
+                                          </p>
                                         ) : null}
                                         {/* {payRecord.phone ? (
                                           <>

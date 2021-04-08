@@ -44,7 +44,9 @@ class Pet extends React.Component {
   componentDidMount() {
     myAccountPushEvent('Pets');
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    setSeoConfig().then((res) => {
+    setSeoConfig({
+      pageName: 'Account pet'
+    }).then((res) => {
       this.setState({ seoConfig: res });
     });
     this.getPetList();

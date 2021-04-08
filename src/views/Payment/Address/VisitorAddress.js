@@ -373,6 +373,7 @@ class VisitorAddress extends React.Component {
                 visitorValidationModalVisible: false,
                 visitorValidationLoading: false
               });
+              this.props.updateValidationStaus(true);
             }}
           />
         )}

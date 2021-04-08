@@ -1893,10 +1893,7 @@ class SubscriptionDetail extends React.Component {
         style={{ display: isNotInactive ? 'block' : 'none' }}
       >
         <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          <div
-            className="pause-btn"
-            style={{ display: isMobile ? 'block' : 'inline-block' }}
-          >
+          <div className="pause-btn" style={{ display: 'inline-block' }}>
             {subDetail.subscribeStatus === '0' ? (
               <em
                 className="iconfont"
@@ -1938,7 +1935,7 @@ class SubscriptionDetail extends React.Component {
             </a>
           </div>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <div style={{ display: isMobile ? 'block' : 'inline-block' }}>
+          <div style={{ display: 'inline-block' }}>
             <LazyLoad>
               <img
                 style={{
@@ -1965,7 +1962,6 @@ class SubscriptionDetail extends React.Component {
             className={`rc-btn rc-btn--one ${
               this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
             }`}
-            style={{ marginTop: isMobile ? '.625rem' : '0' }}
             onClick={() => this.handleSaveChange(subDetail)}
           >
             <FormattedMessage id="saveChange" />

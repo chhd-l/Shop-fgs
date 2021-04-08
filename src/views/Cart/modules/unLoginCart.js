@@ -12,7 +12,8 @@ import {
   formatMoney,
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
-  unique
+  unique,
+  cancelPrevRequest
 } from '@/utils/utils';
 import {
   GAInitUnLogin,
@@ -39,11 +40,14 @@ import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import Carousel from '../components/Carousel';
+import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isGift = true;
 const isHubGA = process.env.REACT_APP_HUB_GA;
+const pageLink = window.location.href;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: 开, 1: 关
@@ -87,7 +91,12 @@ class UnLoginCart extends React.Component {
       isShowValidCode: false, //是否显示无效promotionCode
       subscriptionDiscount: 0,
       activeToolTipIndex: 0,
-      goodsIdArr: []
+      goodsIdArr: [],
+      seoConfig: {
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
+      }
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -180,6 +189,11 @@ class UnLoginCart extends React.Component {
     this.setState({ goodsIdArr });
   };
   async componentDidMount() {
+    setSeoConfig({
+      pageName: 'Cart page'
+    }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
     this.getGoodsIdArr();
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -206,7 +220,7 @@ class UnLoginCart extends React.Component {
       });
       GACartScreenLoad();
     }
-    this.setCartData();
+    this.setCartData({ initPage: true });
   }
   GACheckUnLogin(productList) {
     let product = [],
@@ -248,7 +262,7 @@ class UnLoginCart extends React.Component {
       console.log(err);
     }
   }
-  setCartData() {
+  setCartData({ initPage = false } = {}) {
     !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
     const { configStore } = this.props;
     console.log(configStore.frequencyId, '🐖');
@@ -280,9 +294,25 @@ class UnLoginCart extends React.Component {
       }
       return el;
     });
-    this.setState({
-      productList
-    });
+    this.setState(
+      {
+        productList
+      },
+      () => {
+        this.queryEmptyCartSeo();
+      }
+    );
+  }
+  // 若为空购物车，则要用其他seo
+  queryEmptyCartSeo() {
+    if (!this.state.productList.length) {
+      cancelPrevRequest();
+      setSeoConfig({
+        pageName: 'Empty Cart page'
+      }).then((res) => {
+        this.setState({ seoConfig: res });
+      });
+    }
   }
   showErrMsg(msg) {
     clearTimeout(this.timer);
@@ -495,7 +525,7 @@ class UnLoginCart extends React.Component {
     productList.splice(currentProductIdx, 1);
     this.setState(
       {
-        productList: productList
+        productList
       },
       () => {
         this.updateStock();
@@ -504,6 +534,7 @@ class UnLoginCart extends React.Component {
           dataLayer.push({
             event: 'removeFromCart'
           });
+        this.queryEmptyCartSeo();
       }
     );
   }
@@ -1528,6 +1559,15 @@ class UnLoginCart extends React.Component {
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
         {this.state.checkoutLoading ? (
           <Loading
             bgColor={'#000'}
