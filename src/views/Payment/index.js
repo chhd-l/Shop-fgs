@@ -1754,7 +1754,9 @@ class Payment extends React.Component {
           );
         }
         await this.saveAddressAndCommentPromise();
-        await checkoutStore.validCheckoutLimitRule();
+        await checkoutStore.validCheckoutLimitRule({
+          minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        });
       }
     } catch (err) {
       console.warn(err);

@@ -222,7 +222,11 @@ class AccountOrders extends React.Component {
               tradeState.deliverStatus === 'SHIPPED' &&
               tradeState.flowState === 'DELIVERED' &&
               ele.tradeDelivers &&
-              ele.tradeDelivers.length
+              ele.tradeDelivers.length,
+            canDownInvoice:
+              process.env.REACT_APP_LANG !== 'es' &&
+              process.env.REACT_APP_LANG !== 'en' &&
+              tradeState.deliverStatus === 'SHIPPED'
           });
         });
         if (this.state.initing) {
@@ -754,9 +758,7 @@ class AccountOrders extends React.Component {
                                       </div>
 
                                       <div className="col-12 col-md-2">
-                                        {order.tradeState.deliverStatus ===
-                                          'SHIPPED' &&
-                                        process.env.REACT_APP_LANG !== 'en' ? (
+                                        {order.canDownInvoice ? (
                                           <div
                                             onClick={this.handleDownInvoice.bind(
                                               this,
@@ -810,9 +812,7 @@ class AccountOrders extends React.Component {
                                         bottom: '-1.25rem'
                                       }}
                                     >
-                                      {order.tradeState.deliverStatus ===
-                                        'SHIPPED' &&
-                                      process.env.REACT_APP_LANG !== 'en' ? (
+                                      {order.canDownInvoice ? (
                                         <span
                                           className="rc-styled-link"
                                           onClick={this.handleDownInvoice.bind(
