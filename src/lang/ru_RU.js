@@ -390,7 +390,7 @@ const ru_RU = {
     'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
   'footer.email': 'Обратиться в службу поддержки.',
   'footer.FAQ': 'Часто задаваемые вопросы',
-  'footer.FAQ2': 'SSS',
+  'footer.FAQ2': 'FAQ',
   'footer.healthAndNutrition': 'Здоровье и питание',
   'footer.help': 'ПОМОГИТЕ',
   'footer.informationForParents': 'Информация для родителей',
@@ -1112,7 +1112,8 @@ const ru_RU = {
   'onlineStore.BottomInfo.faq.content1':
     'Вы также можете просмотреть часть ответа на наши общие вопросы, эта часть даст вам много ответов.',
   'onlineStore.BottomInfo.faq.content2': 'ответ на вопрос',
-  'onlineStore.BottomInfo.faq.title': 'задача Дес?'
+  'onlineStore.BottomInfo.faq.title': 'задача Дес?',
+  'account.clinicTitle2': 'По умолчанию для моей клиники'
 };
 
 export default ru_RU;

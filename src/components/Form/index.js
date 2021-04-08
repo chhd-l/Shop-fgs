@@ -24,6 +24,7 @@ import {
 } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import IMask from 'imask';
 import './index.less';
 
 const CURRENT_LANGFILE = locales;
@@ -276,9 +277,13 @@ class Form extends React.Component {
           if (process.env.REACT_APP_LANG == 'fr') {
             regExp = /[+(33)|0]\d{9}$/;
           } else if (process.env.REACT_APP_LANG == 'en') {
-            regExp = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
+            regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_LANG == 'ru') {
             regExp = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+          } else if (process.env.REACT_APP_LANG == 'mx') {
+          } else if (process.env.REACT_APP_LANG == 'de') {
+          } else if (process.env.REACT_APP_LANG == 'tr') {
+            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([2-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             regExp = /\S/;
           }
@@ -591,30 +596,35 @@ class Form extends React.Component {
       }
     }
     if (name == 'phoneNumber') {
+      let element = document.getElementById('shippingphoneNumber');
+      let maskOptions = {};
+      let phoneReg = '';
       switch (process.env.REACT_APP_LANG) {
         case 'fr':
-          value = value.replace(/\s+/g, '');
-          value = value.replace(/^[0]/, '+(33)');
+          phoneReg = '+{33}000000000';
           break;
         case 'en':
-          value = value.replace(/\s+/g, '');
-          value = value.replace(/-/g, ''); // 格式化电话号码
-          value = value
-            .replace(/\s/g, '')
-            .replace(/-$/, '')
-            .replace(/(\d{3})(?=\d{2,}$)/g, '$1-');
+          phoneReg = '000-000-0000';
           break;
         case 'ru':
-          // value = value.replace(
-          //   /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/g,
-          //   '$1'
-          // );
-          value = this.checkRussiaPhone(value);
+          phoneReg = '+{7} (000) 000-00-00';
+          break;
+        case 'mx':
+          phoneReg = '+ (52) 000000 00';
+          break;
+        case 'de':
+          phoneReg = '0000 000000 000';
+          break;
+        case 'tr':
+          phoneReg = '{0} (000) 000-00-00';
           break;
         default:
-          value = value.replace(/\s+/g, '');
+          phoneReg = '00000000000';
           break;
       }
+      maskOptions = { mask: phoneReg };
+      let pval = IMask(element, maskOptions);
+      value = pval._value;
     }
     caninForm[name] = value;
     this.setState({ caninForm }, () => {

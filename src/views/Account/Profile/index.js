@@ -339,9 +339,7 @@ class AccountProfile extends React.Component {
                   {process.env.REACT_APP_DELETE_My_ACCOUNT_URL && (
                     <PanleContainer
                       customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'Communication'
+                        hidden: editOperationPaneName
                       })}
                     >
                       <DeleteMyAccount />

@@ -110,7 +110,7 @@ export default class DropDownMenuForHub extends React.Component {
       <div
         className={`dropdown-nav d-flex justify-content-center align-items-start bg-white pt-4 pb-4 border-top ${
           activeTopParentId === item.id ? 'show' : ''
-        } dropdown-nav__${item.id}`}
+        } dropdown-nav__${item.id} nav-type__${item.Type}`}
         aria-hidden={activeTopParentId === item.id}
         // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
         // onMouseOut={this.hanldeListItemMouseOut}

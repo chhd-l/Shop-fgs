@@ -1754,7 +1754,9 @@ class Payment extends React.Component {
           );
         }
         await this.saveAddressAndCommentPromise();
-        await checkoutStore.validCheckoutLimitRule();
+        await checkoutStore.validCheckoutLimitRule({
+          minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        });
       }
     } catch (err) {
       console.warn(err);
@@ -1832,6 +1834,7 @@ class Payment extends React.Component {
             postalCode: data.postCode,
             customerAccount: this.state.email
           },
+          address1: data.address1,
           ruShippingDTO: this.state.ruShippingDTO
         });
       } else {
@@ -1846,6 +1849,7 @@ class Payment extends React.Component {
             postalCode: data.postCode,
             customerAccount: this.state.guestEmail
           },
+          address1: data.address1,
           ruShippingDTO: this.state.ruShippingDTO
         });
       }
@@ -2977,7 +2981,8 @@ class Payment extends React.Component {
           postalCode: deliveryAddress.postCode,
           customerAccount: guestEmail,
           ruShippingDTO: this.state.ruShippingDTO
-        }
+        },
+        address1: data.address1
       });
     });
   };
