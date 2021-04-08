@@ -502,6 +502,10 @@ export default class Felin extends React.Component {
                 },
                 () => {
                   this.currentStep();
+                  scrollPaymentPanelIntoView(
+                    'felinFooter',
+                    this.state.languageHeight
+                  );
                 }
               );
             }
@@ -531,6 +535,7 @@ export default class Felin extends React.Component {
     this.setState({ step: this.state.step + 1 }, () => {
       this.currentStep();
       this.updateButtonState();
+      scrollPaymentPanelIntoView('felinFooter', this.state.languageHeight);
     });
   }
   modifyAppointment() {
@@ -1050,7 +1055,8 @@ export default class Felin extends React.Component {
                                 return;
                               }}
                               tileDisabled={({ activeStartDate, date, view }) =>
-                                date.getDay() === 1
+                                date.getDay() === 1 ||
+                                format(date, 'yyyy-MM-dd') === '2021-05-01'
                               }
                               minDate={new Date('2021-04-20')}
                               maxDate={new Date('2021-06-13')}
