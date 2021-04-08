@@ -1754,7 +1754,9 @@ class Payment extends React.Component {
           );
         }
         await this.saveAddressAndCommentPromise();
-        await checkoutStore.validCheckoutLimitRule();
+        await checkoutStore.validCheckoutLimitRule({
+          minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        });
       }
     } catch (err) {
       console.warn(err);
@@ -1779,6 +1781,7 @@ class Payment extends React.Component {
     });
   };
 
+  // 是否勾选自定义billingAddress
   updateSameAsCheckBoxVal = (val) => {
     const curPanelKey = 'billingAddr';
     if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
@@ -1792,8 +1795,11 @@ class Payment extends React.Component {
       this.setState({
         billingAddress: this.state.deliveryAddress
       });
+    } else {
+      this.setState({
+        isShowValidationModal: false
+      });
     }
-    // console.log('1882   billingChecked: ',val);
   };
 
   updateDeliveryAddrData = async (data) => {
@@ -1832,6 +1838,7 @@ class Payment extends React.Component {
             postalCode: data.postCode,
             customerAccount: this.state.email
           },
+          address1: data.address1,
           ruShippingDTO: this.state.ruShippingDTO
         });
       } else {
@@ -1846,6 +1853,7 @@ class Payment extends React.Component {
             postalCode: data.postCode,
             customerAccount: this.state.guestEmail
           },
+          address1: data.address1,
           ruShippingDTO: this.state.ruShippingDTO
         });
       }
@@ -2067,7 +2075,7 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    // console.log(' 2126 ----------- click Confirm Payment Panel');
+    console.log(' 2126 ----------- click Confirm Payment Panel');
     // 勾选，billingAddress = deliveryAddress
     this.setState(
       {
@@ -2286,8 +2294,7 @@ class Payment extends React.Component {
       // 未勾选，显示地址验证
       this.setState({
         paymentValidationLoading: true,
-        validationModalVisible: true,
-        isShowValidationModal: true
+        validationModalVisible: true
       });
     } else {
       console.log('★ ----------------- 跳过验证，下一步 ');
@@ -2363,11 +2370,11 @@ class Payment extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmListValidationAddress = async () => {
-    const { isLogin } = this;
     const {
       billingAddress,
       selectValidationOption,
-      validationAddress
+      validationAddress,
+      billingChecked
     } = this.state;
     this.setState({
       btnLoading: true
@@ -2394,16 +2401,18 @@ class Payment extends React.Component {
     console.log('-------------------- 确认选择地址');
     // 一系列操作
     // this.confirmPaymentPanel();
-    // billing  进入下一步
-    this.cvvConfirmNextPanel();
+
     // 调用保存 billingAddress 方法
     if (
-      isLogin &&
+      !billingChecked &&
       this.loginBillingAddrRef &&
       this.loginBillingAddrRef.current
     ) {
       await this.loginBillingAddrRef.current.handleSavePromise();
     }
+
+    // billing  进入下一步
+    this.cvvConfirmNextPanel();
   };
 
   // 编辑
@@ -2977,7 +2986,8 @@ class Payment extends React.Component {
           postalCode: deliveryAddress.postCode,
           customerAccount: guestEmail,
           ruShippingDTO: this.state.ruShippingDTO
-        }
+        },
+        address1: data.address1
       });
     });
   };

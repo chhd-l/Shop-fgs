@@ -33,7 +33,8 @@ import {
   getFormatDate,
   datePickerConfig,
   formatMoney,
-  setSeoConfig
+  setSeoConfig,
+  getZoneTime
 } from '@/utils/utils';
 import { getDetailsBySpuNo } from '@/api/details';
 import { getPetList } from '@/api/pet';
@@ -1893,7 +1894,10 @@ class SubscriptionDetail extends React.Component {
         style={{ display: isNotInactive ? 'block' : 'none' }}
       >
         <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          <div className="pause-btn" style={{ display: 'inline-block' }}>
+          <div
+            className="pause-btn"
+            style={{ display: 'inline-block', marginBottom: '10px' }}
+          >
             {subDetail.subscribeStatus === '0' ? (
               <em
                 className="iconfont"
@@ -1935,7 +1939,7 @@ class SubscriptionDetail extends React.Component {
             </a>
           </div>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <div style={{ display: 'inline-block' }}>
+          <div style={{ display: 'inline-block', marginBottom: '10px' }}>
             <LazyLoad>
               <img
                 style={{
@@ -3126,9 +3130,7 @@ class SubscriptionDetail extends React.Component {
                                         !isActive
                                           ? ''
                                           : el.nextDeliveryTime
-                                          ? new Date(
-                                              getFormatDate(el.nextDeliveryTime)
-                                            )
+                                          ? getZoneTime(el.nextDeliveryTime)
                                           : new Date()
                                       }
                                       disabled={true}
@@ -3214,15 +3216,6 @@ class SubscriptionDetail extends React.Component {
                                         >
                                           {el.goodsName}
                                         </h5>
-                                        {/* <p
-                                        style={{
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          marginBottom: '8px'
-                                        }}
-                                      >
-                                        Dog food
-                                      </p> */}
                                         <p
                                           style={{
                                             overflow: 'hidden',
@@ -3524,11 +3517,7 @@ class SubscriptionDetail extends React.Component {
                                           !isActive
                                             ? ''
                                             : el.nextDeliveryTime
-                                            ? new Date(
-                                                getFormatDate(
-                                                  el.nextDeliveryTime
-                                                )
-                                              )
+                                            ? getZoneTime(el.nextDeliveryTime)
                                             : new Date()
                                         }
                                         disabled={true}
@@ -3700,7 +3689,6 @@ class SubscriptionDetail extends React.Component {
                                                 </span>
                                               </div>
                                             ) : null}
-
                                             <div
                                               className={`${
                                                 isMobile ? 'col-0' : 'col-md-5'
@@ -3759,11 +3747,9 @@ class SubscriptionDetail extends React.Component {
                                                       }
                                                       selected={
                                                         el.tradeItems
-                                                          ? new Date(
-                                                              getFormatDate(
-                                                                el.tradeItems[0]
-                                                                  .nextDeliveryTime
-                                                              )
+                                                          ? getZoneTime(
+                                                              el.tradeItems[0]
+                                                                .nextDeliveryTime
                                                             )
                                                           : new Date()
                                                       }
@@ -4364,7 +4350,10 @@ class SubscriptionDetail extends React.Component {
                                             {isMobile ? (
                                               <>
                                                 <div
-                                                  style={{ textAlign: 'right' }}
+                                                  style={{
+                                                    textAlign: 'left',
+                                                    paddingLeft: '2rem'
+                                                  }}
                                                 >
                                                   {el.id ? (
                                                     <>
@@ -4377,6 +4366,11 @@ class SubscriptionDetail extends React.Component {
                                                       </span>
                                                       <Link
                                                         className="rc-icon rc-right rc-iconography"
+                                                        style={{
+                                                          position: 'absolute',
+                                                          top: '-0.2rem',
+                                                          right: '0'
+                                                        }}
                                                         to={`/account/orders/detail/${el.id}`}
                                                       />
                                                     </>
@@ -4602,7 +4596,10 @@ class SubscriptionDetail extends React.Component {
                                         {isMobile ? null : (
                                           <div className="col-4 col-md-3">
                                             <div
-                                              style={{ textAlign: 'center' }}
+                                              style={{
+                                                textAlign: 'left',
+                                                paddingLeft: '2rem'
+                                              }}
                                             >
                                               {el.id ? (
                                                 <>

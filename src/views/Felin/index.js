@@ -459,13 +459,13 @@ export default class Felin extends React.Component {
       let requiredList = [];
       if (this.state.consentChecked1) {
         requiredList.push({
-          consentKey: consentList.requiredList[0].consentId,
+          id: consentList.requiredList[0].consentId,
           selectedFlag: true
         });
       }
       if (this.state.consentChecked2) {
         optionalList.push({
-          consentKey: consentList.optionalList[0].consentId,
+          id: consentList.optionalList[0].consentId,
           selectedFlag: true
         });
       }

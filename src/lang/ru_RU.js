@@ -221,7 +221,7 @@ const ru_RU = {
   changeAnotherCard:
     'Пожалуйста, перейдите на другую карту и попробуйте еще раз',
   changePassword: 'Изменить пароль',
-  changepic: 'Загрузить изображение',
+  changepic: 'Добавить изображение',
   checkboxIsRequiredForSubscription:
     'при подписке на корм данное поле является обязательным для заполнения',
   checkout: 'Оформление заказа',
@@ -390,7 +390,7 @@ const ru_RU = {
     'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
   'footer.email': 'Обратиться в службу поддержки.',
   'footer.FAQ': 'Часто задаваемые вопросы',
-  'footer.FAQ2': 'SSS',
+  'footer.FAQ2': 'FAQ',
   'footer.healthAndNutrition': 'Здоровье и питание',
   'footer.help': 'ПОМОГИТЕ',
   'footer.informationForParents': 'Информация для родителей',
@@ -411,7 +411,7 @@ const ru_RU = {
     'Вам будет отправлено письмо с инструкциями по смене пароля.',
   freeShipping: 'Бесплатная доставка',
   from: 'От',
-  gender: 'Род',
+  gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
   getConsumerAccountFailed: 'Не удалось получить учетную запись потребителя',
   getDataFailed: 'Не удалось получить данные',
@@ -561,7 +561,7 @@ const ru_RU = {
   moreChoicesAvailable: 'Доступны другие варианты',
   mustChooseACommunicationMethodTip:
     'К сожалению, вы проверили согласие на общение, поэтому вам необходимо выбрать способ связи.',
-  name: 'Имя',
+  name: 'Кличка',
   name2: 'ИМЯ',
   nameInvalid: 'Ваше имя недействительно',
   newAddress: 'Новый адрес',
@@ -688,7 +688,7 @@ const ru_RU = {
   'payment.region': 'район',
   'payment.entrance': 'Подъезд',
   'payment.apartment': 'квартира',
-  'payment.comment': 'Комментарий к доставке',
+  'payment.comment': 'Комментарий к заказу',
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
@@ -708,7 +708,7 @@ const ru_RU = {
   personal: 'Личный',
   petFemale: 'Женский',
   petInfo: 'Информация о питомце',
-  petName: 'Имя питомца',
+  petName: 'Кличка',
   pets: 'Домашние питомцы',
   petType: 'Тип питомца',
   phone: 'Телефон',
@@ -1093,9 +1093,9 @@ const ru_RU = {
   'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
   'subscription.see_more': 'Смотри другие Подписка',
   'subscription.viewDetails': 'Посмотреть детали',
-  Lifestyle: 'Стиль жизни',
+  Lifestyle: 'Образ жизни',
   Activity: 'Активность',
-  Weight: 'Масса',
+  Weight: 'Вес',
   Expire: ' ',
   xProduct: '{val} товар (а/ов)',
   'onlineStore.breedcrumb': 'Королевская собака',
@@ -1114,7 +1114,8 @@ const ru_RU = {
   'onlineStore.BottomInfo.faq.content1':
     'Вы также можете просмотреть часть ответа на наши общие вопросы, эта часть даст вам много ответов.',
   'onlineStore.BottomInfo.faq.content2': 'ответ на вопрос',
-  'onlineStore.BottomInfo.faq.title': 'задача Дес?'
+  'onlineStore.BottomInfo.faq.title': 'задача Дес?',
+  'account.clinicTitle2': 'По умолчанию для моей клиники'
 };
 
 export default ru_RU;
