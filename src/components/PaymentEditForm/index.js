@@ -446,7 +446,9 @@ class PaymentEditForm extends React.Component {
       await usPaymentInfo(params);
       this.handleCancel();
       // this.props.refreshList(res.message);
-      this.props.refreshList({ msg: 'Saved Successfully' });
+      this.props.refreshList({
+        msg: this.props.intl.messages.saveSuccessfullly3
+      });
     } catch (err) {
       this.showErrorMsg(err.message);
     } finally {

@@ -927,6 +927,8 @@ const de_DE = {
   saveSuccess: 'Erfolg speichern',
   saveSuccessfullly: 'Erfolgreich speichern',
   saveSuccessfullly2: 'Ihre Daten wurden korrekt gespeichert',
+  saveSuccessfullly3: 'Erfolgreich speichern',
+  deleteSuccessFullly: 'Erfolgreich löschen',
   search: 'Suche',
   searchBreed: 'Rasse suchen',
   searchNoBreed: 'kein Rassetier',

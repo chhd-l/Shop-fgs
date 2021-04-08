@@ -766,6 +766,8 @@ const tr_TR = {
   saveSuccess: 'Başarıyı Kaydet',
   saveSuccessfullly: 'Başarıyla kaydedin',
   saveSuccessfullly2: 'Bilgileriniz doğru şekilde kaydedildi',
+  saveSuccessfullly3: 'Başarıyla kaydedin',
+  deleteSuccessFullly: 'Başarılı sil',
   search: 'Arama',
   searchForAProductOrArtical: 'Bir ürün veya makale arayın',
   searchNoBreed: 'soy ağacı değil',

@@ -175,7 +175,7 @@ class PaymentList extends React.Component {
       .then(() => {
         this.setState(
           {
-            successMsg: 'Delete successfullly',
+            successMsg: this.props.intl.messages.deleteSuccessFullly,
             getPaymentMethodListFlag: true
           },
           () => {

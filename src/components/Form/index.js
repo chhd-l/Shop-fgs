@@ -595,7 +595,7 @@ class Form extends React.Component {
           phoneReg = '+{7} (000) 000-00-00';
           break;
         case 'mx':
-          phoneReg = '+ (52) 000000 00';
+          phoneReg = '0000000000';
           break;
         case 'de':
           phoneReg = '0000 000000 000';

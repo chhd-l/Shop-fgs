@@ -1079,6 +1079,8 @@ const en_US = {
   saveSuccess: 'Save Success',
   saveSuccessfullly: 'Saved Successfully',
   saveSuccessfullly2: 'Your information has been correctly saved',
+  saveSuccessfullly3: 'Saved Successfully',
+  deleteSuccessFullly: 'Delete successfullly',
   search: 'Search',
   searchBreed: 'Search breed',
   searchForAProductOrArtical: 'Search for a product or article',

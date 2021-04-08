@@ -848,6 +848,8 @@ const es_ES = {
   saveSuccess: 'Guardar el éxito',
   saveSuccessfullly: 'Guardado exitosamente',
   saveSuccessfullly2: 'Tu información se ha guardado correctamente',
+  saveSuccessfullly3: 'Guardado exitosamente',
+  deleteSuccessFullly: 'Borrado con éxito',
   search: 'Buscar',
   searchBreed: 'Buscar raza',
   searchNoBreed: 'no es un pedigrí',

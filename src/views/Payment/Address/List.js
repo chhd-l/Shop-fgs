@@ -205,6 +205,7 @@ class AddressList extends React.Component {
         this.setState({
           validationLoading: false
         });
+        this.showErrMsg(this.props.intl.messages['payment.wrongAddress']);
       }
     } catch (err) {
       console.warn(err);
