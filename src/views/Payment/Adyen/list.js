@@ -246,6 +246,7 @@ class AdyenCreditCardList extends React.Component {
       paymentStore.updateFirstSavedCardCvv('');
       return;
     }
+
     if (el.isLoadCvv && !el.encryptedSecurityCode) return; //不需要加载(已经加载过+cvv为空)
     if (!el.paymentToken) return; // 不保存的卡(即游客卡)，不需要加载cvv
     //第一次绑定这张卡,不需要填写CVV end
