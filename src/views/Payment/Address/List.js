@@ -70,7 +70,7 @@ class AddressList extends React.Component {
       saveErrorMsg: '',
       selectedId: '',
       isValid: false,
-      btnLoading: false,
+      listBtnLoading: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
@@ -91,7 +91,7 @@ class AddressList extends React.Component {
     });
     this.queryAddressList({ init: true });
     this.setState({
-      btnLoading: false
+      listBtnLoading: false
     });
   }
   get isDeliverAddress() {
@@ -586,7 +586,7 @@ class AddressList extends React.Component {
     this.setState({
       listValidationModalVisible: false,
       saveLoading: false,
-      btnLoading: false
+      listBtnLoading: false
     });
     this.props.updateValidationStaus(true);
     // 不校验地址，进入下一步
@@ -601,7 +601,7 @@ class AddressList extends React.Component {
       validationAddress
     } = this.state;
     this.setState({
-      btnLoading: true
+      listBtnLoading: true
     });
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectListValidationOption == 'suggestedAddress') {
@@ -727,7 +727,7 @@ class AddressList extends React.Component {
     return (
       <>
         <ValidationAddressModal
-          btnLoading={this.state.btnLoading}
+          btnLoading={this.state.listBtnLoading}
           address={deliveryAddress}
           updateValidationData={(res) => this.getListValidationData(res)}
           selectValidationOption={selectListValidationOption}
@@ -741,6 +741,7 @@ class AddressList extends React.Component {
               listValidationModalVisible: false,
               validationLoading: false,
               saveLoading: false,
+              listBtnLoading: false,
               loading: false
             });
             this.props.updateValidationStaus(true);

@@ -1795,10 +1795,6 @@ class Payment extends React.Component {
       this.setState({
         billingAddress: this.state.deliveryAddress
       });
-    } else {
-      this.setState({
-        isShowValidationModal: false
-      });
     }
   };
 
@@ -2277,18 +2273,19 @@ class Payment extends React.Component {
   // 点击confirm cvv
   clickReInputCvvConfirm = () => {
     console.log('★ ----------------- click ReInput Cvv Confirm');
-    // 收起面板，显示preview
+    // 点击按钮后进入下一步
     this.setPaymentToCompleted('billing');
   };
-  // 收起面板，显示preview
+  // 点击按钮后进入下一步
   setPaymentToCompleted = (data) => {
-    const { tid, isShowValidationModal } = this.state;
+    const { tid, isShowValidationModal, billingAddressAddOrEdit } = this.state;
     if (
       !this.state.billingChecked &&
       (!tid || tid == null) &&
       data &&
       data == 'billing' &&
-      isShowValidationModal
+      isShowValidationModal &&
+      billingAddressAddOrEdit
     ) {
       console.log('★ ----------------- payment 地址验证 ');
       // 未勾选，显示地址验证
@@ -2312,15 +2309,11 @@ class Payment extends React.Component {
       btnLoading: false
     });
     if (isLogin) {
-      if (
-        !billingChecked &&
-        billingAddressAddOrEdit &&
-        this.loginBillingAddrRef &&
-        this.loginBillingAddrRef.current
-      ) {
-        // 执行 List 页面的保存 billingAddress
-        await this.loginBillingAddrRef.current.showNextPanel();
-      }
+      // console.log('----------- 会员 添加或者编辑地址: ', billingAddressAddOrEdit);
+      // if (!billingChecked && billingAddressAddOrEdit && this.loginBillingAddrRef && this.loginBillingAddrRef.current) {
+      //   console.log('执行 List 页面的保存 billingAddress，弹出地址校验框');
+      //   await this.loginBillingAddrRef.current.showNextPanel();
+      // }
     } else {
       // 清空 VisitorAddress 参数
       if (
@@ -2331,7 +2324,7 @@ class Payment extends React.Component {
         this.unLoginBillingAddrRef.current.resetVisitorAddressState();
       }
     }
-    console.log('★ ----------------- payment 收起面板，显示preview ');
+    // console.log('★ ----------------- payment 收起面板，显示preview ');
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
@@ -2370,6 +2363,7 @@ class Payment extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmListValidationAddress = async () => {
+    const { isLogin } = this;
     const {
       billingAddress,
       selectValidationOption,
@@ -2399,20 +2393,24 @@ class Payment extends React.Component {
       });
     }
     console.log('-------------------- 确认选择地址');
-    // 一系列操作
-    // this.confirmPaymentPanel();
 
+    console.log(
+      '-------------------- this.loginBillingAddrRef.current: ',
+      this.loginBillingAddrRef.current
+    );
     // 调用保存 billingAddress 方法
     if (
       !billingChecked &&
+      isLogin &&
       this.loginBillingAddrRef &&
       this.loginBillingAddrRef.current
     ) {
+      console.log('-------------------- 调用保存 billingAddress 方法');
       await this.loginBillingAddrRef.current.handleSavePromise();
     }
 
     // billing  进入下一步
-    this.cvvConfirmNextPanel();
+    // this.cvvConfirmNextPanel();
   };
 
   // 编辑
@@ -2498,7 +2496,7 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      console.log('2248 : ', disabled);
+      // console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2513,7 +2511,7 @@ class Payment extends React.Component {
     };
 
     const reInputCVVBtn = ({ disabled, loading = false }) => {
-      console.log('2263 CVV Btn: ', disabled);
+      // console.log('2263 CVV Btn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -3466,6 +3464,7 @@ class Payment extends React.Component {
                     this.setState({
                       validationModalVisible: false,
                       paymentValidationLoading: false,
+                      btnLoading: false,
                       saveLoading: false
                     });
                   }}
