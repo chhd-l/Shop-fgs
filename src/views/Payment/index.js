@@ -2410,7 +2410,7 @@ class Payment extends React.Component {
     }
 
     // billing  进入下一步
-    // this.cvvConfirmNextPanel();
+    this.cvvConfirmNextPanel();
   };
 
   // 编辑
