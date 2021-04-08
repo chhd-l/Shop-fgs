@@ -496,7 +496,6 @@ class Header extends React.Component {
   updateActiveTopParentId = (id) => {
     this.setState({ activeTopParentId: id }, () => {
       const { activeTopParentId } = this.state;
-      debugger;
       this.toggleShowBodyMask({ visible: activeTopParentId !== -1 });
     });
   };
