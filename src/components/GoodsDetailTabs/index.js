@@ -54,7 +54,7 @@ const GoodsDetailTabs = function (props) {
           try {
             const parsedContent = JSON.parse(g.content).map((el) => {
               console.log(el, 'el----');
-              el = JSON.parse(el);
+              // el = JSON.parse(el);
               console.log(el, 'el----1111');
               return el;
             });

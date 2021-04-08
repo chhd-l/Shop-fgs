@@ -945,14 +945,12 @@ class Form extends React.Component {
               <DatePicker
                 className="receiveDate"
                 style={{ padding: '.95rem 0' }}
-                placeholder="Select Date"
+                placeholder={datePickerConfig.format}
                 dateFormat={datePickerConfig.format}
                 locale={datePickerConfig.locale}
                 maxDate={new Date()}
                 selected={
-                  caninForm.birthdate
-                    ? new Date(caninForm.birthdate)
-                    : new Date()
+                  caninForm.birthdate ? new Date(caninForm.birthdate) : ''
                 }
                 onChange={(date) => this.onDateChange(date)}
               />
