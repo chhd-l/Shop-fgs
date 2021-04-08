@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18592546",
+      "name": "play",
+      "font_class": "play",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "20298004",
+      "name": "标签",
+      "font_class": "biaoqian",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "20294157",
+      "name": "time",
+      "font_class": "time",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "20293502",
+      "name": "grayStar",
+      "font_class": "grayStar1",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
       "icon_id": "8406619",
       "name": "方向",
       "font_class": "icon-",
