@@ -238,12 +238,32 @@ class Payment extends React.Component {
       isShowCyberBindCardBtn: false,
       cardListLength: 0,
       paymentValidationLoading: false, // 地址校验loading
+      btnLoading: false,
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress', // 校验选择
       isShowValidationModal: true, // 是否显示验证弹框
       billingAddressAddOrEdit: false, // billingAddress编辑或者添加地址
       validationAddress: [], // 校验地址
-      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
+      ruShippingDTO: {
+        sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+        sourceAreaFias: null,
+        sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+        sourceSettlementFias: null,
+        sourcePostalCode: null,
+        regionFias: '',
+        areaFias: '',
+        cityFias: '',
+        settlementFias: '',
+        postalCode: '',
+        weight: '1',
+        insuranceSum: 0,
+        codSum: 0,
+        dimensions: {
+          height: '1',
+          width: '1',
+          depth: '1'
+        }
+      } // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -271,7 +291,9 @@ class Payment extends React.Component {
     try {
       const { paymentStore, clinicStore, history } = this.props;
       const { tid } = this.state;
-      setSeoConfig().then((res) => {
+      setSeoConfig({
+        pageName: 'Checkout page'
+      }).then((res) => {
         this.setState({ seoConfig: res });
       });
       if (this.isLogin) {
@@ -1135,9 +1157,8 @@ class Payment extends React.Component {
           oxxoPayUrl =
             oxxoArgs &&
             oxxoArgs.additionalDetails &&
-            oxxoArgs.additionalDetails.object &&
-            oxxoArgs.additionalDetails.object.data[0]
-              ? oxxoArgs.additionalDetails.object.data[0].href
+            oxxoArgs.additionalDetails.data[0]
+              ? oxxoArgs.additionalDetails.data[0].href
               : '';
           subOrderNumberList = tidList.length
             ? tidList
@@ -1450,6 +1471,7 @@ class Payment extends React.Component {
       promotionCode,
       guestEmail
     };
+
     if (payosdata) {
       param = Object.assign(param, {
         country: payosdata.country_code,
@@ -1775,11 +1797,18 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = async (data) => {
-    console.log(
-      '1869 ★★ -------------- Payment updateDeliveryAddrData: ',
-      data
-    );
+    const { ruShippingDTO } = this.state;
+    console.log('1869 ★★ -- Payment updateDeliveryAddrData: ', data);
+
+    var dudata = data?.DuData;
+    ruShippingDTO.regionFias = dudata?.provinceId;
+    ruShippingDTO.areaFias = dudata?.areaId;
+    ruShippingDTO.cityFias = dudata?.cityId;
+    ruShippingDTO.settlementFias = dudata?.settlementId;
+    ruShippingDTO.postalCode = dudata?.postCode;
+
     this.setState({
+      ruShippingDTO,
       deliveryAddress: data
     });
     if (this.state.billingChecked) {
@@ -1788,7 +1817,6 @@ class Payment extends React.Component {
       });
     }
     try {
-      // if (process.env.REACT_APP_LANG == 'en') {
       // 获取税额
       if (this.isLogin) {
         let stateNo = data?.state?.stateNo;
@@ -1816,12 +1844,11 @@ class Payment extends React.Component {
             city: data.city,
             street: data.address1,
             postalCode: data.postCode,
-            customerAccount: this.state.guestEmail,
-            ruShippingDTO: this.state.ruShippingDTO
-          }
+            customerAccount: this.state.guestEmail
+          },
+          ruShippingDTO: this.state.ruShippingDTO
         });
       }
-      // }
     } catch (err) {
       console.warn(err);
     }
@@ -1829,7 +1856,7 @@ class Payment extends React.Component {
 
   // 修改BillingAddress数据
   updateBillingAddrData = (data) => {
-    console.log('1924 ------------------  updateBillingAddrData: ', data);
+    console.log('1924 -- Payment updateBillingAddrData: ', data);
     if (!this.state.billingChecked) {
       this.setState({ billingAddress: data });
     }
@@ -2187,7 +2214,6 @@ class Payment extends React.Component {
     try {
       if (isLogin) {
         // 1 save billing addr, when billing checked status is false
-
         if (
           !billingChecked &&
           this.loginBillingAddrRef &&
@@ -2275,7 +2301,8 @@ class Payment extends React.Component {
     const { paymentStore } = this.props;
     this.setState({
       paymentValidationLoading: false,
-      validationModalVisible: false
+      validationModalVisible: false,
+      btnLoading: false
     });
     if (isLogin) {
       if (
@@ -2335,12 +2362,16 @@ class Payment extends React.Component {
     }
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
-  confirmListValidationAddress() {
+  confirmListValidationAddress = async () => {
+    const { isLogin } = this;
     const {
       billingAddress,
       selectValidationOption,
       validationAddress
     } = this.state;
+    this.setState({
+      btnLoading: true
+    });
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
@@ -2365,7 +2396,15 @@ class Payment extends React.Component {
     // this.confirmPaymentPanel();
     // billing  进入下一步
     this.cvvConfirmNextPanel();
-  }
+    // 调用保存 billingAddress 方法
+    if (
+      isLogin &&
+      this.loginBillingAddrRef &&
+      this.loginBillingAddrRef.current
+    ) {
+      await this.loginBillingAddrRef.current.handleSavePromise();
+    }
+  };
 
   // 编辑
   handleClickPaymentPanelEdit = async () => {
@@ -2450,7 +2489,7 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      // console.log('2248 : ', disabled);
+      console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2465,7 +2504,7 @@ class Payment extends React.Component {
     };
 
     const reInputCVVBtn = ({ disabled, loading = false }) => {
-      // console.log('2263 CVV Btn: ', disabled);
+      console.log('2263 CVV Btn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2959,6 +2998,7 @@ class Payment extends React.Component {
       this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
+    console.log('clickPay: ', this.state.billingAddress);
     this.initCommonPay({
       type: paymentTypeVal
     });
@@ -3403,6 +3443,7 @@ class Payment extends React.Component {
             {validationModalVisible && (
               <>
                 <ValidationAddressModal
+                  btnLoading={this.state.btnLoading}
                   address={billingAddress}
                   updateValidationData={this.getValidationData}
                   selectValidationOption={selectValidationOption}

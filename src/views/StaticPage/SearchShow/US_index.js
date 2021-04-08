@@ -7,6 +7,7 @@ import BannerTip from '@/components/BannerTip';
 import { setSeoConfig, getParaByName } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 
 const pageLink = window.location.href;
 class SearchShow extends React.Component {
@@ -25,7 +26,9 @@ class SearchShow extends React.Component {
   componentDidMount() {
     const { search } = this.props.history.location;
     const searchWords = decodeURI(getParaByName(search, 'q'));
-    setSeoConfig().then((res) => {
+    setSeoConfig({
+      pageName: 'No search Results page'
+    }).then((res) => {
       this.setState({ seoConfig: res });
     });
 
@@ -128,12 +131,12 @@ class SearchShow extends React.Component {
                               <div>
                                 <b style={{ color: '#0087BD' }}>Email Us</b>
                                 <div>
-                                  <a
-                                    href="/help/contact"
+                                  <Link
+                                    to="/help/contact"
                                     className="rc-styled-link"
                                   >
                                     Send us an Email
-                                  </a>
+                                  </Link>
                                 </div>
                               </div>
                             </div>

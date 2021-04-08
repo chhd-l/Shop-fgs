@@ -16,7 +16,8 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
   unique,
-  getParaByName
+  getParaByName,
+  cancelPrevRequest
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -47,6 +48,8 @@ import ClubSelection from '../components/ClubSelection';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Carousel from '../components/Carousel';
+import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
@@ -56,6 +59,7 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = process.env.REACT_APP_HUB_GA;
+const pageLink = window.location.href;
 
 const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: 开, 1: 关
@@ -98,7 +102,12 @@ class LoginCart extends React.Component {
       isShowValidCode: false, //是否显示无效promotionCode
       activeToolTipIndex: 0,
       goodsIdArr: [],
-      circleLoading: false
+      circleLoading: false,
+      seoConfig: {
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
+      }
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -112,12 +121,13 @@ class LoginCart extends React.Component {
       this.setState({ circleLoading: true });
     }
 
+    setSeoConfig({
+      pageName: 'Cart page'
+    }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
+
     this.getGoodsIdArr();
-    const {
-      history: {
-        location: { search }
-      }
-    } = this.props;
 
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -152,7 +162,7 @@ class LoginCart extends React.Component {
       });
       GACartScreenLoad();
     }
-    this.setData();
+    this.setData({ initPage: true });
 
     //给代客下单用 start
     if (localItemRoyal.get('rc-iframe-from-storepotal')) {
@@ -300,7 +310,7 @@ class LoginCart extends React.Component {
       console.log(err);
     }
   }
-  setData() {
+  setData({ initPage = false } = {}) {
     const { configStore } = this.props;
     console.log(configStore.defaultSubscriptionFrequencyId, '🌏');
     //每次数据变化调用
@@ -330,11 +340,24 @@ class LoginCart extends React.Component {
       }
       return el;
     });
-    this.setState({
-      productList,
-      checkoutLoading: false,
-      initLoading: false
-    });
+    this.setState(
+      {
+        productList,
+        checkoutLoading: false,
+        initLoading: false
+      },
+      () => {
+        // 若为空购物车，则要用其他seo
+        if (!this.state.productList.length) {
+          cancelPrevRequest();
+          setSeoConfig({
+            pageName: 'Empty Cart page'
+          }).then((res) => {
+            this.setState({ seoConfig: res });
+          });
+        }
+      }
+    );
   }
   /**
    * 加入后台购物车
@@ -1104,7 +1127,7 @@ class LoginCart extends React.Component {
           this.promotionVOList?.map((el) => (
             <div className={`row leading-lines shipping-item green d-flex`}>
               <div className="col-6">
-                <p>
+                <p className="ui-text-overflow-line1">
                   {/* {this.promotionDesc || (
                         <FormattedMessage id="NoPromotionDesc" />
                       )} */}
@@ -1456,6 +1479,15 @@ class LoginCart extends React.Component {
     console.log(this.btnStatus, 'this.btnStatus');
     return (
       <div className="Carts">
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
         {this.state.circleLoading || this.state.checkoutLoading ? (
           <Loading
             bgColor={'#000'}

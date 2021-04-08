@@ -32,6 +32,7 @@ import {
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = process.env.REACT_APP_LANG === 'en';
 const isRu = process.env.REACT_APP_LANG === 'ru';
@@ -244,7 +245,7 @@ class Recommendation extends React.Component {
     search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
     setSeoConfig({
-      pageName: 'SPT reco landing page'
+      pageName: 'SPT reco landing page'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -814,7 +815,7 @@ class Recommendation extends React.Component {
     };
     return (
       <div className="Recommendation_FR Recommendation_US">
-        {/* <GoogleTagManager additionalEvents={event} />
+        {/* <GoogleTagManager additionalEvents={event} />*/}
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
@@ -823,14 +824,14 @@ class Recommendation extends React.Component {
             content={this.state.seoConfig.metaDescription}
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet> */}
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
-          showBannerTip={showBannerTip}
+          showBannerTip={false}
           // showBannerTip={isUs ? true : false}
           bannerTipShowBtn={isUs ? true : false}
         />

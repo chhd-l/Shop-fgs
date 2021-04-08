@@ -198,6 +198,8 @@ const tr_TR = {
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
   confirmDelete: 'Silmek istiyor musunuz?',
   confirmDelete2: 'Silmek istiyor musunuz?',
+  confirmDeleteProduct:
+    'Bu ürünü arabadan çıkarmak istediğinize emin misiniz ?',
   confirmPassword: 'Şifreyi Onayla *',
   consent: 'Razı olmak',
   consignee: 'Alıcı',
@@ -1019,6 +1021,23 @@ const tr_TR = {
   Lifestyle: 'Yaşam tarzı',
   Activity: 'Aktivite',
   Weight: 'Ağırlık',
-  Expire: ' '
+  Expire: ' ',
+  'onlineStore.breedcrumb': 'Boutique Royal Canin',
+  'onlineStore.header.title': 'Boutique Royal Canin',
+  'onlineStore.header.content': 'İnternet serilerimizi öğrenin.',
+  'onlineStore.footer.title': 'Task Des',
+  'onlineStore.footer.content':
+    'Yardım ister misiniz? {val1}Ekibimiz tüm sorularınıza cevap verebilir ve daha iyi bir alış deneyiminiz olacağından emin olabiliriz.',
+  'onlineStore.BottomInfo.phone.content2':
+    "Pazartesi cumaya 8'den 1'e kadar.Toplantı saat 10:30'da yükseldi.Other scheduled meetingsToplantı saat 10:30'da yükseldi.ekonomik ve sosyal konseyiToplantı saat 1'de yükseldi.Diğer planlanmış toplantılarToplantı saat 1'de yükseldi.",
+  'onlineStore.BottomInfo.phone.title': 'telefonla',
+  'onlineStore.BottomInfo.email.title': 'Par E - posta',
+  'onlineStore.BottomInfo.email.content1':
+    'İki çalışma gününde sana cevap vereceğiz.',
+  'onlineStore.BottomInfo.email.content2': 'Bir mektup gönder',
+  'onlineStore.BottomInfo.faq.content1':
+    'Ayrıca ortak sorularımızın cevabını da görebilirsiniz. Bu size çok cevap verecek.',
+  'onlineStore.BottomInfo.faq.content2': 'Sorulara cevaplar',
+  'onlineStore.BottomInfo.faq.title': 'Task Des?'
 };
 export default tr_TR;

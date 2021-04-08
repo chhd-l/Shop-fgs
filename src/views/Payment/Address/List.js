@@ -70,11 +70,11 @@ class AddressList extends React.Component {
       saveErrorMsg: '',
       selectedId: '',
       isValid: false,
+      btnLoading: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
-      russiaAddressValidFlag: true, // 俄罗斯地址校验标记
-      ruShippingDTO: {} // 俄罗斯计算运费DuData对象，purchases接口用
+      russiaAddressValidFlag: false // 俄罗斯地址校验标记
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -90,6 +90,9 @@ class AddressList extends React.Component {
       });
     });
     this.queryAddressList({ init: true });
+    this.setState({
+      btnLoading: false
+    });
   }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
@@ -326,7 +329,6 @@ class AddressList extends React.Component {
       },
       () => {
         this.updateSelectedData();
-        // debugger
       }
     );
   }
@@ -411,6 +413,7 @@ class AddressList extends React.Component {
         return;
       }
       await validData(data.formRule, data); // 数据验证
+
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
@@ -481,6 +484,7 @@ class AddressList extends React.Component {
         postCode: deliveryAddress.postCode,
         rfc: deliveryAddress.rfc,
         email: deliveryAddress.email,
+        comment: deliveryAddress?.comment,
 
         region: deliveryAddress.province, // DuData相关参数
         area: deliveryAddress.area,
@@ -489,7 +493,7 @@ class AddressList extends React.Component {
         house: deliveryAddress.house,
         housing: deliveryAddress.housing,
         entrance: deliveryAddress.entrance,
-        appartment: deliveryAddress.appartment,
+        apartment: deliveryAddress.apartment,
 
         type: this.props.type.toUpperCase()
       };
@@ -579,7 +583,8 @@ class AddressList extends React.Component {
   showNextPanel = async () => {
     this.setState({
       listValidationModalVisible: false,
-      saveLoading: false
+      saveLoading: false,
+      btnLoading: false
     });
     this.props.updateValidationStaus(true);
     // 不校验地址，进入下一步
@@ -593,6 +598,9 @@ class AddressList extends React.Component {
       selectListValidationOption,
       validationAddress
     } = this.state;
+    this.setState({
+      btnLoading: true
+    });
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectListValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
@@ -717,6 +725,7 @@ class AddressList extends React.Component {
     return (
       <>
         <ValidationAddressModal
+          btnLoading={this.state.btnLoading}
           address={deliveryAddress}
           updateValidationData={(res) => this.getListValidationData(res)}
           selectValidationOption={selectListValidationOption}
@@ -732,6 +741,7 @@ class AddressList extends React.Component {
               saveLoading: false,
               loading: false
             });
+            this.props.updateValidationStaus(true);
           }}
         />
       </>

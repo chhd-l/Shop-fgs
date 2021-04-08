@@ -238,6 +238,7 @@ class ShippingAddressFrom extends React.Component {
         postCode: data.postCode,
         rfc: data.rfc,
         email: data.email,
+        comment: data?.comment,
 
         region: data.province, // DuData相关参数
         area: data.area,
@@ -246,7 +247,7 @@ class ShippingAddressFrom extends React.Component {
         house: data.house,
         housing: data.housing,
         entrance: data.entrance,
-        appartment: data.appartment,
+        apartment: data.apartment,
 
         type: curType.toUpperCase()
       };

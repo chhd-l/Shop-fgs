@@ -88,7 +88,7 @@ class AccountProfile extends React.Component {
     myAccountPushEvent('Personal information');
 
     setSeoConfig({
-      pageName: 'Account personal information'
+      pageName: 'Account personal information'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });

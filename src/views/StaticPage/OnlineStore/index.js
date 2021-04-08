@@ -4,7 +4,8 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import SalesCategory from './modules/salesCategory';
+import HubSalesCategory from '@/components/HubSalesCategory';
+import { salesCategoryFilterRule2 } from '@/components/HubSalesCategory/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
@@ -433,8 +434,6 @@ class OnlineStore extends React.Component {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
-
-    console.log(this.props.configStore.storeContactPhoneNumber);
   }
 
   render(h) {
@@ -471,7 +470,7 @@ class OnlineStore extends React.Component {
           <BannerTip />
           <BreadCrumbs />
           <OnlineStoreHeader />
-          <SalesCategory />
+          <HubSalesCategory rule={salesCategoryFilterRule2} />
           <Divider />
           <AdvantageTips />
           <Divider />
