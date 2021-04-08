@@ -554,10 +554,10 @@ export default {
       shortUrl: '/cats/products/kitten',
       redirectUrl: '/cats/retail-products'
     },
-    // {
-    //   shortUrl: '/cats/products/retail-products',
-    //   redirectUrl: '/cats/retail-products'
-    // },
+    {
+      shortUrl: '/cats/products/retail-products',
+      redirectUrl: '/cats/retail-products'
+    },
     {
       shortUrl: '/cats/products/retail-products/ageing-12-dry',
       redirectUrl: '/ageing-12+-2561'
