@@ -338,7 +338,7 @@ const en_US = {
   contactUsViaPhone: 'contáctenos por teléfono',
   continue: 'Continue',
   continueAsGuest: 'Continue as a guest',
-  continueMyPurchases: 'Continue my purchases',
+  continueMyPurchases: 'Continue shopping',
   continueShopping: 'Continue shopping',
   country: 'Country *',
   createAnAccount: 'Create an account',
@@ -542,7 +542,7 @@ const en_US = {
   giveConsentPersonalData:
     'and give my consent to the processing of personal data, including cross-border transfer',
   goods: 'Products',
-  goToCart: 'Go to shopping cart',
+  goToCart: 'Go to cart',
   guestCheckout: 'Continue as a Guest',
   'header.bannerTip': '30% off first purchase + 5% off autoship',
   'header.basketEmpty': 'Your cart is empty',
