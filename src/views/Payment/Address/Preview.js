@@ -13,7 +13,7 @@ export default class AddressPreview extends React.Component {
         countryList: res
       });
     });
-    console.log('16    Preview: ', this.props.form);
+    // console.log('16    Preview: ', this.props.form);
   }
   render() {
     const { form, boldName, isLogin } = this.props;
