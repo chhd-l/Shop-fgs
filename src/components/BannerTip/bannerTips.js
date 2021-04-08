@@ -8,7 +8,9 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function Container({ children }) {
   return isMobile ? (
-    <marquee>{children}</marquee>
+    <marquee style={{ display: 'flex', alignItems: 'center' }}>
+      {children}
+    </marquee>
   ) : (
     <div
       className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs"
@@ -52,14 +54,13 @@ export const bannerTips = () => {
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
                 <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
-                <span>
+                <span className="align-middle">
                   <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
                   <Link
                     to="/subscription-landing"
                     className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                    style={{ minWidth: '110px', padding: '4px 1.5rem' }}
                   >
                     <FormattedMessage id="bannerTip.btnText" />
                   </Link>

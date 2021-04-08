@@ -193,7 +193,7 @@ const en_US = {
   active: 'Active',
   addANewAddress: 'Add a new Address',
   addANewPaymentMethod: 'Add a new payment method',
-  addedtoCart: 'Added to cart',
+  addedtoCart: 'Added To Cart',
   addNewCreditCard: 'Add new credit card',
   addPet: 'Add a pet',
   address: 'Address',
@@ -338,7 +338,7 @@ const en_US = {
   contactUsViaPhone: 'contáctenos por teléfono',
   continue: 'Continue',
   continueAsGuest: 'Continue as a guest',
-  continueMyPurchases: 'Continue my purchases',
+  continueMyPurchases: 'Continue Shopping',
   continueShopping: 'Continue shopping',
   country: 'Country *',
   createAnAccount: 'Create an account',
@@ -542,7 +542,7 @@ const en_US = {
   giveConsentPersonalData:
     'and give my consent to the processing of personal data, including cross-border transfer',
   goods: 'Products',
-  goToCart: 'Go to shopping cart',
+  goToCart: 'Go To Cart',
   guestCheckout: 'Continue as a Guest',
   'header.bannerTip': '30% off first purchase + 5% off autoship',
   'header.basketEmpty': 'Your cart is empty',
@@ -661,7 +661,8 @@ const en_US = {
   modalCancelAllContent:
     'Are you sure you want to cancel all future shipments?',
   modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
-  modalChangeDateContent: 'Are you sure you want to skip the next delivery?',
+  modalChangeDateContent:
+    'Are you sure you want to change the next delivery date?',
   modalChangeDateTitle: 'Change the shipping date',
   modalOrderNowContent: 'Are you sure you want to place this order now?',
   modalOrderNowTitle: 'ORDER NOW?',

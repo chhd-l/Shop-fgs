@@ -45,7 +45,7 @@ const AddCartSuccessMobile = ({ target }) => {
                 fill="#47b800"
               />
             </svg>
-            <p style={{ color: '#47b800 !important' }}>
+            <p style={{ color: '#5cae2a' }}>
               <FormattedMessage id="addedtoCart" />
             </p>
             <DistributeHubLinkOrATag
