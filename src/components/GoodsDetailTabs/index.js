@@ -12,7 +12,33 @@ import shippingicon from './image/pictoshipping@4x.png';
 import nutrition from './image/pictonutrition@4x.png';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
-
+const clubListData = [
+  {
+    text: 'tailored and evolving premium nutrition',
+    img: phoneicon,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: 'A welcome box, rewards and services',
+    img: gifticon,
+    alt: 'CLUB BENEFITS DISCOUNT'
+  },
+  {
+    text: 'A pet advisor and personalized newsletters',
+    img: spetadviser,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: 'Automatic food reﬁlls with free shipping',
+    img: shippingicon,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: 'Full control and free from engagement',
+    img: nutrition,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  }
+];
 const GoodsDetailTabs = function (props) {
   let hubGA = process.env.REACT_APP_HUB_GA == '1';
   let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -30,6 +56,11 @@ const GoodsDetailTabs = function (props) {
     activeTabIdxList = isMobile ? [] : [0];
   }
   const [activeTabIdxLists, setActiveTabIdxLists] = useState(activeTabIdxList);
+  useEffect(() => {
+    // activeTabIdxList变化监听
+    setActiveTabIdxLists(activeTabIdxList);
+  }, [props.activeTabIdxList]);
+
   if (saleableFlag === undefined) {
     saleableFlag = detailRes?.goods?.saleableFlag;
   }
@@ -193,6 +224,7 @@ const GoodsDetailTabs = function (props) {
           ' alt="image"></div></div></div></div>'
       });
     }
+    props.setState({ tmpGoodsDescriptionDetailList });
     setGoodsDetailTabsData(tmpGoodsDescriptionDetailList);
   };
   const changeTab = ({ idx, type, ele }) => {
@@ -223,30 +255,82 @@ const GoodsDetailTabs = function (props) {
   }, []);
 
   const createMarkup = (text) => ({ __html: text });
+  const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
   return isMobile ? (
-    goodsDetailTabsData.map((ele, index) => (
-      <React.Fragment key={index} id="GoodsDetailTabs">
-        <dl className="goodsdetailtabs-item-mobile">
+    <div>
+      {goodsDetailTabsData.map((ele, index) => (
+        <React.Fragment key={index} id="GoodsDetailTabs">
+          <dl className="goodsdetailtabs-item-mobile">
+            <div
+              className={`rc-list__accordion-item test-color 
+        ${activeTabIdxLists.includes(index) ? 'showItem' : 'hiddenItem'}`}
+            >
+              <div
+                className="rc-list__header d-flex justify-content-between text-uppercase"
+                onClick={changeTab.bind(null, {
+                  idx: index,
+                  type: 'toggle',
+                  ele
+                })}
+              >
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: ele.displayName
+                  }}
+                />
+                <span
+                  className={`rc-vertical-align icon-change ${
+                    activeTabIdxLists.includes(index)
+                      ? 'rc-icon rc-up rc-brand1'
+                      : 'rc-icon rc-down rc-iconography'
+                  }`}
+                  style={{ right: '1rem', height: '28px' }}
+                ></span>
+              </div>
+              <div className={`rc-list__content`} style={{ overflowX: 'auto' }}>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: ele.content
+                  }}
+                />
+              </div>
+            </div>
+          </dl>
+        </React.Fragment>
+      ))}
+      {isClub ? (
+        <dl
+          className="goodsdetailtabs-item-mobile"
+          style={{ position: 'relative' }}
+        >
+          <div
+            id="j-details-for-club"
+            style={{ position: 'absolute', top: -headerHeight }}
+          ></div>
           <div
             className={`rc-list__accordion-item test-color 
-        ${activeTabIdxLists.includes(index) ? 'showItem' : 'hiddenItem'}`}
+        ${
+          activeTabIdxLists.includes(goodsDetailTabsData.length)
+            ? 'showItem'
+            : 'hiddenItem'
+        }`}
           >
             <div
               className="rc-list__header d-flex justify-content-between text-uppercase"
               onClick={changeTab.bind(null, {
-                idx: index,
+                idx: goodsDetailTabsData.length,
                 type: 'toggle',
-                ele
+                ele: { descriptionName: 'club' }
               })}
             >
               <div
                 dangerouslySetInnerHTML={{
-                  __html: ele.displayName
+                  __html: 'club'
                 }}
               />
               <span
                 className={`rc-vertical-align icon-change ${
-                  activeTabIdxLists.includes(index)
+                  activeTabIdxLists.includes(goodsDetailTabsData.length)
                     ? 'rc-icon rc-up rc-brand1'
                     : 'rc-icon rc-down rc-iconography'
                 }`}
@@ -254,18 +338,54 @@ const GoodsDetailTabs = function (props) {
               ></span>
             </div>
             <div className={`rc-list__content`} style={{ overflowX: 'auto' }}>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: ele.content
-                }}
-              />
+              <p>
+                <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
+                  <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
+                    {clubListData.map((item) => (
+                      <div className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none">
+                        <div style={{ width: '100px' }}>
+                          <LazyLoad>
+                            <img
+                              src={item.img}
+                              alt={item.alt}
+                              className="m-auto rc-margin--none--desktop"
+                            />
+                          </LazyLoad>
+                        </div>
+                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                          <p style={{ textAlign: 'left' }}>{item.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="rc-video-wrapper">
+                      <iframe
+                        src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com"
+                        allowfullscreen=""
+                        frameborder="0"
+                        title="making a better world for pets"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <HowItWorks />
+              </p>
             </div>
           </div>
         </dl>
-      </React.Fragment>
-    ))
+      ) : null}
+    </div>
   ) : (
-    <div id="GoodsDetailTabs" className="rc-max-width--xl rc-padding-x--sm">
+    <div
+      id="GoodsDetailTabs"
+      className="rc-max-width--xl rc-padding-x--sm"
+      style={{ position: 'relative' }}
+    >
+      <div
+        id="j-details-for-club"
+        style={{ position: 'absolute', top: -headerHeight }}
+      ></div>
       <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
         <div>
           <div className="rc-border-bottom rc-border-colour--interface">
@@ -296,7 +416,7 @@ const GoodsDetailTabs = function (props) {
                 {isClub ? (
                   <li key={goodsDetailTabsData.length}>
                     <button
-                      className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                      className="j-details-for-club rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                       data-toggle={`tab__panel-${goodsDetailTabsData.length}`}
                       aria-selected={
                         activeTabIdxLists.includes(goodsDetailTabsData.length)
@@ -348,66 +468,18 @@ const GoodsDetailTabs = function (props) {
                 <div className="block">
                   <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
                     <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                        <img
-                          src={phoneicon}
-                          alt="CLUB BENEFITS PET ADVISOR"
-                          className="m-auto rc-margin--none--desktop"
-                        />
-                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                          <p style={{ textAlign: 'left' }}>
-                            tailored and evolving premium nutrition
-                          </p>
+                      {clubListData.map((item) => (
+                        <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
+                          <img
+                            src={item.img}
+                            alt={item.alt}
+                            className="m-auto rc-margin--none--desktop"
+                          />
+                          <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                            <p style={{ textAlign: 'left' }}>{item.text}</p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                        <img
-                          src={gifticon}
-                          alt="CLUB BENEFITS DISCOUNT"
-                          className="m-auto rc-margin--none--desktop"
-                        />
-                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                          <p style={{ textAlign: 'left' }}>
-                            A welcome box, rewards and services
-                          </p>
-                        </div>
-                      </div>
-                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                        <img
-                          src={spetadviser}
-                          alt="CLUB BENEFITS PET ADVISOR"
-                          className="m-auto rc-margin--none--desktop"
-                        />
-                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                          <p style={{ textAlign: 'left' }}>
-                            A pet advisor and personalized newsletters
-                          </p>
-                        </div>
-                      </div>
-                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                        <img
-                          src={shippingicon}
-                          alt="CLUB BENEFITS PET ADVISOR"
-                          className="m-auto rc-margin--none--desktop"
-                        />
-                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                          <p style={{ textAlign: 'left' }}>
-                            Automatic food reﬁlls with free shipping
-                          </p>
-                        </div>
-                      </div>
-                      <div className="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none">
-                        <img
-                          src={nutrition}
-                          alt="CLUB BENEFITS PET ADVISOR"
-                          className="m-auto rc-margin--none--desktop"
-                        />
-                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                          <p style={{ textAlign: 'left' }}>
-                            Full control and free from engagement
-                          </p>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                     <div className="col-12 col-md-6">
                       <div className="rc-video-wrapper">

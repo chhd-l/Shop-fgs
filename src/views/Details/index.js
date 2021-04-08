@@ -259,6 +259,7 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tmpGoodsDescriptionDetailList: [], //获取tab处理后的相关数据
       event: {},
       eEvents: {},
       GAListParam: '',
@@ -586,6 +587,20 @@ class Details extends React.Component {
       }
     );
   }
+  toScroll = (anchorName) => {
+    let anchorElement = document.getElementById(anchorName);
+    // 如果对应id的锚点存在，就跳转到锚点
+    if (anchorElement) {
+      anchorElement.scrollIntoView();
+    }
+  };
+  toClubTab = () => {
+    let ClubLength = this.state.tmpGoodsDescriptionDetailList?.length;
+    console.info('....', ClubLength);
+    this.setState({ activeTabIdxList: [ClubLength] }, () => {
+      this.toScroll('j-details-for-club');
+    });
+  };
   async queryDetails() {
     const { configStore } = this.props;
     const { id, goodsNo } = this.state;
@@ -632,7 +647,7 @@ class Details extends React.Component {
             frequencyList: frequencyDictRes,
             form: Object.assign(this.state.form, {
               frequencyId:
-                goodsRes.defaultFrequencyId ||
+                goodsRes?.defaultFrequencyId ||
                 configStore.defaultSubscriptionFrequencyId ||
                 (frequencyDictRes[0] && frequencyDictRes[0].id) ||
                 ''
@@ -2238,9 +2253,12 @@ class Details extends React.Component {
                                       <FormattedMessage id="freeShipping" />
                                     </div>
                                     <div className="learnMore">
-                                      <a className="rc-styled-link">
+                                      <span
+                                        className="rc-styled-link"
+                                        onClick={this.toClubTab}
+                                      >
                                         Learn more
-                                      </a>
+                                      </span>
                                     </div>
                                   </div>
                                   {this.getFrequencyDictDom()}
