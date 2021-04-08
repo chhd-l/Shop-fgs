@@ -32,12 +32,13 @@ const mapEnum = {
  */
 export function formatMoney(
   val,
-  currency = process.env.REACT_APP_CURRENCY_TYPE || 1
+  currency = process.env.REACT_APP_CURRENCY_TYPE || 1,
+  noFixed
 ) {
   if (isNaN(val)) {
     val = 0;
   }
-  val = Number(val).toFixed(2);
+  val = noFixed ? Number(val) : Number(val).toFixed(2);
   const tmp = mapEnum[currency];
   if (!tmp.twoDecimals) {
     // 保留两位小数时，不填充0
@@ -46,6 +47,9 @@ export function formatMoney(
   val += '';
   if (process.env.REACT_APP_LANG === 'tr') {
     return val + ' TL';
+  }
+  if (process.env.REACT_APP_LANG === 'ru') {
+    return val + ' руб';
   }
   return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
     style: 'currency',

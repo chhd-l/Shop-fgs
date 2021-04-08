@@ -471,9 +471,11 @@ const ru_RU = {
   home: 'Личный кабинет',
   'home.convenientTip1':
     'Подбор рациона в соответствии с потребностями Вашего питомца',
-  'home.convenientTip2': 'Быстрая бесплатная доставка при заказе из {val}.',
+  'home.convenientTip2': 'Быстрая бесплатная доставка при заказе от {val}.',
   'home.convenientTip3':
     'Служба поддержки: задайте интересующий вопрос о своем питомце специалисту',
+  'home.convenientTip4':
+    'Доставка по подписке со скидкой 10% от суммы каждого заказа',
   'home.convenientTitle': 'Почему удобно совершать покупки с ROYAL CANIN®?',
   'home.note1':
     'Afectado por la epidemia, el tiempo de entrega puede extenderse.',

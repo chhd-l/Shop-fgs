@@ -180,19 +180,19 @@ const GoodsDetailTabs = function (props) {
           '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>'
       });
     }
-    if (process.env.REACT_APP_LANG === 'ru' && saleableFlag && sptGoods) {
-      let mixfeeding = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
-      let MixfeedingFood = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
-      tmpGoodsDescriptionDetailList.push({
-        displayName: 'Смешанное кормление',
-        content:
-          '<div class="content-asset"><div class="rc-layout-container rc-two-column"><div class="rc-column"><h2 class="rc-alpha rc-margin-bottom--xs">СМЕШАННОЕ КОРМЛЕНИЕ</h2><span class="rc-beta">Предложите своему питомцу самое лучшее – в сочетании двух разных текстур</span><p></p><p>Смешанное кормление – это система питания, которая подразумевает включение в рацион животного как сухих, так и влажных продуктов. Каждая из этих категорий полноценна и сбалансированна и может применяться самостоятельно, но их сочетание – отличный способ дать питомцу преимущества каждого типа продуктов.</p><p></p><img class=" lazyloaded" src=' +
-          mixfeeding +
-          ' alt="image"></div> <div class="rc-column"><div class="rc-card card-border-style"><img class=" lazyloaded" src=' +
-          MixfeedingFood +
-          ' alt="image"></div></div></div></div>'
-      });
-    }
+    // if (process.env.REACT_APP_LANG === 'ru' && saleableFlag && sptGoods) {
+    //   let mixfeeding = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
+    //   let MixfeedingFood = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
+    //   tmpGoodsDescriptionDetailList.push({
+    //     displayName: 'Смешанное кормление',
+    //     content:
+    //       '<div class="content-asset"><div class="rc-layout-container rc-two-column"><div class="rc-column"><h2 class="rc-alpha rc-margin-bottom--xs">СМЕШАННОЕ КОРМЛЕНИЕ</h2><span class="rc-beta">Предложите своему питомцу самое лучшее – в сочетании двух разных текстур</span><p></p><p>Смешанное кормление – это система питания, которая подразумевает включение в рацион животного как сухих, так и влажных продуктов. Каждая из этих категорий полноценна и сбалансированна и может применяться самостоятельно, но их сочетание – отличный способ дать питомцу преимущества каждого типа продуктов.</p><p></p><img class=" lazyloaded" src=' +
+    //       mixfeeding +
+    //       ' alt="image"></div> <div class="rc-column"><div class="rc-card card-border-style"><img class=" lazyloaded" src=' +
+    //       MixfeedingFood +
+    //       ' alt="image"></div></div></div></div>'
+    //   });
+    // }
     setGoodsDetailTabsData(tmpGoodsDescriptionDetailList);
   };
   const changeTab = ({ idx, type, ele }) => {
