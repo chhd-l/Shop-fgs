@@ -799,3 +799,7 @@ export function cancelPrevRequest() {
     delete window.axiosCancel[index];
   });
 }
+
+export function getClubFlag() {
+  return ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1;
+}

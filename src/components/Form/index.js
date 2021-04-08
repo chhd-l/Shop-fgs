@@ -111,25 +111,6 @@ class Form extends React.Component {
     // 1、查询form表单配置开关
     this.getSystemFormConfig();
   }
-  checkRussiaPhone(str) {
-    const r = /^((\+7|7|8)?([489][0-9]{2}))(\d*)$/;
-    const cityCode = str.replace(r, function (word) {
-      if (RegExp.$1.length === 4) {
-        const countriesCode = RegExp.$2.replace('+', '');
-        return `+${countriesCode}(${RegExp.$3})`;
-      } else if (RegExp.$1.length === 3) {
-        return `(${RegExp.$3})`;
-      }
-    });
-    const r2 = /^(\d{3})(\d{2})(\d{2})$/;
-    if (str.length <= 12) {
-      const number = RegExp.$4.replace(r2, '$1-$2-$3');
-      return `${cityCode}${number}`;
-    } else {
-      console.log('格式化 str: ', str);
-      return str;
-    }
-  }
   // 1、查询form表单配置开关
   getSystemFormConfig = async () => {
     const { caninForm } = this.state;
@@ -181,6 +162,11 @@ class Form extends React.Component {
             } else {
               narr = this.state.addressSettings.filter(
                 (item) => item.enableFlag == 1
+              );
+            }
+            if (this.props.personalData) {
+              narr = this.state.addressSettings.filter(
+                (item) => item.fieldKey != 'comment'
               );
             }
 

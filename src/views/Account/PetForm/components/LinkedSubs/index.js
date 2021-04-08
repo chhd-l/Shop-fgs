@@ -199,12 +199,15 @@ const LinkedSubs = (props) => {
                         onClick={() => {
                           let params = {
                             petsId: props.petsId,
-                            addGoodsItems: {
-                              skuId: subItem.skuId,
-                              goodsNum: subItem.subscribeNum,
-                              goodsInfoFlag: subItem.goodsInfoFlag,
-                              periodTypeId: subItem.periodTypeId
-                            }
+                            addGoodsItems: [
+                              {
+                                skuId: subItem.skuId,
+                                goodsNum: subItem.subscribeNum,
+                                goodsInfoFlag: subItem.goodsInfoFlag,
+                                periodTypeId: subItem.periodTypeId,
+                                subscribeId: subItem.subscribeId
+                              }
+                            ]
                           };
                           changeSubscriptionGoods(params).then((res) => {});
                         }}
