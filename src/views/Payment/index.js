@@ -1834,7 +1834,7 @@ class Payment extends React.Component {
             postalCode: data.postCode,
             customerAccount: this.state.email
           },
-          address1: data.address1,
+          address1: data?.address1,
           ruShippingDTO: this.state.ruShippingDTO
         });
       } else {
@@ -1849,7 +1849,7 @@ class Payment extends React.Component {
             postalCode: data.postCode,
             customerAccount: this.state.guestEmail
           },
-          address1: data.address1,
+          address1: data?.address1,
           ruShippingDTO: this.state.ruShippingDTO
         });
       }
@@ -2985,7 +2985,7 @@ class Payment extends React.Component {
           customerAccount: guestEmail,
           ruShippingDTO: this.state.ruShippingDTO
         },
-        address1: data.address1
+        address1: deliveryAddress?.address1
       });
     });
   };
