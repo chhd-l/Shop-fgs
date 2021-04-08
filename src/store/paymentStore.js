@@ -56,7 +56,7 @@ class PaymentStore {
 
   @observable supportPaymentMethods = []; //当前支付方式所支持的卡类型
 
-  @observable currentCardTypeInfo = null; //当前卡类型信息
+  @observable currentCardTypeInfo = null; //当前卡类型信息(cardLength:18，imgUrl,cvvLength: 3 ...)
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
