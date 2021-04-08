@@ -686,7 +686,7 @@ const ru_RU = {
   'payment.region': 'район',
   'payment.entrance': 'Подъезд',
   'payment.apartment': 'квартира',
-  'payment.comment': 'Комментарий к доставке',
+  'payment.comment': 'Комментарий к заказу',
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
