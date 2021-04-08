@@ -25,9 +25,9 @@ export default class DropDownMenuForHub extends React.Component {
     this.onListItemFocus = this.onListItemFocus.bind(this);
   }
   toggleListItem(item, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
+    // e.preventDefault();
+    // e.stopPropagation();
+    // e.nativeEvent.stopImmediatePropagation();
 
     const { currentClickedParentItemId } = this.state;
 
