@@ -8,7 +8,8 @@ import {
   getParaByName,
   getDeviceType,
   generateOptions,
-  getDictionary
+  getDictionary,
+  unique
 } from '@/utils/utils';
 import {
   getPrescriptionById,
@@ -474,7 +475,7 @@ class Header extends React.Component {
     if (!dom) {
       return false;
     }
-    let cls = dom.className.split(' ') || [];
+    let cls = unique(dom.className.split(' ') || []);
     if (active) {
       cls.push(operatedClassName);
     } else {

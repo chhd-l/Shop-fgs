@@ -5951,6 +5951,11 @@
   "resolved" "https://registry.npm.taobao.org/image-size/download/image-size-0.5.5.tgz"
   "version" "0.5.5"
 
+"imask@^6.0.7":
+  "integrity" "sha1-IKYmqA4ncjHX1cJ89F2BbANbdI4="
+  "resolved" "https://registry.npm.taobao.org/imask/download/imask-6.0.7.tgz"
+  "version" "6.0.7"
+
 "immer@1.10.0":
   "integrity" "sha1-utZ2BbqcgQJ12R4cKkfUWC6YKG0="
   "resolved" "https://registry.npm.taobao.org/immer/download/immer-1.10.0.tgz?cache=0&sync_timestamp=1592986311731&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fimmer%2Fdownload%2Fimmer-1.10.0.tgz"

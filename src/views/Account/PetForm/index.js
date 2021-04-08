@@ -28,7 +28,9 @@ import {
   getDeviceType,
   datePickerConfig,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  getZoneTime,
+  getClubFlag
 } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
@@ -42,6 +44,7 @@ import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
+import { findPetProductForClub } from '@/api/subscription';
 
 const selectedPet = {
   border: '3px solid #ec001a'
@@ -680,16 +683,32 @@ class PetForm extends React.Component {
     if (param.weight) {
       params.size = param.weight;
     }
-    getRecommendProducts(params).then((res) => {
-      let result = res.context;
-      if (result.otherProducts) {
-        let recommendData = result.otherProducts;
-        recommendData.unshift(result.mainProduct);
-        this.setState({
-          recommendData: recommendData
-        });
-      }
-    });
+    if (getClubFlag()) {
+      findPetProductForClub({
+        petsId: this.props.match.params.id,
+        apiTree: 'club_V2'
+      }).then((res) => {
+        let result = res.context;
+        if (result.otherProducts) {
+          let recommendData = result.otherProducts;
+          recommendData.unshift(result.mainProduct);
+          this.setState({
+            recommendData: recommendData
+          });
+        }
+      });
+    } else {
+      getRecommendProducts(params).then((res) => {
+        let result = res.context;
+        if (result.otherProducts) {
+          let recommendData = result.otherProducts;
+          recommendData.unshift(result.mainProduct);
+          this.setState({
+            recommendData: recommendData
+          });
+        }
+      });
+    }
     this.setState(param);
   };
   getDict = (type, name) => {
@@ -1118,7 +1137,7 @@ class PetForm extends React.Component {
                           maxDate={new Date()}
                           selected={
                             this.state.birthdate
-                              ? new Date(getFormatDate(this.state.birthdate))
+                              ? getZoneTime(this.state.birthdate)
                               : ''
                           }
                           onChange={(date) => this.onDateChange(date)}

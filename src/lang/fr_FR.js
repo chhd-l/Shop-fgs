@@ -981,6 +981,8 @@ const fr_FR = {
   saveSuccess: 'Sauver le succès',
   saveSuccessfullly: 'Sauvegarde réussie',
   saveSuccessfullly2: 'Vos informations ont été correctement enregistrées',
+  saveSuccessfullly3: 'Sauvegarde réussie',
+  deleteSuccessFullly: 'Suppression réussie',
   search: 'chercher',
   searchBreed: 'Rechercher une race',
   searchForAProductOrArtical: 'Rechercher un produit ou un article',

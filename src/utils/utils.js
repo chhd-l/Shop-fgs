@@ -622,6 +622,12 @@ export async function fetchHeaderNavigations() {
   }
   return ret;
 }
+export function getZoneTime(date) {
+  if (process.env.REACT_APP_LANG === 'en') {
+    return new Date(date).addHours(12);
+  }
+  return new Date(date);
+}
 
 export function getFormatDate(date, callback, lang) {
   if (process.env.REACT_APP_LANG === 'fr' || lang === 'fr') {
@@ -634,12 +640,12 @@ export function getFormatDate(date, callback, lang) {
       cache
     );
     if (callback && typeof callback === 'function') {
-      return callback(intl.formatDate(date));
+      return callback(intl.formatDate(getZoneTime(date)));
     } else {
-      return intl.formatDate(date);
+      return intl.formatDate(getZoneTime(date));
     }
   } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
-    return format(new Date(date).addHours(12), 'MM/dd/yyyy', {
+    return format(getZoneTime(date), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });
   } else {
@@ -650,6 +656,7 @@ export function getFormatDate(date, callback, lang) {
     }
   }
 }
+window.getFormatDate = getFormatDate;
 
 function getDatePickerConfig() {
   const lang = process.env.REACT_APP_LANG;
@@ -816,4 +823,8 @@ export function cancelPrevRequest() {
     ele.cancel('取消了请求'); // 在失败函数中返回这里自定义的错误信息
     delete window.axiosCancel[index];
   });
+}
+
+export function getClubFlag() {
+  return ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1;
 }

@@ -52,7 +52,7 @@ class VisitorAddress extends React.Component {
       visitorValidationModalVisible: false, // 地址校验查询开关
       selectVisitorValidationOption: 'suggestedAddress',
       russiaAddressValidFlag: false, // 俄罗斯地址校验标记
-      btnLoading: false
+      visitorBtnLoading: false
     };
     this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
       this
@@ -62,7 +62,7 @@ class VisitorAddress extends React.Component {
     this.validData({
       data: this.state.form,
       visitorValidationModalVisible: false,
-      btnLoading: false
+      visitorBtnLoading: false
     });
     console.log('★ ----------------- VisitorAddress');
   }
@@ -222,7 +222,7 @@ class VisitorAddress extends React.Component {
     } = this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
-      btnLoading: true
+      visitorBtnLoading: true
     });
     if (selectVisitorValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
@@ -260,7 +260,7 @@ class VisitorAddress extends React.Component {
     this.setState(
       {
         visitorValidationModalVisible: false,
-        btnLoading: false
+        visitorBtnLoading: false
       },
       () => {
         this.props.updateValidationStaus(true);
@@ -293,7 +293,7 @@ class VisitorAddress extends React.Component {
     const { form } = this.state;
     this.setState({
       visitorValidationModalVisible: false,
-      btnLoading: false
+      visitorBtnLoading: false
     });
     this.props.updateValidationStaus(false);
     this.props.updateData(form);
@@ -359,7 +359,7 @@ class VisitorAddress extends React.Component {
         {visitorValidationLoading && <Loading positionFixed="true" />}
         {visitorValidationModalVisible && (
           <ValidationAddressModal
-            btnLoading={this.state.btnLoading}
+            btnLoading={this.state.visitorBtnLoading}
             address={form}
             updateValidationData={(res) => this.getVisitorValidationData(res)}
             selectValidationOption={selectVisitorValidationOption}
@@ -371,6 +371,7 @@ class VisitorAddress extends React.Component {
             close={() => {
               this.setState({
                 visitorValidationModalVisible: false,
+                visitorBtnLoading: false,
                 visitorValidationLoading: false
               });
               this.props.updateValidationStaus(true);

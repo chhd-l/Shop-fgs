@@ -1,4 +1,5 @@
 import axios from '@/utils/request';
+import { getClubFlag } from '@/utils/utils';
 
 const api = {
   nextStep: '/product/finder/nextStep',
@@ -10,7 +11,7 @@ const api = {
 export default api;
 export function query(parameter) {
   let url = api.nextStep;
-  if (['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1) {
+  if (getClubFlag()) {
     url = api.nextStep_club;
     Object.assign(parameter, {
       apiTree: 'club_V2'
@@ -40,7 +41,7 @@ export function edit(parameter) {
 
 export function matchProducts(parameter) {
   let url = api.matchProducts;
-  if (['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1) {
+  if (getClubFlag()) {
     url = api.matchProducts_club;
     Object.assign(parameter, {
       apiTree: 'club_V2'
