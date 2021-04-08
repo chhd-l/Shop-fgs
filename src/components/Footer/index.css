@@ -269,16 +269,19 @@
 .hub-footer .rc-list__item > a {
   color: #f6f6f6 !important;
 }
-.hub-footer .rc-list--footer-columns {
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
-  break-inside: avoid;
-  -webkit-column-count: 6;
-  column-count: 6;
-  display: block;
-}
-.hub-footer .rc-list--footer-columns > .rc-list__item {
-  -webkit-column-break-inside: avoid;
-  break-inside: avoid;
-  page-break-inside: avoid;
+
+@media screen and (min-width: 767px) {
+  .hub-footer .rc-list--footer-columns {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    -webkit-column-count: 6;
+    column-count: 6;
+    display: block;
+  }
+  .hub-footer .rc-list--footer-columns > .rc-list__item {
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 }

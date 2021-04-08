@@ -1668,6 +1668,19 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
+                                  {details.taggingForImage ? (
+                                    <div className="product-item-flag-image product-item-flag-image__pdp position-absolute">
+                                      <LazyLoad>
+                                        <img
+                                          src={
+                                            details.taggingForImage
+                                              .taggingImgUrl
+                                          }
+                                          alt="tagging image"
+                                        />
+                                      </LazyLoad>
+                                    </div>
+                                  ) : null}
                                   {isCountriesContainer([
                                     'fr',
                                     'ru',
