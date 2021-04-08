@@ -33,7 +33,8 @@ import {
   getFormatDate,
   datePickerConfig,
   formatMoney,
-  setSeoConfig
+  setSeoConfig,
+  getZoneTime
 } from '@/utils/utils';
 import { getDetailsBySpuNo } from '@/api/details';
 import { getPetList } from '@/api/pet';
@@ -3129,9 +3130,7 @@ class SubscriptionDetail extends React.Component {
                                         !isActive
                                           ? ''
                                           : el.nextDeliveryTime
-                                          ? new Date(
-                                              getFormatDate(el.nextDeliveryTime)
-                                            )
+                                          ? getZoneTime(el.nextDeliveryTime)
                                           : new Date()
                                       }
                                       disabled={true}
@@ -3217,15 +3216,6 @@ class SubscriptionDetail extends React.Component {
                                         >
                                           {el.goodsName}
                                         </h5>
-                                        {/* <p
-                                        style={{
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          marginBottom: '8px'
-                                        }}
-                                      >
-                                        Dog food
-                                      </p> */}
                                         <p
                                           style={{
                                             overflow: 'hidden',
@@ -3527,11 +3517,7 @@ class SubscriptionDetail extends React.Component {
                                           !isActive
                                             ? ''
                                             : el.nextDeliveryTime
-                                            ? new Date(
-                                                getFormatDate(
-                                                  el.nextDeliveryTime
-                                                )
-                                              )
+                                            ? getZoneTime(el.nextDeliveryTime)
                                             : new Date()
                                         }
                                         disabled={true}
@@ -3703,7 +3689,6 @@ class SubscriptionDetail extends React.Component {
                                                 </span>
                                               </div>
                                             ) : null}
-
                                             <div
                                               className={`${
                                                 isMobile ? 'col-0' : 'col-md-5'
@@ -3762,11 +3747,9 @@ class SubscriptionDetail extends React.Component {
                                                       }
                                                       selected={
                                                         el.tradeItems
-                                                          ? new Date(
-                                                              getFormatDate(
-                                                                el.tradeItems[0]
-                                                                  .nextDeliveryTime
-                                                              )
+                                                          ? getZoneTime(
+                                                              el.tradeItems[0]
+                                                                .nextDeliveryTime
                                                             )
                                                           : new Date()
                                                       }
