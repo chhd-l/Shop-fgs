@@ -452,9 +452,10 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     cartData
   } = checkoutStore;
   console.log(toJS(AuditData), 'sas');
+  let url = '/prescription';
   // 不开启地图，跳过prescriber页面
   if (!configStore.prescriberMap) {
-    return '/checkout';
+    url = '/checkout';
   }
   // 校验审核
   //调整：商品中所属category的Need Prescriber都为NO,直接进入checkout页面
@@ -467,7 +468,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     // }
     //|| localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
     if (!needPrescriber) {
-      return '/checkout';
+      url = '/checkout';
     }
   } else {
     let needPrescriber;
@@ -478,7 +479,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     // }
     //|| localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
     if (!needPrescriber) {
-      return '/checkout';
+      url = '/checkout';
     }
   }
   //获取是否显示prescriber弹框
@@ -510,10 +511,10 @@ export async function distributeLinktoPrecriberOrPaymentPage({
         clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
       }
       sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber信息
-      return '/checkout';
+      url = '/checkout';
     }
   }
-  return '/prescription';
+  return url;
 }
 
 export async function getFrequencyDict() {
