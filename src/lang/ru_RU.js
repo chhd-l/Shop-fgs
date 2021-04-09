@@ -258,7 +258,7 @@ const ru_RU = {
   'confirmation.customerInformation': 'Персональные данные',
   'confirmation.info1': 'Спасибо за Ваш заказ',
   'confirmation.info2':
-    'В ближайшее время Вы получите подтверждение по email адресу',
+    'Вскоре вы получите подтверждение по электронной почте на {val1}',
   'confirmation.info3':
     'Адреса и способы доставки указаны под вашими товарами.',
   'confirmation.oneShoot': 'Продолжить покупки',
