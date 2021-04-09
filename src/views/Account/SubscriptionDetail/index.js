@@ -593,13 +593,14 @@ class SubscriptionDetail extends React.Component {
           className="rc-styled-link"
           // onClick={this.showEditRecommendation}
         >
-          Edit pet profile
+          <FormattedMessage id="subscriptionDetail.editPetProfile" />
         </div>
       </Link>
       <div className="d-flex align-items-center">
         <div className="rc-padding-right--md">
           <h4 className="rc-md-up" style={{ color: '#e2001a', margin: 0 }}>
-            CLUB for {petsInfo?.petsName}
+            <FormattedMessage id="subscriptionDetail.clubFor" />{' '}
+            {petsInfo?.petsName}
           </h4>
           <div>
             Date of birth:<strong> {petsInfo?.birthOfPets}</strong>
@@ -620,11 +621,12 @@ class SubscriptionDetail extends React.Component {
               className="rc-styled-link"
               // onClick={this.showEditRecommendation}
             >
-              Edit pet profile
+              <FormattedMessage id="subscriptionDetail.editPetProfile" />
             </div>
           </Link>
           <div>
-            Breed:<strong>{petsInfo?.petsBreed}</strong>{' '}
+            <FormattedMessage id="breed" />:
+            <strong>{petsInfo?.petsBreed}</strong>{' '}
           </div>
         </div>
         <div className="rc-padding-right--md">
@@ -633,7 +635,8 @@ class SubscriptionDetail extends React.Component {
             &nbsp:;
           </div>
           <div>
-            Sterilized: <strong> {petsInfo?.sterilized ? 'yes' : 'no'}</strong>
+            <FormattedMessage id="Sterilized" />:{' '}
+            <strong> {petsInfo?.sterilized ? 'yes' : 'no'}</strong>
           </div>
         </div>
         <div className="rc-md-up">
@@ -2502,11 +2505,10 @@ class SubscriptionDetail extends React.Component {
                 onClick={this.showAddNewPet}
               ></div>
               <div>
-                For a better experience we recommend linking a pet profile to
-                your Club subscription
+                <FormattedMessage id="subscriptionDetail.better" />
                 <div>
                   <span className="rc-styled-link" onClick={this.showAddNewPet}>
-                    Link a profile
+                    <FormattedMessage id="subscriptionDetail.link" />
                   </span>
                   <span className="mobile-block">{this.statusText()}</span>
                 </div>
@@ -2831,7 +2833,7 @@ class SubscriptionDetail extends React.Component {
                                       }`}
                                       onClick={() => this.showChangeProduct(el)}
                                     >
-                                      change product
+                                      <FormattedMessage id="subscriptionDetail.changeProduct" />
                                     </span>
                                   )}
                                 </div>
@@ -2889,7 +2891,7 @@ class SubscriptionDetail extends React.Component {
                                         );
                                       }
                                     }}
-                                  ></span>
+                                  />
                                   <input
                                     className="rc-quantity__input 111"
                                     id="quantity"
@@ -2978,7 +2980,7 @@ class SubscriptionDetail extends React.Component {
                                         );
                                       }
                                     }}
-                                  ></span>
+                                  />
                                   <span
                                     style={{
                                       display: 'inline-block',
@@ -3035,7 +3037,7 @@ class SubscriptionDetail extends React.Component {
                                       width: '50%'
                                     }}
                                   >
-                                    <FormattedMessage id="subscription.frequency"></FormattedMessage>
+                                    <FormattedMessage id="subscription.frequency" />
                                     :
                                   </strong>
                                   <div
@@ -3104,8 +3106,7 @@ class SubscriptionDetail extends React.Component {
                                         }}
                                       />
                                     </LazyLoad>
-                                    <FormattedMessage id="nextShipment"></FormattedMessage>
-                                    :
+                                    <FormattedMessage id="nextShipment" />:
                                   </strong>
                                   <div
                                     className="rc-card__meta order-Id"
@@ -3249,7 +3250,7 @@ class SubscriptionDetail extends React.Component {
                                                   );
                                                 }
                                               }}
-                                            ></span>
+                                            />
                                             <input
                                               className="rc-quantity__input"
                                               id="quantity"
@@ -3350,7 +3351,7 @@ class SubscriptionDetail extends React.Component {
                                                   );
                                                 }
                                               }}
-                                            ></span>
+                                            />
                                             <span
                                               style={{
                                                 display: 'inline-block',
@@ -3403,7 +3404,7 @@ class SubscriptionDetail extends React.Component {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="col-4 col-md-1"></div>
+                                <div className="col-4 col-md-1" />
                                 <div
                                   className="col-4 col-md-5"
                                   style={{ paddingLeft: '60px' }}
@@ -3415,7 +3416,7 @@ class SubscriptionDetail extends React.Component {
                                         width: '50%'
                                       }}
                                     >
-                                      <FormattedMessage id="subscription.frequency"></FormattedMessage>
+                                      <FormattedMessage id="subscription.frequency" />
                                       :
                                     </strong>
                                     <div
@@ -3490,8 +3491,7 @@ class SubscriptionDetail extends React.Component {
                                           }}
                                         />
                                       </LazyLoad>
-                                      <FormattedMessage id="nextShipment"></FormattedMessage>
-                                      :
+                                      <FormattedMessage id="nextShipment" />:
                                     </strong>
                                     <div
                                       className="rc-card__meta order-Id"

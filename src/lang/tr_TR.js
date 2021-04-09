@@ -1054,6 +1054,12 @@ const tr_TR = {
   'details.findProductTip':
     'Find the right product and calculate your pet ration using our',
   'details.findProductTips': ' Product finder',
-  'details.learnMore': 'Learn more'
+  'details.learnMore': 'Learn more',
+  'subscriptionDetail.editPetProfile': 'Edit pet profile',
+  'subscriptionDetail.clubFor': 'CLUB for',
+  'subscriptionDetail.better':
+    'For a better experience we recommend linking a pet profile to your Club subscription',
+  'subscriptionDetail.link': 'Link a profile',
+  'subscriptionDetail.changeProduct': 'change product'
 };
 export default tr_TR;
