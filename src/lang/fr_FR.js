@@ -890,6 +890,7 @@ const fr_FR = {
   quantity: 'Quantité',
   quantityCannotExceed10: 'La quantité ne peut pas dépasser 10',
   quantityText: '{specText} - {buyCount} Quantité(s)',
+  'order.quantityText': '{specText} - {buyCount} Quantité(s)',
   queryDataFailed: 'La requête des données a échoué',
   ratingGrade1: 'Le plus récent',
   ratingGrade2: 'Ratin du plus bas au plus élevég',

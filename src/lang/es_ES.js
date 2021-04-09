@@ -209,7 +209,7 @@ const es_ES = {
   'confirmation.customerInformation': 'Información del cliente',
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2':
-    'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
+    'Recibirá una confirmación por correo electrónico en breve en {val1}',
   'confirmation.info3':
     'La dirección y el modo de transporte se enumeran debajo de sus productos.',
   'confirmation.oneShoot': 'Ir a mi cuenta',
@@ -762,6 +762,7 @@ const es_ES = {
   quantity: 'Cantidad',
   quantityCannotExceed10: 'La cantidad no puede exceder 10',
   quantityText: '{specText} - {buyCount} producto(s)',
+  'order.quantityText': '{specText} - {buyCount} producto(s)',
   queryDataFailed: 'Datos de consulta fallidos',
   ratingGrade1: 'Más reciente',
   ratingGrade2: 'Calificación de menor a mayor',

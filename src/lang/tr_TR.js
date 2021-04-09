@@ -184,7 +184,7 @@ const tr_TR = {
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
   'confirmation.info2':
-    'Yakın gelecekte, personelimiz siparişi onaylamak için sizinle iletişime geçecektir.',
+    'Kısa süre içinde {val1} adresinde bir e-posta onayı alacaksınız',
   'confirmation.info3':
     'Adresler ve nakliye yöntemleri mallarınızın altında belirtilmiştir.',
   'confirmation.oneShoot': 'Alışverişe devam',
@@ -703,6 +703,7 @@ const tr_TR = {
   quantity: 'miktarda',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} product(s)',
+  'order.quantityText': '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Sorgu Verisi Başarısız',
   ratingGrade1: 'En Yeniler',
   ratingGrade2: 'En Düşükten En Yüksek Dereceye',
