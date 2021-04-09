@@ -16,84 +16,9 @@ import ApplePayImg from '@/assets/images/ApplePay.png';
 import GooglePayImg from '@/assets/images/GooglePay.png';
 import './index.less';
 import { Helmet } from 'react-helmet';
+import { itemList } from './config';
 
 const pageLink = window.location.href;
-
-const itemList = [
-  {
-    icon: (
-      <svg
-        className="svg-icon account-home-icon"
-        aria-hidden="true"
-        style={{ width: '2.6rem' }}
-      >
-        <use xlinkHref="#iconMyinformation" />
-      </svg>
-    ),
-    titleLangKey: 'account.profile',
-    textLangKey: 'account.profileTip',
-    link: '/account/information'
-  },
-  {
-    icon: (
-      <svg
-        className="svg-icon account-home-icon"
-        aria-hidden="true"
-        style={{ width: '2.6rem' }}
-      >
-        <use xlinkHref="#iconMypets" />
-      </svg>
-    ),
-    titleLangKey: 'account.petsTitle',
-    textLangKey: 'account.petsTip',
-    link: '/account/pets/'
-  },
-  {
-    icon: (
-      <svg
-        className="svg-icon account-home-icon"
-        aria-hidden="true"
-        style={{ width: '2.6rem' }}
-      >
-        <use xlinkHref="#iconMyorders1" />
-      </svg>
-    ),
-    titleLangKey: 'account.ordersTitle',
-    textLangKey: 'account.ordersTip',
-    link: '/account/orders'
-  },
-  {
-    icon: (
-      <svg
-        className="svg-icon account-home-icon"
-        aria-hidden="true"
-        style={{ width: '2.6rem' }}
-      >
-        <use xlinkHref="#iconMySubsciptions1" />
-      </svg>
-    ),
-    titleLangKey: 'account.subscriptionTitle',
-    textLangKey: 'account.subscriptionTip',
-    link: '/account/subscription'
-  }
-  // 暂时注释，因为faq页面还没做好，需要隐藏
-  // {
-  //   icon: (
-  //     <svg
-  //       className="svg-icon account-home-icon"
-  //       aria-hidden="true"
-  //       style={{ width: '2.6rem' }}
-  //     >
-  //       <use xlinkHref="#iconFAQ" />
-  //     </svg>
-  //   ),
-  //   titleLangKey: 'account.faqTitle',
-  //   textLangKey: 'account.faqTip',
-  //   link: '/faq',
-  //   href: '/about-us/faqs',
-  //   isHubOuterLink: true
-  // }
-];
 
 function Container({ className, item, children }) {
   return item.isHubOuterLink ? (
