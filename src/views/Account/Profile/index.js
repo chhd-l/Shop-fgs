@@ -305,8 +305,8 @@ class AccountProfile extends React.Component {
                       updateEditOperationPanelName={
                         this.updateEditOperationPanelName
                       }
-                      needEmail={+process.env.REACT_APP_PAYU_EMAIL}
-                      needPhone={+process.env.REACT_APP_PAYU_PHONE}
+                      needEmail={true}
+                      needPhone={true}
                     />
                   </PanleContainer>
 

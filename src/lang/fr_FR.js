@@ -731,6 +731,11 @@ const fr_FR = {
   'payment.phoneNumber2': 'Numéro de téléphone',
   'payment.postCode': 'Code postal',
   'payment.postCode2': 'Code postal',
+  'payment.pleaseInput': 'Veuillez entrer: ',
+  'payment.streets': 'Rue',
+  'payment.house': 'La maison',
+  'payment.wrongAddress':
+    'Veuillez saisir votre adresse dans la zone de livraison de la boutique en ligne.Vous pouvez voir "aide partielle" pour les conditions de livraison sur la page',
   'payment.rfc': "Référence d'adresse",
   'payment.socialId': 'Identifiant social',
   'payment.state': 'État',
@@ -885,6 +890,7 @@ const fr_FR = {
   quantity: 'Quantité',
   quantityCannotExceed10: 'La quantité ne peut pas dépasser 10',
   quantityText: '{specText} - {buyCount} Quantité(s)',
+  'order.quantityText': '{specText} - {buyCount} Quantité(s)',
   queryDataFailed: 'La requête des données a échoué',
   ratingGrade1: 'Le plus récent',
   ratingGrade2: 'Ratin du plus bas au plus élevég',
@@ -1475,6 +1481,14 @@ const fr_FR = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'Voir les détails',
-  Expire: ' '
+  Expire: ' ',
+  generalTermsConditions: 'Conditions Générales De Vente',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 export default fr_FR;

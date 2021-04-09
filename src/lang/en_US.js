@@ -1,3 +1,5 @@
+import React from 'react';
+
 const en_US = {
   aboutUs: 'ABOUT US',
   'aboutUs.description':
@@ -810,6 +812,11 @@ const en_US = {
   'payment.phoneNumber2': 'Phone',
   'payment.postCode': 'ZIP Code',
   'payment.postCode2': 'Postal code',
+  'payment.pleaseInput': 'Please input: ',
+  'payment.streets': 'streets',
+  'payment.house': 'house',
+  'payment.wrongAddress':
+    'Please enter your address in the delivery area of the online store. You can see the "partial help" of the delivery terms on the page',
   'payment.rfc': 'Reference',
   'payment.saveFor': 'Save for next payment',
   'payment.socialId': 'Social id',
@@ -1074,7 +1081,7 @@ const en_US = {
   save: 'Save',
   saveChange: 'Save Changes',
   saveExtra: 'Save {val} on this subscription',
-  saveExtraMoney: 'Save {val} on this subscription',
+  saveExtraMoney: 'save an extra {val}',
   saveFailed: 'Save Failed!',
   saveSuccess: 'Save Success',
   saveSuccessfullly: 'Saved Successfully',
@@ -1253,6 +1260,13 @@ const en_US = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'View Detail',
-  Expire: 'Expire'
+  Expire: 'Expire',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 export default en_US;

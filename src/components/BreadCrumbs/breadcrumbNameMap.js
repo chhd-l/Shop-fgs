@@ -82,7 +82,7 @@ const breadcrumbNameMap = {
   ],
   '/general-terms-conditions': [
     {
-      name: 'Conditions Générales De Vente'
+      name: 'generalTermsConditions'
     }
   ],
   '/termsandconditions': [

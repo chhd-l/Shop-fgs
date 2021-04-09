@@ -24,7 +24,7 @@ const SubscriptionSelection = function (props) {
       }}
       onClick={props.chooseSubscription}
     >
-      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
+      <div className="buyMethodInnerBox d-flex justify-content-between">
         <div className="radioBox mr-2">
           <span
             style={{
@@ -83,7 +83,7 @@ const SubscriptionSelection = function (props) {
               id="saveExtraMoney"
               values={{
                 val: (
-                  <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                  <span className="product-pricing__card__head__price red rc-padding-y--none medium">
                     {!isLogin
                       ? formatMoney(
                           pitem.quantity *
@@ -97,13 +97,13 @@ const SubscriptionSelection = function (props) {
                           pitem.buyCount * pitem.salePrice -
                             pitem.buyCount * pitem.subscriptionPrice
                         )}
-                  </b>
+                  </span>
                 )
               }}
             />
           </span>
         </div>
-        <div className="price">
+        <div className="price text-nowrap">
           <div
             style={{
               fontSize: '.9375rem',

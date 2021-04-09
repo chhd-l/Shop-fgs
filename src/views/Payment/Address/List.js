@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
@@ -21,7 +21,7 @@ import './list.less';
  * address list(delivery/billing) - member
  */
 @inject('checkoutStore', 'paymentStore')
-@injectIntl
+// @injectIntl * 不能引入，引入后Payment中无法使用该组件 ref
 @observer
 class AddressList extends React.Component {
   static defaultProps = {
@@ -93,6 +93,7 @@ class AddressList extends React.Component {
     this.setState({
       listBtnLoading: false
     });
+    console.log(' -------------- List: ', this.props.ref);
   }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
@@ -205,7 +206,7 @@ class AddressList extends React.Component {
         this.setState({
           validationLoading: false
         });
-        this.showErrMsg(this.props.intl.messages['payment.wrongAddress']);
+        this.showErrMsg(this.props.wrongAddressMsg);
       }
     } catch (err) {
       console.warn(err);
@@ -271,7 +272,7 @@ class AddressList extends React.Component {
         this.setState({
           validationLoading: false
         });
-        this.showErrMsg(this.props.intl.messages['payment.wrongAddress']);
+        this.showErrMsg(this.props.wrongAddressMsg);
       }
     } catch (err) {
       console.warn(err);
@@ -462,8 +463,8 @@ class AddressList extends React.Component {
   };
   // 保存地址
   async handleSavePromise() {
+    this.setState({ saveLoading: true });
     try {
-      this.setState({ saveLoading: true });
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       let params = {
@@ -499,12 +500,10 @@ class AddressList extends React.Component {
 
         type: this.props.type.toUpperCase()
       };
-      // if (params?.province && params?.province != null) {
       params.provinceId = deliveryAddress.provinceId;
       params.province = deliveryAddress.province;
       params.provinceNo = deliveryAddress.provinceNo;
       params.isValidated = deliveryAddress.validationResult;
-      // }
 
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
@@ -800,7 +799,7 @@ class AddressList extends React.Component {
             )}
           </div>
           <div
-            className="col-10 col-md-9 pl-1 pr-1"
+            className="col-10 col-md-8 pl-1 pr-1"
             style={{ wordBreak: 'keep-all' }}
           >
             <span>{[item.consigneeName, item.consigneeNumber].join(', ')}</span>
@@ -825,7 +824,7 @@ class AddressList extends React.Component {
                   ].join(', ')}
             </span>
           </div>
-          <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
+          <div className="col-12 col-md-3 mt-md-0 mt-1 text-right">
             <span
               className="addr-btn-edit border-left pl-2"
               onClick={this.addOrEditAddress.bind(this, i)}

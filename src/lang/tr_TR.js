@@ -143,7 +143,7 @@ const tr_TR = {
     'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün sepette',
   'cart.totalProduct_nounit': '{val} sepette',
-  'cart.yourShoppingCart': 'Alışveriş sepetiniz',
+  'cart.yourShoppingCart': 'Sepetiniz',
   cats: 'KEDI',
   cats2: 'Kedi',
   cats3: 'Kedi',
@@ -184,7 +184,7 @@ const tr_TR = {
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
   'confirmation.info2':
-    'Yakın gelecekte, personelimiz siparişi onaylamak için sizinle iletişime geçecektir.',
+    'Kısa süre içinde {val1} adresinde bir e-posta onayı alacaksınız',
   'confirmation.info3':
     'Adresler ve nakliye yöntemleri mallarınızın altında belirtilmiştir.',
   'confirmation.oneShoot': 'Alışverişe devam',
@@ -272,7 +272,7 @@ const tr_TR = {
   'details.errMsg2': 'Ayrıntı bulunamadı, lütfen daha sonra tekrar deneyin.',
   'details.feedingRecommendations': 'Beslenme önerileri',
   'details.ingredients': 'Malzemeler',
-  'details.inStock': 'Stokta var',
+  'details.inStock': 'Stokta',
   'details.OffShelves': 'raflar kapalı',
   'details.OneOFF': 'Tek seferlik satın alma',
   'details.outStock': 'Stoklar tükendi',
@@ -302,7 +302,7 @@ const tr_TR = {
   estimatedTax: 'Tahmin edilen vergi',
   every: 'Her',
   example: 'Örnek',
-  examplePhone: 'Örnek: + (52) 559801 65',
+  examplePhone: 'Örnek: 0 (212) 123-45-67',
   examplePostCode: '12345',
   expirationDateIsInvalid: 'kartınızın son kullanma tarihi geçersiz',
   'faq.frequentQuestions': 'Sık sorulan sorular',
@@ -605,6 +605,11 @@ const tr_TR = {
   'payment.phoneNumber2': 'Telefon numarası',
   'payment.postCode': 'Posta Kodu',
   'payment.postCode2': 'Posta kodu',
+  'payment.pleaseInput': 'Lütfen girin: ',
+  'payment.streets': 'Sokak',
+  'payment.house': 'ev',
+  'payment.wrongAddress':
+    'Lütfen internet dükkanının teslim alanına adresinizi girin.Saifedeki teslim şartların "parçası yardım" olduğunu görebilirsiniz.',
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
   'payment.state': 'Durum',
@@ -695,9 +700,10 @@ const tr_TR = {
   'qualitySafety.shopTile':
     'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
   'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
-  quantity: 'miktarda',
+  quantity: 'Adet',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} product(s)',
+  'order.quantityText': '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Sorgu Verisi Başarısız',
   ratingGrade1: 'En Yeniler',
   ratingGrade2: 'En Düşükten En Yüksek Dereceye',
@@ -1040,6 +1046,14 @@ const tr_TR = {
   'onlineStore.BottomInfo.faq.content1':
     'Ayrıca ortak sorularımızın cevabını da görebilirsiniz. Bu size çok cevap verecek.',
   'onlineStore.BottomInfo.faq.content2': 'Sorulara cevaplar',
-  'onlineStore.BottomInfo.faq.title': 'Task Des?'
+  'onlineStore.BottomInfo.faq.title': 'Task Des?',
+  generalTermsConditions: 'Şartlar ve Koşullar',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 export default tr_TR;

@@ -10,7 +10,10 @@ import {
   addOrUpdatePaymentMethod,
   queryIsSupportInstallMents
 } from '@/api/payment';
-import { CREDIT_CARD_IMG_ENUM, PAYMENT_METHOD_RULE } from '@/utils/constant';
+import {
+  CREDIT_CARD_IMG_ENUM,
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE
+} from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { scrollPaymentPanelIntoView } from '@/views/Payment/modules/utils';
@@ -295,7 +298,10 @@ class MemberCardList extends React.Component {
       if (mustSaveForFutherPayments && !savedCardChecked) {
         throw new Error('must checked the saved card checkbox');
       }
-      await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
+      await validData(
+        PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+        this.state.creditCardInfoForm
+      );
       this.setState({ isValid: true });
       isValid = true;
     } catch (err) {

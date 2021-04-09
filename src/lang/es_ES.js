@@ -209,7 +209,7 @@ const es_ES = {
   'confirmation.customerInformation': 'Información del cliente',
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2':
-    'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
+    'Recibirá una confirmación por correo electrónico en breve en {val1}',
   'confirmation.info3':
     'La dirección y el modo de transporte se enumeran debajo de sus productos.',
   'confirmation.oneShoot': 'Ir a mi cuenta',
@@ -638,6 +638,11 @@ const es_ES = {
   'payment.phoneNumber2': 'Número de teléfono',
   'payment.postCode': 'Código Postal',
   'payment.postCode2': 'código postal',
+  'payment.pleaseInput': 'Por favor, introduzca: ',
+  'payment.streets': 'Calle',
+  'payment.house': 'Casa',
+  'payment.wrongAddress':
+    'Por favor, introduzca su dirección en el área de entrega de la tienda en línea.Puede ver "ayuda parcial" para los términos de entrega en la página',
   'payment.rfc': 'Referencia',
   'payment.socialId': 'Identificación social',
   'payment.state': 'Estado',
@@ -757,6 +762,7 @@ const es_ES = {
   quantity: 'Cantidad',
   quantityCannotExceed10: 'La cantidad no puede exceder 10',
   quantityText: '{specText} - {buyCount} producto(s)',
+  'order.quantityText': '{specText} - {buyCount} producto(s)',
   queryDataFailed: 'Datos de consulta fallidos',
   ratingGrade1: 'Más reciente',
   ratingGrade2: 'Calificación de menor a mayor',
@@ -1015,6 +1021,13 @@ const es_ES = {
   'account.clinicTitle2': 'Mi clínica por defecto',
   'subscription.viewDetails': 'Ver Detalle',
   bankCard: 'Tarjeta bancaria',
-  Expire: ' '
+  Expire: ' ',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 export default es_ES;

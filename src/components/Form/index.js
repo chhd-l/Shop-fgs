@@ -134,6 +134,7 @@ class Form extends React.Component {
         });
         // 根据接口类型查询表单数据
         this.getAddressSettingByApi(manually, automatically);
+      } else {
       }
     } catch (err) {
       console.log(err);
@@ -160,6 +161,7 @@ class Form extends React.Component {
                 (item) => item.enableFlag == 1 && item.fieldKey != 'phoneNumber'
               );
             } else if (this.props.personalData) {
+              // persnalData不需要展示comment
               narr = this.state.addressSettings.filter(
                 (item) => item.enableFlag == 1 && item.fieldKey != 'comment'
               );
@@ -265,10 +267,6 @@ class Form extends React.Component {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_LANG == 'ru') {
             regExp = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-          } else if (process.env.REACT_APP_LANG == 'mx') {
-          } else if (process.env.REACT_APP_LANG == 'de') {
-          } else if (process.env.REACT_APP_LANG == 'tr') {
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([2-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             regExp = /\S/;
           }
@@ -337,10 +335,15 @@ class Form extends React.Component {
         let cfm = caninForm;
         cfm.country = res[0].value;
         cfm.countryId = res[0].id;
-        this.setState({
-          countryList: res,
-          caninForm: Object.assign(this.state.caninForm, cfm)
-        });
+        this.setState(
+          {
+            countryList: res,
+            caninForm: Object.assign(this.state.caninForm, cfm)
+          },
+          () => {
+            console.log('-------- 国家： ', this.state.caninForm);
+          }
+        );
       }
     } catch (err) {
       console.log(err);
@@ -944,14 +947,12 @@ class Form extends React.Component {
               <DatePicker
                 className="receiveDate"
                 style={{ padding: '.95rem 0' }}
-                placeholder="Select Date"
+                placeholder={datePickerConfig.format}
                 dateFormat={datePickerConfig.format}
                 locale={datePickerConfig.locale}
                 maxDate={new Date()}
                 selected={
-                  caninForm.birthdate
-                    ? new Date(caninForm.birthdate)
-                    : new Date()
+                  caninForm.birthdate ? new Date(caninForm.birthdate) : ''
                 }
                 onChange={(date) => this.onDateChange(date)}
               />

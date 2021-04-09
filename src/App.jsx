@@ -97,6 +97,7 @@ import ContactUs from '@/views/StaticPage/ContactUs';
 import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
 import TermsConditions from '@/views/StaticPage/TermsAndConditions';
 import TermsConditionsUs from './views/StaticPage/TermsAndConditions/US_index';
+import TermsConditionsTr from './views/StaticPage/TermsAndConditions/TR_index';
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
 import DE_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/DE_index.js';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
@@ -307,7 +308,18 @@ const App = () => {
                 <Route
                   exact
                   path="/general-terms-conditions"
-                  component={TermsConditions}
+                  render={(props) => {
+                    let fragment = '';
+                    switch (process.env.REACT_APP_LANG) {
+                      case 'fr':
+                        fragment = <TermsConditions {...props} />;
+                        break;
+                      case 'tr':
+                        fragment = <TermsConditionsTr {...props} />;
+                        break; 
+                    }
+                    return fragment;
+                  }}
                 />
                 <Route
                   exact

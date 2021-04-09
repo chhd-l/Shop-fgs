@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import AdyenEditForm from '@/components/Adyen/form';
-import { CREDIT_CARD_IMG_ENUM, PAYMENT_METHOD_RULE } from '@/utils/constant';
+import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
@@ -22,7 +22,8 @@ import { ADDRESS_RULE } from './utils/constant';
 class PaymentEditForm extends React.Component {
   static defaultProps = {
     paymentType: 'PAYU', // PAYU ADYEN CYBER(美国支付)
-    onCardTypeValChange: () => {}
+    onCardTypeValChange: () => {},
+    payuFormRule: []
   };
   constructor(props) {
     super(props);
@@ -286,7 +287,7 @@ class PaymentEditForm extends React.Component {
   };
   async validFormData() {
     try {
-      await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
+      await validData(this.props.payuFormRule, this.state.creditCardInfoForm);
       this.setState({ isValid: true });
     } catch (err) {
       console.log(err);
@@ -702,6 +703,33 @@ class PaymentEditForm extends React.Component {
                 </aside>
                 <p className="m-0">{CreditCardImg}</p>
               </div>
+              <div className="row overflow_visible">
+                <div className="col-sm-12">
+                  <div className="form-group required">
+                    <label className="form-control-label">
+                      <FormattedMessage id="payment.cardOwner" />
+                    </label>
+                    <span
+                      className="rc-input rc-input--full-width"
+                      input-setup="true"
+                    >
+                      <input
+                        type="text"
+                        className="rc-input__control form-control cardOwner"
+                        name="cardOwner"
+                        value={creditCardInfoForm.cardOwner}
+                        onChange={this.cardInfoInputChange}
+                        onBlur={this.inputBlur}
+                        maxLength="40"
+                      />
+                      <label className="rc-input__label" htmlFor="cardOwner" />
+                    </span>
+                    <div className="invalid-feedback">
+                      <FormattedMessage id="payment.errorInfo2" />
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="row">
                 <div className="col-sm-12">
                   <div className="form-group">
@@ -817,33 +845,6 @@ class PaymentEditForm extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="row overflow_visible">
-                <div className="col-sm-12">
-                  <div className="form-group required">
-                    <label className="form-control-label">
-                      <FormattedMessage id="payment.cardOwner" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--full-width"
-                      input-setup="true"
-                    >
-                      <input
-                        type="text"
-                        className="rc-input__control form-control cardOwner"
-                        name="cardOwner"
-                        value={creditCardInfoForm.cardOwner}
-                        onChange={this.cardInfoInputChange}
-                        onBlur={this.inputBlur}
-                        maxLength="40"
-                      />
-                      <label className="rc-input__label" htmlFor="cardOwner" />
-                    </span>
-                    <div className="invalid-feedback">
-                      <FormattedMessage id="payment.errorInfo2" />
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div className="row">
                 {needEmail ? (
                   <div className="col-sm-6">
@@ -915,16 +916,10 @@ class PaymentEditForm extends React.Component {
                   </div>
                 ) : null}
               </div>
-              <div className="overflow-hidden">
-                <div className="text-right">
+              <div className="row">
+                <div className="col-12">
                   <div
-                    className="rc-input rc-input--inline"
-                    style={{
-                      marginTop: '.625rem',
-                      float: 'left',
-                      textAlign: 'left',
-                      maxWidth: '400px'
-                    }}
+                    className="rc-input w-100"
                     onClick={() => {
                       creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
@@ -933,29 +928,30 @@ class PaymentEditForm extends React.Component {
                     <input
                       type="checkbox"
                       className="rc-input__checkbox"
-                      // value={creditCardInfoForm.isDefault}
                       checked={creditCardInfoForm.isDefault}
                     />
-                    <label className="rc-input__label--inline text-break">
+                    <label className="rc-input__label--inline w-100 text-break">
                       <FormattedMessage id="setDefaultPaymentMethod" />
                     </label>
                   </div>
-                  <span
-                    className="rc-styled-link editPersonalInfoBtn"
-                    name="contactInformation"
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12 col-md-6 mt-2">
+                  <button
                     onClick={this.handleCancel}
+                    className="btn btn-block btn-outline-primary"
+                    style={{ maxWidth: '12.6rem' }}
                   >
                     <FormattedMessage id="cancel" />
-                  </span>
-                  &nbsp;
-                  <span>
-                    <FormattedMessage id="or" />
-                  </span>
-                  &nbsp;
+                  </button>
+                </div>
+                <div className="col-12 col-md-6 mt-2">
                   <button
-                    className={`rc-btn rc-btn--one submitBtn editAddress ${
+                    className={`rc-btn rc-btn--one submitBtn editAddress w-100 ${
                       saveLoading ? 'ui-btn-loading' : ''
                     }`}
+                    style={{ maxWidth: '12.6rem' }}
                     data-sav="false"
                     name="contactInformation"
                     type="submit"
