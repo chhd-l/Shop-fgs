@@ -1063,7 +1063,8 @@ const ru_RU = {
   manage: 'Управлять',
   'cyber.form.saveFor': 'Сохранить данные карты в учетной записи',
   //'cyber.form.theBox':'при подписке на корм данное поле является обязательным для заполнения',
-  'pet.petListTitle': 'Здесь Вы можете создать профили для Ваших питомцев',
+  'pet.petListTitle':
+    'Обновляйте информацию в профиле своего питомца, чтобы мы смогли подобрать для него питание, учитывающее его уникальные потребности',
   'payment.returnToCardList': 'Вярнуцца да спісу картак',
   'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
   'payment.saveThisPaymentMethodAsPreferred':
@@ -1089,7 +1090,7 @@ const ru_RU = {
   'orderStatus.COMPLETED': 'Завершено',
   'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
   'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
-  'subscription.see_more': 'Смотри другие Подписка',
+  'subscription.see_more': 'Смотреть другие подписки',
   'subscription.viewDetails': 'Посмотреть детали',
   Lifestyle: 'Образ жизни',
   Activity: 'Активность',
@@ -1149,7 +1150,12 @@ const ru_RU = {
     'Для Вашего удобства мы рекомендуем привязать профиль питомца к Клубной программе',
   'subscriptionDetail.link': 'Привязать профиль питомца',
   'subscriptionDetail.changeProduct': 'Изменить продукт',
-  'subscriptionDetail.newProduct': 'Новые рекомендации продукта'
+  'subscriptionDetail.newProduct': 'Новые рекомендации продукта',
+  'subscriptionDetail.linkProfile':
+    'Привяжите профиль питомца к Клубной программе',
+  'subscriptionDetail.addNewCat': 'новая Кошка',
+  Link: 'Привязан',
+  Unlink: 'Не привязан'
 };
 
 export default ru_RU;

@@ -1119,7 +1119,7 @@ class SubscriptionDetail extends React.Component {
           headerVisible={true}
           footerVisible={false}
           visible={this.state.addNewPetVisible}
-          modalTitle={'Link a pet profile to your CLUB subscription'}
+          modalTitle={<FormattedMessage id="subscriptionDetail.linkProfile" />}
           close={this.closeAddNewPet}
           // hanldeClickConfirm={() => this.hanldeClickSubmit()}
           // modalText={this.getModalBox()}
@@ -1170,7 +1170,10 @@ class SubscriptionDetail extends React.Component {
               >
                 <div>
                   <Link to="/account/pets/petForm">
-                    + <strong>a new cat</strong>
+                    +{' '}
+                    <strong>
+                      <FormattedMessage id="subscriptionDetail.addNewCat" />
+                    </strong>
                   </Link>
                 </div>
                 <img

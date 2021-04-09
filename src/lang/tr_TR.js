@@ -1064,6 +1064,9 @@ const tr_TR = {
     'For a better experience we recommend linking a pet profile to your Club subscription',
   'subscriptionDetail.link': 'Link a profile',
   'subscriptionDetail.changeProduct': 'change product',
-  'subscriptionDetail.newProduct': 'New product recommendation'
+  'subscriptionDetail.newProduct': 'New product recommendation',
+  'subscriptionDetail.linkProfile':
+    'Link a pet profile to your CLUB subscription',
+  'subscriptionDetail.addNewCat': 'a new cat'
 };
 export default tr_TR;
