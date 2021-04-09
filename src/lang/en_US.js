@@ -1079,7 +1079,7 @@ const en_US = {
   save: 'Save',
   saveChange: 'Save Changes',
   saveExtra: 'Save {val} on this subscription',
-  saveExtraMoney: 'Save {val} on this subscription',
+  saveExtraMoney: 'save an extra {val}',
   saveFailed: 'Save Failed!',
   saveSuccess: 'Save Success',
   saveSuccessfullly: 'Saved Successfully',
