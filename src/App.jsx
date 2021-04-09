@@ -125,6 +125,7 @@ import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
+import FelinRecommendation from '@/views/FelinRecommendation';
 
 import RedirectUrlJSON from './redirectUrl';
 
@@ -530,6 +531,7 @@ const App = () => (
                 component={smartFeederSubscription}
               />
               <Route path="/laterlier/felin" component={Felin} />
+              <Route path="/FelinRecommendation/:id" component={FelinRecommendation} />
               {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
                 exact
