@@ -6,19 +6,21 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 const menuList = [
   {
     catogery: 'Home',
+    isShow: true,
     icon: <span className="iconfont">&#xe697;</span>,
     langKey: 'home',
     url: '/account'
   },
   {
     catogery: 'Profile',
-
+    isShow: true,
     icon: <span className="iconfont">&#xe69c;</span>,
     langKey: 'account.profile',
     url: '/account/information'
   },
   {
     catogery: 'Pets',
+    isShow: true,
     icon: (
       <span
         className="iconfont"
@@ -32,18 +34,21 @@ const menuList = [
   },
   {
     catogery: 'Orders',
+    isShow: true,
     icon: <span className="iconfont">&#xe699;</span>,
     langKey: 'account.ordersTitle',
     url: '/account/orders'
   },
   {
     catogery: 'Subscription',
+    isShow: true,
     icon: <span className="iconfont">&#xe6a2;</span>,
     langKey: 'account.subscriptionTitle',
     url: '/account/subscription'
   },
   {
     catogery: 'Faq',
+    isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
     icon: <span className="iconfont">&#xe696;</span>,
     langKey: 'footer.FAQ',
     url: '/faq',
@@ -79,34 +84,44 @@ class SideMenu extends React.Component {
       <div
         className={`my__account-navigation rc-column rc-padding-top--xs--desktop rc-padding-bottom--none ${this.props.customCls}`}
       >
+        {/* 俄罗斯隐藏掉 Faq */}
         {menuList.map((item, i) => (
-          <h2
-            key={i}
-            className={`nav_item medium ui-cursor-pointer mb-4 ${
+          <>
+            <h2
+              key={i}
+              className={`
+            nav_item medium ui-cursor-pointer mb-4 ${
               type === item.catogery ? 'active red' : ''
-            }`}
-          >
-            <FormattedMessage id={item.langKey}>
-              {(txt) => (
-                <>
-                  {item.icon}
-                  {item.isHubOuterLink ? (
-                    <DistributeHubLinkOrATag
-                      to={item.url}
-                      href={item.href}
-                      className="ml-2"
-                    >
-                      {txt}
-                    </DistributeHubLinkOrATag>
-                  ) : (
-                    <Link to={item.url} title={txt} alt={txt} className="ml-2">
-                      {txt}
-                    </Link>
-                  )}
-                </>
-              )}
-            </FormattedMessage>
-          </h2>
+            } ${item.isShow ? '' : 'hidden'}
+            `}
+            >
+              <FormattedMessage id={item.langKey}>
+                {(txt) => (
+                  <>
+                    {item.icon}
+                    {item.isHubOuterLink ? (
+                      <DistributeHubLinkOrATag
+                        to={item.url}
+                        href={item.href}
+                        className="ml-2"
+                      >
+                        {txt}
+                      </DistributeHubLinkOrATag>
+                    ) : (
+                      <Link
+                        to={item.url}
+                        title={txt}
+                        alt={txt}
+                        className="ml-2"
+                      >
+                        {txt}
+                      </Link>
+                    )}
+                  </>
+                )}
+              </FormattedMessage>
+            </h2>
+          </>
         ))}
         {process.env.REACT_APP_HUB_MONROYALCANIN ? (
           <h2

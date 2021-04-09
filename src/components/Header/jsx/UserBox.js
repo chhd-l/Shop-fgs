@@ -68,6 +68,7 @@ export const LoginUserBox = ({ self, className }) => {
   const menuList = [
     {
       link: '/account',
+      isShow: true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe697;</span>{' '}
@@ -79,6 +80,7 @@ export const LoginUserBox = ({ self, className }) => {
     },
     {
       link: personInformationRouter,
+      isShow: true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe69c;</span>{' '}
@@ -90,6 +92,7 @@ export const LoginUserBox = ({ self, className }) => {
     },
     {
       link: petsRouter,
+      isShow: true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe69a;</span>{' '}
@@ -101,6 +104,7 @@ export const LoginUserBox = ({ self, className }) => {
     },
     {
       link: '/account/orders',
+      isShow: true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe699;</span>{' '}
@@ -112,6 +116,7 @@ export const LoginUserBox = ({ self, className }) => {
     },
     {
       link: subscriptionsRouter,
+      isShow: true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe6a2;</span>{' '}
@@ -125,6 +130,7 @@ export const LoginUserBox = ({ self, className }) => {
       link: '/faq',
       href: '/about-us/faqs',
       isHubOuterLink: true,
+      isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe696;</span>{' '}
@@ -154,18 +160,24 @@ export const LoginUserBox = ({ self, className }) => {
       </div>
       {menuList.map((item, i) => (
         <React.Fragment key={i}>
-          {item.isHubOuterLink ? (
-            <DistributeHubLinkOrATag
-              href={item.href}
-              to={item.link}
-              className="basicItem w-100"
-            >
-              {item.text}
-            </DistributeHubLinkOrATag>
-          ) : (
-            <Link className="basicItem w-100" to={item.link}>
-              {item.text}
-            </Link>
+          {item.isShow && (
+            <>
+              {item.isHubOuterLink ? (
+                <DistributeHubLinkOrATag
+                  href={item.href}
+                  to={item.link}
+                  className={`basicItem w-100`}
+                >
+                  {item.text}
+                </DistributeHubLinkOrATag>
+              ) : (
+                <>
+                  <Link className={`basicItem w-100`} to={item.link}>
+                    {item.text}
+                  </Link>
+                </>
+              )}
+            </>
           )}
         </React.Fragment>
       ))}
