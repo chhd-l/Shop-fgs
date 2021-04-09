@@ -134,6 +134,7 @@ class Form extends React.Component {
         });
         // 根据接口类型查询表单数据
         this.getAddressSettingByApi(manually, automatically);
+      } else {
       }
     } catch (err) {
       console.log(err);
@@ -266,10 +267,6 @@ class Form extends React.Component {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_LANG == 'ru') {
             regExp = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-          } else if (process.env.REACT_APP_LANG == 'mx') {
-          } else if (process.env.REACT_APP_LANG == 'de') {
-          } else if (process.env.REACT_APP_LANG == 'tr') {
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([2-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             regExp = /\S/;
           }
