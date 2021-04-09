@@ -24,6 +24,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
 import play_png from './images/play.png';
+import Club_Logo from '@/assets/images/Logo_club.png';
 
 import {
   getDictionary,
@@ -107,7 +108,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetLoading: false,
       addNewPetVisible: false,
       changeRecommendationVisible: false,
-      editRecommendationVisible: false,
+      editRecommendationVisible: false, //isNeedChangeProduct
       produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -647,18 +648,19 @@ class SubscriptionDetail extends React.Component {
     </React.Fragment>
   );
   DailyRation = () => {
-    return (
-      <span
-        style={{
-          background: '#F5F5F5',
-          padding: '6px',
-          marginTop: '10px',
-          display: 'inline-block'
-        }}
-      >
-        Daily ration: 57g/day
-      </span>
-    );
+    return null;
+    // return (
+    //   <span
+    //     style={{
+    //       background: '#F5F5F5',
+    //       padding: '6px',
+    //       marginTop: '10px',
+    //       display: 'inline-block'
+    //     }}
+    //   >
+    //     Daily ration: 57g/day
+    //   </span>
+    // );
   };
   bundleMatchGoods() {
     let {
@@ -2151,8 +2153,224 @@ class SubscriptionDetail extends React.Component {
       </div>
     );
   };
-  changeProductModal = () => {
+  ProductRecommendations = () => {
     const { productDetail } = this.state;
+    return (
+      <>
+        {!!productDetail.mainProduct && (
+          <>
+            <div className="p-f-result-box">
+              <img className="m-auto" src={Club_Logo} alt="club icon" />
+              <h4 className="red text-center mb-3 mt-3">
+                Your product recommendation
+              </h4>
+              <p className=" text-center">
+                Based on your pet's profile,we recommend the below products to
+                meet your pets'needs. Please comfirm the product change to
+                update your subscription
+              </p>
+            </div>
+            <div className="p-f-result-box">
+              <div className="border rounded row pt-3 pb-3">
+                <div className="col-12 col-md-6">
+                  {/* LazyLoad在弹窗有点问题，显示不出来图片 */}
+                  {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
+                  <img
+                    src={
+                      productDetail.mainProduct?.goodsImg ||
+                      productDetail.mainProduct?.goodsInfos.sort(
+                        (a, b) => a.marketPrice - b.marketPrice
+                      )[0].goodsInfoImg
+                    }
+                    className="p-img"
+                    alt={productDetail.mainProduct?.goodsName}
+                  />
+                  {/* </LazyLoad> */}
+                </div>
+                <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
+                  <header className="rc-text--center">
+                    <h3
+                      className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
+                      title={productDetail.mainProduct?.goodsName}
+                    >
+                      {productDetail.mainProduct?.goodsName}
+                    </h3>
+                  </header>
+                  <div
+                    className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
+                    title={productDetail.mainProduct?.subTitle}
+                  >
+                    {productDetail.mainProduct?.subTitle}
+                  </div>
+                  <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
+                    your daily ration
+                  </div>
+                  <div className="text-center mt-2">
+                    {productDetail.mainProduct?.toPrice ? (
+                      <span className="mr-1" style={{ fontSize: '.8em' }}>
+                        <FormattedMessage id="startFrom" />
+                      </span>
+                    ) : null}
+                    {formatMoney(productDetail.mainProduct?.fromPrice)}
+                    {productDetail.mainProduct?.toPrice ? (
+                      <>
+                        <span
+                          className="ml-1 mr-1"
+                          style={{ fontSize: '.8em' }}
+                        >
+                          <FormattedMessage id="startEnd" />
+                        </span>
+                        {formatMoney(productDetail.mainProduct?.toPrice)}
+                      </>
+                    ) : null}
+                    {/* {formatMoney(
+                         Math.min.apply(
+                           null,
+                           productDetail.mainProduct.goodsInfos.map(
+                             (g) => g.marketPrice || 0
+                           )
+                         )
+                       )} */}
+                  </div>
+                  <div
+                    className="d-flex justify-content-center mt-3 testtest"
+                    // onClick={() => {
+                    //   this.GAProductClick(productDetail.mainProduct, 0);
+                    // }}
+                  >
+                    <span
+                      onClick={() => {
+                        this.showProdutctDetail(
+                          productDetail.mainProduct?.spuCode
+                        );
+                      }}
+                      className={`rc-btn rc-btn--one rc-btn--sm ${
+                        this.state.productListLoading ? 'ui-btn-loading' : ''
+                      } `}
+                    >
+                      <FormattedMessage id="seeTheProduct" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {!!productDetail.otherProducts && (
+          <>
+            <p className="text-center">other products to consider</p>
+            <div className="rc-scroll--x pb-4 rc-padding-x--xl">
+              <div className="d-flex">
+                {productDetail?.otherProducts?.map((ele, i) => (
+                  <div
+                    className={`border rounded pt-3 pb-3 pl-2 pr-2 pl-md-0 pr-md-0 ${
+                      i ? 'ml-2' : ''
+                    }`}
+                    key={ele.id}
+                    style={{ flex: 1 }}
+                  >
+                    <div className="mb-3 p-f-product-img">
+                      {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
+                      <img
+                        src={
+                          ele.goodsImg ||
+                          ele.goodsInfos.sort(
+                            (a, b) => a.marketPrice - b.marketPrice
+                          )[0].goodsInfoImg
+                        }
+                        style={{ maxHeight: '12rem', margin: '0 auto' }}
+                        className="p-img"
+                        alt={ele.goodsName}
+                      />
+                      {/* </LazyLoad> */}
+                    </div>
+                    <div className="d-flex flex-column justify-content-center">
+                      <header className="rc-text--center">
+                        <h3
+                          className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen p-f-product-title"
+                          title={ele.goodsName}
+                        >
+                          {ele.goodsName}
+                        </h3>
+                      </header>
+                      <div
+                        className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
+                        title={ele.subTitle}
+                      >
+                        {ele.subTitle}
+                      </div>
+                      <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
+                        your daily ration
+                      </div>
+                      <div className="text-center mt-2">
+                        {productDetail.otherProducts?.toPrice ? (
+                          <span className="mr-1" style={{ fontSize: '.8em' }}>
+                            <FormattedMessage id="startFrom" />
+                          </span>
+                        ) : null}
+                        {formatMoney(productDetail.otherProducts?.fromPrice)}
+                        {productDetail.otherProducts?.toPrice ? (
+                          <>
+                            <span
+                              className="ml-1 mr-1"
+                              style={{ fontSize: '.8em' }}
+                            >
+                              <FormattedMessage id="startEnd" />
+                            </span>
+                            {formatMoney(productDetail.otherProducts?.toPrice)}
+                          </>
+                        ) : null}
+                        {/* {formatMoney(
+                Math.min.apply(
+                  null,
+                  ele.goodsInfos.map((g) => g.marketPrice || 0)
+                )
+              )} */}
+                      </div>
+                      <div
+                        className="d-flex justify-content-center mt-3"
+                        // onClick={()=>{
+                        //   this.GAProductClick(ele, i+1)
+                        // }}
+                      >
+                        {/* <Link
+                        to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
+                        className="rc-btn rc-btn--one rc-btn--sm"
+                      > */}
+                        <span
+                          onClick={() => {
+                            this.showProdutctDetail(ele.spuCode);
+                          }}
+                          className={`rc-btn rc-btn--one rc-btn--sm ${
+                            this.state.productListLoading
+                              ? 'ui-btn-loading'
+                              : ''
+                          }`}
+                        >
+                          <FormattedMessage id="seeTheProduct" />
+                        </span>
+                        {/* </Link> */}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+        <p className="details-infos d-flex">
+          <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+          The recommendations provided here are for infomational purpose only.Ie
+          should not be cosidered as guarantee for what may be best for your
+          individual pet. Quantity,Size and Frequency will be set up in the CLUB
+          management page
+        </p>
+      </>
+    );
+  };
+  changeProductModal = () => {
+    const { productDetail, currentGoodsItems, subDetail } = this.state;
+    const currentGoodsItem = currentGoodsItems[0] || {};
     return (
       <div className="change-product-modal">
         <Modal
@@ -2162,201 +2380,27 @@ class SubscriptionDetail extends React.Component {
           modalTitle={''}
           close={this.closeChangeProduct}
         >
-          <div className="p-f-result-box">
-            <img className="m-auto" src={clubIcon} alt="club icon" />
-            <h4 className="red text-center mb-3 mt-3">
-              Your product recommendation
-            </h4>
-            <p className=" text-center">
-              Based on your pet's profile,we recommend the below products to
-              meet your pets'needs. Please comfirm the product change to update
-              your subscription
-            </p>
-          </div>
-          <div className="p-f-result-box">
-            <div className="border rounded row pt-3 pb-3">
-              <div className="col-12 col-md-6">
-                {/* LazyLoad在弹窗有点问题，显示不出来图片 */}
-                {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
-                <img
-                  src={
-                    productDetail.mainProduct?.goodsImg ||
-                    productDetail.mainProduct?.goodsInfos.sort(
-                      (a, b) => a.marketPrice - b.marketPrice
-                    )[0].goodsInfoImg
-                  }
-                  className="p-img"
-                  alt={productDetail.mainProduct?.goodsName}
-                />
-                {/* </LazyLoad> */}
-              </div>
-              <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
-                <header className="rc-text--center">
-                  <h3
-                    className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
-                    title={productDetail.mainProduct?.goodsName}
-                  >
-                    {productDetail.mainProduct?.goodsName}
-                  </h3>
-                </header>
-                <div
-                  className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
-                  title={productDetail.mainProduct?.subTitle}
-                >
-                  {productDetail.mainProduct?.subTitle}
-                </div>
-                <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
-                  your daily ration
-                </div>
-                <div className="text-center mt-2">
-                  {productDetail.mainProduct?.toPrice ? (
-                    <span className="mr-1" style={{ fontSize: '.8em' }}>
-                      <FormattedMessage id="startFrom" />
-                    </span>
-                  ) : null}
-                  {formatMoney(productDetail.mainProduct?.fromPrice)}
-                  {productDetail.mainProduct?.toPrice ? (
-                    <>
-                      <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
-                        <FormattedMessage id="startEnd" />
-                      </span>
-                      {formatMoney(productDetail.mainProduct?.toPrice)}
-                    </>
-                  ) : null}
-                  {/* {formatMoney(
-                          Math.min.apply(
-                            null,
-                            productDetail.mainProduct.goodsInfos.map(
-                              (g) => g.marketPrice || 0
-                            )
-                          )
-                        )} */}
-                </div>
-                <div
-                  className="d-flex justify-content-center mt-3 testtest"
-                  // onClick={() => {
-                  //   this.GAProductClick(productDetail.mainProduct, 0);
-                  // }}
-                >
-                  <span
-                    onClick={() => {
-                      this.showProdutctDetail(
-                        productDetail.mainProduct?.spuCode
-                      );
-                    }}
-                    className={`rc-btn rc-btn--one rc-btn--sm ${
-                      this.state.productListLoading ? 'ui-btn-loading' : ''
-                    } `}
-                  >
-                    <FormattedMessage id="seeTheProduct" />
-                  </span>
+          {productDetail?.recommendResult?.hasResult ? (
+            this.ProductRecommendations()
+          ) : (
+            <div className="text-center">
+              <p className="text-center red" style={{ fontSize: '1.5rem' }}>
+                This is currently the best product for{' '}
+                {subDetail.petsInfo?.petsName} based on{' '}
+                {subDetail.petsInfo?.petsSex ? 'his' : 'her'} pet profile!
+              </p>
+              <div className="d-flex align-items-center justify-content-center">
+                <img src={currentGoodsItem.goodsPic} />
+                <div>
+                  <div className="red" style={{ fontSize: '1.5rem' }}>
+                    {currentGoodsItem.goodsName}test
+                  </div>
+                  <div>{currentGoodsItem.goodsSubtitle}test</div>
+                  <div>{currentGoodsItem.specText}test</div>
                 </div>
               </div>
             </div>
-          </div>
-          <p className="text-center">other products to consider</p>
-          <div className="rc-scroll--x pb-4 rc-padding-x--xl">
-            <div className="d-flex">
-              {productDetail?.otherProducts?.map((ele, i) => (
-                <div
-                  className={`border rounded pt-3 pb-3 pl-2 pr-2 pl-md-0 pr-md-0 ${
-                    i ? 'ml-2' : ''
-                  }`}
-                  key={ele.id}
-                  style={{ flex: 1 }}
-                >
-                  <div className="mb-3 p-f-product-img">
-                    {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
-                    <img
-                      src={
-                        ele.goodsImg ||
-                        ele.goodsInfos.sort(
-                          (a, b) => a.marketPrice - b.marketPrice
-                        )[0].goodsInfoImg
-                      }
-                      style={{ maxHeight: '12rem', margin: '0 auto' }}
-                      className="p-img"
-                      alt={ele.goodsName}
-                    />
-                    {/* </LazyLoad> */}
-                  </div>
-                  <div className="d-flex flex-column justify-content-center">
-                    <header className="rc-text--center">
-                      <h3
-                        className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen p-f-product-title"
-                        title={ele.goodsName}
-                      >
-                        {ele.goodsName}
-                      </h3>
-                    </header>
-                    <div
-                      className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
-                      title={ele.subTitle}
-                    >
-                      {ele.subTitle}
-                    </div>
-                    <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
-                      your daily ration
-                    </div>
-                    <div className="text-center mt-2">
-                      {productDetail.mainProduct?.toPrice ? (
-                        <span className="mr-1" style={{ fontSize: '.8em' }}>
-                          <FormattedMessage id="startFrom" />
-                        </span>
-                      ) : null}
-                      {formatMoney(productDetail.mainProduct?.fromPrice)}
-                      {productDetail.mainProduct?.toPrice ? (
-                        <>
-                          <span
-                            className="ml-1 mr-1"
-                            style={{ fontSize: '.8em' }}
-                          >
-                            <FormattedMessage id="startEnd" />
-                          </span>
-                          {formatMoney(productDetail.mainProduct?.toPrice)}
-                        </>
-                      ) : null}
-                      {/* {formatMoney(
-                Math.min.apply(
-                  null,
-                  ele.goodsInfos.map((g) => g.marketPrice || 0)
-                )
-              )} */}
-                    </div>
-                    <div
-                      className="d-flex justify-content-center mt-3"
-                      // onClick={()=>{
-                      //   this.GAProductClick(ele, i+1)
-                      // }}
-                    >
-                      {/* <Link
-                        to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
-                        className="rc-btn rc-btn--one rc-btn--sm"
-                      > */}
-                      <span
-                        onClick={() => {
-                          this.showProdutctDetail(ele.spuCode);
-                        }}
-                        className={`rc-btn rc-btn--one rc-btn--sm ${
-                          this.state.productListLoading ? 'ui-btn-loading' : ''
-                        }`}
-                      >
-                        <FormattedMessage id="seeTheProduct" />
-                      </span>
-                      {/* </Link> */}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <p className="details-infos d-flex">
-            <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-            The recommendations provided here are for infomational purpose
-            only.Ie should not be cosidered as guarantee for what may be best
-            for your individual pet. Quantity,Size and Frequency will be set up
-            in the CLUB management page
-          </p>
+          )}
         </Modal>
       </div>
     );
@@ -2494,7 +2538,7 @@ class SubscriptionDetail extends React.Component {
     let { petsId, petsInfo } = this.state.subDetail;
     return (
       <>
-        <img src={clubIcon} alt="club Icon" />
+        <img src={Club_Logo} style={{ maxWidth: '100px' }} alt="club Icon" />
         <div className="d-flex align-items-center add-pet-btn-wrap">
           {petsId ? (
             this.PetsInfo(petsInfo, petsId, this.props.history)

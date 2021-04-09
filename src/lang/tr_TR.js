@@ -1055,6 +1055,8 @@ const tr_TR = {
     'Find the right product and calculate your pet ration using our',
   'details.findProductTips': ' Product finder',
   'details.learnMore': 'Learn more',
+  xMonths: '{val} Aylar',
+  xYears: '{val} Yıl',
   'help.title': 'Yardıma mı ihtiyacınız var?',
   'subscriptionDetail.editPetProfile': 'Edit pet profile',
   'subscriptionDetail.clubFor': 'CLUB for',
