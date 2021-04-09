@@ -837,12 +837,26 @@ class List extends React.Component {
       tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
     }
 
+    // ru filter seo
+    let allPrefv = [];
+    for (let index = 0; index < prefnNum; index++) {
+      const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+      const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
+      if (fnEle == 'Lifestages') {
+        allPrefv.push('корм для ' + fvEles.replace('|', '/'));
+      } else if (fnEle == 'Sterilized' && fvEles == 'Нет') {
+        allPrefv.push('СТЕРИЛИЗАЦИЯ');
+      } else {
+        allPrefv.push(fvEles);
+      }
+    }
     const prefv1 = decodeURI(getParaByName(search, 'prefv1'));
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
     this.setState({
       pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`,
       prefv1,
-      animalType
+      animalType,
+      allPrefv: allPrefv.join(' ')
     });
   }
 
@@ -1989,7 +2003,10 @@ class List extends React.Component {
       GAListParam,
       isDogPage,
       keywordsSearch,
-      baseSearchStr
+      baseSearchStr,
+      allPrefv,
+      prefv1,
+      animalType
     } = this.state;
 
     const a = [9, 9, 9, 9, 9, 9, 9];
@@ -2012,14 +2029,16 @@ class List extends React.Component {
       metaDescription &&
       titleData &&
       metaDescription.replace(/{H1}/, titleData.title);
+    const ruFilterSeoTitle = title && title.replace(/{H1}/, allPrefv);
+    const ruFilterSeoDesc =
+      metaDescription && metaDescription.replace(/{H1}/, allPrefv);
+    const trFilterSeoTitle = prefv1 + ' ' + animalType + ' ' + titleSeo;
+    const trFilterSeoDesc =
+      prefv1 + ' ' + animalType + ' ' + metaDescriptionSeo;
     const filterSeoTitle =
-      this.state.prefv1 + ' ' + this.state.animalType + ' ' + titleSeo;
+      process.env.REACT_APP_LANG === 'ru' ? ruFilterSeoTitle : trFilterSeoTitle;
     const filterSeoDesc =
-      this.state.prefv1 +
-      ' ' +
-      this.state.animalType +
-      ' ' +
-      metaDescriptionSeo;
+      process.env.REACT_APP_LANG === 'ru' ? ruFilterSeoDesc : trFilterSeoDesc;
     return (
       <div>
         {this.state.event && (
