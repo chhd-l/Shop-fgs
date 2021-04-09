@@ -810,6 +810,11 @@ const en_US = {
   'payment.phoneNumber2': 'Phone',
   'payment.postCode': 'ZIP Code',
   'payment.postCode2': 'Postal code',
+  'payment.pleaseInput': 'Please input: ',
+  'payment.streets': 'streets',
+  'payment.house': 'house',
+  'payment.wrongAddress':
+    'Please enter your address in the delivery area of the online store. You can see the "partial help" of the delivery terms on the page',
   'payment.rfc': 'Reference',
   'payment.saveFor': 'Save for next payment',
   'payment.socialId': 'Social id',

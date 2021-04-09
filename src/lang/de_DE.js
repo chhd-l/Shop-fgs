@@ -223,7 +223,7 @@ const de_DE = {
   'confirmation.customerInformation': 'Ihre Informationen',
   'confirmation.info1': 'Vielen Dank für Ihren Auftrag.',
   'confirmation.info2':
-    'Sie erhalten in Kürze eine Bestellbestätigung per E-Mail.',
+    'Sie erhalten in Kürze eine E-Mail-Bestätigung unter {val1}',
   'confirmation.info3':
     'Adressen und Versandarten sind unter Ihrer Ware angegeben.',
   'confirmation.oneShoot': 'zu meinem Profil',
@@ -689,6 +689,11 @@ const de_DE = {
   'payment.phoneNumber2': 'Telefonnummer',
   'payment.postCode': 'Postleitzahl',
   'payment.postCode2': 'Postleitzahl',
+  'payment.pleaseInput': 'Bitte geben: ',
+  'payment.streets': 'Straße',
+  'payment.house': 'Haus',
+  'payment.wrongAddress':
+    'Bitte geben Sie Ihre Adresse im Lieferbereich des Online-Shops ein.Die "Teilhilfe" der Lieferbedingungen finden Sie auf der Seite',
   'payment.rfc': 'Adressreferenz',
   'payment.socialId': 'Soziale ID',
   'payment.state': 'Staat',
@@ -834,6 +839,7 @@ const de_DE = {
   quantity: 'Menge',
   quantityCannotExceed10: 'Menge darf 10 nicht überschreiten',
   quantityText: '{specText} Anzahl: {buyCount}',
+  'order.quantityText': '{specText} Anzahl: {buyCount}',
   queryDataFailed: 'Abfragedaten fehlgeschlagen',
   ratingGrade1: 'Most Recent',
   ratingGrade2: 'Lowest to Highest Rating',
