@@ -1,3 +1,5 @@
+import React from 'react';
+
 const en_US = {
   aboutUs: 'ABOUT US',
   'aboutUs.description':
@@ -1258,6 +1260,13 @@ const en_US = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'View Detail',
-  Expire: 'Expire'
+  Expire: 'Expire',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 export default en_US;

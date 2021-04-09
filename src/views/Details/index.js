@@ -1870,21 +1870,22 @@ class Details extends React.Component {
                                 {sessionItemRoyal.get('pr-question-params') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
-                                      The recommended daily ration for your pet
-                                      is <span className="strong">57g/day</span>
+                                      <FormattedMessage id="details.recommendedDaily" />
+                                      <span className="strong">
+                                        <FormattedMessage id="details.recommendedDaily.info" />
+                                      </span>
                                     </div>
                                     <a className="rc-styled-link backProductFinder mt-0 pb-0">
-                                      Go back to recommendation
+                                      <FormattedMessage id="details.backRecommendedDaily" />
                                     </a>
                                   </div>
                                 ) : (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
                                     <div>
-                                      Find the right product and calculate your
-                                      pet ration using our{' '}
+                                      <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
                                     <a className="rc-styled-link mt-0 pb-0">
-                                      Product finder
+                                      <FormattedMessage id="details.findProductTips" />
                                     </a>
                                   </div>
                                 )}
@@ -2273,7 +2274,7 @@ class Details extends React.Component {
                                         className="rc-styled-link"
                                         onClick={this.toClubTab}
                                       >
-                                        Learn more
+                                        <FormattedMessage id="details.learnMore" />
                                       </span>
                                     </div>
                                   </div>

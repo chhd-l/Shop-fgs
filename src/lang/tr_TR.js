@@ -143,7 +143,7 @@ const tr_TR = {
     'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün sepette',
   'cart.totalProduct_nounit': '{val} sepette',
-  'cart.yourShoppingCart': 'Alışveriş sepetiniz',
+  'cart.yourShoppingCart': 'Sepetiniz',
   cats: 'KEDI',
   cats2: 'Kedi',
   cats3: 'Kedi',
@@ -272,7 +272,7 @@ const tr_TR = {
   'details.errMsg2': 'Ayrıntı bulunamadı, lütfen daha sonra tekrar deneyin.',
   'details.feedingRecommendations': 'Beslenme önerileri',
   'details.ingredients': 'Malzemeler',
-  'details.inStock': 'Stokta var',
+  'details.inStock': 'Stokta',
   'details.OffShelves': 'raflar kapalı',
   'details.OneOFF': 'Tek seferlik satın alma',
   'details.outStock': 'Stoklar tükendi',
@@ -700,7 +700,7 @@ const tr_TR = {
   'qualitySafety.shopTile':
     'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
   'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
-  quantity: 'miktarda',
+  quantity: 'Adet',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} product(s)',
   'order.quantityText': '{specText} - {buyCount} product(s)',
@@ -1047,6 +1047,13 @@ const tr_TR = {
     'Ayrıca ortak sorularımızın cevabını da görebilirsiniz. Bu size çok cevap verecek.',
   'onlineStore.BottomInfo.faq.content2': 'Sorulara cevaplar',
   'onlineStore.BottomInfo.faq.title': 'Task Des?',
-  generalTermsConditions: 'Şartlar ve Koşullar'
+  generalTermsConditions: 'Şartlar ve Koşullar',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 export default tr_TR;

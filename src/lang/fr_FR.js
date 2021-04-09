@@ -1482,6 +1482,13 @@ const fr_FR = {
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'Voir les détails',
   Expire: ' ',
-  generalTermsConditions: 'Conditions Générales De Vente'
+  generalTermsConditions: 'Conditions Générales De Vente',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 export default fr_FR;
