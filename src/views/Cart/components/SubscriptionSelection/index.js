@@ -83,7 +83,7 @@ const SubscriptionSelection = function (props) {
               id="saveExtraMoney"
               values={{
                 val: (
-                  <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                  <span className="product-pricing__card__head__price red rc-padding-y--none medium">
                     {!isLogin
                       ? formatMoney(
                           pitem.quantity *
@@ -97,7 +97,7 @@ const SubscriptionSelection = function (props) {
                           pitem.buyCount * pitem.salePrice -
                             pitem.buyCount * pitem.subscriptionPrice
                         )}
-                  </b>
+                  </span>
                 )
               }}
             />

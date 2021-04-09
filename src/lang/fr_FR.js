@@ -1475,6 +1475,7 @@ const fr_FR = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'Voir les détails',
-  Expire: ' '
+  Expire: ' ',
+  generalTermsConditions: 'Conditions Générales De Vente'
 };
 export default fr_FR;

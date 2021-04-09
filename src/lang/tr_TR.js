@@ -1040,6 +1040,7 @@ const tr_TR = {
   'onlineStore.BottomInfo.faq.content1':
     'Ayrıca ortak sorularımızın cevabını da görebilirsiniz. Bu size çok cevap verecek.',
   'onlineStore.BottomInfo.faq.content2': 'Sorulara cevaplar',
-  'onlineStore.BottomInfo.faq.title': 'Task Des?'
+  'onlineStore.BottomInfo.faq.title': 'Task Des?',
+  generalTermsConditions: 'Şartlar ve Koşullar'
 };
 export default tr_TR;

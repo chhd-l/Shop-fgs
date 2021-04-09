@@ -93,6 +93,7 @@ class AddressList extends React.Component {
     this.setState({
       listBtnLoading: false
     });
+    console.log(' -------------- List: ', this.props.ref);
   }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
@@ -499,12 +500,10 @@ class AddressList extends React.Component {
 
         type: this.props.type.toUpperCase()
       };
-      // if (params?.province && params?.province != null) {
       params.provinceId = deliveryAddress.provinceId;
       params.province = deliveryAddress.province;
       params.provinceNo = deliveryAddress.provinceNo;
       params.isValidated = deliveryAddress.validationResult;
-      // }
 
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
