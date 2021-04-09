@@ -1028,6 +1028,14 @@ const es_ES = {
   'details.findProductTip':
     'Find the right product and calculate your pet ration using our',
   'details.findProductTips': ' Product finder',
-  'details.learnMore': 'Learn more'
+  'details.learnMore': 'Learn more',
+  'help.title': '¿Necesitas ayuda?',
+  'subscriptionDetail.editPetProfile': 'Edit pet profile',
+  'subscriptionDetail.clubFor': 'CLUB for',
+  'subscriptionDetail.better':
+    'For a better experience we recommend linking a pet profile to your Club subscription',
+  'subscriptionDetail.link': 'Link a profile',
+  'subscriptionDetail.changeProduct': 'change product',
+  'subscriptionDetail.newProduct': 'New product recommendation'
 };
 export default es_ES;

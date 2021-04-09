@@ -302,7 +302,7 @@ const tr_TR = {
   estimatedTax: 'Tahmin edilen vergi',
   every: 'Her',
   example: 'Örnek',
-  examplePhone: 'Örnek: + (52) 559801 65',
+  examplePhone: 'Örnek: 0 (212) 123-45-67',
   examplePostCode: '12345',
   expirationDateIsInvalid: 'kartınızın son kullanma tarihi geçersiz',
   'faq.frequentQuestions': 'Sık sorulan sorular',
@@ -1054,6 +1054,14 @@ const tr_TR = {
   'details.findProductTip':
     'Find the right product and calculate your pet ration using our',
   'details.findProductTips': ' Product finder',
-  'details.learnMore': 'Learn more'
+  'details.learnMore': 'Learn more',
+  'help.title': 'Yardıma mı ihtiyacınız var?',
+  'subscriptionDetail.editPetProfile': 'Edit pet profile',
+  'subscriptionDetail.clubFor': 'CLUB for',
+  'subscriptionDetail.better':
+    'For a better experience we recommend linking a pet profile to your Club subscription',
+  'subscriptionDetail.link': 'Link a profile',
+  'subscriptionDetail.changeProduct': 'change product',
+  'subscriptionDetail.newProduct': 'New product recommendation'
 };
 export default tr_TR;
