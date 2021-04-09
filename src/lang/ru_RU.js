@@ -338,13 +338,13 @@ const ru_RU = {
   'details.inStock': 'В наличии',
   'details.OffShelves': 'с полок',
   'details.OneOFF': 'Разовая покупка',
-  'details.outStock': 'Распродано',
+  'details.outStock': 'Нет в наличии',
   'details.shippedTime': 'адпраўлена на працягу 2 рабочых дзён',
   'details.Subscription': 'Подписка',
   'details.theSize': 'Размер',
   'details.unitPrice': 'Цена за единицу',
   'details.youCanSave': 'Можно сэкономить',
-  'details.buyFromRetailer': 'Bayilerimiz aracılığıyla satın alın',
+  'details.buyFromRetailer': 'Купить в розничном магазине',
   dogs: 'СОБАКИ',
   dogs2: 'Собаки',
   dogs3: 'Собаки',
@@ -891,7 +891,7 @@ const ru_RU = {
   'subscription.date': 'Дата подписки',
   'subscription.deliveryDate': 'Следующая дата доставки',
   'subscription.detail': 'Детали подписки',
-  'subscription.frequency': 'Периодичность',
+  'subscription.frequency': 'Доставка каждые',
   'subscription.nextOrder': 'Следующий заказ',
   'subscription.noDataTip': 'Без подписки',
   'subscription.notYet': 'Пока не отправлено',
@@ -1134,7 +1134,15 @@ const ru_RU = {
   'productFinder.helpTip2':
     'Our staff are true experts and passionate. They are at your disposal to answer any request.',
   callUs: 'Свяжитесь с нами',
-  emailUs: 'Напишите нам'
+  emailUs: 'Напишите нам',
+  'details.recommendedDaily':
+    'Рекомендуемая суточная норма потребления для Вашего питомца',
+  'details.recommendedDaily.info': '57г/день',
+  'details.backRecommendedDaily': 'Вернуться к рекомендациям',
+  'details.findProductTip':
+    'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца с помощью',
+  'details.findProductTips': 'подборщика продуктов',
+  'details.learnMore': 'Узнать больше'
 };
 
 export default ru_RU;

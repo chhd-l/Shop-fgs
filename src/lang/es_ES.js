@@ -1015,6 +1015,13 @@ const es_ES = {
   'account.clinicTitle2': 'Mi clínica por defecto',
   'subscription.viewDetails': 'Ver Detalle',
   bankCard: 'Tarjeta bancaria',
-  Expire: ' '
+  Expire: ' ',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 export default es_ES;

@@ -1220,7 +1220,14 @@ const de_DE = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'Im Detail sehen',
-  Expire: ' '
+  Expire: ' ',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '57g/day',
+  'details.backRecommendedDaily': 'Go back to recommendation',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our',
+  'details.findProductTips': ' Product finder',
+  'details.learnMore': 'Learn more'
 };
 
 export default de_DE;
