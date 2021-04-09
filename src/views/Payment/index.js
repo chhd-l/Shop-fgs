@@ -2315,18 +2315,15 @@ class Payment extends React.Component {
     const { isLogin } = this;
     const { billingChecked, billingAddressAddOrEdit } = this.state;
     const { paymentStore } = this.props;
-
-    if (!isLogin) {
-      // 清空 VisitorAddress 参数
-      if (
-        !billingChecked &&
-        this.unLoginBillingAddrRef &&
-        this.unLoginBillingAddrRef.current
-      ) {
-        this.unLoginBillingAddrRef.current.resetVisitorAddressState();
-      }
+    // 清空 VisitorAddress 参数 && !billingChecked
+    if (
+      !isLogin &&
+      this.unLoginBillingAddrRef &&
+      this.unLoginBillingAddrRef.current
+    ) {
+      this.unLoginBillingAddrRef.current.resetVisitorAddressState();
     }
-    // console.log('★ --- payment 收起面板，显示preview ');
+    console.log('★ --- payment 收起面板，显示preview ');
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
@@ -2334,7 +2331,7 @@ class Payment extends React.Component {
     this.setState({
       billingAddressAddOrEdit: false,
       saveBillingLoading: false,
-      isShowValidationModal: false,
+      isShowValidationModal: true,
       paymentValidationLoading: false,
       btnLoading: false
     });
