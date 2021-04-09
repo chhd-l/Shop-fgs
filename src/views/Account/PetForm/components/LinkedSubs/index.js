@@ -214,7 +214,7 @@ const LinkedSubs = (props) => {
                             ]
                           };
                           changeSubscriptionGoods(params).then((res) => {
-                            subItem.petsId = props.petsId;
+                            querySubList();
                           });
                         }}
                       >
@@ -237,7 +237,7 @@ const LinkedSubs = (props) => {
                             ]
                           };
                           changeSubscriptionGoods(params).then((res) => {
-                            subItem.petsId = null;
+                            querySubList();
                           });
                         }}
                       >
