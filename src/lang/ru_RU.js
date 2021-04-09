@@ -176,7 +176,7 @@ const ru_RU = {
   anonymous: 'Анонимный',
   anonymousReview: 'Анонимный обзор',
   answer: 'Ответ *',
-  apply: 'Применять',
+  apply: 'Подтвердить',
   area: 'Площадь',
   autoship: 'Подписка',
   autoship_nos: 'Автошип',
@@ -213,7 +213,7 @@ const ru_RU = {
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
   'cart.totalProduct': '{val} товар (а/ов)',
   'cart.totalProduct_nounit': '{val} корзине',
-  'cart.yourShoppingCart': 'Ваша Корзина',
+  'cart.yourShoppingCart': 'Ваша корзина',
   cats: 'КОШКИ',
   cats2: 'Кошки',
   cats3: 'Кошки',
@@ -224,7 +224,7 @@ const ru_RU = {
   changepic: 'Добавить изображение',
   checkboxIsRequiredForSubscription:
     'при подписке на корм данное поле является обязательным для заполнения',
-  checkout: 'Оформление заказа',
+  checkout: 'Оформить заказ',
   'payment.checkout': 'Оформление заказа',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
@@ -349,7 +349,7 @@ const ru_RU = {
   dogs2: 'Собаки',
   dogs3: 'Собаки',
   download: 'Скачать',
-  edit: 'Изменить',
+  edit: 'Редактировать',
   edit2: 'Изменить',
   email: 'Эл. адрес',
   emailAddress: 'Адрес электронной почты *',
@@ -633,7 +633,7 @@ const ru_RU = {
   'payment.billTitle': 'Адрес для выставления счета',
   'payment.cardNumber': 'Номер карты',
   'payment.cardNumber2': 'НОМЕР КАРТЫ',
-  'payment.cardOwner': 'Имя держателя карты',
+  'payment.cardOwner': 'Владелец карты',
   'payment.cardType': 'ТИП КАРТЫ',
   'payment.choosePayment': 'Выберите платеж',
   'payment.city': 'Город',
@@ -783,7 +783,7 @@ const ru_RU = {
     'Магазин индивидуального питания для вашего питомца',
   'qualitySafety.title':
     'Наши обязательства в области качества и пищевой безопасности',
-  quantity: 'количество',
+  quantity: 'Количество',
   quantityCannotExceed10: 'Количество не может превышать 10',
   quantityText: '{specText} - {buyCount} товар (а/ов)',
   'order.quantityText': '{specText} - {buyCount} товар (а/ов)',
@@ -892,7 +892,7 @@ const ru_RU = {
   'subscription.date': 'Дата подписки',
   'subscription.deliveryDate': 'Следующая дата доставки',
   'subscription.detail': 'Детали подписки',
-  'subscription.frequency': 'Доставка каждые',
+  'subscription.frequency': 'Переодичность',
   'subscription.nextOrder': 'Следующий заказ',
   'subscription.noDataTip': 'Без подписки',
   'subscription.notYet': 'Пока не отправлено',
@@ -1143,7 +1143,8 @@ const ru_RU = {
   'details.findProductTip':
     'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца с помощью',
   'details.findProductTips': 'подборщика продуктов',
-  'details.learnMore': 'Узнать больше'
+  'details.learnMore': 'Узнать больше',
+  'CLUB subscription': 'Клубная подписка'
 };
 
 export default ru_RU;
