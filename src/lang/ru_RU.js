@@ -224,8 +224,8 @@ const ru_RU = {
   changepic: 'Добавить изображение',
   checkboxIsRequiredForSubscription:
     'при подписке на корм данное поле является обязательным для заполнения',
-  checkout: 'Оформление заказа',
-  'payment.checkout': 'Оформление заказа',
+  checkout: 'Оформить заказ',
+  'payment.checkout': 'Оформить заказ',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
   choosePrescriber:
@@ -892,7 +892,7 @@ const ru_RU = {
   'subscription.date': 'Дата подписки',
   'subscription.deliveryDate': 'Следующая дата доставки',
   'subscription.detail': 'Детали подписки',
-  'subscription.frequency': 'Доставка каждые',
+  'subscription.frequency': 'Периодичность',
   'subscription.nextOrder': 'Следующий заказ',
   'subscription.noDataTip': 'Без подписки',
   'subscription.notYet': 'Пока не отправлено',

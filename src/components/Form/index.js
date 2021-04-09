@@ -338,10 +338,15 @@ class Form extends React.Component {
         let cfm = caninForm;
         cfm.country = res[0].value;
         cfm.countryId = res[0].id;
-        this.setState({
-          countryList: res,
-          caninForm: Object.assign(this.state.caninForm, cfm)
-        });
+        this.setState(
+          {
+            countryList: res,
+            caninForm: Object.assign(this.state.caninForm, cfm)
+          },
+          () => {
+            console.log('-------- 国家： ', this.state.caninForm);
+          }
+        );
       }
     } catch (err) {
       console.log(err);
