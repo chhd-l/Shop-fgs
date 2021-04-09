@@ -73,8 +73,7 @@ class AddressList extends React.Component {
       listBtnLoading: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
-      selectListValidationOption: 'suggestedAddress',
-      russiaAddressValidFlag: false // 俄罗斯地址校验标记
+      selectListValidationOption: 'suggestedAddress'
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -412,10 +411,15 @@ class AddressList extends React.Component {
   updateDeliveryAddress = async (data) => {
     console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
+      console.log(' --------------- 111111111 开始验证');
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
+      this.setState({ isValid: false }, () => {
+        console.log('------------- isValid: ', this.state.isValid);
+      });
       await validData(data.formRule, data); // 数据验证
+      console.log(' --------------- 222222222 验证通过');
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
@@ -433,7 +437,7 @@ class AddressList extends React.Component {
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
     this.setState({
-      russiaAddressValidFlag: flag
+      isValid: flag
     });
   };
   scrollToTitle() {
@@ -927,15 +931,12 @@ class AddressList extends React.Component {
                       <FormattedMessage id="or" />{' '}
                     </>
                   )}
-
                   <button
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={
-                      !this.state.isValid && !this.state.russiaAddressValidFlag
-                    }
+                    disabled={!this.state.isValid}
                   >
                     <FormattedMessage id="save" />
                   </button>

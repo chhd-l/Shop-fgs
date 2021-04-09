@@ -1438,7 +1438,8 @@ class Payment extends React.Component {
       guestEmail,
       promotionCode
     } = this.state;
-    // console.log(deliveryAddress, 'deliveryAddress');
+    console.log('--- deliveryAddress    ', deliveryAddress);
+    console.log('--- billingAddress    ', billingAddress);
     /**
      * ★★★ 1
      * 封装下单参数的时候需要把新加的字段加上，
@@ -1457,6 +1458,7 @@ class Payment extends React.Component {
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
       line2: deliveryAddress.address2,
+      comment: deliveryAddress?.comment,
       recommendationId: clinicStore.linkClinicId,
       recommendationName: clinicStore.linkClinicName,
       storeId: process.env.REACT_APP_STOREID,
@@ -1468,6 +1470,8 @@ class Payment extends React.Component {
       petsId: '',
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId,
+      maxDeliveryTime: billingAddress?.calculation?.maxDeliveryTime,
+      minDeliveryTime: billingAddress?.calculation?.minDeliveryTime,
       promotionCode,
       guestEmail
     };
@@ -1678,6 +1682,7 @@ class Payment extends React.Component {
           provinceNo: deliveryAddress.provinceNo,
           province: deliveryAddress.province,
           postCode: deliveryAddress.postCode,
+          comment: deliveryAddress?.comment,
           phoneNumber: deliveryAddress.consigneeNumber,
           email: deliveryAddress.email,
           addressId:
@@ -1698,6 +1703,7 @@ class Payment extends React.Component {
             provinceNo: billingAddress.provinceNo,
             province: billingAddress.province,
             postCode: billingAddress.postCode,
+            comment: billingAddress?.comment,
             phoneNumber: billingAddress.consigneeNumber,
             addressId:
               billingAddress.addressId || billingAddress.deliveryAddressId
