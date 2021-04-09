@@ -79,11 +79,11 @@ const faqs = {
 
 const itemList = (function () {
   const defaultItemList = [information, pets, orders, subscription, faqs];
-
-  const itemListObj = {
-    ru: [information, pets, orders, subscription] //ru没有faqs
-  };
-  return itemListObj[process.env.REACT_APP_LANG] || defaultItemList;
+  return (
+    {
+      ru: [information, pets, orders, subscription] //ru 没有faqs
+    }[process.env.REACT_APP_LANG] || defaultItemList
+  );
 })();
 
 export { itemList };
