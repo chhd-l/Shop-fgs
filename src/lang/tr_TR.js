@@ -143,7 +143,7 @@ const tr_TR = {
     'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün sepette',
   'cart.totalProduct_nounit': '{val} sepette',
-  'cart.yourShoppingCart': 'Alışveriş sepetiniz',
+  'cart.yourShoppingCart': 'Sepetiniz',
   cats: 'KEDI',
   cats2: 'Kedi',
   cats3: 'Kedi',
@@ -184,7 +184,7 @@ const tr_TR = {
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
   'confirmation.info2':
-    'Yakın gelecekte, personelimiz siparişi onaylamak için sizinle iletişime geçecektir.',
+    'Kısa süre içinde {val1} adresinde bir e-posta onayı alacaksınız',
   'confirmation.info3':
     'Adresler ve nakliye yöntemleri mallarınızın altında belirtilmiştir.',
   'confirmation.oneShoot': 'Alışverişe devam',
@@ -272,7 +272,7 @@ const tr_TR = {
   'details.errMsg2': 'Ayrıntı bulunamadı, lütfen daha sonra tekrar deneyin.',
   'details.feedingRecommendations': 'Beslenme önerileri',
   'details.ingredients': 'Malzemeler',
-  'details.inStock': 'Stokta var',
+  'details.inStock': 'Stokta',
   'details.OffShelves': 'raflar kapalı',
   'details.OneOFF': 'Tek seferlik satın alma',
   'details.outStock': 'Stoklar tükendi',
@@ -700,9 +700,10 @@ const tr_TR = {
   'qualitySafety.shopTile':
     'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
   'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
-  quantity: 'miktarda',
+  quantity: 'Adet',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} product(s)',
+  'order.quantityText': '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Sorgu Verisi Başarısız',
   ratingGrade1: 'En Yeniler',
   ratingGrade2: 'En Düşükten En Yüksek Dereceye',
