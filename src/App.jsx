@@ -721,7 +721,9 @@ const App = () => {
                       const specailPlpUrlMapping = {
                         ...redirectFun()
                       };
+
                       redirectUrl = specailPlpUrlMapping[pathname + search];
+
                        // PDP文件重定向end
 
                       if (redirectUrl) {
@@ -736,6 +738,7 @@ const App = () => {
                       const specailPlpUrlMapping = {
                         ...redirectFun()
                       };
+
 
                       let redirectUrl = '';
                       if (pathname.split('.html').length > 1) {
