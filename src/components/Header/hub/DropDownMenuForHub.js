@@ -215,7 +215,7 @@ export default class DropDownMenuForHub extends React.Component {
                           item={item}
                           cItem={cItem}
                           handleClickNavItem={this.handleClickNavItem}
-                          className={`dropdown-nav__ad__card flex-grow-1 ${
+                          className={`dropdown-nav__ad__card flex-grow-111 ${
                             item.Type === 'DetailedMenuGroup'
                               ? 'dropdown-nav__ad__productcard'
                               : ''
