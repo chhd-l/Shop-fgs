@@ -45,7 +45,7 @@ const ru_RU = {
   'account.helpTip':
     'Если у вас есть вопросы, мы всегда готовы помочь вам и вашему питомцу',
   'account.male': 'Мужчина',
-  'account.monRoyalCanin': 'Мой Royal Canin',
+  'account.monRoyalCanin': 'Royal Canin',
   'account.myAccount': 'Персональные данные',
   'account.myAddresses': 'Мои адреса',
   'account.myCommunicationPreferencesContent1': 'Предпочитаемый способ связи',
@@ -878,7 +878,7 @@ const ru_RU = {
   sterilized: 'Стерилизация',
   submit: 'Отправить',
   subscribeDiscount: 'Скидка с сохранением подписки',
-  subscription: 'Подписки',
+  subscription: 'Подписки на корм',
   'subscription.BillingAddress': 'Адрес для выставления счета',
   'subscription.cancelAll': 'Отменить подписку',
   'subscription.change': 'Изменить',
@@ -1032,7 +1032,7 @@ const ru_RU = {
   'club.wheretohelp.alt2': 'Контактный e-mail',
   'club.wheretohelp.alt3': 'Блок FAQ',
   'club.jointodayalt': 'Присоединитесь к Клубу Royal Canin',
-  autoShipStarted: 'Дата создания подписки',
+  autoShipStarted: 'Начало Клубной подписки',
   nextShipment: 'Следующая доставка',
   transactionInfo: 'Информация',
   myAutoshipOrder: 'Подписки на корм',
@@ -1060,7 +1060,7 @@ const ru_RU = {
   'order.orderPlacedOn': 'Дата доставки',
   autoShipOrderDetails: 'Детали Вашей подписки',
   transactionInfomation: 'Информация о транзакции',
-  manage: 'Изменить',
+  manage: 'Управлять',
   'cyber.form.saveFor': 'Сохранить данные карты в учетной записи',
   //'cyber.form.theBox':'при подписке на корм данное поле является обязательным для заполнения',
   'pet.petListTitle': 'Здесь Вы можете создать профили для Ваших питомцев',
@@ -1116,7 +1116,40 @@ const ru_RU = {
   'account.clinicTitle2': 'По умолчанию для моей клиники',
   'productFinder.searchCompleted': '',
   xMonths: '{val} Месяцы',
-  xYears: '{val} Годы'
+  xYears: '{val} Годы',
+  'productFinder.searchCompleted': 'Поиск завершен!',
+  'productFinder.searchResultTip1ForCat':
+    'Ниже представлены продукты, которые лучше всего соответствуют потребностям Вашей кошки.',
+  'productFinder.searchResultTip2':
+    'Нажмите на рекомендации для получения дополнительной информации.',
+  seeTheProduct: 'Посмотреть продукт',
+  'productFinder.otherProductsToConsider': 'Другие рекомендуемые продукты',
+  'productFinder.summary': 'Содержание',
+  'productFinder.startAgin': 'Начать заново',
+  'productFinder.searchResultWarningTip1':
+    'Рекомендации даны для ознакомления. Их не следует рассматривать как единственное решение для Вашего питомца.Вы можете выбрать размер, количество товара и частоту отправки на странице продукта.',
+  'productFinder.helpTip1': 'У Вас есть вопросы?',
+  'productFinder.helpTip2':
+    'Our staff are true experts and passionate. They are at your disposal to answer any request.',
+  callUs: 'Свяжитесь с нами',
+  emailUs: 'Напишите нам',
+  'details.recommendedDaily':
+    'Рекомендуемая суточная норма потребления для Вашего питомца',
+  'details.recommendedDaily.info': '57г/день',
+  'details.backRecommendedDaily': 'Вернуться к рекомендациям',
+  'details.findProductTip':
+    'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца с помощью',
+  'details.findProductTips': 'подборщика продуктов',
+  'details.learnMore': 'Узнать больше',
+  'CLUB subscription': 'Клубная подписка',
+  'help.title': 'Нужна помощь?',
+  'subscriptionDetail.editPetProfile': 'Редактировать профиль питомца',
+  'subscriptionDetail.clubFor': 'КЛУБ для',
+  'subscriptionDetail.better':
+    'Для Вашего удобства мы рекомендуем привязать профиль питомца к Клубной программе',
+  'subscriptionDetail.link': 'Привязать профиль питомца',
+  'subscriptionDetail.changeProduct': 'Изменить продукт',
+  'subscriptionDetail.newProduct': 'Новые рекомендации продукта'
 };
 
 export default ru_RU;

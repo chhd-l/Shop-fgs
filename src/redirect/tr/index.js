@@ -66,6 +66,10 @@ export default {
       redirectUrl: '/british-shorthair-2032'
     },
     {
+      shortUrl: '/british-shorthair-(x12)-203201020_INNERBOX_12_UNIT_TR.html',
+      redirectUrl: '/british-shorthair-2032'
+    },
+    {
       shortUrl: '/british-shorthair-2032_TR.html',
       redirectUrl: '/british-shorthair-2032'
     },
@@ -111,6 +115,10 @@ export default {
     },
     {
       shortUrl: '/chihuahua-%28x12%29-204101020_INNERBOX_12_UNIT_TR.html',
+      redirectUrl: '/chihuahua-2041'
+    },
+    {
+      shortUrl: '/chihuahua-(x12)-204101020_INNERBOX_12_UNIT_TR.html',
       redirectUrl: '/chihuahua-2041'
     },
     {
