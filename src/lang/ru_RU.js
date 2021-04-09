@@ -255,10 +255,10 @@ const ru_RU = {
   CompleteRequiredItems: 'Пожалуйста, заполните необходимые пункты',
   confirmation: 'Подтверждение',
   'confirmation.account': 'Зайти в мой аккаунт',
-  'confirmation.customerInformation': 'Информация для клиентов',
-  'confirmation.info1': 'Спасибо за ваш заказ.',
+  'confirmation.customerInformation': 'Персональные данные',
+  'confirmation.info1': 'Спасибо за Ваш заказ',
   'confirmation.info2':
-    'Вскоре вы получите подтверждение по электронной почте на {val1}',
+    'В ближайшее время Вы получите подтверждение по email адресу',
   'confirmation.info3':
     'Адреса и способы доставки указаны под вашими товарами.',
   'confirmation.oneShoot': 'Продолжить покупки',
@@ -319,13 +319,13 @@ const ru_RU = {
   delivery2: 'Доставка',
   deliveryAddress: 'Адрес доставки',
   'detail.answer':
-    'Наши консультанты - настоящие эксперты и увлеченные. Они в вашем распоряжении, чтобы ответить на любой запрос.',
-  'detail.email': 'По электронной почте',
+    'Наши консультанты - настоящие эксперты и увлеченные. Они в вашем распоряжении, чтобы ответить на любой запрос.',
+  'detail.email': 'По электронной почте',
   'detail.packagingDesc':
-    'На нашу упаковку / продукцию могут распространяться инструкции по сортировке',
+    'На нашу упаковку / продукцию могут распространяться инструкции по сортировке',
   //pdp
-  'detail.question': 'У вас остались вопросы об этом продукте ?',
-  'detail.telephone': 'По телефону',
+  'detail.question': 'У вас остались вопросы об этом продукте ?',
+  'detail.telephone': 'По телефону',
   'details.addToCart': 'Добавить в корзину',
   'details.availability': 'Доступность',
   'details.beneficialFeatures': 'Полезные функции',
@@ -390,7 +390,7 @@ const ru_RU = {
     'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
   'footer.email': 'Обратиться в службу поддержки.',
   'footer.FAQ': 'Часто задаваемые вопросы',
-  'footer.FAQ2': 'FAQ',
+  'footer.FAQ2': 'Часто задаваемые вопросы',
   'footer.healthAndNutrition': 'Здоровье и питание',
   'footer.help': 'ПОМОГИТЕ',
   'footer.informationForParents': 'Информация для родителей',
@@ -498,7 +498,7 @@ const ru_RU = {
   'home.specialInfo2': 'в своей уникальности.',
   'home.specialInfo3': 'Узнайте, что делает их уникальными!',
   'home.specialInfo4':
-    'Более 50 лет мы следуем принципу Благополучие собак и кошек прежде всего. Мы создаем адаптированный корм для животных в соответствии с их особыми потребностями. ',
+    'Более 50 лет мы следуем принципу Благополучие собак и кошек прежде всего. Мы создаем адаптированный корм для животных в соответствии с их особыми потребностями. ',
   'home.viewProducts': 'Просмотр продуктов',
   homePage: 'Главная страница',
   iHaveReadThe: 'Я прочитал',
@@ -521,7 +521,7 @@ const ru_RU = {
   'lang.submit': 'Sunmak',
   language: 'Russia/русский',
   lastName: 'Фамилия *',
-  learnMore: 'Узнать больше',
+  learnMore: 'Узнать больше',
   'list.errMsg':
     'Товаров не найдено. Измените критерии поиска и повторите попытку',
   'list.errMsg2':
@@ -567,7 +567,7 @@ const ru_RU = {
   newAddress: 'Новый адрес',
   newPassword: 'Новый пароль',
   noClinicTip:
-    'Ваш рекомендательный код недействителен. {val} и узнайте действующий код в наших партнерских клиниках. ',
+    'Ваш рекомендательный код недействителен. {val} и узнайте действующий код в наших партнерских клиниках. ',
   NoPromotionDesc: 'No PromotionDesc',
   noSpecialNeeds: 'Нет особых потребностей',
   notate: '',
@@ -591,7 +591,7 @@ const ru_RU = {
   'order.noDataTip': 'Нет данных',
   'order.orderDate': 'Дата заказа',
   'order.orderDetails': 'Детали заказа',
-  'order.orderInformation': 'Запросить информацию',
+  'order.orderInformation': 'Подтверждение заказа',
   'order.orderNumber': 'Номер заказа',
   'order.orderStatus': 'Статус заказа',
   'order.paymentNumber': 'Номер платежа',
@@ -664,7 +664,7 @@ const ru_RU = {
   'payment.frequencyTip1': 'Да, сделай мою жизнь проще!',
   'payment.frequencyTip2': 'Нет, спасибо.',
   'payment.frequencyTip3': 'Ваши товары будут отправлены только один раз',
-  'payment.further': 'Платить',
+  'payment.further': 'Оплатить',
   'payment.howToDelivery': 'Как доставить',
   'payment.itemTotalProduct': 'товар всего товара',
   'payment.lastName': 'Фамилия',
@@ -672,7 +672,7 @@ const ru_RU = {
   'payment.normalDelivery2': 'Нормальная доставка',
   'payment.normalDelivery3': '(1-4 дня)',
   'payment.payment': 'Способ оплаты',
-  'payment.paymentInformation': 'Выбрать оплату',
+  'payment.paymentInformation': 'Способо оплаты',
   'payment.phoneNumber': 'Номер телефона',
   'payment.phoneNumber2': 'Телефонный номер',
   'payment.postCode': 'Индекс',
@@ -735,7 +735,7 @@ const ru_RU = {
   prescription: 'Рецепт',
   prescriptionDeclined: 'Рецепт отклонен',
   price: 'Цена',
-  printEbanx: 'Печать Ebanx',
+  printEbanx: 'Войти в аккаунт',
   privacyPolicy: 'Политика конфиденциальности',
   proceedToTheDeletion: 'продолжить удаление',
   'productFinder.resultHlep':
@@ -1010,7 +1010,7 @@ const ru_RU = {
     'Продолжайте, чтобы завершить процесс подписки. С первой доставкой Вы получите приветственный подарок. ',
   'club.howitworks.img3.titile': 'УПРАВЛЯЙТЕ ПОДПИСКОЙ',
   'club.howitworks.img3.description':
-    'Обеспечим своевременное обновление корма с возможностью изменения даты доставки.',
+    'Обеспечим своевременное обновление корма с возможностью изменения даты доставки.',
   'club.howitworks.img4.titile': 'ВОСПОЛЬЗУЙТЕСЬ СЕРВИСАМИ НАШЕГО КЛУБА',
   'club.howitworks.img4.description':
     'Cоветы персонального помощника Службы Заботы и бесплатные онлайн консультации на Petstory',
