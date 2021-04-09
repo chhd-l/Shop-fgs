@@ -1867,7 +1867,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {sessionItemRoyal.get('pr-question-params') ? (
+                                {!sessionItemRoyal.get('pr-question-params') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
                                       <FormattedMessage id="details.recommendedDaily" />
@@ -1875,18 +1875,24 @@ class Details extends React.Component {
                                         <FormattedMessage id="details.recommendedDaily.info" />
                                       </span>
                                     </div>
-                                    <a className="rc-styled-link backProductFinder mt-0 pb-0">
-                                      <FormattedMessage id="details.backRecommendedDaily" />
-                                    </a>
+                                    <Link
+                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                      to="/product-finder-recommendation"
+                                    >
+                                      Go back to recommendation
+                                    </Link>
                                   </div>
                                 ) : (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
                                     <div>
                                       <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
-                                    <a className="rc-styled-link mt-0 pb-0">
-                                      <FormattedMessage id="details.findProductTips" />
-                                    </a>
+                                    <Link
+                                      className="rc-styled-link mt-0 pb-0"
+                                      to="/product-finder"
+                                    >
+                                      Product finder
+                                    </Link>
                                   </div>
                                 )}
                               </div>
