@@ -700,7 +700,8 @@ class Details extends React.Component {
               spuImages: images,
               breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink,
-              goodsType: goods.goodsType
+              goodsType: goods.goodsType,
+              exclusiveFlag: goods.exclusiveFlag
             },
             () => {
               // 面包屑展示规则
@@ -1511,7 +1512,8 @@ class Details extends React.Component {
       goodsType,
       barcode,
       ccidBtnDisplay,
-      seoConfig
+      seoConfig,
+      exclusiveFlag
     } = this.state;
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
@@ -1814,7 +1816,8 @@ class Details extends React.Component {
                             !bundle &&
                             isHub &&
                             PC &&
-                            !Ru ? (
+                            !Ru &&
+                            !exclusiveFlag ? (
                               <BuyFromRetailerBtn
                                 ccidBtnDisplay={ccidBtnDisplay}
                                 barcode={barcode}
@@ -2356,7 +2359,8 @@ class Details extends React.Component {
                                 {!this.state.loading &&
                                 !bundle &&
                                 isHub &&
-                                !Ru ? (
+                                !Ru &&
+                                !exclusiveFlag ? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -2482,7 +2486,11 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle && isHub && !Ru ? (
+                {!this.state.loading &&
+                !bundle &&
+                isHub &&
+                !Ru &&
+                !exclusiveFlag ? (
                   <BuyFromRetailerBtn
                     ccidBtnDisplay={ccidBtnDisplay}
                     barcode={barcode}
