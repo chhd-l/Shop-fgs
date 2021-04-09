@@ -1118,7 +1118,23 @@ const ru_RU = {
     'Вы также можете просмотреть часть ответа на наши общие вопросы, эта часть даст вам много ответов.',
   'onlineStore.BottomInfo.faq.content2': 'ответ на вопрос',
   'onlineStore.BottomInfo.faq.title': 'задача Дес?',
-  'account.clinicTitle2': 'По умолчанию для моей клиники'
+  'account.clinicTitle2': 'По умолчанию для моей клиники',
+  'productFinder.searchCompleted': 'Поиск завершен!',
+  'productFinder.searchResultTip1ForCat':
+    'Ниже представлены продукты, которые лучше всего соответствуют потребностям Вашей кошки.',
+  'productFinder.searchResultTip2':
+    'Нажмите на рекомендации для получения дополнительной информации.',
+  seeTheProduct: 'Посмотреть продукт',
+  'productFinder.otherProductsToConsider': 'Другие рекомендуемые продукты',
+  'productFinder.summary': 'Содержание',
+  'productFinder.startAgin': 'Начать заново',
+  'productFinder.searchResultWarningTip1':
+    'Рекомендации даны для ознакомления. Их не следует рассматривать как единственное решение для Вашего питомца.Вы можете выбрать размер, количество товара и частоту отправки на странице продукта.',
+  'productFinder.helpTip1': 'У Вас есть вопросы?',
+  'productFinder.helpTip2':
+    'Our staff are true experts and passionate. They are at your disposal to answer any request.',
+  callUs: 'Свяжитесь с нами',
+  emailUs: 'Напишите нам'
 };
 
 export default ru_RU;
