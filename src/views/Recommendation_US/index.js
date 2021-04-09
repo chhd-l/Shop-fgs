@@ -14,9 +14,9 @@ import { inject, observer } from 'mobx-react';
 import Help from '../SmartFeederSubscription/modules/Help';
 import {
   getRecommendationList,
-  getRecommendationList_fr,
-  getPrescriberByPrescriberIdAndStoreId
+  getRecommendationList_fr
 } from '@/api/recommendation';
+import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
