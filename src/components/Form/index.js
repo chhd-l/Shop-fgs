@@ -160,6 +160,7 @@ class Form extends React.Component {
                 (item) => item.enableFlag == 1 && item.fieldKey != 'phoneNumber'
               );
             } else if (this.props.personalData) {
+              // persnalData不需要展示comment
               narr = this.state.addressSettings.filter(
                 (item) => item.enableFlag == 1 && item.fieldKey != 'comment'
               );

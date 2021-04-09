@@ -66,23 +66,26 @@ export default class AddressPreview extends React.Component {
         ) : (
           <>
             <p>
-              <span>{[form.postCode, form.city, ' '].join(',')}</span>
-
-              {form.province && form.province != null && (
-                <span>{form.province}</span>
-              )}
-
               {process.env.REACT_APP_LANG == 'en' ? null : (
                 <>
-                  ,
                   <span>
                     {matchNamefromDict(
                       this.state.countryList,
                       form.country || form.countryId
-                    )}
+                    )}{' '}
                   </span>
                 </>
               )}
+              {/* <span>{[form.postCode, form.city, ' '].join(',')}</span> */}
+              <span>
+                {form.city}
+                {', '}
+              </span>
+
+              {form.province && form.province != null && (
+                <span>{form.province} </span>
+              )}
+              {form.postCode}
             </p>
             <p>{form.phoneNumber || form.consigneeNumber} </p>
           </>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
@@ -21,7 +21,7 @@ import './list.less';
  * address list(delivery/billing) - member
  */
 @inject('checkoutStore', 'paymentStore')
-@injectIntl
+// @injectIntl * 不能引入，引入后Payment中无法使用该组件 ref
 @observer
 class AddressList extends React.Component {
   static defaultProps = {
@@ -272,7 +272,7 @@ class AddressList extends React.Component {
         this.setState({
           validationLoading: false
         });
-        this.showErrMsg(this.props.intl.messages['payment.wrongAddress']);
+        this.showErrMsg(this.props.wrongAddressMsg);
       }
     } catch (err) {
       console.warn(err);
@@ -463,8 +463,8 @@ class AddressList extends React.Component {
   };
   // 保存地址
   async handleSavePromise() {
+    this.setState({ saveLoading: true });
     try {
-      this.setState({ saveLoading: true });
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       let params = {
