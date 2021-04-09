@@ -7,6 +7,7 @@ import PhoneModal from '../../StaticPage/Help/components/phoneModal.js';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('configStore')
 @observer
@@ -14,6 +15,7 @@ class Help extends React.Component {
   static defaultProps = {
     needReverse: true,
     isEmailUnderLine: false,
+    isRecommendationPage: false,
     contentText: {
       title: '',
       des: '',
@@ -22,7 +24,8 @@ class Help extends React.Component {
       emailLink: '',
       email: '',
       phoneTitle: '',
-      phoneDes: '',
+      phoneDes1: '',
+      phoneDes2: '',
       phone: ''
     }
   };
@@ -30,15 +33,19 @@ class Help extends React.Component {
     super(props);
     this.state = {
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       tel: '',
       mailAddress: '',
       showModal: false
     };
   }
+  saveCurrentScrollTop = () => {
+    let curScrollTop = document.documentElement.scrollTop;
+    sessionItemRoyal.set('recommendation-scroll', curScrollTop);
+  };
   mobileDial = () => {
     this.setState({ showModal: true });
   };
@@ -55,9 +62,12 @@ class Help extends React.Component {
       emailLink,
       emailDes,
       phoneTitle,
-      phoneDes
+      phoneDes1,
+      phoneDes2
     } = this.props.contentText;
-    let isUS = process.env.REACT_APP_LANG == 'en';
+    const phoneDes = phoneDes1 + phoneDes2;
+    console.info('phoneDes', phoneDes);
+    const { isRecommendationPage } = this.props;
     let isEmailUnderLine = this.props.isEmailUnderLine;
     return (
       <div className="experience-region experience-main">
@@ -71,7 +81,9 @@ class Help extends React.Component {
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                   <div
                     className={`text-center ${
-                      isUS ? 'rc-margin-y--sm rc-margin-top--lg--mobile rc-column' : ''
+                      isRecommendationPage
+                        ? 'rc-margin-y--sm rc-margin-top--lg--mobile rc-column'
+                        : ''
                     }`}
                   >
                     <h1 className="rc-beta">
@@ -86,7 +98,9 @@ class Help extends React.Component {
                     <div className="rc-large-body inherit-fontsize children-nomargin">
                       <p
                         className="text-center"
-                        style={{ marginBottom: isUS ? '16px' : '0' }}
+                        style={{
+                          marginBottom: isRecommendationPage ? '1rem' : '0'
+                        }}
                       >
                         {des ? (
                           des
@@ -114,7 +128,9 @@ class Help extends React.Component {
                               <div className="w-100">
                                 <b
                                   style={{
-                                    color: isUS ? '#00A4A6' : '#00BCA3'
+                                    color: isRecommendationPage
+                                      ? '#00A4A6'
+                                      : '#00BCA3'
                                   }}
                                 >
                                   {phoneTitle ? (
@@ -135,12 +151,14 @@ class Help extends React.Component {
                                     className="rc-numeric rc-md-up"
                                     href={
                                       phone
-                                        ? phone
+                                        ? `tel:${phone}`
                                         : this.props.configStore
                                             .storeContactPhoneNumber
                                     }
                                     style={{
-                                      color: isUS ? '#00A4A6' : '#00BCA3'
+                                      color: isRecommendationPage
+                                        ? '#00A4A6'
+                                        : '#00BCA3'
                                     }}
                                   >
                                     {/* <FormattedMessage id="help.tel" /> */}
@@ -151,10 +169,12 @@ class Help extends React.Component {
                                   </a>
                                 </div>
                                 <div className="rc-margin-top--xs">
-                                  {process.env.REACT_APP_LANG == 'us' ? (
+                                  {isRecommendationPage ? (
                                     <p
                                       style={{
-                                        color: isUS ? '#00A4A6' : '#00BCA3'
+                                        color: isRecommendationPage
+                                          ? '#00A4A6'
+                                          : '#00BCA3'
                                       }}
                                       className="rc-numeric rc-md-down"
                                     >
@@ -167,7 +187,9 @@ class Help extends React.Component {
                                                 .storeContactPhoneNumber)
                                         }
                                         style={{
-                                          color: isUS ? '#00A4A6' : '#00BCA3'
+                                          color: isRecommendationPage
+                                            ? '#00A4A6'
+                                            : '#00BCA3'
                                         }}
                                       >
                                         {/* <FormattedMessage id="help.tel" /> */}
@@ -180,7 +202,9 @@ class Help extends React.Component {
                                   ) : (
                                     <p
                                       style={{
-                                        color: isUS ? '#00A4A6' : '#00BCA3'
+                                        color: isRecommendationPage
+                                          ? '#00A4A6'
+                                          : '#00BCA3'
                                       }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                       onClick={this.mobileDial}
@@ -210,12 +234,13 @@ class Help extends React.Component {
                           <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
-                                <b>
+                                <strong>
                                   {/* <FormattedMessage id="help.byEmail" /> */}
-                                  {process.env.REACT_APP_LANG == 'us' ? (
+                                  {isRecommendationPage ? (
                                     <span
                                       style={{
-                                        verticalAlign: 'inherit'
+                                        verticalAlign: 'inherit',
+                                        color: '#0087BD'
                                       }}
                                     >
                                       {emailTitle ? (
@@ -243,9 +268,9 @@ class Help extends React.Component {
                                       )}
                                     </Link>
                                   )}
-                                </b>
+                                </strong>
                                 <p>
-                                  <span style={{ color: 'rgb(0, 0, 0)' }}>
+                                  <span style={{ color: 'rgb(102, 102, 102)' }}>
                                     {emailDes ? (
                                       emailDes
                                     ) : (
@@ -254,46 +279,48 @@ class Help extends React.Component {
                                   </span>
                                 </p>
                                 <div className="rc-margin-top--xs">
-                                  <p
+                                  {/* <p
                                     className="rc-numeric text-nowrap"
                                     style={{
                                       color: 'rgb(0, 135, 189)'
                                     }}
-                                  >
-                                    {process.env.REACT_APP_LANG == 'us' ? (
-                                      <Link
-                                        href={emailLink}
-                                        style={{
-                                          fontSize: '16px',
-                                          borderBottom: '1px solid transparent'
-                                        }}
-                                      >
-                                        {emailTitle ? (
-                                          emailTitle
-                                        ) : (
-                                          <FormattedMessage id="help.email" />
-                                        )}
-                                      </Link>
-                                    ) : (
-                                      <a
-                                        href={this.state.mailAddress}
-                                        style={{
-                                          fontSize: '16px',
-                                          borderBottom: '1px solid transparent',
-                                          textDecoration: isEmailUnderLine
-                                            ? 'underline'
-                                            : 'none'
-                                        }}
-                                        className="rc-styled-link"
-                                      >
-                                        {email ? (
-                                          email
-                                        ) : (
-                                          <FormattedMessage id="help.email" />
-                                        )}
-                                      </a>
-                                    )}
-                                  </p>
+                                  > */}
+                                  {isRecommendationPage ? (
+                                    <Link
+                                      to={emailLink}
+                                      // style={{
+                                      //   fontSize: '1rem',
+                                      //   borderBottom: '1px solid transparent'
+                                      // }}
+                                      onClick={this.saveCurrentScrollTop}
+                                      className="rc-styled-link"
+                                    >
+                                      {email ? (
+                                        email
+                                      ) : (
+                                        <FormattedMessage id="help.email" />
+                                      )}
+                                    </Link>
+                                  ) : (
+                                    <a
+                                      href={this.state.mailAddress}
+                                      style={{
+                                        fontSize: '1rem',
+                                        borderBottom: '1px solid transparent',
+                                        textDecoration: isEmailUnderLine
+                                          ? 'underline'
+                                          : 'none'
+                                      }}
+                                      className="rc-styled-link 1111"
+                                    >
+                                      {email ? (
+                                        email
+                                      ) : (
+                                        <FormattedMessage id="help.email" />
+                                      )}
+                                    </a>
+                                  )}
+                                  {/* </p> */}
                                 </div>
                               </div>
                             </div>
@@ -320,7 +347,7 @@ class Help extends React.Component {
                       >
                         <picture className="rc-card__image">
                           <LazyLoad>
-                            <img src={helpImg} alt=" " title=" " />
+                            <img src={helpImg} alt="help icon" title=" " />
                           </LazyLoad>
                         </picture>
                       </div>

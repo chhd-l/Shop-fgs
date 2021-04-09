@@ -9,7 +9,58 @@
   font-size: 1.375rem;
   line-height: 2rem;
 }
+.Recommendation_US p.list_item {
+  margin-bottom: 0;
+}
+.Recommendation_US .recommendProduct .imageTabBox {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.Recommendation_US .recommendProduct .imageTabBox::-webkit-scrollbar {
+  width: 0.625rem;
+  background: #f6f6f6;
+  height: 2px;
+}
+.Recommendation_FR .has-promotion .text-throught-line {
+  text-decoration: line-through;
+  color: #666;
+  display: block;
+}
+.Recommendation_FR .promotion-tips {
+  font-size: 0.75rem;
+  width: 313px;
+  margin: 0 auto 1.5rem;
+}
+.Recommendation_FR .promotion-code {
+  padding: 4px 8px;
+  background-color: rgb(246, 246, 246);
+}
+.Recommendation_US .promotion-code-title {
+  font-size: 1.125rem;
+  color: #666;
+}
+.Recommendation_FR .has-promotion .promotion-price {
+  font-size: 1.625rem;
+  color: #e2001a;
+  display: inline;
+  padding-left: 1rem;
+}
+.Recommendation_FR .promotion-price {
+  display: none;
+}
 @media (min-width: 769px) {
+  /* .Recommendation_US .rc-beta{
+    font-size: 1.875rem;
+  } */
+  .Recommendation_US
+    .arrow-img-columns
+    .for-icon-size
+    .rc-grid:not(:last-child):after {
+    font-size: 4.5rem;
+    height: 41.6px;
+    overflow: hidden;
+    line-height: 43px;
+  }
   .Recommendation_FR .rc-gamma {
     font-size: 1.625rem;
     line-height: 2.5rem;
@@ -22,7 +73,38 @@
     line-height: 1.125rem;
   }
 }
+.Recommendation_US .benefit ul > li {
+  padding-bottom: 0.625rem;
+}
+.Recommendation_US .imageInnerBox .rc-img--square {
+  margin-left: 0;
+  margin-right: 5px;
+}
 @media (max-width: 769px) {
+  .Recommendation_US .scrollOutBox {
+    width: 264px;
+  }
+  .Recommendation_US .leftArrow {
+    display: inline-block;
+    position: absolute;
+    top: 44px;
+    left: 0;
+  }
+  .Recommendation_US .rightArrow {
+    display: inline-block;
+    position: absolute;
+    top: 44px;
+    right: 0;
+  }
+  .Recommendation_US .imageOutBox {
+    width: 180px;
+  }
+  .Recommendation_US p.list_item {
+    text-align: left;
+  }
+  .Recommendation_US .rc-beta {
+    font-size: 1.625rem;
+  }
   .Recommendation_FR .rc-meta {
     font-size: 0.75rem;
     line-height: 1rem;
