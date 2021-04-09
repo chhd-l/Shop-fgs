@@ -10,7 +10,8 @@ import { format } from 'date-fns-tz';
 
 class InfosPreview extends React.Component {
   static defaultProps = {
-    payRecord: null
+    payRecord: null,
+    hideBillingAddr: false
   };
   constructor(props) {
     super(props);
@@ -145,7 +146,7 @@ class InfosPreview extends React.Component {
             </div>
           ) : null}
           {/* {JSON.stringify(details.invoice)} */}
-          {details ? (
+          {details && this.props.hideBillingAddr ? (
             <div
               className={[
                 'col-12',

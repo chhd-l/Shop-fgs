@@ -1526,29 +1526,33 @@ class AccountOrders extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-12 col-md-4 mb-2">
-                                <div className="border rounded p-3 h-100">
-                                  <div className="d-flex">
-                                    <svg
-                                      className="svg-icon align-middle mr-3 ml-1"
-                                      aria-hidden="true"
-                                      style={{ width: '2em', height: '2em' }}
-                                    >
-                                      <use xlinkHref="#iconBillingAddress1" />
-                                    </svg>
-                                    <div>
-                                      <p className="medium mb-3">
-                                        <FormattedMessage id="billing2" />
-                                      </p>
-                                      {/* 姓名 */}
-                                      <p className="medium mb-2 od_mb_name">
-                                        {details.invoice.contacts}
-                                      </p>
-                                      {/* 电话 */}
-                                      <p className="mb-0 od_mb_tel">
-                                        {details.invoice.phone}
-                                      </p>
-                                      {/* <p className="mb-0">
+                              {!Boolean(
+                                +process.env
+                                  .REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+                              ) ? (
+                                <div className="col-12 col-md-4 mb-2">
+                                  <div className="border rounded p-3 h-100">
+                                    <div className="d-flex">
+                                      <svg
+                                        className="svg-icon align-middle mr-3 ml-1"
+                                        aria-hidden="true"
+                                        style={{ width: '2em', height: '2em' }}
+                                      >
+                                        <use xlinkHref="#iconBillingAddress1" />
+                                      </svg>
+                                      <div>
+                                        <p className="medium mb-3">
+                                          <FormattedMessage id="billing2" />
+                                        </p>
+                                        {/* 姓名 */}
+                                        <p className="medium mb-2 od_mb_name">
+                                          {details.invoice.contacts}
+                                        </p>
+                                        {/* 电话 */}
+                                        <p className="mb-0 od_mb_tel">
+                                          {details.invoice.phone}
+                                        </p>
+                                        {/* <p className="mb-0">
                                         {[
                                           details.invoice.postCode,
                                           details.invoice.phone
@@ -1556,45 +1560,46 @@ class AccountOrders extends React.Component {
                                           .filter((d) => d)
                                           .join(' ')}
                                       </p> */}
-                                      {/* 国家 */}
-                                      {process.env.REACT_APP_LANG ==
-                                      'en' ? null : (
-                                        <p className="mb-0 od_mb_country">
-                                          {matchNamefromDict(
-                                            this.state.countryList,
-                                            details.invoice.countryId
-                                          )}
+                                        {/* 国家 */}
+                                        {process.env.REACT_APP_LANG ==
+                                        'en' ? null : (
+                                          <p className="mb-0 od_mb_country">
+                                            {matchNamefromDict(
+                                              this.state.countryList,
+                                              details.invoice.countryId
+                                            )}
+                                          </p>
+                                        )}
+                                        {/* 地址 */}
+                                        <p className="mb-0 od_mb_address1">
+                                          {details.invoice.address1}
                                         </p>
-                                      )}
-                                      {/* 地址 */}
-                                      <p className="mb-0 od_mb_address1">
-                                        {details.invoice.address1}
-                                      </p>
-                                      {details.invoice.address2 ? (
-                                        <p className="mb-0 od_mb_address2">
-                                          {details.invoice.address2}
+                                        {details.invoice.address2 ? (
+                                          <p className="mb-0 od_mb_address2">
+                                            {details.invoice.address2}
+                                          </p>
+                                        ) : null}
+                                        <p className="mb-0 od_mb_cpp">
+                                          {/* 城市 */}
+                                          {details.invoice.city}
+                                          {', '}
+                                          {/* 省份 */}
+                                          {details?.invoice?.province
+                                            ? details?.invoice?.province
+                                            : null}{' '}
+                                          {/* 邮编 */}
+                                          {details.invoice.postCode}
                                         </p>
-                                      ) : null}
-                                      <p className="mb-0 od_mb_cpp">
-                                        {/* 城市 */}
-                                        {details.invoice.city}
-                                        {', '}
-                                        {/* 省份 */}
-                                        {details?.invoice?.province
-                                          ? details?.invoice?.province
-                                          : null}{' '}
-                                        {/* 邮编 */}
-                                        {details.invoice.postCode}
-                                      </p>
-                                      {details.invoice.rfc ? (
-                                        <p className="mb-0">
-                                          {details.invoice.rfc}
-                                        </p>
-                                      ) : null}
+                                        {details.invoice.rfc ? (
+                                          <p className="mb-0">
+                                            {details.invoice.rfc}
+                                          </p>
+                                        ) : null}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              ) : null}
                               {payRecord && payRecord.lastFourDigits ? (
                                 <div className="col-12 col-md-4 mb-2">
                                   <div className="border rounded p-3 h-100">
