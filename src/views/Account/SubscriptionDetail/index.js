@@ -108,7 +108,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetLoading: false,
       addNewPetVisible: false,
       changeRecommendationVisible: false,
-      editRecommendationVisible: false, //isNeedChangeProduct
+      editRecommendationVisible: true, //isNeedChangeProduct
       produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -716,7 +716,8 @@ class SubscriptionDetail extends React.Component {
     await this.getDetail(() => {
       let firstGoodsInfo = this.state.subDetail.goodsInfo[0];
       // 如果一进来就需要被动更换商品
-      editRecommendationVisible && this.showChangeProduct(firstGoodsInfo, true);
+      this.state.editRecommendationVisible &&
+        this.showChangeProduct(firstGoodsInfo, true);
     });
     await this.doGetPromotionPrice();
     this.setState({
@@ -2056,11 +2057,13 @@ class SubscriptionDetail extends React.Component {
       goodsInfoFlag
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
+    let currentGoodsItem = this.state.currentGoodsItems[0] || {};
     let deleteGoodsItems = {
-      goodsNum: 1,
-      periodTypeId: 5730,
+      goodsNum: currentGoodsItem.subscribeNum,
+      periodTypeId: currentGoodsItem.periodTypeId,
+      goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
       subscribeId,
-      skuId: this.state.currentGoodsItems[0]?.goodsInfoVO?.goodsInfoId
+      skuId: currentGoodsItem.goodsInfoVO?.goodsInfoId
     };
     if (buyWay) {
       addGoodsItems.periodTypeId = form.frequencyId;
