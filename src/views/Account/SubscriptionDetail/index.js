@@ -2768,7 +2768,7 @@ class SubscriptionDetail extends React.Component {
                     {this.state.editRecommendationVisible && (
                       <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
                         <p className="recommendatio-wrap-title">
-                          New product recommendation
+                          <FormattedMessage id="subscriptionDetail.newProduct" />
                         </p>
                         <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
                           {this.recommendationModal()}

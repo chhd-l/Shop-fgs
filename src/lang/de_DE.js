@@ -1239,7 +1239,8 @@ const de_DE = {
   'subscriptionDetail.better':
     'For a better experience we recommend linking a pet profile to your Club subscription',
   'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'change product'
+  'subscriptionDetail.changeProduct': 'change product',
+  'subscriptionDetail.newProduct': 'New product recommendation'
 };
 
 export default de_DE;

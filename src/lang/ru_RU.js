@@ -1150,7 +1150,8 @@ const ru_RU = {
   'subscriptionDetail.better':
     'Для Вашего удобства мы рекомендуем привязать профиль питомца к Клубной программе',
   'subscriptionDetail.link': 'Привязать профиль питомца',
-  'subscriptionDetail.changeProduct': 'Изменить продукт'
+  'subscriptionDetail.changeProduct': 'Изменить продукт',
+  'subscriptionDetail.newProduct': 'Новые рекомендации продукта'
 };
 
 export default ru_RU;
