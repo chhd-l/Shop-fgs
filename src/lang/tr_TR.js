@@ -1054,6 +1054,7 @@ const tr_TR = {
   'details.findProductTip':
     'Find the right product and calculate your pet ration using our',
   'details.findProductTips': ' Product finder',
-  'details.learnMore': 'Learn more'
+  'details.learnMore': 'Learn more',
+  'help.title': 'Yardıma mı ihtiyacınız var?'
 };
 export default tr_TR;

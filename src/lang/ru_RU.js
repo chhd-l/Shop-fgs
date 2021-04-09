@@ -1144,7 +1144,8 @@ const ru_RU = {
     'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца с помощью',
   'details.findProductTips': 'подборщика продуктов',
   'details.learnMore': 'Узнать больше',
-  'CLUB subscription': 'Клубная подписка'
+  'CLUB subscription': 'Клубная подписка',
+  'help.title': 'Нужна помощь?'
 };
 
 export default ru_RU;

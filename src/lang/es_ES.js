@@ -1028,6 +1028,7 @@ const es_ES = {
   'details.findProductTip':
     'Find the right product and calculate your pet ration using our',
   'details.findProductTips': ' Product finder',
-  'details.learnMore': 'Learn more'
+  'details.learnMore': 'Learn more',
+  'help.title': '¿Necesitas ayuda?'
 };
 export default es_ES;
