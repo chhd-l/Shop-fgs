@@ -210,7 +210,7 @@ class CheckoutStore {
     notSeableProNames = this.notSeableProNames,
     minimunAmountPrice = 0
   } = {}) {
-    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+    if (this.tradePrice < Number(process.env.REACT_APP_MINIMUM_AMOUNT)) {
       throw new Error(
         CURRENT_LANGFILE['cart.errorInfo3'].replace(/{.+}/, minimunAmountPrice)
       );

@@ -1,6 +1,9 @@
 import React from 'react';
 import findIndex from 'lodash/findIndex';
-import { CREDIT_CARD_IMG_ENUM, PAYMENT_METHOD_RULE } from '@/utils/constant';
+import {
+  CREDIT_CARD_IMG_ENUM,
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE
+} from '@/utils/constant';
 import { validData, loadJS } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
@@ -258,7 +261,10 @@ class PayOs extends React.Component {
   };
   async validFormData() {
     try {
-      await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
+      await validData(
+        PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+        this.state.creditCardInfoForm
+      );
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
