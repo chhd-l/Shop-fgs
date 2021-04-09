@@ -2224,6 +2224,7 @@ class Payment extends React.Component {
           this.loginBillingAddrRef &&
           this.loginBillingAddrRef.current
         ) {
+          console.log('------------- 会员保存地址，并弹出地址校验');
           await this.loginBillingAddrRef.current.handleSave();
         }
         // 2 save card form, when add a new card
@@ -2273,49 +2274,43 @@ class Payment extends React.Component {
 
   // 点击confirm cvv
   clickReInputCvvConfirm = () => {
+    const {
+      billingChecked,
+      tid,
+      isShowValidationModal,
+      billingAddressAddOrEdit
+    } = this.state;
     console.log('★ ----------------- click ReInput Cvv Confirm');
     // 点击按钮后进入下一步
-    this.setPaymentToCompleted('billing');
-  };
-  // 点击按钮后进入下一步
-  setPaymentToCompleted = (data) => {
-    const { tid, isShowValidationModal, billingAddressAddOrEdit } = this.state;
     if (
-      !this.state.billingChecked &&
+      !billingChecked &&
       (!tid || tid == null) &&
-      data &&
-      data == 'billing' &&
       isShowValidationModal &&
       billingAddressAddOrEdit
     ) {
-      console.log('★ ----------------- payment 地址验证 ');
+      console.log('★ --- payment 地址验证 ');
       // 未勾选，显示地址验证
       this.setState({
         paymentValidationLoading: true,
         validationModalVisible: true
       });
     } else {
-      console.log('★ ----------------- 跳过验证，下一步 ');
+      console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
       this.cvvConfirmNextPanel();
     }
+  };
+  // 点击按钮后进入下一步
+  setPaymentToCompleted = () => {
+    console.log('★ --- setPaymentToCompleted 跳过验证，下一步 ');
+    this.cvvConfirmNextPanel();
   };
   // 已绑卡 下一步
   cvvConfirmNextPanel = async () => {
     const { isLogin } = this;
     const { billingChecked, billingAddressAddOrEdit } = this.state;
     const { paymentStore } = this.props;
-    this.setState({
-      paymentValidationLoading: false,
-      validationModalVisible: false,
-      btnLoading: false
-    });
-    if (isLogin) {
-      // console.log('----------- 会员 添加或者编辑地址: ', billingAddressAddOrEdit);
-      // if (!billingChecked && billingAddressAddOrEdit && this.loginBillingAddrRef && this.loginBillingAddrRef.current) {
-      //   console.log('执行 List 页面的保存 billingAddress，弹出地址校验框');
-      //   await this.loginBillingAddrRef.current.showNextPanel();
-      // }
-    } else {
+
+    if (!isLogin) {
       // 清空 VisitorAddress 参数
       if (
         !billingChecked &&
@@ -2325,14 +2320,17 @@ class Payment extends React.Component {
         this.unLoginBillingAddrRef.current.resetVisitorAddressState();
       }
     }
-    // console.log('★ ----------------- payment 收起面板，显示preview ');
+    // console.log('★ --- payment 收起面板，显示preview ');
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
+
     this.setState({
       billingAddressAddOrEdit: false,
       saveBillingLoading: false,
-      isShowValidationModal: false
+      isShowValidationModal: false,
+      paymentValidationLoading: false,
+      btnLoading: false
     });
     window.scrollTo({
       top: 0,
@@ -2393,12 +2391,7 @@ class Payment extends React.Component {
         billingAddress: JSON.parse(JSON.stringify(oldForm))
       });
     }
-    console.log('-------------------- 确认选择地址');
-
-    console.log(
-      '-------------------- this.loginBillingAddrRef.current: ',
-      this.loginBillingAddrRef.current
-    );
+    console.log('------ 确认选择地址');
     // 调用保存 billingAddress 方法
     if (
       !billingChecked &&
@@ -2406,10 +2399,13 @@ class Payment extends React.Component {
       this.loginBillingAddrRef &&
       this.loginBillingAddrRef.current
     ) {
-      console.log('-------------------- 调用保存 billingAddress 方法');
+      console.log('------ 调用保存 billingAddress 方法');
       await this.loginBillingAddrRef.current.handleSavePromise();
     }
-
+    // 隐藏地址校验弹框
+    this.setState({
+      validationModalVisible: false
+    });
     // billing  进入下一步
     this.cvvConfirmNextPanel();
   };

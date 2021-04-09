@@ -463,8 +463,8 @@ class AddressList extends React.Component {
   };
   // 保存地址
   async handleSavePromise() {
+    this.setState({ saveLoading: true });
     try {
-      this.setState({ saveLoading: true });
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
       let params = {
