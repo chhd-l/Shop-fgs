@@ -253,7 +253,7 @@ class SubscriptionDetail extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  async queryProductDetails(id) {
+  async queryProductDetails(id, cb) {
     // let res = goodsDetailTabJSON;
     this.setState({ productListLoading: true });
     let { configStore } = this.props;
@@ -451,9 +451,7 @@ class SubscriptionDetail extends React.Component {
           //   errMsg: <FormattedMessage id="details.errMsg" />
           // });
         }
-        this.closeChangeProduct();
-        this.closeRecommendation();
-        this.setState({ produtctDetailVisible: true });
+        cb && cb();
       })
       .catch((e) => {
         console.log(e);
@@ -715,10 +713,12 @@ class SubscriptionDetail extends React.Component {
     //   return false;
     // }
 
-    await this.getDetail();
-
+    await this.getDetail(() => {
+      let firstGoodsInfo = this.state.subDetail.goodsInfo[0];
+      // 如果一进来就需要被动更换商品
+      editRecommendationVisible && this.showChangeProduct(firstGoodsInfo, true);
+    });
     await this.doGetPromotionPrice();
-
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
@@ -2057,6 +2057,8 @@ class SubscriptionDetail extends React.Component {
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
     let deleteGoodsItems = {
+      goodsNum: 1,
+      periodTypeId: 5730,
       subscribeId,
       skuId: this.state.currentGoodsItems[0]?.goodsInfoVO?.goodsInfoId
     };
@@ -2081,7 +2083,11 @@ class SubscriptionDetail extends React.Component {
     this.setState({ editRecommendationVisible: false });
   };
   showProdutctDetail = (id) => {
-    this.queryProductDetails(id);
+    this.queryProductDetails(id, () => {
+      this.closeChangeProduct();
+      this.closeRecommendation();
+      this.setState({ produtctDetailVisible: true });
+    });
   };
   closeProdutctDetail = () => {
     this.setState({ produtctDetailVisible: false });
@@ -2089,7 +2095,7 @@ class SubscriptionDetail extends React.Component {
   closeChangeProduct = () => {
     this.setState({ changeProductVisible: false });
   };
-  showChangeProduct = async (el) => {
+  queryProductList = async (el, cb) => {
     this.setState({ productListLoading: true });
     if (el) {
       this.setState({ currentGoodsItems: [el] });
@@ -2099,13 +2105,35 @@ class SubscriptionDetail extends React.Component {
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       console.info(res, 'res');
       this.setState({ productDetail: res.context }, () => {
-        this.setState({ changeProductVisible: true, details: {} }); //清空details
+        cb && cb();
       });
-      this.closeProdutctDetail();
-      this.closeRecommendation();
     } catch (err) {
     } finally {
       this.setState({ productListLoading: false });
+    }
+  };
+  doSthShow = () => {
+    this.closeProdutctDetail();
+    this.closeRecommendation();
+    this.setState({ changeProductVisible: true, details: {} }); //清空details
+  };
+  showChangeProduct = async (el, isNoModal) => {
+    if (!el) {
+      this.doSthShow();
+      return;
+    }
+    if (!isNoModal) {
+      this.queryProductList(el, () => {
+        this.doSthShow();
+      });
+    } else {
+      debugger;
+      this.queryProductList(el, () => {
+        // 查详情
+        debugger;
+        let id = this.state.productDetail.mainProduct?.spuCode;
+        this.queryProductDetails(id);
+      });
     }
   };
   getDetailModalInner = () => {
@@ -2380,7 +2408,7 @@ class SubscriptionDetail extends React.Component {
           modalTitle={''}
           close={this.closeChangeProduct}
         >
-          {productDetail?.recommendResult?.hasResult ? (
+          {productDetail?.mainProduct ? (
             this.ProductRecommendations()
           ) : (
             <div className="text-center">
