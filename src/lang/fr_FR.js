@@ -731,6 +731,11 @@ const fr_FR = {
   'payment.phoneNumber2': 'Numéro de téléphone',
   'payment.postCode': 'Code postal',
   'payment.postCode2': 'Code postal',
+  'payment.pleaseInput': 'Veuillez entrer: ',
+  'payment.streets': 'Rue',
+  'payment.house': 'La maison',
+  'payment.wrongAddress':
+    'Veuillez saisir votre adresse dans la zone de livraison de la boutique en ligne.Vous pouvez voir "aide partielle" pour les conditions de livraison sur la page',
   'payment.rfc': "Référence d'adresse",
   'payment.socialId': 'Identifiant social',
   'payment.state': 'État',

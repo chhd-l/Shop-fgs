@@ -689,6 +689,11 @@ const de_DE = {
   'payment.phoneNumber2': 'Telefonnummer',
   'payment.postCode': 'Postleitzahl',
   'payment.postCode2': 'Postleitzahl',
+  'payment.pleaseInput': 'Bitte geben: ',
+  'payment.streets': 'Straße',
+  'payment.house': 'Haus',
+  'payment.wrongAddress':
+    'Bitte geben Sie Ihre Adresse im Lieferbereich des Online-Shops ein.Die "Teilhilfe" der Lieferbedingungen finden Sie auf der Seite',
   'payment.rfc': 'Adressreferenz',
   'payment.socialId': 'Soziale ID',
   'payment.state': 'Staat',

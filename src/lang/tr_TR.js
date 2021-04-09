@@ -605,6 +605,11 @@ const tr_TR = {
   'payment.phoneNumber2': 'Telefon numarası',
   'payment.postCode': 'Posta Kodu',
   'payment.postCode2': 'Posta kodu',
+  'payment.pleaseInput': 'Lütfen girin: ',
+  'payment.streets': 'Sokak',
+  'payment.house': 'ev',
+  'payment.wrongAddress':
+    'Lütfen internet dükkanının teslim alanına adresinizi girin.Saifedeki teslim şartların "parçası yardım" olduğunu görebilirsiniz.',
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
   'payment.state': 'Durum',
