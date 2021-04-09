@@ -85,6 +85,12 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
+                        <div className="col-md-6">
+                          <FormattedMessage id="payment.city" />
+                        </div>
+                        <div className="col-md-6">
+                          &nbsp;{details.consignee.city}
+                        </div>
                         <>
                           {details.consignee?.province &&
                             details.consignee?.province != null && (
@@ -98,12 +104,6 @@ class InfosPreview extends React.Component {
                               </>
                             )}
                         </>
-                        <div className="col-md-6">
-                          <FormattedMessage id="payment.city" />
-                        </div>
-                        <div className="col-md-6">
-                          &nbsp;{details.consignee.city}
-                        </div>
                         <div className="col-md-6">
                           <FormattedMessage id="payment.postCode" />
                         </div>
@@ -183,6 +183,12 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
+                          <div className="col-md-6">
+                            <FormattedMessage id="payment.city" />
+                          </div>
+                          <div className="col-md-6">
+                            &nbsp;{details.invoice.city}
+                          </div>
                           <>
                             {details.invoice?.province &&
                               details.invoice?.province != null && (
@@ -196,12 +202,6 @@ class InfosPreview extends React.Component {
                                 </>
                               )}
                           </>
-                          <div className="col-md-6">
-                            <FormattedMessage id="payment.city" />
-                          </div>
-                          <div className="col-md-6">
-                            &nbsp;{details.invoice.city}
-                          </div>
                           <div className="col-md-6">
                             <FormattedMessage id="payment.postCode" />
                           </div>

@@ -1891,6 +1891,7 @@ class Payment extends React.Component {
               id="1"
               type="delivery"
               isDeliveryOrBilling="delivery"
+              wrongAddressMsg={this.props.intl.messages['payment.wrongAddress']}
               updateData={this.updateDeliveryAddrData}
               isValidationModal={this.state.isShowValidationModal}
               updateValidationStaus={this.updateValidationStaus}

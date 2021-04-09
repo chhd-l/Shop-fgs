@@ -24,7 +24,7 @@ const SubscriptionSelection = function (props) {
       }}
       onClick={props.chooseSubscription}
     >
-      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
+      <div className="buyMethodInnerBox d-flex justify-content-between">
         <div className="radioBox mr-2">
           <span
             style={{
@@ -103,7 +103,7 @@ const SubscriptionSelection = function (props) {
             />
           </span>
         </div>
-        <div className="price">
+        <div className="price text-nowrap">
           <div
             style={{
               fontSize: '.9375rem',

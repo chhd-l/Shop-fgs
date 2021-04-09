@@ -258,7 +258,7 @@ const ru_RU = {
   'confirmation.customerInformation': 'Информация для клиентов',
   'confirmation.info1': 'Спасибо за ваш заказ.',
   'confirmation.info2':
-    'В ближайшее время с вами свяжутся наши сотрудники для подтверждения заказа.',
+    'Вскоре вы получите подтверждение по электронной почте на {val1}',
   'confirmation.info3':
     'Адреса и способы доставки указаны под вашими товарами.',
   'confirmation.oneShoot': 'Продолжить покупки',
@@ -471,7 +471,7 @@ const ru_RU = {
   home: 'Личный кабинет',
   'home.convenientTip1':
     'Подбор рациона в соответствии с потребностями Вашего питомца',
-  'home.convenientTip2': 'Быстрая бесплатная доставка при заказе от {val}.',
+  'home.convenientTip2': 'Быстрая бесплатная доставка при заказе от {val} руб.',
   'home.convenientTip3':
     'Служба поддержки: задайте интересующий вопрос о своем питомце специалисту',
   'home.convenientTip4':
@@ -786,6 +786,7 @@ const ru_RU = {
   quantity: 'количество',
   quantityCannotExceed10: 'Количество не может превышать 10',
   quantityText: '{specText} - {buyCount} товар (а/ов)',
+  'order.quantityText': '{specText} - {buyCount} товар (а/ов)',
   queryDataFailed: 'Ошибка данных запроса',
   ratingGrade1: 'Самые последние',
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',

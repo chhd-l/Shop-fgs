@@ -396,11 +396,7 @@ export function Advantage() {
                   <FormattedMessage
                     id="home.convenientTip2"
                     values={{
-                      val: formatMoney(
-                        process.env.REACT_APP_MINIMUM_AMOUNT,
-                        1,
-                        true
-                      )
+                      val: 2500
                     }}
                   />
                 </p>
