@@ -65,7 +65,6 @@ class InfosPreview extends React.Component {
                 {details.consignee.detailAddress2 ? <br /> : null}
               </div>
               <div>
-                {details.consignee.postCode} {/* , {details.consignee.phone} */}
                 {process.env.REACT_APP_LANG == 'en' ? null : (
                   <>
                     {matchNamefromDict(
@@ -75,10 +74,12 @@ class InfosPreview extends React.Component {
                   </>
                 )}
                 {details.consignee.city}
+                {', '}
                 {details.consignee?.province &&
                 details.consignee?.province != null
-                  ? ', ' + details.consignee.province + ' '
+                  ? details.consignee.province + ' '
                   : null}
+                {details.consignee.postCode} {/* , {details.consignee.phone} */}
               </div>
               {details.consignee.rfc}
               {details.consignee.rfc ? <br /> : null}
@@ -166,7 +167,6 @@ class InfosPreview extends React.Component {
                 {details.invoice.address2 ? <br /> : null}
               </div>
               <div>
-                {details.invoice.postCode} {/* , {details.invoice.phone} */}
                 {process.env.REACT_APP_LANG == 'en' ? null : (
                   <>
                     {matchNamefromDict(
@@ -176,9 +176,11 @@ class InfosPreview extends React.Component {
                   </>
                 )}
                 {details.invoice.city}
+                {', '}
                 {details.invoice?.province && details.invoice?.province != null
-                  ? ', ' + details.invoice.province
+                  ? details.invoice.province + ' '
                   : null}
+                {details.invoice.postCode} {/* , {details.invoice.phone} */}
               </div>
               {details.invoice.rfc}
               {details.invoice.rfc ? <br /> : null}
