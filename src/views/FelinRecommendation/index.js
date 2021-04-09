@@ -129,7 +129,6 @@ class FelinRecommendation extends React.Component {
       this.setState({ seoConfig: res });
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
-    return;
     this.setState({ loading: true });
     getFelinReco(id)
       .then((res) => {
@@ -725,7 +724,9 @@ class FelinRecommendation extends React.Component {
                         <div className="imageTabBox">
                           {productList.map((el, i) => (
                             <span
-                              className={`${i === activeIndex ? 'active' : ''}`}
+                              className={`rc-btn--sm ${
+                                i === activeIndex ? 'active' : ''
+                              }`}
                               style={{
                                 display: 'inline-block',
                                 // width: '80px',
@@ -778,7 +779,7 @@ class FelinRecommendation extends React.Component {
                               />
                             </div>
                           </div>
-                          <div className="text">
+                          <div className="text rc-margin-y--sm">
                             <h2
                               title={
                                 productList[activeIndex].goodsInfo.goodsInfoName
