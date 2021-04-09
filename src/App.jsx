@@ -530,7 +530,7 @@ const App = () => (
                 path="/smart-feeder-subscription"
                 component={smartFeederSubscription}
               />
-              <Route path="/laterlier/felin" component={Felin} />
+              <Route path="/latelier/felin" component={Felin} />
               <Route path="/FelinRecommendation/:id" component={FelinRecommendation} />
               {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
