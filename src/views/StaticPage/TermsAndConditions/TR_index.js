@@ -478,8 +478,9 @@ class TermsConditionsTr extends React.Component {
                     {this.spacingFragment()}
 
                     {this.h2Fragment('Kişisel Verilerin Korunması')}
-                    {this.spacingFragment(
-                      'Site’yi kullanımınız kapsamında kişisel verilerinizin korunması hakkında aydınlatma ve muvafakatname metnine buradan ulaşabilirsiniz.'
+                    {this.spacingFragment()}
+                    {this.p1(
+                      "'Site’yi kullanımınız kapsamında kişisel verilerinizin korunması hakkında aydınlatma ve muvafakatname metnine buradan ulaşabilirsiniz.'"
                     )}
                     {this.spacingFragment()}
                     {this.spacingFragment()}
