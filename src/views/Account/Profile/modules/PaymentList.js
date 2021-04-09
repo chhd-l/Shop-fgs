@@ -13,7 +13,10 @@ import {
   getWays,
   setDefaltCard
 } from '@/api/payment';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import {
+  CREDIT_CARD_IMG_ENUM,
+  PAYMENT_METHOD_PAU_ACCOUNT_RULE
+} from '@/utils/constant';
 import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
@@ -481,6 +484,7 @@ class PaymentList extends React.Component {
                 {/* edit form panel  */}
                 {editFormVisible && (
                   <PaymentEditForm
+                    payuFormRule={PAYMENT_METHOD_PAU_ACCOUNT_RULE}
                     defaultCardTypeVal={this.state.defaultCardTypeVal}
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
