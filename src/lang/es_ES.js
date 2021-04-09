@@ -59,7 +59,7 @@ const es_ES = {
   'account.myPayments': 'Mis pagos',
   'account.nickname': '¿Cuál es el apodo de tu mascota?',
   'account.noPet':
-    ' ¡Crea tu perfil de mascota hoy! Complete la información y elija la dieta más adecuada',
+    '¡Crea tu perfil de mascota hoy! Complete la información y elija la dieta más adecuada',
   'account.noSubscription':
     '¿Aún no descubrió nuestros servicios de Autoenvío? AutoEnvío es una forma conveniente de recibir sus pedidos en un horario regular. Por lo tanto, ahorra tiempo y su mascota nunca se queda sin comida.',
   'account.noSubscriptionTitle': '¡Empecemos!',
@@ -1019,6 +1019,11 @@ const es_ES = {
   'account.clinicTitle2': 'Mi clínica por defecto',
   'subscription.viewDetails': 'Ver Detalle',
   bankCard: 'Tarjeta bancaria',
-  Expire: ' '
+  Expire: ' ',
+  'help.title': '¿Necesitas ayuda?',
+  'account.yes': 'sí',
+  'account.no': 'No',
+  isPurebredDog: '¿Perro de pura raza?',
+  isPurebredCat: '¿Gato de pura raza?'
 };
 export default es_ES;
