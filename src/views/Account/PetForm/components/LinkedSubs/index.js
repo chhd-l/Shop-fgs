@@ -32,7 +32,10 @@ const LinkedSubs = (props) => {
     //     ? localItemRoyal.get('rc-userinfo')['customerAccount']
     //     : ''
     // };
-    getSubListForPet({ petsId: props.petsId })
+    getSubListForPet({
+      petsId: props.petsId,
+      subscriptionPlanType: props.petsType
+    })
       .then((res) => {
         setSubList(res.context);
         props.setState({
@@ -61,6 +64,7 @@ const LinkedSubs = (props) => {
     });
     querySubList();
   }, []);
+  console.log(subList, 'subList');
   return (
     <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
       {subList.length ? (
@@ -91,7 +95,7 @@ const LinkedSubs = (props) => {
                     marginTop: '1rem',
                     display: i < 2 || isShowAll ? 'flex' : 'none'
                   }}
-                  key={subItem.subscribeId}
+                  key={i}
                 >
                   <div className="col-4 col-md-4 d-flex flex-wrap">
                     <div style={{ marginLeft: '1.25rem' }}>
@@ -209,14 +213,35 @@ const LinkedSubs = (props) => {
                               }
                             ]
                           };
-                          changeSubscriptionGoods(params).then((res) => {});
+                          changeSubscriptionGoods(params).then((res) => {
+                            subItem.petsId = props.petsId;
+                          });
                         }}
                       >
                         <FormattedMessage id="Link" />
                       </button>
                     ) : (
-                      <a className="rc-styled-link" href="#/">
-                        Unlink
+                      <a
+                        className="rc-styled-link"
+                        onClick={() => {
+                          let params = {
+                            petsId: props.petsId,
+                            deleteGoodsItems: [
+                              {
+                                skuId: subItem.skuId,
+                                goodsNum: subItem.subscribeNum,
+                                goodsInfoFlag: subItem.goodsInfoFlag,
+                                periodTypeId: subItem.periodTypeId,
+                                subscribeId: subItem.subscribeId
+                              }
+                            ]
+                          };
+                          changeSubscriptionGoods(params).then((res) => {
+                            subItem.petsId = null;
+                          });
+                        }}
+                      >
+                        <FormattedMessage id="Unlink" />
                       </a>
                     )}
                   </div>

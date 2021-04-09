@@ -302,7 +302,7 @@ const tr_TR = {
   estimatedTax: 'Tahmin edilen vergi',
   every: 'Her',
   example: 'Örnek',
-  examplePhone: 'Örnek: + (52) 559801 65',
+  examplePhone: 'Örnek: 0 (212) 123-45-67',
   examplePostCode: '12345',
   expirationDateIsInvalid: 'kartınızın son kullanma tarihi geçersiz',
   'faq.frequentQuestions': 'Sık sorulan sorular',

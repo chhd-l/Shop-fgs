@@ -200,7 +200,7 @@ const UserJSX = (props) => {
         )}
         {/* 登录 */}
         {isLogin && (
-          <a className="brefName">
+          <a className="brefName ui-cursor-pointer">
             <Link to="/account" className="text-white">
               {firstNameLetter}
             </Link>{' '}
