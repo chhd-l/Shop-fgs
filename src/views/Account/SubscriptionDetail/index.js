@@ -4721,10 +4721,9 @@ class SubscriptionDetail extends React.Component {
                           style={{ padding: '5px', paddingLeft: '0' }}
                         >
                           <div
+                            className="h-100 border border-d7d7d7"
                             style={{
-                              border: '1px solid #d7d7d7',
-                              padding: '1.25rem',
-                              height: '225px'
+                              padding: '1.25rem'
                             }}
                           >
                             <div className="align-items-center">
@@ -4821,112 +4820,109 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div
-                          className={[
-                            'col-12',
-                            'col-md-4',
-                            'mb-2',
-                            process.env.REACT_APP_LANG == 'en'
-                              ? 'rc-hidden'
-                              : ''
-                          ].join(' ')}
-                          style={{ padding: '5px' }}
-                        >
+                        {/* 不是美国或者不隐藏支付checkout billing addr时，才显示billing addr */}
+                        {process.env.REACT_APP_LANG !== 'en' &&
+                        !Boolean(
+                          +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+                        ) ? (
                           <div
-                            style={{
-                              border: '1px solid #d7d7d7',
-                              padding: '1.25rem',
-                              height: '225px'
-                            }}
+                            className={`col-12 col-md-4 mb-2`}
+                            style={{ padding: '5px' }}
                           >
-                            <div className="align-items-center">
-                              <LazyLoad>
-                                <img
-                                  alt="billing Icon"
-                                  src={billingIcon}
-                                  style={{
-                                    width: '30px',
-                                    marginRight: '1.125rem',
-                                    display: 'inline-block'
-                                  }}
-                                />
-                              </LazyLoad>
-                              <span>
-                                <FormattedMessage id="billing2" />
-                              </span>
-                              {subDetail.subscribeStatus === '0' && (
-                                <a
-                                  className="rc-styled-link red-text"
-                                  style={{ float: 'right', marginTop: '5px' }}
-                                  onClick={() => {
-                                    window.scrollTo(0, 0);
-                                    this.setState({
-                                      type: 'AddressComp',
-                                      addressType: 'billing'
-                                    });
-                                  }}
-                                >
-                                  <FormattedMessage id="edit" />{' '}
-                                </a>
-                              )}
-                            </div>
-                            <div className="ml-1">
-                              <p className="mb-0">
-                                <span
-                                  className="medium"
-                                  style={{
-                                    fontSize: '1.125rem',
-                                    color: '#333',
-                                    margin: '25px 0 .625rem'
-                                  }}
-                                >
-                                  {currentBillingAddress.consigneeName}
+                            <div
+                              className="h-100 border border-d7d7d7"
+                              style={{
+                                padding: '1.25rem'
+                              }}
+                            >
+                              <div className="align-items-center">
+                                <LazyLoad>
+                                  <img
+                                    alt="billing Icon"
+                                    src={billingIcon}
+                                    style={{
+                                      width: '30px',
+                                      marginRight: '1.125rem',
+                                      display: 'inline-block'
+                                    }}
+                                  />
+                                </LazyLoad>
+                                <span>
+                                  <FormattedMessage id="billing2" />
                                 </span>
-                              </p>
-                              <p className="mb-0">
-                                {currentBillingAddress.consigneeNumber}
-                              </p>
-                              <p className="mb-0">
-                                {process.env.REACT_APP_LANG == 'en' ? null : (
-                                  <>
-                                    {this.state.countryList.length &&
-                                    this.state.countryList.filter(
-                                      (el) =>
-                                        el.id ===
-                                        currentBillingAddress.countryId
-                                    ).length
-                                      ? this.state.countryList.filter(
-                                          (el) =>
-                                            el.id ===
-                                            currentBillingAddress.countryId
-                                        )[0].valueEn
-                                      : currentBillingAddress.countryId}
-                                    ,
-                                  </>
+                                {subDetail.subscribeStatus === '0' && (
+                                  <a
+                                    className="rc-styled-link red-text"
+                                    style={{ float: 'right', marginTop: '5px' }}
+                                    onClick={() => {
+                                      window.scrollTo(0, 0);
+                                      this.setState({
+                                        type: 'AddressComp',
+                                        addressType: 'billing'
+                                      });
+                                    }}
+                                  >
+                                    <FormattedMessage id="edit" />{' '}
+                                  </a>
                                 )}
-                                {/* 省份 / State */}
-                                {currentBillingAddress?.province &&
-                                currentBillingAddress?.province != null
-                                  ? currentBillingAddress.province + ', '
-                                  : null}
-                                {currentBillingAddress.city}
-                              </p>
-                              <p className="mb-0">
-                                {currentBillingAddress.address1}
-                              </p>
+                              </div>
+                              <div className="ml-1">
+                                <p className="mb-0">
+                                  <span
+                                    className="medium"
+                                    style={{
+                                      fontSize: '1.125rem',
+                                      color: '#333',
+                                      margin: '25px 0 .625rem'
+                                    }}
+                                  >
+                                    {currentBillingAddress.consigneeName}
+                                  </span>
+                                </p>
+                                <p className="mb-0">
+                                  {currentBillingAddress.consigneeNumber}
+                                </p>
+                                <p className="mb-0">
+                                  {process.env.REACT_APP_LANG == 'en' ? null : (
+                                    <>
+                                      {this.state.countryList.length &&
+                                      this.state.countryList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentBillingAddress.countryId
+                                      ).length
+                                        ? this.state.countryList.filter(
+                                            (el) =>
+                                              el.id ===
+                                              currentBillingAddress.countryId
+                                          )[0].valueEn
+                                        : currentBillingAddress.countryId}
+                                      ,
+                                    </>
+                                  )}
+                                  {/* 省份 / State */}
+                                  {currentBillingAddress?.province &&
+                                  currentBillingAddress?.province != null
+                                    ? currentBillingAddress.province + ', '
+                                    : null}
+                                  {currentBillingAddress.city}
+                                </p>
+                                <p className="mb-0">
+                                  {currentBillingAddress.address1}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        ) : null}
                         {currentCardInfo ? (
                           <div
                             className="col-12 col-md-4 mb-2"
                             style={{ padding: '5px', paddingRight: '0' }}
                           >
                             <div
+                              className="h-100 border border-d7d7d7"
                               style={{
-                                border: '1px solid #d7d7d7',
-                                padding: '1.25rem',
-                                height: '225px'
+                                padding: '1.25rem'
                               }}
                             >
                               <div className="align-items-center">
