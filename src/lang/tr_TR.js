@@ -184,7 +184,7 @@ const tr_TR = {
   'confirmation.customerInformation': 'Müşteri Bilgileri',
   'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
   'confirmation.info2':
-    'Yakın gelecekte, personelimiz siparişi onaylamak için sizinle iletişime geçecektir.',
+    'Kısa süre içinde {val1} adresinde bir e-posta onayı alacaksınız',
   'confirmation.info3':
     'Adresler ve nakliye yöntemleri mallarınızın altında belirtilmiştir.',
   'confirmation.oneShoot': 'Alışverişe devam',
@@ -605,6 +605,11 @@ const tr_TR = {
   'payment.phoneNumber2': 'Telefon numarası',
   'payment.postCode': 'Posta Kodu',
   'payment.postCode2': 'Posta kodu',
+  'payment.pleaseInput': 'Lütfen girin: ',
+  'payment.streets': 'Sokak',
+  'payment.house': 'ev',
+  'payment.wrongAddress':
+    'Lütfen internet dükkanının teslim alanına adresinizi girin.Saifedeki teslim şartların "parçası yardım" olduğunu görebilirsiniz.',
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
   'payment.state': 'Durum',
@@ -698,6 +703,7 @@ const tr_TR = {
   quantity: 'Adet',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} product(s)',
+  'order.quantityText': '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Sorgu Verisi Başarısız',
   ratingGrade1: 'En Yeniler',
   ratingGrade2: 'En Düşükten En Yüksek Dereceye',
