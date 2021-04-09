@@ -11,6 +11,7 @@ import SelectAnswer from './SelectAnswer';
 import SearchAnswer from './SearchAnswer';
 import TextAnswer from './TextAnswer';
 import { query, edit, matchProducts } from '@/api/productFinder';
+import { clubSubscriptionSavePets } from '@/api/pet';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -433,6 +434,7 @@ class Question extends React.Component {
           finderNumber,
           questionParams: tmpQuestionParams
         });
+        // const petsInfo = await clubSubscriptionSavePets({questionParams: tmpQuestionParams})
         sessionItemRoyal.set(
           'pr-question-params',
           JSON.stringify(tmpQuestionParams)
