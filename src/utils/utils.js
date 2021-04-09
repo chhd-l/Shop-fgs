@@ -824,5 +824,5 @@ export function cancelPrevRequest() {
 }
 
 export function getClubFlag() {
-  return ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1;
+  return ['tr', 'ru', 'de'].indexOf(process.env.REACT_APP_LANG) > -1;
 }

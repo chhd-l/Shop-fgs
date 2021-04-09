@@ -171,7 +171,9 @@ class UnLoginCart extends React.Component {
   get unLoginCartData() {
     return this.props.checkoutStore.cartData;
   }
+  // 可购买状态
   get btnStatus() {
+    return true;
     const { productList } = this.state;
     let autoShipFlag = false,
       clubFlag = false;
@@ -182,6 +184,7 @@ class UnLoginCart extends React.Component {
         autoShipFlag = true;
       }
     });
+
     return !(clubFlag && autoShipFlag);
   }
   getGoodsIdArr = () => {
@@ -353,8 +356,11 @@ class UnLoginCart extends React.Component {
     this.setState({ mobileCartVisibleKey: name });
   }
   async handleCheckout({ needLogin = false } = {}) {
-    this.GAAccessToGuestCheck();
+    if (!this.btnStatus) {
+      return false;
+    }
     try {
+      this.GAAccessToGuestCheck();
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });

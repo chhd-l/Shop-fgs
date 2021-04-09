@@ -700,7 +700,8 @@ class Details extends React.Component {
               spuImages: images,
               breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink,
-              goodsType: goods.goodsType
+              goodsType: goods.goodsType,
+              exclusiveFlag: goods.exclusiveFlag
             },
             () => {
               // 面包屑展示规则
@@ -1511,7 +1512,8 @@ class Details extends React.Component {
       goodsType,
       barcode,
       ccidBtnDisplay,
-      seoConfig
+      seoConfig,
+      exclusiveFlag
     } = this.state;
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
@@ -1814,7 +1816,8 @@ class Details extends React.Component {
                             !bundle &&
                             isHub &&
                             PC &&
-                            !Ru ? (
+                            !Ru &&
+                            !exclusiveFlag ? (
                               <BuyFromRetailerBtn
                                 ccidBtnDisplay={ccidBtnDisplay}
                                 barcode={barcode}
@@ -1867,7 +1870,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {sessionItemRoyal.get('pr-question-params') ? (
+                                {!sessionItemRoyal.get('pr-question-params') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
                                       <FormattedMessage id="details.recommendedDaily" />
@@ -1875,18 +1878,24 @@ class Details extends React.Component {
                                         <FormattedMessage id="details.recommendedDaily.info" />
                                       </span>
                                     </div>
-                                    <a className="rc-styled-link backProductFinder mt-0 pb-0">
-                                      <FormattedMessage id="details.backRecommendedDaily" />
-                                    </a>
+                                    <Link
+                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                      to="/product-finder-recommendation"
+                                    >
+                                      Go back to recommendation
+                                    </Link>
                                   </div>
                                 ) : (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
                                     <div>
                                       <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
-                                    <a className="rc-styled-link mt-0 pb-0">
-                                      <FormattedMessage id="details.findProductTips" />
-                                    </a>
+                                    <Link
+                                      className="rc-styled-link mt-0 pb-0"
+                                      to="/product-finder"
+                                    >
+                                      Product finder
+                                    </Link>
                                   </div>
                                 )}
                               </div>
@@ -2350,7 +2359,8 @@ class Details extends React.Component {
                                 {!this.state.loading &&
                                 !bundle &&
                                 isHub &&
-                                !Ru ? (
+                                !Ru &&
+                                !exclusiveFlag ? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -2476,7 +2486,11 @@ class Details extends React.Component {
                     </span>
                   </button>
                 ) : null}
-                {!this.state.loading && !bundle && isHub && !Ru ? (
+                {!this.state.loading &&
+                !bundle &&
+                isHub &&
+                !Ru &&
+                !exclusiveFlag ? (
                   <BuyFromRetailerBtn
                     ccidBtnDisplay={ccidBtnDisplay}
                     barcode={barcode}
