@@ -31,7 +31,7 @@ const benifitList =
         iconCls: 'rc-low-maintenance--xs rc-iconography',
         text: 'Премиум качество'
       },
-      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Бесплатная доставка' }
+      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Быстрая доставка' }
     ],
     tr: [
       { iconCls: 'rc-lock--xs rc-iconography--xs', text: '100% güvenli ödeme' },
@@ -92,26 +92,26 @@ const faqList =
     ],
     ru: [
       {
-        title: 'СЛУЖБА ПОДДЕРЖКИ',
+        title: 'Служба поддержки',
         context: `<h1 class="rc-zeta"></h1>
         <p></p><p>Наши эксперты рады помочь Вам каждый день с 9:00 до 21:00 через форму обратной связи и по телефону 8 800 200 37 35</p><p></p>`,
         gaContext: 'How to contact customer service'
       },
       {
-        title: 'БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 2500 руб.',
+        title: 'Бесплатная доставка при заказе от 2500 руб.',
         context: `<h1 class="rc-zeta"></h1>
         <p></p><p>С условиями доставки Вы можете ознакомиться <a href="https://www.royalcanin.com/ru/about-us/shipment-conditions"><ins>здесь</ins></a></p><p></p>`,
         gaContext: 'Would you like free delivery'
       },
       {
-        title: 'БЕЗОПАСНЫЕ ПЛАТЕЖИ',
+        title: 'Безопасные платежи',
         context: `<h1 class="rc-zeta"></h1>
         <p></p><p>ROYAL CANIN гарантирует 100% безопасную онлайн-оплату. Платежная информация защищена с ипользованием технологии SSL.</p>
         <p>Мы принимаем карты МИР, VISA и Mastercard</p><p></p>`,
         gaContext: 'How secure is my payment information'
       },
       {
-        title: 'ВОЗВРАТ ТОВАРА',
+        title: 'Возврат товара',
         context: `<h1 class="rc-zeta"></h1>
         <p></p><p><a href="${process.env.REACT_APP_HOMEPAGE}/about-us/terms-and-conditions">С условиями возврата&nbsp; Вы можете ознакомиться здесь</a></p><p></p>`,
         gaContext: 'Free return'
