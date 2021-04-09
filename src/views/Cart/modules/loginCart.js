@@ -219,8 +219,9 @@ class LoginCart extends React.Component {
   get promotionDiscount() {
     return this.props.checkoutStore.promotionDiscount;
   }
-
+  // 可购买状态
   get btnStatus() {
+    return true;
     const { productList } = this.state;
     let autoShipFlag = false,
       clubFlag = false;
@@ -378,6 +379,9 @@ class LoginCart extends React.Component {
     await this.updateCartCache();
   }
   handleCheckout = async () => {
+    if (!this.btnStatus) {
+      return false;
+    }
     try {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       const { productList } = this.state;
