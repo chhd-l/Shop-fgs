@@ -73,8 +73,7 @@ class AddressList extends React.Component {
       listBtnLoading: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
-      selectListValidationOption: 'suggestedAddress',
-      russiaAddressValidFlag: false // 俄罗斯地址校验标记
+      selectListValidationOption: 'suggestedAddress'
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -432,7 +431,7 @@ class AddressList extends React.Component {
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
     this.setState({
-      russiaAddressValidFlag: flag
+      isValid: flag
     });
   };
   scrollToTitle() {
@@ -932,9 +931,7 @@ class AddressList extends React.Component {
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={
-                      !this.state.isValid && !this.state.russiaAddressValidFlag
-                    }
+                    disabled={!this.state.isValid}
                   >
                     <FormattedMessage id="save" />
                   </button>
