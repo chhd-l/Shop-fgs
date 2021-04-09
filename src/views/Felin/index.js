@@ -26,12 +26,24 @@ import Insgram_Icon from '@/assets/images/insgramIcon.png';
 import qrcode_border from '@/assets/images/qrcode_border.jpg';
 import { getTimeOptions, apptSave, getConsentList } from '@/api/appointment';
 import { inject, observer } from 'mobx-react';
+import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href;
 
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 
 const isMobile = getDeviceType() === 'H5';
+
+function isIE() {
+  if (!!window.ActiveXObject || 'ActiveXObject' in window) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function Divider() {
   return (
@@ -70,10 +82,21 @@ function scrollIntoView(element, additionalHeight) {
     } else {
       headerHeight = height + additionalHeight;
     }
-    window.scroll({
-      top: getElementTop(element) - headerHeight - additionalHeight - 60,
-      behavior: 'smooth'
-    });
+    console.info(
+      'getElementTop(element) - headerHeight - additionalHeight - 60',
+      getElementTop(element) - headerHeight - additionalHeight - 60
+    );
+    let scrollYLength =
+      getElementTop(element) - headerHeight - additionalHeight - 60;
+    if (isIE) {
+      // ie不支持scrolloptions
+      window.scrollTo(0, scrollYLength);
+    } else {
+      window.scroll({
+        top: getElementTop(element) - headerHeight - additionalHeight - 60,
+        behavior: 'smooth'
+      });
+    }
   }
 }
 
@@ -133,10 +156,21 @@ export default class Felin extends React.Component {
       consentList: {
         requiredList: [],
         optionalList: []
+      },
+      seoConfig: {
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       }
     };
   }
   componentDidMount() {
+    setSeoConfig({
+      pageName: 'FelinLandingPage'
+    }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
+
     if (this.props.location.search === '?type=contact') {
       this.setState({ isContactUs: true, currentTabIndex: 2 });
       window.scroll({ top: 0 });
@@ -609,7 +643,7 @@ export default class Felin extends React.Component {
       errMsg,
       consentList
     } = this.state;
-    console.log(consentList, 'consentList');
+    // console.log(consentList, 'consentList');
     const event = {
       page: {
         type: 'Felin',
@@ -619,6 +653,15 @@ export default class Felin extends React.Component {
     };
     return (
       <div className="Felin">
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
