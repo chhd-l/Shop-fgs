@@ -33,6 +33,10 @@ export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 // 美国电话正则
 export const usTelephoneCheck = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
 
+const TELEPHONE_REGEXP =
+  { fr: /[+(33)|0]\d{9}$/, en: usTelephoneCheck }[process.env.REACT_APP_LANG] ||
+  '';
+
 export const ADDRESS_RULE = [
   {
     key: 'firstName',
@@ -109,12 +113,7 @@ export const ADDRESS_RULE = [
   // },
   {
     key: 'phoneNumber',
-    regExp:
-      process.env.REACT_APP_LANG === 'fr'
-        ? /[+(33)|0]\d{9}$/
-        : process.env.REACT_APP_LANG === 'en'
-        ? usTelephoneCheck
-        : '',
+    regExp: TELEPHONE_REGEXP,
     require: process.env.REACT_APP_LANG === 'de' ? false : true,
     errMsg: CURRENT_LANGFILE['enterCorrectPhoneNumber']
   },
@@ -126,17 +125,22 @@ export const ADDRESS_RULE = [
   }
 ];
 
-export const PAYMENT_METHOD_RULE = [
+export const PAYMENT_METHOD_PAU_CHECKOUT_RULE = [
+  {
+    key: 'cardOwner',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.cardOwner']
+    )
+  }
+];
+
+export const PAYMENT_METHOD_PAU_ACCOUNT_RULE = [
   {
     key: 'phoneNumber',
-    regExp: +process.env.REACT_APP_PAYU_PHONE
-      ? process.env.REACT_APP_LANG === 'fr'
-        ? /[+(33)|0]\d{9}$/
-        : process.env.REACT_APP_LANG === 'en'
-        ? usTelephoneCheck
-        : ''
-      : '',
-    require: +process.env.REACT_APP_PAYU_PHONE ? true : false,
+    regExp: TELEPHONE_REGEXP,
+    require: true,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.phoneNumber']
@@ -152,8 +156,8 @@ export const PAYMENT_METHOD_RULE = [
   },
   {
     key: 'email',
-    regExp: +process.env.REACT_APP_PAYU_EMAIL ? EMAIL_REGEXP : '',
-    require: +process.env.REACT_APP_PAYU_EMAIL ? true : false,
+    regExp: EMAIL_REGEXP,
+    require: true,
     errMsg: CURRENT_LANGFILE['enterCorrectValue'].replace(
       /{.+}/,
       CURRENT_LANGFILE['email']
@@ -213,12 +217,7 @@ export const PRESONAL_INFO_RULE = [
   },
   {
     key: 'phoneNumber',
-    regExp:
-      process.env.REACT_APP_LANG === 'fr'
-        ? /[+(33)|0]\d{9}$/
-        : process.env.REACT_APP_LANG === 'en'
-        ? usTelephoneCheck
-        : '',
+    regExp: TELEPHONE_REGEXP,
     require: process.env.REACT_APP_LANG == 'de' ? false : true,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
