@@ -914,7 +914,7 @@ class SubscriptionDetail extends React.Component {
                       <span
                         className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                         onClick={() => this.hanldeAmountChange('minus')}
-                      ></span>
+                      />
                       <input
                         className="rc-quantity__input"
                         id="quantity"
@@ -928,7 +928,7 @@ class SubscriptionDetail extends React.Component {
                       <span
                         className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                         onClick={() => this.hanldeAmountChange('plus')}
-                      ></span>
+                      />
                     </div>
                   </div>
                 </div>
@@ -1028,7 +1028,7 @@ class SubscriptionDetail extends React.Component {
                       <span
                         className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                         onClick={() => this.hanldeAmountChange('minus')}
-                      ></span>
+                      />
                       <input
                         className="rc-quantity__input"
                         id="quantity"
@@ -1042,7 +1042,7 @@ class SubscriptionDetail extends React.Component {
                       <span
                         className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                         onClick={() => this.hanldeAmountChange('plus')}
-                      ></span>
+                      />
                     </div>
                   </div>
                 </div>
@@ -1092,20 +1092,20 @@ class SubscriptionDetail extends React.Component {
         </div>
         <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
           <span className="rc-styled-link" onClick={this.showChangeProduct}>
-            See other recommendation
+            <FormattedMessage id="subscription.seeOtherRecommendation" />
           </span>
           <div className="for-mobile-colum d-flex">
             <button
               onClick={this.showProdutctDetail}
               className="rc-btn rc-btn--two rc-btn--sm"
             >
-              Product details
+              <FormattedMessage id="subscription.productDetails" />
             </button>
             <button
               onClick={this.changePets}
               className="rc-btn rc-btn--one rc-btn--sm"
             >
-              Change now
+              <FormattedMessage id="subscription.changeNow" />
             </button>
           </div>
         </div>
@@ -2196,12 +2196,10 @@ class SubscriptionDetail extends React.Component {
             <div className="p-f-result-box">
               <img className="m-auto" src={Club_Logo} alt="club icon" />
               <h4 className="red text-center mb-3 mt-3">
-                Your product recommendation
+                <FormattedMessage id="subscription.productRecommendation" />
               </h4>
               <p className=" text-center">
-                Based on your pet's profile,we recommend the below products to
-                meet your pets'needs. Please comfirm the product change to
-                update your subscription
+                <FormattedMessage id="subscription.productRecommendationTip" />
               </p>
             </div>
             <div className="p-f-result-box">
@@ -2419,9 +2417,15 @@ class SubscriptionDetail extends React.Component {
           ) : (
             <div className="text-center">
               <p className="text-center red" style={{ fontSize: '1.5rem' }}>
-                This is currently the best product for{' '}
-                {subDetail.petsInfo?.petsName} based on{' '}
-                {subDetail.petsInfo?.petsSex ? 'his' : 'her'} pet profile!
+                <FormattedMessage id="switchProductTip1" />{' '}
+                {subDetail.petsInfo?.petsName}{' '}
+                <FormattedMessage id="switchProductTip2" />{' '}
+                {subDetail.petsInfo?.petsSex ? (
+                  <FormattedMessage id="switchProductTip.his" />
+                ) : (
+                  <FormattedMessage id="switchProductTip.her" />
+                )}
+                <FormattedMessage id="switchProductTip3" />!
               </p>
               <div className="d-flex align-items-center justify-content-center">
                 <img src={currentGoodsItem.goodsPic} />
@@ -5054,9 +5058,11 @@ class SubscriptionDetail extends React.Component {
               close={this.closeChangePets}
             >
               <h4 className="red text-center mb-3 mt-3">
-                Your product recommendation
+                <FormattedMessage id="subscription.productRecommendation" />
               </h4>
-              <p className="text-center">Please choose your options</p>
+              <p className="text-center">
+                <FormattedMessage id="subscription.chooseOption" />
+              </p>
               <div
                 style={{ padding: '.9375rem' }}
                 className="rc-outline-light rc-padding-y--sm"

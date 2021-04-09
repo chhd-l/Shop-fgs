@@ -1067,6 +1067,18 @@ const tr_TR = {
   'subscriptionDetail.newProduct': 'New product recommendation',
   'subscriptionDetail.linkProfile':
     'Link a pet profile to your CLUB subscription',
-  'subscriptionDetail.addNewCat': 'a new cat'
+  'subscriptionDetail.addNewCat': 'a new cat',
+  'subscription.seeOtherRecommendation': 'See other recommendation',
+  'subscription.productDetails': ' Product details',
+  'subscription.changeNow': 'Change now',
+  'subscription.productRecommendation': 'Your product recommendation',
+  'subscription.productRecommendationTip':
+    "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
+  switchProductTip1: 'This is currently the best product for',
+  switchProductTip2: 'based on',
+  'switchProductTip.his': 'his',
+  'switchProductTip.her': 'her',
+  switchProductTip3: 'pet profile',
+  'subscription.chooseOption': 'Please choose your options'
 };
 export default tr_TR;

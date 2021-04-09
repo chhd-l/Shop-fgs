@@ -886,7 +886,7 @@ const ru_RU = {
   'subscription.date': 'Дата подписки',
   'subscription.deliveryDate': 'Следующая дата доставки',
   'subscription.detail': 'Детали подписки',
-  'subscription.frequency': 'Периодичность',
+  'subscription.frequency': 'астота отправки',
   'subscription.nextOrder': 'Следующий заказ',
   'subscription.noDataTip': 'Без подписки',
   'subscription.notYet': 'Пока не отправлено',
@@ -1115,7 +1115,6 @@ const ru_RU = {
   'onlineStore.BottomInfo.faq.content2': 'ответ на вопрос',
   'onlineStore.BottomInfo.faq.title': 'задача Дес?',
   'account.clinicTitle2': 'По умолчанию для моей клиники',
-  'productFinder.searchCompleted': '',
   xMonths: '{val} Месяцы',
   xYears: '{val} Годы',
   'productFinder.searchCompleted': 'Поиск завершен!',
@@ -1155,7 +1154,19 @@ const ru_RU = {
     'Привяжите профиль питомца к Клубной программе',
   'subscriptionDetail.addNewCat': 'новая Кошка',
   Link: 'Привязан',
-  Unlink: 'Не привязан'
+  Unlink: 'Не привязан',
+  'subscription.seeOtherRecommendation': 'Посмотреть другие рекомендации',
+  'subscription.productDetails': 'Product details',
+  'subscription.changeNow': 'Выбрать сейчас',
+  'subscription.productRecommendation': 'Рекомендации продукта',
+  'subscription.productRecommendationTip':
+    'Основываясь на профиле Вашего питомца, мы рекомендуем следующие продукты, учитывающие его потребности. Пожалуйста, подтвердите изменение продукта, чтобы обновить подписку. ',
+  switchProductTip1: 'На данный момент это наиболее подходящий продукт для',
+  switchProductTip2: 'подобранный в соответствии с',
+  'switchProductTip.his': 'его',
+  'switchProductTip.her': 'ее',
+  switchProductTip3: 'профилем',
+  'subscription.chooseOption': 'Пожалуйста, укажите необходимые параметры'
 };
 
 export default ru_RU;
