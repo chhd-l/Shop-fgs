@@ -33,6 +33,14 @@ PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 
 const isMobile = getDeviceType() === 'H5';
 
+function isIE() {
+  if (!!window.ActiveXObject || 'ActiveXObject' in window) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function Divider() {
   return (
     <div
@@ -70,10 +78,21 @@ function scrollIntoView(element, additionalHeight) {
     } else {
       headerHeight = height + additionalHeight;
     }
-    window.scroll({
-      top: getElementTop(element) - headerHeight - additionalHeight - 60,
-      behavior: 'smooth'
-    });
+    console.info(
+      'getElementTop(element) - headerHeight - additionalHeight - 60',
+      getElementTop(element) - headerHeight - additionalHeight - 60
+    );
+    let scrollYLength =
+      getElementTop(element) - headerHeight - additionalHeight - 60;
+    if (isIE) {
+      // ie不支持scrolloptions
+      window.scrollTo(0, scrollYLength);
+    } else {
+      window.scroll({
+        top: getElementTop(element) - headerHeight - additionalHeight - 60,
+        behavior: 'smooth'
+      });
+    }
   }
 }
 
@@ -609,7 +628,7 @@ export default class Felin extends React.Component {
       errMsg,
       consentList
     } = this.state;
-    console.log(consentList, 'consentList');
+    // console.log(consentList, 'consentList');
     const event = {
       page: {
         type: 'Felin',
