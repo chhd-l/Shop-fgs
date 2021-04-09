@@ -187,6 +187,7 @@ class Prescription extends React.Component {
     });
     setTimeout(() => {
       this.getPrescription(params);
+      this.mapShowGa();
     }, 1000);
   };
 
@@ -278,11 +279,14 @@ class Prescription extends React.Component {
     this.mapFlag(item.prescriberName);
   };
 
-  mapFlag(prescriberName) {
+  mapShowGa() {
     dataLayer.push({
       event: 'vetPrescMap',
       vetPrescMapAction: 'display'
     });
+  }
+
+  mapFlag(prescriberName) {
     dataLayer.push({
       event: 'vetPrescMap',
       vetPrescMapAction: 'clinicClick',
@@ -299,6 +303,7 @@ class Prescription extends React.Component {
     } = this.props.clinicStore;
     // removeLinkClinicId();
     // removeLinkClinicName();
+    this.mapFlag(item.prescriberName);
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
     sessionItemRoyal.set('needShowPrescriber', 'true'); //在checkout页面显示prescriber信息
