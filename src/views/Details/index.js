@@ -1849,15 +1849,18 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {sessionItemRoyal.get('pr-question-params') ? (
+                                {!sessionItemRoyal.get('pr-question-params') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
                                       The recommended daily ration for your pet
                                       is <span className="strong">57g/day</span>
                                     </div>
-                                    <a className="rc-styled-link backProductFinder mt-0 pb-0">
+                                    <Link
+                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                      to="/product-finder-recommendation"
+                                    >
                                       Go back to recommendation
-                                    </a>
+                                    </Link>
                                   </div>
                                 ) : (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
@@ -1865,9 +1868,12 @@ class Details extends React.Component {
                                       Find the right product and calculate your
                                       pet ration using our{' '}
                                     </div>
-                                    <a className="rc-styled-link mt-0 pb-0">
+                                    <Link
+                                      className="rc-styled-link mt-0 pb-0"
+                                      to="/product-finder"
+                                    >
                                       Product finder
-                                    </a>
+                                    </Link>
                                   </div>
                                 )}
                               </div>
