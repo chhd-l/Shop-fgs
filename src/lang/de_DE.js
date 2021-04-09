@@ -223,7 +223,7 @@ const de_DE = {
   'confirmation.customerInformation': 'Ihre Informationen',
   'confirmation.info1': 'Vielen Dank für Ihren Auftrag.',
   'confirmation.info2':
-    'Sie erhalten in Kürze eine Bestellbestätigung per E-Mail.',
+    'Sie erhalten in Kürze eine E-Mail-Bestätigung unter {val1}',
   'confirmation.info3':
     'Adressen und Versandarten sind unter Ihrer Ware angegeben.',
   'confirmation.oneShoot': 'zu meinem Profil',
@@ -839,6 +839,7 @@ const de_DE = {
   quantity: 'Menge',
   quantityCannotExceed10: 'Menge darf 10 nicht überschreiten',
   quantityText: '{specText} Anzahl: {buyCount}',
+  'order.quantityText': '{specText} Anzahl: {buyCount}',
   queryDataFailed: 'Abfragedaten fehlgeschlagen',
   ratingGrade1: 'Most Recent',
   ratingGrade2: 'Lowest to Highest Rating',
