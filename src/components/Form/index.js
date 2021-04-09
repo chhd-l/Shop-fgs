@@ -159,14 +159,14 @@ class Form extends React.Component {
               narr = this.state.addressSettings.filter(
                 (item) => item.enableFlag == 1 && item.fieldKey != 'phoneNumber'
               );
+            } else if (this.props.personalData) {
+              // persnalData和my account address list 不需要展示comment
+              narr = this.state.addressSettings.filter(
+                (item) => item.enableFlag == 1 && item.fieldKey != 'comment'
+              );
             } else {
               narr = this.state.addressSettings.filter(
                 (item) => item.enableFlag == 1
-              );
-            }
-            if (this.props.personalData) {
-              narr = this.state.addressSettings.filter(
-                (item) => item.fieldKey != 'comment'
               );
             }
 
