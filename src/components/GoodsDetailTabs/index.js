@@ -133,6 +133,8 @@ const GoodsDetailTabs = function (props) {
                     .join('');
                 }
                 break;
+              case 'Guide':
+                ret = parsedContent[0]['Table']['Description'];
             }
           } catch (err) {
             console.log(111, err);
