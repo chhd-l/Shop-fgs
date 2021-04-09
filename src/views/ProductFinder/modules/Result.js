@@ -226,7 +226,7 @@ class ProductFinderResult extends React.Component {
       //(!isHubGA)&&this.GAProductImpression(goodsList)
       this.GAProductImpression(goodsList);
     } else {
-      this.props.history.push('/product-finder');
+      this.props.history.push('/product-finder-noresult');
     }
   }
   get isLogin() {
