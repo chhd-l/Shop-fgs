@@ -146,7 +146,7 @@ class InfosPreview extends React.Component {
             </div>
           ) : null}
           {/* {JSON.stringify(details.invoice)} */}
-          {details && this.props.hideBillingAddr ? (
+          {details && !this.props.hideBillingAddr ? (
             <div
               className={[
                 'col-12',
