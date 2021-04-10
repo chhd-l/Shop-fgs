@@ -1256,7 +1256,12 @@ const de_DE = {
   'switchProductTip.his': 'his',
   'switchProductTip.her': 'her',
   switchProductTip3: 'pet profile',
-  'subscription.chooseOption': 'Please choose your options'
+  'subscription.chooseOption': 'Please choose your options',
+  'clubListData.tip1': 'tailored and evolving premium nutrition',
+  'clubListData.tip2': 'A welcome box, rewards and services',
+  'clubListData.tip3': 'A pet advisor and personalized newsletters',
+  'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
+  'clubListData.tip5': 'Full control and free from engagement'
 };
 
 export default de_DE;
