@@ -1135,6 +1135,7 @@ const ru_RU = {
   emailUs: 'Напишите нам',
   'details.recommendedDaily':
     'Рекомендуемая суточная норма потребления для Вашего питомца',
+  'subscription.dailyRation': 'Суточная норма Вашего котенка',
   'details.recommendedDaily.info': '57г/день',
   'details.backRecommendedDaily': 'Вернуться к рекомендациям',
   'details.findProductTip':

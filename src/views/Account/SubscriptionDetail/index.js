@@ -2235,7 +2235,7 @@ class SubscriptionDetail extends React.Component {
                     {productDetail.mainProduct?.subTitle}
                   </div>
                   <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
-                    your daily ration
+                    <FormattedMessage id="subscription.dailyRation" />
                   </div>
                   <div className="text-center mt-2">
                     {productDetail.mainProduct?.toPrice ? (

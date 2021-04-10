@@ -1023,6 +1023,7 @@ const es_ES = {
   bankCard: 'Tarjeta bancaria',
   Expire: ' ',
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'subscription.dailyRation': 'your daily ration',
   'details.recommendedDaily.info': '57g/day',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':

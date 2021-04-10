@@ -1079,6 +1079,7 @@ const tr_TR = {
   'switchProductTip.his': 'his',
   'switchProductTip.her': 'her',
   switchProductTip3: 'pet profile',
-  'subscription.chooseOption': 'Please choose your options'
+  'subscription.chooseOption': 'Please choose your options',
+  'subscription.dailyRation': 'your daily ration'
 };
 export default tr_TR;
