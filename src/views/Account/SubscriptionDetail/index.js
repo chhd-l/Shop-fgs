@@ -1546,8 +1546,12 @@ class SubscriptionDetail extends React.Component {
                             padding: 0
                           }}
                         >
-                          <div className="col-3">Delivery date</div>
-                          <div className="col-6">Product</div>
+                          <div className="col-3">
+                            <FormattedMessage id="subscriptionDetail.deliveryDate" />
+                          </div>
+                          <div className="col-6">
+                            <FormattedMessage id="subscriptionDetail.product" />
+                          </div>
                         </div>
                       </div>
                       {el.tradeItems &&
@@ -3775,7 +3779,7 @@ class SubscriptionDetail extends React.Component {
                                               className={`${
                                                 isMobile ? 'col-0' : 'col-md-5'
                                               }`}
-                                            ></div>
+                                            />
                                             <div
                                               className={`changeDate ${
                                                 isMobile
@@ -4100,7 +4104,7 @@ class SubscriptionDetail extends React.Component {
                                                 <label
                                                   className="rc-input__label"
                                                   htmlFor="id-text2"
-                                                ></label>
+                                                />
                                               </span>
                                               <button
                                                 className={[
