@@ -95,6 +95,7 @@ class SubscriptionDetail extends React.Component {
     super(props);
     this.state = {
       productDetail: {},
+      changeNowLoading: false,
       productListLoading: false,
       currentGoodsItems: [],
       goodsDetails: {}, //for GoodsDetailTabs
@@ -103,6 +104,7 @@ class SubscriptionDetail extends React.Component {
       quantityMinLimit: 1,
       foodFllType: '',
       quantity: 1,
+      // addGoodsItemquantity: 1,
       //订阅购物车参数
       subTotal: 0,
       subShipping: 0,
@@ -110,6 +112,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetVisible: false,
       changeRecommendationVisible: false,
       editRecommendationVisible: true, //isNeedChangeProduct
+      recommendationVisibleLoading: true,
       produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -462,6 +465,7 @@ class SubscriptionDetail extends React.Component {
       })
       .finally(() => {
         this.setState({
+          recommendationVisibleLoading: false,
           productListLoading: false
         });
       });
@@ -1062,7 +1066,16 @@ class SubscriptionDetail extends React.Component {
                     height: isMobile ? '70px' : 'auto'
                   }}
                   selectedItemChange={this.handleSelectedItemChange}
-                  optionList={this.frequencyListOptions}
+                  optionList={this.frequencyListOptions.filter((el) => {
+                    if (
+                      this.state.details.promotions &&
+                      this.state.details.promotions.includes('club')
+                    ) {
+                      return el.goodsInfoFlag === 2;
+                    } else {
+                      return el.goodsInfoFlag === 1;
+                    }
+                  })}
                   selectedItemData={{
                     value: form.frequencyId
                   }}
@@ -1104,7 +1117,9 @@ class SubscriptionDetail extends React.Component {
             </button>
             <button
               onClick={this.changePets}
-              className="rc-btn rc-btn--one rc-btn--sm"
+              className={`rc-btn rc-btn--one rc-btn--sm ${
+                this.state.changeNowLoading ? 'ui-btn-loading' : ''
+              }`}
             >
               <FormattedMessage id="subscription.changeNow" />
             </button>
@@ -2046,7 +2061,7 @@ class SubscriptionDetail extends React.Component {
     const { quantity, form, details } = this.state;
     const { sizeList } = details;
     let currentSelectedSize = sizeList[0];
-
+    this.setState({ changeNowLoading: true });
     if (details.goodsSpecDetails) {
       currentSelectedSize = find(sizeList, (s) => s.selected);
     }
@@ -2057,13 +2072,13 @@ class SubscriptionDetail extends React.Component {
 
     let addGoodsItems = {
       skuId: currentSelectedSize.goodsInfoId,
-      goodsNum: quantity,
+      subscribeNum: quantity,
       goodsInfoFlag
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
     let currentGoodsItem = this.state.currentGoodsItems[0] || {};
     let deleteGoodsItems = {
-      goodsNum: currentGoodsItem.subscribeNum,
+      subscribeNum: currentGoodsItem.subscribeNum,
       periodTypeId: currentGoodsItem.periodTypeId,
       goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
       subscribeId,
@@ -2079,6 +2094,7 @@ class SubscriptionDetail extends React.Component {
     };
     changeSubscriptionGoods(params).then((res) => {
       this.getDetail();
+      this.setState({ changeNowLoading: false });
       this.closeRecommendation();
       this.closeEditRecommendation();
     });
@@ -2115,6 +2131,7 @@ class SubscriptionDetail extends React.Component {
         cb && cb();
       });
     } catch (err) {
+      this.showErrMsg(err && err.message);
     } finally {
       this.setState({ productListLoading: false });
     }
@@ -2134,12 +2151,15 @@ class SubscriptionDetail extends React.Component {
         this.doSthShow();
       });
     } else {
-      debugger;
       this.queryProductList(el, () => {
         // 查详情
-        debugger;
         let id = this.state.productDetail.mainProduct?.spuCode;
-        this.queryProductDetails(id);
+        if (id) {
+          this.queryProductDetails(id);
+        } else {
+          // 没有推荐商品的时候直接隐藏被动更换商品
+          this.setState({ editRecommendationVisible: false });
+        }
       });
     }
   };
@@ -2238,32 +2258,30 @@ class SubscriptionDetail extends React.Component {
                   <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
                     <FormattedMessage id="subscription.dailyRation" />
                   </div>
-                  <div className="text-center mt-2">
+                  <div className="text-center mt-2 card--product-contaner-price">
                     {productDetail.mainProduct?.toPrice ? (
-                      <span className="mr-1" style={{ fontSize: '.8em' }}>
-                        <FormattedMessage id="startFrom" />
+                      <FormattedMessage
+                        id="pirceRange"
+                        values={{
+                          fromPrice: (
+                            <span className="contaner-price__value">
+                              {formatMoney(
+                                productDetail.mainProduct?.fromPrice
+                              )}
+                            </span>
+                          ),
+                          toPrice: (
+                            <span className="contaner-price__value">
+                              {formatMoney(productDetail.mainProduct?.toPrice)}
+                            </span>
+                          )
+                        }}
+                      />
+                    ) : (
+                      <span className="contaner-price__value">
+                        {formatMoney(productDetail.mainProduct?.fromPrice)}
                       </span>
-                    ) : null}
-                    {formatMoney(productDetail.mainProduct?.fromPrice)}
-                    {productDetail.mainProduct?.toPrice ? (
-                      <>
-                        <span
-                          className="ml-1 mr-1"
-                          style={{ fontSize: '.8em' }}
-                        >
-                          <FormattedMessage id="startEnd" />
-                        </span>
-                        {formatMoney(productDetail.mainProduct?.toPrice)}
-                      </>
-                    ) : null}
-                    {/* {formatMoney(
-                         Math.min.apply(
-                           null,
-                           productDetail.mainProduct.goodsInfos.map(
-                             (g) => g.marketPrice || 0
-                           )
-                         )
-                       )} */}
+                    )}
                   </div>
                   <div
                     className="d-flex justify-content-center mt-3 testtest"
@@ -2335,30 +2353,32 @@ class SubscriptionDetail extends React.Component {
                       <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
                         your daily ration
                       </div>
-                      <div className="text-center mt-2">
-                        {productDetail.otherProducts?.toPrice ? (
-                          <span className="mr-1" style={{ fontSize: '.8em' }}>
-                            <FormattedMessage id="startFrom" />
+                      <div className="text-center mt-2 card--product-contaner-price">
+                        {productDetail.mainProduct?.toPrice ? (
+                          <FormattedMessage
+                            id="pirceRange"
+                            values={{
+                              fromPrice: (
+                                <span className="contaner-price__value">
+                                  {formatMoney(
+                                    productDetail.mainProduct?.fromPrice
+                                  )}
+                                </span>
+                              ),
+                              toPrice: (
+                                <span className="contaner-price__value">
+                                  {formatMoney(
+                                    productDetail.mainProduct?.toPrice
+                                  )}
+                                </span>
+                              )
+                            }}
+                          />
+                        ) : (
+                          <span className="contaner-price__value">
+                            {formatMoney(productDetail.mainProduct?.fromPrice)}
                           </span>
-                        ) : null}
-                        {formatMoney(productDetail.otherProducts?.fromPrice)}
-                        {productDetail.otherProducts?.toPrice ? (
-                          <>
-                            <span
-                              className="ml-1 mr-1"
-                              style={{ fontSize: '.8em' }}
-                            >
-                              <FormattedMessage id="startEnd" />
-                            </span>
-                            {formatMoney(productDetail.otherProducts?.toPrice)}
-                          </>
-                        ) : null}
-                        {/* {formatMoney(
-                Math.min.apply(
-                  null,
-                  ele.goodsInfos.map((g) => g.marketPrice || 0)
-                )
-              )} */}
+                        )}
                       </div>
                       <div
                         className="d-flex justify-content-center mt-3"
@@ -2432,10 +2452,10 @@ class SubscriptionDetail extends React.Component {
                 <img src={currentGoodsItem.goodsPic} />
                 <div>
                   <div className="red" style={{ fontSize: '1.5rem' }}>
-                    {currentGoodsItem.goodsName}test
+                    {currentGoodsItem.goodsName}
                   </div>
-                  <div>{currentGoodsItem.goodsSubtitle}test</div>
-                  <div>{currentGoodsItem.specText}test</div>
+                  <div>{currentGoodsItem.goodsSubtitle}</div>
+                  <div>{currentGoodsItem.specText}</div>
                 </div>
               </div>
             </div>
@@ -2848,16 +2868,26 @@ class SubscriptionDetail extends React.Component {
                 >
                   <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
                     {/* <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs"> */}
-                    {this.state.editRecommendationVisible && (
-                      <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
-                        <p className="recommendatio-wrap-title">
-                          <FormattedMessage id="subscriptionDetail.newProduct" />
-                        </p>
-                        <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
-                          {this.recommendationModal()}
+                    {this.state.editRecommendationVisible &&
+                      (this.state.recommendationVisibleLoading ? (
+                        <div className="mt-4 1111" style={{ width: '100%' }}>
+                          <Skeleton
+                            color="#f5f5f5"
+                            width="100%"
+                            height="30%"
+                            count={2}
+                          />
                         </div>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
+                          <p className="recommendatio-wrap-title">
+                            <FormattedMessage id="subscriptionDetail.newProduct" />
+                          </p>
+                          <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
+                            {this.recommendationModal()}
+                          </div>
+                        </div>
+                      ))}
                     {isClub ? (
                       this.ClubTitle()
                     ) : (
