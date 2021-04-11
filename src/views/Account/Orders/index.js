@@ -28,6 +28,7 @@ import LazyLoad from 'react-lazyload';
 import base64 from 'base-64';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { filterOrderId } from '@/utils/utils';
 
 import './index.less';
 
@@ -729,7 +730,7 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {order.id}
+                                            {filterOrderId(order.id)}
                                           </span>
                                         </p>
                                       </div>
