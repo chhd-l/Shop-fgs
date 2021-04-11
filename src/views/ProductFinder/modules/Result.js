@@ -16,6 +16,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import LazyLoad from 'react-lazyload';
+import { clubSubscriptionSavePets } from '@/api/pet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -179,9 +180,16 @@ class ProductFinderResult extends React.Component {
       petBaseInfo: null
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     const res = sessionItemRoyal.get('pf-result');
     const questionlist = sessionItemRoyal.get('pf-questionlist');
+    let petsInfo = {};
+    clubSubscriptionSavePets({
+      questionParams: JSON.parse(res).queryParams
+    }).then((res) => {
+      console.log(petsInfo, 'petsInfo');
+    });
+
     if (res) {
       setSeoConfig({
         pageName: 'finder-recommendation'

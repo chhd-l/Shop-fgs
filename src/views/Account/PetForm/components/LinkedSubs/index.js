@@ -19,7 +19,7 @@ const LinkedSubs = (props) => {
   let [subList, setSubList] = useState([]);
   let [frequencyList, setFrequencyList] = useState([]);
   let [isShowAll, setIsShowAll] = useState(false);
-  const { loading, errorMsg } = props;
+  const { loading, errorMsg, petsType } = props;
   const isMobile = getDeviceType() !== 'PC';
   const querySubList = () => {
     props.setState({ loading: true });
@@ -32,9 +32,10 @@ const LinkedSubs = (props) => {
     //     ? localItemRoyal.get('rc-userinfo')['customerAccount']
     //     : ''
     // };
+    console.log('type', props);
     getSubListForPet({
       petsId: props.petsId,
-      subscriptionPlanType: props.petsType
+      subscriptionPlanType: petsType
     })
       .then((res) => {
         setSubList(res.context);

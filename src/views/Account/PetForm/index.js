@@ -121,7 +121,6 @@ class PetForm extends React.Component {
       }
     };
     this.nextStep = this.nextStep.bind(this);
-    this.selectPetType = this.selectPetType.bind(this);
     this.selectSex = this.selectSex.bind(this);
     this.selectWeight = this.selectWeight.bind(this);
     this.setSterilized = this.setSterilized.bind(this);
@@ -438,19 +437,6 @@ class PetForm extends React.Component {
       isDisabled: isEdit ? false : true
     });
   }
-  selectPetType(type) {
-    if (type === 'cat') {
-      this.setState({
-        isCat: true,
-        isDisabled: false
-      });
-    } else if (type === 'dog') {
-      this.setState({
-        isCat: false,
-        isDisabled: false
-      });
-    }
-  }
   selectSex(type) {
     if (type === 'male') {
       this.setState({
@@ -715,7 +701,9 @@ class PetForm extends React.Component {
         }
       });
     }
-    this.setState(param);
+    this.setState(param, () => {
+      this.setState({ isCat: currentPet.petsType === 'dog' ? false : true });
+    });
   };
   getDict = (type, name) => {
     this.setState({ loading: true });
@@ -1596,13 +1584,13 @@ class PetForm extends React.Component {
               </div>
             </div>
             {/* 土耳其、俄罗斯club绑定订阅 */}
-            {getClubFlag() ? (
+            {currentPet && getClubFlag() ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
                 setState={this.setState.bind(this)}
                 errorMsg={this.state.errorMsg}
-                petsType={this.state.isCat ? 'cat' : 'dog'}
+                petsType={currentPet.petsType}
               />
             ) : null}
 
