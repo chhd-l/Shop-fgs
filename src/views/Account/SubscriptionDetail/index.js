@@ -104,6 +104,7 @@ class SubscriptionDetail extends React.Component {
       quantityMinLimit: 1,
       foodFllType: '',
       quantity: 1,
+      // addGoodsItemquantity: 1,
       //订阅购物车参数
       subTotal: 0,
       subShipping: 0,
@@ -1065,7 +1066,10 @@ class SubscriptionDetail extends React.Component {
                     height: isMobile ? '70px' : 'auto'
                   }}
                   selectedItemChange={this.handleSelectedItemChange}
-                  optionList={this.frequencyListOptions}
+                  optionList={this.frequencyListOptions.filter(
+                    (frequencyItem) =>
+                      frequencyItem.goodsInfoFlag === details.goodsInfoFlag
+                  )}
                   selectedItemData={{
                     value: form.frequencyId
                   }}
