@@ -176,7 +176,7 @@ const ru_RU = {
   anonymous: 'Анонимный',
   anonymousReview: 'Анонимный обзор',
   answer: 'Ответ *',
-  apply: 'Применять',
+  apply: 'Подтвердить',
   area: 'Площадь',
   autoship: 'Подписка',
   autoship_nos: 'Автошип',
@@ -213,7 +213,7 @@ const ru_RU = {
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
   'cart.totalProduct': '{val} товар (а/ов)',
   'cart.totalProduct_nounit': '{val} корзине',
-  'cart.yourShoppingCart': 'Ваша Корзина',
+  'cart.yourShoppingCart': 'Ваша корзина',
   cats: 'КОШКИ',
   cats2: 'Кошки',
   cats3: 'Кошки',
@@ -224,8 +224,8 @@ const ru_RU = {
   changepic: 'Добавить изображение',
   checkboxIsRequiredForSubscription:
     'при подписке на корм данное поле является обязательным для заполнения',
-  checkout: 'Оформление заказа',
-  'payment.checkout': 'Оформление заказа',
+  checkout: 'Оформить заказ',
+  'payment.checkout': 'Оформить заказ',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
   choosePrescriber:
@@ -255,10 +255,10 @@ const ru_RU = {
   CompleteRequiredItems: 'Пожалуйста, заполните необходимые пункты',
   confirmation: 'Подтверждение',
   'confirmation.account': 'Зайти в мой аккаунт',
-  'confirmation.customerInformation': 'Информация для клиентов',
-  'confirmation.info1': 'Спасибо за ваш заказ.',
+  'confirmation.customerInformation': 'Персональные данные',
+  'confirmation.info1': 'Спасибо за Ваш заказ',
   'confirmation.info2':
-    'Вскоре вы получите подтверждение по электронной почте на {val1}',
+    'В ближайшее время Вы получите подтверждение по email адресу',
   'confirmation.info3':
     'Адреса и способы доставки указаны под вашими товарами.',
   'confirmation.oneShoot': 'Продолжить покупки',
@@ -319,13 +319,13 @@ const ru_RU = {
   delivery2: 'Доставка',
   deliveryAddress: 'Адрес доставки',
   'detail.answer':
-    'Наши консультанты - настоящие эксперты и увлеченные. Они в вашем распоряжении, чтобы ответить на любой запрос.',
-  'detail.email': 'По электронной почте',
+    'Наши консультанты - настоящие эксперты и увлеченные. Они в вашем распоряжении, чтобы ответить на любой запрос.',
+  'detail.email': 'По электронной почте',
   'detail.packagingDesc':
-    'На нашу упаковку / продукцию могут распространяться инструкции по сортировке',
+    'На нашу упаковку / продукцию могут распространяться инструкции по сортировке',
   //pdp
-  'detail.question': 'У вас остались вопросы об этом продукте ?',
-  'detail.telephone': 'По телефону',
+  'detail.question': 'У вас остались вопросы об этом продукте ?',
+  'detail.telephone': 'По телефону',
   'details.addToCart': 'Добавить в корзину',
   'details.availability': 'Доступность',
   'details.beneficialFeatures': 'Полезные функции',
@@ -338,18 +338,18 @@ const ru_RU = {
   'details.inStock': 'В наличии',
   'details.OffShelves': 'с полок',
   'details.OneOFF': 'Разовая покупка',
-  'details.outStock': 'Распродано',
+  'details.outStock': 'Нет в наличии',
   'details.shippedTime': 'адпраўлена на працягу 2 рабочых дзён',
   'details.Subscription': 'Подписка',
   'details.theSize': 'Размер',
   'details.unitPrice': 'Цена за единицу',
   'details.youCanSave': 'Можно сэкономить',
-  'details.buyFromRetailer': 'Bayilerimiz aracılığıyla satın alın',
+  'details.buyFromRetailer': 'Купить в розничном магазине',
   dogs: 'СОБАКИ',
   dogs2: 'Собаки',
   dogs3: 'Собаки',
   download: 'Скачать',
-  edit: 'Изменить',
+  edit: 'Редактировать',
   edit2: 'Изменить',
   email: 'Эл. адрес',
   emailAddress: 'Адрес электронной почты *',
@@ -365,7 +365,7 @@ const ru_RU = {
   estimatedTax: 'Скидка на доставку',
   every: 'Каждый',
   example: 'Пример',
-  examplePhone: '+7 (923) 456 78 90',
+  examplePhone: 'Пример: +7 (923) 456 78 90',
   examplePostCode: '02860',
   expirationDateIsInvalid: 'срок действия вашей карты недействителен',
   'faq.frequentQuestions': 'Часто задаваемые вопросы',
@@ -390,7 +390,7 @@ const ru_RU = {
     'Авторские права © Mars 2021®, торговая марка Mars Incorporated и ее дочерних компаний',
   'footer.email': 'Обратиться в службу поддержки.',
   'footer.FAQ': 'Часто задаваемые вопросы',
-  'footer.FAQ2': 'FAQ',
+  'footer.FAQ2': 'Часто задаваемые вопросы',
   'footer.healthAndNutrition': 'Здоровье и питание',
   'footer.help': 'ПОМОГИТЕ',
   'footer.informationForParents': 'Информация для родителей',
@@ -471,9 +471,11 @@ const ru_RU = {
   home: 'Личный кабинет',
   'home.convenientTip1':
     'Подбор рациона в соответствии с потребностями Вашего питомца',
-  'home.convenientTip2': 'Быстрая бесплатная доставка при заказе из {val}.',
+  'home.convenientTip2': 'Быстрая бесплатная доставка при заказе от {val} руб.',
   'home.convenientTip3':
     'Служба поддержки: задайте интересующий вопрос о своем питомце специалисту',
+  'home.convenientTip4':
+    'Доставка по подписке со скидкой 10% от суммы каждого заказа',
   'home.convenientTitle': 'Почему удобно совершать покупки с ROYAL CANIN®?',
   'home.note1':
     'Afectado por la epidemia, el tiempo de entrega puede extenderse.',
@@ -496,7 +498,7 @@ const ru_RU = {
   'home.specialInfo2': 'в своей уникальности.',
   'home.specialInfo3': 'Узнайте, что делает их уникальными!',
   'home.specialInfo4':
-    'Более 50 лет мы следуем принципу Благополучие собак и кошек прежде всего. Мы создаем адаптированный корм для животных в соответствии с их особыми потребностями. ',
+    'Более 50 лет мы следуем принципу Благополучие собак и кошек прежде всего. Мы создаем адаптированный корм для животных в соответствии с их особыми потребностями. ',
   'home.viewProducts': 'Просмотр продуктов',
   homePage: 'Главная страница',
   iHaveReadThe: 'Я прочитал',
@@ -519,7 +521,7 @@ const ru_RU = {
   'lang.submit': 'Sunmak',
   language: 'Russia/русский',
   lastName: 'Фамилия *',
-  learnMore: 'Узнать больше',
+  learnMore: 'Узнать больше',
   'list.errMsg':
     'Товаров не найдено. Измените критерии поиска и повторите попытку',
   'list.errMsg2':
@@ -565,7 +567,7 @@ const ru_RU = {
   newAddress: 'Новый адрес',
   newPassword: 'Новый пароль',
   noClinicTip:
-    'Ваш рекомендательный код недействителен. {val} и узнайте действующий код в наших партнерских клиниках. ',
+    'Ваш рекомендательный код недействителен. {val} и узнайте действующий код в наших партнерских клиниках. ',
   NoPromotionDesc: 'No PromotionDesc',
   noSpecialNeeds: 'Нет особых потребностей',
   notate: '',
@@ -589,7 +591,7 @@ const ru_RU = {
   'order.noDataTip': 'Нет данных',
   'order.orderDate': 'Дата заказа',
   'order.orderDetails': 'Детали заказа',
-  'order.orderInformation': 'Запросить информацию',
+  'order.orderInformation': 'Подтверждение заказа',
   'order.orderNumber': 'Номер заказа',
   'order.orderStatus': 'Статус заказа',
   'order.paymentNumber': 'Номер платежа',
@@ -631,7 +633,7 @@ const ru_RU = {
   'payment.billTitle': 'Адрес для выставления счета',
   'payment.cardNumber': 'Номер карты',
   'payment.cardNumber2': 'НОМЕР КАРТЫ',
-  'payment.cardOwner': 'Имя держателя карты',
+  'payment.cardOwner': 'Владелец карты',
   'payment.cardType': 'ТИП КАРТЫ',
   'payment.choosePayment': 'Выберите платеж',
   'payment.city': 'Город',
@@ -662,7 +664,7 @@ const ru_RU = {
   'payment.frequencyTip1': 'Да, сделай мою жизнь проще!',
   'payment.frequencyTip2': 'Нет, спасибо.',
   'payment.frequencyTip3': 'Ваши товары будут отправлены только один раз',
-  'payment.further': 'Платить',
+  'payment.further': 'Оплатить',
   'payment.howToDelivery': 'Как доставить',
   'payment.itemTotalProduct': 'товар всего товара',
   'payment.lastName': 'Фамилия',
@@ -670,7 +672,7 @@ const ru_RU = {
   'payment.normalDelivery2': 'Нормальная доставка',
   'payment.normalDelivery3': '(1-4 дня)',
   'payment.payment': 'Способ оплаты',
-  'payment.paymentInformation': 'Выбрать оплату',
+  'payment.paymentInformation': 'Способо оплаты',
   'payment.phoneNumber': 'Номер телефона',
   'payment.phoneNumber2': 'Телефонный номер',
   'payment.postCode': 'Индекс',
@@ -685,7 +687,7 @@ const ru_RU = {
   'payment.state': 'область',
   'payment.region': 'район',
   'payment.entrance': 'Подъезд',
-  'payment.apartment': 'квартира',
+  'payment.apartment': 'Квартира',
   'payment.comment': 'Комментарий к заказу',
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
@@ -733,7 +735,7 @@ const ru_RU = {
   prescription: 'Рецепт',
   prescriptionDeclined: 'Рецепт отклонен',
   price: 'Цена',
-  printEbanx: 'Печать Ebanx',
+  printEbanx: 'Войти в аккаунт',
   privacyPolicy: 'Политика конфиденциальности',
   proceedToTheDeletion: 'продолжить удаление',
   'productFinder.ageErrorShow':
@@ -785,7 +787,7 @@ const ru_RU = {
     'Магазин индивидуального питания для вашего питомца',
   'qualitySafety.title':
     'Наши обязательства в области качества и пищевой безопасности',
-  quantity: 'количество',
+  quantity: 'Количество',
   quantityCannotExceed10: 'Количество не может превышать 10',
   quantityText: '{specText} - {buyCount} товар (а/ов)',
   queryDataFailed: 'Ошибка данных запроса',
@@ -846,17 +848,19 @@ const ru_RU = {
   reviewisRequired: 'Требуется проверка.',
   reviews: 'Отзывы',
   royalCanin: 'Royal Canin',
-  'salesCategory.cat': 'Для кошки',
+  'salesCategory.cat': 'для кошек',
   'salesCategory.content':
-    'Каждая формула была создана для обеспечения питания, соответствующего потребностям их здоровья, вне зависимости от {val1} размера, расы, возраста или образа жизни.',
-  'salesCategory.dog': 'Для собаки',
+    'Каждая формула была создана для обеспечения питания, адаптированного к особым потребностям животного, в зависимости от его размера, возраста и образа жизни.',
+  'salesCategory.dog': 'для собак',
   //salesCategory
-  'salesCategory.title': 'Откройте для себя наш {val1} ассортимент блюд',
+  'salesCategory.title': 'Наши продукты по категориям',
   save: 'Сохранить',
   saveFailed: 'Сохранить не удалось!',
   saveSuccess: 'Сохранить успех',
   saveSuccessfullly: 'Успешно сохраним',
   saveSuccessfullly2: 'Ваша информация была правильно сохранена',
+  saveSuccessfullly3: 'Ваша информация была правильно сохранена',
+  deleteSuccessFullly: 'Başarıyla silindi',
   search: 'Поиск',
   searchForAProductOrArtical: 'Найдите продукт или статью',
   searchNoBreed: 'не родословная',
@@ -1008,7 +1012,7 @@ const ru_RU = {
     'Продолжайте, чтобы завершить процесс подписки. С первой доставкой Вы получите приветственный подарок.',
   'club.howitworks.img3.titile': 'УПРАВЛЯЙТЕ ПОДПИСКОЙ',
   'club.howitworks.img3.description':
-    'Обеспечим своевременное обновление корма с возможностью изменения даты доставки.',
+    'Обеспечим своевременное обновление корма с возможностью изменения даты доставки.',
   'club.howitworks.img4.titile': 'ВОСПОЛЬЗУЙТЕСЬ СЕРВИСАМИ НАШЕГО КЛУБА',
   'club.howitworks.img4.description':
     'Cоветы персонального помощника Службы Заботы и бесплатные онлайн консультации на Petstory',
@@ -1206,7 +1210,8 @@ const ru_RU = {
   month: 'Месяц',
   searchBreed: 'Поиск породы',
   answeredQuestions: 'Ответы на вопросы',
-  next: 'Следующий'
+  next: 'Следующий',
+  pirceRange: 'От {fromPrice} к {toPrice}'
 };
 
 export default ru_RU;

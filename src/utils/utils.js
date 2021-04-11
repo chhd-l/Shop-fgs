@@ -534,7 +534,6 @@ export async function getFrequencyDict(frequencyType) {
     el.goodsInfoFlag = 2;
     return el;
   });
-  console.log(clubFrequency, autoShipFrequency, 'autoShipFrequency');
   if (!frequencyType) {
     return Promise.resolve(autoShipFrequency.concat(clubFrequency));
   } else if (frequencyType === 'club') {
