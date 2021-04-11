@@ -1519,6 +1519,7 @@ const fr_FR = {
   'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
-  'subscriptionDetail.product': 'Product'
+  'subscriptionDetail.product': 'Product',
+  pirceRange: 'De {fromPrice} à {toPrice}'
 };
 export default fr_FR;

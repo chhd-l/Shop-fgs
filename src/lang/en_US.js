@@ -1081,7 +1081,7 @@ const en_US = {
   save: 'Save',
   saveChange: 'Save Changes',
   saveExtra: 'Save {val} on this subscription',
-  saveExtraMoney: 'save an extra {val}',
+  saveExtraMoney: 'Save an extra {val}',
   saveFailed: 'Save Failed!',
   saveSuccess: 'Save Success',
   saveSuccessfullly: 'Saved Successfully',
@@ -1297,6 +1297,7 @@ const en_US = {
   'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
-  'subscriptionDetail.product': 'Product'
+  'subscriptionDetail.product': 'Product',
+  pirceRange: 'From {fromPrice} to {toPrice}'
 };
 export default en_US;

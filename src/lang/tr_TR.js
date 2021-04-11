@@ -665,6 +665,8 @@ const tr_TR = {
   'productFinder.tip2':
     'Bu anket, evcil hayvanınız için önerilen mamayı seçmenize yardımcı olacaktır.',
   'productFinder.tip3': 'Evcil Hayvanınız ...',
+  'productFinder.whyAreWeAskingThis': 'Neden bu soru?',
+  'productFinder.createMyPetProfile': 'Hayvan profilimi oluştur',
   productRating: 'Ürün derecelendirmesi',
   produtctNumber: 'Ürün numarası',
   'profile.emailChoose':
@@ -1087,6 +1089,7 @@ const tr_TR = {
   'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
-  'subscriptionDetail.product': 'Product'
+  'subscriptionDetail.product': 'Product',
+  pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar"
 };
 export default tr_TR;

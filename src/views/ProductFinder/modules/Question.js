@@ -501,7 +501,7 @@ class Question extends React.Component {
           Array.from({ length: 49 }).map((item, i) => {
             return {
               label: `${i + 1} Kg`,
-              key: i + i
+              key: i + 1
             };
           })
         ];
@@ -731,7 +731,7 @@ class Question extends React.Component {
 
                 {questionType ? (
                   <div className="row text-center text-md-left">
-                    <div className="col-12 col-md-3">
+                    <div className="col-12 col-md-4">
                       <button
                         className="rc-btn rc-btn--one rc-btn--sm"
                         disabled={!this.state.valid}

@@ -82,7 +82,6 @@ service.interceptors.response.use(
         sessionItemRoyal.set('rc-token-lose', 1);
         window.location.href = process.env.REACT_APP_HOMEPAGE;
       }
-      console.log(response);
       let ret = response.data || 'Error';
 
       // 支付失败获取订单号处理

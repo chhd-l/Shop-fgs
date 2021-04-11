@@ -182,6 +182,9 @@ class PayProductInfo extends React.Component {
     }
   }
   async componentDidMount() {
+    console.log(1111, !localItemRoyal.get('rc-iframe-from-storepotal'));
+    console.log(2222, this.props.operateBtnVisible);
+
     this.refs.applyButtton.click();
     let productList;
     if (this.props.data.length) {
@@ -474,7 +477,7 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {!this.props.checkoutStore.isFromStorePortal &&
+        {!localItemRoyal.get('rc-iframe-from-storepotal') &&
         this.props.operateBtnVisible ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />

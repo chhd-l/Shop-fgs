@@ -177,18 +177,27 @@ class ProductFinderResult extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      petBaseInfo: null
+      petBaseInfo: null,
+      petsId: ''
     };
   }
   async componentDidMount() {
     const res = sessionItemRoyal.get('pf-result');
     const questionlist = sessionItemRoyal.get('pf-questionlist');
-    let petsInfo = {};
-    clubSubscriptionSavePets({
-      questionParams: JSON.parse(res).queryParams
-    }).then((res) => {
-      console.log(petsInfo, 'petsInfo');
-    });
+    // console.log(JSON.parse(res).queryParams, '11111')
+    if (!localItemRoyal.get('pr-petsId')) {
+      await clubSubscriptionSavePets({
+        questionParams: JSON.parse(res).queryParams
+      })
+        .then((res) => {
+          if (res.code === 'K-000000') {
+            let petsId = res.context;
+            localItemRoyal.set('pr-petsId', petsId);
+            this.setState({ petsId });
+          }
+        })
+        .catch((err) => {});
+    }
 
     if (res) {
       setSeoConfig({
@@ -436,30 +445,32 @@ class ProductFinderResult extends React.Component {
                       >
                         {productDetail.mainProduct.subTitle}
                       </div>
-                      <div className="text-center mt-2">
-                        {productDetail.mainProduct.toPrice ? (
-                          <span className="mr-1" style={{ fontSize: '.8em' }}>
-                            <FormattedMessage id="startFrom" />
+                      <div className="text-center mt-2 card--product-contaner-price">
+                        {productDetail.mainProduct?.toPrice ? (
+                          <FormattedMessage
+                            id="pirceRange"
+                            values={{
+                              fromPrice: (
+                                <span className="contaner-price__value">
+                                  {formatMoney(
+                                    productDetail.mainProduct.fromPrice
+                                  )}
+                                </span>
+                              ),
+                              toPrice: (
+                                <span className="contaner-price__value">
+                                  {formatMoney(
+                                    productDetail.mainProduct.toPrice
+                                  )}
+                                </span>
+                              )
+                            }}
+                          />
+                        ) : (
+                          <span className="contaner-price__value">
+                            {formatMoney(productDetail.mainProduct.fromPrice)}
                           </span>
-                        ) : null}
-                        {formatMoney(productDetail.mainProduct.fromPrice)}
-                        {productDetail.mainProduct.toPrice ? (
-                          <span
-                            className="ml-1 mr-1"
-                            style={{ fontSize: '.8em' }}
-                          >
-                            <FormattedMessage id="startEnd" />
-                          </span>
-                        ) : null}
-                        {formatMoney(productDetail.mainProduct.toPrice)}
-                        {/* {formatMoney(
-                          Math.min.apply(
-                            null,
-                            productDetail.mainProduct.goodsInfos.map(
-                              (g) => g.marketPrice || 0
-                            )
-                          )
-                        )} */}
+                        )}
                       </div>
                       <div
                         className="d-flex justify-content-center mt-3 testtest"
@@ -531,25 +542,28 @@ class ProductFinderResult extends React.Component {
                           >
                             {ele.subTitle}
                           </div>
-                          <div className="text-center mt-2">
-                            {ele.fromPrice ? (
-                              <span
-                                className="mr-1"
-                                style={{ fontSize: '.8em' }}
-                              >
-                                <FormattedMessage id="startFrom" />
-                              </span>
-                            ) : null}
-                            {formatMoney(ele.fromPrice)}
+                          <div className="text-center mt-2 card--product-contaner-price">
                             {ele.toPrice ? (
-                              <span
-                                className="ml-1 mr-1"
-                                style={{ fontSize: '.8em' }}
-                              >
-                                <FormattedMessage id="startEnd" />
+                              <FormattedMessage
+                                id="pirceRange"
+                                values={{
+                                  fromPrice: (
+                                    <span className="contaner-price__value">
+                                      {formatMoney(ele.fromPrice)}
+                                    </span>
+                                  ),
+                                  toPrice: (
+                                    <span className="contaner-price__value">
+                                      {formatMoney(ele.toPrice)}
+                                    </span>
+                                  )
+                                }}
+                              />
+                            ) : (
+                              <span className="contaner-price__value">
+                                {formatMoney(ele.fromPrice)}
                               </span>
-                            ) : null}
-                            {formatMoney(ele.toPrice)}
+                            )}
                           </div>
                           <div
                             className="d-flex justify-content-center mt-3"

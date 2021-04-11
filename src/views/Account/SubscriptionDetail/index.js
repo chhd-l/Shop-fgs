@@ -25,6 +25,7 @@ import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
 import play_png from './images/play.png';
 import Club_Logo from '@/assets/images/Logo_club.png';
+import { filterOrderId } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -94,6 +95,7 @@ class SubscriptionDetail extends React.Component {
     super(props);
     this.state = {
       productDetail: {},
+      changeNowLoading: false,
       productListLoading: false,
       currentGoodsItems: [],
       goodsDetails: {}, //for GoodsDetailTabs
@@ -102,6 +104,8 @@ class SubscriptionDetail extends React.Component {
       quantityMinLimit: 1,
       foodFllType: '',
       quantity: 1,
+      loadingPage: false,
+      // addGoodsItemquantity: 1,
       //订阅购物车参数
       subTotal: 0,
       subShipping: 0,
@@ -109,6 +113,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetVisible: false,
       changeRecommendationVisible: false,
       editRecommendationVisible: true, //isNeedChangeProduct
+      recommendationVisibleLoading: true,
       produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -461,6 +466,7 @@ class SubscriptionDetail extends React.Component {
       })
       .finally(() => {
         this.setState({
+          recommendationVisibleLoading: false,
           productListLoading: false
         });
       });
@@ -745,6 +751,7 @@ class SubscriptionDetail extends React.Component {
       });
       return false;
     }
+    this.setState({ loadingPage: true });
     await getPetList({
       customerId: this.userInfo.customerId,
       consumerAccount: this.userInfo.customerAccount
@@ -764,6 +771,9 @@ class SubscriptionDetail extends React.Component {
         // this.showErrorMsg(
         //   err.message || this.props.intl.messages.getDataFailed
         // );
+      })
+      .finally(() => {
+        this.setState({ loadingPage: false });
       });
   };
   changeTab(e, i) {
@@ -895,7 +905,7 @@ class SubscriptionDetail extends React.Component {
               />
               <div className="rc-margin-left--xs">
                 <div>{details.goodsName}</div>
-                <div>{this.state.foodFllType}</div>
+                <div>{details.goodsSubtitle}</div>
               </div>
             </div>
             <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-margin-left--xs">
@@ -1061,7 +1071,16 @@ class SubscriptionDetail extends React.Component {
                     height: isMobile ? '70px' : 'auto'
                   }}
                   selectedItemChange={this.handleSelectedItemChange}
-                  optionList={this.frequencyListOptions}
+                  optionList={this.frequencyListOptions.filter((el) => {
+                    if (
+                      this.state.details.promotions &&
+                      this.state.details.promotions.includes('club')
+                    ) {
+                      return el.goodsInfoFlag === 2;
+                    } else {
+                      return el.goodsInfoFlag === 1;
+                    }
+                  })}
                   selectedItemData={{
                     value: form.frequencyId
                   }}
@@ -1103,7 +1122,9 @@ class SubscriptionDetail extends React.Component {
             </button>
             <button
               onClick={this.changePets}
-              className="rc-btn rc-btn--one rc-btn--sm"
+              className={`rc-btn rc-btn--one rc-btn--sm ${
+                this.state.changeNowLoading ? 'ui-btn-loading' : ''
+              }`}
             >
               <FormattedMessage id="subscription.changeNow" />
             </button>
@@ -1792,7 +1813,11 @@ class SubscriptionDetail extends React.Component {
           <button
             className={`rc-btn rc-btn--one ${
               this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }`}
+            } ${
+              this.state.isDataChange && this.state.productListLoading
+                ? 'ui-btn-loading'
+                : ''
+            } `}
             style={{
               marginTop: isMobile ? '.625rem' : '0',
               marginRight: '1rem'
@@ -1837,9 +1862,9 @@ class SubscriptionDetail extends React.Component {
                 paddingRight: '0.5rem',
                 paddingLeft: '0.5rem'
               }}
-              className={`rc-styled-link ${
-                this.state.isGift ? 'disabled' : ''
-              }`}
+              className={`rc-styled-link
+              ${this.state.isGift ? 'disabled' : ''}
+              `}
             >
               {subDetail.subscribeStatus === '0' ? (
                 <FormattedMessage id="subscription.pause" />
@@ -1886,6 +1911,10 @@ class SubscriptionDetail extends React.Component {
           <button
             className={`rc-btn rc-btn--one ${
               this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
+            }  ${
+              this.state.isDataChange && this.state.productListLoading
+                ? 'ui-btn-loading'
+                : ''
             }`}
             style={{
               marginTop: isMobile ? '.625rem' : '0',
@@ -1941,7 +1970,7 @@ class SubscriptionDetail extends React.Component {
                 paddingRight: '0.5rem',
                 paddingLeft: '4px'
               }}
-              className="rc-styled-link"
+              className={`rc-styled-link`}
               onClick={() => this.pauseOrStart(subDetail)}
             >
               {subDetail.subscribeStatus === '0' ? (
@@ -2049,7 +2078,7 @@ class SubscriptionDetail extends React.Component {
     const { quantity, form, details } = this.state;
     const { sizeList } = details;
     let currentSelectedSize = sizeList[0];
-
+    this.setState({ changeNowLoading: true });
     if (details.goodsSpecDetails) {
       currentSelectedSize = find(sizeList, (s) => s.selected);
     }
@@ -2060,15 +2089,15 @@ class SubscriptionDetail extends React.Component {
 
     let addGoodsItems = {
       skuId: currentSelectedSize.goodsInfoId,
-      goodsNum: quantity,
+      subscribeNum: quantity,
       goodsInfoFlag
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
     let currentGoodsItem = this.state.currentGoodsItems[0] || {};
     let deleteGoodsItems = {
-      goodsNum: currentGoodsItem.subscribeNum,
-      periodTypeId: currentGoodsItem.periodTypeId,
-      goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
+      // subscribeNum: currentGoodsItem.subscribeNum,
+      // periodTypeId: currentGoodsItem.periodTypeId,
+      // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
       subscribeId,
       skuId: currentGoodsItem.goodsInfoVO?.goodsInfoId
     };
@@ -2082,6 +2111,7 @@ class SubscriptionDetail extends React.Component {
     };
     changeSubscriptionGoods(params).then((res) => {
       this.getDetail();
+      this.setState({ changeNowLoading: false });
       this.closeRecommendation();
       this.closeEditRecommendation();
     });
@@ -2118,6 +2148,7 @@ class SubscriptionDetail extends React.Component {
         cb && cb();
       });
     } catch (err) {
+      this.showErrMsg(err && err.message);
     } finally {
       this.setState({ productListLoading: false });
     }
@@ -2137,12 +2168,15 @@ class SubscriptionDetail extends React.Component {
         this.doSthShow();
       });
     } else {
-      debugger;
       this.queryProductList(el, () => {
         // 查详情
-        debugger;
         let id = this.state.productDetail.mainProduct?.spuCode;
-        this.queryProductDetails(id);
+        if (id) {
+          this.queryProductDetails(id);
+        } else {
+          // 没有推荐商品的时候直接隐藏被动更换商品
+          this.setState({ editRecommendationVisible: false });
+        }
       });
     }
   };
@@ -2162,7 +2196,7 @@ class SubscriptionDetail extends React.Component {
             </div>
             <div className="rc-column rc-double-width">
               <div className="title">{details.goodsInfoName}</div>
-              <div className="sub_title">{foodFllType}</div>
+              <div className="sub_title">{details.goodsSubtitle}</div>
               <div>
                 <div className="block">
                   <p
@@ -2172,14 +2206,6 @@ class SubscriptionDetail extends React.Component {
                     {details.goodsSubtitle}
                   </p>
                 </div>
-                {/* Royal Canin Jack Russell Terrier Adult dry dog food is designed
-                to meet the nutritional needs of purebred Jack Russell Terriers
-                10 months and older Royal Canin knows what makes your Jack
-                Russell Terrier magnificent is in the details. Small but mighty,
-                the Jack Russell is an energetic dog that requires a ton of
-                activity. They can benefit from the right diet to help maintain
-                muscle mass, protect their skin and coat, and help with dental
-                care, especially as your good-looking little pal becomes older. */}
               </div>
             </div>
           </div>
@@ -2241,32 +2267,30 @@ class SubscriptionDetail extends React.Component {
                   <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
                     <FormattedMessage id="subscription.dailyRation" />
                   </div>
-                  <div className="text-center mt-2">
+                  <div className="text-center mt-2 card--product-contaner-price">
                     {productDetail.mainProduct?.toPrice ? (
-                      <span className="mr-1" style={{ fontSize: '.8em' }}>
-                        <FormattedMessage id="startFrom" />
+                      <FormattedMessage
+                        id="pirceRange"
+                        values={{
+                          fromPrice: (
+                            <span className="contaner-price__value">
+                              {formatMoney(
+                                productDetail.mainProduct?.fromPrice
+                              )}
+                            </span>
+                          ),
+                          toPrice: (
+                            <span className="contaner-price__value">
+                              {formatMoney(productDetail.mainProduct?.toPrice)}
+                            </span>
+                          )
+                        }}
+                      />
+                    ) : (
+                      <span className="contaner-price__value">
+                        {formatMoney(productDetail.mainProduct?.fromPrice)}
                       </span>
-                    ) : null}
-                    {formatMoney(productDetail.mainProduct?.fromPrice)}
-                    {productDetail.mainProduct?.toPrice ? (
-                      <>
-                        <span
-                          className="ml-1 mr-1"
-                          style={{ fontSize: '.8em' }}
-                        >
-                          <FormattedMessage id="startEnd" />
-                        </span>
-                        {formatMoney(productDetail.mainProduct?.toPrice)}
-                      </>
-                    ) : null}
-                    {/* {formatMoney(
-                         Math.min.apply(
-                           null,
-                           productDetail.mainProduct.goodsInfos.map(
-                             (g) => g.marketPrice || 0
-                           )
-                         )
-                       )} */}
+                    )}
                   </div>
                   <div
                     className="d-flex justify-content-center mt-3 testtest"
@@ -2338,30 +2362,32 @@ class SubscriptionDetail extends React.Component {
                       <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
                         your daily ration
                       </div>
-                      <div className="text-center mt-2">
-                        {productDetail.otherProducts?.toPrice ? (
-                          <span className="mr-1" style={{ fontSize: '.8em' }}>
-                            <FormattedMessage id="startFrom" />
+                      <div className="text-center mt-2 card--product-contaner-price">
+                        {productDetail.mainProduct?.toPrice ? (
+                          <FormattedMessage
+                            id="pirceRange"
+                            values={{
+                              fromPrice: (
+                                <span className="contaner-price__value">
+                                  {formatMoney(
+                                    productDetail.mainProduct?.fromPrice
+                                  )}
+                                </span>
+                              ),
+                              toPrice: (
+                                <span className="contaner-price__value">
+                                  {formatMoney(
+                                    productDetail.mainProduct?.toPrice
+                                  )}
+                                </span>
+                              )
+                            }}
+                          />
+                        ) : (
+                          <span className="contaner-price__value">
+                            {formatMoney(productDetail.mainProduct?.fromPrice)}
                           </span>
-                        ) : null}
-                        {formatMoney(productDetail.otherProducts?.fromPrice)}
-                        {productDetail.otherProducts?.toPrice ? (
-                          <>
-                            <span
-                              className="ml-1 mr-1"
-                              style={{ fontSize: '.8em' }}
-                            >
-                              <FormattedMessage id="startEnd" />
-                            </span>
-                            {formatMoney(productDetail.otherProducts?.toPrice)}
-                          </>
-                        ) : null}
-                        {/* {formatMoney(
-                Math.min.apply(
-                  null,
-                  ele.goodsInfos.map((g) => g.marketPrice || 0)
-                )
-              )} */}
+                        )}
                       </div>
                       <div
                         className="d-flex justify-content-center mt-3"
@@ -2432,13 +2458,13 @@ class SubscriptionDetail extends React.Component {
                 <FormattedMessage id="switchProductTip3" />!
               </p>
               <div className="d-flex align-items-center justify-content-center">
-                <img src={currentGoodsItem.goodsPic} />
+                <img src={currentGoodsItem.goodsPic} style={{ width: '40%' }} />
                 <div>
                   <div className="red" style={{ fontSize: '1.5rem' }}>
-                    {currentGoodsItem.goodsName}test
+                    {currentGoodsItem.goodsName}
                   </div>
-                  <div>{currentGoodsItem.goodsSubtitle}test</div>
-                  <div>{currentGoodsItem.specText}test</div>
+                  <div>{currentGoodsItem.goodsSubtitle}</div>
+                  <div>{currentGoodsItem.specText}</div>
                 </div>
               </div>
             </div>
@@ -2463,6 +2489,7 @@ class SubscriptionDetail extends React.Component {
       action = pauseSubscription;
     }
     param.subscribeStatus = subscribeStatus;
+    this.setState({ loadingPage: true });
     try {
       let res = await action(param);
       // this.setState({ isActive: !isActive, subscribeStatus });
@@ -2471,17 +2498,22 @@ class SubscriptionDetail extends React.Component {
     } catch (err) {
       this.showErrMsg(err.message);
     } finally {
-      this.setState({ loading: false });
+      this.setState({ loadingPage: false });
     }
   };
   linkPets = async (petsId) => {
     this.setState({ addNewPetLoading: true });
 
-    let { subscribeId } = this.state.subDetail;
+    let { subscribeId, goodsInfo } = this.state.subDetail;
+    let goodsItems = goodsInfo.map((item) => {
+      let skuId = item.skuId;
+      return { skuId };
+    });
     try {
       let param = {
         subscribeId,
-        petsId
+        petsId,
+        goodsItems
       };
       await this.doUpdateDetail(param);
       await this.getDetail();
@@ -2680,7 +2712,9 @@ class SubscriptionDetail extends React.Component {
             </Modal>
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
-                {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
+                {this.state.loadingPage ? (
+                  <Loading positionFixed="true" />
+                ) : null}
                 {/* <SideMenu type="Subscription" /> */}
                 {isMobile ? (
                   <div className="col-12 rc-md-down">
@@ -2851,16 +2885,26 @@ class SubscriptionDetail extends React.Component {
                 >
                   <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
                     {/* <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs"> */}
-                    {this.state.editRecommendationVisible && (
-                      <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
-                        <p className="recommendatio-wrap-title">
-                          <FormattedMessage id="subscriptionDetail.newProduct" />
-                        </p>
-                        <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
-                          {this.recommendationModal()}
+                    {this.state.editRecommendationVisible &&
+                      (this.state.recommendationVisibleLoading ? (
+                        <div className="mt-4 1111" style={{ width: '100%' }}>
+                          <Skeleton
+                            color="#f5f5f5"
+                            width="100%"
+                            height="30%"
+                            count={2}
+                          />
                         </div>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
+                          <p className="recommendatio-wrap-title">
+                            <FormattedMessage id="subscriptionDetail.newProduct" />
+                          </p>
+                          <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
+                            {this.recommendationModal()}
+                          </div>
+                        </div>
+                      ))}
                     {isClub ? (
                       this.ClubTitle()
                     ) : (
@@ -2869,7 +2913,7 @@ class SubscriptionDetail extends React.Component {
                         style={{ color: '#666' }}
                       >
                         {subDetail.subscribeId ? (
-                          <span>{`${subDetail.subscribeId}`}</span>
+                          <span>{filterOrderId(subDetail.subscribeId)}</span>
                         ) : null}
                         {this.statusText()}
                       </h4>
@@ -2937,15 +2981,6 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.goodsName}
                                   </h3>
-                                  {/* <p
-                                style={{
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  marginBottom: '8px'
-                                }}
-                              >
-                                Dog food
-                              </p> */}
                                   <p
                                     style={{
                                       overflow: 'hidden',
@@ -3136,7 +3171,11 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     <Selection
-                                      optionList={this.frequencyListOptions}
+                                      optionList={this.frequencyListOptions.filter(
+                                        (frequencyItem) =>
+                                          frequencyItem.goodsInfoFlag ===
+                                          el.goodsInfoFlag
+                                      )}
                                       selectedItemChange={(data) => {
                                         if (el.periodTypeId !== data.id) {
                                           el.periodTypeId = data.id;
@@ -3274,6 +3313,7 @@ class SubscriptionDetail extends React.Component {
                                         </LazyLoad>
                                         {isClub && !!subDetail.petsId && (
                                           <span
+                                            style={{ whiteSpace: 'nowrap' }}
                                             className={`rc-styled-link ${
                                               this.state.productListLoading
                                                 ? 'ui-btn-loading'
@@ -3515,7 +3555,11 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     >
                                       <Selection
-                                        optionList={this.frequencyListOptions}
+                                        optionList={this.frequencyListOptions.filter(
+                                          (frequencyItem) =>
+                                            frequencyItem.goodsInfoFlag ===
+                                            el.goodsInfoFlag
+                                        )}
                                         selectedItemChange={(data) => {
                                           if (el.periodTypeId !== data.id) {
                                             el.periodTypeId = data.id;

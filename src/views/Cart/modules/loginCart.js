@@ -416,7 +416,6 @@ class LoginCart extends React.Component {
 
       if (localItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: false });
-        this.props.checkoutStore.changeFromStorePortal(true);
       }
 
       url && history.push(url);
@@ -818,7 +817,9 @@ class LoginCart extends React.Component {
                       activeToolTipIndex={this.state.activeToolTipIndex}
                       index={index}
                       toolTipVisible={this.state.toolTipVisible}
-                      computedList={this.computedList}
+                      computedList={this.computedList.filter(
+                        (el) => el.goodsInfoFlag === pitem.goodsInfoFlag
+                      )}
                       chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
                         this,
                         {
@@ -842,7 +843,9 @@ class LoginCart extends React.Component {
                       activeToolTipIndex={this.state.activeToolTipIndex}
                       index={index}
                       toolTipVisible={this.state.toolTipVisible}
-                      computedList={this.computedList}
+                      computedList={this.computedList.filter(
+                        (el) => el.goodsInfoFlag === pitem.goodsInfoFlag
+                      )}
                       chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
                         this,
                         {

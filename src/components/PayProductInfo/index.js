@@ -96,7 +96,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, item)}
                   >
                     <span className="light">{item.spuName}</span>
-                    {item.promotions && item.promotions.includes('club') ? (
+                    {item.goodsInfoFlag === 2 ? (
                       <img
                         className="clubLogo"
                         src={Club_Logo}

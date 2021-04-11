@@ -8,6 +8,7 @@ import {
   getSubListForPet,
   changeSubscriptionGoods
 } from '@/api/subscription';
+import { changeSubscriptionGoodsByPets } from '@/api/pet';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -207,14 +208,14 @@ const LinkedSubs = (props) => {
                             addGoodsItems: [
                               {
                                 skuId: subItem.skuId,
-                                goodsNum: subItem.subscribeNum,
+                                subscribeNum: subItem.subscribeNum,
                                 goodsInfoFlag: subItem.goodsInfoFlag,
                                 periodTypeId: subItem.periodTypeId,
                                 subscribeId: subItem.subscribeId
                               }
                             ]
                           };
-                          changeSubscriptionGoods(params).then((res) => {
+                          changeSubscriptionGoodsByPets(params).then((res) => {
                             querySubList();
                           });
                         }}
@@ -237,7 +238,7 @@ const LinkedSubs = (props) => {
                               }
                             ]
                           };
-                          changeSubscriptionGoods(params).then((res) => {
+                          changeSubscriptionGoodsByPets(params).then((res) => {
                             querySubList();
                           });
                         }}
