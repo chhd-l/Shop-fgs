@@ -651,19 +651,34 @@ class Details extends React.Component {
         }
         const res = resList[0];
         const frequencyDictRes = resList[1];
-        console.log(frequencyDictRes, 'frequencyDictRes');
+        let autoshipDictRes = frequencyDictRes.filter(
+          (el) => el.goodsInfoFlag === 1
+        );
+        let clubDictRes = frequencyDictRes.filter(
+          (el) => el.goodsInfoFlag === 2
+        );
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
+        let defaultFrequencyId = 0;
+        if (goodsRes.promotions === 'club') {
+          defaultFrequencyId =
+            goodsRes?.defaultFrequencyId ||
+            configStore.defaultSubscriptionClubFrequencyId ||
+            (clubDictRes[0] && clubDictRes[0].id) ||
+            '';
+        } else {
+          defaultFrequencyId =
+            goodsRes?.defaultFrequencyId ||
+            configStore.defaultSubscriptionFrequencyId ||
+            (autoshipDictRes[0] && autoshipDictRes[0].id) ||
+            '';
+        }
         this.setState(
           {
             purchaseTypeDict: purchaseTypeDictRes,
             frequencyList: frequencyDictRes,
             form: Object.assign(this.state.form, {
-              frequencyId:
-                goodsRes?.defaultFrequencyId ||
-                configStore.defaultSubscriptionFrequencyId ||
-                (frequencyDictRes[0] && frequencyDictRes[0].id) ||
-                ''
+              frequencyId: defaultFrequencyId
             })
           },
           () => {
@@ -1892,7 +1907,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {!sessionItemRoyal.get('pr-petsId') ? (
+                                {sessionItemRoyal.get('pr-question-params') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
                                       <FormattedMessage id="details.recommendedDaily" />

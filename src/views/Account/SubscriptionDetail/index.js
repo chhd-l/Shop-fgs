@@ -2881,7 +2881,8 @@ class SubscriptionDetail extends React.Component {
                 >
                   <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
                     {/* <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs"> */}
-                    {this.state.editRecommendationVisible &&
+                    {subDetail.petsId &&
+                      this.state.editRecommendationVisible &&
                       (this.state.recommendationVisibleLoading ? (
                         <div className="mt-4 1111" style={{ width: '100%' }}>
                           <Skeleton
