@@ -2498,7 +2498,12 @@ class Details extends React.Component {
               </>
             ) : null}
             <Help />
-            {/* <ResponsiveCarousel/> */}
+            <ResponsiveCarousel
+              location={location}
+              history={history}
+              goodsId={goodsId}
+              key={goodsId}
+            />
             <Footer />
           </main>
         )}

@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './index.less';
+import chunk from 'lodash/chunk';
+import { getGoodsRelation } from '@/api/details';
 
 export default class Responsive extends Component {
+  static defaultProps = {
+    location: '',
+    history: '',
+    goodsId: '',
+    key: ''
+  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      goodsList: [],
+      windowWidth: 0
+    };
+  }
   render() {
-    var settings = {
+    const settings = {
       dots: true,
       infinite: false,
       speed: 500,
@@ -32,41 +50,38 @@ export default class Responsive extends Component {
           breakpoint: 480,
           settings: {
             slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: false
+            slidesToScroll: 1
           }
         }
       ]
     };
     return (
-      <div>
+      <div className="responsive-carousel">
+        <h2>Recommanded for you</h2>
         <Slider {...settings}>
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-          <div>
-            <h3>7</h3>
-          </div>
-          <div>
-            <h3>8</h3>
-          </div>
+          {this.state.goodsList.map((index, item) => {
+            return (
+              <div>
+                <h3>{index}</h3>
+              </div>
+            );
+          })}
         </Slider>
       </div>
     );
+  }
+  componentDidMount() {
+    const { goodsId } = this.props;
+    getGoodsRelation(goodsId).then((res) => {
+      this.setState(
+        {
+          goodsList: res.context.goods
+        },
+        () => {
+          console.log(this.state.goodsList);
+          debugger;
+        }
+      );
+    });
   }
 }
