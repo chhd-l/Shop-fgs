@@ -878,7 +878,7 @@ const es_ES = {
   signUp: 'Regístrate',
   single: 'Soltero',
   singlePurchase: 'Compra única',
-  skip: 'Omitir',
+  skip: 'Saltar',
   skiped: 'Esquiado',
   sortBy: 'Ordenar por',
   sortedBy: 'Ordenar resultados',
