@@ -94,6 +94,7 @@ class SubscriptionDetail extends React.Component {
     super(props);
     this.state = {
       productDetail: {},
+      changeNowLoading: false,
       productListLoading: false,
       currentGoodsItems: [],
       goodsDetails: {}, //for GoodsDetailTabs
@@ -109,6 +110,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetVisible: false,
       changeRecommendationVisible: false,
       editRecommendationVisible: true, //isNeedChangeProduct
+      recommendationVisibleLoading: true,
       produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -461,6 +463,7 @@ class SubscriptionDetail extends React.Component {
       })
       .finally(() => {
         this.setState({
+          recommendationVisibleLoading: false,
           productListLoading: false
         });
       });
@@ -1103,7 +1106,9 @@ class SubscriptionDetail extends React.Component {
             </button>
             <button
               onClick={this.changePets}
-              className="rc-btn rc-btn--one rc-btn--sm"
+              className={`rc-btn rc-btn--one rc-btn--sm ${
+                this.state.changeNowLoading ? 'ui-btn-loading' : ''
+              }`}
             >
               <FormattedMessage id="subscription.changeNow" />
             </button>
@@ -2045,7 +2050,7 @@ class SubscriptionDetail extends React.Component {
     const { quantity, form, details } = this.state;
     const { sizeList } = details;
     let currentSelectedSize = sizeList[0];
-
+    this.setState({ changeNowLoading: true });
     if (details.goodsSpecDetails) {
       currentSelectedSize = find(sizeList, (s) => s.selected);
     }
@@ -2056,13 +2061,13 @@ class SubscriptionDetail extends React.Component {
 
     let addGoodsItems = {
       skuId: currentSelectedSize.goodsInfoId,
-      goodsNum: quantity,
+      subscribeNum: quantity,
       goodsInfoFlag
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
     let currentGoodsItem = this.state.currentGoodsItems[0] || {};
     let deleteGoodsItems = {
-      goodsNum: currentGoodsItem.subscribeNum,
+      subscribeNum: currentGoodsItem.subscribeNum,
       periodTypeId: currentGoodsItem.periodTypeId,
       goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
       subscribeId,
@@ -2078,6 +2083,7 @@ class SubscriptionDetail extends React.Component {
     };
     changeSubscriptionGoods(params).then((res) => {
       this.getDetail();
+      this.setState({ changeNowLoading: false });
       this.closeRecommendation();
       this.closeEditRecommendation();
     });
@@ -2114,6 +2120,7 @@ class SubscriptionDetail extends React.Component {
         cb && cb();
       });
     } catch (err) {
+      this.showErrMsg(err && err.message);
     } finally {
       this.setState({ productListLoading: false });
     }
@@ -2133,12 +2140,15 @@ class SubscriptionDetail extends React.Component {
         this.doSthShow();
       });
     } else {
-      debugger;
       this.queryProductList(el, () => {
         // 查详情
-        debugger;
         let id = this.state.productDetail.mainProduct?.spuCode;
-        this.queryProductDetails(id);
+        if (id) {
+          this.queryProductDetails(id);
+        } else {
+          // 没有推荐商品的时候直接隐藏被动更换商品
+          this.setState({ editRecommendationVisible: false });
+        }
       });
     }
   };
@@ -2431,10 +2441,10 @@ class SubscriptionDetail extends React.Component {
                 <img src={currentGoodsItem.goodsPic} />
                 <div>
                   <div className="red" style={{ fontSize: '1.5rem' }}>
-                    {currentGoodsItem.goodsName}test
+                    {currentGoodsItem.goodsName}
                   </div>
-                  <div>{currentGoodsItem.goodsSubtitle}test</div>
-                  <div>{currentGoodsItem.specText}test</div>
+                  <div>{currentGoodsItem.goodsSubtitle}</div>
+                  <div>{currentGoodsItem.specText}</div>
                 </div>
               </div>
             </div>
@@ -2847,16 +2857,26 @@ class SubscriptionDetail extends React.Component {
                 >
                   <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
                     {/* <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs"> */}
-                    {this.state.editRecommendationVisible && (
-                      <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
-                        <p className="recommendatio-wrap-title">
-                          <FormattedMessage id="subscriptionDetail.newProduct" />
-                        </p>
-                        <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
-                          {this.recommendationModal()}
+                    {this.state.editRecommendationVisible &&
+                      (this.state.recommendationVisibleLoading ? (
+                        <div className="mt-4 1111" style={{ width: '100%' }}>
+                          <Skeleton
+                            color="#f5f5f5"
+                            width="100%"
+                            height="30%"
+                            count={2}
+                          />
                         </div>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
+                          <p className="recommendatio-wrap-title">
+                            <FormattedMessage id="subscriptionDetail.newProduct" />
+                          </p>
+                          <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
+                            {this.recommendationModal()}
+                          </div>
+                        </div>
+                      ))}
                     {isClub ? (
                       this.ClubTitle()
                     ) : (
