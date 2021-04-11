@@ -1131,6 +1131,8 @@ const ru_RU = {
   'productFinder.helpTip1': 'У Вас есть вопросы?',
   'productFinder.helpTip2':
     'Our staff are true experts and passionate. They are at your disposal to answer any request.',
+  'productFinder.whyAreWeAskingThis': 'Почему этот вопрос?',
+  'productFinder.createMyPetProfile': 'Создать мой профиль животного',
   callUs: 'Свяжитесь с нами',
   emailUs: 'Напишите нам',
   'details.recommendedDaily':

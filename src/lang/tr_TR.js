@@ -665,6 +665,8 @@ const tr_TR = {
   'productFinder.tip2':
     'Bu anket, evcil hayvanınız için önerilen mamayı seçmenize yardımcı olacaktır.',
   'productFinder.tip3': 'Evcil Hayvanınız ...',
+  'productFinder.whyAreWeAskingThis': 'Neden bu soru?',
+  'productFinder.createMyPetProfile': 'Hayvan profilimi oluştur',
   productRating: 'Ürün derecelendirmesi',
   produtctNumber: 'Ürün numarası',
   'profile.emailChoose':
