@@ -72,7 +72,7 @@ class Confirmation extends React.Component {
   }
   getIsAllOneShootGoods = () => {
     let isAllOneShootGoods = this.state.details.tradeItems.every((item) => {
-      return item.goodsInfoFlag != 1; //goodsInfoFlag==1表示订阅
+      return item.goodsInfoFlag == 0; //goodsInfoFlag>0表示订阅
     });
     this.setState({ isAllOneShootGoods });
   };
@@ -197,7 +197,7 @@ class Confirmation extends React.Component {
     const { details } = this.state;
 
     let isAllOneShootGoods = details.tradeItems.every((item) => {
-      return item.goodsInfoFlag != 1; //goodsInfoFlag==1表示订阅
+      return item.goodsInfoFlag == 0; //goodsInfoFlag>0表示订阅
     });
     this.setState({ isAllOneShootGoods });
 
