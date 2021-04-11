@@ -1206,7 +1206,8 @@ const ru_RU = {
   month: 'Месяц',
   searchBreed: 'Поиск породы',
   answeredQuestions: 'Ответы на вопросы',
-  next: 'Следующий'
+  next: 'Следующий',
+  pirceRange: 'От {fromPrice} к {toPrice}'
 };
 
 export default ru_RU;

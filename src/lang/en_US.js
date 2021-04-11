@@ -1295,6 +1295,7 @@ const en_US = {
   'clubListData.tip2': 'A welcome box, rewards and services',
   'clubListData.tip3': 'A pet advisor and personalized newsletters',
   'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
-  'clubListData.tip5': 'Full control and free from engagement'
+  'clubListData.tip5': 'Full control and free from engagement',
+  pirceRange: 'From {fromPrice} to {toPrice}'
 };
 export default en_US;
