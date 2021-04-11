@@ -1057,6 +1057,8 @@ const es_ES = {
   'clubListData.tip2': 'A welcome box, rewards and services',
   'clubListData.tip3': 'A pet advisor and personalized newsletters',
   'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
-  'clubListData.tip5': 'Full control and free from engagement'
+  'clubListData.tip5': 'Full control and free from engagement',
+  'subscriptionDetail.deliveryDate': 'Delivery date',
+  'subscriptionDetail.product': 'Product'
 };
 export default es_ES;
