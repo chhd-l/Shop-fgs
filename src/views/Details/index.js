@@ -307,7 +307,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: 1, //0 - once/ 1 - frequency
+        buyWay: 1, //-1-None 0-One-off purchase 1-Subscription 2-Club
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -392,7 +392,7 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing } = this.state;
+    const { details, quantity, instockStatus, initing, form } = this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -406,7 +406,8 @@ class Details extends React.Component {
       instockStatus &&
       quantity &&
       (details.saleableFlag || !details.displayFlag) &&
-      addedFlag
+      addedFlag &&
+      form.buyWay !== -1
     );
   }
 
@@ -417,8 +418,9 @@ class Details extends React.Component {
     if (targetDefaultPurchaseTypeItem) {
       this.setState({
         form: Object.assign(this.state.form, {
-          buyWay:
-            targetDefaultPurchaseTypeItem.valueEn === 'Subscription' ? 1 : 0
+          buyWay: { None: -1, Subscription: 1, 'One-off purchase': 0 }[
+            targetDefaultPurchaseTypeItem.valueEn
+          ]
         })
       });
     }
@@ -1295,8 +1297,8 @@ class Details extends React.Component {
     let cur_selected_size = item.sizeList.filter((item2) => {
       return item2.selected == true;
     });
-    let variant = cur_selected_size[0].specText;
-    let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
+    let variant = cur_selected_size[0]?.specText;
+    let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
     let { form } = this.state;
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
@@ -1307,11 +1309,12 @@ class Details extends React.Component {
               name: item.goodsName,
               id: item.goodsNo,
               club: 'no',
-              type: form.buyWay == 0 ? 'one-time' : 'subscription',
+              type: { 0: 'one-time', 1: 'subscription' }[form.buyWay] || '',
               price:
-                form.buyWay == 0
-                  ? cur_selected_size[0].marketPrice
-                  : cur_selected_size[0].subscriptionPrice,
+                {
+                  0: cur_selected_size[0]?.marketPrice,
+                  1: cur_selected_size[0]?.subscriptionPrice
+                }[form.buyWay] || 0,
               brand: item.brandName || 'Royal Canin',
               category: item.goodsCateName,
               variant: parseInt(variant),
@@ -1330,8 +1333,9 @@ class Details extends React.Component {
     dataLayer.push({
       event: 'pdpAddToCart',
       pdpAddToCartQuantity: this.state.quantity,
-      pdpAddToCartCtA:
-        this.state.form.buyWay === 0 ? 'One-Shot' : 'Subscription'
+      pdpAddToCartCtA: { 0: 'One-Shot', 1: 'Subscription' }[
+        this.state.form.buyWay
+      ]
     });
   }
 
@@ -1991,15 +1995,11 @@ class Details extends React.Component {
                             </div>
                             <div>
                               <div
-                                className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 1 ml-0 mr-0"
-                                key="123456789"
-                                aa="123456789"
-                                style={{
-                                  borderColor: !parseInt(form.buyWay)
-                                    ? '#e2001a'
-                                    : '#d7d7d7',
-                                  cursor: 'pointer'
-                                }}
+                                className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center 1 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                  form.buyWay === 0
+                                    ? 'border-red'
+                                    : 'border-d7d7d7'
+                                }`}
                                 onClick={this.ChangeFormat.bind(this, 0)}
                               >
                                 <div className="radioBox order-1 order-md-1 col-8 col-md-4">
@@ -2086,14 +2086,11 @@ class Details extends React.Component {
                               (!details.promotions ||
                                 !details.promotions.includes('club')) ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 2  ml-0 mr-0"
-                                  key="987654321"
-                                  style={{
-                                    borderColor: parseInt(form.buyWay)
-                                      ? '#e2001a'
-                                      : '#d7d7d7',
-                                    cursor: 'pointer'
-                                  }}
+                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center 2 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                    form.buyWay === 1
+                                      ? 'border-red'
+                                      : 'border-d7d7d7'
+                                  }`}
                                   onClick={this.ChangeFormat.bind(this, 1)}
                                 >
                                   <div className="radioBox order-1 order-md-1 col-8 col-md-4">
@@ -2212,14 +2209,11 @@ class Details extends React.Component {
                               details?.promotions &&
                               details.promotions.includes('club') ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0"
-                                  key="987654321"
-                                  style={{
-                                    borderColor: parseInt(form.buyWay)
-                                      ? '#e2001a'
-                                      : '#d7d7d7',
-                                    cursor: 'pointer'
-                                  }}
+                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                    form.buyWay === 2
+                                      ? 'border-red'
+                                      : 'border-d7d7d7'
+                                  }`}
                                   onClick={this.ChangeFormat.bind(this, 2)}
                                 >
                                   <div className="radioBox order-1 order-md-1 col-8 col-md-4">
