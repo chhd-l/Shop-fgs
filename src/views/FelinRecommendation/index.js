@@ -9,12 +9,13 @@ import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
+import Help from '../SmartFeederSubscription/modules/Help';
 import recommendation2 from '@/assets/images/fr_recommendation2.png';
 import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
 import noPic from '@/assets/images/noPic.png';
 import storeLogo from '@/assets/images/storeLogo.png';
-import ImageMagnifier from './components/ImageMagnifier';
+import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
@@ -41,12 +42,10 @@ import './index.css';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-
-@inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
-@inject('configStore')
+@inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
-class Help extends React.Component {
+class FelinRecommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,6 +67,7 @@ class Help extends React.Component {
         metaDescription: 'Royal canin'
       },
       productList: [],
+      // productList: [{goodsInfo:{goods:{}},goodsInfos:[]},{goodsInfo:{goods:{}},goodsInfos:[]}],
       currentDetail: {},
       images: [],
       activeIndex: 0,
@@ -97,6 +97,24 @@ class Help extends React.Component {
       needLogin: false,
       isMobile: false,
       currentBenefit: ''
+    };
+    this.helpContentText = {
+      title: this.props.intl.messages['recommendation.thirdTitle'],
+      des: this.props.intl.messages['recommendation.thirdContent'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: '/help/contact',
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
+      phone: '0986568097',
+      email: 'latelierfelin@royalcanin.com',
+      phoneDes1: '',
+      phoneDes2: '8h30-12h30/14h-17h'
     };
   }
 
@@ -378,9 +396,7 @@ class Help extends React.Component {
         cartDataCopy.push(tmpData);
       }
       console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart({
-        cartData: cartDataCopy
-      });
+      await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
     }
     this.props.history.push(path);
   }
@@ -588,7 +604,7 @@ class Help extends React.Component {
     let cur_recommendation4 = recommendation4;
 
     return (
-      <div className="Recommendation_FR">
+      <div className="Recommendation_FR Recommendation_US">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -669,8 +685,7 @@ class Help extends React.Component {
                   }`}
                   onClick={this.buyNow}
                 >
-                  {/* <FormattedMessage id="recommendation.viewInCart" /> */}
-                  Voir le panier
+                  <FormattedMessage id="checkout" />
                 </button>
               </p>
             </section>
@@ -703,16 +718,18 @@ class Help extends React.Component {
                     </div>
                   </div>
                 ) : (
-                  productList.length && (
+                  productList.length > 0 && (
                     <div>
                       <div className="recommendProductInner">
                         <div className="imageTabBox">
                           {productList.map((el, i) => (
                             <span
-                              className={`${i === activeIndex ? 'active' : ''}`}
+                              className={`rc-btn--sm ${
+                                i === activeIndex ? 'active' : ''
+                              }`}
                               style={{
                                 display: 'inline-block',
-                                width: '80px',
+                                // width: '80px',
                                 textAlign: 'center',
                                 cursor: 'pointer'
                               }}
@@ -721,7 +738,7 @@ class Help extends React.Component {
                               <img
                                 src={el.goodsInfo.goodsInfoImg}
                                 style={{
-                                  width: '40px',
+                                  width: '60px',
                                   display: 'inline-block',
                                   margin: '.625rem 0'
                                 }}
@@ -731,7 +748,7 @@ class Help extends React.Component {
                               <p
                                 style={{
                                   textAlign: 'center',
-                                  fontSize: '.75rem',
+                                  fontSize: '1rem',
                                   marginBottom: '5px',
                                   width: '100%',
                                   overflow: 'hidden',
@@ -762,7 +779,7 @@ class Help extends React.Component {
                               />
                             </div>
                           </div>
-                          <div className="text">
+                          <div className="text rc-margin-y--sm">
                             <h2
                               title={
                                 productList[activeIndex].goodsInfo.goodsInfoName
@@ -971,7 +988,7 @@ class Help extends React.Component {
                             </p>
                           ) : null}
 
-                          <p
+                          {/* <p
                             style={{
                               marginTop: '30px',
                               textAlign: 'center',
@@ -998,10 +1015,10 @@ class Help extends React.Component {
                               //   }
                               // }}
                             >
-                              {/* <FormattedMessage id="recommendation.viewInCart" /> */}
-                              Mon panier
+                            <FormattedMessage id="recommendation.viewInCart" /> 
+                              
                             </button>
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </div>
@@ -1227,21 +1244,19 @@ class Help extends React.Component {
               </button>
             </p>
           </div>
-          <div
+          <div className="help-container 1111">
+            <Help
+              isRecommendationPage={true}
+              contentText={this.helpContentText}
+              needReverse={false}
+            />
+          </div>
+          {/*  <div
             className="help-page"
             style={{ marginBottom: isMobile ? 0 : '1rem' }}
           >
-            <section style={{ textAlign: 'center' }}>
-              <h2
-                style={{ color: '#E2001A', marginTop: isMobile ? '0' : '40px' }}
-              >
-                <FormattedMessage id="recommendation.thirdTitle" />
-              </h2>
-              <p>
-                <FormattedMessage id="recommendation.thirdContent" />
-              </p>
-            </section>
-            <div className="experience-region experience-main">
+           
+           <div className="experience-region experience-main">
               <div className="experience-region experience-main">
                 <div className="experience-component experience-layouts-1column">
                   <div className="row rc-margin-x--none">
@@ -1249,20 +1264,6 @@ class Help extends React.Component {
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm">
                           <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                            {/* <div className="rc-padding-bottom--none--mobile" style={{ width: '40%' }}>
-                              <h1 className="rc-beta" style={{ margin: '0 0 0 1rem' }}>
-                                <font style={{ verticalAlign: "inherit" }}>
-                                  <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.needHelp" /></font>
-                                </font>
-                              </h1>
-                            </div>
-                            <div style={{ width: '60%' }}>
-                              <div className="rc-large-body inherit-fontsize children-nomargin">
-                                <p>
-                                  <FormattedMessage id="help.tip1" /><br /><FormattedMessage id="help.tip4" />
-                                </p>
-                              </div>
-                            </div> */}
                           </div>
                           <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
                             <div className="rc-column rc-double-width rc-padding--none">
@@ -1377,15 +1378,20 @@ class Help extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div>*/}
 
-          <section style={{ textAlign: 'center' }}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              <FormattedMessage id="recommendation.fourTitle" />
-            </h2>
-            <p>
-              <FormattedMessage id="recommendation.fourContent" />
-            </p>
+          <section
+            className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+            style={{ textAlign: 'center' }}
+          >
+            <div className="text-center rc-margin-y--sm rc-margin-top--lg--mobile rc-column">
+              <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                <FormattedMessage id="recommendation.fourTitle" />
+              </h2>
+              <p>
+                <FormattedMessage id="recommendation.fourContent" />
+              </p>
+            </div>
             <p>
               <button
                 className={`rc-btn rc-btn--one ${
@@ -1458,4 +1464,4 @@ class Help extends React.Component {
   }
 }
 
-export default Help;
+export default FelinRecommendation;

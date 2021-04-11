@@ -770,10 +770,12 @@ class List extends React.Component {
     }
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
-    if (keywordsSearch) {
-      this.setState({
-        keywordsSearch
-      });
+    if (
+      keywordsSearch &&
+      dataLayer[0] &&
+      dataLayer[0].page &&
+      dataLayer[0].page.type
+    ) {
       //表示从搜索来的
       // dataLayer[0].page.type = 'Search Results';
     }

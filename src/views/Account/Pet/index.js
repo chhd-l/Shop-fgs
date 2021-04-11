@@ -158,7 +158,7 @@ class Pet extends React.Component {
                       </div>
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">
-                          <div className="children-nomargin">
+                          <div className="children-nomargin text-break">
                             <p>
                               <FormattedMessage id="account.noPet" />
                             </p>

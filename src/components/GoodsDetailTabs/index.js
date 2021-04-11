@@ -14,27 +14,27 @@ import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 const clubListData = [
   {
-    text: 'tailored and evolving premium nutrition',
+    text: <FormattedMessage id="clubListData.tip1" />,
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: 'A welcome box, rewards and services',
+    text: <FormattedMessage id="clubListData.tip2" />,
     img: gifticon,
     alt: 'CLUB BENEFITS DISCOUNT'
   },
   {
-    text: 'A pet advisor and personalized newsletters',
+    text: <FormattedMessage id="clubListData.tip3" />,
     img: spetadviser,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: 'Automatic food reﬁlls with free shipping',
+    text: <FormattedMessage id="clubListData.tip4" />,
     img: shippingicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: 'Full control and free from engagement',
+    text: <FormattedMessage id="clubListData.tip5" />,
     img: nutrition,
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
@@ -263,7 +263,7 @@ const GoodsDetailTabs = function (props) {
         <React.Fragment key={index} id="GoodsDetailTabs">
           <dl className="goodsdetailtabs-item-mobile">
             <div
-              className={`rc-list__accordion-item test-color 
+              className={`rc-list__accordion-item test-color
         ${activeTabIdxLists.includes(index) ? 'showItem' : 'hiddenItem'}`}
             >
               <div
@@ -309,7 +309,7 @@ const GoodsDetailTabs = function (props) {
             style={{ position: 'absolute', top: -headerHeight }}
           ></div>
           <div
-            className={`rc-list__accordion-item test-color 
+            className={`rc-list__accordion-item test-color
         ${
           activeTabIdxLists.includes(goodsDetailTabsData.length)
             ? 'showItem'

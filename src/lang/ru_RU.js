@@ -258,7 +258,7 @@ const ru_RU = {
   'confirmation.customerInformation': 'Информация для клиентов',
   'confirmation.info1': 'Спасибо за ваш заказ.',
   'confirmation.info2':
-    'В ближайшее время с вами свяжутся наши сотрудники для подтверждения заказа.',
+    'Вскоре вы получите подтверждение по электронной почте на {val1}',
   'confirmation.info3':
     'Адреса и способы доставки указаны под вашими товарами.',
   'confirmation.oneShoot': 'Продолжить покупки',
@@ -886,7 +886,7 @@ const ru_RU = {
   'subscription.date': 'Дата подписки',
   'subscription.deliveryDate': 'Следующая дата доставки',
   'subscription.detail': 'Детали подписки',
-  'subscription.frequency': 'Периодичность',
+  'subscription.frequency': 'астота отправки',
   'subscription.nextOrder': 'Следующий заказ',
   'subscription.noDataTip': 'Без подписки',
   'subscription.notYet': 'Пока не отправлено',
@@ -1001,7 +1001,7 @@ const ru_RU = {
     'Заполните простую анкету, чтобы получить персональные рекомендации по питанию',
   'club.howitworks.img2.titile': 'ВЫБЕРИТЕ ОПЦИЮ КЛУБНОЙ ПРОГРАММЫ',
   'club.howitworks.img2.description':
-    'Продолжайте, чтобы завершить процесс подписки. С первой доставкой Вы получите приветственный подарок. ',
+    'Продолжайте, чтобы завершить процесс подписки. С первой доставкой Вы получите приветственный подарок.',
   'club.howitworks.img3.titile': 'УПРАВЛЯЙТЕ ПОДПИСКОЙ',
   'club.howitworks.img3.description':
     'Обеспечим своевременное обновление корма с возможностью изменения даты доставки.',
@@ -1063,7 +1063,8 @@ const ru_RU = {
   manage: 'Управлять',
   'cyber.form.saveFor': 'Сохранить данные карты в учетной записи',
   //'cyber.form.theBox':'при подписке на корм данное поле является обязательным для заполнения',
-  'pet.petListTitle': 'Здесь Вы можете создать профили для Ваших питомцев',
+  'pet.petListTitle':
+    'Обновляйте информацию в профиле своего питомца, чтобы мы смогли подобрать для него питание, учитывающее его уникальные потребности',
   'payment.returnToCardList': 'Вярнуцца да спісу картак',
   'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
   'payment.saveThisPaymentMethodAsPreferred':
@@ -1089,7 +1090,7 @@ const ru_RU = {
   'orderStatus.COMPLETED': 'Завершено',
   'payment.cardInfoErr': 'Информация о карте неверна, проверьте.',
   'cart.errorInfo6': 'Вы не можете разместить свой заказ, не откладывая: {val}',
-  'subscription.see_more': 'Смотри другие Подписка',
+  'subscription.see_more': 'Смотреть другие подписки',
   'subscription.viewDetails': 'Посмотреть детали',
   Lifestyle: 'Образ жизни',
   Activity: 'Активность',
@@ -1114,7 +1115,6 @@ const ru_RU = {
   'onlineStore.BottomInfo.faq.content2': 'ответ на вопрос',
   'onlineStore.BottomInfo.faq.title': 'задача Дес?',
   'account.clinicTitle2': 'По умолчанию для моей клиники',
-  'productFinder.searchCompleted': '',
   xMonths: '{val} Месяцы',
   xYears: '{val} Годы',
   'productFinder.searchCompleted': 'Поиск завершен!',
@@ -1135,6 +1135,7 @@ const ru_RU = {
   emailUs: 'Напишите нам',
   'details.recommendedDaily':
     'Рекомендуемая суточная норма потребления для Вашего питомца',
+  'subscription.dailyRation': 'Суточная норма Вашего котенка',
   'details.recommendedDaily.info': '57г/день',
   'details.backRecommendedDaily': 'Вернуться к рекомендациям',
   'details.findProductTip':
@@ -1149,7 +1150,33 @@ const ru_RU = {
     'Для Вашего удобства мы рекомендуем привязать профиль питомца к Клубной программе',
   'subscriptionDetail.link': 'Привязать профиль питомца',
   'subscriptionDetail.changeProduct': 'Изменить продукт',
-  'subscriptionDetail.newProduct': 'Новые рекомендации продукта'
+  'subscriptionDetail.newProduct': 'Новые рекомендации продукта',
+  'subscriptionDetail.linkProfile':
+    'Привяжите профиль питомца к Клубной программе',
+  'subscriptionDetail.addNewCat': 'новая Кошка',
+  Link: 'Привязан',
+  Unlink: 'Не привязан',
+  'subscription.seeOtherRecommendation': 'Посмотреть другие рекомендации',
+  'subscription.productDetails': 'Product details',
+  'subscription.changeNow': 'Выбрать сейчас',
+  'subscription.productRecommendation': 'Рекомендации продукта',
+  'subscription.productRecommendationTip':
+    'Основываясь на профиле Вашего питомца, мы рекомендуем следующие продукты, учитывающие его потребности. Пожалуйста, подтвердите изменение продукта, чтобы обновить подписку. ',
+  switchProductTip1: 'На данный момент это наиболее подходящий продукт для',
+  switchProductTip2: 'подобранный в соответствии с',
+  'switchProductTip.his': 'его',
+  'switchProductTip.her': 'ее',
+  switchProductTip3: 'профилем',
+  'subscription.chooseOption': 'Пожалуйста, укажите необходимые параметры',
+  'account.mixBreed': 'Смешанная порода',
+  unkown: 'Неизвестная порода',
+  'clubListData.tip1':
+    'Специализированное питание с учетом особенностей Вашего питомца',
+  'clubListData.tip2': 'Приветственный подарок, вознаграждения и сервисы',
+  'clubListData.tip3': 'Ваш персональный помощник Службы Заботы с 9 до 21 ',
+  'clubListData.tip4':
+    'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
+  'clubListData.tip5': 'Возможность изменения частоты доставок'
 };
 
 export default ru_RU;

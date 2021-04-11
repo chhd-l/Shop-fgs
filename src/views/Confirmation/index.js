@@ -450,6 +450,9 @@ class Confirmation extends React.Component {
                     <FormattedMessage id="confirmation.customerInformation" />
                   </div>
                   <AddressPreview
+                    hideBillingAddr={Boolean(
+                      +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+                    )}
                     details={this.state.details}
                     payRecord={this.state.payRecord}
                   />

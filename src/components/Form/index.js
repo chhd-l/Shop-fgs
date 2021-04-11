@@ -36,7 +36,6 @@ class Form extends React.Component {
     personalData: false,
     isCyberBillingAddress: false,
     isLogin: false,
-    russiaAddressValidFlag: true,
     updateData: () => {},
     getRussiaAddressValidFlag: () => {}
   };
@@ -617,8 +616,8 @@ class Form extends React.Component {
     caninForm[name] = value;
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
+      this.inputBlur(e);
     });
-    this.inputBlur(e);
   };
   // 文本框失去焦点
   inputBlur = async (e) => {

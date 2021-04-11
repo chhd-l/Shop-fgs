@@ -1262,6 +1262,7 @@ const en_US = {
   'subscription.viewDetails': 'View Detail',
   Expire: 'Expire',
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'subscription.dailyRation': 'your daily ration',
   'details.recommendedDaily.info': '57g/day',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
@@ -1274,6 +1275,26 @@ const en_US = {
     'For a better experience we recommend linking a pet profile to your Club subscription',
   'subscriptionDetail.link': 'Link a profile',
   'subscriptionDetail.changeProduct': 'change product',
-  'subscriptionDetail.newProduct': 'New product recommendation'
+  'subscriptionDetail.newProduct': 'New product recommendation',
+  'subscriptionDetail.linkProfile':
+    'Link a pet profile to your CLUB subscription',
+  'subscriptionDetail.addNewCat': 'a new cat',
+  'subscription.seeOtherRecommendation': 'See other recommendation',
+  'subscription.productDetails': ' Product details',
+  'subscription.changeNow': 'Change now',
+  'subscription.productRecommendation': 'Your product recommendation',
+  'subscription.productRecommendationTip':
+    "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
+  switchProductTip1: 'This is currently the best product for',
+  switchProductTip2: 'based on',
+  'switchProductTip.his': 'his',
+  'switchProductTip.her': 'her',
+  switchProductTip3: 'pet profile',
+  'subscription.chooseOption': 'Please choose your options',
+  'clubListData.tip1': 'tailored and evolving premium nutrition',
+  'clubListData.tip2': 'A welcome box, rewards and services',
+  'clubListData.tip3': 'A pet advisor and personalized newsletters',
+  'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
+  'clubListData.tip5': 'Full control and free from engagement'
 };
 export default en_US;

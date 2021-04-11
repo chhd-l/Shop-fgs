@@ -108,7 +108,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetLoading: false,
       addNewPetVisible: false,
       changeRecommendationVisible: false,
-      editRecommendationVisible: false, //isNeedChangeProduct
+      editRecommendationVisible: true, //isNeedChangeProduct
       produtctDetailVisible: false,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -253,7 +253,7 @@ class SubscriptionDetail extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  async queryProductDetails(id) {
+  async queryProductDetails(id, cb) {
     // let res = goodsDetailTabJSON;
     this.setState({ productListLoading: true });
     let { configStore } = this.props;
@@ -451,9 +451,7 @@ class SubscriptionDetail extends React.Component {
           //   errMsg: <FormattedMessage id="details.errMsg" />
           // });
         }
-        this.closeChangeProduct();
-        this.closeRecommendation();
-        this.setState({ produtctDetailVisible: true });
+        cb && cb();
       })
       .catch((e) => {
         console.log(e);
@@ -715,10 +713,13 @@ class SubscriptionDetail extends React.Component {
     //   return false;
     // }
 
-    await this.getDetail();
-
+    await this.getDetail(() => {
+      let firstGoodsInfo = this.state.subDetail.goodsInfo[0];
+      // 如果一进来就需要被动更换商品
+      this.state.editRecommendationVisible &&
+        this.showChangeProduct(firstGoodsInfo, true);
+    });
     await this.doGetPromotionPrice();
-
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
@@ -913,7 +914,7 @@ class SubscriptionDetail extends React.Component {
                       <span
                         className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                         onClick={() => this.hanldeAmountChange('minus')}
-                      ></span>
+                      />
                       <input
                         className="rc-quantity__input"
                         id="quantity"
@@ -927,7 +928,7 @@ class SubscriptionDetail extends React.Component {
                       <span
                         className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                         onClick={() => this.hanldeAmountChange('plus')}
-                      ></span>
+                      />
                     </div>
                   </div>
                 </div>
@@ -1027,7 +1028,7 @@ class SubscriptionDetail extends React.Component {
                       <span
                         className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                         onClick={() => this.hanldeAmountChange('minus')}
-                      ></span>
+                      />
                       <input
                         className="rc-quantity__input"
                         id="quantity"
@@ -1041,7 +1042,7 @@ class SubscriptionDetail extends React.Component {
                       <span
                         className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                         onClick={() => this.hanldeAmountChange('plus')}
-                      ></span>
+                      />
                     </div>
                   </div>
                 </div>
@@ -1091,20 +1092,20 @@ class SubscriptionDetail extends React.Component {
         </div>
         <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
           <span className="rc-styled-link" onClick={this.showChangeProduct}>
-            See other recommendation
+            <FormattedMessage id="subscription.seeOtherRecommendation" />
           </span>
           <div className="for-mobile-colum d-flex">
             <button
               onClick={this.showProdutctDetail}
               className="rc-btn rc-btn--two rc-btn--sm"
             >
-              Product details
+              <FormattedMessage id="subscription.productDetails" />
             </button>
             <button
               onClick={this.changePets}
               className="rc-btn rc-btn--one rc-btn--sm"
             >
-              Change now
+              <FormattedMessage id="subscription.changeNow" />
             </button>
           </div>
         </div>
@@ -1118,7 +1119,7 @@ class SubscriptionDetail extends React.Component {
           headerVisible={true}
           footerVisible={false}
           visible={this.state.addNewPetVisible}
-          modalTitle={'Link a pet profile to your CLUB subscription'}
+          modalTitle={<FormattedMessage id="subscriptionDetail.linkProfile" />}
           close={this.closeAddNewPet}
           // hanldeClickConfirm={() => this.hanldeClickSubmit()}
           // modalText={this.getModalBox()}
@@ -1169,7 +1170,10 @@ class SubscriptionDetail extends React.Component {
               >
                 <div>
                   <Link to="/account/pets/petForm">
-                    + <strong>a new cat</strong>
+                    +{' '}
+                    <strong>
+                      <FormattedMessage id="subscriptionDetail.addNewCat" />
+                    </strong>
                   </Link>
                 </div>
                 <img
@@ -2056,9 +2060,13 @@ class SubscriptionDetail extends React.Component {
       goodsInfoFlag
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
+    let currentGoodsItem = this.state.currentGoodsItems[0] || {};
     let deleteGoodsItems = {
+      goodsNum: currentGoodsItem.subscribeNum,
+      periodTypeId: currentGoodsItem.periodTypeId,
+      goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
       subscribeId,
-      skuId: this.state.currentGoodsItems[0]?.goodsInfoVO?.goodsInfoId
+      skuId: currentGoodsItem.goodsInfoVO?.goodsInfoId
     };
     if (buyWay) {
       addGoodsItems.periodTypeId = form.frequencyId;
@@ -2081,7 +2089,11 @@ class SubscriptionDetail extends React.Component {
     this.setState({ editRecommendationVisible: false });
   };
   showProdutctDetail = (id) => {
-    this.queryProductDetails(id);
+    this.queryProductDetails(id, () => {
+      this.closeChangeProduct();
+      this.closeRecommendation();
+      this.setState({ produtctDetailVisible: true });
+    });
   };
   closeProdutctDetail = () => {
     this.setState({ produtctDetailVisible: false });
@@ -2089,7 +2101,7 @@ class SubscriptionDetail extends React.Component {
   closeChangeProduct = () => {
     this.setState({ changeProductVisible: false });
   };
-  showChangeProduct = async (el) => {
+  queryProductList = async (el, cb) => {
     this.setState({ productListLoading: true });
     if (el) {
       this.setState({ currentGoodsItems: [el] });
@@ -2099,13 +2111,35 @@ class SubscriptionDetail extends React.Component {
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       console.info(res, 'res');
       this.setState({ productDetail: res.context }, () => {
-        this.setState({ changeProductVisible: true, details: {} }); //清空details
+        cb && cb();
       });
-      this.closeProdutctDetail();
-      this.closeRecommendation();
     } catch (err) {
     } finally {
       this.setState({ productListLoading: false });
+    }
+  };
+  doSthShow = () => {
+    this.closeProdutctDetail();
+    this.closeRecommendation();
+    this.setState({ changeProductVisible: true, details: {} }); //清空details
+  };
+  showChangeProduct = async (el, isNoModal) => {
+    if (!el) {
+      this.doSthShow();
+      return;
+    }
+    if (!isNoModal) {
+      this.queryProductList(el, () => {
+        this.doSthShow();
+      });
+    } else {
+      debugger;
+      this.queryProductList(el, () => {
+        // 查详情
+        debugger;
+        let id = this.state.productDetail.mainProduct?.spuCode;
+        this.queryProductDetails(id);
+      });
     }
   };
   getDetailModalInner = () => {
@@ -2162,12 +2196,10 @@ class SubscriptionDetail extends React.Component {
             <div className="p-f-result-box">
               <img className="m-auto" src={Club_Logo} alt="club icon" />
               <h4 className="red text-center mb-3 mt-3">
-                Your product recommendation
+                <FormattedMessage id="subscription.productRecommendation" />
               </h4>
               <p className=" text-center">
-                Based on your pet's profile,we recommend the below products to
-                meet your pets'needs. Please comfirm the product change to
-                update your subscription
+                <FormattedMessage id="subscription.productRecommendationTip" />
               </p>
             </div>
             <div className="p-f-result-box">
@@ -2203,7 +2235,7 @@ class SubscriptionDetail extends React.Component {
                     {productDetail.mainProduct?.subTitle}
                   </div>
                   <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
-                    your daily ration
+                    <FormattedMessage id="subscription.dailyRation" />
                   </div>
                   <div className="text-center mt-2">
                     {productDetail.mainProduct?.toPrice ? (
@@ -2380,14 +2412,20 @@ class SubscriptionDetail extends React.Component {
           modalTitle={''}
           close={this.closeChangeProduct}
         >
-          {productDetail?.recommendResult?.hasResult ? (
+          {productDetail?.mainProduct ? (
             this.ProductRecommendations()
           ) : (
             <div className="text-center">
               <p className="text-center red" style={{ fontSize: '1.5rem' }}>
-                This is currently the best product for{' '}
-                {subDetail.petsInfo?.petsName} based on{' '}
-                {subDetail.petsInfo?.petsSex ? 'his' : 'her'} pet profile!
+                <FormattedMessage id="switchProductTip1" />{' '}
+                {subDetail.petsInfo?.petsName}{' '}
+                <FormattedMessage id="switchProductTip2" />{' '}
+                {subDetail.petsInfo?.petsSex ? (
+                  <FormattedMessage id="switchProductTip.his" />
+                ) : (
+                  <FormattedMessage id="switchProductTip.her" />
+                )}
+                <FormattedMessage id="switchProductTip3" />!
               </p>
               <div className="d-flex align-items-center justify-content-center">
                 <img src={currentGoodsItem.goodsPic} />
@@ -4690,10 +4728,9 @@ class SubscriptionDetail extends React.Component {
                           style={{ padding: '5px', paddingLeft: '0' }}
                         >
                           <div
+                            className="h-100 border border-d7d7d7"
                             style={{
-                              border: '1px solid #d7d7d7',
-                              padding: '1.25rem',
-                              height: '225px'
+                              padding: '1.25rem'
                             }}
                           >
                             <div className="align-items-center">
@@ -4790,112 +4827,109 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div
-                          className={[
-                            'col-12',
-                            'col-md-4',
-                            'mb-2',
-                            process.env.REACT_APP_LANG == 'en'
-                              ? 'rc-hidden'
-                              : ''
-                          ].join(' ')}
-                          style={{ padding: '5px' }}
-                        >
+                        {/* 不是美国或者不隐藏支付checkout billing addr时，才显示billing addr */}
+                        {process.env.REACT_APP_LANG !== 'en' &&
+                        !Boolean(
+                          +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+                        ) ? (
                           <div
-                            style={{
-                              border: '1px solid #d7d7d7',
-                              padding: '1.25rem',
-                              height: '225px'
-                            }}
+                            className={`col-12 col-md-4 mb-2`}
+                            style={{ padding: '5px' }}
                           >
-                            <div className="align-items-center">
-                              <LazyLoad>
-                                <img
-                                  alt="billing Icon"
-                                  src={billingIcon}
-                                  style={{
-                                    width: '30px',
-                                    marginRight: '1.125rem',
-                                    display: 'inline-block'
-                                  }}
-                                />
-                              </LazyLoad>
-                              <span>
-                                <FormattedMessage id="billing2" />
-                              </span>
-                              {subDetail.subscribeStatus === '0' && (
-                                <a
-                                  className="rc-styled-link red-text"
-                                  style={{ float: 'right', marginTop: '5px' }}
-                                  onClick={() => {
-                                    window.scrollTo(0, 0);
-                                    this.setState({
-                                      type: 'AddressComp',
-                                      addressType: 'billing'
-                                    });
-                                  }}
-                                >
-                                  <FormattedMessage id="edit" />{' '}
-                                </a>
-                              )}
-                            </div>
-                            <div className="ml-1">
-                              <p className="mb-0">
-                                <span
-                                  className="medium"
-                                  style={{
-                                    fontSize: '1.125rem',
-                                    color: '#333',
-                                    margin: '25px 0 .625rem'
-                                  }}
-                                >
-                                  {currentBillingAddress.consigneeName}
+                            <div
+                              className="h-100 border border-d7d7d7"
+                              style={{
+                                padding: '1.25rem'
+                              }}
+                            >
+                              <div className="align-items-center">
+                                <LazyLoad>
+                                  <img
+                                    alt="billing Icon"
+                                    src={billingIcon}
+                                    style={{
+                                      width: '30px',
+                                      marginRight: '1.125rem',
+                                      display: 'inline-block'
+                                    }}
+                                  />
+                                </LazyLoad>
+                                <span>
+                                  <FormattedMessage id="billing2" />
                                 </span>
-                              </p>
-                              <p className="mb-0">
-                                {currentBillingAddress.consigneeNumber}
-                              </p>
-                              <p className="mb-0">
-                                {process.env.REACT_APP_LANG == 'en' ? null : (
-                                  <>
-                                    {this.state.countryList.length &&
-                                    this.state.countryList.filter(
-                                      (el) =>
-                                        el.id ===
-                                        currentBillingAddress.countryId
-                                    ).length
-                                      ? this.state.countryList.filter(
-                                          (el) =>
-                                            el.id ===
-                                            currentBillingAddress.countryId
-                                        )[0].valueEn
-                                      : currentBillingAddress.countryId}
-                                    ,
-                                  </>
+                                {subDetail.subscribeStatus === '0' && (
+                                  <a
+                                    className="rc-styled-link red-text"
+                                    style={{ float: 'right', marginTop: '5px' }}
+                                    onClick={() => {
+                                      window.scrollTo(0, 0);
+                                      this.setState({
+                                        type: 'AddressComp',
+                                        addressType: 'billing'
+                                      });
+                                    }}
+                                  >
+                                    <FormattedMessage id="edit" />{' '}
+                                  </a>
                                 )}
-                                {/* 省份 / State */}
-                                {currentBillingAddress?.province &&
-                                currentBillingAddress?.province != null
-                                  ? currentBillingAddress.province + ', '
-                                  : null}
-                                {currentBillingAddress.city}
-                              </p>
-                              <p className="mb-0">
-                                {currentBillingAddress.address1}
-                              </p>
+                              </div>
+                              <div className="ml-1">
+                                <p className="mb-0">
+                                  <span
+                                    className="medium"
+                                    style={{
+                                      fontSize: '1.125rem',
+                                      color: '#333',
+                                      margin: '25px 0 .625rem'
+                                    }}
+                                  >
+                                    {currentBillingAddress.consigneeName}
+                                  </span>
+                                </p>
+                                <p className="mb-0">
+                                  {currentBillingAddress.consigneeNumber}
+                                </p>
+                                <p className="mb-0">
+                                  {process.env.REACT_APP_LANG == 'en' ? null : (
+                                    <>
+                                      {this.state.countryList.length &&
+                                      this.state.countryList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentBillingAddress.countryId
+                                      ).length
+                                        ? this.state.countryList.filter(
+                                            (el) =>
+                                              el.id ===
+                                              currentBillingAddress.countryId
+                                          )[0].valueEn
+                                        : currentBillingAddress.countryId}
+                                      ,
+                                    </>
+                                  )}
+                                  {/* 省份 / State */}
+                                  {currentBillingAddress?.province &&
+                                  currentBillingAddress?.province != null
+                                    ? currentBillingAddress.province + ', '
+                                    : null}
+                                  {currentBillingAddress.city}
+                                </p>
+                                <p className="mb-0">
+                                  {currentBillingAddress.address1}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        ) : null}
                         {currentCardInfo ? (
                           <div
                             className="col-12 col-md-4 mb-2"
                             style={{ padding: '5px', paddingRight: '0' }}
                           >
                             <div
+                              className="h-100 border border-d7d7d7"
                               style={{
-                                border: '1px solid #d7d7d7',
-                                padding: '1.25rem',
-                                height: '225px'
+                                padding: '1.25rem'
                               }}
                             >
                               <div className="align-items-center">
@@ -5024,9 +5058,11 @@ class SubscriptionDetail extends React.Component {
               close={this.closeChangePets}
             >
               <h4 className="red text-center mb-3 mt-3">
-                Your product recommendation
+                <FormattedMessage id="subscription.productRecommendation" />
               </h4>
-              <p className="text-center">Please choose your options</p>
+              <p className="text-center">
+                <FormattedMessage id="subscription.chooseOption" />
+              </p>
               <div
                 style={{ padding: '.9375rem' }}
                 className="rc-outline-light rc-padding-y--sm"
