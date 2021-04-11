@@ -1066,10 +1066,16 @@ class SubscriptionDetail extends React.Component {
                     height: isMobile ? '70px' : 'auto'
                   }}
                   selectedItemChange={this.handleSelectedItemChange}
-                  optionList={this.frequencyListOptions.filter(
-                    (frequencyItem) =>
-                      frequencyItem.goodsInfoFlag === details.goodsInfoFlag
-                  )}
+                  optionList={this.frequencyListOptions.filter((el) => {
+                    if (
+                      this.state.details.promotions &&
+                      this.state.details.promotions.includes('club')
+                    ) {
+                      return el.goodsInfoFlag === 2;
+                    } else {
+                      return el.goodsInfoFlag === 1;
+                    }
+                  })}
                   selectedItemData={{
                     value: form.frequencyId
                   }}
