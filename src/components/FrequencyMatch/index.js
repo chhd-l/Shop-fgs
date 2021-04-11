@@ -1,3 +1,6 @@
+//  <FrequencyMatch currentId={item.periodTypeId}
+//  setState={this.setState.bind(this)}
+//  />
 import React, { useEffect, useState } from 'react';
 import { getFrequencyDict, matchNamefromDict } from '@/utils/utils';
 console.info('.....FrequencyMatch');
