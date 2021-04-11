@@ -1131,6 +1131,8 @@ const ru_RU = {
   'productFinder.helpTip1': 'У Вас есть вопросы?',
   'productFinder.helpTip2':
     'Our staff are true experts and passionate. They are at your disposal to answer any request.',
+  'productFinder.whyAreWeAskingThis': 'Почему этот вопрос?',
+  'productFinder.createMyPetProfile': 'Создать мой профиль животного',
   callUs: 'Свяжитесь с нами',
   emailUs: 'Напишите нам',
   'details.recommendedDaily':
@@ -1176,7 +1178,8 @@ const ru_RU = {
   'clubListData.tip3': 'Ваш персональный помощник Службы Заботы с 9 до 21 ',
   'clubListData.tip4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
-  'clubListData.tip5': 'Возможность изменения частоты доставок'
+  'clubListData.tip5': 'Возможность изменения частоты доставок',
+  'order.quantityText': '{specText} - {buyCount} товар (а/ов)'
 };
 
 export default ru_RU;
