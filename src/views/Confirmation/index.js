@@ -202,7 +202,7 @@ class Confirmation extends React.Component {
     this.setState({ isAllOneShootGoods });
 
     let isAllSubscriptionGoods = details.tradeItems.every((item) => {
-      return item.goodsInfoFlag == 1;
+      return item.goodsInfoFlag > 0;
     });
 
     if (isAllOneShootGoods || isAllSubscriptionGoods) {
