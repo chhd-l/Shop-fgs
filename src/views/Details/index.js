@@ -660,19 +660,21 @@ class Details extends React.Component {
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
         let defaultFrequencyId = 0;
+        console.log(goodsRes, toJS(configStore), 'goodsRes');
         if (goodsRes.promotions === 'club') {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
-            configStore.defaultSubscriptionClubFrequencyId ||
+            configStore.info.storeVO.defaultSubscriptionClubFrequencyId ||
             (clubDictRes[0] && clubDictRes[0].id) ||
             '';
         } else {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
-            configStore.defaultSubscriptionFrequencyId ||
+            configStore.info.storeVO.defaultSubscriptionFrequencyId ||
             (autoshipDictRes[0] && autoshipDictRes[0].id) ||
             '';
         }
+        console.log(defaultFrequencyId, 'defaultFrequencyId');
         this.setState(
           {
             purchaseTypeDict: purchaseTypeDictRes,
@@ -765,7 +767,7 @@ class Details extends React.Component {
               this.setDefaultPurchaseType({
                 id:
                   goodsRes.defaultPurchaseType ||
-                  configStore.defaultPurchaseType
+                  configStore.info.storeVO.defaultPurchaseType
               });
             }
           );
@@ -1487,36 +1489,38 @@ class Details extends React.Component {
       observer.observe(nodeBtn, config);
     }
   }
-  getFrequencyDictDom = () => (
-    <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
-      <span>
-        <FormattedMessage id="subscription.frequency" />:
-      </span>
-      <Selection
-        customContainerStyle={{
-          display: 'inline-block',
-          marginLeft: isMobile ? '50px' : '1.5rem',
-          height: isMobile ? '70px' : 'auto'
-        }}
-        customCls="text-left"
-        selectedItemChange={this.handleSelectedItemChange}
-        optionList={this.computedList.filter((el) => {
-          if (
-            this.state.details.promotions &&
-            this.state.details.promotions.includes('club')
-          ) {
-            return el.goodsInfoFlag === 2;
-          } else {
-            return el.goodsInfoFlag === 1;
-          }
-        })}
-        selectedItemData={{
-          value: this.state.form.frequencyId
-        }}
-        key={this.state.form.frequencyId}
-      />
-    </div>
-  );
+  getFrequencyDictDom = () => {
+    return (
+      <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
+        <span>
+          <FormattedMessage id="subscription.frequency" />:
+        </span>
+        <Selection
+          customContainerStyle={{
+            display: 'inline-block',
+            marginLeft: isMobile ? '50px' : '1.5rem',
+            height: isMobile ? '70px' : 'auto'
+          }}
+          customCls="text-left"
+          selectedItemChange={this.handleSelectedItemChange}
+          optionList={this.computedList.filter((el) => {
+            if (
+              this.state.details.promotions &&
+              this.state.details.promotions.includes('club')
+            ) {
+              return el.goodsInfoFlag === 2;
+            } else {
+              return el.goodsInfoFlag === 1;
+            }
+          })}
+          selectedItemData={{
+            value: this.state.form.frequencyId
+          }}
+          key={this.state.form.frequencyId}
+        />
+      </div>
+    );
+  };
 
   render() {
     const createMarkup = (text) => ({ __html: text });
@@ -2203,7 +2207,8 @@ class Details extends React.Component {
                                       <FormattedMessage id="freeShipping" />
                                     </div>
                                   </div>
-                                  {this.getFrequencyDictDom()}
+                                  {this.state.details.promotions &&
+                                    this.getFrequencyDictDom()}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
                                     <div>
                                       {formatMoney(
@@ -2314,7 +2319,8 @@ class Details extends React.Component {
                                       </span>
                                     </div>
                                   </div>
-                                  {this.getFrequencyDictDom()}
+                                  {this.state.details.promotions &&
+                                    this.getFrequencyDictDom()}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
                                     <div>
                                       {formatMoney(
