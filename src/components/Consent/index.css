@@ -42,3 +42,7 @@
 .required-component .footer-checkbox-title .rc-text-colour--brand1 {
   display: contents;
 }
+
+.required-component .form-check-input {
+  margin-left: -20px;
+}
