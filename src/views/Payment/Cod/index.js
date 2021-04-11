@@ -48,6 +48,7 @@ export default class Cod extends React.Component {
             >
               <FormattedMessage id="payment.codTip" />
             </label>
+            <span className="rc-text-colour--brand1">*</span>
           </div>
         </div>
       </div>
