@@ -900,7 +900,7 @@ class SubscriptionDetail extends React.Component {
               />
               <div className="rc-margin-left--xs">
                 <div>{details.goodsName}</div>
-                <div>{this.state.foodFllType}</div>
+                <div>{details.goodsSubtitle}</div>
               </div>
             </div>
             <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-margin-left--xs">
@@ -1804,7 +1804,11 @@ class SubscriptionDetail extends React.Component {
           <button
             className={`rc-btn rc-btn--one ${
               this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }`}
+            } ${
+              this.state.isDataChange && this.state.productListLoading
+                ? 'ui-btn-loading'
+                : ''
+            } `}
             style={{
               marginTop: isMobile ? '.625rem' : '0',
               marginRight: '1rem'
@@ -1849,9 +1853,13 @@ class SubscriptionDetail extends React.Component {
                 paddingRight: '0.5rem',
                 paddingLeft: '0.5rem'
               }}
-              className={`rc-styled-link ${
-                this.state.isGift ? 'disabled' : ''
-              }`}
+              className={`rc-styled-link${
+                !this.state.isGift && this.state.productListLoading
+                  ? 'ui-btn-loading'
+                  : ''
+              } 
+              ${this.state.isGift ? 'disabled' : ''}
+              `}
             >
               {subDetail.subscribeStatus === '0' ? (
                 <FormattedMessage id="subscription.pause" />
@@ -1898,6 +1906,10 @@ class SubscriptionDetail extends React.Component {
           <button
             className={`rc-btn rc-btn--one ${
               this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
+            }  ${
+              this.state.isDataChange && this.state.productListLoading
+                ? 'ui-btn-loading'
+                : ''
             }`}
             style={{
               marginTop: isMobile ? '.625rem' : '0',
@@ -1953,7 +1965,9 @@ class SubscriptionDetail extends React.Component {
                 paddingRight: '0.5rem',
                 paddingLeft: '4px'
               }}
-              className="rc-styled-link"
+              className={`rc-styled-link ${
+                this.state.productListLoading ? 'ui-btn-loading' : ''
+              }`}
               onClick={() => this.pauseOrStart(subDetail)}
             >
               {subDetail.subscribeStatus === '0' ? (
@@ -2179,7 +2193,7 @@ class SubscriptionDetail extends React.Component {
             </div>
             <div className="rc-column rc-double-width">
               <div className="title">{details.goodsInfoName}</div>
-              <div className="sub_title">{foodFllType}</div>
+              <div className="sub_title">{details.goodsSubtitle}</div>
               <div>
                 <div className="block">
                   <p
@@ -2189,14 +2203,6 @@ class SubscriptionDetail extends React.Component {
                     {details.goodsSubtitle}
                   </p>
                 </div>
-                {/* Royal Canin Jack Russell Terrier Adult dry dog food is designed
-                to meet the nutritional needs of purebred Jack Russell Terriers
-                10 months and older Royal Canin knows what makes your Jack
-                Russell Terrier magnificent is in the details. Small but mighty,
-                the Jack Russell is an energetic dog that requires a ton of
-                activity. They can benefit from the right diet to help maintain
-                muscle mass, protect their skin and coat, and help with dental
-                care, especially as your good-looking little pal becomes older. */}
               </div>
             </div>
           </div>
@@ -2480,6 +2486,7 @@ class SubscriptionDetail extends React.Component {
       action = pauseSubscription;
     }
     param.subscribeStatus = subscribeStatus;
+    this.setState({ productListLoading: true });
     try {
       let res = await action(param);
       // this.setState({ isActive: !isActive, subscribeStatus });
@@ -2488,7 +2495,7 @@ class SubscriptionDetail extends React.Component {
     } catch (err) {
       this.showErrMsg(err.message);
     } finally {
-      this.setState({ loading: false });
+      this.setState({ productListLoading: false });
     }
   };
   linkPets = async (petsId) => {
