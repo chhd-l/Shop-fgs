@@ -222,6 +222,7 @@ class PetForm extends React.Component {
             petList
           });
           if (currentPet) {
+            console.log(currentPet, 'currentPet');
             this.edit(currentPet);
             this.getSpecialNeeds(currentPet.customerPetsPropRelations);
             this.setState({
@@ -252,23 +253,6 @@ class PetForm extends React.Component {
       });
   };
 
-  petsById = async (id) => {
-    let params = {
-      petsId: id
-    };
-    this.setState({
-      loading: true
-    });
-    const res = await petsById(params);
-    let currentPet = res.context.context;
-    this.setState({
-      currentPet: currentPet,
-      showList: true,
-      loading: false,
-      currentPetId: currentPet.petsId
-    });
-    this.getSpecialNeeds(currentPet.customerPetsPropRelations);
-  };
   delPets = async (currentPet) => {
     // let params = { petsIds: [currentPet.petsId] };
     let params = { petsIds: [this.props.match.params.id] };
@@ -777,13 +761,6 @@ class PetForm extends React.Component {
       });
     }
   };
-  updateConfirmTooltipVisible = (status) => {
-    let { currentPet } = this.state;
-    currentPet.confirmTooltipVisible = status;
-    this.setState({
-      currentPet: currentPet
-    });
-  };
   onDateChange(date) {
     this.setState({
       birthdate: format(date, 'yyyy-MM-dd'),
@@ -855,7 +832,7 @@ class PetForm extends React.Component {
         filters: ''
       }
     };
-    const {
+    let {
       currentPet,
       selectedSpecialNeedsObj,
       selectedSizeObj,
@@ -864,6 +841,7 @@ class PetForm extends React.Component {
       isChoosePetType,
       isCat
     } = this.state;
+    console.log(currentPet, 'currentPet');
     return (
       <div className="petForm">
         <GoogleTagManager additionalEvents={event} />
@@ -1584,7 +1562,7 @@ class PetForm extends React.Component {
               </div>
             </div>
             {/* 土耳其、俄罗斯club绑定订阅 */}
-            {currentPet && getClubFlag() ? (
+            {currentPet.petsType && getClubFlag() ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}

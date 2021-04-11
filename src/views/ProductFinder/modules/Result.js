@@ -185,7 +185,7 @@ class ProductFinderResult extends React.Component {
     const questionlist = sessionItemRoyal.get('pf-questionlist');
     let petsInfo = {};
     clubSubscriptionSavePets({
-      questionParams: JSON.parse(res).queryParams
+      questionParams: JSON.parse(res) && JSON.parse(res).queryParams
     }).then((res) => {
       console.log(petsInfo, 'petsInfo');
     });

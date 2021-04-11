@@ -10,7 +10,7 @@ const api = {
   batchAddPets: '/pets/batchAddPets',
   getRecommendProducts: '/product/finder/pets/products',
   clubSubscriptionSavePets: '/pets/clubSubscriptionSavePets',
-  changeSubscriptionGoodsByPets: '/changeSubscriptionGoodsByPets'
+  changeSubscriptionGoodsByPets: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoodsByPets`
 };
 
 export default api;
