@@ -33,8 +33,6 @@ class CheckoutStore {
   @observable couponCodeFitFlag =
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
 
-  @observable isFromStorePortal = false;
-
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
   @observable GA_product = {};
 
@@ -579,11 +577,6 @@ class CheckoutStore {
   @action
   saveGAProduct(data) {
     localItemRoyal.set('rc-ga-product', data);
-  }
-
-  @action
-  changeFromStorePortal(data) {
-    this.isFromStorePortal = data;
   }
 }
 export default CheckoutStore;
