@@ -104,6 +104,7 @@ class SubscriptionDetail extends React.Component {
       quantityMinLimit: 1,
       foodFllType: '',
       quantity: 1,
+      loadingPage: false,
       // addGoodsItemquantity: 1,
       //订阅购物车参数
       subTotal: 0,
@@ -750,6 +751,7 @@ class SubscriptionDetail extends React.Component {
       });
       return false;
     }
+    this.setState({ loadingPage: true });
     await getPetList({
       customerId: this.userInfo.customerId,
       consumerAccount: this.userInfo.customerAccount
@@ -769,6 +771,9 @@ class SubscriptionDetail extends React.Component {
         // this.showErrorMsg(
         //   err.message || this.props.intl.messages.getDataFailed
         // );
+      })
+      .finally(() => {
+        this.setState({ loadingPage: false });
       });
   };
   changeTab(e, i) {
@@ -1853,11 +1858,7 @@ class SubscriptionDetail extends React.Component {
                 paddingRight: '0.5rem',
                 paddingLeft: '0.5rem'
               }}
-              className={`rc-styled-link${
-                !this.state.isGift && this.state.productListLoading
-                  ? 'ui-btn-loading'
-                  : ''
-              } 
+              className={`rc-styled-link
               ${this.state.isGift ? 'disabled' : ''}
               `}
             >
@@ -1965,9 +1966,7 @@ class SubscriptionDetail extends React.Component {
                 paddingRight: '0.5rem',
                 paddingLeft: '4px'
               }}
-              className={`rc-styled-link ${
-                this.state.productListLoading ? 'ui-btn-loading' : ''
-              }`}
+              className={`rc-styled-link`}
               onClick={() => this.pauseOrStart(subDetail)}
             >
               {subDetail.subscribeStatus === '0' ? (
@@ -2092,9 +2091,9 @@ class SubscriptionDetail extends React.Component {
     };
     let currentGoodsItem = this.state.currentGoodsItems[0] || {};
     let deleteGoodsItems = {
-      subscribeNum: currentGoodsItem.subscribeNum,
-      periodTypeId: currentGoodsItem.periodTypeId,
-      goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
+      // subscribeNum: currentGoodsItem.subscribeNum,
+      // periodTypeId: currentGoodsItem.periodTypeId,
+      // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
       subscribeId,
       skuId: currentGoodsItem.goodsInfoVO?.goodsInfoId
     };
@@ -2455,7 +2454,7 @@ class SubscriptionDetail extends React.Component {
                 <FormattedMessage id="switchProductTip3" />!
               </p>
               <div className="d-flex align-items-center justify-content-center">
-                <img src={currentGoodsItem.goodsPic} />
+                <img src={currentGoodsItem.goodsPic} style={{ width: '40%' }} />
                 <div>
                   <div className="red" style={{ fontSize: '1.5rem' }}>
                     {currentGoodsItem.goodsName}
@@ -2486,7 +2485,7 @@ class SubscriptionDetail extends React.Component {
       action = pauseSubscription;
     }
     param.subscribeStatus = subscribeStatus;
-    this.setState({ productListLoading: true });
+    this.setState({ loadingPage: true });
     try {
       let res = await action(param);
       // this.setState({ isActive: !isActive, subscribeStatus });
@@ -2495,17 +2494,22 @@ class SubscriptionDetail extends React.Component {
     } catch (err) {
       this.showErrMsg(err.message);
     } finally {
-      this.setState({ productListLoading: false });
+      this.setState({ loadingPage: false });
     }
   };
   linkPets = async (petsId) => {
     this.setState({ addNewPetLoading: true });
 
-    let { subscribeId } = this.state.subDetail;
+    let { subscribeId, goodsInfo } = this.state.subDetail;
+    let goodsItems = goodsInfo.map((item) => {
+      let skuId = item.skuId;
+      return { skuId };
+    });
     try {
       let param = {
         subscribeId,
-        petsId
+        petsId,
+        goodsItems
       };
       await this.doUpdateDetail(param);
       await this.getDetail();
@@ -2704,7 +2708,9 @@ class SubscriptionDetail extends React.Component {
             </Modal>
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
-                {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
+                {this.state.loadingPage ? (
+                  <Loading positionFixed="true" />
+                ) : null}
                 {/* <SideMenu type="Subscription" /> */}
                 {isMobile ? (
                   <div className="col-12 rc-md-down">
@@ -3303,6 +3309,7 @@ class SubscriptionDetail extends React.Component {
                                         </LazyLoad>
                                         {isClub && !!subDetail.petsId && (
                                           <span
+                                            style={{ whiteSpace: 'nowrap' }}
                                             className={`rc-styled-link ${
                                               this.state.productListLoading
                                                 ? 'ui-btn-loading'
