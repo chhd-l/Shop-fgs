@@ -736,6 +736,8 @@ const ru_RU = {
   printEbanx: 'Печать Ebanx',
   privacyPolicy: 'Политика конфиденциальности',
   proceedToTheDeletion: 'продолжить удаление',
+  'productFinder.ageErrorShow':
+    'Возрастной выбор должен быть больше 0 месяцев.',
   'productFinder.resultHlep':
     'Понедельник - пятница с 8 ч. 30 м. до 12 ч. 30 м.',
   'productFinder.resultPage': 'Пищевое питание',
@@ -743,6 +745,8 @@ const ru_RU = {
   'productFinder.tip2':
     'Эта анкета поможет вам выбрать рекомендованный корм для вашего питомца.',
   'productFinder.tip3': 'Ваш питомец ...',
+  'productFinder.rigisterMyPetProfile':
+    'Зарегистрируйте профиль своего питомца в RoyalCanin и получите уведомление, когда будет доступен лучший продукт.',
   productRating: 'Рейтинг товара',
   produtctNumber: 'Номер продукта',
   'profile.emailChoose':
@@ -1122,6 +1126,11 @@ const ru_RU = {
     'Ниже представлены продукты, которые лучше всего соответствуют потребностям Вашей кошки.',
   'productFinder.searchResultTip2':
     'Нажмите на рекомендации для получения дополнительной информации.',
+  'productFinder.searchResultTip1ForDog':
+    'Ниже приведены продукты, которые наилучшим образом соответствуют потребностям вашей собаки.',
+  'productFinder.searchResultTip3': 'Мы сожалеем!',
+  'productFinder.searchResultTip4':
+    'Самый точный корм для вашего питомца в настоящее время недоступен.',
   seeTheProduct: 'Посмотреть продукт',
   'productFinder.otherProductsToConsider': 'Другие рекомендуемые продукты',
   'productFinder.summary': 'Содержание',
@@ -1131,8 +1140,21 @@ const ru_RU = {
   'productFinder.helpTip1': 'У Вас есть вопросы?',
   'productFinder.helpTip2':
     'Our staff are true experts and passionate. They are at your disposal to answer any request.',
+  'productFinder.helpTip3':
+    'Получите помощь от нашего консультанта по домашним животным 123-456-789',
+  'productFinder.index': 'Поиск продукта',
   'productFinder.whyAreWeAskingThis': 'Почему этот вопрос?',
   'productFinder.createMyPetProfile': 'Создать мой профиль животного',
+  'productFinder.createMyPetProfileTip':
+    'Создайте профиль своего питомца в RoyalCanin и получайте рассылку новостей / специальные предложения, которые будут адаптированы для ваших питомцев.',
+  'productFinder.healthTip1':
+    'Если у вашей кошки проблемы со здоровьем, мы рекомендуем вам посетить ветеринара, чтобы найти оптимальное решение для питания, отвечающее индивидуальным потребностям вашего питомца.',
+  'productFinder.healthTip2':
+    'Вы также можете узнать больше о нашем ассортименте ветеринарных диет.',
+  'productFinder.healthTitle': 'Ветеринарное питание',
+  'productFinder.recoDesc':
+    'Чем больше мы узнаем о вашем питомце, тем лучше мы сможем предоставить наиболее точный корм с учетом его уникальных потребностей.',
+  'productFinder.recoTitle': 'Найдите подходящую еду.',
   callUs: 'Свяжитесь с нами',
   emailUs: 'Напишите нам',
   'details.recommendedDaily':
@@ -1179,7 +1201,12 @@ const ru_RU = {
   'clubListData.tip4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
   'clubListData.tip5': 'Возможность изменения частоты доставок',
-  'order.quantityText': '{specText} - {buyCount} товар (а/ов)'
+  'order.quantityText': '{specText} - {buyCount} товар (а/ов)',
+  year: 'Год',
+  month: 'Месяц',
+  searchBreed: 'Поиск породы',
+  answeredQuestions: 'Ответы на вопросы',
+  next: 'Следующий'
 };
 
 export default ru_RU;
