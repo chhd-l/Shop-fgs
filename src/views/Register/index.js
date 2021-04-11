@@ -315,7 +315,8 @@ class Register extends Component {
         window.scrollTo(0, 0);
         this.setState({
           circleLoading: false,
-          hasError: true
+          hasError: true,
+          errorMessage: err.message
         });
       });
   };
@@ -415,26 +416,26 @@ class Register extends Component {
                       role="alert"
                     >
                       <p>
-                        {errorMessage ? (
-                          errorMessage
-                        ) : (
-                          <div>
+                        <div>
+                          {errorMessage ? (
+                            errorMessage + '. '
+                          ) : (
                             <FormattedMessage id="registerErrorMessage" />
-                            <strong>
-                              <a
-                                href={
-                                  process.env.REACT_APP_LANG === 'en'
-                                    ? homePage + contactUrl
-                                    : homePage + helpUrl
-                                }
-                                className="rc-text-colour--brand1"
-                              >
-                                {' '}
-                                <FormattedMessage id="footer.email" />
-                              </a>
-                            </strong>
-                          </div>
-                        )}
+                          )}
+                          <strong>
+                            <a
+                              href={
+                                process.env.REACT_APP_LANG === 'en'
+                                  ? homePage + contactUrl
+                                  : homePage + helpUrl
+                              }
+                              className="rc-text-colour--brand1"
+                            >
+                              {' '}
+                              <FormattedMessage id="footer.email" />
+                            </a>
+                          </strong>
+                        </div>
                       </p>
                       <button
                         className="rc-btn rc-alert__close rc-close--xs rc-iconography"

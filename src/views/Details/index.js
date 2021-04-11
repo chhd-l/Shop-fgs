@@ -307,7 +307,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: 1, //0 - once/ 1 - frequency
+        buyWay: 1, //-1-None 0-One-off purchase 1-Subscription 2-Club
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -392,7 +392,7 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing } = this.state;
+    const { details, quantity, instockStatus, initing, form } = this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -406,19 +406,31 @@ class Details extends React.Component {
       instockStatus &&
       quantity &&
       (details.saleableFlag || !details.displayFlag) &&
-      addedFlag
+      addedFlag &&
+      form.buyWay !== -1
     );
   }
 
   setDefaultPurchaseType({ id }) {
+    const { promotions, details } = this.state;
     const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
       (ele) => ele.id && id && ele.id + '' === id + ''
     )[0];
     if (targetDefaultPurchaseTypeItem) {
+      let buyWay = 0;
+      let defaultPurchaseType = {
+        None: -1,
+        Subscription: 1,
+        'One-off purchase': 0
+      }[targetDefaultPurchaseTypeItem.valueEn];
+      if (defaultPurchaseType === 1) {
+        buyWay = details.promotions === 'club' ? 2 : 1;
+      } else {
+        buyWay = defaultPurchaseType;
+      }
       this.setState({
         form: Object.assign(this.state.form, {
-          buyWay:
-            targetDefaultPurchaseTypeItem.valueEn === 'Subscription' ? 1 : 0
+          buyWay
         })
       });
     }
@@ -639,6 +651,7 @@ class Details extends React.Component {
         }
         const res = resList[0];
         const frequencyDictRes = resList[1];
+        console.log(frequencyDictRes, 'frequencyDictRes');
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
         this.setState(
@@ -654,10 +667,6 @@ class Details extends React.Component {
             })
           },
           () => {
-            this.setDefaultPurchaseType({
-              id:
-                goodsRes.defaultPurchaseType || configStore.defaultPurchaseType
-            });
             this.hubGA && this.getComputedWeeks(this.state.frequencyList);
           }
         );
@@ -679,7 +688,7 @@ class Details extends React.Component {
               minMarketPrice: goodsRes.minMarketPrice,
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
-                promotions: this.state.details?.promotions?.toLowerCase(),
+                promotions: goods?.promotions?.toLowerCase(),
                 taggingForText: (taggingList || []).filter(
                   (e) =>
                     e.taggingType === 'Text' &&
@@ -737,6 +746,12 @@ class Details extends React.Component {
                   }
                 });
               }
+
+              this.setDefaultPurchaseType({
+                id:
+                  goodsRes.defaultPurchaseType ||
+                  configStore.defaultPurchaseType
+              });
             }
           );
           if (goodsRes.defaultFrequencyId) {
@@ -1295,8 +1310,8 @@ class Details extends React.Component {
     let cur_selected_size = item.sizeList.filter((item2) => {
       return item2.selected == true;
     });
-    let variant = cur_selected_size[0].specText;
-    let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
+    let variant = cur_selected_size[0]?.specText;
+    let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
     let { form } = this.state;
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
@@ -1307,11 +1322,12 @@ class Details extends React.Component {
               name: item.goodsName,
               id: item.goodsNo,
               club: 'no',
-              type: form.buyWay == 0 ? 'one-time' : 'subscription',
+              type: { 0: 'one-time', 1: 'subscription' }[form.buyWay] || '',
               price:
-                form.buyWay == 0
-                  ? cur_selected_size[0].marketPrice
-                  : cur_selected_size[0].subscriptionPrice,
+                {
+                  0: cur_selected_size[0]?.marketPrice,
+                  1: cur_selected_size[0]?.subscriptionPrice
+                }[form.buyWay] || 0,
               brand: item.brandName || 'Royal Canin',
               category: item.goodsCateName,
               variant: parseInt(variant),
@@ -1330,8 +1346,9 @@ class Details extends React.Component {
     dataLayer.push({
       event: 'pdpAddToCart',
       pdpAddToCartQuantity: this.state.quantity,
-      pdpAddToCartCtA:
-        this.state.form.buyWay === 0 ? 'One-Shot' : 'Subscription'
+      pdpAddToCartCtA: { 0: 'One-Shot', 1: 'Subscription' }[
+        this.state.form.buyWay
+      ]
     });
   }
 
@@ -1472,7 +1489,16 @@ class Details extends React.Component {
         }}
         customCls="text-left"
         selectedItemChange={this.handleSelectedItemChange}
-        optionList={this.computedList}
+        optionList={this.computedList.filter((el) => {
+          if (
+            this.state.details.promotions &&
+            this.state.details.promotions.includes('club')
+          ) {
+            return el.goodsInfoFlag === 2;
+          } else {
+            return el.goodsInfoFlag === 1;
+          }
+        })}
         selectedItemData={{
           value: this.state.form.frequencyId
         }}
@@ -1991,15 +2017,11 @@ class Details extends React.Component {
                             </div>
                             <div>
                               <div
-                                className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 1 ml-0 mr-0"
-                                key="123456789"
-                                aa="123456789"
-                                style={{
-                                  borderColor: !parseInt(form.buyWay)
-                                    ? '#e2001a'
-                                    : '#d7d7d7',
-                                  cursor: 'pointer'
-                                }}
+                                className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center 1 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                  form.buyWay === 0
+                                    ? 'border-red'
+                                    : 'border-d7d7d7'
+                                }`}
                                 onClick={this.ChangeFormat.bind(this, 0)}
                               >
                                 <div className="radioBox order-1 order-md-1 col-8 col-md-4">
@@ -2086,14 +2108,11 @@ class Details extends React.Component {
                               (!details.promotions ||
                                 !details.promotions.includes('club')) ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 2  ml-0 mr-0"
-                                  key="987654321"
-                                  style={{
-                                    borderColor: parseInt(form.buyWay)
-                                      ? '#e2001a'
-                                      : '#d7d7d7',
-                                    cursor: 'pointer'
-                                  }}
+                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center 2 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                    form.buyWay === 1
+                                      ? 'border-red'
+                                      : 'border-d7d7d7'
+                                  }`}
                                   onClick={this.ChangeFormat.bind(this, 1)}
                                 >
                                   <div className="radioBox order-1 order-md-1 col-8 col-md-4">
@@ -2212,14 +2231,11 @@ class Details extends React.Component {
                               details?.promotions &&
                               details.promotions.includes('club') ? (
                                 <div
-                                  className="buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0"
-                                  key="987654321"
-                                  style={{
-                                    borderColor: parseInt(form.buyWay)
-                                      ? '#e2001a'
-                                      : '#d7d7d7',
-                                    cursor: 'pointer'
-                                  }}
+                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                    form.buyWay === 2
+                                      ? 'border-red'
+                                      : 'border-d7d7d7'
+                                  }`}
                                   onClick={this.ChangeFormat.bind(this, 2)}
                                 >
                                   <div className="radioBox order-1 order-md-1 col-8 col-md-4">

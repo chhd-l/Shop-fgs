@@ -9,7 +9,8 @@ const api = {
   editPets: '/pets',
   batchAddPets: '/pets/batchAddPets',
   getRecommendProducts: '/product/finder/pets/products',
-  clubSubscriptionSavePets: '/pets/clubSubscriptionSavePets'
+  clubSubscriptionSavePets: '/pets/clubSubscriptionSavePets',
+  changeSubscriptionGoodsByPets: '/changeSubscriptionGoodsByPets'
 };
 
 export default api;
@@ -82,6 +83,14 @@ export function clubSubscriptionSavePets(parameter) {
   return axios({
     url: `${api.clubSubscriptionSavePets}`,
     method: 'post',
+    data: parameter
+  });
+}
+
+export function changeSubscriptionGoodsByPets(parameter) {
+  return axios({
+    url: `${api.changeSubscriptionGoodsByPets}`,
+    method: 'put',
     data: parameter
   });
 }
