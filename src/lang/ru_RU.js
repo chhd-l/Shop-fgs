@@ -1178,7 +1178,8 @@ const ru_RU = {
   'clubListData.tip3': 'Ваш персональный помощник Службы Заботы с 9 до 21 ',
   'clubListData.tip4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
-  'clubListData.tip5': 'Возможность изменения частоты доставок'
+  'clubListData.tip5': 'Возможность изменения частоты доставок',
+  'order.quantityText': '{specText} - {buyCount} товар (а/ов)'
 };
 
 export default ru_RU;
