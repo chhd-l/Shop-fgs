@@ -852,9 +852,7 @@ class Details extends React.Component {
             // g = Object.assign({}, g, { selected: false });
             g = Object.assign({}, g, {
               selected: i === 0,
-              questionParams:
-                sessionItemRoyal.get('pr-question-params') &&
-                JSON.parse(sessionItemRoyal.get('pr-question-params'))
+              petsId: localItemRoyal.get('pr-petsId')
             });
             let { form } = this.state;
             if (g.selected && !g.subscriptionStatus) {
@@ -919,9 +917,7 @@ class Details extends React.Component {
           sizeList = goodsInfos.map((g, i) => {
             g = Object.assign({}, g, {
               selected: i === 0,
-              questionParams:
-                sessionItemRoyal.get('pr-question-params') &&
-                JSON.parse(sessionItemRoyal.get('pr-question-params'))
+              petsId: localItemRoyal.get('pr-petsId')
             });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
@@ -1114,7 +1110,7 @@ class Details extends React.Component {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
         goodsInfoFlag,
-        productFinderFlag: currentSelectedSize.productFinderFlag
+        petsId: currentSelectedSize.petsId
       };
       if (buyWay) {
         param.periodTypeId = form.frequencyId;
@@ -1896,7 +1892,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {!sessionItemRoyal.get('pr-question-params') ? (
+                                {!sessionItemRoyal.get('pr-petsId') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
                                       <FormattedMessage id="details.recommendedDaily" />

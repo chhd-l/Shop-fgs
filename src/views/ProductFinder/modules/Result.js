@@ -177,18 +177,27 @@ class ProductFinderResult extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      petBaseInfo: null
+      petBaseInfo: null,
+      petsId: ''
     };
   }
   async componentDidMount() {
     const res = sessionItemRoyal.get('pf-result');
     const questionlist = sessionItemRoyal.get('pf-questionlist');
-    let petsInfo = {};
-    clubSubscriptionSavePets({
-      questionParams: JSON.parse(res) && JSON.parse(res).queryParams
-    }).then((res) => {
-      console.log(petsInfo, 'petsInfo');
-    });
+    // console.log(JSON.parse(res).queryParams, '11111')
+    if (!localItemRoyal.get('pr-petsId')) {
+      await clubSubscriptionSavePets({
+        questionParams: JSON.parse(res).queryParams
+      })
+        .then((res) => {
+          if (res.code === 'K-000000') {
+            let petsId = res.context;
+            localItemRoyal.set('pr-petsId', petsId);
+            this.setState({ petsId });
+          }
+        })
+        .catch((err) => {});
+    }
 
     if (res) {
       setSeoConfig({

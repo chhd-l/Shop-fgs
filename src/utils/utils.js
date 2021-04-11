@@ -104,8 +104,7 @@ export async function mergeUnloginCartData() {
         periodTypeId: ele.periodTypeId,
         invalid: false,
         goodsCategory: ele.goodsCategory,
-        productFinderFlag: find(ele.sizeList, (s) => s.selected)
-          .productFinderFlag
+        petsId: find(ele.sizeList, (s) => s.selected).petsId
       };
     })
   });
