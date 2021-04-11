@@ -7,6 +7,7 @@ import { getSubList } from '@/api/subscription';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { filterOrderId } from '@/utils/utils';
 const localItemRoyal = window.__.localItemRoyal;
 const AutoshipItem = ({ subItem, frequencyList, history }) => {
   const isMobile = getDeviceType() !== 'PC';
@@ -27,7 +28,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
                 paddingLeft: '1.25rem'
               }}
             >
-              {subItem.subscribeId}
+              {filterOrderId(subItem.subscribeId)}
             </p>
           </div>
           <div className="col-4 col-md-2" />
