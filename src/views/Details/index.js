@@ -412,15 +412,25 @@ class Details extends React.Component {
   }
 
   setDefaultPurchaseType({ id }) {
+    const { promotions, details } = this.state;
     const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
       (ele) => ele.id && id && ele.id + '' === id + ''
     )[0];
     if (targetDefaultPurchaseTypeItem) {
+      let buyWay = 0;
+      let defaultPurchaseType = {
+        None: -1,
+        Subscription: 1,
+        'One-off purchase': 0
+      }[targetDefaultPurchaseTypeItem.valueEn];
+      if (defaultPurchaseType === 1) {
+        buyWay = details.promotions === 'club' ? 2 : 1;
+      } else {
+        buyWay = defaultPurchaseType;
+      }
       this.setState({
         form: Object.assign(this.state.form, {
-          buyWay: { None: -1, Subscription: 1, 'One-off purchase': 0 }[
-            targetDefaultPurchaseTypeItem.valueEn
-          ]
+          buyWay
         })
       });
     }
@@ -641,6 +651,7 @@ class Details extends React.Component {
         }
         const res = resList[0];
         const frequencyDictRes = resList[1];
+        console.log(frequencyDictRes, 'frequencyDictRes');
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
         this.setState(
@@ -656,10 +667,6 @@ class Details extends React.Component {
             })
           },
           () => {
-            this.setDefaultPurchaseType({
-              id:
-                goodsRes.defaultPurchaseType || configStore.defaultPurchaseType
-            });
             this.hubGA && this.getComputedWeeks(this.state.frequencyList);
           }
         );
@@ -681,7 +688,7 @@ class Details extends React.Component {
               minMarketPrice: goodsRes.minMarketPrice,
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
-                promotions: this.state.details?.promotions?.toLowerCase(),
+                promotions: goods?.promotions?.toLowerCase(),
                 taggingForText: (taggingList || []).filter(
                   (e) =>
                     e.taggingType === 'Text' &&
@@ -739,6 +746,12 @@ class Details extends React.Component {
                   }
                 });
               }
+
+              this.setDefaultPurchaseType({
+                id:
+                  goodsRes.defaultPurchaseType ||
+                  configStore.defaultPurchaseType
+              });
             }
           );
           if (goodsRes.defaultFrequencyId) {
@@ -1476,7 +1489,16 @@ class Details extends React.Component {
         }}
         customCls="text-left"
         selectedItemChange={this.handleSelectedItemChange}
-        optionList={this.computedList}
+        optionList={this.computedList.filter((el) => {
+          if (
+            this.state.details.promotions &&
+            this.state.details.promotions.includes('club')
+          ) {
+            return el.goodsInfoFlag === 2;
+          } else {
+            return el.goodsInfoFlag === 1;
+          }
+        })}
         selectedItemData={{
           value: this.state.form.frequencyId
         }}

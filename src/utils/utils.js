@@ -515,34 +515,33 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   return url;
 }
 
-export async function getFrequencyDict() {
-  return Promise.all([
+export async function getFrequencyDict(frequencyType) {
+  let autoShipFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day' }),
     getDictionary({ type: 'Frequency_week' }),
     getDictionary({ type: 'Frequency_month' })
-  ]).then((res) => {
-    return Promise.resolve(flatten(res));
+  ]);
+  autoShipFrequency = flatten(autoShipFrequency).map((el) => {
+    el.goodsInfoFlag = 1;
+    return el;
   });
-  let autoShipFrequency = Promise.all([
-    getDictionary({ type: 'Frequency_day' }),
-    getDictionary({ type: 'Frequency_week' }),
-    getDictionary({ type: 'Frequency_month' })
-  ]).then((res) => {
-    return Promise.resolve(flatten(res));
-  });
-
-  let clubFrequency = Promise.all([
+  let clubFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day_club' }),
     getDictionary({ type: 'Frequency_week_club' }),
     getDictionary({ type: 'Frequency_month_club' })
-  ]).then((res) => {
-    return Promise.resolve(flatten(res));
+  ]);
+  clubFrequency = flatten(clubFrequency).map((el) => {
+    el.goodsInfoFlag = 2;
+    return el;
   });
-
-  return {
-    autoShipFrequency,
-    clubFrequency
-  };
+  console.log(clubFrequency, autoShipFrequency, 'autoShipFrequency');
+  if (!frequencyType) {
+    return Promise.resolve(autoShipFrequency.concat(clubFrequency));
+  } else if (frequencyType === 'club') {
+    return Promise.resolve(clubFrequency);
+  } else {
+    return Promise.resolve(autoShipFrequency);
+  }
 }
 
 /**

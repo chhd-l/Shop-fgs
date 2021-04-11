@@ -877,7 +877,9 @@ class UnLoginCart extends React.Component {
                       activeToolTipIndex={this.state.activeToolTipIndex}
                       index={index}
                       toolTipVisible={this.state.toolTipVisible}
-                      computedList={this.computedList}
+                      computedList={this.computedList.filter(
+                        (el) => el.goodsInfoFlag === pitem.goodsInfoFlag
+                      )}
                       chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
                         this,
                         {
@@ -900,7 +902,9 @@ class UnLoginCart extends React.Component {
                       activeToolTipIndex={this.state.activeToolTipIndex}
                       index={index}
                       toolTipVisible={this.state.toolTipVisible}
-                      computedList={this.computedList}
+                      computedList={this.computedList.filter(
+                        (el) => el.goodsInfoFlag === pitem.goodsInfoFlag
+                      )}
                       chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
                         this,
                         {
