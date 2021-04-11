@@ -1256,6 +1256,7 @@ const en_US = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'View Detail',
-  Expire: 'Expire'
+  Expire: 'Expire',
+  pirceRange: 'From {fromPrice} to {toPrice}'
 };
 export default en_US;
