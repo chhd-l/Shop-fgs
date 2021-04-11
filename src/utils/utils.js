@@ -827,11 +827,11 @@ export function getClubFlag() {
   return ['tr', 'ru', 'de'].indexOf(process.env.REACT_APP_LANG) > -1;
 }
 
-//美国订单号去掉RCFU或者SRCFU开头
+//美国订单号去掉RCFUS开头
 export const filterOrderId = (orderId) => {
   return (
     {
-      en: orderId.replace(/RCFU|SRCFU/, '')
+      en: orderId.replace(/RCFUS/, '')
     }[process.env.REACT_APP_LANG] || orderId
   );
 };

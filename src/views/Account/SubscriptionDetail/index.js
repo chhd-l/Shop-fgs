@@ -25,6 +25,7 @@ import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
 import play_png from './images/play.png';
 import Club_Logo from '@/assets/images/Logo_club.png';
+import { filterOrderId } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -2865,7 +2866,7 @@ class SubscriptionDetail extends React.Component {
                         style={{ color: '#666' }}
                       >
                         {subDetail.subscribeId ? (
-                          <span>{`${subDetail.subscribeId}`}</span>
+                          <span>{filterOrderId(subDetail.subscribeId)}</span>
                         ) : null}
                         {this.statusText()}
                       </h4>
