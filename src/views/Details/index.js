@@ -53,6 +53,7 @@ import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
+import { getGoodsRelation } from '@/api/details';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -329,7 +330,8 @@ class Details extends React.Component {
       descContent: '',
       contactUs: '',
       ccidBtnDisplay: false,
-      relatedGoods: []
+      relatedGoods: [],
+      goodsList: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -591,6 +593,7 @@ class Details extends React.Component {
   async queryDetails() {
     const { configStore } = this.props;
     const { id, goodsNo } = this.state;
+    let that = this;
     let requestName;
     let param;
     if (goodsNo) {
@@ -658,6 +661,15 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
+          // getGoodsRelation(goodsRes.goodsId).then((res) => {
+          //   console.log(that)
+          //   debugger
+          //   that.setState(
+          //     {
+          //       goodsList: res.context.goods
+          //     }
+          //   );
+          // });
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -2498,12 +2510,9 @@ class Details extends React.Component {
               </>
             ) : null}
             <Help />
-            <ResponsiveCarousel
-              location={location}
-              history={history}
-              goodsId={goodsId}
-              key={goodsId}
-            />
+            {/* <ResponsiveCarousel
+              goodsList={this.state.goodsList}
+            /> */}
             <Footer />
           </main>
         )}
