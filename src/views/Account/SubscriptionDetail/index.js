@@ -2934,15 +2934,6 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.goodsName}
                                   </h3>
-                                  {/* <p
-                                style={{
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  marginBottom: '8px'
-                                }}
-                              >
-                                Dog food
-                              </p> */}
                                   <p
                                     style={{
                                       overflow: 'hidden',
@@ -3133,7 +3124,11 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     <Selection
-                                      optionList={this.frequencyListOptions}
+                                      optionList={this.frequencyListOptions.filter(
+                                        (frequencyItem) =>
+                                          frequencyItem.goodsInfoFlag ===
+                                          el.goodsInfoFlag
+                                      )}
                                       selectedItemChange={(data) => {
                                         if (el.periodTypeId !== data.id) {
                                           el.periodTypeId = data.id;
@@ -3512,7 +3507,11 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     >
                                       <Selection
-                                        optionList={this.frequencyListOptions}
+                                        optionList={this.frequencyListOptions.filter(
+                                          (frequencyItem) =>
+                                            frequencyItem.goodsInfoFlag ===
+                                            el.goodsInfoFlag
+                                        )}
                                         selectedItemChange={(data) => {
                                           if (el.periodTypeId !== data.id) {
                                             el.periodTypeId = data.id;
