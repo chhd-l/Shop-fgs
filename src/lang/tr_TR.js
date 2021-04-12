@@ -307,7 +307,7 @@ const tr_TR = {
   expirationDateIsInvalid: 'kartınızın son kullanma tarihi geçersiz',
   'faq.frequentQuestions': 'Sık sorulan sorular',
   'faq.title':
-    'Tienes alguna pregunta. Consulta nuestras preguntas daha çok frecuentes. Si no encuentras lo que estás buscando, haz clic {val1} para contactarnos. ',
+    'Tienes alguna pregunta. Consulta nuestras preguntas daha çok frecuentes. Si no encuentras lo que estás buscando, haz clic {val1} para contactarnos. ',
   'faq.title2': 'Entrega del alimento',
   filters: 'Ürünleri filtrele',
   findLocation: 'Yer Bul',
@@ -425,7 +425,7 @@ const tr_TR = {
   'home.specialInfo2': 'benzersizliğinde.',
   'home.specialInfo3': 'Onları benzersiz kılan şeyin ne olduğunu bulun!',
   'home.specialInfo4':
-    '50 yılı aşkın süredir, Her şeyden önce köpekler ve kediler için esenlik ilkesini izliyoruz. Hayvanların özel ihtiyaçlarına göre uyarlanmış yemler üretiyoruz. ',
+    '50 yılı aşkın süredir, Her şeyden önce köpekler ve kediler için esenlik ilkesini izliyoruz. Hayvanların özel ihtiyaçlarına göre uyarlanmış yemler üretiyoruz. ',
   'home.viewProducts': 'Ürünleri Görüntüle',
   homePage: 'Ana Sayfa',
   iHaveReadThe: 'Okudum',
@@ -494,7 +494,7 @@ const tr_TR = {
   newAddress: 'Yeni adres',
   newPassword: 'Yeni Şifre',
   noClinicTip:
-    'Öneri kodunuz geçerli değil. {val} ve geçerli bir kod için ortak kliniklerimizden kontrol edin.',
+    'Öneri kodunuz geçerli değil. {val} ve geçerli bir kod için ortak kliniklerimizden kontrol edin.',
   NoPromotionDesc: 'Promosyon Yok',
   noSpecialNeeds: 'Özel ihtiyaç yok',
   notate: '',
