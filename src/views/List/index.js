@@ -1033,7 +1033,7 @@ class List extends React.Component {
   }
 
   // hub商品列表 埋点
-  hubGAProductImpression(productList, totalElements, keywords) {
+  hubGAProductImpression(productList, totalElements, keywords, type) {
     const products = productList.map((item, index) => {
       const {
         minMarketPrice,
@@ -1074,13 +1074,14 @@ class List extends React.Component {
       products
     });
 
-    dataLayer.push({
-      event: 'plpScreenLoad',
-      plpScreenLoad: {
-        nbResults: totalElements,
-        userRequest: keywords || ''
-      }
-    });
+    type !== 'pageChange' &&
+      dataLayer.push({
+        event: 'plpScreenLoad',
+        plpScreenLoad: {
+          nbResults: totalElements,
+          userRequest: keywords || ''
+        }
+      });
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
@@ -1842,7 +1843,8 @@ class List extends React.Component {
                 ? this.hubGAProductImpression(
                     esGoodsPage.content,
                     totalElements,
-                    keywords
+                    keywords,
+                    type
                   )
                 : this.GAProductImpression(
                     esGoodsPage.content,

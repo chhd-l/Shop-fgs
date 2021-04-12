@@ -458,7 +458,7 @@ class Register extends Component {
                     >
                       <FormattedMessage id="registerWelcome" />{' '}
                       <span className="rc-text-colour--brand1">
-                        Royal Canin
+                        <FormattedMessage id="register.royalCanin" />
                       </span>
                     </h2>
                     <p className="rc-margin-bottom--none text-center">
