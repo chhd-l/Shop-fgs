@@ -1033,18 +1033,26 @@ class List extends React.Component {
   }
 
   // hub商品列表 埋点
-  hubGAProductImpression(productList, totalElements, keywords, type) {
+  hubGAProductImpression(
+    productList,
+    goodsList,
+    totalElements,
+    keywords,
+    type
+  ) {
     const products = productList.map((item, index) => {
       const {
-        minMarketPrice,
+        fromPrice,
         goodsCate,
-        goodsNo,
         goodsInfos,
         goodsBrand,
         goodsName,
         goodsAttributesValueRelVOAllList = [],
         goodsCateName
       } = item;
+      const goodsNo = goodsList.filter(
+        (good) => good.goodsName == goodsName
+      )?.[0]?.goodsNo;
       const breed = goodsAttributesValueRelVOAllList
         .filter(
           (attr) =>
@@ -1056,7 +1064,7 @@ class List extends React.Component {
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
-        price: minMarketPrice,
+        price: fromPrice,
         specie,
         range: cateName?.[1] || '',
         name: goodsName,
@@ -1094,7 +1102,7 @@ class List extends React.Component {
   hubGAPageChange(productList) {
     const products = productList.map((item, index) => {
       const {
-        minMarketPrice,
+        fromPrice,
         goodsCate,
         goodsNo,
         goodsInfos,
@@ -1114,7 +1122,7 @@ class List extends React.Component {
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
-        price: minMarketPrice,
+        price: fromPrice,
         specie,
         range: cateName?.[1] || '',
         name: goodsName,
@@ -1842,6 +1850,7 @@ class List extends React.Component {
               this.hubGA
                 ? this.hubGAProductImpression(
                     esGoodsPage.content,
+                    res.context.goodsList,
                     totalElements,
                     keywords,
                     type

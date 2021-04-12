@@ -271,6 +271,7 @@ const ru_RU = {
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
+  confirmDeleteAddress: 'Вы хотите удалить адрес?',
   confirmDelete2: 'Вы хотите удалить данный способ оплаты?',
   confirmDeleteProduct: 'Вы уверены, что хотите удалить этот товар из корзины?',
   confirmPassword: 'Подтвердить Пароль *',
@@ -1220,7 +1221,8 @@ const ru_RU = {
   answeredQuestions: 'Ответы на вопросы',
   next: 'Следующий',
   pirceRange: 'От {fromPrice} к {toPrice}',
-  'petform.subscription': 'Affiliate Subscriptions'
+  'petform.subscription': 'Affiliate Subscriptions',
+  'pet.deletePet': 'Удалить профиль питомца'
 };
 
 export default ru_RU;

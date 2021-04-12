@@ -590,7 +590,7 @@ class PetForm extends React.Component {
     };
     try {
       if (currentPet.weight) {
-        weightObj = JSON.parse(JSON.parse(currentPet.weight));
+        weightObj = JSON.parse(currentPet.weight);
       }
     } catch (e) {}
     let param = {

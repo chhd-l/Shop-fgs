@@ -236,6 +236,7 @@ const de_DE = {
     'Sie sparen {val1} bei diesem Abonnement',
   'confirmation.visitOnlineStore': 'Online-Shop besuchen',
   confirmDelete: 'Möchten Sie den Artikel löschen?',
+  confirmDeleteAddress: 'Möchten Sie den Artikel löschen?',
   confirmDelete2: 'Möchten Sie den Artikel löschen?',
   confirmDeleteProduct:
     'Sind Sie sicher, dass Sie dieses Produkt aus dem Warenkorb entfernen möchten ?',
