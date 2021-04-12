@@ -10,6 +10,7 @@ import gifticon from './image/pictogifts@4x.png';
 import spetadviser from './image/pictospetadviser@4x.png';
 import shippingicon from './image/pictoshipping@4x.png';
 import nutrition from './image/pictonutrition@4x.png';
+import landingBanner from './image/landing-banner.jpg';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 const clubListData = [
@@ -476,20 +477,23 @@ const GoodsDetailTabs = function (props) {
                             alt={item.alt}
                             className="m-auto rc-margin--none--desktop"
                           />
-                          <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
-                            <p style={{ textAlign: 'left' }}>{item.text}</p>
+                          <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
+                            <p className="mb-0" style={{ textAlign: 'left' }}>
+                              {item.text}
+                            </p>
                           </div>
                         </div>
                       ))}
                     </div>
                     <div className="col-12 col-md-6">
                       <div className="rc-video-wrapper">
-                        <iframe
+                        <img />
+                        {/* <iframe
                           src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com"
                           allowfullscreen=""
                           frameborder="0"
                           title="making a better world for pets"
-                        />
+                        /> */}
                       </div>
                     </div>
                   </div>

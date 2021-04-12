@@ -6,11 +6,12 @@ import howitworck3 from './ClubImage/howit3.png';
 import howitworck4 from './ClubImage/howit4.png';
 import workflowicon from './ClubImage/howitworkflow.png';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import './index.css';
 
 const HowItWorks = (props) => {
   return (
     <div
-      className="experience-component experience-layouts-1column"
+      className="experience-component experience-layouts-1column how_it_work"
       id={props.id}
     >
       <div className="row rc-margin-x--none">
@@ -103,7 +104,10 @@ const HowItWorks = (props) => {
                 <div>
                   <article>
                     <div className="rc-card__body">
-                      <p className="rc-card__meta">
+                      <p
+                        className="rc-card__meta"
+                        style={{ padding: '0 1rem' }}
+                      >
                         <h5>
                           <FormattedMessage id="club.howitworks.img3.titile" />
                         </h5>
