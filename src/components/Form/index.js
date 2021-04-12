@@ -105,10 +105,19 @@ class Form extends React.Component {
 
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
+      console.log(
+        '109 -------------★ EditForm caninForm: ',
+        this.state.caninForm
+      );
     });
 
     // 1、查询form表单配置开关
     this.getSystemFormConfig();
+
+    // 如果有regionId
+    if (initData?.regionId && initData?.regionId != '') {
+      this.getRegionDataByCityId(initData.cityId);
+    }
   }
   // 1、查询form表单配置开关
   getSystemFormConfig = async () => {
@@ -400,6 +409,7 @@ class Form extends React.Component {
   };
   // 6-2、根据cityId查询region
   getRegionDataByCityId = async (cityId) => {
+    const { caninForm } = this.state;
     try {
       const res = await getRegionByCityId({ cityId: cityId });
       if (res?.context?.systemRegions) {
@@ -412,6 +422,14 @@ class Form extends React.Component {
             no: item.regionNo
           };
           regarr.push(res);
+          // 赋值region
+          if (caninForm?.regionId == item.id) {
+            caninForm.regionId = item.id;
+            caninForm.region = item.regionName;
+            this.setState({
+              caninForm
+            });
+          }
         });
         this.setState({
           regionList: Object.assign(obj, regarr)
