@@ -1532,6 +1532,7 @@ class Details extends React.Component {
               return el.goodsInfoFlag === 1;
             }
           })}
+          wider={true}
           selectedItemData={{
             value: this.state.form.frequencyId
           }}
@@ -1589,6 +1590,9 @@ class Details extends React.Component {
       details.displayFlag; //vet产品并且是hub的情况下
     const De = process.env.REACT_APP_LANG === 'de';
     const Ru = process.env.REACT_APP_LANG === 'ru';
+    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const sptGoods = goodsType === 0 || goodsType === 1;
+    const trSpt = Tr && sptGoods;
     const goodHeading = `<${headingTag || 'h2'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
@@ -1877,7 +1881,8 @@ class Details extends React.Component {
                             isHub &&
                             PC &&
                             !Ru &&
-                            !exclusiveFlag ? (
+                            !exclusiveFlag &&
+                            !trSpt ? (
                               <BuyFromRetailerBtn
                                 ccidBtnDisplay={ccidBtnDisplay}
                                 barcode={barcode}
@@ -2412,7 +2417,8 @@ class Details extends React.Component {
                                 !bundle &&
                                 isHub &&
                                 !Ru &&
-                                !exclusiveFlag ? (
+                                !exclusiveFlag &&
+                                !trSpt ? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -2542,7 +2548,8 @@ class Details extends React.Component {
                 !bundle &&
                 isHub &&
                 !Ru &&
-                !exclusiveFlag ? (
+                !exclusiveFlag &&
+                !trSpt ? (
                   <BuyFromRetailerBtn
                     ccidBtnDisplay={ccidBtnDisplay}
                     barcode={barcode}

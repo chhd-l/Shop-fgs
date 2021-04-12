@@ -1,6 +1,6 @@
 #测试环境(俄罗斯)
 REACT_APP_ACCESS_PATH = http://localhost:3000
-REACT_APP_CLIENT_ID = 0oarqqrm2e3IPnUib0h7
+REACT_APP_CLIENT_ID = 0oaxwyztoygwxy1cJ0h7
 REACT_APP_ISSUER = https://accountdev.royalcanin.com/oauth2/default
 REACT_APP_RedirectURL = https://shopuat.466920.com/ru/implicit/callback
 REACT_APP_RegisterPrefix = https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=

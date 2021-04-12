@@ -160,7 +160,7 @@ class LoginCart extends React.Component {
           data-loc="miniCartOrderBtn"
           onClick={this.clickBasket}
         >
-          <em className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></em>
+          <em className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive" />
           {totalNum > 0 ? (
             <span className="minicart-quantity">{totalNum}</span>
           ) : (
@@ -206,7 +206,7 @@ class LoginCart extends React.Component {
                 <div className="minicart__header cart--head small">
                   <span className="minicart__pointer" />
                   <div className="d-flex minicart_freeshipping_info align-items-center">
-                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></em>
+                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
                     <p>
                       {process.env.REACT_APP_IS_PROMOTION === 'true' ? (
                         <FormattedMessage id="cart.miniCartTitle" />
@@ -373,7 +373,7 @@ class LoginCart extends React.Component {
                                       <div className="line-item-total-price justify-content-start pull-left">
                                         <div className="item-attributes">
                                           <p className="line-item-attributes">
-                                            <FormattedMessage id="subscription.frequency" />
+                                            <FormattedMessage id="minicart.frequency" />
                                             :{' '}
                                             {(frequencyList || []).filter(
                                               (el) =>
@@ -419,8 +419,8 @@ class LoginCart extends React.Component {
                                   ) : null}
                                 </div>
                               </div>
-                              <div className="item-options"></div>
-                              <div className="line-item-promo item-07984de212e393df75a36856b6"></div>
+                              <div className="item-options" />
+                              <div className="line-item-promo item-07984de212e393df75a36856b6" />
                             </div>
                             {toJS(item.subscriptionPlanGiftList)
                               ? toJS(item.subscriptionPlanGiftList).map(
@@ -458,7 +458,7 @@ class LoginCart extends React.Component {
                                             fontSize: '.75rem'
                                           }}
                                         >
-                                          x1           
+                                          x1
                                           <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
                                         </div>
                                       </div>

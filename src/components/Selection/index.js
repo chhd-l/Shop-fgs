@@ -122,7 +122,7 @@ export default class Selection extends React.Component {
     e.stopPropagation();
   };
   render() {
-    const { optionList, customStyleType } = this.props;
+    const { optionList, customStyleType, wider } = this.props;
     const {
       dataList,
       selectedItem,
@@ -147,7 +147,7 @@ export default class Selection extends React.Component {
           }`}
           role="listbox"
           tabIndex="1"
-          data-type={customStyleType}
+          data-type={customStyleType || (wider ? 'select-wider' : '')}
           style={{ cursor: this.props.disabled ? 'auto' : 'pointer' }}
           onClick={this.toggleShowOptions}
         >

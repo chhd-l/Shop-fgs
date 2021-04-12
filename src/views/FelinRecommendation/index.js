@@ -566,8 +566,8 @@ class FelinRecommendation extends React.Component {
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let { productList, activeIndex, currentModalObj, isMobile } = this.state;
-    let MaxPrice = productList[activeIndex]?.goodsInfo.marketPrice;
-    let MinPrice = productList[activeIndex]?.goodsInfo.salePrice;
+    let MaxPrice = productList[activeIndex]?.goodsInfo.marketPrice * 100; //storeportal配置的是每10g多少欧元，现在前端需要乘以100，表示每kg多少钱
+    let MinPrice = productList[activeIndex]?.goodsInfo.salePrice * 100;
     console.info('productList[activeIndex]', productList[activeIndex]);
     console.info(
       'productLis[activeIndex]productList[activeIndex]?.goodsInfo',

@@ -221,6 +221,7 @@ const es_ES = {
   'confirmation.subscriptionDiscountPriceDes': 'Salvaste {val1} con la marca',
   'confirmation.visitOnlineStore': 'Visita tienda online',
   confirmDelete: '¿Confirmas eliminar?',
+  confirmDeleteAddress: '¿Confirmas eliminar?',
   confirmDelete2: '¿Confirmas eliminar?',
   confirmDeleteProduct:
     '¿Está seguro de que desea eliminar este producto del carrito de la compra ?',
@@ -897,6 +898,7 @@ const es_ES = {
   'subscription.deliveryDate': 'Próxima fecha de entrega',
   'subscription.detail': 'Detalle de suscripción',
   'subscription.frequency': 'Frecuencia',
+  'minicart.frequency': 'Frecuencia',
   'subscription.nextOrder': 'Siguiente pedido',
   'subscription.noDataTip': 'Sin subscripción',
   'subscription.notYet': 'Todavía no se ha enviado',
