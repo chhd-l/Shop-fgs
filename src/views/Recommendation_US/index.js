@@ -9,13 +9,14 @@ import BannerTip from '@/components/BannerTip';
 import noPic from '@/assets/images/noPic.png';
 import ImageMagnifier from './components/ImageMagnifier';
 import UsAndRu from './components/UsAndRu';
-
+import Fr from './components/Fr';
 import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import {
   getRecommendationList,
-  getRecommendationList_fr
+  getRecommendationList_prescriberId,
+  getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { getPrescriptionById } from '@/api/clinic';
@@ -35,6 +36,7 @@ import { Helmet } from 'react-helmet';
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = process.env.REACT_APP_LANG === 'en';
 const isRu = process.env.REACT_APP_LANG === 'ru';
+const isFr = process.env.REACT_APP_LANG === 'fr';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -195,12 +197,14 @@ class Recommendation extends React.Component {
       }
     );
   };
+
   async componentDidMount() {
     // let paramArr = this.props.location.search.split('&');
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
+    let prescription = getParaByName(search, 'prescription');
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
@@ -208,8 +212,14 @@ class Recommendation extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
-
-    getRecommendationList_fr(token)
+    let params = token;
+    let requestName = getRecommendationList_token;
+    if (isFr) {
+      requestName = getRecommendationList_prescriberId;
+      params = prescription;
+    }
+    debugger;
+    requestName(params)
       .then(async (res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
@@ -702,6 +712,23 @@ class Recommendation extends React.Component {
     }
   };
   render(h) {
+    let otherShow = {
+      ru: (
+        <UsAndRu
+          buttonLoading={this.state.buttonLoading}
+          inStockProducts={this.state.inStockProducts}
+          addCart={this.addCart}
+        />
+      ),
+      en: (
+        <UsAndRu
+          buttonLoading={this.state.buttonLoading}
+          inStockProducts={this.state.inStockProducts}
+          addCart={this.addCart}
+        />
+      ),
+      fr: <Fr />
+    };
     let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
       page: {
@@ -1168,11 +1195,8 @@ class Recommendation extends React.Component {
             </div>
           )}
           <Test />
-          <UsAndRu
-            buttonLoading={this.state.buttonLoading}
-            inStockProducts={this.state.inStockProducts}
-            addCart={this.addCart}
-          />
+          {/* {this.otherShow()[process.env.REACT_APP_LANG]} */}
+          {otherShow[process.env.REACT_APP_LANG]}
           <Footer />
         </main>
       </div>
