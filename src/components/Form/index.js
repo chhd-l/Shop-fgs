@@ -181,6 +181,8 @@ class Form extends React.Component {
                 if (manually == 1) {
                   // 查询州列表（美国 state）
                   this.getUsStateList();
+                  // 设置控制按钮可点的其中一个参数为 true
+                  this.props.getRussiaAddressValidFlag(true);
                 }
                 this.setState(
                   {
@@ -265,7 +267,7 @@ class Form extends React.Component {
           } else if (process.env.REACT_APP_LANG == 'en') {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_LANG == 'ru') {
-            regExp = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else {
             regExp = /\S/;
           }
@@ -499,9 +501,11 @@ class Form extends React.Component {
             ['address1']: this.getIntlMsg('payment.wrongAddress')
           }
         });
+        this.props.getRussiaAddressValidFlag(false);
       }
     } catch (err) {
       console.warn(err);
+      this.props.getRussiaAddressValidFlag(false);
     } finally {
       this.setState({
         dataLoading: false
@@ -755,11 +759,11 @@ class Form extends React.Component {
   };
   // 地址搜索框输入值接收，控制按钮状态 3
   getSearchInputChange = (val) => {
-    if (val == '') {
-      this.props.getRussiaAddressValidFlag(false);
-    } else {
-      this.props.getRussiaAddressValidFlag(true);
-    }
+    // if (val == '') {
+    this.props.getRussiaAddressValidFlag(false);
+    // } else {
+    //   this.props.getRussiaAddressValidFlag(true);
+    // }
   };
 
   // 地址搜索框
@@ -772,6 +776,9 @@ class Form extends React.Component {
             let res = await getAddressBykeyWord({
               keyword: inputVal
             });
+            if (res?.context?.addressList.length == 0) {
+              this.props.getRussiaAddressValidFlag(false);
+            }
             return (
               (res?.context && res?.context?.addressList) ||
               []
