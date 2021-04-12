@@ -102,6 +102,8 @@ const UserJSX = (props) => {
                           return;
                         }
                         if (
+                          process.env.REACT_APP_LANG === 'tr' ||
+                          process.env.REACT_APP_LANG === 'ru' ||
                           process.env.REACT_APP_LANG === 'fr' ||
                           process.env.REACT_APP_LANG === 'en'
                         ) {
