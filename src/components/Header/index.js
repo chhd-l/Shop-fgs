@@ -548,7 +548,7 @@ class Header extends React.Component {
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
-        <HeaderContainer isScroll={!process.env.REACT_APP_HUB}>
+        <HeaderContainer isScroll={!process.env.REACT_APP_HUB || isMobile}>
           {!!+process.env.REACT_APP_HUB ? (
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
               <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">

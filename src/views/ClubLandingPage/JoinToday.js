@@ -7,6 +7,7 @@ import howitworck4 from './ClubImage/howit4.png';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 const JoinToday = (props) => {
   return (
@@ -53,14 +54,16 @@ const JoinToday = (props) => {
                           <FormattedMessage id="club.joinsubscription.description" />
                         </h5>
                       </div>
-                      <div style={{ display: 'flex' }}>
-                        <button
-                          style={{ margin: '0 auto' }}
-                          className="rc-btn rc-btn--one"
-                        >
-                          <FormattedMessage id="club.joinsubscription.button" />
-                        </button>
-                      </div>
+                      <Link to="/product-finder">
+                        <div style={{ display: 'flex' }}>
+                          <button
+                            style={{ margin: '0 auto' }}
+                            className="rc-btn rc-btn--one"
+                          >
+                            <FormattedMessage id="club.joinsubscription.button" />
+                          </button>
+                        </div>
+                      </Link>
                     </div>
                     <div className="col-12 col-md-4 order-2 order-md-2 indexdesktop ">
                       <div className="rc-column rc-padding--none">

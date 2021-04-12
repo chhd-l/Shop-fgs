@@ -80,7 +80,7 @@ function QListAndPetJSX(props) {
         <div className="col-12 col-md-6">
           <div className="border rounded pr-2 pl-2">
             <div className="row align-items-center mt-4 mb-2 mb-md-4">
-              <div className="col-12 col-md-6 mb-4 mb-md-0">
+              <div className="col-12 col-md-5 mb-4 mb-md-0">
                 <LazyLoad style={{ height: '100%', width: '100%' }}>
                   <img
                     src={{ cat: catImg, dog: dogImg }[props.type]}
@@ -94,7 +94,7 @@ function QListAndPetJSX(props) {
                   />
                 </LazyLoad>
               </div>
-              <div className="col-12 col-md-6 text-center text-md-left text-break">
+              <div className="col-12 col-md-7 text-center text-md-left text-break">
                 <div className="row">
                   <div className="col-6 mb-2 mb-md-0">
                     <FormattedMessage id="age" />

@@ -207,6 +207,12 @@ class LoginCart extends React.Component {
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
   }
+  get freeShippingDiscountPrice() {
+    return this.props.checkoutStore.freeShippingDiscountPrice;
+  }
+  get freeShippingFlag() {
+    return this.props.checkoutStore.freeShippingFlag;
+  }
   get taxFeePrice() {
     return this.props.checkoutStore.taxFeePrice;
   }
@@ -1179,6 +1185,23 @@ class LoginCart extends React.Component {
             </p>
           </div>
         </div>
+
+        {/* 运费折扣 */}
+        {this.freeShippingFlag ? (
+          <div className="row">
+            <div className="col-8">
+              <p>
+                <FormattedMessage id="payment.shippingDiscount" />
+              </p>
+            </div>
+            <div className="col-4">
+              <p className="text-right shipping-cost">
+                {this.freeShippingDiscountPrice > 0 && '-'}
+                {formatMoney(this.freeShippingDiscountPrice)}
+              </p>
+            </div>
+          </div>
+        ) : null}
 
         {/* 税额 */}
         {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
