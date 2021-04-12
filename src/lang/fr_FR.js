@@ -241,6 +241,7 @@ const fr_FR = {
     "Vous avez économisé {val1} avec l'abonnement",
   'confirmation.visitOnlineStore': 'Visiter la boutique en ligne',
   confirmDelete: 'Voulez-vous le supprimer?',
+  confirmDeleteAddress: 'Voulez-vous le supprimer?',
   confirmDelete2: 'Voulez-vous le supprimer?',
   confirmDeleteProduct:
     'Êtes - vous sûr de vouloir supprimer ce produit de votre panier ?',
@@ -993,6 +994,7 @@ const fr_FR = {
   search: 'chercher',
   searchBreed: 'Rechercher une race',
   searchForAProductOrArtical: 'Rechercher un produit ou un article',
+  'recommendation.petsImg': 'dog-and-cat.png',
   searchNoBreed: 'pas un pedigree',
   searchPrescriber: 'Trouver une clinique',
   searchShow: 'Résultats de la recherche',
@@ -1146,6 +1148,7 @@ const fr_FR = {
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
   'subscription.frequency': 'Fréquence',
+  'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
     'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
   'subscription.help.title': "Besoin d'aide ?",

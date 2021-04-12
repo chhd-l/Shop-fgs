@@ -8,13 +8,15 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import BannerTip from '@/components/BannerTip';
 import noPic from '@/assets/images/noPic.png';
 import ImageMagnifier from './components/ImageMagnifier';
+import UsAndRu from './components/UsAndRu';
+import Fr from './components/Fr';
 import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
-import Help from '../SmartFeederSubscription/modules/Help';
 import {
   getRecommendationList,
-  getRecommendationList_fr
+  getRecommendationList_prescriberId,
+  getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { getPrescriptionById } from '@/api/clinic';
@@ -30,59 +32,16 @@ import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
-
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = process.env.REACT_APP_LANG === 'en';
 const isRu = process.env.REACT_APP_LANG === 'ru';
-const howImageArr = [
-  {
-    img: `${imgUrlPreFix}/HOW-TO-JOIN-SHOP.png`,
-    title: 'GRAB YOUR PRODUCTS',
-    des: 'Find your handpicked nutrition products in your cart.'
-  },
-  {
-    img: `${imgUrlPreFix}/HOW-TO-JOIN-AUTOSHIP.png`,
-    title: 'CHOOSE AUTOMATIC SHIPPING',
-    des: 'Set your automatic shipping schedule  and input your payment method.'
-  },
-  {
-    img: `${imgUrlPreFix}/HOW-TO-JOIN-SCHEDULE.png`,
-    title: 'GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT',
-    des:
-      'Receive your product automatically based on your schedule. Change or cancel at any time.'
-  },
-  {
-    img: `${imgUrlPreFix}/HOW-TO-JOIN-ENJOY.png`,
-    title: 'ENJOY YOUR PERKS',
-    des:
-      'Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.'
-  }
-];
-const LineModule = () => (
-  <div
-    className="rc-border-bottom rc-border-colour--brand4"
-    style={{ borderBottomWidth: '4px' }}
-  ></div>
-);
+const isFr = process.env.REACT_APP_LANG === 'fr';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-const imagesArr = [
-  {
-    img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`,
-    text: 'Royal Canin Pet Advisor Live'
-  },
-  {
-    img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
-    text: 'Personalized Recommendations'
-  },
-  {
-    img: `${imgUrlPreFix}/CLUB-BENEFITS_FREE-SHIPPING.png`,
-    text: 'Free Shipping & 5% Off Every Autoship Order'
-  }
-];
+
 const secondlistArr = [
   {
     altText: 'image one',
@@ -238,12 +197,14 @@ class Recommendation extends React.Component {
       }
     );
   };
+
   async componentDidMount() {
     // let paramArr = this.props.location.search.split('&');
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
+    let prescription = getParaByName(search, 'prescription');
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
@@ -251,8 +212,14 @@ class Recommendation extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
-
-    getRecommendationList_fr(token)
+    let params = token;
+    let requestName = getRecommendationList_token;
+    if (isFr) {
+      requestName = getRecommendationList_prescriberId;
+      params = prescription;
+    }
+    debugger;
+    requestName(params)
       .then(async (res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
@@ -510,7 +477,7 @@ class Recommendation extends React.Component {
       let product = products[i];
 
       let quantityNew = product.recommendationNumber;
-      let tmpData = Object.assign({}, product.goodsInfo.goods, {
+      let tmpData = Object.assign({}, product.goods, product.goodsInfo.goods, {
         quantity: quantityNew
       });
       let cartDataCopy = cloneDeep(
@@ -745,8 +712,23 @@ class Recommendation extends React.Component {
     }
   };
   render(h) {
-    const { loginStore, history, configStore } = this.props;
-    let PuppyJPG = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.plusImg']}`;
+    let otherShow = {
+      ru: (
+        <UsAndRu
+          buttonLoading={this.state.buttonLoading}
+          inStockProducts={this.state.inStockProducts}
+          addCart={this.addCart}
+        />
+      ),
+      en: (
+        <UsAndRu
+          buttonLoading={this.state.buttonLoading}
+          inStockProducts={this.state.inStockProducts}
+          addCart={this.addCart}
+        />
+      ),
+      fr: <Fr />
+    };
     let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
       page: {
@@ -806,9 +788,6 @@ class Recommendation extends React.Component {
       ? document.querySelector('.nav-slim-banner')?.offsetHeight
       : 0;
 
-    let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
-    let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
-    let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
@@ -930,28 +909,21 @@ class Recommendation extends React.Component {
             </div>
           ) : (
             <div className="transparentSection">
-              <section
-                className="recommendProduct re-custom rc-max-width--md"
-                style={{ paddingRight: 0, paddingLeft: 0 }}
-              >
+              <section className="recommendProduct re-custom rc-max-width--md pl-0 pr-0">
                 <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
                   {this.state.loading ? (
-                    <div>
-                      <div
-                        className="recommendProductInner"
-                        style={{
-                          background: '#fff',
-                          minHeight: '600px',
-                          borderTop: 0
-                        }}
-                      >
-                        <Skeleton
-                          color="#f5f5f5"
-                          width="100%"
-                          height="100%"
-                          count="3"
-                        />
-                      </div>
+                    <div
+                      className="recommendProductInner bg-white pt-4 text-center"
+                      style={{
+                        minHeight: '600px'
+                      }}
+                    >
+                      <Skeleton
+                        color="#f5f5f5"
+                        width="100%"
+                        height="100%"
+                        count="5"
+                      />
                     </div>
                   ) : (
                     productList.length > 0 && (
@@ -967,12 +939,12 @@ class Recommendation extends React.Component {
                               <div className="imageTabBox">
                                 {productList.map((el, i) => (
                                   <span
+                                    key={i}
                                     className={` rc-btn--sm ${
                                       i === activeIndex ? 'active' : ''
                                     }`}
                                     style={{
                                       display: 'inline-block',
-                                      // width: '80px',
                                       textAlign: 'center',
                                       cursor: 'pointer'
                                     }}
@@ -1068,16 +1040,30 @@ class Recommendation extends React.Component {
                                     ) : (
                                       <React.Fragment>
                                         <span className="text-throught-line">
-                                          <FormattedMessage id="from" />{' '}
-                                          {formatMoney(MinMarketPrice)}{' '}
-                                          <FormattedMessage id="to" />{' '}
-                                          {formatMoney(MaxMarketPrice)}
+                                          <FormattedMessage
+                                            id="pirceRange"
+                                            values={{
+                                              fromPrice: formatMoney(
+                                                MinMarketPrice
+                                              ),
+                                              toPrice: formatMoney(
+                                                MaxMarketPrice
+                                              )
+                                            }}
+                                          />
                                         </span>
                                         <span className="promotion-price">
-                                          <FormattedMessage id="from" />{' '}
-                                          {formatMoney(MinMarketPrice)}
-                                          <FormattedMessage id="to" />{' '}
-                                          {formatMoney(MaxMarketPrice)}
+                                          <FormattedMessage
+                                            id="pirceRange"
+                                            values={{
+                                              fromPrice: formatMoney(
+                                                MinMarketPrice
+                                              ),
+                                              toPrice: formatMoney(
+                                                MaxMarketPrice
+                                              )
+                                            }}
+                                          />
                                         </span>
                                       </React.Fragment>
                                     )}
@@ -1215,176 +1201,9 @@ class Recommendation extends React.Component {
               </section>
             </div>
           )}
-          {isUs && (
-            <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-              <div className="rc-layout-container rc-four-column rc-content-v-middle text-center">
-                {imagesArr.map((item) => (
-                  <div className="rc-column">
-                    <div className="img-hover-switch rc-margin-bottom--sm">
-                      <LazyLoad>
-                        <img
-                          className="m-center"
-                          src={item.img}
-                          alt="recommendation image"
-                        />
-                      </LazyLoad>
-                    </div>
-                    <p>
-                      <strong style={{ color: 'rgb(61, 61, 60)' }}>
-                        {item.text}
-                      </strong>
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          <LineModule />
-          <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--xl">
-            <div className="row align-items-md-center">
-              <div className=" col-12 col-lg-6">
-                <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                  <h2 className="rc-beta markup-text">
-                    <FormattedMessage id="recommendation.plusTitle" />
-                  </h2>
-                  <p style={{ color: 'rgb(23, 43, 77)' }}>
-                    <FormattedMessage id="recommendation.plusContent" />
-                  </p>
-                  <button
-                    className={`rc-btn rc-btn--two ${
-                      this.state.buttonLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      this.state.inStockProducts.length ? '' : 'rc-btn-disabled'
-                    }`}
-                    onClick={this.addCart}
-                  >
-                    <FormattedMessage id="recommendation.plusBtn" />
-                  </button>
-                </div>
-              </div>
-              <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                <LazyLoad>
-                  <img src={PuppyJPG} alt="puppy image" />
-                </LazyLoad>
-              </div>
-            </div>
-          </div>
-          <LineModule />
-          {isUs && (
-            <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
-              <div className="rc-margin-bottom--md">
-                <h2 className="rc-beta" style={{ color: '#e2001a' }}>
-                  How to Join Royal Canin Club
-                </h2>
-              </div>
-              <Test />
-              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle for-icon-size">
-                {howImageArr.map((item) => (
-                  <div className="rc-grid">
-                    <div>
-                      <h3 className="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs">
-                        <strong>{item.title}</strong>
-                      </h3>
-                      <lazyload>
-                        <img
-                          className="mx-auto rc-margin-bottom--xs"
-                          src={item.img}
-                          alt="recommendation image"
-                        />
-                      </lazyload>
-                      <div
-                        dangerouslySetInnerHTML={{ __html: item.des }}
-                        className="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"
-                      ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          <LineModule />
-          <div className="help-container 1111">
-            <Help
-              isRecommendationPage={true}
-              contentText={this.helpContentText}
-              needReverse={false}
-            />
-          </div>
-          {isUs && (
-            <React.Fragment>
-              <LineModule />
-              <section
-                style={{ textAlign: 'center' }}
-                className="rc-max-width--md text-center rc-margin-top--md"
-              >
-                <h2 style={{ color: '#E2001A' }}>
-                  <FormattedMessage id="recommendation.fourTitle" />
-                </h2>
-                <p style={{ fontSize: '1.125rem' }}>
-                  We focus our attention on the unique needs of cats and dogs.
-                  That obsession with detail is what makes it possible for us to
-                  deliver precise, effective nutrition and help pets become
-                  their magnificent best.
-                  {/* <FormattedMessage id="recommendation.fourContent" /> */}
-                </p>
-                <p>
-                  <button
-                    className={`rc-btn rc-btn--one ${
-                      this.state.buttonLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      this.state.inStockProducts.length
-                        ? ''
-                        : 'rc-btn-solid-disabled'
-                    }`}
-                    onClick={this.addCart}
-                  >
-                    Place order
-                  </button>
-                </p>
-                <div className="experience-component experience-assets-youtubeVideo">
-                  <div className="rc-max-width--md rc-padding-x--lg">
-                    <div className="rc-video-wrapper dog-video">
-                      <iframe
-                        allowfullscreen=""
-                        frameborder="0"
-                        id="video-dog"
-                        className="optanon-category-4 "
-                        src="https://www.youtube.com/embed/ICmjePIyMkI"
-                      ></iframe>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <div className="rc-max-width--lg rc-padding-y--sm img-text-box">
-                <div className="rc-layout-container rc-margin-to--md rc-padding-x--sm">
-                  <div className="rc-column">
-                    <LazyLoad>
-                      <img
-                        src={cur_recommendation2}
-                        alt="recommendation image"
-                      />
-                    </LazyLoad>
-                  </div>
-                  <div className="rc-column">
-                    <LazyLoad>
-                      <img
-                        src={cur_recommendation3}
-                        alt="recommendation image"
-                      />
-                    </LazyLoad>
-                  </div>
-                  <div className="rc-column">
-                    <LazyLoad>
-                      <img
-                        src={cur_recommendation4}
-                        alt="recommendation image"
-                      />
-                    </LazyLoad>
-                  </div>
-                </div>
-              </div>
-            </React.Fragment>
-          )}
+          <Test />
+          {/* {this.otherShow()[process.env.REACT_APP_LANG]} */}
+          {otherShow[process.env.REACT_APP_LANG]}
           <Footer />
         </main>
       </div>

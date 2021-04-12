@@ -332,7 +332,7 @@ class Details extends React.Component {
       contactUs: '',
       ccidBtnDisplay: false,
       relatedGoods: [],
-      goodsList: []
+      relatedGoodsList: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -615,10 +615,16 @@ class Details extends React.Component {
       this.toScroll('j-details-for-club');
     });
   };
+  getRelatedGoodsList(id) {
+    getGoodsRelation(id).then((res) => {
+      this.setState({
+        relatedGoodsList: res.context.goods
+      });
+    });
+  }
   async queryDetails() {
     const { configStore, checkoutStore } = this.props;
     const { id, goodsNo } = this.state;
-    let that = this;
     let requestName;
     let param;
     if (goodsNo) {
@@ -700,15 +706,9 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
-          // getGoodsRelation(goodsRes.goodsId).then((res) => {
-          //   console.log(that)
-          //   debugger
-          //   that.setState(
-          //     {
-          //       goodsList: res.context.goods
-          //     }
-          //   );
-          // });
+          //获取推荐产品start
+          this.getRelatedGoodsList(goodsRes.goodsId);
+          //获取推荐产品end
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -1593,6 +1593,9 @@ class Details extends React.Component {
       details.displayFlag; //vet产品并且是hub的情况下
     const De = process.env.REACT_APP_LANG === 'de';
     const Ru = process.env.REACT_APP_LANG === 'ru';
+    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const sptGoods = goodsType === 0 || goodsType === 1;
+    const trSpt = Tr && sptGoods;
     const goodHeading = `<${headingTag || 'h2'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
@@ -1881,7 +1884,8 @@ class Details extends React.Component {
                             isHub &&
                             PC &&
                             !Ru &&
-                            !exclusiveFlag ? (
+                            !exclusiveFlag &&
+                            !trSpt ? (
                               <BuyFromRetailerBtn
                                 ccidBtnDisplay={ccidBtnDisplay}
                                 barcode={barcode}
@@ -2416,7 +2420,8 @@ class Details extends React.Component {
                                 !bundle &&
                                 isHub &&
                                 !Ru &&
-                                !exclusiveFlag ? (
+                                !exclusiveFlag &&
+                                !trSpt ? (
                                   <>
                                     &nbsp;&nbsp;
                                     <FormattedMessage id="or" />
@@ -2512,6 +2517,12 @@ class Details extends React.Component {
                 </div>
               </>
             ) : null}
+            {/* {
+              this.state.relatedGoodsList.length>0
+              ?
+              (<ResponsiveCarousel goodsList={this.state.relatedGoodsList} />)
+              :null
+            } */}
             <div id="goods-recommendation-box">
               <Carousel
                 location={location}
@@ -2546,7 +2557,8 @@ class Details extends React.Component {
                 !bundle &&
                 isHub &&
                 !Ru &&
-                !exclusiveFlag ? (
+                !exclusiveFlag &&
+                !trSpt ? (
                   <BuyFromRetailerBtn
                     ccidBtnDisplay={ccidBtnDisplay}
                     barcode={barcode}
@@ -2590,9 +2602,6 @@ class Details extends React.Component {
               </>
             ) : null} */}
             <Help />
-            {/* <ResponsiveCarousel
-              goodsList={this.state.goodsList}
-            /> */}
             <Footer />
           </main>
         )}

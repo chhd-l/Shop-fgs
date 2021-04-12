@@ -222,6 +222,8 @@ class ShippingAddressFrom extends React.Component {
       let params = {
         address1: data.address1,
         address2: data.address2,
+        area: data.region,
+        areaId: data.regionId,
         firstName: data.firstName,
         lastName: data.lastName,
         countryId: +data.countryId,

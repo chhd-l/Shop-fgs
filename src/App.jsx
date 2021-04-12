@@ -383,9 +383,9 @@ const App = () => {
                   render={(props) => {
                     let sublanding = '';
                     switch (process.env.REACT_APP_LANG) {
-                      case 'fr':
-                        sublanding = <Recommendation_FR {...props} />;
-                        break;
+                      // case 'fr':
+                      //   sublanding = <Recommendation_FR {...props} />;
+                      //   break;
                         case 'es':
                           sublanding = <Recommendation {...props} />;
                           break;
