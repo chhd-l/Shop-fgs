@@ -488,7 +488,7 @@ const tr_TR = {
   moreChoicesAvailable: 'Daha Fazla Seçenek Mevcut',
   mustChooseACommunicationMethodTip:
     'Üzgünüz, iletişim onayını kontrol ettiniz, bu yüzden bir iletişim yöntemi seçmelisiniz',
-  name: 'İsim',
+  name: 'Ad',
   name2: 'İSİM',
   nameInvalid: 'Adın geçersiz',
   newAddress: 'Yeni adres',
