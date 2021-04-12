@@ -889,6 +889,12 @@ class Details extends React.Component {
           const goodSize = specList.map((item) =>
             item.chidren.find((good) => good.selected)
           )?.[0]?.detailName;
+          const selectGoodSize = specList.map((item) =>
+            item.chidren.find((good) => good.selected)
+          )?.[0]?.detailName;
+          const selectPrice = goodsInfos.find(
+            (item) => item.packSize == selectGoodSize
+          )?.marketPrice;
           const goodsInfoBarcode =
             goodsInfos.find((item) => item.packSize === goodSize)
               ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
@@ -922,7 +928,8 @@ class Details extends React.Component {
               this.hubGA
                 ? this.hubGAProductDetailPageView(
                     res.context.goodsAttributesValueRelList,
-                    this.state.details
+                    this.state.details,
+                    selectPrice
                   )
                 : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
@@ -1405,7 +1412,7 @@ class Details extends React.Component {
   }
 
   //hub商品详情页 埋点
-  hubGAProductDetailPageView(goodsAttributesValueRelList, item) {
+  hubGAProductDetailPageView(goodsAttributesValueRelList, item, selectPrice) {
     const {
       cateId,
       minMarketPrice,
@@ -1433,7 +1440,7 @@ class Details extends React.Component {
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
 
     const GAProductsInfo = {
-      price: minMarketPrice,
+      price: selectPrice || minMarketPrice,
       specie,
       range: cateName?.[1] || '',
       name: goodsName,
