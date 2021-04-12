@@ -221,6 +221,7 @@ const es_ES = {
   'confirmation.subscriptionDiscountPriceDes': 'Salvaste {val1} con la marca',
   'confirmation.visitOnlineStore': 'Visita tienda online',
   confirmDelete: '¿Confirmas eliminar?',
+  confirmDeleteAddress: '¿Confirmas eliminar?',
   confirmDelete2: '¿Confirmas eliminar?',
   confirmDeleteProduct:
     '¿Está seguro de que desea eliminar este producto del carrito de la compra ?',

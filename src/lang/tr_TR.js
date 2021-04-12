@@ -197,6 +197,7 @@ const tr_TR = {
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
   confirmDelete: 'Silmek istiyor musunuz?',
+  confirmDeleteAddress: 'Adresi silmek istiyor musunuz?',
   confirmDelete2: 'Silmek istiyor musunuz?',
   confirmDeleteProduct:
     'Bu ürünü arabadan çıkarmak istediğinize emin misiniz ?',
