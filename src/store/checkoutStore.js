@@ -32,6 +32,7 @@ class CheckoutStore {
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
   @observable couponCodeFitFlag =
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
+  @observable pr_petsInfo = localItemRoyal.get('pr-petsInfo') || {};
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
   @observable GA_product = {};
