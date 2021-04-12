@@ -1138,6 +1138,7 @@ const en_US = {
   'subscription.deliveryDate': 'Next delivery date',
   'subscription.detail': 'Subscription detail',
   'subscription.frequency': 'Deliver every',
+  'minicart.frequency': 'Deliver every',
   'subscription.nextOrder': 'Next Order',
   'subscription.noDataTip': 'No subscription',
   'subscription.notYet': 'Not Yet Shipped',
