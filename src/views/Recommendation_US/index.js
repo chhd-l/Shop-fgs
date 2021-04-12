@@ -477,7 +477,7 @@ class Recommendation extends React.Component {
       let product = products[i];
 
       let quantityNew = product.recommendationNumber;
-      let tmpData = Object.assign({}, product.goodsInfo.goods, {
+      let tmpData = Object.assign({}, product.goods, product.goodsInfo.goods, {
         quantity: quantityNew
       });
       let cartDataCopy = cloneDeep(
@@ -909,28 +909,21 @@ class Recommendation extends React.Component {
             </div>
           ) : (
             <div className="transparentSection">
-              <section
-                className="recommendProduct re-custom rc-max-width--md"
-                style={{ paddingRight: 0, paddingLeft: 0 }}
-              >
+              <section className="recommendProduct re-custom rc-max-width--md pl-0 pr-0">
                 <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
                   {this.state.loading ? (
-                    <div>
-                      <div
-                        className="recommendProductInner"
-                        style={{
-                          background: '#fff',
-                          minHeight: '600px',
-                          borderTop: 0
-                        }}
-                      >
-                        <Skeleton
-                          color="#f5f5f5"
-                          width="100%"
-                          height="100%"
-                          count="3"
-                        />
-                      </div>
+                    <div
+                      className="recommendProductInner bg-white pt-4 text-center"
+                      style={{
+                        minHeight: '600px'
+                      }}
+                    >
+                      <Skeleton
+                        color="#f5f5f5"
+                        width="100%"
+                        height="100%"
+                        count="5"
+                      />
                     </div>
                   ) : (
                     productList.length > 0 && (
@@ -946,12 +939,12 @@ class Recommendation extends React.Component {
                               <div className="imageTabBox">
                                 {productList.map((el, i) => (
                                   <span
+                                    key={i}
                                     className={` rc-btn--sm ${
                                       i === activeIndex ? 'active' : ''
                                     }`}
                                     style={{
                                       display: 'inline-block',
-                                      // width: '80px',
                                       textAlign: 'center',
                                       cursor: 'pointer'
                                     }}
@@ -1047,16 +1040,30 @@ class Recommendation extends React.Component {
                                     ) : (
                                       <React.Fragment>
                                         <span className="text-throught-line">
-                                          <FormattedMessage id="from" />{' '}
-                                          {formatMoney(MinMarketPrice)}{' '}
-                                          <FormattedMessage id="to" />{' '}
-                                          {formatMoney(MaxMarketPrice)}
+                                          <FormattedMessage
+                                            id="pirceRange"
+                                            values={{
+                                              fromPrice: formatMoney(
+                                                MinMarketPrice
+                                              ),
+                                              toPrice: formatMoney(
+                                                MaxMarketPrice
+                                              )
+                                            }}
+                                          />
                                         </span>
                                         <span className="promotion-price">
-                                          <FormattedMessage id="from" />{' '}
-                                          {formatMoney(MinMarketPrice)}
-                                          <FormattedMessage id="to" />{' '}
-                                          {formatMoney(MaxMarketPrice)}
+                                          <FormattedMessage
+                                            id="pirceRange"
+                                            values={{
+                                              fromPrice: formatMoney(
+                                                MinMarketPrice
+                                              ),
+                                              toPrice: formatMoney(
+                                                MaxMarketPrice
+                                              )
+                                            }}
+                                          />
                                         </span>
                                       </React.Fragment>
                                     )}

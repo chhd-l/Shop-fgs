@@ -623,7 +623,7 @@ class Details extends React.Component {
     });
   }
   async queryDetails() {
-    const { configStore } = this.props;
+    const { configStore, checkoutStore } = this.props;
     const { id, goodsNo } = this.state;
     let requestName;
     let param;
@@ -881,7 +881,8 @@ class Details extends React.Component {
             // g = Object.assign({}, g, { selected: false });
             g = Object.assign({}, g, {
               selected: i === 0,
-              petsId: localItemRoyal.get('pr-petsId')
+              petsId: checkoutStore.pr_petsInfo.petsId,
+              petsType: checkoutStore.pr_petsInfo.petsType
             });
             let { form } = this.state;
             if (g.selected && !g.subscriptionStatus) {
@@ -953,7 +954,8 @@ class Details extends React.Component {
           sizeList = goodsInfos.map((g, i) => {
             g = Object.assign({}, g, {
               selected: i === 0,
-              petsId: localItemRoyal.get('pr-petsId')
+              petsId: checkoutStore.pr_petsInfo.petsId,
+              petsType: checkoutStore.pr_petsInfo.petsType
             });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
@@ -1146,7 +1148,8 @@ class Details extends React.Component {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
         goodsInfoFlag,
-        petsId: currentSelectedSize.petsId
+        petsId: currentSelectedSize.petsId,
+        petsType: currentSelectedSize.petsType
       };
       if (buyWay) {
         param.periodTypeId = form.frequencyId;

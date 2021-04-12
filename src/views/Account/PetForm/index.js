@@ -542,7 +542,7 @@ class PetForm extends React.Component {
     return showDelete ? (
       <span
         className="rc-styled-link"
-        onClick={this.delPets.bind(this, currentPet)}
+        onClick={this.delPets.bind(this, this.state.currentPet)}
       >
         <FormattedMessage id="pet.deletePet" />
       </span>
