@@ -1,50 +1,16 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { FormattedMessage } from 'react-intl';
+import { formatMoney } from '@/utils/utils';
+import { Link } from 'react-router-dom';
 import './index.less';
-
-const settings = {
-  dots: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 4,
-  initialSlide: 0,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        infinite: true,
-        dots: true
-      }
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-        initialSlide: 2
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1
-      }
-    }
-  ]
-};
+import { settings } from './config';
 
 export default class Responsive extends Component {
   static defaultProps = {
     location: '',
     history: '',
-    key: '',
-    goodsList: [1, 2]
+    goodsList: []
   };
   constructor(props) {
     super(props);
@@ -54,18 +20,73 @@ export default class Responsive extends Component {
   }
   render() {
     const { goodsList } = this.props;
+    if (goodsList.length > 0) {
+      console.log({ goodsList });
+    }
     return (
       <div className="responsive-carousel">
-        <h2>Recommanded for you</h2>
+        <h2>
+          <FormattedMessage id="recommandedForyou" />
+        </h2>
         <Slider {...settings}>
-          {goodsList.map((index, item) => {
+          {goodsList.map((item, index) => {
             return (
-              <div>
-                <h3>{index}</h3>
-              </div>
+              <Link
+                to={{
+                  pathname: item
+                    ? `/${item.goodsName
+                        .toLowerCase()
+                        .split(' ')
+                        .join('-')
+                        .replace('/', '')}-${item.mainItemCode}`
+                    : ''
+                }}
+              >
+                <div key={index} className="goods">
+                  <img src={item.goodsImg}></img>
+                  <div className="Name">{item.goodsName}</div>
+                  <div className="Subtitle">{item.goodsSubtitle}</div>
+                  <div className="marketPrice">
+                    {formatMoney(item.minMarketPrice)}
+                    {item.minLinePrice && (
+                      <span>{formatMoney(item.minLinePrice)}</span>
+                    )}
+                  </div>
+                  {item.minSubscriptionPrice ? (
+                    <p className="subscriptionPrice">
+                      <div>
+                        {formatMoney(item.minSubscriptionPrice)}
+                        <span
+                          className="iconfont font-weight-bold red mr-1"
+                          style={{
+                            fontSize: '.65em',
+                            marginLeft: '6px',
+                            color: '#323232',
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          &#xe675;
+                        </span>
+                        <span
+                          className="position-relative red-text position-absolute"
+                          style={{
+                            fontSize: '.7em',
+                            whiteSpace: 'nowrap',
+                            marginTop: '4px',
+                            marginLeft: '4px'
+                          }}
+                        >
+                          <FormattedMessage id="autoshop" />
+                        </span>
+                      </div>
+                    </p>
+                  ) : null}
+                </div>
+              </Link>
             );
           })}
         </Slider>
+        <div style={{ height: '50px' }}></div>
       </div>
     );
   }

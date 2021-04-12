@@ -994,6 +994,7 @@ const fr_FR = {
   search: 'chercher',
   searchBreed: 'Rechercher une race',
   searchForAProductOrArtical: 'Rechercher un produit ou un article',
+  'recommendation.petsImg': 'dog-and-cat.png',
   searchNoBreed: 'pas un pedigree',
   searchPrescriber: 'Trouver une clinique',
   searchShow: 'Résultats de la recherche',
