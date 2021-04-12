@@ -325,7 +325,7 @@ class AccountProfile extends React.Component {
                       needMessengers={
                         !Boolean(
                           +process.env
-                            .REACT_APP_SHOW_ACCOUNT_COMMUNICATION_MESSENGERS
+                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS
                         )
                       }
                       // 美国 墨西哥 不需要phone
