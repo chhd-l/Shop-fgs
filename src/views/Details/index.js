@@ -615,6 +615,13 @@ class Details extends React.Component {
       this.toScroll('j-details-for-club');
     });
   };
+  getRelatedGoodsList(id) {
+    getGoodsRelation(id).then((res) => {
+      this.setState({
+        relatedGoodsList: res.context.goods
+      });
+    });
+  }
   async queryDetails() {
     const { configStore } = this.props;
     const { id, goodsNo } = this.state;
@@ -699,11 +706,9 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
-          getGoodsRelation(goodsRes.goodsId).then((res) => {
-            this.setState({
-              relatedGoodsList: res.context.goods
-            });
-          });
+          //获取推荐产品start
+          this.getRelatedGoodsList(goodsRes.goodsId);
+          //获取推荐产品end
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -2496,6 +2501,12 @@ class Details extends React.Component {
                 </div>
               </>
             ) : null}
+            {/* {
+              this.state.relatedGoodsList.length>0
+              ?
+              (<ResponsiveCarousel goodsList={this.state.relatedGoodsList} />)
+              :null
+            } */}
             <div id="goods-recommendation-box">
               <Carousel
                 location={location}
@@ -2574,7 +2585,6 @@ class Details extends React.Component {
               </>
             ) : null} */}
             <Help />
-            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
             <Footer />
           </main>
         )}
