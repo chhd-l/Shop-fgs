@@ -5,9 +5,6 @@ const salesCategoryFilterRule = (item, type) => {
   };
   const rule =
     {
-      tr: () => {
-        return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
-      },
       fr: () => {
         return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
       }
