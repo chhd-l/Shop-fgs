@@ -272,7 +272,7 @@ const ru_RU = {
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
   confirmDelete2: 'Вы хотите удалить данный способ оплаты?',
-  confirmDeleteProduct: 'Удалить этот продукт из магазина ?',
+  confirmDeleteProduct: 'Вы уверены, что хотите удалить этот товар из корзины?',
   confirmPassword: 'Подтвердить Пароль *',
   consent: 'Согласие',
   consignee: 'Грузополучатель',
