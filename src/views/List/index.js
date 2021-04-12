@@ -2279,15 +2279,12 @@ class List extends React.Component {
                   >
                     {!loading && (
                       <>
-                        <div
-                          className="row pl-1"
-                          style={{ alignItems: 'center' }}
-                        >
-                          <div className="col-12 col-md-8 rc-md-up">
-                            <span className="rc-intro rc-margin--none rc-md-up">
-                              <b style={{ textTransform: 'capitalize' }}>
+                        <div className="row pl-1 rc-md-up align-items-center">
+                          <div className="col-12 col-md-8 pt-3 pb-2">
+                            <span className="rc-intro rc-margin--none">
+                              <span className="medium text-capitalize">
                                 {lastBreadListName}
-                              </b>
+                              </span>
                               (
                               <FormattedMessage
                                 id="results"
@@ -2297,10 +2294,10 @@ class List extends React.Component {
                             </span>
                           </div>
 
-                          <div className="col-12 col-md-4  rc-md-up">
+                          <div className="col-12 col-md-4">
                             <span
                               style={{ position: 'relative', top: '2px' }}
-                              className="rc-select  page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
+                              className="rc-select page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
                             >
                               {sortList.length > 0 && (
                                 <Selection
@@ -2332,7 +2329,7 @@ class List extends React.Component {
                             <em className="rc-icon rc-incompatible--sm rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
-                          <div className="ui-font-nothing rc-md-down d-flex">
+                          <div className="ui-font-nothing rc-md-down d-flex pb-4">
                             <em className="rc-icon rc-incompatible--xs rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>

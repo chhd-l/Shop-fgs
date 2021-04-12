@@ -339,14 +339,13 @@ export default class Search extends React.Component {
                 {(txt) => (
                   <input
                     ref={this.inputRef}
-                    className="search-field rc-bg-colour--brand4 ui-cursor-pointer-pure font-weight-light"
+                    className="search-field rc-bg-colour--brand4 ui-cursor-pointer-pure font-weight-light limit-md-width"
                     type="search"
                     autoComplete="off"
                     placeholder={txt}
                     onFocus={this.hanldeSearchFocus}
                     onChange={this.handleSearchInputChange}
                     value={keywords}
-                    style={{ width: '18rem' }}
                   />
                 )}
               </FormattedMessage>
