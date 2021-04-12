@@ -112,7 +112,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetLoading: false,
       addNewPetVisible: false,
       changeRecommendationVisible: false,
-      editRecommendationVisible: true, //isNeedChangeProduct
+      editRecommendationVisible: false, //isNeedChangeProduct
       recommendationVisibleLoading: true,
       produtctDetailVisible: false,
       promotionDiscount: 0,
@@ -265,11 +265,22 @@ class SubscriptionDetail extends React.Component {
     getDetailsBySpuNo(id)
       .then((res) => {
         const goodsRes = res && res.context && res.context.goods;
+        let frequencyDictRes = this.frequencyListOptions.filter((el) => {
+          if (goodsRes.promotions && goodsRes.promotions.includes('club')) {
+            return el.goodsInfoFlag === 2;
+          } else {
+            return el.goodsInfoFlag === 1;
+          }
+        });
+        let defaultSubscriptionFrequencyId =
+          goodsRes.promotions && goodsRes.promotions.includes('club')
+            ? configStore.info.storeVO.defaultSubscriptionClubFrequencyId
+            : configStore.info.storeVO.defaultSubscriptionFrequencyId;
         this.setState({
           form: Object.assign(this.state.form, {
             frequencyId:
               goodsRes.defaultFrequencyId ||
-              configStore.defaultSubscriptionFrequencyId ||
+              defaultSubscriptionFrequencyId ||
               (frequencyDictRes[0] && frequencyDictRes[0].id) ||
               ''
           })
@@ -2318,7 +2329,9 @@ class SubscriptionDetail extends React.Component {
         )}
         {!!productDetail.otherProducts && (
           <>
-            <p className="text-center">other products to consider</p>
+            <p className="text-center rc-margin-top--xs">
+              other products to consider
+            </p>
             <div className="rc-scroll--x pb-4 rc-padding-x--xl">
               <div className="d-flex">
                 {productDetail?.otherProducts?.map((ele, i) => (
@@ -3315,7 +3328,7 @@ class SubscriptionDetail extends React.Component {
                                         {isClub && !!subDetail.petsId && (
                                           <span
                                             style={{ whiteSpace: 'nowrap' }}
-                                            className={`rc-styled-link ${
+                                            className={`text-plain rc-styled-link ${
                                               this.state.productListLoading
                                                 ? 'ui-btn-loading'
                                                 : ''

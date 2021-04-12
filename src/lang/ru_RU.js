@@ -63,7 +63,7 @@ const ru_RU = {
   'account.notRegistred': 'Вы не зарегистрированы?',
   'account.of': 'из',
   'account.orders': 'Заказы',
-  'account.orders.btns': 'Начать сейчас',
+  'account.orders.btns': 'Начать сейчас!',
   'account.orders.tips':
     'Вы еще не разместили ни одного заказа. Найдите подходящий рацион для своего питомца прямо сейчас!',
   'account.ordersTip':
@@ -688,7 +688,7 @@ const ru_RU = {
   'payment.region': 'район',
   'payment.entrance': 'Подъезд',
   'payment.apartment': 'Квартира',
-  'payment.comment': 'Комментарий к заказу',
+  'payment.comment': 'Комментарий к доставке',
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
@@ -802,7 +802,7 @@ const ru_RU = {
     'Для создания аккаунта заполните представленную ниже форму.',
   registerContinuing:
     'Продолжая, вы соглашаетесь с нашей политикой конфиденциальности MARS. будет собирать и использовать ваше имя, фамилию и адрес электронной почты, чтобы предоставить вам индивидуальный подход. ',
-  registerCreateYourAccout: 'Создать аккаунт Royal Canin',
+  registerCreateYourAccout: 'Создать аккаунт ROYAL CANIN®',
   registerEmail: 'E-mail адрес',
   registerEmailFormate:
     'Адрес электронной почты не соответствует указанному формату.',
@@ -828,6 +828,7 @@ const ru_RU = {
   registerTogglePassword: 'Переключить видимость пароля',
   registerUppercase: 'Одна заглавная буква',
   registerWelcome: 'Добро пожаловать в',
+  'register.royalCanin': 'ROYAL CANIN®',
   remember48Hours:
     'Помните, что заказ до {val}, платеж истечет до {val} pm через два дня или после {val} pm, платеж истечет до {val} pm через три дня.',
   rememberMe: 'Запомнить меня',
@@ -847,7 +848,7 @@ const ru_RU = {
   results: '{val} Результатов',
   reviewisRequired: 'Требуется проверка.',
   reviews: 'Отзывы',
-  royalCanin: 'Royal Canin',
+  royalCanin: 'ROYAL CANIN®',
   'salesCategory.cat': 'для кошек',
   'salesCategory.content':
     'Каждая формула была создана для обеспечения питания, адаптированного к особым потребностям животного, в зависимости от его размера, возраста и образа жизни.',

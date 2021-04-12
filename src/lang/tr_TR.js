@@ -743,6 +743,7 @@ const tr_TR = {
   registerTogglePassword: 'Şifre görünürlüğünü değiştir',
   registerUppercase: 'Bir büyük harf',
   registerWelcome: "'e Hoş Geldiniz",
+  'register.royalCanin': 'Royal Canin',
   remember48Hours:
     "{val} tarihinden önceki siparişin, ödemenin iki gün sonra {val} pm'den önce sona ereceğini veya {val} pm'den sonra, ödemenin üç gün sonra {val} pm'den önce sona ereceğini unutmayın.",
   rememberMe: 'Beni Hatırla',

@@ -952,6 +952,7 @@ const fr_FR = {
   registerTogglePassword: 'Basculer la visibilité du mot de passe',
   registerUppercase: 'Une lettre majuscule',
   registerWelcome: 'Bienvenue chez',
+  'register.royalCanin': 'Royal Canin',
   remember48Hours:
     "N'oubliez pas que la commande expire avant {val} deux jours plus tard avant {val} pm ou après {val} pm trois jours plus tard avant {val} pm.",
   rememberMe: "Ne m'oublie pas",
